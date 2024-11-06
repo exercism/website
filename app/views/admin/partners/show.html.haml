@@ -17,7 +17,8 @@
         %tr
           %td
             %div{ class: 'max-w-[443px]' }= render ViewComponents::Partner::Perk.new(perk)
-          %td.w-arbitary= perk.status.titleize
+          %td.w-arbitary
+            %span{ class: "c-perk-status-tag #{perk.status}" }= perk.status.titleize
           %td.w-arbitary= perk.num_clicks
           %td.w-arbitary= link_to "Details", admin_partner_perk_path(@partner, perk)
           %td.w-arbitary= link_to "Edit", edit_admin_partner_perk_path(@partner, perk)
@@ -38,7 +39,8 @@
       - @partner.adverts.each do |advert|
         %tr
           %td= render ViewComponents::Partner::Advert.new(advert:, preview: true)
-          %td.w-arbitary= advert.status.titleize
+          %td.w-arbitary
+            %span{ class: "c-perk-status-tag #{advert.status}" }= advert.status.titleize
           %td.w-arbitary= advert.track_slugs
           %td.w-arbitary= advert.num_impressions
           %td.w-arbitary= advert.num_clicks

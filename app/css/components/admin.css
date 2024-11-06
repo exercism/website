@@ -1,0 +1,23 @@
+body.namespace-admin.controller-partners.action-show,
+body.namespace-admin.controller-perks.action-show,
+body.namespace-admin.controller-adverts.action-show {
+    .c-perk-a {
+        width: var(--c-perk-a-width);
+    }
+
+    .c-perk-status-tag {
+        @apply border-1 px-2 py-[1px] rounded-5;
+        &.active {
+            @apply border-[#22c55e] text-[#22c55e];
+        }
+        &.retired {
+            @apply border-[#3b82f6] text-[#3b82f6];
+        }
+        &.pending {
+            @apply border-[#facc15] text-[#facc15];
+        }
+        &.out_of_budget {
+            @apply border-[#ef4444] text-[#ef4444];
+        }
+    }
+}

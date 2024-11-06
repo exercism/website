@@ -32,7 +32,6 @@ export default function TrackSlugsMultiselector({
   // Removes the annoying blue box-shadow on the embedded input
   const handleFocus = () => {
     if (selectRef.current) {
-      console.log(selectRef.current)
       const input = selectRef.current.inputRef
 
       if (input) {

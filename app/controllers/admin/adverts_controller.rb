@@ -50,6 +50,6 @@ class Admin::AdvertsController < Admin::BaseController
 
   # Only allow a list of trusted parameters through.
   def advert_params
-    params.require(:partner_advert).permit(*%i[status url markdown mailer_text light_logo], track_slugs: [])
+    params.require(:partner_advert).permit!
   end
 end

@@ -1,14 +1,22 @@
 import React, { useEffect, useRef } from 'react'
+import { SelectInstance, GroupBase } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
+
+type OptionType = {
+  label: string
+  value: string
+}
 
 export default function TrackSlugsMultiselector({
   trackSlugs,
   selectedTrackSlugs,
 }: {
   trackSlugs: string[]
-  selectedTrackSlugs: string[]
+  selectedTrackSlugs: string // comes as a JSON array
 }): JSX.Element {
   const trackSlugsHiddenInputRef = useRef<HTMLInputElement | null>(null)
+  const selectRef =
+    useRef<SelectInstance<OptionType, true, GroupBase<OptionType>>>(null)
 
   useEffect(() => {
     trackSlugsHiddenInputRef.current = document.querySelector(
@@ -21,13 +29,27 @@ export default function TrackSlugsMultiselector({
     }
   }, [selectedTrackSlugs])
 
+  // Removes the annoying blue boxshadow
+  const handleFocus = () => {
+    if (selectRef.current) {
+      console.log(selectRef.current)
+      const input = selectRef.current.inputRef
+
+      if (input) {
+        input.style.boxShadow = 'none'
+      }
+    }
+  }
+
   return (
     <CreatableSelect
       isMulti
-      defaultValue={formatTags(selectedTrackSlugs)}
+      ref={selectRef}
+      defaultValue={formatTags(JSON.parse(selectedTrackSlugs))}
       options={formatTags(trackSlugs)}
       isClearable={false}
       maxMenuHeight={100}
+      onFocus={handleFocus}
       styles={{
         valueContainer: (base) => ({
           ...base,
@@ -49,15 +71,6 @@ export default function TrackSlugsMultiselector({
           '&:focus': {
             border: 'none',
             outline: 'none',
-          },
-        }),
-        input: (base) => ({
-          ...base,
-          border: 'none',
-          outline: 'none',
-          boxShadow: 'none',
-          '&.c-faux-input': {
-            boxShadow: 'none',
           },
         }),
 

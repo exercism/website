@@ -18,11 +18,11 @@ const DEFAULT_ERROR = new Error('Unable to change preferences')
 
 export default function InsiderBenefitsForm({
   defaultPreferences,
-  insiderStatus,
+  insidersStatus,
   links,
 }: {
   defaultPreferences: UserPreferences
-  insiderStatus: string
+  insidersStatus: string
   links: Links
 }): JSX.Element {
   const [hideAdverts, setHideAdverts] = useState(
@@ -54,12 +54,21 @@ export default function InsiderBenefitsForm({
     [mutation]
   )
 
+  const isInsider =
+    insidersStatus == 'active' || insidersStatus == 'active_lifetime'
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Insider benefits</h2>
+      <InfoMessage
+        isInsider={isInsider}
+        insidersStatus={insidersStatus}
+        insidersPath={links.insidersPath}
+      />
       <label className="c-checkbox-wrapper">
         <input
           type="checkbox"
+          disabled={!isInsider}
           checked={hideAdverts}
           onChange={(e) => setHideAdverts(e.target.checked)}
         />
@@ -71,7 +80,11 @@ export default function InsiderBenefitsForm({
         </div>
       </label>
       <div className="form-footer">
-        <FormButton status={status} className="btn-primary btn-m">
+        <FormButton
+          disabled={!isInsider}
+          status={status}
+          className="btn-primary btn-m"
+        >
           Change preferences
         </FormButton>
         <FormMessage
@@ -92,4 +105,47 @@ const SuccessMessage = () => {
       Your preferences have been updated
     </div>
   )
+}
+
+export function InfoMessage({
+  insidersStatus,
+  insidersPath,
+  isInsider,
+}: {
+  insidersStatus: string
+  insidersPath: string
+  isInsider: boolean
+}): JSX.Element {
+  if (isInsider) {
+    return (
+      <p className="text-p-base mb-16">
+        These are exclusive options to enhance your experience as an Exercism
+        Insdier
+      </p>
+    )
+  }
+
+  switch (insidersStatus) {
+    case 'eligible':
+    case 'eligible_lifetime':
+      return (
+        <p className="text-p-base mb-16">
+          You&apos;re eligible to join Insiders.{' '}
+          <a href={insidersPath}>Get started here.</a>
+        </p>
+      )
+    default:
+      return (
+        <p className="text-p-base mb-16">
+          These are exclusive options for Exercism Insiders.&nbsp;
+          <strong>
+            <a className="text-prominentLinkColor" href={insidersPath}>
+              Donate to Exercism
+            </a>
+          </strong>{' '}
+          and become an Insider to access these benefits with Dark Mode, ChatGPT
+          integration and more.
+        </p>
+      )
+  }
 }

@@ -475,8 +475,11 @@ initReact({
   'settings-insider-benefits-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <InsiderBenefitsForm
-        defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
-        links={data.links}
+        defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
+          data.preferences
+        )}
+        insiderStatus={data.insider_status}
+        links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
       />
     </Suspense>
   ),

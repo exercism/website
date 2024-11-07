@@ -7,6 +7,7 @@ import { sendRequest } from '@/utils/send-request'
 
 type Links = {
   update: string
+  insidersPath: string
 }
 
 export type UserPreferences = {
@@ -17,9 +18,11 @@ const DEFAULT_ERROR = new Error('Unable to change preferences')
 
 export default function InsiderBenefitsForm({
   defaultPreferences,
+  insiderStatus,
   links,
 }: {
   defaultPreferences: UserPreferences
+  insiderStatus: string
   links: Links
 }): JSX.Element {
   const [hideAdverts, setHideAdverts] = useState(

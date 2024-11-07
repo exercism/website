@@ -25,8 +25,8 @@ class User::BootcampData < ApplicationRecord
     case package
     when 'complete'
       country_data ? country_data[2].to_f : COMPLETE_PRICE
-    when 'part_1' then DATA['part_1_price']
-                       country_data ? country_data[3].to_f : PART_1_PRICE
+    when 'part_1'
+      country_data ? country_data[3].to_f : PART_1_PRICE
     end
   end
 
@@ -36,8 +36,19 @@ class User::BootcampData < ApplicationRecord
     case package
     when 'complete'
       country_data ? country_data[4] : FULL_PAYMENT_URL
-    when 'part_1' then DATA['part_1_price']
-                       country_data ? country_data[5] : PART_1_PAYMENT_URL
+    when 'part_1'
+      country_data ? country_data[5] : PART_1_PAYMENT_URL
+    end
+  end
+
+  def stripe_price_id
+    return unless package
+
+    case package
+    when 'complete'
+      country_data ? country_data[6] : FULL_STRIPE_PRICE_ID
+    when 'part_1'
+      country_data ? country_data[7] : PART_1_STRIPE_PRICE_ID
     end
   end
 
@@ -60,6 +71,8 @@ class User::BootcampData < ApplicationRecord
   DATA = JSON.parse(File.read(Rails.root / 'config' / 'bootcamp.json')).freeze
   COMPLETE_PRICE = 149.99
   PART_1_PRICE = 99.99
+  FULL_STRIPE_PRICE_ID = "price_1QD0E7EoOT0Jqx0U9o3IND2o".freeze
+  PART_1_STRIPE_PRICE_ID = "price_1QD0D3EoOT0Jqx0Uj2UvJ76j".freeze
 
   FULL_PAYMENT_URL = "https://buy.stripe.com/14k9BE4FBcyBeDmf0f".freeze
   PART_1_PAYMENT_URL = "https://buy.stripe.com/6oE4hk9ZVfKNeDm7xO".freeze

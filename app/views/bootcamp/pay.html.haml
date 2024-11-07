@@ -1,0 +1,19 @@
+%section#payment
+  .lg-container
+    .container
+      .lhs
+        .tag Let's get you coding!
+        %h2
+          %strong You're almost set up!
+        %p.intro
+          We've reserved a space for you on the Bootcamp!
+          %strong Please add your payment details to finish enrolling 👉
+
+        %div{ class: "hidden lg:block" }
+          = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }
+
+      .rhs
+        #checkout
+
+      %div{ class: "lg:hidden" }
+        = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }

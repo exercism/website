@@ -47,10 +47,10 @@ const bootcampObserver = new IntersectionObserver(bootcampObserverCb, {
 })
 const navObserver = new IntersectionObserver(intersectionCallback)
 
-navObserver.observe(rockSolid)
-navObserver.observe(tagline)
-navObserver.observe(videoContainer)
-bootcampObserver.observe(bootcamp)
+if (rockSolid) navObserver.observe(rockSolid)
+if (tagline) navObserver.observe(tagline)
+if (videoContainer) navObserver.observe(videoContainer)
+if (bootcamp) bootcampObserver.observe(bootcamp)
 
 /* helper fns */
 function smoothOpacityChange(opacity) {

@@ -337,7 +337,7 @@ section#bootcamp {
             @apply text-[12px] font-semibold;
             @apply uppercase text-[#7029f5];
             @apply mb-16;
-            @apply mx-auto  py-4 px-12 rounded-[12px];
+            @apply mx-auto py-4 px-12 rounded-[12px];
             @apply bg-[#7029f522];
         }
         h2 {
@@ -992,7 +992,9 @@ section#legals {
     }
 }
 
-section#enroll {
+section#enroll,
+section#payment,
+section#confirmation {
     @apply min-h-[100vh];
     @apply pt-64 pb-80;
     background-color: #7029f5;
@@ -1021,12 +1023,17 @@ section#enroll {
         }
     }
 
+    hr {
+        @apply border-b-1 border-[#eee] my-20;
+        width: 100%;
+    }
+
     .container {
         border: 1px solid #eee;
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
         background: white;
         @apply md:pt-32 md:pb-32 pt-16 pb-8 md:px-48 px-24 rounded-[8px];
-        @apply flex flex-col items-center;
+        @apply flex flex-col;
     }
 
     .tag {
@@ -1043,6 +1050,12 @@ section#enroll {
             @apply font-semibold;
         }
     }
+    p.intro {
+        @apply md:text-22 text-18 font-light text-left;
+        strong {
+            @apply font-semibold;
+        }
+    }
 
     p.info {
         @apply md:text-18 text-16 font-light;
@@ -1053,19 +1066,15 @@ section#enroll {
             @apply font-medium;
         }
     }
+}
 
-    .intro {
-        @apply md:text-22 text-18 font-light;
-        text-align: center;
-        text-wrap: balance;
-        @apply max-w-[750px] mx-auto;
-        strong {
-            @apply font-semibold;
-        }
+section#enroll {
+    .container {
+        @apply items-center;
     }
-    hr {
-        @apply border-b-1 border-[#eee] my-20;
-        width: 100%;
+
+    p.intro {
+        @apply mx-auto text-center;
     }
 
     form {
@@ -1213,6 +1222,95 @@ section#enroll {
         border-color: rgb(19 11 67);
         border-width: 1px;
         color: rgb(255 255 255);
+    }
+}
+section#payment {
+    .lg-container {
+        @apply md:px-[3%] px-8;
+        .container {
+            align-items: center;
+            @apply lg:items-start items-center;
+            @apply flex lg:flex-row flex-col gap-40;
+            @apply md:p-24 py-16 px-12;
+        }
+    }
+    .tag {
+        @apply mx-0;
+    }
+
+    .lhs {
+        @apply flex flex-col items-start;
+        @apply pt-20 mt-[-20px];
+        @apply lg:sticky top-0;
+        h3 {
+            @apply text-22 mb-8;
+        }
+    }
+    li {
+        background-image: url("icons/checkmark-neon.svg");
+        background-size: 14px;
+        @apply bg-no-repeat;
+        @apply pl-20 mb-6;
+        background-position: 0px 4px;
+        strong {
+            @apply font-semibold;
+        }
+    }
+    p.intro {
+        @apply lg:text-20 md:text-18;
+        @apply text-pretty;
+    }
+    p.info {
+        @apply text-left text-pretty;
+    }
+
+    .rhs {
+        @apply lg:w-[410px] w-[100%] flex-shrink-0;
+        #checkout {
+            @apply w-fill;
+            background: rgb(96, 79, 205);
+            @apply p-12 rounded-8;
+            box-shadow: 0 0 10px rgba(96, 79, 205, 0.5);
+        }
+    }
+    .guarantee {
+        @apply border-1 rounded-8;
+        @apply py-4 px-4;
+        @apply sm:mt-20 mt-32;
+        border-color: rgb(63, 203, 134);
+        background-color: rgb(244, 255, 250);
+        h3 {
+            @apply text-18;
+            color: rgb(0, 120, 50);
+        }
+        p {
+            color: rgb(0, 120, 50);
+        }
+    }
+}
+
+section#confirmation {
+    .container {
+        @apply items-start;
+        @apply flex flex-col;
+    }
+    .tag {
+        @apply mx-0 mb-2;
+    }
+    p.intro {
+        @apply text-pretty;
+    }
+    p.info {
+        @apply text-left text-pretty;
+    }
+    p.info + p.info {
+        @apply mt-12;
+    }
+    .spinner {
+        height: 100px;
+        width: 100px;
+        opacity: 0.2;
+        animation: spin 3s linear infinite;
     }
 }
 

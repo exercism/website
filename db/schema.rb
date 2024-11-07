@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_04_095304) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_07_133957) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1303,7 +1303,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_04_095304) do
   end
 
   create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id", null: true
     t.integer "num_views", default: 0, null: false
     t.datetime "last_viewed_at"
     t.datetime "started_enrolling_at"
@@ -1311,6 +1311,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_04_095304) do
     t.string "package"
     t.datetime "paid_at"
     t.string "payment_intent_id"
+    t.string "checkout_session_id"
     t.string "name"
     t.string "email"
     t.string "ppp_country"

@@ -16,27 +16,21 @@ class BootcampController < ApplicationController
   end
 
   def start_enrolling
-    @name = @bootcamp_data&.name || @bootcamp_data&.user&.name
-    @email = @bootcamp_data&.email || @bootcamp_data&.user&.email
+    create_bootcamp_data! unless @bootcamp_data
+
+    @name = @bootcamp_data.name || @bootcamp_data&.user&.name
+    @email = @bootcamp_data.email || @bootcamp_data&.user&.email
     @package = params[:package]
 
-    return unless @bootcamp_data && !@bootcamp_data.enrolled?
-
-    @bootcamp_data.started_enrolling_at = Time.current
-    @bootcamp_data.package = @package
-    @bootcamp_data.save!
+    unless @bootcamp_data.enrolled? # rubocop:disable Style/GuardClause
+      @bootcamp_data.started_enrolling_at = Time.current
+      @bootcamp_data.package = @package
+      @bootcamp_data.save!
+    end
   end
 
   def do_enrollment
-    unless @bootcamp_data
-      user = User.create!(
-        name: params[:name],
-        handle: "bootcamp-#{SecureRandom.hex(8)}",
-        email: "bootcamp-#{SecureRandom.hex(8)}@exercism.org",
-        password: SecureRandom.hex(8)
-      )
-      @bootcamp_data = user.create_bootcamp_data!
-    end
+    create_bootcamp_data! unless @bootcamp_data
 
     @bootcamp_data.update!(
       enrolled_at: Time.current,
@@ -80,7 +74,7 @@ class BootcampController < ApplicationController
     if session.status == 'complete'
       @bootcamp_data.update!(
         paid_at: Time.current,
-        payment_intent_id: session.id
+        checkout_session_id: session.id
       )
     end
 
@@ -94,6 +88,15 @@ class BootcampController < ApplicationController
 
   private
   def use_user_bootcamp_data!
+    if session[:bootcamp_data_id]
+      begin
+        @bootcamp_data = User::BootcampData.find(session[:bootcamp_data_id])
+        return
+      rescue StandardError
+        # Continue down the next path if this breaks
+      end
+    end
+
     user_id = cookies.signed[:_exercism_user_id]
     return unless user_id
 
@@ -105,6 +108,15 @@ class BootcampController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
       @bootcamp_data = user.bootcamp_data
     end
+
+    session[:bootcamp_data_id] = @bootcamp_data.id
+  end
+
+  def create_bootcamp_data!
+    return if @bootcamp_data
+
+    @bootcamp_data = User::BootcampData.create!
+    session[:bootcamp_data_id] = @bootcamp_data.id
   end
 
   def retrieve_geolocated_data!

@@ -1,5 +1,5 @@
 class User::BootcampData < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   after_save do
     User::Bootcamp::SubscribeToOnboardingEmails.defer(self)

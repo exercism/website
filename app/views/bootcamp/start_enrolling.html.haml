@@ -25,7 +25,7 @@
           .label.mt-24 Choose your course
           .part-selector.flex.flex-col.gap-12
             = f.label "package_part_1" do
-              = f.radio_button :package, "part_1", checked: @bootcamp_data.package != "complete", class: "hidden"
+              = f.radio_button :package, "part_1", checked: @package == "part_1", class: "hidden"
               .package
                 = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
                 = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
@@ -39,7 +39,7 @@
                   %p Build rock solid coding fundamentals, applicable to every speciality.
 
             = f.label "package_complete" do
-              = f.radio_button :package, "complete", checked: @bootcamp_data.package == "complete", class: "hidden"
+              = f.radio_button :package, "complete", checked: @package != "part_1", class: "hidden"
               .package
                 = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
                 = image_tag "bootcamp/exercism-face-dark.svg", class: "face"

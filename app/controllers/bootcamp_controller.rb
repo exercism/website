@@ -53,7 +53,11 @@ class BootcampController < ApplicationController
 
   def stripe_create_checkout_session
     # Sample for you to use. This will work with Stripe's test cards.
-    stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
+    if Rails.env.production?
+      stripe_price = @bootcamp_data.stripe_price_id
+    else
+      stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
+    end
 
     session = Stripe::Checkout::Session.create({
       ui_mode: 'embedded',

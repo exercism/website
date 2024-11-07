@@ -1239,6 +1239,21 @@ section#payment {
         @apply flex flex-col items-start;
         @apply pt-20 mt-[-20px];
         @apply sticky top-0;
+        h3 {
+            @apply text-22 mb-8;
+        }
+        ul {
+        }
+        li {
+            background-image: url("icons/checkmark-neon.svg");
+            background-size: 14px;
+            @apply bg-no-repeat;
+            @apply pl-20 mb-6;
+            background-position: 0px 4px;
+            strong {
+                @apply font-semibold;
+            }
+        }
     }
     p.intro {
         @apply lg:text-20 md:text-18;
@@ -1264,10 +1279,10 @@ section#payment {
         background-color: rgb(244, 255, 250);
         h3 {
             @apply text-18;
-            color: rgb(0, 140, 70);
+            color: rgb(0, 120, 50);
         }
         p {
-            color: rgb(0, 140, 70);
+            color: rgb(0, 120, 50);
         }
     }
 }

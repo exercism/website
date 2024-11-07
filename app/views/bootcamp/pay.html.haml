@@ -10,10 +10,10 @@
           %strong Please add your payment details to finish enrolling 👉
 
         %div{ class: "hidden:md:block" }
-          = render partial: "pay_copy", bootcamp_data: @bootcamp_dat
+          = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }
 
       .rhs
         #checkout
 
       %div{ class: "lg:hidden" }
-        = render partial: "pay_copy", bootcamp_data: @bootcamp_data
+        = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }

@@ -126,6 +126,9 @@ const PasswordForm = lazy(() => import('@/components/settings/PasswordForm'))
 const UserPreferencesForm = lazy(
   () => import('@/components/settings/UserPreferencesForm')
 )
+const InsiderBenefitsForm = lazy(
+  () => import('@/components/settings/InsiderBenefitsForm')
+)
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const ThemePreferenceForm = lazy(
   () => import('@/components/settings/ThemePreferenceForm')
@@ -464,6 +467,14 @@ initReact({
   'settings-user-preferences-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <UserPreferencesForm
+        defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
+        links={data.links}
+      />
+    </Suspense>
+  ),
+  'settings-insider-benefits-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <InsiderBenefitsForm
         defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
         links={data.links}
       />

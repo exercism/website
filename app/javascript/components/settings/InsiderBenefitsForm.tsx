@@ -15,7 +15,7 @@ export type UserPreferences = {
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
-export default function UserPreferencesForm({
+export default function InsiderBenefitsForm({
   defaultPreferences,
   links,
 }: {

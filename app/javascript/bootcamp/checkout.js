@@ -1,15 +1,19 @@
 import { loadStripe } from '@stripe/stripe-js'
 
-const stripePromise = loadStripe(
-  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
-)
-
 if (window.location.pathname === '/bootcamp/pay') {
   initialize()
 }
 
 async function initialize() {
-  const stripe = await stripePromise
+  const stripeMetaTag = 'meta[name="stripe-publishable-key"]'
+  const publishableKey = document.querySelector(stripeMetaTag)
+
+  if (!publishableKey) {
+    console.log(`%cCouldn't find ${stripeMetaTag}`, 'color: yellow')
+    return
+  }
+
+  const stripe = await loadStripe(publishableKey.content)
 
   const fetchClientSecret = async () => {
     const response = await fetch('/bootcamp/stripe/create-checkout-session', {

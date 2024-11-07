@@ -4,7 +4,9 @@ const stripePromise = loadStripe(
   'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
 )
 
-initialize()
+if (window.location.pathname === '/bootcamp/pay') {
+  initialize()
+}
 
 async function initialize() {
   const stripe = await stripePromise

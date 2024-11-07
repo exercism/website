@@ -1230,7 +1230,7 @@ section#payment {
     }
     .container {
         @apply items-start;
-        @apply flex flex-row gap-40;
+        @apply flex lg:flex-row flex-col gap-40;
     }
     .tag {
         @apply mx-0;
@@ -1239,7 +1239,7 @@ section#payment {
     .lhs {
         @apply flex flex-col items-start;
         @apply pt-20 mt-[-20px];
-        @apply sticky top-0;
+        @apply lg:sticky top-0;
         h3 {
             @apply text-22 mb-8;
         }

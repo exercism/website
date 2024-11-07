@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { FormMessage } from './FormMessage'

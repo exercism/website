@@ -68,13 +68,13 @@ class BootcampController < ApplicationController
       }],
       mode: 'payment',
       allow_promotion_codes: true,
-      return_url: bootcamp_confirmed_url
+      return_url: "#{bootcamp_confirmed_url}?session_id={CHECKOUT_SESSION_ID}"
     })
 
     render json: { clientSecret: session.client_secret }
   end
 
-  def strip_session_status
+  def stripe_session_status
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
 
     render json: {

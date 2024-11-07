@@ -11,7 +11,7 @@ async function initialize() {
     return
   }
   const response = await fetch(
-    `bootcamp/stripe/session-status?session_id=${sessionId}`
+    `/bootcamp/stripe/session-status?session_id=${sessionId}`
   )
   const session = await response.json()
 

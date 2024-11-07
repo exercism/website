@@ -1226,11 +1226,13 @@ section#enroll {
 }
 section#payment {
     .lg-container {
-        @apply px-[3%];
-    }
-    .container {
-        @apply items-start;
-        @apply flex lg:flex-row flex-col gap-40;
+        @apply md:px-[3%] px-8;
+        .container {
+            align-items: center;
+            @apply lg:items-start items-center;
+            @apply flex lg:flex-row flex-col gap-40;
+            @apply md:p-24 py-16 px-12;
+        }
     }
     .tag {
         @apply mx-0;
@@ -1265,7 +1267,7 @@ section#payment {
     }
 
     .rhs {
-        @apply w-[410px] flex-shrink-0;
+        @apply lg:w-[410px] w-[100%] flex-shrink-0;
         #checkout {
             @apply w-fill;
             background: rgb(96, 79, 205);

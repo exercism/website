@@ -10,7 +10,9 @@ async function initialize() {
     // window.location.replace('/bootcamp/pay')
     return
   }
-  const response = await fetch(`/session-status?session_id=${sessionId}`)
+  const response = await fetch(
+    `bootcamp/stripe/session-status?session_id=${sessionId}`
+  )
   const session = await response.json()
 
   if (session.status == 'open') {

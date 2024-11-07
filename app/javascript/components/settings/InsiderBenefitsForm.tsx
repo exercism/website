@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { UserPreference } from '@/components/types'
-import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
 
 type Links = {
   update: string
@@ -22,18 +23,25 @@ export default function InsiderBenefitsForm({
   defaultPreferences: UserPreferences
   links: Links
 }): JSX.Element {
-  const [preferences, setPreferences] = useState(defaultPreferences)
-  const { mutation, status, error } = useSettingsMutation({
-    endpoint: links.update,
-    method: 'PATCH',
-    body: {
-      user_preferences: [...preferences.automation].reduce<
-        Record<string, boolean>
-      >((data, p) => {
-        data[p.key] = p.value
-        return data
-      }, {}),
-    },
+  useEffect(() => {
+    console.log('pref', defaultPreferences)
+  }, [defaultPreferences])
+  const [hideAdverts, setHideAdverts] = useState(false)
+
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(async () => {
+    const { fetch } = sendRequest({
+      endpoint: links.update,
+      method: 'PATCH',
+      body: JSON.stringify({
+        user_preferences: { hide_website_adverts: hideAdverts },
+      }),
+    })
+
+    return fetch
   })
 
   const handleSubmit = useCallback(
@@ -45,40 +53,22 @@ export default function InsiderBenefitsForm({
     [mutation]
   )
 
-  const handlePreferenceChange = useCallback(
-    (changedPreference, key: keyof UserPreferences) => {
-      return (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPreferences({
-          ...preferences,
-          [key]: preferences[key].map((p) =>
-            p.key === changedPreference.key
-              ? { ...changedPreference, value: e.target.checked }
-              : p
-          ),
-        })
-      }
-    },
-    [preferences]
-  )
-
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Insider benefits</h2>
-      {preferences.automation.map((p) => (
-        <label className="c-checkbox-wrapper" key={p.key}>
-          <input
-            type="checkbox"
-            checked={p.value}
-            onChange={handlePreferenceChange(p, 'automation')}
-          />
-          <div className="row">
-            <div className="c-checkbox">
-              <GraphicalIcon icon="checkmark" />
-            </div>
-            {p.label}
+      <label className="c-checkbox-wrapper">
+        <input
+          type="checkbox"
+          checked={hideAdverts}
+          onChange={(e) => setHideAdverts(e.target.checked)}
+        />
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
           </div>
-        </label>
-      ))}
+          Hide website adverts
+        </div>
+      </label>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Change preferences

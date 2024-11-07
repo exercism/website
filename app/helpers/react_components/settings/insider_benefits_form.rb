@@ -3,7 +3,7 @@ module ReactComponents
     class InsiderBenefitsForm < ReactComponent
       def to_s
         super("settings-insider-benefits-form", {
-          preferences: SerializeUserPreferences.(current_user.preferences),
+          preferences: current_user.preferences,
           links: {
             update: Exercism::Routes.api_settings_user_preferences_url
           }

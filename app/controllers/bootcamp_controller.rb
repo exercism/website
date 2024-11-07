@@ -77,6 +77,13 @@ class BootcampController < ApplicationController
   def stripe_session_status
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
 
+    if session.status == 'complete'
+      @bootcamp_data.update!(
+        paid_at: Time.current,
+        payment_intent_id: session.id
+      )
+    end
+
     render json: {
       status: session.status,
       customer_email: session.customer_details.email

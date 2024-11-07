@@ -993,7 +993,8 @@ section#legals {
 }
 
 section#enroll,
-section#payment {
+section#payment,
+section#confirmation {
     @apply min-h-[100vh];
     @apply pt-64 pb-80;
     background-color: #7029f5;
@@ -1257,6 +1258,7 @@ section#payment {
     }
     p.intro {
         @apply lg:text-20 md:text-18;
+        @apply text-pretty;
     }
     p.info {
         @apply text-left text-pretty;
@@ -1284,6 +1286,31 @@ section#payment {
         p {
             color: rgb(0, 120, 50);
         }
+    }
+}
+
+section#confirmation {
+    .container {
+        @apply items-start;
+        @apply flex flex-col;
+    }
+    .tag {
+        @apply mx-0 mb-2;
+    }
+    p.intro {
+        @apply text-pretty;
+    }
+    p.info {
+        @apply text-left text-pretty;
+    }
+    p.info + p.info {
+        @apply mt-12;
+    }
+    .spinner {
+        height: 100px;
+        width: 100px;
+        opacity: 0.2;
+        animation: spin 3s linear infinite;
     }
 }
 

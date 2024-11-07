@@ -18,6 +18,7 @@ async function initialize() {
   if (session.status == 'open') {
     window.location.replace('/bootcamp/pay')
   } else if (session.status == 'complete') {
+    document.getElementById('pending').classList.add('hidden')
     document.getElementById('success').classList.remove('hidden')
     document.getElementById('customer-email').textContent =
       session.customer_email

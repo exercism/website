@@ -4,4 +4,5 @@ rm -rf .built-assets
 
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 $(jq -r '.localstack' .dockerimages.json)
 docker run -dp 9200:9200 -e "discovery.type=single-node" $(jq -r '.opensearch' .dockerimages.json)
+yarn install
 hivemind Procfile.dev

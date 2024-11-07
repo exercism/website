@@ -337,7 +337,7 @@ section#bootcamp {
             @apply text-[12px] font-semibold;
             @apply uppercase text-[#7029f5];
             @apply mb-16;
-            @apply mx-auto  py-4 px-12 rounded-[12px];
+            @apply mx-auto py-4 px-12 rounded-[12px];
             @apply bg-[#7029f522];
         }
         h2 {
@@ -992,7 +992,8 @@ section#legals {
     }
 }
 
-section#enroll {
+section#enroll,
+section#payment {
     @apply min-h-[100vh];
     @apply pt-64 pb-80;
     background-color: #7029f5;
@@ -1026,7 +1027,7 @@ section#enroll {
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
         background: white;
         @apply md:pt-32 md:pb-32 pt-16 pb-8 md:px-48 px-24 rounded-[8px];
-        @apply flex flex-col items-center;
+        @apply flex flex-col;
     }
 
     .tag {
@@ -1053,19 +1054,11 @@ section#enroll {
             @apply font-medium;
         }
     }
+}
 
-    .intro {
-        @apply md:text-22 text-18 font-light;
-        text-align: center;
-        text-wrap: balance;
-        @apply max-w-[750px] mx-auto;
-        strong {
-            @apply font-semibold;
-        }
-    }
-    hr {
-        @apply border-b-1 border-[#eee] my-20;
-        width: 100%;
+section#enroll {
+    .container {
+        @apply items-center;
     }
 
     form {
@@ -1213,6 +1206,46 @@ section#enroll {
         border-color: rgb(19 11 67);
         border-width: 1px;
         color: rgb(255 255 255);
+    }
+}
+section#payment {
+    .lg-container {
+        @apply px-[3%];
+    }
+    .container {
+        @apply items-start;
+        @apply flex flex-row gap-40;
+    }
+    .tag {
+        @apply mx-0;
+    }
+    hr {
+        @apply border-b-1 border-[#eee] my-20;
+        width: 100%;
+    }
+
+    .lhs {
+        @apply flex flex-col items-start;
+    }
+    p.info {
+        @apply text-left text-pretty;
+    }
+
+    p.intro {
+        @apply md:text-22 text-20 font-light text-left;
+        strong {
+            @apply font-semibold;
+        }
+    }
+
+    .rhs {
+        @apply w-[400px] flex-shrink-0;
+        #checkout {
+            @apply w-fill;
+            background: rgb(96, 79, 205);
+            @apply p-12 rounded-8;
+            box-shadow: 0, 0, 10 rgba(96, 79, 205, 0.5);
+        }
     }
 }
 

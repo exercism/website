@@ -1,20 +1,28 @@
-%section#enroll
-  .xs-container
+%section#payment
+  .lg-container
     .container
-      .tag Let's get you coding!
-      %h2
-        %strong Congratulations! 🥳
-      %p.intro
-        - if @package == 'part_1'
-          We've reserved a slot on
-          %span.whitespace-nowrap Part 1
-          of the Bootcamp for you!
-        - else
-          We've reserved a slot on the Complete Bootcamp for you!
-      %hr
+      .lhs
+        .tag Let's get you coding!
+        %h2
+          %strong Congratulations! 🥳
+        %p.intro
+          - if @package == 'part_1'
+            We've reserved a slot on
+            %span.whitespace-nowrap Part 1
+            of the Bootcamp for you!
+          - else
+            We've reserved a slot on the Complete Bootcamp for you!
+        %hr
 
-      %p.info
-        %strong Please complete your payment
-        of $#{@bootcamp_data.price} below...
+        %p.info.mb-8
+          We're so happy you've chosen to come learn with us!
+        %p.info.mb-8
+          2025 is going to be the year that you learn to code.
+          It's going to be a fun and fascinating journey that will equip you with lifelong skills.
+        %p.info.mb-8
+          All that's left to do is
+          %strong complete your payment
+          of $#{@bootcamp_data.price}.
 
-      #checkout
+      .rhs
+        #checkout

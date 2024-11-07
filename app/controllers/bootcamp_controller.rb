@@ -49,17 +49,21 @@ class BootcampController < ApplicationController
     redirect_to action: :pay
   end
 
+  def pay; end
+
   def stripe_create_checkout_session
     # Sample for you to use. This will work with Stripe's test cards.
     stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
 
     session = Stripe::Checkout::Session.create({
       ui_mode: 'embedded',
+      customer_email: @bootcamp_data.email,
       line_items: [{
         price: stripe_price,
         quantity: 1
       }],
       mode: 'payment',
+      allow_promotion_codes: true,
       return_url: bootcamp_confirmed_url
     })
 

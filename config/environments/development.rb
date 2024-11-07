@@ -86,6 +86,7 @@ Rails.application.configure do
   config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
+  config.hosts << /.*.ngrok.dev/
   config.hosts << /.*.ngrok-free.app/
   config.hosts << "host.docker.internal"
 end

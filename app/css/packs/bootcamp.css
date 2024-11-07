@@ -1237,18 +1237,37 @@ section#payment {
 
     .lhs {
         @apply flex flex-col items-start;
+        @apply pt-20 mt-[-20px];
+        @apply sticky top-0;
+    }
+    p.intro {
+        @apply lg:text-20 md:text-18;
     }
     p.info {
         @apply text-left text-pretty;
     }
 
     .rhs {
-        @apply w-[400px] flex-shrink-0;
+        @apply w-[410px] flex-shrink-0;
         #checkout {
             @apply w-fill;
             background: rgb(96, 79, 205);
             @apply p-12 rounded-8;
             box-shadow: 0 0 10px rgba(96, 79, 205, 0.5);
+        }
+    }
+    .guarantee {
+        @apply border-1 rounded-8;
+        @apply py-4 px-4;
+        @apply mt-20;
+        border-color: rgb(63, 203, 134);
+        background-color: rgb(244, 255, 250);
+        h3 {
+            @apply text-18;
+            color: rgb(0, 140, 70);
+        }
+        p {
+            color: rgb(0, 140, 70);
         }
     }
 }

@@ -6,23 +6,35 @@
         %h2
           %strong You're almost set up!
         %p.intro
-          We've reserved a space on the Bootcamp for you!
-          %strong Add your payment details to finish enrolling 👉
+          We've reserved a space for you on the Bootcamp!
+          %strong Please add your payment details to finish enrolling 👉
         %hr
 
         %p.info.mb-8
-          %strong Please complete payment
-          of $#{@bootcamp_data.price}.
-        %h3 Here's a reminder of what you geg
-        %ul
-          %li 100 hours of teaching
-          %li etc
-          %li etc
-          %li etc
-          %li etc
-        %h3 Success Gauranteed
-        %p
-          You're protected by our 100% Learn to Code Guanratee. If you take the course but can't code at the end, we'll give you your money back!
+        %h3 Here's a reminder of what's included:
+        - if @bootcamp_data.package == "part_1"
+          %ul.list-disc.ml-20
+            %li Over 35 hours of live teaching (that you can watch back forever).
+            %li Weekly sessions to answer your questions.
+            %li Hundreds of hours of exercises and projects, in a specially designed interface for beginners.
+            %li A dedicated community Discord server.
+            %li An official certificate of completion.
+
+        - else
+          %ul.list-disc.ml-20
+            %li Over 70 hours of live teaching (that you can watch back forever).
+            %li Weekly sessions to answer your questions.
+            %li Hundreds of hours of exercises and projects, teaching you both code and web development.
+            %li A dedicated community Discord server.
+            %li An official certificate of completion to put on your resume.
+
+        .guarantee
+          .flex.flex-row.items-center.gap-20
+            .py-8.pl-12
+              %h3.mb-2 Learn to Code Guarantee
+              %p
+                You're protected by our 100% Learn to Code Guarantee. If you take the course, watch the videos, and try out the projects, but can't code at the end, we'll give you your money back!
+            = graphical_icon "guarantee", category: :graphics, css_class: "w-[140px] h-[140px]"
 
       .rhs
         #checkout

@@ -1459,6 +1459,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
     t.datetime "updated_at", null: false
     t.string "theme"
     t.boolean "allow_comments_on_published_solutions", default: false, null: false
+    t.boolean "hide_website_adverts", default: false, null: false
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 

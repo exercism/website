@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
-import { UserPreference } from '@/components/types'
 import { FormMessage } from './FormMessage'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -11,7 +10,7 @@ type Links = {
 }
 
 export type UserPreferences = {
-  automation: readonly UserPreference[]
+  hideWebsiteAdverts: boolean
 }
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
@@ -23,10 +22,9 @@ export default function InsiderBenefitsForm({
   defaultPreferences: UserPreferences
   links: Links
 }): JSX.Element {
-  useEffect(() => {
-    console.log('pref', defaultPreferences)
-  }, [defaultPreferences])
-  const [hideAdverts, setHideAdverts] = useState(false)
+  const [hideAdverts, setHideAdverts] = useState(
+    defaultPreferences.hideWebsiteAdverts
+  )
 
   const {
     mutate: mutation,

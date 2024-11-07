@@ -1226,11 +1226,13 @@ section#enroll {
 }
 section#payment {
     .lg-container {
-        @apply px-[3%];
-    }
-    .container {
-        @apply items-start;
-        @apply flex flex-row gap-40;
+        @apply md:px-[3%] px-8;
+        .container {
+            align-items: center;
+            @apply lg:items-start items-center;
+            @apply flex lg:flex-row flex-col gap-40;
+            @apply md:p-24 py-16 px-12;
+        }
     }
     .tag {
         @apply mx-0;
@@ -1239,21 +1241,19 @@ section#payment {
     .lhs {
         @apply flex flex-col items-start;
         @apply pt-20 mt-[-20px];
-        @apply sticky top-0;
+        @apply lg:sticky top-0;
         h3 {
             @apply text-22 mb-8;
         }
-        ul {
-        }
-        li {
-            background-image: url("icons/checkmark-neon.svg");
-            background-size: 14px;
-            @apply bg-no-repeat;
-            @apply pl-20 mb-6;
-            background-position: 0px 4px;
-            strong {
-                @apply font-semibold;
-            }
+    }
+    li {
+        background-image: url("icons/checkmark-neon.svg");
+        background-size: 14px;
+        @apply bg-no-repeat;
+        @apply pl-20 mb-6;
+        background-position: 0px 4px;
+        strong {
+            @apply font-semibold;
         }
     }
     p.intro {
@@ -1265,7 +1265,7 @@ section#payment {
     }
 
     .rhs {
-        @apply w-[410px] flex-shrink-0;
+        @apply lg:w-[410px] w-[100%] flex-shrink-0;
         #checkout {
             @apply w-fill;
             background: rgb(96, 79, 205);
@@ -1276,7 +1276,7 @@ section#payment {
     .guarantee {
         @apply border-1 rounded-8;
         @apply py-4 px-4;
-        @apply mt-20;
+        @apply sm:mt-20 mt-32;
         border-color: rgb(63, 203, 134);
         background-color: rgb(244, 255, 250);
         h3 {

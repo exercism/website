@@ -76,6 +76,9 @@ const SiteUpdatesList = lazy(
 const CopyToClipboardButton = lazy(
   () => import('@/components/common/CopyToClipboardButton')
 )
+const TrackSlugsMultiselector = lazy(
+  () => import('@/components/common/TrackSlugsMultiselector')
+)
 const ThemeToggleButton = lazy(
   () => import('@/components/common/ThemeToggleButton')
 )
@@ -572,6 +575,14 @@ export const mappings = {
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <CopyToClipboardButton textToCopy={data.text_to_copy} />
+    </Suspense>
+  ),
+  'common-track-slugs-multiselector': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <TrackSlugsMultiselector
+        trackSlugs={data.track_slugs}
+        selectedTrackSlugs={data.selected_track_slugs}
+      />
     </Suspense>
   ),
   'common-theme-toggle-button': (

@@ -1,3 +1,5 @@
+- require_stylesheet "about"
+- require_stylesheet "admin"
 .c-admin-page
   .lg-container
     %h1.text-h1.mb-16 Advert #{@partner.name}##{@advert.id}
@@ -5,6 +7,7 @@
     %hr.my-32.border-borderColor5
 
     .text-h6.mb-8 Status: #{@advert.status.titleize}
+    .text-h6.mb-8 Track slugs: #{@advert.track_slugs}
     .text-h6.mb-8 URL: #{@advert.url}
     .text-h6.mb-8 Num Impressions: #{@advert.num_impressions}
     .text-h6.mb-8 Num Clicks: #{@advert.num_clicks}

@@ -129,8 +129,11 @@ const UserPreferencesForm = lazy(
 const InsiderBenefitsForm = lazy(
   () => import('@/components/settings/InsiderBenefitsForm')
 )
-const BootcampAffiliateForm = lazy(
-  () => import('@/components/settings/BootcampAffiliateForm')
+const BootcampAffiliateCouponForm = lazy(
+  () => import('@/components/settings/BootcampAffiliateCouponForm')
+)
+const BootcampFreeCouponForm = lazy(
+  () => import('@/components/settings/BootcampFreeCouponForm')
 )
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const ThemePreferenceForm = lazy(
@@ -486,14 +489,25 @@ initReact({
       />
     </Suspense>
   ),
-  'settings-bootcamp-affiliate-form': (data: any) => (
+  'settings-bootcamp-affiliate-coupon-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <BootcampAffiliateForm
+      <BootcampAffiliateCouponForm
         insidersStatus={data.insiders_status}
         bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
         links={camelizeKeysAs<{
           insidersPath: string
           bootcampAffiliateCouponCode: string
+        }>(data.links)}
+      />
+    </Suspense>
+  ),
+  'settings-bootcamp-free-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampFreeCouponForm
+        bootcampFreeCouponCode={data.bootcamp_affiliate_coupon_code}
+        links={camelizeKeysAs<{
+          insidersPath: string
+          bootcampFreeCouponCode: string
         }>(data.links)}
       />
     </Suspense>

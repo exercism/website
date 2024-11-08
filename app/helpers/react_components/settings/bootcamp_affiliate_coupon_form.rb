@@ -1,8 +1,8 @@
 module ReactComponents
   module Settings
-    class BootcampAffiliateForm < ReactComponent
+    class BootcampAffiliateCouponForm < ReactComponent
       def to_s
-        super("settings-bootcamp-affiliate-form", {
+        super("settings-bootcamp-affiliate-coupon-form", {
           insiders_status: current_user.insiders_status,
           bootcamp_affiliate_coupon_code: current_user.bootcamp_affiliate_coupon_code,
           links: {

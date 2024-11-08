@@ -7,7 +7,7 @@ type Links = {
   insidersPath: string
 }
 
-export default function BootcampAffiliateForm({
+export default function BootcampAffiliateCouponForm({
   insidersStatus,
   bootcampAffiliateCouponCode,
   links,
@@ -45,7 +45,7 @@ export default function BootcampAffiliateForm({
 
   return (
     <div>
-      <h2>Bootcamp Affiliate</h2>
+      <h2>Bootcamp Affiliate Coupon</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}

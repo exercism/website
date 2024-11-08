@@ -55,6 +55,8 @@ namespace :api do
       resource :user_preferences, only: [:update] do
         patch :enable_solution_comments
         patch :disable_solution_comments
+        post :generate_bootcamp_affiliate_coupon_codes
+        post :generate_bootcamp_free_coupon_codes
       end
       resource :communication_preferences, only: [:update]
 
@@ -263,9 +265,6 @@ namespace :api do
     resources :community_videos, only: %i[index create] do
       get :lookup, on: :collection
     end
-
-    resources :generate_bootcamp_free_coupon_codes, only: %i[create]
-    resources :generate_bootcamp_affiliate_coupon_codes, only: %i[create]
 
     resources :community_stories, only: %i[index]
 

@@ -13,6 +13,26 @@ class API::Settings::UserPreferencesController < API::BaseController
     respond_to_enabling_comments!
   end
 
+  def generate_bootcamp_affiliate_coupon_codes
+    code = User::GenerateBootcampAffiliateCouponCode.(current_user)
+
+    if code
+      render json: { coupon_code: code }
+    else
+      render_403(:could_not_generate_coupon_code)
+    end
+  end
+
+  def generate_bootcamp_free_coupon_codes
+    code = User::GenerateBootcampFreeCouponCode.(current_user)
+
+    if code
+      render json: { coupon_code: code }
+    else
+      render_403(:could_not_generate_coupon_code)
+    end
+  end
+
   private
   def user_preferences_params
     params.

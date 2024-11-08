@@ -24,7 +24,7 @@ class BootcampController < ApplicationController
 
     unless @bootcamp_data.enrolled? # rubocop:disable Style/GuardClause
       @bootcamp_data.started_enrolling_at = Time.current
-      @bootcamp_data.package = @package
+      @bootcamp_data.package = @package if @package
       @bootcamp_data.save!
     end
   end

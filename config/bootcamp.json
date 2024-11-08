@@ -25,7 +25,8 @@
     "29.99",
     "19.99",
     "https://buy.stripe.com/cN24hkfkf4250MweV0",
-    null,
+    "https://buy.stripe.com/aEU6psgoj4258eY6ot",
+    "price_1QD0HKEoOT0Jqx0UpCpCccOe",
     "price_1QD0HKEoOT0Jqx0UpCpCccOe"
   ],
   "LB": [
@@ -308,7 +309,6 @@
     "price_1QD0I2EoOT0Jqx0Um57Msci0",
     "price_1QD0I3EoOT0Jqx0UKmipVpk2"
   ],
-  "RU": [null, "Здравствуйте"],
   "TN": [
     "Tunisia",
     "مرحبا",

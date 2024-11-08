@@ -1,72 +1,57 @@
 import React, { useState, useCallback } from 'react'
-import { Icon, GraphicalIcon } from '@/components/common'
-import { FormButton } from '@/components/common/FormButton'
-import { FormMessage } from './FormMessage'
-import { useMutation } from '@tanstack/react-query'
-import { sendRequest } from '@/utils/send-request'
+import { fetchJSON } from '@/utils/fetch-json'
+import CopyToClipboardButton from '../common/CopyToClipboardButton'
 
 type Links = {
-  update: string
+  bootcampAffiliateCouponCode: string
   insidersPath: string
-}
-
-export type UserPreferences = {
-  hideWebsiteAdverts: boolean
 }
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
 export default function BootcampAffiliateForm({
-  defaultPreferences,
   insidersStatus,
+  bootcampAffiliateCouponCode,
   links,
 }: {
-  defaultPreferences: UserPreferences
   insidersStatus: string
+  bootcampAffiliateCouponCode: string
   links: Links
 }): JSX.Element {
-  const [hideAdverts, setHideAdverts] = useState(
-    defaultPreferences.hideWebsiteAdverts
-  )
+  const [couponCode, setCouponCode] = useState(bootcampAffiliateCouponCode)
 
-  const {
-    mutate: mutation,
-    status,
-    error,
-  } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: links.update,
-      method: 'PATCH',
-      body: JSON.stringify({
-        user_preferences: { hide_website_adverts: hideAdverts },
-      }),
+  const generateCouponCode = useCallback(async () => {
+    return fetchJSON<{ coupon_code: string }>(
+      links.bootcampAffiliateCouponCode,
+      {
+        method: 'POST',
+        body: null,
+      }
+    ).then((data) => {
+      setCouponCode(data.coupon_code)
     })
-
-    return fetch
-  })
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      mutation()
-    },
-    [mutation]
-  )
+  }, [])
 
   const isInsider =
     insidersStatus == 'active' || insidersStatus == 'active_lifetime'
 
   return (
-    <form data-turbo="false" onSubmit={handleSubmit}>
+    <div>
       <h2>Bootcamp Affiliate</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}
         insidersPath={links.insidersPath}
       />
-      <button className="btn btn-primary">Click to generate code</button>
-    </form>
+
+      {bootcampAffiliateCouponCode ? (
+        <CopyToClipboardButton textToCopy={'hello'} />
+      ) : (
+        <button disabled={!isInsider} type="button" className="btn btn-primary">
+          Click to generate code
+        </button>
+      )}
+    </div>
   )
 }
 

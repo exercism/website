@@ -3,16 +3,14 @@ module ReactComponents
     class BootcampAffiliateForm < ReactComponent
       def to_s
         super("settings-bootcamp-affiliate-form", {
-          preferences:,
           insiders_status: current_user.insiders_status,
+          bootcamp_affiliate_coupon_code: current_user.bootcamp_affiliate_coupon_code,
           links: {
-            update: Exercism::Routes.api_settings_user_preferences_url,
-            insiders_path: Exercism::Routes.insiders_path
+            insiders_path: Exercism::Routes.insiders_path,
+            bootcamp_affiliate_coupon_code: Exercism::Routes.bootcamp_affiliate_coupon_code_api_settings_user_preferences_url
           }
         })
       end
-
-      def preferences = current_user.preferences.slice(:hide_website_adverts)
     end
   end
 end

@@ -13,7 +13,7 @@ class API::Settings::UserPreferencesController < API::BaseController
     respond_to_enabling_comments!
   end
 
-  def generate_bootcamp_affiliate_coupon_codes
+  def bootcamp_affiliate_coupon_code
     code = User::GenerateBootcampAffiliateCouponCode.(current_user)
 
     if code
@@ -23,7 +23,7 @@ class API::Settings::UserPreferencesController < API::BaseController
     end
   end
 
-  def generate_bootcamp_free_coupon_codes
+  def bootcamp_free_coupon_code
     code = User::GenerateBootcampFreeCouponCode.(current_user)
 
     if code

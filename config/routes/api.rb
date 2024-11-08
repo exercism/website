@@ -55,8 +55,8 @@ namespace :api do
       resource :user_preferences, only: [:update] do
         patch :enable_solution_comments
         patch :disable_solution_comments
-        post :generate_bootcamp_affiliate_coupon_codes
-        post :generate_bootcamp_free_coupon_codes
+        post :bootcamp_affiliate_coupon_code
+        post :bootcamp_free_coupon_code
       end
       resource :communication_preferences, only: [:update]
 

@@ -70,15 +70,6 @@ export default function BootcampAffiliateForm({
   )
 }
 
-const SuccessMessage = () => {
-  return (
-    <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
-      Your preferences have been updated
-    </div>
-  )
-}
-
 export function InfoMessage({
   insidersStatus,
   insidersPath,

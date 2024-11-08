@@ -264,6 +264,9 @@ namespace :api do
       get :lookup, on: :collection
     end
 
+    resources :generate_bootcamp_free_coupon_codes, only: %i[create]
+    resources :generate_bootcamp_affiliate_coupon_codes, only: %i[create]
+
     resources :community_stories, only: %i[index]
 
     namespace :training_data do

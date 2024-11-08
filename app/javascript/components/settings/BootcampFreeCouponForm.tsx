@@ -39,7 +39,7 @@ export default function BootcampFreeCouponForm({
 
   return (
     <div>
-      <h2>Bootcamp Free coupon</h2>
+      <h2>Bootcamp Free Coupon</h2>
       <p className="text-p-base mb-16">
         {couponCode
           ? 'You can use this coupon once to get access to the bootcamp for free.'

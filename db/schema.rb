@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_07_133957) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1390,6 +1390,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_07_133957) do
     t.datetime "premium_until"
     t.boolean "trainer", default: false, null: false
     t.integer "seniority", limit: 1
+    t.string "bootcamp_affiliate_coupon_code"
+    t.string "bootcamp_free_coupon_code"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"

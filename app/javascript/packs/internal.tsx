@@ -481,7 +481,7 @@ initReact({
         defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
           data.preferences
         )}
-        insidersStatus={data.insider_status}
+        insidersStatus={data.insiders_status}
         links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
       />
     </Suspense>
@@ -489,7 +489,7 @@ initReact({
   'settings-bootcamp-affiliate-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <BootcampAffiliateForm
-        insidersStatus={data.insider_status}
+        insidersStatus={data.insiders_status}
         bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
         links={camelizeKeysAs<{
           insidersPath: string

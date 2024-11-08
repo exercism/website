@@ -7,8 +7,6 @@ type Links = {
   insidersPath: string
 }
 
-const DEFAULT_ERROR = new Error('Unable to change preferences')
-
 export default function BootcampAffiliateForm({
   insidersStatus,
   bootcampAffiliateCouponCode,
@@ -19,18 +17,28 @@ export default function BootcampAffiliateForm({
   links: Links
 }): JSX.Element {
   const [couponCode, setCouponCode] = useState(bootcampAffiliateCouponCode)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const generateCouponCode = useCallback(async () => {
-    return fetchJSON<{ coupon_code: string }>(
-      links.bootcampAffiliateCouponCode,
-      {
-        method: 'POST',
-        body: null,
-      }
-    ).then((data) => {
-      setCouponCode(data.coupon_code)
-    })
-  }, [])
+    setLoading(true)
+    try {
+      const data = await fetchJSON<{ couponCode: string }>(
+        links.bootcampAffiliateCouponCode,
+        {
+          method: 'POST',
+          body: null,
+        }
+      )
+      setCouponCode(data.couponCode)
+      setError(null)
+    } catch (err) {
+      console.error('Error generating coupon code:', err)
+      setError('Failed to generate coupon code. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }, [links])
 
   const isInsider =
     insidersStatus == 'active' || insidersStatus == 'active_lifetime'
@@ -42,15 +50,22 @@ export default function BootcampAffiliateForm({
         isInsider={isInsider}
         insidersStatus={insidersStatus}
         insidersPath={links.insidersPath}
+        couponCode={couponCode}
       />
 
-      {bootcampAffiliateCouponCode ? (
-        <CopyToClipboardButton textToCopy={'hello'} />
+      {couponCode ? (
+        <CopyToClipboardButton textToCopy={couponCode} />
       ) : (
-        <button disabled={!isInsider} type="button" className="btn btn-primary">
-          Click to generate code
+        <button
+          onClick={generateCouponCode}
+          disabled={!isInsider || loading}
+          type="button"
+          className="btn btn-primary"
+        >
+          {loading ? 'Generating code...' : 'Click to generate code'}
         </button>
       )}
+      <ErrorMessage error={error} />
     </div>
   )
 }
@@ -59,15 +74,19 @@ export function InfoMessage({
   insidersStatus,
   insidersPath,
   isInsider,
+  couponCode,
 }: {
   insidersStatus: string
   insidersPath: string
   isInsider: boolean
+  couponCode: string
 }): JSX.Element {
   if (isInsider) {
     return (
       <p className="text-p-base mb-16">
-        You've not yet generated your affiliate code.
+        {couponCode
+          ? 'You can save 20% on the bootcamp with this affiliate code.'
+          : "You've not yet generated your affiliate code."}
       </p>
     )
   }
@@ -95,4 +114,13 @@ export function InfoMessage({
         </p>
       )
   }
+}
+
+function ErrorMessage({ error }: { error: string | null }) {
+  if (!error) return null
+  return (
+    <div className="c-alert--danger text-15 font-body mt-10 normal-case py-8 px-16">
+      {error}
+    </div>
+  )
 }

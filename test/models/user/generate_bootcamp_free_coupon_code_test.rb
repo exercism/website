@@ -5,7 +5,9 @@ class User::GenerateBootcampFreeCouponCodeTest < ActiveSupport::TestCase
     user = create :user
     code = SecureRandom.hex(6)
     Stripe::PromotionCode.expects(:create).with(
-      coupon: "OarhoKrd", metadata: { user_id: user.id }
+      coupon: "OarhoKrd",
+      max_redemptions: 1,
+      metadata: { user_id: user.id }
     ).returns(OpenStruct.new(code:))
 
     User::GenerateBootcampFreeCouponCode.(user)

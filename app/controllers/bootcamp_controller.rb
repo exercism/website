@@ -56,6 +56,7 @@ class BootcampController < ApplicationController
     session = Stripe::Checkout::Session.create({
       ui_mode: 'embedded',
       customer_email: @bootcamp_data.email,
+      customer_creation: "always",
       line_items: [{
         price: stripe_price,
         quantity: 1

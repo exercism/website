@@ -3,6 +3,9 @@ class User::GenerateBootcampAffiliateCouponCode
 
   initialize_with :user
 
+  current_user.bootcamp_affiliate_coupon_code.present?
+  current_user.bootcamp_free_coupon_code.present?
+
   def call
     # Easy cheap guard
     return if user_data.bootcamp_affiliate_coupon_code.present?

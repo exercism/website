@@ -23,6 +23,7 @@ class User::GenerateBootcampFreeCouponCode
   def generate_coupon_code
     promo_code = Stripe::PromotionCode.create(
       coupon: COUPON_ID,
+      max_redemptions: 1,
       metadata: {
         user_id: user.id
       }

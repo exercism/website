@@ -8,8 +8,7 @@ class User::GenerateBootcampAffiliateCouponCodeTest < ActiveSupport::TestCase
       coupon: "NRp5SOVV", metadata: { user_id: user.id }
     ).returns(OpenStruct.new(code:))
 
-    User::GenerateBootcampAffiliateCouponCode.(user)
-
+    assert_equal code, User::GenerateBootcampAffiliateCouponCode.(user)
     assert_equal code, user.bootcamp_affiliate_coupon_code
   end
 
@@ -18,8 +17,7 @@ class User::GenerateBootcampAffiliateCouponCodeTest < ActiveSupport::TestCase
     user = create :user, bootcamp_affiliate_coupon_code: code
     Stripe::PromotionCode.expects(:create).never
 
-    User::GenerateBootcampAffiliateCouponCode.(user)
-
+    assert_equal code, User::GenerateBootcampAffiliateCouponCode.(user)
     assert_equal code, user.bootcamp_affiliate_coupon_code
   end
 end

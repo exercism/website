@@ -5,7 +5,7 @@ class User::GenerateBootcampAffiliateCouponCode
 
   def call
     # Easy cheap guard
-    return if user_data.bootcamp_affiliate_coupon_code.present?
+    return user_data.bootcamp_affiliate_coupon_code if user_data.bootcamp_affiliate_coupon_code.present?
 
     # Now things get expensive with Stripe call and lock below
     code = generate_coupon_code
@@ -14,6 +14,7 @@ class User::GenerateBootcampAffiliateCouponCode
 
       user_data.update!(bootcamp_affiliate_coupon_code: code)
     end
+    code
   end
 
   private

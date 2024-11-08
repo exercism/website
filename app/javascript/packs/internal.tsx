@@ -129,6 +129,9 @@ const UserPreferencesForm = lazy(
 const InsiderBenefitsForm = lazy(
   () => import('@/components/settings/InsiderBenefitsForm')
 )
+const BootcampAffiliateForm = lazy(
+  () => import('@/components/settings/BootcampAffiliateForm')
+)
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const ThemePreferenceForm = lazy(
   () => import('@/components/settings/ThemePreferenceForm')
@@ -478,7 +481,18 @@ initReact({
         defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
           data.preferences
         )}
-        insiderStatus={data.insider_status}
+        insidersStatus={data.insider_status}
+        links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+      />
+    </Suspense>
+  ),
+  'settings-bootcamp-affiliate-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampAffiliateForm
+        defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
+          data.preferences
+        )}
+        insidersStatus={data.insider_status}
         links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
       />
     </Suspense>

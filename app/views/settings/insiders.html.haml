@@ -1,0 +1,9 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:insiders)
+
+    %article
+      %h1 Insiders
+
+      %section{ id: 'insider-benefits-form' }
+        = render ReactComponents::Settings::InsiderBenefitsForm.new

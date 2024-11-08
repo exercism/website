@@ -30,7 +30,7 @@ module Flows
           assert change_button[:disabled]
 
           assert_text "Bootcamp Affiliate Coupon"
-          generate_button = find("button", text: "Click to generate code")
+          generate_button = find("#generate-affiliate-coupon-code-button", text: "Click to generate code")
           assert generate_button[:disabled]
           refute_text "Bootcamp Free Coupon"
         end
@@ -102,6 +102,38 @@ module Flows
           assert_button("Click to generate code")
 
           assert_text "Bootcamp Free Coupon"
+        end
+      end
+
+      test "user changes hide adverts successfully" do
+        user = create :user, insiders_status: :active_lifetime
+        use_capybara_host do
+          sign_in!(user)
+
+          visit insiders_settings_path
+          sleep(2)
+
+          find(:xpath, "//*[text()='Hide website adverts']").click
+          click_on "Change preferences"
+          assert_text "Your preferences have been updated"
+        end
+      end
+
+      test "user generates code successfully" do
+        user = create :user, insiders_status: :active_lifetime
+
+        stub_request(:post, "https://api.stripe.com/v1/promotion_codes").
+          with(body: { "coupon" => "NRp5SOVV", "metadata" => { "user_id" => "37" } }).
+          to_return(status: 200, body: { coupon_code: 'test_code' }.to_json, headers: {})
+
+        use_capybara_host do
+          sign_in!(user)
+
+          visit insiders_settings_path
+          sleep(2)
+
+          find("#generate-affiliate-coupon-code-button").click
+          assert_text "test_code"
         end
       end
     end

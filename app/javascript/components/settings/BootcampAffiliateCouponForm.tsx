@@ -57,6 +57,7 @@ export default function BootcampAffiliateCouponForm({
         <CopyToClipboardButton textToCopy={couponCode} />
       ) : (
         <button
+          id="generate-affiliate-coupon-code-button"
           onClick={generateCouponCode}
           disabled={!isInsider || loading}
           type="button"

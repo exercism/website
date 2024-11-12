@@ -121,10 +121,8 @@ module Flows
 
       test "user generates code successfully" do
         user = create :user, insiders_status: :active_lifetime
-
-        stub_request(:post, "https://api.stripe.com/v1/promotion_codes").
-          with(body: { "coupon" => "NRp5SOVV", "metadata" => { "user_id" => "37" } }).
-          to_return(status: 200, body: { coupon_code: 'test_code' }.to_json, headers: {})
+        code = SecureRandom.hex(6)
+        Stripe::PromotionCode.expects(:create).returns(OpenStruct.new(code:))
 
         use_capybara_host do
           sign_in!(user)
@@ -133,7 +131,7 @@ module Flows
           sleep(2)
 
           find("#generate-affiliate-coupon-code-button").click
-          assert_text "test_code"
+          assert_text code
         end
       end
     end

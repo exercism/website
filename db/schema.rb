@@ -1389,6 +1389,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
     t.datetime "premium_until"
     t.boolean "trainer", default: false, null: false
     t.integer "seniority", limit: 1
+    t.string "bootcamp_affiliate_coupon_code"
+    t.string "bootcamp_free_coupon_code"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"

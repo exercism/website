@@ -116,6 +116,15 @@ module Flows
           find(:xpath, "//*[text()='Hide website adverts']").click
           click_on "Change preferences"
           assert_text "Your preferences have been updated"
+
+          visit insiders_settings_path
+          sleep(2)
+
+          user.reload
+          assert user.preferences.hide_website_adverts, "Failed to update user's hide_adverts preference"
+
+          checkbox = find("#insider-benefits-form input[type='checkbox']", visible: false)
+          assert checkbox.checked?, "Checkbox should be checked"
         end
       end
 

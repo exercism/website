@@ -59,7 +59,7 @@ export default function InsiderBenefitsForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Insider benefits</h2>
+      <h2 class="!mb-8">Insider Benefits</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}
@@ -119,8 +119,8 @@ export function InfoMessage({
   if (isInsider) {
     return (
       <p className="text-p-base mb-16">
-        These are exclusive options to enhance your experience as an Exercism
-        Insdier
+        Thanks for being an Exercism Insider! Here are some extra settings
+        exclusively for you.
       </p>
     )
   }
@@ -136,16 +136,20 @@ export function InfoMessage({
       )
     default:
       return (
-        <p className="text-p-base mb-16">
-          These are exclusive options for Exercism Insiders.&nbsp;
-          <strong>
-            <a className="text-prominentLinkColor" href={insidersPath}>
-              Donate to Exercism
-            </a>
-          </strong>{' '}
-          and become an Insider to access these benefits with Dark Mode, ChatGPT
-          integration and more.
-        </p>
+        <>
+          <p className="text-p-base mb-12">
+            These are exclusive options for Exercism Insiders.&nbsp;
+          </p>
+          <p className="text-p-base mb-12">
+            <strong>
+              <a className="text-prominentLinkColor" href={insidersPath}>
+                Donate to Exercism
+              </a>
+            </strong>{' '}
+            to become an Insider to access benefits such as Dark Mode, ChatGPT
+            integration, an advert-free experience, and more.
+          </p>
+        </>
       )
   }
 }

@@ -39,11 +39,16 @@ export default function BootcampFreeCouponForm({
 
   return (
     <div>
-      <h2>Bootcamp Free Coupon</h2>
+      <h2 className="!mb-8">Free Seat on the Bootcamp</h2>
+      <p className="text-p-base mb-12">
+        As a lifetime insider you're eligible for a free seat on Exercism's{' '}
+        <a href="https://bootcamp.exercism/org">Learn to Code Bootcamp</a>.
+      </p>
       <p className="text-p-base mb-16">
-        {couponCode
-          ? 'You can use this coupon once to get access to the bootcamp for free.'
-          : "As a lifetime insider you're eligible for a free bootcamp coupon."}
+        To claim your free seat, we're providing you with a discount code that
+        you can use at the checkout for a 100% discount. You can use it for
+        yourself, give it to a friend, offer it to a charity, post it on social
+        media, or anything else you feel appropriate.
       </p>
 
       {couponCode ? (

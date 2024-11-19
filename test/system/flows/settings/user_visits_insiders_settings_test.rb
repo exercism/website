@@ -5,6 +5,7 @@ module Flows
   module Settings
     class UserVisitsInsidersSettingsTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      FREE_BOOTCAMP_CANARY = "Free Seat on the Bootcamp".freeze
 
       test "user is not an insider" do
         user = create :user, insiders_status: :ineligible
@@ -32,7 +33,7 @@ module Flows
           assert_text "Bootcamp Affiliate Coupon"
           generate_button = find("#generate-affiliate-coupon-code-button", text: "Click to generate code")
           assert generate_button[:disabled]
-          refute_text "Bootcamp Free Coupon"
+          refute_text FREE_BOOTCAMP_CANARY
         end
       end
       test "user is eligible" do
@@ -44,7 +45,7 @@ module Flows
           visit insiders_settings_path
           sleep(2)
 
-          refute_text "Bootcamp Free Coupon"
+          refute_text FREE_BOOTCAMP_CANARY
           assert_text "You're eligible to join Insiders"
           change_button = find("button", text: "Change preferences")
           assert change_button[:disabled]
@@ -76,7 +77,7 @@ module Flows
           assert_button("Change preferences")
           assert_button("Click to generate code")
 
-          refute_text "Bootcamp Free Coupon"
+          refute_text FREE_BOOTCAMP_CANARY
         end
       end
 
@@ -101,7 +102,7 @@ module Flows
           assert_button("Change preferences")
           assert_button("Click to generate code")
 
-          assert_text "Bootcamp Free Coupon"
+          assert_text FREE_BOOTCAMP_CANARY
         end
       end
 

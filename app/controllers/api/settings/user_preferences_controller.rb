@@ -40,6 +40,7 @@ class API::Settings::UserPreferencesController < API::BaseController
       permit(*User::Preferences.keys).tap do |ps|
       # TODO: Add a test for this
       ps[:theme] = "light" if ps[:theme] == "dark" && !current_user.insider?
+      ps[:hide_website_adverts] = false unless current_user.insider?
     end
   end
 

@@ -31,15 +31,9 @@ module ViewComponents
       return false if request.is_crawler?
       return true if preview
       return false unless advert
+      return false if current_user&.hide_website_adverts?
 
       true
     end
-
-    ALLOWED_DATES = [
-      Date.new(2023, 8, 16)..Date.new(2023, 8, 21),
-      Date.new(2023, 9, 14)..Date.new(2023, 9, 17),
-      Date.new(2023, 10, 13)..Date.new(2023, 10, 16),
-      Date.new(2023, 11, 3)..Date.new(2023, 11, 5)
-    ].map(&:to_a).flatten.freeze
   end
 end

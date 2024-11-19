@@ -10,14 +10,13 @@ class User::GenerateBootcampFreeCouponCode
     return user_data.bootcamp_free_coupon_code if user_data.bootcamp_free_coupon_code.present?
 
     # Now things get expensive with Stripe call and lock below
-    code = generate_coupon_code
-    user_data.with_lock do
-      return if user_data.bootcamp_free_coupon_code.present?
+    generate_coupon_code.tap do |code|
+      user_data.with_lock do
+        return if user_data.bootcamp_free_coupon_code.present? # rubocop:disable Lint/NonLocalExitFromIterator
 
-      user_data.update!(bootcamp_free_coupon_code: code)
+        user_data.update!(bootcamp_free_coupon_code: code)
+      end
     end
-
-    code
   end
 
   private

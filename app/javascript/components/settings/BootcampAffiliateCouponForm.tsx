@@ -45,7 +45,7 @@ export default function BootcampAffiliateCouponForm({
 
   return (
     <div>
-      <h2>Bootcamp Affiliate Coupon</h2>
+      <h2 className="!mb-8">Bootcamp Affiliate Coupon</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}
@@ -63,7 +63,9 @@ export default function BootcampAffiliateCouponForm({
           type="button"
           className="btn btn-primary"
         >
-          {loading ? 'Generating code...' : 'Click to generate code'}
+          {loading
+            ? 'Generating code...'
+            : 'Generate your Affiliate Discount code'}
         </button>
       )}
       <ErrorMessage error={error} />
@@ -84,11 +86,25 @@ export function InfoMessage({
 }): JSX.Element {
   if (isInsider) {
     return (
-      <p className="text-p-base mb-16">
-        {couponCode
-          ? 'You can save 20% on the bootcamp with this affiliate code.'
-          : "You've not yet generated your affiliate code."}
-      </p>
+      <>
+        <p className="text-p-base mb-12">
+          To thank you for being an Insider and to help increase the amount of
+          people signing up to Exercism's{' '}
+          <a href="https://bootcamp.exercism/org">Learn to Code Bootcamp</a>, we
+          are giving all Insiders an{' '}
+          <strong className="font-semibold">Discount Affiliate code</strong>.
+        </p>
+        <p className="text-p-base mb-12">
+          This code gives a 20% discount for the bootcamp (on top of any
+          geographical discount). And for everyone that signs up,{' '}
+          <strong>we'll give you 20%</strong> of whatever they pay.
+        </p>
+        <p className="text-p-base mb-16">
+          Please help us spread the word. Send this code to your friends, post
+          it on social media. Maybe even print it out on postcards and put it
+          through your neighbours doors?
+        </p>
+      </>
     )
   }
 
@@ -104,14 +120,9 @@ export function InfoMessage({
     default:
       return (
         <p className="text-p-base mb-16">
-          These are exclusive options for Exercism Insiders.&nbsp;
-          <strong>
-            <a className="text-prominentLinkColor" href={insidersPath}>
-              Donate to Exercism
-            </a>
-          </strong>{' '}
-          and become an Insider to access these benefits with Dark Mode, ChatGPT
-          integration and more.
+          Exercism Insiders can access 20% off Exercism's{' '}
+          <a href="https://bootcamp.exercism/org">Learn to Code Bootcamp</a>,
+          and receive 20% of all sales when someone uses their voucher code.
         </p>
       )
   }

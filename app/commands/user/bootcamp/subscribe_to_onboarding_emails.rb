@@ -27,7 +27,7 @@ class User
               "country_name": bootcamp_data.country_name,
               "payment_url": bootcamp_data.payment_url,
               "price": bootcamp_data.price,
-              "has_discount": bootcamp_ata.has_discount?,
+              "has_discount": bootcamp_data.has_discount?,
               "discount_percentage": bootcamp_data.discount_percentage
             }
           },

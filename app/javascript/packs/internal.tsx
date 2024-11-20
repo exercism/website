@@ -504,7 +504,7 @@ initReact({
   'settings-bootcamp-free-coupon-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <BootcampFreeCouponForm
-        bootcampFreeCouponCode={data.bootcamp_affiliate_coupon_code}
+        bootcampFreeCouponCode={data.bootcamp_free_coupon_code}
         links={camelizeKeysAs<{
           insidersPath: string
           bootcampFreeCouponCode: string

@@ -1528,6 +1528,11 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"
   integrity sha512-LiCFDhXCr3iIEGESHEsSCpCI7qNa2suHcrBWeOYSEtEwCXc+IQpEh5i4K8qPcOMJB9ckVOgLgbSNML8TyvPCVg==
 
+"@exercism/highlightjs-uiua@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-uiua/-/highlightjs-uiua-0.0.4.tgz#82799b3a47345596d85fc1ebbb193308db068202"
+  integrity sha512-fyKgDFLHA1x2yJmu/xC0FIVWyFkzdUwvKmX1Ll0N6PxJ/AaR0beZkuZM2Powj6z01bOHQmrl84AKHZtdqiu/gQ==
+
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"
   resolved "https://github.com/exercism/twine2-story-format.git#94ac1ce6a2560f06db4172dd28707b98220b4fb9"

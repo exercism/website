@@ -13,6 +13,7 @@ import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
 import setupArturo from '@exercism/highlightjs-arturo'
 import setupRoc from 'highlightjs-roc'
+import setupUiua from '@exercism/highlightjs-uiua'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -27,6 +28,7 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('gdscript', setupGDScript)
   highlighter.default.registerLanguage('jq', setupJq)
   highlighter.default.registerLanguage('roc', setupRoc)
+  highlighter.default.registerLanguage('uiua', setupUiua)
 }
 
 highlighter.default.configure({

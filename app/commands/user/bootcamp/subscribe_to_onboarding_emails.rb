@@ -11,12 +11,12 @@ class User
       def call
         return unless bootcamp_data.enrolled?
 
-        add_subscriber!
-        add_to_form!
+        new_sub = add_subscriber!
+        add_to_form! if new_sub
       end
 
       def add_subscriber!
-        RestClient.post(
+        resp = RestClient.post(
           'https://api.kit.com/v4/subscribers',
           {
             "email_address": bootcamp_data.email,
@@ -33,6 +33,10 @@ class User
           },
           HEADERS
         )
+
+        # If we have a 201 it's a new subscriber.
+        # If not, then we've just upserted it.
+        resp.code == 201
       end
 
       def add_to_form!

@@ -197,6 +197,8 @@ class User < ApplicationRecord
 
   def to_param = handle
 
+  delegate :hide_website_adverts?, to: :preferences
+
   def pronoun_parts
     a = pronouns.to_s.split("/")
     a.size == 3 && a.exclude?('') ? a : nil

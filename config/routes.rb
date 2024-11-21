@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     get :communication_preferences
     get :donations
     get :integrations
+    get :insiders
     patch :reset_account
     delete :destroy_account
     delete :disconnect_discord

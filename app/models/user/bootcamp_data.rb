@@ -55,7 +55,7 @@ class User::BootcampData < ApplicationRecord
   def country_name
     return unless country_data
 
-    country_data[1]
+    country_data[0]
   end
 
   def country_data
@@ -63,6 +63,8 @@ class User::BootcampData < ApplicationRecord
 
     DATA[ppp_country]
   end
+
+  def has_discount? = country_data
 
   def discount_percentage
     ((COMPLETE_PRICE - @complete_price) / COMPLETE_PRICE * 100).round

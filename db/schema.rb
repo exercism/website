@@ -1303,7 +1303,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
   end
 
   create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: true
+    t.bigint "user_id", null: false
     t.integer "num_views", default: 0, null: false
     t.datetime "last_viewed_at"
     t.datetime "started_enrolling_at"
@@ -1311,7 +1311,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
     t.string "package"
     t.datetime "paid_at"
     t.string "payment_intent_id"
-    t.string "checkout_session_id"
     t.string "name"
     t.string "email"
     t.string "ppp_country"
@@ -1459,6 +1458,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_083100) do
     t.datetime "updated_at", null: false
     t.string "theme"
     t.boolean "allow_comments_on_published_solutions", default: false, null: false
+    t.boolean "hide_website_adverts", default: false, null: false
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 

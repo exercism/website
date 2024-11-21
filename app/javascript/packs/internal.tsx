@@ -126,6 +126,15 @@ const PasswordForm = lazy(() => import('@/components/settings/PasswordForm'))
 const UserPreferencesForm = lazy(
   () => import('@/components/settings/UserPreferencesForm')
 )
+const InsiderBenefitsForm = lazy(
+  () => import('@/components/settings/InsiderBenefitsForm')
+)
+const BootcampAffiliateCouponForm = lazy(
+  () => import('@/components/settings/BootcampAffiliateCouponForm')
+)
+const BootcampFreeCouponForm = lazy(
+  () => import('@/components/settings/BootcampFreeCouponForm')
+)
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const ThemePreferenceForm = lazy(
   () => import('@/components/settings/ThemePreferenceForm')
@@ -466,6 +475,40 @@ initReact({
       <UserPreferencesForm
         defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
         links={data.links}
+      />
+    </Suspense>
+  ),
+  'settings-insider-benefits-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <InsiderBenefitsForm
+        defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
+          data.preferences
+        )}
+        insidersStatus={data.insiders_status}
+        links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+      />
+    </Suspense>
+  ),
+  'settings-bootcamp-affiliate-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampAffiliateCouponForm
+        insidersStatus={data.insiders_status}
+        bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
+        links={camelizeKeysAs<{
+          insidersPath: string
+          bootcampAffiliateCouponCode: string
+        }>(data.links)}
+      />
+    </Suspense>
+  ),
+  'settings-bootcamp-free-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampFreeCouponForm
+        bootcampFreeCouponCode={data.bootcamp_free_coupon_code}
+        links={camelizeKeysAs<{
+          insidersPath: string
+          bootcampFreeCouponCode: string
+        }>(data.links)}
       />
     </Suspense>
   ),

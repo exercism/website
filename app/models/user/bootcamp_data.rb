@@ -64,10 +64,15 @@ class User::BootcampData < ApplicationRecord
     DATA[ppp_country]
   end
 
-  def has_discount? = country_data
+  def has_discount? = !!country_data
 
   def discount_percentage
-    ((COMPLETE_PRICE - @complete_price) / COMPLETE_PRICE * 100).round
+    case package
+    when 'complete'
+      ((COMPLETE_PRICE - price) / COMPLETE_PRICE * 100).round
+    else
+      ((PART_1_PRICE - price) / PART_1_PRICE * 100).round
+    end
   end
 
   DATA = JSON.parse(File.read(Rails.root / 'config' / 'bootcamp.json')).freeze

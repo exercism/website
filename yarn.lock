@@ -1509,6 +1509,15 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
+"@exercism/codemirror-lang-uiua@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-uiua/-/codemirror-lang-uiua-0.0.4.tgz#fba326cf48f405bbdee575d1f273d4747ed605e4"
+  integrity sha512-Dqc90pxIZjcv4+Xl8xr//7mQGeyyIDVNZAFCKmx3EafiSn3jpYNt+8/DqxA5O12wkTPfI7Kg3NNXZ1f8NxPRIw==
+  dependencies:
+    "@codemirror/language" "^6.10.1"
+    "@lezer/highlight" "^1.2.0"
+    "@lezer/lr" "^1.4.0"
+
 "@exercism/codemirror-lang-wren@https://github.com/exercism/codemirror-lang-wren":
   version "1.0.0"
   resolved "https://github.com/exercism/codemirror-lang-wren#3bde9961a87f3e46ddb3e282f979f39295be626b"

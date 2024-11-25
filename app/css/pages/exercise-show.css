@@ -471,7 +471,8 @@ body.namespace-tracks.controller-exercises.action-show {
 
 #page-exercise-show.has-advert,
 #page-concept-show.has-advert {
-    .c-react-wrapper-student-update-exercise-notice {
+    .c-react-wrapper-student-update-exercise-notice,
+    .c-completed-exercise-heading {
         max-width: calc(100% - 340px);
     }
     .c-perk-a {

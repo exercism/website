@@ -52,6 +52,10 @@ export const loadLanguageCompartment = async (
       const { rust: reasonml } = await import('@codemirror/lang-rust')
       return compartment.of(reasonml())
     }
+    case 'uiua': {
+      const { uiua } = await import('@exercism/codemirror-lang-uiua')
+      return compartment.of(uiua())
+    }
     case 'wren': {
       const { wren } = await import('@exercism/codemirror-lang-wren')
       return compartment.of(wren())

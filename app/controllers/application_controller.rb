@@ -156,6 +156,10 @@ class ApplicationController < ActionController::Base
   helper_method :csp_policy
   # rubocop:enable Lint/PercentStringArray
 
+  def showing_modal? = @showing_modal
+  def showing_modal! = (@showing_modal = true)
+  helper_method :showing_modal?, :showing_modal!
+
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)

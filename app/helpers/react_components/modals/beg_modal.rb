@@ -4,6 +4,8 @@ module ReactComponents
       def to_s
         return unless show_modal?
 
+        showing_modal!
+
         super("beg-modal", {
           previous_donor:,
           request: {
@@ -20,9 +22,22 @@ module ReactComponents
         })
       end
 
+      def recently_seen_seniority_modal?
+        flag = ReactComponents::Modals::SenioritySurveyModal::SHOWN_AT_FLAG
+        flag_value = session[flag]
+        return false unless flag_value.present?
+        return false if DateTime.parse(flag_value) < 5.minutes.ago
+
+        true
+      rescue StandardError
+        false
+      end
+
       private
       memoize
       def show_modal?
+        return false if showing_modal?
+        return false if recently_seen_seniority_modal?
         return false if current_user.current_subscription
         return false if current_user.donated_in_last_35_days?
         return false unless current_user.solutions.count >= 5

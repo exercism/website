@@ -76,7 +76,7 @@ export function InitialView() {
         <h1>Hey there 👋</h1>
         <p className="mb-16">
           We're expanding Exercism to add content relevant to a wide range of
-          abilities. To ensure Exercism shows you relevant content, please tell
+          abilities. To ensure Exercism shows you the right content, please tell
           us how experienced you are.
         </p>
         <h2>How experienced a developer are you?</h2>

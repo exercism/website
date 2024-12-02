@@ -12,13 +12,12 @@ export function BootcampAdvertismentView() {
     <>
       <div className="lhs">
         <header>
-          <h1>Oooh, good timing! 👏</h1>
+          <h1>Have you heard about the Bootcamp?</h1>
 
           <p className="mb-8">
-            You've signed up at a great time! In January, we're running a
-            one-off{' '}
+            In January, we're running a one-off{' '}
             <strong className="font-semibold text-softEmphasis">
-              part-time, remote bootcamp for beginners!
+              part-time, remote bootcamp for beginners! 🎉
             </strong>
           </p>
           <p className="mb-8">

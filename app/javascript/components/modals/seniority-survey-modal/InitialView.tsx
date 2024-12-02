@@ -72,9 +72,9 @@ export function InitialView() {
       <header>
         <h1>Hey there 👋</h1>
         <p className="mb-16">
-          As Exercism grows, certain features are becoming more relevant than
-          others based on your experience coding. So we're starting to filter
-          what we show by your seniority.
+          We're expanding Exercism to add content relevant to a wide range of
+          abilities. To ensure Exercism shows you relevant content, please tell
+          us how experienced you are.
         </p>
         <h2>How experienced a developer are you?</h2>
       </header>
@@ -83,10 +83,10 @@ export function InitialView() {
           <button
             key={seniority.value}
             className={assembleClassNames(
-              'btn-m btn-enhanced',
+              'btn-m btn-slightly-enhanced',
               selected === seniority.value
                 ? 'border-prominentLinkColor text-prominentLinkColor'
-                : 'border-borderColor1'
+                : ''
             )}
             onClick={() => setSelected(seniority.value)}
           >
@@ -95,18 +95,18 @@ export function InitialView() {
         ))}
       </div>
 
-      <p className="!text-14 text-center mb-20">
-        (This can be updated at any time in your settings)
-      </p>
       <FormButton
         status={setSeniorityMutationStatus}
         disabled={selected === ''}
-        className="btn-primary btn-l"
+        className="btn-primary btn-l w-100"
         type="button"
         onClick={handleSaveSeniorityLevel}
       >
         Save my choice
       </FormButton>
+      <p className="!text-14 text-center mt-12">
+        (This can be updated at any time in your settings)
+      </p>
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
         resetKeys={[setSeniorityMutationStatus]}

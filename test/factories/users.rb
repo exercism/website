@@ -3,6 +3,7 @@ FactoryBot.define do
     email { "#{SecureRandom.hex(4)}@exercism.org" }
     name { "User" }
     password { "password" }
+    seniority { :mid }
     handle { "handle-#{SecureRandom.hex(4)}" }
     accepted_terms_at { Date.new(2016, 12, 25) }
     accepted_privacy_policy_at { Date.new(2016, 12, 25) }

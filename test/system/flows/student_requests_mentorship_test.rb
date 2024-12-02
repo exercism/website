@@ -8,7 +8,7 @@ module Flows
     include MarkdownEditorHelpers
 
     test "student requests mentorship" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
@@ -45,7 +45,7 @@ module Flows
     end
 
     test "form should be invalid when textarea value doesn't reach min length of 20 characters" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
@@ -97,7 +97,7 @@ module Flows
     end
 
     test "student can not request mentorship for hello-world" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
@@ -130,7 +130,7 @@ module Flows
     end
 
     test "student can not request mentorship for hello world" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_track, user:, track:)
       hello_world = create :concept_exercise, track:, slug: "hello-world"
@@ -152,7 +152,7 @@ module Flows
     end
 
     test "student sees required number of completed exercises to request mentorship" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track, title: "Ruby"
       create(:user_track, user:, track:)
       create :concept_exercise, track:, slug: "hello-world"
@@ -168,7 +168,7 @@ module Flows
     end
 
     test "student requests mentorship when slots are full" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_track, user:, track:)
 
@@ -195,7 +195,7 @@ module Flows
     end
 
     test "student edits empty comment" do
-      user = create :user
+      user = create :user, seniority: :mid
       track = create :track
       create(:user_track, user:, track:)
 

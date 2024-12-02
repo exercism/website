@@ -6,7 +6,6 @@ import React, {
   useState,
 } from 'react'
 import { Modal, ModalProps } from '../Modal'
-import { ThanksView } from './ThanksView'
 import { InitialView } from './InitialView'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -111,7 +110,5 @@ function Inner() {
       return <InitialView />
     case 'bootcamp-advertisment':
       return <BootcampAdvertismentView />
-    case 'thanks':
-      return <ThanksView />
   }
 }

@@ -34,7 +34,9 @@ const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
 ]
 
 export function InitialView() {
-  const { links, setCurrentView } = useContext(SenioritySurveyModalContext)
+  const { links, setCurrentView, patchCloseModal } = useContext(
+    SenioritySurveyModalContext
+  )
   const [selected, setSelected] = useState<SeniorityLevel | ''>('')
 
   const {
@@ -57,7 +59,8 @@ export function InitialView() {
           setCurrentView('bootcamp-advertisment')
           return
         }
-        setCurrentView('thanks')
+
+        patchCloseModal.mutate()
       },
     }
   )
@@ -113,6 +116,12 @@ export function InitialView() {
       >
         <ErrorMessage
           error={setSeniorityMutationError}
+          defaultError={DEFAULT_ERROR}
+        />
+      </ErrorBoundary>
+      <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+        <ErrorMessage
+          error={patchCloseModal.status}
           defaultError={DEFAULT_ERROR}
         />
       </ErrorBoundary>

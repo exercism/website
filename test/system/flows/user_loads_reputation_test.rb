@@ -8,7 +8,7 @@ module Flows
     include WebsocketsHelpers
 
     test "user views reputation" do
-      user = create :user
+      user = create :user, seniority: :senior
       external_url = "https://github.com/exercism/ruby/pulls/120"
       create :user_code_review_reputation_token,
         user:,
@@ -37,7 +37,7 @@ module Flows
     end
 
     test "mark token as seen on hover" do
-      user = create :user
+      user = create :user, seniority: :senior
       create :user_code_review_reputation_token,
         user:,
         created_at: 2.days.ago,
@@ -64,7 +64,7 @@ module Flows
     end
 
     test "mark token as seen on focus" do
-      user = create :user
+      user = create :user, seniority: :senior
       create :user_code_review_reputation_token,
         user:,
         created_at: 2.days.ago,
@@ -92,7 +92,7 @@ module Flows
     end
 
     test "refetches on websocket notification" do
-      user = create :user
+      user = create :user, seniority: :senior
       create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do

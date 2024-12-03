@@ -129,6 +129,24 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     assert_includes formatted_context, formatted_html, error_msg
   end
 
+  # refute_text proxies to this, so it's better to override
+  # this than it is to override refute_text directly.
+  def assert_no_text(text, **options)
+    # If React's not fully loaded then things incorectly not
+    # be there. This isn't an issue with assert_text as that
+    # has the waiting built in. But for this, where it will
+    # immediately succeed if the text doesn't exist, we end
+    # in scenarios where it refutes the text simply because
+    # React hasn't loaded yet. We have the instance variable
+    # so that we only do this once per test.
+    unless @give_react_time_to_load
+      sleep(1)
+      @give_react_time_to_load = true
+    end
+
+    super(:visible, text, **options)
+  end
+
   def assert_text(text, **options)
     options[:normalize_ws] = true unless options.key?(:normalize_ws)
     super(:visible, text, **options)

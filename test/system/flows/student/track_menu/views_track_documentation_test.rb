@@ -8,7 +8,7 @@ module Flows
         include CapybaraHelpers
 
         test "student views track documentation" do
-          user = create :user, seniority: :senior
+          user = create :user
           track = create :track, title: "Ruby"
           create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
           create(:concept_exercise, track:)

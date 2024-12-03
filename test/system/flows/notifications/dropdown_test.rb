@@ -9,7 +9,7 @@ module Flows
       include WebsocketsHelpers
 
       test "user views notifications" do
-        user = create :user, seniority: :senior
+        user = create :user
         mentor = create :user, handle: "mr-mentor"
         discussion = create(:mentor_discussion, mentor:)
         create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
@@ -27,7 +27,7 @@ module Flows
       end
 
       test "refetches on websocket notification" do
-        user = create :user, seniority: :senior
+        user = create :user
         mentor = create :user, handle: "mrs-mentor"
         discussion = create(:mentor_discussion, mentor:)
         create(:user_dismissed_introducer, slug: "welcome-modal", user:)
@@ -48,7 +48,7 @@ module Flows
       end
 
       test "only loads notifications when dropdown is closed" do
-        user = create :user, seniority: :senior
+        user = create :user
         mentor = create :user, handle: "mrs-mentor"
         discussion = create(:mentor_discussion, mentor:)
         create(:user_dismissed_introducer, slug: "welcome-modal", user:)

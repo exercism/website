@@ -37,6 +37,7 @@ class API::UsersControllerTest < API::BaseTestCase
 
   test "update seniority" do
     setup_user
+    @current_user.update(seniority: nil)
     assert_nil @current_user.seniority
 
     params = { user: { seniority: 2 } }

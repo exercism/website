@@ -183,6 +183,10 @@ const NotificationsList = lazy(
 const WelcomeModal = lazy(
   () => import('@/components/modals/welcome-modal/WelcomeModal')
 )
+const SenioritySurveyModal = lazy(
+  () =>
+    import('@/components/modals/seniority-survey-modal/SenioritySurveyModal')
+)
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
 )
@@ -230,7 +234,9 @@ initReact({
       <BegModal
         previousDonor={data.previous_donor}
         request={camelizeKeysAs<Request>(data.request)}
-        links={camelizeKeysAs<StripeFormLinks>(data.links)}
+        links={camelizeKeysAs<StripeFormLinks & { hideIntroducer: string }>(
+          data.links
+        )}
       />
     </Suspense>
   ),
@@ -254,6 +260,16 @@ initReact({
           apiUserEndpoint: string
         }>(data.links)}
         numTracks={data.num_tracks}
+      />
+    </Suspense>
+  ),
+  'modals-seniority-survey-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <SenioritySurveyModal
+        links={camelizeKeysAs<{
+          hideModalEndpoint: string
+          apiUserEndpoint: string
+        }>(data.links)}
       />
     </Suspense>
   ),

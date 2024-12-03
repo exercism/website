@@ -1,21 +1,18 @@
 module ReactComponents
   module Modals
-    class WelcomeModal < ReactComponent
+    class SenioritySurveyModal < ReactComponent
+      SHOWN_AT_FLAG = "shown_seniority_modal_at".freeze
+
       def to_s
         return if showing_modal?
-        return if current_user.introducer_dismissed?(slug)
-
-        if current_user.solutions.count >= 2
-          current_user.dismiss_introducer!(slug)
-          return
-        end
+        return if current_user.seniority
 
         showing_modal!
+        session[SHOWN_AT_FLAG] = Time.current
 
         super(
-          "modals-welcome-modal",
+          "modals-seniority-survey-modal",
           {
-            num_tracks: ::Track.active.count,
             links: {
               hide_modal_endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug),
               api_user_endpoint: Exercism::Routes.api_user_url
@@ -25,9 +22,7 @@ module ReactComponents
       end
 
       private
-      def slug
-        "welcome-modal"
-      end
+      def slug = "seniority-survey-modal"
     end
   end
 end

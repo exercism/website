@@ -114,8 +114,7 @@ body {
     background-image: linear-gradient(rgb(13, 18, 33), rgb(19, 47, 68));
     background-repeat: repeat-y;
     background-size: 100%;
-    margin-top: -70px;
-    padding-top: 94px;
+    @apply pt-24 md:pt-40;
 
     color: white;
     @apply overflow-hidden;
@@ -138,7 +137,7 @@ body {
         }
     }
     .bubbles {
-        @apply mb-[60px];
+        @apply mb-40 md:mb-72;
         @apply flex flex-row items-center justify-center gap-16 flex-wrap;
         .bubble {
             @apply text-15 font-medium;

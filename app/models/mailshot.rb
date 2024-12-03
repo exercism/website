@@ -61,4 +61,63 @@ class Mailshot < ApplicationRecord
       ->(uc) { uc.user }
     ]
   end
+
+  def audience_for_bc_interested(_)
+    [
+      User::BootcampData.includes(:user),
+      lambda do |bootcamp_data|
+        return if bootcamp_data.paid?
+
+        bootcamp_data.user
+      end
+    ]
+  end
+
+  def audience_for_bc_beginners(_)
+    [
+      User::Data.where(seniority: %i[absolute_beginner beginner]).includes(user: :bootcamp_data),
+      lambda do |user_data|
+        user = user_data.user
+        return if user.bootcamp_data&.paid?
+
+        user
+      end
+    ]
+  end
+
+  def audience_for_bc_juniors(_)
+    [
+      User::Data.where(seniority: :junior).includes(user: :bootcamp_data),
+      lambda do |user_data|
+        user = user_data.user
+        return if user.bootcamp_data&.paid?
+
+        user
+      end
+    ]
+  end
+
+  def audience_for_bc_mid_seniors(_)
+    [
+      User::Data.where(seniority: %i[mid senior]).includes(user: :bootcamp_data),
+      lambda do |user_data|
+        user = user_data.user
+        return if user.bootcamp_data&.paid?
+
+        user
+      end
+    ]
+  end
+
+  def audience_for_bc_unspecified(_)
+    [
+      User::Data.where(seniority: nil).includes(user: :bootcamp_data),
+      lambda do |user_data|
+        user = user_data.user
+        return if user.bootcamp_data&.paid?
+
+        user
+      end
+    ]
+  end
 end

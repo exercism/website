@@ -109,7 +109,7 @@
                 <![endif]-->
 
                 <!-- Body copy -->
-                <%= yield %>
+                <%= raw yield.gsub("UNSUBSCRIBE_ALL_URL", easy_all_unsubscribe_url(token: @user.communication_preferences&.token)) %>
 
                 <!--[if (gte mso 9)|(IE)]>
                 </td></tr></table>

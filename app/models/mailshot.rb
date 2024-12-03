@@ -109,7 +109,7 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_bc_unspecified_recent_90
+  def audience_for_bc_unspecified_recent_90(_)
     [
       User::Data.where(seniority: nil).
         where('user_data.last_visited_on >= ?', Time.current - 90.days).
@@ -123,29 +123,13 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_bc_unspecified(year)
-    years = {
-      '2013' => 0,
-      '2014' => 10_000,
-      '2015' => 70_000,
-      '2016' => 100_000,
-      '2017' => 125_000,
-      '2018' => 175_000,
-      '2019' => 250_000,
-      '2020' => 390_000,
-      '2021' => 580_000,
-      '2022' => 800_000,
-      '2023' => 1_250_000,
-      '2024' => 1_760_000
-    }
-
-    start_id = years[year.to_s]
-    end_id = years[(year.to_i + 1).to_s] || User.last.id
-
+  def audience_for_bc_unspecified(batch)
+    start_id = (batch.to_i - 1) * 200_000
+    end_id = (batch.to_i * 200_000) - 1
     [
-      User::Data.where(seniority: nil).where(id: (start_id...end_id)).includes(user: :bootcamp_data),
-      lambda do |user_data|
-        user = user_data.user
+      User.where(id: (start_id..end_id)).includes(:data, :bootcamp_data),
+      lambda do |user|
+        return if user.seniority.present?
         return if user.bootcamp_data&.paid?
 
         user

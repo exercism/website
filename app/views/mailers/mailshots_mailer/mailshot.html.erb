@@ -482,6 +482,7 @@ div.preheader {
 
 <style type="text/css">
   .main,.mso{background-color:#fff}.logo a:hover,.logo a:focus{color:#0d1012 !important}.footer-logo a:hover,.footer-logo a:focus{color:#372d1b !important}.mso .layout-has-border{border-top:1px solid #bdbdcb;border-bottom:1px solid #bdbdcb}.mso .layout-has-bottom-border{border-bottom:1px solid #bdbdcb}.mso .border,.ie .border{background-color:#bdbdcb}.mso h1,.ie h1{}.mso h1,.ie h1{font-size:22px !important;line-height:31px !important}.mso h2,.ie h2{}.mso h3,.ie h3{}.mso .layout__inner,.ie .layout__inner{}.mso .footer__share-button p{}.mso .footer__share-button p{font-family:Ubuntu,sans-serif}
+  strong { font-weight:600; color:#333; }
 </style>
 
 <meta name="robots" content="noindex,nofollow"/>
@@ -514,7 +515,7 @@ div.preheader {
                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
                   <p style="margin-top: 16px;margin-bottom: 0;">Hi <%= @user.handle %>,</p>
 
-                  <%= raw @mailshot.content_html %>
+                  <%= raw @mailshot.content_html.gsub("UNSUBSCRIBE_ALL_URL", easy_all_unsubscribe_url(token: @user.communication_preferences&.token)) %>
 
                   <p style="margin-top: 8px;margin-bottom: 20px;">
                     Jeremy Walker<br/>

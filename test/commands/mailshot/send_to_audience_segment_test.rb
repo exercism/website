@@ -157,6 +157,63 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :track, track.slug, 10, 0)
   end
 
+  test "schedules bc audiences" do
+    # Firstly let's create users at different seniorities
+    absolute_beginner = create :user, seniority: :absolute_beginner
+    beginner = create :user, seniority: :beginner
+    junior = create :user, seniority: :junior
+    mid = create :user, seniority: :mid
+    senior = create :user, seniority: :senior
+    unspecified = create :user, seniority: nil
+
+    # Now some users that have viewed the page
+    absolute_beginner_viewed = create :user, seniority: :absolute_beginner
+    beginner_viewed = create :user, seniority: :beginner
+    [absolute_beginner_viewed, beginner_viewed].each do |user|
+      create :user_bootcamp_data, user:
+    end
+
+    # Now some that have paid
+    absolute_beginner_paid = create :user, seniority: :absolute_beginner
+    beginner_paid = create :user, seniority: :beginner
+    unspecified_paid = create :user, seniority: nil
+    [absolute_beginner_paid, beginner_paid, unspecified_paid].each do |user|
+      create :user_bootcamp_data, user:, paid_at: Time.current
+    end
+
+    # Let's start with a mailshot to interested people
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(absolute_beginner_viewed, mailshot)
+    User::Mailshot::Send.expects(:call).with(beginner_viewed, mailshot)
+
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_interested, nil, 20, 0)
+
+    # And now to beginners
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(absolute_beginner, mailshot)
+    User::Mailshot::Send.expects(:call).with(absolute_beginner_viewed, mailshot)
+    User::Mailshot::Send.expects(:call).with(beginner, mailshot)
+    User::Mailshot::Send.expects(:call).with(beginner_viewed, mailshot)
+
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_beginners, nil, 20, 0)
+
+    # And now to juniors
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(junior, mailshot)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_juniors, nil, 20, 0)
+
+    # And now to mids and seniors
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(mid, mailshot)
+    User::Mailshot::Send.expects(:call).with(senior, mailshot)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_mid_seniors, nil, 20, 0)
+
+    # And now to unspecifieds
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(unspecified, mailshot)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_unspecified, nil, 20, 0)
+  end
+
   test "requeues with deserialization error" do
     class TestSender < Mailshot::SendToAudienceSegment # rubocop:disable Lint/ConstantDefinitionInBlock
       # ActiveJob::DeserializationError uses $! so this needs wrapping like this.

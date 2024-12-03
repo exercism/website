@@ -260,6 +260,7 @@ Rails.application.routes.draw do
   # ############ #
   resource :unsubscribe, only: %i[show update], controller: "unsubscribe" do
     patch :all
+    get :easy_all, action: "all"
   end
 
   # #### #

@@ -11,7 +11,10 @@ class Admin::MailshotsController < Admin::BaseController
   # GET /admin/mailshots/1
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
-    @audiences = %w[admins donors insiders challenge#12in23 challenge#48in24]
+    @audiences = %w[
+      admins donors insiders challenge#12in23 challenge#48in24
+      bc_interested bc_beginners bc_juniors bc_mid_seniors bc_unspecified
+    ]
     @audiences += [100, 10, 3, 2, 1].map { |min| "reputation##{min}" }
     @audiences += [10, 30, 60, 90].map { |min| "recent##{min}" }
     @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }

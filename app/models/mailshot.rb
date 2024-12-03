@@ -109,6 +109,20 @@ class Mailshot < ApplicationRecord
     ]
   end
 
+  def audience_for_bc_unspecified_recent_90
+    [
+      User::Data.where(seniority: nil).
+        where('user_data.last_visited_on >= ?', Time.current - 90.days).
+        includes(user: :bootcamp_data),
+      lambda do |user_data|
+        user = user_data.user
+        return if user.bootcamp_data&.paid?
+
+        user
+      end
+    ]
+  end
+
   def audience_for_bc_unspecified(year)
     years = {
       '2013' => 0,

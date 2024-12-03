@@ -15,6 +15,7 @@ class Admin::MailshotsController < Admin::BaseController
       admins donors insiders challenge#12in23 challenge#48in24
       bc_interested bc_beginners bc_juniors bc_mid_seniors bc_unspecified
     ]
+    @audiences += (2013..2024).map { |min| "bc_unspecified##{min}" }
     @audiences += [100, 10, 3, 2, 1].map { |min| "reputation##{min}" }
     @audiences += [10, 30, 60, 90].map { |min| "recent##{min}" }
     @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }

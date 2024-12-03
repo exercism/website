@@ -109,9 +109,27 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_bc_unspecified(_)
+  def audience_for_bc_unspecified(year)
+    years = {
+      '2013' => 0,
+      '2014' => 10_000,
+      '2015' => 70_000,
+      '2016' => 100_000,
+      '2017' => 125_000,
+      '2018' => 175_000,
+      '2019' => 250_000,
+      '2020' => 390_000,
+      '2021' => 580_000,
+      '2022' => 800_000,
+      '2023' => 1_250_000,
+      '2024' => 1_760_000
+    }
+
+    start_id = years[year.to_s]
+    end_id = years[(year.to_i + 1).to_s] || User.last.id
+
     [
-      User::Data.where(seniority: nil).includes(user: :bootcamp_data),
+      User::Data.where(seniority: nil).where(id: (start_id...end_id)).includes(user: :bootcamp_data),
       lambda do |user_data|
         user = user_data.user
         return if user.bootcamp_data&.paid?

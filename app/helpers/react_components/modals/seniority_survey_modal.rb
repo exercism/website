@@ -4,8 +4,8 @@ module ReactComponents
       SHOWN_AT_FLAG = "shown_seniority_modal_at".freeze
 
       def to_s
-        return if current_user.seniority
         return if showing_modal?
+        return if current_user.seniority
 
         showing_modal!
         session[SHOWN_AT_FLAG] = Time.current

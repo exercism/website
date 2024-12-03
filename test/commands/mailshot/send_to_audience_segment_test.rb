@@ -164,7 +164,6 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     junior = create :user, seniority: :junior
     mid = create :user, seniority: :mid
     senior = create :user, seniority: :senior
-    unspecified = create :user, seniority: nil
 
     # Now some users that have viewed the page
     absolute_beginner_viewed = create :user, seniority: :absolute_beginner
@@ -180,6 +179,10 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     [absolute_beginner_paid, beginner_paid, unspecified_paid].each do |user|
       create :user_bootcamp_data, user:, paid_at: Time.current
     end
+
+    # Finally some unspecified users with specific ids for batches
+    unspecified_id_199_999 = create :user, seniority: nil, id: 199_999
+    unspecified_id_200_000 = create :user, seniority: nil, id: 200_000
 
     # Let's start with a mailshot to interested people
     mailshot = create :mailshot
@@ -210,8 +213,23 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
 
     # And now to unspecifieds
     mailshot = create :mailshot
-    User::Mailshot::Send.expects(:call).with(unspecified, mailshot)
-    Mailshot::SendToAudienceSegment.(mailshot, :bc_unspecified, nil, 20, 0)
+    User::Mailshot::Send.expects(:call).with(unspecified_id_199_999, mailshot)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_unspecified, 1, 20, 0)
+
+    User::Mailshot::Send.expects(:call).with(unspecified_id_200_000, mailshot)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_unspecified, 2, 20, 0)
+  end
+
+  test "schedules bc unspecified audience for recently active" do
+    mailshot = create :mailshot
+
+    user = create :user, last_visited_on: 89.days.ago, seniority: nil
+    create :user, last_visited_on: 91.days.ago, seniority: nil
+    create :user, last_visited_on: 89.days.ago, seniority: :mid
+
+    User::Mailshot::Send.expects(:call).with(user, mailshot)
+
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_unspecified_recent_90, nil, 10, 0)
   end
 
   test "requeues with deserialization error" do

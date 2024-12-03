@@ -49,7 +49,7 @@ module Components
 
     test "doesn't show to active subscriber" do
       user = setup_user
-      User.any_instance.stubs(current_subscription: true)
+      User.any_instance.stubs(current_subscription?: true)
 
       use_capybara_host do
         Exercism.without_bullet do

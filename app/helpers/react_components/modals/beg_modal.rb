@@ -38,7 +38,7 @@ module ReactComponents
       def show_modal?
         return false if showing_modal?
         return false if recently_seen_seniority_modal?
-        return false if current_user.current_subscription
+        return false if current_user.current_subscription?
         return false if current_user.donated_in_last_35_days?
         return false unless current_user.solutions.count >= 5
 

@@ -14,7 +14,7 @@ export function HasLearningModeStep({
       <h3 className="text-h3 mb-8">Here to learn or practice?</h3>
       <p className="mb-12">
         This track can be used for learning {track.title} (Learning Mode) or for
-        practicing your existing {track.title} knowledge (Practice Mode).{' '}
+        practicing your {track.title} skills (Practice Mode).{' '}
       </p>
       <p className="mb-12">
         We recommend Learning Mode if you're new to {track.title}, and Practice

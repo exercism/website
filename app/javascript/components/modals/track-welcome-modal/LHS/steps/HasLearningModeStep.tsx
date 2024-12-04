@@ -12,7 +12,7 @@ export function HasLearningModeStep({
   return (
     <>
       <h3 className="text-h3 mb-8">Here to learn or practice?</h3>
-      <p className="mb-12">
+      <p data-capy-element="welcome-modal-track-info" className="mb-12">
         This track can be used for learning {track.title} (Learning Mode) or for
         practicing your {track.title} skills (Practice Mode).{' '}
       </p>

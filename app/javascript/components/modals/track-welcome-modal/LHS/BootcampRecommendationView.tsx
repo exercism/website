@@ -3,11 +3,15 @@ import { TrackContext } from '../TrackWelcomeModal'
 import { GraphicalIcon } from '@/components/common'
 
 export function BootcampRecommendationView() {
-  const { hideBootcampRecommendationView, track, links } =
-    useContext(TrackContext)
+  const { hideBootcampRecommendationView, links } = useContext(TrackContext)
   return (
     <>
-      <h4 className="text-h4 mb-8">Our Bootcamp might be better for you…</h4>
+      <h4
+        data-capy-element="bootcamp-recommendation-header"
+        className="text-h4 mb-8"
+      >
+        Our Bootcamp might be better for you…
+      </h4>
 
       <p className="mb-8">
         Exercism's tracks are designed for people who{' '}
@@ -62,10 +66,11 @@ export function BootcampRecommendationView() {
       </p>
 
       <div className="flex gap-12 items-center w-full">
-          data-capy-element="go-to-bootcamp-button"
+        <a
           href={links.bootcampLanding}
-          className="btn-m btn-primary"
-        <a  href={links.bootcampLanding} className="btn-m btn-primary flex-grow">
+          data-capy-element="go-to-bootcamp-button"
+          className="btn-m btn-primary flex-grow"
+        >
           Check out the Bootcamp
         </a>
         <button

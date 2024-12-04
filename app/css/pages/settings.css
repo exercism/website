@@ -187,6 +187,15 @@
             @apply leading-150 text-textColor6;
         }
     }
+
+    .seniority {
+        .c-single-select {
+            .c-results-zone button,
+            button {
+                @apply shadow-sm;
+            }
+        }
+    }
     & .pronouns-section {
         & .instructions {
             @apply mb-24;

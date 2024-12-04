@@ -35,8 +35,8 @@ module Flows
         first("button", text: "Select an exercise").click
         within(".m-select-exercise-for-mentoring") { click_on "Lasagna" }
 
-        fill_in "What are you hoping to learn from this track?", with: "I want to learn OOP."
-        fill_in "How can a mentor help you with this solution?", with: "I'm sorry but I have absolutely no idea."
+        fill_in "About you", with: "I want to learn OOP."
+        fill_in "About your solution", with: "I'm sorry but I have absolutely no idea."
         click_on "Submit mentoring request"
       end
 
@@ -72,8 +72,8 @@ module Flows
         first("button", text: "Select an exercise").click
         within(".m-select-exercise-for-mentoring") { click_on "Lasagna" }
 
-        fill_in "What are you hoping to learn from this track?", with: "12345678901234567890"
-        fill_in "How can a mentor help you with this solution?", with: "1234567890123456789"
+        fill_in "About you", with: "12345678901234567890"
+        fill_in "About your solution", with: "1234567890123456789"
 
         click_on "Submit mentoring request"
 
@@ -83,8 +83,8 @@ module Flows
         refute_text "Waiting on a mentor…"
         refute_text "12345678890123456789"
 
-        fill_in "What are you hoping to learn from this track?", with: "1234567890123456789"
-        fill_in "How can a mentor help you with this solution?", with: "12345678901234567890"
+        fill_in "About you", with: "1234567890123456789"
+        fill_in "About your solution", with: "12345678901234567890"
 
         click_on "Submit mentoring request"
 

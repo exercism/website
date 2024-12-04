@@ -2,21 +2,20 @@ class BootcampController < ApplicationController
   layout 'bootcamp'
 
   skip_before_action :authenticate_user!
-  before_action :use_user_bootcamp_data!
-  before_action :retrieve_geolocated_data!
+  before_action :setup_data!
   before_action :setup_pricing!
 
   def index
     if @bootcamp_data # rubocop:disable Style/GuardClause
       @bootcamp_data.num_views += 1
       @bootcamp_data.last_viewed_at = Time.current
-      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2 && !@using_vpn
+      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
       @bootcamp_data.save
     end
   end
 
   def start_enrolling
-    create_bootcamp_data! unless @bootcamp_data
+    create_bootcamp_data!
 
     @name = @bootcamp_data.name || @bootcamp_data&.user&.name
     @email = @bootcamp_data.email || @bootcamp_data&.user&.email
@@ -30,7 +29,7 @@ class BootcampController < ApplicationController
   end
 
   def do_enrollment
-    create_bootcamp_data! unless @bootcamp_data
+    create_bootcamp_data!
 
     @bootcamp_data.update!(
       enrolled_at: Time.current,
@@ -46,7 +45,6 @@ class BootcampController < ApplicationController
   def pay; end
 
   def stripe_create_checkout_session
-    # Sample for you to use. This will work with Stripe's test cards.
     if Rails.env.production?
       stripe_price = @bootcamp_data.stripe_price_id
     else
@@ -88,16 +86,22 @@ class BootcampController < ApplicationController
   def confirmed; end
 
   private
-  def use_user_bootcamp_data!
-    if session[:bootcamp_data_id]
-      begin
-        @bootcamp_data = User::BootcampData.find(session[:bootcamp_data_id])
-        return
-      rescue StandardError
-        # Continue down the next path if this breaks
-      end
-    end
+  def setup_data!
+    @bootcamp_data = retrieve_user_bootcamp_data_from_user
+    @bootcamp_data ||= retrieve_user_bootcamp_data_from_session
 
+    if @bootcamp_data && @bootcamp_data.ppp_country.present?
+      session[:bootcamp_data_id] = @bootcamp_data.id
+      @country_code_2 = @bootcamp_data.ppp_country
+    elsif session[:country_code_2].present?
+      @country_code_2 = session[:country_code_2]
+    else
+      @country_code_2 = lookup_country_code_from_ip
+      session[:country_code_2] = @country_code_2
+    end
+  end
+
+  def retrieve_user_bootcamp_data_from_user
     user_id = cookies.signed[:_exercism_user_id]
     return unless user_id
 
@@ -105,50 +109,44 @@ class BootcampController < ApplicationController
     return unless user
 
     begin
-      @bootcamp_data = user.bootcamp_data || user.create_bootcamp_data!
+      user.bootcamp_data || user.create_bootcamp_data!
     rescue ActiveRecord::RecordNotUnique
-      @bootcamp_data = user.bootcamp_data
+      # Guard the race condition
+      user.bootcamp_data
     end
+  rescue StandardError
+    # Something's a mess, but don't blow up.
+  end
 
-    session[:bootcamp_data_id] = @bootcamp_data.id
+  def retrieve_user_bootcamp_data_from_session
+    return unless session[:bootcamp_data_id].present?
+
+    User::BootcampData.find(session[:bootcamp_data_id])
+  rescue StandardError
+    # We don't have anything valid in the session.
+  end
+
+  def lookup_country_code_from_ip
+    return "IN" unless Rails.env.production?
+
+    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
+    return "VPN" if data.dig("security", "vpn")
+
+    data.dig("location", "country_code")
+  rescue StandardError
+    # Rate limit probably
   end
 
   def create_bootcamp_data!
     return if @bootcamp_data
 
-    @bootcamp_data = User::BootcampData.create!
+    @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2)
     session[:bootcamp_data_id] = @bootcamp_data.id
-  end
-
-  def retrieve_geolocated_data!
-    if session[:geolocated_data]
-      data = JSON.parse(session[:geolocated_data]).symbolize_keys
-      @country_code_2 = data[:country_code_2]
-      @using_vpn = data[:is_vpn]
-    else
-      if Rails.env.production?
-        begin
-          data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-          @country_code_2 = data.dig("location", "country_code")
-          @using_vpn = data.dig("security", "vpn")
-        rescue StandardError
-          # Rate limit probably
-        end
-      else
-        @country_code_2 = "IN"
-        @using_vpn = false
-      end
-
-      session[:geolocated_data] = {
-        country_code_2: @country_code_2,
-        using_vpn: @using_vpn
-      }.to_json
-    end
   end
 
   def setup_pricing!
     country_data = User::BootcampData::DATA[@country_code_2]
-    if country_data && !@using_vpn
+    if country_data
       @country_name = country_data[0]
       @hello = country_data[1]
 
@@ -175,9 +173,3 @@ class BootcampController < ApplicationController
     @full_part_1_price = User::BootcampData::PART_1_PRICE
   end
 end
-
-#
-# Full: buy.stripe.com/9AQ5logoj1TX52MaEE
-# Full with code: ?prefilled_promo_code=XXX
-#
-#

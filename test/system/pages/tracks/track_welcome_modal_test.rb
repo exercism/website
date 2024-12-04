@@ -91,6 +91,56 @@ module Pages
         end
       end
 
+      test "user sees bootcamp recommendation page if beginner" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Learning Mode"
+          assert_text "You might find the Bootcamp is a better fit"
+          # assert if rhs is rendered correctly
+          assert_selector '[data-capy-element="who-is-this-track-for-rhs"]'
+        end
+      end
+
+      test "user can go to bootcamp landing" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Practice Mode"
+          assert_text "You might find the Bootcamp is a better fit"
+          find(:css, '[data-capy-element="go-to-bootcamp-button"]').click
+          assert_current_path Exercism::Routes.bootcamp_path
+        end
+      end
+
+      test "user can dismiss bootcamp recommendation" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Practice Mode"
+          assert_text "You might find the Bootcamp is a better fit"
+          find(:css, '[data-capy-element="continue-anyway-button"]').click
+          refute_text "You might find the Bootcamp is a better fit"
+          assert_text "Online or on your computer?"
+          refute_selector '[data-capy-element="who-is-this-track-for-rhs"]'
+        end
+      end
+
       test "pages contain the correct links" do
         @track.update(course: false)
         use_capybara_host do

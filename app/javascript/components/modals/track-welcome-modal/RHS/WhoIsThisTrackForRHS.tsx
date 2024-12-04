@@ -3,7 +3,7 @@ import React from 'react'
 
 export function WhoIsThisTrackForRHS({ track }: { track: Track }): JSX.Element {
   return (
-    <div className="rhs">
+    <div data-capy-element="who-is-this-track-for-rhs" className="rhs">
       <h2 className="text-h4 mb-16">Who is this track for?</h2>
       <ul className="flex flex-col gap-8 text-16 font-medium">
         <li> ✅ Developers Learning {track.title}</li>

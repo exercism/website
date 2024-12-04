@@ -8,7 +8,6 @@ import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
 import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
 import { SingleSelect } from '../common/SingleSelect'
-import { useLogger } from '@/hooks'
 
 type User = {
   name: string
@@ -59,8 +58,6 @@ export default function ProfileForm({
     [mutation]
   )
 
-  useLogger('user', user)
-
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Profile</h2>
@@ -104,8 +101,8 @@ export default function ProfileForm({
         </div>
       </div>
 
-      <div className="bio field">
-        <label htmlFor="user_bio" className="label">
+      <div className="seniority field">
+        <label htmlFor="user_seniority" className="label">
           Seniority
         </label>
         <SenioritySelect

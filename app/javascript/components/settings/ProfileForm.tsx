@@ -6,8 +6,9 @@ import { FormMessage } from './FormMessage'
 import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
 import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
-import { SENIORITIES } from '../modals/seniority-survey-modal/InitialView'
 import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
+import { SingleSelect } from '../common/SingleSelect'
+import { useLogger } from '@/hooks'
 
 type User = {
   name: string
@@ -58,6 +59,8 @@ export default function ProfileForm({
     [mutation]
   )
 
+  useLogger('user', user)
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Profile</h2>
@@ -105,20 +108,10 @@ export default function ProfileForm({
         <label htmlFor="user_bio" className="label">
           Seniority
         </label>
-        <select
-          id="user_seniority"
-          className="c-single-select"
-          value={user.seniority || ''}
-          onChange={(e) =>
-            setUser({ ...user, seniority: e.target.value as SeniorityLevel })
-          }
-        >
-          {SENIORITIES.map((seniority) => (
-            <option key={seniority.value} value={seniority.value}>
-              {seniority.label}
-            </option>
-          ))}
-        </select>
+        <SenioritySelect
+          value={user.seniority}
+          setValue={(value) => setUser({ ...user, seniority: value })}
+        />
       </div>
 
       {profile ? (
@@ -193,31 +186,32 @@ const SuccessMessage = () => {
   )
 }
 
-const OptionComponent = ({
-  option: order,
-}: {
-  option: TasksListOrder
-}): JSX.Element => {
-  switch (order) {
-    case 'newest':
-      return <div>Sort by most recent</div>
-    case 'oldest':
-      return <div>Sort by oldest</div>
-    case 'track':
-      return <div>Sort by track</div>
+function OptionComponent({ option }: { option: SeniorityLevel }): JSX.Element {
+  switch (option) {
+    case 'absolute_beginner':
+      return <div>Absolute Beginner</div>
+    case 'beginner':
+      return <div>Beginner</div>
+    case 'junior':
+      return <div>Junior Developer</div>
+    case 'mid':
+      return <div>Mid-level Developer</div>
+    case 'senior':
+      return <div>Senior Developer</div>
   }
 }
 
-export const Sorter = ({
+function SenioritySelect({
   value,
   setValue,
 }: {
-  value: TasksListOrder
-  setValue: (value: TasksListOrder) => void
-}): JSX.Element => {
+  value: SeniorityLevel
+  setValue: (value: SeniorityLevel) => void
+}): JSX.Element {
   return (
-    <SingleSelect<TasksListOrder>
-      options={['newest', 'oldest', 'track']}
+    <SingleSelect<SeniorityLevel>
+      className="w-[250px]"
+      options={['absolute_beginner', 'beginner', 'junior', 'mid', 'senior']}
       value={value}
       setValue={setValue}
       SelectedComponent={OptionComponent}

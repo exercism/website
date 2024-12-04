@@ -1,18 +1,28 @@
 import { redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { useMachine } from '@xstate/react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { machine } from './LHS/TrackWelcomeModal.machine'
 import { TrackWelcomeModalLinks } from './TrackWelcomeModal.types'
+import { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 
-export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
+export function useTrackWelcomeModal(
+  links: TrackWelcomeModalLinks,
+  userSeniority: SeniorityLevel
+) {
   const [open, setOpen] = useState(true)
-  const {
-    mutate: hideModal,
-    status,
-    error,
-  } = useMutation(
+
+  const [
+    shouldShowBootcampRecommendationView,
+    setShouldShowBootcampRecommendationView,
+  ] = useState(userSeniority.includes('beginner'))
+
+  const hideBootcampRecommendationView = useCallback(() => {
+    setShouldShowBootcampRecommendationView(false)
+  }, [])
+
+  const { mutate: hideModal, error } = useMutation(
     () => {
       const { fetch } = sendRequest({
         endpoint: links.hideModal,
@@ -67,5 +77,12 @@ export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
     },
   })
 
-  return { open, currentState, send, error }
+  return {
+    open,
+    currentState,
+    send,
+    error,
+    shouldShowBootcampRecommendationView,
+    hideBootcampRecommendationView,
+  }
 }

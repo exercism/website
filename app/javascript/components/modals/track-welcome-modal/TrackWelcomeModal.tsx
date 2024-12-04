@@ -22,12 +22,16 @@ export const TrackContext = createContext<{
   send: any
   links: TrackWelcomeModalLinks
   userSeniority: SeniorityLevel
+  shouldShowBootcampRecommendationView: boolean
+  hideBootcampRecommendationView: () => void
 }>({
   track: {} as Track,
   currentState: {} as CurrentState,
   send: () => {},
   links: {} as TrackWelcomeModalLinks,
   userSeniority: '' as SeniorityLevel,
+  shouldShowBootcampRecommendationView: false,
+  hideBootcampRecommendationView: () => {},
 })
 
 export const TrackWelcomeModal = ({
@@ -41,7 +45,9 @@ export const TrackWelcomeModal = ({
     currentState,
     send,
     error: modalDismissalError,
-  } = useTrackWelcomeModal(links)
+    shouldShowBootcampRecommendationView,
+    hideBootcampRecommendationView,
+  } = useTrackWelcomeModal(links, userSeniority)
 
   return (
     <Modal
@@ -51,7 +57,15 @@ export const TrackWelcomeModal = ({
       className="m-track-welcome-modal"
     >
       <TrackContext.Provider
-        value={{ track, currentState, send, links, userSeniority }}
+        value={{
+          track,
+          currentState,
+          send,
+          links,
+          userSeniority,
+          shouldShowBootcampRecommendationView,
+          hideBootcampRecommendationView,
+        }}
       >
         <div className="flex">
           <LHS />

@@ -4,7 +4,15 @@ import { TrackContext } from './TrackWelcomeModal'
 import { Track } from '@/components/types'
 
 export function TrackWelcomeModalRHS(): JSX.Element {
-  const { track, currentState } = useContext(TrackContext)
+  const { track, currentState, shouldShowBootcampRecommendationView } =
+    useContext(TrackContext)
+
+  if (
+    currentState.matches('learningEnvironmentSelector') &&
+    shouldShowBootcampRecommendationView
+  ) {
+    return <WhoIsThisTrackForView track={track} />
+  }
 
   return <VideoStepView track={track} />
 }

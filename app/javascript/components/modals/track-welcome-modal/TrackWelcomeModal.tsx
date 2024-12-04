@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 
 import { Track } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
-import { TrackWelcomeModalRHS as RHS } from './TrackWelcomeModalRHS'
+import { TrackWelcomeModalRHS as RHS } from './RHS/TrackWelcomeModalRHS'
 import { TrackWelcomeModalLHS as LHS } from './LHS/TrackWelcomeModalLHS'
 import { useTrackWelcomeModal } from './useTrackWelcomeModal'
 import {

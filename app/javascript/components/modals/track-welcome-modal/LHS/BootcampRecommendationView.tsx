@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import { TrackContext } from '../TrackWelcomeModal'
 
 export function BootcampRecommendationView() {
-  const { hideBootcampRecommendationView, track } = useContext(TrackContext)
+  const { hideBootcampRecommendationView, track, links } =
+    useContext(TrackContext)
   return (
     <>
       <h4 className="text-h4">You might find the Bootcamp is a better fit</h4>
@@ -19,7 +20,9 @@ export function BootcampRecommendationView() {
       </p>
 
       <div className="grid grid-cols-2 gap-12 items-center">
-        <a className="btn-m btn-primary">Go to bootcamp</a>
+        <a href={links.bootcampLanding} className="btn-m btn-primary">
+          Go to bootcamp
+        </a>
         <button
           onClick={hideBootcampRecommendationView}
           className="btn-m btn-secondary"

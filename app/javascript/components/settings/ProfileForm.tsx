@@ -6,11 +6,14 @@ import { FormMessage } from './FormMessage'
 import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
 import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
+import { SENIORITIES } from '../modals/seniority-survey-modal/InitialView'
+import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
 
 type User = {
   name: string
   location: string
   bio: string
+  seniority: SeniorityLevel
 }
 
 type Profile = {
@@ -97,6 +100,27 @@ export default function ProfileForm({
           Tell the world about you 🌎. Emojis encouraged!
         </div>
       </div>
+
+      <div className="bio field">
+        <label htmlFor="user_bio" className="label">
+          Seniority
+        </label>
+        <select
+          id="user_seniority"
+          className="c-single-select"
+          value={user.seniority || ''}
+          onChange={(e) =>
+            setUser({ ...user, seniority: e.target.value as SeniorityLevel })
+          }
+        >
+          {SENIORITIES.map((seniority) => (
+            <option key={seniority.value} value={seniority.value}>
+              {seniority.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {profile ? (
         <div className="pt-20 mt-24 border-t-1 border-borderColor6">
           <h2>Your social accounts</h2>
@@ -166,5 +190,38 @@ const SuccessMessage = () => {
       <Icon icon="completed-check-circle" alt="Success" />
       Your profile has been saved
     </div>
+  )
+}
+
+const OptionComponent = ({
+  option: order,
+}: {
+  option: TasksListOrder
+}): JSX.Element => {
+  switch (order) {
+    case 'newest':
+      return <div>Sort by most recent</div>
+    case 'oldest':
+      return <div>Sort by oldest</div>
+    case 'track':
+      return <div>Sort by track</div>
+  }
+}
+
+export const Sorter = ({
+  value,
+  setValue,
+}: {
+  value: TasksListOrder
+  setValue: (value: TasksListOrder) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<TasksListOrder>
+      options={['newest', 'oldest', 'track']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
   )
 }

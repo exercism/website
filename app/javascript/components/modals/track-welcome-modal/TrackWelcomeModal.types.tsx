@@ -2,10 +2,12 @@ import { State, ResolveTypegenMeta, BaseActionObject, ServiceMap } from 'xstate'
 import { StateEvent } from './LHS/TrackWelcomeModal.machine'
 import { Typegen0 } from './LHS/TrackWelcomeModal.machine.typegen'
 import { Track } from '@/components/types'
+import { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 
 export type TrackWelcomeModalProps = {
   track: Track
   links: TrackWelcomeModalLinks
+  userSeniority: SeniorityLevel
 }
 
 export type TrackWelcomeModalLinks = Record<

@@ -12,6 +12,7 @@ import {
 } from './TrackWelcomeModal.types'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { ErrorFallback } from '@/components/common/ErrorFallback'
+import { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -20,16 +21,19 @@ export const TrackContext = createContext<{
   currentState: CurrentState
   send: any
   links: TrackWelcomeModalLinks
+  userSeniority: SeniorityLevel
 }>({
   track: {} as Track,
   currentState: {} as CurrentState,
   send: () => {},
   links: {} as TrackWelcomeModalLinks,
+  userSeniority: '' as SeniorityLevel,
 })
 
 export const TrackWelcomeModal = ({
   links,
   track,
+  userSeniority,
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> &
   TrackWelcomeModalProps): JSX.Element => {
   const {
@@ -46,7 +50,9 @@ export const TrackWelcomeModal = ({
       onClose={() => null}
       className="m-track-welcome-modal"
     >
-      <TrackContext.Provider value={{ track, currentState, send, links }}>
+      <TrackContext.Provider
+        value={{ track, currentState, send, links, userSeniority }}
+      >
         <div className="flex">
           <LHS />
           <RHS />

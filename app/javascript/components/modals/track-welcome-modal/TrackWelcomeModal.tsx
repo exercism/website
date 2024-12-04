@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 
 import { Track } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
-import { TrackWelcomeModalRHS as RHS } from './TrackWelcomeModalRHS'
+import { TrackWelcomeModalRHS as RHS } from './RHS/TrackWelcomeModalRHS'
 import { TrackWelcomeModalLHS as LHS } from './LHS/TrackWelcomeModalLHS'
 import { useTrackWelcomeModal } from './useTrackWelcomeModal'
 import {
@@ -12,6 +12,7 @@ import {
 } from './TrackWelcomeModal.types'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { ErrorFallback } from '@/components/common/ErrorFallback'
+import { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -20,16 +21,23 @@ export const TrackContext = createContext<{
   currentState: CurrentState
   send: any
   links: TrackWelcomeModalLinks
+  userSeniority: SeniorityLevel
+  shouldShowBootcampRecommendationView: boolean
+  hideBootcampRecommendationView: () => void
 }>({
   track: {} as Track,
   currentState: {} as CurrentState,
   send: () => {},
   links: {} as TrackWelcomeModalLinks,
+  userSeniority: '' as SeniorityLevel,
+  shouldShowBootcampRecommendationView: false,
+  hideBootcampRecommendationView: () => {},
 })
 
 export const TrackWelcomeModal = ({
   links,
   track,
+  userSeniority,
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> &
   TrackWelcomeModalProps): JSX.Element => {
   const {
@@ -37,7 +45,9 @@ export const TrackWelcomeModal = ({
     currentState,
     send,
     error: modalDismissalError,
-  } = useTrackWelcomeModal(links)
+    shouldShowBootcampRecommendationView,
+    hideBootcampRecommendationView,
+  } = useTrackWelcomeModal(links, userSeniority)
 
   return (
     <Modal
@@ -46,7 +56,17 @@ export const TrackWelcomeModal = ({
       onClose={() => null}
       className="m-track-welcome-modal"
     >
-      <TrackContext.Provider value={{ track, currentState, send, links }}>
+      <TrackContext.Provider
+        value={{
+          track,
+          currentState,
+          send,
+          links,
+          userSeniority,
+          shouldShowBootcampRecommendationView,
+          hideBootcampRecommendationView,
+        }}
+      >
         <div className="flex">
           <LHS />
           <RHS />

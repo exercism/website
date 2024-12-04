@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../../TrackWelcomeModal'
 import { StepButton } from './components/StepButton'
-import { ButtonContainer } from './components/ButtonContainer'
+import { BootcampRecommendationView } from '../BootcampRecommendationView'
 
 export function LearningEnvironmentSelectorStep({
   onSelectLocalMachine,
@@ -10,7 +10,13 @@ export function LearningEnvironmentSelectorStep({
   'onSelectLocalMachine' | 'onSelectOnlineEditor',
   () => void
 >): JSX.Element {
-  const { track } = useContext(TrackContext)
+  const { track, shouldShowBootcampRecommendationView } =
+    useContext(TrackContext)
+
+  if (shouldShowBootcampRecommendationView) {
+    return <BootcampRecommendationView />
+  }
+
   return (
     <>
       <h3 className="text-h3 mb-8">Online or on your computer?</h3>

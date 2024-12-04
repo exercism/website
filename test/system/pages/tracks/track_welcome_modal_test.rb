@@ -21,7 +21,7 @@ module Pages
           visit track_path(@track)
 
           assert_text "Welcome to #{@track.title}!"
-          assert_text "#{@track.title} (Learning Mode) or for practicing your existing #{@track.title} knowledge (Practice Mode)."
+          assert_selector '[data-capy-element="welcome-modal-track-info"]'
           assert_text "Here to learn or practice?"
           assert_text "Learning Mode"
           assert_text "Practice Mode"
@@ -88,6 +88,56 @@ module Pages
           assert_text "Online or on your computer?"
           click_on "On my local machine"
           assert_text "Let's get coding"
+        end
+      end
+
+      test "user sees bootcamp recommendation page if beginner" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Learning Mode"
+          assert_selector '[data-capy-element="bootcamp-recommendation-header"]'
+          # assert if rhs is rendered correctly
+          assert_selector '[data-capy-element="who-is-this-track-for-rhs"]'
+        end
+      end
+
+      test "user can go to bootcamp landing" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Practice Mode"
+          assert_selector '[data-capy-element="bootcamp-recommendation-header"]'
+          find(:css, '[data-capy-element="go-to-bootcamp-button"]').click
+          assert_current_path Exercism::Routes.bootcamp_path
+        end
+      end
+
+      test "user can dismiss bootcamp recommendation" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Practice Mode"
+          assert_selector '[data-capy-element="bootcamp-recommendation-header"]'
+          find(:css, '[data-capy-element="continue-anyway-button"]').click
+          refute_selector '[data-capy-element="bootcamp-recommendation-header"]'
+          assert_text "Online or on your computer?"
+          refute_selector '[data-capy-element="who-is-this-track-for-rhs"]'
         end
       end
 

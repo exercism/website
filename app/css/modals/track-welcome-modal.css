@@ -22,7 +22,7 @@
         @apply shadow-lgZ1 rounded-16;
         @apply overflow-hidden;
         width: 100%;
-        max-width: 1100px;
+        max-width: 1120px;
     }
 
     .lhs {

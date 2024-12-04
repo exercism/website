@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
-import { TrackContext } from './TrackWelcomeModal'
+import { Track } from '@/components/types'
 
-export function TrackWelcomeModalRHS(): JSX.Element {
-  const { track } = useContext(TrackContext)
+export function VideoRHS({ track }: { track: Track }): JSX.Element {
   return (
     <div className="rhs">
       <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7">

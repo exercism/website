@@ -42,7 +42,9 @@ class BootcampController < ApplicationController
     redirect_to action: :pay
   end
 
-  def pay; end
+  def pay
+    redirect_to action: :start_enrolling unless @bootcamp_data&.enrolled?
+  end
 
   def stripe_create_checkout_session
     if Rails.env.production?

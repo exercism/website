@@ -19,11 +19,11 @@ class BootcampController < ApplicationController
 
     @name = @bootcamp_data.name || @bootcamp_data&.user&.name
     @email = @bootcamp_data.email || @bootcamp_data&.user&.email
-    @package = params[:package]
+    @package = params[:package] || @bootcamp_data.package
 
     unless @bootcamp_data.enrolled? # rubocop:disable Style/GuardClause
       @bootcamp_data.started_enrolling_at = Time.current
-      @bootcamp_data.package = @package if @package
+      @bootcamp_data.package = @package if params[:package].present?
       @bootcamp_data.save!
     end
   end
@@ -42,7 +42,9 @@ class BootcampController < ApplicationController
     redirect_to action: :pay
   end
 
-  def pay; end
+  def pay
+    redirect_to action: :start_enrolling unless @bootcamp_data&.enrolled?
+  end
 
   def stripe_create_checkout_session
     if Rails.env.production?

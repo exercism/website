@@ -20,35 +20,26 @@ class User::BootcampData < ApplicationRecord
   def paid? = paid_at.present?
 
   def price
-    return unless package
-
-    case package
-    when 'complete'
-      country_data ? country_data[2].to_f : COMPLETE_PRICE
-    when 'part_1'
+    if package == "part_1"
       country_data ? country_data[3].to_f : PART_1_PRICE
+    else
+      country_data ? country_data[2].to_f : COMPLETE_PRICE
     end
   end
 
   def payment_url
-    return unless package
-
-    case package
-    when 'complete'
-      country_data ? country_data[4] : FULL_PAYMENT_URL
-    when 'part_1'
+    if package == "part_1"
       country_data ? country_data[5] : PART_1_PAYMENT_URL
+    else
+      country_data ? country_data[4] : FULL_PAYMENT_URL
     end
   end
 
   def stripe_price_id
-    return unless package
-
-    case package
-    when 'complete'
-      country_data ? country_data[6] : FULL_STRIPE_PRICE_ID
-    when 'part_1'
+    if package == "part_1"
       country_data ? country_data[7] : PART_1_STRIPE_PRICE_ID
+    else
+      country_data ? country_data[6] : FULL_STRIPE_PRICE_ID
     end
   end
 
@@ -67,11 +58,10 @@ class User::BootcampData < ApplicationRecord
   def has_discount? = !!country_data
 
   def discount_percentage
-    case package
-    when 'complete'
-      ((COMPLETE_PRICE - price) / COMPLETE_PRICE * 100).round
-    else
+    if package == 'part_1'
       ((PART_1_PRICE - price) / PART_1_PRICE * 100).round
+    else
+      ((COMPLETE_PRICE - price) / COMPLETE_PRICE * 100).round
     end
   end
 

@@ -9,7 +9,7 @@ class API::UsersController < API::BaseController
   end
 
   def update
-    User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
+    User::UpdateAvatar.(current_user, params.require(:user)[:avatar]) if params.dig(:user, :avatar).present?
 
     if params.dig(:user, :seniority).present?
       current_user.update(

@@ -3,6 +3,11 @@ class User::BootcampData < ApplicationRecord
 
   belongs_to :user, optional: true
 
+  scope :enrolled, -> { where.not(enrolled_at: nil) }
+  scope :paid, -> { where.not(paid_at: nil) }
+  scope :not_enrolled, -> { where(enrolled_at: nil) }
+  scope :not_paid, -> { where(paid_at: nil) }
+
   after_save do
     User::Bootcamp::SubscribeToOnboardingEmails.defer(self)
   end

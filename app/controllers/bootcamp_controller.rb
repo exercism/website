@@ -2,6 +2,7 @@ class BootcampController < ApplicationController
   layout 'bootcamp'
 
   skip_before_action :authenticate_user!
+  before_action :save_utm!
   before_action :setup_data!
   before_action :setup_pricing!
 
@@ -142,7 +143,7 @@ class BootcampController < ApplicationController
   def create_bootcamp_data!
     return if @bootcamp_data
 
-    @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2)
+    @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2, utm: session[:utm])
     session[:bootcamp_data_id] = @bootcamp_data.id
   end
 
@@ -173,5 +174,12 @@ class BootcampController < ApplicationController
 
     @full_complete_price = User::BootcampData::COMPLETE_PRICE
     @full_part_1_price = User::BootcampData::PART_1_PRICE
+  end
+
+  def save_utm!
+    session[:utm] ||= {}
+    session[:utm][:source] = params[:utm_source] if params[:utm_source].present?
+    session[:utm][:medium] = params[:utm_medium] if params[:utm_medium].present?
+    session[:utm][:campaign] = params[:utm_campaign] if params[:utm_campaign].present?
   end
 end

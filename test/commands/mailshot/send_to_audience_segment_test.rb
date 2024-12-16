@@ -168,8 +168,16 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     # Now some users that have viewed the page
     absolute_beginner_viewed = create :user, seniority: :absolute_beginner
     beginner_viewed = create :user, seniority: :beginner
-    [absolute_beginner_viewed, beginner_viewed].each do |user|
+    mid_viewed = create :user, seniority: :mid
+    [absolute_beginner_viewed, beginner_viewed, mid_viewed].each do |user|
       create :user_bootcamp_data, user:
+    end
+
+    # Now some users that have viewed the page
+    absolute_beginner_enrolled = create :user, seniority: :absolute_beginner
+    beginner_enrolled = create :user, seniority: :beginner
+    [absolute_beginner_enrolled, beginner_enrolled].each do |user|
+      create :user_bootcamp_data, user:, enrolled_at: Time.current
     end
 
     # Now some that have paid
@@ -177,7 +185,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     beginner_paid = create :user, seniority: :beginner
     unspecified_paid = create :user, seniority: nil
     [absolute_beginner_paid, beginner_paid, unspecified_paid].each do |user|
-      create :user_bootcamp_data, user:, paid_at: Time.current
+      create :user_bootcamp_data, user:, enrolled_at: Time.current, paid_at: Time.current
     end
 
     # Finally some unspecified users with specific ids for batches
@@ -188,8 +196,16 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     mailshot = create :mailshot
     User::Mailshot::Send.expects(:call).with(absolute_beginner_viewed, mailshot)
     User::Mailshot::Send.expects(:call).with(beginner_viewed, mailshot)
+    User::Mailshot::Send.expects(:call).with(mid_viewed, mailshot).never # No mid+ users
 
-    Mailshot::SendToAudienceSegment.(mailshot, :bc_interested, nil, 20, 0)
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_viewed, nil, 20, 0)
+
+    # Then enrolled people
+    mailshot = create :mailshot
+    User::Mailshot::Send.expects(:call).with(absolute_beginner_enrolled, mailshot)
+    User::Mailshot::Send.expects(:call).with(beginner_enrolled, mailshot)
+
+    Mailshot::SendToAudienceSegment.(mailshot, :bc_enrolled, nil, 20, 0)
 
     # And now to beginners
     mailshot = create :mailshot
@@ -197,6 +213,8 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     User::Mailshot::Send.expects(:call).with(absolute_beginner_viewed, mailshot)
     User::Mailshot::Send.expects(:call).with(beginner, mailshot)
     User::Mailshot::Send.expects(:call).with(beginner_viewed, mailshot)
+    User::Mailshot::Send.expects(:call).with(absolute_beginner_enrolled, mailshot)
+    User::Mailshot::Send.expects(:call).with(beginner_enrolled, mailshot)
 
     Mailshot::SendToAudienceSegment.(mailshot, :bc_beginners, nil, 20, 0)
 
@@ -208,6 +226,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     # And now to mids and seniors
     mailshot = create :mailshot
     User::Mailshot::Send.expects(:call).with(mid, mailshot)
+    User::Mailshot::Send.expects(:call).with(mid_viewed, mailshot)
     User::Mailshot::Send.expects(:call).with(senior, mailshot)
     Mailshot::SendToAudienceSegment.(mailshot, :bc_mid_seniors, nil, 20, 0)
 

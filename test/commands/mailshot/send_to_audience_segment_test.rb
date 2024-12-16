@@ -213,8 +213,6 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     User::Mailshot::Send.expects(:call).with(absolute_beginner_viewed, mailshot)
     User::Mailshot::Send.expects(:call).with(beginner, mailshot)
     User::Mailshot::Send.expects(:call).with(beginner_viewed, mailshot)
-    User::Mailshot::Send.expects(:call).with(absolute_beginner_enrolled, mailshot)
-    User::Mailshot::Send.expects(:call).with(beginner_enrolled, mailshot)
 
     Mailshot::SendToAudienceSegment.(mailshot, :bc_beginners, nil, 20, 0)
 

@@ -69,6 +69,7 @@ class Mailshot < ApplicationRecord
         where('user_data.seniority': %i[absolute_beginner beginner]).
         includes(user: :bootcamp_data),
       lambda do |bootcamp_data|
+        return if bootcamp_data.enrolled? # Totally redundant, but still
         return if bootcamp_data.paid? # Totally redundant, but still
 
         bootcamp_data.user
@@ -92,7 +93,7 @@ class Mailshot < ApplicationRecord
       User::Data.where(seniority: %i[absolute_beginner beginner]).includes(user: :bootcamp_data),
       lambda do |user_data|
         user = user_data.user
-        return if user.bootcamp_data&.paid?
+        return if user.bootcamp_data&.enrolled?
 
         user
       end
@@ -104,7 +105,7 @@ class Mailshot < ApplicationRecord
       User::Data.where(seniority: :junior).includes(user: :bootcamp_data),
       lambda do |user_data|
         user = user_data.user
-        return if user.bootcamp_data&.paid?
+        return if user.bootcamp_data&.enrolled?
 
         user
       end
@@ -116,7 +117,7 @@ class Mailshot < ApplicationRecord
       User::Data.where(seniority: %i[mid senior]).includes(user: :bootcamp_data),
       lambda do |user_data|
         user = user_data.user
-        return if user.bootcamp_data&.paid?
+        return if user.bootcamp_data&.enrolled?
 
         user
       end
@@ -130,7 +131,7 @@ class Mailshot < ApplicationRecord
       lambda do |user_data|
         user = user_data.user
         return if user.seniority.present?
-        return if user.bootcamp_data&.paid?
+        return if user.bootcamp_data&.enrolled?
 
         user
       end
@@ -144,7 +145,7 @@ class Mailshot < ApplicationRecord
       User.where(id: (start_id..end_id)).includes(:data, :bootcamp_data),
       lambda do |user|
         return if user.seniority.present?
-        return if user.bootcamp_data&.paid?
+        return if user.bootcamp_data&.enrolled?
 
         user
       end

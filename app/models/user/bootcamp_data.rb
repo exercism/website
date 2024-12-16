@@ -1,4 +1,6 @@
 class User::BootcampData < ApplicationRecord
+  serialize :utm, JSON
+
   belongs_to :user, optional: true
 
   after_save do

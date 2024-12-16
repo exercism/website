@@ -62,9 +62,23 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_bc_interested(_)
+  def audience_for_bc_viewed(_)
     [
-      User::BootcampData.includes(:user),
+      User::BootcampData.not_enrolled.
+        joins(user: :data).
+        where('user_data.seniority': %i[absolute_beginner beginner]).
+        includes(user: :bootcamp_data),
+      lambda do |bootcamp_data|
+        return if bootcamp_data.paid? # Totally redundant, but still
+
+        bootcamp_data.user
+      end
+    ]
+  end
+
+  def audience_for_bc_enrolled(_)
+    [
+      User::BootcampData.enrolled.includes(:user),
       lambda do |bootcamp_data|
         return if bootcamp_data.paid?
 

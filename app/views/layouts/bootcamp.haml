@@ -46,6 +46,13 @@
 
     %script{ defer: true, "data-domain": "bootcamp.exercism.org", src: "https://plausible.io/js/script.outbound-links.revenue.tagged-events.js" }
     %script{ async: true, "data-turbo-track": "reload", src: "https://www.googletagmanager.com/gtag/js?id=AW-303924066" }
+    :javascript
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'AW-303924066')
 
     %title= content_for(:title) || "Bootcamp"
     %meta{ content:  "width=device-width,initial-scale=1", name: "viewport" }/

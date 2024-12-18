@@ -41,7 +41,7 @@ class User
 
       def add_to_form!
         RestClient.post(
-          "https://api.kit.com//v4/forms/#{BOOTCAMP_FORM_ID}/subscribers",
+          "https://api.kit.com/v4/forms/#{BOOTCAMP_FORM_ID}/subscribers",
           {
             "email_address": bootcamp_data.email
           }, HEADERS

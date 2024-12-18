@@ -1,18 +1,18 @@
 require "test_helper"
 
-class Badges::MichaelPhelpsBadgeTest < ActiveSupport::TestCase
+class Badges::PaavoNurmiBadgeTest < ActiveSupport::TestCase
   test "attributes" do
-    badge = create :michael_phelps_badge
-    assert_equal "Michael Phelps", badge.name
-    assert_equal :rare, badge.rarity
-    assert_equal :'michael-phelps', badge.icon
-    assert_equal 'Earned 48 medals in the #48in24 challenge', badge.description
+    badge = create :paavo_nurmi_badge
+    assert_equal "Paavo Nurmi", badge.name
+    assert_equal :ultimate, badge.rarity
+    assert_equal :'paavo-nurmi', badge.icon
+    assert_equal 'Earned 48 gold or silver medals in the #48in24 challenge', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
 
   test "award_to?" do
-    badge = create :michael_phelps_badge
+    badge = create :paavo_nurmi_badge
     exercises = User::Challenges::FeaturedExercisesProgress48In24.EXERCISES
     week1 = exercises.select {|e| e[:week] == 1}
     tracks = exercises.map {|e| e[:featured_tracks]}.flatten.uniq
@@ -67,11 +67,11 @@ class Badges::MichaelPhelpsBadgeTest < ActiveSupport::TestCase
 
     refute badge.award_to?(user.reload)
 
-    # add an iteration to week 48 to qualify
+    # add an iteration to week 48
     iteration = create(:iteration, solution:)
     iteration.update(created_at: Time.utc(2024, 1, 1, 0, 0, 0)
 
-    assert badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload)
 
     # 48 gold or silver medals
     exercises.select {|e| !(e[:week] == 1}.each do |e|

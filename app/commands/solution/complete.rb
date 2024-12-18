@@ -37,7 +37,7 @@ class Solution::Complete
   end
 
   def record_activity!
-    User::Activity::Create.(
+    User::Activity::Create.defer(
       :completed_exercise,
       user,
       track: exercise.track,

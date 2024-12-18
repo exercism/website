@@ -10,6 +10,7 @@ class User
 
       def call
         return unless bootcamp_data.enrolled?
+        return User::Bootcamp::SubscribeToOnboardingEmails.(duplicate) if duplicate
 
         new_sub = add_subscriber!
         add_to_form! if new_sub
@@ -41,11 +42,19 @@ class User
 
       def add_to_form!
         RestClient.post(
-          "https://api.kit.com//v4/forms/#{BOOTCAMP_FORM_ID}/subscribers",
+          "https://api.kit.com/v4/forms/#{BOOTCAMP_FORM_ID}/subscribers",
           {
             "email_address": bootcamp_data.email
           }, HEADERS
         )
+      end
+
+      def duplicate
+        User::BootcampData.
+          where(email: bootcamp_data.email).
+          where.not(id: bootcamp_data.id).
+          paid.
+          first
       end
 
       HEADERS = {

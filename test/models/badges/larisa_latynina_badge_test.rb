@@ -1,18 +1,18 @@
 require "test_helper"
 
-class Badges::MichaelPhelpsBadgeTest < ActiveSupport::TestCase
+class Badges::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
   test "attributes" do
-    badge = create :michael_phelps_badge
-    assert_equal "Michael Phelps", badge.name
+    badge = create :larisa_latynina_badge
+    assert_equal "Larisa Latynina", badge.name
     assert_equal :rare, badge.rarity
-    assert_equal :'michael-phelps', badge.icon
+    assert_equal :'larisa-latynina', badge.icon
     assert_equal 'Earned 48 medals in the #48in24 challenge', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
 
   test "award_to?" do
-    badge = create :michael_phelps_badge
+    badge = create :larisa_latynina_badge
     exercises = User::Challenges::FeaturedExercisesProgress48In24.EXERCISES
     week1 = exercises.select {|e| e[:week] == 1}
     tracks = exercises.map {|e| e[:featured_tracks]}.flatten.uniq

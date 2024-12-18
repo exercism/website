@@ -1,8 +1,8 @@
 module Badges
-  class MichaelPhelpsBadge < Badge
-    seed "Michael Phelps",
+  class LarisaLatyninaBadge < Badge
+    seed "Larisa Latynina",
       :rare,
-      'michael-phelps',
+      'larisa-latynina',
       'Earned 48 medals in the #48in24 challenge'
 
     def award_to?(user)

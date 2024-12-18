@@ -50,6 +50,8 @@ class User
       end
 
       def duplicate
+        return if bootcamp_data.paid?
+
         User::BootcampData.
           where(email: bootcamp_data.email).
           where.not(id: bootcamp_data.id).

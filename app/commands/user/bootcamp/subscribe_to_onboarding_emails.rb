@@ -10,6 +10,7 @@ class User
 
       def call
         return unless bootcamp_data.enrolled?
+        return User::Bootcamp::SubscribeToOnboardingEmails.(duplicate) if duplicate
 
         new_sub = add_subscriber!
         add_to_form! if new_sub
@@ -46,6 +47,14 @@ class User
             "email_address": bootcamp_data.email
           }, HEADERS
         )
+      end
+
+      def duplicate
+        User::BootcampData.
+          where(email: bootcamp_data.email).
+          where.not(id: bootcamp_data.id).
+          paid.
+          first
       end
 
       HEADERS = {

@@ -1,11 +1,11 @@
 require "test_helper"
 
-class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
+class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :participant_in_48_in_24_badge
     assert_equal "#48in24 Participant", badge.name
     assert_equal :common, badge.rarity
-    assert_equal :'48in24', badge.icon
+    assert_equal :'48_in_24', badge.icon
     assert_equal 'Participated in the #48in24 challenge and achieved a medal', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
@@ -13,8 +13,13 @@ class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
 
   test "award_to?" do
     badge = create :participant_in_48_in_24_badge
-    exercises = User::Challenges::FeaturedExercisesProgress48In24.EXERCISES
-    week1_slug = 'leap'
+    tracks = {}
+    leap = {}
+
+    %i[csharp tcl wren].each do |t|
+      tracks[t] = create(:track, slug: t.to_s)
+      leap[t] = create(:practice_exercise, track: tracks[t], slug: 'leap')
+    end
     user = create :user
 
     # No solutions
@@ -24,43 +29,44 @@ class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(user.reload)
 
     # One exercise before 2024 does not qualify
-    exercise = create(:practice_exercise, track: track[:csharp], slug: week1_slug)
-    create(:practice_solution, :published, user:, track: track[:csharp], exercise:,
+    create(:practice_solution, :published, user:,
+      track: tracks[:csharp], exercise: leap[:csharp],
       published_at: Time.utc(2023, 12, 30))
     refute badge.award_to?(user.reload)
 
     # One exercise after 2024 does not qualify
-    exercise = create(:practice_exercise, track: track[:tcl], slug: week1_slug)
-    create(:practice_solution, :published, user:, track: track[:tcl], exercise:,
+    create(:practice_solution, :published, user:,
+      track: tracks[:tcl], exercise: leap[:tcl],
       published_at: Time.utc(2025, 1, 2))
     refute badge.award_to?(user.reload)
 
     # One exercise in 2024 for a non-featured exercise does not qualify
-    exercise = create(:practice_exercise, track: track[:wren], slug: 'hello-world')
-    create(:practice_solution, :published, user:, track: track[:wren], exercise:,
+    create(:practice_solution, :published, user:,
+      track: tracks[:wren],
+      exercise: create(:practice_exercise, track: tracks[:wren], slug: 'hello-world'),
       published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     refute badge.award_to?(user.reload)
 
     # One exercise in 2024
-    exercise = create(:practice_exercise, track: track[:wren], slug: week1_slug)
-    create(:practice_solution, :published, user:, track: track[:wren], exercise:,
+    create(:practice_solution, :published, user:,
+      track: tracks[:wren], exercise: leap[:wren],
       published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     assert badge.award_to?(user.reload)
 
     # One exercise on Dec 31, 2023
-    user2 = create :user
-    create :user_challenge, user: user2, challenge_id: '48in24'
-    exercise = create(:practice_exercise, track: track[:csharp], slug: week1_slug)
-    create(:practice_solution, :published, user: user2, track: track[:csharp], exercise:,
+    user_2 = create :user
+    create :user_challenge, user: user_2, challenge_id: '48in24'
+    create(:practice_solution, :published, user: user_2,
+      track: tracks[:csharp], exercise: leap[:csharp],
       published_at: Time.utc(2023, 12, 31))
-    assert badge.award_to?(user2.reload)
+    assert badge.award_to?(user_2.reload)
 
     # One exercise on Jan 1, 2025
-    user3 = create :user
-    create :user_challenge, user: user3, challenge_id: '48in24'
-    exercise = create(:practice_exercise, track: track[:csharp], slug: week1_slug)
-    create(:practice_solution, :published, user: user3, track: track[:csharp], exercise:,
+    user_3 = create :user
+    create :user_challenge, user: user_3, challenge_id: '48in24'
+    create(:practice_solution, :published, user: user_3,
+      track: tracks[:csharp], exercise: leap[:csharp],
       published_at: Time.utc(2025, 1, 1))
-    assert badge.award_to?(user3.reload)
+    assert badge.award_to?(user_3.reload)
   end
 end

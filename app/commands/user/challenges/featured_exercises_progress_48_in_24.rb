@@ -73,7 +73,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     completed_exercises = completions[exercise[:slug]].to_a
     return :in_progress if completed_exercises.blank?
 
-    num_completions_in_2024 = completed_exercises.count { |(_, date)| date[0..3] == '2024' || date == '2025-01-01' || date == '2023-12-31' }
+    num_completions_in_2024 = completed_exercises.count { |(_, date)| date >= '2023-12-31' && date <= '2025-01-01' }
     return :in_progress if num_completions_in_2024.zero?
     return :bronze if num_completions_in_2024 < 3
 
@@ -86,7 +86,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     user.solutions.completed.
       joins(exercise: :track).
       where(exercise: { slug: EXERCISES.pluck(:slug) }).
-      pluck('exercise.slug', 'tracks.slug', "DATE_FORMAT(completed_at, '%Y-%m-%d')").
+      pluck('exercise.slug', 'tracks.slug', Arel.sql("DATE_FORMAT(completed_at, '%Y-%m-%d')")).
       group_by(&:first).
       transform_values { |entries| entries.map { |entry| entry[1..] } }
   end

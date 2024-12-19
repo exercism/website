@@ -58,12 +58,11 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
     week_48 = exercises.find { |e| e[:week] == 48 }
     exercise = create(:practice_exercise, track: tracks[:csharp], slug: week_48[:slug])
     solution = create(:practice_solution, :published, user:, track: tracks[:csharp], exercise:,
-      published_at: Time.utc(2023, SecureRandom.rand(1..11), SecureRandom.rand(1..28)))
+      completed_at: Time.utc(2023, SecureRandom.rand(1..11), SecureRandom.rand(1..28)))
     refute badge.award_to?(user.reload), "47 medals plus one solution in 2023 does not qualify"
 
-    # add an iteration to week 48 to qualify
-    iteration = create(:iteration, solution:)
-    iteration.update(created_at: Time.utc(2024, 1, 1, 0, 0, 0))
+    # change completion date to 2024 to qualify
+    solution.update(completed_at: Time.utc(2024, 1, 1, 0, 0, 0))
     assert badge.award_to?(user.reload), "48 bronzes qualifies"
 
     # 48 gold or silver medals

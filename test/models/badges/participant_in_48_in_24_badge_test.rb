@@ -29,26 +29,26 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
     # One exercise before 2024 does not qualify
     create(:practice_solution, :published, user:,
       track: tracks[:csharp], exercise: leap[:csharp],
-      published_at: Time.utc(2023, 12, 30))
+      completed_at: Time.utc(2023, 12, 30))
     refute badge.award_to?(user.reload), "a 2023 solution does not qualify"
 
     # One exercise after 2024 does not qualify
     create(:practice_solution, :published, user:,
       track: tracks[:tcl], exercise: leap[:tcl],
-      published_at: Time.utc(2025, 1, 2))
+      completed_at: Time.utc(2025, 1, 2))
     refute badge.award_to?(user.reload), "a 2025 solution does not qualify"
 
     # One exercise in 2024 for a non-featured exercise does not qualify
     create(:practice_solution, :published, user:,
       track: tracks[:wren],
       exercise: create(:practice_exercise, track: tracks[:wren], slug: 'hello-world'),
-      published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
+      completed_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     refute badge.award_to?(user.reload), "a 2024 non-featured solution does not qualify"
 
     # One exercise in 2024
     create(:practice_solution, :published, user:,
       track: tracks[:wren], exercise: leap[:wren],
-      published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
+      completed_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     assert badge.award_to?(user.reload), "one solution in 2024 qualifies"
 
     # One exercise on Dec 31, 2023
@@ -56,7 +56,7 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
     create :user_challenge, user: user_2, challenge_id: '48in24'
     create(:practice_solution, :published, user: user_2,
       track: tracks[:csharp], exercise: leap[:csharp],
-      published_at: Time.utc(2023, 12, 31))
+      completed_at: Time.utc(2023, 12, 31))
     assert badge.award_to?(user_2.reload), "one solution on 2023-12-31 qualifies"
 
     # One exercise on Jan 1, 2025
@@ -64,7 +64,7 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
     create :user_challenge, user: user_3, challenge_id: '48in24'
     create(:practice_solution, :published, user: user_3,
       track: tracks[:csharp], exercise: leap[:csharp],
-      published_at: Time.utc(2025, 1, 1))
+      completed_at: Time.utc(2025, 1, 1))
     assert badge.award_to?(user_3.reload), "one solution on 2025-01-01 qualifies"
   end
 end

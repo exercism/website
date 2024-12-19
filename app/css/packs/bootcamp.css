@@ -63,7 +63,7 @@ body {
     @apply relative z-[10];
     @apply rounded-8 mb-20;
     @apply border-4 border-purple text-purple text-center;
-    @apply text-19;
+    @apply text-[19px];
     @apply bg-lightPurple;
 
     .flag {

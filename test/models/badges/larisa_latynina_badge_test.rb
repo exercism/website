@@ -21,16 +21,14 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
     user = create :user
 
     # No solutions
-    refute badge.award_to?(user.reload)
-
     create :user_challenge, user:, challenge_id: '48in24'
-    refute badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload), "new user has no medals"
 
     # One bronze all year
     exercise = create(:practice_exercise, track: tracks[:csharp], slug: week_1[:slug])
     create(:practice_solution, :published, user:, track: tracks[:csharp], exercise:,
       published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
-    refute badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload), "one bronze does not qualify"
 
     # One silver medal: csharp+tcl+wren are never the featured tracks for an exercise
     %i[tcl wren].each do |track_slug|
@@ -38,7 +36,7 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
       create(:practice_solution, :published, user:, track: tracks[track_slug], exercise:,
         published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     end
-    refute badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload), "one silver does not qualify"
 
     # One gold medal
     week_1[:featured_tracks].each do |track_slug|
@@ -46,7 +44,7 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
       create(:practice_solution, :published, user:, track: tracks[track_slug.to_sym], exercise:,
         published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     end
-    refute badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload), "one gold does not qualify"
 
     # in addition to week 1 gold, add 46 bronze medals: 47 medals does not qualify
     exercises.reject { |e| e[:week] == 1 || e[:week] == 48 }.each do |e|
@@ -54,19 +52,19 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
       create(:practice_solution, :published, user:, track: tracks[:csharp], exercise:,
         published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     end
-    refute badge.award_to?(user.reload)
+    refute badge.award_to?(user.reload), "47 medals does not qualify"
 
     # add week 48 solution, not in 2024
     week_48 = exercises.find { |e| e[:week] == 48 }
     exercise = create(:practice_exercise, track: tracks[:csharp], slug: week_48[:slug])
     solution = create(:practice_solution, :published, user:, track: tracks[:csharp], exercise:,
-      published_at: Time.utc(2023, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
-    refute badge.award_to?(user.reload)
+      published_at: Time.utc(2023, SecureRandom.rand(1..11), SecureRandom.rand(1..28)))
+    refute badge.award_to?(user.reload), "47 medals plus one solution in 2023 does not qualify"
 
     # add an iteration to week 48 to qualify
     iteration = create(:iteration, solution:)
     iteration.update(created_at: Time.utc(2024, 1, 1, 0, 0, 0))
-    assert badge.award_to?(user.reload)
+    assert badge.award_to?(user.reload), "48 bronzes qualifies"
 
     # 48 gold or silver medals
     exercises.reject { |e| e[:week] == 1 }.each do |e|
@@ -76,7 +74,7 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
           published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
       end
     end
-    assert badge.award_to?(user.reload)
+    assert badge.award_to?(user.reload), "48 golds&silvers qualifies"
 
     # 48 gold medals
     exercises.reject { |e| e[:week] == 1 }.each do |e|
@@ -88,6 +86,6 @@ class Badge::LarisaLatyninaBadgeTest < ActiveSupport::TestCase
           published_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
       end
     end
-    assert badge.award_to?(user.reload)
+    assert badge.award_to?(user.reload), "48 golds qualifies"
   end
 end

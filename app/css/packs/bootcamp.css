@@ -58,7 +58,27 @@ body {
 }
 
 #discount-bar {
+    @apply px-16 py-12;
+    @apply block mx-auto;
+    @apply relative z-[10];
+    @apply rounded-8 mb-20;
+    @apply border-4 border-purple text-purple text-center;
+    @apply text-[19px];
+    @apply bg-lightPurple;
+
+    .flag {
+        @apply inline-flex align-middle;
+        @apply text-[32px] leading-[100%] mr-4;
+    }
+    @apply font-medium;
+    strong {
+        @apply font-semibold;
+    }
+}
+
+#countdown-bar {
     @apply bg-[var(--purple)] text-white text-center;
+    @apply border-b-1 border-[#843eff];
     @apply px-16 py-8;
     @apply block mx-auto;
     @apply relative z-[10];

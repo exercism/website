@@ -7,12 +7,20 @@ class BootcampController < ApplicationController
   before_action :setup_pricing!
 
   def index
-    if @bootcamp_data # rubocop:disable Style/GuardClause
+    if @bootcamp_data
       @bootcamp_data.num_views += 1
       @bootcamp_data.last_viewed_at = Time.current
       @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
       @bootcamp_data.save
     end
+
+    difference_in_seconds = Time.parse.utc('2025-01-08T13:00:00') - Time.current
+
+    # Convert to days, hours, minutes, and seconds
+    @days = (difference_in_seconds / (24 * 60 * 60)).to_i
+    @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
+    @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
+    @seconds = (difference_in_seconds % 60).to_i
   end
 
   def start_enrolling
@@ -130,7 +138,7 @@ class BootcampController < ApplicationController
   end
 
   def lookup_country_code_from_ip
-    return "IN" unless Rails.env.production?
+    return "MX" unless Rails.env.production?
 
     data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
     return "VPN" if data.dig("security", "vpn")

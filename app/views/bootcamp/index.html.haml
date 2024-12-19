@@ -1,10 +1,12 @@
-- if @has_discount
-  #discount-bar
-    .flag= flag_for_country_code(@country_code_2)
-    - if @hello.present?
-      %strong #{@hello}!
-    Everyone in #{@country_name} gets a
-    %strong.inline #{@discount_percentage}% discount!
+
+#countdown-bar
+  %span.inline-block
+    %strong First live session
+    in
+    #js-countdown-time.inline>= " #{@days} days, #{@hours} hours, #{@minutes} minutes"
+    #js-countdown-seconds{ class: "hidden md:inline" }> , #{@seconds} seconds
+    \.
+  %strong.inline-block Only a few places remaining.
 #nav
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
@@ -425,6 +427,13 @@
       Choose your Journey
     %p.intro.text-balance
       Depending on whether you want to learn web development or some other speciality such as data science, we have two different options.
+    - if @has_discount
+      #discount-bar
+        .flag= flag_for_country_code(@country_code_2)
+        - if @hello.present?
+          %strong #{@hello}!
+        Everyone in #{@country_name} gets a
+        %strong.inline #{@discount_percentage}% discount!
     .grid.md:grid-cols-2.grid-cols-1.gap-40
       .container
         .header
@@ -641,3 +650,35 @@
     is a registered
     %strong not-for-profit organisation.
     %span.whitespace-nowrap © #{Date.current.year} Exercism
+
+:javascript
+  const targetDate = new Date("2025-01-08T13:00:00").getTime();
+  const timeElem = document.getElementById("js-countdown-time")
+  const secondsElem = document.getElementById("js-countdown-seconds")
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      timeElem.innerText = "Countdown Finished!";
+      secondsElem.style.display = "none"
+      return;
+    }
+
+    // Calculate time components
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the countdown
+    timeElem.innerText = ` ${days} days, ${hours} hours, ${minutes} minutes`;
+    secondsElem.innerText = `, ${seconds} seconds`
+  }
+
+  // Update the countdown every second
+  setInterval(updateCountdown, 1000);
+
+  // Initialize the countdown
+  updateCountdown();

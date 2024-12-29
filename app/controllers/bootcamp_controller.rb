@@ -14,7 +14,7 @@ class BootcampController < ApplicationController
       @bootcamp_data.save
     end
 
-    difference_in_seconds = Time.utc(2025, 1, 8, 13, 0o0, 0o0) - Time.current
+    difference_in_seconds = Time.utc(2025, 1, 11, 18, 0, 0) - Time.current
 
     # Convert to days, hours, minutes, and seconds
     @days = (difference_in_seconds / (24 * 60 * 60)).to_i

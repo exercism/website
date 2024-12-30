@@ -6,7 +6,7 @@ class Badge::SupermentorBadgeTest < ActiveSupport::TestCase
     assert_equal "Supermentor", badge.name
     assert_equal :legendary, badge.rarity
     assert_equal :supermentor, badge.icon
-    assert_equal "Finshed 100 mentoring sessions", badge.description
+    assert_equal "Finished 100 mentoring sessions", badge.description
     assert badge.send_email_on_acquisition?
   end
 

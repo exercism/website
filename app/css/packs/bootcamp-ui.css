@@ -1,0 +1,36 @@
+@import "../tailwind";
+@import "../defaults";
+@import "../fonts";
+@import "../ui-kit/all";
+
+@import "../bootcamp/variables";
+
+@import "../bootcamp/components/solve-exercise-page";
+@import "../bootcamp/components/rhs-list";
+@import "../bootcamp/components/breadcrumbs";
+@import "../bootcamp/components/completed-bar";
+@import "../bootcamp/components/site-header";
+@import "../bootcamp/components/codemirror";
+@import "../bootcamp/components/scrubber";
+@import "../bootcamp/components/prose";
+@import "../bootcamp/components/editor-information-tooltip";
+@import "../bootcamp/components/tasks";
+@import "../bootcamp/components/toggle-switch";
+@import "../bootcamp/components/test-buttons";
+
+@import "../bootcamp/components/project-widget";
+@import "../bootcamp/components/exercise-widget";
+@import "../bootcamp/components/concept-widget";
+
+@import "../bootcamp/pages/dashboard";
+@import "../bootcamp/pages/projects";
+@import "../bootcamp/pages/project";
+@import "../bootcamp/pages/concept";
+@import "../bootcamp/pages/level";
+
+@import "../bootcamp/pages/admin/base";
+@import "../bootcamp/pages/admin/exercises";
+
+@import "../bootcamp/exercises/draw.css";
+@import "../bootcamp/exercises/maze.css";
+@import "../bootcamp/exercises/wordle.css";

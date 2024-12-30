@@ -1,0 +1,51 @@
+.exercise-wordle {
+    .board {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        border: 0;
+
+        display: grid;
+        gap: 1%;
+        grid-template-rows: repeat(6, 1fr);
+    }
+
+    .guess {
+        display: grid;
+        gap: 1%;
+        grid-template-columns: repeat(5, 1fr);
+        container-type: size;
+    }
+
+    .letter {
+        height: 100%;
+        font-size: 70cqh;
+        background-color: #d3d3d3;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #333;
+        position: relative;
+    }
+
+    .letter[data-state="correct"] {
+        background-color: #6aaa64;
+        color: white;
+    }
+
+    .letter[data-state="present"] {
+        background-color: #c9b458;
+        color: white;
+    }
+
+    .letter[data-state="absent"] {
+        background-color: #787c7e;
+        color: white;
+    }
+}

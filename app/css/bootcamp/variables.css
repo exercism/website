@@ -1,0 +1,5 @@
+.bg-grad-basic {
+    background-image: linear-gradient(#e1ebff, rgba(225, 235, 255, 0));
+    background-size: 20%;
+    background-repeat: repeat-x;
+}

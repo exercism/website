@@ -1,0 +1,54 @@
+.information-tooltip {
+    max-width: 450px;
+    transition: opacity 0.3s;
+    @apply z-tooltip;
+    /* pointer-events: none; */
+    @apply text-15 leading-150;
+    @apply absolute rounded-8 opacity-0;
+
+    & :not(pre) > code {
+        @apply bg-thick-border-blue px-[6px] py-[1px] rounded-5;
+    }
+
+    pre {
+        @apply mt-4;
+    }
+
+    p:not(:last-of-type) {
+        @apply mb-10;
+    }
+
+    &.description {
+        @apply py-16 px-20;
+        @apply bg-white text-primary-blue;
+
+        filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));
+        .tooltip-arrow {
+            @apply bg-white;
+        }
+    }
+
+    &.error {
+        @apply bg-white border-2 border-red-500;
+
+        filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));
+
+        .tooltip-arrow {
+            @apply bg-white border-2 border-red-500;
+        }
+
+        h2 {
+            @apply text-red-900;
+            @apply font-semibold;
+            @apply py-8 px-20;
+            @apply relative z-tooltip-content bg-red-100;
+            @apply rounded-t-8;
+        }
+        .content {
+            @apply text-primary-blue;
+            @apply pt-10 px-20 pb-12;
+            @apply relative z-tooltip-content bg-white;
+            @apply rounded-b-8;
+        }
+    }
+}

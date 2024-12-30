@@ -1,0 +1,27 @@
+function who_wins with player_1_choice, player_2_choice do
+  if player_1_choice is "rock" do
+    if player_2_choice is "rock" do 
+      return "tie"
+    else if player_2_choice is "paper" do
+      return "player_2"
+    else do
+      return "player_1"
+    end
+  else if player_1_choice is "paper" do
+    if player_2_choice is "rock" do 
+      return "player_1"
+    else if player_2_choice is "paper" do
+      return "tie"
+    else do
+      return "player_2"
+    end
+  else do
+    if player_2_choice is "rock" do 
+      return "player_2"
+    else if player_2_choice is "paper" do
+      return "player_1"
+    else do
+      return "tie"
+    end
+  end
+end

@@ -1,0 +1,6 @@
+#solve-exercise-page {
+    .scenario-lhs {
+        @apply w-[50%] max-w-[350px];
+        @apply flex-shrink-0;
+    }
+}

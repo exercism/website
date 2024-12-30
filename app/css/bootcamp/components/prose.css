@@ -1,0 +1,87 @@
+.c-prose {
+    --prose-base-text-size: 19px;
+    &.c-prose-small {
+        --prose-base-text-size: 18px;
+    }
+    h3 {
+        font-size: calc(var(--prose-base-text-size) + 3px);
+        @apply leading-140;
+        @apply font-semibold;
+    }
+
+    h4 {
+        font-size: calc(var(--prose-base-text-size) + 1px);
+        @apply leading-140;
+        @apply font-semibold;
+    }
+
+    p,
+    li {
+        font-size: var(--prose-base-text-size);
+        @apply leading-150;
+    }
+    ul {
+        @apply list-disc;
+    }
+    ol {
+        @apply list-decimal;
+    }
+    ul,
+    ol {
+        @apply ml-20;
+    }
+    li {
+        &:not(:last-child) {
+            @apply mb-4;
+        }
+    }
+    pre {
+        @apply bg-blue-100;
+        @apply px-12 py-12;
+        @apply rounded-8;
+        code {
+            font-size: calc(var(--prose-base-text-size) - 1px);
+        }
+    }
+    *:not(pre) > code {
+        @apply bg-blue-100;
+        @apply py-2 px-4;
+        @apply rounded-5;
+        font-size: calc(var(--prose-base-text-size) - 3px);
+        @apply whitespace-nowrap;
+    }
+    strong {
+        @apply font-semibold;
+    }
+
+    h3 + p,
+    h3 + pre,
+    h3 + ul,
+    h3 + ol,
+    h3 + div,
+    h4 + p,
+    h4 + pre,
+    h4 + ul,
+    h4 + ol,
+    h4 + div {
+        @apply mt-6;
+    }
+    p + ul {
+        @apply mt-4;
+    }
+    p + p,
+    ul + p {
+        @apply mt-12;
+    }
+    p + pre {
+        @apply my-8;
+    }
+    pre + p {
+        @apply mt-12;
+    }
+
+    * + h3,
+    * + h4 {
+        @apply mt-20;
+    }
+}

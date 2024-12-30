@@ -1,0 +1,42 @@
+!!!
+%html
+  %head
+    -# Fallback fonts first
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-600.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    -# Then the main stylesheet
+    = stylesheet_link_tag "bootcamp-ui", "data-turbo-track": "reload"
+
+    -# Then other critical fonts
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-500.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-700.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('source-code-pro-v22-latin_latin-ext-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+    %title= content_for(:title) || "Bootcamp"
+    %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }
+    %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+
+    %meta{ name: "turbo-cache-control", content: "no-cache" }
+    %meta{ name: "turbo-prefetch", content: "false" }
+    %meta{ name: "user-id", content: current_user&.id }
+
+    %link{ href: "/manifest.json", rel: "manifest" }
+    %link{ href: "/icon.png", rel: "icon", type: "image/png" }
+    %link{ href: "/icon.svg", rel: "icon", type: "image/svg+xml" }
+    %link{ href: "/icon.png", rel: "apple-touch-icon" }
+    = javascript_include_tag "application", "data-turbo-track": "reload", type: "module", crossorigin: :anonymous
+
+  %body{ class: body_class }
+    %header.c-site-header
+      .lg-container
+        .container
+          %img{ src: "https://assets.exercism.org/assets/bootcamp/exercism-face-light-2fc4ffad44f295d2e900ab2d2198d2280128dfcd.svg" }
+          .content
+            %strong.font-semibold Exercism
+            Bootcamp
+    = yield

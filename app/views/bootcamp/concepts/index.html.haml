@@ -1,0 +1,5 @@
+#page-bootcamp-concepts
+  - @concepts.each do |concept|
+    = link_to concept do
+      %h2.font-semibold= concept.title
+      %p= concept.description

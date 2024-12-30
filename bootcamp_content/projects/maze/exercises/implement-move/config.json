@@ -1,0 +1,124 @@
+{
+  "title": "Implement move",
+  "description": "Implement the move function",
+  "project_type": "maze",
+  "level": 5,
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Move up",
+      "tests": [
+        {
+          "slug": "move-up",
+          "name": "Moves up",
+          "setupFunctions": [
+            [
+              "setupGrid",
+              [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+              ]
+            ],
+            ["setupDirection", ["up"]],
+            ["setupPosition", [1, 1]]
+          ],
+          "function": "move",
+          "avaliableFunctions": ["moveCharacter"],
+          "checks": [
+            {
+              "name": "position",
+              "value": [0, -1]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Move down",
+      "tests": [
+        {
+          "slug": "move-down",
+          "name": "Moves down",
+          "setupFunctions": [
+            [
+              "setupGrid",
+              [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [1, 1]]
+          ],
+          "function": "move",
+          "checks": [
+            {
+              "name": "position",
+              "value": [0, 1]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Move left",
+      "tests": [
+        {
+          "slug": "move-left",
+          "name": "Moves left",
+
+          "setupFunctions": [
+            [
+              "setupGrid",
+              [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+              ]
+            ],
+            ["setupDirection", ["left"]],
+            ["setupPosition", [1, 1]]
+          ],
+          "function": "move",
+          "checks": [
+            {
+              "name": "position",
+              "value": [-1, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Move right",
+      "tests": [
+        {
+          "slug": "move-right",
+          "name": "Moves right",
+
+          "setupFunctions": [
+            [
+              "setupGrid",
+              [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+              ]
+            ],
+            ["setupDirection", ["left"]],
+            ["setupPosition", [1, 1]]
+          ],
+          "function": "move",
+          "checks": [
+            {
+              "name": "position",
+              "value": [1, 0]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

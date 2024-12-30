@@ -1,0 +1,15 @@
+#page-bootcamp-dashboard.pt-20
+  .lg-container
+    .grid.grid-cols-2
+      .lhs
+        - if @exercise
+          - if @solution
+            %h2 Continue Where You Left Off
+            %p You have an exercise in progress.
+            = render "exercise", exercise: @exercise, solution: @solution
+          - else
+            %h2 Start new exercise
+            %p You have a new exercise available to work on.
+            = render "exercise", exercise: @exercise
+        - else
+          You have no exercises available.

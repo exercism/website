@@ -1,0 +1,16 @@
+.test-button {
+    @apply relative p-4 w-[32px] h-[32px] grid place-content-center rounded-5;
+    transition: background-color 0.3s ease-out;
+
+    &.idle {
+        background-color: #f59e0b;
+    }
+
+    &.pass {
+        background-color: #22c55e;
+    }
+
+    &.fail {
+        background-color: #e11d48;
+    }
+}

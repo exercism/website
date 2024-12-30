@@ -1,0 +1,21 @@
+- content_for :head do
+  %meta{ name: "turbo-visit-control", content: "reload" }
+= render ReactComponents::SolveExercisePage.new(@solution)
+
+-#
+  This is the entry point for the exercise editor...
+
+  .p-10
+    .meh
+      .font-semibold.mb-2 Receive a name, return a sentence.
+      %table.mb-2
+        %tr
+          %th Input
+          %td "Susan"
+        %tr
+          %th Expected Output
+          %td "One for Susan, one for me!"
+        %tr
+          %th Actual Output
+          %td "One for Frank, one for me!
+      %button Show scenario

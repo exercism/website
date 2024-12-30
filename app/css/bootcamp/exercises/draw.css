@@ -1,0 +1,13 @@
+#solve-exercise-page {
+    .exercise-draw {
+        @apply border-1 border-gray-500;
+        .bg-grid {
+            @apply absolute inset-0;
+        }
+        .canvas {
+            @apply absolute inset-0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,136 @@
+#view-container {
+    position: relative;
+    padding: 10px;
+    background: white;
+    container-type: size;
+
+    aspect-ratio: 1;
+    /* min-width: 50%;
+  max-width: 70%; */
+    flex-shrink: 1;
+    /* flex-grow: 1; */
+    /* 
+  & > *:first-child {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    &:before {
+      content: "";
+      padding-top: 100%;
+    }
+  }
+ */
+    .exercise-container {
+        aspect-ratio: 1;
+        max-height: 100cqh;
+        max-width: 100cqw;
+        background: red;
+        position: relative;
+    }
+}
+
+.exercise-maze {
+    --cellWidth: calc(100% / var(--gridSize));
+
+    .cells {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        border: 0;
+
+        display: grid;
+        grid-template-columns: repeat(var(--gridSize), var(--cellWidth));
+        grid-template-rows: repeat(var(--gridSize), var(--cellWidth));
+        gap: 0px;
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            /* width: var(--cellWidth);
+        height: var(--cellWidth); */
+            background-color: white;
+            border: 0.5px solid #000;
+            &.blocked {
+                background-color: red;
+            }
+            &.start {
+                background-color: lightblue;
+            }
+            &.target {
+                background-color: lightgreen;
+            }
+            &.bomb {
+                background-color: purple;
+            }
+        }
+
+        .character {
+            width: calc(var(--cellWidth) * 0.7);
+            height: calc(var(--cellWidth) * 0.7);
+            background-color: lightblue;
+            border: 1px solid green;
+            border-radius: 50%;
+            position: absolute;
+            margin-left: 5px;
+            margin-top: 4px;
+            top: 0;
+            left: 0;
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                background-color: green;
+                border-radius: 50%;
+                bottom: 80%;
+            }
+
+            &::before {
+                left: 55%;
+            }
+
+            &::after {
+                right: 55%;
+            }
+        }
+    }
+
+    .character {
+        width: calc(var(--cellWidth) * 0.7);
+        height: calc(var(--cellWidth) * 0.7);
+        background-color: lightblue;
+        border: 1px solid green;
+        border-radius: 50%;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: 4px;
+        top: 0;
+        left: 0;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background-color: green;
+            border-radius: 50%;
+            bottom: 70%;
+        }
+
+        &::before {
+            left: 55%;
+        }
+
+        &::after {
+            right: 55%;
+        }
+    }
+    .canvas {
+    }
+}

@@ -486,4 +486,6 @@ Rails.application.routes.draw do
   post "/bootcamp/stripe/create-checkout-session" => "bootcamp#stripe_create_checkout_session", as: :bootcamp_
   get "/bootcamp/stripe/session-status" => "bootcamp#stripe_session_status", as: :bootcamp_stripe_session_status
   get "/bootcamp/confirmed" => "bootcamp#confirmed", as: :bootcamp_confirmed
+
+  draw(:bootcamp)
 end

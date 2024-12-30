@@ -1,0 +1,13 @@
+- tag_type = status == :locked ? :div : :a
+= content_tag tag_type, href: bootcamp_project_exercise_url(project, exercise), class: "c-exercise-widget #{status}" do
+  .flex.items-start
+    = image_tag exercise.icon_url
+    .flex-grow.flex.flex-col
+      .flex.items-start
+        .title
+          .project-title= project.title
+        .tag{ class: status.to_s }
+      .exercise-title
+        #{exercise.idx}.
+        = exercise.title
+      .description= exercise.description

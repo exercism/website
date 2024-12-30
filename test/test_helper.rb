@@ -138,7 +138,7 @@ opensearch = Exercism.opensearch_client
   opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
   opensearch.indices.create(index:)
 end
-Exercism::TOUCHED_OPENSEARCH_INDEXES = [].freeze
+Exercism::TOUCHED_OPENSEARCH_INDEXES = [] # rubocop:disable Style/MutableConstant
 
 class ActionMailer::TestCase
   def assert_email(email, to, subject, fixture, bulk: false) # rubocop:disable Lint/UnusedMethodArgument

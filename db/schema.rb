@@ -1416,6 +1416,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_18_061847) do
     t.string "ppp_country"
     t.string "checkout_session_id"
     t.text "utm"
+    t.integer :level_idx, null: false, default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true

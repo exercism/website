@@ -19,7 +19,7 @@ class Bootcamp::UserProject < ApplicationRecord
 
   # memoize
   def solutions
-    Solution.where(user:, exercise: project.exercises).
+    Bootcamp::Solution.where(user:, exercise: project.exercises).
       includes(:exercise).
       to_a
   end

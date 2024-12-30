@@ -11,10 +11,10 @@ class Bootcamp::Exercise < ApplicationRecord
   has_many :concepts, through: :exercise_concepts
 
   default_scope -> { order(:idx) }
-  scope :unlocked, -> { where('level_idx < ?', Settings.level_idx) }
+  scope :unlocked, -> { where('level_idx < ?', Bootcamp::Settings.level_idx) }
 
   def to_param = slug
-  def locked? = level_idx > Settings.level_idx
+  def locked? = level_idx > Bootcamp::Settings.level_idx
   def unlocked? = !locked?
   def concepts = super.to_a.sort
 

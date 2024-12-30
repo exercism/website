@@ -2,7 +2,7 @@ class Bootcamp::Settings < ApplicationRecord
   self.table_name = "bootcamp_settings"
 
   def self.instance
-    @instance = Settings.first || Settings.create!
+    @instance = first || create!
   end
 
   # DO NOT memoize these.

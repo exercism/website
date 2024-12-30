@@ -131,7 +131,7 @@ class User < ApplicationRecord
 
   has_many :bootcamp_solutions, dependent: :destroy, class_name: "Bootcamp::Solution"
   has_many :bootcamp_user_projects, dependent: :destroy, class_name: "Bootcamp::UserProject"
-  has_many :bootcamp_projects, through: :user_projects
+  has_many :bootcamp_projects, through: :bootcamp_user_projects, source: :project
 
   scope :random, -> { order('RAND()') }
 

@@ -25,6 +25,7 @@ class Solution::SyncAllToSearchIndex
       end
 
       Exercism.opensearch_client.bulk(body:)
+      Exercism::TOUCHED_OPENSEARCH_INDEXES << Solution::OPENSEARCH_INDEX if Rails.env.test?
     end
   end
 

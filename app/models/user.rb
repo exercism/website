@@ -129,6 +129,10 @@ class User < ApplicationRecord
   has_many :challenges, dependent: :destroy
   has_many :watched_videos, class_name: "User::WatchedVideo", dependent: :destroy
 
+  has_many :bootcamp_solutions, dependent: :destroy, class_name: "Bootcamp::Solution"
+  has_many :bootcamp_user_projects, dependent: :destroy, class_name: "Bootcamp::UserProject"
+  has_many :bootcamp_projects, through: :user_projects
+
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }

@@ -41,7 +41,7 @@ class Bootcamp::Exercise < ApplicationRecord
   end
 
   def stub
-    file_contents("stub.jk")
+    file_contents("stub.jiki")
   end
 
   def readonly_ranges
@@ -50,6 +50,6 @@ class Bootcamp::Exercise < ApplicationRecord
 
   private
   def file_contents(filename)
-    File.read(Rails.root / "content/projects/#{project.slug}/exercises/#{slug}/#{filename}")
+    File.read(Rails.root / "bootcamp_content/projects/#{project.slug}/exercises/#{slug}/#{filename}")
   end
 end

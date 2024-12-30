@@ -1,4 +1,4 @@
-#solve-exercise-page {
+#bootcamp-solve-exercise-page {
     .exercise-draw {
         @apply border-1 border-gray-500;
         .bg-grid {

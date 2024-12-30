@@ -29,7 +29,8 @@
     %link{ href: "/icon.png", rel: "icon", type: "image/png" }
     %link{ href: "/icon.svg", rel: "icon", type: "image/svg+xml" }
     %link{ href: "/icon.png", rel: "apple-touch-icon" }
-    = javascript_include_tag "application", "data-turbo-track": "reload", type: "module", crossorigin: :anonymous
+    -# = javascript_include_tag "application", "data-turbo-track": "reload", type: "module", crossorigin: :anonymous
+    = javascript_include_tag "bootcamp-ui", "data-turbo-track": "reload", type: "module", crossorigin: :anonymous
 
   %body{ class: body_class }
     %header.c-site-header

@@ -1,6 +1,7 @@
 import React from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useEditorStore from '../store/editorStore'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 
 export function CheckScenariosButton({
   handleRunCode,
@@ -10,36 +11,23 @@ export function CheckScenariosButton({
   const { toggleShouldAutoRunCode, shouldAutoRunCode, setShouldAutoRunCode } =
     useEditorStore()
   return (
-    <div
-      className="bg-jiki-purple text-slate-200 font-semibold p-4 rounded-5 flex items-center gap-4 hover:cursor-pointer"
+    <button
+      className="scenarios-button btn-primary btn-s"
       onClick={() => {
         handleRunCode()
         setShouldAutoRunCode(false)
       }}
     >
       Check Scenarios
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          toggleShouldAutoRunCode()
-        }}
+      <GraphicalIcon
+        icon="bootcamp-autorun"
+        width={20}
+        height={20}
         className={assembleClassNames(
-          shouldAutoRunCode
-            ? 'bg-[#4A0AC2] font-semibold p-4 rounded-5'
-            : 'bg-[#D8C5FC] font-semibold p-4 rounded-5'
+          '!mx-0 !w-[20px]',
+          shouldAutoRunCode ? 'invert' : ''
         )}
-      >
-        <img
-          src="/autorun.svg"
-          alt=""
-          width={14}
-          height={14}
-          className={assembleClassNames(
-            'p-[-8px]',
-            shouldAutoRunCode ? 'invert' : ''
-          )}
-        />
-      </button>
-    </div>
+      />
+    </button>
   )
 }

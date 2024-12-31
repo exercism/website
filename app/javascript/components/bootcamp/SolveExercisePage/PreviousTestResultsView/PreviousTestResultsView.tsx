@@ -36,12 +36,8 @@ function _PreviousTestResultView({ exercise }: { exercise: Exercise }) {
   return (
     <div
       className={assembleClassNames(
-        'm-8 border rounded-3 overflow-hidden',
-
-        result.status === 'fail'
-          ? 'bg-red-100 border-red-300'
-          : 'bg-green-100 border-green-300',
-        'flex justify-between flex-grow'
+        'c-scenario',
+        result.status === 'fail' ? 'fail' : 'pass'
       )}
     >
       <PreviousTestResultViewLHS result={result} />

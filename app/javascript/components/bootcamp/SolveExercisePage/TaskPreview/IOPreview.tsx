@@ -1,7 +1,7 @@
 import React from 'react'
 export function IOPreview({ firstTest }: { firstTest: TaskTest }) {
   return (
-    <div className="scenario-lhs p-8">
+    <div className="scenario-lhs">
       <p>
         The first{' '}
         <span className="font-semibold text-jiki-purple">scenario</span> is{' '}

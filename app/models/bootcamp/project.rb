@@ -8,5 +8,5 @@ class Bootcamp::Project < ApplicationRecord
 
   def to_param = slug
 
-  def icon_url = "/project-icons/#{slug}.svg"
+  def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/projects/#{slug}.svg"
 end

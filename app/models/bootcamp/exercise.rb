@@ -18,7 +18,7 @@ class Bootcamp::Exercise < ApplicationRecord
   def unlocked? = !locked?
   def concepts = super.to_a.sort
 
-  def icon_url = "/exercise-icons/#{project.slug}/#{slug}.svg"
+  def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/exercises/#{project.slug}/#{slug}.svg"
 
   memoize
   def tasks

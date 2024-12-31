@@ -19,8 +19,12 @@ export function useOnRunCode({
 }: Pick<SolveExercisePageProps, 'links'> & {
   config: Config
 }) {
-  const { setTestSuiteResult, setInspectedTestResult, inspectedTestResult } =
-    useTestStore()
+  const {
+    setTestSuiteResult,
+    setInspectedTestResult,
+    inspectedTestResult,
+    testSuiteResult,
+  } = useTestStore()
 
   const {
     setHighlightedLine,
@@ -39,6 +43,11 @@ export function useOnRunCode({
         console.error('tasks are missing in useRunCode')
         return
       }
+      // Clear out any old test results
+      testSuiteResult?.tests.forEach((test) => {
+        console.log(test.view)
+        test.view?.remove()
+      })
 
       const exercise = getAndInitializeExerciseClass(config)
 

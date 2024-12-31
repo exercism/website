@@ -18,12 +18,8 @@ function _InspectedTestResultView() {
   return (
     <div
       className={assembleClassNames(
-        'm-8 border rounded-3 overflow-hidden',
-
-        result.status === 'fail'
-          ? 'bg-red-100 border-red-300'
-          : 'bg-green-100 border-green-300',
-        'flex justify-between flex-grow'
+        'c-scenario',
+        result.status === 'fail' ? 'fail' : 'pass'
       )}
     >
       <InspectedTestResultViewLHS
@@ -48,8 +44,14 @@ function InspectedTestResultViewLHS({
   firstFailingExpect: ProcessedExpect | null
 }) {
   return (
-    <div className="scenario-lhs flex flex-col justify-between w-full">
-      <div className="flex flex-col gap-4 p-8">
+    <div className="scenario-lhs">
+      <div className="scenario-lhs-content">
+        <h3>
+          <strong>Scenario: </strong>
+          {result.name}
+        </h3>
+
+        {/*<div className="flex flex-col gap-4 p-8">
         <h2
           className={assembleClassNames(
             'text-18 font-semibold ',
@@ -57,7 +59,7 @@ function InspectedTestResultViewLHS({
           )}
         >
           Scenario: {result.name} - {result.status}
-        </h2>
+        </h2>*/}
 
         {result.status === 'fail' ? (
           <FailInfo result={result} firstFailingExpect={firstFailingExpect} />

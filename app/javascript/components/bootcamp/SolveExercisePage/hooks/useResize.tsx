@@ -95,7 +95,7 @@ export function Resizer({
     <button
       onMouseDown={handleMouseDown}
       className={assembleClassNames(
-        'p-[2px] active:bg-slate-100 ',
+        '',
         direction === 'horizontal' ? 'cursor-row-resize' : 'cursor-col-resize'
       )}
     >

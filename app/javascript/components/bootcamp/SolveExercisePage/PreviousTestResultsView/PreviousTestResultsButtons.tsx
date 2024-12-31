@@ -2,7 +2,7 @@ import React from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 
-const TRANSITION_DELAY = 0.2
+const TRANSITION_DELAY = 0.1
 
 export function PreviousTestResultsButtons() {
   const {
@@ -26,18 +26,10 @@ export function PreviousTestResultsButtons() {
             className={assembleClassNames(
               'test-button',
               test.status,
-              inspectedPreviousTestResult?.name === test.name
-                ? 'outline outline-2 outline-slate-900'
-                : ''
+              inspectedPreviousTestResult?.name === test.name ? 'selected' : ''
             )}
           >
             {idx + 1}
-            <img
-              src={`/${test.status}.svg`}
-              width={18}
-              height="auto"
-              className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-tooltip bg-white rounded-circle"
-            />
           </button>
         )
       })}

@@ -18,14 +18,14 @@ export function _TaskPreview({ exercise }: { exercise: Exercise }) {
   if (testSuiteResult || previousTestSuiteResult) return null
 
   return (
-    <div className="m-8 border rounded-3 bg-blue-100 border-blue-300 h-full text-16 leading-150 flex justify-between flex-grow overflow-hidden">
+    <section className="c-scenario pending">
       {exercise.config.testsType === 'io' ? (
         <IOPreview firstTest={firstTest} />
       ) : (
         <StatePreview firstTest={firstTest} config={exercise.config} />
       )}
       <div ref={viewContainerRef} id="view-container" />
-    </div>
+    </section>
   )
 }
 

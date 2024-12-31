@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { InspectedTestResultView } from './TestResultsView/InspectedTestResultView'
-import { Tasks } from './Tasks/Tasks'
 import { Instructions } from './Instructions/Instructions'
 import { useSetupStores } from './hooks/useSetupStores'
 import { ControlButtons } from './ControlButtons/ControlButtons'
@@ -12,6 +11,7 @@ import { Resizer, useResizablePanels } from './hooks/useResize'
 import { TaskPreview } from './TaskPreview/TaskPreview'
 import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
 import { PreviousTestResultView } from './PreviousTestResultsView/PreviousTestResultsView'
+import { Header } from './Header'
 
 export default function SolveExercisePage({
   exercise,
@@ -51,34 +51,40 @@ export default function SolveExercisePage({
 
   return (
     <SolveExercisePageContextWrapper value={{ links, solution, exercise }}>
-      <div id="bootcamp-solve-exercise-page" className="flex w-full h-screen">
-        {/* LHS */}
-        <div style={{ width: `${LHSWidth}px` }} className="flex flex-col">
-          <ErrorBoundary>
-            <CodeMirror
-              style={{ height: `${TopHeight}px` }}
-              ref={editorViewRef}
-              editorDidMount={handleEditorDidMount}
-              handleRunCode={handleRunCode}
-            />
-          </ErrorBoundary>
-          <Resizer
-            direction="horizontal"
-            handleMouseDown={handleHeightChangeMouseDown}
-          />
+      <div id="bootcamp-solve-exercise-page">
+        <Header></Header>
+        <div className="page-body">
+          <div style={{ width: LHSWidth }} className="page-body-lhs">
+            <ErrorBoundary>
+              <CodeMirror
+                style={{ height: `${TopHeight}px` }}
+                ref={editorViewRef}
+                editorDidMount={handleEditorDidMount}
+                handleRunCode={handleRunCode}
+              />
+            </ErrorBoundary>
 
-          <div className="flex flex-col" style={{ height: BottomHeight }}>
-            <ControlButtons handleRunCode={handleRunCode} />
-            <InspectedTestResultView />
-            <TaskPreview exercise={exercise} />
-            <PreviousTestResultView exercise={exercise} />
+            <Resizer
+              direction="horizontal"
+              handleMouseDown={handleHeightChangeMouseDown}
+            />
+
+            <div
+              className="page-body-lhs-bottom"
+              style={{ height: BottomHeight }}
+            >
+              <ControlButtons handleRunCode={handleRunCode} />
+              <InspectedTestResultView />
+              <TaskPreview exercise={exercise} />
+              <PreviousTestResultView exercise={exercise} />
+            </div>
           </div>
-        </div>
-        <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-        {/* RHS */}
-        <div className="h-full" style={{ width: RHSWidth }}>
-          <Instructions exerciseInstructions={exercise.introductionHtml} />
-          <Tasks />
+          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+          {/* RHS */}
+          <div className="page-body-rhs" style={{ width: RHSWidth }}>
+            <Instructions exerciseInstructions={exercise.introductionHtml} />
+            {/* <Tasks /> */}
+          </div>
         </div>
       </div>
     </SolveExercisePageContextWrapper>

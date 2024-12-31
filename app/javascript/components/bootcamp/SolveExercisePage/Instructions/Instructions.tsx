@@ -40,7 +40,7 @@ export function _Instructions({
   }, [currentTask])
 
   return (
-    <div className="c-prose c-prose-small h-[60%] py-12 overflow-auto px-20">
+    <div className="scenario-rhs c-prose c-prose-small">
       <h3>Instructions</h3>
 
       <div

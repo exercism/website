@@ -7,7 +7,7 @@ import { PreviousTestResultsButtons } from '../PreviousTestResultsView/PreviousT
 
 function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
   return (
-    <div className="flex px-12 items-center gap-8">
+    <div className="flex items-center gap-8 mb-12">
       <CheckScenariosButton handleRunCode={handleRunCode} />
       <TestResultsButtons />
       <IdleTestButton />

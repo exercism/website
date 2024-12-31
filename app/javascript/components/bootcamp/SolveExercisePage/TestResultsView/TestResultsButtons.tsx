@@ -5,7 +5,7 @@ import useEditorStore from '../store/editorStore'
 import type { InformationWidgetData } from '../CodeMirror/extensions/end-line-information/line-information'
 import { useShouldAnimate } from './useShouldAnimate'
 
-const TRANSITION_DELAY = 0.2
+const TRANSITION_DELAY = 0.1
 
 export function TestResultsButtons() {
   const { testSuiteResult, setInspectedTestResult, inspectedTestResult } =
@@ -32,18 +32,10 @@ export function TestResultsButtons() {
             className={assembleClassNames(
               'test-button',
               shouldAnimate ? test.status : 'idle',
-              inspectedTestResult?.name === test.name
-                ? 'outline outline-2 outline-slate-900'
-                : ''
+              inspectedTestResult?.name === test.name ? 'selected' : ''
             )}
           >
             {idx + 1}
-            <img
-              src={`/${test.status}.svg`}
-              width={18}
-              height="auto"
-              className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-tooltip bg-white rounded-circle"
-            />
           </button>
         )
       })}

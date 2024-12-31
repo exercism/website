@@ -28,7 +28,7 @@
         },
         {
           "slug": "4-rectangles-40-40",
-          "name": "Draw 4 rectangles",
+          "name": "Draw 4 rectangles x2",
           "description": "Draw 4 rectangles at (40,40,20,20)",
           "function": "main",
           "checks": [

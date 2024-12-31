@@ -6,7 +6,7 @@ export function StateTestResultView({
 }) {
   return (
     <div
-      className="border border-slate-600 rounded-md p-4 mb-4"
+      className="text-bootcamp-fail-dark font-medium content"
       dangerouslySetInnerHTML={{ __html: descriptionHtml }}
     />
   )

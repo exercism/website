@@ -11,18 +11,29 @@ export function FailInfo({
   result: NewTestResult
   firstFailingExpect: ProcessedExpect | null
 }) {
-  return (
-    <div className="[&_h5]:font-bold [&_p]:font-mono text-[16px] [&_h5]:uppercase [&_h5]:leading-140  [&_p_span]:rounded-3">
-      <CodeRun codeRun={result.codeRun} />
-      {firstFailingExpect ? (
-        firstFailingExpect.testsType === 'state' ? (
-          <StateTestResultView
-            descriptionHtml={firstFailingExpect.descriptionHtml!}
-          />
-        ) : (
+  if (!firstFailingExpect) {
+    return null
+  }
+  if (firstFailingExpect.testsType === 'state') {
+    return (
+      <>
+        <p>
+          The first scenario is ... The first scenario is ... The first scenario
+          is ... The first scenario is ...
+        </p>
+        <StateTestResultView
+          descriptionHtml={firstFailingExpect.descriptionHtml!}
+        />
+      </>
+    )
+  } else {
+    return (
+      <>
+        <table className="io-test-result-info">
+          <CodeRun codeRun={result.codeRun} />
           <IOTestResultView diff={firstFailingExpect.diff} />
-        )
-      ) : null}
-    </div>
-  )
+        </table>
+      </>
+    )
+  }
 }

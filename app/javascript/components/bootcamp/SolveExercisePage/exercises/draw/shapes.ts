@@ -12,6 +12,10 @@ export function rect(
   rect.style.backgroundColor = backgroundColor
   rect.style.width = width
   rect.style.height = height
+  rect.style.left = x
+  rect.style.top = y
+  rect.style.opacity = '0'
+
   rect.style.position = 'absolute'
 
   return rect

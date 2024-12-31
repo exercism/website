@@ -12,7 +12,7 @@ import {
   RangeSetBuilder,
 } from '@codemirror/state'
 
-export const INFO_HIGHLIGHT_COLOR = '#dadaff88'
+export const INFO_HIGHLIGHT_COLOR = '#EFEDFF'
 export const ERROR_HIGHLIGHT_COLOR = '#fecaca88'
 
 export const changeLineEffect = StateEffect.define<number>()

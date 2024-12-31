@@ -17,6 +17,7 @@
 @import "../bootcamp/components/tasks";
 @import "../bootcamp/components/toggle-switch";
 @import "../bootcamp/components/test-buttons";
+@import "../bootcamp/components/scenario";
 
 @import "../bootcamp/components/project-widget";
 @import "../bootcamp/components/exercise-widget";

@@ -4,6 +4,7 @@ import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { InformationWidgetToggleButton } from './InformationWidgetTiggleButton'
+import { Icon } from '@/components/common'
 
 function Scrubber({ testResult }: { testResult: NewTestResult }) {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -101,7 +102,7 @@ function PlayButton({
 }) {
   return (
     <button disabled={disabled} className="play-button" onClick={onClick}>
-      <img src="/play.svg" alt="" width={32} height={32} />
+      <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
     </button>
   )
 }
@@ -118,10 +119,14 @@ function FrameStepperButtons({
   return (
     <div className="frame-stepper-buttons">
       <button disabled={disabled} onClick={onPrev}>
-        <img src="/chevron-right.svg" className="rotate-180" />
+        <Icon
+          icon="bootcamp-chevron-right"
+          alt="Previous"
+          className="rotate-180"
+        />
       </button>
       <button disabled={disabled} onClick={onNext}>
-        <img src="/chevron-right.svg" />
+        <Icon icon="bootcamp-chevron-right" alt="Next" />
       </button>
     </div>
   )

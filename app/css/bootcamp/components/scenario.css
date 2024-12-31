@@ -1,0 +1,88 @@
+#bootcamp-solve-exercise-page {
+    .c-scenario {
+        @apply border-2 rounded-5;
+        @apply overflow-hidden;
+        @apply flex justify-between flex-grow;
+
+        .scenario-lhs {
+            @apply border-r-2 border-bootcamp-light-purple;
+            @apply flex flex-col;
+
+            .scenario-lhs-content {
+                @apply flex-grow;
+                @apply flex flex-col;
+
+                @apply py-16 px-12;
+
+                h3 {
+                    @apply text-18 font-normal;
+                    @apply mb-12;
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                p,
+                .content {
+                    @apply text-16 leading-140;
+                    @apply mb-8;
+                }
+            }
+        }
+
+        &.pending {
+            @apply border-blue-300;
+            .scenario-lhs {
+                @apply bg-blue-100;
+            }
+        }
+        &.pass {
+            @apply border-bootcamp-success-dark;
+            .scenario-lhs {
+                @apply bg-bootcamp-success-light;
+            }
+        }
+        &.fail {
+            @apply border-bootcamp-fail-dark;
+            .scenario-lhs {
+                @apply bg-bootcamp-fail-light;
+            }
+        }
+        .io-test-result-info {
+            border-spacing: 6px;
+            border-collapse: separate;
+            tr {
+                th,
+                td {
+                    @apply text-16 leading-140;
+                    @apply bg-white;
+                    @apply py-10 px-10;
+                }
+                th {
+                    @apply rounded-l-5;
+                    @apply text-left font-normal whitespace-nowrap;
+                    @apply w-[1px];
+                }
+                td {
+                    @apply rounded-r-5;
+                    @apply font-mono text-15;
+
+                    span.added-part {
+                        @apply bg-bootcamp-success-light;
+                        @apply border-b-1 border-bootcamp-success-dark;
+                    }
+                    span.removed-part {
+                        @apply bg-bootcamp-fail-light;
+                        @apply border-b-1 border-bootcamp-fail-dark;
+                    }
+                }
+            }
+        }
+    }
+
+    .scenario-rhs {
+        @apply h-fill overflow-auto;
+        @apply py-16 px-20;
+        h3 {
+        }
+    }
+}

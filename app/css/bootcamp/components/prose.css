@@ -1,16 +1,21 @@
 .c-prose {
     --prose-base-text-size: 19px;
+    --prose-h3-text-size: 22px;
+    --prose-h4-text-size: 20px;
+
     &.c-prose-small {
-        --prose-base-text-size: 18px;
+        --prose-base-text-size: 17px;
+        --prose-h3-text-size: 21px;
+        --prose-h4-text-size: 18px;
     }
     h3 {
-        font-size: calc(var(--prose-base-text-size) + 3px);
+        font-size: var(--prose-h3-text-size);
         @apply leading-140;
         @apply font-semibold;
     }
 
     h4 {
-        font-size: calc(var(--prose-base-text-size) + 1px);
+        font-size: var(--prose-h4-text-size);
         @apply leading-140;
         @apply font-semibold;
     }
@@ -47,7 +52,7 @@
         @apply bg-blue-100;
         @apply py-2 px-4;
         @apply rounded-5;
-        font-size: calc(var(--prose-base-text-size) - 3px);
+        font-size: calc(var(--prose-base-text-size) - 1px);
         @apply whitespace-nowrap;
     }
     strong {

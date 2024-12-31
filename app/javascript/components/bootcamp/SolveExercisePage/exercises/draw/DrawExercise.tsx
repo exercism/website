@@ -56,7 +56,6 @@ export default class DrawExercise extends Exercise {
     super('draw')
 
     Object.assign(this.view.style, {
-      backgroundColor: '#fafaff',
       display: 'none',
     })
 

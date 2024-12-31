@@ -6,9 +6,18 @@ export function StatePreview({
   config: Config
 }) {
   return (
-    <p className="scenario-lhs p-8">
-      The first <span className="font-semibold text-jiki-purple">scenario</span>{' '}
-      is <strong>{firstTest.name}</strong>.
-    </p>
+    <div className="scenario-lhs">
+      <div className="scenario-lhs-content">
+        <h3>
+          <strong>Scenario: </strong>
+          {firstTest.name}
+        </h3>
+        <p>
+          The first scenario is {firstTest.name}. The first scenario is{' '}
+          {firstTest.name}. The first scenario is {firstTest.name}. The first
+          scenario is {firstTest.name}.
+        </p>
+      </div>
+    </div>
   )
 }

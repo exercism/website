@@ -1,12 +1,12 @@
 #scrubber {
     background: white;
     padding: 8px;
-    @apply border-t-2 border-t-jiki-purple border-opacity-50;
+    @apply border-t-2 border-t-bootcamp-light-purple;
     @apply flex justify-center items-center gap-8;
 
     input[type="range"] {
         -webkit-appearance: none;
-        @apply flex-grow;
+        @apply flex-grow p-0;
         height: 9px;
         border-radius: 100px;
         border: 1px solid;
@@ -22,7 +22,7 @@
             @apply bg-jiki-purple;
             box-shadow: 0 0 1px 1px white;
             cursor: pointer;
-            background-image: url("/scrubber.svg");
+            background-image: url("icons/bootcamp-scrubber.svg");
             background-size: 13px;
             @apply bg-no-repeat bg-center;
             &:hover {

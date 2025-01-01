@@ -21,7 +21,7 @@
           "name": "Number 28",
           "function": "even_or_odd",
           "params": [28],
-          "expected": "Odd"
+          "expected": "Even"
         }
       ]
     },

@@ -5,7 +5,7 @@
   "avaliableFunctions": [],
   "concepts": ["conditionals", "arrays"],
   "level": 3,
-  "testsType": "state",
+  "tests_type": "state",
   "tasks": [
     {
       "name": "Deal with a correct guess",

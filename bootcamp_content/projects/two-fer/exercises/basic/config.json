@@ -3,7 +3,7 @@
   "description": "Return what you say when you hand the cookie other, using the person's name if you know it.",
   "concepts": ["strings-concatenation", "conditionals"],
   "level": 2,
-  "testsType": "io",
+  "tests_type": "io",
   "readonly_ranges": [
     { "from": 1, "to": 1 },
     { "from": 3, "to": 3 }

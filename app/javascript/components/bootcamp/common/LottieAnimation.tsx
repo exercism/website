@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { useEffect, useRef } from 'react'
 import lottie, { type AnimationItem } from 'lottie-web'
 

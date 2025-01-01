@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Modal from 'react-modal'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'

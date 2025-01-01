@@ -1,3 +1,5 @@
+import React from 'react'
+
 import type { NextExercise } from '@/components/bootcamp/SolveExercisePage/Tasks/completeSolution'
 import { createContext } from 'react'
 

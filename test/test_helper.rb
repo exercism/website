@@ -168,7 +168,6 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   setup do
-    Exercism::TOUCHED_OPENSEARCH_INDEXES.clear
     reset_redis!
     reset_rack_attack!
 
@@ -327,7 +326,7 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    OPENSEARCH_INDEXES.each do |index|
+    Exercism::TOUCHED_OPENSEARCH_INDEXES.each do |index|
       Exercism.opensearch_client.indices.refresh(index:)
     end
   end

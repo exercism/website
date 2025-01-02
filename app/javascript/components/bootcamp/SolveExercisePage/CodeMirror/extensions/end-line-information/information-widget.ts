@@ -104,6 +104,7 @@ export class InformationWidget extends WidgetType {
 
   private positionTooltip() {
     if (!this.referenceElement || !this.tooltip || !this.arrowElement) return
+    console.log('positioning')
     computePosition(this.referenceElement, this.tooltip, {
       placement: 'right',
       middleware: [
@@ -155,9 +156,11 @@ export class InformationWidget extends WidgetType {
   }
 
   private setupScrollListener() {
-    const scrollContainer = document.querySelector('.editor')
-    if (!scrollContainer) return
-    scrollContainer.addEventListener('scroll', () => this.positionTooltip())
+    const scrollContainer = document.querySelector('.cm-scroller')
+    if (!scrollContainer) {
+      return
+    }
+    scrollContainer.addEventListener('scroll', this.positionTooltip)
     this.scrollContainer = scrollContainer as HTMLElement
   }
 

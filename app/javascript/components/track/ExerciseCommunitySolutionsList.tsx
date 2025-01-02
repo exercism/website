@@ -3,7 +3,7 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Icon, Pagination } from '@/components/common'
+import { Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -52,6 +52,9 @@ export function ExerciseCommunitySolutionsList({
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
 
+  const [currentData, setCurrentData] =
+    useState<PaginatedResult<CommunitySolutionProps[]>>()
+
   const {
     status,
     data: resolvedData,
@@ -64,6 +67,11 @@ export function ExerciseCommunitySolutionsList({
     ['exercise-community-solution-list', request.endpoint, request.query],
     request
   )
+
+  useEffect(() => {
+    if (!isFetching) setCurrentData(resolvedData)
+  }, [isFetching, resolvedData])
+
   const [criteria, setCriteria] = useState(request.query.criteria)
   const [layout, setLayout] = useLocalStorage<`${'grid' | 'lines'}-layout`>(
     'community-solutions-layout',
@@ -92,7 +100,7 @@ export function ExerciseCommunitySolutionsList({
       data-scroll-top-anchor="exercise-community-solutions-list"
       className="lg-container c-community-solutions-list"
     >
-      {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
+      {currentData ? <h2> Explore how others solved this exercise </h2> : null}
       <div className="c-search-bar lg:flex-row flex-col gap-24">
         <input
           className="--search"
@@ -123,10 +131,10 @@ export function ExerciseCommunitySolutionsList({
           error={error}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData ? (
+          {currentData ? (
             <React.Fragment>
               <div className={assembleClassNames('solutions', layout)}>
-                {resolvedData.results.map((solution) => {
+                {currentData.results.map((solution) => {
                   return (
                     <CommunitySolution
                       key={solution.uuid}
@@ -137,9 +145,9 @@ export function ExerciseCommunitySolutionsList({
                 })}
               </div>
               <Pagination
-                disabled={resolvedData === undefined}
+                disabled={currentData === undefined}
                 current={request.query.page || 1}
-                total={resolvedData.meta.totalPages}
+                total={currentData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
                   scrollToTop('exercise-community-solutions-list', 32)

@@ -22,10 +22,12 @@ export function execProjectTest(
     exercise[functionName](...params)
   })
 
-  const evaluated = interpret(options.studentCode, {
+  const context = {
     externalFunctions: exercise.availableFunctions,
     language: 'JikiScript',
-  })
+    languageFeatures: options.config.interpreterOptions,
+  }
+  const evaluated = interpret(options.studentCode, context)
 
   const { frames } = evaluated
 

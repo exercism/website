@@ -5,7 +5,7 @@
   "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",
-  "avaliableFunctions": ["move", "turnLeft", "turnRight", "canMove"],
+  "avaliable_functions": ["move", "turnLeft", "turnRight", "canMove"],
   "tasks": [
     {
       "name": "A straight path",

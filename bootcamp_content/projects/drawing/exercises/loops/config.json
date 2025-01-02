@@ -5,6 +5,9 @@
   "level": 3,
   "concepts": ["loops-repeat"],
   "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 100
+  },
   "tasks": [
     {
       "name": "Draw 4 rectangles",

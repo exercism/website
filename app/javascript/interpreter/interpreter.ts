@@ -51,6 +51,7 @@ export type LanguageFeatures = {
   ExcludeList?: TokenType[]
   shadowing?: Toggle
   truthiness?: Toggle
+  repeatDelay?: number
 }
 
 export type Context = {

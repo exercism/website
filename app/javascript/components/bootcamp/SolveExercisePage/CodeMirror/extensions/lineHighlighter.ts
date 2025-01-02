@@ -24,6 +24,15 @@ export const highlightedLineField = StateField.define<number>({
   update(value, tr) {
     for (const effect of tr.effects) {
       if (effect.is(changeLineEffect)) {
+        if (effect.value) {
+          const line = document.querySelector('.cm-highlightedLine')
+          if (line) {
+            line.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+            })
+          }
+        }
         return effect.value
       }
     }

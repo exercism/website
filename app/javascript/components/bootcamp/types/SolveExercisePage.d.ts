@@ -1,3 +1,5 @@
+import { LanguageFeatures } from '@/interpreter/interpreter'
+
 type Code = {
   stub: string
   code: string
@@ -41,4 +43,5 @@ declare type Config = {
   projectType: string
   // tasks: Task[];
   testsType: 'io' | 'state'
+  interpreterOptions: LanguageFeatures
 }

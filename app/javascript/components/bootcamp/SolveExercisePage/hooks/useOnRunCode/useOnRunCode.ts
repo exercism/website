@@ -50,10 +50,12 @@ export function useOnRunCode({
 
       const exercise = getAndInitializeExerciseClass(config)
 
-      const compiled = compile(studentCode, {
+      const context = {
         externalFunctions: exercise?.availableFunctions,
         language: 'JikiScript',
-      })
+        languageFeatures: config.interpreterOptions,
+      }
+      const compiled = compile(studentCode, context)
 
       const error = compiled.error
 

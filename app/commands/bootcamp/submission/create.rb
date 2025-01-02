@@ -14,7 +14,7 @@ class Bootcamp::Submission::Create
     Bootcamp::Submission.create!(
       solution:,
       code:,
-      test_results:,
+      test_results: test_results.to_h,
       readonly_ranges: readonly_ranges || []
     )
   end

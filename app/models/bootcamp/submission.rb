@@ -1,8 +1,8 @@
 class Bootcamp::Submission < ApplicationRecord
   self.table_name = "bootcamp_submissions"
 
-  serialize :test_results, coder: JSONWithIndifferentAccess
-  serialize :readonly_ranges, coder: JSONWithIndifferentAccess
+  serialize :test_results, JSONWithIndifferentAccess
+  serialize :readonly_ranges, JSONWithIndifferentAccess
   enum :status, { pass: 0, fail: 1 }
 
   scope :passed, -> { where(status: :pass) }

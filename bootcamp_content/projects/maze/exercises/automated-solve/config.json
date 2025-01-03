@@ -34,7 +34,8 @@
           "checks": [
             {
               "name": "position",
-              "value": [4, 8]
+              "value": [4, 6],
+              "descriptionHtml": "Your position should be 4, 6, but it's %actual% ."
             }
           ]
         }
@@ -69,7 +70,8 @@
           "checks": [
             {
               "name": "position",
-              "value": [8, 5]
+              "value": [8, 5],
+              "descriptionHtml": "Your position should be 8, 5, but it's %actual% ."
             },
             {
               "name": "direction",
@@ -108,7 +110,8 @@
           "checks": [
             {
               "name": "position",
-              "value": [0, 5]
+              "value": [0, 5],
+              "descriptionHtml": "Your position should be 0, 5, but it's %actual%."
             }
           ]
         },
@@ -139,7 +142,8 @@
           "checks": [
             {
               "name": "position",
-              "value": [8, 2]
+              "value": [8, 2],
+              "descriptionHtml": "Your position should be 8, 2, but it's %actual%."
             }
           ]
         }
@@ -175,13 +179,14 @@
           "checks": [
             {
               "name": "position",
-              "value": [0, 7]
+              "value": [0, 7],
+              "descriptionHtml": "Your position should be 0, 7, but it's %actual%."
             }
           ]
         },
         {
-          "slug": "forks",
-          "name": "Choose left if you can, otherwise choose right",
+          "slug": "forks-2",
+          "name": "Choose right if you can, otherwise choose left",
           "setupFunctions": [
             [
               "setupGrid",
@@ -191,7 +196,7 @@
                   [0, 1, 1, 1, 1, 1, 1, 1, 1],
                   [0, 1, 1, 1, 0, 0, 0, 0, 1],
                   [0, 1, 1, 1, 0, 1, 1, 1, 1],
-                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 4, 1, 1, 1, 1],
                   [0, 0, 0, 0, 0, 1, 1, 1, 1],
                   [1, 1, 1, 1, 0, 1, 1, 1, 1],
                   [1, 1, 1, 1, 0, 1, 1, 1, 1],
@@ -206,7 +211,8 @@
           "checks": [
             {
               "name": "position",
-              "value": [8, 2]
+              "value": [4, 8],
+              "descriptionHtml": "Your position should be 4, 8, but it's %actual%."
             }
           ]
         }

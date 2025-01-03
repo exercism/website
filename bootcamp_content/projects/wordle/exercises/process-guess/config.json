@@ -2,7 +2,7 @@
   "title": "Process a guess",
   "description": "Turn a guess into a valid response",
   "project_type": "wordle",
-  "avaliableFunctions": [],
+  "available_functions": [],
   "concepts": ["conditionals", "arrays"],
   "level": 3,
   "tests_type": "state",
@@ -18,7 +18,7 @@
             {
               "name": "getGuessState1()",
               "value": ["present", "absent", "absent", "absent", "correct"],
-              "descriptionHtml": "We expected the first letter to be present and the last one to be correct"
+              "error_html": "We expected the first letter to be present and the last one to be correct"
             }
           ]
         }

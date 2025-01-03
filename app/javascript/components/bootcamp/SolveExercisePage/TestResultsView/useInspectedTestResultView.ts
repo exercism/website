@@ -10,7 +10,7 @@ export type ProcessedExpect = {
   actual: any
   pass: boolean
   label?: string
-  descriptionHtml?: string
+  errorHtml?: string
   note?: string
   expected?: any
 }
@@ -82,7 +82,7 @@ function getfirstFailingExpect(
     if (expect.pass === false) {
       if (expect.testsType === 'state') {
         return {
-          descriptionHtml: expect.descriptionHtml,
+          errorHtml: expect.errorHtml,
           testsType: expect.testsType,
           actual: expect.actual,
           pass: expect.pass,
@@ -106,7 +106,7 @@ function processExpects(result: NewTestResult | null): ProcessedExpects {
     if (expect.testsType === 'state') {
       // state expect
       return {
-        descriptionHtml: expect.descriptionHtml,
+        errorHtml: expect.errorHtml,
         testsType: 'state',
         actual: expect.actual,
         pass: expect.pass,

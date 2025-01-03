@@ -1,13 +1,9 @@
 import React from 'react'
-export function StateTestResultView({
-  descriptionHtml,
-}: {
-  descriptionHtml: string
-}) {
+export function StateTestResultView({ errorHtml }: { errorHtml: string }) {
   return (
     <div
       className="text-bootcamp-fail-dark font-medium content"
-      dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      dangerouslySetInnerHTML={{ __html: errorHtml }}
     />
   )
 }

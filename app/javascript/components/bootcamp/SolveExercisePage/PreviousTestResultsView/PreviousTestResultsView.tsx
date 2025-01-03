@@ -66,7 +66,7 @@ function PreviousTestResultViewLHS({ result }: { result: PreviousTestResult }) {
         {result.status === 'fail' ? (
           <div className="[&_h5]:font-bold [&_p]:font-mono text-[16px] [&_h5]:uppercase [&_h5]:leading-140  [&_p_span]:rounded-3">
             {result.testsType === 'state' ? (
-              <StateTestResultView descriptionHtml={result.actual!} />
+              <StateTestResultView errorHtml={result.actual!} />
             ) : (
               <>
                 <CodeRun codeRun={result.codeRun ?? ''} />

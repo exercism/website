@@ -112,7 +112,7 @@ export function useOnRunCode({
             const actual = firstFailingExpect
               ? firstFailingExpect.testsType === 'io'
                 ? firstFailingExpect.actual
-                : firstFailingExpect.descriptionHtml
+                : firstFailingExpect.errorHtml
               : null
             return {
               slug: test.slug,

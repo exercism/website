@@ -24,7 +24,7 @@
             ["setupPosition", [1, 1]]
           ],
           "function": "move",
-          "avaliableFunctions": ["moveCharacter"],
+          "available_functions": ["moveCharacter"],
           "checks": [
             {
               "name": "position",

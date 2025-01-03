@@ -24,11 +24,11 @@ declare type TaskTest = {
 
 declare type ExpectCheck = {
   name: string
-  value: ?any
+  value?: any
   label?: string
   note?: string
   matcher?: AvailableMatchers
-  descriptionHtml?: string
+  errorHtml?: string
 }
 
 type SetupFunction = [functionName: keyof Exercise, params?: any[]]

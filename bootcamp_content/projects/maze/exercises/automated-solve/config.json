@@ -5,7 +5,7 @@
   "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",
-  "avaliableFunctions": ["move", "turnLeft", "turnRight", "canMove"],
+  "available_functions": ["move", "turnLeft", "turnRight", "canMove"],
   "tasks": [
     {
       "name": "A straight path",
@@ -35,7 +35,7 @@
             {
               "name": "position",
               "value": [4, 6],
-              "descriptionHtml": "Your position should be 4, 6, but it's %actual% ."
+              "error_html": "Your position should be 4, 6, but it's %actual% ."
             }
           ]
         }
@@ -71,7 +71,7 @@
             {
               "name": "position",
               "value": [8, 5],
-              "descriptionHtml": "Your position should be 8, 5, but it's %actual% ."
+              "error_html": "Your position should be 8, 5, but it's %actual% ."
             },
             {
               "name": "direction",
@@ -111,7 +111,7 @@
             {
               "name": "position",
               "value": [0, 5],
-              "descriptionHtml": "Your position should be 0, 5, but it's %actual%."
+              "error_html": "Your position should be 0, 5, but it's %actual%."
             }
           ]
         },
@@ -143,7 +143,7 @@
             {
               "name": "position",
               "value": [8, 2],
-              "descriptionHtml": "Your position should be 8, 2, but it's %actual%."
+              "error_html": "Your position should be 8, 2, but it's %actual%."
             }
           ]
         }
@@ -180,7 +180,7 @@
             {
               "name": "position",
               "value": [0, 7],
-              "descriptionHtml": "Your position should be 0, 7, but it's %actual%."
+              "error_html": "Your position should be 0, 7, but it's %actual%."
             }
           ]
         },
@@ -212,7 +212,7 @@
             {
               "name": "position",
               "value": [4, 8],
-              "descriptionHtml": "Your position should be 4, 8, but it's %actual%."
+              "error_html": "Your position should be 4, 8, but it's %actual%."
             }
           ]
         }

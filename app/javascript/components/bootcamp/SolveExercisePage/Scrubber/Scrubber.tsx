@@ -9,11 +9,7 @@ import { Icon } from '@/components/common'
 function Scrubber({ testResult }: { testResult: NewTestResult }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const {
-    hasCodeBeenEdited,
-    setShouldShowInformationWidget,
-    shouldShowInformationWidget,
-  } = useEditorStore()
+  const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
 
   const {
     value,

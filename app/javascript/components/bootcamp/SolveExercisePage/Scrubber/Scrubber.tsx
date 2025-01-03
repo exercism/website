@@ -5,7 +5,6 @@ import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editor
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { InformationWidgetToggleButton } from './InformationWidgetTiggleButton'
 import { Icon } from '@/components/common'
-import { useLogger } from '../../common/hooks/useLogger'
 
 function Scrubber({ testResult }: { testResult: NewTestResult }) {
   const [isPlaying, setIsPlaying] = useState(false)

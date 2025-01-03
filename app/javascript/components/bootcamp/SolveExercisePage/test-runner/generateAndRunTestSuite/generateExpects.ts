@@ -66,14 +66,13 @@ function generateExpectsForStateTests(exercise: Exercise, testData: TaskTest) {
       actual = state[expected.name]
     }
 
-    const descriptionHtml =
-      expected.descriptionHtml?.replaceAll('%actual%', actual) || ''
+    const errorHtml = expected.errorHtml?.replaceAll('%actual%', actual) || ''
 
     return expect({
       ...expected,
       testsType: 'state',
       actual,
-      descriptionHtml,
+      errorHtml,
       name: expected.label ?? expected.name,
     })[matcher as AvailableMatchers](expected.value)
   })

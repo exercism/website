@@ -11,7 +11,7 @@
         {
           "slug": "move-up",
           "name": "Moves up",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -40,7 +40,7 @@
         {
           "slug": "move-down",
           "name": "Moves down",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -69,7 +69,7 @@
           "slug": "move-left",
           "name": "Moves left",
 
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -97,8 +97,7 @@
         {
           "slug": "move-right",
           "name": "Moves right",
-
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [

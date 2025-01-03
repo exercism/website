@@ -133,7 +133,11 @@ export class AnimationTimeline {
     this.animationTimeline.seek(time)
   }
 
-  public play() {
+  public play(cb?: () => void) {
+    // we need to seek 0 to make sure currentFrame is the first before we start playing animation.
+    // it would rewind it anyway, but the currentFrame would be the last visited frame for a moment.
+    this.animationTimeline.seek(0)
+    if (cb) cb()
     this.animationTimeline.play()
   }
 

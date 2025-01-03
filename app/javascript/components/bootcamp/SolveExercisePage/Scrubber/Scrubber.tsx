@@ -9,7 +9,11 @@ import { Icon } from '@/components/common'
 function Scrubber({ testResult }: { testResult: NewTestResult }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
+  const {
+    hasCodeBeenEdited,
+    setShouldShowInformationWidget,
+    shouldShowInformationWidget,
+  } = useEditorStore()
 
   const {
     value,
@@ -55,7 +59,11 @@ function Scrubber({ testResult }: { testResult: NewTestResult }) {
     >
       <PlayButton
         disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
-        onClick={() => testResult.animationTimeline?.play()}
+        onClick={() => {
+          testResult.animationTimeline?.play(() =>
+            setShouldShowInformationWidget(false)
+          )
+        }}
       />
       <input
         data-cy="scrubber-range-input"

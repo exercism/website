@@ -2,7 +2,6 @@ import React from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import useTaskStore from '../store/taskStore/taskStore'
 import { useEffect, useMemo, useRef } from 'react'
-// @ts-ignore
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
 
@@ -35,6 +34,15 @@ export function _Instructions({
         loop: false,
       } as Options)
         .typeString(currentTask.instructionsHtml)
+        .callFunction(() => {
+          // after typing is done, remove the typewriter wrapper - which includes a blinking cursor
+          setTimeout(() => {
+            if (typewriterRef.current) {
+              typewriterRef.current.innerHTML = currentTask.instructionsHtml
+            }
+            // time we allow the cursor to blink idly before we remove it
+          }, 700)
+        })
         .start()
     }
   }, [currentTask])
@@ -60,7 +68,7 @@ export function _Instructions({
             Task {activeTaskIndex + 1}: {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
-          <div className="[&_p]:inline [&_*]:leading-170" ref={typewriterRef} />
+          <div className="[&_p]:inline" ref={typewriterRef} />
         </>
       )}
     </div>

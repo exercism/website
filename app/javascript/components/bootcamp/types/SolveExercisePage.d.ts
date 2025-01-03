@@ -1,4 +1,5 @@
 type Code = {
+  stub: string
   code: string
   stored_at: Date | string | null
   readonlyRanges: { from: number; to: number }[]

@@ -4,14 +4,14 @@ export function expect({
   actual,
   name,
   slug,
-  descriptionHtml,
+  errorHtml,
   note,
   testsType,
 }: {
   actual: any
   name?: string
   slug?: string
-  descriptionHtml?: string
+  errorHtml?: string
   note?: string
   testsType: TestsType
 }): Record<AvailableMatchers, (expected?: any) => MatcherResult> {
@@ -19,7 +19,7 @@ export function expect({
     actual,
     slug: slug ?? '',
     name: name ?? '',
-    descriptionHtml,
+    errorHtml,
     note,
     testsType,
   }

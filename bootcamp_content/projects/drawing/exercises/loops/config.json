@@ -17,12 +17,12 @@
             {
               "name": "numElements()",
               "value": 4,
-              "descriptionHtml": "Expected 4 rectangles to be drawn, but only got %actual%."
+              "error_html": "Expected 4 rectangles to be drawn, but only got %actual%."
             },
             {
               "name": "getRectAt(20,20,20,20)",
               "matcher": "toExist",
-              "descriptionHtml": "No rectangle at (20,20,20,20)"
+              "error_html": "No rectangle at (20,20,20,20)"
             }
           ]
         },
@@ -39,7 +39,7 @@
             {
               "name": "getRectAt(40,40,20,20)",
               "matcher": "toExist",
-              "descriptionHtml": "We couldn't find a rectangle at (40,40,20,20). Check that you've got the co-ordinates, width and height all correct and try again!"
+              "error_html": "We couldn't find a rectangle at (40,40,20,20). Check that you've got the co-ordinates, width and height all correct and try again!"
             }
           ]
         }

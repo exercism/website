@@ -5,7 +5,7 @@
   "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",
-  "avaliableFunctions": ["move", "turnLeft", "turnRight", "canMove"],
+  "available_functions": ["move", "turnLeft", "turnRight", "canMove"],
   "tasks": [
     {
       "name": "A straight path",
@@ -13,7 +13,7 @@
         {
           "slug": "maze-1",
           "name": "Guide person to the end of the maze",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -35,7 +35,7 @@
             {
               "name": "position",
               "value": [4, 6],
-              "descriptionHtml": "Your position should be 4, 6, but it's %actual% ."
+              "error_html": "Your position should be 4, 6, but it's %actual% ."
             }
           ]
         }
@@ -47,7 +47,7 @@
         {
           "slug": "left-turn",
           "name": "A single left turn",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -71,7 +71,7 @@
             {
               "name": "position",
               "value": [8, 5],
-              "descriptionHtml": "Your position should be 8, 5, but it's %actual% ."
+              "error_html": "Your position should be 8, 5, but it's %actual% ."
             },
             {
               "name": "direction",
@@ -87,7 +87,7 @@
         {
           "slug": "right-turn",
           "name": "A single right turn",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -111,14 +111,14 @@
             {
               "name": "position",
               "value": [0, 5],
-              "descriptionHtml": "Your position should be 0, 5, but it's %actual%."
+              "error_html": "Your position should be 0, 5, but it's %actual%."
             }
           ]
         },
         {
           "slug": "forks",
           "name": "Choose left if you can, otherwise choose right",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -143,7 +143,7 @@
             {
               "name": "position",
               "value": [8, 2],
-              "descriptionHtml": "Your position should be 8, 2, but it's %actual%."
+              "error_html": "Your position should be 8, 2, but it's %actual%."
             }
           ]
         }
@@ -155,7 +155,7 @@
         {
           "slug": "turn-around",
           "name": "Turn around if you can't move straight, left, or right",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -180,14 +180,14 @@
             {
               "name": "position",
               "value": [0, 7],
-              "descriptionHtml": "Your position should be 0, 7, but it's %actual%."
+              "error_html": "Your position should be 0, 7, but it's %actual%."
             }
           ]
         },
         {
           "slug": "forks-2",
           "name": "Choose right if you can, otherwise choose left",
-          "setupFunctions": [
+          "setup_functions": [
             [
               "setupGrid",
               [
@@ -212,7 +212,7 @@
             {
               "name": "position",
               "value": [4, 8],
-              "descriptionHtml": "Your position should be 4, 8, but it's %actual%."
+              "error_html": "Your position should be 4, 8, but it's %actual%."
             }
           ]
         }

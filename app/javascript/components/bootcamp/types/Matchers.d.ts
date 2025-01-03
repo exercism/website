@@ -11,7 +11,7 @@ interface MatcherResult {
   name: string
   slug: string
   pass: boolean
-  descriptionHtml?: string
+  errorHtml?: string
   note?: string
   expected?: any
 }

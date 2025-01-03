@@ -15,11 +15,7 @@ export function FailInfo({
     return null
   }
   if (firstFailingExpect.testsType === 'state') {
-    return (
-      <StateTestResultView
-        descriptionHtml={firstFailingExpect.descriptionHtml!}
-      />
-    )
+    return <StateTestResultView errorHtml={firstFailingExpect.errorHtml!} />
   } else {
     return (
       <>

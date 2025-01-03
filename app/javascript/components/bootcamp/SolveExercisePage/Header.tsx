@@ -17,7 +17,7 @@ function _Header() {
     setWasFinishLessonModalShown,
   } = useTaskStore()
 
-  const { solution } = useContext(SolveExercisePageContext)
+  const { solution, links } = useContext(SolveExercisePageContext)
 
   const {
     handleCompleteSolution,
@@ -68,9 +68,12 @@ function _Header() {
           </>
         )}
 
-        <button className={assembleClassNames('btn-secondary btn-xxs ml-8')}>
+        <a
+          href={links.projectsIndex}
+          className={assembleClassNames('btn-secondary btn-xxs ml-8')}
+        >
           Close
-        </button>
+        </a>
       </div>
     </div>
   )

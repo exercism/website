@@ -179,6 +179,20 @@
         }
     }
 
+    .btn-xxs {
+        @apply btn-i-base;
+        height: 24px;
+        @apply px-12 rounded-5;
+        @apply text-14;
+
+        & > .c-icon {
+            height: 14px;
+            width: 14px;
+        }
+        & > .kb-shortcut {
+            @apply text-13;
+        }
+    }
     .btn-xs {
         @apply btn-i-base;
         height: 32px;

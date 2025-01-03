@@ -19,6 +19,9 @@ export const queryClient = new QueryClient({
   },
 })
 
+import * as matchers from 'jest-extended'
+expect.extend(matchers)
+
 // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

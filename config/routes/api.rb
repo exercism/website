@@ -276,6 +276,15 @@ namespace :api do
       end
     end
 
+    namespace :bootcamp do
+      resources :solutions, param: :uuid, only: [] do
+        member do
+          patch :complete
+        end
+        resources :submissions, param: :uuid, only: [:create]
+      end
+    end
+
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
   end
 end

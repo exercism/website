@@ -70,11 +70,11 @@ export const loadLanguageCompartment = async (
     }
 
     // Legacy
-    case 'abap': {
-      const { abapMode } = await import('codemirror6-abap')
-      // @ts-ignore
-      return compartment.of(StreamLanguage.define(abapMode))
-    }
+    // case 'abap': {
+    //   const { abapMode } = await import('codemirror6-abap')
+    //   // @ts-ignore
+    //   return compartment.of(StreamLanguage.define(abapMode))
+    // }
     case 'bash': {
       const { shell } = await import('@codemirror/legacy-modes/mode/shell')
       return compartment.of(StreamLanguage.define(shell))
@@ -277,7 +277,7 @@ export const loadLanguageCompartment = async (
       return compartment.of(StreamLanguage.define(nim({}, {})))
     }
     case 'julia': {
-      const { julia } = await import('lang-julia')
+      const { julia } = await import('@plutojl/lang-julia')
       return compartment.of(julia())
     }
     default:

@@ -1,0 +1,8 @@
+.page-bootcamp-admin {
+    h1 {
+        @apply font-semibold text-22 mb-20;
+    }
+    h2 {
+        @apply font-semibold text-18 mb-8;
+    }
+}

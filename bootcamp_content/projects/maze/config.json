@@ -1,0 +1,6 @@
+{
+  "slug": "maze",
+  "title": "Maze",
+  "description": "Use then implement a basic maze",
+  "exercises": ["manual-solve", "automated-solve"]
+}

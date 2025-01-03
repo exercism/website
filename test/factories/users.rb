@@ -124,5 +124,11 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_bootcamp_data do
+      after(:create) do |user, _evaluator|
+        user.create_bootcamp_data!(paid_at: Time.current)
+      end
+    end
   end
 end

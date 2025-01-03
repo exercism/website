@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+
+    --cellWidth: 20px;
+}
+
+#maze {
+    display: grid;
+    grid-template-columns: repeat(var(--size), var(--cellWidth));
+    grid-template-rows: repeat(var(--size), var(--cellWidth));
+    gap: 0px;
+}
+
+.cell {
+    width: var(--cellWidth);
+    height: var(--cellWidth);
+    background-color: white;
+    border: 0.5px solid #000;
+}
+
+.cell.blocked {
+    background-color: red;
+}
+
+.character {
+    width: calc(var(--cellWidth) / 2);
+    height: calc(var(--cellWidth) / 2);
+    background-color: lightblue;
+    border: 1px solid green;
+    border-radius: 50%;
+    position: relative;
+    left: calc(var(--cellWidth) / 5);
+    top: calc(var(--cellWidth) / 5);
+}
+.direction-up {
+    transform: rotate(0deg);
+}
+.direction-right {
+    transform: rotate(-90deg);
+}
+.direction-down {
+    transform: rotate(180deg);
+}
+.direction-right {
+    transform: rotate(90deg);
+}
+
+.character::before,
+.character::after {
+    content: "";
+    position: absolute;
+    width: calc(var(--cellWidth) / 4);
+    height: calc(var(--cellWidth) / 4);
+    background-color: green;
+    border-radius: 50%;
+    bottom: 8px;
+}
+
+.character::before {
+    left: 6px;
+}
+
+.character::after {
+    right: 6px;
+}

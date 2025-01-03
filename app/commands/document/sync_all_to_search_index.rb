@@ -19,6 +19,7 @@ class Document::SyncAllToSearchIndex
       end
 
       Exercism.opensearch_client.bulk(body:)
+      Exercism::TOUCHED_OPENSEARCH_INDEXES << Document::OPENSEARCH_INDEX if Rails.env.test?
     end
   end
 

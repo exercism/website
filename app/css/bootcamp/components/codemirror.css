@@ -1,0 +1,90 @@
+#bootcamp-solve-exercise-page {
+    .editor-wrapper {
+        overflow: hidden;
+        @apply h-[60%] flex-grow-0;
+        @apply rounded-5;
+        @apply border-2 border-bootcamp-light-purple;
+    }
+
+    .editor {
+        height: 100%;
+        background: #fff;
+        overflow-y: auto;
+        @apply flex flex-grow;
+
+        .cm-gutters {
+            background: transparent;
+            @apply border-r-0;
+        }
+        .cm-lineNumbers .cm-gutterElement,
+        .cm-icon-container-gutter .cm-gutterElement {
+            @apply grid items-center;
+            /* @apply p-0; */
+        }
+
+        .cm-icon-container-gutter .cm-gutterElement {
+            @apply px-4;
+        }
+        .cm-line {
+            padding: 2px 2px 2px 6px;
+        }
+        .cm-lockedLine,
+        .cm-lockedGutter {
+            opacity: 0.6;
+            background: #eee;
+        }
+        .ͼ1 .cm-underline {
+            text-decoration: none;
+            border-bottom: 2px solid red;
+            background: rgba(255, 0, 0, 0.2);
+        }
+    }
+    .cm-editor {
+        font-family: "Source Code Pro", "Courier New", Courier, monospace;
+        text-align: left;
+        width: 100%;
+        color: #aaa;
+        font-size: 16px;
+
+        .cm-scroller {
+            font-family: "Source Code Pro", "Courier New", Courier, monospace;
+        }
+        .cm-foldGutter span {
+            display: none;
+        }
+        .cm-gutterElement {
+            @apply pl-2 pr-8;
+        }
+    }
+    .cm-content {
+        outline: none !important;
+    }
+
+    .declaration-arrow {
+        position: absolute;
+    }
+
+    .cm-line {
+        /* display: flex;
+        align-items: center; */
+    }
+
+    .custom-tooltip {
+        font-family: Poppins;
+        font-size: 14px;
+        padding: 4px;
+        color: #130b43;
+        line-height: 160%;
+        background: #ffd38f;
+        border-radius: 8px;
+    }
+
+    .cm-tooltip {
+        border: none !important;
+    }
+
+    .cm-lineNumbers {
+        /* width: 2em; */
+        text-align: right;
+    }
+}

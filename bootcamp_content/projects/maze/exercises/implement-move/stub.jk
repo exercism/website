@@ -1,0 +1,5 @@
+// Receives a number as its input
+// and should return "Positive", "Negative" or "Zero"
+function even_or_odd with num do
+
+end

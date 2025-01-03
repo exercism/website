@@ -1,0 +1,9 @@
+function positive_negative_or_zero with num do
+  if num > 0 do
+    return "Positive"
+  else if num < 0 do
+    return "Negative"
+  else do
+    return "Zero"
+  end
+end

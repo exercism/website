@@ -81,15 +81,13 @@ function CompletedExerciseView() {
   const { nextExerciseData } = useContext(FinishLessonModalContext)
   const { links } = useContext(SolveExercisePageContext)
   return (
-    <div>
+    <div className="[&_p]:text-16 [&_p]:mb-10">
       <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
 
       {nextExerciseData ? (
         <>
-          <p className="text-16 mb-10">
-            The next exercise is {nextExerciseData.title}.
-          </p>
-          <p className="text-16 mb-10">
+          <p>The next exercise is {nextExerciseData.title}.</p>
+          <p>
             Do you want to start it, or would you rather go back to the projects
             list?
           </p>
@@ -107,8 +105,8 @@ function CompletedExerciseView() {
             Continue
           </a>
         )}
-        <a href={links.projectsIndex} className="btn-l btn-standard">
-          See project list
+        <a href={links.dashboardIndex} className="btn-l btn-standard">
+          Back to dashboard
         </a>
       </div>
     </div>

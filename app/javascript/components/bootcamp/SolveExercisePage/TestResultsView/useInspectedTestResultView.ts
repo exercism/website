@@ -19,13 +19,6 @@ export type ProcessedExpects = ProcessedExpect[]
 
 export function useInspectedTestResultView() {
   const { inspectedTestResult: result } = useTestStore()
-  const {
-    setHighlightedLine,
-    setHighlightedLineColor,
-    setInformationWidgetData,
-    setShouldShowInformationWidget,
-    setUnderlineRange,
-  } = useEditorStore()
   const viewContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {

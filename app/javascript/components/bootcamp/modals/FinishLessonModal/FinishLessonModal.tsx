@@ -23,10 +23,11 @@ export function FinishLessonModal() {
   // }, [isOpen]);
 
   return (
+    // @ts-ignore
     <Modal
       isOpen={isOpen}
-      className="react-modal-content flex flex-col items-center justify-center text-center max-w-[500px]"
-      overlayClassName="react-modal-overlay"
+      className="solve-exercise-page-react-modal-content flex flex-col items-center justify-center text-center max-w-[500px]"
+      overlayClassName="solve-exercise-page-react-modal-overlay"
     >
       <Inner />
     </Modal>

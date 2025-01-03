@@ -27,6 +27,12 @@ export function useEditorHandler({
     config,
   })
 
+  const resetEditorToStub = () => {
+    if (editorHandler.current) {
+      editorHandler.current.setValue(code.stub)
+    }
+  }
+
   const handleRunCode = () => {
     if (editorViewRef.current) {
       cleanUpEditor(editorViewRef.current)
@@ -45,6 +51,7 @@ export function useEditorHandler({
     editorHandler,
     latestValueSnapshot,
     editorViewRef,
+    resetEditorToStub,
   }
 }
 

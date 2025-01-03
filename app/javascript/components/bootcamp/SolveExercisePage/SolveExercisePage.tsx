@@ -11,7 +11,7 @@ import { Resizer, useResizablePanels } from './hooks/useResize'
 import { TaskPreview } from './TaskPreview/TaskPreview'
 import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
 import { PreviousTestResultView } from './PreviousTestResultsView/PreviousTestResultsView'
-import { Header } from './Header'
+import { Header } from './Header/Header'
 
 export default function SolveExercisePage({
   exercise,
@@ -20,12 +20,16 @@ export default function SolveExercisePage({
   solution,
 }: SolveExercisePageProps): JSX.Element {
   // this returns handleRunCode which is onRunCode but with studentCode passed in as an argument
-  const { handleEditorDidMount, handleRunCode, editorViewRef } =
-    useEditorHandler({
-      links,
-      config: exercise.config,
-      code,
-    })
+  const {
+    handleEditorDidMount,
+    handleRunCode,
+    editorViewRef,
+    resetEditorToStub,
+  } = useEditorHandler({
+    links,
+    config: exercise.config,
+    code,
+  })
 
   useSetupStores({ exercise, code })
   const {
@@ -50,9 +54,11 @@ export default function SolveExercisePage({
   })
 
   return (
-    <SolveExercisePageContextWrapper value={{ links, solution, exercise }}>
+    <SolveExercisePageContextWrapper
+      value={{ links, solution, exercise, code, resetEditorToStub }}
+    >
       <div id="bootcamp-solve-exercise-page">
-        <Header></Header>
+        <Header />
         <div className="page-body">
           <div style={{ width: LHSWidth }} className="page-body-lhs">
             <ErrorBoundary>

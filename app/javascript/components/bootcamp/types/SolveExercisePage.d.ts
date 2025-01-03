@@ -30,6 +30,7 @@ declare type SolveExercisePageProps = {
     postSubmission: string
     completeSolution: string
     projectsIndex: string
+    dashboardIndex: string
   }
 }
 

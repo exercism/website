@@ -1,3 +1,5 @@
+import { LanguageFeatures } from '@/interpreter/interpreter'
+
 type Code = {
   code: string
   stored_at: Date | string | null
@@ -39,4 +41,5 @@ declare type Config = {
   projectType: string
   // tasks: Task[];
   testsType: 'io' | 'state'
+  interpreterOptions: LanguageFeatures
 }

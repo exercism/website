@@ -254,6 +254,7 @@ export class Executor
     let count = this.executeFrame(statement, () =>
       this.evaluate(statement.count)
     )
+
     if (!isNumber(count))
       this.error('RepeatCountMustBeNumber', statement.count.location, {
         count,
@@ -267,6 +268,11 @@ export class Executor
     while (count > 0) {
       this.executeBlock(statement.body, this.environment)
       count--
+
+      // Delay repeat for things like animations
+      if (this.languageFeatures.repeatDelay) {
+        this.time += this.languageFeatures.repeatDelay
+      }
     }
   }
 

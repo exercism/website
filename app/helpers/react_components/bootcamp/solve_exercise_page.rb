@@ -20,7 +20,8 @@ module ReactComponents
             title: exercise.config[:title],
             description: exercise.config[:description],
             project_type: exercise.config[:project_type],
-            tests_type: exercise.config[:tests_type]
+            tests_type: exercise.config[:tests_type],
+            interpreter_options: exercise.config[:interpreter_options]
           },
           test_results: submission&.test_results
         },

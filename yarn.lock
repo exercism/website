@@ -3612,6 +3612,14 @@ code-point-at@^1.0.0:
   version "3.0.1"
   resolved "https://github.com/sachinraja/codemirror-lang-elixir#bc0e5af9a57aa5b4cff33bd83aea753106079354"
 
+codemirror-lang-jikiscript@dem4ron/codemirror-lang-jikiscript#jikify:
+  version "0.0.1"
+  resolved "https://codeload.github.com/dem4ron/codemirror-lang-jikiscript/tar.gz/9b6e10b44132a392ec50c6a03f9b021bccb69817"
+  dependencies:
+    "@codemirror/language" "^6.10.1"
+    "@lezer/highlight" "^1.2.0"
+    "@lezer/lr" "^1.4.0"
+
 codemirror-lang-jq@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/codemirror-lang-jq/-/codemirror-lang-jq-1.0.0.tgz#6865885dea031a0c4e405a0961c071e436c090a4"

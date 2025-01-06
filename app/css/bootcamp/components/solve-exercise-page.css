@@ -73,3 +73,7 @@
         @apply bg-bootcamp-purple;
     }
 }
+
+body.namespace-bootcamp.controller-exercises.action-edit {
+    overflow: hidden;
+}

@@ -36,7 +36,7 @@ export const InspectedTestResultView = wrapWithErrorBoundary(
   _InspectedTestResultView
 )
 
-function InspectedTestResultViewLHS({
+export function InspectedTestResultViewLHS({
   result,
   firstFailingExpect,
 }: {

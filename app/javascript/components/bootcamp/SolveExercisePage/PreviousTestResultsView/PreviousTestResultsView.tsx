@@ -34,12 +34,7 @@ function _PreviousTestResultView({ exercise }: { exercise: Exercise }) {
   if (!result || testSuiteResult) return null
 
   return (
-    <div
-      className={assembleClassNames(
-        'c-scenario',
-        result.status === 'fail' ? 'fail' : 'pass'
-      )}
-    >
+    <div className={assembleClassNames('c-scenario', result.status)}>
       <PreviousTestResultViewLHS result={result} />
 
       <div ref={viewContainerRef} id="view-container" />

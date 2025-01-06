@@ -10,7 +10,10 @@ export function useSetupStores({
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
   const { setDefaultCode } = useEditorStore()
   const { initializeTasks } = useTaskStore()
-  const [editorValue] = useLocalStorage('bootcamp-editor-value', code.code)
+  const [editorValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.config.title,
+    code.code
+  )
   const { setPreviousTestSuiteResult, setInspectedPreviousTestResult } =
     useTestStore()
 

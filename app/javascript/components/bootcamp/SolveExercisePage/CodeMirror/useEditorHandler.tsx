@@ -14,7 +14,7 @@ export function useEditorHandler({
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const [, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value',
+    'bootcamp-editor-value-' + config.title,
     code.code
   )
 

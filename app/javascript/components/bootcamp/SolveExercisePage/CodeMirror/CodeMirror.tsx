@@ -93,9 +93,9 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   } = useEditorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
-  const { code } = useContext(SolveExercisePageContext)
+  const { code, exercise } = useContext(SolveExercisePageContext)
   const [_, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value',
+    'bootcamp-editor-value-' + exercise.config.title,
     code.code
   )
 

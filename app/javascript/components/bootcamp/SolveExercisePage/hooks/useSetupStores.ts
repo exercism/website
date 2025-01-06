@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTaskStore from '../store/taskStore/taskStore'
 import useTestStore from '../store/testStore'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 export function useSetupStores({
   exercise,
@@ -9,6 +10,7 @@ export function useSetupStores({
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
   const { setDefaultCode } = useEditorStore()
   const { initializeTasks } = useTaskStore()
+  const [editorValue] = useLocalStorage('bootcamp-editor-value', code.code)
   const { setPreviousTestSuiteResult, setInspectedPreviousTestResult } =
     useTestStore()
 
@@ -56,7 +58,7 @@ export function useSetupStores({
     }
 
     initializeTasks(exercise.tasks, previousTestSuiteResult)
-    setDefaultCode(code.code)
+    setDefaultCode(editorValue)
   }, [exercise, code])
 }
 

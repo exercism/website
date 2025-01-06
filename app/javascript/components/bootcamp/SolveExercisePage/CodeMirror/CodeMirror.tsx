@@ -37,6 +37,7 @@ import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { debounce } from 'lodash'
+import { jikiscript } from 'codemirror-lang-jikiscript'
 
 export const readonlyCompartment = new Compartment()
 
@@ -165,7 +166,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             ...lintKeymap,
             indentWithTab,
           ]),
-          javascript(),
+          jikiscript(),
           Ext.highlightLine(highlightedLine),
           Ext.showInfoWidgetField,
           Ext.informationWidgetDataField,

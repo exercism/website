@@ -30,6 +30,7 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
+          stub: exercise.stub,
           # rename to `value` or similar? code.code is a bit confusing
           code: submission ? submission.code : exercise.stub,
           stored_at: submission&.created_at,

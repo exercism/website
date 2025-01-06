@@ -3,6 +3,8 @@ import React, {
   useEffect,
   forwardRef,
   type ForwardedRef,
+  useContext,
+  useMemo,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 import { EditorState, Compartment } from '@codemirror/state'
@@ -32,6 +34,9 @@ import useEditorStore from '../store/editorStore'
 import * as Ext from './extensions'
 import * as Hook from './hooks'
 import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { debounce } from 'lodash'
 
 export const readonlyCompartment = new Compartment()
 
@@ -88,6 +93,15 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   } = useEditorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
+  const { code } = useContext(SolveExercisePageContext)
+  const [_, setEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value',
+    code.code
+  )
+
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return debounce((value: string) => setEditorLocalStorageValue(value), 500)
+  }, [setEditorLocalStorageValue])
 
   let value = defaultCode
 
@@ -169,6 +183,9 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           ),
           onEditorChange(
             () => setHighlightedLine(0),
+            (e) => {
+              updateLocalStorageValueOnDebounce(e.state.doc.toString())
+            },
             () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),

@@ -1,14 +1,15 @@
 import React from 'react'
-import useTaskStore from './store/taskStore/taskStore'
+import useTaskStore from '../store/taskStore/taskStore'
 import { FinishLessonModal } from '@/components/bootcamp/modals/FinishLessonModal/FinishLessonModal'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { FinishLessonModalContextWrapper } from '@/components/bootcamp/modals/FinishLessonModal/FinishLessonModalContextWrapper'
-import { useTasks } from './Tasks/useTasks'
+import { useTasks } from '../Tasks/useTasks'
 import { useContext } from 'react'
-import { SolveExercisePageContext } from './SolveExercisePageContextWrapper'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { ResetButton } from './ResetButton'
 
 function _Header() {
   const {
@@ -74,6 +75,8 @@ function _Header() {
         >
           Close
         </a>
+
+        <ResetButton />
       </div>
     </div>
   )

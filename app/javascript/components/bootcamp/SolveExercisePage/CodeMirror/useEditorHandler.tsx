@@ -4,6 +4,7 @@ import { cleanUpEditor } from './extensions/clean-up-editor'
 import type { EditorView } from 'codemirror'
 import type { Handler } from './CodeMirror'
 import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOnlyRanges'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 export function useEditorHandler({
   links,
@@ -12,6 +13,10 @@ export function useEditorHandler({
 }: Pick<SolveExercisePageProps, 'links' | 'code'> & { config: Config }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
+  const [, setEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value',
+    code.code
+  )
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
@@ -26,6 +31,13 @@ export function useEditorHandler({
     links,
     config,
   })
+
+  const resetEditorToStub = () => {
+    if (editorHandler.current) {
+      setEditorLocalStorageValue(code.stub)
+      editorHandler.current.setValue(code.stub)
+    }
+  }
 
   const handleRunCode = () => {
     if (editorViewRef.current) {
@@ -45,6 +57,7 @@ export function useEditorHandler({
     editorHandler,
     latestValueSnapshot,
     editorViewRef,
+    resetEditorToStub,
   }
 }
 

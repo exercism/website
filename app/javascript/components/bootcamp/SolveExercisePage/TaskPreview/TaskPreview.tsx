@@ -1,28 +1,35 @@
-import React from 'react'
-import { useMemo } from 'react'
+import React, { useContext } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import useTestStore from '../store/testStore'
 import { StatePreview } from './StatePreview'
 import { IOPreview } from './IOPreview'
 import { useMountViewOrImage } from './useMountViewOrImage'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
-export function _TaskPreview({ exercise }: { exercise: Exercise }) {
-  const firstTest = useMemo(() => exercise.tasks[0].tests[0], [exercise.tasks])
-  const { testSuiteResult, previousTestSuiteResult } = useTestStore()
+export function _TaskPreview() {
+  const { exercise } = useContext(SolveExercisePageContext)
+  const { testSuiteResult, previousTestSuiteResult, inspectedPreviewTaskTest } =
+    useTestStore()
 
   const viewContainerRef = useMountViewOrImage({
     config: exercise.config,
-    taskTest: firstTest,
+    taskTest: inspectedPreviewTaskTest,
   })
 
-  if (testSuiteResult || previousTestSuiteResult) return null
+  if (testSuiteResult || previousTestSuiteResult) {
+    console.log('early returning task preview')
+    return null
+  }
 
   return (
     <section className="c-scenario pending">
       {exercise.config.testsType === 'io' ? (
-        <IOPreview firstTest={firstTest} />
+        <IOPreview inspectedPreviewTaskTest={inspectedPreviewTaskTest} />
       ) : (
-        <StatePreview firstTest={firstTest} config={exercise.config} />
+        <StatePreview
+          inspectedPreviewTaskTest={inspectedPreviewTaskTest}
+          config={exercise.config}
+        />
       )}
       <div ref={viewContainerRef} id="view-container" />
     </section>

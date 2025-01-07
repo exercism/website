@@ -81,7 +81,7 @@ export default function SolveExercisePage({
             >
               <ControlButtons handleRunCode={handleRunCode} />
               <InspectedTestResultView />
-              <TaskPreview exercise={exercise} />
+              <TaskPreview />
               <PreviousTestResultView exercise={exercise} />
             </div>
           </div>

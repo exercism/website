@@ -1,8 +1,8 @@
 import React from 'react'
 export function StatePreview({
-  firstTest,
+  inspectedPreviewTaskTest,
 }: {
-  firstTest: TaskTest
+  inspectedPreviewTaskTest: TaskTest
   config: Config
 }) {
   return (
@@ -10,13 +10,8 @@ export function StatePreview({
       <div className="scenario-lhs-content">
         <h3>
           <strong>Scenario: </strong>
-          {firstTest.name}
+          {inspectedPreviewTaskTest.name}
         </h3>
-        <p>
-          The first scenario is {firstTest.name}. The first scenario is{' '}
-          {firstTest.name}. The first scenario is {firstTest.name}. The first
-          scenario is {firstTest.name}.
-        </p>
       </div>
     </div>
   )

@@ -1,9 +1,7 @@
-import React from 'react'
 import { useState, useContext, useCallback, useRef, useEffect } from 'react'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { type NextExercise, completeSolution } from './completeSolution'
 import type { TaskStore } from '../store/taskStore/taskStore'
-import { useLogger } from '@/components/common/hooks/useLogger'
 
 export function useTasks({
   areAllTasksCompleted,

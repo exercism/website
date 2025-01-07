@@ -81,7 +81,7 @@ export function useSetupStores({
   }, [exercise, code])
 }
 
-function generateCodeRunString(fn: string, params: any[]) {
+export function generateCodeRunString(fn: string, params: any[]) {
   if (!fn || !params) return ''
   return `${fn}(${params.join(', ')})`
 }

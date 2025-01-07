@@ -12,11 +12,6 @@ export function StatePreview({
           <strong>Scenario: </strong>
           {firstTest.name}
         </h3>
-        <p>
-          The first scenario is {firstTest.name}. The first scenario is{' '}
-          {firstTest.name}. The first scenario is {firstTest.name}. The first
-          scenario is {firstTest.name}.
-        </p>
       </div>
     </div>
   )

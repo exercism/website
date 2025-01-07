@@ -1,20 +1,29 @@
 import React from 'react'
+import { CodeRun } from '../TestResultsView/CodeRun'
+import { generateCodeRunString } from '../hooks/useSetupStores'
 export function IOPreview({ firstTest }: { firstTest: TaskTest }) {
   return (
     <div className="scenario-lhs">
-      <p>
-        The first{' '}
-        <span className="font-semibold text-jiki-purple">scenario</span> is{' '}
-        <strong>{firstTest.name}</strong>.
-      </p>
-      <p>
-        We'll run{' '}
-        <code className="prominent">
-          {firstTest.function}({firstTest.params.join(', ')})
-        </code>{' '}
-        and expect it to <code className="text-[#a626a4]">return</code>{' '}
-        <code className="prominent">{firstTest.expected}</code>
-      </p>
+      <div className="scenario-lhs-content">
+        <h3>
+          <strong>Scenario: </strong>
+          {firstTest.name}
+        </h3>
+        <table className="io-test-result-info">
+          <tbody>
+            <CodeRun
+              codeRun={generateCodeRunString(
+                firstTest.function,
+                firstTest.params
+              )}
+            />
+            <tr>
+              <th>Expected:</th>
+              <td>{firstTest.expected}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

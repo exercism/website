@@ -14,7 +14,7 @@ export function PreviousTestResultsButtons() {
 
   if (!previousTestSuiteResult || testSuiteResult) return null
   return (
-    <div className="flex gap-x-4">
+    <div className="test-selector-buttons">
       {previousTestSuiteResult.tests.map((test, idx) => {
         return (
           <button

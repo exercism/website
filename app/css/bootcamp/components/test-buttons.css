@@ -1,4 +1,11 @@
 #bootcamp-solve-exercise-page {
+    .test-selector-buttons {
+        @apply flex gap-x-4;
+
+        .test-button {
+            @apply flex-shrink-0;
+        }
+    }
     .test-button {
         @apply relative p-4 w-[40px] h-[40px] grid place-content-center;
         transition: background-color 0.3s ease-out;
@@ -56,6 +63,7 @@
 
                 @apply absolute bottom-[-10px] left-[50%];
                 transform: translateX(-50%);
+                z-index: 100;
 
                 width: 0;
                 height: 0;

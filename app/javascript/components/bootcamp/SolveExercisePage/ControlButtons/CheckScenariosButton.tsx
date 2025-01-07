@@ -8,8 +8,7 @@ export function CheckScenariosButton({
 }: {
   handleRunCode: () => void
 }) {
-  const { toggleShouldAutoRunCode, shouldAutoRunCode, setShouldAutoRunCode } =
-    useEditorStore()
+  const { shouldAutoRunCode, setShouldAutoRunCode } = useEditorStore()
   return (
     <button
       className="scenarios-button btn-primary btn-s"

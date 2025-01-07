@@ -4,13 +4,20 @@ import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundar
 import { CheckScenariosButton } from './CheckScenariosButton'
 import useTestStore from '../store/testStore'
 import { PreviousTestResultsButtons } from '../PreviousTestResultsView/PreviousTestResultsButtons'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
+// We
 function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
   return (
-    <div className="flex items-center gap-8 mb-12">
+    <div className="flex items-center gap-8 pb-12 overflow-auto">
+      {/* Run the tests with this button */}
       <CheckScenariosButton handleRunCode={handleRunCode} />
+      {/* These buttons let you select a test/scenario that you want to inspect.  */}
+      {/* Initial test/scenario preview buttons - no tests were ever run */}
+      <PreviewTestButtons />
+      {/* Just ran the tests */}
       <TestResultsButtons />
-      <IdleTestButton />
+      {/* Previous test result buttons - previous means we had a submission of this exercise saved in the db */}
       <PreviousTestResultsButtons />
     </div>
   )
@@ -18,7 +25,7 @@ function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
 
 export const ControlButtons = wrapWithErrorBoundary(_ControlButtons)
 
-function IdleTestButton() {
+function PreviewTestButtons() {
   const {
     testSuiteResult,
     previousTestSuiteResult,
@@ -29,12 +36,15 @@ function IdleTestButton() {
   if (testSuiteResult || previousTestSuiteResult) return null
 
   return (
-    <div className="flex gap-x-4">
+    <div className="test-selector-buttons ">
       {flatPreviewTaskTests.map((taskTest, testIdx) => (
         <button
           key={testIdx}
           onClick={() => setInspectedPreviewTaskTest(taskTest)}
-          className="test-button idle"
+          className={assembleClassNames(
+            'test-button idle',
+            inspectedPreviewTaskTest.slug === taskTest.slug && 'selected'
+          )}
         >
           {testIdx + 1}
         </button>

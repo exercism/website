@@ -22,7 +22,17 @@ export function useSetupStores({
       null
     if (exercise.testResults) {
       const tests = (() => {
-        const testArr = []
+        const testArr: {
+          name: string
+          testIndex: number
+          slug: string
+          status: 'pass' | 'fail'
+          actual: string
+          expected: string | undefined
+          codeRun: string
+          testsType: 'io' | 'state'
+        }[] = []
+
         let i = 0
         for (let taskInConfig of exercise.tasks) {
           for (let testInConfig of taskInConfig.tests) {

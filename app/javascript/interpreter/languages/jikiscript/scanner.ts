@@ -37,6 +37,7 @@ export class Scanner {
 
   private static readonly keywords: Record<string, TokenType> = {
     and: 'AND',
+    change: 'CHANGE',
     do: 'DO',
     else: 'ELSE',
     end: 'END',

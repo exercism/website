@@ -160,6 +160,7 @@ export class Parser implements GenericParser {
 
   private statement(): Statement {
     if (this.match('SET')) return this.setStatement()
+    if (this.match('CHANGE')) return this.changeStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
@@ -216,6 +217,47 @@ export class Parser implements GenericParser {
       )
     }
   }
+  private changeStatement(): Statement {
+    const setToken = this.previous()
+    // if (this.peek(2).type == 'LEFT_BRACKET') {
+    //   const assignment = this.assignment()
+    //   this.consumeEndOfLine()
+
+    //   return new ExpressionStatement(
+    //     assignment,
+    //     Location.between(setToken, assignment)
+    //   )
+    // } else {
+    const name = this.consume('IDENTIFIER', 'MissingVariableName')
+
+    const token = this.consume(
+      'TO',
+      'MissingToAfterVariableNameToInitializeValue',
+      {
+        name,
+      }
+    )
+
+    const initializer = this.expression()
+    this.consumeEndOfLine()
+
+    // return new VariableStatement(
+    //   name,
+    //   initializer,
+    //   Location.between(setToken, initializer)
+    // )
+    return new ExpressionStatement(
+      new AssignExpression(
+        name,
+        token,
+        initializer,
+        true,
+        Location.between(setToken, initializer)
+      ),
+      Location.between(setToken, initializer)
+    )
+    // }
+  }
 
   private ifStatement(): Statement {
     const ifToken = this.previous()
@@ -248,7 +290,7 @@ export class Parser implements GenericParser {
 
     this.consume('DO', 'MissingDoToStartBlock', { type: 'if' })
     const thenBranch = this.blockStatement('if', { allowElse: true })
-    let elseBranch = null
+    let elseBranch: Statement | null = null
 
     if (this.match('ELSE')) {
       if (this.match('IF')) {
@@ -415,6 +457,7 @@ export class Parser implements GenericParser {
           expr.name,
           operator,
           value,
+          true,
           Location.between(expr, value)
         )
       }

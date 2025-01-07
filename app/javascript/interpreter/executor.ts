@@ -205,6 +205,11 @@ export class Executor
 
   public visitVariableStatement(statement: VariableStatement): void {
     this.executeFrame(statement, () => {
+      if (this.environment.inScope(statement.name.lexeme)) {
+        this.error('VariableAlreadyDeclared', statement.location, {
+          name: statement.name.lexeme,
+        })
+      }
       const result = this.evaluate(statement.initializer)
       const updating = this.environment.inScope(statement.name.lexeme)
       this.environment.define(statement.name.lexeme, result.value)
@@ -722,9 +727,19 @@ export class Executor
   }
 
   public visitAssignExpression(expression: AssignExpression): EvaluationResult {
+    // Ensure the variable resolves if we're updating
+    // and doesn't resolve if we're declaring
+    if (expression.updating) {
+      if (!this.environment.inScope(expression.name.lexeme)) {
+        this.error('VariableNotDeclared', expression.location, {
+          name: expression.name.lexeme,
+        })
+      }
+    }
+
     const value = this.evaluate(expression.value)
     const newValue =
-      expression.operator.type === 'EQUAL'
+      expression.operator.type === 'EQUAL' || expression.operator.type === 'TO'
         ? value.value
         : expression.operator.type === 'PLUS_EQUAL'
         ? this.lookupVariable(expression.name, expression) + value.value

@@ -190,6 +190,7 @@ export class AssignExpression extends Expression {
     public name: Token,
     public operator: Token,
     public value: Expression,
+    public updating: boolean,
     public location: Location
   ) {
     super()

@@ -1,25 +1,29 @@
 import React from 'react'
 import { CodeRun } from '../TestResultsView/CodeRun'
 import { generateCodeRunString } from '../hooks/useSetupStores'
-export function IOPreview({ firstTest }: { firstTest: TaskTest }) {
+export function IOPreview({
+  inspectedPreviewTaskTest,
+}: {
+  inspectedPreviewTaskTest: TaskTest
+}) {
   return (
     <div className="scenario-lhs">
       <div className="scenario-lhs-content">
         <h3>
           <strong>Scenario: </strong>
-          {firstTest.name}
+          {inspectedPreviewTaskTest.name}
         </h3>
         <table className="io-test-result-info">
           <tbody>
             <CodeRun
               codeRun={generateCodeRunString(
-                firstTest.function,
-                firstTest.params
+                inspectedPreviewTaskTest.function,
+                inspectedPreviewTaskTest.params
               )}
             />
             <tr>
               <th>Expected:</th>
-              <td>{firstTest.expected}</td>
+              <td>{inspectedPreviewTaskTest.expected}</td>
             </tr>
           </tbody>
         </table>

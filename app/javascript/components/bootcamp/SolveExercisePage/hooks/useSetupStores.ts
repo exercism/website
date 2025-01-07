@@ -8,14 +8,17 @@ export function useSetupStores({
   exercise,
   code,
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
-  const { setDefaultCode } = useEditorStore()
-  const { initializeTasks } = useTaskStore()
   const [editorValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
     code.code
   )
-  const { setPreviousTestSuiteResult, setInspectedPreviousTestResult } =
-    useTestStore()
+  const { setDefaultCode } = useEditorStore()
+  const { initializeTasks } = useTaskStore()
+  const {
+    setPreviousTestSuiteResult,
+    setInspectedPreviousTestResult,
+    setFlatPreviewTaskTests,
+  } = useTestStore()
 
   useLayoutEffect(() => {
     let previousTestSuiteResult: TestSuiteResult<PreviousTestResult> | null =
@@ -77,6 +80,7 @@ export function useSetupStores({
     }
 
     initializeTasks(exercise.tasks, previousTestSuiteResult)
+    setFlatPreviewTaskTests(exercise.tasks.flatMap((task) => task.tests))
     setDefaultCode(editorValue)
   }, [exercise, code])
 }

@@ -19,11 +19,26 @@ function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
 export const ControlButtons = wrapWithErrorBoundary(_ControlButtons)
 
 function IdleTestButton() {
-  const { testSuiteResult, previousTestSuiteResult } = useTestStore()
+  const {
+    testSuiteResult,
+    previousTestSuiteResult,
+    flatPreviewTaskTests,
+    setInspectedPreviewTaskTest,
+    inspectedPreviewTaskTest,
+  } = useTestStore()
   if (testSuiteResult || previousTestSuiteResult) return null
+
   return (
     <div className="flex gap-x-4">
-      <button className="test-button idle">1</button>
+      {flatPreviewTaskTests.map((taskTest, testIdx) => (
+        <button
+          key={testIdx}
+          onClick={() => setInspectedPreviewTaskTest(taskTest)}
+          className="test-button idle"
+        >
+          {testIdx + 1}
+        </button>
+      ))}
     </div>
   )
 }

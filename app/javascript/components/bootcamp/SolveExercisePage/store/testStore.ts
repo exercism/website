@@ -15,6 +15,10 @@ type TestStore = {
   setPreviousTestSuiteResult: (
     testSuiteResult: TestSuiteResult<PreviousTestResult> | null
   ) => void
+  flatPreviewTaskTests: TaskTest[]
+  setFlatPreviewTaskTests: (flatPreviewTaskTests: TaskTest[]) => void
+  setInspectedPreviewTaskTest: (inspectedPreviewTaskTest: TaskTest) => void
+  inspectedPreviewTaskTest: TaskTest
 }
 
 const useTestStore = createStoreWithMiddlewares<TestStore>(
@@ -22,6 +26,25 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
     inspectedTestResult: null,
     setInspectedTestResult: (inspectedTestResult) => {
       set({ inspectedTestResult }, false, 'exercise/setTestResults')
+    },
+    flatPreviewTaskTests: [],
+    setFlatPreviewTaskTests: (flatPreviewTaskTests) => {
+      set(
+        {
+          flatPreviewTaskTests,
+          inspectedPreviewTaskTest: flatPreviewTaskTests[0],
+        },
+        false,
+        'exercise/setFlatPreviewTaskTests'
+      )
+    },
+    inspectedPreviewTaskTest: {} as TaskTest,
+    setInspectedPreviewTaskTest: (inspectedPreviewTaskTest) => {
+      set(
+        { inspectedPreviewTaskTest },
+        false,
+        'exercise/setInspectedPreviewTaskTest'
+      )
     },
     inspectedPreviousTestResult: null,
     setInspectedPreviousTestResult: (inspectedPreviousTestResult) => {

@@ -4,25 +4,25 @@ import { IOTestResultView } from './IOTestResultView'
 import { StateTestResultView } from './StateTestResultView'
 import type { ProcessedExpect } from './useInspectedTestResultView'
 
-export function FailInfo({
+export function TestResultInfo({
   result,
-  firstFailingExpect,
+  firstExpect,
 }: {
   result: NewTestResult
-  firstFailingExpect: ProcessedExpect | null
+  firstExpect: ProcessedExpect | null
 }) {
-  if (!firstFailingExpect) {
+  if (!firstExpect) {
     return null
   }
-  if (firstFailingExpect.testsType === 'state') {
-    return <StateTestResultView errorHtml={firstFailingExpect.errorHtml!} />
+  if (firstExpect.testsType === 'state') {
+    return <StateTestResultView errorHtml={firstExpect.errorHtml!} />
   } else {
     return (
       <>
         <table className="io-test-result-info">
           <tbody>
             <CodeRun codeRun={result.codeRun} />
-            <IOTestResultView diff={firstFailingExpect.diff} />
+            <IOTestResultView diff={firstExpect.diff} />
           </tbody>
         </table>
       </>

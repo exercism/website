@@ -36,7 +36,7 @@
             {
               "name": "position",
               "value": [6, 6],
-              "error_html": "Your position should be 6, 6, but it's %actual% ."
+              "error_html": "Your position should be 6, 6, but it's %actual%."
             },
             {
               "name": "direction",

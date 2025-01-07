@@ -29,6 +29,7 @@ export function useSetupStores({
           status: 'pass' | 'fail'
           actual: string
           expected: string | undefined
+          errorHtml?: string
           codeRun: string
           testsType: 'io' | 'state'
         }[] = []
@@ -44,6 +45,11 @@ export function useSetupStores({
                 slug: testInConfig.slug,
                 status: prevTest.status,
                 actual: prevTest.actual,
+                errorHtml:
+                  exercise.config.testsType === 'state' &&
+                  prevTest.status === 'fail'
+                    ? prevTest.actual
+                    : undefined,
                 expected: testInConfig.expected,
                 codeRun: generateCodeRunString(
                   testInConfig.function,

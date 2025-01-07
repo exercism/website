@@ -1,15 +1,15 @@
 {
   "title": "Rock Paper Scissors",
   "description": "Calculate the correct result",
-  "concepts": ["Conditionals"],
+  "concepts": ["conditionals"],
   "level": 2,
+  "tests_type": "io",
   "tasks": [
     {
       "name": "Player 1 chooses paper",
       "tests": [
         {
           "slug": "paper-vs-paper",
-          "type": "io",
           "name": "Paper vs Paper",
           "function": "who_wins",
           "params": ["paper", "paper"],
@@ -18,7 +18,6 @@
         },
         {
           "slug": "paper-vs-rock",
-          "type": "io",
           "name": "Paper vs Rock",
           "function": "who_wins",
           "params": ["paper", "rock"],
@@ -27,7 +26,6 @@
         },
         {
           "slug": "paper-vs-scissors",
-          "type": "io",
           "name": "Paper vs Scissors",
           "function": "who_wins",
           "params": ["paper", "scissors"],
@@ -41,7 +39,6 @@
       "tests": [
         {
           "slug": "rock-vs-paper",
-          "type": "io",
           "name": "Rock vs Paper",
           "function": "who_wins",
           "params": ["rock", "paper"],
@@ -50,7 +47,6 @@
         },
         {
           "slug": "rock-vs-rock",
-          "type": "io",
           "name": "Rock vs Rock",
           "function": "who_wins",
           "params": ["rock", "rock"],
@@ -59,7 +55,6 @@
         },
         {
           "slug": "rock-vs-scissors",
-          "type": "io",
           "name": "Rock vs Scissors",
           "function": "who_wins",
           "params": ["rock", "scissors"],
@@ -73,7 +68,6 @@
       "tests": [
         {
           "slug": "scissors-vs-paper",
-          "type": "io",
           "name": "Scissors vs Paper",
           "function": "who_wins",
           "params": ["scissors", "paper"],
@@ -82,7 +76,6 @@
         },
         {
           "slug": "scissors-vs-rock",
-          "type": "io",
           "name": "Scissors vs Rock",
           "function": "who_wins",
           "params": ["scissors", "rock"],
@@ -91,7 +84,6 @@
         },
         {
           "slug": "scissors-vs-scissors",
-          "type": "io",
           "name": "Scissors vs Scissors",
           "function": "who_wins",
           "params": ["scissors", "scissors"],

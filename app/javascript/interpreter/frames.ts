@@ -4,6 +4,7 @@ import { RuntimeError } from './error'
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type { EvaluationResult } from './evaluation-result'
 import type { ExternalFunction } from './executor'
+import { BinaryExpression, Expression } from './expression'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -81,7 +82,7 @@ function describeVariableStatement(frame: FrameWithResult) {
 }
 
 function describeAssignExpression(frame: FrameWithResult) {
-  let output = `<p>This updated the variable called <code>${frame.result.name}</code> to be equal to <code>${frame.result.value.expression}</code>, which in this case is <code>${frame.result.value.value}</code>.</p>`
+  let output = `<p>This updated the variable called <code>${frame.result.name}</code> to <code>${frame.result.value.value}</code>.</p>`
   output = addExtraAssignInfo(frame, output)
 
   return output
@@ -103,10 +104,11 @@ function describeForeachStatement(frame: FrameWithResult) {
 }
 
 function describeIfStatement(frame: FrameWithResult) {
+  // TODO!!
   return ''
-  let output = `<p>This checks to see whether <code>${frame.result.condition.left.obj.expression}</code> is greater than <code>${frame.result.condition.right.name}</code>.</p>`
-  output += `<p>In this case, <code>${frame.result.condition.left.obj.expression}</code> is set to <code>${frame.result.condition.left.obj.value}</code> and <code>${frame.result.condition.right.name}</code> is set to <code>${frame.result.condition.right.value}</code> so the result is <code>${frame.result.value}</code>.</p>`
-  return output
+  // let output = `<p>This checks to see whether <code>${frame.result.condition.left.obj.expression}</code> is greater than <code>${frame.result.condition.right.name}</code>.</p>`
+  // output += `<p>In this case, <code>${frame.result.condition.left.obj.expression}</code> is set to <code>${frame.result.condition.left.obj.value}</code> and <code>${frame.result.condition.right.name}</code> is set to <code>${frame.result.condition.right.value}</code> so the result is <code>${frame.result.value}</code>.</p>`
+  // return output
 }
 function describeReturnStatement(frame: FrameWithResult) {
   let output = `<p>This returned the value of <code>${frame.result.value.name}</code>, which in this case is <code>${frame.result.value.value}</code>.</p>`

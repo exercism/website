@@ -390,7 +390,7 @@ describe('statements', () => {
       test('regular', () => {
         const { frames } = interpret(`
           set x to 2
-          set x to 3
+          change x to 3
         `)
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
@@ -409,6 +409,17 @@ describe('statements', () => {
       expect(frames[0].variables).toMatchObject({ x: 2 })
     })
 
+    test('errors if declared twice', () => {
+      const { error, frames } = interpret(`
+        set pos to 10
+        set pos to 20
+      `)
+      console.log(frames)
+      expect(frames).toBeArrayOfSize(2)
+      expect(frames[1].error!.category).toBe('RuntimeError')
+      expect(frames[1].error!.type).toBe('VariableAlreadyDeclared')
+    })
+
     test('declare and use', () => {
       const { frames } = interpret(`
         set x to 2
@@ -421,15 +432,68 @@ describe('statements', () => {
       expect(frames[1].variables).toMatchObject({ x: 2, y: 3 })
     })
   })
+
+  describe('change', () => {
+    test('changes variable correctly', () => {
+      const { error, frames } = interpret(`
+        set pos to 10
+        change pos to 20
+      `)
+      console.log(error)
+      expect(frames).toBeArrayOfSize(2)
+      expect(frames[0].variables).toMatchObject({ pos: 10 })
+      expect(frames[1].variables).toMatchObject({ pos: 20 })
+    })
+
+    test('errors if not declared', () => {
+      const { error, frames } = interpret(`
+        change pos to 20
+      `)
+      console.log(error)
+      expect(frames).toBeArrayOfSize(1)
+      expect(frames[0].error!.category).toBe('RuntimeError')
+      expect(frames[0].error!.type).toBe('VariableNotDeclared')
+    })
+  })
+
   describe('scope', () => {
     test('declared variable can be used in blocks', () => {
       const { error, frames } = interpret(`
         set pos to 10
         repeat(5) do
-          set pos to pos + 10
+          change pos to pos + 10
         end
       `)
       expect(frames).toBeArrayOfSize(7)
+      expect(frames[6].variables).toMatchObject({ pos: 60 })
+    })
+
+    test('declared variable is persisted after repeat', () => {
+      const { error, frames } = interpret(`
+        set pos to 10
+        repeat(5) do
+          change pos to pos + 10
+        end
+        change pos to pos + 10
+      `)
+      expect(frames).toBeArrayOfSize(8)
+      expect(frames[7].variables).toMatchObject({ pos: 70 })
+    })
+
+    test('declared variable is persisted after if', () => {
+      const { error, frames } = interpret(`
+        set pos to 10
+        if pos is 10 do
+          change pos to pos + 10
+        end
+        change pos to pos + 5
+      `)
+      console.log(frames)
+      expect(frames).toBeArrayOfSize(4)
+      expect(frames[0].variables).toMatchObject({ pos: 10 })
+      expect(frames[1].variables).toMatchObject({ pos: 10 })
+      // expect(frames[2].variables).toMatchObject({ pos: 20 })
+      expect(frames[3].variables).toMatchObject({ pos: 25 })
     })
   })
   describe('function', () => {
@@ -542,7 +606,7 @@ describe('statements', () => {
       const { error, frames } = interpret(`
         set x to 0
         repeat 1 do
-          set x to x + 1
+          change x to x + 1
         end
       `)
       expect(frames).toBeArrayOfSize(3)
@@ -558,7 +622,7 @@ describe('statements', () => {
       const { frames } = interpret(`
         set x to 0
         repeat 3 do
-          set x to x + 1
+          change x to x + 1
         end
       `)
       expect(frames).toBeArrayOfSize(5)
@@ -580,7 +644,7 @@ describe('statements', () => {
       const { frames } = interpret(`
         set x to 1
         while (x > 0) do
-          set x to x - 1
+          change x to x - 1
         end
       `)
       expect(frames).toBeArrayOfSize(4)
@@ -598,7 +662,7 @@ describe('statements', () => {
       const { frames } = interpret(`
         set x to 3
         while x > 0 do
-          set x to x - 1
+          change x to x - 1
         end
       `)
       expect(frames).toBeArrayOfSize(8)
@@ -958,7 +1022,7 @@ describe('evaluateFunction', () => {
     const code = `
       set x to 1
       function move do
-        set x to x + 1
+        change x to x + 1
         return x
       end`
     const interpreter = new Interpreter(code, { language: 'JikiScript' })

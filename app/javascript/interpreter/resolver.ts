@@ -214,11 +214,13 @@ export class Resolver
   public visitUpdateExpression(expression: UpdateExpression): void {
     this.resolve(expression.operand)
 
-    if (expression.operand instanceof VariableExpression)
+    if (expression.operand instanceof VariableExpression) {
       this.resolveLocal(expression.operand, expression.operand.name)
-    else if (expression.operand instanceof GetExpression)
+    } else if (expression.operand instanceof GetExpression) {
       this.resolve(expression.operand.obj)
-    else this.error('InvalidPostfixOperand', expression.location)
+    } else if (expression.operand instanceof LiteralExpression) {
+      // Do nothing
+    } else this.error('InvalidPostfixOperand', expression.location)
   }
 
   public visitGetExpression(expression: GetExpression): void {

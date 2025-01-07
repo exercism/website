@@ -20,8 +20,10 @@ export function FailInfo({
     return (
       <>
         <table className="io-test-result-info">
-          <CodeRun codeRun={result.codeRun} />
-          <IOTestResultView diff={firstFailingExpect.diff} />
+          <tbody>
+            <CodeRun codeRun={result.codeRun} />
+            <IOTestResultView diff={firstFailingExpect.diff} />
+          </tbody>
         </table>
       </>
     )

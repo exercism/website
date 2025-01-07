@@ -9,6 +9,9 @@
             @apply absolute inset-0;
             width: 100%;
             height: 100%;
+            svg {
+                @apply absolute inset-0 bg-transparent;
+            }
         }
     }
 }

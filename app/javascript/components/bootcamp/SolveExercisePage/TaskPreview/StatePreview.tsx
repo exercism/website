@@ -3,7 +3,6 @@ export function StatePreview({
   inspectedPreviewTaskTest,
 }: {
   inspectedPreviewTaskTest: TaskTest
-  config: Config
 }) {
   return (
     <div className="scenario-lhs">
@@ -12,6 +11,12 @@ export function StatePreview({
           <strong>Scenario: </strong>
           {inspectedPreviewTaskTest.name}
         </h3>
+        <div
+          className="text-bootcamp-purple font-medium content"
+          dangerouslySetInnerHTML={{
+            __html: inspectedPreviewTaskTest.descriptionHtml ?? '',
+          }}
+        />
       </div>
     </div>
   )

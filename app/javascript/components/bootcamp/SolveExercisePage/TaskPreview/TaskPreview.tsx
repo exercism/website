@@ -26,10 +26,7 @@ export function _TaskPreview() {
       {exercise.config.testsType === 'io' ? (
         <IOPreview inspectedPreviewTaskTest={inspectedPreviewTaskTest} />
       ) : (
-        <StatePreview
-          inspectedPreviewTaskTest={inspectedPreviewTaskTest}
-          config={exercise.config}
-        />
+        <StatePreview inspectedPreviewTaskTest={inspectedPreviewTaskTest} />
       )}
       <div ref={viewContainerRef} id="view-container" />
     </section>

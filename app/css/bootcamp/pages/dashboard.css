@@ -1,12 +1,30 @@
-#page-dashboard {
-    h2 {
-        @apply text-20 leading-150;
-        @apply font-semibold;
+body.namespace-bootcamp.controller-dashboard.action-index {
+    @apply bg-grad-basic;
+}
+
+#page-bootcamp-dashboard {
+    @apply pt-24;
+    h1 {
+        @apply text-[36px] leading-140;
+        @apply font-bold text-textColor1;
         @apply mb-4;
     }
-    p {
-        @apply text-16 leading-150;
+    h2 {
+        @apply text-22 leading-150;
+        @apply font-semibold text-textColor1;
+        @apply mt-20 mb-4;
+    }
+    p.large {
+        @apply text-20 leading-150;
         @apply mb-8;
+    }
+    p,
+    ul {
+        @apply text-18 leading-150;
+        @apply mb-8;
+    }
+    ul {
+        @apply list-disc pl-20;
     }
 
     .exercise {

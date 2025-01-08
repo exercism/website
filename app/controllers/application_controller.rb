@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include BodyClassConcern
 
   # around_action :set_log_level
+  before_action :store_session_variables
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -76,6 +77,10 @@ class ApplicationController < ActionController::Base
     return if current_user&.trainer?(@track)
 
     redirect_to training_data_external_path
+  end
+
+  def store_session_variables
+    session[:bootcamp_access_code] = params[:bootcamp_access_code] if params[:bootcamp_access_code].present?
   end
 
   # We want to mark relevant notifications as read, but we don't

@@ -1,7 +1,7 @@
-body.controller-projects.action-index {
+body.namespace-bootcamp.controller-projects.action-index {
     @apply bg-grad-basic;
 }
-#page-projects {
+#page-bootcamp-projects {
     header {
         .title-bar {
             @apply pb-20;

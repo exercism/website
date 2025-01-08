@@ -5,7 +5,7 @@ import * as Shapes from './shapes'
 import type { ExecutionContext } from '@/interpreter/executor'
 
 class Shape {
-  public constructor(public element: HTMLElement) {}
+  public constructor(public element: SVGElement) {}
 }
 
 class Rectangle extends Shape {
@@ -14,7 +14,7 @@ class Rectangle extends Shape {
     public y: number,
     public width: number,
     public height: number,
-    element: HTMLElement
+    element: SVGElement
   ) {
     super(element)
   }
@@ -25,7 +25,19 @@ class Circle extends Shape {
     public x: number,
     public y: number,
     public radius: number,
-    element: HTMLElement
+    element: SVGElement
+  ) {
+    super(element)
+  }
+}
+
+class Ellipse extends Shape {
+  public constructor(
+    public x: number,
+    public y: number,
+    public rx: number,
+    public ry: number,
+    element: SVGElement
   ) {
     super(element)
   }
@@ -39,7 +51,7 @@ class Triangle extends Shape {
     public y2: number,
     public x3: number,
     public y3: number,
-    element: HTMLElement
+    element: SVGElement
   ) {
     super(element)
   }
@@ -94,7 +106,7 @@ export default class DrawExercise extends Exercise {
     this.fillColor = color
   }
 
-  public rect(
+  public rectangle(
     executionCtx: ExecutionContext,
     x: number,
     y: number,
@@ -142,6 +154,31 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)
     return circle
+  }
+
+  public ellipse(
+    executionCtx: ExecutionContext,
+    x: number,
+    y: number,
+    rx: number,
+    ry: number
+  ) {
+    const [absX, absY, absRx, absRy] = [x, y, rx, ry].map((val) => rToA(val))
+
+    const elem = Shapes.ellipse(
+      absX,
+      absY,
+      absRx,
+      absRy,
+      this.penColor,
+      this.fillColor
+    )
+    this.canvas.appendChild(elem)
+
+    const ellipse = new Ellipse(x, y, rx, ry, elem)
+    this.shapes.push(ellipse)
+    this.animateElement(executionCtx, elem, absX, absY)
+    return ellipse
   }
 
   public triangle(
@@ -228,17 +265,15 @@ export default class DrawExercise extends Exercise {
 
   private animateElement(
     executionCtx: ExecutionContext,
-    elem: HTMLElement,
-    absX: string,
-    absY: string
+    elem: SVGElement,
+    absX: number,
+    absY: number
   ) {
     const duration = 5
     this.addAnimation({
       targets: `#${this.view.id} #${elem.id}`,
       duration,
       transformations: {
-        top: absY,
-        left: absX,
         opacity: 1,
       },
       offset: executionCtx.getCurrentTime(),
@@ -272,16 +307,30 @@ export default class DrawExercise extends Exercise {
       },
       description: 'Gives a random number between ${arg1} and ${arg2}.',
     },
+
     {
-      name: 'rect',
-      func: this.rect.bind(this),
+      name: 'rectangle',
+      func: this.rectangle.bind(this),
       description:
         'It drew a rectangle at coordinates (${arg1}, ${arg2}) with a width of ${arg3} and a height of ${arg4}.',
     },
     {
       name: 'triangle',
       func: this.triangle.bind(this),
-      description: 'Draws a triangle at the specified position.',
+      description:
+        'It drew a rectangle with three points: (${arg1}, ${arg2}), (${arg3}, ${arg4}), and (${arg5}, ${arg6}).',
+    },
+    {
+      name: 'circle',
+      func: this.circle.bind(this),
+      description:
+        'It drew a circle with its center at (${arg1}, ${arg2}), and a radius of ${arg3}.',
+    },
+    {
+      name: 'ellipse',
+      func: this.ellipse.bind(this),
+      description:
+        'It drew an ellipse with its center at (${arg1}, ${arg2}), a radial width of ${arg3}, and a radial height of ${arg4}.',
     },
     {
       name: 'polygon',
@@ -292,11 +341,6 @@ export default class DrawExercise extends Exercise {
       name: 'clear',
       func: this.clear.bind(this),
       description: 'Clears the canvas.',
-    },
-    {
-      name: 'circle',
-      func: this.circle.bind(this),
-      description: 'Draws a circle at the specified position.',
     },
     {
       name: 'move',

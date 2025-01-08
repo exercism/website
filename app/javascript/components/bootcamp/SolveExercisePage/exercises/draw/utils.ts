@@ -8,7 +8,7 @@ export const RELATIVE_SIZE = 100
  * Convert relative x or y value to absolute value
  */
 export function rToA(n: number) {
-  return `${(n / RELATIVE_SIZE) * 100}%`
+  return (n / RELATIVE_SIZE) * 100
 }
 
 /**

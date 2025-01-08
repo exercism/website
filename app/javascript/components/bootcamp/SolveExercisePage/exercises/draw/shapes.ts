@@ -1,129 +1,101 @@
+const svgNS = 'http://www.w3.org/2000/svg'
+
+function createSVG(children) {
+  const svg = document.createElementNS(svgNS, 'svg')
+
+  // Create the SVG element
+  svg.setAttribute('viewBox', `0 0 100 100`) // Set viewBox for relative coordinates
+  svg.setAttribute('overflow', 'visible')
+
+  svg.style.opacity = '0'
+  svg.id = 'svg-' + generateRandomId()
+
+  // Add children
+  if (children) {
+    children.forEach((child) => svg.appendChild(child))
+  }
+
+  return svg
+}
+
+function createSVGElement(type: string, backgroundColor, penColor, attrs) {
+  const elem = document.createElementNS(svgNS, type)
+  elem.setAttribute('fill', backgroundColor)
+  elem.setAttribute('stroke', penColor)
+  elem.setAttribute('stroke-width', '1')
+
+  for (const key in attrs) {
+    elem.setAttribute(key, attrs[key])
+  }
+  return elem
+}
+
 export function rect(
-  x: string,
-  y: string,
-  width: string,
-  height: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
   penColor: string,
   backgroundColor: string
 ) {
-  const rect = document.createElement('div')
-  rect.id = `rect-${generateRandomId()}`
-  rect.style.border = `1px solid ${penColor}`
-  rect.style.backgroundColor = backgroundColor
-  rect.style.width = width
-  rect.style.height = height
-  rect.style.left = x
-  rect.style.top = y
-  rect.style.opacity = '0'
+  const rect = createSVGElement('rect', backgroundColor, penColor, {
+    x: x.toString(),
+    y: y.toString(),
+    width: width.toString(),
+    height: height.toString(),
+  })
 
-  rect.style.position = 'absolute'
-
-  return rect
+  return createSVG([rect])
 }
 
 export function circle(
-  x: string,
-  y: string,
-  radius: string,
+  cx: number,
+  cy: number,
+  radius: number,
   penColor: string,
   backgroundColor: string
 ) {
-  const circle = document.createElement('div')
-  circle.id = `circle-${generateRandomId()}`
-  circle.style.border = `1px solid ${penColor}`
-  circle.style.backgroundColor = backgroundColor
-  circle.style.width = `calc(2*${radius})`
-  circle.style.height = `calc(2*${radius})`
-  circle.style.position = 'absolute'
-  circle.style.borderRadius = '50%'
+  const circle = createSVGElement('circle', backgroundColor, penColor, {
+    cx: cx.toString(),
+    cy: cy.toString(),
+    r: radius.toString(),
+  })
 
-  return circle
+  return createSVG([circle])
 }
 
-export function ellipse(x: number, y: number, width: number, height: number) {
-  /*const ellipse = document.createElement("div");
-  ellipse.id = "ellipse-" + generateRandomId();
-  ellipse.style.border = "1px solid black";
-  ellipse.style.width = `${width}px`;
-  ellipse.style.height = `${height}px`;
-  ellipse.style.position = "absolute";
-  ellipse.style.left = `${x - width / 2}px`;
-  ellipse.style.top = `${y - height / 2}px`;
-  ellipse.style.borderRadius = "50%";
-  ellipse.style.opacity = "1";
+export function ellipse(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  penColor: string,
+  backgroundColor: string
+) {
+  const ellipse = createSVGElement('ellipse', backgroundColor, penColor, {
+    cx: cx.toString(),
+    cy: cy.toString(),
+    rx: rx.toString(),
+    ry: ry.toString(),
+  })
 
-  return ellipse;*/
+  return createSVG([ellipse])
 }
 
 export function triangle(
-  x1: string,
-  y1: string,
-  x2: string,
-  y2: string,
-  x3: string,
-  y3: string,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  x3: number,
+  y3: number,
   penColor: string,
   backgroundColor: string
 ) {
-  const [x1a, x2a, x3a] = [parseFloat(x1), parseFloat(x2), parseFloat(x3)]
-  const [y1a, y2a, y3a] = [parseFloat(y1), parseFloat(y2), parseFloat(y3)]
-
-  const svgNS = 'http://www.w3.org/2000/svg'
-  const triangle = document.createElementNS(svgNS, 'svg')
-
-  // Set the width and height of the div
-  triangle.style.position = 'absolute'
-  triangle.style.inset = '0'
-  triangle.style.backgroundColor = 'transparent'
-
-  // Create the SVG element
-  triangle.setAttribute('viewBox', `0 0 100 100`) // Set viewBox for relative coordinates
-  triangle.setAttribute('overflow', 'visible')
-
-  // Create the triangle polygon
-  const polygon = document.createElementNS(svgNS, 'polygon')
-  polygon.setAttribute('points', `${x1a},${y1a} ${x2a},${y2a} ${x3a},${y3a}`)
-  polygon.setAttribute('fill', backgroundColor)
-  polygon.setAttribute('stroke', penColor)
-  polygon.setAttribute('stroke-width', '1')
-
-  // Append the triangle to the SVG
-  triangle.appendChild(polygon)
-
-  // Create the canvas
-  // const canvas = document.createElement("canvas");
-  // const canvasWidth = (widthPercentage) + padding ; // Add padding
-  // const canvasHeight = (heightPercentage) + padding ; // Add padding
-
-  // canvas.setAttribute("width", maxXRel + 5)
-  // canvas.setAttribute("height", maxYRel + 5)
-  // canvas.style.width = "100%";
-  // canvas.style.height = "100%";
-  // canvas.style.position = "absolute";
-
-  // triangle.appendChild(canvas);
-
-  // Draw the triangle on the canvas
-  // const context = canvas.getContext("2d");
-  // if (!context) {
-  //   console.error("Failed to get 2D context");
-  //   return;
-  // }
-
-  // context.beginPath();
-  // context.moveTo(x1Rel + padding, y1Rel + padding);
-  // context.lineTo(x2Rel + padding, y2Rel + padding);
-  // context.lineTo(x3Rel + padding, y3Rel + padding);
-  // context.closePath();
-
-  // // Style the triangle
-  // context.lineWidth = 2; // Adjusted line width
-  // context.strokeStyle = '#666666';
-  // context.stroke();
-
-  // context.fillStyle = "#FFCC00";
-  // context.fill();
-  return triangle
+  const polygon = createSVGElement('polygon', backgroundColor, penColor, {
+    points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,
+  })
+  return createSVG([polygon])
 }
 
 export function hexagon(x: number, y: number, size: number) {

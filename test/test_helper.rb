@@ -310,6 +310,7 @@ class ActiveSupport::TestCase
     return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
 
     OpenSearch::Client.unstub(:new)
+    Exercism.unstub(:opensearch_client)
     opensearch = Exercism.opensearch_client
 
     Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|

@@ -217,6 +217,8 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
     results = Solution::SearchCommunitySolutions.(create(:concept_exercise), page: 1001, per: 10)
     assert_empty results
+  ensure
+    Exercism.unstub(:opensearch_client)
   end
 
   test "pagination returns max of 10_000 results" do
@@ -244,6 +246,8 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [new_solution, old_solution], Solution::SearchCommunitySolutions.(exercise, order: "newest")
+  ensure
+    Exercism.unstub(:opensearch_client)
   end
 
   test "sort most starred first" do

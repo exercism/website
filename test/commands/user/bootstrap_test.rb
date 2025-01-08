@@ -37,4 +37,29 @@ class User::BootstrapTest < ActiveSupport::TestCase
     User::VerifyEmail.expects(:defer).with(user).once
     User::Bootstrap.(user)
   end
+
+  test "becomes attendee and subscribes to onboarding emails if paid" do
+    email = "#{SecureRandom.uuid}@test.com"
+    ubd = create :user_bootcamp_data, email:, paid_at: Time.current
+    user = create(:user, email:)
+
+    # Always does this once by default anyway
+    User::Bootcamp::SubscribeToOnboardingEmails.expects(:defer).with(ubd).twice
+
+    User::Bootstrap.(user)
+    assert user.reload.bootcamp_attendee?
+    assert_equal user.id, ubd.reload.user_id
+  end
+
+  test "does not becomes attendee if not paid" do
+    email = "#{SecureRandom.uuid}@test.com"
+    ubd = create(:user_bootcamp_data, email:)
+    user = create(:user, email:)
+
+    User::Bootcamp::SubscribeToOnboardingEmails.expects(:defer).with(ubd).twice
+
+    User::Bootstrap.(user)
+    refute user.reload.bootcamp_attendee?
+    assert_equal user.id, ubd.reload.user_id
+  end
 end

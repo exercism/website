@@ -2,6 +2,7 @@
 %html
   %head
     %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }/
+    %meta{ name: "user-id", content: current_user&.id }
 
     -# Fallback fonts first
     %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }

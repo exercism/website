@@ -11,7 +11,9 @@ class User::SetDiscordRoles
       [MAINTAINER_ROLE_ID, user.maintainer?],
       [SUPERMENTOR_ROLE_ID, user.supermentor?],
       [MENTOR_ROLE_ID, user.mentor?],
-      [INSIDERS_ROLE_ID, user.insider?]
+      [INSIDERS_ROLE_ID, user.insider?],
+      [BOOTCAMP_ATTENDEE_ROLE_ID, user.bootcamp_attendee?],
+      [BOOTCAMP_MENTOR_ROLE_ID, user.bootcamp_mentor?]
     ].each do |role_id, condition|
       add_or_remove!(role_id, condition)
     rescue RestClient::NotFound
@@ -47,6 +49,8 @@ class User::SetDiscordRoles
   SUPERMENTOR_ROLE_ID = "1085196488436633681".freeze
   MENTOR_ROLE_ID = "1192435804602105966".freeze
   INSIDERS_ROLE_ID = "1096024168639766578".freeze
+  BOOTCAMP_ATTENDEE_ROLE_ID = "1326564387284320276".freeze
+  BOOTCAMP_MENTOR_ROLE_ID = "1305143333433249867".freeze
   AUTH_HEADER = "Bot #{Exercism.secrets.discord_bot_token}".freeze
   private_constant :API_URL, :GUILD_ID, :MAINTAINER_ROLE_ID, :SUPERMENTOR_ROLE_ID, :AUTH_HEADER
 end

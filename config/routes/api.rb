@@ -283,6 +283,7 @@ namespace :api do
         end
         resources :submissions, param: :uuid, only: [:create]
       end
+      resources :drawings, param: :uuid, only: [:update]
     end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"

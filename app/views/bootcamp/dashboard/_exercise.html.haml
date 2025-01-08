@@ -1,7 +1,7 @@
 - solution ||= nil
 - project = exercise.project
 - status = solution ? solution.status : "available"
-= link_to [project, exercise], class: "exercise #{status}" do
+= link_to bootcamp_project_exercise_path(project, exercise), class: "exercise #{status}" do
   .flex.items-center
     .text
       %h3

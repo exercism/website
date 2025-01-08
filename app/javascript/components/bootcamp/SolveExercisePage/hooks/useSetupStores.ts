@@ -8,21 +8,35 @@ export function useSetupStores({
   exercise,
   code,
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
-  const { setDefaultCode } = useEditorStore()
-  const { initializeTasks } = useTaskStore()
   const [editorValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
     code.code
   )
-  const { setPreviousTestSuiteResult, setInspectedPreviousTestResult } =
-    useTestStore()
+  const { setDefaultCode } = useEditorStore()
+  const { initializeTasks } = useTaskStore()
+  const {
+    setPreviousTestSuiteResult,
+    setInspectedPreviousTestResult,
+    setFlatPreviewTaskTests,
+  } = useTestStore()
 
   useLayoutEffect(() => {
     let previousTestSuiteResult: TestSuiteResult<PreviousTestResult> | null =
       null
     if (exercise.testResults) {
       const tests = (() => {
-        const testArr = []
+        const testArr: {
+          name: string
+          testIndex: number
+          slug: string
+          status: 'pass' | 'fail'
+          actual: string
+          expected: string | undefined
+          errorHtml?: string
+          codeRun: string
+          testsType: 'io' | 'state'
+        }[] = []
+
         let i = 0
         for (let taskInConfig of exercise.tasks) {
           for (let testInConfig of taskInConfig.tests) {
@@ -34,6 +48,11 @@ export function useSetupStores({
                 slug: testInConfig.slug,
                 status: prevTest.status,
                 actual: prevTest.actual,
+                errorHtml:
+                  exercise.config.testsType === 'state' &&
+                  prevTest.status === 'fail'
+                    ? prevTest.actual
+                    : undefined,
                 expected: testInConfig.expected,
                 codeRun: generateCodeRunString(
                   testInConfig.function,
@@ -61,11 +80,12 @@ export function useSetupStores({
     }
 
     initializeTasks(exercise.tasks, previousTestSuiteResult)
+    setFlatPreviewTaskTests(exercise.tasks.flatMap((task) => task.tests))
     setDefaultCode(editorValue)
   }, [exercise, code])
 }
 
-function generateCodeRunString(fn: string, params: any[]) {
+export function generateCodeRunString(fn: string, params: any[]) {
   if (!fn || !params) return ''
   return `${fn}(${params.join(', ')})`
 }

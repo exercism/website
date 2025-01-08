@@ -34,7 +34,8 @@
           "checks": [
             {
               "name": "numElements()",
-              "value": 4
+              "value": 4,
+              "error_html": "Expected 4 rectangles to be drawn, but only got %actual%."
             },
             {
               "name": "getRectAt(40,40,20,20)",

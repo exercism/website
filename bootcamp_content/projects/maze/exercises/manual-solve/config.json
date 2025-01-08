@@ -13,6 +13,7 @@
         {
           "slug": "maze-1",
           "name": "Guide person to the end of the maze",
+          "description_html": "Your job is to reach the goal.",
           "setup_functions": [
             [
               "setupGrid",
@@ -36,7 +37,7 @@
             {
               "name": "position",
               "value": [6, 6],
-              "error_html": "Your position should be 6, 6, but it's %actual% ."
+              "error_html": "Your position should be 6, 6, but it's %actual%."
             },
             {
               "name": "direction",

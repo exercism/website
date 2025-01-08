@@ -133,6 +133,8 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     OpenSearch::Client.expects(:new).raises
 
     Document::SearchDocs.(criteria: "foobar", track_slug: "csharp", page: 2, per: 15)
+  ensure
+    OpenSearch::Client.unstub
   end
 
   test "fallback is called when OpenSearch times out" do

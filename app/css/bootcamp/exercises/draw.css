@@ -6,7 +6,7 @@
             @apply absolute inset-0;
         }
         .canvas {
-            @apply absolute inset-0;
+            @apply absolute inset-0 overflow-hidden;
             width: 100%;
             height: 100%;
             svg {

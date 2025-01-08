@@ -86,7 +86,7 @@ export function useSetupStores({
     if (
       editorLocalStorageValue.storedAt &&
       code.storedAt &&
-      // if the code on server is later than in the storage, update the storage, load code from server
+      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
       editorLocalStorageValue.storedAt < code.storedAt
     ) {
       setEditorLocalStorageValue({ code: code.code, storedAt: code.storedAt })

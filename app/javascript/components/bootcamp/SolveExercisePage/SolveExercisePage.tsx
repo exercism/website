@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { InspectedTestResultView } from './TestResultsView/InspectedTestResultView'

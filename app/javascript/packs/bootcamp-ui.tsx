@@ -7,6 +7,9 @@ import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 const SolveExercisePage = lazy(
   () => import('../components/bootcamp/SolveExercisePage/SolveExercisePage')
 )
+const DrawingPage = lazy(
+  () => import('../components/bootcamp/DrawingPage/DrawingPage')
+)
 
 declare global {
   interface Window {
@@ -24,6 +27,12 @@ const mappings = {
   ): JSX.Element => (
     <Suspense>
       <SolveExercisePage {...camelizeKeysAs<SolveExercisePageProps>(data)} />
+    </Suspense>
+  ),
+
+  'bootcamp-drawing-page': (data: DrawingPageProps): JSX.Element => (
+    <Suspense>
+      <DrawingPage {...camelizeKeysAs<DrawingPageProps>(data)} />
     </Suspense>
   ),
 }

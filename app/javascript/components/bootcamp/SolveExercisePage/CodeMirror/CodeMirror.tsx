@@ -27,7 +27,6 @@ import {
 import { defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { searchKeymap } from '@codemirror/search'
 import { lintKeymap } from '@codemirror/lint'
-import { javascript } from '@codemirror/lang-javascript'
 
 import useEditorStore from '../store/editorStore'
 
@@ -97,11 +96,18 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   const { code, exercise } = useContext(SolveExercisePageContext)
   const [_, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
-    code.code
+    { code: code.code, storedAt: code.storedAt }
   )
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
-    return debounce((value: string) => setEditorLocalStorageValue(value), 500)
+    return debounce(
+      (value: string) =>
+        setEditorLocalStorageValue({
+          code: value,
+          storedAt: new Date().toISOString(),
+        }),
+      500
+    )
   }, [setEditorLocalStorageValue])
 
   let value = defaultCode

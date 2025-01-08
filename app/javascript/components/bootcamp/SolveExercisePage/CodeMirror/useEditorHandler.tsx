@@ -15,7 +15,7 @@ export function useEditorHandler({
   const editorViewRef = useRef<EditorView | null>(null)
   const [, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + config.title,
-    code.code
+    { code: code.code, storedAt: code.storedAt }
   )
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
@@ -34,7 +34,10 @@ export function useEditorHandler({
 
   const resetEditorToStub = () => {
     if (editorHandler.current) {
-      setEditorLocalStorageValue(code.stub)
+      setEditorLocalStorageValue({
+        code: code.stub,
+        storedAt: new Date().toISOString(),
+      })
       editorHandler.current.setValue(code.stub)
     }
   }

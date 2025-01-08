@@ -414,7 +414,6 @@ describe('statements', () => {
         set pos to 10
         set pos to 20
       `)
-      console.log(frames)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[1].error!.category).toBe('RuntimeError')
       expect(frames[1].error!.type).toBe('VariableAlreadyDeclared')
@@ -439,7 +438,6 @@ describe('statements', () => {
         set pos to 10
         change pos to 20
       `)
-      console.log(error)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].variables).toMatchObject({ pos: 10 })
       expect(frames[1].variables).toMatchObject({ pos: 20 })
@@ -449,7 +447,6 @@ describe('statements', () => {
       const { error, frames } = interpret(`
         change pos to 20
       `)
-      console.log(error)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].error!.category).toBe('RuntimeError')
       expect(frames[0].error!.type).toBe('VariableNotDeclared')
@@ -488,7 +485,6 @@ describe('statements', () => {
         end
         change pos to pos + 5
       `)
-      console.log(frames)
       expect(frames).toBeArrayOfSize(4)
       expect(frames[0].variables).toMatchObject({ pos: 10 })
       expect(frames[1].variables).toMatchObject({ pos: 10 })

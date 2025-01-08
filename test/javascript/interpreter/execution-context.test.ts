@@ -6,11 +6,15 @@ describe('execution context', () => {
     test('function', () => {
       const echos: string[] = []
       const context = {
-        externalFunctions: {
-          echo: (_: ExecutionContext, value: any) => {
-            echos.push(value.toString())
+        externalFunctions: [
+          {
+            name: 'echo',
+            func: (_: ExecutionContext, value: any) => {
+              echos.push(value.toString())
+            },
+            description: 'Sample function',
           },
-        },
+        ],
       }
 
       interpret('echo(1)', context)

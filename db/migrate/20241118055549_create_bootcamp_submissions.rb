@@ -1,5 +1,7 @@
 class CreateBootcampSubmissions < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :bootcamp_submissions do |t|
       t.string :uuid, null: false
       t.belongs_to :solution, foreign_key: { to_table: "bootcamp_solutions" }, null: true

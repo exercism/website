@@ -1,5 +1,7 @@
 class CreateBootcampLevels < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :bootcamp_levels do |t|
       t.integer :idx, null: false
 

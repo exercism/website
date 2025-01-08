@@ -1,5 +1,7 @@
 class CreateBootcampExercises < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :bootcamp_exercises do |t|
       t.belongs_to :project
       t.string :slug, null: false

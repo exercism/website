@@ -472,15 +472,17 @@ describe('error', () => {
 })
 
 describe('white space', () => {
-  test('ignore', () => {
+  describe('ignore', () => {
     test('spaces', () => {
       const tokens = scan('    ')
-      expect(tokens).toBeEmpty()
+      expect(tokens).toHaveLength(1)
+      expect(tokens[0].type).toBe('EOF')
     })
 
     test('tabs', () => {
       const tokens = scan('\t\t\t')
-      expect(tokens).toBeEmpty()
+      expect(tokens).toHaveLength(1)
+      expect(tokens[0].type).toBe('EOF')
     })
 
     test('consecutive newlines', () => {
@@ -530,7 +532,7 @@ describe('synthetic', () => {
     })
 
     describe('added', () => {
-      test('single statement', () => {
+      describe('single statement', () => {
         test('ending with newline', () => {
           const tokens = scan('1\n')
           expect(tokens).toBeArrayOfSize(3)

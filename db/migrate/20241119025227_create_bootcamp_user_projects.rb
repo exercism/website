@@ -1,5 +1,7 @@
 class CreateBootcampUserProjects < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :bootcamp_user_projects do |t|
       t.belongs_to :user
       t.belongs_to :project

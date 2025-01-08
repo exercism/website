@@ -7,6 +7,16 @@ class Bootcamp::BaseController < ApplicationController
     return if current_user&.bootcamp_attendee?
     return if current_user&.bootcamp_mentor?
 
+    if session[:bootcamp_access_code].present?
+      return redirect_to new_user_session_path unless user_signed_in?
+
+      ubd = User::BootcampData.find_by(access_code: session[:bootcamp_access_code])
+      return redirect_to bootcamp_path unless ubd
+
+      User::LinkWithBootcampData.(current_user, ubd)
+      return if current_user.bootcamp_attendee?
+    end
+
     redirect_to bootcamp_path
   end
 

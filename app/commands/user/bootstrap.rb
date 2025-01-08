@@ -18,11 +18,6 @@ class User::Bootstrap
     ubd ||= User::BootcampData.find_by(email: user.email)
     return unless ubd
 
-    ubd.update!(user:)
-    User::Bootcamp::SubscribeToOnboardingEmails.defer(ubd)
-
-    return unless ubd.paid?
-
-    user.update!(bootcamp_attendee: true)
+    User::LinkWithBootcampData.(user, ubd)
   end
 end

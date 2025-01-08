@@ -5,10 +5,10 @@ class ApplicationController < ActionController::Base
   include BodyClassConcern
 
   # around_action :set_log_level
+  before_action :store_session_variables
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
-  before_action :store_session_variable
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   before_action :set_user_id_cookie

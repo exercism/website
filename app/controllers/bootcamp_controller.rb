@@ -87,7 +87,15 @@ class BootcampController < ApplicationController
         paid_at: Time.current,
         checkout_session_id: session.id
       )
-      current_user&.update!(bootcamp_attendee: true)
+      if current_user
+        current_user.update!(bootcamp_attendee: true)
+      else
+        user = User.find_by(email: @bootcamp_data.email)
+        if user
+          @bootcamp_data.update(user:)
+          user.update!(bootcamp_attendee: true)
+        end
+      end
     end
 
     render json: {

@@ -11,11 +11,17 @@ class Bootcamp::Exercise < ApplicationRecord
   has_many :concepts, through: :exercise_concepts
 
   default_scope -> { order(:idx) }
-  scope :unlocked, -> { where('level_idx < ?', Bootcamp::Settings.level_idx) }
+  scope :unlocked, lambda { |user|
+    if user.bootcamp_mentor?
+      all
+    else
+      where('level_idx < ?', Bootcamp::Settings.level_idx)
+    end
+  }
 
   def to_param = slug
-  def locked? = level_idx > Bootcamp::Settings.level_idx
-  def unlocked? = !locked?
+  def unlocked?(user) = user.bootcamp_mentor? || level_idx <= Bootcamp::Settings.level_idx
+  def locked?(user) = !unlocked?(user)
   def concepts = super.to_a.sort
 
   def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/exercises/#{project.slug}/#{slug}.svg"

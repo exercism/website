@@ -25,12 +25,12 @@ class Bootcamp::UserProject < ApplicationRecord
   end
 
   def unlocked_exercises
-    project.exercises.reject(&:locked?)
+    project.exercises.reject { |e| e.locked?(user) }
   end
 
   def next_exercise
     completed_exercise_ids = solutions.select(&:completed?).map(&:exercise_id)
-    project.exercises.reject(&:locked?).reject { |e| completed_exercise_ids.include?(e.id) }.first
+    project.exercises.reject { |e| e.locked?(user) }.reject { |e| completed_exercise_ids.include?(e.id) }.first
   end
 
   def exercise_available?(exercise)
@@ -38,7 +38,7 @@ class Bootcamp::UserProject < ApplicationRecord
     return false if locked?
 
     # If the exercise is gloabally locked, it's locked
-    return false if exercise.locked?
+    return false if exercise.locked?(user)
 
     # The first exercise is always available
     return true if exercise.idx == 1

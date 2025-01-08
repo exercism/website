@@ -43,7 +43,7 @@
 
       .rhs
         - num_completed = @project.exercises.to_a.count { |exercise| @solutions[exercise.id]&.completed? }
-        - num_unlocked = @project.exercises.to_a.count(&:unlocked?)
+        - num_unlocked = @project.exercises.to_a.count { |e| e.unlocked?(current_user) }
         %h2.font-semibold.text-22.mb-4 Exercises (#{num_completed} / #{num_unlocked})
         %p.text-16.leading-150.mb-12
           You have completed #{num_completed} of #{num_unlocked} unlockable exercises in this project.

@@ -53,14 +53,16 @@ function Scrubber({ testResult }: { testResult: NewTestResult }) {
       tabIndex={-1}
       className="relative group"
     >
-      <PlayButton
-        disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
-        onClick={() => {
-          testResult.animationTimeline?.play(() =>
-            setShouldShowInformationWidget(false)
-          )
-        }}
-      />
+      {testResult.animationTimeline && (
+        <PlayButton
+          disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
+          onClick={() => {
+            testResult.animationTimeline?.play(() =>
+              setShouldShowInformationWidget(false)
+            )
+          }}
+        />
+      )}
       <input
         data-cy="scrubber-range-input"
         disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
@@ -84,9 +86,7 @@ function Scrubber({ testResult }: { testResult: NewTestResult }) {
         onPrev={() => handleGoToPreviousFrame(testResult)}
         disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
       />
-      <InformationWidgetToggleButton
-        disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
-      />
+      <InformationWidgetToggleButton disabled={hasCodeBeenEdited} />
       <TooltipInformation
         hasCodeBeenEdited={hasCodeBeenEdited}
         notEnoughFrames={testResult.frames.length === 1}

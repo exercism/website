@@ -17,7 +17,6 @@ export function _TaskPreview() {
   })
 
   if (testSuiteResult || previousTestSuiteResult) {
-    console.log('early returning task preview')
     return null
   }
 

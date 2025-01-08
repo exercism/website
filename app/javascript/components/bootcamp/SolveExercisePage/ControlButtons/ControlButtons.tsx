@@ -6,7 +6,6 @@ import useTestStore from '../store/testStore'
 import { PreviousTestResultsButtons } from '../PreviousTestResultsView/PreviousTestResultsButtons'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
-// We
 function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
   return (
     <div className="flex items-center gap-8 pb-12 overflow-auto">

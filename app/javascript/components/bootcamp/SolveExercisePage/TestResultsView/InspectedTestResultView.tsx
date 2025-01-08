@@ -23,7 +23,7 @@ function _InspectedTestResultView() {
       )}
     >
       <InspectedTestResultViewLHS
-        // if tests pass, first processed expect, otherwise first failing expect
+        // if tests pass, this will be first processed `expect`, otherwise first failing `expect`.
         firstExpect={firstFailingExpect}
         result={result}
       />

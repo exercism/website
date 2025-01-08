@@ -4,10 +4,10 @@ declare type DrawingPageProps = {
   }
   code: {
     code: string
-    stored_at: string
+    storedAt: string
   }
   links: {
-    update_code: string
-    drawings_index: string
+    updateCode: string
+    drawingsIndex: string
   }
 }

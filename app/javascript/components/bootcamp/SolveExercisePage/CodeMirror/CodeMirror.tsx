@@ -69,10 +69,15 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     editorDidMount,
     handleRunCode,
     style,
+    setEditorLocalStorageValue,
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
+    setEditorLocalStorageValue: (value: {
+      code: string
+      storedAt: string
+    }) => void
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -93,11 +98,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   } = useEditorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
-  const { code, exercise } = useContext(SolveExercisePageContext)
-  const [_, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.config.title,
-    { code: code.code, storedAt: code.storedAt }
-  )
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce(

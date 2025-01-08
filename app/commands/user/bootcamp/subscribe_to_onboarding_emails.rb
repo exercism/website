@@ -29,7 +29,8 @@ class User
               "payment_url": bootcamp_data.payment_url,
               "price": bootcamp_data.price,
               "has_discount": bootcamp_data.has_discount?,
-              "discount_percentage": bootcamp_data.discount_percentage
+              "discount_percentage": bootcamp_data.discount_percentage,
+              "user_id": bootcamp_data.user_id
             }
           },
           HEADERS

@@ -288,8 +288,6 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     OpenSearch::Client.expects(:new).raises
 
     Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, head_tests_status: :failed, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
-  ensure
-    OpenSearch::Client.unstub
   end
 
   test "fallback is called when elasticsearch times out" do

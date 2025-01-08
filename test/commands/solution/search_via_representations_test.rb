@@ -502,8 +502,6 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     OpenSearch::Client.expects(:new).raises
 
     Solution::SearchViaRepresentations.(exercise, page: 2, per: 15, criteria: "foobar", order: "oldest_first")
-  ensure
-    OpenSearch::Client.unstub
   end
 
   test "fallback is called when elasticsearch times out" do

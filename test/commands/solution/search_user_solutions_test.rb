@@ -297,8 +297,6 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
       criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
-  ensure
-    OpenSearch::Client.unstub
   end
 
   test "fallback is called when elasticsearch times out" do

@@ -309,6 +309,7 @@ class ActiveSupport::TestCase
   def reset_opensearch!
     return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
 
+    OpenSearch::Client.unstub
     opensearch = Exercism.opensearch_client
 
     Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|

@@ -6,12 +6,13 @@ import { Instructions } from './Instructions/Instructions'
 import { useSetupStores } from './hooks/useSetupStores'
 import { ControlButtons } from './ControlButtons/ControlButtons'
 import { CodeMirror } from './CodeMirror/CodeMirror'
-import { ErrorBoundary } from '@/components/ErrorBoundary'
+import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { Resizer, useResizablePanels } from './hooks/useResize'
 import { TaskPreview } from './TaskPreview/TaskPreview'
 import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
 import { PreviousTestResultView } from './PreviousTestResultsView/PreviousTestResultsView'
 import { Header } from './Header/Header'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 export default function SolveExercisePage({
   exercise,
@@ -53,6 +54,11 @@ export default function SolveExercisePage({
     localStorageId: 'solve-exercise-page-editor-height',
   })
 
+  const [_, setEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.config.title,
+    { code: code.code, storedAt: code.storedAt }
+  )
+
   return (
     <SolveExercisePageContextWrapper
       value={{ links, solution, exercise, code, resetEditorToStub }}
@@ -67,6 +73,7 @@ export default function SolveExercisePage({
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
                 handleRunCode={handleRunCode}
+                setEditorLocalStorageValue={setEditorLocalStorageValue}
               />
             </ErrorBoundary>
 

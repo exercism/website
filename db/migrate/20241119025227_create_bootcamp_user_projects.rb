@@ -11,7 +11,7 @@ class CreateBootcampUserProjects < ActiveRecord::Migration[7.0]
       
       t.index [:user_id, :project_id], unique: true
 
-      t.foreign_key :users, column
+      t.foreign_key :users
       t.foreign_key :bootcamp_projects, column: :project_id
     end
   end

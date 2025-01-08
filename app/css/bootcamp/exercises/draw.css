@@ -1,0 +1,17 @@
+#bootcamp-solve-exercise-page {
+    .exercise-draw {
+        @apply border-1 border-[#efefef] rounded-5;
+        @apply bg-white;
+        .bg-grid {
+            @apply absolute inset-0;
+        }
+        .canvas {
+            @apply absolute inset-0 overflow-hidden;
+            width: 100%;
+            height: 100%;
+            svg {
+                @apply absolute inset-0 bg-transparent;
+            }
+        }
+    }
+}

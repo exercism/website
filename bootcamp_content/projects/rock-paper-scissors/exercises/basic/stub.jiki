@@ -1,0 +1,5 @@
+// The choices can be one of "rock", "paper" or "scissors"
+// Should return "player_1", "player_2" or "tie"
+function who_wins with player_1_choice, player_2_choice do
+
+end

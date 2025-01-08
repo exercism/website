@@ -1,0 +1,20 @@
+.c-site-header {
+    @apply bg-white;
+    @apply border-b-1 border-[#ccc];
+    .container {
+        @apply py-16;
+        @apply flex flex-row gap-8 items-center;
+        img {
+            filter: invert(1);
+        }
+        .content {
+            @apply text-18;
+        }
+    }
+}
+
+body.controller-exercises.action-edit {
+    .c-site-header {
+        display: none;
+    }
+}

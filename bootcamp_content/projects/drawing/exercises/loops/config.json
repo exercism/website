@@ -1,0 +1,53 @@
+{
+  "title": "Loops",
+  "description": "Create 5 rectangles",
+  "project_type": "draw",
+  "level": 3,
+  "concepts": ["loops-repeat"],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 100
+  },
+  "tasks": [
+    {
+      "name": "Draw 4 rectangles",
+      "tests": [
+        {
+          "slug": "4-rectangles-20-20",
+          "name": "Draw 4 rectangles",
+          "function": "main",
+          "checks": [
+            {
+              "name": "numElements()",
+              "value": 4,
+              "error_html": "Expected 4 rectangles to be drawn, but only got %actual%."
+            },
+            {
+              "name": "getRectAt(20,20,20,20)",
+              "matcher": "toExist",
+              "error_html": "No rectangle at (20,20,20,20)"
+            }
+          ]
+        },
+        {
+          "slug": "4-rectangles-40-40",
+          "name": "Draw 4 rectangles x2",
+          "description": "Draw 4 rectangles at (40,40,20,20)",
+          "function": "main",
+          "checks": [
+            {
+              "name": "numElements()",
+              "value": 4,
+              "error_html": "Expected 4 rectangles to be drawn, but only got %actual%."
+            },
+            {
+              "name": "getRectAt(40,40,20,20)",
+              "matcher": "toExist",
+              "error_html": "We couldn't find a rectangle at (40,40,20,20). Check that you've got the co-ordinates, width and height all correct and try again!"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -7,7 +7,14 @@ module Auth
     before_action :verify_captcha!, only: [:create]
 
     def create
-      super { |user| User::Bootstrap.(user) if user.persisted? }
+      super do |user|
+        if user.persisted?
+          User::Bootstrap.(
+            user,
+            bootcamp_access_code: session[:bootcamp_access_code]
+          )
+        end
+      end
     end
 
     def configure_permitted_parameters

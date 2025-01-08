@@ -1,0 +1,62 @@
+body.namespace-bootcamp.controller-dashboard.action-index {
+    @apply bg-grad-basic;
+}
+
+#page-bootcamp-dashboard {
+    @apply pt-24;
+    h1 {
+        @apply text-[36px] leading-140;
+        @apply font-bold text-textColor1;
+        @apply mb-4;
+    }
+    h2 {
+        @apply text-22 leading-150;
+        @apply font-semibold text-textColor1;
+        @apply mt-20 mb-4;
+    }
+    p.large {
+        @apply text-20 leading-150;
+        @apply mb-8;
+    }
+    p,
+    ul {
+        @apply text-18 leading-150;
+        @apply mb-8;
+    }
+    ul {
+        @apply list-disc pl-20;
+    }
+
+    .exercise {
+        @apply py-12 px-16 rounded-8 border-1 block;
+        @apply shadow-base flex flex-col items-stretch;
+        @apply bg-white;
+
+        h3 {
+            @apply text-20 leading-150;
+            @apply mb-4;
+            @apply font-semibold;
+        }
+        h4 {
+            @apply text-16 leading-150;
+            @apply mb-4;
+            @apply font-semibold;
+        }
+        .tag {
+            @apply flex items-center;
+            @apply border-1 rounded-100;
+            @apply font-semibold leading-170;
+            @apply px-12 py-4 ml-auto;
+            @apply whitespace-nowrap;
+
+            &.completed {
+                background: #e7fdf6;
+                border-color: #43b593;
+                color: #43b593;
+            }
+        }
+        p {
+            @apply text-15 leading-140;
+        }
+    }
+}

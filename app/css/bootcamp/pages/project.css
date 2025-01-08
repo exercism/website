@@ -1,0 +1,44 @@
+body.controller-projects.action-show {
+    @apply bg-grad-basic;
+}
+#page-bootcamp-project {
+    header {
+        .project-bar {
+            @apply flex items-center gap-20 mb-20;
+            img {
+                @apply w-[128px] h-[128px];
+            }
+            h1 {
+                @apply text-[39px] leading-140;
+                @apply font-bold;
+            }
+            .tags {
+                @apply flex;
+                .tag {
+                    @apply flex items-center;
+                    @apply border-1 rounded-100;
+                    @apply font-semibold leading-170;
+                    @apply px-12 py-4;
+                    @apply whitespace-nowrap;
+
+                    &.completed {
+                        background: #e7fdf6;
+                        border-color: #43b593;
+                        color: #43b593;
+                    }
+                }
+            }
+        }
+    }
+    .lhs {
+        .introduction {
+            @apply max-w-[700px];
+        }
+    }
+    .rhs {
+        @apply w-[400px] flex-shrink-0;
+        @apply ml-auto;
+    }
+    .introduction {
+    }
+}

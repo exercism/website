@@ -27,6 +27,7 @@ class Exercise::Representation::SyncToSearchIndex
       id: representation.id,
       body: Exercise::Representation::CreateSearchIndexDocument.(representation)
     )
+    Exercism::TOUCHED_OPENSEARCH_INDEXES << Exercise::Representation::OPENSEARCH_INDEX if Rails.env.test?
   end
 
   def delete_document!

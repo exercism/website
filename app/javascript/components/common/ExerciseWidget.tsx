@@ -26,9 +26,9 @@ export function ExerciseWidget({
   track,
   solution,
   links = {},
-  renderBlurb,
-  isSkinny,
-  isStatic,
+  renderBlurb = true,
+  isSkinny = false,
+  isStatic = false,
 }: Props): JSX.Element {
   return (
     <ExercismTippy
@@ -115,9 +115,4 @@ const ReferenceElement = forwardRef<
   }
 )
 
-ExerciseWidget.defaultProps = {
-  renderBlurb: true,
-  isSkinny: false,
-  isStatic: false,
-}
 export default ExerciseWidget

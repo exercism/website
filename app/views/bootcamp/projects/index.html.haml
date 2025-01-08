@@ -1,0 +1,15 @@
+#page-bootcamp-projects
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title Projects
+
+    .lg-container
+      .title-bar
+        %h1.font-semibold.text-20.mb-8 Projects
+        %p More projects will unlock as you progress through the Bootcamp.
+
+  .lg-container
+    .grid.grid-cols-3.gap-8
+      - @user_projects.each do |user_project|
+        = render ViewComponents::Bootcamp::ProjectWidget.new(user_project.project, user_project:)

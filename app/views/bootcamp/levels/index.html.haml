@@ -1,0 +1,13 @@
+#page-bootcamp-levels
+  .lg-container
+    %h1.font-semibold.text-20.mb-8 Levels
+    .grid.grid-cols-3.gap-8
+      - (1..27).each do |idx|
+        - level = @levels[idx]
+        - if level&.unlocked?
+          = link_to level, class: "block border-1 p-8 rounded-8" do
+            %h2.font-semibold.mb-4= level.title
+            -# %p= level.status
+            %p= level.description
+        - else
+          .block.border-1.p-8.rounded-8.bg-gray-300{ class: "h-[100px]" }

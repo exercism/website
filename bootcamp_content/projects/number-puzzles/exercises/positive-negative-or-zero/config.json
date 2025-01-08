@@ -1,0 +1,63 @@
+{
+  "title": "Positive, Negative or Zero",
+  "description": "Determine if a number is positive, negative or zero",
+  "concepts": ["strings-using", "conditionals"],
+  "level": 2,
+  "tasks": [
+    {
+      "name": "Correctly identify positive numbers",
+      "tests": [
+        {
+          "slug": "number-1",
+          "type": "io",
+          "name": "Number 1",
+          "function": "positive_negative_or_zero",
+          "params": [1],
+          "expected": "Positive"
+        },
+        {
+          "slug": "number-20",
+          "type": "io",
+          "name": "Number 20",
+          "function": "positive_negative_or_zero",
+          "params": [20],
+          "expected": "Positive"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify negative numbers",
+      "tests": [
+        {
+          "slug": "negative-1",
+          "type": "io",
+          "name": "Number -1",
+          "function": "positive_negative_or_zero",
+          "params": [-1],
+          "expected": "Negative"
+        },
+        {
+          "slug": "negative-20",
+          "type": "io",
+          "name": "Number -20",
+          "function": "positive_negative_or_zero",
+          "params": [-20],
+          "expected": "Negative"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify zero",
+      "tests": [
+        {
+          "slug": "number-0",
+          "type": "io",
+          "name": "Number 0",
+          "function": "positive_negative_or_zero",
+          "params": [0],
+          "expected": "Zero"
+        }
+      ]
+    }
+  ]
+}

@@ -90,7 +90,7 @@ export function InfoMessage({
         <p className="text-p-base mb-12">
           To thank you for being an Insider and to help increase the amount of
           people signing up to Exercism's{' '}
-          <a href="https://bootcamp.exercism.org?utm_source=exercism&utm_medium=affiliate_settings">
+          <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
             Learn to Code Bootcamp
           </a>
           , we are giving all Insiders an{' '}
@@ -123,7 +123,7 @@ export function InfoMessage({
       return (
         <p className="text-p-base mb-16">
           Exercism Insiders can access 20% off Exercism's{' '}
-          <a href="https://bootcamp.exercism.org?utm_source=exercism&utm_medium=affiliate_settings">
+          <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
             Learn to Code Bootcamp
           </a>
           , and receive 20% of all sales when someone uses their voucher code.

@@ -46,14 +46,6 @@
     = javascript_include_tag('bootcamp', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
 
     %script{ defer: true, "data-domain": "bootcamp.exercism.org", src: "https://plausible.io/js/script.outbound-links.revenue.tagged-events.js" }
-    %script{ async: true, "data-turbo-track": "reload", src: "https://www.googletagmanager.com/gtag/js?id=AW-303924066" }
-    :javascript
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-      gtag('config', 'AW-303924066')
 
     %title= content_for(:title) || "Bootcamp"
     %meta{ content:  "width=device-width,initial-scale=1", name: "viewport" }/
@@ -67,8 +59,6 @@
     - description = "The Exercism Bootcamp is a unique coding bootcamp, teaching absolute beginners coding fundamentals. It's all online, it's part-time and will last 6 months. Brought to you by the team behind Exercism."
     - url = "https://bootcamp.exercism.org"
     - og_image_url = image_url('bootcamp/og.jpg')
-
-    %link{ rel: "canonical", href: "https://bootcamp.exercism.org" }
 
     %title= title
     %meta{ name: "description", content: description }

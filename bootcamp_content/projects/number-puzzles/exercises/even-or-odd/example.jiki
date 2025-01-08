@@ -1,0 +1,7 @@
+function even_or_odd with num do
+  if num % 2 equals 0 do
+    return "Even"
+  else do
+    return "Odd"
+  end
+end

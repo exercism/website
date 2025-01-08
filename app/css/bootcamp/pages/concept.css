@@ -1,0 +1,44 @@
+body.namespace-bootcamp.controller-concepts.action-show {
+    @apply bg-grad-basic;
+}
+#page-bootcamp-concept {
+    header {
+        @apply pb-16;
+        .details {
+            @apply flex items-center gap-20;
+        }
+        /* img {
+      @apply w-[128px] h-[128px];
+    } */
+        h1 {
+            @apply text-[39px] leading-140;
+            @apply font-bold;
+        }
+    }
+    .nav {
+        @apply flex flex-row items-center gap-10;
+        @apply mb-12;
+        a {
+            @apply font-semibold text-16 text-[blue];
+        }
+    }
+
+    .lhs {
+        @apply max-w-[800px];
+    }
+    .rhs {
+        @apply flex-grow w-full max-w-[380px] ml-auto;
+    }
+
+    ul.descendants {
+        @apply list-disc pl-6 mt-10;
+        li {
+            @apply text-16;
+            @apply mb-4;
+            a {
+                display: inline-flex;
+                flex-direction: column;
+            }
+        }
+    }
+}

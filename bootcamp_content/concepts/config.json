@@ -1,0 +1,63 @@
+[
+  {
+    "slug": "data-types",
+    "title": "Data Types",
+    "description": "Data types are a fundamental concept in programming. They are used to represent different types of data.",
+    "level": 1,
+    "apex": true
+  },
+  {
+    "slug": "strings",
+    "parent": "data-types",
+    "title": "Strings",
+    "description": "Strings are a fundamental concept in programming. They are used to represent text, words, and characters.",
+    "level": 1,
+    "apex": true
+  },
+  {
+    "slug": "strings-using",
+    "parent": "strings",
+    "title": "Using Strings",
+    "description": "Learn how to use strings in your code.",
+    "level": 1
+  },
+  {
+    "slug": "strings-concatenation",
+    "parent": "strings",
+    "title": "Concatenating Strings",
+    "description": "",
+    "level": 2
+  },
+  {
+    "slug": "functions",
+    "title": "Functions",
+    "description": "",
+    "level": 2,
+    "apex": true
+  },
+  {
+    "slug": "functions-using",
+    "parent": "functions",
+    "title": "Using Functions",
+    "description": "Learn how to use basic functions.",
+    "level": 1
+  },
+  {
+    "slug": "conditionals",
+    "title": "Conditionals",
+    "description": "",
+    "level": 2
+  },
+  {
+    "slug": "loops-repeat",
+    "title": "Repeat Loop",
+    "description": "",
+    "level": 3
+  },
+  {
+    "slug": "arrays",
+    "title": "Arrays",
+    "description": "",
+    "level": 4
+  }
+]

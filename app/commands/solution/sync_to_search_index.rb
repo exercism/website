@@ -20,6 +20,7 @@ class Solution::SyncToSearchIndex
       id: solution.id,
       body: Solution::CreateSearchIndexDocument.(solution)
     )
+    Exercism::TOUCHED_OPENSEARCH_INDEXES << Solution::OPENSEARCH_INDEX if Rails.env.test?
   end
 
   def delete_document!

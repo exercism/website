@@ -1,0 +1,53 @@
+#page-bootcamp-project
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        = link_to bootcamp_projects_path do
+          = graphical_icon 'concepts'
+          .span Projects
+        .seperator /
+
+        .title= @project.title
+
+    .lg-container
+      .project-bar
+        = image_tag @project.icon_url, width: 64, height: 64
+        .flex.flex-col.gap-4
+          %h1= @project.title
+          .tags
+            .tag.completed Completed
+
+      -#
+        - if @project.concepts.any?
+          .flex
+            - @project.concepts.each do |concept|
+              = link_to concept.title, concept, class: 'bubble'
+
+  .lg-container
+    .flex.gap-48
+      .lhs
+        .introduction.c-prose
+          = raw @project.introduction_html
+
+        - if @project.slug == "drawing"
+          %h2 Your Drawings
+          %p Create your own drawings using code!
+          .grid.grid-cols-3
+            - current_user.bootcamp_drawings.each do |drawing|
+              = link_to edit_bootcamp_drawing_path(drawing), class: 'drawing' do
+                = drawing.uuid
+                -# = image_tag drawing.image_url, width: 200, height: 200
+            = button_to bootcamp_drawings_path, method: :post, class: "drawing new" do
+              New Drawing
+
+
+      .rhs
+        - num_completed = @project.exercises.to_a.count { |exercise| @solutions[exercise.id]&.completed? }
+        - num_unlocked = @project.exercises.to_a.count(&:unlocked?)
+        %h2.font-semibold.text-22.mb-4 Exercises (#{num_completed} / #{num_unlocked})
+        %p.text-16.leading-150.mb-12
+          You have completed #{num_completed} of #{num_unlocked} unlockable exercises in this project.
+          New exercises will unlock as the Bootcamp progresses.
+        .exercises.flex.flex-col.gap-16
+          - @project.exercises.each do |exercise|
+            = render ViewComponents::Bootcamp::ExerciseWidget.new(exercise, solution: @solutions[exercise.id], user_project: @user_project)

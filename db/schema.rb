@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_08_145756) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -68,6 +68,115 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_145756) do
     t.index ["author_id"], name: "fk_rails_b88cda424b"
     t.index ["published_at"], name: "index_blog_posts_on_published_at"
     t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
+  end
+
+  create_table "bootcamp_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.bigint "parent_id"
+    t.integer "level_idx", null: false
+    t.boolean "apex", default: false, null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "fk_rails_a7c513f5e1"
+  end
+
+  create_table "bootcamp_drawings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "uuid", null: false
+    t.text "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bootcamp_drawings_on_user_id"
+  end
+
+  create_table "bootcamp_exercise_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "concept_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["concept_id"], name: "index_bootcamp_exercise_concepts_on_concept_id"
+    t.index ["exercise_id", "concept_id"], name: "index_bootcamp_exercise_concepts_on_exercise_id_and_concept_id", unique: true
+    t.index ["exercise_id"], name: "index_bootcamp_exercise_concepts_on_exercise_id"
+  end
+
+  create_table "bootcamp_exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "project_id"
+    t.string "slug", null: false
+    t.integer "idx", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.integer "level_idx", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["level_idx"], name: "index_bootcamp_exercises_on_level_idx"
+    t.index ["project_id", "slug"], name: "index_bootcamp_exercises_on_project_id_and_slug", unique: true
+    t.index ["project_id"], name: "index_bootcamp_exercises_on_project_id"
+  end
+
+  create_table "bootcamp_levels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "idx", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bootcamp_projects", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "introduction_markdown", null: false
+    t.text "introduction_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bootcamp_settings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "level_idx", default: 1, null: false
+  end
+
+  create_table "bootcamp_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "exercise_id"
+    t.string "uuid", null: false
+    t.text "code", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_bootcamp_solutions_on_exercise_id"
+    t.index ["user_id", "exercise_id"], name: "index_bootcamp_solutions_on_user_id_and_exercise_id", unique: true
+    t.index ["user_id"], name: "index_bootcamp_solutions_on_user_id"
+  end
+
+  create_table "bootcamp_submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "solution_id"
+    t.integer "status", limit: 2, null: false
+    t.text "code", null: false
+    t.text "readonly_ranges", null: false
+    t.text "test_results", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["solution_id"], name: "index_bootcamp_submissions_on_solution_id"
+  end
+
+  create_table "bootcamp_user_projects", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_bootcamp_user_projects_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_bootcamp_user_projects_on_user_id_and_project_id", unique: true
+    t.index ["user_id"], name: "index_bootcamp_user_projects_on_user_id"
   end
 
   create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1316,6 +1425,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_145756) do
     t.string "ppp_country"
     t.string "checkout_session_id"
     t.text "utm"
+    t.integer "level_idx", null: false, default: 0
+    t.string "access_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
@@ -1657,6 +1768,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_145756) do
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "bootcamp_concepts", "bootcamp_concepts", column: "parent_id"
+  add_foreign_key "bootcamp_drawings", "users"
+  add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
+  add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"
+  add_foreign_key "bootcamp_submissions", "bootcamp_solutions", column: "solution_id"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"

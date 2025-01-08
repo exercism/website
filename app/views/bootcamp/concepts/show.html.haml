@@ -1,0 +1,39 @@
+#page-bootcamp-concept
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        = link_to concepts_path do
+          = graphical_icon 'concepts'
+          .span All Concepts
+        .seperator /
+
+        - @concept.parents.each do |parent|
+          = link_to parent.title, concept_path(parent)
+          .seperator /
+
+        .title= @concept.title
+
+    .lg-container.details
+      %h1.font-semibold= @concept.title
+
+  .lg-container
+    .flex
+      .lhs.pr-40
+        .c-prose
+          = raw @concept.content_html
+
+          - if @concept.descendants.any?
+            %h3 Subconcepts
+            %ul.descendants
+              - @concept.descendants.each do |concept|
+                %li
+                  = link_to concept do
+                    .font-semibold.text-primary-blue.text-18= concept.title
+                    .text-16.leading-150= concept.description
+      .rhs
+        .c-rhs-list
+          %h2.mb-12 Exercises
+          %p These exercises have been designed to help you practice this concept.
+          %ul
+            - @concept.exercises.each do |exercise|
+              %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

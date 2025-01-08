@@ -11,5 +11,6 @@ class Document::SyncToSearchIndex
       id: doc.id,
       body: Document::CreateSearchIndexDocument.(doc)
     )
+    Exercism::TOUCHED_OPENSEARCH_INDEXES << Document::OPENSEARCH_INDEX if Rails.env.test?
   end
 end

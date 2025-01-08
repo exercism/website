@@ -1,0 +1,60 @@
+#page-bootcamp-dashboard
+  - if Bootcamp::Settings.level_idx.zero?
+    .lg-container
+      %div{ class: 'max-w-[720px] mx-auto' }
+        %h1 Welcome to the Exercism Bootcamp!
+        %p.large Thanks so much for joining the Bootcamp. We're really excited to share our passion for programming with you!
+        %h2 Introductory Session
+        %p
+          Our kick-off session is at 18:00 UTC on Saturday Jan 11th.
+          We'll introduce you to the Bootcamp, explain how it works, and answer any questions you have.
+          Then we'll dig into the first steps on your coding journey.
+        %p
+          %strong.font-semibold Check back here
+          to get a link shortly before the session starts.
+
+        %h2 Forum &amp; Discord
+        %p
+          We will be using Exercism's Forum and Discord server throughout this course to get unstuck and hang out.
+          Both have dedicated bootcamp areas which
+          %strong.font-medium you can access now.
+        %ul
+          %li
+            %strong.font-semibold The forum (#{link_to 'exercism.org/r/forum', 'https://exercism.org/r/forum', class: 'text-linkColor'})
+            is the space to get help or ask questions. There is a dedicated Bootcamp category. Log in with your Exercism account and read
+            = link_to 'this post', 'https://forum.exercism.org/t/welcome-to-the-bootcamp-forum-space/14389', class: 'text-linkColor font-semibold'
+            to get started.
+          %li
+            %strong.font-semibold Our Discord Server (#{link_to 'exercism.org/r/discord', 'https://exercism.org/r/discord', class: 'text-linkColor'})
+            is the place to go to chat and hang out with other participants. There is a dedicated #bootcamp channel reserved for you.
+            %strong.font-semibold Please use threads
+            on Discord to keep things ordered (don't be offended if you forget and we move your messages!).
+            To get access to the Bootcamp Channels, make sure your Exercism and Discord accounts #{link_to 'are connected here', 'https://exercism.org/settings/integrations', class: 'text-linkColor font-semibold'}.
+
+
+        %h2 Weekly Rhythm
+        %p We've designed each week to follow a similar pattern.
+        %ul
+          %li Monday at 18:00 UTC: Introduction to the week's content (Live Session).
+          %li Tuesday to Friday: Work on the week's exercises.
+          %li Saturday at 18:00 UTC: Deep dive into the week's exercises (Live Session).
+        %p The live sessions will be streamed on our YouTube channel and will be available to watch later if you can't make it.
+
+        %h2 Am I signed up correctly?
+        %p.pb-20 Yes. If you're seeing this page, then you're signed up and will be able to access the content after the 11th.
+
+  - else
+    .lg-container
+      .grid.grid-cols-2
+        .lhs
+          - if @exercise
+            - if @solution
+              %h2 Continue Where You Left Off
+              %p You have an exercise in progress.
+              = render 'exercise', exercise: @exercise, solution: @solution
+            - else
+              %h2 Start new exercise
+              %p You have a new exercise available to work on.
+              = render 'exercise', exercise: @exercise
+          - else
+            You have no exercises available.

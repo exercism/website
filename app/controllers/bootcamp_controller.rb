@@ -122,9 +122,11 @@ class BootcampController < ApplicationController
       session[:country_code_2] = @country_code_2
     end
 
-    return unless @bootcamp_data.user_id.nil? && cookies.signed[:_exercism_user_id].present?
-
-    @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
+    # rubocop:disable Style/SafeNavigation
+    if @bootcamp_data && @bootcamp_data.user_id&.nil? && cookies.signed[:_exercism_user_id].present? # rubocop:disable Style/GuardClause
+      @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
+    end
+    # rubocop:enable Style/SafeNavigation
   end
 
   def retrieve_user_bootcamp_data_from_user

@@ -22,7 +22,6 @@
 @import "../bootcamp/components/project-widget";
 @import "../bootcamp/components/exercise-widget";
 @import "../bootcamp/components/concept-widget";
-@import "../bootcamp/components/modal";
 
 @import "../bootcamp/pages/dashboard";
 @import "../bootcamp/pages/projects";

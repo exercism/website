@@ -1,7 +1,7 @@
 body.controller-projects.action-show {
     @apply bg-grad-basic;
 }
-#page-project {
+#page-bootcamp-project {
     header {
         .project-bar {
             @apply flex items-center gap-20 mb-20;

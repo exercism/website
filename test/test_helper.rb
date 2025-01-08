@@ -309,7 +309,7 @@ class ActiveSupport::TestCase
   def reset_opensearch!
     return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
 
-    OpenSearch::Client.unstub
+    OpenSearch::Client.unstub(:new)
     opensearch = Exercism.opensearch_client
 
     Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|
@@ -319,7 +319,7 @@ class ActiveSupport::TestCase
   end
 
   def get_opensearch_doc(index, id)
-    Exercism.opensearch_client.get(index:, id:)
+    xercism.opensearch_client.get(index:, id:)
   rescue OpenSearch::Transport::Transport::Errors::NotFound
     nil
   end

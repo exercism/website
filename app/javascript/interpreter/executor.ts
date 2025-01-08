@@ -922,7 +922,7 @@ export class Executor
     result?: EvaluationResult,
     error?: RuntimeError
   ): void {
-    if (location === null) location = Location.unknown
+    if (location == null) location = Location.unknown
 
     const frame: Frame = {
       code: location.toCode(this.sourceCode),

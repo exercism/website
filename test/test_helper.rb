@@ -307,6 +307,8 @@ class ActiveSupport::TestCase
   # OpenSearch Helpers #
   ######################
   def reset_opensearch!
+    return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
+
     opensearch = Exercism.opensearch_client
 
     Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|

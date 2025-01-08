@@ -1217,7 +1217,7 @@ describe('errors', () => {
     expect(error!.context).toBeNull
   })
 
-  test('runtime', () => {
+  describe('runtime', () => {
     describe('evaluateFunction', () => {
       test('first frame', () => {
         const { value, frames, error } = evaluateFunction(

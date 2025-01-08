@@ -12,7 +12,7 @@ export function TooltipInformation({
 
   if (notEnoughFrames) {
     return (
-      <StaticTooltip text="There is only one frame. You can inspect that by toggling information widget." />
+      <StaticTooltip text="There is only one frame. You can inspect that by toggling the information widget." />
     )
   }
 }

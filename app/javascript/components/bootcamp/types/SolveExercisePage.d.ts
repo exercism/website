@@ -1,7 +1,7 @@
 type Code = {
   stub: string
   code: string
-  stored_at: Date | string | null
+  storedAt: Date | string | null
   readonlyRanges: { from: number; to: number }[]
 }
 

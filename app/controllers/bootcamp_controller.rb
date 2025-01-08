@@ -85,7 +85,8 @@ class BootcampController < ApplicationController
     if session.status == 'complete'
       @bootcamp_data.update!(
         paid_at: Time.current,
-        checkout_session_id: session.id
+        checkout_session_id: session.id,
+        access_code: SecureRandom.hex(8)
       )
       if current_user
         current_user.update!(bootcamp_attendee: true)
@@ -120,6 +121,10 @@ class BootcampController < ApplicationController
       @country_code_2 = lookup_country_code_from_ip
       session[:country_code_2] = @country_code_2
     end
+
+    return unless @bootcamp_data.user_id.nil? && cookies.signed[:_exercism_user_id].present?
+
+    @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
   end
 
   def retrieve_user_bootcamp_data_from_user
@@ -163,6 +168,10 @@ class BootcampController < ApplicationController
 
     @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2, utm: session[:utm])
     session[:bootcamp_data_id] = @bootcamp_data.id
+
+    return unless cookies.signed[:_exercism_user_id].present? && @bootcamp_data.user_id.nil?
+
+    @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
   end
 
   def setup_pricing!

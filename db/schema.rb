@@ -1303,7 +1303,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_145756) do
   end
 
   create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "num_views", default: 0, null: false
     t.datetime "last_viewed_at"
     t.datetime "started_enrolling_at"

@@ -317,6 +317,7 @@ class ActiveSupport::TestCase
       opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
       opensearch.indices.create(index:)
     end
+    Exercism::TOUCHED_OPENSEARCH_INDEXES.clear
   end
 
   def get_opensearch_doc(index, id)

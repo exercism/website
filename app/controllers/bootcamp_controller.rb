@@ -2,6 +2,7 @@ class BootcampController < ApplicationController
   layout 'bootcamp'
 
   skip_before_action :authenticate_user!
+  before_action :redirect_if_paid!
   before_action :save_utm!
   before_action :setup_data!
   before_action :setup_pricing!
@@ -189,5 +190,11 @@ class BootcampController < ApplicationController
     session[:utm][:source] = params[:utm_source] if params[:utm_source].present?
     session[:utm][:medium] = params[:utm_medium] if params[:utm_medium].present?
     session[:utm][:campaign] = params[:utm_campaign] if params[:utm_campaign].present?
+  end
+
+  def redirect_if_paid!
+    return unless current_user&.bootcamp_data&.paid?
+
+    redirect_to bootcamp_dashboard_url
   end
 end

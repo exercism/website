@@ -1,7 +1,7 @@
-body.controller-concepts.action-show {
+body.namespace-bootcamp.controller-concepts.action-show {
     @apply bg-grad-basic;
 }
-#page-concept {
+#page-bootcamp-concept {
     header {
         @apply pb-16;
         .details {

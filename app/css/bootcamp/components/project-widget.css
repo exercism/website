@@ -9,7 +9,7 @@
 
         .tag {
             @apply border-gray-300;
-            background-image: url("icons/available.svg");
+            background-image: url("icons/bootcamp-available.svg");
         }
     }
     &.completed {

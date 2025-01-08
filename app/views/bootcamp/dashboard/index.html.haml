@@ -1,15 +1,41 @@
-#page-bootcamp-dashboard.pt-20
-  .lg-container
-    .grid.grid-cols-2
-      .lhs
-        - if @exercise
-          - if @solution
-            %h2 Continue Where You Left Off
-            %p You have an exercise in progress.
-            = render "exercise", exercise: @exercise, solution: @solution
+#page-bootcamp-dashboard
+  - if Bootcamp::Settings.level_idx.zero?
+    .lg-container
+      %div{ class: "max-w-[720px] mx-auto" }
+        %h1 Welcome to the Exercism Bootcamp!
+        %p.large Thanks so much for joining the Bootcamp. We're really excited to share our passion for programming with you!
+        %h2 Introductory Session
+        %p
+          Our kick-off session is at 18:00 UTC on Saturday Jan 11th.
+          We'll introduce you to the Bootcamp, explain how it works, and answer any questions you have.
+          Then we'll dig into the first steps on your coding journey.
+        %p
+          %strong.font-semibold Check back here
+          to get a link shortly before the session starts.
+
+        %h2 Weekly Rhythm
+        %p We've designed each week to follow a similar pattern.
+        %ul
+          %li Monday at 18:00 UTC: Introduction to the week's content (Live Session).
+          %li Tuesday to Friday: Work on the week's exercises.
+          %li Saturday at 18:00 UTC: Deep dive into the week's exercises (Live Session).
+        %p The live sessions will be streamed on our YouTube channel and will be available to watch later if you can't make it.
+
+        %h2 Am I signed up correctly?
+        %p Yes. If you're seeing this page, then you're signed up and will be able to access the content after the 11th.
+
+  - else
+    .lg-container
+      .grid.grid-cols-2
+        .lhs
+          - if @exercise
+            - if @solution
+              %h2 Continue Where You Left Off
+              %p You have an exercise in progress.
+              = render "exercise", exercise: @exercise, solution: @solution
+            - else
+              %h2 Start new exercise
+              %p You have a new exercise available to work on.
+              = render "exercise", exercise: @exercise
           - else
-            %h2 Start new exercise
-            %p You have a new exercise available to work on.
-            = render "exercise", exercise: @exercise
-        - else
-          You have no exercises available.
+            You have no exercises available.

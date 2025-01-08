@@ -42,7 +42,7 @@ export default function BootcampFreeCouponForm({
       <h2 className="!mb-8">Free Seat on the Bootcamp</h2>
       <p className="text-p-base mb-12">
         As a lifetime insider you're eligible for a free seat on Exercism's{' '}
-        <a href="https://bootcamp.exercism.org?utm_source=exercism&utm_medium=free_settings">
+        <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings">
           Learn to Code Bootcamp
         </a>
         .

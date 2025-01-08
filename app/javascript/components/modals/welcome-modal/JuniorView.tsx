@@ -34,7 +34,7 @@ export function JuniorView() {
         </header>
         <div className="flex gap-8">
           <a
-            href="https://bootcamp.exercism.org?utm_source=exercism&utm_medium=welcome"
+            href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=welcome"
             className="btn-primary btn-l cursor-pointer"
           >
             Go to the Bootcamp ✨

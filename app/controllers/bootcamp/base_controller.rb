@@ -1,5 +1,14 @@
 class Bootcamp::BaseController < ApplicationController
   layout "bootcamp-ui"
+  before_action :redirect_unless_attendee!
+
+  private
+  def redirect_unless_attendee!
+    return if current_user&.bootcamp_attendee?
+    return if current_user&.bootcamp_mentor?
+
+    redirect_to bootcamp_path
+  end
 
   def use_project
     @project = Bootcamp::Project.find_by!(slug: params[:project_slug])

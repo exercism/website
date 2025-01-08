@@ -1331,6 +1331,26 @@ section#confirmation {
         opacity: 0.2;
         animation: spin 3s linear infinite;
     }
+    button,
+    .button {
+        @apply w-100;
+        border-radius: 8px;
+        font-size: 18px;
+        height: 56px;
+        padding-left: 24px;
+        padding-right: 24px;
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        font-weight: 600;
+        justify-content: center;
+        transition: background-color 0.1s ease-in;
+        white-space: nowrap;
+        background-color: var(--purple);
+        border-color: rgb(19 11 67);
+        border-width: 1px;
+        color: rgb(255 255 255);
+    }
 }
 
 @keyframes color-change {

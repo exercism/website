@@ -87,6 +87,7 @@ class BootcampController < ApplicationController
         paid_at: Time.current,
         checkout_session_id: session.id
       )
+      current_user&.update!(bootcamp_attendee: true)
     end
 
     render json: {
@@ -193,7 +194,7 @@ class BootcampController < ApplicationController
   end
 
   def redirect_if_paid!
-    return unless current_user&.bootcamp_data&.paid?
+    return unless current_user&.bootcamp_attendee?
 
     redirect_to bootcamp_dashboard_url
   end

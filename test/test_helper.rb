@@ -319,7 +319,7 @@ class ActiveSupport::TestCase
   end
 
   def get_opensearch_doc(index, id)
-    xercism.opensearch_client.get(index:, id:)
+    Exercism.opensearch_client.get(index:, id:)
   rescue OpenSearch::Transport::Transport::Errors::NotFound
     nil
   end

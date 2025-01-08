@@ -3,16 +3,16 @@ body.namespace-bootcamp.controller-dashboard.action-index {
 }
 
 #page-bootcamp-dashboard {
-    @apply pt-20;
+    @apply pt-24;
     h1 {
-        @apply text-[35px] leading-140;
+        @apply text-[36px] leading-140;
         @apply font-bold text-textColor1;
         @apply mb-4;
     }
     h2 {
         @apply text-22 leading-150;
         @apply font-semibold text-textColor1;
-        @apply mt-16 mb-4;
+        @apply mt-20 mb-4;
     }
     p.large {
         @apply text-20 leading-150;

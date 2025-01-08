@@ -22,7 +22,7 @@ function createSVGElement(type: string, backgroundColor, penColor, attrs) {
   const elem = document.createElementNS(svgNS, type)
   elem.setAttribute('fill', backgroundColor)
   elem.setAttribute('stroke', penColor)
-  elem.setAttribute('stroke-width', '1')
+  elem.setAttribute('stroke-width', '0')
 
   for (const key in attrs) {
     elem.setAttribute(key, attrs[key])

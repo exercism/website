@@ -22,8 +22,8 @@ class Rectangle extends Shape {
 
 class Circle extends Shape {
   public constructor(
-    public x: number,
-    public y: number,
+    public cx: number,
+    public cy: number,
     public radius: number,
     element: SVGElement
   ) {
@@ -86,7 +86,7 @@ export default class DrawExercise extends Exercise {
   public numElements() {
     return this.shapes.length
   }
-  public getRectAt(x: number, y: number, width: number, height: number) {
+  public getRectangleAt(x: number, y: number, width: number, height: number) {
     return this.shapes.find((shape) => {
       if (shape instanceof Rectangle) {
         return (
@@ -94,6 +94,34 @@ export default class DrawExercise extends Exercise {
           shape.y == y &&
           shape.width == width &&
           shape.height == height
+        )
+      }
+    })
+  }
+  public getCircleAt(cx: number, cy: number, radius: number) {
+    return this.shapes.find((shape) => {
+      if (shape instanceof Circle) {
+        return shape.cx == cx && shape.cy == cy && shape.radius == radius
+      }
+    })
+  }
+  public getTriangleAt(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    x3: number,
+    y3: number
+  ) {
+    return this.shapes.find((shape) => {
+      if (shape instanceof Triangle) {
+        return (
+          shape.x1 == x1 &&
+          shape.y1 == y1 &&
+          shape.x2 == x2 &&
+          shape.y2 == y2 &&
+          shape.x3 == x3 &&
+          shape.y3 == y3
         )
       }
     })

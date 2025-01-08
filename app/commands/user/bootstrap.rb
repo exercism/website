@@ -1,7 +1,7 @@
 class User::Bootstrap
   include Mandate
 
-  initialize_with :user
+  initialize_with :user, bootcamp_access_code: nil
 
   def call
     user.auth_tokens.create!
@@ -14,7 +14,8 @@ class User::Bootstrap
 
   private
   def link_bootcamp_user!
-    ubd = User::BootcampData.find_by(email: user.email)
+    ubd = User::BootcampData.find_by(access_code: bootcamp_access_code) if bootcamp_access_code.present?
+    ubd ||= User::BootcampData.find_by(email: user.email)
     return unless ubd
 
     ubd.update!(user:)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_07_162139) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,11 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "add_uuid_to_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -252,11 +247,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
-  end
-
-  create_table "conversations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -499,9 +489,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
+    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -1025,10 +1015,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
-    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id", null: false
@@ -1074,9 +1064,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
     t.bigint "published_exercise_representation_id"
+    t.bigint "exercise_approach_id"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
+    t.index ["exercise_approach_id"], name: "index_solutions_on_exercise_approach_id"
     t.index ["exercise_id", "approved_by_id", "completed_at", "mentoring_requested_at", "id"], name: "mentor_selection_idx_3"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
     t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat"
@@ -1167,11 +1159,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
-  create_table "submission_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "submission_id", null: false
@@ -1213,7 +1200,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
-    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4\\'$[0]\\' returning char(512) null on empty))", name: "index_submissions_exercise_approach_tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
@@ -1426,7 +1412,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   end
 
   create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.integer "num_views", default: 0, null: false
     t.datetime "last_viewed_at"
     t.datetime "started_enrolling_at"
@@ -1439,10 +1425,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.string "ppp_country"
     t.string "checkout_session_id"
     t.text "utm"
-    t.integer "level_idx", default: 0, null: false
+    t.integer :level_idx, null: false, default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "access_code"
     t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
   end
 
@@ -1480,11 +1465,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1738,7 +1723,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
     t.string "video_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "context", default: "0", null: false
+    t.string "context"
     t.index ["context"], name: "index_user_watched_videos_on_context"
     t.index ["user_id", "video_provider", "video_id"], name: "user_watched_videos_uniq", unique: true
     t.index ["user_id"], name: "index_user_watched_videos_on_user_id"
@@ -1787,8 +1772,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"
   add_foreign_key "bootcamp_submissions", "bootcamp_solutions", column: "solution_id"
-  add_foreign_key "bootcamp_user_projects", "bootcamp_projects", column: "project_id"
-  add_foreign_key "bootcamp_user_projects", "users"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
@@ -1868,6 +1851,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_193404) do
   add_foreign_key "solution_tags", "exercises"
   add_foreign_key "solution_tags", "solutions"
   add_foreign_key "solution_tags", "users"
+  add_foreign_key "solutions", "exercise_approaches"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"

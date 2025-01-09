@@ -26,6 +26,8 @@ export function useDrawingEditorHandler({
 
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
+    // run code on mount
+    handleRunCode()
   }
 
   const {
@@ -34,10 +36,12 @@ export function useDrawingEditorHandler({
     setInformationWidgetData,
     setShouldShowInformationWidget,
     setUnderlineRange,
+    setHasCodeBeenEdited,
   } = useEditorStore()
 
   const handleRunCode = () => {
     document.querySelectorAll('.exercise-container').forEach((e) => e.remove())
+    setHasCodeBeenEdited(false)
     const drawExerciseInstance = new DrawExercise()
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()

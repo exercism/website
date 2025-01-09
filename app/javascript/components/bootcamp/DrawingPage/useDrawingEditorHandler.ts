@@ -30,6 +30,12 @@ export function useDrawingEditorHandler({
     handleRunCode()
   }
 
+  const getStudentCode = () => {
+    if (editorViewRef.current) {
+      return editorViewRef.current.state.doc.toString()
+    }
+  }
+
   const {
     setHighlightedLine,
     setHighlightedLineColor,
@@ -97,6 +103,7 @@ export function useDrawingEditorHandler({
   return {
     handleEditorDidMount,
     handleRunCode,
+    getStudentCode,
     editorHandler,
     latestValueSnapshot,
     editorViewRef,

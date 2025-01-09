@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Header } from '../SolveExercisePage/Header/Header'
+import { Header } from './Header/Header'
 import {
   Resizer,
   useResizablePanels,
@@ -29,6 +29,7 @@ export default function DrawingPage({
   const {
     handleRunCode,
     handleEditorDidMount,
+    getStudentCode,
     editorViewRef,
     viewContainerRef,
     animationTimeline,
@@ -57,11 +58,11 @@ export default function DrawingPage({
       setDefaultCode(editorLocalStorageValue.code)
     }
     setShouldAutoRunCode(true)
-  }, [])
+  }, [code, setDefaultCode, setEditorLocalStorageValue])
 
   return (
     <div id="bootcamp-solve-exercise-page">
-      <Header />
+      <Header links={links} getStudentCode={getStudentCode} />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">
           <ErrorBoundary>
@@ -79,7 +80,6 @@ export default function DrawingPage({
         {/* RHS */}
         <div className="page-body-rhs" style={{ width: RHSWidth }}>
           {/* DRAWING HERE */}
-          <button onClick={handleRunCode}>run code</button>
           <div ref={viewContainerRef} id="view-container" />
         </div>
       </div>

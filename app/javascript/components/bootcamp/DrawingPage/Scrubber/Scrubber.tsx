@@ -107,7 +107,7 @@ function Scrubber({
           animationTimeline,
         })}
       />
-      <InformationWidgetToggleButton disabled={hasCodeBeenEdited} />
+      <InformationWidgetToggleButton disabled={false} />
       <TooltipInformation
         hasCodeBeenEdited={hasCodeBeenEdited}
         notEnoughFrames={frames.length === 1}

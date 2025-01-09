@@ -26,7 +26,7 @@
     "@exercism/highlightjs-arturo": "^0.0.2",
     "@exercism/highlightjs-gdscript": "^0.0.1",
     "@exercism/highlightjs-uiua": "^0.0.4",
-    "codemirror-lang-jikiscript": "dem4ron/codemirror-lang-jikiscript#jikify",
+    "@exercism/codemirror-lang-jikiscript": "0.0.1",
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@floating-ui/dom": "^1.6.12",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",

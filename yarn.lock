@@ -1429,6 +1429,16 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
+"@exercism/codemirror-lang-jikiscript@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-jikiscript/-/codemirror-lang-jikiscript-0.0.1.tgz#c69f824d6d06a47a89a9c022e43a48e295829777"
+  integrity sha512-tgNnzWZCpKu4jh2dWDXaGy1gEYEJJmE7OcfJyyovFWFxx7p4hqF2YdQWSX0588kx9W4ziN/pUiddg66l15c5cw==
+  dependencies:
+    "@codemirror/language" "^6.10.1"
+    "@lezer/highlight" "^1.2.0"
+    "@lezer/lr" "^1.4.0"
+    tslib "^2.8.1"
+
 "@exercism/codemirror-lang-uiua@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-uiua/-/codemirror-lang-uiua-0.0.4.tgz#fba326cf48f405bbdee575d1f273d4747ed605e4"
@@ -3611,14 +3621,6 @@ code-point-at@^1.0.0:
 "codemirror-lang-elixir@https://github.com/sachinraja/codemirror-lang-elixir":
   version "3.0.1"
   resolved "https://github.com/sachinraja/codemirror-lang-elixir#bc0e5af9a57aa5b4cff33bd83aea753106079354"
-
-codemirror-lang-jikiscript@dem4ron/codemirror-lang-jikiscript#jikify:
-  version "0.0.1"
-  resolved "https://codeload.github.com/dem4ron/codemirror-lang-jikiscript/tar.gz/9b6e10b44132a392ec50c6a03f9b021bccb69817"
-  dependencies:
-    "@codemirror/language" "^6.10.1"
-    "@lezer/highlight" "^1.2.0"
-    "@lezer/lr" "^1.4.0"
 
 codemirror-lang-jq@^1.0.0:
   version "1.0.0"

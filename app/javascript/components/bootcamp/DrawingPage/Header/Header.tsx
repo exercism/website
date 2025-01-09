@@ -18,18 +18,26 @@ function _Header({
           <strong className="font-semibold">Exercism</strong> Bootcamp
         </div>
       </div>
-      <div className="ml-auto flex items-center">
+      <div className="ml-auto flex items-center gap-12">
         {savingStateLabel && (
           <span className="text-xs text-gray-500 font-semibold mr-4">
             {savingStateLabel}
           </span>
         )}
+        <div className="flex items-center gap-12">
+          <GraphicalIcon icon="edit" height={15} width={15} />
+          <input
+            type="text"
+            style={{ all: 'unset', borderBottom: '1px solid' }}
+          />
+          <button className="btn-primary btn-xxs">Save title</button>
+        </div>
 
         <a
           href={links.drawingsIndex}
-          className={assembleClassNames('btn-secondary btn-xxs ml-8')}
+          className={assembleClassNames('btn-secondary btn-xxs')}
         >
-          Back
+          Back to drawings
         </a>
       </div>
     </div>

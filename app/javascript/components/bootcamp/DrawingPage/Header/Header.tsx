@@ -14,12 +14,13 @@ function _Header({
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
   const [titleSavingStateLabel, setTitleSavingStateLabel] =
-    useState<string>('Save title')
+    useState<string>('Save')
 
   const handleSaveTitle = useCallback(() => {
     setTitleSavingStateLabel('Saving...')
     patchDrawingTitle(links, titleInputValue)
       .then(() => {
+        setTitleSavingStateLabel('Save')
         setEditMode(false)
       })
       .catch(() => setTitleSavingStateLabel('Failed to save'))
@@ -42,15 +43,6 @@ function _Header({
         <div className="flex items-center gap-12">
           {editMode ? (
             <>
-              <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
-                {titleSavingStateLabel}
-              </button>
-              <button
-                className="btn-secondary btn-xxs"
-                onClick={() => setEditMode(false)}
-              >
-                Cancel
-              </button>
               <input
                 value={titleInputValue}
                 onChange={(e) => {
@@ -60,6 +52,15 @@ function _Header({
                 type="text"
                 style={{ all: 'unset', borderBottom: '1px solid' }}
               />
+              <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
+                {titleSavingStateLabel}
+              </button>
+              <button
+                className="btn-secondary btn-xxs"
+                onClick={() => setEditMode(false)}
+              >
+                Cancel
+              </button>
             </>
           ) : (
             <>

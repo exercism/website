@@ -89,12 +89,12 @@ class BootcampController < ApplicationController
         access_code: SecureRandom.hex(8)
       )
       if current_user
-        current_user.update!(bootcamp_attendee: true)
+        User::BecomeBootcampAttendee.(current_user)
       else
         user = User.find_by(email: @bootcamp_data.email)
         if user
           @bootcamp_data.update(user:)
-          user.update!(bootcamp_attendee: true)
+          User::BecomeBootcampAttendee.(user)
         end
       end
     end

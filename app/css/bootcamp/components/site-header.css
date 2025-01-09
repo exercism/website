@@ -13,7 +13,8 @@
     }
 }
 
-body.controller-exercises.action-edit {
+body.controller-exercises.action-edit,
+body.controller-drawings.action-edit {
     .c-site-header {
         display: none;
     }

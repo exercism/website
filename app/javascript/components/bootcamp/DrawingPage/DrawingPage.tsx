@@ -65,7 +65,6 @@ export default function DrawingPage({
 
   const patchCodeOnDebounce = useMemo(() => {
     return debounce(() => {
-      console.log('saving things')
       setSavingStateLabel('Saving...')
       patchDrawingCode(links, getStudentCode).then(() =>
         setSavingStateLabel('Saved')

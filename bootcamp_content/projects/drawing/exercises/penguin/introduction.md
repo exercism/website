@@ -1,6 +1,21 @@
-# Jumbled House
+# The Penguin
 
-- The frame of the house (the big square) should be 60 wide, 40 height, and have it's top-left corner at 20,50.
-- The roof should overlap the house by 4 on each side, and have a height of 20.
-- The windows have a width of 12 and a height of 13. They sit 10 from the edges, and 5 from the top.
-- The door is 14 wide and 18 tall, and sits at the bottom of the house in the center. The little door knob has a radius of 1, is inset 1 from the right, and is vertically centered in the door.
+Your task is to make the penguin symmetrical. It should look like this:
+
+<img src="https://assets.exercism.org/bootcamp/graphics/penguin-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
+
+We've drawn the left hand side for you, and added `TODO` comments for each of the things you need to do.
+
+You'll need to think about setting the right colors before drawing things.
+
+For the nose, you should **change** the middle coordinates of the triangle. Don't add a new triangle.
+
+The functions used in this exercise are:
+
+- `circle(x, y, radius)`
+- `rectangle(x, y, height, width)`
+- `ellipse(x, y, radius_x, radius_y)`
+- `triangle(x1,y1, x2,y2, x3,y3)`
+- `fill_color_hex(hex)`
+
+If you need help remembering how to use any of these functions, you can watch back the video from week 1.

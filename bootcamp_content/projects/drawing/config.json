@@ -2,5 +2,5 @@
   "slug": "drawing",
   "title": "Drawing",
   "description": "The world of drawing",
-  "exercises": ["clouds", "penguin", "jumbled-house", "loops"]
+  "exercises": ["penguin", "jumbled-house", "loops"]
 }

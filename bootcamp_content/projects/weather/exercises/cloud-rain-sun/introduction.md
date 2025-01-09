@@ -1,6 +1,6 @@
 # Cloud, Rain and Sun
 
-In this exercise, you're drawing a weather icon for a raining day with intermitent sun battling clouds. It should look something like this:
+Your task is to draw a weather icon for a rainy day with the sun sneaking out behind the clouds. It should look something like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 

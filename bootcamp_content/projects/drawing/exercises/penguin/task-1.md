@@ -1,1 +1,5 @@
-Move the frame of the house, so that it's bottom left coordinate is at (20,40). It's size is already set correctly at a width of 60 and a height of 50.
+Follow the `TODO` comments to make the penguin symmetrical.
+
+As you get each bit right, tidy up the comments by removing the `TODO` and replacing it with a nicer comment.
+
+Use the "Check Scenarios" button regularly, and have fun!

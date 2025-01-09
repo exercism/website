@@ -6,6 +6,7 @@ import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 
 export type StudentCodeGetter = () => string | undefined
 
+const DEFAULT_SAVE_BUTTON_LABEL = 'Save'
 function _Header({
   links,
   savingStateLabel,
@@ -13,17 +14,18 @@ function _Header({
 }: { savingStateLabel: string } & Pick<DrawingPageProps, 'links' | 'drawing'>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
-  const [titleSavingStateLabel, setTitleSavingStateLabel] =
-    useState<string>('Save')
+  const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
+    DEFAULT_SAVE_BUTTON_LABEL
+  )
 
   const handleSaveTitle = useCallback(() => {
     setTitleSavingStateLabel('Saving...')
     patchDrawingTitle(links, titleInputValue)
       .then(() => {
-        setTitleSavingStateLabel('Save')
+        setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
         setEditMode(false)
       })
-      .catch(() => setTitleSavingStateLabel('Failed to save'))
+      .catch(() => setTitleSavingStateLabel('Try again'))
   }, [links, titleInputValue])
 
   return (
@@ -56,7 +58,7 @@ function _Header({
                 value={titleInputValue}
                 onChange={(e) => {
                   setTitleInputValue(e.target.value)
-                  setTitleSavingStateLabel('Save title')
+                  setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
                 }}
                 type="text"
                 style={{ all: 'unset', borderBottom: '1px solid' }}

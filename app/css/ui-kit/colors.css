@@ -147,6 +147,7 @@
     --backgroundColorH: var(--c-130B43);
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
+    --backgroundColorITransparent: rgba(225, 235, 255, 0);
     --backgroundColorBorderGradientLightPurple: theme(colors.lightPurple);
     --backgroundColorNotifications: linear-gradient(
             180deg,
@@ -441,6 +442,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
     --backgroundColorI: var(--c-191525);
+    --backgroundColorITransparent: rgba(25, 21, 37, 0);
     --backgroundColorJ: var(--backgroundColorB);
     --backgroundColorBorderGradientLightPurple: theme(colors.darkBlueGray);
     --backgroundColorNotifications: theme(colors.eerieBlack);

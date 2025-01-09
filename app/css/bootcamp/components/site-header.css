@@ -13,8 +13,8 @@
     }
 }
 
-body.controller-exercises.action-edit,
-body.controller-drawings.action-edit {
+body.namespace-bootcamp.controller-exercises.action-edit,
+body.namespace-bootcamp.controller-drawings.action-edit {
     .c-site-header {
         display: none;
     }

@@ -1,0 +1,28 @@
+{
+  "title": "Penguin",
+  "description": "Add a mouth and feet to the penguin",
+  "project_type": "draw",
+  "level": 1,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the nose",
+      "tests": [
+        {
+          "slug": "draw-nose",
+          "name": "Draw a nose on the penguin.",
+          "function": "main",
+          "checks": [
+            {
+              "name": "getTriangleAt(20,50,60,40)",
+              "matcher": "toExist",
+              "error_html": "The frame of the house is not at (20,50,60,40)."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+// Light blue background
+change_fill_color("#ADD8E6") 
+rectangle(0, 0, 100, 100)
+
+// Rounded green hills
+change_fill_color("#339933") // Green for hills
+ellipse(40, 100, 90, 25) // Left hill
+ellipse(80, 100, 50, 25) // Right hill
+
+// All clouds are white
+change_fill_color("#FFFFFF")
+
+// cloud 1
+rectangle(35, 35, 18, 5) // Base of the cloud
+ellipse(35, 37, 10, 7) // Left part of the cloud
+ellipse(45, 35, 13, 9) // Top part of the cloud
+ellipse(55, 37, 10, 7) // Right part of the cloud
+
+// cloud 2
+rectangle(6, 9, 12, 3) // Base of the cloud
+ellipse(6, 10, 6, 5) // Left part of the cloud
+ellipse(12, 8, 8, 6) // Top part of the cloud
+ellipse(18, 10, 6, 5) // Right part of the cloud

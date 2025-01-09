@@ -36,7 +36,7 @@ import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { debounce } from 'lodash'
-import { jikiscript } from 'codemirror-lang-jikiscript'
+import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
 
 export const readonlyCompartment = new Compartment()
 

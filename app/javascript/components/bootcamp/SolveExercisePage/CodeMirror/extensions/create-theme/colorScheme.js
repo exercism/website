@@ -29,7 +29,7 @@ export const colorScheme = createTheme({
     },
     {
       tag: [t.number, t.bool, t.null],
-      color: '#FF5792',
+      color: 'green',
     },
     {
       tag: [t.className, t.typeName, t.definition(t.typeName)],
@@ -37,7 +37,7 @@ export const colorScheme = createTheme({
     },
     {
       tag: [t.string, t.special(t.brace)],
-      color: '#38AD6D',
+      color: 'red',
     },
     {
       tag: t.operator,
@@ -49,7 +49,7 @@ export const colorScheme = createTheme({
     },
     {
       tag: t.keyword,
-      color: '#25B6A7',
+      color: 'blue',
     },
     {
       tag: t.operatorKeyword,

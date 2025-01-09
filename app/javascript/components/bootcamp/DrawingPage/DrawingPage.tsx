@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Header } from './Header/Header'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Header, StudentCodeGetter } from './Header/Header'
 import {
   Resizer,
   useResizablePanels,
@@ -10,12 +10,15 @@ import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import Scrubber from './Scrubber/Scrubber'
+import { debounce } from 'lodash'
 
 export default function DrawingPage({
   drawing,
   code,
   links,
 }: DrawingPageProps) {
+  const [savingStateLabel, setSavingStateLabel] = useState<string>('')
+
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,
@@ -60,9 +63,19 @@ export default function DrawingPage({
     setShouldAutoRunCode(true)
   }, [code, setDefaultCode, setEditorLocalStorageValue])
 
+  const patchCodeOnDebounce = useMemo(() => {
+    return debounce(() => {
+      console.log('saving things')
+      setSavingStateLabel('Saving...')
+      patchDrawingCode(links, getStudentCode).then(() =>
+        setSavingStateLabel('Saved')
+      )
+    }, 5000)
+  }, [setEditorLocalStorageValue])
+
   return (
     <div id="bootcamp-solve-exercise-page">
-      <Header links={links} getStudentCode={getStudentCode} />
+      <Header links={links} savingStateLabel={savingStateLabel} />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">
           <ErrorBoundary>
@@ -72,6 +85,7 @@ export default function DrawingPage({
               editorDidMount={handleEditorDidMount}
               handleRunCode={handleRunCode}
               setEditorLocalStorageValue={setEditorLocalStorageValue}
+              onEditorChangeCallback={patchCodeOnDebounce}
             />
             <Scrubber animationTimeline={animationTimeline} frames={frames} />
           </ErrorBoundary>
@@ -85,4 +99,27 @@ export default function DrawingPage({
       </div>
     </div>
   )
+}
+
+async function patchDrawingCode(
+  links: DrawingPageProps['links'],
+  getStudentCode: StudentCodeGetter
+) {
+  const studentCode = getStudentCode()
+
+  const response = await fetch(links.updateCode, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      code: studentCode,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to save code')
+  }
+
+  return response.json()
 }

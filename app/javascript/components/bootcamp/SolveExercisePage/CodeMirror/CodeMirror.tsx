@@ -33,8 +33,6 @@ import useEditorStore from '../store/editorStore'
 import * as Ext from './extensions'
 import * as Hook from './hooks'
 import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { debounce } from 'lodash'
 import { jikiscript } from 'codemirror-lang-jikiscript'
 
@@ -70,10 +68,12 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     handleRunCode,
     style,
     setEditorLocalStorageValue,
+    onEditorChangeCallback,
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
+    onEditorChangeCallback?: () => void
     setEditorLocalStorageValue: (value: {
       code: string
       storedAt: string
@@ -200,6 +200,14 @@ export const CodeMirror = forwardRef(function _CodeMirror(
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {
                 handleRunCode()
+              }
+            },
+            () => {
+              console.log('editor change callback')
+              if (onEditorChangeCallback) {
+                onEditorChangeCallback()
+              } else {
+                console.log('no editor callback')
               }
             }
           ),

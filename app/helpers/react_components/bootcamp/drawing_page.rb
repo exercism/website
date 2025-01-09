@@ -11,7 +11,8 @@ module ReactComponents
     def data
       {
         drawing: {
-          uuid: drawing.uuid
+          uuid: drawing.uuid,
+          title: drawing.title
         },
         code: {
           code: drawing.code,

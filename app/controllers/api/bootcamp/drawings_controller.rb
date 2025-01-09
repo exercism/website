@@ -2,7 +2,8 @@ class API::Bootcamp::DrawingsController < API::Bootcamp::BaseController
   before_action :use_drawing
 
   def update
-    @drawing.update(code: params[:code])
+    @drawing.update(code: params[:code]) if params[:code].present?
+    @drawing.update(title: params[:title]) if params[:title].present?
 
     render json: {}, status: :ok
   end

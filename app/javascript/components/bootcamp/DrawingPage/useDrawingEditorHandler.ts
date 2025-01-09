@@ -14,10 +14,9 @@ export function useDrawingEditorHandler({
 }: DrawingPageProps) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
-  const [view, setView] = useState<ReturnType<
-    typeof DrawExercise.prototype.getView
-  > | null>(null)
   const viewContainerRef = useRef<HTMLDivElement | null>(null)
+  const [animationTimeline, setAnimationTimeline] =
+    useState<AnimationTimeline>()
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
@@ -55,6 +54,10 @@ export function useDrawingEditorHandler({
           ? new AnimationTimeline({}, frames).populateTimeline(animations)
           : null
 
+      if (animationTimeline) {
+        setAnimationTimeline(animationTimeline)
+      }
+
       if (evaluated.error) {
         showError({
           error: evaluated.error,
@@ -82,8 +85,6 @@ export function useDrawingEditorHandler({
         viewContainerRef.current.appendChild(view)
         view.style.display = 'block'
       }
-
-      setView(view)
     }
   }
 
@@ -93,7 +94,7 @@ export function useDrawingEditorHandler({
     editorHandler,
     latestValueSnapshot,
     editorViewRef,
-    view,
     viewContainerRef,
+    animationTimeline,
   }
 }

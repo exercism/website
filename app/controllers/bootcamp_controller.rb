@@ -93,6 +93,12 @@ class BootcampController < ApplicationController
       else
         user = User.find_by(email: @bootcamp_data.email)
         if user
+          # Reset old bootcamp data sessions
+          User::BootcampData.where(user:).
+            where.not(id: @bootcamp_data.id).
+            update_all(user_id: nil)
+
+          # Enroll this one.
           @bootcamp_data.update(user:)
           User::BecomeBootcampAttendee.(user)
         end

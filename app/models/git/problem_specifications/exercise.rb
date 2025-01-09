@@ -62,7 +62,7 @@ class Git::ProblemSpecifications::Exercise
     tree.walk(:preorder).map do |root, entry|
       next if entry[:type] == :tree
 
-      entry[:full] = "#{root}#{entry[:name]}"
+      entry[:full] = "#{root}#yentry[:name]}"
       entry
     end.compact
   rescue Rugged::TreeError

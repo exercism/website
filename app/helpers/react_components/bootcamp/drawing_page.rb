@@ -6,12 +6,13 @@ module ReactComponents
       super(id, data)
     end
 
-    def id = "bootcamp-solve-exercise-page"
+    def id = "bootcamp-drawing-page"
 
     def data
       {
         drawing: {
-          uuid: drawing.uuid
+          uuid: drawing.uuid,
+          title: drawing.title
         },
         code: {
           code: drawing.code,
@@ -19,7 +20,7 @@ module ReactComponents
         },
         links: {
           update_code: Exercism::Routes.api_bootcamp_drawing_url(drawing),
-          drawings_index: Exercism::Routes.bootcamp_drawings_url(only_path: true)
+          drawings_index: Exercism::Routes.bootcamp_project_path(:drawing)
         }
       }
     end

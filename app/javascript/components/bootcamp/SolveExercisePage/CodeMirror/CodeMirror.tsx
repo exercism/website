@@ -33,8 +33,6 @@ import useEditorStore from '../store/editorStore'
 import * as Ext from './extensions'
 import * as Hook from './hooks'
 import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { debounce } from 'lodash'
 import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
 
@@ -69,10 +67,17 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     editorDidMount,
     handleRunCode,
     style,
+    setEditorLocalStorageValue,
+    onEditorChangeCallback,
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
+    onEditorChangeCallback?: () => void
+    setEditorLocalStorageValue: (value: {
+      code: string
+      storedAt: string
+    }) => void
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -93,11 +98,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   } = useEditorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
-  const { code, exercise } = useContext(SolveExercisePageContext)
-  const [_, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.config.title,
-    { code: code.code, storedAt: code.storedAt }
-  )
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce(
@@ -200,6 +200,14 @@ export const CodeMirror = forwardRef(function _CodeMirror(
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {
                 handleRunCode()
+              }
+            },
+            () => {
+              console.log('editor change callback')
+              if (onEditorChangeCallback) {
+                onEditorChangeCallback()
+              } else {
+                console.log('no editor callback')
               }
             }
           ),

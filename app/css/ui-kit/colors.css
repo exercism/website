@@ -746,6 +746,10 @@ html {
         background: #222;
         filter: invert(100%) hue-rotate(180deg);
     }
+
+    body.namespace-bootcamp {
+        @inline .theme-light;
+    }
 }
 .theme-accessibility-dark {
     @inline .theme-light;

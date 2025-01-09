@@ -6,6 +6,7 @@ import { interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import { AnimationTimeline } from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
+import type { Frame } from '@/interpreter/frames'
 
 export function useDrawingEditorHandler({
   drawing,
@@ -17,6 +18,7 @@ export function useDrawingEditorHandler({
   const viewContainerRef = useRef<HTMLDivElement | null>(null)
   const [animationTimeline, setAnimationTimeline] =
     useState<AnimationTimeline>()
+  const [frames, setFrames] = useState<Frame[]>([])
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
@@ -47,6 +49,7 @@ export function useDrawingEditorHandler({
       })
 
       const { frames } = evaluated
+      setFrames(frames)
 
       const { animations } = drawExerciseInstance
       const animationTimeline =
@@ -96,5 +99,6 @@ export function useDrawingEditorHandler({
     editorViewRef,
     viewContainerRef,
     animationTimeline,
+    frames,
   }
 }

@@ -9,6 +9,7 @@ import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
+import Scrubber from './Scrubber/Scrubber'
 
 export default function DrawingPage({
   drawing,
@@ -30,6 +31,8 @@ export default function DrawingPage({
     handleEditorDidMount,
     editorViewRef,
     viewContainerRef,
+    animationTimeline,
+    frames,
   } = useDrawingEditorHandler({ code, links, drawing })
 
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
@@ -37,8 +40,9 @@ export default function DrawingPage({
     { code: code.code, storedAt: code.storedAt }
   )
 
-  const { setDefaultCode } = useEditorStore()
+  const { setDefaultCode, setShouldAutoRunCode } = useEditorStore()
 
+  // Setup hook
   useEffect(() => {
     if (
       editorLocalStorageValue.storedAt &&
@@ -52,6 +56,7 @@ export default function DrawingPage({
       // otherwise we are using the code from the storage
       setDefaultCode(editorLocalStorageValue.code)
     }
+    setShouldAutoRunCode(true)
   }, [])
 
   return (
@@ -67,6 +72,7 @@ export default function DrawingPage({
               handleRunCode={handleRunCode}
               setEditorLocalStorageValue={setEditorLocalStorageValue}
             />
+            <Scrubber animationTimeline={animationTimeline} frames={frames} />
           </ErrorBoundary>
         </div>
         <Resizer direction="vertical" handleMouseDown={handleMouseDown} />

@@ -30,7 +30,7 @@ class User
               "price": bootcamp_data.price,
               "has_discount": bootcamp_data.has_discount?,
               "discount_percentage": bootcamp_data.discount_percentage,
-              "user_id": bootcamp_data.user_id,
+              "user_id": bootcamp_data.user_id || 0,
               "access_code": bootcamp_data.access_code
             }
           },

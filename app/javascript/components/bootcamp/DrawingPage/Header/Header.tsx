@@ -43,15 +43,6 @@ function _Header({
         <div className="flex items-center gap-12">
           {editMode ? (
             <>
-              <input
-                value={titleInputValue}
-                onChange={(e) => {
-                  setTitleInputValue(e.target.value)
-                  setTitleSavingStateLabel('Save title')
-                }}
-                type="text"
-                style={{ all: 'unset', borderBottom: '1px solid' }}
-              />
               <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
                 {titleSavingStateLabel}
               </button>
@@ -61,6 +52,15 @@ function _Header({
               >
                 Cancel
               </button>
+              <input
+                value={titleInputValue}
+                onChange={(e) => {
+                  setTitleInputValue(e.target.value)
+                  setTitleSavingStateLabel('Save title')
+                }}
+                type="text"
+                style={{ all: 'unset', borderBottom: '1px solid' }}
+              />
             </>
           ) : (
             <>

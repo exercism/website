@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
+Modal.setAppElement('body')
 export function ResetButton() {
   const [shouldOpenConfirmationModal, setShouldOpenConfirmationModal] =
     useState(false)
@@ -24,6 +25,7 @@ export function ResetButton() {
 
       {/* @ts-ignore */}
       <Modal
+        ariaHideApp={false}
         isOpen={shouldOpenConfirmationModal}
         className="solve-exercise-page-react-modal-content flex flex-col items-center justify-center text-center max-w-[500px]"
         overlayClassName="solve-exercise-page-react-modal-overlay"

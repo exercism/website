@@ -20,7 +20,6 @@ function _Header({
     setTitleSavingStateLabel('Saving...')
     patchDrawingTitle(links, titleInputValue)
       .then(() => {
-        setTitleSavingStateLabel('Saved!')
         setEditMode(false)
       })
       .catch(() => setTitleSavingStateLabel('Failed to save'))

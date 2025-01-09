@@ -1,7 +1,7 @@
 import React from 'react'
 import { useCallback } from 'react'
-import useEditorStore from '../store/editorStore'
-import useTestStore from '../store/testStore'
+import useEditorStore from '../../SolveExercisePage/store/editorStore'
+import useTestStore from '../../SolveExercisePage/store/testStore'
 
 export function InformationWidgetToggleButton({
   disabled,

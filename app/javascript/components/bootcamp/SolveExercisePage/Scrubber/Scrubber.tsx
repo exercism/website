@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { TooltipInformation } from './ScrubberTooltipInformation'
-import { InformationWidgetToggleButton } from './InformationWidgetTiggleButton'
+import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'
 
 function Scrubber({ testResult }: { testResult: NewTestResult }) {

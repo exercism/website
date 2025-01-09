@@ -20,7 +20,7 @@ module ReactComponents
         },
         links: {
           update_code: Exercism::Routes.api_bootcamp_drawing_url(drawing),
-          drawings_index: Exercism::Routes.bootcamp_drawings_url(only_path: true)
+          drawings_index: Exercism::Routes.bootcamp_project_path(:drawing)
         }
       }
     end

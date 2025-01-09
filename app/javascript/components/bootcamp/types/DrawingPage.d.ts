@@ -1,6 +1,7 @@
 declare type DrawingPageProps = {
   drawing: {
     uuid: string
+    title: string
   }
   code: {
     code: string

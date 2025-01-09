@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
@@ -9,7 +9,19 @@ export type StudentCodeGetter = () => string | undefined
 function _Header({
   links,
   savingStateLabel,
-}: { savingStateLabel: string } & Pick<DrawingPageProps, 'links'>) {
+  drawing,
+}: { savingStateLabel: string } & Pick<DrawingPageProps, 'links' | 'drawing'>) {
+  const [titleInputValue, setTitleInputValue] = useState(drawing.title)
+  const [titleSavingStateLabel, setTitleSavingStateLabel] =
+    useState<string>('Save title')
+
+  const handleSaveTitle = useCallback(() => {
+    setTitleSavingStateLabel('Saving...')
+    patchDrawingTitle(links, titleInputValue)
+      .then(() => setTitleSavingStateLabel('Saved!'))
+      .catch(() => setTitleSavingStateLabel('Failed to save'))
+  }, [links, titleInputValue])
+
   return (
     <div className="page-header">
       <div className="ident">
@@ -27,10 +39,17 @@ function _Header({
         <div className="flex items-center gap-12">
           <GraphicalIcon icon="edit" height={15} width={15} />
           <input
+            value={titleInputValue}
+            onChange={(e) => {
+              setTitleInputValue(e.target.value)
+              setTitleSavingStateLabel('Save title')
+            }}
             type="text"
             style={{ all: 'unset', borderBottom: '1px solid' }}
           />
-          <button className="btn-primary btn-xxs">Save title</button>
+          <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
+            {titleSavingStateLabel}
+          </button>
         </div>
 
         <a
@@ -45,3 +64,24 @@ function _Header({
 }
 
 export const Header = wrapWithErrorBoundary(_Header)
+
+async function patchDrawingTitle(
+  links: DrawingPageProps['links'],
+  title: string
+) {
+  const response = await fetch(links.updateCode, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to save code')
+  }
+
+  return response.json()
+}

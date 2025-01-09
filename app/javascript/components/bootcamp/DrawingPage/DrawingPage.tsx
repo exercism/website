@@ -74,7 +74,11 @@ export default function DrawingPage({
 
   return (
     <div id="bootcamp-solve-exercise-page">
-      <Header links={links} savingStateLabel={savingStateLabel} />
+      <Header
+        links={links}
+        savingStateLabel={savingStateLabel}
+        drawing={drawing}
+      />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">
           <ErrorBoundary>

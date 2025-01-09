@@ -1,6 +1,5 @@
-import React from 'react'
 import { Exercise } from '../Exercise'
-import { rToA } from './utils'
+import { aToR, rToA } from './utils'
 import * as Shapes from './shapes'
 import type { ExecutionContext } from '@/interpreter/executor'
 
@@ -69,6 +68,7 @@ export default class DrawExercise extends Exercise {
 
     Object.assign(this.view.style, {
       display: 'none',
+      position: 'relative',
     })
 
     const grid = document.createElement('div')
@@ -77,7 +77,61 @@ export default class DrawExercise extends Exercise {
 
     this.canvas = document.createElement('div')
     this.canvas.classList.add('canvas')
+    this.canvas.style.position = 'relative'
     this.view.appendChild(this.canvas)
+
+    this.tooltip = document.createElement('div')
+    this.tooltip.classList.add('tooltip')
+    Object.assign(this.tooltip.style, {
+      position: 'absolute',
+      background: '#333',
+      color: '#fff',
+      padding: '4px',
+      borderRadius: '4px',
+      fontSize: '12px',
+      pointerEvents: 'none',
+      display: 'none',
+    })
+    this.view.appendChild(this.tooltip)
+
+    this.canvas.addEventListener('mousemove', this.showTooltip.bind(this))
+    this.canvas.addEventListener('mouseleave', this.hideTooltip.bind(this))
+  }
+
+  showTooltip(event: MouseEvent) {
+    const rect = this.canvas.getBoundingClientRect()
+    const canvasWidth = rect.width
+    const canvasHeight = rect.height
+
+    const absX = event.clientX - rect.left
+    const absY = event.clientY - rect.top
+
+    const relX = Math.round(aToR(absX, canvasWidth))
+    const relY = Math.round(aToR(absY, canvasHeight))
+
+    let tooltipX = absX + 10
+    let tooltipY = absY + 10
+
+    const tooltipRect = this.tooltip.getBoundingClientRect()
+
+    // handle tooltip overflow-x
+    if (tooltipX + tooltipRect.width + 5 > canvasWidth) {
+      tooltipX = absX - tooltipRect.width - 10
+    }
+
+    // handle tooltip overflow-y
+    if (tooltipY + tooltipRect.height + 5 > canvasHeight) {
+      tooltipY = absY - tooltipRect.height - 10
+    }
+
+    this.tooltip.textContent = `X: ${relX}, Y: ${relY}`
+    this.tooltip.style.left = `${tooltipX}px`
+    this.tooltip.style.top = `${tooltipY}px`
+    this.tooltip.style.display = 'block'
+  }
+
+  hideTooltip() {
+    this.tooltip.style.display = 'none'
   }
 
   public getState() {

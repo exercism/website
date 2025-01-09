@@ -14,6 +14,8 @@ class User::LinkWithBootcampData
     return unless bootcamp_data.paid?
 
     user.update!(bootcamp_attendee: true)
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
   end
 
   memoize

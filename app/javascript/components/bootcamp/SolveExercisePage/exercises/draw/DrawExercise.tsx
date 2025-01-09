@@ -83,6 +83,7 @@ export default class DrawExercise extends Exercise {
     this.tooltip = document.createElement('div')
     this.tooltip.classList.add('tooltip')
     Object.assign(this.tooltip.style, {
+      whiteSpace: 'nowrap',
       position: 'absolute',
       background: '#333',
       color: '#fff',
@@ -112,16 +113,20 @@ export default class DrawExercise extends Exercise {
     let tooltipX = absX + 10
     let tooltipY = absY + 10
 
-    const tooltipRect = this.tooltip.getBoundingClientRect()
-
+    // providing these as constant values saves us from recalculating them every time
+    // update these values if the tooltip style changes
+    // measure max tooltip width/height with the fn below
+    // console.log(this.tooltip.getBoundingClientRect().width, this.tooltip.getBoundingClientRect().height)
+    const maxTooltipWidth = 75
+    const maxTooltipHeight = 32
     // handle tooltip overflow-x
-    if (tooltipX + tooltipRect.width + 5 > canvasWidth) {
-      tooltipX = absX - tooltipRect.width - 10
+    if (tooltipX + maxTooltipWidth + 5 > canvasWidth) {
+      tooltipX = absX - maxTooltipWidth - 10
     }
 
     // handle tooltip overflow-y
-    if (tooltipY + tooltipRect.height + 5 > canvasHeight) {
-      tooltipY = absY - tooltipRect.height - 10
+    if (tooltipY + maxTooltipHeight + 5 > canvasHeight) {
+      tooltipY = absY - maxTooltipHeight - 10
     }
 
     this.tooltip.textContent = `X: ${relX}, Y: ${relY}`

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Header } from '../SolveExercisePage/Header/Header'
 import {
   Resizer,
@@ -8,6 +8,7 @@ import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import useEditorStore from '../SolveExercisePage/store/editorStore'
 
 export default function DrawingPage({
   drawing,
@@ -24,12 +25,34 @@ export default function DrawingPage({
     localStorageId: 'drawing-page-lhs',
   })
 
-  const { handleRunCode, handleEditorDidMount, editorViewRef } =
-    useDrawingEditorHandler({ code, links, drawing })
-  const [_, setEditorLocalStorageValue] = useLocalStorage(
+  const {
+    handleRunCode,
+    handleEditorDidMount,
+    editorViewRef,
+    viewContainerRef,
+  } = useDrawingEditorHandler({ code, links, drawing })
+
+  const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + drawing.uuid,
     { code: code.code, storedAt: code.storedAt }
   )
+
+  const { setDefaultCode } = useEditorStore()
+
+  useEffect(() => {
+    if (
+      editorLocalStorageValue.storedAt &&
+      code.storedAt &&
+      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
+      editorLocalStorageValue.storedAt < code.storedAt
+    ) {
+      setEditorLocalStorageValue({ code: code.code, storedAt: code.storedAt })
+      setDefaultCode(code.code)
+    } else {
+      // otherwise we are using the code from the storage
+      setDefaultCode(editorLocalStorageValue.code)
+    }
+  }, [])
 
   return (
     <div id="bootcamp-solve-exercise-page">
@@ -50,6 +73,8 @@ export default function DrawingPage({
         {/* RHS */}
         <div className="page-body-rhs" style={{ width: RHSWidth }}>
           {/* DRAWING HERE */}
+          <button onClick={handleRunCode}>run code</button>
+          <div ref={viewContainerRef} id="view-container" />
         </div>
       </div>
     </div>

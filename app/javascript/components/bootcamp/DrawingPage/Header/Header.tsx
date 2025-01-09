@@ -6,20 +6,26 @@ import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 
 export type StudentCodeGetter = () => string | undefined
 
+const DEFAULT_SAVE_BUTTON_LABEL = 'Save'
 function _Header({
   links,
   savingStateLabel,
   drawing,
 }: { savingStateLabel: string } & Pick<DrawingPageProps, 'links' | 'drawing'>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
-  const [titleSavingStateLabel, setTitleSavingStateLabel] =
-    useState<string>('Save title')
+  const [editMode, setEditMode] = useState(false)
+  const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
+    DEFAULT_SAVE_BUTTON_LABEL
+  )
 
   const handleSaveTitle = useCallback(() => {
     setTitleSavingStateLabel('Saving...')
     patchDrawingTitle(links, titleInputValue)
-      .then(() => setTitleSavingStateLabel('Saved!'))
-      .catch(() => setTitleSavingStateLabel('Failed to save'))
+      .then(() => {
+        setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
+        setEditMode(false)
+      })
+      .catch(() => setTitleSavingStateLabel('Try again'))
   }, [links, titleInputValue])
 
   return (
@@ -37,19 +43,35 @@ function _Header({
           </span>
         )}
         <div className="flex items-center gap-12">
-          <GraphicalIcon icon="edit" height={15} width={15} />
-          <input
-            value={titleInputValue}
-            onChange={(e) => {
-              setTitleInputValue(e.target.value)
-              setTitleSavingStateLabel('Save title')
-            }}
-            type="text"
-            style={{ all: 'unset', borderBottom: '1px solid' }}
-          />
-          <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
-            {titleSavingStateLabel}
-          </button>
+          {editMode ? (
+            <>
+              <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
+                {titleSavingStateLabel}
+              </button>
+              <button
+                className="btn-secondary btn-xxs"
+                onClick={() => setEditMode(false)}
+              >
+                Cancel
+              </button>
+              <input
+                value={titleInputValue}
+                onChange={(e) => {
+                  setTitleInputValue(e.target.value)
+                  setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
+                }}
+                type="text"
+                style={{ all: 'unset', borderBottom: '1px solid' }}
+              />
+            </>
+          ) : (
+            <>
+              <button onClick={() => setEditMode(true)}>
+                <GraphicalIcon icon="edit" height={15} width={15} />
+              </button>
+              <span>{titleInputValue}</span>
+            </>
+          )}
         </div>
 
         <a

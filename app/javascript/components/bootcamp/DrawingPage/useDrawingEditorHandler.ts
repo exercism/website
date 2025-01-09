@@ -76,7 +76,6 @@ export function useDrawingEditorHandler({
         })
       }
 
-      console.log(evaluated, value, animationTimeline)
       const view = drawExerciseInstance.getView()
 
       if (view) {

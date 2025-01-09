@@ -24,16 +24,18 @@ interface Exercise {
 
 type Project = { slug: string }
 
-declare type SolveExercisePageProps = {
-  solution: Solution
-  project: Project
-  exercise: Exercise
-  code: Code
-  links: {
-    postSubmission: string
-    completeSolution: string
-    projectsIndex: string
-    dashboardIndex: string
+declare global {
+  type SolveExercisePageProps = {
+    solution: Solution
+    project: Project
+    exercise: Exercise
+    code: Code
+    links: {
+      postSubmission: string
+      completeSolution: string
+      projectsIndex: string
+      dashboardIndex: string
+    }
   }
 }
 

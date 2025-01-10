@@ -1,6 +1,6 @@
 {
   "slug": "drawing",
   "title": "Drawing",
-  "description": "The world of drawing",
+  "description": "With only a few basic shapes you can draw and animate almost anything.",
   "exercises": ["penguin", "jumbled-house", "loops"]
 }

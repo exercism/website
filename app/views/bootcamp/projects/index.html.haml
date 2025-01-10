@@ -11,5 +11,6 @@
 
   .lg-container
     .grid.grid-cols-3.gap-8
-      - @user_projects.each do |user_project|
-        = render ViewComponents::Bootcamp::ProjectWidget.new(user_project.project, user_project:)
+      - Bootcamp::Project.unlocked.each do |project|
+        - user_project = @user_projects[project.id]
+        = render ViewComponents::Bootcamp::ProjectWidget.new(project, user_project:)

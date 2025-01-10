@@ -61,7 +61,7 @@
 
   %body{ class: body_class }
     %header.c-site-header
-      .sm-container
+      %div{ class: Bootcamp::Settings.level_idx.zero? ? "sm-container" : "lg-container" }
         .container
           %img{ src: "https://assets.exercism.org/assets/bootcamp/exercism-face-light-2fc4ffad44f295d2e900ab2d2198d2280128dfcd.svg" }
           .content
@@ -69,4 +69,5 @@
             Bootcamp
 
           = link_to "Back to Exercism →", "https://exercism.org", class: 'ml-auto text-linkColor font-semibold text-16'
+
     = yield

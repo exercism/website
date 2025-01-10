@@ -1,5 +1,5 @@
 .c-exercise-widget {
-    @apply py-12 px-12 rounded-8 border-1 block;
+    @apply py-12 px-12 rounded-8 border-1 border-borderColor5 block;
     @apply flex flex-col items-stretch;
     @apply bg-white;
 

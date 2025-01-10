@@ -16,7 +16,6 @@ export function useSetupStores({
       readonlyRanges: code.readonlyRanges,
     }
   )
-  const { setDefaultCode, setReadonlyRanges } = useEditorStore()
   const { initializeTasks } = useTaskStore()
   const {
     setPreviousTestSuiteResult,
@@ -85,27 +84,6 @@ export function useSetupStores({
 
     initializeTasks(exercise.tasks, previousTestSuiteResult)
     setFlatPreviewTaskTests(exercise.tasks.flatMap((task) => task.tests))
-
-    // ensure we always load the latest code to editor
-    if (
-      editorLocalStorageValue.storedAt &&
-      code.storedAt &&
-      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      editorLocalStorageValue.storedAt < code.storedAt
-    ) {
-      setEditorLocalStorageValue({
-        code: code.code,
-        storedAt: code.storedAt,
-        readonlyRanges: code.readonlyRanges,
-      })
-      setDefaultCode(code.code)
-    } else {
-      // otherwise we are using the code from the storage
-      setDefaultCode(editorLocalStorageValue.code)
-      if (editorLocalStorageValue.readonlyRanges) {
-        setReadonlyRanges(editorLocalStorageValue.readonlyRanges)
-      }
-    }
   }, [exercise, code])
 }
 

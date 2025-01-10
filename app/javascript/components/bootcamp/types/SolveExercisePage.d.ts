@@ -19,6 +19,7 @@ declare global {
     code: string
     storedAt: Date | string | null
     readonlyRanges?: { from: number; to: number }[]
+    defaultReadonlyRanges?: { from: number; to: number }[]
   }
 
   type Solution = {

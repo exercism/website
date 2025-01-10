@@ -35,7 +35,8 @@ module ReactComponents
           # rename to `value` or similar? code.code is a bit confusing
           code: submission ? submission.code : exercise.stub,
           stored_at: submission&.created_at,
-          readonly_ranges:
+          readonly_ranges:,
+          default_readonly_ranges: exercise.readonly_ranges
         },
         links: {
           post_submission: Exercism::Routes.api_bootcamp_solution_submissions_url(solution_uuid: solution.uuid, only_path: true),

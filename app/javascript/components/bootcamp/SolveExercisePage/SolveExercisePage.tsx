@@ -54,10 +54,15 @@ export default function SolveExercisePage({
     localStorageId: 'solve-exercise-page-editor-height',
   })
 
-  const [_, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.config.title,
-    { code: code.code, storedAt: code.storedAt }
-  )
+  const [_, setEditorLocalStorageValue] = useLocalStorage<{
+    code: string
+    storedAt: string | Date | null
+    readonlyRanges?: { from: number; to: number }[]
+  }>('bootcamp-editor-value-' + exercise.config.title, {
+    code: code.code,
+    storedAt: code.storedAt,
+    readonlyRanges: code.readonlyRanges,
+  })
 
   return (
     <SolveExercisePageContextWrapper

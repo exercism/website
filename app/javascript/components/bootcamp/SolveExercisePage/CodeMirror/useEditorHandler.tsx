@@ -5,6 +5,7 @@ import type { EditorView } from 'codemirror'
 import type { Handler } from './CodeMirror'
 import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOnlyRanges'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import useEditorStore from '../store/editorStore'
 
 export function useEditorHandler({
   links,
@@ -13,9 +14,14 @@ export function useEditorHandler({
 }: Pick<SolveExercisePageProps, 'links' | 'code'> & { config: Config }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
-  const [, setEditorLocalStorageValue] = useLocalStorage(
+  const { setDefaultCode } = useEditorStore()
+  const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + config.title,
-    { code: code.code, storedAt: code.storedAt }
+    {
+      code: code.code,
+      storedAt: code.storedAt,
+      readonlyRanges: code.readonlyRanges,
+    }
   )
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
@@ -24,7 +30,27 @@ export function useEditorHandler({
 
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
-    setupEditor(editorViewRef.current, code)
+
+    if (
+      // if there is no stored at it means we have not submitted the code yet, ignore this, and keep using localStorage
+      // localStorage defaults to the stub code.
+      editorLocalStorageValue.storedAt &&
+      code.storedAt &&
+      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
+      editorLocalStorageValue.storedAt < code.storedAt
+    ) {
+      setEditorLocalStorageValue({
+        code: code.code,
+        storedAt: code.storedAt,
+        readonlyRanges: code.readonlyRanges,
+      })
+      setDefaultCode(code.code)
+      setupEditor(editorViewRef.current, code)
+    } else {
+      // otherwise we are using the code from the storage
+      setDefaultCode(editorLocalStorageValue.code)
+      setupEditor(editorViewRef.current, editorLocalStorageValue)
+    }
   }
 
   const onRunCode = useOnRunCode({
@@ -37,8 +63,13 @@ export function useEditorHandler({
       setEditorLocalStorageValue({
         code: code.stub,
         storedAt: new Date().toISOString(),
+        readonlyRanges: code.readonlyRanges,
       })
-      editorHandler.current.setValue(code.stub)
+      setupEditor(editorViewRef.current, { code: '', readonlyRanges: [] })
+      setupEditor(editorViewRef.current, {
+        code: code.stub,
+        readonlyRanges: code.defaultReadonlyRanges,
+      })
     }
   }
 
@@ -64,9 +95,26 @@ export function useEditorHandler({
   }
 }
 
-function setupEditor(editorView: EditorView | null, code: Code) {
-  if (!editorView || !code || !code.readonlyRanges) return
-  editorView.dispatch({
-    effects: updateReadOnlyRangesEffect.of(code.readonlyRanges),
-  })
+function setupEditor(
+  editorView: EditorView | null,
+  {
+    readonlyRanges,
+    code,
+  }: { readonlyRanges?: { from: number; to: number }[]; code: string }
+) {
+  if (!editorView) return
+  if (code) {
+    editorView.dispatch({
+      changes: {
+        from: 0,
+        to: editorView.state.doc.length,
+        insert: code,
+      },
+    })
+  }
+  if (readonlyRanges) {
+    editorView.dispatch({
+      effects: updateReadOnlyRangesEffect.of(readonlyRanges),
+    })
+  }
 }

@@ -16,7 +16,6 @@ export function useScrubber({
   testResult: NewTestResult
 }) {
   const [value, setValue] = useState(0)
-  const [currentFrameIdx] = useState(0)
   const {
     setHighlightedLine,
     setHighlightedLineColor,
@@ -30,17 +29,12 @@ export function useScrubber({
   useEffect(() => {
     if (testResult.animationTimeline) {
       testResult.animationTimeline.onUpdate((anime) => {
-        setValue(anime.currentTime)
-        testResult.animationTimeline?.currentFrame
+        setTimeout(() => {
+          setValue(anime.currentTime)
+        }, 50)
       })
     }
-  }, [testResult.animationTimeline])
-
-  // useEffect(() => {
-  //   if (testResult.animationTimeline) {
-  //     console.log('testResult.animationTimeline', testResult.animationTimeline)
-  //   }
-  // }, [testResult.view?.id])
+  }, [testResult.view?.id, testResult.animationTimeline?.completed])
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
@@ -75,7 +69,11 @@ export function useScrubber({
         }
       }
     }
-  }, [testResult.animationTimeline?.currentFrameIndex, value])
+  }, [
+    testResult.view?.id,
+    value,
+    testResult.animationTimeline?.currentFrameIndex,
+  ])
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline) => {
@@ -378,7 +376,6 @@ export function useScrubber({
     handleGoToPreviousFrame,
     handleGoToEndOfTimeline,
     handleGoToFirstFrame,
-    currentFrameIdx,
     rangeRef,
     updateInputBackground,
     handleScrubToCurrentTime,

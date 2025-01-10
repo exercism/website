@@ -15,6 +15,13 @@ export function useUnderlineRange(
       editorView.dispatch({
         effects: addUnderlineEffect.of(range),
       })
+      const line = document.querySelector('.cm-underline')
+      if (line) {
+        line.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+      }
     }
   }, [range])
 }

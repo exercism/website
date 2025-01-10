@@ -29,6 +29,11 @@ export class AnimationTimeline {
 
   public onUpdate(callback: (anim: AnimeInstance) => void) {
     this.updateCallbacks.push(callback)
+
+    if (this.animationTimeline) {
+      callback(this.animationTimeline)
+      setTimeout(() => this.updateScrubber(this.animationTimeline), 1)
+    }
   }
 
   public removeUpdateCallback(callback: (anim: AnimeInstance) => void) {

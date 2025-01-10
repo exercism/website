@@ -51,6 +51,10 @@ export function useEditorHandler({
       setDefaultCode(editorLocalStorageValue.code)
       setupEditor(editorViewRef.current, editorLocalStorageValue)
     }
+
+    if (code.storedAt) {
+      handleRunCode()
+    }
   }
 
   const onRunCode = useOnRunCode({

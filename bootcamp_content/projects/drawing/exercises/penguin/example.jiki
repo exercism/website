@@ -34,7 +34,7 @@ circle(43, 34, 1) // Left iris
 fill_color_hex("#000000") // Black
 circle(58, 33, 3) // Right eye
 fill_color_hex("#ffffff") // White
-circle(59, 32, 1) // Right iris
+circle(57, 34, 1) // Right iris
 
 // Feet
 fill_color_hex("#FFA500")

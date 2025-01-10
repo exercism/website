@@ -32,7 +32,7 @@ module ReactComponents
     {
       slug: "none",
       title: "No background",
-      image_url: null
+      image_url: nil
     },
     {
       slug: "room",

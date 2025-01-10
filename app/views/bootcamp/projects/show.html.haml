@@ -40,7 +40,6 @@
             = button_to bootcamp_drawings_path, method: :post, class: "drawing new" do
               New Drawing
 
-
       .rhs
         - num_completed = @project.exercises.to_a.count { |exercise| @solutions[exercise.id]&.completed? }
         - num_unlocked = @project.exercises.to_a.count(&:unlocked?)
@@ -49,5 +48,5 @@
           You have completed #{num_completed} of #{num_unlocked} unlockable exercises in this project.
           New exercises will unlock as the Bootcamp progresses.
         .exercises.flex.flex-col.gap-16
-          - @project.exercises.each do |exercise|
+          - @project.exercises.unlocked.each do |exercise|
             = render ViewComponents::Bootcamp::ExerciseWidget.new(exercise, solution: @solutions[exercise.id], user_project: @user_project)

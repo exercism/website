@@ -2,13 +2,13 @@
   %header
     .c-breadcrumbs
       .lg-container.container
-        = link_to concepts_path do
+        = link_to bootcamp_concepts_path do
           = graphical_icon 'concepts'
           .span All Concepts
         .seperator /
 
         - @concept.parents.each do |parent|
-          = link_to parent.title, concept_path(parent)
+          = link_to parent.title, bootcamp_concept_path(parent)
           .seperator /
 
         .title= @concept.title

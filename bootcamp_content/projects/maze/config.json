@@ -1,6 +1,6 @@
 {
   "slug": "maze",
   "title": "Maze",
-  "description": "Use then implement a basic maze",
+  "description": "Solve a maze, automate it, then build your own maze generator.",
   "exercises": ["manual-solve", "automated-solve"]
 }

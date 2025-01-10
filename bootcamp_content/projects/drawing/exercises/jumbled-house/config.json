@@ -5,57 +5,25 @@
   "level": 1,
   "concepts": [],
   "tests_type": "state",
-  "readonly_ranges": [
-    { "from": 1, "to": 10 },
-    { "from": 12, "to": 14 },
-    { "from": 16, "to": 18 },
-    { "from": 20, "to": 22 },
-    { "from": 24, "to": 26 },
-    { "from": 28, "to": 30 }
-  ],
   "tasks": [
     {
-      "name": "Position the frame of house",
+      "name": "Correctly arrange the house",
       "tests": [
         {
-          "slug": "position-frame",
+          "slug": "draw-the-house",
           "name": "Position the frame of the house.",
           "function": "main",
           "checks": [
             {
               "name": "getRectangleAt(20,50,60,40)",
               "matcher": "toExist",
-              "error_html": "The frame of the house is not at (20,50,60,40)."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Position the roof of house",
-      "tests": [
-        {
-          "slug": "position-roof",
-          "name": "Position the roof of the house.",
-          "function": "main",
-          "checks": [
+              "error_html": "The frame of the house is not correct."
+            },
             {
               "name": "getTriangleAt(16,50, 50,30, 84,50)",
               "matcher": "toExist",
               "error_html": "The roof of the house is not at the correct position."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Position the windows",
-      "tests": [
-        {
-          "slug": "position-windows",
-          "name": "Position the windows of the house.",
-          "function": "main",
-          "checks": [
+            },
             {
               "name": "getRectangleAt(30,55,12,13)",
               "matcher": "toExist",
@@ -65,19 +33,7 @@
               "name": "getRectangleAt(58,55,12,13)",
               "matcher": "toExist",
               "error_html": "The right window frame isn't positioned correctly"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Position the door",
-      "tests": [
-        {
-          "slug": "position-door",
-          "name": "Position the door",
-          "function": "main",
-          "checks": [
+            },
             {
               "name": "getRectangleAt(43,72,14,18)",
               "matcher": "toExist",

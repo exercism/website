@@ -1296,7 +1296,7 @@ describe('errors', () => {
             expect(frames[0].code).toBe('echo(1, 2)')
             expect(frames[0].error).not.toBeNull()
             expect(frames[0].error!.category).toBe('RuntimeError')
-            expect(frames[0].error!.type).toBe('InvalidNumberOfArguments')
+            expect(frames[0].error!.type).toBe('TooManyArguments')
             expect(error).toBeNull()
           })
 
@@ -1317,7 +1317,7 @@ describe('errors', () => {
             expect(frames[0].code).toBe('echo()')
             expect(frames[0].error).not.toBeNull()
             expect(frames[0].error!.category).toBe('RuntimeError')
-            expect(frames[0].error!.type).toBe('InvalidNumberOfArguments')
+            expect(frames[0].error!.type).toBe('TooFewArguments')
             expect(error).toBeNull()
           })
 

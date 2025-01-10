@@ -23,7 +23,7 @@ module ViewComponents
 
     memoize
     def user_project
-      @user_project || UserProject.for!(current_user, exercise.project)
+      @user_project || ::Bootcamp::UserProject.for!(current_user, exercise.project)
     end
   end
 end

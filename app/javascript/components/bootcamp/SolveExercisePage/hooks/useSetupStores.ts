@@ -10,9 +10,13 @@ export function useSetupStores({
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
-    { code: code.code, storedAt: code.storedAt }
+    {
+      code: code.code,
+      storedAt: code.storedAt,
+      readonlyRanges: code.readonlyRanges,
+    }
   )
-  const { setDefaultCode } = useEditorStore()
+  const { setDefaultCode, setReadonlyRanges } = useEditorStore()
   const { initializeTasks } = useTaskStore()
   const {
     setPreviousTestSuiteResult,
@@ -89,11 +93,18 @@ export function useSetupStores({
       // if the code on the server is newer than in localstorage, update the storage and load the code from the server
       editorLocalStorageValue.storedAt < code.storedAt
     ) {
-      setEditorLocalStorageValue({ code: code.code, storedAt: code.storedAt })
+      setEditorLocalStorageValue({
+        code: code.code,
+        storedAt: code.storedAt,
+        readonlyRanges: code.readonlyRanges,
+      })
       setDefaultCode(code.code)
     } else {
       // otherwise we are using the code from the storage
       setDefaultCode(editorLocalStorageValue.code)
+      if (editorLocalStorageValue.readonlyRanges) {
+        setReadonlyRanges(editorLocalStorageValue.readonlyRanges)
+      }
     }
   }, [exercise, code])
 }

@@ -4,7 +4,7 @@ type Code = {
   stub: string
   code: string
   storedAt: Date | string | null
-  readonlyRanges: { from: number; to: number }[]
+  readonlyRanges?: { from: number; to: number }[]
 }
 
 type Solution = {

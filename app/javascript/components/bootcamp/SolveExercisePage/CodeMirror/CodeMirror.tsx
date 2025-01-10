@@ -35,6 +35,8 @@ import * as Hook from './hooks'
 import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
 import { debounce } from 'lodash'
 import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
+import { getCodeMirrorFieldValue } from './getCodeMirrorFieldValue'
+import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnlyRanges'
 
 export const readonlyCompartment = new Compartment()
 
@@ -77,6 +79,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     setEditorLocalStorageValue: (value: {
       code: string
       storedAt: string
+      readonlyRanges?: { from: number; to: number }[]
     }) => void
   },
   ref: ForwardedRef<EditorView | null>
@@ -100,15 +103,18 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
-    return debounce(
-      (value: string) =>
-        setEditorLocalStorageValue({
-          code: value,
-          storedAt: new Date().toISOString(),
-        }),
-      500
-    )
-  }, [setEditorLocalStorageValue])
+    return debounce((value: string, view) => {
+      const readonlyRanges = getCodeMirrorFieldValue(
+        view,
+        readOnlyRangesStateField
+      )
+      setEditorLocalStorageValue({
+        code: value,
+        storedAt: new Date().toISOString(),
+        readonlyRanges: readonlyRanges,
+      })
+    }, 500)
+  }, [setEditorLocalStorageValue, readOnlyRangesStateField])
 
   let value = defaultCode
 
@@ -191,7 +197,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           onEditorChange(
             () => setHighlightedLine(0),
             (e) => {
-              updateLocalStorageValueOnDebounce(e.state.doc.toString())
+              updateLocalStorageValueOnDebounce(e.state.doc.toString(), e.view)
             },
             () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
             () => setHasCodeBeenEdited(true),
@@ -203,11 +209,8 @@ export const CodeMirror = forwardRef(function _CodeMirror(
               }
             },
             () => {
-              console.log('editor change callback')
               if (onEditorChangeCallback) {
                 onEditorChangeCallback()
-              } else {
-                console.log('no editor callback')
               }
             }
           ),

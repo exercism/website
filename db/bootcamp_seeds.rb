@@ -1,6 +1,7 @@
 return unless Rails.env.development?
 
 # rubocop:disable Layout/LineLength
+Bootcamp::UserProject.destroy_all
 Bootcamp::Submission.destroy_all
 Bootcamp::Solution.destroy_all
 Bootcamp::Exercise.destroy_all
@@ -52,6 +53,7 @@ projects = %w[
   drawing
   maze
   wordle
+  weather
 ]
 
 projects.each do |project_slug|

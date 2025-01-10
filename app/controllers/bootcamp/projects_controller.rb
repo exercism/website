@@ -2,7 +2,7 @@ class Bootcamp::ProjectsController < Bootcamp::BaseController
   before_action :use_project, only: %i[show]
 
   def index
-    @user_projects = current_user.bootcamp_user_projects
+    @user_projects = current_user.bootcamp_user_projects.index_by(&:project_id)
   end
 
   def show

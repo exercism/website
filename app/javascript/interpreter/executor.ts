@@ -471,13 +471,10 @@ export class Executor
     const arity = callee.value.arity()
     const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
 
+    console.log(minArity, maxArity)
+
     if (args.length < minArity || args.length > maxArity) {
-      if (minArity === maxArity) {
-        this.error('InvalidNumberOfArguments', expression.paren.location, {
-          arity: maxArity,
-          args,
-        })
-      } else
+      if (minArity !== maxArity) {
         this.error(
           'InvalidNumberOfArgumentsWithOptionalArguments',
           expression.paren.location,
@@ -487,6 +484,21 @@ export class Executor
             numberOfArgs: args.length,
           }
         )
+      }
+
+      if (args.length < minArity) {
+        this.error('TooFewArguments', expression.paren.location, {
+          arity: maxArity,
+          numberOfArgs: args.length,
+          args,
+        })
+      } else {
+        this.error('TooManyArguments', expression.paren.location, {
+          arity: maxArity,
+          numberOfArgs: args.length,
+          args,
+        })
+      }
     }
 
     let value

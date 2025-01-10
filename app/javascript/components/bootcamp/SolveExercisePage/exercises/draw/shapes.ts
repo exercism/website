@@ -1,3 +1,5 @@
+import { FillColor } from './DrawExercise'
+
 const svgNS = 'http://www.w3.org/2000/svg'
 
 function createSVG(children) {
@@ -18,11 +20,21 @@ function createSVG(children) {
   return svg
 }
 
-function createSVGElement(type: string, backgroundColor, penColor, attrs) {
+function createSVGElement(
+  type: string,
+  backgroundColor: FillColor,
+  penColor,
+  attrs
+) {
   const elem = document.createElementNS(svgNS, type)
-  elem.setAttribute('fill', backgroundColor)
   elem.setAttribute('stroke', penColor)
   elem.setAttribute('stroke-width', '0')
+
+  if (backgroundColor.type === 'hex') {
+    elem.setAttribute('fill', backgroundColor.color)
+  } else {
+    elem.setAttribute('fill', 'rgb(' + backgroundColor.color.join(',') + ')')
+  }
 
   for (const key in attrs) {
     elem.setAttribute(key, attrs[key])
@@ -36,7 +48,7 @@ export function rect(
   width: number,
   height: number,
   penColor: string,
-  backgroundColor: string
+  backgroundColor: FillColor
 ) {
   const rect = createSVGElement('rect', backgroundColor, penColor, {
     x: x.toString(),
@@ -53,7 +65,7 @@ export function circle(
   cy: number,
   radius: number,
   penColor: string,
-  backgroundColor: string
+  backgroundColor: FillColor
 ) {
   const circle = createSVGElement('circle', backgroundColor, penColor, {
     cx: cx.toString(),
@@ -70,7 +82,7 @@ export function ellipse(
   rx: number,
   ry: number,
   penColor: string,
-  backgroundColor: string
+  backgroundColor: FillColor
 ) {
   const ellipse = createSVGElement('ellipse', backgroundColor, penColor, {
     cx: cx.toString(),
@@ -90,7 +102,7 @@ export function triangle(
   x3: number,
   y3: number,
   penColor: string,
-  backgroundColor: string
+  backgroundColor: FillColor
 ) {
   const polygon = createSVGElement('polygon', backgroundColor, penColor, {
     points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,

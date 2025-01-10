@@ -57,7 +57,6 @@ function generateExpectsForStateTests(exercise: Exercise, testData: TaskTest) {
 
       // And then we get the function and call it.
       const fn = exercise[fnName]
-      // console.log(fnName, fn, exercise)
       actual = fn.bind(exercise).call(exercise, ...args)
     }
 

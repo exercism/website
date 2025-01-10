@@ -1172,14 +1172,18 @@ describe('errors', () => {
                 },
               ],
             }
-            const { frames, error } = interpret('echo(1, 2)', context)
+            const { frames, error } = interpret('echo(1)', context)
+
             expect(frames).toBeArrayOfSize(1)
             expect(frames[0].line).toBe(1)
             expect(frames[0].status).toBe('ERROR')
-            expect(frames[0].code).toBe('echo(1, 2)')
+            expect(frames[0].code).toBe('echo(1)')
             expect(frames[0].error).not.toBeNull()
             expect(frames[0].error!.category).toBe('RuntimeError')
-            expect(frames[0].error!.type).toBe('InvalidNumberOfArguments')
+            expect(frames[0].error!.type).toBe('TooManyArguments')
+            expect(frames[0].error!.message).toBe(
+              'Did you add an extra argument? This function expects to be called with 0 arguments but you called it with 1.'
+            )
             expect(error).toBeNull()
           })
 
@@ -1200,7 +1204,10 @@ describe('errors', () => {
             expect(frames[0].code).toBe('echo()')
             expect(frames[0].error).not.toBeNull()
             expect(frames[0].error!.category).toBe('RuntimeError')
-            expect(frames[0].error!.type).toBe('InvalidNumberOfArguments')
+            expect(frames[0].error!.type).toBe('TooFewArguments')
+            expect(frames[0].error!.message).toBe(
+              'Did you forget an argument? This function expects to be called with 1 arguments but you called it with 0.'
+            )
             expect(error).toBeNull()
           })
         })

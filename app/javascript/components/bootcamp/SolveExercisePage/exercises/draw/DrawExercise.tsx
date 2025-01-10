@@ -56,12 +56,16 @@ class Triangle extends Shape {
   }
 }
 
+export type FillColor =
+  | { type: 'hex'; color: string }
+  | { type: 'rgb'; color: [number, number, number] }
+
 export default class DrawExercise extends Exercise {
   private canvas: HTMLDivElement
   private shapes: Shape[] = []
 
   private penColor = '#333333'
-  private fillColor = '#ff0000'
+  private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
 
   constructor() {
     super('draw')
@@ -148,12 +152,20 @@ export default class DrawExercise extends Exercise {
   public getRectangleAt(x: number, y: number, width: number, height: number) {
     return this.shapes.find((shape) => {
       if (shape instanceof Rectangle) {
-        return (
-          shape.x == x &&
-          shape.y == y &&
-          shape.width == width &&
-          shape.height == height
-        )
+        if (shape.x != x || shape.y != y) {
+          return false
+        }
+        if (width !== undefined) {
+          if (shape.width != width) {
+            return false
+          }
+        }
+        if (height !== undefined) {
+          if (shape.height != height) {
+            return false
+          }
+        }
+        return true
       }
     })
   }
@@ -161,6 +173,13 @@ export default class DrawExercise extends Exercise {
     return this.shapes.find((shape) => {
       if (shape instanceof Circle) {
         return shape.cx == cx && shape.cy == cy && shape.radius == radius
+      }
+    })
+  }
+  public getEllipseAt(x: number, y: number, rx: number, ry: number) {
+    return this.shapes.find((shape) => {
+      if (shape instanceof Ellipse) {
+        return shape.x == x && shape.y == y && shape.rx == rx && shape.ry == ry
       }
     })
   }
@@ -189,8 +208,11 @@ export default class DrawExercise extends Exercise {
   public changePenColor(executionCtx: ExecutionContext, color: string) {
     this.penColor = color
   }
-  public changeFillColor(executionCtx: ExecutionContext, color: string) {
-    this.fillColor = color
+  public fillColorHex(executionCtx: ExecutionContext, color: string) {
+    this.fillColor = { type: 'hex', color: color }
+  }
+  public fillColorRGB(executionCtx: ExecutionContext, red, green, blue) {
+    this.fillColor = { type: 'rgb', color: [red, green, blue] }
   }
 
   public rectangle(
@@ -386,6 +408,12 @@ export default class DrawExercise extends Exercise {
     this.shapes = []
   }
 
+  public setBackgroundImage(imageUrl: string) {
+    this.canvas.style.backgroundImage = 'url(' + imageUrl + ')'
+    this.canvas.style.backgroundSize = '99.5%'
+    this.canvas.style.backgroundPosition = 'center'
+  }
+
   public availableFunctions = [
     {
       name: 'rand',
@@ -440,9 +468,14 @@ export default class DrawExercise extends Exercise {
       description: 'Changes the pen color',
     },
     {
-      name: 'change_fill_color',
-      func: this.changeFillColor.bind(this),
-      description: 'Changes the fill color',
+      name: 'fill_color_hex',
+      func: this.fillColorHex.bind(this),
+      description: 'Changes the fill color using a hex string',
+    },
+    {
+      name: 'fill_color_rgb',
+      func: this.fillColorRGB.bind(this),
+      description: 'Changes the fill color using three RGB values',
     },
   ]
 }

@@ -13,7 +13,7 @@
         @apply flex flex-grow;
 
         .cm-gutters {
-            background: transparent;
+            background: white;
             @apply border-r-0;
         }
         .cm-lineNumbers .cm-gutterElement,

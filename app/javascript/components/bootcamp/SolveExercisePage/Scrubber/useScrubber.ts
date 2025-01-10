@@ -36,6 +36,12 @@ export function useScrubber({
     }
   }, [testResult.animationTimeline])
 
+  // useEffect(() => {
+  //   if (testResult.animationTimeline) {
+  //     console.log('testResult.animationTimeline', testResult.animationTimeline)
+  //   }
+  // }, [testResult.view?.id])
+
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
     let currentFrame: Frame | undefined
@@ -69,7 +75,7 @@ export function useScrubber({
         }
       }
     }
-  }, [testResult.animationTimeline, value])
+  }, [testResult.animationTimeline?.currentFrameIndex, value])
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline) => {
@@ -195,8 +201,10 @@ export function useScrubber({
        */
 
       const prevFrame = animationTimeline.previousFrame
+      const { duration } = animationTimeline.timeline
       const targetTime =
-        currentTime === animationTimeline.timeline.duration
+        // gotta ensure we are't going back to our current time, which'd result in not moving at all
+        currentTime === duration && lastFrameTime !== duration
           ? lastFrameTime
           : // if there is no previous frame, go to the start of the timeline
           prevFrame

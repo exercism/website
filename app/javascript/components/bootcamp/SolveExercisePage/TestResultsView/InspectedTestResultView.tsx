@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import Scrubber from '../Scrubber/Scrubber'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
@@ -8,6 +8,7 @@ import {
 } from './useInspectedTestResultView'
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
+import useTestStore from '../store/testStore'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstFailingExpect, processedExpects } =
@@ -44,6 +45,11 @@ export function InspectedTestResultViewLHS({
   result: NewTestResult
   firstExpect: ProcessedExpect | null
 }) {
+  const { flatPreviewTaskTests } = useTestStore()
+  const descriptionHtml = useMemo(
+    () => flatPreviewTaskTests[result.testIndex].descriptionHtml,
+    [flatPreviewTaskTests, result.testIndex]
+  )
   return (
     <div className="scenario-lhs">
       <div className="scenario-lhs-content">
@@ -52,6 +58,14 @@ export function InspectedTestResultViewLHS({
           {result.name}
         </h3>
 
+        {descriptionHtml && descriptionHtml.length > 0 && (
+          <div
+            className="text-bootcamp-purple font-medium content"
+            dangerouslySetInnerHTML={{
+              __html: descriptionHtml,
+            }}
+          />
+        )}
         <TestResultInfo result={result} firstExpect={firstExpect} />
         {result.status === 'pass' && <PassMessage testIdx={result.testIndex} />}
       </div>

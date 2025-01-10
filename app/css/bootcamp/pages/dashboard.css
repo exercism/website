@@ -30,7 +30,7 @@ body.namespace-bootcamp.controller-dashboard.action-index {
     }
 
     section.normal {
-        @apply pt-20;
+        @apply pt-24;
         .exercise {
             @paply w-full;
             @apply py-12 px-16 rounded-8 border-1 border-borderColor5 block;
@@ -40,7 +40,6 @@ body.namespace-bootcamp.controller-dashboard.action-index {
         h2 {
             @apply text-22 leading-150;
             @apply font-semibold text-textColor1;
-            @apply mb-4;
         }
         h3 {
             @apply text-20 leading-150;
@@ -67,6 +66,21 @@ body.namespace-bootcamp.controller-dashboard.action-index {
         }
         p {
             @apply text-16 leading-140;
+        }
+    }
+    .rhs {
+        .section-link {
+            @apply border-1 border-borderColor5 block rounded-5 px-20 py-12 bg-white shadow-sm;
+            @apply flex gap-16;
+            img {
+                @apply w-[40px] h-[40px];
+            }
+            h4 {
+                @apply text-18 font-semibold mb-2;
+            }
+            p {
+                @apply text-15 leading-140;
+            }
         }
     }
 }

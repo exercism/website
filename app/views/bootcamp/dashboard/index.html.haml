@@ -54,29 +54,31 @@
           .lhs.mr-48{ class: 'w-full max-w-[800px]' }
             - if @exercise
               - if @solution
-                %h2 Continue Where You Left Off
+                %h2.mb-2 Continue Where You Left Off
                 %p.mb-8 You have an exercise in progress.
 
                 = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution)
               - else
-                %h2 Start new exercise
-                %p You have a new exercise available to work on.
+                %h2.mb-2 Start new exercise
+                %p.mb-8 You have a new exercise available to work on.
                 = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise)
             - else
               You have no exercises available.
 
           .rhs.ml-auto{ class: 'max-w-[400px]' }
-            %h2 Make the most of the Bootcamp
-            %p.mb-12 The more you take part in all areas of the Bootcamp, the more you'll learn.
+            %h2.mb-2 Make the most of the Bootcamp
+            %p.mb-16 The more you take part in all areas of the Bootcamp, the more you'll learn.
             .flex.flex-col.gap-16
-              = link_to "https://exercism.org/r/discord", class: "border-1 border-borderColor5 block rounded-5 px-16 py-12 bg-white shadow-sm" do
-                = graphical_icon 'external-site-discord-blue', css_class: 'w-[48px] h-[48px] mb-12'
-                %h4.text-20.font-semibold.mb-6 Chat on Discord
-                %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
+              = link_to "https://exercism.org/r/discord", class: "section-link" do
+                = graphical_icon 'external-site-discord-blue'
+                .text
+                  %h4 Chat on Discord
+                  %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
 
-              = link_to "https://forum.exercism.org/c/bootcamp/661", class: "border-1 border-borderColor5 block rounded-5 px-16 py-12 bg-white shadow-sm" do
-                = graphical_icon 'discourser', css_class: 'w-[48px] h-[48px] mb-12'
-                %h4.text-20.font-semibold.mb-6 Ask questions on the Forum
-                %p
-                  Use the Bootcamp Category on the forum to ask questions and get unstuck.
-                  Read the pinned post to learn more.
+              = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
+                = graphical_icon 'discourser'
+                .text
+                  %h4 Ask questions on the Forum
+                  %p
+                    Use the Bootcamp Category on the forum to ask questions and get unstuck.
+                    Read the pinned post to learn more.

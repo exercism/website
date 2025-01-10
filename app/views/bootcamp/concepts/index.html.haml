@@ -1,5 +1,26 @@
 #page-bootcamp-concepts
-  - @concepts.each do |concept|
-    = link_to concept do
-      %h2.font-semibold= concept.title
-      %p= concept.description
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'concepts'
+          .span All Concepts
+
+    .lg-container.details
+      %h1.font-semibold Concepts
+      %p.mb-6
+        This is your library of information.
+        Everything you find in the Concept section will be covered throughout the live teaching sessions.
+      %p
+        Use these docs as a refresher to go over anything that's unclear.
+
+  .lg-container
+    .flex
+      .lhs.pr-40
+        .c-prose
+          %ul.concepts
+            - @concepts.each do |concept|
+              %li
+                = link_to concept do
+                  .font-semibold.text-primary-blue.text-20.mb-2= concept.title
+                  .text-18.leading-150= concept.description

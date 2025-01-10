@@ -1,18 +1,31 @@
 [
   {
+    "slug": "fundamentals",
+    "apex": true,
+    "title": "Fundamentals",
+    "description": "Understand the absolute basics and start building your confidence.",
+    "level": 1
+  },
+  {
+    "slug": "comments",
+    "parent": "fundamentals",
+    "title": "Comments",
+    "description": "Annotate your code so your future self, and others, can understand it.",
+    "level": 1
+  },
+  {
     "slug": "data-types",
+    "apex": true,
     "title": "Data Types",
     "description": "Data types are a fundamental concept in programming. They are used to represent different types of data.",
-    "level": 1,
-    "apex": true
+    "level": 1
   },
   {
     "slug": "strings",
     "parent": "data-types",
     "title": "Strings",
     "description": "Strings are a fundamental concept in programming. They are used to represent text, words, and characters.",
-    "level": 1,
-    "apex": true
+    "level": 1
   },
   {
     "slug": "strings-using",
@@ -29,11 +42,18 @@
     "level": 2
   },
   {
+    "slug": "numbers",
+    "parent": "data-types",
+    "title": "Numbers",
+    "description": "Numbers are a fundamental concept in programming, both for anything involving maths, but also for day-to-day programming.",
+    "level": 1
+  },
+  {
     "slug": "functions",
+    "apex": true,
     "title": "Functions",
-    "description": "",
-    "level": 2,
-    "apex": true
+    "description": "Master the fundamental building block of programs - functions.",
+    "level": 2
   },
   {
     "slug": "functions-using",

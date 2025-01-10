@@ -1,46 +1,35 @@
 # Introduction to Strings
 
-Let’s talk about one of the most fundamental concepts in programming: **strings**. And no, we’re not talking about the strings on a guitar or a piece of thread! In the world of coding, strings are all about text—words, sentences, symbols, even a single character.
+I once stood in front of an audience of 250 medical doctors, giving a brief introduction to programming. I got about 30 minutes into talking before someone put their hand up and said “Sorry, I have no idea what a String is”. I had to start the talk again…
 
-## What is a String?
+Strings are one of the most fundamental concepts in programming (so fundamental I forgot someone could not know what they are), and they’re quite simple (at least initially), but they’re worth ensuring you have a clear mental model of, as they trip people up.
 
-Imagine you’re writing a sentence, like _"Hello, world!"_. That entire piece of text is a string in programming. Essentially, a string is a sequence of characters grouped together. Characters could be letters, numbers, punctuation marks, or even spaces.
+## What are Strings?
 
-Here’s the best part: strings are everywhere. They’re the text in a website button that says “Click me.” They’re the labels on a shopping app that show product names. They’re even the messages you send to your friends. If it’s text, it’s probably a string in disguise.
+A string is a piece of text. It can be a mixture of letters, numbers, or symbols. It can be a single character, a word, a sentence, or even a whole essay.
 
-## Strings in Everyday Life
+In this course, whenever we draw strings in diagrams, we represent them as pieces of paper with writing on. Rather than an abstract concept, try and thing of a strings as these pieces of paper - something you can pick up and hold.
 
-Think of strings as the digital equivalent of sticky notes. You can write anything on them: a name, a password, or even a silly joke. Once you’ve got a string, you can save it, modify it, and use it in all sorts of creative ways.
+<img src="https://assets.exercism.org/bootcamp/diagrams/sample-strings.png" class="diagram"/>
 
-For example:
+## Using Strings
 
-- A string might store your name: `"Alex"`
-- It could hold a question: `"How are you?"`
-- Or even act as a secret code: `"xyz123"`
+To create a string we wrap the text in a pair of double-quotation marks (`”`).
 
-Strings help computers work with text just like you do, but they need clear instructions. That’s where you—the programmer—come in.
+<img src="https://assets.exercism.org/bootcamp/diagrams/string-literals.png" class="diagram"/>
 
-## Fun Facts About Strings
+Whenever we want to use text in our programs, we use a string. For example, if we’re drawing and we want to change the colour of our pen to blue, we’d want to use the `change_pen()` function and give it the string `“blue"` as an input.
 
-1. **Strings are “quoted.”** In most programming languages, strings are wrapped in quotes so the computer knows where the text begins and ends. For example:
+<img src="https://assets.exercism.org/bootcamp/diagrams/using-a-string-in-a-function.png" class="diagram"/>
 
-   - `"I love coding!"` (double quotes)
-   - `'Single quotes work too!'`
+### Strings with number in vs numbers
 
-2. **Strings can be long or short.** A string could be one letter, like `"A"`, or an entire book’s worth of text!
+In programming, both of these are valid: `42` and `"42"` . The first is a number, the second is a string. When would we use each?
 
-3. **You can manipulate strings.** Want to shout your message? You can convert `"hello"` to `"HELLO"`. Need to count how many letters are in a word? Strings can help with that too.
+Well, it comes down to how we’re using it. If we’re doing something where we want to use it as a number, like adding to it, or using it as a coordinate, then we want to use a number (without quotes). If we’re using it as text rather than the value of the number we would use a string instead. For example, the White House’s zip code “20500” doesn’t really have any meaning as a number - it’s a piece of text used to signify something, not a numerical value we’d use mathematically, so it’s a string.
 
-4. **They’re versatile.** Strings can include emojis, special characters, and even numbers, like `"🎉 Party starts at 7pm!"`.
+<img src="https://assets.exercism.org/bootcamp/diagrams/numbers-vs-strings.png" class="diagram"/>
 
-## Why Strings Matter
+> Note: There are times that we want to use a string as a number. For example, we might want to replace all the coffee machines in the odd-numbered hotel rooms. In those situations, we might need to convert a string to a number. This is very simple to do, and we’ll cover it later, so don’t get too caught up in the possibly scenarios for now!
 
-Strings make programs feel alive. Imagine a calculator without any labels, or a game without dialogue—it’d be impossible to use! Strings make apps and websites readable and user-friendly.
-
-As a beginner in programming, working with strings is one of the first ways you’ll interact with your code. You’ll practice printing text, combining strings, and even creating fun outputs like `"Hello, [Your Name]!"`.
-
-## Let’s Wrap This Up
-
-Strings might sound simple, but they’re incredibly powerful. They’re how you give your program a voice—whether it’s to say “Welcome!” or “Error: Something went wrong.” As you dive deeper into coding, you’ll see just how versatile and essential strings really are.
-
-Now, go ahead and say it: _"I’m ready to learn strings!"_
+> Note: As you move into other languages, you’ll see that sometimes they use single quotes (`’`) or backticks(`), but again we don’t need to worry about that here - just remember for now that you use a double-quotation mark to start and end a string.

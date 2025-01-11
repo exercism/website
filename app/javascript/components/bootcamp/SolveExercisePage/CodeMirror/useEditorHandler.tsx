@@ -60,6 +60,7 @@ export function useEditorHandler({
   const onRunCode = useOnRunCode({
     links,
     config,
+    editorView: editorViewRef.current,
   })
 
   const resetEditorToStub = () => {

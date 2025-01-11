@@ -4,10 +4,8 @@ class Bootcamp::UserProject::Create
   initialize_with :user, :project
 
   def call
-    Bootcamp::Project.find_each do |_project|
-      find_or_create.tap do |up|
-        Bootcamp::UserProject::UpdateStatus.(up)
-      end
+    find_or_create.tap do |up|
+      Bootcamp::UserProject::UpdateStatus.(up)
     end
   end
 

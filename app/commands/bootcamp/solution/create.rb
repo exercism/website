@@ -37,7 +37,10 @@ class Bootcamp::Solution::Create
     user_project.solutions.index_by { |s| s.exercise.slug }
   end
 
+  memoize
   def user_project
     Bootcamp::UserProject.find_by!(user:, project: exercise.project)
+  rescue StandardError
+    Bootcamp::UserProject::Create.(user, exercise.project)
   end
 end

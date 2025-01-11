@@ -16,8 +16,10 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 export function useOnRunCode({
   links,
   config,
+  editorView,
 }: Pick<SolveExercisePageProps, 'links'> & {
   config: Config
+  editorView: EditorView | null
 }) {
   const {
     setTestSuiteResult,
@@ -55,6 +57,7 @@ export function useOnRunCode({
         language: 'JikiScript',
         languageFeatures: config.interpreterOptions,
       }
+      // @ts-ignore
       const compiled = compile(studentCode, context)
 
       const error = compiled.error
@@ -62,6 +65,20 @@ export function useOnRunCode({
       if (error) {
         if (!error.location) {
           return
+        }
+        if (editorView) {
+          const absoluteLocationBegin = error.location.absolute.begin
+          // either of these should work
+          const top =
+            editorView.coordsAtPos(
+              editorView.lineBlockAt(absoluteLocationBegin).top
+            )?.top ?? editorView.coordsAtPos(absoluteLocationBegin)?.top
+          if (top) {
+            editorView.scrollDOM.scrollTo({
+              top,
+              behavior: 'smooth',
+            })
+          }
         }
 
         showError({

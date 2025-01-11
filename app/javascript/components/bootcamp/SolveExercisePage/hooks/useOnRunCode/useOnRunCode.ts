@@ -68,9 +68,11 @@ export function useOnRunCode({
         }
         if (editorView) {
           const absoluteLocationBegin = error.location.absolute.begin
-          const top = editorView.coordsAtPos(
-            editorView.lineBlockAt(absoluteLocationBegin).top
-          )?.top
+          // either of these should work
+          const top =
+            editorView.coordsAtPos(
+              editorView.lineBlockAt(absoluteLocationBegin).top
+            )?.top ?? editorView.coordsAtPos(absoluteLocationBegin)?.top
           if (top) {
             editorView.scrollDOM.scrollTo({
               top,

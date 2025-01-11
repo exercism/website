@@ -85,6 +85,27 @@ export function useScrubber({
     [setValue]
   )
 
+  function scrollToHighlightedLine() {
+    const line = document.querySelector('.cm-highlightedLine') as HTMLElement
+    const scroller = document.querySelector('.cm-scroller') as HTMLElement
+
+    const scrollToLine = (line: HTMLElement, scroller: HTMLElement) => {
+      const lineRect = line.getBoundingClientRect()
+      const scrollerRect = scroller.getBoundingClientRect()
+      const offsetY = lineRect.top - scrollerRect.top + scroller.scrollTop
+
+      scroller.scrollTo({
+        top: offsetY - scroller.clientHeight / 2,
+        left: 0,
+        behavior: 'instant',
+      })
+    }
+
+    if (line && scroller) {
+      scrollToLine(line, scroller)
+    }
+  }
+
   const handleChange = useCallback(
     (
       event:
@@ -104,6 +125,7 @@ export function useScrubber({
           newValue === -1 ? 0 : testResult.frames[validIndex].line
         setHighlightedLine(highlightedLine)
       }
+      scrollToHighlightedLine()
     },
     [setValue, setInformationWidgetData]
   )
@@ -220,6 +242,7 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
+      scrollToHighlightedLine()
     },
     [value]
   )
@@ -258,6 +281,7 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
+      scrollToHighlightedLine()
     },
     [value]
   )
@@ -266,6 +290,7 @@ export function useScrubber({
     const { animationTimeline } = testResult
     if (animationTimeline) {
       animationTimeline.seekFirstFrame()
+      scrollToHighlightedLine()
     }
   }, [])
 
@@ -273,6 +298,7 @@ export function useScrubber({
     const { animationTimeline } = testResult
     if (animationTimeline) {
       animationTimeline.seekEndOfTimeline()
+      scrollToHighlightedLine()
     }
   }, [])
 

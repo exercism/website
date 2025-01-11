@@ -30,7 +30,7 @@
               "error_html": "The sun isn't correct."
             },
             {
-              "name": "getRectangleAt(25, 50, 50, undefined)",
+              "name": "getRectangleAt(25, undefined, 50, undefined)",
               "matcher": "toExist",
               "error_html": "The base of the cloud isn't correct."
             },

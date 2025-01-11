@@ -257,7 +257,12 @@ export const CodeMirror = forwardRef(function _CodeMirror(
 
   return (
     <div className="editor-wrapper" style={style}>
-      <div data-cy="codemirror-editor" className="editor" ref={setTextarea} />
+      <div
+        data-cy="codemirror-editor"
+        id="bootcamp-cm-editor"
+        className="editor"
+        ref={setTextarea}
+      />
     </div>
   )
 })

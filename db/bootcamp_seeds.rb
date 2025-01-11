@@ -79,6 +79,6 @@ projects.each do |project_slug|
   end
 end
 
-Bootcamp::UserProject::CreateAll.(User.find_by!(handle: 'iHiD'))
+# Bootcamp::UserProject::CreateAll.(User.find_by!(handle: 'iHiD'))
 
 # rubocop:enable Layout/LineLength

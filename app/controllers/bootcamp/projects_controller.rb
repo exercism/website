@@ -12,8 +12,12 @@ class Bootcamp::ProjectsController < Bootcamp::BaseController
 
   def use_project
     @project = Bootcamp::Project.find_by!(slug: params[:slug])
-    @user_project = current_user.bootcamp_user_projects.find_by!(project: @project)
-
     redirect_to action: :index if @project.locked?
+
+    begin
+      @user_project = current_user.bootcamp_user_projects.find_by!(project: @project)
+    rescue StandardError
+      @user_project = Bootcamp::UserProject::Create.(current_user, @project)
+    end
   end
 end

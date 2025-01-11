@@ -12,7 +12,7 @@ module ViewComponents
 
     private
     def status
-      return :locked unless user_project
+      return :available if !user_project && project.unlocked?
 
       user_project.status
     end

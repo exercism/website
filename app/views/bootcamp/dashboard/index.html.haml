@@ -59,6 +59,8 @@
               But you'll also be taking your first steps in the world of programming - using code to draw.
             %p.large
               Watch the introductory video session, solve the Level 1 exercises and get connected to the other students.
+            - if @level.youtube_id
+              = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
 
             %hr.border-borderColor5.my-20
 

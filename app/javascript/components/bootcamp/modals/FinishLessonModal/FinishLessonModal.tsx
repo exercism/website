@@ -26,7 +26,7 @@ export function FinishLessonModal() {
     // @ts-ignore
     <Modal
       isOpen={isOpen}
-      className="solve-exercise-page-react-modal-content flex flex-col items-center justify-center text-center max-w-[500px]"
+      className="solve-exercise-page-react-modal-content flex flex-col items-center justify-center text-center max-w-[540px]"
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
       <Inner />
@@ -57,22 +57,29 @@ function InitialView() {
         style={{ height: '200px', width: '300px' }}
       />
       <h2 className="text-[25px] mb-12 font-semibold">Nice work!</h2>
-      <p className="text-16 mb-10">
-        You can now mark this exercise as complete, or go back and tweak your
-        code further if you&apos;d like.
+      <p className="text-18 leading-140 mb-20">
+        You can now mark this exercise as completed and move forward, or go back
+        and carry on tweaking your code.
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
-        <button onClick={() => setIsOpen(false)} className="btn-l btn-standard">
-          Code more
+        <button
+          onClick={() => setIsOpen(false)}
+          className="btn-l btn-secondary"
+        >
+          Tweak further
         </button>
         <button
           onClick={handleCompleteSolution}
           className="btn-l btn-primary flex-grow"
         >
-          Complete
+          Complete Exercise
         </button>
       </div>
+      <p className="mt-12 text-15 leading-140 text-textColor6 text-balance">
+        (If you tweak further, you can complete the exercise using the button at
+        the right when you're done)
+      </p>
     </>
   )
 }
@@ -81,34 +88,48 @@ function CompletedExerciseView() {
   const { nextExerciseData } = useContext(FinishLessonModalContext)
   const { links } = useContext(SolveExercisePageContext)
   return (
-    <div className="[&_p]:text-16 [&_p]:mb-10">
+    <div>
       <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
 
       {nextExerciseData ? (
         <>
-          <p>The next exercise is {nextExerciseData.title}.</p>
-          <p>
-            Do you want to start it, or would you rather go back to the projects
-            list?
+          <p className="text-18 leading-140 mb-8">
+            The next exercise is{' '}
+            <strong className="font-semibold">{nextExerciseData.title}.</strong>
           </p>
+          <p className="text-18 leading-140 mb-20">
+            Do you want to start it now, or would you rather go back to the
+            projects list?
+          </p>
+
+          <div className="flex items-center gap-8 self-stretch">
+            <a href={links.dashboardIndex} className="btn-l btn-secondary">
+              Back to dashboard
+            </a>
+            {nextExerciseData && (
+              <a
+                href={nextExerciseData.solve_url}
+                className="btn-l btn-primary flex-grow"
+              >
+                Start Next Exercise
+              </a>
+            )}
+          </div>
         </>
       ) : (
-        <p>There are no exercises available at the moment.</p>
-      )}
+        <>
+          <p className="text-18 leading-140 mb-20">
+            Well done! You've finished all the exercises available to you right
+            now.
+          </p>
 
-      <div className="flex items-center gap-8 self-stretch">
-        {nextExerciseData && (
-          <a
-            href={links.projectsIndex + `/${nextExerciseData.project.slug}`}
-            className="btn-l btn-primary flex-grow"
-          >
-            Continue
-          </a>
-        )}
-        <a href={links.dashboardIndex} className="btn-l btn-standard">
-          Back to dashboard
-        </a>
-      </div>
+          <div className="flex flex-col items-stretch self-stretch">
+            <a href={links.dashboardIndex} className="btn-l btn-primary">
+              Back to dashboard
+            </a>
+          </div>
+        </>
+      )}
     </div>
   )
 }

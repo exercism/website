@@ -5,9 +5,19 @@
  */
 
 import type { StaticError } from '@/interpreter/error'
+import { SyntaxError } from '@/interpreter/error'
 
 export function describeError(error: StaticError) {
-  let output = `<h2>${error.type}</h2>`
+  let errorHeading
+  if (error instanceof SyntaxError) {
+    errorHeading = "Jiki couldn't understand your code"
+  } else if (error.type == 'LogicError') {
+    errorHeading = "Something didn't go as expected!"
+  } else {
+    errorHeading = 'Jiki hit a problem running your code.'
+  }
+
+  let output = `<h2>${errorHeading}</h2>`
   output += `<div class="content"><p>${error.message}</p>`
   if (error.context && error.context.didYouMean) {
     if (error.context.didYouMean.variable) {

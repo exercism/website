@@ -64,7 +64,7 @@
       %div{ class: Bootcamp::Settings.level_idx.zero? ? "sm-container" : "lg-container" }
         .container
           %img{ src: "https://assets.exercism.org/assets/bootcamp/exercism-face-light-2fc4ffad44f295d2e900ab2d2198d2280128dfcd.svg" }
-          .content
+          = link_to bootcamp_dashboard_path, class: 'content' do
             %strong.font-semibold Exercism
             Bootcamp
 

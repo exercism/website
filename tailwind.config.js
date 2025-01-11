@@ -283,6 +283,7 @@ module.exports = {
       red: '#EB5757',
       lightRed: '#FDEAEA',
       veryLightRed: '#FFEDED',
+      veryVeryLightRed: '#FFF4F4',
       youtubeRed: '#D81A1A',
       discordBlue: '#5865F2',
       bgRed: 'rgba(235, 87, 87, 0.15)',

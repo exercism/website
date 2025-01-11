@@ -14,6 +14,7 @@
           "slug": "draw-scene",
           "name": "Draw the scene.",
           "function": "main",
+          "description_html": "Fill in the outline to look like the image in the instructions",
           "setup_functions": [
             [
               "setBackgroundImage",

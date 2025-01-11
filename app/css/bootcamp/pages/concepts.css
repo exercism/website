@@ -1,18 +1,16 @@
-body.namespace-bootcamp.controller-concepts.action-show {
+body.namespace-bootcamp.controller-concepts.action-index {
     @apply bg-grad-basic;
 }
-#page-bootcamp-concept {
+#page-bootcamp-concepts {
     header {
         @apply pb-16;
-        .details {
-            @apply flex items-center gap-20;
-        }
-        /* img {
-      @apply w-[128px] h-[128px];
-    } */
         h1 {
             @apply text-[39px] leading-140;
             @apply font-bold;
+        }
+        p {
+            @apply text-20 leading-140;
+            @apply max-w-[850px];
         }
     }
     .nav {
@@ -26,7 +24,7 @@ body.namespace-bootcamp.controller-concepts.action-show {
     .lhs {
         @apply max-w-[800px];
         .c-prose {
-            @apply mb-20;
+            @apply mb-40;
             img.diagram {
                 display: block;
                 width: 100%;
@@ -60,15 +58,12 @@ body.namespace-bootcamp.controller-concepts.action-show {
             }
         }
     }
-    .rhs {
-        @apply flex-grow w-full max-w-[380px] ml-auto;
-    }
 
-    ul.descendants {
-        @apply list-disc pl-6 mt-10 flex flex-col gap-10;
+    ul.concepts {
+        @apply list-disc pl-6 mt-10;
         li {
             @apply text-16;
-            @apply mb-4;
+            @apply mb-12;
             a {
                 display: inline-flex;
                 flex-direction: column;

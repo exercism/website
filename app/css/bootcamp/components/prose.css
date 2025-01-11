@@ -89,4 +89,13 @@
     * + h4 {
         @apply mt-20;
     }
+
+    .c-textblock-note {
+        @apply my-20;
+    }
+
+    p a,
+    li a {
+        @apply font-semibold text-linkColor;
+    }
 }

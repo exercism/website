@@ -1,0 +1,29 @@
+{
+  "title": "Sunshine",
+  "description": "Add the sun to its spikes",
+  "project_type": "draw",
+  "level": 1,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scene",
+          "name": "Draw the scene.",
+          "function": "main",
+          "description_html": "Add the sun to its spikes.",
+          "checks": [
+            {
+              "name": "getCircleAt(50, 50, 25)",
+              "matcher": "toExist",
+              "error_html": "The sun isn't correct."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

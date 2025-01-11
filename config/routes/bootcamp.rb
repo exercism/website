@@ -3,7 +3,7 @@ namespace :bootcamp do
   resources "levels", param: :idx, only: %i[index show]
   resources "concepts", param: :slug, only: %i[index show]
   resources "projects", param: :slug, only: %i[index show] do
-    resources "exercises", param: :slug, only: %i[index show edit]
+    resources "exercises", param: :slug, only: %i[show edit]
   end
   resources "drawings", param: :uuid, only: %i[create edit]
 

@@ -77,7 +77,7 @@ export default class MazeExercise extends Exercise {
   private animateMove(executionCtx: ExecutionContext) {
     const yRow = this.mazeLayout[this.characterPosition.y]
     if (!yRow) {
-      executionCtx.logicError('Character attempted to move out of bounds')
+      executionCtx.logicError('Oh no, you tried to move off the map.')
       executionCtx.updateState('gameOver', true)
       return
     }
@@ -85,14 +85,14 @@ export default class MazeExercise extends Exercise {
     const square = yRow[this.characterPosition.x]
     // If we can't move, blow up
     if (square === undefined) {
-      executionCtx.logicError('Character attempted to move out of bounds')
+      executionCtx.logicError('Oh no, you tried to move off the map')
       executionCtx.updateState('gameOver', true)
       return
     }
 
     // If we've hit a bad square, still animate but also animate color
     if (square === 1) {
-      executionCtx.logicError('Character attempted to walk into a wall')
+      executionCtx.logicError('Ouch! You walked into a wall!')
       executionCtx.updateState('gameOver', true)
       return
     } else if (square === 3) {

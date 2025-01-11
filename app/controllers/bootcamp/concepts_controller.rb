@@ -1,6 +1,6 @@
 class Bootcamp::ConceptsController < Bootcamp::BaseController
   def index
-    @concepts = Bootcamp::Concept.all
+    @concepts = Bootcamp::Concept.apex
   end
 
   def show

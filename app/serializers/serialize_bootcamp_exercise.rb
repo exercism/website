@@ -11,10 +11,13 @@ class SerializeBootcampExercise
       title: exercise.title,
       description: exercise.description,
       project: {
-        slug: exercise.project.slug,
-        title: exercise.project.title,
-        description: exercise.project.description
-      }
+        slug: project.slug,
+        title: project.title,
+        description: project.description
+      },
+      solve_url: Exercism::Routes.edit_bootcamp_project_exercise_path(project, exercise)
     }
   end
+
+  delegate :project, to: :exercise
 end

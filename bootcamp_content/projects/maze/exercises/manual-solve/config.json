@@ -37,17 +37,12 @@
             {
               "name": "position",
               "value": [6, 6],
-              "error_html": "Your position should be 6, 6, but it's %actual%."
-            },
-            {
-              "name": "direction",
-              "value": "right",
-              "error_html": "You should be facing right, but you're facing %actual%."
+              "error_html": "You didn't reach the end of the maze."
             },
             {
               "name": "getGameResult()",
               "value": "win",
-              "error_html": "You didn't reach the end of the maze"
+              "error_html": "You didn't reach the end of the maze."
             }
           ]
         }

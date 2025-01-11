@@ -27,7 +27,9 @@
 @import "../bootcamp/pages/dashboard";
 @import "../bootcamp/pages/projects";
 @import "../bootcamp/pages/project";
+@import "../bootcamp/pages/concepts";
 @import "../bootcamp/pages/concept";
+@import "../bootcamp/pages/levels";
 @import "../bootcamp/pages/level";
 
 @import "../bootcamp/pages/admin/base";
@@ -36,3 +38,5 @@
 @import "../bootcamp/exercises/draw.css";
 @import "../bootcamp/exercises/maze.css";
 @import "../bootcamp/exercises/wordle.css";
+
+@import "../components/textblock";

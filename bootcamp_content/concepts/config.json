@@ -1,18 +1,38 @@
 [
   {
+    "slug": "fundamentals",
+    "apex": true,
+    "title": "Fundamentals",
+    "description": "Understand the absolute basics and start building your confidence.",
+    "level": 1
+  },
+  {
+    "slug": "what-is-coding",
+    "parent": "fundamentals",
+    "title": "What is Coding?",
+    "description": "Before you start learning how to code, you need to understand what coding actually is!",
+    "level": 1
+  },
+  {
+    "slug": "comments",
+    "parent": "fundamentals",
+    "title": "Comments",
+    "description": "Annotate your code so your future self, and others, can understand it.",
+    "level": 1
+  },
+  {
     "slug": "data-types",
+    "apex": true,
     "title": "Data Types",
     "description": "Data types are a fundamental concept in programming. They are used to represent different types of data.",
-    "level": 1,
-    "apex": true
+    "level": 1
   },
   {
     "slug": "strings",
     "parent": "data-types",
     "title": "Strings",
     "description": "Strings are a fundamental concept in programming. They are used to represent text, words, and characters.",
-    "level": 1,
-    "apex": true
+    "level": 1
   },
   {
     "slug": "strings-using",
@@ -22,24 +42,38 @@
     "level": 1
   },
   {
-    "slug": "strings-concatenation",
-    "parent": "strings",
-    "title": "Concatenating Strings",
-    "description": "",
-    "level": 2
+    "slug": "numbers",
+    "parent": "data-types",
+    "title": "Numbers",
+    "description": "Numbers are a fundamental concept in programming, both for anything involving maths, but also for day-to-day programming.",
+    "level": 1
   },
   {
     "slug": "functions",
+    "apex": true,
     "title": "Functions",
-    "description": "",
-    "level": 2,
-    "apex": true
+    "description": "Master the fundamental building block of programs - functions.",
+    "level": 2
+  },
+  {
+    "slug": "functions-introduction",
+    "parent": "functions",
+    "title": "What are Functions?",
+    "description": "Learn what functions are in programming.",
+    "level": 1
   },
   {
     "slug": "functions-using",
     "parent": "functions",
     "title": "Using Functions",
     "description": "Learn how to use basic functions.",
+    "level": 1
+  },
+  {
+    "slug": "functions-arguments",
+    "parent": "functions",
+    "title": "Function Inputs",
+    "description": "Learn how to pass inputs (also know as 'arguments') into functions.",
     "level": 1
   },
   {

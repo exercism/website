@@ -11,12 +11,14 @@ export function StatePreview({
           <strong>Scenario: </strong>
           {inspectedPreviewTaskTest.name}
         </h3>
-        <div
-          className="text-bootcamp-purple font-medium content"
-          dangerouslySetInnerHTML={{
-            __html: inspectedPreviewTaskTest.descriptionHtml ?? '',
-          }}
-        />
+        <div className="description text-bootcamp-purple">
+          <strong>Task: </strong>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: inspectedPreviewTaskTest.descriptionHtml ?? '',
+            }}
+          />
+        </div>
       </div>
     </div>
   )

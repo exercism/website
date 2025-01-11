@@ -1,12 +1,14 @@
 # Jumbled House
 
-Your task is to rearrange the pieces of the house. They are both misplaced and the wrong sizes. Follow the instructions carefully to piece everything together!
+Your task is to rearrange the pieces of the house. They are both misplaced and the wrong sizes.
 
-It should look like this when it's finished:
+The purpose of this exercise is to encourage your slow, meticulous thinking. You should be able to solve this whole exercise by carefully working through the instructions without guessing at any numbers. Take your time.
+
+Try and place each piece in the order they're listed below. When everthing is correct you should have a scene that looks like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/jumbled-house-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
-Try not to guess at this exercise. Go slowly and precisely. You should be able to work everything out before even pressing Check Scenarios once (although you'll probably need a couple of tries to get it right).
+### Instructions
 
 - The frame of the house (the big square) should be 60 wide and 40 height. It should have it's top-left corner at 20x50.
 - The roof sits snuggly on top of the house's frame. It should overlap the left and right of the house by 4 on each side. It should have a height of 20, and it's point should be centered horizontally.

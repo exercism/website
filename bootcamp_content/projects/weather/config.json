@@ -2,5 +2,5 @@
   "slug": "weather",
   "title": "Weather Forecast",
   "description": "Build a beautiful, functional, weather forecast app",
-  "exercises": ["cloud-rain-sun"]
+  "exercises": ["sunshine", "cloud-rain-sun"]
 }

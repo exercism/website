@@ -1,13 +1,14 @@
 module ViewComponents
   class Bootcamp::ExerciseWidget < ViewComponent
-    initialize_with :exercise, solution: nil, user_project: nil
+    initialize_with :exercise, solution: nil, user_project: nil, size: nil
 
     def to_s
       render template: "components/bootcamp/exercise_widget", locals: {
         exercise:,
         project: exercise.project,
         solution:,
-        status:
+        status:,
+        size:
       }
     end
 

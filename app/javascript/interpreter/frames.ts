@@ -129,7 +129,7 @@ function describeCallExpression(
   const argsValues = frame.result.args.map((arg) => arg.value)
   const interpolatedDescription = descriptionTemplate.replace(
     /\${arg(\d+)}/g,
-    (_, index) => argsValues[index - 1] || ''
+    (_, index) => argsValues[index - 1].toString() || ''
   )
   output += interpolatedDescription
   return output

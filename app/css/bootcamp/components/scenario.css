@@ -15,8 +15,42 @@
                 @apply py-16 px-12;
 
                 h3 {
-                    @apply text-18 font-normal;
+                    @apply text-18 leading-140;
                     @apply mb-12;
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .description {
+                    @apply text-17 leading-140 font-normal;
+                    @apply mb-12;
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .success-message {
+                    @apply text-17 leading-140 font-normal;
+                    @apply mb-12;
+                    @apply flex items-center gap-8;
+                    img {
+                        @apply w-[20px] h-[20px];
+                        @apply inline-block;
+                    }
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .error-message {
+                    @apply text-17 leading-140 font-normal;
+                    @apply text-darkRed;
+                    @apply mb-12;
+                    @apply flex items-center gap-8;
+                    img {
+                        @apply w-[20px] h-[20px];
+                        @apply inline-block;
+                        @apply border-[2px] rounded-circle bg-bgRed;
+                        border-color: rgba(235, 87, 87);
+                    }
                     strong {
                         @apply font-semibold;
                     }

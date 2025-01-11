@@ -1,6 +1,9 @@
+body.namespace-bootcamp.controller-levels.action-show {
+    @apply bg-grad-basic;
+}
+
 #page-bootcamp-level {
     header {
-        @apply bg-grad-basic;
         @apply pb-16;
 
         .details {
@@ -28,8 +31,9 @@
     }
     .lhs {
         /* @apply flex-grow; */
+        @apply max-w-[800px];
     }
     .rhs {
-        @apply flex-grow w-full max-w-[400px];
+        @apply flex-grow w-full max-w-[400px] ml-auto;
     }
 }

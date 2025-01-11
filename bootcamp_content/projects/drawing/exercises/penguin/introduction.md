@@ -1,6 +1,8 @@
 # The Penguin
 
-Your task is to make the penguin symmetrical. It should look like this:
+Your task is to make the penguin symmetrical.
+
+It should look like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/penguin-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 

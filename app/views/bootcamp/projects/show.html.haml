@@ -3,7 +3,7 @@
     .c-breadcrumbs
       .lg-container.container
         = link_to bootcamp_projects_path do
-          = graphical_icon 'concepts'
+          = graphical_icon 'bootcamp-projects'
           .span Projects
         .seperator /
 
@@ -29,7 +29,7 @@
         .introduction.c-prose
           = raw @project.introduction_html
 
-        - if @project.slug == "drawing"
+        - if false #@project.slug == "drawing"
           %h2 Your Drawings
           %p Create your own drawings using code!
           .grid.grid-cols-3
@@ -43,7 +43,7 @@
       .rhs
         - num_completed = @project.exercises.to_a.count { |exercise| @solutions[exercise.id]&.completed? }
         - num_unlocked = @project.exercises.to_a.count(&:unlocked?)
-        %h2.font-semibold.text-22.mb-4 Exercises (#{num_completed} / #{num_unlocked})
+        %h2.font-semibold.text-22.mb-4 Exercises
         %p.text-16.leading-150.mb-12
           You have completed #{num_completed} of #{num_unlocked} unlockable exercises in this project.
           New exercises will unlock as the Bootcamp progresses.

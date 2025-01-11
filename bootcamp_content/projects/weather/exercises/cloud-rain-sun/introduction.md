@@ -7,8 +7,6 @@ Your task is to draw a weather icon for a rainy day with the sun sneaking out be
 We've drawn a template for you.
 Your shapes should sit just inside the lines.
 
-To make things a little easier, nearly every value is divisible by 5 (e.g. the numbers you'll use are 5, 10, 15, etc). The only exception is the width of the raindrops.
-
 You'll need to use the following functions to draw things:
 
 - `circle(x, y, radius)`
@@ -22,4 +20,16 @@ You can use whatever colors your like for the various components, and you can ch
 
 Remember to set the color before you draw using it.
 
+### Hints
+
+To make things a little easier, nearly all the numbers you need to use are divisible by 5 (e.g. 5, 10, 15, etc). The only exception is the width of the raindrops.
+
+You should only use ellipses in the raindrops. If you use them for the sun or clouds, things won't work.
+
 If you need help remembering how to use any of these functions, you can watch back the video from week 1.
+
+### Mindset
+
+This exercise will require lots of trial and error. It's great practice for learning the persistance hacker mindset that we often need as programmers.
+
+However, you should still start by carefully thinking through what needs to done and putting a plan together. Start by thinking what components need to go where, then position each one in turn using the template. You'll need to keep trying and tweaking things to line everything up.

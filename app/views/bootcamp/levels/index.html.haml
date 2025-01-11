@@ -1,13 +1,25 @@
 #page-bootcamp-levels
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'bootcamp-levels'
+          Levels
+
+    .lg-container
+      .details
+        %h1.font-semibold.text-20.mb-8 Levels
+        %p Levels are the building blocks of the bootcamp. Each level contains a set of exercises and concepts that you need to complete before moving on to the next.
   .lg-container
-    %h1.font-semibold.text-20.mb-8 Levels
     .grid.grid-cols-3.gap-8
       - (1..27).each do |idx|
         - level = @levels[idx]
         - if level&.unlocked?
-          = link_to level, class: "block border-1 p-8 rounded-8" do
-            %h2.font-semibold.mb-4= level.title
-            -# %p= level.status
-            %p= level.description
+          = link_to level, class: "level" do
+            .number= idx
+            .text
+              %h2.font-semibold= level.title
+              -# %p= level.status
+              %p= level.description
         - else
-          .block.border-1.p-8.rounded-8.bg-gray-300{ class: "h-[100px]" }
+          .locked-level

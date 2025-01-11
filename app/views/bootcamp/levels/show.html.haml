@@ -2,8 +2,8 @@
   %header
     .c-breadcrumbs
       .lg-container.container
-        = link_to levels_path do
-          = graphical_icon 'levels'
+        = link_to bootcamp_levels_path do
+          = graphical_icon 'bootcamp-levels'
           .span Levels
         .seperator /
         .title
@@ -11,11 +11,12 @@
           = @level.title
 
     .lg-container
-      %section.c-completed-bar
-        = image_tag 'completed-check-circle.svg', class: "check-mark-icon"
-        .text You've completed Level #{@level.idx}
-        .stat
-          All #{@level.exercises.count} exercises completed
+      - if @completed
+        %section.c-completed-bar
+          = graphical_icon 'bootcamp-completed-check-circle', css_class: "check-mark-icon"
+          .text You've completed Level #{@level.idx}
+          .stat
+            All #{@level.exercises.count} exercises completed
 
       .details
         %h1
@@ -23,21 +24,21 @@
           = @level.title
 
   .lg-container
-    .flex
+    .flex.pb-40
       .lhs.pr-40
         .content.c-prose
           = raw @level.content_html
       .rhs
-        .c-rhs-list
-          %h2 Concepts
-          %p Make sure you understand these concepts before moving on from this level.
-          %ul
-            - @level.concepts.non_apex.each do |concept|
-              %li= render ViewComponents::Bootcamp::ConceptWidget.new(concept)
-
         .c-rhs-list
           %h2 Exercises
           %p Complete these exercises to complete this level.
           %ul
             - @level.exercises.each do |exercise|
               %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
+
+        .c-rhs-list
+          %h2 Concepts
+          %p Make sure you understand these concepts before moving on from this level.
+          %ul
+            - @level.concepts.non_apex.each do |concept|
+              %li= render ViewComponents::Bootcamp::ConceptWidget.new(concept)

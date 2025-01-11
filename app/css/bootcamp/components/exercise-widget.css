@@ -12,8 +12,6 @@
             background-image: url("icons/bootcamp-available.svg");
         }
     }
-    &.completed {
-    }
     &.locked {
         @apply bg-gray-200;
         @apply opacity-[0.5] cursor-not-allowed;
@@ -58,6 +56,21 @@
             background: #e7fdf6;
             border-color: #43b593;
             color: #43b593;
+            background-image: url("icons/bootcamp-completed-check-circle.svg");
+            background-repeat: no-repeat;
+        }
+    }
+    &.size-large {
+        .project-title {
+            @apply mb-2;
+        }
+        .exercise-title {
+            @apply text-22;
+            @apply mb-4;
+        }
+
+        .description {
+            @apply text-17 leading-140;
         }
     }
 }

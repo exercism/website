@@ -7,6 +7,13 @@
     "level": 1
   },
   {
+    "slug": "what-is-coding",
+    "parent": "fundamentals",
+    "title": "What is Coding?",
+    "description": "Before you start learning how to code, you need to understand what coding actually is!",
+    "level": 1
+  },
+  {
     "slug": "comments",
     "parent": "fundamentals",
     "title": "Comments",
@@ -35,13 +42,6 @@
     "level": 1
   },
   {
-    "slug": "strings-concatenation",
-    "parent": "strings",
-    "title": "Concatenating Strings",
-    "description": "",
-    "level": 2
-  },
-  {
     "slug": "numbers",
     "parent": "data-types",
     "title": "Numbers",
@@ -60,6 +60,13 @@
     "parent": "functions",
     "title": "Using Functions",
     "description": "Learn how to use basic functions.",
+    "level": 1
+  },
+  {
+    "slug": "functions-arguments",
+    "parent": "functions",
+    "title": "Function Inputs",
+    "description": "Learn how to pass inputs (also know as 'arguments') into functions.",
     "level": 1
   },
   {

@@ -8,7 +8,8 @@ class Bootcamp::Level < ApplicationRecord
   has_many :exercises, dependent: :destroy, foreign_key: :level_idx, primary_key: :idx, inverse_of: :level,
     class_name: "Bootcamp::Exercise"
 
-  def unlocked?
-    Settings.instance.level_idx >= idx
-  end
+  def to_param = idx
+
+  def locked? = !unlocked?
+  def unlocked? = Bootcamp::Settings.level_idx >= idx
 end

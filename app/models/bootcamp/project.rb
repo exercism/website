@@ -10,6 +10,9 @@ class Bootcamp::Project < ApplicationRecord
     where(id: Bootcamp::Exercise.unlocked.select(:project_id))
   end
 
+  def locked? = !unlocked?
+  def unlocked? = Bootcamp::Exercise.unlocked.where(project_id: id).exists?
+
   def to_param = slug
 
   def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/projects/#{slug}.svg"

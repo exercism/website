@@ -20,7 +20,7 @@ To create a string we wrap the text in a pair of double-quotation marks (`”`).
 
 Whenever we want to use text in our programs, we use a string. For example, if we’re drawing and we want to change the colour of our pen to blue, we’d want to use the `change_pen()` function and give it the string `“blue"` as an input.
 
-<img src="https://assets.exercism.org/bootcamp/diagrams/using-a-string-in-a-function.png" class="diagram"/>
+<img src="https://assets.exercism.org/bootcamp/diagrams/using-strings-in-a-function.png" class="diagram"/>
 
 ### Strings with number in vs numbers
 

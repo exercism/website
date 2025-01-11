@@ -5,6 +5,7 @@ import {
   arrow,
   offset,
   shift,
+  Boundary,
 } from '@floating-ui/dom'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
@@ -40,7 +41,9 @@ export class InformationWidget extends WidgetType {
   private createRefElement() {
     const refElement = document.createElement('span')
     refElement.classList.add('font-bold', 'text-black')
-    refElement.style.float = 'right'
+    // refElement.style.float = 'right'
+    refElement.style.position = 'absolute'
+    refElement.style.right = '0'
     refElement.innerText = ' '
 
     return refElement
@@ -104,11 +107,12 @@ export class InformationWidget extends WidgetType {
 
   private positionTooltip() {
     if (!this.referenceElement || !this.tooltip || !this.arrowElement) return
+    const editor = document.getElementById('bootcamp-cm-editor')
     computePosition(this.referenceElement, this.tooltip, {
       placement: 'right',
       middleware: [
         offset(0),
-        shift({ padding: 0 }),
+        shift({ padding: 0, boundary: (editor as Boundary) ?? undefined }),
         arrow({ element: this.arrowElement! }),
       ],
     }).then(({ x, y, middlewareData }) => {

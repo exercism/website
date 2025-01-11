@@ -2,6 +2,7 @@ import React from 'react'
 import { useCallback } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
+import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 
 export function InformationWidgetToggleButton({
   disabled,
@@ -16,6 +17,12 @@ export function InformationWidgetToggleButton({
   const { inspectedTestResult } = useTestStore()
   const handleToggleShouldShowInformationWidget = useCallback(() => {
     toggleShouldShowInformationWidget()
+
+    // if previeous state is off - which means we are about to turn it on
+    // scroll to the highlighted line
+    if (!shouldShowInformationWidget) {
+      scrollToHighlightedLine()
+    }
 
     if (!inspectedTestResult) return
 

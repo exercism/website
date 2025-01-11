@@ -7,6 +7,7 @@ import type { Frame } from '@/interpreter/frames'
 import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
+import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 
 export function useScrubber({
   setIsPlaying,
@@ -104,6 +105,7 @@ export function useScrubber({
           newValue === -1 ? 0 : testResult.frames[validIndex].line
         setHighlightedLine(highlightedLine)
       }
+      scrollToHighlightedLine()
     },
     [setValue, setInformationWidgetData]
   )
@@ -220,6 +222,7 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
+      scrollToHighlightedLine()
     },
     [value]
   )
@@ -258,6 +261,7 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
+      scrollToHighlightedLine()
     },
     [value]
   )
@@ -266,6 +270,7 @@ export function useScrubber({
     const { animationTimeline } = testResult
     if (animationTimeline) {
       animationTimeline.seekFirstFrame()
+      scrollToHighlightedLine()
     }
   }, [])
 
@@ -273,6 +278,7 @@ export function useScrubber({
     const { animationTimeline } = testResult
     if (animationTimeline) {
       animationTimeline.seekEndOfTimeline()
+      scrollToHighlightedLine()
     }
   }, [])
 

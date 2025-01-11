@@ -14,7 +14,7 @@ module ViewComponents
 
     private
     def status
-      user_project.exercise_status(exercise, solution)
+      user_project&.exercise_status(exercise, solution) || :available
     end
 
     memoize
@@ -24,7 +24,7 @@ module ViewComponents
 
     memoize
     def user_project
-      @user_project || ::Bootcamp::UserProject.for!(current_user, exercise.project)
+      @user_project || ::Bootcamp::UserProject.for(current_user, exercise.project)
     end
   end
 end

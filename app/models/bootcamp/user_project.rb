@@ -13,6 +13,12 @@ class Bootcamp::UserProject < ApplicationRecord
   def available? = status == :available
   def completed? = status == :completed
 
+  def self.for(user, project)
+    for!(user, project)
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
   def self.for!(user, project)
     find_by!(user:, project:)
   end

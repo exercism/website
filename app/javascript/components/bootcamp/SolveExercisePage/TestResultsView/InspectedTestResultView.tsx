@@ -59,12 +59,14 @@ export function InspectedTestResultViewLHS({
         </h3>
 
         {descriptionHtml && descriptionHtml.length > 0 && (
-          <div
-            className="text-bootcamp-purple font-medium content"
-            dangerouslySetInnerHTML={{
-              __html: descriptionHtml,
-            }}
-          />
+          <div className="description">
+            <strong>Task: </strong>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: descriptionHtml,
+              }}
+            />
+          </div>
         )}
         <TestResultInfo result={result} firstExpect={firstExpect} />
         {result.status === 'pass' && <PassMessage testIdx={result.testIndex} />}

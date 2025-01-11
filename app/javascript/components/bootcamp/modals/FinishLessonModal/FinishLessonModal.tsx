@@ -123,7 +123,7 @@ function CompletedExerciseView() {
             now.
           </p>
 
-          <div className="flex items-center gap-8 self-stretch">
+          <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
               Back to dashboard
             </a>

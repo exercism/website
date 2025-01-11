@@ -40,7 +40,9 @@ function _Header() {
           <strong className="font-semibold">Exercism</strong> Bootcamp
         </div>
       </div>
-      <div className="ml-auto flex items-center">
+      <div className="ml-auto flex items-center gap-8">
+        <ResetButton />
+
         {solution.status === 'in_progress' && (
           <>
             <button
@@ -51,7 +53,7 @@ function _Header() {
                 areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
               )}
             >
-              Complete
+              Complete Exercise
             </button>
             {areAllTasksCompleted && (
               <FinishLessonModalContextWrapper
@@ -71,12 +73,10 @@ function _Header() {
 
         <a
           href={links.projectsIndex}
-          className={assembleClassNames('btn-secondary btn-xxs ml-8')}
+          className={assembleClassNames('btn-default btn-xxs')}
         >
-          Close
+          Back to Dashboard
         </a>
-
-        <ResetButton />
       </div>
     </div>
   )

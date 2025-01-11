@@ -28,6 +28,17 @@
       .lhs.pr-40
         .content.c-prose
           = raw @level.content_html
+
+          %hr.border-borderColor5.my-32
+
+          %h2.text-24.leading-140.mb-4.font-semibold Key Concepts
+          %p.mb-10 These concepts are all covered in the video session. Make sure you understand these concepts before moving on from this level.
+          %ul.flex.flex-col.gap-8
+            - @level.concepts.non_apex.each do |concept|
+              %li
+                = link_to bootcamp_concept_path(concept) do
+                  .text-20.leading-140.font-semibold.mb-2= concept.title
+                  .text-18.leading-140.text-textColor5.font-normal= concept.description
       .rhs
         .c-rhs-list
           %h2 Exercises
@@ -36,9 +47,10 @@
             - @level.exercises.each do |exercise|
               %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
 
-        .c-rhs-list
-          %h2 Concepts
-          %p Make sure you understand these concepts before moving on from this level.
-          %ul
-            - @level.concepts.non_apex.each do |concept|
-              %li= render ViewComponents::Bootcamp::ConceptWidget.new(concept)
+        -#
+          .c-rhs-list
+            %h2 Concepts
+            %p Make sure you understand these concepts before moving on from this level.
+            %ul
+              - @level.concepts.non_apex.each do |concept|
+                %li= render ViewComponents::Bootcamp::ConceptWidget.new(concept)

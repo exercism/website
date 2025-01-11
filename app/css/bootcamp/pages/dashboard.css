@@ -76,6 +76,13 @@ body.namespace-bootcamp.controller-dashboard.action-index {
         p {
             @apply text-16 leading-140;
         }
+
+        .c-youtube-container {
+            @apply mt-20;
+            iframe {
+                @apply w-full;
+            }
+        }
     }
     .rhs {
         .section-link {

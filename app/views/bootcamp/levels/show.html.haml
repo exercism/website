@@ -26,6 +26,8 @@
   .lg-container
     .flex.pb-40
       .lhs.pr-40
+        - if @level.youtube_id
+          = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
         .content.c-prose
           = raw @level.content_html
 

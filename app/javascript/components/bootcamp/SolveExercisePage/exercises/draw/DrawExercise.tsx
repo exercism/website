@@ -152,9 +152,18 @@ export default class DrawExercise extends Exercise {
   public getRectangleAt(x: number, y: number, width: number, height: number) {
     return this.shapes.find((shape) => {
       if (shape instanceof Rectangle) {
-        if (shape.x != x || shape.y != y) {
-          return false
+        if (x !== undefined) {
+          if (shape.x != x) {
+            return false
+          }
         }
+
+        if (y !== undefined) {
+          if (shape.y != y) {
+            return false
+          }
+        }
+
         if (width !== undefined) {
           if (shape.width != width) {
             return false
@@ -193,7 +202,6 @@ export default class DrawExercise extends Exercise {
   ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Triangle) {
-        console.log('HER')
         const arePointsEqual = (p1, p2) => p1[0] === p2[0] && p1[1] === p2[1]
 
         const shapePoints = [

@@ -7,6 +7,7 @@ import type { Frame } from '@/interpreter/frames'
 import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
+import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 
 export function useScrubber({
   setIsPlaying,
@@ -84,27 +85,6 @@ export function useScrubber({
     },
     [setValue]
   )
-
-  function scrollToHighlightedLine() {
-    const line = document.querySelector('.cm-highlightedLine') as HTMLElement
-    const scroller = document.querySelector('.cm-scroller') as HTMLElement
-
-    const scrollToLine = (line: HTMLElement, scroller: HTMLElement) => {
-      const lineRect = line.getBoundingClientRect()
-      const scrollerRect = scroller.getBoundingClientRect()
-      const offsetY = lineRect.top - scrollerRect.top + scroller.scrollTop
-
-      scroller.scrollTo({
-        top: offsetY - scroller.clientHeight / 2,
-        left: 0,
-        behavior: 'instant',
-      })
-    }
-
-    if (line && scroller) {
-      scrollToLine(line, scroller)
-    }
-  }
 
   const handleChange = useCallback(
     (

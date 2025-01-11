@@ -193,13 +193,29 @@ export default class DrawExercise extends Exercise {
   ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Triangle) {
+        console.log('HER')
+        const arePointsEqual = (p1, p2) => p1[0] === p2[0] && p1[1] === p2[1]
+
+        const shapePoints = [
+          [shape.x1, shape.y1],
+          [shape.x2, shape.y2],
+          [shape.x3, shape.y3],
+        ]
+        const points = [
+          [x1, y1],
+          [x2, y2],
+          [x3, y3],
+        ]
+
+        const match = (a, b, c) =>
+          arePointsEqual(shapePoints[0], a) &&
+          arePointsEqual(shapePoints[1], b) &&
+          arePointsEqual(shapePoints[2], c)
+
         return (
-          shape.x1 == x1 &&
-          shape.y1 == y1 &&
-          shape.x2 == x2 &&
-          shape.y2 == y2 &&
-          shape.x3 == x3 &&
-          shape.y3 == y3
+          match(points[0], points[1], points[2]) ||
+          match(points[1], points[0], points[2]) ||
+          match(points[0], points[2], points[1])
         )
       }
     })

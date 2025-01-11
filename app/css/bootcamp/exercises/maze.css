@@ -3,6 +3,7 @@
     padding: 10px;
     background: white;
     container-type: size;
+    min-width: 300px;
 
     aspect-ratio: 1;
     /* min-width: 50%;

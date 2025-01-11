@@ -30,6 +30,10 @@ Well, it comes down to how we’re using it. If we’re doing something where we
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/numbers-vs-strings.png" class="diagram"/>
 
-> Note: There are times that we want to use a string as a number. For example, we might want to replace all the coffee machines in the odd-numbered hotel rooms. In those situations, we might need to convert a string to a number. This is very simple to do, and we’ll cover it later, so don’t get too caught up in the possibly scenarios for now!
+```exercism/note
+There are times that we want to use a string as a number. For example, we might want to replace all the coffee machines in the odd-numbered hotel rooms. In those situations, we might need to convert a string to a number. This is very simple to do, and we’ll cover it later, so don’t get too caught up in the possibly scenarios for now!
+```
 
-> Note: As you move into other languages, you’ll see that sometimes they use single quotes (`’`) or backticks(`), but again we don’t need to worry about that here - just remember for now that you use a double-quotation mark to start and end a string.
+```exercism/note
+As you move into other languages, you’ll see that sometimes they use single quotes (`’`) or backticks(`), but again we don’t need to worry about that here - just remember for now that you use a double-quotation mark to start and end a string.
+```

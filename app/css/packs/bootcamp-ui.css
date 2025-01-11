@@ -38,3 +38,5 @@
 @import "../bootcamp/exercises/draw.css";
 @import "../bootcamp/exercises/maze.css";
 @import "../bootcamp/exercises/wordle.css";
+
+@import "../components/textblock";

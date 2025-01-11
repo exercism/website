@@ -26,7 +26,7 @@ body.namespace-bootcamp.controller-concepts.action-show {
     .lhs {
         @apply max-w-[800px];
         .c-prose {
-            @apply mb-40;
+            @apply mb-20;
             img.diagram {
                 display: block;
                 width: 100%;

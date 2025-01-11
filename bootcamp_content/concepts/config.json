@@ -56,6 +56,13 @@
     "level": 2
   },
   {
+    "slug": "functions-introduction",
+    "parent": "functions",
+    "title": "What are Functions?",
+    "description": "Learn what functions are in programming.",
+    "level": 1
+  },
+  {
     "slug": "functions-using",
     "parent": "functions",
     "title": "Using Functions",

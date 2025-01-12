@@ -38,12 +38,12 @@
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(87, 75, 3)",
+              "name": "getCircleAt(88, 75, 3)",
               "matcher": "toExist",
               "error_html": "The ball doesn't seem to reach the hole."
             },
             {
-              "name": "getCircleAt(88, 75, 3)",
+              "name": "getCircleAt(89, 75, 3)",
               "matcher": "toNotExist",
               "error_html": "The ball seems to go too far to the right."
             }

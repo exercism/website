@@ -1,0 +1,45 @@
+// Flower 
+set flower_cx to 50
+set flower_cy to 90
+set flower_radius to 0
+
+// pistil (the middle bit)
+set pistil_radius to 0
+
+// Stem
+set stem_height to 0
+set stem_width to 0
+set stem_left to 0
+set stem_bottom to 90
+
+repeat 60 do
+  change stem_height to stem_height + 1
+  change stem_width to stem_height / 10
+  change stem_left to flower_cx - ( stem_width / 2)
+  change flower_radius to flower_radius + 0.4
+  change flower_cy to stem_bottom - stem_height
+  change pistil_radius to pistil_radius + 0.1
+
+  // Sky
+  fill_color_hex("#ADD8E6") 
+  rectangle(0, 0, 100, 90)
+  
+  // Ground
+  fill_color_hex("green")
+  rectangle(0, 90, 100, 30)
+
+  // Draw stem
+  fill_color_hex("darkgreen")
+  rectangle(stem_left, flower_cy, stem_width, stem_height)
+
+  // Left leaf
+  fill_color_hex("darkgreen")
+  ellipse(stem_left - (flower_radius / 2), flower_cy + (stem_height / 2), flower_radius / 2, flower_radius / 5)
+  ellipse(stem_left + (flower_radius / 2) + stem_width, flower_cy + (stem_height / 2), flower_radius / 2, flower_radius / 5)
+
+  fill_color_hex("#d90166")
+  circle(flower_cx, flower_cy, flower_radius)
+
+  fill_color_hex("yellow")
+  circle(flower_cx, flower_cy, pistil_radius)
+end

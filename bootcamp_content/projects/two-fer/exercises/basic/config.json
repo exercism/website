@@ -2,7 +2,7 @@
   "title": "Empty Strings",
   "description": "Return what you say when you hand the cookie other, using the person's name if you know it.",
   "concepts": ["conditionals"],
-  "level": 2,
+  "level": 3,
   "tests_type": "io",
   "readonly_ranges": [
     { "from": 1, "to": 1 },

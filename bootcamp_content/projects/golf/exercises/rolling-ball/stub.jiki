@@ -1,0 +1,14 @@
+// TODO: Change the initial position
+set x to 0
+
+// TODO: Change this to only repeat
+// until the ball reaches the hole
+repeat 10 do
+  clear()
+
+  // TODO: Set the new position
+
+  // TODO: Set your fill
+
+  // TODO: Draw the ball (a circle)
+end

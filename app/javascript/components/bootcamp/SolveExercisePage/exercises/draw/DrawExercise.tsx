@@ -67,10 +67,12 @@ class Triangle extends Shape {
 export type FillColor =
   | { type: 'hex'; color: string }
   | { type: 'rgb'; color: [number, number, number] }
+  | { type: 'hsl'; color: [number, number, number] }
 
 export default class DrawExercise extends Exercise {
   private canvas: HTMLDivElement
   private shapes: Shape[] = []
+  private visibleShapes: Shape[] = []
 
   private penColor = '#333333'
   private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
@@ -279,14 +281,17 @@ export default class DrawExercise extends Exercise {
     })
   }
 
-  public changePenColor(executionCtx: ExecutionContext, color: string) {
+  public changePenColor(_: ExecutionContext, color: string) {
     this.penColor = color
   }
-  public fillColorHex(executionCtx: ExecutionContext, color: string) {
+  public fillColorHex(_: ExecutionContext, color: string) {
     this.fillColor = { type: 'hex', color: color }
   }
-  public fillColorRGB(executionCtx: ExecutionContext, red, green, blue) {
+  public fillColorRGB(_: ExecutionContext, red, green, blue) {
     this.fillColor = { type: 'rgb', color: [red, green, blue] }
+  }
+  public fillColorHSL(_: ExecutionContext, h, s, l) {
+    this.fillColor = { type: 'hsl', color: [h, s, l] }
   }
 
   public rectangle(
@@ -312,6 +317,7 @@ export default class DrawExercise extends Exercise {
 
     const rect = new Rectangle(x, y, width, height, elem)
     this.shapes.push(rect)
+    this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
     return rect
   }
@@ -335,6 +341,7 @@ export default class DrawExercise extends Exercise {
 
     const circle = new Circle(x, y, radius, elem)
     this.shapes.push(circle)
+    this.visibleShapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)
     return circle
   }
@@ -360,6 +367,7 @@ export default class DrawExercise extends Exercise {
 
     const ellipse = new Ellipse(x, y, rx, ry, elem)
     this.shapes.push(ellipse)
+    this.visibleShapes.push(ellipse)
     this.animateElement(executionCtx, elem, absX, absY)
     return ellipse
   }
@@ -396,6 +404,7 @@ export default class DrawExercise extends Exercise {
 
     const triangle = new Triangle(x1, y1, x2, y2, x3, y3, elem)
     this.shapes.push(triangle)
+    this.visibleShapes.push(triangle)
     this.animateElement(executionCtx, elem, absX1, absY1)
     return triangle
   }
@@ -461,13 +470,11 @@ export default class DrawExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
-
-    executionCtx.fastForward(duration)
   }
 
   public clear(executionCtx: ExecutionContext) {
     const duration = 1
-    this.shapes.forEach((shape) => {
+    this.visibleShapes.forEach((shape) => {
       this.addAnimation({
         targets: `#${this.view.id} #${shape.element.id}`,
         duration,
@@ -477,9 +484,8 @@ export default class DrawExercise extends Exercise {
         offset: executionCtx.getCurrentTime(),
       })
     })
-    executionCtx.fastForward(duration)
 
-    this.shapes = []
+    this.visibleShapes = []
   }
 
   public setBackgroundImage(imageUrl: string) {
@@ -550,6 +556,11 @@ export default class DrawExercise extends Exercise {
       name: 'fill_color_rgb',
       func: this.fillColorRGB.bind(this),
       description: 'Changes the fill color using three RGB values',
+    },
+    {
+      name: 'fill_color_hsl',
+      func: this.fillColorHSL.bind(this),
+      description: 'Changes the fill color using three HSL values',
     },
   ]
 }

@@ -1,0 +1,32 @@
+{
+  "title": "Sprouting flower",
+  "description": "Make the flower sprout",
+  "project_type": "draw",
+  "level": 2,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 30
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scence",
+          "name": "Make the penguin symmetrical.",
+          "description_html": "Fix all the TODO comments to make the penguin symmetrical.",
+          "function": "main",
+          "checks": [
+            {
+              "name": "getTriangleAt(46, 38, 54, 38, 50, 47)",
+              "matcher": "toExist",
+              "error_html": "The nose isn't right."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

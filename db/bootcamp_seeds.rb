@@ -56,6 +56,7 @@ projects = %w[
   maze
   wordle
   weather
+  golf
 ]
 
 projects.each do |project_slug|

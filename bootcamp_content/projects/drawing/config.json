@@ -2,5 +2,11 @@
   "slug": "drawing",
   "title": "Drawing",
   "description": "With only a few basic shapes you can draw and animate almost anything.",
-  "exercises": ["penguin", "jumbled-house", "structured-house"]
+  "exercises": [
+    "penguin",
+    "jumbled-house",
+    "structured-house",
+    "sunset",
+    "sprouting-flower"
+  ]
 }

@@ -637,17 +637,25 @@ export class Executor
         }
       case 'MINUS':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
+        const minusValue = left.value - right.value
+        const minusValue2DP = Math.round(minusValue * 10) / 10
+
         return {
           ...result,
-          value: left.value - right.value,
+          value: minusValue2DP,
         }
       //> binary-plus
       case 'PLUS':
-        if (isNumber(left.value) && isNumber(right.value))
+        if (isNumber(left.value) && isNumber(right.value)) {
+          const value = left.value + right.value
+          const value2DP = Math.round(value * 10) / 10
+
           return {
             ...result,
-            value: left.value + right.value,
+            value: value2DP,
           }
+        }
         if (isString(left.value) && isString(right.value))
           return {
             ...result,
@@ -665,18 +673,24 @@ export class Executor
 
       case 'SLASH':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+        const slashValue = left.value / right.value
+        const slashValue2DP = Math.round(slashValue * 10) / 10
         return {
           ...result,
-          value: left.value / right.value,
+          value: slashValue2DP,
         }
       case 'STAR':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
+        const starValue = left.value / right.value
+        const starValue2DP = Math.round(starValue * 10) / 10
         return {
           ...result,
-          value: left.value * right.value,
+          value: starValue2DP,
         }
       case 'PERCENT':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
         return {
           ...result,
           value: left.value % right.value,

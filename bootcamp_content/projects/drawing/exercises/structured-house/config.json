@@ -2,7 +2,7 @@
   "title": "Structured House",
   "description": "Use variables instead of hard-coded values",
   "project_type": "draw",
-  "level": 1,
+  "level": 2,
   "concepts": [],
   "tests_type": "state",
   "tasks": [

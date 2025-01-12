@@ -30,6 +30,12 @@ export function expect({
         pass: actual !== undefined && actual !== null,
       }
     },
+    toNotExist() {
+      return {
+        ...returnObject,
+        pass: actual === undefined || actual === null,
+      }
+    },
     toBe(expected: any) {
       return {
         ...returnObject,

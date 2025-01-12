@@ -9,6 +9,8 @@ import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 
+const FRAME_DURATION = 50
+
 export function useScrubber({
   setIsPlaying,
   testResult,
@@ -32,7 +34,7 @@ export function useScrubber({
       testResult.animationTimeline.onUpdate((anime) => {
         setTimeout(() => {
           setValue(anime.currentTime)
-        }, 50)
+        }, FRAME_DURATION)
       })
     }
   }, [testResult.view?.id, testResult.animationTimeline?.completed])
@@ -155,7 +157,7 @@ export function useScrubber({
         targets: { value },
         // if progress is closer to duration than time, then snap to duration
         value: closestTime,
-        duration: 50,
+        duration: FRAME_DURATION,
         easing: 'easeOutQuad',
         update: function (anim) {
           const newTime = Number(anim.animations[0].currentValue)
@@ -214,7 +216,7 @@ export function useScrubber({
       scrubberValueAnimation.current = anime({
         targets: { value },
         value: targetTime,
-        duration: 50,
+        duration: FRAME_DURATION,
         easing: 'easeOutQuad',
         update: function (anim) {
           const animatedTime = Number(anim.animations[0].currentValue)
@@ -253,7 +255,7 @@ export function useScrubber({
       scrubberValueAnimation.current = anime({
         targets: { value },
         value: targetTime,
-        duration: 50,
+        duration: FRAME_DURATION,
         easing: 'easeOutQuad',
         update: function (anim) {
           const animatedTime = Number(anim.animations[0].currentValue)

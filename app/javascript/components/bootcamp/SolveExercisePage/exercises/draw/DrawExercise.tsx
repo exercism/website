@@ -222,8 +222,11 @@ export default class DrawExercise extends Exercise {
 
         return (
           match(points[0], points[1], points[2]) ||
+          match(points[0], points[2], points[1]) ||
           match(points[1], points[0], points[2]) ||
-          match(points[0], points[2], points[1])
+          match(points[1], points[2], points[0]) ||
+          match(points[2], points[0], points[1]) ||
+          match(points[2], points[1], points[0])
         )
       }
     })

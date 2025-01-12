@@ -100,9 +100,14 @@ body {
     @apply py-16;
     @apply md:text-18 text-14;
 
+    .first-session {
+        @apply text-15 font-semibold leading-100;
+        @apply ml-auto;
+        @apply border-b-1 border-[#ffffffaa];
+    }
     .button {
         @apply flex items-center;
-        @apply bg-white rounded-[5px] py-4 px-[18px] h-[32px] ml-auto;
+        @apply bg-white rounded-[5px] py-4 px-[18px] h-[32px] ml-16;
         @apply sm:text-15 text-12 font-semibold;
         color: rgb(13, 18, 33);
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);

@@ -1,9 +1,17 @@
+#countdown-bar
+  %strong.inline-block Late enrollments currently accepted.
+  %span.inline-block
+    Watch back
+    = succeed('.') do
+      = link_to "the first live session", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "underline font-semibold"
+
 #nav
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content
       %strong.font-semibold Exercism
       Bootcamp
+    = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session", target: "_blank", rel: 'noopener'
     = link_to "Enroll now 👉", bootcamp_enroll_path, class: "button"
 
 .hero

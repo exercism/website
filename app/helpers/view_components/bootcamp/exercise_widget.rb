@@ -19,7 +19,7 @@ module ViewComponents
 
     memoize
     def solution
-      @solution || current_user.solutions.find_by(exercise:)
+      @solution || current_user.bootcamp_solutions.find_by(exercise:)
     end
 
     memoize

@@ -219,7 +219,7 @@ class BootcampController < ApplicationController
   end
 
   def redirect_if_paid!
-    return unless current_user&.bootcamp_attendee?
+    return unless current_user&.bootcamp_attendee? || current_user&.bootcamp_mentor?
 
     redirect_to bootcamp_dashboard_url
   end

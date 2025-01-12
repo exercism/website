@@ -37,6 +37,13 @@ export function expect({
         pass: actual === expected,
       }
     },
+    toBeTrue() {
+      return {
+        ...returnObject,
+        expected: true,
+        pass: actual === true,
+      }
+    },
     toEqual(expected: any) {
       return {
         ...returnObject,

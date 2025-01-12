@@ -1,5 +1,6 @@
 declare type AvailableMatchers =
   | 'toBe'
+  | 'toBeTrue'
   | 'toExist'
   | 'toEqual'
   | 'toBeGreaterThanOrEqual'

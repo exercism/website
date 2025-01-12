@@ -185,7 +185,7 @@ export class Executor
   ): T {
     this.location = context.location
     const result = code()
-    this.addFrame(context.location, 'SUCCESS', result)
+    this.addFrame(context.location, 'SUCCESS', result, undefined, context)
     this.location = null
     return result.value
   }
@@ -470,8 +470,6 @@ export class Executor
 
     const arity = callee.value.arity()
     const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
-
-    console.log(minArity, maxArity)
 
     if (args.length < minArity || args.length > maxArity) {
       if (minArity !== maxArity) {
@@ -938,7 +936,8 @@ export class Executor
     location: Location | null,
     status: FrameExecutionStatus,
     result?: EvaluationResult,
-    error?: RuntimeError
+    error?: RuntimeError,
+    context?: Statement | Expression
   ): void {
     if (location == null) location = Location.unknown
 
@@ -952,6 +951,7 @@ export class Executor
       functions: this.environment.functions(),
       time: this.frameTime,
       description: '',
+      context: context,
     }
     frame.description = describeFrame(frame, this.externalFunctions)
 

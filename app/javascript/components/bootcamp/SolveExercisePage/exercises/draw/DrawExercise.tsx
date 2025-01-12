@@ -2,6 +2,14 @@ import { Exercise } from '../Exercise'
 import { aToR, rToA } from './utils'
 import * as Shapes from './shapes'
 import type { ExecutionContext } from '@/interpreter/executor'
+import { InterpretResult } from '@/interpreter/interpreter'
+import {
+  CallExpression,
+  Expression,
+  LiteralExpression,
+} from '@/interpreter/expression'
+import { ExpressionStatement } from '@/interpreter/statement'
+import { Frame } from '@/interpreter/frames'
 
 class Shape {
   public constructor(public element: SVGElement) {}
@@ -146,10 +154,16 @@ export default class DrawExercise extends Exercise {
   public getState() {
     return {}
   }
-  public numElements() {
+  public numElements(_: InterpretResult) {
     return this.shapes.length
   }
-  public getRectangleAt(x: number, y: number, width: number, height: number) {
+  public getRectangleAt(
+    _: InterpretResult,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Rectangle) {
         if (x !== undefined) {
@@ -178,14 +192,25 @@ export default class DrawExercise extends Exercise {
       }
     })
   }
-  public getCircleAt(cx: number, cy: number, radius: number) {
+  public getCircleAt(
+    _: InterpretResult,
+    cx: number,
+    cy: number,
+    radius: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Circle) {
         return shape.cx == cx && shape.cy == cy && shape.radius == radius
       }
     })
   }
-  public getEllipseAt(x: number, y: number, rx: number, ry: number) {
+  public getEllipseAt(
+    _: InterpretResult,
+    x: number,
+    y: number,
+    rx: number,
+    ry: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Ellipse) {
         return shape.x == x && shape.y == y && shape.rx == rx && shape.ry == ry
@@ -193,6 +218,7 @@ export default class DrawExercise extends Exercise {
     })
   }
   public getTriangleAt(
+    _: InterpretResult,
     x1: number,
     y1: number,
     x2: number,
@@ -229,6 +255,27 @@ export default class DrawExercise extends Exercise {
           match(points[2], points[1], points[0])
         )
       }
+    })
+  }
+
+  public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
+    return interpreterResult.frames.every((frame: Frame) => {
+      if (!(frame.context instanceof ExpressionStatement)) {
+        return true
+      }
+
+      const context = frame.context as ExpressionStatement
+      if (!(context.expression instanceof CallExpression)) {
+        return true
+      }
+
+      return context.expression.args.every((arg: Expression) => {
+        if (arg instanceof LiteralExpression) {
+          return false
+        }
+
+        return true
+      })
     })
   }
 

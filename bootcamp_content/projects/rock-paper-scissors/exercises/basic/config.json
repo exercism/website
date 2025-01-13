@@ -3,6 +3,7 @@
   "description": "Calculate the correct result",
   "concepts": ["conditionals"],
   "level": 3,
+  "idx": 1,
   "tests_type": "io",
   "tasks": [
     {

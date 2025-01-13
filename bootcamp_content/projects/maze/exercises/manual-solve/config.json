@@ -1,9 +1,9 @@
 {
-  "idx": 1,
   "title": "Manually solve a maze",
   "description": "Solve a maze using some basic functions",
   "project_type": "maze",
   "level": 1,
+  "idx": 1,
   "available_functions": ["move", "turnLeft", "turnRight"],
   "tests_type": "state",
   "concepts": ["functions-using"],

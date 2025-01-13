@@ -3,6 +3,7 @@
   "description": "Determine if a number is positive, negative or zero",
   "concepts": ["strings-using", "conditionals"],
   "level": 3,
+  "idx": 1,
   "tasks": [
     {
       "name": "Correctly identify positive numbers",

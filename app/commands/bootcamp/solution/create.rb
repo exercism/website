@@ -22,7 +22,7 @@ class Bootcamp::Solution::Create
 
   private
   def guard!
-    raise ExerciseLockedError unless user_project.exercise_available?(exercise)
+    raise ExerciseLockedError unless Bootcamp::Exercise::AvailableForUser.(exercise, user)
   end
 
   def code

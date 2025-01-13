@@ -71,16 +71,16 @@ projects.each do |project_slug|
     description: project_config[:description],
     introduction_markdown: project_intro_for(project_slug)
   )
-  project_config[:exercises].each.with_index do |exercise_slug, idx|
+  project_config[:exercises].each do |exercise_slug|
     exercise_config = exercise_config_for(project_slug, exercise_slug)
     exercise = project.exercises.find_or_create_by!(slug: exercise_slug) do |e|
-      e.idx = idx + 1
+      e.idx = exercise_config[:idx]
       e.title = ""
       e.description = ""
       e.level_idx = exercise_config[:level]
     end
     exercise.update!(
-      idx: idx + 1,
+      idx: exercise_config[:idx],
       title: exercise_config[:title],
       description: exercise_config[:description],
       level_idx: exercise_config[:level],

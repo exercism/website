@@ -26,10 +26,11 @@
   .lg-container
     .flex.pb-40
       .lhs.pr-40
-        - if @level.youtube_id
-          = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
         .content.c-prose
           = raw @level.content_html
+          - if @level.youtube_id
+            .mt-24
+              = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
 
           %hr.border-borderColor5.my-32
 
@@ -41,6 +42,7 @@
                 = link_to bootcamp_concept_path(concept) do
                   .text-20.leading-140.font-semibold.mb-2= concept.title
                   .text-18.leading-140.text-textColor5.font-normal= concept.description
+
       .rhs
         .c-rhs-list
           %h2 Exercises

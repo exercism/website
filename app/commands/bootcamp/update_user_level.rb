@@ -11,20 +11,20 @@ class Bootcamp::UpdateUserLevel
 
       max = level_idx
     end
-    user.bootcamp_data.update!(level_idx: max)
+    user.bootcamp_data.update!(level_idx: max + 1)
   end
 
   memoize
   def exercise_ids_by_level_idx
     Bootcamp::Exercise.pluck(:level_idx, :id).
       group_by(&:first).
-      transform_values { |v| v.map(&:last) }.
+      transform_values { |v| v.map(&:last).sort }.
       sort.to_h
   end
 
   def solved_exercise_ids_by_level_idx
     user.bootcamp_solutions.completed.joins(:exercise).pluck(:level_idx, :exercise_id).
       group_by(&:first).
-      transform_values { |v| v.map(&:last) }
+      transform_values { |v| v.map(&:last).sort }
   end
 end

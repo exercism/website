@@ -36,6 +36,8 @@ export function useScrubber({
           setValue(anime.currentTime)
         }, 50)
       })
+    } else {
+      setValue(0)
     }
     // TODO Add something very specific to listen to here
   }, [animationTimeline?.completed])

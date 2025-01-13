@@ -16,7 +16,7 @@ export function useDrawingEditorHandler() {
     null
   )
   const [animationTimeline, setAnimationTimeline] =
-    useState<AnimationTimeline>()
+    useState<AnimationTimeline | null>(null)
   const [frames, setFrames] = useState<Frame[]>([])
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
@@ -79,7 +79,10 @@ export function useDrawingEditorHandler() {
           setShouldShowInformationWidget,
           setUnderlineRange,
         })
-        return
+
+        setAnimationTimeline(null)
+        setFrames([])
+        // return
       }
 
       const view = drawExerciseInstance.getView()

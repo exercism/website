@@ -53,7 +53,7 @@ function _Header({
         setBackgroundImage(background.imageUrl)
       }
     }
-  }, [drawing, setBackgroundImage])
+  }, [drawing?.backgroundSlug, setBackgroundImage])
 
   return (
     <div className="page-header">

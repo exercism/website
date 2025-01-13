@@ -79,6 +79,7 @@ export function useDrawingEditorHandler() {
           setShouldShowInformationWidget,
           setUnderlineRange,
         })
+        return
       }
 
       const view = drawExerciseInstance.getView()

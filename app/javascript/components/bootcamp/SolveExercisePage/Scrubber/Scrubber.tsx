@@ -2,11 +2,11 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
-import { TooltipInformation } from './ScrubberTooltipInformation'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'
 import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
+import { TooltipInformation } from './ScrubberTooltipInformation'
 
 function Scrubber({
   animationTimeline,
@@ -111,6 +111,7 @@ function Scrubber({
       <TooltipInformation
         hasCodeBeenEdited={hasCodeBeenEdited}
         notEnoughFrames={frames.length === 1}
+        animationTimeline={animationTimeline}
       />
     </div>
   )

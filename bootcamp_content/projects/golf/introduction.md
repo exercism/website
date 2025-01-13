@@ -2,6 +2,6 @@
 
 ## Overview
 
-With a little bit of code, you can draw almost anything!
+In this project, we're going to learn use animation, functions and conditonals to build some basic game mechanics.
 
-In this project, we'll explore drawing and animation, teaching you some of the key programming concepts, and getting you familiar with how to make your own graphics that you can use in your games, applications and websites.
+We'll start by animating a simple ball, then work out when it drops into the hole, and add scoring.

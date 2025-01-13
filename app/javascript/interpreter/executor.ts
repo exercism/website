@@ -639,7 +639,7 @@ export class Executor
         this.verifyNumberOperands(expression.operator, left.value, right.value)
 
         const minusValue = left.value - right.value
-        const minusValue2DP = Math.round(minusValue * 10) / 10
+        const minusValue2DP = Math.round(minusValue * 100) / 100
 
         return {
           ...result,
@@ -648,12 +648,12 @@ export class Executor
       //> binary-plus
       case 'PLUS':
         if (isNumber(left.value) && isNumber(right.value)) {
-          const value = left.value + right.value
-          const value2DP = Math.round(value * 10) / 10
+          const plusValue = left.value + right.value
+          const plusValue2DP = Math.round(plusValue * 100) / 100
 
           return {
             ...result,
-            value: value2DP,
+            value: plusValue2DP,
           }
         }
         if (isString(left.value) && isString(right.value))
@@ -674,7 +674,7 @@ export class Executor
       case 'SLASH':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
         const slashValue = left.value / right.value
-        const slashValue2DP = Math.round(slashValue * 10) / 10
+        const slashValue2DP = Math.round(slashValue * 100) / 100
         return {
           ...result,
           value: slashValue2DP,
@@ -682,8 +682,8 @@ export class Executor
       case 'STAR':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
 
-        const starValue = left.value / right.value
-        const starValue2DP = Math.round(starValue * 10) / 10
+        const starValue = left.value * right.value
+        const starValue2DP = Math.round(starValue * 100) / 100
         return {
           ...result,
           value: starValue2DP,

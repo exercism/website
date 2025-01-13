@@ -471,7 +471,7 @@ export class Executor
     const arity = callee.value.arity()
     const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
 
-    console.log(minArity, maxArity)
+    // console.log(minArity, maxArity)
 
     if (args.length < minArity || args.length > maxArity) {
       if (minArity !== maxArity) {

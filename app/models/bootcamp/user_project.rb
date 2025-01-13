@@ -44,7 +44,7 @@ class Bootcamp::UserProject < ApplicationRecord
 
     if solution
       solution.status
-    elsif exercise_available?(exercise)
+    elsif Bootcamp::Exercise::AvailableForUser.(exercise, user)
       :available
     else
       :locked

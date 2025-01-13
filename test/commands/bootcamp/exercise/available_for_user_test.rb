@@ -20,4 +20,80 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
 
     refute Bootcamp::Exercise::AvailableForUser.(exercise, user)
   end
+
+  test "return false if previous exercise not started" do
+    create :bootcamp_level, idx: 1
+    project = create :bootcamp_project
+    create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    user = create :user
+
+    Bootcamp::Settings.instance.update(level_idx: 1)
+
+    refute Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return false if previous exercise not completed" do
+    create :bootcamp_level, idx: 1
+    project = create :bootcamp_project
+    first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    user = create :user
+    create(:bootcamp_solution, exercise: first_exercise, user:)
+
+    Bootcamp::Settings.instance.update(level_idx: 1)
+
+    refute Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return true if previous exercise completed" do
+    create :bootcamp_level, idx: 1
+    project = create :bootcamp_project
+    first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    user = create :user
+    create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
+
+    Bootcamp::Settings.instance.update(level_idx: 1)
+
+    assert Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return false if previous level exercise not started" do
+    (1..2).each { |idx| create :bootcamp_level, idx: }
+    project = create :bootcamp_project
+    create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
+    user = create :user
+
+    Bootcamp::Settings.instance.update(level_idx: 2)
+
+    refute Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return false if previous level exercise not completed" do
+    (1..2).each { |idx| create :bootcamp_level, idx: }
+    project = create :bootcamp_project
+    first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
+    user = create :user
+    create(:bootcamp_solution, exercise: first_exercise, user:)
+
+    Bootcamp::Settings.instance.update(level_idx: 2)
+
+    refute Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return true if previous level exercise completed" do
+    (1..2).each { |idx| create :bootcamp_level, idx: }
+    project = create :bootcamp_project
+    first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
+    second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
+    user = create :user
+    create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
+
+    Bootcamp::Settings.instance.update(level_idx: 2)
+
+    assert Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
 end

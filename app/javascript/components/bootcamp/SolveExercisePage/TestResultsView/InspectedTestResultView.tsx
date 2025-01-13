@@ -72,7 +72,12 @@ export function InspectedTestResultViewLHS({
         {result.status === 'pass' && <PassMessage testIdx={result.testIndex} />}
       </div>
 
-      {result.frames && <Scrubber testResult={result} />}
+      {result.frames && (
+        <Scrubber
+          animationTimeline={result.animationTimeline}
+          frames={result.frames}
+        />
+      )}
     </div>
   )
 }

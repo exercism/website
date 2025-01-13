@@ -8,7 +8,7 @@ import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import Scrubber from './Scrubber/Scrubber'
+import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
 

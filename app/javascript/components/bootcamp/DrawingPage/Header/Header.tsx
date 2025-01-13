@@ -77,6 +77,7 @@ function _Header({
             )
             handleBackgroundChange(selectedBackground)
           }}
+          value={drawing.backgroundSlug}
         >
           {backgrounds.map((background) => (
             <option

@@ -8,11 +8,7 @@ import { showError } from '../SolveExercisePage/utils/showError'
 import { AnimationTimeline } from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
 import type { Frame } from '@/interpreter/frames'
 
-export function useDrawingEditorHandler({
-  drawing,
-  code,
-  links,
-}: DrawingPageProps) {
+export function useDrawingEditorHandler() {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const viewContainerRef = useRef<HTMLDivElement | null>(null)

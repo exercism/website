@@ -37,7 +37,7 @@ module ReactComponents
     {
       slug: "room",
       title: "A room to decorate",
-      image_url: "..."
+      image_url: "https://shared.cdn.galeriekodl.cz/plain/w:1200/rs:fit:1200:909:1/czM6Ly9zaGFyZWQucHJhZ3VlL2l0ZW1zLzAzMjY0NzQxLWFiNDQtNGE0Mi1iNDg2LTk2NjEwOWFkYTJlNS5qcGVn"
     }
   ].freeze
 end

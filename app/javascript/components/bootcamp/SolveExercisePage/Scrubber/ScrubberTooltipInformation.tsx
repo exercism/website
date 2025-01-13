@@ -1,8 +1,14 @@
 import React from 'react'
+import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 export function TooltipInformation({
   hasCodeBeenEdited,
   notEnoughFrames,
-}: Record<string, boolean>) {
+  animationTimeline,
+}: {
+  hasCodeBeenEdited: boolean
+  notEnoughFrames: boolean
+  animationTimeline: AnimationTimeline | undefined | null
+}) {
   // editing code removes frames anyway, so this has to be higher precedence
   if (hasCodeBeenEdited) {
     return (
@@ -10,7 +16,8 @@ export function TooltipInformation({
     )
   }
 
-  if (notEnoughFrames) {
+  // Don't show this if it's a scrubbable animation timeline
+  if (notEnoughFrames && !animationTimeline) {
     return (
       <StaticTooltip text="There is only one frame. You can inspect that by toggling the information widget." />
     )

@@ -12,6 +12,9 @@ export function useDrawingEditorHandler() {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const viewContainerRef = useRef<HTMLDivElement | null>(null)
+  const setBackgroundImageRef = useRef<((url: string | null) => void) | null>(
+    null
+  )
   const [animationTimeline, setAnimationTimeline] =
     useState<AnimationTimeline>()
   const [frames, setFrames] = useState<Frame[]>([])
@@ -92,6 +95,7 @@ export function useDrawingEditorHandler() {
         viewContainerRef.current.innerHTML = ''
         viewContainerRef.current.appendChild(view)
         view.style.display = 'block'
+        setBackgroundImageRef.current = drawExerciseInstance.setBackgroundImage
       }
     }
   }
@@ -106,5 +110,6 @@ export function useDrawingEditorHandler() {
     viewContainerRef,
     animationTimeline,
     frames,
+    setBackgroundImage: setBackgroundImageRef.current,
   }
 }

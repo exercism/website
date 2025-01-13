@@ -38,6 +38,7 @@ export default function DrawingPage({
     viewContainerRef,
     animationTimeline,
     frames,
+    setBackgroundImage,
   } = useDrawingEditorHandler()
 
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
@@ -67,6 +68,7 @@ export default function DrawingPage({
         backgrounds={backgrounds}
         savingStateLabel={savingStateLabel}
         drawing={drawing}
+        setBackgroundImage={setBackgroundImage}
       />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">

@@ -101,6 +101,7 @@ export default class DrawExercise extends Exercise {
 
     this.canvas.addEventListener('mousemove', this.showTooltip.bind(this))
     this.canvas.addEventListener('mouseleave', this.hideTooltip.bind(this))
+    this.setBackgroundImage = this.setBackgroundImage.bind(this)
   }
 
   showTooltip(event: MouseEvent) {
@@ -435,10 +436,14 @@ export default class DrawExercise extends Exercise {
     this.shapes = []
   }
 
-  public setBackgroundImage(imageUrl: string) {
-    this.canvas.style.backgroundImage = 'url(' + imageUrl + ')'
-    this.canvas.style.backgroundSize = '99.5%'
-    this.canvas.style.backgroundPosition = 'center'
+  public setBackgroundImage(imageUrl: string | null) {
+    if (imageUrl) {
+      this.canvas.style.backgroundImage = 'url(' + imageUrl + ')'
+      this.canvas.style.backgroundSize = '99.5%'
+      this.canvas.style.backgroundPosition = 'center'
+    } else {
+      this.canvas.style.backgroundImage = 'none'
+    }
   }
 
   public availableFunctions = [

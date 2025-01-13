@@ -11,7 +11,11 @@ function _Header({
   links,
   savingStateLabel,
   drawing,
-}: { savingStateLabel: string } & Pick<DrawingPageProps, 'links' | 'drawing'>) {
+  backgrounds,
+}: { savingStateLabel: string } & Pick<
+  DrawingPageProps,
+  'links' | 'drawing' | 'backgrounds'
+>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
   const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
@@ -42,6 +46,14 @@ function _Header({
             {savingStateLabel}
           </span>
         )}
+
+        <select name="" id="">
+          {backgrounds.map((background) => (
+            <option key={background.slug} value={background.slug}>
+              {background.title}
+            </option>
+          ))}
+        </select>
         <div className="flex items-center gap-12">
           {editMode ? (
             <>

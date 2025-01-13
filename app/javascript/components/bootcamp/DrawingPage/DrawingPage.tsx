@@ -16,6 +16,7 @@ export default function DrawingPage({
   drawing,
   code,
   links,
+  backgrounds,
 }: DrawingPageProps) {
   const [savingStateLabel, setSavingStateLabel] = useState<string>('')
 
@@ -37,7 +38,7 @@ export default function DrawingPage({
     viewContainerRef,
     animationTimeline,
     frames,
-  } = useDrawingEditorHandler({ code, links, drawing })
+  } = useDrawingEditorHandler()
 
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + drawing.uuid,
@@ -63,6 +64,7 @@ export default function DrawingPage({
     <div id="bootcamp-solve-exercise-page">
       <Header
         links={links}
+        backgrounds={backgrounds}
         savingStateLabel={savingStateLabel}
         drawing={drawing}
       />

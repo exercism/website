@@ -6,18 +6,18 @@ set flower_radius to 0
 // pistil (the middle bit)
 set pistil_radius to 0
 
-// Stem
+// Stem Variables
 set stem_height to 0
 set stem_width to 0
 set stem_left to 0
 set stem_bottom to 90
 
-repeat 60 do
-  change stem_height to stem_height + 1
+repeat 60 times do
+  change flower_cy to flower_cy - 1
+  change stem_height to stem_bottom -flower_cy
   change stem_width to stem_height / 10
   change stem_left to flower_cx - ( stem_width / 2)
   change flower_radius to flower_radius + 0.4
-  change flower_cy to stem_bottom - stem_height
   change pistil_radius to pistil_radius + 0.1
 
   // Sky

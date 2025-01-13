@@ -1,1 +1,1 @@
-Make the flower sprout!
+Draw a beautiful rainbow!

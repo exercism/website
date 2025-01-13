@@ -2,11 +2,12 @@ set x to 27
 set y to 75
 set radius to 3
 
-repeat 60 do
+fill_color_hex("blue")
+
+repeat 60 times do
   clear()
 
   change x to x + 1
 
-  fill_color_hex("blue")
   circle(x, y, 3)
 end

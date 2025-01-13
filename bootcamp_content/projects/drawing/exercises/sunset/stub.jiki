@@ -1,7 +1,9 @@
 set sun_radius to 5
 set sun_cy to 10
 
-repeat 100 do
+repeat 100 times o
+  // TODO: Update the variables here.
+
   // The sky
   fill_color_hsl(210, 70, 60)
   rectangle(0,0,100,100)

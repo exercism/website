@@ -1,5 +1,72 @@
-None of the individual things you need to do are hard. But putting them together may feel daunting and unfamiliar. Plan first. Then take each step at a time, and you'll get there.
+# Sprouting Flower
 
-This is definitely a tricky exercise and will take time to get right!
+Your task is to make a flower that grows.
 
-If you need help, please ask on the forum, and remember to give us lots of information about what's not working and why you think that's the case!
+The animation should last `60` iterations and look something like this.
+
+<img src="https://assets.exercism.org/bootcamp/graphics/sprouting-flower-frames.png" style="width: 100%; margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
+
+The key to this exercise is to build relationships between the different elements. This is a key skill in programming.
+
+**Before reading any more of the instructions**, take a few minutes to work out conceptually how to achieve this. Write down the steps you think you need to follow on a piece of paper.
+
+**Once you've got a solution** you're happy with (or given up), **scroll down** to see the instructions...
+
+<hr class="border-borderColor5" style="margin:80px 0"/>
+
+## How to solve it...
+
+The key component of this is the center of the flower. Everything else can be calculated off that center point. On each iteration of the loop, the center point should move up by `1` (before drawing).
+
+Here are some other things you need to know:
+
+- The `flower_radius` starts at `0` and should increase by `0.4` on each iteration (before drawing)
+- The `pistil_radius` starts at `0` and should increase by `0.1` on each iteration (before drawing).
+- The `stem_width` is 10% of the `stem_height` (so `stem_height / 10`).
+- Everything is centered on the horizontal axis.
+- The `x_radius` of the leaves is 50% the radius of the flower.
+- The `y_radius` of the leaves is 20% of the radius of the flower.
+
+The functions you'll use are:
+
+- `circle(center_x, center_y, radius)`
+- `ellipse(center_x, center_y, radius_x, radius_y)`
+- `rectangle(x, y, width, height)`
+- `fill_color_hex(hex)`
+
+It is **essential** to work on one thing at a time:
+
+- Start by drawing the pink flower and getting it to move up.
+- Then get it to grow.
+- Add the smaller yellow center..
+- Add the stem.
+- Add the left leaf.
+- Add the right leaf.
+
+Use the scrubber bar to scroll through the code and work out where things are going wrong.
+
+### The final flower
+
+If something's not working, here are some values you can check against (toggle the switch on the scrubber bar to get information):
+
+First drawn flower:
+
+- Flower: `circle(50, 89, 0.4)`
+- Pistil: `circle(50, 89, 0.1)`
+- Stem: `rectangle(49.95, 89, 0.1, 1)`
+- Left leaf: `ellipse(49.75, 89.5, 0.2, 0.08)`
+- Right leaf: `ellipse(50.25, 89.5, 0.2, 0.08)`
+
+Final drawn flower:
+
+- Flower: `circle(50, 30, 24)`
+- Pistil: `circle(50, 30, 6)`
+- Stem: `rectangle(47, 30, 6, 60)`
+- Left leaf: `ellipse(35, 60, 12, 4.8)`
+- Right leaf: `ellipse(65, 60, 12, 4.8)`
+
+### This is a tough exercise!
+
+This is a challenging exercise. Take your time, and if you get really stuck, ask for help on the forum, and remember to give us lots of information about what's not working and why you think that's the case!
+
+Remember, the learning is in the struggle! Every time you get something wrong and solve it, you're becoming a coder, and eventually it will feel easy. Just keep going!

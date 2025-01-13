@@ -275,8 +275,8 @@ export class Executor
       count--
 
       // Delay repeat for things like animations
-      if (this.languageFeatures.repeatDelay) {
-        this.time += this.languageFeatures.repeatDelay
+      if (this.languageFeatures?.repeatDelay) {
+        this.time += this.languageFeatures?.repeatDelay || 0
       }
     }
   }

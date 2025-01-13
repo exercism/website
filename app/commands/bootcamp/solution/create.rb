@@ -4,6 +4,8 @@ class Bootcamp::Solution::Create
   initialize_with :user, :exercise
 
   def call
+    return existing_solution if existing_solution
+
     guard!
 
     begin
@@ -21,6 +23,10 @@ class Bootcamp::Solution::Create
   end
 
   private
+  def existing_solution
+    Bootcamp::Solution.find_by(user:, exercise:)
+  end
+
   def guard!
     raise ExerciseLockedError unless Bootcamp::Exercise::AvailableForUser.(exercise, user)
   end

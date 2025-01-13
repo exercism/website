@@ -44,6 +44,7 @@
       "MissingWithBeforeParameters": "Did you forget the `with` keyword before your parameters?",
       "MissingStringAsKey": "Expect string as key.",
       "MissingVariableName": "Expect variable name.",
+      "MissingTimesInRepeat": "Did you forget to write `times` after the number of times you want to repeat?",
       "DuplicateParameterName": "Did you accidently use the name `{{parameter}}` twice in your function parameters.",
       "MissingWhileBeforeDoWhileCondition": "Expected 'while' to start 'while' condition",
       "NumberContainsAlpha": "A number cannot contain letters. Did you mean `{{suggestion}}`?",

@@ -1,23 +1,28 @@
-# The Penguin
+# Rainbow
 
-Your task is to make the penguin symmetrical.
+Your task is to make a beautiful rainbow like this:
 
-It should look like this:
+<img src="https://assets.exercism.org/bootcamp/graphics/rainbow-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
-<img src="https://assets.exercism.org/bootcamp/graphics/penguin-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
+The rainbow is made up of lots of bars.
 
-We've drawn the left hand side for you, and added `TODO` comments for each of the things you need to do.
+**Before reading any more of the instructions**, take a few minutes to work out conceptually how to achieve this. Write down the steps you think you need to follow on a piece of paper.
 
-You'll need to think about setting the right colors before drawing things.
+**Once you've got a solution** you're happy with (or given up), **scroll down** to see the instructions...
 
-For the nose, you should **change** the middle coordinates of the triangle. Don't add a new triangle.
+<hr class="border-borderColor5" style="margin:80px 0"/>
+
+## How to solve it...
+
+- The rainbow is made up of `100` bars, each with a width of `1`, starting at the top and being `100` high.
+- You need to set variables for `x` and for the `hue` of the color (both starting at `0`)
+- You need to write a repeat loop that repeats 100 times.
+- In each iteration of the repeat loop you need to increase `x` by 1 and increase the hue by `3`.
+- You then need to use the `fill_color_hsl` (with saturation and luminance set around 50), and `rectangle` functions to draw.
 
 The functions used in this exercise are:
 
-- `circle(center_x, center_y, radius)`
 - `rectangle(x, y, width, height)`
-- `ellipse(center_x, center_y, radius_x, radius_y)`
-- `triangle(x1,y1, x2,y2, x3,y3)`
-- `fill_color_hex(hex)`
+- `fill_color_hsl(hue, saturation, luminance)`
 
-If you need help remembering how to use any of these functions, you can watch back the video from week 1.
+If you need help remembering how to use any of these functions, you can watch back the video from week 1. If you need help with variables or animation, watch back the video from week 2!

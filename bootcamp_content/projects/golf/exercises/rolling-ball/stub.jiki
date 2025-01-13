@@ -4,14 +4,14 @@
 // whatever you set this to when the first circle is drawn.
 set x to 0
 
-// TODO: Change this to only repeat
-// until the ball reaches the hole
-repeat 10 do
+// TODO: Set your fill color
+
+// TODO: Change this to only repeat as many times as
+// needed for the ball to reach the hole
+repeat 10 times do
   clear()
 
-  // TODO: Set the new position
-
-  // TODO: Set your fill
+  // TODO: Increase the x position by 1
 
   // TODO: Draw the ball (a circle)
 end

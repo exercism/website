@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
@@ -12,10 +12,11 @@ function _Header({
   savingStateLabel,
   drawing,
   backgrounds,
-}: { savingStateLabel: string } & Pick<
-  DrawingPageProps,
-  'links' | 'drawing' | 'backgrounds'
->) {
+  setBackgroundImage,
+}: {
+  savingStateLabel: string
+  setBackgroundImage: ((imageUrl: string | null) => void) | null
+} & Pick<DrawingPageProps, 'links' | 'drawing' | 'backgrounds'>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
   const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
@@ -32,6 +33,30 @@ function _Header({
       .catch(() => setTitleSavingStateLabel('Try again'))
   }, [links, titleInputValue])
 
+  const handleBackgroundChange = useCallback(
+    (url: string) => {
+      if (setBackgroundImage) {
+        // if imageUrl is nil, select-tag uses the title as the value
+        // so we need to convert it back to nil
+        const newUrl = url === 'No background' ? null : url
+        setBackgroundImage(newUrl)
+      }
+    },
+    [setBackgroundImage]
+  )
+
+  // setup the background on mount
+  useEffect(() => {
+    if (setBackgroundImage && drawing.backgroundSlug) {
+      const background = backgrounds.find(
+        (bg) => bg.slug === drawing.backgroundSlug
+      )
+      if (background) {
+        setBackgroundImage(background.imageUrl)
+      }
+    }
+  }, [drawing, setBackgroundImage])
+
   return (
     <div className="page-header">
       <div className="ident">
@@ -47,9 +72,13 @@ function _Header({
           </span>
         )}
 
-        <select name="" id="">
+        <select
+          onChange={(e) => {
+            handleBackgroundChange(e.target.value)
+          }}
+        >
           {backgrounds.map((background) => (
-            <option key={background.slug} value={background.slug}>
+            <option key={background.slug} value={background.imageUrl}>
               {background.title}
             </option>
           ))}

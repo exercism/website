@@ -53,6 +53,10 @@
       .lg-container
         .flex.mb-40
           .lhs.mr-48{ class: 'w-full max-w-[800px]' }
+            .text-18.font-medium
+              Level 2 Session:
+              = link_to "https://youtube.com/live/eYiPZEQFf-I", "https://youtube.com/live/eYiPZEQFf-I", class: "text-linkColor font-semibold"
+            %hr.border-borderColor5.my-20
             %h1 Welcome to Level #{@level.idx}!
             %p.large
               These first few days are mainly introductory - ensuring you're connected on Discord and the Forum, and understand how everything works.
@@ -83,8 +87,8 @@
             %ul.text-16.leading-140.list-disc.ml-16.mb-20
               %li.mb-4
                 %strong Teaching:
-                Monday 13th Jan at 18:00 UTC
-              %li
+                = link_to "Monday 13th Jan at 18:00 UTC", "https://youtube.com/live/eYiPZEQFf-I", class: "text-linkColor font-semibold"
+              %li.mb-4
                 %strong Labs:
                 Saturday 18th Jan at 18:00 UTC
               %li.mb-4

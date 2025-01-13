@@ -15,11 +15,16 @@ class Bootcamp::SelectNextExerciseTest < ActiveSupport::TestCase
     assert_equal exercise, actual
   end
 
-  test "returns exercise with lowest idx" do
+  test "returns exercise with lowest level and idx pair" do
+    (1..3).each { |idx| create :bootcamp_level, idx: }
     user = create :user, :with_bootcamp_data
-    create :bootcamp_exercise, idx: 2
-    exercise = create :bootcamp_exercise, idx: 1
-    create :bootcamp_exercise, idx: 3
+    create :bootcamp_exercise, level_idx: 2, idx: 2
+    create :bootcamp_exercise, level_idx: 2, idx: 1
+    create :bootcamp_exercise, level_idx: 1, idx: 2
+    exercise = create :bootcamp_exercise, level_idx: 1, idx: 1
+    create :bootcamp_exercise, level_idx: 1, idx: 3
+    create :bootcamp_exercise, level_idx: 3, idx: 2
+    create :bootcamp_exercise, level_idx: 3, idx: 1
 
     actual = Bootcamp::SelectNextExercise.(user)
     assert_equal exercise, actual
@@ -34,60 +39,6 @@ class Bootcamp::SelectNextExerciseTest < ActiveSupport::TestCase
     create :bootcamp_solution, user:, exercise: solved_exercise, completed_at: Time.current
 
     actual = Bootcamp::SelectNextExercise.(user)
-    assert_equal exercise, actual
-  end
-
-  test "doesn't return completed exercise for user_project" do
-    user = create :user, :with_bootcamp_data
-    project = create :bootcamp_project
-    solved_exercise = create(:bootcamp_exercise, idx: 1, project:)
-    exercise = create(:bootcamp_exercise, idx: 2, project:)
-    create :bootcamp_user_project, user:, project:, status: :available
-
-    create :bootcamp_solution, :completed, user:, exercise: solved_exercise
-
-    actual = Bootcamp::SelectNextExercise.(user)
-    assert_equal exercise, actual
-  end
-
-  test "prefers exercise from existing user project" do
-    user = create :user, :with_bootcamp_data
-    create :bootcamp_exercise, idx: 1
-    exercise = create :bootcamp_exercise, idx: 2
-    create :bootcamp_user_project, user:, project: exercise.project, status: :available
-
-    actual = Bootcamp::SelectNextExercise.(user)
-    assert_equal exercise, actual
-  end
-
-  test "doesn't take exercise from locked user project" do
-    user = create :user, :with_bootcamp_data
-    locked = create :bootcamp_exercise, idx: 1
-    exercise = create :bootcamp_exercise, idx: 2
-    create :bootcamp_user_project, user:, project: locked.project, status: :locked
-
-    actual = Bootcamp::SelectNextExercise.(user)
-    assert_equal exercise, actual
-  end
-
-  test "honours passed in project" do
-    user = create :user, :with_bootcamp_data
-    other = create :bootcamp_exercise, idx: 1
-    exercise = create :bootcamp_exercise, idx: 2
-    create :bootcamp_user_project, user:, project: other.project, status: :available
-    create :bootcamp_user_project, user:, project: exercise.project, status: :available
-
-    actual = Bootcamp::SelectNextExercise.(user, project: exercise.project)
-    assert_equal exercise, actual
-  end
-
-  test "copes with locked project passed in project" do
-    user = create :user, :with_bootcamp_data
-    locked = create :bootcamp_exercise, idx: 1
-    exercise = create :bootcamp_exercise, idx: 2
-    create :bootcamp_user_project, user:, project: locked.project, status: :locked
-
-    actual = Bootcamp::SelectNextExercise.(user, project: locked.project)
     assert_equal exercise, actual
   end
 end

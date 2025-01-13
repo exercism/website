@@ -4,7 +4,7 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
   def complete
     Bootcamp::Solution::Complete.(@solution)
 
-    next_exercise = Bootcamp::SelectNextExercise.(current_user, project: @solution.project)
+    next_exercise = Bootcamp::SelectNextExercise.(current_user)
 
     render json: {
       next_exercise: SerializeBootcampExercise.(next_exercise)

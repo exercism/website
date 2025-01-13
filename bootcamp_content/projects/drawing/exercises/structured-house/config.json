@@ -3,6 +3,7 @@
   "description": "Use variables instead of hard-coded values",
   "project_type": "draw",
   "level": 2,
+  "idx": 1,
   "concepts": [],
   "tests_type": "state",
   "tasks": [

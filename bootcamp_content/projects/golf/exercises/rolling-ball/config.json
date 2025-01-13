@@ -3,6 +3,7 @@
   "description": "Make the ball roll to the hole",
   "project_type": "draw",
   "level": 2,
+  "idx": 2,
   "concepts": [],
   "tests_type": "state",
   "interpreter_options": {

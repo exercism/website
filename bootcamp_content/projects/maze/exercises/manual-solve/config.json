@@ -1,4 +1,5 @@
 {
+  "idx": 1,
   "title": "Manually solve a maze",
   "description": "Solve a maze using some basic functions",
   "project_type": "maze",

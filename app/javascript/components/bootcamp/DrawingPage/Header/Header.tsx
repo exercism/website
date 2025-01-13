@@ -34,12 +34,10 @@ function _Header({
   }, [links, titleInputValue])
 
   const handleBackgroundChange = useCallback(
-    (url: string) => {
+    (background: Background) => {
       if (setBackgroundImage) {
-        // if imageUrl is nil, select-tag uses the title as the value
-        // so we need to convert it back to nil
-        const newUrl = url === 'No background' ? null : url
-        setBackgroundImage(newUrl)
+        setBackgroundImage(background.imageUrl)
+        patchCanvasBackground(links, background.slug)
       }
     },
     [setBackgroundImage]
@@ -74,11 +72,18 @@ function _Header({
 
         <select
           onChange={(e) => {
-            handleBackgroundChange(e.target.value)
+            const selectedBackground: Background = JSON.parse(
+              e.target.selectedOptions[0].dataset.background!
+            )
+            handleBackgroundChange(selectedBackground)
           }}
         >
           {backgrounds.map((background) => (
-            <option key={background.slug} value={background.imageUrl}>
+            <option
+              key={background.slug}
+              value={background.slug}
+              data-background={JSON.stringify(background)}
+            >
               {background.title}
             </option>
           ))}
@@ -139,6 +144,27 @@ async function patchDrawingTitle(
     },
     body: JSON.stringify({
       title,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to save code')
+  }
+
+  return response.json()
+}
+
+async function patchCanvasBackground(
+  links: DrawingPageProps['links'],
+  backgroundSlug: string
+) {
+  const response = await fetch(links.updateCode, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      background_slug: backgroundSlug,
     }),
   })
 

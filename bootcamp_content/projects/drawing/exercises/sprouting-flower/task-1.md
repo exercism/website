@@ -1,1 +1,1 @@
-Draw a beautiful rainbow!
+Make the flower spout! Take your time 🙂

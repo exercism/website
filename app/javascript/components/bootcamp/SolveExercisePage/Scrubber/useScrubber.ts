@@ -41,11 +41,16 @@ export function useScrubber({
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    let currentFrame: Frame | undefined
-    if (testResult.animationTimeline) {
-      currentFrame = testResult.animationTimeline.currentFrame
-    } else {
-      currentFrame = testResult.frames[value]
+    let currentFrame: Frame | undefined = testResult.frames.find(
+      (f) => f.status === 'ERROR'
+    )
+
+    if (!currentFrame) {
+      if (testResult.animationTimeline) {
+        currentFrame = testResult.animationTimeline.currentFrame
+      } else {
+        currentFrame = testResult.frames[value]
+      }
     }
     if (currentFrame) {
       setHighlightedLine(currentFrame.line)
@@ -76,6 +81,7 @@ export function useScrubber({
     testResult.view?.id,
     value,
     testResult.animationTimeline?.currentFrameIndex,
+    testResult.frames,
   ])
 
   const handleScrubToCurrentTime = useCallback(

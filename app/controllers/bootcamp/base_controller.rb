@@ -22,7 +22,10 @@ class Bootcamp::BaseController < ApplicationController
   end
 
   def setup_bootcamp_data!
-    current_user.bootcamp_data || current_user.create_bootcamp_data!
+    return if current_user.bootcamp_data
+
+    current_user.create_bootcamp_data!
+    Bootcamp::UpdateUserLevel.(current_user)
   end
 
   def use_project

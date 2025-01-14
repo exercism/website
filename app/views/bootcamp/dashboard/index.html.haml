@@ -5,7 +5,7 @@
         %h1 Welcome to Level #{@level.idx}!
         .level-content
           = raw @level.content_html
-          = link_to "Go to Level 2", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
+          = link_to "Go to Level #{@level.idx}", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
 
         %hr.border-borderColor5.my-20
 

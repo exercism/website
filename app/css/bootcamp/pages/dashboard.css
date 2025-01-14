@@ -27,7 +27,8 @@ body.namespace-bootcamp.controller-dashboard.action-index {
         @apply font-semibold text-textColor1;
     }
     h3 {
-        @apply text-20 leading-150;
+        @apply text-22 leading-150;
+        @apply !mt-12;
         @apply mb-4;
         @apply font-semibold;
     }
@@ -35,6 +36,10 @@ body.namespace-bootcamp.controller-dashboard.action-index {
         @apply text-16 leading-150;
         @apply mb-4;
         @apply font-semibold;
+    }
+    ul {
+        @apply list-disc;
+        @apply ml-24;
     }
     .tag {
         @apply flex items-center;

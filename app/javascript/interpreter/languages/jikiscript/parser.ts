@@ -19,7 +19,7 @@ import {
   TemplateTextExpression,
 } from '../../expression'
 import type { LanguageFeatures } from '../../interpreter'
-import { Location, Span } from '../../location'
+import { Location } from '../../location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,

@@ -3,7 +3,7 @@ set sky_color to "#add8e6"
 set sky_left to 0
 set sky_top to 0
 set sky_width to 100
-set sky_height to 0
+set sky_height to 100
 
 // House Frame variables
 set house_left to 20

@@ -87,7 +87,8 @@
       "OperandsMustBeNumber": "Operands must be numbers.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
       "RepeatCountMustBeGreaterThanZero": "The repeat argument must be greater than zero.",
-      "RepeatCountMustBeNumber": "repeat can only take a number as its argument."
+      "RepeatCountMustBeNumber": "repeat can only take a number as its argument.",
+      "VariableAlreadyDeclared": "A variable with this name has already been created. Did you mean to use the <code>change</code> keyword?"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Usage of '{{tokenType}}' is not allowed`.",

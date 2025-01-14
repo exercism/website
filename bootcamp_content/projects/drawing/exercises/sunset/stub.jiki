@@ -1,7 +1,8 @@
-set sun_radius to 5
-set sun_cy to 10
+// TODO Set variables here
+// set sun_cy to ...
+// set sun_radius to ...
 
-repeat 100 times o
+repeat 100 times do
   // TODO: Update the variables here.
 
   // The sky
@@ -10,7 +11,7 @@ repeat 100 times o
 
   // The Sun
   fill_color_rgb(255, 237, 0)
-  circle(50, sun_cy, sun_radius)
+  circle(50, 10, 5)
   
   // The sea
   fill_color_hex("#0308ce")

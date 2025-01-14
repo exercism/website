@@ -9,7 +9,7 @@ set sky_h to 210
 set sky_s to 70
 set sky_l to 60
 
-repeat 100 do
+repeat 100 times do
 
   // The sky
   //change sky_s to sky_s - 0.2

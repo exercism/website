@@ -457,7 +457,7 @@ describe('statements', () => {
     test('declared variable can be used in blocks', () => {
       const { error, frames } = interpret(`
         set pos to 10
-        repeat(5) do
+        repeat 5 times do
           change pos to pos + 10
         end
       `)
@@ -468,7 +468,7 @@ describe('statements', () => {
     test('declared variable is persisted after repeat', () => {
       const { error, frames } = interpret(`
         set pos to 10
-        repeat(5) do
+        repeat 5 times do
           change pos to pos + 10
         end
         change pos to pos + 10
@@ -601,7 +601,7 @@ describe('statements', () => {
     test('once', () => {
       const { error, frames } = interpret(`
         set x to 0
-        repeat 1 do
+        repeat 1 times do
           change x to x + 1
         end
       `)
@@ -617,7 +617,7 @@ describe('statements', () => {
     test('multiple times', () => {
       const { frames } = interpret(`
         set x to 0
-        repeat 3 do
+        repeat 3 times do
           change x to x + 1
         end
       `)

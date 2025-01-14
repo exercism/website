@@ -1,12 +1,11 @@
 #page-bootcamp-dashboard
   .lg-container
     .flex.mb-40
-      .lhs.mr-48{ class: 'w-full max-w-[800px]' }
+      .lhs.mr-48{ class: 'w-full max-w-[780px]' }
         %h1 Welcome to Level #{@level.idx}!
         .level-content
           = raw @level.content_html
-          - if @level.youtube_id
-            = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
+          = link_to "Go to Level 2", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
 
         %hr.border-borderColor5.my-20
 
@@ -28,9 +27,6 @@
         %h2.mb-4 Upcoming Live Sessions
         %ul.text-16.leading-140.list-disc.ml-16.mb-20
           %li.mb-4
-            %strong Teaching:
-            Monday 13th Jan at 18:00 UTC
-          %li
             %strong Labs:
             Saturday 18th Jan at 18:00 UTC
           %li.mb-4
@@ -51,13 +47,13 @@
             .text
               %h4 Level #{@level.idx}
               %p All the information from Level 1 in one place. Videos, concepts and exercises.
-              
+
           = link_to "https://exercism.org/r/discord", class: "section-link" do
             = graphical_icon 'external-site-discord-blue'
             .text
               %h4 Chat on Discord
               %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
-              
+
           = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
             = graphical_icon 'discourser'
             .text

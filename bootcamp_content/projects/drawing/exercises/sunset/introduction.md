@@ -27,10 +27,6 @@ The functions used in this exercise are:
 
 If you need help remembering how to use any of these functions, you can watch back the video from week 1.
 
-### Checking colors
-
-We only check to see if you've got the position and the radius of the sun right. Although you can complete the exercise without doing so, **make sure you also animate the colors before moving on.**
-
 ## Remember...
 
 None of the individual things you need to do are hard. But putting them together may feel daunting and unfamiliar. Plan first. Then take each step at a time, and you'll get there. If you need help, please ask on the forum, and remember to give us lots of information about what's not working and why you think that's the case!

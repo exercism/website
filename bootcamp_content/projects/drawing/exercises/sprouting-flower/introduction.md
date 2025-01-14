@@ -20,10 +20,13 @@ The key component of this is the center of the flower. Everything else can be ca
 
 Here are some other things you need to know:
 
-- The `flower_radius` starts at `0` and should increase by `0.4` on each iteration (before drawing)
-- The `pistil_radius` starts at `0` and should increase by `0.1` on each iteration (before drawing).
-- The `stem_width` is 10% of the `stem_height` (so `stem_height / 10`).
+- The radius of the flower starts at `0` and should increase by `0.4` on each iteration (before drawing)
+- The radius of the pistil (the middle yellow bit of the flower) starts at `0` and should increase by `0.1` on each iteration (before drawing).
+- The stem should start at the center of the flower and reach the ground.
+- The stem's width is 10% of the stem's height (so `stem_height / 10`).
 - Everything is centered on the horizontal axis.
+- The leaves sit flush against the stalk on each side.
+- The leaves sit half way down the stem.
 - The `x_radius` of the leaves is 50% the radius of the flower.
 - The `y_radius` of the leaves is 20% of the radius of the flower.
 

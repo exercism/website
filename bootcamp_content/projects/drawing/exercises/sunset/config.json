@@ -34,6 +34,16 @@
               "name": "getCircleAt(50, 109, 24.8)",
               "matcher": "toExist",
               "error_html": "The sun seems wrong near the end."
+            },
+            {
+              "name": "checkUniqueColoredRectangles(10)",
+              "matcher": "toBeTrue",
+              "error_html": "The sky doesn't seem to be changing color"
+            },
+            {
+              "name": "checkUniqueColoredCircles(10)",
+              "matcher": "toBeTrue",
+              "error_html": "The sun doesn't seem to be changing color"
             }
           ]
         }

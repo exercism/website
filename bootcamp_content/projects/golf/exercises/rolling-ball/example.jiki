@@ -4,7 +4,7 @@ set radius to 3
 
 fill_color_hex("blue")
 
-repeat 60 times do
+repeat 61 times do
   clear()
 
   change x to x + 1

@@ -21,6 +21,7 @@ class Rectangle extends Shape {
     public y: number,
     public width: number,
     public height: number,
+    public fillColor: FillColor,
     element: SVGElement
   ) {
     super(element)
@@ -32,6 +33,7 @@ class Circle extends Shape {
     public cx: number,
     public cy: number,
     public radius: number,
+    public fillColor: FillColor,
     element: SVGElement
   ) {
     super(element)
@@ -260,6 +262,30 @@ export default class DrawExercise extends Exercise {
     })
   }
 
+  public checkUniqueColoredRectangles(_: InterpretResult, count: number) {
+    let colors = new Set()
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Rectangle)) {
+        return
+      }
+
+      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
+    })
+    return colors.size >= count
+  }
+
+  public checkUniqueColoredCircles(_: InterpretResult, count: number) {
+    let colors = new Set()
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Circle)) {
+        return
+      }
+
+      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
+    })
+    return colors.size >= count
+  }
+
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
     return interpreterResult.frames.every((frame: Frame) => {
       if (!(frame.context instanceof ExpressionStatement)) {
@@ -315,7 +341,7 @@ export default class DrawExercise extends Exercise {
     )
     this.canvas.appendChild(elem)
 
-    const rect = new Rectangle(x, y, width, height, elem)
+    const rect = new Rectangle(x, y, width, height, this.fillColor, elem)
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
@@ -339,7 +365,7 @@ export default class DrawExercise extends Exercise {
     )
     this.canvas.appendChild(elem)
 
-    const circle = new Circle(x, y, radius, elem)
+    const circle = new Circle(x, y, radius, this.fillColor, elem)
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)

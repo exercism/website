@@ -12,6 +12,7 @@ import { getFirstFailingOrFirstTest } from './getFirstFailingOrFirstTest'
 import type { EditorView } from 'codemirror'
 import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { scrollToLine } from '../../CodeMirror/scrollToLine'
 
 export function useOnRunCode({
   links,
@@ -67,18 +68,7 @@ export function useOnRunCode({
           return
         }
         if (editorView) {
-          const absoluteLocationBegin = error.location.absolute.begin
-          // either of these should work
-          const top =
-            editorView.coordsAtPos(
-              editorView.lineBlockAt(absoluteLocationBegin).top
-            )?.top ?? editorView.coordsAtPos(absoluteLocationBegin)?.top
-          if (top) {
-            editorView.scrollDOM.scrollTo({
-              top,
-              behavior: 'smooth',
-            })
-          }
+          scrollToLine(editorView, error.location.line)
         }
 
         showError({

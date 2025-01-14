@@ -9,7 +9,7 @@
         = render ReactComponents::Settings::InsiderBenefitsForm.new
 
       %section{ id: 'bootcamp-affiliate-coupon-form' }
-        = render ReactComponents::Settings::BootcampAffiliateCouponForm.new
+        = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("settings")
 
       - if current_user.lifetime_insider?
         %section{ id: 'bootcamp-free-coupon-form' }

@@ -40,6 +40,9 @@
             %strong Labs:
             Saturday 25th Jan at 18:00 UTC
 
+        .mb-32
+          = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("bootcamp")
+
         %h2.mb-2 Make the most of the Bootcamp
         %p.mb-16 The more you take part in all areas of the Bootcamp, the more you'll learn.
         .flex.flex-col.gap-16
@@ -48,13 +51,13 @@
             .text
               %h4 Level #{@level.idx}
               %p All the information from Level 1 in one place. Videos, concepts and exercises.
-
+              
           = link_to "https://exercism.org/r/discord", class: "section-link" do
             = graphical_icon 'external-site-discord-blue'
             .text
               %h4 Chat on Discord
               %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
-
+              
           = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
             = graphical_icon 'discourser'
             .text

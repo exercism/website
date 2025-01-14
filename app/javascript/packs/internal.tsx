@@ -508,6 +508,7 @@ initReact({
   'settings-bootcamp-affiliate-coupon-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <BootcampAffiliateCouponForm
+        context={data.context}
         insidersStatus={data.insiders_status}
         bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
         links={camelizeKeysAs<{

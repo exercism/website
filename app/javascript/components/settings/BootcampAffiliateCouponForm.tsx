@@ -94,7 +94,7 @@ export default function BootcampAffiliateCouponForm({
             <button
               id="generate-affiliate-coupon-code-button"
               onClick={generateCouponCode}
-              disabled={!isInsider || loading}
+              disabled={loading}
               type="button"
               className="btn btn-primary"
             >

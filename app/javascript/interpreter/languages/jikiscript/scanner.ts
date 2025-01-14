@@ -57,6 +57,7 @@ export class Scanner {
     set: 'SET',
     to: 'TO',
     true: 'TRUE',
+    times: 'TIMES',
     while: 'WHILE',
     with: 'WITH',
   }

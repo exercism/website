@@ -4,7 +4,8 @@ import { RuntimeError } from './error'
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type { EvaluationResult } from './evaluation-result'
 import type { ExternalFunction } from './executor'
-import { BinaryExpression, Expression } from './expression'
+import { Expression } from './expression'
+import { Statement } from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -19,6 +20,7 @@ export type Frame = {
   result?: EvaluationResult
   data?: Record<string, any>
   description: string
+  context?: Statement | Expression
 }
 export type FrameWithResult = Frame & { result: EvaluationResult }
 

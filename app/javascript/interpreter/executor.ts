@@ -185,7 +185,7 @@ export class Executor
   ): T {
     this.location = context.location
     const result = code()
-    this.addFrame(context.location, 'SUCCESS', result)
+    this.addFrame(context.location, 'SUCCESS', result, undefined, context)
     this.location = null
     return result.value
   }
@@ -275,8 +275,8 @@ export class Executor
       count--
 
       // Delay repeat for things like animations
-      if (this.languageFeatures.repeatDelay) {
-        this.time += this.languageFeatures.repeatDelay
+      if (this.languageFeatures?.repeatDelay) {
+        this.time += this.languageFeatures?.repeatDelay || 0
       }
     }
   }
@@ -471,8 +471,6 @@ export class Executor
     const arity = callee.value.arity()
     const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
 
-    // console.log(minArity, maxArity)
-
     if (args.length < minArity || args.length > maxArity) {
       if (minArity !== maxArity) {
         this.error(
@@ -639,17 +637,25 @@ export class Executor
         }
       case 'MINUS':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
+        const minusValue = left.value - right.value
+        const minusValue2DP = Math.round(minusValue * 100) / 100
+
         return {
           ...result,
-          value: left.value - right.value,
+          value: minusValue2DP,
         }
       //> binary-plus
       case 'PLUS':
-        if (isNumber(left.value) && isNumber(right.value))
+        if (isNumber(left.value) && isNumber(right.value)) {
+          const plusValue = left.value + right.value
+          const plusValue2DP = Math.round(plusValue * 100) / 100
+
           return {
             ...result,
-            value: left.value + right.value,
+            value: plusValue2DP,
           }
+        }
         if (isString(left.value) && isString(right.value))
           return {
             ...result,
@@ -667,18 +673,24 @@ export class Executor
 
       case 'SLASH':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+        const slashValue = left.value / right.value
+        const slashValue2DP = Math.round(slashValue * 100) / 100
         return {
           ...result,
-          value: left.value / right.value,
+          value: slashValue2DP,
         }
       case 'STAR':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
+        const starValue = left.value * right.value
+        const starValue2DP = Math.round(starValue * 100) / 100
         return {
           ...result,
-          value: left.value * right.value,
+          value: starValue2DP,
         }
       case 'PERCENT':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
+
         return {
           ...result,
           value: left.value % right.value,
@@ -938,7 +950,8 @@ export class Executor
     location: Location | null,
     status: FrameExecutionStatus,
     result?: EvaluationResult,
-    error?: RuntimeError
+    error?: RuntimeError,
+    context?: Statement | Expression
   ): void {
     if (location == null) location = Location.unknown
 
@@ -952,6 +965,7 @@ export class Executor
       functions: this.environment.functions(),
       time: this.frameTime,
       description: '',
+      context: context,
     }
     frame.description = describeFrame(frame, this.externalFunctions)
 

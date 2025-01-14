@@ -27,9 +27,14 @@ export function execGenericTest(
 
   const codeRun = testData.function + '(' + params.join(', ') + ')'
 
-  const expects = generateExpects(options.config.testsType, testData, {
-    actual,
-  })
+  const expects = generateExpects(
+    options.config.testsType,
+    evaluated,
+    testData,
+    {
+      actual,
+    }
+  )
 
   return {
     expects,

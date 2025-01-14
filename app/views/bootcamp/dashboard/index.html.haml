@@ -1,125 +1,63 @@
 #page-bootcamp-dashboard
-  - if Bootcamp::Settings.level_idx.zero?
-    %section.intro
-      .lg-container
-        %div{ class: 'max-w-[720px] mx-auto' }
-          %h1 Welcome to the Exercism Bootcamp!
-          %p.large Thanks so much for joining the Bootcamp. We're really excited to share our passion for programming with you!
-          %h2 Introductory Session
-          %p.text-18
-            Our kick-off session is at 18:00 UTC on Saturday Jan 11th.
-            We'll introduce you to the Bootcamp, explain how it works, and answer any questions you have.
-            Then we'll dig into the first steps on your coding journey.
-          %p.text-18
-            Go to
-            = link_to 'https://youtube.com/live/bOAL_EIFwhg', 'https://youtube.com/live/bOAL_EIFwhg', class: 'text-linkColor font-semibold'
-            to watch the session.
+  .lg-container
+    .flex.mb-40
+      .lhs.mr-48{ class: 'w-full max-w-[780px]' }
+        %h1 Welcome to Level #{@level.idx}!
+        .level-content
+          = raw @level.content_html
+          = link_to "Go to Level 2", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
 
-          %h2 Forum &amp; Discord
-          %p.text-18
-            We will be using Exercism's Forum and Discord server throughout this course to get unstuck and hang out.
-            Both have dedicated bootcamp areas which
-            %strong.font-medium you can access now.
-          %ul
-            %li
-              %strong.font-semibold The forum (#{link_to 'exercism.org/r/forum', 'https://exercism.org/r/forum', class: 'text-linkColor'})
-              is the space to get help or ask questions. There is a dedicated Bootcamp category. Log in with your Exercism account and read
-              = link_to 'this post', 'https://forum.exercism.org/t/welcome-to-the-bootcamp-forum-space/14389', class: 'text-linkColor font-semibold'
-              to get started.
-            %li
-              %strong.font-semibold Our Discord Server (#{link_to 'exercism.org/r/discord', 'https://exercism.org/r/discord', class: 'text-linkColor'})
-              is the place to go to chat and hang out with other participants. There is a dedicated #bootcamp channel reserved for you.
-              %strong.font-semibold Please use threads
-              on Discord to keep things ordered (don't be offended if you forget and we move your messages!).
-              To get access to the Bootcamp Channels, make sure your Exercism and Discord accounts #{link_to 'are connected here', 'https://exercism.org/settings/integrations', class: 'text-linkColor font-semibold'}.
+        %hr.border-borderColor5.my-20
 
+        - if @exercise
+          - if @solution
+            %h2.mb-4 Continue where you left off
+            .text-18.mb-20 You have an exercise in progress.
 
-          %h2 Weekly Rhythm
-          %p.text-18
-            We've designed each week to follow a similar pattern.
-          %ul.text-18
-            %li Monday at 18:00 UTC: Introduction to the week's content (Live Session).
-            %li Tuesday to Friday: Work on the week's exercises.
-            %li Saturday at 18:00 UTC: Deep dive into the week's exercises (Live Session).
-          %p.text-18
-            The live sessions will be streamed on our YouTube channel and will be available to watch later if you can't make it.
+            = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution, size: "large")
+          - else
+            %h2.mb-4 Start new exercise
+            .text-18.mb-20 You have a new exercise available to work on.
+            = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
+        - else
+          %h2.mb-8 All exercises completed 🎉
+          .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
 
-          %h2 Am I signed up correctly?
-          %p.text-18.pb-20
-            Yes. If you're seeing this page, then you're signed up and will be able to access the content after the 11th.
+      .rhs.ml-auto{ class: 'max-w-[400px]' }
+        %h2.mb-4 Upcoming Live Sessions
+        %ul.text-16.leading-140.list-disc.ml-16.mb-20
+          %li.mb-4
+            %strong Labs:
+            Saturday 18th Jan at 18:00 UTC
+          %li.mb-4
+            %strong Teaching:
+            Monday 20th Jan at 18:00 UTC
+          %li
+            %strong Labs:
+            Saturday 25th Jan at 18:00 UTC
 
-  - else
-    %section.normal
-      .lg-container
-        .flex.mb-40
-          .lhs.mr-48{ class: 'w-full max-w-[800px]' }
-            .text-18.font-medium
-              Level 2 Session:
-              = link_to "https://youtube.com/live/eYiPZEQFf-I", "https://youtube.com/live/eYiPZEQFf-I", class: "text-linkColor font-semibold"
-            %hr.border-borderColor5.my-20
-            %h1 Welcome to Level #{@level.idx}!
-            %p.large
-              These first few days are mainly introductory - ensuring you're connected on Discord and the Forum, and understand how everything works.
-              But you'll also be taking your first steps in the world of programming - using code to draw.
-            %p.large
-              Watch the introductory video session, solve the Level 1 exercises and get connected to the other students.
-            - if @level.youtube_id
-              = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
+        .mb-32
+          = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("bootcamp")
 
-            %hr.border-borderColor5.my-20
+        %h2.mb-2 Make the most of the Bootcamp
+        %p.mb-16 The more you take part in all areas of the Bootcamp, the more you'll learn.
+        .flex.flex-col.gap-16
+          = link_to bootcamp_level_path(@level), class: "section-link" do
+            .level-number= @level.idx
+            .text
+              %h4 Level #{@level.idx}
+              %p All the information from Level 1 in one place. Videos, concepts and exercises.
 
-            - if @exercise
-              - if @solution
-                %h2.mb-4 Continue where you left off
-                .text-18.mb-20 You have an exercise in progress.
+          = link_to "https://exercism.org/r/discord", class: "section-link" do
+            = graphical_icon 'external-site-discord-blue'
+            .text
+              %h4 Chat on Discord
+              %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
 
-                = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution, size: "large")
-              - else
-                %h2.mb-4 Start new exercise
-                .text-18.mb-20 You have a new exercise available to work on.
-                = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
-            - else
-              %h2.mb-8 All exercises completed 🎉
-              .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
-
-          .rhs.ml-auto{ class: 'max-w-[400px]' }
-            %h2.mb-4 Upcoming Live Sessions
-            %ul.text-16.leading-140.list-disc.ml-16.mb-20
-              %li.mb-4
-                %strong Teaching:
-                = link_to "Monday 13th Jan at 18:00 UTC", "https://youtube.com/live/eYiPZEQFf-I", class: "text-linkColor font-semibold"
-              %li.mb-4
-                %strong Labs:
-                Saturday 18th Jan at 18:00 UTC
-              %li.mb-4
-                %strong Teaching:
-                Monday 20th Jan at 18:00 UTC
-              %li
-                %strong Labs:
-                Saturday 25th Jan at 18:00 UTC
-
-            .mb-32
-              = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("bootcamp")
-
-            %h2.mb-2 Make the most of the Bootcamp
-            %p.mb-16 The more you take part in all areas of the Bootcamp, the more you'll learn.
-            .flex.flex-col.gap-16
-              = link_to bootcamp_level_path(@level), class: "section-link" do
-                .level-number= @level.idx
-                .text
-                  %h4 Level #{@level.idx}
-                  %p All the information from Level 1 in one place. Videos, concepts and exercises.
-
-              = link_to "https://exercism.org/r/discord", class: "section-link" do
-                = graphical_icon 'external-site-discord-blue'
-                .text
-                  %h4 Chat on Discord
-                  %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
-
-              = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
-                = graphical_icon 'discourser'
-                .text
-                  %h4 Ask questions on the Forum
-                  %p
-                    Use the Bootcamp Category on the forum to ask questions and get unstuck.
-                    Read the pinned post to learn more.
+          = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
+            = graphical_icon 'discourser'
+            .text
+              %h4 Ask questions on the Forum
+              %p
+                Use the Bootcamp Category on the forum to ask questions and get unstuck.
+                Read the pinned post to learn more.

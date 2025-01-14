@@ -65,7 +65,6 @@ export function placeholderExtension() {
 }
 
 function generateArrowSVG(length: number, right: number, hoverRight: number) {
-  console.log(hoverRight)
   let offset = 30
   right = right + offset
   length = length + 10

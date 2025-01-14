@@ -330,7 +330,7 @@ export class Parser implements GenericParser {
   private repeatStatement(): Statement {
     const begin = this.previous()
     const condition = this.expression()
-
+    this.consume('TIMES', 'MissingTimesInRepeat')
     this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
     this.consumeEndOfLine()
 

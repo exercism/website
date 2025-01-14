@@ -31,10 +31,10 @@
                   .font-semibold.text-primary-blue.text-20.mb-2= concept.title
                   .text-18.leading-150= concept.description
       .rhs
-        - if @concept.exercises.present?
+        - if @concept.exercises.unlocked.present?
           .c-rhs-list
             %h2.mb-12 Exercises
             %p These exercises have been designed to help you practice this concept.
             %ul
-              - @concept.exercises.each do |exercise|
+              - @concept.exercises.unlocked.each do |exercise|
                 %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

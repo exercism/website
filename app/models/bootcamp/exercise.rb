@@ -10,7 +10,7 @@ class Bootcamp::Exercise < ApplicationRecord
   has_many :exercise_concepts, dependent: :destroy, class_name: "Bootcamp::ExerciseConcept"
   has_many :concepts, through: :exercise_concepts
 
-  default_scope -> { order(:idx) }
+  default_scope -> { order(:level_idx, :idx) }
   scope :unlocked, -> { where('level_idx <= ?', Bootcamp::Settings.level_idx) }
 
   def to_param = slug

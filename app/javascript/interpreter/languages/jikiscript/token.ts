@@ -52,6 +52,7 @@ export type TokenType =
   | 'RETURN'
   | 'SET'
   | 'TO'
+  | 'TIMES'
   | 'TRUE'
   | 'WHILE'
   | 'WITH'

@@ -248,7 +248,7 @@ describe('syntax errors', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
-        repeat 5
+        repeat 5 times
         end
       `)
       ).toThrow('MissingDoToStartBlock: type: repeat')
@@ -268,7 +268,7 @@ describe('syntax errors', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
-        repeat 5 do
+        repeat 5 times do
       `)
       ).toThrow('MissingEndAfterBlock: type: repeat')
     })

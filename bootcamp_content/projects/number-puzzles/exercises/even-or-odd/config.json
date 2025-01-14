@@ -2,7 +2,8 @@
   "title": "Even or Odd",
   "description": "Determine if a number is even or odd",
   "concepts": ["strings-using", "conditionals"],
-  "level": 2,
+  "level": 3,
+  "idx": 1,
   "tasks": [
     {
       "name": "Correctly identify even numbers",

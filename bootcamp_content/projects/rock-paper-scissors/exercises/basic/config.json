@@ -2,7 +2,8 @@
   "title": "Rock Paper Scissors",
   "description": "Calculate the correct result",
   "concepts": ["conditionals"],
-  "level": 2,
+  "level": 3,
+  "idx": 1,
   "tests_type": "io",
   "tasks": [
     {

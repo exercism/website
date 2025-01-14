@@ -52,8 +52,8 @@
     "slug": "functions",
     "apex": true,
     "title": "Functions",
-    "description": "Master the fundamental building block of programs - functions.",
-    "level": 2
+    "description": "Master a fundamental building block of programs - functions.",
+    "level": 1
   },
   {
     "slug": "functions-introduction",
@@ -93,5 +93,61 @@
     "title": "Arrays",
     "description": "",
     "level": 4
+  },
+  {
+    "slug": "variables",
+    "apex": true,
+    "title": "Variables",
+    "description": "Master a fundamental building block of programs - variables.",
+    "level": 2
+  },
+  {
+    "slug": "variables-introduction",
+    "parent": "variables",
+    "title": "What are Variables?",
+    "description": "Learn what variables are in programming.",
+    "level": 2
+  },
+  {
+    "slug": "variables-creating",
+    "parent": "variables",
+    "title": "Creating variables",
+    "description": "Learn how to create variables",
+    "level": 2
+  },
+  {
+    "slug": "variables-changing",
+    "parent": "variables",
+    "title": "Changing variables",
+    "description": "Learn how to change variables",
+    "level": 2
+  },
+  {
+    "slug": "variables-unique-names",
+    "parent": "variables",
+    "title": "Unique Variable names",
+    "description": "Learn about how variable names have to be unique",
+    "level": 2
+  },
+  {
+    "slug": "variables-using",
+    "parent": "variables",
+    "title": "Using Variables",
+    "description": "Learn how to use variables as inputs to functions.",
+    "level": 2
+  },
+  {
+    "slug": "flow-control",
+    "apex": true,
+    "title": "Flow control",
+    "description": "Learn about different ways to control what the program does.",
+    "level": 2
+  },
+  {
+    "slug": "repeat",
+    "parent": "flow-control",
+    "title": "Using Repeat Blocks",
+    "description": "Learn how to use repeat blocks",
+    "level": 2
   }
 ]

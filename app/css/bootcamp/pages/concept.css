@@ -75,4 +75,11 @@ body.namespace-bootcamp.controller-concepts.action-show {
             }
         }
     }
+    hr {
+        @apply border-borderColor5;
+        @apply my-20;
+    }
+    h4 a {
+        @apply text-linkColor underline;
+    }
 }

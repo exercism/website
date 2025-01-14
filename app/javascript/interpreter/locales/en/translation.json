@@ -43,6 +43,7 @@
       "MissingRightParenthesisAfterWhileCondition": "Expected ')' after 'while' condition",
       "MissingWithBeforeParameters": "Did you forget the `with` keyword before your parameters?",
       "MissingStringAsKey": "Expect string as key.",
+      "MissingToAfterVariableNameToInitializeValue": "Did you forget to add the `to` after `{{name}}`?",
       "MissingVariableName": "Expect variable name.",
       "MissingTimesInRepeat": "Did you forget to write `times` after the number of times you want to repeat?",
       "DuplicateParameterName": "Did you accidently use the name `{{parameter}}` twice in your function parameters.",
@@ -55,6 +56,7 @@
       "UnknownCharacterEquals": "We don't use the equals sign ('=') in JikiScript. Use `to` in set statements or `equals` in comparisons",
       "UnexpectedElseWithoutIf": "We can't work out which if statement this `else` belongs to. Did you forget to add an `if` statement before this `else`?",
       "UnexpectedLiteralExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `equals`, `>`, etc are always required).",
+      "UnexpectedSpaceInIdentifier": "Did you accidently put a space in the middle of a variable name?",
       "UnexpectedVariableExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `equals`, `>`, etc are always required).",
       "UnexpectedVariableExpressionAfterIfWithPotentialTypo": "We were expecting some sort of comparison here. Did you mean to type `{{potential}}` instead of `{{actual}}`?"
     },

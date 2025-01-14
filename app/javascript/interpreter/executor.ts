@@ -260,15 +260,28 @@ export class Executor
       this.evaluate(statement.count)
     )
 
-    if (!isNumber(count))
+    if (!isNumber(count)) {
       this.error('RepeatCountMustBeNumber', statement.count.location, {
         count,
       })
+    }
 
-    if (count < 1)
+    if (count < 1) {
       this.error('RepeatCountMustBeGreaterThanZero', statement.count.location, {
         count,
       })
+    }
+
+    if (count > 1000) {
+      console.log('HERE')
+      this.error(
+        'RepeatCountMustBeLessThanOneThousand',
+        statement.count.location,
+        {
+          count,
+        }
+      )
+    }
 
     while (count > 0) {
       this.executeBlock(statement.body, this.environment)

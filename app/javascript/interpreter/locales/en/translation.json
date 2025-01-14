@@ -86,7 +86,8 @@
       "OperandMustBeNumber": "Operand must be a number.",
       "OperandsMustBeNumber": "Operands must be numbers.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
-      "RepeatCountMustBeGreaterThanZero": "The repeat argument must be greater than zero.",
+      "RepeatCountMustBeGreaterThanZero": "You must repeat things at least once.",
+      "RepeatCountMustBeLessThanOneThousand": "The most times you can repeat things is 1000.",
       "RepeatCountMustBeNumber": "repeat can only take a number as its argument.",
       "VariableAlreadyDeclared": "A variable with this name has already been created. Did you mean to use the <code>change</code> keyword?"
     },

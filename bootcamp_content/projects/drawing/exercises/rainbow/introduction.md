@@ -15,6 +15,7 @@ The rainbow is made up of lots of bars.
 ## How to solve it...
 
 - The rainbow is made up of `100` bars, each with a width of `1`, starting at the top and being `100` high.
+- The first bar should have an `x` of 0, and the final bar should have an `x` of 99.
 - You need to set variables for `x` and for the `hue` of the color (both starting at `0`)
 - You need to write a repeat loop that repeats 100 times.
 - In each iteration of the repeat loop you need to increase `x` by 1 and increase the hue by `3`.

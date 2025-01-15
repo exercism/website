@@ -21,12 +21,12 @@
           "function": "main",
           "checks": [
             {
-              "name": "getRectangleAt(1, 0, undefined, 100)",
+              "name": "getRectangleAt(0, 0, undefined, 100)",
               "matcher": "toExist",
               "error_html": "The first rectangle is missing"
             },
             {
-              "name": "getRectangleAt(100, 0, undefined, 100)",
+              "name": "getRectangleAt(99, 0, undefined, 100)",
               "matcher": "toExist",
               "error_html": "The last rectangle is missing"
             },

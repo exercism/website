@@ -59,10 +59,11 @@ export function useInspectedTestResultView() {
     () => processExpects(result),
     [result?.expects]
   )
-  const firstFailingExpect = useMemo(
-    () => getfirstFailingExpect(result),
-    [result?.expects]
-  )
+  const firstFailingExpect = useMemo(() => {
+    const ff = getfirstFailingExpect(result)
+    console.log('FF', ff)
+    return ff
+  }, [result?.expects])
 
   return { processedExpects, firstFailingExpect, viewContainerRef, result }
 }

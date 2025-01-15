@@ -9,11 +9,13 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
+import { useLogger } from '@/hooks'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstFailingExpect, processedExpects } =
     useInspectedTestResultView()
 
+  useLogger('first failing', firstFailingExpect)
   if (!result) return null
 
   return (
@@ -50,6 +52,8 @@ export function InspectedTestResultViewLHS({
     () => flatPreviewTaskTests[result.testIndex].descriptionHtml,
     [flatPreviewTaskTests, result.testIndex]
   )
+
+  useLogger('result inside LHS', result)
   return (
     <div className="scenario-lhs">
       <div className="scenario-lhs-content">

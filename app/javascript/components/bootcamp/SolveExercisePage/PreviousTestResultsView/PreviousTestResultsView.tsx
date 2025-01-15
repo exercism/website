@@ -6,6 +6,7 @@ import { useMountViewOrImage } from '../TaskPreview/useMountViewOrImage'
 import useTestStore from '../store/testStore'
 import { getDiffOfExpectedAndActual } from '../TestResultsView/useInspectedTestResultView'
 import { InspectedTestResultViewLHS } from '../TestResultsView/InspectedTestResultView'
+import { useLogger } from '@/hooks'
 
 function _PreviousTestResultView({ exercise }: { exercise: Exercise }) {
   const { inspectedPreviousTestResult: result, testSuiteResult } =
@@ -26,6 +27,9 @@ function _PreviousTestResultView({ exercise }: { exercise: Exercise }) {
     taskTest: currentTaskTest,
     result: result!,
   })
+
+  useLogger('result inside prev', result)
+  useLogger('testResults inside prev', testSuiteResult)
 
   // if recently ran testSuiteResult exists, don't show this
   if (!result || testSuiteResult) return null

@@ -71,6 +71,8 @@ export function useOnRunCode({
           scrollToLine(editorView, error.location.line)
         }
 
+        console.log('runtime error', error)
+
         showError({
           error,
           setHighlightedLine,
@@ -94,6 +96,8 @@ export function useOnRunCode({
 
       setTestSuiteResult(testResults)
       markTaskAsCompleted(testResults)
+
+      console.log('testResults', testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrFirstTest(
         testResults,

@@ -17,16 +17,14 @@ import { scrollToLine } from '../../CodeMirror/scrollToLine'
 export function useOnRunCode({
   links,
   config,
-  editorView,
 }: Pick<SolveExercisePageProps, 'links'> & {
   config: Config
-  editorView: EditorView | null
 }) {
   const {
     setTestSuiteResult,
     setInspectedTestResult,
     inspectedTestResult,
-    testSuiteResult,
+    setHasSyntaxError,
   } = useTestStore()
 
   const {
@@ -51,6 +49,9 @@ export function useOnRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
+      // reset on each run
+      setHasSyntaxError(false)
+
       const exercise = getAndInitializeExerciseClass(config)
 
       const context = {
@@ -64,6 +65,7 @@ export function useOnRunCode({
       const error = compiled.error
 
       if (error) {
+        setHasSyntaxError(true)
         if (!error.location) {
           return
         }

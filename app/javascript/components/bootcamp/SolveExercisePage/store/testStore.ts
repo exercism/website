@@ -19,6 +19,8 @@ type TestStore = {
   setFlatPreviewTaskTests: (flatPreviewTaskTests: TaskTest[]) => void
   setInspectedPreviewTaskTest: (inspectedPreviewTaskTest: TaskTest) => void
   inspectedPreviewTaskTest: TaskTest
+  hasSyntaxError: boolean
+  setHasSyntaxError: (hasSyntaxError: boolean) => void
 }
 
 const useTestStore = createStoreWithMiddlewares<TestStore>(
@@ -65,6 +67,10 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
         false,
         'exercise/setTestSuiteResult'
       )
+    },
+    hasSyntaxError: false,
+    setHasSyntaxError: (hasSyntaxError) => {
+      set({ hasSyntaxError }, false, 'exercise/setHasSyntaxError')
     },
   }),
   'TestStore'

@@ -28,4 +28,4 @@ If you feel stuck or overwhelmed, watch the Level 2 video back.
 
 Remember that if you update the position at the **start** of the `repeat` block, then the value that's put into the `circle` function in the first iteration will be one greater than whatever you set the initial value too.
 
-Use the scrubber to check the value of x if you're not clear on what's happening.
+Use the scrubber (the play bar at the bottom left) to check the value of x if you're not clear on what's happening. Click on the little toggle button to see information on each line!

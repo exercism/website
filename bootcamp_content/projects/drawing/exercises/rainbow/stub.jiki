@@ -1,9 +1,11 @@
-// TODO: Set the variables
-set x to 0
+// TODO: Set the x variable to a good initial value
+// Remember that will be updated BEFORE you draw.
+set x to 
+
 set hue to 0
 
 repeat 100 times do
-  // Change the variables
+  // TODO: Change the variables
 
   // TODO: Update the color
 

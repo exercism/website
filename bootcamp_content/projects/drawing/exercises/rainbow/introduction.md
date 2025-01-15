@@ -16,10 +16,13 @@ The rainbow is made up of lots of bars.
 
 - The rainbow is made up of `100` bars, each with a width of `1`, starting at the top and being `100` high.
 - The first bar should have an `x` of 0, and the final bar should have an `x` of 99.
-- You need to set variables for `x` and for the `hue` of the color (both starting at `0`)
+- You will need a variable for `x`. When choosing its initial value, remember that it will be increased in the `repeat` block BEFORE drawing.
+- You also need a variable for the `hue` of the color (set initially to `0`)
 - You need to write a repeat loop that repeats 100 times.
 - In each iteration of the repeat loop you need to increase `x` by 1 and increase the hue by `3`.
 - You then need to use the `fill_color_hsl` (with saturation and luminance set around 50), and `rectangle` functions to draw.
+
+Use the scrubber (the play bar at the bottom right) and the toggle switch next to it to check the inputs that are going into the functions.
 
 The functions used in this exercise are:
 

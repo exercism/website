@@ -3,7 +3,6 @@ import { TestResultsButtons } from '../TestResultsView/TestResultsButtons'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { CheckScenariosButton } from './CheckScenariosButton'
 import useTestStore from '../store/testStore'
-import { PreviousTestResultsButtons } from '../PreviousTestResultsView/PreviousTestResultsButtons'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
 function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
@@ -16,8 +15,6 @@ function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
       <PreviewTestButtons />
       {/* Just ran the tests */}
       <TestResultsButtons />
-      {/* Previous test result buttons - previous means we had a submission of this exercise saved in the db */}
-      <PreviousTestResultsButtons />
     </div>
   )
 }

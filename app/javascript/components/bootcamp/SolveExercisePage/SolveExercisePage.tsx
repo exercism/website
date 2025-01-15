@@ -10,7 +10,6 @@ import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { Resizer, useResizablePanels } from './hooks/useResize'
 import { TaskPreview } from './TaskPreview/TaskPreview'
 import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
-import { PreviousTestResultView } from './PreviousTestResultsView/PreviousTestResultsView'
 import { Header } from './Header/Header'
 import { useLocalStorage } from '@uidotdev/usehooks'
 
@@ -94,7 +93,6 @@ export default function SolveExercisePage({
               <ControlButtons handleRunCode={handleRunCode} />
               <InspectedTestResultView />
               <TaskPreview />
-              <PreviousTestResultView exercise={exercise} />
             </div>
           </div>
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />

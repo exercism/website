@@ -8,6 +8,7 @@ Some details:
 - It sits on the grass at a `y` of `75`.
 - It starts on the tee at `28` from the left.
 - It should roll until it is `88` from the left
+- It should move by 1 each `repeat` block
 
 You'll need to use the following functions to draw things:
 

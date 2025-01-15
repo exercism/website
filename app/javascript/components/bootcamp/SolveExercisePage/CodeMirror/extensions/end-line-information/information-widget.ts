@@ -121,8 +121,11 @@ export class InformationWidget extends WidgetType {
         position: 'absolute',
       })
 
+      let top = arrow?.y != null ? arrow.y : 0
+      top = Math.max(top, 1)
+
       Object.assign(this.arrowElement!.style, {
-        top: arrow?.y != null ? `${arrow.y}px` : '',
+        top: `${top}px`,
       })
     })
   }

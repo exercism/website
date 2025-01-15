@@ -4,7 +4,7 @@ The reason we put labels on the boxes is so that Jiki can find them later. But t
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/unique-variable-name.png" class="diagram"/>
 
-Similarly, you can't give a box a label if that label is already used by a machien (a function). If there's a machine on a shelf with a label, Jiki won't let you add a box with the same name.
+Similarly, you can't give a box a label if that label is already used by a machine (a function). If there's a machine on a shelf with a label, Jiki won't let you add a box with the same name.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/unique-function-name.png" class="diagram"/>
 

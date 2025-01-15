@@ -50,6 +50,12 @@ class Bootcamp::Exercise < ApplicationRecord
 
   private
   def file_contents(filename)
-    File.read(Rails.root / "bootcamp_content/projects/#{project.slug}/exercises/#{slug}/#{filename}")
+    File.read(root_dir / "projects/#{project.slug}/exercises/#{slug}/#{filename}")
+  end
+
+  def root_dir
+    return Rails.root / "test/repos/bootcamp_content" if Rails.env.test?
+
+    Rails.root / "bootcamp_content"
   end
 end

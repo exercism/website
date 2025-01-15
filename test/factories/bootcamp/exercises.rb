@@ -7,4 +7,9 @@ FactoryBot.define do
     description { "Exercise Description" }
     level_idx { (Bootcamp::Level.first || create(:bootcamp_level)).idx }
   end
+
+  trait :penguin do
+    slug { "penguin" }
+    project { Bootcamp::Project.find_by(slug: "drawing") || create(:bootcamp_project, slug: "drawing") }
+  end
 end

@@ -18,13 +18,27 @@
         @apply mb-10;
     }
 
+    .tooltip-arrow {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid;
+
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: -10px;
+    }
+
     &.description {
         @apply py-16 px-20;
-        @apply bg-white text-primary-blue;
+        @apply bg-white text-primary-blue border-2 border-blue-500;
 
         filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));
+
         .tooltip-arrow {
-            @apply bg-white;
+            border-right-color: rgb(59 130 246);
         }
     }
 
@@ -33,22 +47,21 @@
 
         filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));
 
-        .tooltip-arrow {
-            @apply bg-white border-2 border-red-500;
-        }
-
         h2 {
             @apply text-darkRed;
             @apply font-semibold;
             @apply py-8 px-20;
             @apply relative z-tooltip-content bg-red-100;
-            @apply rounded-t-8;
+            @apply rounded-t-[6px];
         }
         .content {
             @apply text-textColor1;
             @apply pt-10 px-20 pb-12;
             @apply relative z-tooltip-content bg-white;
             @apply rounded-b-8;
+        }
+        .tooltip-arrow {
+            border-right-color: rgb(239 68 68);
         }
     }
 }

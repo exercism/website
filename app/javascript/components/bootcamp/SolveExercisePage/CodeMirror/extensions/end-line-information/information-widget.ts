@@ -76,11 +76,7 @@ export class InformationWidget extends WidgetType {
   private createArrow() {
     if (!this.tooltip) return
     this.arrowElement = document.createElement('div')
-    const arrowSize = '16px'
-    this.arrowElement.style.width = arrowSize
-    this.arrowElement.style.height = arrowSize
     this.arrowElement.classList.add('tooltip-arrow')
-    this.arrowElement.style.position = 'absolute'
     this.tooltip.appendChild(this.arrowElement)
   }
 
@@ -126,9 +122,7 @@ export class InformationWidget extends WidgetType {
       })
 
       Object.assign(this.arrowElement!.style, {
-        left: `${-this.arrowElement!.offsetWidth / 2}px`,
         top: arrow?.y != null ? `${arrow.y}px` : '',
-        transform: 'rotate(45deg)',
       })
     })
   }

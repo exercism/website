@@ -1,4 +1,4 @@
-import { interpret } from '@/interpreter/interpreter'
+import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import { type Project } from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import type { Exercise } from '../../exercises/Exercise'
 import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
@@ -27,7 +27,16 @@ export function execProjectTest(
     language: 'JikiScript',
     languageFeatures: options.config.interpreterOptions,
   }
-  const evaluated = interpret(options.studentCode, context)
+  let evaluated
+  if (testData.function) {
+    evaluated = evaluateFunction(
+      options.studentCode,
+      context,
+      testData.function
+    )
+  } else {
+    evaluated = interpret(options.studentCode, context)
+  }
 
   const { frames } = evaluated
 

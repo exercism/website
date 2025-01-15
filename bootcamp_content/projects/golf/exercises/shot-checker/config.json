@@ -1,0 +1,184 @@
+{
+  "title": "Shot Checker",
+  "description": "Check to see if the ball lands in the hole",
+  "project_type": "golf",
+  "level": 3,
+  "idx": 2,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 20
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Handle the ball being too short",
+      "tests": [
+        /*{
+          "slug": "too-short",
+          "name": "Shot is too short",
+          "description_html": "Make the ball roll the shot length distance",
+          "setup_functions": [
+              [ "setShotLength", [ 23 ] ],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getCircleAt(29, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "name": "getCircleAt(30, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "name": "getCircleAt(50, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(51, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the right."
+            }
+          ]
+        },
+        {
+          "slug": "too-long",
+          "name": "Shot is too long",
+          "description_html": "Make the ball roll the shot length distance",
+          "setup_functions": [
+              [ "setShotLength", [ 70 ] ],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getCircleAt(29, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "name": "getCircleAt(30, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "name": "getCircleAt(100, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(101, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the right."
+            }
+          ]
+        },*/
+        {
+          "slug": "just-inside",
+          "name": "Shot is just in the hole",
+          "description_html": "Sink the ball into the hole and fire some fireworks!",
+          "setup_functions": [
+            ["setShotLength", [56]],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getCircleAt(29, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "name": "getCircleAt(30, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "name": "getCircleAt(86, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(86, 83, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(86, 84, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(86, 85, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the right."
+            }
+          ]
+        }
+        /*{
+          "slug": "just-inside-2",
+          "name": "Shot is just in the hole to the right",
+          "description_html": "Sink the ball into the hole and fire some fireworks!",
+          "setup_functions": [
+              [ "setShotLength", [ 63 ] ],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getCircleAt(29, 75, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "name": "getCircleAt(30, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "name": "getCircleAt(93, 75, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(93, 83, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(93, 84, 3)",
+              "matcher": "toExist",
+              "error_html": "The ball doesn't seem to reach its finishing point."
+            },
+            {
+              "name": "getCircleAt(93, 85, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball seems to go too far to the right."
+            }
+          ]
+        }*/
+      ]
+    }
+  ]
+}

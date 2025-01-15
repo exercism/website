@@ -79,8 +79,8 @@ export default class DrawExercise extends Exercise {
   private penColor = '#333333'
   private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
 
-  constructor() {
-    super('draw')
+  constructor(slug = 'draw') {
+    super(slug)
 
     Object.assign(this.view.style, {
       display: 'none',

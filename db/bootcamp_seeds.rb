@@ -57,6 +57,7 @@ projects = %w[
   wordle
   weather
   golf
+  space-invaders
 ]
 
 projects.each do |project_slug|
@@ -84,7 +85,7 @@ projects.each do |project_slug|
       title: exercise_config[:title],
       description: exercise_config[:description],
       level_idx: exercise_config[:level],
-      concepts: exercise_config[:concepts].map do |slug|
+      concepts: (exercise_config[:concepts] || []).map do |slug|
                   Bootcamp::Concept.find_by!(slug:)
                 end
     )

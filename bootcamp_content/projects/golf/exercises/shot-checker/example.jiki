@@ -1,0 +1,13 @@
+set x to 27
+set y to 75
+set radius to 3
+
+fill_color_hex("blue")
+
+repeat 61 times do
+  clear()
+
+  change x to x + 1
+
+  circle(x, y, 3)
+end

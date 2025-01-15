@@ -1,0 +1,20 @@
+set direction to "right"
+set position = 0
+
+repeat_until_game over do
+  if direction is "right" then
+    moveRight()
+    change position to position + 1
+  else
+    moveLeft()
+    change position to position - 1
+  end
+
+  if position is 10 do
+    change direction to "left"
+  end
+
+  if canSeeEnemy() do
+    shoot()
+  end
+end

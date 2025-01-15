@@ -33,7 +33,6 @@
             ["setupDirection", ["down"]],
             ["setupPosition", [0, 0]]
           ],
-          "function": "runGame",
           "checks": [
             {
               "name": "position",

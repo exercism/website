@@ -22,3 +22,9 @@ You can use whatever color your like for the ball, but a bright blue might be he
 - `fill_color_rgb(red, green, blue)`
 
 If you feel stuck or overwhelmed, watch the Level 2 video back.
+
+### Hints
+
+Remember that if you update the position at the **start** of the `repeat` block, then the value that's put into the `circle` function in the first iteration will be one greater than whatever you set the initial value too.
+
+Use the scrubber to check the value of x if you're not clear on what's happening.

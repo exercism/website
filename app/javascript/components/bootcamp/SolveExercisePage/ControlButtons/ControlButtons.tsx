@@ -16,8 +16,6 @@ function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
       <PreviewTestButtons />
       {/* Just ran the tests */}
       <TestResultsButtons />
-      {/* Previous test result buttons - previous means we had a submission of this exercise saved in the db */}
-      <PreviousTestResultsButtons />
     </div>
   )
 }

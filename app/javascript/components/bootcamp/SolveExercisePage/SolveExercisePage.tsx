@@ -94,7 +94,6 @@ export default function SolveExercisePage({
               <ControlButtons handleRunCode={handleRunCode} />
               <InspectedTestResultView />
               <TaskPreview />
-              <PreviousTestResultView exercise={exercise} />
             </div>
           </div>
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />

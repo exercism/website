@@ -8,16 +8,35 @@ export default class SpaceInvadersExercise extends Exercise {
   }
 
   private moveDuration = 100
-  private moveStep = 8
+  private moveStep = 7.5
 
   public constructor() {
     super('space-invaders')
 
-    this.laserLeft = 2
+    this.laserLeft = 12
 
     this.laser = document.createElement('div')
     this.laser.classList.add('laser')
+    this.laser.style.left = `${this.laserLeft}%`
     this.view.appendChild(this.laser)
+
+    ;[12, 27, 42, 57, 72, 87].forEach((left: number) => {
+      this.addAlien(left)
+    })
+  }
+
+  private addAlien(left: number) {
+    const alien = document.createElement('div')
+    alien.classList.add('alien')
+    alien.style.left = `${left}%`
+
+    const parts = ['tl', 'tr', 'bl', 'br']
+    parts.forEach((pos) => {
+      const part = document.createElement('div')
+      part.classList.add(pos)
+      alien.appendChild(part)
+    })
+    this.view.appendChild(alien)
   }
 
   public runGame(_: any) {

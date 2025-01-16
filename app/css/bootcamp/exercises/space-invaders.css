@@ -4,13 +4,43 @@
             --laser-width: 20%;
             width: var(--laser-width);
             height: calc(var(--laser-width) * (115 / 200));
+            margin-left: calc(var(--laser-width) * -0.5);
 
             background-size: cover;
             background-image: url("bootcamp/assets/space-invaders/laser.svg");
 
             position: absolute;
             bottom: 2%;
-            left: 2%;
+            left: 12%;
+        }
+        .alien {
+            --alien-width: 8%;
+            width: var(--alien-width);
+            height: calc(var(--alien-width) * (160 / 200));
+            margin-left: calc(var(--alien-width) * -0.5);
+
+            @apply absolute top-[20%] left-[20%];
+
+            @apply grid grid-cols-2;
+
+            .tl,
+            .tr,
+            .bl,
+            .br {
+                background-size: cover;
+            }
+            .tl {
+                background-image: url("bootcamp/assets/space-invaders/a1-tl.svg");
+            }
+            .tr {
+                background-image: url("bootcamp/assets/space-invaders/a1-tr.svg");
+            }
+            .bl {
+                background-image: url("bootcamp/assets/space-invaders/a1-bl.svg");
+            }
+            .br {
+                background-image: url("bootcamp/assets/space-invaders/a1-br.svg");
+            }
         }
     }
 }

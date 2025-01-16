@@ -1,0 +1,16 @@
+#bootcamp-solve-exercise-page {
+    .exercise-space-invaders {
+        .laser {
+            --laser-width: 15%;
+            width: var(--laser-width);
+            height: calc(var(--laser-width) * (115 / 200));
+
+            background-size: cover;
+            background-image: url("bootcamp/assets/space-invaders/laser.svg");
+
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+    }
+}

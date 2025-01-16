@@ -14,7 +14,13 @@
           "name": "Scroll and Shoot",
           "description_html": "Move your laser from left to right and shoot the aliens.",
           "function": "runGame",
-          "checks": []
+          "checks": [
+            {
+              "name": "functionUsed('fire_fireworks')",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire."
+            }
+          ]
         }
       ]
     }

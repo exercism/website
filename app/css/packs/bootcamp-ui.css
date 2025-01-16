@@ -39,5 +39,6 @@
 @import "../bootcamp/exercises/draw.css";
 @import "../bootcamp/exercises/maze.css";
 @import "../bootcamp/exercises/wordle.css";
+@import "../bootcamp/exercises/space-invaders.css";
 
 @import "../components/textblock";

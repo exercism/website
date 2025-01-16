@@ -8,6 +8,10 @@ export default class SpaceInvadersExercise extends Exercise {
 
   public constructor() {
     super('space-invaders')
+
+    this.laser = document.createElement('div')
+    this.laser.classList.add('laser')
+    this.view.appendChild(this.laser)
   }
 
   public runGame(_: any) {

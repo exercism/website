@@ -26,6 +26,8 @@ function _Header() {
     setIsFinishModalOpen,
     modalView,
     nextExerciseData,
+    completedLevelIdx,
+    nextLevelIdx,
   } = useTasks({
     areAllTasksCompleted,
     wasFinishLessonModalShown,
@@ -59,6 +61,8 @@ function _Header() {
               <FinishLessonModalContextWrapper
                 value={{
                   isOpen: isFinishModalOpen,
+                  completedLevelIdx,
+                  nextLevelIdx,
                   setIsOpen: setIsFinishModalOpen,
                   handleCompleteSolution,
                   modalView,
@@ -72,7 +76,7 @@ function _Header() {
         )}
 
         <a
-          href={links.projectsIndex}
+          href={links.dashboardIndex}
           className={assembleClassNames('btn-default btn-xxs')}
         >
           Back to Dashboard

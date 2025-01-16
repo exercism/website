@@ -1,6 +1,8 @@
-export async function completeSolution(
-  url: string
-): Promise<{ next_exercise: NextExercise }> {
+export async function completeSolution(url: string): Promise<{
+  next_exercise: NextExercise
+  next_level_idx: number
+  completed_level_idx: number
+}> {
   const response = await fetch(url, {
     method: 'PATCH',
     headers: {
@@ -25,6 +27,7 @@ export type NextExercise = {
     title: string
     description: string
   }
+  solve_url: string
 }
 
 // example

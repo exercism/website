@@ -42,6 +42,8 @@ function Inner() {
       return <InitialView />
     case 'completedExercise':
       return <CompletedExerciseView />
+    case 'completedLevel':
+      return <CompletedLevelView />
   }
 }
 
@@ -106,14 +108,12 @@ function CompletedExerciseView() {
             <a href={links.dashboardIndex} className="btn-l btn-secondary">
               Back to dashboard
             </a>
-            {nextExerciseData && (
-              <a
-                href={nextExerciseData.solve_url}
-                className="btn-l btn-primary flex-grow"
-              >
-                Start Next Exercise
-              </a>
-            )}
+            <a
+              href={nextExerciseData.solve_url}
+              className="btn-l btn-primary flex-grow"
+            >
+              Start Next Exercise
+            </a>
           </div>
         </>
       ) : (
@@ -121,6 +121,58 @@ function CompletedExerciseView() {
           <p className="text-18 leading-140 mb-20">
             Well done! You've finished all the exercises available to you right
             now.
+          </p>
+
+          <div className="flex flex-col items-stretch self-stretch">
+            <a href={links.dashboardIndex} className="btn-l btn-primary">
+              Back to dashboard
+            </a>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function CompletedLevelView() {
+  const { nextLevelIdx, completedLevelIdx } = useContext(
+    FinishLessonModalContext
+  )
+  const { links } = useContext(SolveExercisePageContext)
+  return (
+    <div>
+      <h2 className="text-[25px] mb-12 font-semibold">Congratulations! </h2>
+      {nextLevelIdx ? (
+        <>
+          <p className="text-18 leading-140 mb-8">
+            <strong className="font-semibold">
+              You've completed level {completedLevelIdx}!
+            </strong>
+          </p>
+          <p className="text-18 leading-140 mb-20">
+            Do you want to start it now, or would you rather go back to the
+            projects list?
+          </p>
+
+          <div className="flex items-center gap-8 self-stretch">
+            <a href={links.dashboardIndex} className="btn-l btn-secondary">
+              Back to dashboard
+            </a>
+            <a
+              href={links.bootcampLevelUrl.replace(
+                'idx',
+                nextLevelIdx.toString()
+              )}
+              className="btn-l btn-primary flex-grow"
+            >
+              Move on to level {nextLevelIdx}
+            </a>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-18 leading-140 mb-20">
+            You've reached the end of what's available now.
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">

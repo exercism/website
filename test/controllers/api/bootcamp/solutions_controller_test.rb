@@ -12,6 +12,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       assert_response :ok
       assert_json_response({
         completed_level_idx: 1,
+        next_level_idx: nil,
         next_exercise: nil
       })
     end
@@ -31,6 +32,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       assert_response :ok
       assert_json_response({
         completed_level_idx: nil,
+        next_level_idx: nil,
         next_exercise: SerializeBootcampExercise.(next_exercise)
       })
     end
@@ -38,6 +40,8 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
 
   # rubocop:disable Naming/VariableNumber
   test "complete: handles completed_level_idx properly" do
+    Bootcamp::Settings.instance.update(level_idx: 2)
+
     freeze_time do
       user = create :user
       2.times { create :bootcamp_level }
@@ -52,6 +56,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       assert_response :ok
       assert_json_response({
         completed_level_idx: nil,
+        next_level_idx: nil,
         next_exercise: SerializeBootcampExercise.(l1e2)
       })
 
@@ -59,6 +64,15 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       assert_response :ok
       assert_json_response({
         completed_level_idx: 1,
+        next_level_idx: 2,
+        next_exercise: nil
+      })
+
+      patch complete_api_bootcamp_solution_url(solutions.third), headers: @headers
+      assert_response :ok
+      assert_json_response({
+        completed_level_idx: 2,
+        next_level_idx: nil,
         next_exercise: nil
       })
     end

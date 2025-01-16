@@ -14,12 +14,12 @@
     {
       "name": "Handle the ball being too short",
       "tests": [
-        /*{
+        {
           "slug": "too-short",
           "name": "Shot is too short",
           "description_html": "Make the ball roll the shot length distance",
           "setup_functions": [
-              [ "setShotLength", [ 23 ] ],
+            ["setShotLength", [23]],
             [
               "setBackgroundImage",
               [
@@ -55,7 +55,7 @@
           "name": "Shot is too long",
           "description_html": "Make the ball roll the shot length distance",
           "setup_functions": [
-              [ "setShotLength", [ 70 ] ],
+            ["setShotLength", [70]],
             [
               "setBackgroundImage",
               [
@@ -85,7 +85,7 @@
               "error_html": "The ball seems to go too far to the right."
             }
           ]
-        },*/
+        },
         {
           "slug": "just-inside",
           "name": "Shot is just in the hole",
@@ -131,13 +131,13 @@
               "error_html": "The ball seems to go too far to the right."
             }
           ]
-        }
-        /*{
+        },
+        {
           "slug": "just-inside-2",
           "name": "Shot is just in the hole to the right",
           "description_html": "Sink the ball into the hole and fire some fireworks!",
           "setup_functions": [
-              [ "setShotLength", [ 63 ] ],
+            ["setShotLength", [63]],
             [
               "setBackgroundImage",
               [
@@ -177,7 +177,7 @@
               "error_html": "The ball seems to go too far to the right."
             }
           ]
-        }*/
+        }
       ]
     }
   ]

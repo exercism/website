@@ -139,7 +139,6 @@
             ["setupDirection", ["down"]],
             ["setupPosition", [0, 0]]
           ],
-          "function": "solve_maze",
           "checks": [
             {
               "name": "position",
@@ -176,7 +175,6 @@
             ["setupDirection", ["down"]],
             ["setupPosition", [3, 0]]
           ],
-          "function": "solve_maze",
           "checks": [
             {
               "name": "position",
@@ -208,7 +206,6 @@
             ["setupDirection", ["down"]],
             ["setupPosition", [0, 0]]
           ],
-          "function": "solve_maze",
           "checks": [
             {
               "name": "position",

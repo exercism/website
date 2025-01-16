@@ -13,7 +13,6 @@
         {
           "slug": "draw-the-house",
           "name": "Position the frame of the house.",
-          "function": "main",
           "checks": [
             {
               "name": "getRectangleAt(20,50,60,40)",

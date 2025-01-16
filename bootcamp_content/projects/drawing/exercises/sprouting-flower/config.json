@@ -18,7 +18,6 @@
           "slug": "draw-scence",
           "name": "Make the flower sprout.",
           "description_html": "Take it one step at a time!",
-          "function": "main",
           "checks": [
             {
               "name": "getCircleAt(50, 89, 0.4)",

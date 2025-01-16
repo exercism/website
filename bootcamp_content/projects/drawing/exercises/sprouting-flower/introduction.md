@@ -72,4 +72,6 @@ Final drawn flower:
 
 This is a challenging exercise. Take your time, and if you get really stuck, ask for help on the forum, and remember to give us lots of information about what's not working and why you think that's the case!
 
+Use the scrubber (the play bar at the bottom left) to check the value of your variables if you're not clear on what's happening. Click on the little toggle button to see information on each line!
+
 Remember, the learning is in the struggle! Every time you get something wrong and solve it, you're becoming a coder, and eventually it will feel easy. Just keep going!

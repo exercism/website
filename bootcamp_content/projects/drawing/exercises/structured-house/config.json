@@ -12,7 +12,7 @@
       "tests": [
         {
           "slug": "draw-the-house",
-          "name": "Position the frame of the house.",
+          "name": "Draw the house.",
           "function": "main",
           "checks": [
             {

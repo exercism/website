@@ -44,10 +44,22 @@ body.namespace-bootcamp.controller-levels.action-index {
             @apply w-[48px] h-[48px];
         }
         h2 {
-            @apply text-22 leading-150;
+            @apply text-20 leading-150;
         }
         p {
             @apply text-16 leading-150;
+        }
+        .completed-icon {
+            @apply w-[24px] h-[24px];
+            @apply ml-8;
+            @apply hidden;
+        }
+        &.completed {
+            @apply border-2;
+            @apply bg-veryLightGreen2 border-darkSuccessGreen;
+            .completed-icon {
+                @apply block;
+            }
         }
     }
     .locked-level {

@@ -8,15 +8,14 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 export function _TaskPreview() {
   const { exercise } = useContext(SolveExercisePageContext)
-  const { testSuiteResult, previousTestSuiteResult, inspectedPreviewTaskTest } =
-    useTestStore()
+  const { testSuiteResult, inspectedPreviewTaskTest } = useTestStore()
 
   const viewContainerRef = useMountViewOrImage({
     config: exercise.config,
     taskTest: inspectedPreviewTaskTest,
   })
 
-  if (testSuiteResult || previousTestSuiteResult) {
+  if (testSuiteResult) {
     return null
   }
 

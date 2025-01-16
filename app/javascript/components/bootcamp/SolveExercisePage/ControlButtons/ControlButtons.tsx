@@ -24,12 +24,11 @@ export const ControlButtons = wrapWithErrorBoundary(_ControlButtons)
 function PreviewTestButtons() {
   const {
     testSuiteResult,
-    previousTestSuiteResult,
     flatPreviewTaskTests,
     setInspectedPreviewTaskTest,
     inspectedPreviewTaskTest,
   } = useTestStore()
-  if (testSuiteResult || previousTestSuiteResult) return null
+  if (testSuiteResult) return null
 
   return (
     <div className="test-selector-buttons ">

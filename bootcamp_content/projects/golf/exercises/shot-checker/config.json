@@ -16,8 +16,8 @@
       "tests": [
         {
           "slug": "too-short",
-          "name": "Shot is too short",
-          "description_html": "Make the ball roll the shot length distance",
+          "name": "Shot is too short.",
+          "description_html": "Make the ball roll the shot length distance.",
           "setup_functions": [
             ["setShotLength", [23]],
             [
@@ -57,8 +57,8 @@
         },
         {
           "slug": "too-long",
-          "name": "Shot is too long",
-          "description_html": "Make the ball roll the shot length distance",
+          "name": "Shot is too long.",
+          "description_html": "Make the ball roll the shot length distance.",
           "setup_functions": [
             ["setShotLength", [70]],
             [
@@ -103,7 +103,7 @@
         },
         {
           "slug": "just-inside-left",
-          "name": "Shot is just in the hole on the left",
+          "name": "Shot is just in the hole on the left.",
           "description_html": "Sink the ball into the hole and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [56]],
@@ -154,7 +154,7 @@
         },
         {
           "slug": "just-inside-right",
-          "name": "Shot is just in the hole on the right",
+          "name": "Shot is just in the hole on the right.",
           "description_html": "Sink the ball into the hole and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [63]],

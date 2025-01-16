@@ -4,9 +4,20 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
   def complete
     Bootcamp::Solution::Complete.(@solution)
 
-    next_exercise = Bootcamp::SelectNextExercise.(current_user)
+    level_idx = @solution.exercise.level_idx
+    num_level_exercises = @solution.exercise.level.exercises.count
+    num_level_solutions = current_user.bootcamp_solutions.completed.
+      joins(:exercise).where('bootcamp_exercises.level_idx': level_idx).
+      count
+
+    if num_level_exercises == num_level_solutions
+      completed_level_idx = level_idx
+    else
+      next_exercise = Bootcamp::SelectNextExercise.(current_user)
+    end
 
     render json: {
+      completed_level_idx:,
       next_exercise: SerializeBootcampExercise.(next_exercise)
     }, status: :ok
   end

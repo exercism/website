@@ -1,17 +1,16 @@
-// TODO: Change the initial position
-// Remember that if you update the position at the 
-// *start* of the repeat block, it'll be one greater than
-// whatever you set this to when the first circle is drawn.
-set x to 0
+// Set our initial variables
+set x to 29
+set y to 75
+set radius to 3
 
-// TODO: Set your fill color
+// As we're not changing colors, we can 
+// set this outside of the repeat block
+fill_color_hex("orange")
 
-// TODO: Change this to only repeat as many times as
-// needed for the ball to reach the hole
 repeat 10 times do
+  change x to x + 1
   clear()
-
-  // TODO: Increase the x position by 1
-
-  // TODO: Draw the ball (a circle)
+  circle(x, y, 3)
 end
+
+// TODO: Handle the ball landing in the hole.

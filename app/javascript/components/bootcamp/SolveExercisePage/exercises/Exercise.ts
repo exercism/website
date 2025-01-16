@@ -1,5 +1,7 @@
+import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
 import type { ExternalFunction } from '@/interpreter/executor'
+import { InterpretResult } from '@/interpreter/interpreter'
 
 export abstract class Exercise {
   public availableFunctions!: ExternalFunction[]
@@ -10,6 +12,7 @@ export abstract class Exercise {
 
   protected view!: HTMLElement
   protected container!: HTMLElement
+  protected functionCalls: Record<string, number> = {}
 
   public constructor(private slug: String) {
     this.createView()
@@ -17,6 +20,22 @@ export abstract class Exercise {
 
   public wrapCode(code: string) {
     return code
+  }
+
+  public recordFunctionUse(name: string) {
+    this.functionCalls[name] = (this.functionCalls[name] || 0) + 1
+  }
+
+  public functionUsed(
+    _: InterpretResult,
+    name: string,
+    times: number
+  ): boolean {
+    console.log(this.functionCalls)
+    if (times === null || times === undefined) {
+      return this.functionCalls[name] > 0
+    }
+    return this.functionCalls[name] === times
   }
 
   public lineNumberOffset = 0

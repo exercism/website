@@ -39,14 +39,19 @@
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(50, 75, 3)",
+              "name": "getCircleAt(53, 75, 3)",
               "matcher": "toExist",
               "error_html": "The ball doesn't seem to reach its finishing point."
             },
             {
-              "name": "getCircleAt(51, 75, 3)",
+              "name": "getCircleAt(54, 75, 3)",
               "matcher": "toNotExist",
               "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "name": "functionUsed('fire_fireworks')",
+              "matcher": "toBeFalse",
+              "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
           ]
         },
@@ -83,12 +88,22 @@
               "name": "getCircleAt(101, 75, 3)",
               "matcher": "toNotExist",
               "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "name": "getCircleAt(100, 76, 3)",
+              "matcher": "toNotExist",
+              "error_html": "The ball tried to sink into the ground beyond the hole."
+            },
+            {
+              "name": "functionUsed('fire_fireworks')",
+              "matcher": "toBeFalse",
+              "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
           ]
         },
         {
-          "slug": "just-inside",
-          "name": "Shot is just in the hole",
+          "slug": "just-inside-left",
+          "name": "Shot is just in the hole on the left",
           "description_html": "Sink the ball into the hole and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [56]],
@@ -129,12 +144,17 @@
               "name": "getCircleAt(86, 85, 3)",
               "matcher": "toNotExist",
               "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "name": "functionUsed('fire_fireworks')",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire."
             }
           ]
         },
         {
-          "slug": "just-inside-2",
-          "name": "Shot is just in the hole to the right",
+          "slug": "just-inside-right",
+          "name": "Shot is just in the hole on the right",
           "description_html": "Sink the ball into the hole and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [63]],
@@ -175,6 +195,11 @@
               "name": "getCircleAt(93, 85, 3)",
               "matcher": "toNotExist",
               "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "name": "functionUsed('fire_fireworks')",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire."
             }
           ]
         }

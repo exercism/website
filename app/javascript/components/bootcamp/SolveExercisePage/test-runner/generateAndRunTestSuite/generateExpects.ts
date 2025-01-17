@@ -1,21 +1,27 @@
 import { expect } from '../expect'
 import type { Exercise } from '../../exercises/Exercise'
+import { InterpretResult } from '@/interpreter/interpreter'
 
 export function generateExpects(
   testsType: 'io' | 'state',
+  interpreterResult: InterpretResult,
   testData: TaskTest,
   { exercise, actual }: { exercise?: Exercise; actual?: any }
 ) {
   if (testsType == 'state') {
-    return generateExpectsForStateTests(exercise!, testData)
+    return generateExpectsForStateTests(exercise!, interpreterResult, testData)
   } else {
-    return generateExpectsForIoTests(testData, actual)
+    return generateExpectsForIoTests(interpreterResult, testData, actual)
   }
 }
 
 // These are normal function in/out tests. We always know the actual value at this point
 // (as it's returned from the function) so we can just compare it to the expected value.
-function generateExpectsForIoTests(testData: TaskTest, actual: any) {
+function generateExpectsForIoTests(
+  interpreterResult: InterpretResult,
+  testData: TaskTest,
+  actual: any
+) {
   const matcher = testData.matcher || 'toEqual'
 
   return [
@@ -31,7 +37,11 @@ function generateExpectsForIoTests(testData: TaskTest, actual: any) {
 
 // These are the state tests, where we're comparing mutiple different variables or functions
 // on the resulting exercise.
-function generateExpectsForStateTests(exercise: Exercise, testData: TaskTest) {
+function generateExpectsForStateTests(
+  exercise: Exercise,
+  interpreterResult: InterpretResult,
+  testData: TaskTest
+) {
   // We only need to do this once, so do it outside the loop.
   const state = exercise.getState()
 
@@ -56,8 +66,9 @@ function generateExpectsForStateTests(exercise: Exercise, testData: TaskTest) {
           : argsString.split(',').map((arg) => safe_eval(arg.trim()))
 
       // And then we get the function and call it.
+      // console.log(fnName)
       const fn = exercise[fnName]
-      actual = fn.bind(exercise).call(exercise, ...args)
+      actual = fn.bind(exercise).call(exercise, interpreterResult, ...args)
     }
 
     // Our normal state is much easier! We just check the state object that

@@ -7,8 +7,6 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       solution = create(:bootcamp_solution, user:)
       create :bootcamp_user_project, user:, project: solution.project
 
-      Bootcamp::Solution::Complete.expects(:call).with(solution)
-
       setup_user(user)
       patch complete_api_bootcamp_solution_url(solution), headers: @headers
 

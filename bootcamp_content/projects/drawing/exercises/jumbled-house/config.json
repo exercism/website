@@ -1,4 +1,5 @@
 {
+  "idx": 5,
   "title": "Jumbled House",
   "description": "Unjumble the shapes into a house",
   "project_type": "draw",
@@ -11,7 +12,7 @@
       "tests": [
         {
           "slug": "draw-the-house",
-          "name": "Position the frame of the house.",
+          "name": "Draw the house.",
           "function": "main",
           "checks": [
             {

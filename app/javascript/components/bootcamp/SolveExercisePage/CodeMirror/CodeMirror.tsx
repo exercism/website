@@ -37,6 +37,7 @@ import { debounce } from 'lodash'
 import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
 import { getCodeMirrorFieldValue } from './getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnlyRanges'
+import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
 
 export const readonlyCompartment = new Compartment()
 
@@ -164,6 +165,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           lineNumbers(),
           highlightActiveLineGutter(),
           dropCursor(),
+          moveCursorByPasteLength,
           EditorState.allowMultipleSelections.of(true),
           indentOnInput(),
           bracketMatching(),
@@ -187,7 +189,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
           onEditorFocus(
             () => setShouldShowInformationWidget(false)
-            // maybe it's too much - especially when editor is on auto-run mode
             // () =>
             //   setInformationWidgetData({
             //     html: '',

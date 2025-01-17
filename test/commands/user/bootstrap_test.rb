@@ -85,4 +85,19 @@ class User::BootstrapTest < ActiveSupport::TestCase
     refute user.reload.bootcamp_attendee?
     assert_equal user.id, ubd.reload.user_id
   end
+
+  test "finds paid bootcamp data first" do
+    email = "something@someone.com"
+    create(:user_bootcamp_data, email:)
+    ubd = create :user_bootcamp_data, email:, paid_at: Time.current
+    create(:user_bootcamp_data, email:)
+    user = create(:user, email:)
+
+    # Always does this once by default anyway
+    User::Bootcamp::SubscribeToOnboardingEmails.expects(:defer).with(ubd).twice
+
+    User::Bootstrap.(user, bootcamp_access_code: ubd.access_code)
+    assert user.reload.bootcamp_attendee?
+    assert_equal user.id, ubd.reload.user_id
+  end
 end

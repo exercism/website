@@ -11,7 +11,7 @@ import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
 
 function _InspectedTestResultView() {
-  const { result, viewContainerRef, firstFailingExpect, processedExpects } =
+  const { result, viewContainerRef, firstFailingExpect } =
     useInspectedTestResultView()
 
   if (!result) return null

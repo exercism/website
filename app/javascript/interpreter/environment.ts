@@ -91,7 +91,13 @@ export class Environment {
         // The stringify/parse combination makes the value unique,
         // which means that subsequent updates won't influence the
         // value of previous frames
-        vars[key] = JSON.parse(JSON.stringify(value))
+        let normalizedValue
+        try {
+          normalizedValue = JSON.parse(JSON.stringify(value))
+        } catch (e) {
+          normalizedValue = undefined
+        }
+        vars[key] = normalizedValue
       }
 
       current = current.enclosing

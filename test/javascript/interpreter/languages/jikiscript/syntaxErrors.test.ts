@@ -72,6 +72,17 @@ describe('syntax errors', () => {
         'InvalidNumericVariableName: name: 123'
       )
     })
+
+    test('missing to', () => {
+      expect(() => parse('set name "Jeremy"')).toThrow(
+        'MissingToAfterVariableNameToInitializeValue: name'
+      )
+    })
+    test('two identifiers', () => {
+      expect(() => parse('set na me to "Jeremy"')).toThrow(
+        'UnexpectedSpaceInIdentifier: first_half: na, second_half: me'
+      )
+    })
   })
 
   describe('function definitions', () => {
@@ -248,7 +259,7 @@ describe('syntax errors', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
-        repeat 5
+        repeat 5 times
         end
       `)
       ).toThrow('MissingDoToStartBlock: type: repeat')
@@ -268,7 +279,7 @@ describe('syntax errors', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
-        repeat 5 do
+        repeat 5 times do
       `)
       ).toThrow('MissingEndAfterBlock: type: repeat')
     })

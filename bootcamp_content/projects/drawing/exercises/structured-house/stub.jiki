@@ -1,0 +1,45 @@
+// Sky variables
+set sky_color to "#add8e6"
+set sky_left to 0
+set sky_top to 0
+set sky_width to 100
+set sky_height to 100
+
+// House Frame variables
+set house_left to 20
+
+// Roof variables
+set roof_overhang to 4
+set roof_left to house_left - roof_overhang
+
+// The sky
+fill_color_hex(sky_color)
+rectangle(sky_left, sky_top, sky_width, sky_height)
+
+// The grass
+fill_color_hex("#3cb372")
+rectangle(0,80, 100, 100)
+
+// The frame of the house
+fill_color_hex("#f0985b")
+rectangle(house_left,50, 60, 40)
+
+// The roof
+fill_color_hex("#8b4513")
+triangle(roof_left,50, 50,30, 84,50)
+
+// The left window
+fill_color_hex("#FFFFFF")
+rectangle(30,55, 12,13)
+
+// The second window
+fill_color_hex("#FFFFFF")
+rectangle(58,55, 12, 13)
+
+// The door
+fill_color_hex("#A0512D")
+rectangle(43,72, 14, 18)
+
+// The door knob
+fill_color_hex("#FFDF00")
+circle(55,81, 1)

@@ -2,6 +2,14 @@ import { Exercise } from '../Exercise'
 import { aToR, rToA } from './utils'
 import * as Shapes from './shapes'
 import type { ExecutionContext } from '@/interpreter/executor'
+import { InterpretResult } from '@/interpreter/interpreter'
+import {
+  CallExpression,
+  Expression,
+  LiteralExpression,
+} from '@/interpreter/expression'
+import { ExpressionStatement } from '@/interpreter/statement'
+import { Frame } from '@/interpreter/frames'
 
 class Shape {
   public constructor(public element: SVGElement) {}
@@ -13,6 +21,7 @@ class Rectangle extends Shape {
     public y: number,
     public width: number,
     public height: number,
+    public fillColor: FillColor,
     element: SVGElement
   ) {
     super(element)
@@ -24,6 +33,7 @@ class Circle extends Shape {
     public cx: number,
     public cy: number,
     public radius: number,
+    public fillColor: FillColor,
     element: SVGElement
   ) {
     super(element)
@@ -59,10 +69,12 @@ class Triangle extends Shape {
 export type FillColor =
   | { type: 'hex'; color: string }
   | { type: 'rgb'; color: [number, number, number] }
+  | { type: 'hsl'; color: [number, number, number] }
 
 export default class DrawExercise extends Exercise {
   private canvas: HTMLDivElement
   private shapes: Shape[] = []
+  private visibleShapes: Shape[] = []
 
   private penColor = '#333333'
   private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
@@ -147,10 +159,16 @@ export default class DrawExercise extends Exercise {
   public getState() {
     return {}
   }
-  public numElements() {
+  public numElements(_: InterpretResult) {
     return this.shapes.length
   }
-  public getRectangleAt(x: number, y: number, width: number, height: number) {
+  public getRectangleAt(
+    _: InterpretResult,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Rectangle) {
         if (x !== undefined) {
@@ -179,14 +197,25 @@ export default class DrawExercise extends Exercise {
       }
     })
   }
-  public getCircleAt(cx: number, cy: number, radius: number) {
+  public getCircleAt(
+    _: InterpretResult,
+    cx: number,
+    cy: number,
+    radius: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Circle) {
         return shape.cx == cx && shape.cy == cy && shape.radius == radius
       }
     })
   }
-  public getEllipseAt(x: number, y: number, rx: number, ry: number) {
+  public getEllipseAt(
+    _: InterpretResult,
+    x: number,
+    y: number,
+    rx: number,
+    ry: number
+  ) {
     return this.shapes.find((shape) => {
       if (shape instanceof Ellipse) {
         return shape.x == x && shape.y == y && shape.rx == rx && shape.ry == ry
@@ -194,6 +223,7 @@ export default class DrawExercise extends Exercise {
     })
   }
   public getTriangleAt(
+    _: InterpretResult,
     x1: number,
     y1: number,
     x2: number,
@@ -233,14 +263,62 @@ export default class DrawExercise extends Exercise {
     })
   }
 
-  public changePenColor(executionCtx: ExecutionContext, color: string) {
+  public checkUniqueColoredRectangles(_: InterpretResult, count: number) {
+    let colors = new Set()
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Rectangle)) {
+        return
+      }
+
+      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
+    })
+    return colors.size >= count
+  }
+
+  public checkUniqueColoredCircles(_: InterpretResult, count: number) {
+    let colors = new Set()
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Circle)) {
+        return
+      }
+
+      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
+    })
+    return colors.size >= count
+  }
+
+  public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
+    return interpreterResult.frames.every((frame: Frame) => {
+      if (!(frame.context instanceof ExpressionStatement)) {
+        return true
+      }
+
+      const context = frame.context as ExpressionStatement
+      if (!(context.expression instanceof CallExpression)) {
+        return true
+      }
+
+      return context.expression.args.every((arg: Expression) => {
+        if (arg instanceof LiteralExpression) {
+          return false
+        }
+
+        return true
+      })
+    })
+  }
+
+  public changePenColor(_: ExecutionContext, color: string) {
     this.penColor = color
   }
-  public fillColorHex(executionCtx: ExecutionContext, color: string) {
+  public fillColorHex(_: ExecutionContext, color: string) {
     this.fillColor = { type: 'hex', color: color }
   }
-  public fillColorRGB(executionCtx: ExecutionContext, red, green, blue) {
+  public fillColorRGB(_: ExecutionContext, red, green, blue) {
     this.fillColor = { type: 'rgb', color: [red, green, blue] }
+  }
+  public fillColorHSL(_: ExecutionContext, h, s, l) {
+    this.fillColor = { type: 'hsl', color: [h, s, l] }
   }
 
   public rectangle(
@@ -264,8 +342,9 @@ export default class DrawExercise extends Exercise {
     )
     this.canvas.appendChild(elem)
 
-    const rect = new Rectangle(x, y, width, height, elem)
+    const rect = new Rectangle(x, y, width, height, this.fillColor, elem)
     this.shapes.push(rect)
+    this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
     return rect
   }
@@ -287,8 +366,9 @@ export default class DrawExercise extends Exercise {
     )
     this.canvas.appendChild(elem)
 
-    const circle = new Circle(x, y, radius, elem)
+    const circle = new Circle(x, y, radius, this.fillColor, elem)
     this.shapes.push(circle)
+    this.visibleShapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)
     return circle
   }
@@ -314,6 +394,7 @@ export default class DrawExercise extends Exercise {
 
     const ellipse = new Ellipse(x, y, rx, ry, elem)
     this.shapes.push(ellipse)
+    this.visibleShapes.push(ellipse)
     this.animateElement(executionCtx, elem, absX, absY)
     return ellipse
   }
@@ -350,6 +431,7 @@ export default class DrawExercise extends Exercise {
 
     const triangle = new Triangle(x1, y1, x2, y2, x3, y3, elem)
     this.shapes.push(triangle)
+    this.visibleShapes.push(triangle)
     this.animateElement(executionCtx, elem, absX1, absY1)
     return triangle
   }
@@ -415,13 +497,11 @@ export default class DrawExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
-
-    executionCtx.fastForward(duration)
   }
 
   public clear(executionCtx: ExecutionContext) {
     const duration = 1
-    this.shapes.forEach((shape) => {
+    this.visibleShapes.forEach((shape) => {
       this.addAnimation({
         targets: `#${this.view.id} #${shape.element.id}`,
         duration,
@@ -431,9 +511,8 @@ export default class DrawExercise extends Exercise {
         offset: executionCtx.getCurrentTime(),
       })
     })
-    executionCtx.fastForward(duration)
 
-    this.shapes = []
+    this.visibleShapes = []
   }
 
   public setBackgroundImage(imageUrl: string | null) {
@@ -508,6 +587,11 @@ export default class DrawExercise extends Exercise {
       name: 'fill_color_rgb',
       func: this.fillColorRGB.bind(this),
       description: 'Changes the fill color using three RGB values',
+    },
+    {
+      name: 'fill_color_hsl',
+      func: this.fillColorHSL.bind(this),
+      description: 'Changes the fill color using three HSL values',
     },
   ]
 }

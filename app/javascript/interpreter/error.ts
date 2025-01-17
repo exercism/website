@@ -20,6 +20,7 @@ export type RuntimeErrorType =
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
   | 'RepeatCountMustBeGreaterThanZero'
+  | 'RepeatCountMustBeLessThanOneThousand'
   | 'NonCallableTarget'
   | 'InfiniteLoop'
   | 'TooFewArguments'

@@ -37,9 +37,14 @@ export function execProjectTest(
       ? new AnimationTimeline({}, frames).populateTimeline(animations)
       : null
 
-  const expects = generateExpects(options.config.testsType, testData, {
-    exercise,
-  })
+  const expects = generateExpects(
+    options.config.testsType,
+    evaluated,
+    testData,
+    {
+      exercise,
+    }
+  )
 
   return {
     expects,

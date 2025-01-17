@@ -5,6 +5,7 @@
   "available_functions": [],
   "concepts": ["conditionals", "arrays"],
   "level": 3,
+  "idx": 1,
   "tests_type": "state",
   "tasks": [
     {

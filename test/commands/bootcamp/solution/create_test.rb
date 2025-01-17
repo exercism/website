@@ -58,7 +58,7 @@ class Bootcamp::Solution::CreateTest < ActiveSupport::TestCase
     create(:bootcamp_user_project, user:, project:)
     exercise = create(:bootcamp_exercise, project:)
 
-    Bootcamp::UserProject.any_instance.expects(:exercise_available?).with(exercise).returns(false)
+    Bootcamp::Exercise::AvailableForUser.expects(:call).with(exercise, user).returns(false)
 
     assert_raises ExerciseLockedError do
       Bootcamp::Solution::Create.(user, exercise)

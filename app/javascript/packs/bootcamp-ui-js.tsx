@@ -10,6 +10,9 @@ const SolveExercisePage = lazy(
 const DrawingPage = lazy(
   () => import('../components/bootcamp/DrawingPage/DrawingPage')
 )
+const BootcampAffiliateCouponForm = lazy(
+  () => import('@/components/settings/BootcampAffiliateCouponForm')
+)
 
 declare global {
   interface Window {
@@ -33,6 +36,19 @@ const mappings = {
   'bootcamp-drawing-page': (data: DrawingPageProps): JSX.Element => (
     <Suspense>
       <DrawingPage {...camelizeKeysAs<DrawingPageProps>(data)} />
+    </Suspense>
+  ),
+  'settings-bootcamp-affiliate-coupon-form': (data: any) => (
+    <Suspense>
+      <BootcampAffiliateCouponForm
+        context={data.context}
+        insidersStatus={data.insiders_status}
+        bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
+        links={camelizeKeysAs<{
+          insidersPath: string
+          bootcampAffiliateCouponCode: string
+        }>(data.links)}
+      />
     </Suspense>
   ),
 }

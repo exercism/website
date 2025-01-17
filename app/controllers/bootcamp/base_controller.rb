@@ -1,6 +1,7 @@
 class Bootcamp::BaseController < ApplicationController
   layout "bootcamp-ui"
   before_action :redirect_unless_attendee!
+  before_action :setup_bootcamp_data!
 
   private
   def redirect_unless_attendee!
@@ -18,6 +19,13 @@ class Bootcamp::BaseController < ApplicationController
     end
 
     redirect_to bootcamp_path
+  end
+
+  def setup_bootcamp_data!
+    return if current_user.bootcamp_data
+
+    current_user.create_bootcamp_data!
+    Bootcamp::UpdateUserLevel.(current_user)
   end
 
   def use_project

@@ -1,0 +1,53 @@
+{
+  "title": "Sunset",
+  "description": "Make the sun set",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 4,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 20
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scene",
+          "name": "Make the sun set",
+          "description_html": "Animate the sun and the sky to make it look like the sun is setting.",
+          "function": "main",
+          "checks": [
+            {
+              "name": "getCircleAt(50, 11, 5.2)",
+              "matcher": "toExist",
+              "error_html": "The sun seems wrong near the beginning."
+            },
+            {
+              "name": "getCircleAt(50, 20, 7)",
+              "matcher": "toExist",
+              "error_html": "The sun seems wrong near the middle."
+            },
+            {
+              "name": "getCircleAt(50, 109, 24.8)",
+              "matcher": "toExist",
+              "error_html": "The sun seems wrong near the end."
+            },
+            {
+              "name": "checkUniqueColoredRectangles(10)",
+              "matcher": "toBeTrue",
+              "error_html": "The sky doesn't seem to be changing color"
+            },
+            {
+              "name": "checkUniqueColoredCircles(10)",
+              "matcher": "toBeTrue",
+              "error_html": "The sun doesn't seem to be changing color"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

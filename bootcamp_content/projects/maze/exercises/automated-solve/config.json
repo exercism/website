@@ -1,7 +1,8 @@
 {
   "title": "Programatically solve a maze",
   "description": "Programatically solve a maze",
-  "level": 2,
+  "level": 3,
+  "idx": 1,
   "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",

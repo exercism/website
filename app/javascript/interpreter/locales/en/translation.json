@@ -43,7 +43,9 @@
       "MissingRightParenthesisAfterWhileCondition": "Expected ')' after 'while' condition",
       "MissingWithBeforeParameters": "Did you forget the `with` keyword before your parameters?",
       "MissingStringAsKey": "Expect string as key.",
+      "MissingToAfterVariableNameToInitializeValue": "Did you forget to add the `to` after `{{name}}`?",
       "MissingVariableName": "Expect variable name.",
+      "MissingTimesInRepeat": "Did you forget to write `times` after the number of times you want to repeat?",
       "DuplicateParameterName": "Did you accidently use the name `{{parameter}}` twice in your function parameters.",
       "MissingWhileBeforeDoWhileCondition": "Expected 'while' to start 'while' condition",
       "NumberContainsAlpha": "A number cannot contain letters. Did you mean `{{suggestion}}`?",
@@ -54,6 +56,7 @@
       "UnknownCharacterEquals": "We don't use the equals sign ('=') in JikiScript. Use `to` in set statements or `equals` in comparisons",
       "UnexpectedElseWithoutIf": "We can't work out which if statement this `else` belongs to. Did you forget to add an `if` statement before this `else`?",
       "UnexpectedLiteralExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `equals`, `>`, etc are always required).",
+      "UnexpectedSpaceInIdentifier": "Did you accidently put a space in the middle of a variable name?",
       "UnexpectedVariableExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `equals`, `>`, etc are always required).",
       "UnexpectedVariableExpressionAfterIfWithPotentialTypo": "We were expecting some sort of comparison here. Did you mean to type `{{potential}}` instead of `{{actual}}`?"
     },
@@ -85,8 +88,11 @@
       "OperandMustBeNumber": "Operand must be a number.",
       "OperandsMustBeNumber": "Operands must be numbers.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
-      "RepeatCountMustBeGreaterThanZero": "The repeat argument must be greater than zero.",
-      "RepeatCountMustBeNumber": "repeat can only take a number as its argument."
+      "RepeatCountMustBeGreaterThanZero": "You must repeat things at least once.",
+      "RepeatCountMustBeLessThanOneThousand": "The most times you can repeat things is 1000.",
+      "RepeatCountMustBeNumber": "repeat can only take a number as its argument.",
+      "VariableAlreadyDeclared": "A variable with this name has already been created. Did you mean to use the <code>change</code> keyword?",
+      "VariableNotDeclared": "Did you forget to use the `set` keyword to create a variable called `{{name}}` before this line of code?"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Usage of '{{tokenType}}' is not allowed`.",

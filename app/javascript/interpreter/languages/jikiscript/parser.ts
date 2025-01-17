@@ -203,8 +203,19 @@ export class Parser implements GenericParser {
         }
       }
 
+      if (
+        (this.peek().type == 'IDENTIFIER' || this.peek().type == 'STRING') &&
+        this.peek(2).type == 'TO'
+      ) {
+        const errorLocation = Location.between(this.previous(), this.peek())
+        this.error('UnexpectedSpaceInIdentifier', errorLocation, {
+          first_half: name.lexeme,
+          second_half: this.peek().lexeme,
+        })
+      }
+
       this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
-        name,
+        name: name.lexeme,
       })
 
       const initializer = this.expression()
@@ -330,7 +341,7 @@ export class Parser implements GenericParser {
   private repeatStatement(): Statement {
     const begin = this.previous()
     const condition = this.expression()
-
+    this.consume('TIMES', 'MissingTimesInRepeat')
     this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
     this.consumeEndOfLine()
 

@@ -61,6 +61,7 @@ export type SyntaxErrorType =
   | 'NumberStartsWithZero'
   | 'UnexpectedElseWithoutIf'
   | 'UnexpectedLiteralExpressionAfterIf'
+  | 'UnexpectedSpaceInIdentifier'
   | 'UnexpectedVariableExpressionAfterIf'
   | 'UnexpectedVariableExpressionAfterIfWithPotentialTypo'
   | 'DuplicateParameterName'

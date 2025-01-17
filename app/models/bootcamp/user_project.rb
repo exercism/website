@@ -39,26 +39,12 @@ class Bootcamp::UserProject < ApplicationRecord
     project.exercises.reject(&:locked?).reject { |e| completed_exercise_ids.include?(e.id) }.first
   end
 
-  def exercise_available?(exercise)
-    # If the project's locked, all the exercises are locked
-    return false if locked?
-
-    # If the exercise is gloabally locked, it's locked
-    return false if exercise.locked?
-
-    # The first exercise is always available
-    return true if exercise.idx == 1
-
-    # Otherwise the previous solution must be completed
-    solutions.find { |s| s.exercise.idx == exercise.idx - 1 }&.completed?
-  end
-
   def exercise_status(exercise, solution)
     solution ||= solutions.find { |s| s.exercise_id == exercise.id }
 
     if solution
       solution.status
-    elsif exercise_available?(exercise)
+    elsif Bootcamp::Exercise::AvailableForUser.(exercise, user)
       :available
     else
       :locked

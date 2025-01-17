@@ -32,8 +32,13 @@ function createSVGElement(
 
   if (backgroundColor.type === 'hex') {
     elem.setAttribute('fill', backgroundColor.color)
-  } else {
+  } else if (backgroundColor.type === 'rgb') {
     elem.setAttribute('fill', 'rgb(' + backgroundColor.color.join(',') + ')')
+  } else {
+    elem.setAttribute(
+      'fill',
+      `hsl(${backgroundColor.color[0]}, ${backgroundColor.color[1]}%, ${backgroundColor.color[2]}%)`
+    )
   }
 
   for (const key in attrs) {

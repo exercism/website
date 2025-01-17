@@ -457,7 +457,7 @@ describe('statements', () => {
     test('declared variable can be used in blocks', () => {
       const { error, frames } = interpret(`
         set pos to 10
-        repeat(5) do
+        repeat 5 times do
           change pos to pos + 10
         end
       `)
@@ -468,7 +468,7 @@ describe('statements', () => {
     test('declared variable is persisted after repeat', () => {
       const { error, frames } = interpret(`
         set pos to 10
-        repeat(5) do
+        repeat 5 times do
           change pos to pos + 10
         end
         change pos to pos + 10
@@ -601,7 +601,7 @@ describe('statements', () => {
     test('once', () => {
       const { error, frames } = interpret(`
         set x to 0
-        repeat 1 do
+        repeat 1 times do
           change x to x + 1
         end
       `)
@@ -617,7 +617,7 @@ describe('statements', () => {
     test('multiple times', () => {
       const { frames } = interpret(`
         set x to 0
-        repeat 3 do
+        repeat 3 times do
           change x to x + 1
         end
       `)
@@ -632,6 +632,20 @@ describe('statements', () => {
       expect(frames[3].variables).toMatchObject({ x: 2 })
       expect(frames[4].status).toBe('SUCCESS')
       expect(frames[4].variables).toMatchObject({ x: 3 })
+    })
+    test('must be 1000 times or fewer', () => {
+      const { error, frames } = interpret(`
+        repeat 1001 times do
+        end
+      `)
+      expect(frames).toBeArrayOfSize(2)
+
+      expect(frames[1].line).toBe(2)
+      expect(frames[1].status).toBe('ERROR')
+      expect(frames[1].code).toBe('1001')
+      expect(frames[1].error).not.toBeNull()
+      expect(frames[1].error!.category).toBe('RuntimeError')
+      expect(frames[1].error!.type).toBe('RepeatCountMustBeLessThanOneThousand')
     })
   })
 

@@ -1,18 +1,16 @@
 import React from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
-import { InspectedTestResultView } from './TestResultsView/InspectedTestResultView'
 import { Instructions } from './Instructions/Instructions'
 import { useSetupStores } from './hooks/useSetupStores'
 import { ControlButtons } from './ControlButtons/ControlButtons'
 import { CodeMirror } from './CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { Resizer, useResizablePanels } from './hooks/useResize'
-import { TaskPreview } from './TaskPreview/TaskPreview'
 import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
-import { PreviousTestResultView } from './PreviousTestResultsView/PreviousTestResultsView'
 import { Header } from './Header/Header'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { ResultsPanel } from './ResultsPanel'
 
 export default function SolveExercisePage({
   exercise,
@@ -92,9 +90,7 @@ export default function SolveExercisePage({
               style={{ height: BottomHeight }}
             >
               <ControlButtons handleRunCode={handleRunCode} />
-              <InspectedTestResultView />
-              <TaskPreview />
-              <PreviousTestResultView exercise={exercise} />
+              <ResultsPanel />
             </div>
           </div>
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />

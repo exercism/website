@@ -1,0 +1,35 @@
+set sun_radius to 5
+set sun_cy to 10
+
+set sun_red to 255
+set sun_green to 237
+set sun_blue to 0
+
+set sky_h to 210
+set sky_s to 70
+set sky_l to 60
+
+repeat 100 times do
+
+  // The sky
+  //change sky_s to sky_s - 0.2
+  //change sky_l to sky_l + 0.2
+  change sky_h to sky_h + 0.4
+  fill_color_hsl(sky_h, sky_s, sky_l)
+  rectangle(0,0,100,100)
+
+  // The Sun
+  change sun_green to sun_green - 1
+  change sun_cy to sun_cy + 1
+  change sun_radius to sun_radius + 0.2
+  fill_color_rgb(sun_red, sun_green, sun_blue)
+  circle(50, sun_cy, sun_radius)
+  
+  // The sea
+  fill_color_hex("#0308ce")
+  rectangle(0,85,100,5)
+  
+  // The sand
+  fill_color_hex("#C2B280")
+  rectangle(0,90,100,10)
+end

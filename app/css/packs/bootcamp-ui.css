@@ -23,6 +23,7 @@
 @import "../bootcamp/components/project-widget";
 @import "../bootcamp/components/exercise-widget";
 @import "../bootcamp/components/concept-widget";
+@import "../components/copy-text-to-clipboard.css";
 
 @import "../bootcamp/pages/dashboard";
 @import "../bootcamp/pages/projects";

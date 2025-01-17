@@ -8,10 +8,12 @@ type Links = {
 }
 
 export default function BootcampAffiliateCouponForm({
+  context,
   insidersStatus,
   bootcampAffiliateCouponCode,
   links,
 }: {
+  context: 'settings' | 'bootcamp'
   insidersStatus: string
   bootcampAffiliateCouponCode: string
   links: Links
@@ -43,46 +45,79 @@ export default function BootcampAffiliateCouponForm({
   const isInsider =
     insidersStatus == 'active' || insidersStatus == 'active_lifetime'
 
-  return (
-    <div>
-      <h2 className="!mb-8">Bootcamp Affiliate Coupon</h2>
-      <InfoMessage
-        isInsider={isInsider}
-        insidersStatus={insidersStatus}
-        insidersPath={links.insidersPath}
-        couponCode={couponCode}
-      />
+  switch (context) {
+    case 'settings':
+      return (
+        <div>
+          <h2 className="!mb-8">Bootcamp Affiliate Coupon</h2>
+          <InfoMessage
+            isInsider={isInsider}
+            insidersStatus={insidersStatus}
+            insidersPath={links.insidersPath}
+          />
 
-      {couponCode ? (
-        <CopyToClipboardButton textToCopy={couponCode} />
-      ) : (
-        <button
-          id="generate-affiliate-coupon-code-button"
-          onClick={generateCouponCode}
-          disabled={!isInsider || loading}
-          type="button"
-          className="btn btn-primary"
-        >
-          {loading
-            ? 'Generating code...'
-            : 'Generate your Affiliate Discount code'}
-        </button>
-      )}
-      <ErrorMessage error={error} />
-    </div>
-  )
+          {couponCode ? (
+            <CopyToClipboardButton textToCopy={couponCode} />
+          ) : (
+            <button
+              id="generate-affiliate-coupon-code-button"
+              onClick={generateCouponCode}
+              disabled={!isInsider || loading}
+              type="button"
+              className="btn btn-primary"
+            >
+              {loading
+                ? 'Generating code...'
+                : 'Generate your Affiliate Discount code'}
+            </button>
+          )}
+          <ErrorMessage error={error} />
+        </div>
+      )
+    case 'bootcamp': {
+      return (
+        <div>
+          <h2 className="mb-2">Affiliate Coupon</h2>
+          <p className="mb-8">
+            To help us get more people benefitting from the Bootcamp, we're
+            giving you an Affiliate Code to share. Anyone using the code gets
+            20% off the Bootcamp, and we give you 20% of what they pay.
+          </p>
+          <p className="mb-12">
+            Please share this Affiliate Code with your friends &amp; colleagues,
+            and on social media.{' '}
+          </p>
+
+          {couponCode ? (
+            <CopyToClipboardButton textToCopy={couponCode} />
+          ) : (
+            <button
+              id="generate-affiliate-coupon-code-button"
+              onClick={generateCouponCode}
+              disabled={loading}
+              type="button"
+              className="btn btn-primary"
+            >
+              {loading
+                ? 'Generating code...'
+                : 'Generate your Affiliate Discount code'}
+            </button>
+          )}
+          <ErrorMessage error={error} />
+        </div>
+      )
+    }
+  }
 }
 
 export function InfoMessage({
   insidersStatus,
   insidersPath,
   isInsider,
-  couponCode,
 }: {
   insidersStatus: string
   insidersPath: string
   isInsider: boolean
-  couponCode: string
 }): JSX.Element {
   if (isInsider) {
     return (

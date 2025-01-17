@@ -4,12 +4,12 @@ class Bootcamp::UserProject::Create
   initialize_with :user, :project
 
   def call
-    find_or_create.tap do |up|
+    create_or_find.tap do |up|
       Bootcamp::UserProject::UpdateStatus.(up)
     end
   end
 
-  def find_or_create
+  def create_or_find
     Bootcamp::UserProject.create!(user:, project:)
   rescue StandardError
     Bootcamp::UserProject.find_by!(user:, project:)

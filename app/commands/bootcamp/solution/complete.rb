@@ -17,7 +17,11 @@ class Bootcamp::Solution::Complete
     Bootcamp::UpdateUserLevel.defer(user)
   end
 
-  def user_project = Bootcamp::UserProject.for!(user, project)
+  def user_project
+    Bootcamp::UserProject.for!(user, project)
+  rescue ActiveRecord::RecordNotFound
+    Bootcamp::UserProject::Create.(user, project)
+  end
 
   delegate :user, :project, to: :solution
 end

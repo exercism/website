@@ -808,7 +808,7 @@ describe('if', () => {
 describe('repeat', () => {
   test('with number literal', () => {
     const stmts = parse(`
-      repeat 3 do
+      repeat 3 times do
         set x to 1
       end
     `)

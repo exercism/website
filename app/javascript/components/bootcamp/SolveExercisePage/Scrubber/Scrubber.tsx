@@ -30,7 +30,6 @@ function Scrubber({
     rangeRef,
     handleGoToNextFrame,
     handleGoToPreviousFrame,
-    handleScrubToCurrentTime,
   } = useScrubber({
     setIsPlaying,
     animationTimeline,
@@ -42,14 +41,6 @@ function Scrubber({
       setShouldShowInformationWidget(false)
     }
   }, [isPlaying, hasCodeBeenEdited])
-
-  // when user switches between test results, scrub to animation timeline's persisted currentTime
-  useEffect(() => {
-    if (!animationTimeline) {
-      return
-    }
-    handleScrubToCurrentTime(animationTimeline)
-  }, [animationTimeline?.timeline.currentTime])
 
   return (
     <div

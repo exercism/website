@@ -1,6 +1,5 @@
 import { createStoreWithMiddlewares } from './utils'
 
-// Might not need this whole store.
 type ErrorStore = {
   hasUnhandledError: boolean
   setHasUnhandledError: (hasUnhandledMountingError: boolean) => void
@@ -23,7 +22,7 @@ const useErrorStore = createStoreWithMiddlewares<ErrorStore>(
         'editor/setUnhandledErrorBase64'
       ),
   }),
-  'AnimationTimelineStore'
+  'ErrorStore'
 )
 
 export default useErrorStore

@@ -1,5 +1,6 @@
 #bootcamp-solve-exercise-page {
     .exercise-space-invaders {
+        background: #222;
         .laser {
             --laser-width: 20%;
             width: var(--laser-width);
@@ -25,6 +26,7 @@
             @apply absolute top-[20%] left-[20%];
 
             @apply grid grid-cols-2;
+            filter: invert(1);
 
             .tl,
             .tr,
@@ -49,9 +51,9 @@
         .shot {
             position: absolute;
             opacity: 0;
-            width: 5px;
-            height: 20px;
-            background-color: red;
+            width: 3px;
+            height: 15px;
+            background-color: white;
             z-index: 10;
             transform: translateX(-50%);
         }

@@ -23,6 +23,7 @@ export function useTasks({
     'initial'
   )
   const {
+    solution,
     links: { completeSolution: completeSolutionLink },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
@@ -36,7 +37,10 @@ export function useTasks({
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
-      console.log('setup stage', areAllTasksCompleted)
+      // if the solution is marked as `completed` on mount, the modal was once shown in the past
+      if (solution.status === 'completed') {
+        setWasFinishLessonModalShown(true)
+      }
       isSetupStage.current = false
     } else {
       if (
@@ -50,7 +54,12 @@ export function useTasks({
         setWasFinishLessonModalShown(true)
       }
     }
-  }, [areAllTasksCompleted, wasFinishLessonModalShown, isTimelineComplete])
+  }, [
+    areAllTasksCompleted,
+    wasFinishLessonModalShown,
+    isTimelineComplete,
+    solution.status,
+  ])
 
   const handleCompleteSolution = useCallback(async () => {
     try {

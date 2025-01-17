@@ -40,6 +40,16 @@
         -webkit-font-smoothing: antialiased;
       }
 
+    // Load other fonts used by the editor
+
+    :css
+      @font-face {
+        font-display: fallback;
+        font-family: DSDigital;
+        font-weight: 400;
+        src: url(#{asset_path('ds-digi.woff2')}) format('woff2');
+      }
+
     %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
     %title= content_for(:title) || "Bootcamp"
     %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }

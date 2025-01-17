@@ -58,6 +58,7 @@ projects = %w[
   weather
   golf
   space-invaders
+  time
 ]
 
 projects.each do |project_slug|

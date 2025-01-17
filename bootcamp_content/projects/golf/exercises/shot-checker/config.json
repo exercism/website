@@ -49,7 +49,7 @@
               "error_html": "The ball seems to go too far to the right."
             },
             {
-              "name": "functionUsed('fire_fireworks')",
+              "name": "wasFunctionUsed('fire_fireworks', null)",
               "matcher": "toBeFalse",
               "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
@@ -95,7 +95,7 @@
               "error_html": "The ball tried to sink into the ground beyond the hole."
             },
             {
-              "name": "functionUsed('fire_fireworks')",
+              "name": "wasFunctionUsed('fire_fireworks', null)",
               "matcher": "toBeFalse",
               "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
@@ -146,7 +146,7 @@
               "error_html": "The ball seems to go too far to the right."
             },
             {
-              "name": "functionUsed('fire_fireworks')",
+              "name": "wasFunctionUsed('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire."
             }
@@ -197,7 +197,7 @@
               "error_html": "The ball seems to go too far to the right."
             },
             {
-              "name": "functionUsed('fire_fireworks')",
+              "name": "wasFunctionUsed('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire."
             }

@@ -1,6 +1,6 @@
 import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
-import type { ExternalFunction } from '@/interpreter/executor'
+import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 
 export abstract class Exercise {
@@ -12,7 +12,7 @@ export abstract class Exercise {
 
   protected view!: HTMLElement
   protected container!: HTMLElement
-  protected functionCalls: Record<string, number> = {}
+  protected functionCalls: Record<string, Record<any, number>> = {}
 
   public constructor(private slug: String) {
     this.createView()
@@ -22,19 +22,45 @@ export abstract class Exercise {
     return code
   }
 
-  public recordFunctionUse(name: string) {
-    this.functionCalls[name] = (this.functionCalls[name] || 0) + 1
+  public recordFunctionUse(name: string, ...args) {
+    this.functionCalls[name] ||= {}
+    this.functionCalls[name][JSON.stringify(args)] ||= 0
+    this.functionCalls[name][JSON.stringify(args)] += 1
   }
 
-  public functionUsed(
-    _: InterpretResult,
+  public wasFunctionUsed(
+    _: ExecutionContext | InterpretResult,
     name: string,
-    times: number
+    args: any[] | null,
+    times?: number
   ): boolean {
-    if (times === null || times === undefined) {
-      return this.functionCalls[name] > 0
+    let timesCalled
+
+    console.log('HERE')
+    console.log(name)
+    console.log(this.functionCalls)
+    if (this.functionCalls[name] === undefined) {
+      console.log('HER1')
+      timesCalled = 0
+    } else if (args !== null && args !== undefined) {
+      console.log('HER2')
+      console.log(JSON.stringify(args))
+      timesCalled = this.functionCalls[name][JSON.stringify(args)]
+    } else {
+      console.log('HER3')
+      timesCalled = Object.values(this.functionCalls[name]).reduce(
+        (acc, count) => {
+          return acc + count
+        },
+        0
+      )
     }
-    return this.functionCalls[name] === times
+    console.log(timesCalled)
+
+    if (times === null || times === undefined) {
+      return timesCalled >= 1
+    }
+    return timesCalled === times
   }
 
   public lineNumberOffset = 0

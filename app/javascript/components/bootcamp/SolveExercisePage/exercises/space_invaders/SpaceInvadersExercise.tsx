@@ -17,10 +17,6 @@ class Alien {
   }
 }
 export default class SpaceInvadersExercise extends Exercise {
-  public getState() {
-    return { gameStatus: this.gameStatus }
-  }
-
   private gameStatus: GameStatus = 'running'
   private moveDuration = 200
   private shotDuration = 1000
@@ -48,6 +44,10 @@ export default class SpaceInvadersExercise extends Exercise {
       [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
       [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     ])
+  }
+
+  public getState() {
+    return { gameStatus: this.gameStatus }
   }
 
   private addAliens(rows) {

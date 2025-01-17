@@ -2,7 +2,7 @@ import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
 
-type GameState = 'running' | 'won' | 'lost'
+type GameStatus = 'running' | 'won' | 'lost'
 type AlienStatus = 'alive' | 'dead'
 class Alien {
   public status: AlienStatus
@@ -18,10 +18,10 @@ class Alien {
 }
 export default class SpaceInvadersExercise extends Exercise {
   public getState() {
-    return {}
+    return { gameStatus: this.gameStatus }
   }
 
-  private gameState: GameState = 'running'
+  private gameStatus: GameStatus = 'running'
   private moveDuration = 200
   private shotDuration = 1000
 
@@ -95,13 +95,9 @@ export default class SpaceInvadersExercise extends Exercise {
       row.every((alien) => alien === null || alien.status === 'dead')
     )
     if (win) {
-      this.gameState = 'won'
+      this.gameStatus = 'won'
       executionCtx.updateState('gameOver', true)
     }
-  }
-
-  public runGame(_: any) {
-    console.log('running game')
   }
 
   public isAlienAbove(executionCtx: ExecutionContext): boolean {
@@ -168,7 +164,7 @@ export default class SpaceInvadersExercise extends Exercise {
 
     if (targetAlien === null) {
       executionCtx.logicError('Oh no, you missed. Wasting ammo is not allowed!')
-      this.gameState = 'lost'
+      this.gameStatus = 'lost'
       executionCtx.updateState('gameOver', true)
     } else {
       const alien = targetAlien as Alien

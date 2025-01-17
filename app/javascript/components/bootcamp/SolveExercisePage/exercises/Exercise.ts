@@ -31,7 +31,6 @@ export abstract class Exercise {
     name: string,
     times: number
   ): boolean {
-    console.log(this.functionCalls)
     if (times === null || times === undefined) {
       return this.functionCalls[name] > 0
     }

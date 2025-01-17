@@ -48,7 +48,6 @@ export function useTasks({
         isTimelineComplete &&
         !wasFinishLessonModalShown
       ) {
-        console.log('being ehre')
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)

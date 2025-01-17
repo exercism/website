@@ -132,7 +132,6 @@ export default class DrawExercise extends Exercise {
     // providing these as constant values saves us from recalculating them every time
     // update these values if the tooltip style changes
     // measure max tooltip width/height with the fn below
-    // console.log(this.tooltip.getBoundingClientRect().width, this.tooltip.getBoundingClientRect().height)
     const maxTooltipWidth = 75
     const maxTooltipHeight = 32
     // handle tooltip overflow-x

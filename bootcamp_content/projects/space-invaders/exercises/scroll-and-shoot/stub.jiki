@@ -1,6 +1,9 @@
-// You can use move(), turn_left() and turn_right()
-// Use the functions in the order you want your character
-// to use them to solve them maze. We'll start you off by
-// moving the character one step forward.
+// TODO: Set any initial variables here
 
-move()
+// Consider changing this to a `repeat` with a smaller
+// amount of iterations to start with.
+repeat_until_game_over do
+  // TODO: Move the laser and shoot the aliens
+  // Write out all the logical steps using comments first
+  // the write the acutal JikiScript to make things happen.
+end

@@ -10,12 +10,16 @@ As you move, you need to check whether there's an alien above you using the `is_
 
 Once all the aliens have been shot down, you win!
 
-### Functions:
+### Reference
+
+Functions:
 
 - `move_left()`: Moves the laser to the left
 - `move_right()`: Moves the laser to the right
 - `is_alien_above()`: Returns `true` if there's an alien directly above you, or `false` if not.
 - `shoot()`: Shoots upwards.
+
+You'll also need the `set`, `change`, `if` and `repeat_until_game_over` concepts. To start with, you might find it better to use `repeat` with a fixed number of times, so that your code doesn't run forever!
 
 ### There's many ways to solve this!
 

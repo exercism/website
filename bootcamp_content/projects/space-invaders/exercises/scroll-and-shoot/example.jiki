@@ -1,20 +1,25 @@
 set direction to "right"
-set position = 0
+set steps to 0
 
-repeat_until_game over do
-  if direction is "right" then
-    moveRight()
-    change position to position + 1
-  else
-    moveLeft()
-    change position to position - 1
+repeat_until_game_over do
+  change steps to steps + 1
+
+  if direction is "right" do
+    move_right()
+  
+    if (steps > 9) do
+      change direction to "left"
+      change steps to 0
+    end
+  else do
+    move_left()
+    if (steps > 9) do
+      change direction to "right"
+      change steps to 0
+    end
   end
-
-  if position is 10 do
-    change direction to "left"
-  end
-
-  if canSeeEnemy() do
+  
+  if is_alien_above() do
     shoot()
   end
 end

@@ -13,10 +13,14 @@ export function UnhandledErrorView() {
           icon="bug"
         />
         <div className="text-h5 mb-6 text-textColor6">
-          Oops! Something went <strong className="font-semibold">very</strong> wrong.
+          Oops! Something went <strong className="font-bold">very</strong>{' '}
+          wrong.
         </div>
         <div className="mb-20 text-textColor6 leading-160 text-16 text-balance">
-          It would be very helpful if you could tell us about this error so we can improve things. Please click the button below to copy the mysterious text to your clipboard, and share it with us on Discord or the forum. Thank you! 💙
+          It would be very helpful if you could tell us about this error so we
+          can improve things. Please click the button below to copy the
+          mysterious text to your clipboard, and share it with us on Discord or
+          the forum. Thank you! 💙
         </div>
         <CopyToClipboardButton textToCopy={unhandledErrorBase64} />
       </div>

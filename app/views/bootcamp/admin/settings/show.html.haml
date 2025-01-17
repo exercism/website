@@ -1,0 +1,20 @@
+#page-admin-settings.page-admin.pt-20
+  .lg-container
+    %h1 Application Settings
+
+    %h2 Current Level
+    %p.mb-6.text-16 Level #{Bootcamp::Settings.instance.level_idx}
+
+    = form_with url: increment_level_admin_settings_path, method: :post, local: true, id: "admin-settings-increment-level-form" do
+      = button_tag "Increment Level", class: "btn btn-m btn-primary", data: { confirm: "Are you sure you want to increment the level?" }
+
+:javascript
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("admin-settings-increment-level-form");
+    form.addEventListener("submit", function(event) {
+      const confirmed = confirm("Are you sure you want to increment the level?");
+      if (!confirmed) {
+        event.preventDefault();
+      }
+    });
+  });

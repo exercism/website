@@ -49,8 +49,8 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
       )
     },
     readonly: false,
-    setReadonly: (hasCodeBeenEdited) =>
-      set({ hasCodeBeenEdited }, false, 'editor/setHasCodeBeenEdited'),
+    setReadonly: (readonly) =>
+      set({ readonly }, false, 'editor/setHasReadonly'),
     hasCodeBeenEdited: false,
     setHasCodeBeenEdited: (hasCodeBeenEdited) =>
       set({ hasCodeBeenEdited }, false, 'editor/setHasCodeBeenEdited'),

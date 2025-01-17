@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
-import { useOnRunCode } from '../hooks/useOnRunCode/useOnRunCode'
+import { useConstructRunCode } from '../hooks/useConstructRunCode/useConstructRunCode'
 import { cleanUpEditor } from './extensions/clean-up-editor'
 import type { EditorView } from 'codemirror'
 import type { Handler } from './CodeMirror'
 import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOnlyRanges'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import useEditorStore from '../store/editorStore'
+import useErrorStore from '../store/errorStore'
 
 export function useEditorHandler({
   links,
@@ -15,6 +16,7 @@ export function useEditorHandler({
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const { setDefaultCode } = useEditorStore()
+  const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + config.title,
     {
@@ -57,7 +59,7 @@ export function useEditorHandler({
     }
   }
 
-  const onRunCode = useOnRunCode({
+  const runCode = useConstructRunCode({
     links,
     config,
   })
@@ -85,7 +87,18 @@ export function useEditorHandler({
       const value = editorHandler.current.getValue()
 
       setLatestValueSnapshot(value)
-      onRunCode(value, editorViewRef.current)
+      try {
+        runCode(value, editorViewRef.current)
+      } catch (e: unknown) {
+        setHasUnhandledError(true)
+        setUnhandledErrorBase64(
+          JSON.stringify({
+            error: String(e),
+            code: value,
+            type: 'Error firing runCode',
+          })
+        )
+      }
     }
   }
 

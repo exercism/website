@@ -3,17 +3,9 @@ import { createStoreWithMiddlewares } from './utils'
 type TestStore = {
   inspectedTestResult: NewTestResult | null
   setInspectedTestResult: (inspectedTestResult: NewTestResult | null) => void
-  inspectedPreviousTestResult: PreviousTestResult | null
-  setInspectedPreviousTestResult: (
-    inspectedTestResult: PreviousTestResult | null
-  ) => void
   testSuiteResult: TestSuiteResult<NewTestResult> | null
   setTestSuiteResult: (
     testSuiteResult: TestSuiteResult<NewTestResult> | null
-  ) => void
-  previousTestSuiteResult: TestSuiteResult<PreviousTestResult> | null
-  setPreviousTestSuiteResult: (
-    testSuiteResult: TestSuiteResult<PreviousTestResult> | null
   ) => void
   flatPreviewTaskTests: TaskTest[]
   setFlatPreviewTaskTests: (flatPreviewTaskTests: TaskTest[]) => void
@@ -46,18 +38,6 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
         { inspectedPreviewTaskTest },
         false,
         'exercise/setInspectedPreviewTaskTest'
-      )
-    },
-    inspectedPreviousTestResult: null,
-    setInspectedPreviousTestResult: (inspectedPreviousTestResult) => {
-      set({ inspectedPreviousTestResult }, false, 'exercise/setTestResults')
-    },
-    previousTestSuiteResult: null,
-    setPreviousTestSuiteResult: (previousTestSuiteResult) => {
-      set(
-        { previousTestSuiteResult },
-        false,
-        'exercise/setPreviousTestSuiteResult'
       )
     },
     testSuiteResult: null,

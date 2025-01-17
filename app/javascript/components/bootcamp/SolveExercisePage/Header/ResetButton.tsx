@@ -2,16 +2,20 @@ import React, { useCallback, useContext, useState } from 'react'
 import Modal from 'react-modal'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import useTestStore from '../store/testStore'
 
 Modal.setAppElement('body')
 export function ResetButton() {
   const [shouldOpenConfirmationModal, setShouldOpenConfirmationModal] =
     useState(false)
   const { resetEditorToStub } = useContext(SolveExercisePageContext)
+  const { setTestSuiteResult, setInspectedTestResult } = useTestStore()
 
-  const handleResetEditorToStub = useCallback(() => {
+  const handleResetExercise = useCallback(() => {
     resetEditorToStub()
     setShouldOpenConfirmationModal(false)
+    setTestSuiteResult(null)
+    setInspectedTestResult(null)
   }, [resetEditorToStub, setShouldOpenConfirmationModal])
 
   return (
@@ -46,7 +50,7 @@ export function ResetButton() {
             Cancel
           </button>
           <button
-            onClick={handleResetEditorToStub}
+            onClick={handleResetExercise}
             className="btn-l btn-primary flex-grow"
           >
             Yes, Reset Exercise

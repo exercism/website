@@ -9,7 +9,6 @@ import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
-import { useLogger } from '../../common/hooks/useLogger'
 
 const FRAME_DURATION = 50
 
@@ -32,8 +31,6 @@ export function useScrubber({
 
   const { isTimelineComplete, setIsTimelineComplete } =
     useAnimationTimelineStore()
-
-  useLogger('isTimelineCOmplete', isTimelineComplete)
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {

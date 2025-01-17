@@ -10,7 +10,6 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
-import { useLogger } from '@/hooks'
 
 function _Header() {
   const {
@@ -56,7 +55,7 @@ function _Header() {
             >
               Complete Exercise
             </button>
-            {areAllTasksCompleted ? (
+            {areAllTasksCompleted && (
               <FinishLessonModalContextWrapper
                 value={{
                   isOpen: isFinishModalOpen,
@@ -68,8 +67,6 @@ function _Header() {
               >
                 <FinishLessonModal />
               </FinishLessonModalContextWrapper>
-            ) : (
-              <div id="nomodal">nomodal</div>
             )}
           </>
         )}

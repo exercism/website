@@ -1,10 +1,11 @@
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { createStoreWithMiddlewares } from './utils'
 
-// Might not need this whole store.
 type AnimationTimelineStore = {
   animationTimeline: AnimationTimeline | undefined
   setAnimationTimeline: (animationTimeline: AnimationTimeline) => void
+  isTimelineComplete: boolean
+  setIsTimelineComplete: (isTimelineComplete: boolean) => void
 }
 
 const useAnimationTimelineStore =
@@ -12,7 +13,19 @@ const useAnimationTimelineStore =
     (set) => ({
       animationTimeline: undefined,
       setAnimationTimeline: (animationTimeline) => {
-        set({ animationTimeline }, false, 'exercise/setTestResults')
+        set(
+          { animationTimeline },
+          false,
+          'animationTimelineStore/setAnimationTimeline'
+        )
+      },
+      isTimelineComplete: false,
+      setIsTimelineComplete: (isTimelineComplete) => {
+        set(
+          { isTimelineComplete },
+          false,
+          'animationTimelineStore/setIsTimelineComplete'
+        )
       },
     }),
     'AnimationTimelineStore'

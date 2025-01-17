@@ -12,7 +12,7 @@
       "tests": [
         {
           "slug": "draw-the-house",
-          "name": "Position the frame of the house.",
+          "name": "Draw the house.",
           "checks": [
             {
               "name": "getRectangleAt(20,50,60,40)",

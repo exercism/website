@@ -1,1 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="Hierarchy-2--Streamline-Ultimate" height="24" width="24"><desc>Hierarchy 2 Streamline Icon: https://streamlinehq.com</desc><defs></defs><title>hierarchy-2</title><path d="M10.5 18.748h12s0.75 0 0.75 0.75v3s0 0.75 -0.75 0.75h-12s-0.75 0 -0.75 -0.75v-3s0 -0.75 0.75 -0.75" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M10.5 11.248h12s0.75 0 0.75 0.75v3s0 0.75 -0.75 0.75h-12s-0.75 0 -0.75 -0.75v-3s0 -0.75 0.75 -0.75" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M1.5 0.748h12s0.75 0 0.75 0.75v3s0 0.75 -0.75 0.75h-12s-0.75 0 -0.75 -0.75v-3s0 -0.75 0.75 -0.75" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M6.75 5.248v1.5a1.5 1.5 0 0 0 1.5 1.5h4.5a1.5 1.5 0 0 1 1.5 1.5v1.5" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="m17.25 15.748 0 3" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+<svg id="concepts" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill:none;
+        stroke:currentColor;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+        stroke-width:1.5px;
+      }
+    </style>
+  </defs>
+  <title>educative-toys-alphabet</title>
+  <rect class="a" x="7.5" y="1.5" width="9" height="9" rx="1.5" ry="1.5"/>
+  <rect class="a" x="1.5" y="13.5" width="9" height="9" rx="1.5" ry="1.5"/>
+  <rect class="a" x="13.5" y="13.5" width="9" height="9" rx="1.5" ry="1.5"/>
+  <path class="a" d="M12,5.625A.375.375,0,0,1,12.375,6"/>
+  <path class="a" d="M11.625,6A.375.375,0,0,1,12,5.625"/>
+  <path class="a" d="M12,6.375A.375.375,0,0,1,11.625,6"/>
+  <path class="a" d="M12.375,6A.375.375,0,0,1,12,6.375"/>
+  <path class="a" d="M6,17.625A.375.375,0,0,1,6.375,18"/>
+  <path class="a" d="M5.625,18A.375.375,0,0,1,6,17.625"/>
+  <path class="a" d="M6,18.375A.375.375,0,0,1,5.625,18"/>
+  <path class="a" d="M6.375,18A.375.375,0,0,1,6,18.375"/>
+  <path class="a" d="M18,17.625a.375.375,0,0,1,.375.375"/>
+  <path class="a" d="M17.625,18A.375.375,0,0,1,18,17.625"/>
+  <path class="a" d="M18,18.375A.375.375,0,0,1,17.625,18"/>
+  <path class="a" d="M18.375,18a.375.375,0,0,1-.375.375"/>
+</svg>

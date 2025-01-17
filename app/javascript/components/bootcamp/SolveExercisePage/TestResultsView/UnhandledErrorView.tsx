@@ -13,7 +13,7 @@ export function UnhandledErrorView() {
           icon="bug"
         />
         <div className="text-h5 mb-6 text-textColor6">
-          Oops! Something went wrong.
+          Oops! Something went <strong className="font-semibold">very</strong> wrong.
         </div>
         <div className="mb-20 text-textColor6 leading-160 text-16 text-balance">
           No worries - just click the copy button below to grab the error

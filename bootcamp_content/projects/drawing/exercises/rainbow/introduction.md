@@ -14,7 +14,8 @@ The rainbow is made up of lots of bars.
 
 ## How to solve it...
 
-- The rainbow is made up of `100` bars, each with a width of `1`, starting at the top and being `100` high.
+- The top-left of the drawing canvas is `0,0`. The bottom-right is `100,100`.
+- The rainbow is made up of `100` bars, each with a width of `1`, starting at the top (`0`) and being `100` high.
 - The first bar should have an `x` of 0, and the final bar should have an `x` of 99.
 - You will need a variable for `x`. When choosing its initial value, remember that it will be increased in the `repeat` block BEFORE drawing.
 - You also need a variable for the `hue` of the color (set initially to `0`)

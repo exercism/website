@@ -15,7 +15,7 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import useErrorStore from '../../store/errorStore'
 
-export function useOnRunCode({
+export function useConstructRunCode({
   links,
   config,
 }: Pick<SolveExercisePageProps, 'links'> & {
@@ -41,12 +41,16 @@ export function useOnRunCode({
 
   const { markTaskAsCompleted, tasks } = useTaskStore()
 
-  const onRunCode = useCallback(
+  /**
+   * This function is used to run the code in the editor
+   */
+  const runCode = useCallback(
     (studentCode: string, editorView: EditorView | null) => {
       if (!tasks) {
         console.error('tasks are missing in useRunCode')
         return
       }
+
       // remove previous views
       document
         .querySelectorAll('.exercise-container')
@@ -145,5 +149,5 @@ export function useOnRunCode({
     [setTestSuiteResult, tasks, inspectedTestResult]
   )
 
-  return onRunCode
+  return runCode
 }

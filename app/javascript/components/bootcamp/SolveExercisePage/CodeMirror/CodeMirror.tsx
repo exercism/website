@@ -235,7 +235,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     try {
       editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
     } catch (e: unknown) {
-      console.error('Error during mounting the editor:', e)
       setHasUnhandledError(true)
       setUnhandledErrorBase64(
         JSON.stringify({

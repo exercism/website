@@ -2,6 +2,8 @@ import { useState, useContext, useCallback, useRef, useEffect } from 'react'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { type NextExercise, completeSolution } from './completeSolution'
 import type { TaskStore } from '../store/taskStore/taskStore'
+import useAnimationTimelineStore from '../store/animationTimelineStore'
+import { launchConfetti } from './launchConfetti'
 
 export function useTasks({
   areAllTasksCompleted,
@@ -21,8 +23,10 @@ export function useTasks({
     'initial'
   )
   const {
+    solution,
     links: { completeSolution: completeSolutionLink },
   } = useContext(SolveExercisePageContext)
+  const { isTimelineComplete } = useAnimationTimelineStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
   // see useSetupStores.ts
@@ -33,14 +37,29 @@ export function useTasks({
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
+      // if the solution is marked as `completed` on mount, the modal was once shown in the past
+      if (solution.status === 'completed') {
+        setWasFinishLessonModalShown(true)
+      }
       isSetupStage.current = false
     } else {
-      if (areAllTasksCompleted && !wasFinishLessonModalShown) {
+      if (
+        areAllTasksCompleted &&
+        isTimelineComplete &&
+        !wasFinishLessonModalShown
+      ) {
+        console.log('being ehre')
         setIsFinishModalOpen(true)
+        launchConfetti()
         setWasFinishLessonModalShown(true)
       }
     }
-  }, [areAllTasksCompleted, wasFinishLessonModalShown])
+  }, [
+    areAllTasksCompleted,
+    wasFinishLessonModalShown,
+    isTimelineComplete,
+    solution.status,
+  ])
 
   const handleCompleteSolution = useCallback(async () => {
     try {

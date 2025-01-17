@@ -3,7 +3,6 @@ import React, {
   useEffect,
   forwardRef,
   type ForwardedRef,
-  useContext,
   useMemo,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
@@ -38,6 +37,7 @@ import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
 import { getCodeMirrorFieldValue } from './getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnlyRanges'
 import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
+import useErrorStore from '../store/errorStore'
 
 export const readonlyCompartment = new Compartment()
 
@@ -100,6 +100,8 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     informationWidgetData,
     setInformationWidgetData,
   } = useEditorStore()
+
+  const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
@@ -230,7 +232,19 @@ export const CodeMirror = forwardRef(function _CodeMirror(
       ref.current = view
     }
 
-    editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
+    try {
+      editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
+    } catch (e: unknown) {
+      console.error('Error during mounting the editor:', e)
+      setHasUnhandledError(true)
+      setUnhandledErrorBase64(
+        JSON.stringify({
+          error: String(e),
+          code: value,
+          type: 'Codemirror editor mounting',
+        })
+      )
+    }
   })
 
   Hook.useReadonlyCompartment(getEditorView(), readonly)

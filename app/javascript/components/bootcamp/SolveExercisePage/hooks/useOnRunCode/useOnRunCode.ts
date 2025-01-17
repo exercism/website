@@ -13,6 +13,7 @@ import type { EditorView } from 'codemirror'
 import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
+import useErrorStore from '../../store/errorStore'
 
 export function useOnRunCode({
   links,
@@ -36,6 +37,8 @@ export function useOnRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
+  const { setHasUnhandledError } = useErrorStore()
+
   const { markTaskAsCompleted, tasks } = useTaskStore()
 
   const onRunCode = useCallback(
@@ -51,6 +54,7 @@ export function useOnRunCode({
 
       // reset on each run
       setHasSyntaxError(false)
+      setHasUnhandledError(false)
 
       const exercise = getAndInitializeExerciseClass(config)
 

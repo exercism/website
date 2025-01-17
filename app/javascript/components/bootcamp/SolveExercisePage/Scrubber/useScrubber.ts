@@ -8,6 +8,8 @@ import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
+import useAnimationTimelineStore from '../store/animationTimelineStore'
+import { useLogger } from '../../common/hooks/useLogger'
 
 const FRAME_DURATION = 50
 
@@ -27,6 +29,11 @@ export function useScrubber({
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
+
+  const { isTimelineComplete, setIsTimelineComplete } =
+    useAnimationTimelineStore()
+
+  useLogger('isTimelineCOmplete', isTimelineComplete)
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -83,6 +90,22 @@ export function useScrubber({
     testResult.animationTimeline?.currentFrameIndex,
     testResult.frames,
   ])
+
+  useEffect(() => {
+    if (testResult.animationTimeline?.timeline.completed) {
+      setIsTimelineComplete(true)
+    } else {
+      setIsTimelineComplete(false)
+    }
+  }, [testResult.animationTimeline?.timeline.completed])
+
+  // when user switches between test results, scrub to animation timeline's persisted currentTime
+  useEffect(() => {
+    if (!testResult.animationTimeline) {
+      return
+    }
+    handleScrubToCurrentTime(testResult.animationTimeline)
+  }, [testResult.animationTimeline?.timeline.currentTime])
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline) => {

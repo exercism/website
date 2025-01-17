@@ -14,9 +14,9 @@ export function handleMarkTaskAsCompleted(
   if (!taskData) return
 
   // Launch confetti if all tasks are now completed but weren't before
-  if (taskData.areAllTasksCompleted && !state.areAllTasksCompleted) {
-    launchConfetti()
-  }
+  // if (taskData.areAllTasksCompleted && !state.areAllTasksCompleted) {
+  //   launchConfetti()
+  // }
 
   return {
     tasks: taskData.updatedTasks,

@@ -141,23 +141,23 @@ function CompletedLevelView() {
   const { links } = useContext(SolveExercisePageContext)
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">Congratulations! </h2>
+      <h2 className="text-[25px] mb-12 font-semibold">
+        You've completed level {completedLevelIdx}!
+      </h2>
+      <p className="text-18 leading-140 mb-8">
+        <strong className="font-semibold">
+          Congratulations! That's a big achievement 🎉
+        </strong>
+      </p>
       {nextLevelIdx ? (
         <>
-          <p className="text-18 leading-140 mb-8">
-            <strong className="font-semibold">
-              You've completed level {completedLevelIdx}!
-            </strong>
-          </p>
           <p className="text-18 leading-140 mb-20">
-            Do you want to start it now, or would you rather go back to the
-            projects list?
+            You're now onto Level {nextLevelIdx} - a brand new challenge!
+            Remember to watch the teaching video in full before starting the
+            exercises.
           </p>
 
           <div className="flex items-center gap-8 self-stretch">
-            <a href={links.dashboardIndex} className="btn-l btn-secondary">
-              Back to dashboard
-            </a>
             <a
               href={links.bootcampLevelUrl.replace(
                 'idx',
@@ -165,14 +165,15 @@ function CompletedLevelView() {
               )}
               className="btn-l btn-primary flex-grow"
             >
-              Move on to level {nextLevelIdx}
+              Start Level {nextLevelIdx}
             </a>
           </div>
         </>
       ) : (
         <>
           <p className="text-18 leading-140 mb-20">
-            You've reached the end of what's available now.
+            You've completed all the levels available to you right now. Great
+            job!
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">

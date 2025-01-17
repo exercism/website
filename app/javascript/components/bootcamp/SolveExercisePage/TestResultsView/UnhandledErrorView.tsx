@@ -16,8 +16,7 @@ export function UnhandledErrorView() {
           Oops! Something went <strong className="font-semibold">very</strong> wrong.
         </div>
         <div className="mb-20 text-textColor6 leading-160 text-16 text-balance">
-          No worries - just click the copy button below to grab the error
-          details, and share it with us on Discord!
+          It would be very helpful if you could tell us about this error so we can improve things. Please click the button below to copy the mysterious text to your clipboard, and share it with us on Discord or the forum. Thank you! 💙
         </div>
         <CopyToClipboardButton textToCopy={unhandledErrorBase64} />
       </div>

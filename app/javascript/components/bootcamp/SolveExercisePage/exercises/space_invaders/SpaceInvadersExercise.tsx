@@ -2,9 +2,10 @@ import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
 
-type AlientStatus = 'alive' | 'dead'
+type GameState = 'running' | 'won' | 'lost'
+type AlienStatus = 'alive' | 'dead'
 class Alien {
-  public status: AlientStatus
+  public status: AlienStatus
 
   public constructor(
     public elem: HTMLElement,
@@ -20,7 +21,8 @@ export default class SpaceInvadersExercise extends Exercise {
     return {}
   }
 
-  private moveDuration = 400
+  private gameState: GameState = 'running'
+  private moveDuration = 200
   private shotDuration = 1000
 
   private minLaserPosition = 0
@@ -88,8 +90,32 @@ export default class SpaceInvadersExercise extends Exercise {
     executionCtx.fastForward(this.moveDuration)
   }
 
+  private checkForWin(executionCtx: ExecutionContext) {
+    const win = this.aliens.every((row) =>
+      row.every((alien) => alien === null || alien.status === 'dead')
+    )
+    if (win) {
+      this.gameState = 'won'
+      executionCtx.updateState('gameOver', true)
+    }
+  }
+
   public runGame(_: any) {
     console.log('running game')
+  }
+
+  public isAlienAbove(executionCtx: ExecutionContext): boolean {
+    return this.aliens.some((row) => {
+      const alien = row[this.laserPosition]
+      if (alien === null) {
+        return false
+      }
+      if (alien.status == 'dead') {
+        return false
+      }
+
+      return true
+    })
   }
 
   public shoot(executionCtx: ExecutionContext) {
@@ -141,14 +167,12 @@ export default class SpaceInvadersExercise extends Exercise {
     })
 
     if (targetAlien === null) {
-      executionCtx.logicError(
-        'Oh no, you missed - wasting ammo is not allowed!'
-      )
+      executionCtx.logicError('Oh no, you missed. Wasting ammo is not allowed!')
+      this.gameState = 'lost'
       executionCtx.updateState('gameOver', true)
     } else {
       const alien = targetAlien as Alien
       alien.status = 'dead'
-
       ;[
         ['tl', -10, -10, -180],
         ['tr', 10, -10, 180],
@@ -174,6 +198,8 @@ export default class SpaceInvadersExercise extends Exercise {
         offset: executionCtx.getCurrentTime() + duration,
       })
       executionCtx.fastForward(30)
+
+      this.checkForWin(executionCtx)
     }
 
     // const target = this.aliens[3][this.laserPosition]
@@ -222,6 +248,11 @@ export default class SpaceInvadersExercise extends Exercise {
     {
       name: 'shoot',
       func: this.shoot.bind(this),
+      description: '',
+    },
+    {
+      name: 'is_alien_above',
+      func: this.isAlienAbove.bind(this),
       description: '',
     },
   ]

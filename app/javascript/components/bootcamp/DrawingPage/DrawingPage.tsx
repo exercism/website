@@ -8,7 +8,7 @@ import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import Scrubber from './Scrubber/Scrubber'
+import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
 
@@ -16,6 +16,7 @@ export default function DrawingPage({
   drawing,
   code,
   links,
+  backgrounds,
 }: DrawingPageProps) {
   const [savingStateLabel, setSavingStateLabel] = useState<string>('')
 
@@ -37,7 +38,8 @@ export default function DrawingPage({
     viewContainerRef,
     animationTimeline,
     frames,
-  } = useDrawingEditorHandler({ code, links, drawing })
+    setBackgroundImage,
+  } = useDrawingEditorHandler()
 
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + drawing.uuid,
@@ -63,8 +65,10 @@ export default function DrawingPage({
     <div id="bootcamp-solve-exercise-page">
       <Header
         links={links}
+        backgrounds={backgrounds}
         savingStateLabel={savingStateLabel}
         drawing={drawing}
+        setBackgroundImage={setBackgroundImage}
       />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">

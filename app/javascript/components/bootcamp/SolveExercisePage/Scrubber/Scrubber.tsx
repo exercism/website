@@ -2,11 +2,19 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
-import { TooltipInformation } from './ScrubberTooltipInformation'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'
+import { Frame } from '@/interpreter/frames'
+import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
+import { TooltipInformation } from './ScrubberTooltipInformation'
 
-function Scrubber({ testResult }: { testResult: NewTestResult }) {
+function Scrubber({
+  animationTimeline,
+  frames,
+}: {
+  animationTimeline: AnimationTimeline | undefined | null
+  frames: Frame[]
+}) {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
@@ -24,7 +32,8 @@ function Scrubber({ testResult }: { testResult: NewTestResult }) {
     handleGoToPreviousFrame,
   } = useScrubber({
     setIsPlaying,
-    testResult,
+    animationTimeline,
+    frames,
   })
 
   useEffect(() => {
@@ -44,43 +53,56 @@ function Scrubber({ testResult }: { testResult: NewTestResult }) {
       tabIndex={-1}
       className="relative group"
     >
-      {testResult.animationTimeline && (
+      {animationTimeline && (
         <PlayButton
-          disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
+          disabled={shouldScrubberBeDisabled(
+            hasCodeBeenEdited,
+            animationTimeline,
+            frames
+          )}
           onClick={() => {
-            testResult.animationTimeline?.play(() =>
-              setShouldShowInformationWidget(false)
-            )
+            animationTimeline?.play(() => setShouldShowInformationWidget(false))
           }}
         />
       )}
       <input
         data-cy="scrubber-range-input"
-        disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
+        disabled={shouldScrubberBeDisabled(
+          hasCodeBeenEdited,
+          animationTimeline,
+          frames
+        )}
         type="range"
-        onKeyUp={(event) => handleOnKeyUp(event, testResult)}
-        onKeyDown={(event) => handleOnKeyDown(event, testResult)}
+        onKeyUp={(event) => handleOnKeyUp(event, animationTimeline)}
+        onKeyDown={(event) => handleOnKeyDown(event, animationTimeline, frames)}
         min={0}
         ref={rangeRef}
-        max={calculateMaxInputValue(testResult)}
+        max={calculateMaxInputValue(animationTimeline, frames)}
         onInput={updateInputBackground}
         value={value}
-        onMouseDown={(event) => handleMouseDown(event, testResult)}
+        onMouseDown={(event) =>
+          handleMouseDown(event, animationTimeline, frames)
+        }
         onChange={(event) => {
-          handleChange(event, testResult)
+          handleChange(event, animationTimeline, frames)
           updateInputBackground()
         }}
-        onMouseUp={() => handleOnMouseUp(testResult)}
+        onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
       />
       <FrameStepperButtons
-        onNext={() => handleGoToNextFrame(testResult)}
-        onPrev={() => handleGoToPreviousFrame(testResult)}
-        disabled={shouldScrubberBeDisabled(hasCodeBeenEdited, testResult)}
+        onNext={() => handleGoToNextFrame(animationTimeline, frames)}
+        onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
+        disabled={shouldScrubberBeDisabled(
+          hasCodeBeenEdited,
+          animationTimeline,
+          frames
+        )}
       />
       <InformationWidgetToggleButton disabled={hasCodeBeenEdited} />
       <TooltipInformation
         hasCodeBeenEdited={hasCodeBeenEdited}
-        notEnoughFrames={testResult.frames.length === 1}
+        notEnoughFrames={frames.length === 1}
+        animationTimeline={animationTimeline}
       />
     </div>
   )
@@ -129,12 +151,10 @@ function FrameStepperButtons({
 
 function shouldScrubberBeDisabled(
   hasCodeBeenEdited: boolean,
-  testResult: NewTestResult
+  animationTimeline: AnimationTimeline | undefined | null,
+  frames: Frame[]
 ) {
   // if the code has been edited, the scrubber should be disabled
   // if there is no animation timeline and there is only one frame, the scrubber should be disabled
-  return (
-    hasCodeBeenEdited ||
-    (!testResult.animationTimeline && testResult.frames.length === 1)
-  )
+  return hasCodeBeenEdited || (!animationTimeline && frames.length === 1)
 }

@@ -1,24 +1,41 @@
-// Flower 
-set flower_cx to 50
-set flower_cy to 90
+set canvas_width to 100
+set ground_top to 90
+
+set flower_center_x to canvas_width / 2
+set flower_center_y to 90
 set flower_radius to 0
 
-// pistil (the middle bit)
 set pistil_radius to 0
 
-// Stem Variables
+set stem_top to 0
 set stem_height to 0
 set stem_width to 0
 set stem_left to 0
-set stem_bottom to 90
+
+set leaf_top to 0
+set leaf_x_radius to 0
+set leaf_y_radius to 0
+
+set left_leaf_left to 0
+set right_leaf_left to 0
 
 repeat 60 times do
-  change flower_cy to flower_cy - 1
-  change stem_height to stem_bottom -flower_cy
-  change stem_width to stem_height / 10
-  change stem_left to flower_cx - ( stem_width / 2)
+  change flower_center_y to flower_center_y - 1
   change flower_radius to flower_radius + 0.4
+
   change pistil_radius to pistil_radius + 0.1
+  
+  change stem_top to flower_center_y
+  change stem_height to ground_top - flower_center_y
+  change stem_width to stem_height / 10
+  change stem_left to flower_center_x - (stem_width / 2)
+
+  change leaf_top to stem_top + (stem_height / 2)
+  change leaf_x_radius to flower_radius * 0.5
+  change leaf_y_radius to flower_radius * 0.2
+
+  change left_leaf_left to stem_left - leaf_x_radius
+  change right_leaf_left to stem_left + stem_width  + leaf_x_radius
 
   // Sky
   fill_color_hex("#ADD8E6") 
@@ -26,20 +43,23 @@ repeat 60 times do
   
   // Ground
   fill_color_hex("green")
-  rectangle(0, 90, 100, 30)
+  rectangle(0, ground_top, 100, 10)
+  
+  // Ground
+  fill_color_hex("green")
+  rectangle(stem_left, stem_top, stem_width, stem_height)
 
-  // Draw stem
-  fill_color_hex("darkgreen")
-  rectangle(stem_left, flower_cy, stem_width, stem_height)
-
-  // Left leaf
-  fill_color_hex("darkgreen")
-  ellipse(stem_left - (flower_radius / 2), flower_cy + (stem_height / 2), flower_radius / 2, flower_radius / 5)
-  ellipse(stem_left + (flower_radius / 2) + stem_width, flower_cy + (stem_height / 2), flower_radius / 2, flower_radius / 5)
-
-  fill_color_hex("#d90166")
-  circle(flower_cx, flower_cy, flower_radius)
-
+  // Flower head
+  fill_color_hex("pink")
+  circle(flower_center_x, flower_center_y, flower_radius)
+  
+  // Pistil
   fill_color_hex("yellow")
-  circle(flower_cx, flower_cy, pistil_radius)
+  circle(flower_center_x, flower_center_y, pistil_radius)
+
+  // Stem
+  fill_color_hex("green")
+  ellipse(left_leaf_left, leaf_top, leaf_x_radius, leaf_y_radius)
+  ellipse(right_leaf_left, leaf_top, leaf_x_radius, leaf_y_radius)
+  
 end

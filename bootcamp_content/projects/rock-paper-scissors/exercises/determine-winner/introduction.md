@@ -31,6 +31,8 @@ end
 
 ### Bonus Challenges
 
-- Can you solve this only using the `get_player_1_choice()` and `get_player_2_choice()` functions once in your program (imagine how inefficient it is to have to keep running a whole machine to get the player's choices over and over again).
-- Can you solve with `announce_result(...)` only appearing once in your code?
-- Can you solve this using only 13 lines of code (not including blank lines or comments)?
+Want some extra practice?
+
+- Can you solve the exercise only using the `get_player_1_choice()` and `get_player_2_choice()` functions once in your program (imagine how inefficient it is to have to keep running a whole machine to get the player's choices over and over again).
+- Can you solve the exercise with `announce_result(...)` only appearing once in your code?
+- Can you solve the exercise using the first two bonus conditions and only 13 lines of code (not including blank lines or comments)?

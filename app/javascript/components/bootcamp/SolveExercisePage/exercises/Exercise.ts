@@ -69,9 +69,6 @@ export abstract class Exercise {
     this.view.classList.add(cssClass)
     this.view.style.display = 'none'
     document.body.appendChild(this.view)
-
-    this.container = document.createElement('div')
-    this.view.appendChild(this.container)
   }
 
   public getView(): HTMLElement {

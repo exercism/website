@@ -8,10 +8,23 @@ type Result = 'player_1' | 'player_2' | 'tie'
 export default class RockPaperScissorsExercise extends Exercise {
   private player1Choice?: Choice
   private player2Choice?: Choice
+  private expectedResult?: Result
   private result?: Result
 
   public constructor() {
     super('rock-paper-scissors')
+
+    this.container = document.createElement('div')
+    this.container.classList.add('container')
+    this.view.appendChild(this.container)
+
+    this.player1Elem = document.createElement('div')
+    this.player1Elem.classList.add('player', 'player-1')
+    this.container.appendChild(this.player1Elem)
+
+    this.player2Elem = document.createElement('div')
+    this.player2Elem.classList.add('player', 'player-2')
+    this.container.appendChild(this.player2Elem)
   }
 
   public getState() {
@@ -21,11 +34,16 @@ export default class RockPaperScissorsExercise extends Exercise {
   public setChoices(player1: Choice, player2: Choice) {
     this.player1Choice = player1
     this.player2Choice = player2
+    this.expectedResult = this.determineCorrectResult()
+
+    this.player1Elem.classList.add(`${player1}`)
+    this.player2Elem.classList.add(`${player2}`)
+    this.view.classList.add(`result-${this.expectedResult}`)
   }
 
-  private determineCorrectResult(): Result | null {
+  private determineCorrectResult(): Result | undefined {
     if (!this.player1Choice || !this.player2Choice) {
-      return null
+      return undefined
     }
 
     if (this.player1Choice === this.player2Choice) {
@@ -59,12 +77,11 @@ export default class RockPaperScissorsExercise extends Exercise {
       )
     }
 
-    const correctResult = this.determineCorrectResult()
     this.result = result
-    if (result !== correctResult) {
+    if (result !== this.expectedResult) {
       // TODO: Change logic error to be paramatized and sanitize the strings in the interpreter.
       executionCtx.logicError(
-        `Oh no! You announced the wrong result. There's chaos in the playing hall!\n\nYou should have announced \`"${correctResult}"\` but you announced \`"${result}"\`.`
+        `Oh no! You announced the wrong result. There's chaos in the playing hall!\n\nYou should have announced \`"${this.expectedResult}"\` but you announced \`"${result}"\`.`
       )
     }
   }

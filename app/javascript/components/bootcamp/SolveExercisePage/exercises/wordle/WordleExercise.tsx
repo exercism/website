@@ -83,6 +83,10 @@ export default class WordleExercise extends Exercise {
   public availableFunctions = []
 
   private setupView() {
+    this.container = document.createElement('div')
+    this.container.classList.add('container')
+    this.view.appendChild(this.container)
+
     const board = document.createElement('div')
     board.classList.add('board')
     this.container.appendChild(board)

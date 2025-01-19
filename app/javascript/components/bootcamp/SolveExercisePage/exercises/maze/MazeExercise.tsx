@@ -31,6 +31,9 @@ export default class MazeExercise extends Exercise {
   public constructor() {
     super('maze')
 
+    this.container = document.createElement('div')
+    this.view.appendChild(this.container)
+
     this.cells = document.createElement('div')
     this.cells.classList.add('cells')
     this.container.appendChild(this.cells)

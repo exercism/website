@@ -49,16 +49,13 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symb
 end
 
 projects = %w[
-  two-fer
-  rock-paper-scissors
-  number-puzzles
   drawing
   maze
-  wordle
   weather
   golf
   space-invaders
   time
+  rock-paper-scissors
 ]
 
 projects.each do |project_slug|

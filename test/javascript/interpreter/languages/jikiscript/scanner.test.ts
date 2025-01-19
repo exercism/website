@@ -15,6 +15,8 @@ describe('single-character', () => {
     ['+', 'PLUS'],
     ['*', 'STAR'],
     ['/', 'SLASH'],
+    ['=', 'EQUAL'],
+    ['!', 'NOT'],
   ])("'%s' token", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)
@@ -29,6 +31,8 @@ describe('one, two or three characters', () => {
     ['>=', 'GREATER_EQUAL'],
     ['<', 'LESS'],
     ['<=', 'LESS_EQUAL'],
+    ['!=', 'STRICT_INEQUALITY'],
+    ['==', 'STRICT_EQUALITY'],
   ])("'%s' token", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)

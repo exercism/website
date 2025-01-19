@@ -4,26 +4,6 @@
     @apply bg-white;
     @apply relative;
 
-    &.available {
-        @apply shadow-base;
-
-        .tag {
-            @apply border-gray-300;
-            background-image: url("icons/bootcamp-available.svg");
-        }
-    }
-    &.completed {
-    }
-    &.locked {
-        @apply bg-gray-200;
-        @apply opacity-[0.5] cursor-not-allowed;
-
-        .tag {
-            @apply border-gray-400;
-            background-image: url("icons/lock.svg");
-        }
-    }
-
     img {
         @apply w-[80px] h-[80px] mr-16;
     }
@@ -46,11 +26,33 @@
 
         @apply ml-auto;
         @apply border-1 rounded-circle;
+    }
 
-        &.completed {
+    &.available {
+        @apply shadow-base;
+
+        .tag {
+            @apply border-gray-300;
+            background-image: url("icons/bootcamp-available.svg");
+        }
+    }
+    &.completed {
+        .tag {
             background: #e7fdf6;
             border-color: #43b593;
             color: #43b593;
+            background-image: url("icons/bootcamp-completed-check-circle.svg");
+            background-repeat: no-repeat;
+        }
+    }
+
+    &.locked {
+        @apply bg-gray-200;
+        @apply opacity-[0.5] cursor-not-allowed;
+
+        .tag {
+            @apply border-gray-400;
+            background-image: url("icons/lock.svg");
         }
     }
 }

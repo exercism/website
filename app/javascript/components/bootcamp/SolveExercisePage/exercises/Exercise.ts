@@ -36,18 +36,11 @@ export abstract class Exercise {
   ): boolean {
     let timesCalled
 
-    console.log('HERE')
-    console.log(name)
-    console.log(this.functionCalls)
     if (this.functionCalls[name] === undefined) {
-      console.log('HER1')
       timesCalled = 0
     } else if (args !== null && args !== undefined) {
-      console.log('HER2')
-      console.log(JSON.stringify(args))
       timesCalled = this.functionCalls[name][JSON.stringify(args)]
     } else {
-      console.log('HER3')
       timesCalled = Object.values(this.functionCalls[name]).reduce(
         (acc, count) => {
           return acc + count
@@ -55,7 +48,6 @@ export abstract class Exercise {
         0
       )
     }
-    console.log(timesCalled)
 
     if (times === null || times === undefined) {
       return timesCalled >= 1

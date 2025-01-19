@@ -1,0 +1,19 @@
+set player_1_choice to get_player_1_choice()
+set player_2_choice to get_player_2_choice()
+
+set result to "player_2"
+  
+if player_1_choice equals player_2_choice do
+  change result to "tie"
+
+else if player_1_choice is "rock" and player_2_choice is "scissors" do
+  change result to "player_1"
+
+else if player_1_choice is "scissors" and player_2_choice is "paper" do
+  change result to "player_1"
+
+else if player_1_choice is "paper" and player_2_choice is "rock" do
+  change result to "player_1"
+end
+
+announce_result(result)

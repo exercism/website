@@ -214,6 +214,9 @@ export class Parser implements GenericParser {
         })
       }
 
+      // Guard mistaken equals sign for assignment
+      this.guardEqualsSignForAssignment(this.peek())
+
       this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
         name: name.lexeme,
       })
@@ -549,13 +552,24 @@ export class Parser implements GenericParser {
       )
     }
 
+    this.guardEqualsSignForEquality(this.peek())
+
     return expr
   }
 
   private comparison(): Expression {
     let expr = this.term()
 
-    while (this.match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
+    while (
+      this.match(
+        'GREATER',
+        'GREATER_EQUAL',
+        'LESS',
+        'LESS_EQUAL',
+        'STRICT_EQUALITY',
+        'STRICT_INEQUALITY'
+      )
+    ) {
       const operator = this.previous()
       const right = this.term()
       expr = new BinaryExpression(
@@ -909,6 +923,19 @@ export class Parser implements GenericParser {
       type,
       context
     )
+  }
+
+  private guardEqualsSignForAssignment(name: Token) {
+    if (this.peek().type == 'EQUAL') {
+      this.error('UnexpectedEqualsForAssignment', this.peek().location, {
+        name: name.lexeme,
+      })
+    }
+  }
+  private guardEqualsSignForEquality(token: Token) {
+    if (token.type == 'EQUAL') {
+      this.error('UnexpectedEqualsForEquality', token.location)
+    }
   }
 
   private isAtEnd(): boolean {

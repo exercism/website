@@ -2,7 +2,7 @@
   "title": "Positive, Negative or Zero",
   "description": "Determine if a number is positive, negative or zero",
   "concepts": ["strings-using", "conditionals"],
-  "level": 3,
+  "level": 4,
   "idx": 1,
   "tasks": [
     {

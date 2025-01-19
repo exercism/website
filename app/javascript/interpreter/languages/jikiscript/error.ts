@@ -1,6 +1,5 @@
 export type SyntaxErrorType =
   | 'UnknownCharacter'
-  | 'UnknownCharacterEquals'
   | 'MissingCommaAfterParameters'
   | 'MissingDoToStartBlock'
   | 'MissingEndAfterBlock'
@@ -65,3 +64,6 @@ export type SyntaxErrorType =
   | 'UnexpectedVariableExpressionAfterIf'
   | 'UnexpectedVariableExpressionAfterIfWithPotentialTypo'
   | 'DuplicateParameterName'
+  | 'MissingTimesInRepeat'
+  | 'UnexpectedEqualsForAssignment'
+  | 'UnexpectedEqualsForEquality'

@@ -3,25 +3,6 @@
     @apply flex flex-col items-stretch;
     @apply bg-white;
 
-    &.available,
-    &.in_progress {
-        @apply shadow-base;
-
-        .tag {
-            @apply border-gray-300;
-            background-image: url("icons/bootcamp-available.svg");
-        }
-    }
-    &.locked {
-        @apply bg-gray-200;
-        @apply opacity-[0.5] cursor-not-allowed;
-
-        .tag {
-            @apply border-gray-400;
-            background-image: url("icons/lock.svg");
-        }
-    }
-
     img {
         @apply w-[80px] h-[80px] mr-12;
     }
@@ -51,8 +32,29 @@
 
         @apply ml-auto;
         @apply border-1 rounded-circle;
+    }
 
-        &.completed {
+    &.available,
+    &.in_progress {
+        @apply shadow-base;
+
+        .tag {
+            @apply border-gray-300;
+            background-image: url("icons/bootcamp-available.svg");
+        }
+    }
+    &.locked {
+        @apply bg-gray-200;
+        @apply opacity-[0.5] cursor-not-allowed;
+
+        .tag {
+            @apply border-gray-400;
+            background-image: url("icons/lock.svg");
+        }
+    }
+
+    &.completed {
+        .tag {
             background: #e7fdf6;
             border-color: #43b593;
             color: #43b593;

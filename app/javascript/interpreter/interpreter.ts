@@ -135,9 +135,7 @@ export function evaluateFunction(
 ): EvaluateFunctionResult {
   const interpreter = new Interpreter(sourceCode, context)
   interpreter.compile()
-  const res = interpreter.evaluateFunction(functionCall, ...args)
-  // console.log(res)
-  return res
+  return interpreter.evaluateFunction(functionCall, ...args)
 }
 
 export class Interpreter {

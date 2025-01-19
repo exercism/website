@@ -10,7 +10,7 @@ rectangle();
 
 Your instinct is probably that’ll draw a rectangle. But go a little deeper. Where does it draw the rectangle? How big should it be? The actual answer is that if you run that program it’ll error telling you that you’ve not given it enough information.
 
-The functions you used to solve the maze all did the same thing every time you used them. When you used `move` it always moved the character one step forward (or errored if it couldn’t). When you used `turn_left` , the character always turned left. But most of the time when we use functions, we want them to do something based on \*\*\*\*information we give them.
+The functions you used to solve the maze all did the same thing every time you used them. When you used `move` it always moved the character one step forward (or errored if it couldn’t). When you used `turn_left` , the character always turned left. But most of the time when we use functions, we want them to do something based on information we give them.
 
 So let’s expand our mental image of what a functions look like, and add a version that has inputs.
 

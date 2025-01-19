@@ -64,7 +64,9 @@ describe('syntax errors', () => {
 
   describe('assignment', () => {
     test('using = by accident', () => {
-      expect(() => parse('set 123 = "value"')).toThrow('UnknownCharacterEquals')
+      expect(() => parse('set value = "value"')).toThrow(
+        'UnexpectedEqualsForAssignment'
+      )
     })
 
     test('number as variable name', () => {
@@ -242,15 +244,20 @@ describe('syntax errors', () => {
   })
 
   describe('invalid characters', () => {
-    test('using = by accident', () => {
-      expect(() => parse('set 123 to x = "value"')).toThrow(
-        'UnknownCharacterEquals'
+    test('using = for assignment', () => {
+      expect(() => parse('set x = "value"')).toThrow(
+        'UnexpectedEqualsForAssignment'
       )
     })
 
-    test('using == by accident', () => {
-      expect(() => parse('set 123 to x == "value"')).toThrow(
-        'UnknownCharacterEquals'
+    test('using = for equality', () => {
+      expect(() => parse('if a = "value"')).toThrow(
+        'UnexpectedEqualsForEquality'
+      )
+    })
+    test('using = for equality in assignment', () => {
+      expect(() => parse('set a to x = "value"')).toThrow(
+        'UnexpectedEqualsForEquality'
       )
     })
   })

@@ -31,6 +31,21 @@ The positioning is slightly different from the first exercise:
 - It sits on the grass at a `y` of `75`.
 - It starts on the tee at `30` from the left.
 
-### Hints
+## Hints
+
+### Hint 1
 
 The result of `get_shot_length()` tells you how many `x` the ball moves forward. So if shot length is `5` and the ball's starting position is `30`, then its final position should be `35`, which is `6` frames of animation (30, 31, 32, 33, 34, 35).
+
+### Hint 2
+
+Remember, wherever you can use a number, you can use a variable or the result of a function instead.
+
+e.g. All of these are valid ways to write code (presuming Jiki has the relevant functions on his shelves):
+
+```
+circle(1, 2, 3)
+circle(x, y, r)
+circle(calculate_sun_left(), calculate_sun_width(), calculate_sun_radius())
+circle(1, y, calculate_sun_radius())
+```

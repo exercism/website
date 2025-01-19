@@ -2,5 +2,5 @@
   "slug": "rock-paper-scissors",
   "title": "Rock, Paper, Scissors",
   "description": "Implement the classic game",
-  "exercises": ["basic"]
+  "exercises": ["determine-winner"]
 }

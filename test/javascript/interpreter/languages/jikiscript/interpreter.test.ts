@@ -24,7 +24,7 @@ describe('statements', () => {
 
     describe('unary', () => {
       test('negation', () => {
-        const { frames } = interpret('set x to not true')
+        const { frames } = interpret('set x to !true')
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
         expect(frames[0].variables).toMatchObject({ x: false })
@@ -613,7 +613,6 @@ describe('statements', () => {
       })
     })
     test('nested if/else', () => {
-      console.log('TEST RUN')
       const { error, frames } = interpret(`
         set x to 1
         if true is true do

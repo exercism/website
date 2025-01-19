@@ -273,7 +273,6 @@ export class Executor
     }
 
     if (count > 1000) {
-      console.log('HERE')
       this.error(
         'RepeatCountMustBeLessThanOneThousand',
         statement.count.location,
@@ -708,6 +707,10 @@ export class Executor
           ...result,
           value: left.value % right.value,
         }
+      case 'EQUAL':
+        this.error('UnexpectedEqualsForEquality', expression.location, {
+          expression,
+        })
     }
 
     this.error('InvalidBinaryExpression', expression.location, { expression })

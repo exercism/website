@@ -17,14 +17,15 @@ export type TokenType =
   | 'RIGHT_PAREN'
   | 'SLASH'
   | 'STAR'
+  | 'NOT'
 
   // One, two or three character tokens.
-  | 'NOT'
   | 'DOLLAR_LEFT_BRACE'
   | 'GREATER_EQUAL'
   | 'GREATER'
   | 'LESS_EQUAL'
   | 'LESS'
+  | 'EQUAL'
 
   // Literals
   | 'IDENTIFIER'

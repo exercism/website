@@ -1,6 +1,7 @@
 #bootcamp-solve-exercise-page {
     .exercise-space-invaders {
-        background: #222;
+        background-color: #222;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.05), black);
         .laser {
             --laser-width: 20%;
             width: var(--laser-width);

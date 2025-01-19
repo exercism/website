@@ -1,8 +1,8 @@
 # Rolling ball
 
-In this exercise, we introduce some different **scenarios** for the first time. We've given you a new function to use called `get_shot_length()`. This function gives you the length of the shot the golfer has hit. In each scenario, the golfer hits the ball a different length. Once you click "Run Scenarios", click through the `1`, `2`, `3`, `4` boxes to see the different scenarios.
+Let's make the golf game a little more interesting! We've given you a new function to use called `get_shot_length()`. This function returns the length of the shot the golfer has hit.
 
-Your job is to write code that makes **all the scenarios work**.
+In each scenario, the golfer hits the ball a different length. Click through the `1`, `2`, `3`, `4` boxes to see how far the golfer has hit the ball. Your job is to write code that makes **all the scenarios work**.
 
 ## Instructions
 

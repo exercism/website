@@ -16,8 +16,8 @@
       "tests": [
         {
           "slug": "too-short",
-          "name": "Shot is too short.",
-          "description_html": "Make the ball roll the shot length distance.",
+          "name": "Golfer hits ball 23 (too short).",
+          "description_html": "Make the ball roll 23 from the tee.",
           "setup_functions": [
             ["setShotLength", [23]],
             [
@@ -41,7 +41,7 @@
             {
               "name": "getCircleAt(53, 75, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(54, 75, 3)",
@@ -57,8 +57,8 @@
         },
         {
           "slug": "too-long",
-          "name": "Shot is too long.",
-          "description_html": "Make the ball roll the shot length distance.",
+          "name": "Golfer hits ball 70 (too long).",
+          "description_html": "Make the ball roll 70 from the tee.",
           "setup_functions": [
             ["setShotLength", [70]],
             [
@@ -82,7 +82,7 @@
             {
               "name": "getCircleAt(100, 75, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(101, 75, 3)",
@@ -103,8 +103,8 @@
         },
         {
           "slug": "just-inside-left",
-          "name": "Shot is just in the hole on the left.",
-          "description_html": "Sink the ball into the hole and fire some fireworks!",
+          "name": "Golfer hits ball just in the hole.",
+          "description_html": "Roll the ball 56 from the tee, sink it into the hole, and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [56]],
             [
@@ -128,17 +128,17 @@
             {
               "name": "getCircleAt(86, 75, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
               "name": "getCircleAt(86, 83, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(86, 84, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(86, 85, 3)",
@@ -154,8 +154,8 @@
         },
         {
           "slug": "just-inside-right",
-          "name": "Shot is just in the hole on the right.",
-          "description_html": "Sink the ball into the hole and fire some fireworks!",
+          "name": "Golfer just about keeps the ball in the hole.",
+          "description_html": "Roll the ball 63 from the tee, sink it into the hole, and fire some fireworks!",
           "setup_functions": [
             ["setShotLength", [63]],
             [
@@ -179,17 +179,17 @@
             {
               "name": "getCircleAt(93, 75, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
               "name": "getCircleAt(93, 83, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(93, 84, 3)",
               "matcher": "toExist",
-              "error_html": "The ball doesn't seem to reach its finishing point."
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(93, 85, 3)",

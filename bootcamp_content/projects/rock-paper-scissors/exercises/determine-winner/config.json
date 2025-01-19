@@ -3,7 +3,7 @@
   "description": "Determine the winner",
   "project_type": "rock-paper-scissors",
   "level": 3,
-  "idx": 1,
+  "idx": 3,
   "tests_type": "state",
   "tasks": [
     {

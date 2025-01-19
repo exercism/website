@@ -17,6 +17,8 @@ class Alien {
   }
 }
 export default class DigitalClockExercise extends Exercise {
+  private displayedTime?: String
+
   public constructor() {
     super('digital-clock')
 
@@ -28,21 +30,43 @@ export default class DigitalClockExercise extends Exercise {
     this.timeElem.classList.add('time')
     this.view.appendChild(this.timeElem)
 
+    this.hourElem = document.createElement('div')
+    this.hourElem.classList.add('hour')
+    this.timeElem.appendChild(this.hourElem)
+
+    this.h1Elem = document.createElement('div')
+    this.h1Elem.classList.add('h1')
+    this.hourElem.appendChild(this.h1Elem)
+
+    this.h2Elem = document.createElement('div')
+    this.h2Elem.classList.add('h2')
+    this.hourElem.appendChild(this.h2Elem)
+
+    this.colonElem = document.createElement('div')
+    this.colonElem.classList.add('colon')
+    this.colonElem.innerText = ':'
+    this.timeElem.appendChild(this.colonElem)
+
+    this.minuteElem = document.createElement('div')
+    this.minuteElem.classList.add('minute')
+    this.timeElem.appendChild(this.minuteElem)
+
+    this.m1Elem = document.createElement('div')
+    this.m1Elem.classList.add('m1')
+    this.minuteElem.appendChild(this.m1Elem)
+
+    this.m2Elem = document.createElement('div')
+    this.m2Elem.classList.add('m2')
+    this.minuteElem.appendChild(this.m2Elem)
+
     this.meridiem = document.createElement('div')
     this.meridiem.classList.add('meridiem')
     this.view.appendChild(this.meridiem)
   }
 
   public getState() {
-    return {}
-  }
-
-  public displayedCurrentTime(executionCtx: ExecutionContext) {
-    const ampm = this.hours >= 12 ? 'pm' : 'am'
-    const normalisedHours = this.hours > 12 ? this.hours - 12 : this.hours
-    return this.wasFunctionUsed(executionCtx, 'display_time', [
-      this.formatTime(executionCtx, normalisedHours, this.minutes, ampm),
-    ])
+    console.log(this.displayedTime)
+    return { displayedTime: this.displayedTime }
   }
 
   public setTime(hours: number, minutes: number) {
@@ -50,43 +74,43 @@ export default class DigitalClockExercise extends Exercise {
     this.minutes = minutes
   }
 
+  public didDisplayCurrentTime(executionCtx: ExecutionContext) {
+    if (this.displayedTime === undefined) {
+      return false
+    }
+
+    const ampm = this.hours >= 12 ? 'pm' : 'am'
+    const normalisedHours = this.hours > 12 ? this.hours - 12 : this.hours
+
+    return this.displayedTime == `${normalisedHours}:${this.minutes}${ampm}`
+  }
+
   public currentTimeHour(_: ExecutionContext): number {
     return this.hours
   }
-
   public currentTimeMinute(_: ExecutionContext): number {
     return this.minutes
   }
 
-  public formatTime(
-    _: ExecutionContext,
+  public displayTime(
+    executionCtx: ExecutionContext,
     hours: string,
     mins: string,
     ampm: string
-  ): string {
-    return `${hours}:${String(mins).padStart(2, '0')} ${ampm}`
-  }
+  ) {
+    this.displayedTime = `${hours}:${mins}${ampm}`
 
-  public displayTime(executionCtx: ExecutionContext, timeString: string) {
-    this.recordFunctionUse('display_time', timeString)
+    const [h1, h2] = String(hours).padStart(2, '0').split('')
+    const [m1, m2] = String(mins).padStart(2, '0').split('')
 
-    const timePattern = /^([0-9][0-9]?:[0-9]{2}) ([ap]m)$/
-    const match = timeString.match(timePattern)
+    this.h1Elem.innerText = h1
+    this.h2Elem.innerText = h2
+    this.m1Elem.innerText = m1
+    this.m2Elem.innerText = m2
 
-    if (!match) {
-      executionCtx.logicError("The time string wasn't in a valid format")
-      return
-    }
-
-    const [_, time, meridiem] = match
-
-    this.timeElem.innerText = time
-    this.meridiem.innerText = meridiem
-    this.meridiem.classList.remove('am', 'pm')
-    if (meridiem === 'am') {
-      this.meridiem.classList.add('am')
-    } else {
-      this.meridiem.classList.add('pm')
+    if (ampm === 'am' || ampm === 'pm') {
+      this.meridiem.innerText = ampm
+      this.meridiem.classList.add(ampm)
     }
   }
 
@@ -104,13 +128,7 @@ export default class DigitalClockExercise extends Exercise {
     {
       name: 'display_time',
       func: this.displayTime.bind(this),
-      description: 'Writes the time on the clock',
-    },
-    {
-      name: 'format_time',
-      func: this.formatTime.bind(this),
-      description:
-        'Turns an hour, minute and am/pm into a string ready for a digital display',
+      description: 'Writes the hour, minute and am/pm onto the digital display',
     },
   ]
 }

@@ -43,7 +43,7 @@
       ]
     },
     {
-      "name": "Turn left if you can't move straight",
+      "name": "Turn left if you can",
       "tests": [
         {
           "slug": "left-turn",

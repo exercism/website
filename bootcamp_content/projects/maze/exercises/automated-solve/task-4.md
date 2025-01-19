@@ -1,8 +1,3 @@
-# Task 1
+# Task 4
 
-We've started by adding a single `move()` for you, which will move the character one step forward.
-
-Use the "Run code" button to see how close you're getting.
-
-It's good practice to get into the habit of running your code reguarly.
-In this exercise, we'd recommend running it after adding each new instruction, although you might like to try and challenge yourself to solve it all in one go instead!
+Great work. Now you need to handle what happens when you get to a dead-end. In that case you need to turn around!

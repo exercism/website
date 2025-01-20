@@ -996,11 +996,13 @@ export class Executor
     location: Location | null,
     context: any = {}
   ): never {
-    throw new RuntimeError(
-      translate(`error.runtime.${type}`, context),
-      location,
-      type,
-      context
-    )
+    let message
+    if (type == 'LogicError') {
+      message = context.message
+    } else {
+      message = translate(`error.runtime.${type}`, context)
+    }
+
+    throw new RuntimeError(message, location, type, context)
   }
 }

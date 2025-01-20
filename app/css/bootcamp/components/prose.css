@@ -47,6 +47,7 @@
         code {
             font-size: calc(var(--prose-base-text-size) - 1px);
         }
+        @apply overflow-auto;
     }
     *:not(pre) > code {
         @apply bg-blue-100;

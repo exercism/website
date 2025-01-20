@@ -100,7 +100,7 @@
             &.bomb {
                 @apply grid place-items-center;
                 &:before {
-                    content: "💣";
+                    content: "🔥";
                     font-size: 140%;
                 }
             }

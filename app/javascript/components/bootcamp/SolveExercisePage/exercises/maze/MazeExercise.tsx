@@ -102,6 +102,15 @@ export default class MazeExercise extends Exercise {
       this.gameOverWin(executionCtx)
     }
 
+    // If you hit an invalid square, blow up.
+    if (square === 4) {
+      executionCtx.logicError('Ouch! You walked into the fire!')
+      executionCtx.updateState('gameOver', true)
+      return
+    } else if (square === 3) {
+      this.gameOverWin(executionCtx)
+    }
+
     this.addAnimation({
       targets: this.characterSelector,
       duration: this.duration,

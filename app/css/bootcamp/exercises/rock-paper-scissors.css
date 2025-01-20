@@ -23,6 +23,9 @@
         }
 
         .player-2 {
+            &:before {
+                transform: rotateY(180deg);
+            }
             &:after {
                 content: "Player 2";
             }
@@ -32,10 +35,14 @@
             aspect-ratio: 1;
             position: relative;
             @apply font-semibold text-[7cqw];
-            @apply bg-center bg-no-repeat;
-            background-size: 80%;
             @apply border-3 border-borderColor5;
             @apply rounded-8;
+            &::before {
+                content: "";
+                @apply absolute inset-0;
+                @apply bg-center bg-no-repeat;
+                background-size: 80%;
+            }
 
             &:after {
                 position: absolute;
@@ -43,13 +50,19 @@
                 @apply inset-x-0 text-center;
             }
             &.rock {
-                background-image: url("bootcamp/assets/rock-paper-scissors/rock.png");
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/rock.png");
+                }
             }
             &.paper {
-                background-image: url("bootcamp/assets/rock-paper-scissors/paper.png");
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/paper.png");
+                }
             }
             &.scissors {
-                background-image: url("bootcamp/assets/rock-paper-scissors/scissors.png");
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/scissors.png");
+                }
             }
         }
     }

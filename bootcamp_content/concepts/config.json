@@ -81,13 +81,13 @@
     "parent": "flow-control",
     "title": "Conditionals",
     "description": "Learn about if and else statements.",
-    "level": 3
+    "level": 4
   },
   {
     "slug": "loops-repeat",
     "title": "Repeat Loop",
     "description": "",
-    "level": 3
+    "level": 4
   },
   {
     "slug": "arrays",

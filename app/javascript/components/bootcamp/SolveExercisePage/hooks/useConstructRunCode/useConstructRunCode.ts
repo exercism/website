@@ -51,14 +51,20 @@ export function useConstructRunCode({
         return
       }
 
+      // reset on each run
+      setHasSyntaxError(false)
+      setHasUnhandledError(false)
+      setShouldShowInformationWidget(false)
+      setInformationWidgetData({
+        html: '',
+        line: 0,
+        status: 'SUCCESS',
+      })
+
       // remove previous views
       document
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
-
-      // reset on each run
-      setHasSyntaxError(false)
-      setHasUnhandledError(false)
 
       const exercise = getAndInitializeExerciseClass(config)
 

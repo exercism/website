@@ -285,6 +285,40 @@ export default class DrawExercise extends Exercise {
     return colors.size >= count
   }
 
+  public checkCanvasCoverage(_: InterpretResult, requiredPercentage) {
+    const gridSize = 100
+    const grid = Array.from({ length: gridSize }, () =>
+      Array(gridSize).fill(false)
+    )
+
+    // Iterate through each circle
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Circle)) {
+        return
+      }
+      for (let x = 0; x < gridSize; x++) {
+        for (let y = 0; y < gridSize; y++) {
+          const distanceSquared = (x - shape.cx) ** 2 + (y - shape.cy) ** 2
+          if (distanceSquared <= shape.radius ** 2) {
+            grid[x][y] = true // Mark grid point as covered
+          }
+        }
+      }
+    })
+
+    // Count covered points
+    let coveredPoints = 0
+    grid.forEach((row) => {
+      coveredPoints += row.filter((point) => point).length
+    })
+
+    // Calculate coverage percentage
+    const totalPoints = gridSize * gridSize
+    const percentage = (coveredPoints / totalPoints) * 100
+
+    return percentage >= requiredPercentage
+  }
+
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
     return interpreterResult.frames.every((frame: Frame) => {
       if (!(frame.context instanceof ExpressionStatement)) {

@@ -22,53 +22,53 @@
             {
               "name": "getCircleAt(50, 89, 0.4)",
               "matcher": "toExist",
-              "error_html": "First Flower"
+              "error_html": "The first Flower Head isn't correct."
             },
             {
               "name": "getCircleAt(50, 30, 24)",
               "matcher": "toExist",
-              "error_html": "Final Flower"
+              "error_html": "The final Flower Head isn't correct."
             },
 
             {
               "name": "getCircleAt(50, 89, 0.1)",
               "matcher": "toExist",
-              "error_html": "First Pistil"
+              "error_html": "The first Pistil isn't correct."
             },
             {
               "name": "getCircleAt(50, 30, 6)",
               "matcher": "toExist",
-              "error_html": "Final Pistil"
+              "error_html": "The final Pistil isn't correct."
             },
             {
               "name": "getRectangleAt(49.95, 89, 0.1, 1)",
               "matcher": "toExist",
-              "error_html": "First Stem"
+              "error_html": "The first Stem isn't correct."
             },
             {
               "name": "getRectangleAt(47, 30, 6, 60)",
               "matcher": "toExist",
-              "error_html": "Final Stem"
+              "error_html": "The final Stem isn't correct."
             },
             {
               "name": "getEllipseAt(49.75, 89.5, 0.2, 0.08)",
               "matcher": "toExist",
-              "error_html": "First Left Leaf"
+              "error_html": "The first Left Leaf isn't correct."
             },
             {
               "name": "getEllipseAt(35, 60, 12, 4.8)",
               "matcher": "toExist",
-              "error_html": "Final Left Leaf"
+              "error_html": "The final Left Leaf isn't correct."
             },
             {
               "name": "getEllipseAt(50.25, 89.5, 0.2, 0.08)",
               "matcher": "toExist",
-              "error_html": "First Right Leaf"
+              "error_html": "The first Right Leaf isn't correct."
             },
             {
               "name": "getEllipseAt(65, 60, 12, 4.8)",
               "matcher": "toExist",
-              "error_html": "Final Right Leaf"
+              "error_html": "The final Right Leaf isn't correct."
             }
           ]
         }

@@ -1,5 +1,6 @@
-// The choices can be one of "rock", "paper" or "scissors"
-// Should return "player_1", "player_2" or "tie"
-function who_wins with player_1_choice, player_2_choice do
+// This is a scarily blank bit of starting code...
 
-end
+// Start by getting the first scenario correct
+// Then get the scenario correct, etc.
+// Then work out whether there's a way to make your
+// code prettier or more efficient at the end!

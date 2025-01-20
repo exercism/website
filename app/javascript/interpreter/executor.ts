@@ -79,6 +79,7 @@ export class Executor
   private frameTime: number = 0
   private location: Location | null = null
   private time: number = 0
+  private totalLoopIterations = 0 // TODO: Every time a loop iterates, use this to guard
 
   private readonly globals = new Environment()
   private environment = this.globals
@@ -283,6 +284,7 @@ export class Executor
     }
 
     while (count > 0) {
+      this.guardInfiniteLoop(statement.location)
       this.executeBlock(statement.body, this.environment)
       count--
 
@@ -311,6 +313,7 @@ export class Executor
         this.error('InfiniteLoop', errorLoc)
       }
 
+      this.guardInfiniteLoop(statement.location)
       this.executeBlock(statement.body, this.environment)
       count++
     }
@@ -960,6 +963,14 @@ export class Executor
     const distance = this.locals.get(expression)
     if (distance === undefined) return this.globals.get(name)
     return this.environment.getAt(distance, name.lexeme)
+  }
+
+  private guardInfiniteLoop(loc: Location) {
+    this.totalLoopIterations++
+
+    if (this.totalLoopIterations > 5000) {
+      this.error('InfiniteLoop', loc)
+    }
   }
 
   private addFrame(

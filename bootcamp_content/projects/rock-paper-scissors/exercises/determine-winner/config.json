@@ -12,6 +12,7 @@
         {
           "slug": "paper-vs-paper",
           "name": "Paper vs Paper",
+          "description_html": "It's a draw. Announce it correctly!",
 
           "setup_functions": [["setChoices", ["paper", "paper"]]],
           "checks": [
@@ -30,6 +31,7 @@
         {
           "slug": "paper-vs-rock",
           "name": "Paper vs Rock",
+          "description_html": "Player 1's paper beats player 2's rock. Announce player 1 as the winner!",
 
           "setup_functions": [["setChoices", ["paper", "rock"]]],
           "checks": [
@@ -48,6 +50,7 @@
         {
           "slug": "paper-vs-scissors",
           "name": "Paper vs Scissors",
+          "description_html": "Player 2's scissors beat player 1's paper. Announce player 2 as the winner.",
 
           "setup_functions": [["setChoices", ["paper", "scissors"]]],
           "checks": [
@@ -66,6 +69,7 @@
         {
           "slug": "rock-vs-paper",
           "name": "Rock vs Paper",
+          "description_html": "Player 2's paper beat player 1's rock. Announce player 2 as the winner.",
 
           "setup_functions": [["setChoices", ["rock", "paper"]]],
           "checks": [
@@ -84,6 +88,7 @@
         {
           "slug": "rock-vs-rock",
           "name": "Rock vs Rock",
+          "description_html": "It's a draw. Announce it correctly!",
 
           "setup_functions": [["setChoices", ["rock", "rock"]]],
           "checks": [
@@ -102,6 +107,7 @@
         {
           "slug": "rock-vs-scissors",
           "name": "Rock vs Scissors",
+          "description_html": "Player 1's rock beat player 2's scissors. Announce player 1 as the winner.",
 
           "setup_functions": [["setChoices", ["rock", "scissors"]]],
           "checks": [
@@ -120,6 +126,7 @@
         {
           "slug": "scissors-vs-paper",
           "name": "Scissors vs Paper",
+          "description_html": "Player 1's scissors beat player 2's paper. Announce player 1 as the winner.",
 
           "setup_functions": [["setChoices", ["scissors", "paper"]]],
           "checks": [
@@ -138,6 +145,7 @@
         {
           "slug": "scissors-vs-rock",
           "name": "Scissors vs Rock",
+          "description_html": "Player 2's rock beat player 1's scissors. Announce player 2 as the winner.",
 
           "setup_functions": [["setChoices", ["scissors", "rock"]]],
           "checks": [
@@ -156,6 +164,7 @@
         {
           "slug": "scissors-vs-scissors",
           "name": "Scissors vs Scissors",
+          "description_html": "It's a draw. Announce it correctly!",
 
           "setup_functions": [["setChoices", ["scissors", "scissors"]]],
           "checks": [

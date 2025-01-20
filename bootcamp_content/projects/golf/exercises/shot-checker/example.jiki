@@ -1,0 +1,25 @@
+set x to 29
+set y to 75
+set radius to 3
+set shot_length to get_shot_length()
+
+fill_color_hex("orange")
+
+repeat shot_length + 1 times do
+  clear()
+
+  change x to x + 1
+
+  circle(x, y, 3)
+end
+
+if shot_length >= 56 and shot_length <= 65 do  
+  repeat 9 times do
+    clear()
+  
+    change y to y + 1
+    circle(x, y, 3)
+  end
+
+  fire_fireworks()
+end

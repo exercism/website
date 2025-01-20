@@ -49,14 +49,13 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symb
 end
 
 projects = %w[
-  two-fer
-  rock-paper-scissors
-  number-puzzles
   drawing
   maze
-  wordle
   weather
   golf
+  space-invaders
+  time
+  rock-paper-scissors
 ]
 
 projects.each do |project_slug|
@@ -84,7 +83,7 @@ projects.each do |project_slug|
       title: exercise_config[:title],
       description: exercise_config[:description],
       level_idx: exercise_config[:level],
-      concepts: exercise_config[:concepts].map do |slug|
+      concepts: (exercise_config[:concepts] || []).map do |slug|
                   Bootcamp::Concept.find_by!(slug:)
                 end
     )

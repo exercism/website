@@ -1,0 +1,8 @@
+// TODO: Use the current_time_hour() and
+// current_time_minute() functions to get the 
+// current time and minutes for the scenario.
+
+// Convert the hour into "12 hour" format and 
+// determine whether it's "am" or "pm".
+
+// TODO: Use display_time to update the clock

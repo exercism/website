@@ -15,7 +15,6 @@
           "slug": "draw-scence",
           "name": "Make the penguin symmetrical.",
           "description_html": "Fix all the TODO comments to make the penguin symmetrical.",
-          "function": "main",
           "checks": [
             {
               "name": "getRectangleAt(0, 0, 100, 100)",

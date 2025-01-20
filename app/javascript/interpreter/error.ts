@@ -36,6 +36,7 @@ export type RuntimeErrorType =
   | 'OperandsMustBeTwoNumbersOrTwoStrings'
   | 'InvalidIndexGetterTarget'
   | 'InvalidIndexSetterTarget'
+  | 'UnexpectedEqualsForEquality'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

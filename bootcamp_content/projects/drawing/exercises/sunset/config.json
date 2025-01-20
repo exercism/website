@@ -18,7 +18,6 @@
           "slug": "draw-scene",
           "name": "Make the sun set",
           "description_html": "Animate the sun and the sky to make it look like the sun is setting.",
-          "function": "main",
           "checks": [
             {
               "name": "getCircleAt(50, 11, 5.2)",

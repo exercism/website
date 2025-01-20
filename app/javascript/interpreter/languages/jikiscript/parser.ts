@@ -214,6 +214,9 @@ export class Parser implements GenericParser {
         })
       }
 
+      // Guard mistaken equals sign for assignment
+      this.guardEqualsSignForAssignment(this.peek())
+
       this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
         name: name.lexeme,
       })
@@ -300,9 +303,16 @@ export class Parser implements GenericParser {
     }
 
     this.consume('DO', 'MissingDoToStartBlock', { type: 'if' })
-    const thenBranch = this.blockStatement('if', { allowElse: true })
+    const thenBranch = this.blockStatement('if', {
+      allowElse: true,
+      consumeEnd: false,
+    })
     let elseBranch: Statement | null = null
 
+    // if(this.previous(2).type == "END") {
+    //   console.log("Are we done twice?")
+    //   // We're in a nested situation. We're done.
+    // }
     if (this.match('ELSE')) {
       if (this.match('IF')) {
         elseBranch = this.ifStatement()
@@ -311,9 +321,11 @@ export class Parser implements GenericParser {
         elseBranch = this.blockStatement('else')
       }
     } else {
-      // this.consume("END", "MissingEndAfterIfBody");
-      // this.consumeEndOfLine();
+      this.consume('END', 'MissingEndAfterBlock', { type: 'if' })
+      this.consumeEndOfLine()
     }
+
+    // console.log(condition, thenBranch, elseBranch, ifToken, this.previous());
 
     return new IfStatement(
       condition,
@@ -412,11 +424,11 @@ export class Parser implements GenericParser {
 
   private blockStatement(
     type: string,
-    { allowElse } = { allowElse: false }
+    { allowElse, consumeEnd } = { allowElse: false, consumeEnd: true }
   ): BlockStatement {
     const doToken = this.previous()
     this.consumeEndOfLine()
-    const statements = this.block(type, { allowElse: allowElse })
+    const statements = this.block(type, { allowElse, consumeEnd })
 
     return new BlockStatement(
       statements,
@@ -426,7 +438,7 @@ export class Parser implements GenericParser {
 
   private block(
     type: string,
-    { allowElse } = { allowElse: false }
+    { allowElse, consumeEnd } = { allowElse: false, consumeEnd: true }
   ): Statement[] {
     const statements: Statement[] = []
 
@@ -438,7 +450,7 @@ export class Parser implements GenericParser {
       statements.push(this.statement())
     }
 
-    if (!allowElse || this.peek().type != 'ELSE') {
+    if (consumeEnd && (!allowElse || this.peek().type != 'ELSE')) {
       this.consume('END', 'MissingEndAfterBlock', { type })
       this.consumeEndOfLine()
     }
@@ -540,13 +552,24 @@ export class Parser implements GenericParser {
       )
     }
 
+    this.guardEqualsSignForEquality(this.peek())
+
     return expr
   }
 
   private comparison(): Expression {
     let expr = this.term()
 
-    while (this.match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
+    while (
+      this.match(
+        'GREATER',
+        'GREATER_EQUAL',
+        'LESS',
+        'LESS_EQUAL',
+        'STRICT_EQUALITY',
+        'STRICT_INEQUALITY'
+      )
+    ) {
       const operator = this.previous()
       const right = this.term()
       expr = new BinaryExpression(
@@ -902,6 +925,19 @@ export class Parser implements GenericParser {
     )
   }
 
+  private guardEqualsSignForAssignment(name: Token) {
+    if (this.peek().type == 'EQUAL') {
+      this.error('UnexpectedEqualsForAssignment', this.peek().location, {
+        name: name.lexeme,
+      })
+    }
+  }
+  private guardEqualsSignForEquality(token: Token) {
+    if (token.type == 'EQUAL') {
+      this.error('UnexpectedEqualsForEquality', token.location)
+    }
+  }
+
   private isAtEnd(): boolean {
     return this.peek().type == 'EOF'
   }
@@ -914,8 +950,8 @@ export class Parser implements GenericParser {
     return this.tokens[this.current + (n - 1)]
   }
 
-  private previous(): Token {
-    return this.tokens[this.current - 1]
+  private previous(n = 1): Token {
+    return this.tokens[this.current - n]
   }
 }
 export function parse(

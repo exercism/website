@@ -48,8 +48,8 @@ export class Scanner {
     if: 'IF',
     in: 'IN',
     is: 'STRICT_EQUALITY',
-    not: 'NOT',
     null: 'NULL',
+    not: 'NOT',
     or: 'OR',
     repeat: 'REPEAT',
     repeat_until_game_over: 'REPEAT_UNTIL_GAME_OVER',
@@ -78,6 +78,8 @@ export class Scanner {
     '%': this.tokenizePercent,
     '>': this.tokenizeGreater,
     '<': this.tokenizeLess,
+    '!': this.tokenizeBang,
+    '=': this.tokenizeEqual,
     ' ': this.tokenizeWhitespace,
     '\t': this.tokenizeWhitespace,
     '\r': this.tokenizeWhitespace,
@@ -118,10 +120,6 @@ export class Scanner {
       } else if (this.isAlpha(c)) {
         this.tokenizeIdentifier()
       } else {
-        if (c == '=') {
-          this.error('UnknownCharacterEquals')
-        }
-
         this.error('UnknownCharacter', {
           character: c,
         })
@@ -147,6 +145,13 @@ export class Scanner {
   /* This first set of tokenizers are simple. They consume a single character and add a token to the list of tokens,
    * or do simple checks for the next characters (e.g. "++")
    */
+  private tokenizeBang() {
+    this.addToken(this.match('=') ? 'STRICT_INEQUALITY' : 'NOT')
+  }
+
+  private tokenizeEqual() {
+    this.addToken(this.match('=') ? 'STRICT_EQUALITY' : 'EQUAL')
+  }
   private tokenizeLeftParanthesis() {
     this.addToken('LEFT_PAREN')
   }

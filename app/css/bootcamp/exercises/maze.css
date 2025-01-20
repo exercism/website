@@ -55,16 +55,54 @@
             background-color: white;
             border: 0.5px solid #000;
             &.blocked {
-                background-color: red;
+                background: radial-gradient(
+                        circle,
+                        transparent 20%,
+                        #f9dcdc 20%,
+                        #f9dcdc 80%,
+                        transparent 80%,
+                        transparent
+                    ),
+                    radial-gradient(
+                            circle,
+                            transparent 20%,
+                            #f9dcdc 20%,
+                            #f9dcdc 80%,
+                            transparent 80%,
+                            transparent
+                        )
+                        10px 10px,
+                    linear-gradient(#f74545 0.8px, transparent 0.8px) 0 -0.4px,
+                    linear-gradient(90deg, #f74545 0.8px, #f9dcdc 0.8px) -0.4px 0;
+                background-size: 10px 10px, 10px 10px, 5px 5px, 5px 5px;
             }
             &.start {
-                background-color: lightblue;
+                background-color: #e4e6ff;
             }
             &.target {
-                background-color: lightgreen;
+                background-color: #8effb3;
+                opacity: 1;
+                background-image: radial-gradient(
+                        circle at center center,
+                        #08b600,
+                        #8effb3
+                    ),
+                    repeating-radial-gradient(
+                        circle at center center,
+                        #08b600,
+                        #08b600,
+                        11px,
+                        transparent 22px,
+                        transparent 11px
+                    );
+                background-blend-mode: multiply;
             }
             &.bomb {
-                background-color: purple;
+                @apply grid place-items-center;
+                &:before {
+                    content: "🔥";
+                    font-size: 140%;
+                }
             }
         }
 

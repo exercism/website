@@ -78,8 +78,9 @@
   },
   {
     "slug": "conditionals",
+    "parent": "flow-control",
     "title": "Conditionals",
-    "description": "",
+    "description": "Learn about if and else statements.",
     "level": 3
   },
   {
@@ -118,7 +119,7 @@
   {
     "slug": "variables-changing",
     "parent": "variables",
-    "title": "Changing variables",
+    "title": "Change variables",
     "description": "Learn how to change variables",
     "level": 2
   },

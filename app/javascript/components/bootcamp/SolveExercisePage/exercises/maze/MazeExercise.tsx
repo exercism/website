@@ -31,6 +31,9 @@ export default class MazeExercise extends Exercise {
   public constructor() {
     super('maze')
 
+    this.container = document.createElement('div')
+    this.view.appendChild(this.container)
+
     this.cells = document.createElement('div')
     this.cells.classList.add('cells')
     this.container.appendChild(this.cells)
@@ -93,6 +96,15 @@ export default class MazeExercise extends Exercise {
     // If we've hit a bad square, still animate but also animate color
     if (square === 1) {
       executionCtx.logicError('Ouch! You walked into a wall!')
+      executionCtx.updateState('gameOver', true)
+      return
+    } else if (square === 3) {
+      this.gameOverWin(executionCtx)
+    }
+
+    // If you hit an invalid square, blow up.
+    if (square === 4) {
+      executionCtx.logicError('Ouch! You walked into the fire!')
       executionCtx.updateState('gameOver', true)
       return
     } else if (square === 3) {

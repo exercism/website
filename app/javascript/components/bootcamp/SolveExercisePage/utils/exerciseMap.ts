@@ -1,6 +1,10 @@
 import DrawExercise from '../exercises/draw/DrawExercise'
 import MazeExercise from '../exercises/maze/MazeExercise'
+import SpaceInvadersExercise from '../exercises/space_invaders/SpaceInvadersExercise'
 import WordleExercise from '../exercises/wordle/WordleExercise'
+import GolfExercise from '../exercises/golf/GolfExercise'
+import DigitalClockExercise from '../exercises/time/DigitalClockExercise'
+import RockPaperScissorsExercise from '../exercises/rock_paper_scissors/RockPaperScissorsExercise'
 
 import { Exercise } from '../exercises/Exercise'
 
@@ -10,6 +14,10 @@ const projectsCache = new Map<any, any>()
 projectsCache.set('draw', DrawExercise)
 projectsCache.set('maze', MazeExercise)
 projectsCache.set('wordle', WordleExercise)
+projectsCache.set('golf', GolfExercise)
+projectsCache.set('space-invaders', SpaceInvadersExercise)
+projectsCache.set('digital-clock', DigitalClockExercise)
+projectsCache.set('rock-paper-scissors', RockPaperScissorsExercise)
 
 export default projectsCache
 

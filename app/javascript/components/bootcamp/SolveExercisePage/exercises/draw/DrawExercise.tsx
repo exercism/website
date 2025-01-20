@@ -79,8 +79,8 @@ export default class DrawExercise extends Exercise {
   private penColor = '#333333'
   private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
 
-  constructor() {
-    super('draw')
+  constructor(slug = 'draw') {
+    super(slug)
 
     Object.assign(this.view.style, {
       display: 'none',
@@ -133,7 +133,6 @@ export default class DrawExercise extends Exercise {
     // providing these as constant values saves us from recalculating them every time
     // update these values if the tooltip style changes
     // measure max tooltip width/height with the fn below
-    // console.log(this.tooltip.getBoundingClientRect().width, this.tooltip.getBoundingClientRect().height)
     const maxTooltipWidth = 75
     const maxTooltipHeight = 32
     // handle tooltip overflow-x
@@ -285,6 +284,40 @@ export default class DrawExercise extends Exercise {
       colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
     })
     return colors.size >= count
+  }
+
+  public checkCanvasCoverage(_: InterpretResult, requiredPercentage) {
+    const gridSize = 100
+    const grid = Array.from({ length: gridSize }, () =>
+      Array(gridSize).fill(false)
+    )
+
+    // Iterate through each circle
+    this.shapes.forEach((shape) => {
+      if (!(shape instanceof Circle)) {
+        return
+      }
+      for (let x = 0; x < gridSize; x++) {
+        for (let y = 0; y < gridSize; y++) {
+          const distanceSquared = (x - shape.cx) ** 2 + (y - shape.cy) ** 2
+          if (distanceSquared <= shape.radius ** 2) {
+            grid[x][y] = true // Mark grid point as covered
+          }
+        }
+      }
+    })
+
+    // Count covered points
+    let coveredPoints = 0
+    grid.forEach((row) => {
+      coveredPoints += row.filter((point) => point).length
+    })
+
+    // Calculate coverage percentage
+    const totalPoints = gridSize * gridSize
+    const percentage = (coveredPoints / totalPoints) * 100
+
+    return percentage >= requiredPercentage
   }
 
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
@@ -527,7 +560,7 @@ export default class DrawExercise extends Exercise {
 
   public availableFunctions = [
     {
-      name: 'rand',
+      name: 'random_number',
       func: (_: any, min: number, max: number) => {
         return Math.floor(Math.random() * (max - min + 1)) + min
       },

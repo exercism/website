@@ -2,7 +2,7 @@
   "title": "Implement move",
   "description": "Implement the move function",
   "project_type": "maze",
-  "level": 5,
+  "level": 100,
   "tests_type": "state",
   "tasks": [
     {

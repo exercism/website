@@ -18,7 +18,6 @@
           "slug": "draw-scence",
           "name": "Draw the rainbow.",
           "description_html": "Paint 100 beautiful rectangles",
-          "function": "main",
           "checks": [
             {
               "name": "getRectangleAt(1, 0, undefined, 100)",

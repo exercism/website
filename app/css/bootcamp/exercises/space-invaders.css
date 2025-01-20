@@ -1,0 +1,62 @@
+#bootcamp-solve-exercise-page {
+    .exercise-space-invaders {
+        background-color: #222;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.05), black);
+        .laser {
+            --laser-width: 20%;
+            width: var(--laser-width);
+            height: calc(var(--laser-width) * (115 / 200));
+            transform: translateX(-50%);
+
+            background-size: cover;
+            background-image: url("bootcamp/assets/space-invaders/laser.svg");
+
+            position: absolute;
+            bottom: 2%;
+            left: 12%;
+
+            z-index: 20;
+        }
+
+        .alien {
+            --alien-width: 8%;
+            width: var(--alien-width);
+            height: calc(var(--alien-width) * (160 / 200));
+            transform: translateX(-50%);
+
+            @apply absolute top-[20%] left-[20%];
+
+            @apply grid grid-cols-2;
+            filter: invert(1);
+
+            .tl,
+            .tr,
+            .bl,
+            .br {
+                background-size: cover;
+            }
+            .tl {
+                background-image: url("bootcamp/assets/space-invaders/a1-tl.svg");
+            }
+            .tr {
+                background-image: url("bootcamp/assets/space-invaders/a1-tr.svg");
+            }
+            .bl {
+                background-image: url("bootcamp/assets/space-invaders/a1-bl.svg");
+            }
+            .br {
+                background-image: url("bootcamp/assets/space-invaders/a1-br.svg");
+            }
+        }
+
+        .shot {
+            position: absolute;
+            opacity: 0;
+            width: 3px;
+            height: 15px;
+            background-color: white;
+            z-index: 10;
+            transform: translateX(-50%);
+        }
+    }
+}

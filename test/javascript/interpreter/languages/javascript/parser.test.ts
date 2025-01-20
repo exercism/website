@@ -1107,17 +1107,17 @@ describe('error', () => {
     })
     test('unterminated - end of file', () => {
       expect(() => parse('"abc')).toThrow(
-        'Did you forget the end quote for the "abc" string?'
+        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
       )
     })
     test('unterminated - end of line', () => {
       expect(() => parse('"abc\nsomething_else"')).toThrow(
-        'Did you forget the end quote for the "abc" string?'
+        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
       )
     })
     test('unterminated - newline in string', () => {
       expect(() => parse('"abc\n"')).toThrow(
-        'Did you forget the end quote for the "abc" string?'
+        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
       )
     })
   })

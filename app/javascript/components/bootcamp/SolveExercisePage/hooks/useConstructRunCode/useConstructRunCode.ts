@@ -8,7 +8,7 @@ import generateAndRunTestSuite from '../../test-runner/generateAndRunTestSuite/g
 import { getAndInitializeExerciseClass } from '../../utils/exerciseMap'
 import { showError } from '../../utils/showError'
 import { submitCode } from './submitCode'
-import { getFirstFailingOrFirstTest } from './getFirstFailingOrFirstTest'
+import { getFirstFailingOrLastTest } from './getFirstFailingOrLastTest'
 import type { EditorView } from 'codemirror'
 import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
@@ -118,7 +118,7 @@ export function useConstructRunCode({
 
       markTaskAsCompleted(testResults)
 
-      const automaticallyInspectedTest = getFirstFailingOrFirstTest(
+      const automaticallyInspectedTest = getFirstFailingOrLastTest(
         testResults,
         inspectedTestResult
       )

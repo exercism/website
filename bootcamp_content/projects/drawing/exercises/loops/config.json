@@ -2,7 +2,7 @@
   "title": "Loops",
   "description": "Create 5 rectangles",
   "project_type": "draw",
-  "level": 3,
+  "level": 100,
   "concepts": ["loops-repeat"],
   "tests_type": "state",
   "interpreter_options": {

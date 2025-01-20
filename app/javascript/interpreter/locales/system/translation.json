@@ -55,8 +55,9 @@
       "UnexpectedLiteralExpressionAfterIf": "UnexpectedLiteralExpressionAfterIf",
       "UnexpectedVariableExpressionAfterIfWithPotentialTypo": "UnexpectedVariableExpressionAfterIfWithPotentialTypo: actual: {{actual}}, potential: {{potential}}",
       "UnknownCharacter": "UnknownCharacter: character: {{character}}",
-      "UnknownCharacterEquals": "UnknownCharacterEquals",
-      "UnexpectedSpaceInIdentifier": "UnexpectedSpaceInIdentifier: first_half: {{first_half}}, second_half: {{second_half}}"
+      "UnexpectedSpaceInIdentifier": "UnexpectedSpaceInIdentifier: first_half: {{first_half}}, second_half: {{second_half}}",
+      "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
+      "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

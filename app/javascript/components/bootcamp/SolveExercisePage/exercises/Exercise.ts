@@ -1,5 +1,7 @@
+import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
-import type { ExternalFunction } from '@/interpreter/executor'
+import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
+import { InterpretResult } from '@/interpreter/interpreter'
 
 export abstract class Exercise {
   public availableFunctions!: ExternalFunction[]
@@ -10,6 +12,7 @@ export abstract class Exercise {
 
   protected view!: HTMLElement
   protected container!: HTMLElement
+  protected functionCalls: Record<string, Record<any, number>> = {}
 
   public constructor(private slug: String) {
     this.createView()
@@ -17,6 +20,39 @@ export abstract class Exercise {
 
   public wrapCode(code: string) {
     return code
+  }
+
+  public recordFunctionUse(name: string, ...args) {
+    this.functionCalls[name] ||= {}
+    this.functionCalls[name][JSON.stringify(args)] ||= 0
+    this.functionCalls[name][JSON.stringify(args)] += 1
+  }
+
+  public wasFunctionUsed(
+    _: ExecutionContext | InterpretResult,
+    name: string,
+    args: any[] | null,
+    times?: number
+  ): boolean {
+    let timesCalled
+
+    if (this.functionCalls[name] === undefined) {
+      timesCalled = 0
+    } else if (args !== null && args !== undefined) {
+      timesCalled = this.functionCalls[name][JSON.stringify(args)]
+    } else {
+      timesCalled = Object.values(this.functionCalls[name]).reduce(
+        (acc, count) => {
+          return acc + count
+        },
+        0
+      )
+    }
+
+    if (times === null || times === undefined) {
+      return timesCalled >= 1
+    }
+    return timesCalled === times
   }
 
   public lineNumberOffset = 0
@@ -33,9 +69,6 @@ export abstract class Exercise {
     this.view.classList.add(cssClass)
     this.view.style.display = 'none'
     document.body.appendChild(this.view)
-
-    this.container = document.createElement('div')
-    this.view.appendChild(this.container)
   }
 
   public getView(): HTMLElement {

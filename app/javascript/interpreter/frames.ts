@@ -4,8 +4,16 @@ import { RuntimeError } from './error'
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type { EvaluationResult } from './evaluation-result'
 import type { ExternalFunction } from './executor'
-import { Expression } from './expression'
-import { Statement } from './statement'
+import {
+  BinaryExpression,
+  Expression,
+  GroupingExpression,
+  LiteralExpression,
+  LogicalExpression,
+  VariableExpression,
+} from './expression'
+import { IfStatement, Statement } from './statement'
+import exp from 'constants'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -105,12 +113,93 @@ function describeForeachStatement(frame: FrameWithResult) {
   return output
 }
 
-function describeIfStatement(frame: FrameWithResult) {
-  // TODO!!
+function describeExpression(expression: Expression) {
+  if (expression instanceof VariableExpression) {
+    return describeVariableExpression(expression)
+  }
+  if (expression instanceof LiteralExpression) {
+    return describeLiteralExpression(expression)
+  }
+  if (expression instanceof GroupingExpression) {
+    return describeGroupingExpression(expression)
+  }
+  if (expression instanceof BinaryExpression) {
+    return describeBinaryExpression(expression)
+  }
+  if (expression instanceof LogicalExpression) {
+    return describeLogicalExpression(expression)
+  }
   return ''
-  // let output = `<p>This checks to see whether <code>${frame.result.condition.left.obj.expression}</code> is greater than <code>${frame.result.condition.right.name}</code>.</p>`
-  // output += `<p>In this case, <code>${frame.result.condition.left.obj.expression}</code> is set to <code>${frame.result.condition.left.obj.value}</code> and <code>${frame.result.condition.right.name}</code> is set to <code>${frame.result.condition.right.value}</code> so the result is <code>${frame.result.value}</code>.</p>`
-  // return output
+}
+
+function describeVariableExpression(expression: VariableExpression): string {
+  return `the <code>${expression.name.lexeme}</code> variable`
+}
+
+function describeLiteralExpression(expression: LiteralExpression): string {
+  let value = expression.value
+  if (typeof expression.value === 'string') {
+    value = '"' + expression.value + '"'
+  }
+
+  return `<code>${value}</code>`
+}
+function describeOperator(operator: string): string {
+  switch (operator) {
+    case 'GREATER':
+      return 'greater than'
+    case 'LESS':
+      return 'less than'
+    case 'GREATER_EQUAL':
+      return 'greater than or equal to'
+    case 'LESS_EQUAL':
+      return 'less than or equal to'
+    case 'STRICT_EQUALITY':
+      return 'equal to'
+    case 'STRICT_INEQUALITY':
+      return 'not equal to'
+  }
+
+  return ''
+}
+
+function describeBinaryExpression(expression: BinaryExpression): string {
+  if (expression instanceof BinaryExpression) {
+    const left = describeExpression(expression.left)
+    const right = describeExpression(expression.right)
+    const operator = describeOperator(expression.operator.type)
+    return `${left} was ${operator} ${right}`
+  }
+  return ''
+}
+
+function describeLogicalExpression(expression: LogicalExpression): string {
+  let prefix = ''
+  if (expression.operator.type == 'AND') {
+    prefix = 'both'
+  }
+  const left = describeExpression(expression.left)
+  const right = describeExpression(expression.right)
+
+  return `${prefix} ${left}, and ${right} were true`
+}
+
+function describeGroupingExpression(expression: GroupingExpression): string {
+  return describeExpression(expression.inner)
+}
+
+function describeCondition(expression: Expression): string {
+  return describeExpression(expression)
+}
+
+function describeIfStatement(frame: FrameWithResult) {
+  const ifStatement = frame.context as IfStatement
+  const conditionDescription = describeCondition(ifStatement.condition)
+  let output = `
+    <p>This checked whether ${conditionDescription}.</p>
+    <p>The result was <code>${frame.result.value}</code>.</p>
+    `
+  return output
 }
 function describeReturnStatement(frame: FrameWithResult) {
   let output = `<p>This returned the value of <code>${frame.result.value.name}</code>, which in this case is <code>${frame.result.value.value}</code>.</p>`

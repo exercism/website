@@ -1,0 +1,25 @@
+set direction to "right"
+set steps to 0
+
+repeat_until_game_over do
+  change steps to steps + 1
+
+  if direction is "right" do
+    move_right()
+  
+    if (steps > 9) do
+      change direction to "left"
+      change steps to 0
+    end
+  else do
+    move_left()
+    if (steps > 9) do
+      change direction to "right"
+      change steps to 0
+    end
+  end
+  
+  if is_alien_above() do
+    shoot()
+  end
+end

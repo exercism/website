@@ -1,0 +1,28 @@
+{
+  "title": "Scroll and Shoot",
+  "description": "Move your laser from left to right and shoot the aliens.",
+  "project_type": "space-invaders",
+  "level": 3,
+  "idx": 5,
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Move your laser from left to right and shoot the aliens.",
+      "tests": [
+        {
+          "slug": "scroll-and-shoot",
+          "name": "Scroll and Shoot",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

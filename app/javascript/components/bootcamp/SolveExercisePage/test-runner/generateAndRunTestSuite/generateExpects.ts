@@ -66,7 +66,6 @@ function generateExpectsForStateTests(
           : argsString.split(',').map((arg) => safe_eval(arg.trim()))
 
       // And then we get the function and call it.
-      // console.log(fnName)
       const fn = exercise[fnName]
       actual = fn.bind(exercise).call(exercise, interpreterResult, ...args)
     }

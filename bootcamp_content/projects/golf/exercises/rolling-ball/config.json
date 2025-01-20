@@ -18,7 +18,6 @@
           "slug": "draw-scene",
           "name": "Make the ball roll to the hole",
           "description_html": "Animate the ball's x coordinate to make it roll to the hole",
-          "function": "main",
           "setup_functions": [
             [
               "setBackgroundImage",

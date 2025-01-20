@@ -13,7 +13,7 @@
         @apply text-18 leading-150 font-semibold text-gray-900;
     }
     .stat {
-        @apply font-semibold text-gray-600;
+        @apply font-semibold text-darkSuccessGreen;
     }
 
     c-prominent-link {

@@ -50,6 +50,13 @@ export function expect({
         pass: actual === true,
       }
     },
+    toBeFalse() {
+      return {
+        ...returnObject,
+        expected: false,
+        pass: actual === false,
+      }
+    },
     toEqual(expected: any) {
       return {
         ...returnObject,

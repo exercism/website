@@ -77,11 +77,25 @@
     "level": 1
   },
   {
+    "slug": "functions-return",
+    "parent": "functions",
+    "title": "Function that return things",
+    "description": "Learn about functions that return things and how to use them.",
+    "level": 3
+  },
+  {
     "slug": "conditionals",
     "parent": "flow-control",
     "title": "Conditionals",
-    "description": "Learn about if and else statements.",
-    "level": 4
+    "description": "Learn about if statements.",
+    "level": 3
+  },
+  {
+    "slug": "else-statements",
+    "parent": "flow-control",
+    "title": "Else Statements",
+    "description": "Learn about else statements.",
+    "level": 3
   },
   {
     "slug": "loops-repeat",

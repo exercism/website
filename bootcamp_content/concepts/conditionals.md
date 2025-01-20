@@ -40,3 +40,19 @@ We can use a function where he gets someone's age based on their name.
 And then he compares it to the entry critera for the club:
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/if-bouncer-functions.png" class="diagram"/>
+
+## Joining conditions
+
+Finally, sometimes we might want to say "if something and something else". To achieve this we can use the `and` keyword.
+
+Imagine a nightclub that's disco themed. Only people 21 or over dressed in Disco clothes can get it. For this we can use an `and` statement to combine the two conditions:
+
+<img src="https://assets.exercism.org/bootcamp/diagrams/conditions-and.png" class="diagram"/>
+
+It's important to remember that both sides of the `and` are individual conditions. Both most be comparisons that equate to `true` or `false`:
+
+<img src="https://assets.exercism.org/bootcamp/diagrams/conditions-and-valid.png" class="diagram"/>
+
+---
+
+### Next Concept: [Else Statements](./else-statements.md)

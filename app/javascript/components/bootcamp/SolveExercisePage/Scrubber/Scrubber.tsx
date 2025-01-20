@@ -36,12 +36,6 @@ function Scrubber({
     frames,
   })
 
-  useEffect(() => {
-    if (isPlaying || hasCodeBeenEdited) {
-      setShouldShowInformationWidget(false)
-    }
-  }, [isPlaying, hasCodeBeenEdited])
-
   return (
     <div
       data-cy="scrubber"

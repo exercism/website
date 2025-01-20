@@ -60,6 +60,12 @@ export function useConstructRunCode({
         line: 0,
         status: 'SUCCESS',
       })
+      if (inspectedTestResult) {
+        inspectedTestResult.animationTimeline?.destroy()
+        inspectedTestResult.animationTimeline = null
+      }
+      setTestSuiteResult(null)
+      setInspectedTestResult(null)
 
       // remove previous views
       document
@@ -109,6 +115,7 @@ export function useConstructRunCode({
       })
 
       setTestSuiteResult(testResults)
+
       markTaskAsCompleted(testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrFirstTest(

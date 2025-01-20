@@ -1,6 +1,6 @@
 {
   "title": "Determine Winner",
-  "description": "Determine the winner",
+  "description": "Determine the winner of Rock, Paper, Scissors",
   "project_type": "rock-paper-scissors",
   "level": 3,
   "idx": 3,

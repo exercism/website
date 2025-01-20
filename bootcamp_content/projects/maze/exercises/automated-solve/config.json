@@ -1,6 +1,6 @@
 {
   "title": "Programatically solve a maze",
-  "description": "Programatically solve a maze",
+  "description": "Empower your blob to solve any maze with code!",
   "level": 3,
   "idx": 6,
   "concepts": ["Conditionals", "loops-repeat"],

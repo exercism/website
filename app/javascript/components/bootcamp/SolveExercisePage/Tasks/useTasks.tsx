@@ -4,6 +4,7 @@ import { type NextExercise, completeSolution } from './completeSolution'
 import type { TaskStore } from '../store/taskStore/taskStore'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { launchConfetti } from './launchConfetti'
+import useTestStore from '../store/testStore'
 
 export function useTasks({
   areAllTasksCompleted,
@@ -27,6 +28,7 @@ export function useTasks({
     links: { completeSolution: completeSolutionLink },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
+  const { inspectedTestResult } = useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
   // see useSetupStores.ts
@@ -43,11 +45,12 @@ export function useTasks({
       }
       isSetupStage.current = false
     } else {
-      if (
-        areAllTasksCompleted &&
-        isTimelineComplete &&
-        !wasFinishLessonModalShown
-      ) {
+      const shouldShowModal = areAllTasksCompleted && !wasFinishLessonModalShown
+      const hasTimeline = !!inspectedTestResult?.animationTimeline
+      // if we don't have a timeline, we don't need to wait for it to be complete
+      const isTimelineReady = hasTimeline ? isTimelineComplete : true
+
+      if (shouldShowModal && isTimelineReady) {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
@@ -57,6 +60,7 @@ export function useTasks({
     areAllTasksCompleted,
     wasFinishLessonModalShown,
     isTimelineComplete,
+    inspectedTestResult,
     solution.status,
   ])
 

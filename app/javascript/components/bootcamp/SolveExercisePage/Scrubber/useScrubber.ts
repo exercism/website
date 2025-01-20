@@ -9,6 +9,7 @@ import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
+import useTestStore from '../store/testStore'
 
 const FRAME_DURATION = 50
 
@@ -31,8 +32,7 @@ export function useScrubber({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { isTimelineComplete, setIsTimelineComplete } =
-    useAnimationTimelineStore()
+  const { setIsTimelineComplete } = useAnimationTimelineStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -45,8 +45,7 @@ export function useScrubber({
     } else {
       setValue(0)
     }
-    // TODO Add something very specific to listen to here
-  }, [animationTimeline?.completed])
+  }, [animationTimeline])
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
@@ -102,12 +101,12 @@ export function useScrubber({
   }, [animationTimeline?.timeline.completed])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
+  const { inspectedTestResult } = useTestStore()
   useEffect(() => {
-    if (!animationTimeline) {
-      return
+    if (inspectedTestResult && inspectedTestResult.animationTimeline) {
+      handleScrubToCurrentTime(inspectedTestResult.animationTimeline)
     }
-    handleScrubToCurrentTime(animationTimeline)
-  }, [animationTimeline?.timeline.currentTime])
+  }, [inspectedTestResult])
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline | undefined | null) => {
@@ -244,6 +243,8 @@ export function useScrubber({
           ? prevFrame.time
           : 0
 
+      animationTimeline.pause()
+
       scrubberValueAnimation.current = anime({
         targets: { value },
         value: targetTime,
@@ -281,6 +282,8 @@ export function useScrubber({
         ? animationTimeline.nextFrame.time
         : animationTimeline.timeline.duration
 
+      animationTimeline.pause()
+
       scrubberValueAnimation.current = anime({
         targets: { value },
         value: targetTime,
@@ -300,6 +303,7 @@ export function useScrubber({
   const handleGoToFirstFrame = useCallback(
     (animationTimeline: AnimationTimeline | undefined | null) => {
       if (animationTimeline) {
+        animationTimeline.pause()
         animationTimeline.seekFirstFrame()
         scrollToHighlightedLine()
       }
@@ -310,6 +314,7 @@ export function useScrubber({
   const handleGoToEndOfTimeline = useCallback(
     (animationTimeline: AnimationTimeline | undefined | null) => {
       if (animationTimeline) {
+        animationTimeline.pause()
         animationTimeline.seekEndOfTimeline()
         scrollToHighlightedLine()
       }

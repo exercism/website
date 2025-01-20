@@ -56,9 +56,15 @@ export function useConstructRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
+      if (inspectedTestResult) {
+        inspectedTestResult.animationTimeline?.destroy()
+        inspectedTestResult.animationTimeline = null
+      }
       // reset on each run
       setHasSyntaxError(false)
       setHasUnhandledError(false)
+      setTestSuiteResult(null)
+      setInspectedTestResult(null)
 
       const exercise = getAndInitializeExerciseClass(config)
 
@@ -103,6 +109,7 @@ export function useConstructRunCode({
       })
 
       setTestSuiteResult(testResults)
+
       markTaskAsCompleted(testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrFirstTest(

@@ -43,7 +43,7 @@
             .level-number= @level.idx
             .text
               %h4 Level #{@level.idx}
-              %p All the information from Level 1 in one place. Videos, concepts and exercises.
+              %p= @level.description
 
           = link_to "https://exercism.org/r/discord", class: "section-link" do
             = graphical_icon 'external-site-discord-blue'

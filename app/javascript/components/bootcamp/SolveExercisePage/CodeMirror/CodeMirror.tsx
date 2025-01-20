@@ -189,15 +189,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.lineInformationExtension(),
           Ext.multiHighlightLine({ from: 0, to: 0 }),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
-          onEditorFocus(
-            () => setShouldShowInformationWidget(false)
-            // () =>
-            //   setInformationWidgetData({
-            //     html: '',
-            //     line: 0,
-            //     status: 'SUCCESS',
-            //   })
-          ),
           onEditorChange(
             () => setHighlightedLine(0),
             (e) => {

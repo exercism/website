@@ -49,15 +49,15 @@ export function useScrubber({
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    let currentFrame: Frame | undefined = frames.find(
-      (f) => f.status === 'ERROR'
-    )
+    let currentFrame: Frame | undefined
 
     if (!currentFrame) {
       if (animationTimeline) {
         currentFrame = animationTimeline.currentFrame
       } else {
-        currentFrame = frames[value]
+        // error frame could potentially occur *before* initialising the animationTimeline
+        // this one catches that, otherwise error frame will be shown once the animation timelien is at that frame
+        currentFrame = frames.find((f) => f.status === 'ERROR') ?? frames[value]
       }
     }
     if (currentFrame) {
@@ -85,12 +85,7 @@ export function useScrubber({
         }
       }
     }
-  }, [
-    // TODO: same as above
-    value,
-    animationTimeline?.currentFrameIndex,
-    frames,
-  ])
+  }, [value, animationTimeline?.currentFrameIndex, frames])
 
   useEffect(() => {
     if (animationTimeline?.timeline.completed) {

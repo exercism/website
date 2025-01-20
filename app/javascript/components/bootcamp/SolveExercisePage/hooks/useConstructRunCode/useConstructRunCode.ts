@@ -51,20 +51,26 @@ export function useConstructRunCode({
         return
       }
 
-      // remove previous views
-      document
-        .querySelectorAll('.exercise-container')
-        .forEach((e) => e.remove())
-
+      // reset on each run
+      setHasSyntaxError(false)
+      setHasUnhandledError(false)
+      setShouldShowInformationWidget(false)
+      setInformationWidgetData({
+        html: '',
+        line: 0,
+        status: 'SUCCESS',
+      })
       if (inspectedTestResult) {
         inspectedTestResult.animationTimeline?.destroy()
         inspectedTestResult.animationTimeline = null
       }
-      // reset on each run
-      setHasSyntaxError(false)
-      setHasUnhandledError(false)
       setTestSuiteResult(null)
       setInspectedTestResult(null)
+
+      // remove previous views
+      document
+        .querySelectorAll('.exercise-container')
+        .forEach((e) => e.remove())
 
       const exercise = getAndInitializeExerciseClass(config)
 

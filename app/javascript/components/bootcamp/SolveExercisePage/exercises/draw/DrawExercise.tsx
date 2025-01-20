@@ -560,7 +560,7 @@ export default class DrawExercise extends Exercise {
 
   public availableFunctions = [
     {
-      name: 'rand',
+      name: 'random_number',
       func: (_: any, min: number, max: number) => {
         return Math.floor(Math.random() * (max - min + 1)) + min
       },

@@ -9,15 +9,18 @@ import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
+import useTestStore from '../store/testStore'
 
 const FRAME_DURATION = 50
 
 export function useScrubber({
   setIsPlaying,
-  testResult,
+  animationTimeline,
+  frames,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
-  testResult: NewTestResult
+  animationTimeline: AnimationTimeline | undefined | null
+  frames: Frame[]
 }) {
   const [value, setValue] = useState(0)
   const {
@@ -29,31 +32,32 @@ export function useScrubber({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { isTimelineComplete, setIsTimelineComplete } =
-    useAnimationTimelineStore()
+  const { setIsTimelineComplete } = useAnimationTimelineStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
-    if (testResult.animationTimeline) {
-      testResult.animationTimeline.onUpdate((anime) => {
+    if (animationTimeline) {
+      animationTimeline.onUpdate((anime) => {
         setTimeout(() => {
           setValue(anime.currentTime)
         }, FRAME_DURATION)
       })
+    } else {
+      setValue(0)
     }
-  }, [testResult.view?.id, testResult.animationTimeline?.completed])
+  }, [animationTimeline])
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    let currentFrame: Frame | undefined = testResult.frames.find(
-      (f) => f.status === 'ERROR'
-    )
+    let currentFrame: Frame | undefined
 
     if (!currentFrame) {
-      if (testResult.animationTimeline) {
-        currentFrame = testResult.animationTimeline.currentFrame
+      if (animationTimeline) {
+        currentFrame = animationTimeline.currentFrame
       } else {
-        currentFrame = testResult.frames[value]
+        // error frame could potentially occur *before* initialising the animationTimeline
+        // this one catches that, otherwise error frame will be shown once the animation timelien is at that frame
+        currentFrame = frames.find((f) => f.status === 'ERROR') ?? frames[value]
       }
     }
     if (currentFrame) {
@@ -81,31 +85,26 @@ export function useScrubber({
         }
       }
     }
-  }, [
-    testResult.view?.id,
-    value,
-    testResult.animationTimeline?.currentFrameIndex,
-    testResult.frames,
-  ])
+  }, [value, animationTimeline?.currentFrameIndex, frames])
 
   useEffect(() => {
-    if (testResult.animationTimeline?.timeline.completed) {
+    if (animationTimeline?.timeline.completed) {
       setIsTimelineComplete(true)
     } else {
       setIsTimelineComplete(false)
     }
-  }, [testResult.animationTimeline?.timeline.completed])
+  }, [animationTimeline?.timeline.completed])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
+  const { inspectedTestResult } = useTestStore()
   useEffect(() => {
-    if (!testResult.animationTimeline) {
-      return
+    if (inspectedTestResult && inspectedTestResult.animationTimeline) {
+      handleScrubToCurrentTime(inspectedTestResult.animationTimeline)
     }
-    handleScrubToCurrentTime(testResult.animationTimeline)
-  }, [testResult.animationTimeline?.timeline.currentTime])
+  }, [inspectedTestResult])
 
   const handleScrubToCurrentTime = useCallback(
-    (animationTimeline: AnimationTimeline) => {
+    (animationTimeline: AnimationTimeline | undefined | null) => {
       if (!animationTimeline) return
       const value = animationTimeline.timeline.currentTime
       setValue(value)
@@ -119,18 +118,18 @@ export function useScrubber({
       event:
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      testResult: NewTestResult
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
     ) => {
       const newValue = Number((event.target as HTMLInputElement).value)
       setValue(newValue)
 
-      if (testResult.animationTimeline) {
-        testResult.animationTimeline.pause()
-        testResult.animationTimeline.seek(newValue)
+      if (animationTimeline) {
+        animationTimeline.pause()
+        animationTimeline.seek(newValue)
       } else {
         const validIndex = Math.max(0, newValue)
-        const highlightedLine =
-          newValue === -1 ? 0 : testResult.frames[validIndex].line
+        const highlightedLine = newValue === -1 ? 0 : frames[validIndex].line
         setHighlightedLine(highlightedLine)
       }
       scrollToHighlightedLine()
@@ -143,10 +142,11 @@ export function useScrubber({
       event:
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      testResult: NewTestResult
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
     ) => {
       if (informationWidgetData.line === 0) {
-        handleChange(event, testResult)
+        handleChange(event, animationTimeline, frames)
       }
     },
     [handleChange, informationWidgetData.line]
@@ -155,9 +155,10 @@ export function useScrubber({
   const scrubberValueAnimation = useRef<AnimeInstance | null>()
 
   const handleOnMouseUp = useCallback(
-    (testResult: NewTestResult) => {
-      const { animationTimeline } = testResult
-
+    (
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
+    ) => {
       if (!animationTimeline) return
       // find closest frame to progress
       const { progress } = animationTimeline
@@ -165,7 +166,7 @@ export function useScrubber({
       let closestTime = duration
       let closestDifference = Math.abs(duration - progress)
 
-      for (const frame of testResult.frames) {
+      for (const frame of frames) {
         const frameTime = frame.time
         const difference = Math.abs(frameTime - progress)
 
@@ -196,15 +197,13 @@ export function useScrubber({
   )
 
   const handleGoToPreviousFrame = useCallback(
-    (testResult: NewTestResult) => {
-      const { animationTimeline } = testResult
-
+    (
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
+    ) => {
       if (!animationTimeline) {
         // index shouldn't be under 0 or above the last frame
-        const validIndex = Math.min(
-          Math.max(0, value - 1),
-          testResult.frames.length - 1
-        )
+        const validIndex = Math.min(Math.max(0, value - 1), frames.length - 1)
         setValue(validIndex)
         return
       }
@@ -214,7 +213,7 @@ export function useScrubber({
       }
 
       const currentTime = animationTimeline.progress
-      const lastFrameTime = testResult.frames[testResult.frames.length - 1].time
+      const lastFrameTime = frames[frames.length - 1].time
 
       /*
 
@@ -239,6 +238,8 @@ export function useScrubber({
           ? prevFrame.time
           : 0
 
+      animationTimeline.pause()
+
       scrubberValueAnimation.current = anime({
         targets: { value },
         value: targetTime,
@@ -256,15 +257,13 @@ export function useScrubber({
   )
 
   const handleGoToNextFrame = useCallback(
-    (testResult: NewTestResult) => {
-      const { animationTimeline } = testResult
-
+    (
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
+    ) => {
       if (!animationTimeline) {
         // index shouldn't be under 0 or above the last frame
-        const validIndex = Math.min(
-          Math.max(0, value + 1),
-          testResult.frames.length - 1
-        )
+        const validIndex = Math.min(Math.max(0, value + 1), frames.length - 1)
         setValue(validIndex)
         return
       }
@@ -277,6 +276,8 @@ export function useScrubber({
       const targetTime = animationTimeline.nextFrame
         ? animationTimeline.nextFrame.time
         : animationTimeline.timeline.duration
+
+      animationTimeline.pause()
 
       scrubberValueAnimation.current = anime({
         targets: { value },
@@ -294,21 +295,27 @@ export function useScrubber({
     [value]
   )
 
-  const handleGoToFirstFrame = useCallback((testResult: NewTestResult) => {
-    const { animationTimeline } = testResult
-    if (animationTimeline) {
-      animationTimeline.seekFirstFrame()
-      scrollToHighlightedLine()
-    }
-  }, [])
+  const handleGoToFirstFrame = useCallback(
+    (animationTimeline: AnimationTimeline | undefined | null) => {
+      if (animationTimeline) {
+        animationTimeline.pause()
+        animationTimeline.seekFirstFrame()
+        scrollToHighlightedLine()
+      }
+    },
+    []
+  )
 
-  const handleGoToEndOfTimeline = useCallback((testResult: NewTestResult) => {
-    const { animationTimeline } = testResult
-    if (animationTimeline) {
-      animationTimeline.seekEndOfTimeline()
-      scrollToHighlightedLine()
-    }
-  }, [])
+  const handleGoToEndOfTimeline = useCallback(
+    (animationTimeline: AnimationTimeline | undefined | null) => {
+      if (animationTimeline) {
+        animationTimeline.pause()
+        animationTimeline.seekEndOfTimeline()
+        scrollToHighlightedLine()
+      }
+    },
+    []
+  )
 
   /*
    when holding a key down, store it in a set and escape invoking frame-stepping handlers.
@@ -318,9 +325,8 @@ export function useScrubber({
   const handleOnKeyUp = useCallback(
     (
       event: React.KeyboardEvent<HTMLInputElement>,
-      testResult: NewTestResult
+      animationTimeline: AnimationTimeline | undefined | null
     ) => {
-      const { animationTimeline } = testResult
       if (!animationTimeline) return
       setHeldKeys((prev) => {
         const newSet = new Set(prev)
@@ -333,9 +339,9 @@ export function useScrubber({
 
   const handleOnKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>,
-    testResult: NewTestResult
+    animationTimeline: AnimationTimeline | undefined | null,
+    frames: Frame[]
   ) => {
-    const { animationTimeline } = testResult
     if (!animationTimeline) return
 
     setHeldKeys((prev) => new Set(prev).add(event.key))
@@ -351,19 +357,19 @@ export function useScrubber({
 
     switch (event.key) {
       case 'ArrowLeft':
-        handleGoToPreviousFrame(testResult)
+        handleGoToPreviousFrame(animationTimeline, frames)
         break
 
       case 'ArrowRight':
-        handleGoToNextFrame(testResult)
+        handleGoToNextFrame(animationTimeline, frames)
         break
 
       case 'ArrowDown':
-        handleGoToFirstFrame(testResult)
+        handleGoToFirstFrame(animationTimeline)
         break
 
       case 'ArrowUp':
-        handleGoToEndOfTimeline(testResult)
+        handleGoToEndOfTimeline(animationTimeline)
         break
 
       case ' ':
@@ -397,7 +403,7 @@ export function useScrubber({
 
   useEffect(() => {
     updateInputBackground()
-  }, [value, testResult.animationTimeline])
+  }, [value])
 
   return {
     value,
@@ -416,10 +422,13 @@ export function useScrubber({
   }
 }
 
-export function calculateMaxInputValue(testResult: NewTestResult) {
-  if (testResult.animationTimeline) {
-    return testResult.animationTimeline.timeline.duration
+export function calculateMaxInputValue(
+  animationTimeline: AnimationTimeline | undefined | null,
+  frames: Frame[]
+) {
+  if (animationTimeline) {
+    return animationTimeline.timeline.duration
   }
 
-  return testResult.frames.length - 1
+  return frames.length - 1
 }

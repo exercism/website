@@ -1,1 +1,1 @@
-Make the flower spout! Take your time 🙂
+Make the flower sprout! Take your time 🙂

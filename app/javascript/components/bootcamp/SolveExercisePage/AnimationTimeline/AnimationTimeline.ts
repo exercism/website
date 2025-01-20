@@ -27,6 +27,12 @@ export class AnimationTimeline {
     })
   }
 
+  public destroy() {
+    this.animationTimeline.pause()
+    // @ts-ignore
+    this.animationTimeline = null
+  }
+
   public onUpdate(callback: (anim: AnimeInstance) => void) {
     this.updateCallbacks.push(callback)
 

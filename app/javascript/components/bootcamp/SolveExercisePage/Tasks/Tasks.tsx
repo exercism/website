@@ -33,6 +33,8 @@ function _Tasks() {
     setIsFinishModalOpen,
     modalView,
     nextExerciseData,
+    completedLevelIdx,
+    nextLevelIdx,
   } = useTasks({
     areAllTasksCompleted,
     wasFinishLessonModalShown,
@@ -74,6 +76,8 @@ function _Tasks() {
                 handleCompleteSolution,
                 modalView,
                 nextExerciseData,
+                completedLevelIdx,
+                nextLevelIdx,
               }}
             >
               <FinishLessonModal />

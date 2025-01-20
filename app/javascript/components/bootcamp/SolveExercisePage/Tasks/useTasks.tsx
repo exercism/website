@@ -6,6 +6,11 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { launchConfetti } from './launchConfetti'
 import useTestStore from '../store/testStore'
 
+export type FinishLessonModalView =
+  | 'initial'
+  | 'completedExercise'
+  | 'completedLevel'
+
 export function useTasks({
   areAllTasksCompleted,
   wasFinishLessonModalShown,
@@ -20,9 +25,11 @@ export function useTasks({
   const [nextExerciseData, setNextExerciseData] = useState<NextExercise | null>(
     null
   )
-  const [modalView, setModalView] = useState<'initial' | 'completedExercise'>(
-    'initial'
+  const [nextLevelIdx, setNextLevelIdx] = useState<number | null>(null)
+  const [completedLevelIdx, setCompletedLevelIdx] = useState<number | null>(
+    null
   )
+  const [modalView, setModalView] = useState<FinishLessonModalView>('initial')
   const {
     solution,
     links: { completeSolution: completeSolutionLink },
@@ -68,8 +75,15 @@ export function useTasks({
     try {
       const completedData = await completeSolution(completeSolutionLink)
       setNextExerciseData(completedData.next_exercise)
+      setNextLevelIdx(completedData.next_level_idx)
       if (!isFinishModalOpen) {
         setIsFinishModalOpen(true)
+      }
+
+      if (completedData.completed_level_idx) {
+        setModalView('completedLevel')
+        setCompletedLevelIdx(completedData.completed_level_idx)
+        return
       }
       setModalView('completedExercise')
     } catch (e) {
@@ -83,5 +97,7 @@ export function useTasks({
     handleCompleteSolution,
     setIsFinishModalOpen,
     nextExerciseData,
+    nextLevelIdx,
+    completedLevelIdx,
   }
 }

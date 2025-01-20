@@ -11,6 +11,7 @@ declare global {
       completeSolution: string
       projectsIndex: string
       dashboardIndex: string
+      bootcampLevelUrl: string
     }
   }
 

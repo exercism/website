@@ -13,8 +13,9 @@ import type { EditorView } from 'codemirror'
 import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
+import useErrorStore from '../../store/errorStore'
 
-export function useOnRunCode({
+export function useConstructRunCode({
   links,
   config,
 }: Pick<SolveExercisePageProps, 'links'> & {
@@ -36,21 +37,40 @@ export function useOnRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
+  const { setHasUnhandledError } = useErrorStore()
+
   const { markTaskAsCompleted, tasks } = useTaskStore()
 
-  const onRunCode = useCallback(
+  /**
+   * This function is used to run the code in the editor
+   */
+  const runCode = useCallback(
     (studentCode: string, editorView: EditorView | null) => {
       if (!tasks) {
         console.error('tasks are missing in useRunCode')
         return
       }
+
+      // reset on each run
+      setHasSyntaxError(false)
+      setHasUnhandledError(false)
+      setShouldShowInformationWidget(false)
+      setInformationWidgetData({
+        html: '',
+        line: 0,
+        status: 'SUCCESS',
+      })
+      if (inspectedTestResult) {
+        inspectedTestResult.animationTimeline?.destroy()
+        inspectedTestResult.animationTimeline = null
+      }
+      setTestSuiteResult(null)
+      setInspectedTestResult(null)
+
       // remove previous views
       document
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
-
-      // reset on each run
-      setHasSyntaxError(false)
 
       const exercise = getAndInitializeExerciseClass(config)
 
@@ -95,6 +115,7 @@ export function useOnRunCode({
       })
 
       setTestSuiteResult(testResults)
+
       markTaskAsCompleted(testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrLastTest(
@@ -141,5 +162,5 @@ export function useOnRunCode({
     [setTestSuiteResult, tasks, inspectedTestResult]
   )
 
-  return onRunCode
+  return runCode
 }

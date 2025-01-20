@@ -10,6 +10,7 @@ Try and place each piece in the order they're listed below. When everthing is co
 
 ### Instructions
 
+- The top-left of the canvas is `0,0`. The bottom-right is `100,100`.
 - The frame of the house (the big rectangle) should be 60 wide and 40 height. It should have it's top-left corner at 20x50.
 - The roof sits snuggly on top of the house's frame. It should overhang the left and right of the house by 4 on each side. It should have a height of 20, and it's point should be centered horizontally.
 - The windows are both the same size, with have a width of 12 and a height of 13. They both sit 5 from the top of the house frame, and 10 inset from the sides.

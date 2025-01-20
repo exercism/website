@@ -20,6 +20,7 @@ The key component of this is the center of the flower. Everything else can be ca
 
 Here are some other things you need to know:
 
+- The top-left of the drawing canvas is `0,0`. The bottom-right is `100,100`.
 - The radius of the flower starts at `0` and should increase by `0.4` on each iteration (before drawing)
 - The radius of the pistil (the middle yellow bit of the flower) starts at `0` and should increase by `0.1` on each iteration (before drawing).
 - The stem should start at the center of the flower and reach the ground.

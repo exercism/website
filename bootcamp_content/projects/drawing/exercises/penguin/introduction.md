@@ -6,6 +6,8 @@ It should look like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/penguin-finished.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
+The top-left of the drawing canvas is `0,0`. The bottom-right is `100,100`. The penguin is sitting in the middle.
+
 We've drawn the left hand side for you, and added `TODO` comments for each of the things you need to do.
 
 You'll need to think about setting the right colors before drawing things.

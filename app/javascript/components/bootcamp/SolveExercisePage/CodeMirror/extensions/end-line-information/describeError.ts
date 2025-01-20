@@ -20,7 +20,7 @@ export function describeError(error: StaticError) {
   }
 
   let output = `<h2>${errorHeading}</h2>`
-  output += `<div class="content"><p>${marked.parse(error.message)}</p>`
+  output += `<div class="content">${marked.parse(error.message)}`
   if (error.context && error.context.didYouMean) {
     if (error.context.didYouMean.variable) {
       output += `<p>Did you mean <code>${error.context.didYouMean.variable}</code>?</p>`

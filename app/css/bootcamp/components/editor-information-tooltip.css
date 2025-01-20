@@ -59,6 +59,12 @@
             @apply pt-10 px-20 pb-12;
             @apply relative z-tooltip-content bg-white;
             @apply rounded-b-8;
+            & > *:first-child {
+                margin-top: 0;
+            }
+            & > *:last-child {
+                margin-bottom: 0;
+            }
         }
         .tooltip-arrow {
             border-right-color: rgb(239 68 68);

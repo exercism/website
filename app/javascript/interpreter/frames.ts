@@ -195,7 +195,6 @@ function describeGroupingExpression(expression: GroupingExpression): string {
 }
 
 function describeCondition(expression: Expression): string {
-  console.log(expression)
   return describeExpression(expression)
 }
 

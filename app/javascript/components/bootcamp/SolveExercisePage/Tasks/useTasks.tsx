@@ -1,4 +1,11 @@
-import { useState, useContext, useCallback, useRef, useEffect } from 'react'
+import {
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from 'react'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { type NextExercise, completeSolution } from './completeSolution'
 import type { TaskStore } from '../store/taskStore/taskStore'
@@ -42,6 +49,11 @@ export function useTasks({
   // here we care about areAllTasksCompleted
   // so we check if that is undefined - hasn't been set yet, or boolean - has been set
   const isSetupStage = useRef(true)
+  const hasRuntimeErrors = useMemo(() => {
+    if (inspectedTestResult) {
+      return inspectedTestResult.frames.some((f) => f.status === 'ERROR')
+    }
+  }, [inspectedTestResult])
 
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
@@ -57,7 +69,7 @@ export function useTasks({
       // if we don't have a timeline, we don't need to wait for it to be complete
       const isTimelineReady = hasTimeline ? isTimelineComplete : true
 
-      if (shouldShowModal && isTimelineReady) {
+      if (shouldShowModal && isTimelineReady && !hasRuntimeErrors) {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
@@ -99,5 +111,6 @@ export function useTasks({
     nextExerciseData,
     nextLevelIdx,
     completedLevelIdx,
+    hasRuntimeErrors,
   }
 }

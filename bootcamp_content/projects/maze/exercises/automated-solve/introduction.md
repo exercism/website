@@ -4,9 +4,9 @@ The first exercise you solved was manually moving your character around the maze
 
 To make that possible, we're giving you two new functions:
 
-- `can_turn_left()`: returns `true` if the character can turn left.
-- `can_turn_right()`: returns `true` if the character can turn right.
-- `can_move()`: returns `true` if the character can move forward.
+- `can_turn_left()`: returns `true` if the space to the character's left is not a wall.
+- `can_turn_right()`: returns `true` if the space to the character's right is not a wall.
+- `can_move()`: returns `true` if the space ahead of the character is not a wall.
 
 With those two functions and the `move()`, `turn_left()` and `turn_right()` you had in Level 1, you can solve any maze.
 

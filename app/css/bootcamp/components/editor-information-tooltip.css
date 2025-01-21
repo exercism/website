@@ -17,6 +17,11 @@
     p:not(:last-of-type) {
         @apply mb-10;
     }
+    ul {
+        @apply list-disc ml-20;
+        li {
+        }
+    }
 
     .tooltip-arrow {
         width: 0;

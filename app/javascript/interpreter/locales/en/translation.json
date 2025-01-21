@@ -92,8 +92,8 @@
       "VariableNotDeclared": "Did you forget to use the `set` keyword to create a variable called `{{name}}` before this line of code?"
     },
     "disabledLanguageFeature": {
-      "ExcludeListViolation": "Usage of '{{tokenType}}' is not allowed`.",
-      "IncludeListViolation": "Usage of '{{tokenType}}' is not allowed`."
+      "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",
+      "IncludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise."
     }
   }
 }

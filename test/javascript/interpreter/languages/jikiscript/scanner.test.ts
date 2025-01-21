@@ -451,17 +451,17 @@ describe('error', () => {
     })
 
     test('Exclude listed', () => {
-      expect(() => scan('set x to 1', { ExcludeList: ['SET'] })).toThrow(
-        "Usage of 'SET' is not allowed"
+      expect(() => scan('set x to 1', { excludeList: ['SET'] })).toThrow(
+        "Jiki doesn't know how to use `set` in this exercise."
       )
     })
 
     test('Include listed', () => {
       expect(() =>
         scan('set x to 1', {
-          IncludeList: ['IDENTIFIER', 'NUMBER'],
+          includeList: ['IDENTIFIER', 'NUMBER'],
         })
-      ).toThrow("Usage of 'SET' is not allowed")
+      ).toThrow("Jiki doesn't know how to use `set` in this exercise.")
     })
   })
 })

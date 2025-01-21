@@ -374,7 +374,7 @@ export class Scanner {
   }
 
   private addToken(type: TokenType, literal: any = null): void {
-    this.verifyEnabled(type)
+    this.verifyEnabled(type, this.lexeme())
 
     this.tokens.push({
       type,
@@ -462,25 +462,27 @@ export class Scanner {
     this.lineOffset = 0
   }
 
-  private verifyEnabled(tokenType: TokenType): void {
+  private verifyEnabled(tokenType: TokenType, lexeme: string): void {
     if (!this.languageFeatures) return
 
     if (
-      this.languageFeatures.ExcludeList &&
-      this.languageFeatures.ExcludeList.includes(tokenType)
+      this.languageFeatures.excludeList &&
+      this.languageFeatures.excludeList.includes(tokenType)
     )
       this.disabledLanguageFeatureError('ExcludeListViolation', {
-        ExcludeList: this.languageFeatures.ExcludeList,
+        excludeList: this.languageFeatures.excludeList,
         tokenType,
+        lexeme,
       })
 
     if (
-      this.languageFeatures.IncludeList &&
-      !this.languageFeatures.IncludeList.includes(tokenType)
+      this.languageFeatures.includeList &&
+      !this.languageFeatures.includeList.includes(tokenType)
     )
       this.disabledLanguageFeatureError('IncludeListViolation', {
-        IncludeList: this.languageFeatures.IncludeList,
+        includeList: this.languageFeatures.includeList,
         tokenType,
+        lexeme,
       })
   }
 

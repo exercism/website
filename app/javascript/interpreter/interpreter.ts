@@ -47,8 +47,8 @@ export type FrameContext = {
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {
-  IncludeList?: TokenType[]
-  ExcludeList?: TokenType[]
+  includeList?: TokenType[]
+  excludeList?: TokenType[]
   shadowing?: Toggle
   truthiness?: Toggle
   repeatDelay?: number

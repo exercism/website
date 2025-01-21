@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
@@ -15,7 +15,7 @@ function Scrubber({
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
 }) {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
 

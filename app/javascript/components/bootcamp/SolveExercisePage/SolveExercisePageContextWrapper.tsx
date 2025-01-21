@@ -1,3 +1,4 @@
+import { EditorView } from '@codemirror/view'
 import React from 'react'
 
 import { createContext } from 'react'
@@ -5,7 +6,7 @@ import { createContext } from 'react'
 type SolveExercisePageContextValues = Pick<
   SolveExercisePageProps,
   'links' | 'solution' | 'exercise' | 'code'
-> & { resetEditorToStub: () => void }
+> & { resetEditorToStub: () => void; editorView: EditorView | null }
 
 export const SolveExercisePageContext =
   createContext<SolveExercisePageContextValues>({
@@ -14,6 +15,7 @@ export const SolveExercisePageContext =
     exercise: {} as SolveExercisePageContextValues['exercise'],
     code: {} as SolveExercisePageContextValues['code'],
     resetEditorToStub: () => {},
+    editorView: {} as EditorView | null,
   })
 
 export default function SolveExercisePageContextWrapper({

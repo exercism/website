@@ -18,6 +18,7 @@ export class InformationWidget extends WidgetType {
   private observer: MutationObserver | null = null
   private autoUpdateCleanup: (() => void) | null = null
   private scrollContainer: HTMLElement | null = null
+  private previousPosition: { x: number; y: number } | null = null
 
   constructor(
     private readonly tooltipHtml: string,
@@ -52,6 +53,7 @@ export class InformationWidget extends WidgetType {
   private createTooltip() {
     this.tooltip = document.createElement('div')
     this.tooltip.classList.add('information-tooltip')
+
     if (this.status === 'ERROR') {
       this.tooltip.classList.add('error')
     } else {
@@ -63,6 +65,18 @@ export class InformationWidget extends WidgetType {
     this.applyHighlighting(this.tooltip)
 
     this.tooltip.style.opacity = '0'
+  }
+
+  private cleanupDuplicateTooltips() {
+    const tooltips = document.querySelectorAll('.information-tooltip')
+
+    if (tooltips.length > 1) {
+      tooltips.forEach((tooltip, index) => {
+        if (index < tooltips.length - 1) {
+          tooltip.remove()
+        }
+      })
+    }
   }
 
   private applyHighlighting(element: HTMLElement) {
@@ -104,6 +118,9 @@ export class InformationWidget extends WidgetType {
   private positionTooltip() {
     if (!this.referenceElement || !this.tooltip || !this.arrowElement) return
     const editor = document.getElementById('bootcamp-cm-editor')
+
+    this.cleanupDuplicateTooltips()
+
     computePosition(this.referenceElement, this.tooltip, {
       placement: 'right',
       middleware: [
@@ -112,6 +129,13 @@ export class InformationWidget extends WidgetType {
         arrow({ element: this.arrowElement! }),
       ],
     }).then(({ x, y, middlewareData }) => {
+      if (x !== 0) {
+        // ||= - initialise if doesn't exist
+        this.previousPosition ||= { x, y }
+      } else if (this.previousPosition?.x) {
+        x = this.previousPosition.x
+      }
+
       const { arrow } = middlewareData
       if (!this.tooltip) return
       Object.assign(this.tooltip.style, {

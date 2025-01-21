@@ -963,11 +963,13 @@ export class Executor
   }
 
   public executeStatement(statement: Statement): void {
-    statement.accept(this)
+    const method = `visit${statement.constructor.name}`
+    this[method](statement)
   }
 
   public evaluate(expression: Expression): EvaluationResult {
-    return expression.accept(this)
+    const method = `visit${expression.constructor.name}`
+    return this[method](expression)
   }
 
   private lookupVariable(name: Token, expression: Expression): any {

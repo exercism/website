@@ -5,6 +5,7 @@ export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type { EvaluationResult } from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
+  AssignExpression,
   BinaryExpression,
   Expression,
   GroupingExpression,
@@ -12,7 +13,7 @@ import {
   LogicalExpression,
   VariableExpression,
 } from './expression'
-import { IfStatement, Statement } from './statement'
+import { ExpressionStatement, IfStatement, Statement } from './statement'
 import exp from 'constants'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
@@ -91,11 +92,18 @@ function describeVariableStatement(frame: FrameWithResult) {
   return output
 }
 
-function describeAssignExpression(frame: FrameWithResult) {
-  let output = `<p>This updated the variable called <code>${frame.result.name}</code> to <code>${frame.result.value.value}</code>.</p>`
-  output = addExtraAssignInfo(frame, output)
+function describeAssignExpression(frame: FrameWithResult): string {
+  if (!frame.context) {
+    return ''
+  }
+  if (!(frame.context instanceof ExpressionStatement)) {
+    return ''
+  }
+  if (!(frame.context.expression instanceof AssignExpression)) {
+    return ''
+  }
 
-  return output
+  return frame.context.expression.description(frame)
 }
 
 function describeForeachStatement(frame: FrameWithResult) {
@@ -115,10 +123,10 @@ function describeForeachStatement(frame: FrameWithResult) {
 
 function describeExpression(expression: Expression) {
   if (expression instanceof VariableExpression) {
-    return describeVariableExpression(expression)
+    return expression.description()
   }
   if (expression instanceof LiteralExpression) {
-    return describeLiteralExpression(expression)
+    return expression.description()
   }
   if (expression instanceof GroupingExpression) {
     return describeGroupingExpression(expression)
@@ -132,18 +140,6 @@ function describeExpression(expression: Expression) {
   return ''
 }
 
-function describeVariableExpression(expression: VariableExpression): string {
-  return `the <code>${expression.name.lexeme}</code> variable`
-}
-
-function describeLiteralExpression(expression: LiteralExpression): string {
-  let value = expression.value
-  if (typeof expression.value === 'string') {
-    value = '"' + expression.value + '"'
-  }
-
-  return `<code>${value}</code>`
-}
 function describeOperator(operator: string): string {
   switch (operator) {
     case 'GREATER':

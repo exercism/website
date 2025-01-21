@@ -1,31 +1,17 @@
 import type { Token } from './token'
 import { Location } from './location'
-
-export interface ExpressionVisitor<T> {
-  visitCallExpression(expression: CallExpression): T
-  visitLiteralExpression(expression: LiteralExpression): T
-  visitVariableExpression(expression: VariableExpression): T
-  visitUnaryExpression(expression: UnaryExpression): T
-  visitBinaryExpression(expression: BinaryExpression): T
-  visitLogicalExpression(expression: LogicalExpression): T
-  visitGroupingExpression(expression: GroupingExpression): T
-  visitTemplateLiteralExpression(expression: TemplateLiteralExpression): T
-  visitTemplatePlaceholderExpression(
-    expression: TemplatePlaceholderExpression
-  ): T
-  visitTemplateTextExpression(expression: TemplateTextExpression): T
-  visitAssignExpression(expression: AssignExpression): T
-  visitUpdateExpression(expression: UpdateExpression): T
-  visitArrayExpression(expression: ArrayExpression): T
-  visitDictionaryExpression(expression: DictionaryExpression): T
-  visitGetExpression(expression: GetExpression): T
-  visitSetExpression(expression: SetExpression): T
-  visitTernaryExpression(expression: TernaryExpression): T
-}
+import { FrameWithResult } from './frames'
 
 export abstract class Expression {
-  abstract accept<T>(visitor: ExpressionVisitor<T>): T
   abstract location: Location
+
+  protected addExtraAssignInfoForDescription(frame: FrameWithResult) {
+    if (frame.result?.value == null) {
+      return '<p><code>null</code> is a special keyword that signifies the lack of a real value. It is often used as a placeholder before we know what we should set a value to.</p>'
+    }
+
+    return null
+  }
 }
 
 export class CallExpression extends Expression {
@@ -36,10 +22,6 @@ export class CallExpression extends Expression {
     public location: Location
   ) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitCallExpression(this)
   }
 }
 
@@ -52,29 +34,25 @@ export class TernaryExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTernaryExpression(this)
-  }
 }
 
 export class LiteralExpression extends Expression {
   constructor(public value: any, public location: Location) {
     super()
   }
+  public description() {
+    let value = this.value
+    if (typeof this.value === 'string') {
+      value = '"' + this.value + '"'
+    }
 
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitLiteralExpression(this)
+    return `<code>${value}</code>`
   }
 }
 
 export class ArrayExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitArrayExpression(this)
   }
 }
 
@@ -85,19 +63,14 @@ export class DictionaryExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitDictionaryExpression(this)
-  }
 }
 
 export class VariableExpression extends Expression {
   constructor(public name: Token, public location: Location) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitVariableExpression(this)
+  public description() {
+    return `the <code>${this.name.lexeme}</code> variable`
   }
 }
 
@@ -110,10 +83,6 @@ export class BinaryExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitBinaryExpression(this)
-  }
 }
 
 export class LogicalExpression extends Expression {
@@ -125,10 +94,6 @@ export class LogicalExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitLogicalExpression(this)
-  }
 }
 
 export class UnaryExpression extends Expression {
@@ -139,19 +104,11 @@ export class UnaryExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitUnaryExpression(this)
-  }
 }
 
 export class GroupingExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitGroupingExpression(this)
   }
 }
 
@@ -159,29 +116,17 @@ export class TemplatePlaceholderExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplatePlaceholderExpression(this)
-  }
 }
 
 export class TemplateTextExpression extends Expression {
   constructor(public text: Token, public location: Location) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplateTextExpression(this)
-  }
 }
 
 export class TemplateLiteralExpression extends Expression {
   constructor(public parts: Expression[], public location: Location) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplateLiteralExpression(this)
   }
 }
 
@@ -196,8 +141,14 @@ export class AssignExpression extends Expression {
     super()
   }
 
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitAssignExpression(this)
+  public description(frame: FrameWithResult) {
+    let output = `<p>This updated the variable called <code>${frame.result.name}</code> to <code>${frame.result.value.value}</code>.</p>`
+    const extra = this.addExtraAssignInfoForDescription(frame)
+    if (extra) {
+      output += extra
+    }
+
+    return output
   }
 }
 
@@ -209,10 +160,6 @@ export class UpdateExpression extends Expression {
   ) {
     super()
   }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitUpdateExpression(this)
-  }
 }
 
 export class GetExpression extends Expression {
@@ -222,10 +169,6 @@ export class GetExpression extends Expression {
     public location: Location
   ) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitGetExpression(this)
   }
 }
 
@@ -237,9 +180,5 @@ export class SetExpression extends Expression {
     public location: Location
   ) {
     super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitSetExpression(this)
   }
 }

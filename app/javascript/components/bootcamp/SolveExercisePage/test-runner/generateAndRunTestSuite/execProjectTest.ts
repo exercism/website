@@ -22,7 +22,6 @@ export function execProjectTest(
     exercise[functionName](...params)
   })
 
-  console.log(options.config.interpreterOptions)
   const context = {
     externalFunctions: exercise.availableFunctions,
     language: 'JikiScript',

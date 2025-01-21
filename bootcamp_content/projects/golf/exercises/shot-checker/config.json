@@ -143,7 +143,7 @@
             {
               "name": "getCircleAt(86, 85, 3)",
               "matcher": "toNotExist",
-              "error_html": "The ball seems to go too far to the right."
+              "error_html": "The ball seems to sink into the grass too far!"
             },
             {
               "name": "wasFunctionUsed('fire_fireworks', null)",
@@ -194,7 +194,7 @@
             {
               "name": "getCircleAt(93, 85, 3)",
               "matcher": "toNotExist",
-              "error_html": "The ball seems to go too far to the right."
+              "error_html": "The ball seems to sink into the grass too far!"
             },
             {
               "name": "wasFunctionUsed('fire_fireworks', null)",

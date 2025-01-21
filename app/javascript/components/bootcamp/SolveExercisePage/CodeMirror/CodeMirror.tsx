@@ -195,6 +195,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
               updateLocalStorageValueOnDebounce(e.state.doc.toString(), e.view)
             },
             () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
+            () => setShouldShowInformationWidget(false),
+            () =>
+              setInformationWidgetData({
+                html: '',
+                line: 0,
+                status: 'SUCCESS',
+              }),
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
             () => {

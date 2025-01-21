@@ -90,6 +90,7 @@ export function useEditorHandler({
       try {
         runCode(value, editorViewRef.current)
       } catch (e: unknown) {
+        console.log(e)
         setHasUnhandledError(true)
         setUnhandledErrorBase64(
           JSON.stringify({

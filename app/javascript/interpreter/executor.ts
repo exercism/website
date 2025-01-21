@@ -60,6 +60,7 @@ export type ExecutionContext = {
   getCurrentTime: Function
   fastForward: Function
   evaluate: Function
+  executeBlock: Function
   updateState: Function
   logicError: Function
 }
@@ -167,10 +168,21 @@ export class Executor
     }
   }
 
-  public executeBlock(statements: Statement[], environment: Environment): void {
+  public executeBlock(
+    statements: Statement[],
+    blockEnvironment: Environment
+  ): void {
+    // Don't
+    if (this.environment === blockEnvironment) {
+      for (const statement of statements) {
+        this.executeStatement(statement)
+      }
+      return
+    }
+
     const previous: Environment = this.environment
     try {
-      this.environment = environment
+      this.environment = blockEnvironment
 
       for (const statement of statements) {
         this.executeStatement(statement)
@@ -337,7 +349,9 @@ export class Executor
   }
 
   public visitBlockStatement(statement: BlockStatement): void {
-    this.executeBlock(statement.statements, new Environment(this.environment))
+    // Change this to allow scoping
+    // this.executeBlock(statement.statements, new Environment(this.environment))
+    this.executeBlock(statement.statements, this.environment)
   }
 
   public visitFunctionStatement(statement: FunctionStatement): void {
@@ -384,6 +398,10 @@ export class Executor
         }
       })
 
+      // TODO: Think about this. Currently it creates a new environment for each loop iteration
+      // with the element in. But that's maybe not what we want as it'll be a new scope
+      // and the rest of Jiki is currently not scoped on a block basis.
+      // Consider a `finally` to unset the variable instead?
       const loopEnvironment = new Environment(this.environment)
       loopEnvironment.define(statement.elementName.lexeme, value)
       this.executeBlock(statement.body, loopEnvironment)

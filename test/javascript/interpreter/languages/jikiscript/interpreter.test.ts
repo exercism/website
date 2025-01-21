@@ -1063,7 +1063,7 @@ describe('evaluateFunction', () => {
     expect(frames).toBeArrayOfSize(1)
   })
 
-  test('idempotent', () => {
+  test('idempotent - 1', () => {
     const code = `
       set x to 1
       function move do
@@ -1076,6 +1076,20 @@ describe('evaluateFunction', () => {
     const { value: value2 } = interpreter.evaluateFunction('move')
     expect(value1).toBe(2)
     expect(value2).toBe(2)
+  })
+
+  test('idempotent - 2', () => {
+    const code = `
+      set x to 1
+      function move do
+        change x to x + 1
+        return x
+      end
+      move()
+      move()
+      `
+    const { frames, error } = interpret(code)
+    expect(frames[6].variables.x).toBe(3)
   })
 
   // TODO: Work out all this syntax

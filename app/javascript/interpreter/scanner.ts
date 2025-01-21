@@ -20,8 +20,8 @@ import {
   DisabledLanguageFeatureError,
   type DisabledLanguageFeatureErrorType,
   SyntaxError,
+  SyntaxErrorType,
 } from './error'
-import { type SyntaxErrorType } from './languages/jikiscript/error'
 import type { Token, TokenType } from './token'
 import { Location } from './location'
 import type { LanguageFeatures } from './interpreter'

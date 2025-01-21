@@ -54,7 +54,6 @@ export function useDrawingEditorHandler() {
       // value is studentCode
       const evaluated = interpret(value, {
         externalFunctions: drawExerciseInstance?.availableFunctions,
-        language: 'JikiScript',
       })
 
       const { frames } = evaluated

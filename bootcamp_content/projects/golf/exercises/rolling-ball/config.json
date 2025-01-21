@@ -29,22 +29,22 @@
           "checks": [
             {
               "name": "getCircleAt(27, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
               "name": "getCircleAt(29, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
               "name": "getCircleAt(88, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the hole."
             },
             {
               "name": "getCircleAt(89, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             }
           ]

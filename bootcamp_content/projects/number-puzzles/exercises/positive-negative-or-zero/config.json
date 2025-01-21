@@ -4,6 +4,7 @@
   "concepts": ["strings-using", "conditionals"],
   "level": 4,
   "idx": 1,
+  "tests_type": "io",
   "tasks": [
     {
       "name": "Correctly identify positive numbers",

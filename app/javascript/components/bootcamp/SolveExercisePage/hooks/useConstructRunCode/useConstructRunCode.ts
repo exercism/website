@@ -76,7 +76,6 @@ export function useConstructRunCode({
 
       const context = {
         externalFunctions: exercise?.availableFunctions,
-        language: 'JikiScript',
         languageFeatures: config.interpreterOptions,
       }
       // @ts-ignore

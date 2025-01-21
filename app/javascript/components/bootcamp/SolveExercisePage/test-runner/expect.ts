@@ -24,13 +24,13 @@ export function expect({
     testsType,
   }
   return {
-    toExist() {
+    toBeDefined() {
       return {
         ...returnObject,
         pass: actual !== undefined && actual !== null,
       }
     },
-    toNotExist() {
+    toBeUndefined() {
       return {
         ...returnObject,
         pass: actual === undefined || actual === null,

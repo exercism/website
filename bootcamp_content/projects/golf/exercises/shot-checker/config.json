@@ -30,22 +30,22 @@
           "checks": [
             {
               "name": "getCircleAt(29, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
               "name": "getCircleAt(30, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
               "name": "getCircleAt(53, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(54, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {
@@ -71,27 +71,27 @@
           "checks": [
             {
               "name": "getCircleAt(29, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
               "name": "getCircleAt(30, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
               "name": "getCircleAt(100, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(101, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {
               "name": "getCircleAt(100, 76, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball tried to sink into the ground beyond the hole."
             },
             {
@@ -117,32 +117,32 @@
           "checks": [
             {
               "name": "getCircleAt(29, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
               "name": "getCircleAt(30, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
               "name": "getCircleAt(86, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
               "name": "getCircleAt(86, 83, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(86, 84, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(86, 85, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {
@@ -168,32 +168,32 @@
           "checks": [
             {
               "name": "getCircleAt(29, 75, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
               "name": "getCircleAt(30, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
               "name": "getCircleAt(93, 75, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
               "name": "getCircleAt(93, 83, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(93, 84, 3)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
               "name": "getCircleAt(93, 85, 3)",
-              "matcher": "toNotExist",
+              "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {

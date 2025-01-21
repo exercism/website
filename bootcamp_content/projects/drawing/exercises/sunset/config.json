@@ -21,17 +21,17 @@
           "checks": [
             {
               "name": "getCircleAt(50, 11, 5.2)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the beginning."
             },
             {
               "name": "getCircleAt(50, 20, 7)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the middle."
             },
             {
               "name": "getCircleAt(50, 109, 24.8)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the end."
             },
             {

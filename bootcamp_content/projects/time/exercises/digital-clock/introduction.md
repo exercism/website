@@ -9,7 +9,7 @@ In this first exercise you're going to use two new functions that we've given Ji
 
 Your job is to update a digital clock based on whatever numbers those functions give back.
 
-The digital clock expects the numbers to be in a 12 hour format with an `am` or `pm` (what's called the "meridien").
+The digital clock expects the numbers to be in a 12 hour format with an `am` or `pm` (what's called the "meridiem").
 
 So for example:
 
@@ -18,7 +18,7 @@ So for example:
 19:45 -> 7:45pm
 ```
 
-To display the time on the clock you use the `display_time(hour, minutes, meridien)` function.
+To display the time on the clock you use the `display_time(hour, minutes, meridiem)` function.
 
 ## Scenarios
 

@@ -1,6 +1,6 @@
 import { Expression } from './expression'
 import { Statement } from './statement'
-import { type Token } from './/token'
+import { type Token } from './token'
 
 export class Span {
   constructor(public begin: number, public end: number) {}

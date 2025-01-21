@@ -4,7 +4,6 @@ import {
   evaluateFunction,
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
-import { error } from 'jquery'
 
 describe('statements', () => {
   describe('expression', () => {

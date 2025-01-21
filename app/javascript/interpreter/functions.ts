@@ -1,5 +1,5 @@
 import { Environment } from './environment'
-import { Interpreter, LanguageFeatures } from './interpreter'
+import { LanguageFeatures } from './interpreter'
 import { FunctionStatement } from './statement'
 import type { ExecutionContext, Executor } from './executor'
 

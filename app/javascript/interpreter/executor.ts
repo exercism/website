@@ -1,9 +1,4 @@
-import {
-  type Callable,
-  ReturnValue,
-  UserDefinedFunction,
-  isCallable,
-} from './functions'
+import { ReturnValue, UserDefinedFunction, isCallable } from './functions'
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
 import { RuntimeError, type RuntimeErrorType, isRuntimeError } from './error'

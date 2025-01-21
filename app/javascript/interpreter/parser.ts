@@ -37,7 +37,6 @@ import {
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
-import didYouMean from 'didyoumean'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
 

@@ -64,7 +64,14 @@ export default function SolveExercisePage({
 
   return (
     <SolveExercisePageContextWrapper
-      value={{ links, solution, exercise, code, resetEditorToStub }}
+      value={{
+        links,
+        solution,
+        exercise,
+        code,
+        resetEditorToStub,
+        editorView: editorViewRef.current,
+      }}
     >
       <div id="bootcamp-solve-exercise-page">
         <Header />

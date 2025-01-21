@@ -1,5 +1,5 @@
 import type { AnimeInstance } from 'animejs'
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useContext } from 'react'
 import anime from 'animejs'
 import useEditorStore from '../store/editorStore'
 import type { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
@@ -10,6 +10,8 @@ import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useTestStore from '../store/testStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { scrollToLine } from '../CodeMirror/scrollToLine'
 
 const FRAME_DURATION = 50
 
@@ -31,6 +33,8 @@ export function useScrubber({
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
+
+  const { editorView } = useContext(SolveExercisePageContext)
 
   const { setIsTimelineComplete } = useAnimationTimelineStore()
 
@@ -132,7 +136,7 @@ export function useScrubber({
         const highlightedLine = newValue === -1 ? 0 : frames[validIndex].line
         setHighlightedLine(highlightedLine)
       }
-      scrollToHighlightedLine()
+      scrollToLine(editorView, frames[newValue].line)
     },
     [setValue, setInformationWidgetData]
   )

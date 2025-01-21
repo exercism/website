@@ -110,6 +110,19 @@ export class AnimationTimeline {
         : null
   }
 
+  public frameAtTime(time: number) {
+    const reversedIndex = this.frames
+      .slice()
+      .reverse()
+      .findIndex((frame) => {
+        return frame.time <= time
+      })
+
+    const index = this.frames.length - 1 - reversedIndex
+
+    return this.frames[index]
+  }
+
   public getProgress() {
     return this.progress
   }

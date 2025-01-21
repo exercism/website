@@ -131,12 +131,17 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seek(newValue)
+        const line = animationTimeline.currentFrame?.line
+
+        if (line) {
+          scrollToLine(editorView, line)
+        }
       } else {
         const validIndex = Math.max(0, newValue)
         const highlightedLine = newValue === -1 ? 0 : frames[validIndex].line
         setHighlightedLine(highlightedLine)
+        scrollToLine(editorView, highlightedLine)
       }
-      scrollToLine(editorView, frames[newValue].line)
     },
     [setValue, setInformationWidgetData]
   )

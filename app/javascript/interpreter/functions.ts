@@ -1,5 +1,5 @@
 import { Environment } from './environment'
-import { Interpreter } from './interpreter'
+import { Interpreter, LanguageFeatures } from './interpreter'
 import { FunctionStatement } from './statement'
 import type { ExecutionContext, Executor } from './executor'
 
@@ -23,7 +23,8 @@ export function isCallable(obj: any): obj is Callable {
 export class UserDefinedFunction implements Callable {
   constructor(
     private declaration: FunctionStatement,
-    private closure: Environment
+    private closure: Environment,
+    private languageFeatures: LanguageFeatures
   ) {}
 
   arity(): Arity {
@@ -34,7 +35,12 @@ export class UserDefinedFunction implements Callable {
   }
 
   call(executor: ExecutionContext, args: any[]): any {
-    const environment = new Environment()
+    let environment
+    if (this.languageFeatures.allowGlobals) {
+      environment = new Environment(this.closure)
+    } else {
+      environment = new Environment()
+    }
 
     for (let i = 0; i < this.declaration.parameters.length; i++) {
       const arg =

@@ -1,4 +1,4 @@
-import { evaluateJikiScriptFunction } from '@/interpreter/interpreter'
+import { evaluateFunction } from '@/interpreter/interpreter'
 import fs from 'fs'
 import path from 'path'
 
@@ -40,7 +40,7 @@ describe('Exercise Tests', () => {
           test(`${project} - ${exercise} - ${task.name} - ${taskTest.name}`, () => {
             let error, value, frames
             try {
-              ;({ error, value, frames } = evaluateJikiScriptFunction(
+              ;({ error, value, frames } = evaluateFunction(
                 exampleScript,
                 {},
                 taskTest.function,

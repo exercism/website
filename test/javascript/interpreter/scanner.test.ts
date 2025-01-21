@@ -1,5 +1,5 @@
-import { scan } from '@/interpreter/languages/javascript/scanner'
-import type { TokenType } from '@/interpreter/languages/javascript/token'
+import { scan } from '@/interpreter/scanner'
+import { type TokenType } from '@/interpreter/token'
 
 describe('single-character', () => {
   test.each([
@@ -15,7 +15,8 @@ describe('single-character', () => {
     ['+', 'PLUS'],
     ['*', 'STAR'],
     ['/', 'SLASH'],
-    ['?', 'QUESTION_MARK'],
+    ['=', 'EQUAL'],
+    ['!', 'NOT'],
   ])("'%s' token", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)
@@ -26,26 +27,12 @@ describe('single-character', () => {
 
 describe('one, two or three characters', () => {
   test.each([
-    ['=', 'EQUAL'],
-
-    ['==', 'EQUALITY'],
-    ['!=', 'INEQUALITY'],
-    ['!==', 'STRICT_INEQUALITY'],
-    ['===', 'STRICT_EQUALITY'],
-
-    ['!', 'NOT'],
     ['>', 'GREATER'],
     ['>=', 'GREATER_EQUAL'],
     ['<', 'LESS'],
     ['<=', 'LESS_EQUAL'],
-    ['&&', 'AMPERSAND_AMPERSAND'],
-    ['||', 'PIPE_PIPE'],
-    ['*=', 'STAR_EQUAL'],
-    ['/=', 'SLASH_EQUAL'],
-    ['+=', 'PLUS_EQUAL'],
-    ['++', 'PLUS_PLUS'],
-    ['-=', 'MINUS_EQUAL'],
-    ['--', 'MINUS_MINUS'],
+    ['!=', 'STRICT_INEQUALITY'],
+    ['==', 'STRICT_EQUALITY'],
   ])("'%s' token", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)
@@ -57,21 +44,27 @@ describe('one, two or three characters', () => {
 describe('keyword', () => {
   test.each([
     ['and', 'AND'],
-    ['const', 'CONST'],
     ['do', 'DO'],
     ['else', 'ELSE'],
+    ['end', 'END'],
     ['false', 'FALSE'],
     ['for', 'FOR'],
+    ['foreach', 'FOREACH'],
     ['function', 'FUNCTION'],
     ['if', 'IF'],
     ['in', 'IN'],
-    ['let', 'LET'],
     ['null', 'NULL'],
-    ['of', 'OF'],
+    ['not', 'NOT'],
     ['or', 'OR'],
+    ['repeat', 'REPEAT'],
     ['return', 'RETURN'],
+    ['set', 'SET'],
+    ['to', 'TO'],
     ['true', 'TRUE'],
     ['while', 'WHILE'],
+    ['with', 'WITH'],
+    ['is', 'STRICT_EQUALITY'],
+    ['equals', 'STRICT_EQUALITY'],
   ])("'%s' keyword", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)
@@ -458,15 +451,17 @@ describe('error', () => {
     })
 
     test('Exclude listed', () => {
-      expect(() => scan('const x = 1', { excludeList: ['CONST'] })).toThrow(
-        "Jiki doesn't know how to use `const` in this exercise."
+      expect(() => scan('set x to 1', { excludeList: ['SET'] })).toThrow(
+        "Jiki doesn't know how to use `set` in this exercise."
       )
     })
 
     test('Include listed', () => {
       expect(() =>
-        scan('const x = 1', { includeList: ['IDENTIFIER', 'NUMBER'] })
-      ).toThrow("Jiki doesn't know how to use `const` in this exercise.")
+        scan('set x to 1', {
+          includeList: ['IDENTIFIER', 'NUMBER'],
+        })
+      ).toThrow("Jiki doesn't know how to use `set` in this exercise.")
     })
   })
 })

@@ -20,12 +20,12 @@ import {
   DisabledLanguageFeatureError,
   type DisabledLanguageFeatureErrorType,
   SyntaxError,
-} from '../../error'
-import { type SyntaxErrorType } from './error'
+} from './error'
+import { type SyntaxErrorType } from './languages/jikiscript/error'
 import type { Token, TokenType } from './token'
-import { Location } from '../../location'
-import type { LanguageFeatures } from '../../interpreter'
-import { translate } from '../../translator'
+import { Location } from './location'
+import type { LanguageFeatures } from './interpreter'
+import { translate } from './translator'
 
 export class Scanner {
   private tokens: Token[] = []

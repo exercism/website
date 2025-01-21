@@ -1,4 +1,4 @@
-import { SyntaxError } from '../../error'
+import { SyntaxError } from './error'
 import { type SyntaxErrorType } from './error'
 import {
   ArrayExpression,
@@ -17,16 +17,12 @@ import {
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
   TemplateTextExpression,
-  UpdateExpression,
-  TernaryExpression,
-} from '../../expression'
-import type { LanguageFeatures } from '../../interpreter'
-import { Location } from '../../location'
+} from './expression'
+import type { LanguageFeatures } from './interpreter'
+import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
-  ConstantStatement,
-  DoWhileStatement,
   ExpressionStatement,
   ForeachStatement,
   FunctionParameter,
@@ -38,9 +34,12 @@ import {
   Statement,
   VariableStatement,
   WhileStatement,
-} from '../../statement'
+} from './statement'
 import type { Token, TokenType } from './token'
-import { translate } from '../../translator'
+import { translate } from './translator'
+import didYouMean from 'didyoumean'
+import { isTypo } from './helpers/isTypo'
+import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
 
 export class Parser {
   private readonly scanner: Scanner
@@ -60,7 +59,12 @@ export class Parser {
 
     const statements = []
 
-    while (!this.isAtEnd()) statements.push(this.declarationStatement())
+    while (!this.isAtEnd()) {
+      const statement = this.declarationStatement()
+      if (statement) {
+        statements.push(statement)
+      }
+    }
 
     if (this.shouldWrapTopLevelStatements)
       return this.wrapTopLevelStatements(statements)
@@ -101,11 +105,8 @@ export class Parser {
 
   private functionStatement(): Statement {
     const name = this.consume('IDENTIFIER', 'MissingFunctionName')
-    this.consume('LEFT_PAREN', 'MissingLeftParenthesisAfterFunctionName', {
-      name,
-    })
     const parameters: FunctionParameter[] = []
-    if (!this.check('RIGHT_PAREN')) {
+    if (this.match('WITH')) {
       do {
         if (parameters.length > 255) {
           this.error(
@@ -127,23 +128,26 @@ export class Parser {
           }
         )
 
-        let defaultValue: Expression | null = null
-
-        if (this.match('EQUAL')) {
-          defaultValue = this.expression()
+        if (parameters.find((p) => p.name.lexeme == parameterName.lexeme)) {
+          this.error('DuplicateParameterName', this.previous().location, {
+            parameter: parameterName.lexeme,
+          })
         }
 
-        parameters.push(new FunctionParameter(parameterName, defaultValue))
+        parameters.push(new FunctionParameter(parameterName, null))
       } while (this.match('COMMA'))
     }
-    this.consume('RIGHT_PAREN', 'MissingRightParenthesisAfterParameters', {
-      name,
-      parameters,
-    })
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartFunctionBody', { name })
+    if (this.peek().type != 'DO') {
+      const { errorType, context } = errorForMissingDoAfterParameters(
+        this.peek(),
+        parameters
+      )
+      this.error(errorType, this.peek().location, context)
+    }
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
     this.consumeEndOfLine()
 
-    const body = this.block()
+    const body = this.block('function')
     this.functionNames.push(name.lexeme)
     return new FunctionStatement(
       name,
@@ -154,47 +158,94 @@ export class Parser {
   }
 
   private statement(): Statement {
-    if (this.match('LET')) return this.letStatement()
-    if (this.match('CONST')) return this.constStatement()
+    if (this.match('SET')) return this.setStatement()
+    if (this.match('CHANGE')) return this.changeStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('RETURN')) return this.returnStatement()
+    if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_UNTIL_GAME_OVER'))
       return this.repeatUntilGameOverStatement()
     if (this.match('WHILE')) return this.whileStatement()
-    if (this.match('DO')) return this.doWhileStatement()
-    if (this.match('FOR')) return this.foreachStatement()
-    if (this.match('LEFT_BRACE')) return this.blockStatement()
+    if (this.match('FOREACH')) return this.foreachStatement()
+    if (this.match('DO')) return this.blockStatement('do')
+
+    // Error cases
+    if (this.match('ELSE')) {
+      this.error('UnexpectedElseWithoutIf', this.previous().location)
+    }
 
     return this.expressionStatement()
   }
 
-  private letStatement(): Statement {
-    const letToken = this.previous()
-    const name = this.consume('IDENTIFIER', 'MissingVariableName')
-    this.consume(
-      'EQUAL',
-      'MissingEqualsSignAfterVariableNameToInitializeValue',
-      {
-        name,
+  private setStatement(): Statement {
+    const setToken = this.previous()
+    if (this.peek(2).type == 'LEFT_BRACKET') {
+      const assignment = this.assignment()
+      this.consumeEndOfLine()
+
+      return new ExpressionStatement(
+        assignment,
+        Location.between(setToken, assignment)
+      )
+    } else {
+      let name
+      try {
+        name = this.consume('IDENTIFIER', 'MissingVariableName')
+      } catch (e) {
+        const nameLexeme = this.peek().lexeme
+        if (nameLexeme.match(/[0-9]/)) {
+          this.error('InvalidNumericVariableName', this.peek().location, {
+            name: nameLexeme,
+          })
+        } else {
+          throw e
+        }
       }
-    )
 
-    const initializer = this.expression()
-    this.consumeEndOfLine()
+      if (
+        (this.peek().type == 'IDENTIFIER' || this.peek().type == 'STRING') &&
+        this.peek(2).type == 'TO'
+      ) {
+        const errorLocation = Location.between(this.previous(), this.peek())
+        this.error('UnexpectedSpaceInIdentifier', errorLocation, {
+          first_half: name.lexeme,
+          second_half: this.peek().lexeme,
+        })
+      }
 
-    return new VariableStatement(
-      name,
-      initializer,
-      Location.between(letToken, initializer)
-    )
+      // Guard mistaken equals sign for assignment
+      this.guardEqualsSignForAssignment(this.peek())
+
+      this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+        name: name.lexeme,
+      })
+
+      const initializer = this.expression()
+      this.consumeEndOfLine()
+
+      return new VariableStatement(
+        name,
+        initializer,
+        Location.between(setToken, initializer)
+      )
+    }
   }
+  private changeStatement(): Statement {
+    const setToken = this.previous()
+    // if (this.peek(2).type == 'LEFT_BRACKET') {
+    //   const assignment = this.assignment()
+    //   this.consumeEndOfLine()
 
-  private constStatement(): Statement {
-    const constToken = this.previous()
-    const name = this.consume('IDENTIFIER', 'MissingConstantName')
-    this.consume(
-      'EQUAL',
-      'MissingEqualsSignAfterConstantNameToInitializeValue',
+    //   return new ExpressionStatement(
+    //     assignment,
+    //     Location.between(setToken, assignment)
+    //   )
+    // } else {
+    const name = this.consume('IDENTIFIER', 'MissingVariableName')
+
+    const token = this.consume(
+      'TO',
+      'MissingToAfterVariableNameToInitializeValue',
       {
         name,
       }
@@ -203,32 +254,72 @@ export class Parser {
     const initializer = this.expression()
     this.consumeEndOfLine()
 
-    return new ConstantStatement(
-      name,
-      initializer,
-      Location.between(constToken, initializer)
+    // return new VariableStatement(
+    //   name,
+    //   initializer,
+    //   Location.between(setToken, initializer)
+    // )
+    return new ExpressionStatement(
+      new AssignExpression(
+        name,
+        token,
+        initializer,
+        true,
+        Location.between(setToken, initializer)
+      ),
+      Location.between(setToken, initializer)
     )
+    // }
   }
 
   private ifStatement(): Statement {
     const ifToken = this.previous()
-    this.consume('LEFT_PAREN', 'MissingLeftParenthesisBeforeIfCondition')
-    const condition = this.expression()
-    this.consume('RIGHT_PAREN', 'MissingRightParenthesisAfterIfCondition', {
-      condition,
+    let condition
+    try {
+      condition = this.expression()
+      if (condition instanceof LiteralExpression) {
+        this.error('UnexpectedLiteralExpressionAfterIf', ifToken.location)
+      }
+      if (condition instanceof VariableExpression) {
+        const typoData = isTypo(this.peek())
+        if (typoData) {
+          this.error(
+            'UnexpectedVariableExpressionAfterIfWithPotentialTypo',
+            ifToken.location,
+            { actual: typoData.actual, potential: typoData.potential }
+          )
+        }
+
+        this.error('UnexpectedVariableExpressionAfterIf', ifToken.location)
+      }
+    } catch (e) {
+      if (e instanceof SyntaxError && e.type == 'MissingExpression') {
+        this.error('MissingConditionAfterIf', ifToken.location)
+      } else {
+        throw e
+      }
+    }
+
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'if' })
+    const thenBranch = this.blockStatement('if', {
+      allowElse: true,
+      consumeEnd: false,
     })
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartIfBody')
-    const thenBranch = this.blockStatement()
-    let elseBranch = null
+    let elseBranch: Statement | null = null
 
     if (this.match('ELSE')) {
       if (this.match('IF')) {
         elseBranch = this.ifStatement()
       } else {
-        this.consume('LEFT_BRACE', 'MissingLeftBraceToStartElseBody')
-        elseBranch = this.blockStatement()
+        this.consume('DO', 'MissingDoToStartBlock', { type: 'else' })
+        elseBranch = this.blockStatement('else')
       }
+    } else {
+      this.consume('END', 'MissingEndAfterBlock', { type: 'if' })
+      this.consumeEndOfLine()
     }
+
+    // console.log(condition, thenBranch, elseBranch, ifToken, this.previous());
 
     return new IfStatement(
       condition,
@@ -253,13 +344,31 @@ export class Parser {
     )
   }
 
+  private repeatStatement(): Statement {
+    const begin = this.previous()
+    const condition = this.expression()
+    this.consume('TIMES', 'MissingTimesInRepeat')
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
+    this.consumeEndOfLine()
+
+    const statements = this.block('repeat')
+
+    return new RepeatStatement(
+      condition,
+      statements,
+      Location.between(begin, this.previous())
+    )
+  }
+
   private repeatUntilGameOverStatement(): Statement {
     const begin = this.previous()
 
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartRepeatBody')
+    this.consume('DO', 'MissingDoToStartBlock', {
+      type: 'repeat_until_game_over',
+    })
     this.consumeEndOfLine()
 
-    const statements = this.block()
+    const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
       statements,
@@ -269,16 +378,12 @@ export class Parser {
 
   private whileStatement(): Statement {
     const begin = this.previous()
-    this.consume('LEFT_PAREN', 'MissingLeftParenthesisAfterWhile')
     const condition = this.expression()
-    this.consume('RIGHT_PAREN', 'MissingRightParenthesisAfterWhileCondition', {
-      condition,
-    })
 
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartWhileBody')
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'while' })
     this.consumeEndOfLine()
 
-    const statements = this.block()
+    const statements = this.block('while')
 
     return new WhileStatement(
       condition,
@@ -287,55 +392,21 @@ export class Parser {
     )
   }
 
-  private doWhileStatement(): Statement {
-    const begin = this.previous()
-
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartDoWhileBody')
-    this.consumeEndOfLine()
-
-    const statements = this.block()
-
-    this.consume('WHILE', 'MissingWhileBeforeDoWhileCondition')
-
-    this.consume('LEFT_PAREN', 'MissingLeftParenthesisAfterDoWhile')
-    const condition = this.expression()
-    this.consume(
-      'RIGHT_PAREN',
-      'MissingRightParenthesisAfterDoWhileCondition',
-      {
-        condition,
-      }
-    )
-
-    this.consumeEndOfLine()
-
-    return new DoWhileStatement(
-      condition,
-      statements,
-      Location.between(begin, this.previous())
-    )
-  }
-
   private foreachStatement(): Statement {
     const foreachToken = this.previous()
-    this.consume('LEFT_PAREN', 'MissingLeftParenthesisAfterForeach')
-    this.consume('LET', 'MissingLetInForeachCondition')
     const elementName = this.consume(
       'IDENTIFIER',
       'MissingElementNameAfterForeach'
     )
-    this.consume('OF', 'MissingOfAfterElementNameInForeach', {
+    this.consume('IN', 'MissingOfAfterElementNameInForeach', {
       elementName,
     })
     const iterable = this.expression()
 
-    this.consume('RIGHT_PAREN', 'MissingRightParenthesisAfterForeachElement', {
-      iterable,
-    })
-    this.consume('LEFT_BRACE', 'MissingLeftBraceToStartForeachBody')
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'foreach' })
     this.consumeEndOfLine()
 
-    const statements = this.block()
+    const statements = this.block('foreach')
 
     return new ForeachStatement(
       elementName,
@@ -345,26 +416,38 @@ export class Parser {
     )
   }
 
-  private blockStatement(): BlockStatement {
-    const leftBraceToken = this.previous()
+  private blockStatement(
+    type: string,
+    { allowElse, consumeEnd } = { allowElse: false, consumeEnd: true }
+  ): BlockStatement {
+    const doToken = this.previous()
     this.consumeEndOfLine()
-    const statements = this.block()
+    const statements = this.block(type, { allowElse, consumeEnd })
 
     return new BlockStatement(
       statements,
-      Location.between(leftBraceToken, this.previous())
+      Location.between(doToken, this.previous())
     )
   }
 
-  private block(): Statement[] {
+  private block(
+    type: string,
+    { allowElse, consumeEnd } = { allowElse: false, consumeEnd: true }
+  ): Statement[] {
     const statements: Statement[] = []
 
-    while (!this.check('RIGHT_BRACE') && !this.isAtEnd()) {
+    while (
+      !this.check('END') &&
+      (!allowElse || !this.check('ELSE')) &&
+      !this.isAtEnd()
+    ) {
       statements.push(this.statement())
     }
 
-    this.consume('RIGHT_BRACE', 'MissingRightBraceAfterBlock')
-    this.consumeEndOfLine()
+    if (consumeEnd && (!allowElse || this.peek().type != 'ELSE')) {
+      this.consume('END', 'MissingEndAfterBlock', { type })
+      this.consumeEndOfLine()
+    }
     return statements
   }
 
@@ -380,17 +463,9 @@ export class Parser {
   }
 
   private assignment(): Expression {
-    const expr = this.ternary()
+    const expr = this.or()
 
-    if (
-      this.match(
-        'EQUAL',
-        'SLASH_EQUAL',
-        'STAR_EQUAL',
-        'PLUS_EQUAL',
-        'MINUS_EQUAL'
-      )
-    ) {
+    if (this.match('TO')) {
       const operator = this.previous()
       const value = this.assignment()
 
@@ -399,6 +474,7 @@ export class Parser {
           expr.name,
           operator,
           value,
+          true,
           Location.between(expr, value)
         )
       }
@@ -420,30 +496,10 @@ export class Parser {
     return expr
   }
 
-  private ternary(): Expression {
-    const expr = this.or()
-
-    if (this.match('QUESTION_MARK')) {
-      const then = this.ternary()
-      this.consume('COLON', 'MissingColonAfterThenBranchOfTernaryOperator', {
-        then,
-      })
-      const else_ = this.ternary()
-      return new TernaryExpression(
-        expr,
-        then,
-        else_,
-        Location.between(expr, else_)
-      )
-    }
-
-    return expr
-  }
-
   private or(): Expression {
     const expr = this.and()
 
-    while (this.match('OR', 'PIPE_PIPE')) {
+    while (this.match('OR')) {
       let operator = this.previous()
       operator.type = 'OR'
       const right = this.and()
@@ -461,7 +517,7 @@ export class Parser {
   private and(): Expression {
     const expr = this.equality()
 
-    while (this.match('AND', 'AMPERSAND_AMPERSAND')) {
+    while (this.match('AND')) {
       let operator = this.previous()
       operator.type = 'AND'
       const right = this.equality()
@@ -479,15 +535,8 @@ export class Parser {
   private equality(): Expression {
     let expr = this.comparison()
 
-    while (
-      this.match(
-        'EQUALITY',
-        'STRICT_INEQUALITY',
-        'INEQUALITY',
-        'STRICT_EQUALITY'
-      )
-    ) {
-      const operator = this.previous()
+    while (this.match('STRICT_EQUALITY')) {
+      let operator = this.previous()
       const right = this.comparison()
       expr = new BinaryExpression(
         expr,
@@ -497,13 +546,24 @@ export class Parser {
       )
     }
 
+    this.guardEqualsSignForEquality(this.peek())
+
     return expr
   }
 
   private comparison(): Expression {
     let expr = this.term()
 
-    while (this.match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
+    while (
+      this.match(
+        'GREATER',
+        'GREATER_EQUAL',
+        'LESS',
+        'LESS_EQUAL',
+        'STRICT_EQUALITY',
+        'STRICT_INEQUALITY'
+      )
+    ) {
       const operator = this.previous()
       const right = this.term()
       expr = new BinaryExpression(
@@ -537,7 +597,7 @@ export class Parser {
   private factor(): Expression {
     let expr = this.unary()
 
-    while (this.match('SLASH', 'STAR')) {
+    while (this.match('SLASH', 'STAR', 'PERCENT')) {
       const operator = this.previous()
       const right = this.unary()
       expr = new BinaryExpression(
@@ -562,23 +622,7 @@ export class Parser {
       )
     }
 
-    return this.postfix()
-  }
-
-  private postfix(): Expression {
-    const expression = this.call()
-
-    if (this.match('PLUS_PLUS', 'MINUS_MINUS')) {
-      const operator = this.previous()
-
-      return new UpdateExpression(
-        expression,
-        operator,
-        Location.between(operator, expression)
-      )
-    }
-
-    return expression
+    return this.call()
   }
 
   private call(): Expression {
@@ -630,6 +674,12 @@ export class Parser {
   private finishCall(callee: Expression): Expression {
     const args: Expression[] = []
 
+    if (this.match('EOL')) {
+      this.error('MissingRightParenthesisAfterFunctionCall', callee.location, {
+        function:
+          callee instanceof VariableExpression ? callee.name.lexeme : null,
+      })
+    }
     if (!this.check('RIGHT_PAREN')) {
       do {
         args.push(this.expression())
@@ -681,13 +731,34 @@ export class Parser {
     if (this.match('LEFT_PAREN')) {
       const lparen = this.previous()
       const expression = this.expression()
-      const rparen = this.consume(
-        'RIGHT_PAREN',
-        'MissingRightParenthesisAfterExpression',
-        {
-          expression,
+
+      // TODO: If there's not a right paren here,
+
+      let rparen
+      try {
+        rparen = this.consume(
+          'RIGHT_PAREN',
+          'MissingRightParenthesisAfterExpression',
+          {
+            expression,
+          }
+        )
+      } catch (e) {
+        // TODO: If there's not a right paren here, we could consider what's
+        // happened instead. Maybe the person made a typo on the next character
+        // For example, did they put "equal" instead of "equals"?
+        const typoData = isTypo(this.peek())
+        if (typoData) {
+          this.error(
+            'MissingRightParenthesisAfterExpressionWithPotentialTypo',
+            typoData.location,
+            { actual: typoData.actual, potential: typoData.potential }
+          )
         }
-      )
+
+        throw e
+      }
+
       return new GroupingExpression(
         expression,
         Location.between(lparen, rparen)
@@ -811,7 +882,28 @@ export class Parser {
   }
 
   private consumeEndOfLine(): void {
-    this.consume('EOL', 'MissingEndOfLine')
+    if (this.match('EOL')) {
+      return
+    }
+
+    // We're now at an error point where the next character
+    // should be an EOL but isn't. We provide contextual guidance
+
+    const type = this.peek().type
+    const previous = this.previous().lexeme
+    const current = this.peek().lexeme
+    let suggestion
+
+    if (type == 'FUNCTION') {
+      suggestion = 'Did you mean to start a function on a new line?'
+    } else {
+      suggestion = 'Did you make a typo?'
+    }
+    this.error('MissingEndOfLine', this.peek().location, {
+      previous,
+      current,
+      suggestion,
+    })
   }
 
   private error(
@@ -827,6 +919,19 @@ export class Parser {
     )
   }
 
+  private guardEqualsSignForAssignment(name: Token) {
+    if (this.peek().type == 'EQUAL') {
+      this.error('UnexpectedEqualsForAssignment', this.peek().location, {
+        name: name.lexeme,
+      })
+    }
+  }
+  private guardEqualsSignForEquality(token: Token) {
+    if (token.type == 'EQUAL') {
+      this.error('UnexpectedEqualsForEquality', token.location)
+    }
+  }
+
   private isAtEnd(): boolean {
     return this.peek().type == 'EOF'
   }
@@ -835,15 +940,14 @@ export class Parser {
     return this.peek().type == 'EOL' || this.isAtEnd()
   }
 
-  private peek(): Token {
-    return this.tokens[this.current]
+  private peek(n = 1): Token {
+    return this.tokens[this.current + (n - 1)]
   }
 
-  private previous(): Token {
-    return this.tokens[this.current - 1]
+  private previous(n = 1): Token {
+    return this.tokens[this.current - n]
   }
 }
-
 export function parse(
   sourceCode: string,
   {

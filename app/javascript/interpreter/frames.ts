@@ -158,6 +158,8 @@ function describeOperator(operator: string): string {
       return 'equal to'
     case 'STRICT_INEQUALITY':
       return 'not equal to'
+    case 'MINUS':
+      return 'minus'
   }
 
   return ''
@@ -168,27 +170,32 @@ function describeBinaryExpression(expression: BinaryExpression): string {
     const left = describeExpression(expression.left)
     const right = describeExpression(expression.right)
     const operator = describeOperator(expression.operator.type)
-    return `${left} was ${operator} ${right}`
+    if (isEqualityOperator(expression.operator.type)) {
+      return `${left} was ${operator} ${right}`
+    } else {
+      return `${left} ${operator} ${right}`
+    }
   }
   return ''
 }
 
 function describeLogicalExpression(expression: LogicalExpression): string {
-  let prefix = ''
-  if (expression.operator.type == 'AND') {
-    prefix = 'both'
-  }
   const left = describeExpression(expression.left)
   const right = describeExpression(expression.right)
 
-  return `${prefix} ${left}, and ${right} were true`
+  if (expression.operator.type == 'AND') {
+    return `both of these were true:</p><ul><li>${left}</li><li>${right}</li></ul><p>`
+  } else {
+    return `$${left} and ${right} were true`
+  }
 }
 
 function describeGroupingExpression(expression: GroupingExpression): string {
-  return describeExpression(expression.inner)
+  return `${describeExpression(expression.inner)}`
 }
 
 function describeCondition(expression: Expression): string {
+  console.log(expression)
   return describeExpression(expression)
 }
 
@@ -196,7 +203,7 @@ function describeIfStatement(frame: FrameWithResult) {
   const ifStatement = frame.context as IfStatement
   const conditionDescription = describeCondition(ifStatement.condition)
   let output = `
-    <p>This checked whether ${conditionDescription}.</p>
+    <p>This checked whether ${conditionDescription}</p>
     <p>The result was <code>${frame.result.value}</code>.</p>
     `
   return output
@@ -224,4 +231,15 @@ function describeCallExpression(
   )
   output += interpolatedDescription
   return output
+}
+
+function isEqualityOperator(operator: string): boolean {
+  return [
+    'STRICT_EQUALITY',
+    'STRICT_INEQUALITY',
+    'GREATER',
+    'LESS',
+    'GREATER_EQUAL',
+    'LESS_EQUAL',
+  ].includes(operator)
 }

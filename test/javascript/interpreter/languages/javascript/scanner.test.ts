@@ -458,15 +458,15 @@ describe('error', () => {
     })
 
     test('Exclude listed', () => {
-      expect(() => scan('const x = 1', { ExcludeList: ['CONST'] })).toThrow(
-        "Usage of 'CONST' is not allowed"
+      expect(() => scan('const x = 1', { excludeList: ['CONST'] })).toThrow(
+        "Jiki doesn't know how to use `const` in this exercise."
       )
     })
 
     test('Include listed', () => {
       expect(() =>
-        scan('const x = 1', { IncludeList: ['IDENTIFIER', 'NUMBER'] })
-      ).toThrow("Usage of 'CONST' is not allowed")
+        scan('const x = 1', { includeList: ['IDENTIFIER', 'NUMBER'] })
+      ).toThrow("Jiki doesn't know how to use `const` in this exercise.")
     })
   })
 })

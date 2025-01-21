@@ -5,6 +5,9 @@
   "level": 3,
   "idx": 3,
   "tests_type": "state",
+  "interpreter_options": {
+    "exclude_list": ["OR"]
+  },
   "tasks": [
     {
       "name": "Player 1 chooses paper",

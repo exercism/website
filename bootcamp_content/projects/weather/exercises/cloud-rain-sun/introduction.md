@@ -10,7 +10,7 @@ Your shapes should sit just inside the lines.
 You'll need to use the following functions to draw things:
 
 - `circle(x, y, radius)`
-- `rectangle(x, y, height, width)`
+- `rectangle(x, y, width, height)`
 - `ellipse(x, y, radius_x, radius_y)`
 
 You can use whatever colors your like for the various components, and you can change color using either of the `fill_color` functions to change color:

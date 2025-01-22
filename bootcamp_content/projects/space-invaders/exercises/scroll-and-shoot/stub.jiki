@@ -5,5 +5,5 @@
 repeat 20 times do
   // TODO: Move the laser and shoot the aliens
   // Write out all the logical steps using comments first
-  // the write the acutal JikiScript to make things happen.
+  // then write the actual JikiScript to make things happen.
 end

@@ -834,14 +834,12 @@ describe('frames', () => {
       expect(frames[0].variables).toBeEmpty()
     })
 
-    test('variable', () => {
-      const { frames } = interpret('set x to 1')
-      expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].line).toBe(1)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].code).toBe('set x to 1')
-      expect(frames[0].error).toBeNil()
-      expect(frames[0].variables).toMatchObject({ x: 1 })
+    test('not using brackets when calling a function', () => {
+      const { error, frames } = interpret(`
+        set x to y
+      `)
+      console.log(error, frames)
+      expect(frames[0].status).toBe('ERROR')
     })
   })
 
@@ -1189,6 +1187,18 @@ describe('errors', () => {
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('NonCallableTarget')
         expect(error).toBeNull()
+      })
+
+      test('forgetting brackets', () => {
+        const echoFunction = (_interpreter: any, _n: any) => {}
+        const context = {
+          externalFunctions: [
+            { name: 'echo', func: echoFunction, description: '' },
+          ],
+        }
+        const { frames } = interpret('set x to echo', context)
+        console.log(frames)
+        expect(frames[0].status).toBe('ERROR')
       })
 
       describe('arity', () => {

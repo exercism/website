@@ -79,7 +79,7 @@
       "InvalidNumberOfArgumentsWithOptionalArguments": "Expected between {{minArity} and {{maxArity}} arguments but got {{numberOfArgs}}.",
       "InvalidUnaryOperator": "Invalid unary operator",
       "LogicError": "{{message}}",
-      "MissingParenthesesForFunctionCall": "Did you forget the parenthesis when trying to call the function?",
+      "MissingParenthesesForFunctionCall": "Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```{{name}}()```",
       "NonCallableTarget": "Can only call functions.",
       "OperandMustBeBoolean": "Operand must be a boolean.",
       "OperandMustBeNumber": "Operand must be a number.",

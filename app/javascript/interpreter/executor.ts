@@ -218,6 +218,15 @@ export class Executor
         })
       }
       const value = this.evaluate(statement.initializer).value
+      if (isCallable(value)) {
+        this.error(
+          'MissingParenthesesForFunctionCall',
+          statement.initializer.location,
+          {
+            name: (statement.initializer as VariableExpression).name.lexeme,
+          }
+        )
+      }
       this.environment.define(statement.name.lexeme, value)
 
       return {

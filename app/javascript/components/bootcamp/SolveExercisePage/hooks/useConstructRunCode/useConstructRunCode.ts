@@ -14,6 +14,7 @@ import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValu
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import useErrorStore from '../../store/errorStore'
+import useAnimationTimelineStore from '../../store/animationTimelineStore'
 
 export function useConstructRunCode({
   links,
@@ -27,6 +28,7 @@ export function useConstructRunCode({
     inspectedTestResult,
     setHasSyntaxError,
   } = useTestStore()
+  const { setIsTimelineComplete } = useAnimationTimelineStore()
 
   const {
     setHighlightedLine,
@@ -64,6 +66,7 @@ export function useConstructRunCode({
         inspectedTestResult.animationTimeline?.destroy()
         inspectedTestResult.animationTimeline = null
       }
+      setIsTimelineComplete(false)
       setTestSuiteResult(null)
       setInspectedTestResult(null)
 

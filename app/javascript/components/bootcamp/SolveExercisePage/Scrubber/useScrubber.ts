@@ -44,6 +44,11 @@ export function useScrubber({
       animationTimeline.onUpdate((anime) => {
         setTimeout(() => {
           setValue(anime.currentTime)
+          if (anime.completed) {
+            setIsTimelineComplete(true)
+          } else {
+            setIsTimelineComplete(false)
+          }
         }, FRAME_DURATION)
       })
     } else {
@@ -90,14 +95,6 @@ export function useScrubber({
       }
     }
   }, [value, animationTimeline?.currentFrameIndex, frames])
-
-  useEffect(() => {
-    if (animationTimeline?.timeline.completed) {
-      setIsTimelineComplete(true)
-    } else {
-      setIsTimelineComplete(false)
-    }
-  }, [animationTimeline?.timeline.completed])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   const { inspectedTestResult } = useTestStore()

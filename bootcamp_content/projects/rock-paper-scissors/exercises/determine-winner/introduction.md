@@ -2,7 +2,7 @@
 
 To start our game of Rock, Paper, Scissors, we're going to write some code to determine the winner.
 
-It Rock, Paper, Scissors, two players each choose rock, paper or scissors. You then compare the choices to see who's won:
+In Rock, Paper, Scissors, two players each choose rock, paper or scissors. You then compare the choices to see who's won:
 
 - If both players choose the same, it's a tie.
 - Rock blunts scissors (rock wins).

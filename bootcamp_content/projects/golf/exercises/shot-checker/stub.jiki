@@ -1,7 +1,7 @@
 // Set our initial variables
 set tee_position to 30
-set grass_y to 75
 set ball_x to tee_position - 1 // We increment this before we use it.
+set ball_y to 75
 set ball_radius to 3
 
 // As we're not changing colors, we can 
@@ -15,7 +15,7 @@ repeat 10 times do
 
   // Draw the ball
   clear()
-  circle(ball_x, grass_y, ball_radius)
+  circle(ball_x, ball_y, ball_radius)
 end
 
 // TODO: Handle the ball landing in the hole.

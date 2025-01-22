@@ -18,7 +18,6 @@ export class InformationWidget extends WidgetType {
   private observer: MutationObserver | null = null
   private autoUpdateCleanup: (() => void) | null = null
   private scrollContainer: HTMLElement | null = null
-  private previousPosition: { x: number; y: number } | null = null
 
   constructor(
     private readonly tooltipHtml: string,
@@ -128,14 +127,8 @@ export class InformationWidget extends WidgetType {
         shift({ padding: 0, boundary: (editor as Boundary) ?? undefined }),
         arrow({ element: this.arrowElement! }),
       ],
-    }).then(({ x, y, middlewareData }) => {
-      if (x !== 0) {
-        // ||= - initialise if doesn't exist
-        this.previousPosition ||= { x, y }
-      } else if (this.previousPosition?.x) {
-        x = this.previousPosition.x
-      }
-
+    }).then(({ y, middlewareData }) => {
+      const x = localStorage.getItem('solve-exercise-page-lhs')
       const { arrow } = middlewareData
       if (!this.tooltip) return
       Object.assign(this.tooltip.style, {
@@ -179,20 +172,35 @@ export class InformationWidget extends WidgetType {
     this.observer.observe(document.body, { childList: true, subtree: true })
   }
 
+  private handleScroll?: EventListener
+  private handleStorage?: (e: StorageEvent) => void
+
   private setupScrollListener() {
     const scrollContainer = document.querySelector('.cm-scroller')
     if (!scrollContainer) {
       return
     }
-    scrollContainer.addEventListener('scroll', () => {
-      this.positionTooltip()
-    })
+
+    this.handleScroll = this.positionTooltip.bind(this)
+    this.handleStorage = (e: StorageEvent) => {
+      if (e.key === 'solve-exercise-page-lhs') {
+        this.positionTooltip()
+      }
+    }
+
+    scrollContainer.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('storage', this.handleStorage)
+
     this.scrollContainer = scrollContainer as HTMLElement
   }
 
   private cleanup() {
-    if (this.scrollContainer) {
-      this.scrollContainer.removeEventListener('scroll', this.positionTooltip)
+    if (this.scrollContainer && this.handleScroll) {
+      this.scrollContainer.removeEventListener('scroll', this.handleScroll)
+    }
+
+    if (this.handleStorage) {
+      window.removeEventListener('storage', this.handleStorage)
     }
 
     if (this.autoUpdateCleanup) {

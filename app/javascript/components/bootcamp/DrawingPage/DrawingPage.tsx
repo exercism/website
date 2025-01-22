@@ -64,12 +64,15 @@ export default function DrawingPage({
   }, [setEditorLocalStorageValue])
 
   const { shouldAutoRunCode, toggleShouldAutoRunCode } = useEditorStore()
-  const handleToggleAutoRun = useCallback(() => {
-    if (!shouldAutoRunCode) {
-      handleRunCode()
-    }
-    toggleShouldAutoRunCode()
-  }, [shouldAutoRunCode])
+  const handleToggleAutoRun = useCallback(
+    (shouldAutoRunCode: boolean) => {
+      if (!shouldAutoRunCode) {
+        handleRunCode()
+      }
+      toggleShouldAutoRunCode()
+    },
+    [shouldAutoRunCode]
+  )
 
   return (
     <SolveExercisePageContextWrapper
@@ -103,7 +106,7 @@ export default function DrawingPage({
                     className={assembleClassNames(
                       shouldAutoRunCode ? 'text-textColor1' : 'text-gray'
                     )}
-                    onClick={handleToggleAutoRun}
+                    onClick={() => handleToggleAutoRun(shouldAutoRunCode)}
                   >
                     AUTO
                   </button>

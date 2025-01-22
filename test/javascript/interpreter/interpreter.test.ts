@@ -4,6 +4,15 @@ import {
   evaluateFunction,
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
+import { changeLanguage } from '@/interpreter/translator'
+
+beforeAll(() => {
+  changeLanguage('system')
+})
+
+afterAll(() => {
+  changeLanguage('en')
+})
 
 describe('statements', () => {
   describe('expression', () => {
@@ -1141,6 +1150,9 @@ describe('errors', () => {
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
+        expect(frames[0].error!.message).toBe(
+          'CouldNotFindFunctionWithName: name: foo'
+        )
         expect(error).toBeNull()
       })
 
@@ -1162,6 +1174,9 @@ describe('errors', () => {
         expect(frames[2].error).not.toBeNull()
         expect(frames[2].error!.category).toBe('RuntimeError')
         expect(frames[2].error!.type).toBe('CouldNotFindFunctionWithName')
+        expect(frames[2].error!.message).toBe(
+          'CouldNotFindFunctionWithName: name: foo'
+        )
         expect(error).toBeNull()
       })
     })
@@ -1214,7 +1229,7 @@ describe('errors', () => {
             expect(frames[0].error!.category).toBe('RuntimeError')
             expect(frames[0].error!.type).toBe('TooManyArguments')
             expect(frames[0].error!.message).toBe(
-              'Did you add an extra argument? This function expects to be called with 0 arguments but you called it with 1.'
+              'TooManyArguments: arity: 0, numberOfArgs: 1'
             )
             expect(error).toBeNull()
           })
@@ -1238,7 +1253,7 @@ describe('errors', () => {
             expect(frames[0].error!.category).toBe('RuntimeError')
             expect(frames[0].error!.type).toBe('TooFewArguments')
             expect(frames[0].error!.message).toBe(
-              'Did you forget an argument? This function expects to be called with 1 arguments but you called it with 0.'
+              'TooFewArguments: arity: 1, numberOfArgs: 0'
             )
             expect(error).toBeNull()
           })
@@ -1255,6 +1270,9 @@ describe('errors', () => {
           expect(frames[0].error).not.toBeNull()
           expect(frames[0].error!.category).toBe('RuntimeError')
           expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
+          expect(frames[0].error!.message).toBe(
+            'CouldNotFindFunctionWithName: name: foo'
+          )
           expect(error).toBeNull()
         })
 
@@ -1272,7 +1290,7 @@ describe('errors', () => {
           expect(frames[0].code).toBe('foobor()')
           expect(frames[0].error).not.toBeNull()
           expect(frames[0].error!.message).toBe(
-            "Jiki couldn't find a function with the name `foobor`. Maybe you meant to use the `foobar` function instead?"
+            'CouldNotFindFunctionWithNameSuggestion: name: foobor, suggestion: foobar'
           )
           expect(frames[0].error!.category).toBe('RuntimeError')
           expect(frames[0].error!.type).toBe(
@@ -1295,11 +1313,11 @@ describe('errors', () => {
         expect(frames[0].status).toBe('ERROR')
         expect(frames[0].code).toBe('foo')
         expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.message).toBe(
-          'Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```foo()```'
-        )
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
+        expect(frames[0].error!.message).toBe(
+          'MissingParenthesesForFunctionCall: name: foo'
+        )
         expect(error).toBeNull()
       })
 
@@ -1315,11 +1333,12 @@ describe('errors', () => {
         expect(frames[0].status).toBe('ERROR')
         expect(frames[0].code).toBe('set x to y')
         expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.message).toBe(
-          'Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```y()```'
-        )
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
+        expect(frames[0].error!.message).toBe(
+          'MissingParenthesesForFunctionCall: name: y'
+        )
+
         expect(error).toBeNull()
       })
 
@@ -1339,6 +1358,9 @@ describe('errors', () => {
         expect(frames[1].error).not.toBeNull()
         expect(frames[1].error!.category).toBe('RuntimeError')
         expect(frames[1].error!.type).toBe('CouldNotFindFunctionWithName')
+        expect(frames[1].error!.message).toBe(
+          'CouldNotFindFunctionWithName: name: foo'
+        )
         expect(error).toBeNull()
       })
 
@@ -1354,6 +1376,9 @@ describe('errors', () => {
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
+        expect(frames[0].error!.message).toBe(
+          'CouldNotFindFunctionWithName: name: foo'
+        )
         expect(error).toBeNull()
       })
     })

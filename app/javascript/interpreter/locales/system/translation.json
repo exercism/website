@@ -68,7 +68,7 @@
     },
     "runtime": {
       "CouldNotEvaluateFunction": "CouldNotEvaluateFunction",
-      "CouldNotFindFunctionWithName": "CouldNotFindFunctionWithName",
+      "CouldNotFindFunctionWithName": "CouldNotFindFunctionWithName: name: {{name}}",
       "CouldNotFindFunctionWithNameSuggestion": "CouldNotFindFunctionWithNameSuggestion: name: {{name}}, suggestion: {{suggestion}}",
       "CouldNotFindValueWithName": "CouldNotFindValueWithName: name: {{name}}",
       "InfiniteLoop": "InfiniteLoop",
@@ -76,17 +76,18 @@
       "InvalidExpression": "InvalidExpression",
       "InvalidIndexGetterTarget": "InvalidIndexGetterTarget",
       "InvalidIndexSetterTarget": "InvalidIndexSetterTarget",
-      "InvalidNumberOfArguments": "InvalidNumberOfArguments: maxArity: {{maxArity}}, numberOfArgs: {{numberOfArgs}}",
       "InvalidNumberOfArgumentsWithOptionalArguments": "InvalidNumberOfArgumentsWithOptionalArguments: minArity: {{minArity}}, maxArity: {{maxArity}}, numberOfArgs: {{numberOfArgs}}",
       "InvalidUnaryOperator": "InvalidUnaryOperator",
-      "MissingParenthesesForFunctionCall": "MissingParenthesesForFunctionCall",
+      "MissingParenthesesForFunctionCall": "MissingParenthesesForFunctionCall: name: {{name}}",
       "NonCallableTarget": "NonCallableTarget",
       "OperandMustBeBoolean": "OperandMustBeBoolean",
       "OperandMustBeNumber": "OperandMustBeNumber",
       "OperandsMustBeNumber": "OperandsMustBeNumber",
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
-      "RepeatCountMustBeNumber": "RepeatCountMustBeNumber"
+      "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
+      "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
+      "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

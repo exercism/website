@@ -203,7 +203,7 @@ export class Executor
 
       if (statement.expression instanceof VariableExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
-          expression: statement.expression,
+          name: statement.expression.name.lexeme,
         })
 
       return result

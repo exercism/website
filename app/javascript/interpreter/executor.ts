@@ -4,11 +4,12 @@ import { Environment } from './environment'
 import { RuntimeError, type RuntimeErrorType, isRuntimeError } from './error'
 import {
   ArrayExpression,
-  ChangeVariableStatement,
+  AssignExpression,
   BinaryExpression,
   CallExpression,
   DictionaryExpression,
   Expression,
+  type ExpressionVisitor,
   GetExpression,
   GroupingExpression,
   LiteralExpression,
@@ -17,6 +18,7 @@ import {
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
   TemplateTextExpression,
+  TernaryExpression,
   UnaryExpression,
   UpdateExpression,
   VariableExpression,
@@ -34,14 +36,12 @@ import {
   RepeatUntilGameOverStatement,
   ReturnStatement,
   Statement,
-  SetVariableStatement,
+  type StatementVisitor,
+  VariableStatement,
   WhileStatement,
 } from './statement'
 import type { Token } from './token'
-import type {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-} from './evaluation-result'
+import type { EvaluationResult } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
 import type { LanguageFeatures } from './interpreter'
@@ -68,7 +68,9 @@ export type ExternalFunction = {
 
 class LogicError extends Error {}
 
-export class Executor {
+export class Executor
+  implements ExpressionVisitor<EvaluationResult>, StatementVisitor<void>
+{
   private frames: Frame[] = []
   private frameTime: number = 0
   private location: Location | null = null
@@ -78,13 +80,9 @@ export class Executor {
   private readonly globals = new Environment()
   private environment = this.globals
 
-  // This tracks variables for each statement, so we can output
-  // the changes in the frame descriptions
-  private statementStartingVariables: Record<string, any> = {}
-
   constructor(
     private readonly sourceCode: string,
-    private languageFeatures: LanguageFeatures,
+    private languageFeatures: LanguageFeatures = {},
     private externalFunctions: ExternalFunction[],
     private externalState: Record<string, any> = {}
   ) {
@@ -147,7 +145,6 @@ export class Executor {
         })
       }
 
-      // TODO: Also start/end the statement management
       const result = this.evaluate(statement.expression)
       return { value: result.value, frames: this.frames, error: null }
     } catch (error) {
@@ -213,7 +210,7 @@ export class Executor {
     })
   }
 
-  public visitSetVariableStatement(statement: SetVariableStatement): void {
+  public visitVariableStatement(statement: VariableStatement): void {
     this.executeFrame(statement, () => {
       if (this.environment.inScope(statement.name.lexeme)) {
         this.error('VariableAlreadyDeclared', statement.location, {
@@ -230,39 +227,24 @@ export class Executor {
           }
         )
       }
-
       this.environment.define(statement.name.lexeme, value)
 
       return {
-        type: 'SetVariableStatement',
+        type: 'VariableStatement',
         name: statement.name.lexeme,
         value: value,
       }
     })
   }
 
-  public visitChangeVariableStatement(
-    statement: ChangeVariableStatement
-  ): void {
+  public visitConstantStatement(statement: ConstantStatement): void {
     this.executeFrame(statement, () => {
-      // Ensure the variable exists
-      if (!this.environment.inScope(statement.name.lexeme)) {
-        this.error('VariableNotDeclared', statement.location, {
-          name: statement.name.lexeme,
-        })
-      }
-
-      const value = this.evaluate(statement.value)
-
-      this.updateVariable(statement.name, value.value, statement)
-
-      const oldValue = this.statementStartingVariables[statement.name.lexeme]
-
+      const result = this.evaluate(statement.initializer)
+      this.environment.define(statement.name.lexeme, result.value)
       return {
-        type: 'ChangeVariableStatement',
+        type: 'ConstantStatement',
         name: statement.name.lexeme,
-        oldValue,
-        newValue: value,
+        value: result.value,
       }
     })
   }
@@ -347,6 +329,23 @@ export class Executor {
     }
   }
 
+  public visitWhileStatement(statement: WhileStatement): void {
+    while (
+      this.executeFrame(statement, () => this.evaluate(statement.condition))
+    )
+      this.executeBlock(statement.body, this.environment)
+  }
+
+  public visitDoWhileStatement(statement: DoWhileStatement): void {
+    do {
+      this.executeBlock(statement.body, this.environment)
+    } while (
+      this.executeFrame<boolean>(statement, () =>
+        this.evaluate(statement.condition)
+      )
+    )
+  }
+
   public visitBlockStatement(statement: BlockStatement): void {
     // Change this to allow scoping
     // this.executeBlock(statement.statements, new Environment(this.environment))
@@ -378,102 +377,100 @@ export class Executor {
     throw new ReturnValue(evaluationResult.value)
   }
 
-  // visitForeachStatement(statement: ForeachStatement): void {
-  //   const iterable = this.evaluate(statement.iterable)
-  //   if (!isArray(iterable.value) || iterable.value?.length === 0) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value: undefined,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
-  //   }
+  visitForeachStatement(statement: ForeachStatement): void {
+    const iterable = this.evaluate(statement.iterable)
+    if (!isArray(iterable.value) || iterable.value?.length === 0) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value: undefined,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
+    }
 
-  //   for (const value of iterable.value) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
+    for (const value of iterable.value) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
 
-  //     // TODO: Think about this. Currently it creates a new environment for each loop iteration
-  //     // with the element in. But that's maybe not what we want as it'll be a new scope
-  //     // and the rest of Jiki is currently not scoped on a block basis.
-  //     // Consider a `finally` to unset the variable instead?
-  //     const loopEnvironment = new Environment(this.environment)
-  //     loopEnvironment.define(statement.elementName.lexeme, value)
-  //     this.executeBlock(statement.body, loopEnvironment)
-  //   }
-  // }
+      // TODO: Think about this. Currently it creates a new environment for each loop iteration
+      // with the element in. But that's maybe not what we want as it'll be a new scope
+      // and the rest of Jiki is currently not scoped on a block basis.
+      // Consider a `finally` to unset the variable instead?
+      const loopEnvironment = new Environment(this.environment)
+      loopEnvironment.define(statement.elementName.lexeme, value)
+      this.executeBlock(statement.body, loopEnvironment)
+    }
+  }
 
-  // public visitWhileStatement(statement: WhileStatement): void {
-  //   while (
-  //     this.executeFrame(statement, () => this.evaluate(statement.condition))
-  //   )
-  //     this.executeBlock(statement.body, this.environment)
-  // }
+  visitTernaryExpression(expression: TernaryExpression): EvaluationResult {
+    const condition = this.evaluate(expression.condition)
+    this.verifyBooleanOperand(condition.value, expression.condition.location)
 
-  // public visitDoWhileStatement(statement: DoWhileStatement): void {
-  //   do {
-  //     this.executeBlock(statement.body, this.environment)
-  //   } while (
-  //     this.executeFrame<boolean>(statement, () =>
-  //       this.evaluate(statement.condition)
-  //     )
-  //   )
-  // }
+    const result = condition.value
+      ? this.evaluate(expression.thenBranch)
+      : this.evaluate(expression.elseBranch)
 
-  // visitTemplateLiteralExpression(
-  //   expression: TemplateLiteralExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplateLiteralExpression',
-  //     value: expression.parts
-  //       .map((part) => this.evaluate(part).value.toString())
-  //       .join(''),
-  //   }
-  // }
+    return {
+      type: 'TernaryExpression',
+      value: result.value,
+      condition: condition,
+    }
+  }
 
-  // visitTemplatePlaceholderExpression(
-  //   expression: TemplatePlaceholderExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplatePlaceholderExpression',
-  //     value: this.evaluate(expression.inner).value,
-  //   }
-  // }
+  visitTemplateLiteralExpression(
+    expression: TemplateLiteralExpression
+  ): EvaluationResult {
+    return {
+      type: 'TemplateLiteralExpression',
+      value: expression.parts
+        .map((part) => this.evaluate(part).value.toString())
+        .join(''),
+    }
+  }
 
-  // visitTemplateTextExpression(
-  //   expression: TemplateTextExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplateTextExpression',
-  //     value: expression.text.literal,
-  //   }
-  // }
+  visitTemplatePlaceholderExpression(
+    expression: TemplatePlaceholderExpression
+  ): EvaluationResult {
+    return {
+      type: 'TemplatePlaceholderExpression',
+      value: this.evaluate(expression.inner).value,
+    }
+  }
 
-  // visitArrayExpression(expression: ArrayExpression): EvaluationResult {
-  //   return {
-  //     type: 'ArrayExpression',
-  //     value: expression.elements.map((element) => this.evaluate(element).value),
-  //   }
-  // }
+  visitTemplateTextExpression(
+    expression: TemplateTextExpression
+  ): EvaluationResult {
+    return {
+      type: 'TemplateTextExpression',
+      value: expression.text.literal,
+    }
+  }
 
-  // visitDictionaryExpression(
-  //   expression: DictionaryExpression
-  // ): EvaluationResult {
-  //   let dict: Record<string, any> = {}
+  visitArrayExpression(expression: ArrayExpression): EvaluationResult {
+    return {
+      type: 'ArrayExpression',
+      value: expression.elements.map((element) => this.evaluate(element).value),
+    }
+  }
 
-  //   for (const [key, value] of expression.elements)
-  //     dict[key] = this.evaluate(value).value
+  visitDictionaryExpression(
+    expression: DictionaryExpression
+  ): EvaluationResult {
+    let dict: Record<string, any> = {}
 
-  //   return { type: 'DictionaryExpression', value: dict }
-  // }
+    for (const [key, value] of expression.elements)
+      dict[key] = this.evaluate(value).value
+
+    return { type: 'DictionaryExpression', value: dict }
+  }
 
   public visitCallExpression(expression: CallExpression): EvaluationResult {
     let callee: any
@@ -633,14 +630,23 @@ export class Executor {
     }
 
     switch (expression.operator.type) {
-      case 'INEQUALITY':
+      case 'STRICT_INEQUALITY':
         // TODO: throw error when types are not the same?
         return { ...result, value: left.value !== right.value }
-      case 'EQUALITY':
+      case 'INEQUALITY':
+        // TODO: throw error when types are not the same?
+        return { ...result, value: left.value != right.value }
+      case 'STRICT_EQUALITY':
         // TODO: throw error when types are not the same?
         return {
           ...result,
           value: left.value === right.value,
+        }
+      case 'EQUALITY':
+        // TODO: throw error when types are not the same?
+        return {
+          ...result,
+          value: left.value == right.value,
         }
       case 'GREATER':
         this.verifyNumberOperands(expression.operator, left.value, right.value)
@@ -791,6 +797,42 @@ export class Executor {
     }
   }
 
+  public visitAssignExpression(expression: AssignExpression): EvaluationResult {
+    // Ensure the variable resolves if we're updating
+    // and doesn't resolve if we're declaring
+    if (expression.updating) {
+      if (!this.environment.inScope(expression.name.lexeme)) {
+        this.error('VariableNotDeclared', expression.location, {
+          name: expression.name.lexeme,
+        })
+      }
+    }
+
+    const value = this.evaluate(expression.value)
+    const newValue =
+      expression.operator.type === 'EQUAL' || expression.operator.type === 'TO'
+        ? value.value
+        : expression.operator.type === 'PLUS_EQUAL'
+        ? this.lookupVariable(expression.name, expression) + value.value
+        : expression.operator.type === 'MINUS_EQUAL'
+        ? this.lookupVariable(expression.name, expression) - value.value
+        : expression.operator.type === 'STAR_EQUAL'
+        ? this.lookupVariable(expression.name, expression) * value.value
+        : expression.operator.type === 'SLASH_EQUAL'
+        ? this.lookupVariable(expression.name, expression) / value.value
+        : null
+
+    this.updateVariable(expression.name, newValue, expression)
+
+    return {
+      type: 'AssignExpression',
+      name: expression.name.lexeme,
+      operator: expression.operator.type,
+      value,
+      newValue,
+    }
+  }
+
   public visitUpdateExpression(expression: UpdateExpression): EvaluationResult {
     let value
     let newValue
@@ -932,15 +974,11 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
-    this.statementStartingVariables = cloneDeep(this.environment.variables())
-
-    const method = `visit${statement.constructor.name}`
-    this[method](statement)
+    statement.accept(this)
   }
 
   public evaluate(expression: Expression): EvaluationResult {
-    const method = `visit${expression.constructor.name}`
-    return this[method](expression)
+    return expression.accept(this)
   }
 
   private lookupVariable(name: Token, expression: Expression): any {
@@ -979,7 +1017,6 @@ export class Executor {
       status,
       result,
       error,
-      priorVariables: this.statementStartingVariables,
       variables: this.environment.variables(),
       functions: this.environment.functions(),
       time: this.frameTime,

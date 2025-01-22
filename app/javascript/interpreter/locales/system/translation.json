@@ -7,6 +7,7 @@
       "InvalidTemplateLiteral": "InvalidTemplateLiteral",
       "MissingBacktickToTerminateTemplateLiteral": "MissingBacktickToTerminateTemplateLiteral",
       "MissingConditionAfterIf": "MissingConditionAfterIf",
+      "MissingColonAfterThenBranchOfTernaryOperator": "MissingColonAfterThenBranchOfTernaryOperator",
       "MissingCommaBetweenParameters": "MissingCommaBetweenParameters: parameter: {{parameter}}",
       "MissingConstantName": "MissingConstantName",
       "MissingDoToStartBlock": "MissingDoToStartBlock: type: {{type}}",

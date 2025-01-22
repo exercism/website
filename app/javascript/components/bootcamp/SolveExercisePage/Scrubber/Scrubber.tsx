@@ -45,7 +45,7 @@ function Scrubber({
         rangeRef.current?.focus()
       }}
       tabIndex={-1}
-      className="relative group"
+      className="relative group grow"
     >
       {animationTimeline && (
         <PlayButton

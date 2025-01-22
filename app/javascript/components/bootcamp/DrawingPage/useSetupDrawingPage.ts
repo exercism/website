@@ -6,10 +6,16 @@ export function useSetupDrawingPage({
   setEditorLocalStorageValue,
   code,
 }) {
-  const { setDefaultCode, setShouldAutoRunCode } = useEditorStore()
+  const { setDefaultCode, setActiveEditor, setShouldAutoRunCode } =
+    useEditorStore()
 
   // Setup hook
   useEffect(() => {
+    setActiveEditor('drawing')
+    const storedShouldAutoRunCode = localStorage.getItem(
+      'drawing-should-autorun-code'
+    )
+    setShouldAutoRunCode(storedShouldAutoRunCode === 'true')
     if (
       editorLocalStorageValue.storedAt &&
       code.storedAt &&
@@ -22,6 +28,5 @@ export function useSetupDrawingPage({
       // otherwise we are using the code from the storage
       setDefaultCode(editorLocalStorageValue.code)
     }
-    setShouldAutoRunCode(true)
-  }, [code, setDefaultCode, setEditorLocalStorageValue])
+  }, [])
 }

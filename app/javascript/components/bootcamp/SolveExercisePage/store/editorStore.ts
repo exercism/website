@@ -5,6 +5,8 @@ import { createStoreWithMiddlewares } from './utils'
 type UnderlineRange = { from: number; to: number } | undefined
 
 type EditorStore = {
+  activeEditor: 'solve-exercise' | 'drawing' | null
+  setActiveEditor: (activeEditor: 'solve-exercise' | 'drawing') => void
   defaultCode: string
   setDefaultCode: (defaultCode: string) => void
   shouldAutoRunCode: boolean
@@ -32,18 +34,40 @@ type EditorStore = {
   setReadonlyRanges: (ranges: Array<{ from: number; to: number }>) => void
 }
 
-const useEditorStore = createStoreWithMiddlewares<EditorStore>(
-  (set) => ({
+const useEditorStore = createStoreWithMiddlewares<EditorStore>((set) => {
+  return {
+    activeEditor: null,
+    setActiveEditor: (activeEditor: 'solve-exercise' | 'drawing') => {
+      set({ activeEditor }, false, 'editor/setActiveEditor')
+    },
     defaultCode: '',
     setDefaultCode: (defaultCode: string) => {
       set({ defaultCode }, false, 'editor/setDefaultCode')
     },
     shouldAutoRunCode: false,
-    setShouldAutoRunCode: (shouldAutoRunCode) =>
-      set({ shouldAutoRunCode }, false, 'editor/setShouldAutoRunCode'),
+    setShouldAutoRunCode: (shouldAutoRunCode: boolean) => {
+      set(
+        (state) => {
+          localStorage.setItem(
+            `${state.activeEditor}-should-autorun-code`,
+            shouldAutoRunCode.toString()
+          )
+          return { shouldAutoRunCode }
+        },
+        false,
+        'editor/setShouldAutoRunCode'
+      )
+    },
     toggleShouldAutoRunCode: () => {
       set(
-        (state) => ({ shouldAutoRunCode: !state.shouldAutoRunCode }),
+        (state) => {
+          const newState = !state.shouldAutoRunCode
+          localStorage.setItem(
+            `${state.activeEditor}-should-autorun-code`,
+            newState.toString()
+          )
+          return { shouldAutoRunCode: newState }
+        },
         false,
         'editor/toggleShouldAutoRunCode'
       )
@@ -111,8 +135,7 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     setReadonlyRanges: (readonlyRanges) => {
       set({ readonlyRanges }, false, 'exercise/setReadonlyRanges')
     },
-  }),
-  'EditorStore'
-)
+  }
+}, 'EditorStore')
 
 export default useEditorStore

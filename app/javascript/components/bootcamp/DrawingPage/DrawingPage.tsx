@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Header, StudentCodeGetter } from './Header/Header'
 import {
   Resizer,
@@ -12,6 +12,8 @@ import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
 import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExercisePageContextWrapper'
+import useEditorStore from '../SolveExercisePage/store/editorStore'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export default function DrawingPage({
   drawing,
@@ -61,6 +63,14 @@ export default function DrawingPage({
     }, 5000)
   }, [setEditorLocalStorageValue])
 
+  const { shouldAutoRunCode, toggleShouldAutoRunCode } = useEditorStore()
+  const handleToggleAutoRun = useCallback(() => {
+    if (!shouldAutoRunCode) {
+      handleRunCode()
+    }
+    toggleShouldAutoRunCode()
+  }, [shouldAutoRunCode])
+
   return (
     <SolveExercisePageContextWrapper
       value={{
@@ -86,7 +96,26 @@ export default function DrawingPage({
                 setEditorLocalStorageValue={setEditorLocalStorageValue}
                 onEditorChangeCallback={patchCodeOnDebounce}
               />
-              <Scrubber animationTimeline={animationTimeline} frames={frames} />
+
+              <div className="flex items-center w-full">
+                <div className="btn-s flex items-center">
+                  <button
+                    className={assembleClassNames(
+                      shouldAutoRunCode ? 'text-textColor1' : 'text-gray'
+                    )}
+                    onClick={handleToggleAutoRun}
+                  >
+                    AUTO
+                  </button>
+                  <button className="text-textColor1" onClick={handleRunCode}>
+                    RUN
+                  </button>
+                </div>
+                <Scrubber
+                  animationTimeline={animationTimeline}
+                  frames={frames}
+                />
+              </div>
             </ErrorBoundary>
           </div>
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />

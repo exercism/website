@@ -119,6 +119,12 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     }, 500)
   }, [setEditorLocalStorageValue, readOnlyRangesStateField])
 
+  const autoRunOnDebounce = useMemo(() => {
+    return debounce(() => {
+      handleRunCode()
+    }, 500)
+  }, [])
+
   let value = defaultCode
 
   const getEditorView = (): EditorView | null => {
@@ -207,7 +213,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             () => {
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {
-                handleRunCode()
+                autoRunOnDebounce()
               }
             },
             () => {

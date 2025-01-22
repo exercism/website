@@ -1,3 +1,7 @@
+import {
+  EvaluationResult,
+  EvaluationResultSetVariableStatement,
+} from './evaluation-result'
 import { Expression } from './expression'
 import { Location } from './location'
 import type { Token } from './token'
@@ -12,13 +16,17 @@ export class ExpressionStatement extends Statement {
   }
 }
 
-export class VariableStatement extends Statement {
+export class SetVariableStatement extends Statement {
   constructor(
     public name: Token,
     public initializer: Expression,
     public location: Location
   ) {
     super()
+  }
+
+  public description(result: EvaluationResultSetVariableStatement) {
+    return `<p>This created a new variable called <code>${result.name}</code> and sets its value to <code>${result.value}</code>.</p>`
   }
 }
 

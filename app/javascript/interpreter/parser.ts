@@ -2,7 +2,7 @@ import { SyntaxError } from './error'
 import { type SyntaxErrorType } from './error'
 import {
   ArrayExpression,
-  AssignExpression,
+  ChangeVariableExpression as ChangeVariableExpression,
   BinaryExpression,
   CallExpression,
   Expression,
@@ -32,7 +32,7 @@ import {
   RepeatUntilGameOverStatement,
   ReturnStatement,
   Statement,
-  VariableStatement,
+  SetVariableStatement,
   WhileStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
@@ -222,7 +222,7 @@ export class Parser {
       const initializer = this.expression()
       this.consumeEndOfLine()
 
-      return new VariableStatement(
+      return new SetVariableStatement(
         name,
         initializer,
         Location.between(setToken, initializer)
@@ -259,7 +259,7 @@ export class Parser {
     //   Location.between(setToken, initializer)
     // )
     return new ExpressionStatement(
-      new AssignExpression(
+      new ChangeVariableExpression(
         name,
         token,
         initializer,
@@ -469,7 +469,7 @@ export class Parser {
       const value = this.assignment()
 
       if (expr instanceof VariableExpression) {
-        return new AssignExpression(
+        return new ChangeVariableExpression(
           expr.name,
           operator,
           value,

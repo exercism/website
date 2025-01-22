@@ -2,10 +2,13 @@ import { type Callable } from './functions'
 import { RuntimeError } from './error'
 
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
-import type { EvaluationResult } from './evaluation-result'
+import type {
+  EvaluationResult,
+  EvaluationResultChangeVariableExpression,
+} from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
-  AssignExpression,
+  ChangeVariableExpression,
   BinaryExpression,
   Expression,
   GroupingExpression,
@@ -13,8 +16,12 @@ import {
   LogicalExpression,
   VariableExpression,
 } from './expression'
-import { ExpressionStatement, IfStatement, Statement } from './statement'
-import exp from 'constants'
+import {
+  ExpressionStatement,
+  IfStatement,
+  SetVariableStatement,
+  Statement,
+} from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -23,6 +30,7 @@ export type Frame = {
   code: string
   status: FrameExecutionStatus
   error?: RuntimeError
+  priorVariables: Record<string, any>
   variables: Record<string, any>
   functions: Record<string, Callable>
   time: number
@@ -54,12 +62,12 @@ export function describeFrame(
     return '<p>There is no information available for this line.</p>'
   }
   switch (frame.result.type) {
-    case 'VariableStatement':
-      return describeVariableStatement(frame)
+    case 'SetVariableStatement':
+      return describeSetVariableStatement(frame)
     case 'ForeachStatement':
       return describeForeachStatement(frame)
-    case 'AssignExpression':
-      return describeAssignExpression(frame)
+    case 'ChangeVariableExpression':
+      return describeChangeVariableExpression(frame)
     case 'IfStatement':
       return describeIfStatement(frame)
     case 'ReturnStatement':
@@ -80,30 +88,28 @@ function addExtraAssignInfo(frame: Frame, output: string) {
   return output
 }
 
-function describeVariableStatement(frame: FrameWithResult) {
-  let output
-  if (frame.result.data?.updating) {
-    output = `<p>This updated the <code>${frame.result.name}</code> variable to <code>${frame.result.value}</code>.</p>`
-  } else {
-    output = `<p>This created a new variable called <code>${frame.result.name}</code> and sets it to be equal to <code>${frame.result.value}</code>.</p>`
+function describeSetVariableStatement(frame: FrameWithResult) {
+  const context = frame.context as SetVariableStatement
+  if (context === undefined) {
+    return ''
   }
-  output = addExtraAssignInfo(frame, output)
-
-  return output
+  return context.description(frame.result)
 }
 
-function describeAssignExpression(frame: FrameWithResult): string {
-  if (!frame.context) {
+function describeChangeVariableExpression(frame: FrameWithResult): string {
+  if (!frame.context === null) {
     return ''
   }
   if (!(frame.context instanceof ExpressionStatement)) {
     return ''
   }
-  if (!(frame.context.expression instanceof AssignExpression)) {
+  if (!(frame.context.expression instanceof ChangeVariableExpression)) {
     return ''
   }
 
-  return frame.context.expression.description(frame)
+  return frame.context.expression.description(
+    frame.result as EvaluationResultChangeVariableExpression
+  )
 }
 
 function describeForeachStatement(frame: FrameWithResult) {

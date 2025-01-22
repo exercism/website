@@ -1,7 +1,7 @@
 import type { TokenType } from './token'
 
-export type EvaluationResultVariableStatement = {
-  type: 'VariableStatement'
+export type EvaluationResultSetVariableStatement = {
+  type: 'SetVariableStatement'
   value: any
   name: string
   data?: Record<string, any>
@@ -105,11 +105,12 @@ export type EvaluationResultConstantStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultAssignExpression = {
-  type: 'AssignExpression'
+export type EvaluationResultChangeVariableExpression = {
+  type: 'ChangeVariableExpression'
   name: string
   operator: TokenType
   value: any
+  oldValue: any
   newValue: any
   data?: Record<string, any>
 }
@@ -171,7 +172,7 @@ export type EvaluationResultCallExpression = {
 }
 
 export type EvaluationResult =
-  | EvaluationResultVariableStatement
+  | EvaluationResultSetVariableStatement
   | EvaluationResultUpdateExpression
   | EvaluationResultConstantStatement
   | EvaluationResultTernaryExpression
@@ -188,7 +189,7 @@ export type EvaluationResult =
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression
   | EvaluationResultGroupingExpression
-  | EvaluationResultAssignExpression
+  | EvaluationResultChangeVariableExpression
   | EvaluationResultGetExpression
   | EvaluationResultSetExpression
   | EvaluationResultTemplateTextExpression

@@ -1,16 +1,37 @@
 import type { Token } from './token'
 import { Location } from './location'
 import { FrameWithResult } from './frames'
+import {
+  EvaluationResult,
+  EvaluationResultChangeVariableExpression,
+} from './evaluation-result'
+
+function quoteLiteral(value: any): string {
+  if (typeof value === 'string') {
+    return `"${value}"`
+  }
+  return value
+}
 
 export abstract class Expression {
   abstract location: Location
+}
 
-  protected addExtraAssignInfoForDescription(frame: FrameWithResult) {
-    if (frame.result?.value == null) {
-      return '<p><code>null</code> is a special keyword that signifies the lack of a real value. It is often used as a placeholder before we know what we should set a value to.</p>'
-    }
+export class LiteralExpression extends Expression {
+  constructor(public value: any, public location: Location) {
+    super()
+  }
+  public description() {
+    return `<code>${quoteLiteral(this.value)}</code>`
+  }
+}
 
-    return null
+export class VariableExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super()
+  }
+  public description() {
+    return `the <code>${this.name.lexeme}</code> variable`
   }
 }
 
@@ -36,20 +57,6 @@ export class TernaryExpression extends Expression {
   }
 }
 
-export class LiteralExpression extends Expression {
-  constructor(public value: any, public location: Location) {
-    super()
-  }
-  public description() {
-    let value = this.value
-    if (typeof this.value === 'string') {
-      value = '"' + this.value + '"'
-    }
-
-    return `<code>${value}</code>`
-  }
-}
-
 export class ArrayExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
     super()
@@ -62,15 +69,6 @@ export class DictionaryExpression extends Expression {
     public location: Location
   ) {
     super()
-  }
-}
-
-export class VariableExpression extends Expression {
-  constructor(public name: Token, public location: Location) {
-    super()
-  }
-  public description() {
-    return `the <code>${this.name.lexeme}</code> variable`
   }
 }
 
@@ -130,7 +128,7 @@ export class TemplateLiteralExpression extends Expression {
   }
 }
 
-export class AssignExpression extends Expression {
+export class ChangeVariableExpression extends Expression {
   constructor(
     public name: Token,
     public operator: Token,
@@ -141,13 +139,12 @@ export class AssignExpression extends Expression {
     super()
   }
 
-  public description(frame: FrameWithResult) {
-    let output = `<p>This updated the variable called <code>${frame.result.name}</code> to <code>${frame.result.value.value}</code>.</p>`
-    const extra = this.addExtraAssignInfoForDescription(frame)
-    if (extra) {
-      output += extra
-    }
-
+  public description(result: EvaluationResultChangeVariableExpression) {
+    let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
+    output += `<pre><code>${quoteLiteral(result.oldValue)}</code></pre>`
+    output += `<p>to...</p><pre><code>${quoteLiteral(
+      result.newValue.value
+    )}</code></pre>`
     return output
   }
 }

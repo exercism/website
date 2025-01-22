@@ -22,7 +22,7 @@ import {
   IfStatement,
   RepeatStatement,
   ReturnStatement,
-  VariableStatement,
+  SetVariableStatement,
   WhileStatement,
 } from '@/interpreter/statement'
 import { parse } from '@/interpreter/parser'
@@ -39,8 +39,8 @@ describe('comments', () => {
   test('comment after statement', () => {
     const stmts = parse('set a to 5 // this (is) a. comme,nt do')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    const varStmt = stmts[0] as VariableStatement
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.name.lexeme).toBe('a')
     expect(varStmt.initializer).toBeInstanceOf(LiteralExpression)
     expect((varStmt.initializer as LiteralExpression).value).toBe(5)
@@ -221,8 +221,8 @@ describe('dictionary', () => {
   test('empty', () => {
     const stmts = parse('set empty to {}')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    const varStmt = stmts[0] as VariableStatement
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
     const mapExpr = varStmt.initializer as DictionaryExpression
     expect(mapExpr.elements).toBeEmpty()
@@ -231,8 +231,8 @@ describe('dictionary', () => {
   test('single element', () => {
     const stmts = parse('set movie to {"title": "Jurassic Park"}')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    const varStmt = stmts[0] as VariableStatement
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
     const mapExpr = varStmt.initializer as DictionaryExpression
     expect(mapExpr.elements.size).toBe(1)
@@ -245,8 +245,8 @@ describe('dictionary', () => {
   test('multiple elements', () => {
     const stmts = parse('set movie to {"title": "Jurassic Park", "year": 1993}')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    const varStmt = stmts[0] as VariableStatement
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
     const mapExpr = varStmt.initializer as DictionaryExpression
     expect(mapExpr.elements.size).toBe(2)
@@ -263,8 +263,8 @@ describe('dictionary', () => {
       'set movie to {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
     )
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    const varStmt = stmts[0] as VariableStatement
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
     const mapExpr = varStmt.initializer as DictionaryExpression
     expect(mapExpr.elements.size).toBe(2)
@@ -290,8 +290,8 @@ describe('variable', () => {
   test('single-character name', () => {
     const statements = parse('set x to 1')
     expect(statements).toBeArrayOfSize(1)
-    expect(statements[0]).toBeInstanceOf(VariableStatement)
-    const varStatement = statements[0] as VariableStatement
+    expect(statements[0]).toBeInstanceOf(SetVariableStatement)
+    const varStatement = statements[0] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('x')
     const literalExpr = varStatement.initializer as LiteralExpression
     expect(literalExpr.value).toBe(1)
@@ -300,8 +300,8 @@ describe('variable', () => {
   test('multi-character name', () => {
     const statements = parse('set fooBar to "abc"')
     expect(statements).toBeArrayOfSize(1)
-    expect(statements[0]).toBeInstanceOf(VariableStatement)
-    const varStatement = statements[0] as VariableStatement
+    expect(statements[0]).toBeInstanceOf(SetVariableStatement)
+    const varStatement = statements[0] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('fooBar')
     const literalExpr = varStatement.initializer as LiteralExpression
     expect(literalExpr.value).toBe('abc')
@@ -315,8 +315,8 @@ describe('assignment', () => {
       set x to 2
     `)
     expect(statements).toBeArrayOfSize(2)
-    expect(statements[1]).toBeInstanceOf(VariableStatement)
-    const varStatement = statements[1] as VariableStatement
+    expect(statements[1]).toBeInstanceOf(SetVariableStatement)
+    const varStatement = statements[1] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('x')
     const literalExpr = varStatement.initializer as LiteralExpression
     expect(literalExpr.value).toBe(2)
@@ -369,9 +369,9 @@ describe('get', () => {
         set title to movie["title"]
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
-      expect(stmts[1]).toBeInstanceOf(VariableStatement)
-      const varStmtWithGet = stmts[1] as VariableStatement
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+      const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
       expect(getExpr.field.literal).toBe('title')
@@ -385,9 +385,9 @@ describe('get', () => {
         set director to movie["director"]["name"]
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
-      expect(stmts[1]).toBeInstanceOf(VariableStatement)
-      const varStmtWithGet = stmts[1] as VariableStatement
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+      const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
       expect(getExpr.field.literal).toBe('name')
@@ -408,9 +408,9 @@ describe('get', () => {
         set latest to scores[2]
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
-      expect(stmts[1]).toBeInstanceOf(VariableStatement)
-      const varStmtWithGet = stmts[1] as VariableStatement
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+      const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
       expect(getExpr.field.literal).toBe(2)
@@ -424,9 +424,9 @@ describe('get', () => {
         set secondMin to scoreMinMax[1][0]
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
-      expect(stmts[1]).toBeInstanceOf(VariableStatement)
-      const varStmtWithGet = stmts[1] as VariableStatement
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+      const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
       expect(getExpr.field.literal).toBe(0)
@@ -449,7 +449,7 @@ describe('set', () => {
         set movie["title"] to "Gladiator"
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(ExpressionStatement)
       const exprStmt = stmts[1] as ExpressionStatement
       expect(exprStmt.expression).toBeInstanceOf(SetExpression)
@@ -465,7 +465,7 @@ describe('set', () => {
         set movie["director"]["name"] to "James Cameron"
       `)
       expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(VariableStatement)
+      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(ExpressionStatement)
       const exprStmt = stmts[1] as ExpressionStatement
       expect(exprStmt.expression).toBeInstanceOf(SetExpression)
@@ -747,7 +747,7 @@ describe('if', () => {
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
-    expect(thenStmt.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(thenStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
     expect(expStmt.elseBranch).toBeNil()
   })
 
@@ -766,11 +766,11 @@ describe('if', () => {
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
-    expect(thenStmt.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(thenStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
     expect(expStmt.elseBranch).toBeInstanceOf(BlockStatement)
     const elseStmt = expStmt.elseBranch as BlockStatement
     expect(elseStmt.statements).toBeArrayOfSize(1)
-    expect(elseStmt.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(elseStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
   })
 
   test('nested', () => {
@@ -790,18 +790,22 @@ describe('if', () => {
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
-    expect(thenStmt.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(thenStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
     expect(expStmt.elseBranch).toBeInstanceOf(IfStatement)
     const elseIfStmt = expStmt.elseBranch as IfStatement
     expect(elseIfStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(elseIfStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const elseIfStmtThenBlock = elseIfStmt.thenBranch as BlockStatement
     expect(elseIfStmtThenBlock.statements).toBeArrayOfSize(1)
-    expect(elseIfStmtThenBlock.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(elseIfStmtThenBlock.statements[0]).toBeInstanceOf(
+      SetVariableStatement
+    )
     expect(elseIfStmt.elseBranch).toBeInstanceOf(BlockStatement)
     const elseIfStmtElseBlock = elseIfStmt.elseBranch as BlockStatement
     expect(elseIfStmtElseBlock.statements).toBeArrayOfSize(1)
-    expect(elseIfStmtElseBlock.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(elseIfStmtElseBlock.statements[0]).toBeInstanceOf(
+      SetVariableStatement
+    )
   })
 })
 
@@ -817,7 +821,7 @@ describe('repeat', () => {
     const expStmt = stmts[0] as RepeatStatement
     expect(expStmt.count).toBeInstanceOf(LiteralExpression)
     expect(expStmt.body).toBeArrayOfSize(1)
-    expect(expStmt.body[0]).toBeInstanceOf(VariableStatement)
+    expect(expStmt.body[0]).toBeInstanceOf(SetVariableStatement)
   })
 })
 
@@ -833,7 +837,7 @@ describe('while', () => {
     const expStmt = stmts[0] as WhileStatement
     expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(expStmt.body).toBeArrayOfSize(1)
-    expect(expStmt.body[0]).toBeInstanceOf(VariableStatement)
+    expect(expStmt.body[0]).toBeInstanceOf(SetVariableStatement)
   })
 })
 
@@ -851,7 +855,7 @@ describe('foreach', () => {
     expect(foreachStmt.elementName.lexeme).toBe('elem')
     expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
     expect(foreachStmt.body).toBeArrayOfSize(1)
-    expect(foreachStmt.body[0]).toBeInstanceOf(VariableStatement)
+    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
   })
 
   test('with multiple statements in body', () => {
@@ -867,8 +871,8 @@ describe('foreach', () => {
     expect(foreachStmt.elementName.lexeme).toBe('elem')
     expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
     expect(foreachStmt.body).toBeArrayOfSize(2)
-    expect(foreachStmt.body[0]).toBeInstanceOf(VariableStatement)
-    expect(foreachStmt.body[1]).toBeInstanceOf(VariableStatement)
+    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
+    expect(foreachStmt.body[1]).toBeInstanceOf(SetVariableStatement)
   })
 })
 
@@ -884,8 +888,8 @@ describe('block', () => {
     expect(stmts[0]).toBeInstanceOf(BlockStatement)
     const blockStmt = stmts[0] as BlockStatement
     expect(blockStmt.statements).toBeArrayOfSize(2)
-    expect(blockStmt.statements[0]).toBeInstanceOf(VariableStatement)
-    expect(blockStmt.statements[1]).toBeInstanceOf(VariableStatement)
+    expect(blockStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
+    expect(blockStmt.statements[1]).toBeInstanceOf(SetVariableStatement)
   })
 
   test('nested', () => {
@@ -901,7 +905,7 @@ describe('block', () => {
     expect(stmts[0]).toBeInstanceOf(BlockStatement)
     const blockStmt = stmts[0] as BlockStatement
     expect(blockStmt.statements).toBeArrayOfSize(2)
-    expect(blockStmt.statements[0]).toBeInstanceOf(VariableStatement)
+    expect(blockStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
     expect(blockStmt.statements[1]).toBeInstanceOf(BlockStatement)
   })
 })
@@ -985,9 +989,9 @@ describe('white space', () => {
 
     `)
     expect(stmts).toBeArrayOfSize(3)
-    expect(stmts[0]).toBeInstanceOf(VariableStatement)
-    expect(stmts[1]).toBeInstanceOf(VariableStatement)
-    expect(stmts[2]).toBeInstanceOf(VariableStatement)
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+    expect(stmts[2]).toBeInstanceOf(SetVariableStatement)
   })
 })
 
@@ -1008,8 +1012,8 @@ describe('location', () => {
     test('variable', () => {
       const statements = parse('set x to 1')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(VariableStatement)
-      const expressionStatement = statements[0] as VariableStatement
+      expect(statements[0]).toBeInstanceOf(SetVariableStatement)
+      const expressionStatement = statements[0] as SetVariableStatement
       expect(expressionStatement.location.line).toBe(1)
       expect(expressionStatement.location.relative.begin).toBe(1)
       expect(expressionStatement.location.relative.end).toBe(11)

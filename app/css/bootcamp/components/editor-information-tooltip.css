@@ -10,11 +10,14 @@
         @apply bg-thick-border-blue px-[6px] py-[1px] rounded-5;
     }
 
+    pre + p {
+        @apply mt-6;
+    }
     pre {
-        @apply mt-4;
+        @apply mt-2;
     }
 
-    p:not(:last-of-type) {
+    p:not(:last-child) {
         @apply mb-10;
     }
     ul {

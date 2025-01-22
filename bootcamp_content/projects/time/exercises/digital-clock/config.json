@@ -13,7 +13,7 @@
         {
           "slug": "morning-1",
           "name": "Early morning",
-          "description_html": "Display 6:35 as \"6:35am\"",
+          "description_html": "Display 6:35 as \"6:35 am\"",
           "setup_functions": [["setTime", [6, 35]]],
           "checks": [
             {
@@ -32,7 +32,7 @@
         {
           "slug": "morning-2",
           "name": "Late morning",
-          "description_html": "Display 11:04 as \"11:04am\"",
+          "description_html": "Display 11:04 as \"11:04 am\"",
           "setup_functions": [["setTime", [11, 4]]],
           "checks": [
             {
@@ -47,12 +47,7 @@
               "error_html": "The clock didn't display 11:04am"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Display afternoon times",
-      "tests": [
+        },
         {
           "slug": "afternoon-1",
           "name": "Early afternoon",
@@ -90,16 +85,11 @@
               "error_html": "The clock didn't display 11:32pm"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Display midnight",
-      "tests": [
+        },
         {
           "slug": "midnight",
-          "name": "Display midnight",
-          "description_html": "Display midnight as \"0:00am\"",
+          "name": "Midnight",
+          "description_html": "Display midnight as \"12:00 am\"",
           "setup_functions": [["setTime", [0, 0]]],
           "checks": [
             {
@@ -109,17 +99,31 @@
             },
             {
               "name": "displayedTime",
-              "value": "0:0am",
+              "value": "12:0am",
               "matcher": "toEqual",
-              "error_html": "The clock didn't display 00:00am"
+              "error_html": "The clock didn't display 12:00am"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Display the current time",
-      "tests": [
+        },
+        {
+          "slug": "noon",
+          "name": "Noon",
+          "description_html": "Display noon as \"12:00 pm\"",
+          "setup_functions": [["setTime", [12, 0]]],
+          "checks": [
+            {
+              "name": "displayedTime",
+              "matcher": "toExist",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "name": "displayedTime",
+              "value": "12:0pm",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 12:00pm"
+            }
+          ]
+        },
         {
           "slug": "now",
           "name": "Display the current time",

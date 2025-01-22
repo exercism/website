@@ -1191,6 +1191,17 @@ describe('errors', () => {
         expect(error).toBeNull()
       })
 
+      test('forgetting brackets', () => {
+        const echoFunction = (_interpreter: any, _n: any) => {}
+        const context = {
+          externalFunctions: [
+            { name: 'echo', func: echoFunction, description: '' },
+          ],
+        }
+        const { frames } = interpret('set x to echo', context)
+        expect(frames[0].status).toBe('ERROR')
+      })
+
       describe('arity', () => {
         describe('no optional parameters', () => {
           test('too many arguments', () => {
@@ -1271,7 +1282,7 @@ describe('errors', () => {
           expect(frames[0].code).toBe('foobor()')
           expect(frames[0].error).not.toBeNull()
           expect(frames[0].error!.message).toBe(
-            "We don't know what `foobor` means. Maybe you meant to use the `foobar` function instead?"
+            "Jiki couldn't find a function with the name `foobor`. Maybe you meant to use the `foobar` function instead?"
           )
           expect(frames[0].error!.category).toBe('RuntimeError')
           expect(frames[0].error!.type).toBe(
@@ -1295,7 +1306,27 @@ describe('errors', () => {
         expect(frames[0].code).toBe('foo')
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.message).toBe(
-          'Did you forget the parenthesis when trying to call the function?'
+          'Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```foo()```'
+        )
+        expect(frames[0].error!.category).toBe('RuntimeError')
+        expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
+        expect(error).toBeNull()
+      })
+
+      test('missing parentheses within set', () => {
+        const context = {
+          externalFunctions: [
+            { name: 'y', func: (_: any) => {}, description: '' },
+          ],
+        }
+        const { error, frames } = interpret(`set x to y`, context)
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].line).toBe(1)
+        expect(frames[0].status).toBe('ERROR')
+        expect(frames[0].code).toBe('set x to y')
+        expect(frames[0].error).not.toBeNull()
+        expect(frames[0].error!.message).toBe(
+          'Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```y()```'
         )
         expect(frames[0].error!.category).toBe('RuntimeError')
         expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')

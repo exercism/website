@@ -7,7 +7,9 @@ if(hour >= 12) do
   change indicator to "pm"
 end
 
-if(hour > 12) do
+if(hour == 0) do
+  change hour to 12
+else if(hour > 12) do
   change hour to hour - 12
 end
 

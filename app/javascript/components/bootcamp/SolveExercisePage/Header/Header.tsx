@@ -28,6 +28,7 @@ function _Header() {
     nextExerciseData,
     completedLevelIdx,
     nextLevelIdx,
+    hasRuntimeErrors,
   } = useTasks({
     areAllTasksCompleted,
     wasFinishLessonModalShown,
@@ -49,7 +50,7 @@ function _Header() {
           <>
             <button
               onClick={handleCompleteSolution}
-              disabled={!areAllTasksCompleted}
+              disabled={!areAllTasksCompleted || hasRuntimeErrors}
               className={assembleClassNames(
                 'btn-primary btn-xxs',
                 areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'

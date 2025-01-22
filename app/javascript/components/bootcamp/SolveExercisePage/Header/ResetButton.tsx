@@ -3,19 +3,22 @@ import Modal from 'react-modal'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import useTestStore from '../store/testStore'
+import useTaskStore from '../store/taskStore/taskStore'
 
 Modal.setAppElement('body')
 export function ResetButton() {
   const [shouldOpenConfirmationModal, setShouldOpenConfirmationModal] =
     useState(false)
-  const { resetEditorToStub } = useContext(SolveExercisePageContext)
+  const { resetEditorToStub, exercise } = useContext(SolveExercisePageContext)
   const { setTestSuiteResult, setInspectedTestResult } = useTestStore()
+  const { initializeTasks } = useTaskStore()
 
   const handleResetExercise = useCallback(() => {
     resetEditorToStub()
     setShouldOpenConfirmationModal(false)
     setTestSuiteResult(null)
     setInspectedTestResult(null)
+    initializeTasks(exercise.tasks, null)
   }, [resetEditorToStub, setShouldOpenConfirmationModal])
 
   return (

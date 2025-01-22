@@ -37,7 +37,7 @@ This exercise is all about having some variables that are responsible for the po
 We've given you a lot of leeway in this exercise. We check that:
 
 - The first few circles are correct
-- Over 75% of the canvas gets painted.
+- Over 80% of the canvas gets painted.
 
 The numbers that you choose to achieve that are up to you. You probably want a repeat block that iterates between `500` and `1000` times.
 
@@ -55,6 +55,6 @@ The functions used in this exercise are:
 
 At the start you move the circle `2` to the right and `1` down. Think about what these numbers are. They're the **direction** that the ball is moving in. Use variables for them.
 
-Once the ball hits the edge, the direction it's moving in need to change, so you need to update those direction variables.
+Once the ball hits an edge, it needs to change the direction it's moving, so you need to update those direction variables.
 
 The hue works in the same way.

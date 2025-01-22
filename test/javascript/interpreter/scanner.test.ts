@@ -31,8 +31,8 @@ describe('one, two or three characters', () => {
     ['>=', 'GREATER_EQUAL'],
     ['<', 'LESS'],
     ['<=', 'LESS_EQUAL'],
-    ['!=', 'STRICT_INEQUALITY'],
-    ['==', 'STRICT_EQUALITY'],
+    ['!=', 'INEQUALITY'],
+    ['==', 'EQUALITY'],
   ])("'%s' token", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)
@@ -63,8 +63,8 @@ describe('keyword', () => {
     ['true', 'TRUE'],
     ['while', 'WHILE'],
     ['with', 'WITH'],
-    ['is', 'STRICT_EQUALITY'],
-    ['equals', 'STRICT_EQUALITY'],
+    ['is', 'EQUALITY'],
+    ['equals', 'EQUALITY'],
   ])("'%s' keyword", (source: string, expectedType: string) => {
     const tokens = scan(source)
     expect(tokens[0].type).toBe(expectedType as TokenType)

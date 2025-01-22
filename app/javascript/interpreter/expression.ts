@@ -1,10 +1,7 @@
 import type { Token } from './token'
 import { Location } from './location'
 import { FrameWithResult } from './frames'
-import {
-  EvaluationResult,
-  EvaluationResultChangeVariableExpression,
-} from './evaluation-result'
+import { EvaluationResult } from './evaluation-result'
 
 function quoteLiteral(value: any): string {
   if (typeof value === 'string') {
@@ -40,17 +37,6 @@ export class CallExpression extends Expression {
     public callee: VariableExpression,
     public paren: Token,
     public args: Expression[],
-    public location: Location
-  ) {
-    super()
-  }
-}
-
-export class TernaryExpression extends Expression {
-  constructor(
-    public condition: Expression,
-    public thenBranch: Expression,
-    public elseBranch: Expression,
     public location: Location
   ) {
     super()
@@ -125,27 +111,6 @@ export class TemplateTextExpression extends Expression {
 export class TemplateLiteralExpression extends Expression {
   constructor(public parts: Expression[], public location: Location) {
     super()
-  }
-}
-
-export class ChangeVariableExpression extends Expression {
-  constructor(
-    public name: Token,
-    public operator: Token,
-    public value: Expression,
-    public updating: boolean,
-    public location: Location
-  ) {
-    super()
-  }
-
-  public description(result: EvaluationResultChangeVariableExpression) {
-    let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
-    output += `<pre><code>${quoteLiteral(result.oldValue)}</code></pre>`
-    output += `<p>to...</p><pre><code>${quoteLiteral(
-      result.newValue.value
-    )}</code></pre>`
-    return output
   }
 }
 

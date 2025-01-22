@@ -4,11 +4,10 @@ import { RuntimeError } from './error'
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type {
   EvaluationResult,
-  EvaluationResultChangeVariableExpression,
+  EvaluationResultChangeVariableStatement,
 } from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
-  ChangeVariableExpression,
   BinaryExpression,
   Expression,
   GroupingExpression,
@@ -21,6 +20,7 @@ import {
   IfStatement,
   SetVariableStatement,
   Statement,
+  ChangeVariableStatement,
 } from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
@@ -66,8 +66,8 @@ export function describeFrame(
       return describeSetVariableStatement(frame)
     case 'ForeachStatement':
       return describeForeachStatement(frame)
-    case 'ChangeVariableExpression':
-      return describeChangeVariableExpression(frame)
+    case 'ChangeVariableStatement':
+      return describeChangeVariableStatement(frame)
     case 'IfStatement':
       return describeIfStatement(frame)
     case 'ReturnStatement':
@@ -96,19 +96,16 @@ function describeSetVariableStatement(frame: FrameWithResult) {
   return context.description(frame.result)
 }
 
-function describeChangeVariableExpression(frame: FrameWithResult): string {
+function describeChangeVariableStatement(frame: FrameWithResult): string {
   if (!frame.context === null) {
     return ''
   }
-  if (!(frame.context instanceof ExpressionStatement)) {
-    return ''
-  }
-  if (!(frame.context.expression instanceof ChangeVariableExpression)) {
+  if (!(frame.context instanceof ChangeVariableStatement)) {
     return ''
   }
 
-  return frame.context.expression.description(
-    frame.result as EvaluationResultChangeVariableExpression
+  return frame.context.description(
+    frame.result as EvaluationResultChangeVariableStatement
   )
 }
 
@@ -156,9 +153,9 @@ function describeOperator(operator: string): string {
       return 'greater than or equal to'
     case 'LESS_EQUAL':
       return 'less than or equal to'
-    case 'STRICT_EQUALITY':
+    case 'EQUALITY':
       return 'equal to'
-    case 'STRICT_INEQUALITY':
+    case 'INEQUALITY':
       return 'not equal to'
     case 'MINUS':
       return 'minus'
@@ -236,8 +233,8 @@ function describeCallExpression(
 
 function isEqualityOperator(operator: string): boolean {
   return [
-    'STRICT_EQUALITY',
-    'STRICT_INEQUALITY',
+    'EQUALITY',
+    'INEQUALITY',
     'GREATER',
     'LESS',
     'GREATER_EQUAL',

@@ -7,22 +7,6 @@ export type EvaluationResultSetVariableStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultTernaryExpression = {
-  type: 'TernaryExpression'
-  value: any
-  condition: EvaluationResult
-  data?: Record<string, any>
-}
-
-export type EvaluationResultUpdateExpression = {
-  type: 'UpdateExpression'
-  operand: any
-  operator: any
-  value: any
-  newValue: any
-  data?: Record<string, any>
-}
-
 export type EvaluationResultIfStatement = {
   type: 'IfStatement'
   value: any
@@ -105,11 +89,9 @@ export type EvaluationResultConstantStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultChangeVariableExpression = {
-  type: 'ChangeVariableExpression'
+export type EvaluationResultChangeVariableStatement = {
+  type: 'ChangeVariableStatement'
   name: string
-  operator: TokenType
-  value: any
   oldValue: any
   newValue: any
   data?: Record<string, any>
@@ -175,7 +157,6 @@ export type EvaluationResult =
   | EvaluationResultSetVariableStatement
   | EvaluationResultUpdateExpression
   | EvaluationResultConstantStatement
-  | EvaluationResultTernaryExpression
   | EvaluationResultIfStatement
   | EvaluationResultExpressionStatement
   | EvaluationResultForeachStatement
@@ -189,7 +170,7 @@ export type EvaluationResult =
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression
   | EvaluationResultGroupingExpression
-  | EvaluationResultChangeVariableExpression
+  | EvaluationResultChangeVariableStatement
   | EvaluationResultGetExpression
   | EvaluationResultSetExpression
   | EvaluationResultTemplateTextExpression

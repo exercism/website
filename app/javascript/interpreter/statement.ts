@@ -1,11 +1,18 @@
 import {
   EvaluationResult,
+  EvaluationResultChangeVariableStatement,
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
 import { Expression } from './expression'
 import { Location } from './location'
 import type { Token } from './token'
 
+function quoteLiteral(value: any): string {
+  if (typeof value === 'string') {
+    return `"${value}"`
+  }
+  return value
+}
 export abstract class Statement {
   abstract location: Location
 }
@@ -26,7 +33,30 @@ export class SetVariableStatement extends Statement {
   }
 
   public description(result: EvaluationResultSetVariableStatement) {
-    return `<p>This created a new variable called <code>${result.name}</code> and sets its value to <code>${result.value}</code>.</p>`
+    return `<p>This created a new variable called <code>${
+      result.name
+    }</code> and sets its value to <code>${quoteLiteral(
+      result.value
+    )}</code>.</p>`
+  }
+}
+
+export class ChangeVariableStatement extends Statement {
+  constructor(
+    public name: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super()
+  }
+
+  public description(result: EvaluationResultChangeVariableStatement) {
+    let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
+    output += `<pre><code>${quoteLiteral(result.oldValue)}</code></pre>`
+    output += `<p>to...</p><pre><code>${quoteLiteral(
+      result.newValue.value
+    )}</code></pre>`
+    return output
   }
 }
 

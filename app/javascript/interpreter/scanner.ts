@@ -47,7 +47,7 @@ export class Scanner {
     function: 'FUNCTION',
     if: 'IF',
     in: 'IN',
-    is: 'STRICT_EQUALITY',
+    is: 'EQUALITY',
     null: 'NULL',
     not: 'NOT',
     or: 'OR',
@@ -146,11 +146,11 @@ export class Scanner {
    * or do simple checks for the next characters (e.g. "++")
    */
   private tokenizeBang() {
-    this.addToken(this.match('=') ? 'STRICT_INEQUALITY' : 'NOT')
+    this.addToken(this.match('=') ? 'INEQUALITY' : 'NOT')
   }
 
   private tokenizeEqual() {
-    this.addToken(this.match('=') ? 'STRICT_EQUALITY' : 'EQUAL')
+    this.addToken(this.match('=') ? 'EQUALITY' : 'EQUAL')
   }
   private tokenizeLeftParanthesis() {
     this.addToken('LEFT_PAREN')
@@ -346,10 +346,10 @@ export class Scanner {
 
   private tokenForLexeme(lexeme: string): string {
     if (lexeme == 'is') {
-      return 'STRICT_EQUALITY'
+      return 'EQUALITY'
     }
     if (lexeme == 'equals') {
-      return 'STRICT_EQUALITY'
+      return 'EQUALITY'
     }
 
     return Scanner.keywords[this.lexeme()]

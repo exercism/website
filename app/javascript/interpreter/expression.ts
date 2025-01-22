@@ -11,12 +11,13 @@ function quoteLiteral(value: any): string {
 }
 
 export abstract class Expression {
+  constructor(public type: String) {}
   abstract location: Location
 }
 
 export class LiteralExpression extends Expression {
   constructor(public value: any, public location: Location) {
-    super()
+    super('LiteralExpression')
   }
   public description() {
     return `<code>${quoteLiteral(this.value)}</code>`
@@ -25,7 +26,7 @@ export class LiteralExpression extends Expression {
 
 export class VariableExpression extends Expression {
   constructor(public name: Token, public location: Location) {
-    super()
+    super('VariableExpression')
   }
   public description() {
     return `the <code>${this.name.lexeme}</code> variable`
@@ -39,13 +40,13 @@ export class CallExpression extends Expression {
     public args: Expression[],
     public location: Location
   ) {
-    super()
+    super('CallExpression')
   }
 }
 
 export class ArrayExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
-    super()
+    super('ArrayExpression')
   }
 }
 
@@ -54,7 +55,7 @@ export class DictionaryExpression extends Expression {
     public elements: Map<string, Expression>,
     public location: Location
   ) {
-    super()
+    super('DictionaryExpression')
   }
 }
 
@@ -65,7 +66,7 @@ export class BinaryExpression extends Expression {
     public right: Expression,
     public location: Location
   ) {
-    super()
+    super('BinaryExpression')
   }
 }
 
@@ -76,7 +77,7 @@ export class LogicalExpression extends Expression {
     public right: Expression,
     public location: Location
   ) {
-    super()
+    super('LogicalExpression')
   }
 }
 
@@ -86,31 +87,31 @@ export class UnaryExpression extends Expression {
     public operand: Expression,
     public location: Location
   ) {
-    super()
+    super('UnaryExpression')
   }
 }
 
 export class GroupingExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
-    super()
+    super('GroupingExpression')
   }
 }
 
 export class TemplatePlaceholderExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
-    super()
+    super('TemplatePlaceholderExpression')
   }
 }
 
 export class TemplateTextExpression extends Expression {
   constructor(public text: Token, public location: Location) {
-    super()
+    super('TemplateTextExpression')
   }
 }
 
 export class TemplateLiteralExpression extends Expression {
   constructor(public parts: Expression[], public location: Location) {
-    super()
+    super('TemplateLiteralExpression')
   }
 }
 
@@ -120,7 +121,7 @@ export class UpdateExpression extends Expression {
     public operator: Token,
     public location: Location
   ) {
-    super()
+    super('UpdateExpression')
   }
 }
 
@@ -130,7 +131,7 @@ export class GetExpression extends Expression {
     public field: Token,
     public location: Location
   ) {
-    super()
+    super('GetExpression')
   }
 }
 
@@ -141,6 +142,6 @@ export class SetExpression extends Expression {
     public value: Expression,
     public location: Location
   ) {
-    super()
+    super('SetExpression')
   }
 }

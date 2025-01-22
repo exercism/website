@@ -14,12 +14,13 @@ function quoteLiteral(value: any): string {
   return value
 }
 export abstract class Statement {
+  constructor(public type: String) {}
   abstract location: Location
 }
 
 export class ExpressionStatement extends Statement {
   constructor(public expression: Expression, public location: Location) {
-    super()
+    super('ExpressionStatement')
   }
 }
 
@@ -29,7 +30,7 @@ export class SetVariableStatement extends Statement {
     public initializer: Expression,
     public location: Location
   ) {
-    super()
+    super('SetVariableStatement')
   }
 
   public description(result: EvaluationResultSetVariableStatement) {
@@ -47,7 +48,7 @@ export class ChangeVariableStatement extends Statement {
     public value: Expression,
     public location: Location
   ) {
-    super()
+    super('ChangeVariableStatement')
   }
 
   public description(result: EvaluationResultChangeVariableStatement) {
@@ -66,7 +67,7 @@ export class ConstantStatement extends Statement {
     public initializer: Expression,
     public location: Location
   ) {
-    super()
+    super('ConstantStatement')
   }
 }
 
@@ -77,7 +78,7 @@ export class IfStatement extends Statement {
     public elseBranch: Statement | null,
     public location: Location
   ) {
-    super()
+    super('IfStatement')
   }
 }
 
@@ -87,13 +88,13 @@ export class RepeatStatement extends Statement {
     public body: Statement[],
     public location: Location
   ) {
-    super()
+    super('RepeatStatement')
   }
 }
 
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(public body: Statement[], public location: Location) {
-    super()
+    super('RepeatUntilGameOverStatement')
   }
 }
 
@@ -103,7 +104,7 @@ export class WhileStatement extends Statement {
     public body: Statement[],
     public location: Location
   ) {
-    super()
+    super('WhileStatement')
   }
 }
 
@@ -113,13 +114,13 @@ export class DoWhileStatement extends Statement {
     public body: Statement[],
     public location: Location
   ) {
-    super()
+    super('DoWhileStatement')
   }
 }
 
 export class BlockStatement extends Statement {
   constructor(public statements: Statement[], public location: Location) {
-    super()
+    super('BlockStatement')
   }
 }
 
@@ -134,7 +135,7 @@ export class FunctionStatement extends Statement {
     public body: Statement[],
     public location: Location
   ) {
-    super()
+    super('FunctionStatement')
   }
 }
 
@@ -144,7 +145,7 @@ export class ReturnStatement extends Statement {
     public value: Expression | null,
     public location: Location
   ) {
-    super()
+    super('ReturnStatement')
   }
 }
 
@@ -155,6 +156,6 @@ export class ForeachStatement extends Statement {
     public body: Statement[],
     public location: Location
   ) {
-    super()
+    super('ForeachStatement')
   }
 }

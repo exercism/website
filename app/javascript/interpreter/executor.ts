@@ -934,12 +934,12 @@ export class Executor {
   public executeStatement(statement: Statement): void {
     this.statementStartingVariables = cloneDeep(this.environment.variables())
 
-    const method = `visit${statement.constructor.name}`
+    const method = `visit${statement.type}`
     this[method](statement)
   }
 
   public evaluate(expression: Expression): EvaluationResult {
-    const method = `visit${expression.constructor.name}`
+    const method = `visit${expression.type}`
     return this[method](expression)
   }
 

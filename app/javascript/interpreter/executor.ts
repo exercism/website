@@ -480,10 +480,7 @@ export class Executor
       callee = this.evaluate(expression.callee)
     } catch (e) {
       if (isRuntimeError(e) && e.type == 'CouldNotFindValueWithName') {
-        if (
-          expression.callee instanceof VariableExpression &&
-          e.context?.didYouMean?.function?.length > 0
-        ) {
+        if (e.context?.didYouMean?.function?.length > 0) {
           const alternative = e.context.didYouMean.function
           this.error('CouldNotFindFunctionWithNameSuggestion', e.location, {
             ...e.context,
@@ -492,7 +489,12 @@ export class Executor
           })
         }
 
-        this.error('CouldNotFindFunctionWithName', e.location, e.context)
+        this.error('CouldNotFindFunctionWithName', e.location, {
+          ...e.context,
+          ...{
+            name: expression.callee.name.lexeme,
+          },
+        })
       }
 
       throw e

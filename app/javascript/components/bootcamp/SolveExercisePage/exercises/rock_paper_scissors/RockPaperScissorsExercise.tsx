@@ -73,7 +73,7 @@ export default class RockPaperScissorsExercise extends Exercise {
   public announceResult(executionCtx: ExecutionContext, result: Result) {
     if (result !== 'player_1' && result !== 'player_2' && result !== 'tie') {
       executionCtx.logicError(
-        'Oh no! You announced an invalid result. There\'s chaos in the playing hall! Please announce either "player1", "player2" or "tie".'
+        'Oh no! You announced an invalid result. There\'s chaos in the playing hall! Please announce either "player_1", "player_2" or "tie".'
       )
     }
 

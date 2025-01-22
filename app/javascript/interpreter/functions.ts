@@ -1,7 +1,7 @@
 import { Environment } from './environment'
-import { Interpreter } from './interpreter'
+import { LanguageFeatures } from './interpreter'
 import { FunctionStatement } from './statement'
-import type { ExecutionContext } from './executor'
+import type { ExecutionContext, Executor } from './executor'
 
 export type Arity = number | [min: number, max: number]
 
@@ -23,7 +23,8 @@ export function isCallable(obj: any): obj is Callable {
 export class UserDefinedFunction implements Callable {
   constructor(
     private declaration: FunctionStatement,
-    private closure: Environment
+    private closure: Environment,
+    private languageFeatures: LanguageFeatures
   ) {}
 
   arity(): Arity {
@@ -33,20 +34,25 @@ export class UserDefinedFunction implements Callable {
     ]
   }
 
-  call(interpreter: Interpreter, args: any[]): any {
-    const environment = new Environment(this.closure)
+  call(executor: ExecutionContext, args: any[]): any {
+    let environment
+    if (this.languageFeatures.allowGlobals) {
+      environment = new Environment(this.closure)
+    } else {
+      environment = new Environment()
+    }
 
     for (let i = 0; i < this.declaration.parameters.length; i++) {
       const arg =
         i < args.length
           ? args[i]
-          : interpreter.evaluate(this.declaration.parameters[i].defaultValue!)
+          : executor.evaluate(this.declaration.parameters[i].defaultValue!)
               .value
       environment.define(this.declaration.parameters[i].name.lexeme, arg)
     }
 
     try {
-      interpreter.executeBlock(this.declaration.body, environment)
+      executor.executeBlock(this.declaration.body, environment)
     } catch (error: unknown) {
       if (error instanceof ReturnValue) {
         return error.value

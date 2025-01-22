@@ -1,4 +1,4 @@
-import { scan } from '@/interpreter/languages/javascript/scanner'
+import { scan } from '@/interpreter/scanner'
 import { changeLanguage, getLanguage } from '@/interpreter/translator'
 
 async function usingLanguage(newLanguage: string, callback: () => void) {

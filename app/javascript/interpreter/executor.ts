@@ -1,9 +1,4 @@
-import {
-  type Callable,
-  ReturnValue,
-  UserDefinedFunction,
-  isCallable,
-} from './functions'
+import { ReturnValue, UserDefinedFunction, isCallable } from './functions'
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
 import { RuntimeError, type RuntimeErrorType, isRuntimeError } from './error'
@@ -60,6 +55,7 @@ export type ExecutionContext = {
   getCurrentTime: Function
   fastForward: Function
   evaluate: Function
+  executeBlock: Function
   updateState: Function
   logicError: Function
 }
@@ -88,7 +84,6 @@ export class Executor
     private readonly sourceCode: string,
     private languageFeatures: LanguageFeatures = {},
     private externalFunctions: ExternalFunction[],
-    private locals: Map<Expression, number>,
     private externalState: Record<string, any> = {}
   ) {
     for (let externalFunction of externalFunctions) {
@@ -167,10 +162,21 @@ export class Executor
     }
   }
 
-  public executeBlock(statements: Statement[], environment: Environment): void {
+  public executeBlock(
+    statements: Statement[],
+    blockEnvironment: Environment
+  ): void {
+    // Don't
+    if (this.environment === blockEnvironment) {
+      for (const statement of statements) {
+        this.executeStatement(statement)
+      }
+      return
+    }
+
     const previous: Environment = this.environment
     try {
-      this.environment = environment
+      this.environment = blockEnvironment
 
       for (const statement of statements) {
         this.executeStatement(statement)
@@ -211,16 +217,13 @@ export class Executor
           name: statement.name.lexeme,
         })
       }
-      const result = this.evaluate(statement.initializer)
-      const updating = this.environment.inScope(statement.name.lexeme)
-      this.environment.define(statement.name.lexeme, result.value)
+      const value = this.evaluate(statement.initializer).value
+      this.environment.define(statement.name.lexeme, value)
+
       return {
         type: 'VariableStatement',
         name: statement.name.lexeme,
-        value: result.value,
-        data: {
-          updating: updating,
-        },
+        value: value,
       }
     })
   }
@@ -289,9 +292,7 @@ export class Executor
       count--
 
       // Delay repeat for things like animations
-      if (this.languageFeatures?.repeatDelay) {
-        this.time += this.languageFeatures?.repeatDelay || 0
-      }
+      this.time += this.languageFeatures.repeatDelay
     }
   }
 
@@ -337,11 +338,17 @@ export class Executor
   }
 
   public visitBlockStatement(statement: BlockStatement): void {
-    this.executeBlock(statement.statements, new Environment(this.environment))
+    // Change this to allow scoping
+    // this.executeBlock(statement.statements, new Environment(this.environment))
+    this.executeBlock(statement.statements, this.environment)
   }
 
   public visitFunctionStatement(statement: FunctionStatement): void {
-    const func = new UserDefinedFunction(statement, this.environment)
+    const func = new UserDefinedFunction(
+      statement,
+      this.environment,
+      this.languageFeatures
+    )
     this.environment.define(statement.name.lexeme, func)
   }
 
@@ -384,6 +391,10 @@ export class Executor
         }
       })
 
+      // TODO: Think about this. Currently it creates a new environment for each loop iteration
+      // with the element in. But that's maybe not what we want as it'll be a new scope
+      // and the rest of Jiki is currently not scoped on a block basis.
+      // Consider a `finally` to unset the variable instead?
       const loopEnvironment = new Environment(this.environment)
       loopEnvironment.define(statement.elementName.lexeme, value)
       this.executeBlock(statement.body, loopEnvironment)
@@ -572,7 +583,7 @@ export class Executor
 
     switch (expression.operator.type) {
       case 'NOT':
-        this.verifyBooleanOperand(expression.operator, operand.value)
+        this.verifyBooleanOperand(operand.value, expression.operator.location)
         return {
           type: 'UnaryExpression',
           operator: expression.operator.type,
@@ -724,13 +735,13 @@ export class Executor
   ): EvaluationResult {
     if (expression.operator.type === 'OR') {
       const leftOr = this.evaluate(expression.left)
-      this.verifyBooleanOperand(expression.operator, leftOr.value)
+      this.verifyBooleanOperand(leftOr.value, expression.operator.location)
 
       let rightOr: EvaluationResult | undefined = undefined
 
       if (!leftOr.value) {
         rightOr = this.evaluate(expression.right)
-        this.verifyBooleanOperand(expression.operator, rightOr.value)
+        this.verifyBooleanOperand(rightOr.value, expression.operator.location)
       }
 
       return {
@@ -744,13 +755,13 @@ export class Executor
     }
 
     const leftAnd = this.evaluate(expression.left)
-    this.verifyBooleanOperand(expression.operator, leftAnd.value)
+    this.verifyBooleanOperand(leftAnd.value, expression.operator.location)
 
     let rightAnd: EvaluationResult | undefined = undefined
 
     if (leftAnd.value) {
       rightAnd = this.evaluate(expression.right)
-      this.verifyBooleanOperand(expression.operator, rightAnd.value)
+      this.verifyBooleanOperand(rightAnd.value, expression.operator.location)
     }
 
     return {
@@ -800,7 +811,7 @@ export class Executor
         ? this.lookupVariable(expression.name, expression) / value.value
         : null
 
-    this.updateVariable(expression, expression.name, newValue)
+    this.updateVariable(expression.name, newValue, expression)
 
     return {
       type: 'AssignExpression',
@@ -822,7 +833,7 @@ export class Executor
       newValue =
         expression.operator.type === 'PLUS_PLUS' ? value + 1 : value - 1
 
-      this.updateVariable(expression.operand, expression.operand.name, newValue)
+      this.updateVariable(expression.operand.name, newValue, expression.operand)
 
       return {
         type: 'UpdateExpression',
@@ -861,13 +872,14 @@ export class Executor
   }
 
   private updateVariable(
-    expression: Expression,
     name: Token,
-    newValue: undefined
+    newValue: undefined,
+    expression: Expression
   ) {
-    const distance = this.locals.get(expression)
-    if (distance === undefined) this.globals.assign(name, newValue)
-    else this.environment.assignAt(distance, name, newValue)
+    // This will exception if the variable doesn't exist
+    this.lookupVariable(name, expression)
+
+    this.environment.updateVariable(name, newValue)
   }
 
   public visitGetExpression(expression: GetExpression): EvaluationResult {
@@ -947,8 +959,7 @@ export class Executor
   private verifyBooleanOperand(operand: any, location: Location): void {
     if (isBoolean(operand)) return
 
-    if (this.languageFeatures?.truthiness === 'OFF')
-      this.error('OperandMustBeBoolean', location, { operand })
+    this.error('OperandMustBeBoolean', location, { operand })
   }
 
   public executeStatement(statement: Statement): void {
@@ -959,10 +970,17 @@ export class Executor
     return expression.accept(this)
   }
 
-  private lookupVariable(name: Token, expression: VariableExpression): any {
-    const distance = this.locals.get(expression)
-    if (distance === undefined) return this.globals.get(name)
-    return this.environment.getAt(distance, name.lexeme)
+  private lookupVariable(name: Token, expression: Expression): any {
+    let value = this.environment.get(name)
+    if (value === undefined) {
+      this.globals.get(name)
+    }
+    if (value === undefined) {
+      this.error('CouldNotFindValueWithName', expression.location, {
+        name: name.lexeme,
+      })
+    }
+    return value
   }
 
   private guardInfiniteLoop(loc: Location) {

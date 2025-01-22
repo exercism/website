@@ -13,23 +13,50 @@ import {
   TemplatePlaceholderExpression,
   TemplateTextExpression,
   LogicalExpression,
-  AssignExpression,
-  UpdateExpression,
-  TernaryExpression,
 } from '@/interpreter/expression'
 import {
   BlockStatement,
-  ConstantStatement,
-  DoWhileStatement,
   ExpressionStatement,
+  ForeachStatement,
   FunctionStatement,
   IfStatement,
+  RepeatStatement,
   ReturnStatement,
   VariableStatement,
   WhileStatement,
 } from '@/interpreter/statement'
-import { parse } from '@/interpreter/languages/javascript/parser'
+import { parse } from '@/interpreter/parser'
 
+describe('comments', () => {
+  test('basic text', () => {
+    const stmts = parse('// this is a comment')
+    expect(stmts).toBeArrayOfSize(0)
+  })
+  test('text with symbols', () => {
+    const stmts = parse('// this (is) a. comme,nt do')
+    expect(stmts).toBeArrayOfSize(0)
+  })
+  test('comment after statement', () => {
+    const stmts = parse('set a to 5 // this (is) a. comme,nt do')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(VariableStatement)
+    const varStmt = stmts[0] as VariableStatement
+    expect(varStmt.name.lexeme).toBe('a')
+    expect(varStmt.initializer).toBeInstanceOf(LiteralExpression)
+    expect((varStmt.initializer as LiteralExpression).value).toBe(5)
+  })
+  test('text with symbols', () => {
+    const stmts = parse(`
+    // You can use move(), turn_left() and turn_right()
+    // Use the functions in the order you want your character
+    // to use them to solve them maze. We'll start you off by
+    // moving the character one step forward.
+    move()
+    `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
+  })
+})
 describe('literals', () => {
   describe('numbers', () => {
     test('integer', () => {
@@ -49,6 +76,27 @@ describe('literals', () => {
       expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
       const literalExpr = exprStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe(1.5)
+    })
+
+    test('negative integer', () => {
+      const stmts = parse('-5')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
+      const exprStmt = stmts[0] as ExpressionStatement
+      expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
+      const literalExpr = exprStmt.expression as UnaryExpression
+      expect(literalExpr.operator.lexeme).toBe('-')
+      expect((literalExpr.operand as LiteralExpression).value).toBe(5)
+    })
+    test('negative floating point', () => {
+      const stmts = parse('-1.5')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
+      const exprStmt = stmts[0] as ExpressionStatement
+      expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
+      const literalExpr = exprStmt.expression as UnaryExpression
+      expect(literalExpr.operator.lexeme).toBe('-')
+      expect((literalExpr.operand as LiteralExpression).value).toBe(1.5)
     })
   })
 
@@ -171,7 +219,7 @@ describe('array', () => {
 
 describe('dictionary', () => {
   test('empty', () => {
-    const stmts = parse('let empty = {}')
+    const stmts = parse('set empty to {}')
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(VariableStatement)
     const varStmt = stmts[0] as VariableStatement
@@ -181,7 +229,7 @@ describe('dictionary', () => {
   })
 
   test('single element', () => {
-    const stmts = parse('let movie = {"title": "Jurassic Park"}')
+    const stmts = parse('set movie to {"title": "Jurassic Park"}')
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(VariableStatement)
     const varStmt = stmts[0] as VariableStatement
@@ -195,7 +243,7 @@ describe('dictionary', () => {
   })
 
   test('multiple elements', () => {
-    const stmts = parse('let movie = {"title": "Jurassic Park", "year": 1993}')
+    const stmts = parse('set movie to {"title": "Jurassic Park", "year": 1993}')
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(VariableStatement)
     const varStmt = stmts[0] as VariableStatement
@@ -212,7 +260,7 @@ describe('dictionary', () => {
 
   test('nested', () => {
     const stmts = parse(
-      'let movie = {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
+      'set movie to {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
     )
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -240,7 +288,7 @@ describe('dictionary', () => {
 
 describe('variable', () => {
   test('single-character name', () => {
-    const statements = parse('let x = 1')
+    const statements = parse('set x to 1')
     expect(statements).toBeArrayOfSize(1)
     expect(statements[0]).toBeInstanceOf(VariableStatement)
     const varStatement = statements[0] as VariableStatement
@@ -250,7 +298,7 @@ describe('variable', () => {
   })
 
   test('multi-character name', () => {
-    const statements = parse('let fooBar = "abc"')
+    const statements = parse('set fooBar to "abc"')
     expect(statements).toBeArrayOfSize(1)
     expect(statements[0]).toBeInstanceOf(VariableStatement)
     const varStatement = statements[0] as VariableStatement
@@ -261,147 +309,17 @@ describe('variable', () => {
 })
 
 describe('assignment', () => {
-  test('regular', () => {
+  test('reassignment', () => {
     const statements = parse(`
-      let x = 1
-      x = 2
+      set x to 1
+      set x to 2
     `)
     expect(statements).toBeArrayOfSize(2)
-    expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-    const exprStatement = statements[1] as ExpressionStatement
-    expect(exprStatement.expression).toBeInstanceOf(AssignExpression)
-    const assignExpr = exprStatement.expression as AssignExpression
-    expect(assignExpr.name.lexeme).toBe('x')
-    expect(assignExpr.operator.type).toBe('EQUAL')
-    expect(assignExpr.value).toBeInstanceOf(LiteralExpression)
-    const literalExpr = assignExpr.value as LiteralExpression
+    expect(statements[1]).toBeInstanceOf(VariableStatement)
+    const varStatement = statements[1] as VariableStatement
+    expect(varStatement.name.lexeme).toBe('x')
+    const literalExpr = varStatement.initializer as LiteralExpression
     expect(literalExpr.value).toBe(2)
-  })
-
-  describe('compound', () => {
-    test('plus', () => {
-      const statements = parse(`
-        let x = 1
-        x += 2
-      `)
-      expect(statements).toBeArrayOfSize(2)
-      expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-      const exprStatement = statements[1] as ExpressionStatement
-      expect(exprStatement.expression).toBeInstanceOf(AssignExpression)
-      const assignExpr = exprStatement.expression as AssignExpression
-      expect(assignExpr.name.lexeme).toBe('x')
-      expect(assignExpr.operator.type).toBe('PLUS_EQUAL')
-      expect(assignExpr.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = assignExpr.value as LiteralExpression
-      expect(literalExpr.value).toBe(2)
-    })
-
-    test('minus', () => {
-      const statements = parse(`
-        let x = 1
-        x -= 2
-      `)
-      expect(statements).toBeArrayOfSize(2)
-      expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-      const exprStatement = statements[1] as ExpressionStatement
-      expect(exprStatement.expression).toBeInstanceOf(AssignExpression)
-      const assignExpr = exprStatement.expression as AssignExpression
-      expect(assignExpr.name.lexeme).toBe('x')
-      expect(assignExpr.operator.type).toBe('MINUS_EQUAL')
-      expect(assignExpr.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = assignExpr.value as LiteralExpression
-      expect(literalExpr.value).toBe(2)
-    })
-
-    test('multiply', () => {
-      const statements = parse(`
-        let x = 1
-        x *= 2
-      `)
-      expect(statements).toBeArrayOfSize(2)
-      expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-      const exprStatement = statements[1] as ExpressionStatement
-      expect(exprStatement.expression).toBeInstanceOf(AssignExpression)
-      const assignExpr = exprStatement.expression as AssignExpression
-      expect(assignExpr.name.lexeme).toBe('x')
-      expect(assignExpr.operator.type).toBe('STAR_EQUAL')
-      expect(assignExpr.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = assignExpr.value as LiteralExpression
-      expect(literalExpr.value).toBe(2)
-    })
-
-    test('divide', () => {
-      const statements = parse(`
-        let x = 1
-        x /= 2
-      `)
-      expect(statements).toBeArrayOfSize(2)
-      expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-      const exprStatement = statements[1] as ExpressionStatement
-      expect(exprStatement.expression).toBeInstanceOf(AssignExpression)
-      const assignExpr = exprStatement.expression as AssignExpression
-      expect(assignExpr.name.lexeme).toBe('x')
-      expect(assignExpr.operator.type).toBe('SLASH_EQUAL')
-      expect(assignExpr.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = assignExpr.value as LiteralExpression
-      expect(literalExpr.value).toBe(2)
-    })
-  })
-})
-
-describe('increment', () => {
-  test('variable', () => {
-    const statements = parse(`
-      let x = 1
-      x++
-    `)
-    expect(statements).toBeArrayOfSize(2)
-    expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-    const exprStatement = statements[1] as ExpressionStatement
-    expect(exprStatement.expression).toBeInstanceOf(UpdateExpression)
-    const incrementExpr = exprStatement.expression as UpdateExpression
-    expect(incrementExpr.operator.type).toBe('PLUS_PLUS')
-    expect(incrementExpr.operand).toBeInstanceOf(VariableExpression)
-    const variableExpr = incrementExpr.operand as VariableExpression
-    expect(variableExpr.name.lexeme).toBe('x')
-  })
-
-  test('array', () => {
-    const statements = parse(`
-      let x = [1,2]
-      x[0]++
-    `)
-    expect(statements).toBeArrayOfSize(2)
-    expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-    const exprStatement = statements[1] as ExpressionStatement
-    expect(exprStatement.expression).toBeInstanceOf(UpdateExpression)
-    const incrementExpr = exprStatement.expression as UpdateExpression
-    expect(incrementExpr.operator.type).toBe('PLUS_PLUS')
-    expect(incrementExpr.operand).toBeInstanceOf(GetExpression)
-    const getExpr = incrementExpr.operand as GetExpression
-    expect(getExpr.field.lexeme).toBe('0')
-    expect(getExpr.obj).toBeInstanceOf(VariableExpression)
-    const variableExpr = getExpr.obj as VariableExpression
-    expect(variableExpr.name.lexeme).toBe('x')
-  })
-
-  test('dictionary', () => {
-    const statements = parse(`
-      let x = {"count": 1}
-      x["count"]++
-    `)
-    expect(statements).toBeArrayOfSize(2)
-    expect(statements[1]).toBeInstanceOf(ExpressionStatement)
-    const exprStatement = statements[1] as ExpressionStatement
-    expect(exprStatement.expression).toBeInstanceOf(UpdateExpression)
-    const incrementExpr = exprStatement.expression as UpdateExpression
-    expect(incrementExpr.operator.type).toBe('PLUS_PLUS')
-    expect(incrementExpr.operand).toBeInstanceOf(GetExpression)
-    const getExpr = incrementExpr.operand as GetExpression
-    expect(getExpr.field.lexeme).toBe('"count"')
-    expect(getExpr.obj).toBeInstanceOf(VariableExpression)
-    const variableExpr = getExpr.obj as VariableExpression
-    expect(variableExpr.name.lexeme).toBe('x')
   })
 })
 
@@ -447,8 +365,8 @@ describe('get', () => {
   describe('dictionary', () => {
     test('single field', () => {
       const stmts = parse(`
-        let movie = {"title": "The Matrix"}
-        let title = movie["title"]
+        set movie to {"title": "The Matrix"}
+        set title to movie["title"]
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -463,8 +381,8 @@ describe('get', () => {
 
     test('chained', () => {
       const stmts = parse(`
-        let movie = {"director": {"name": "Peter Jackson"}}
-        let director = movie["director"]["name"]
+        set movie to {"director": {"name": "Peter Jackson"}}
+        set director to movie["director"]["name"]
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -486,8 +404,8 @@ describe('get', () => {
   describe('array', () => {
     test('single field', () => {
       const stmts = parse(`
-        let scores = [7, 3, 10]
-        let latest = scores[2]
+        set scores to [7, 3, 10]
+        set latest to scores[2]
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -502,8 +420,8 @@ describe('get', () => {
 
     test('chained', () => {
       const stmts = parse(`
-        let scoreMinMax = [[3, 7], [1, 6]]
-        let secondMin = scoreMinMax[1][0]
+        set scoreMinMax to [[3, 7], [1, 6]]
+        set secondMin to scoreMinMax[1][0]
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -527,8 +445,8 @@ describe('set', () => {
   describe('dictionary', () => {
     test('single field', () => {
       const stmts = parse(`
-        let movie = {"title": "The Matrix"}
-        movie["title"] = "Gladiator"
+        set movie to {"title": "The Matrix"}
+        set movie["title"] to "Gladiator"
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -543,8 +461,8 @@ describe('set', () => {
 
     test('chained', () => {
       const stmts = parse(`
-        let movie = {"director": {"name": "Peter Jackson"}}
-        movie["director"]["name"] = "James Cameron"
+        set movie to {"director": {"name": "Peter Jackson"}}
+        set movie["director"]["name"] to "James Cameron"
       `)
       expect(stmts).toBeArrayOfSize(2)
       expect(stmts[0]).toBeInstanceOf(VariableStatement)
@@ -802,18 +720,6 @@ describe('logical', () => {
     expect(logicalExpr.operator.type).toBe('AND')
   })
 
-  test('&&', () => {
-    const stmts = parse('true && false')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
-    const logicalExpr = exprStmt.expression as LogicalExpression
-    expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
-    expect(logicalExpr.right).toBeInstanceOf(LiteralExpression)
-    expect(logicalExpr.operator.type).toBe('AND')
-  })
-
   test('or', () => {
     const stmts = parse('true or false')
     expect(stmts).toBeArrayOfSize(1)
@@ -825,58 +731,19 @@ describe('logical', () => {
     expect(logicalExpr.right).toBeInstanceOf(LiteralExpression)
     expect(logicalExpr.operator.type).toBe('OR')
   })
-
-  test('||', () => {
-    const stmts = parse('true || false')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
-    const logicalExpr = exprStmt.expression as LogicalExpression
-    expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
-    expect(logicalExpr.right).toBeInstanceOf(LiteralExpression)
-    expect(logicalExpr.operator.type).toBe('OR')
-  })
-})
-
-describe('ternary', () => {
-  test('non-nested', () => {
-    const stmts = parse('true ? 1 : 2')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const expStmt = stmts[0] as ExpressionStatement
-    expect(expStmt.expression).toBeInstanceOf(TernaryExpression)
-    const ternaryExpr = expStmt.expression as TernaryExpression
-    expect(ternaryExpr.thenBranch).toBeInstanceOf(LiteralExpression)
-    expect(ternaryExpr.elseBranch).toBeInstanceOf(LiteralExpression)
-  })
-
-  test('nested', () => {
-    const stmts = parse('true ? 1 : false ? 2 : 3')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const expStmt = stmts[0] as ExpressionStatement
-    expect(expStmt.expression).toBeInstanceOf(TernaryExpression)
-    const ternaryExpr = expStmt.expression as TernaryExpression
-    expect(ternaryExpr.thenBranch).toBeInstanceOf(LiteralExpression)
-    expect(ternaryExpr.elseBranch).toBeInstanceOf(TernaryExpression)
-    const nestedTernaryExpr = ternaryExpr.elseBranch as TernaryExpression
-    expect(nestedTernaryExpr.thenBranch).toBeInstanceOf(LiteralExpression)
-    expect(nestedTernaryExpr.elseBranch).toBeInstanceOf(LiteralExpression)
-  })
 })
 
 describe('if', () => {
   test('without else', () => {
     const stmts = parse(`
-      if (true) {
-        let x = 1
-      }
+      if something is true do
+        set x to 1
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(IfStatement)
     const expStmt = stmts[0] as IfStatement
-    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
@@ -886,17 +753,16 @@ describe('if', () => {
 
   test('with else', () => {
     const stmts = parse(`
-      if (true) {
-        let x = 1
-      }
-      else {
-        let x = 2
-      }
+      if something is true do
+        set x to 1
+      else do
+        set x to 2
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(IfStatement)
     const expStmt = stmts[0] as IfStatement
-    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
@@ -909,27 +775,25 @@ describe('if', () => {
 
   test('nested', () => {
     const stmts = parse(`
-      if (true) {
-        let x = 1
-      }
-      else if (false) {
-        let x = 2
-      }
-      else {
-        let x = 3
-      }
+      if something is true do
+        set x to 1
+      else if something is false do
+        set x to 2
+      else do
+        set x to 3
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(IfStatement)
     const expStmt = stmts[0] as IfStatement
-    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)
     expect(thenStmt.statements[0]).toBeInstanceOf(VariableStatement)
     expect(expStmt.elseBranch).toBeInstanceOf(IfStatement)
     const elseIfStmt = expStmt.elseBranch as IfStatement
-    expect(elseIfStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(elseIfStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(elseIfStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const elseIfStmtThenBlock = elseIfStmt.thenBranch as BlockStatement
     expect(elseIfStmtThenBlock.statements).toBeArrayOfSize(1)
@@ -941,46 +805,80 @@ describe('if', () => {
   })
 })
 
-describe('while', () => {
-  test('with single statement', () => {
+describe('repeat', () => {
+  test('with number literal', () => {
     const stmts = parse(`
-      while (true) {
-        let x = 1
-      }
+      repeat 3 times do
+        set x to 1
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(WhileStatement)
-    const expStmt = stmts[0] as WhileStatement
-    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(stmts[0]).toBeInstanceOf(RepeatStatement)
+    const expStmt = stmts[0] as RepeatStatement
+    expect(expStmt.count).toBeInstanceOf(LiteralExpression)
     expect(expStmt.body).toBeArrayOfSize(1)
     expect(expStmt.body[0]).toBeInstanceOf(VariableStatement)
   })
 })
 
-describe('do while', () => {
+describe('while', () => {
   test('with single statement', () => {
     const stmts = parse(`
-      do {
-        let x = 1
-      }
-      while (true)
+      while something is true do
+        set x to 1
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(DoWhileStatement)
-    const expStmt = stmts[0] as DoWhileStatement
-    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(stmts[0]).toBeInstanceOf(WhileStatement)
+    const expStmt = stmts[0] as WhileStatement
+    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
     expect(expStmt.body).toBeArrayOfSize(1)
     expect(expStmt.body[0]).toBeInstanceOf(VariableStatement)
+  })
+})
+
+describe('foreach', () => {
+  test('with single statement in body', () => {
+    // TODO: Get rid of let
+    const stmts = parse(`
+      foreach elem in [] do
+        set x to elem + 1
+      end
+    `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
+    const foreachStmt = stmts[0] as ForeachStatement
+    expect(foreachStmt.elementName.lexeme).toBe('elem')
+    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
+    expect(foreachStmt.body).toBeArrayOfSize(1)
+    expect(foreachStmt.body[0]).toBeInstanceOf(VariableStatement)
+  })
+
+  test('with multiple statements in body', () => {
+    const stmts = parse(`
+      foreach elem in [] do
+        set x to elem + 1
+        set y to elem - 1
+      end
+    `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
+    const foreachStmt = stmts[0] as ForeachStatement
+    expect(foreachStmt.elementName.lexeme).toBe('elem')
+    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
+    expect(foreachStmt.body).toBeArrayOfSize(2)
+    expect(foreachStmt.body[0]).toBeInstanceOf(VariableStatement)
+    expect(foreachStmt.body[1]).toBeInstanceOf(VariableStatement)
   })
 })
 
 describe('block', () => {
   test('non-nested', () => {
     const stmts = parse(`
-      {
-        let x = 1
-        let y = 2
-      }
+      do
+        set x to 1
+        set y to 2
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(BlockStatement)
@@ -992,12 +890,12 @@ describe('block', () => {
 
   test('nested', () => {
     const stmts = parse(`
-      {
-        let x = 1
-        {
-          let y = 2
-        }
-      }
+      do
+        set x to 1
+        do
+          set y to 2
+        end
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(BlockStatement)
@@ -1011,9 +909,9 @@ describe('block', () => {
 describe('function', () => {
   test('without parameters', () => {
     const stmts = parse(`
-      function move() {
+      function move do
         return 1
-      }
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(FunctionStatement)
@@ -1026,34 +924,17 @@ describe('function', () => {
 
   test('with parameters', () => {
     const stmts = parse(`
-      function move(from, to) {
-        return from + to
-      }
+      function move with x, y do
+        return x + y
+      end
     `)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(FunctionStatement)
     const functionStmt = stmts[0] as FunctionStatement
     expect(functionStmt.name.lexeme).toBe('move')
     expect(functionStmt.parameters).toBeArrayOfSize(2)
-    expect(functionStmt.parameters[0].name.lexeme).toBe('from')
-    expect(functionStmt.parameters[1].name.lexeme).toBe('to')
-    expect(functionStmt.body).toBeArrayOfSize(1)
-    expect(functionStmt.body[0]).toBeInstanceOf(ReturnStatement)
-  })
-
-  test('with default parameter', () => {
-    const stmts = parse(`
-      function move(from = 0, to = 10) {
-        return from + to
-      }
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(FunctionStatement)
-    const functionStmt = stmts[0] as FunctionStatement
-    expect(functionStmt.name.lexeme).toBe('move')
-    expect(functionStmt.parameters).toBeArrayOfSize(2)
-    expect(functionStmt.parameters[0].name.lexeme).toBe('from')
-    expect(functionStmt.parameters[1].name.lexeme).toBe('to')
+    expect(functionStmt.parameters[0].name.lexeme).toBe('x')
+    expect(functionStmt.parameters[1].name.lexeme).toBe('y')
     expect(functionStmt.body).toBeArrayOfSize(1)
     expect(functionStmt.body[0]).toBeInstanceOf(ReturnStatement)
   })
@@ -1091,77 +972,15 @@ describe('return', () => {
   })
 })
 
-describe('error', () => {
-  describe('number', () => {
-    test('two periods', () => {
-      expect(() => parse('1.3.4')).toThrow(
-        'A number can only have one decimal point. Did you mean `1.34`?'
-      )
-    })
-  })
-  describe('string', () => {
-    test('unstarted', () => {
-      expect(() => parse('abc"')).toThrow(
-        'Did you forget the start quote for the "abc" string?'
-      )
-    })
-    test('unterminated - end of file', () => {
-      expect(() => parse('"abc')).toThrow(
-        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
-      )
-    })
-    test('unterminated - end of line', () => {
-      expect(() => parse('"abc\nsomething_else"')).toThrow(
-        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
-      )
-    })
-    test('unterminated - newline in string', () => {
-      expect(() => parse('"abc\n"')).toThrow(
-        `Did you forget to add end quote? Maybe you meant to write:\n\n\`\`\`\"abc\"\`\`\``
-      )
-    })
-  })
-
-  describe('call', () => {
-    test('missing opening parenthesis', () => {
-      expect(() =>
-        parse(`
-          function move() {
-            return 1
-          }
-
-          move)
-        `)
-      ).toThrow(
-        'Did you forget the start parenthesis when trying to call the move function?'
-      )
-    })
-
-    test('missing closing parenthesis', () => {
-      expect(() => parse('move(1')).toThrow(
-        'Did you forget the end parenthesis when trying to call the move function?'
-      )
-    })
-  })
-
-  describe('statement', () => {
-    test('multiple expressions on single line', () => {
-      expect(() => parse('1 1')).toThrow(
-        "We didn't expect `{{current}}` to appear on this line after the `{{previous}}`. {{suggestion}}"
-      )
-    })
-  })
-})
-
 describe('white space', () => {
   test('skip over empty lines', () => {
     const stmts = parse(`
-      let a = 19
+      set a to 19
 
       \t\t\t
-      let x = true
+      set x to true
 
-      let y = false
+      set y to false
       \t
 
     `)
@@ -1187,27 +1006,15 @@ describe('location', () => {
     })
 
     test('variable', () => {
-      const statements = parse('let x = 1')
+      const statements = parse('set x to 1')
       expect(statements).toBeArrayOfSize(1)
       expect(statements[0]).toBeInstanceOf(VariableStatement)
       const expressionStatement = statements[0] as VariableStatement
       expect(expressionStatement.location.line).toBe(1)
       expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(10)
+      expect(expressionStatement.location.relative.end).toBe(11)
       expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(10)
-    })
-
-    test('const', () => {
-      const statements = parse('const x = 1')
-      expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ConstantStatement)
-      const expressionStatement = statements[0] as ConstantStatement
-      expect(expressionStatement.location.line).toBe(1)
-      expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(12)
-      expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(12)
+      expect(expressionStatement.location.absolute.end).toBe(11)
     })
   })
 

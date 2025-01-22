@@ -1,4 +1,4 @@
-import { parse } from '@/interpreter/languages/jikiscript/parser'
+import { parse } from '@/interpreter/parser'
 import { changeLanguage } from '@/interpreter/translator'
 
 beforeAll(() => {

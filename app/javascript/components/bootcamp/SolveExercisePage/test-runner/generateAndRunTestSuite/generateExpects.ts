@@ -16,7 +16,7 @@ export function generateExpects(
 }
 
 // These are normal function in/out tests. We always know the actual value at this point
-// (as it's returned from the function) so we can just compare it to the expected value.
+// (as it's returned from the function) so we can just compare it to the check value.
 function generateExpectsForIoTests(
   interpreterResult: InterpretResult,
   testData: TaskTest,
@@ -45,18 +45,18 @@ function generateExpectsForStateTests(
   // We only need to do this once, so do it outside the loop.
   const state = exercise.getState()
 
-  return testData.checks!.map((expected) => {
-    const matcher = expected.matcher || 'toEqual'
+  return testData.checks!.map((check) => {
+    const matcher = check.matcher || 'toEqual'
 
-    // Expected can either be a reference to the final state or a function call.
+    // Check can either be a reference to the final state or a function call.
     // We pivot on that to determine the actual value
     let actual
 
     // If it's a function call, we split out any params and then call the function
     // on the exercise with those params passed in.
-    if (expected.name.includes('(') && expected.name.endsWith(')')) {
-      const fnName = expected.name.slice(0, expected.name.indexOf('('))
-      const argsString = expected.name.slice(expected.name.indexOf('(') + 1, -1)
+    if (check.name.includes('(') && check.name.endsWith(')')) {
+      const fnName = check.name.slice(0, check.name.indexOf('('))
+      const argsString = check.name.slice(check.name.indexOf('(') + 1, -1)
 
       // We eval the args to turn numbers into numbers, strings into strings, etc.
       const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
@@ -73,17 +73,17 @@ function generateExpectsForStateTests(
     // Our normal state is much easier! We just check the state object that
     // we've retrieved above via getState() for the variable in question.
     else {
-      actual = state[expected.name]
+      actual = state[check.name]
     }
 
-    const errorHtml = expected.errorHtml?.replaceAll('%actual%', actual) || ''
+    const errorHtml = check.errorHtml?.replaceAll('%actual%', actual) || ''
 
     return expect({
-      ...expected,
+      ...check,
       testsType: 'state',
       actual,
       errorHtml,
-      name: expected.label ?? expected.name,
-    })[matcher as AvailableMatchers](expected.value)
+      name: check.label ?? check.name,
+    })[matcher as AvailableMatchers](check.value)
   })
 }

@@ -1,10 +1,9 @@
 import {
   Interpreter,
-  interpretJikiScript as interpret,
-  evaluateJikiScriptFunction as evaluateFunction,
+  interpret,
+  evaluateFunction,
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
-import { error } from 'jquery'
 
 describe('statements', () => {
   describe('expression', () => {
@@ -129,43 +128,17 @@ describe('statements', () => {
           expect(frames[0].variables).toMatchObject({ x: true })
         })
 
-        describe('truthiness', () => {
-          describe('enabled', () => {
-            test('and', () => {
-              const { frames } = interpret('set x to [] and true', {
-                languageFeatures: { truthiness: 'ON' },
-              })
-              expect(frames).toBeArrayOfSize(1)
-              expect(frames[0].status).toBe('SUCCESS')
-              expect(frames[0].variables).toMatchObject({ x: true })
-            })
-
-            test('or', () => {
-              const { frames } = interpret('set x to 0 or false', {
-                languageFeatures: { truthiness: 'ON' },
-              })
-              expect(frames).toBeArrayOfSize(1)
-              expect(frames[0].status).toBe('SUCCESS')
-              expect(frames[0].variables).toMatchObject({ x: false })
-            })
+        describe("truthiness doesn't exit", () => {
+          test('and', () => {
+            const { frames } = interpret('set x to true and []')
+            expect(frames).toBeArrayOfSize(1)
+            expect(frames[0].status).toBe('ERROR')
           })
 
-          describe('disabled', () => {
-            test('and', () => {
-              const { frames } = interpret('set x to true and []', {
-                languageFeatures: { truthiness: 'OFF' },
-              })
-              expect(frames).toBeArrayOfSize(1)
-              expect(frames[0].status).toBe('ERROR')
-            })
-
-            test('or', () => {
-              const { frames } = interpret('set x to false or 0', {
-                languageFeatures: { truthiness: 'OFF' },
-              })
-              expect(frames).toBeArrayOfSize(1)
-              expect(frames[0].status).toBe('ERROR')
-            })
+          test('or', () => {
+            const { frames } = interpret('set x to false or 0')
+            expect(frames).toBeArrayOfSize(1)
+            expect(frames[0].status).toBe('ERROR')
           })
         })
       })
@@ -1063,19 +1036,37 @@ describe('evaluateFunction', () => {
     expect(frames).toBeArrayOfSize(1)
   })
 
-  test('idempotent', () => {
+  test('idempotent - 1', () => {
     const code = `
       set x to 1
       function move do
         change x to x + 1
         return x
       end`
-    const interpreter = new Interpreter(code, { language: 'JikiScript' })
+    const interpreter = new Interpreter(code, {
+      languageFeatures: { allowGlobals: true },
+    })
     interpreter.compile()
     const { value: value1 } = interpreter.evaluateFunction('move')
     const { value: value2 } = interpreter.evaluateFunction('move')
     expect(value1).toBe(2)
     expect(value2).toBe(2)
+  })
+
+  test('idempotent - 2', () => {
+    const code = `
+      set x to 1
+      function move do
+        change x to x + 1
+        return x
+      end
+      move()
+      move()
+      `
+    const { frames, error } = interpret(code, {
+      languageFeatures: { allowGlobals: true },
+    })
+    expect(frames[6].variables.x).toBe(3)
   })
 
   // TODO: Work out all this syntax
@@ -1137,15 +1128,6 @@ describe('errors', () => {
     expect(error).not.toBeNull()
     expect(error!.category).toBe('SyntaxError')
     expect(error!.type).toBe('MissingDoubleQuoteToTerminateString')
-    expect(error!.context).toBeNull
-  })
-
-  test('resolver', () => {
-    const { frames, error } = interpret('return 1')
-    expect(frames).toBeEmpty()
-    expect(error).not.toBeNull()
-    expect(error!.category).toBe('SemanticError')
-    expect(error!.type).toBe('TopLevelReturn')
     expect(error!.context).toBeNull
   })
 
@@ -1358,6 +1340,24 @@ describe('errors', () => {
 
   describe('suggestions', () => {
     test('function name differs by one letter', () => {
+      const code = `
+        function move do
+        end
+        m0ve()
+      `
+      const { frames, error } = evaluateFunction(code, {}, 'move')
+      expect(frames).toBeArrayOfSize(1)
+      expect(frames[0].error).not.toBeNull()
+      expect(frames[0].error!.context).toMatchObject({
+        didYouMean: {
+          function: 'move',
+          variable: null,
+        },
+      })
+    })
+
+    // Recursion isn't supported in JikiScript (yet?)
+    test.skip('recursive function name differs by one letter', () => {
       const code = `
         function move do
           m0ve()

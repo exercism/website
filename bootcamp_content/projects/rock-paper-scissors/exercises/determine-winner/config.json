@@ -21,7 +21,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -40,7 +40,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -59,7 +59,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -78,7 +78,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -97,7 +97,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -116,7 +116,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -135,7 +135,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -154,7 +154,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
@@ -173,7 +173,7 @@
           "checks": [
             {
               "name": "result",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {

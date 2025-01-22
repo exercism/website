@@ -24,7 +24,6 @@ export function execProjectTest(
 
   const context = {
     externalFunctions: exercise.availableFunctions,
-    language: 'JikiScript',
     languageFeatures: options.config.interpreterOptions,
   }
   let evaluated

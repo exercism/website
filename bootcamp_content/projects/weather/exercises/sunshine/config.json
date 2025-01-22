@@ -18,7 +18,7 @@
           "checks": [
             {
               "name": "getCircleAt(50, 50, 25)",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The sun isn't correct."
             }
           ]

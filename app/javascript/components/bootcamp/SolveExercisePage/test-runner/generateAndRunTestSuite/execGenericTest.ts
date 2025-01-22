@@ -12,9 +12,7 @@ export function execGenericTest(
 
   const evaluated = evaluateFunction(
     options.studentCode,
-    {
-      language: 'JikiScript',
-    },
+    {},
     testData.function,
     ...params
   )

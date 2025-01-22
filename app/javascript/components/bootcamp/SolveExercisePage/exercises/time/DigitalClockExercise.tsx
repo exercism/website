@@ -65,7 +65,6 @@ export default class DigitalClockExercise extends Exercise {
   }
 
   public getState() {
-    console.log(this.displayedTime)
     return { displayedTime: this.displayedTime }
   }
 

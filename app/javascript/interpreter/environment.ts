@@ -7,8 +7,11 @@ import { isString } from './checks'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()
+  public readonly id // Useful for debugging
 
-  constructor(private readonly enclosing: Environment | null = null) {}
+  constructor(private readonly enclosing: Environment | null = null) {
+    this.id = Math.random().toString(36).substring(7)
+  }
 
   public inScope(name: Token | string): boolean {
     const nameString = isString(name) ? name : name.lexeme
@@ -28,7 +31,12 @@ export class Environment {
 
   public get(name: Token): any {
     if (this.values.has(name.lexeme)) return this.values.get(name.lexeme)
-    if (this.enclosing !== null) return this.enclosing.get(name)
+
+    // Try the enclosing environment(s), but handle the error here so we can
+    // make use of the didYouMean function
+    try {
+      if (this.enclosing !== null) return this.enclosing.get(name)
+    } catch (e) {}
 
     const variableNames = Object.keys(this.variables())
     const functionNames = Object.keys(this.functions())
@@ -48,23 +56,16 @@ export class Environment {
     )
   }
 
-  public getAt(distance: number, name: string): any {
-    return this.ancestor(distance).values.get(name)
-  }
-
-  private ancestor(distance: number) {
-    let environment: Environment = this
-    for (let i = 0; i < distance; i++) environment = environment.enclosing!
-    return environment
-  }
-
-  public assign(name: Token, value: any): void {
+  public updateVariable(name: Token, value: any): void {
     if (this.values.has(name.lexeme)) {
       this.values.set(name.lexeme, value)
       return
     }
 
-    this.enclosing?.assign(name, value)
+    if (this.enclosing?.get(name)) {
+      this.enclosing?.updateVariable(name, value)
+      return
+    }
 
     throw new RuntimeError(
       translate('error.runtime.couldNotFindValueWithName', {
@@ -73,10 +74,6 @@ export class Environment {
       name.location,
       'CouldNotFindValueWithName'
     )
-  }
-
-  public assignAt(distance: number, name: Token, value: any): void {
-    this.ancestor(distance).values.set(name.lexeme, value)
   }
 
   public variables(): Record<string, any> {

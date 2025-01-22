@@ -20,12 +20,12 @@ import {
   DisabledLanguageFeatureError,
   type DisabledLanguageFeatureErrorType,
   SyntaxError,
-} from '../../error'
-import { type SyntaxErrorType } from './error'
+  SyntaxErrorType,
+} from './error'
 import type { Token, TokenType } from './token'
-import { Location } from '../../location'
-import type { LanguageFeatures } from '../../interpreter'
-import { translate } from '../../translator'
+import { Location } from './location'
+import type { LanguageFeatures } from './interpreter'
+import { translate } from './translator'
 
 export class Scanner {
   private tokens: Token[] = []

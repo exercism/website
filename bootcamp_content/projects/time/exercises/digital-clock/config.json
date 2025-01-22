@@ -113,7 +113,7 @@
           "checks": [
             {
               "name": "displayedTime",
-              "matcher": "toExist",
+              "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {

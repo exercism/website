@@ -16,6 +16,7 @@ export const BadgeModal = ({
 }): JSX.Element => {
   const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
+  console.log(badge)
   return (
     <Modal
       {...props}

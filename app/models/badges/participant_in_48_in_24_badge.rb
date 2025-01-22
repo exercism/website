@@ -2,7 +2,7 @@ module Badges
   class ParticipantIn48In24Badge < Badge
     seed "#48in24 Participant",
       :common,
-      '48_in_24',
+      '48in24-participant',
       'Participated in the #48in24 challenge and achieved a medal'
 
     def award_to?(user)

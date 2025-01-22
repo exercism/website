@@ -91,6 +91,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
       transform_values { |entries| entries.map { |entry| entry[1..] } }
   end
 
+  memoize
   def csharp_exercises
     Track.find('csharp').practice_exercises.index_by(&:slug)
   rescue ActiveRecord::RecordNotFound

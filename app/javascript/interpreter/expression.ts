@@ -30,7 +30,7 @@ export abstract class Expression {
 
 export class CallExpression extends Expression {
   constructor(
-    public callee: Expression,
+    public callee: VariableExpression,
     public paren: Token,
     public args: Expression[],
     public location: Location

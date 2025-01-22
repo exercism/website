@@ -1,24 +1,19 @@
+import {
+  EvaluationResult,
+  EvaluationResultChangeVariableStatement,
+  EvaluationResultSetVariableStatement,
+} from './evaluation-result'
 import { Expression } from './expression'
 import { Location } from './location'
 import type { Token } from './token'
 
-export interface StatementVisitor<T> {
-  visitExpressionStatement(statement: ExpressionStatement): T
-  visitVariableStatement(statement: VariableStatement): T
-  visitConstantStatement(statement: ConstantStatement): T
-  visitIfStatement(statement: IfStatement): T
-  visitRepeatStatement(statement: RepeatStatement): T
-  visitRepeatUntilGameOverStatement(statement: RepeatUntilGameOverStatement): T
-  visitBlockStatement(statement: BlockStatement): T
-  visitFunctionStatement(statement: FunctionStatement): T
-  visitReturnStatement(statement: ReturnStatement): T
-  visitForeachStatement(statement: ForeachStatement): T
-  visitWhileStatement(statement: WhileStatement): T
-  visitDoWhileStatement(statement: DoWhileStatement): T
+function quoteLiteral(value: any): string {
+  if (typeof value === 'string') {
+    return `"${value}"`
+  }
+  return value
 }
-
 export abstract class Statement {
-  abstract accept<T>(visitor: StatementVisitor<T>): T
   abstract location: Location
 }
 
@@ -26,13 +21,9 @@ export class ExpressionStatement extends Statement {
   constructor(public expression: Expression, public location: Location) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitExpressionStatement(this)
-  }
 }
 
-export class VariableStatement extends Statement {
+export class SetVariableStatement extends Statement {
   constructor(
     public name: Token,
     public initializer: Expression,
@@ -41,8 +32,31 @@ export class VariableStatement extends Statement {
     super()
   }
 
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitVariableStatement(this)
+  public description(result: EvaluationResultSetVariableStatement) {
+    return `<p>This created a new variable called <code>${
+      result.name
+    }</code> and sets its value to <code>${quoteLiteral(
+      result.value
+    )}</code>.</p>`
+  }
+}
+
+export class ChangeVariableStatement extends Statement {
+  constructor(
+    public name: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super()
+  }
+
+  public description(result: EvaluationResultChangeVariableStatement) {
+    let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
+    output += `<pre><code>${quoteLiteral(result.oldValue)}</code></pre>`
+    output += `<p>to...</p><pre><code>${quoteLiteral(
+      result.newValue.value
+    )}</code></pre>`
+    return output
   }
 }
 
@@ -53,10 +67,6 @@ export class ConstantStatement extends Statement {
     public location: Location
   ) {
     super()
-  }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitConstantStatement(this)
   }
 }
 
@@ -69,10 +79,6 @@ export class IfStatement extends Statement {
   ) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitIfStatement(this)
-  }
 }
 
 export class RepeatStatement extends Statement {
@@ -83,19 +89,11 @@ export class RepeatStatement extends Statement {
   ) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitRepeatStatement(this)
-  }
 }
 
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(public body: Statement[], public location: Location) {
     super()
-  }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitRepeatUntilGameOverStatement(this)
   }
 }
 
@@ -107,10 +105,6 @@ export class WhileStatement extends Statement {
   ) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitWhileStatement(this)
-  }
 }
 
 export class DoWhileStatement extends Statement {
@@ -121,19 +115,11 @@ export class DoWhileStatement extends Statement {
   ) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitDoWhileStatement(this)
-  }
 }
 
 export class BlockStatement extends Statement {
   constructor(public statements: Statement[], public location: Location) {
     super()
-  }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitBlockStatement(this)
   }
 }
 
@@ -150,10 +136,6 @@ export class FunctionStatement extends Statement {
   ) {
     super()
   }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitFunctionStatement(this)
-  }
 }
 
 export class ReturnStatement extends Statement {
@@ -163,10 +145,6 @@ export class ReturnStatement extends Statement {
     public location: Location
   ) {
     super()
-  }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitReturnStatement(this)
   }
 }
 
@@ -178,9 +156,5 @@ export class ForeachStatement extends Statement {
     public location: Location
   ) {
     super()
-  }
-
-  public accept<T>(visitor: StatementVisitor<T>): T {
-    return visitor.visitForeachStatement(this)
   }
 }

@@ -90,7 +90,7 @@ export class InformationWidget extends WidgetType {
     if (!this.tooltip) return
     this.arrowElement = document.createElement('div')
     this.arrowElement.classList.add('tooltip-arrow')
-    this.tooltip.appendChild(this.arrowElement)
+    this.tooltip.prepend(this.arrowElement)
   }
 
   // @ts-ignore

@@ -8,7 +8,6 @@
       "MissingBacktickToTerminateTemplateLiteral": "Missing backtick ('`') to terminate template literal.",
       "MissingConditionAfterIf": "Did you forget to add a condition to your if statement?",
       "MissingCommaBetweenParameters": "Did you forget to add a command after the `{{parameter}}` parameter?",
-      "MissingColonAfterThenBranchOfTernaryOperator": "Expect ':' after then branch of ternary operator.",
       "MissingConstantName": "Expect constant name.",
       "MissingDoToStartBlock": "Are you missing a `do` to start the {{type}} body?",
       "MissingDoubleQuoteToStartString": "Did you forget the start quote for the \"{{string}}\" string?",

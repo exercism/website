@@ -10,6 +10,7 @@
       "MissingLeftParenthesisAfterFunctionCall": "Ben je het beginnende haakje vergeten om de {{function}} functie aan te roepen?",
       "ExceededMaximumNumberOfParameters": "Een function kan niet meer dan 255 parameters hebben.",
       "InvalidAssignmentTarget": "Ongeldige toewijzingsdoel.",
+      "MissingColonAfterThenBranchOfTernaryOperator": "Ontbrekende ':' na de then branch van de ternaire operator.",
       "MissingFieldNameOrIndexAfterLeftBracket": "Ontbrekende veld naam of index na '['.",
       "MissingRightBracketAfterFieldNameOrIndex": "Ontbrekende ']' na veld naam of index",
       "MissingRightParenthesisAfterExpression": "Ontbrekende ')' na expressie.",

@@ -2,6 +2,7 @@ import { SyntaxError } from './error'
 import { type SyntaxErrorType } from './error'
 import {
   ArrayExpression,
+  AssignExpression,
   BinaryExpression,
   CallExpression,
   Expression,
@@ -31,9 +32,8 @@ import {
   RepeatUntilGameOverStatement,
   ReturnStatement,
   Statement,
-  SetVariableStatement,
+  VariableStatement,
   WhileStatement,
-  ChangeVariableStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -157,8 +157,8 @@ export class Parser {
   }
 
   private statement(): Statement {
-    if (this.match('SET')) return this.setVariableStatement()
-    if (this.match('CHANGE')) return this.changeVariableStatement()
+    if (this.match('SET')) return this.setStatement()
+    if (this.match('CHANGE')) return this.changeStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
@@ -176,63 +176,99 @@ export class Parser {
     return this.expressionStatement()
   }
 
-  private setupVariableStatement(): Statement {
+  private setStatement(): Statement {
     const setToken = this.previous()
+    if (this.peek(2).type == 'LEFT_BRACKET') {
+      const assignment = this.assignment()
+      this.consumeEndOfLine()
 
-    let name
-    try {
-      name = this.consume('IDENTIFIER', 'MissingVariableName')
-    } catch (e) {
-      const nameLexeme = this.peek().lexeme
-      if (nameLexeme.match(/[0-9]/)) {
-        this.error('InvalidNumericVariableName', this.peek().location, {
-          name: nameLexeme,
-        })
-      } else {
-        throw e
+      return new ExpressionStatement(
+        assignment,
+        Location.between(setToken, assignment)
+      )
+    } else {
+      let name
+      try {
+        name = this.consume('IDENTIFIER', 'MissingVariableName')
+      } catch (e) {
+        const nameLexeme = this.peek().lexeme
+        if (nameLexeme.match(/[0-9]/)) {
+          this.error('InvalidNumericVariableName', this.peek().location, {
+            name: nameLexeme,
+          })
+        } else {
+          throw e
+        }
       }
-    }
 
-    if (
-      (this.peek().type == 'IDENTIFIER' || this.peek().type == 'STRING') &&
-      this.peek(2).type == 'TO'
-    ) {
-      const errorLocation = Location.between(this.previous(), this.peek())
-      this.error('UnexpectedSpaceInIdentifier', errorLocation, {
-        first_half: name.lexeme,
-        second_half: this.peek().lexeme,
+      if (
+        (this.peek().type == 'IDENTIFIER' || this.peek().type == 'STRING') &&
+        this.peek(2).type == 'TO'
+      ) {
+        const errorLocation = Location.between(this.previous(), this.peek())
+        this.error('UnexpectedSpaceInIdentifier', errorLocation, {
+          first_half: name.lexeme,
+          second_half: this.peek().lexeme,
+        })
+      }
+
+      // Guard mistaken equals sign for assignment
+      this.guardEqualsSignForAssignment(this.peek())
+
+      this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+        name: name.lexeme,
       })
+
+      const initializer = this.expression()
+      this.consumeEndOfLine()
+
+      return new VariableStatement(
+        name,
+        initializer,
+        Location.between(setToken, initializer)
+      )
     }
+  }
+  private changeStatement(): Statement {
+    const setToken = this.previous()
+    // if (this.peek(2).type == 'LEFT_BRACKET') {
+    //   const assignment = this.assignment()
+    //   this.consumeEndOfLine()
 
-    // Guard mistaken equals sign for assignment
-    this.guardEqualsSignForAssignment(this.peek())
+    //   return new ExpressionStatement(
+    //     assignment,
+    //     Location.between(setToken, assignment)
+    //   )
+    // } else {
+    const name = this.consume('IDENTIFIER', 'MissingVariableName')
 
-    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
-      name: name.lexeme,
-    })
+    const token = this.consume(
+      'TO',
+      'MissingToAfterVariableNameToInitializeValue',
+      {
+        name,
+      }
+    )
 
     const initializer = this.expression()
     this.consumeEndOfLine()
 
-    return [name, initializer, setToken]
-  }
-
-  private setVariableStatement(): Statement {
-    const [name, initializer, setToken] = this.setupVariableStatement()
-    return new SetVariableStatement(
-      name,
-      initializer,
+    // return new VariableStatement(
+    //   name,
+    //   initializer,
+    //   Location.between(setToken, initializer)
+    // )
+    return new ExpressionStatement(
+      new AssignExpression(
+        name,
+        token,
+        initializer,
+        true,
+        Location.between(setToken, initializer)
+      ),
       Location.between(setToken, initializer)
     )
-  }
-
-  private changeVariableStatement(): Statement {
-    const [name, initializer, changeToken] = this.setupVariableStatement()
-    return new ChangeVariableStatement(
-      name,
-      initializer,
-      Location.between(changeToken, initializer)
-    )
+    // }
   }
 
   private ifStatement(): Statement {
@@ -433,7 +469,7 @@ export class Parser {
       const value = this.assignment()
 
       if (expr instanceof VariableExpression) {
-        return new ChangeVariableStatement(
+        return new AssignExpression(
           expr.name,
           operator,
           value,
@@ -498,7 +534,7 @@ export class Parser {
   private equality(): Expression {
     let expr = this.comparison()
 
-    while (this.match('EQUALITY')) {
+    while (this.match('STRICT_EQUALITY')) {
       let operator = this.previous()
       const right = this.comparison()
       expr = new BinaryExpression(
@@ -523,8 +559,8 @@ export class Parser {
         'GREATER_EQUAL',
         'LESS',
         'LESS_EQUAL',
-        'EQUALITY',
-        'INEQUALITY'
+        'STRICT_EQUALITY',
+        'STRICT_INEQUALITY'
       )
     ) {
       const operator = this.previous()

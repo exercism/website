@@ -59,8 +59,8 @@ export type TokenType =
   | 'WITH'
 
   // Grouping tokens
-  | 'EQUALITY'
-  | 'INEQUALITY'
+  | 'STRICT_EQUALITY'
+  | 'STRICT_INEQUALITY'
 
   // Invisible tokens
   | 'EOL' // End of statement

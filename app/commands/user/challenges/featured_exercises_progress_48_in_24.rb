@@ -73,7 +73,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     completed_exercises = completions[exercise[:slug]].to_a
     return :in_progress if completed_exercises.blank?
 
-    num_completions_in_2024 = completed_exercises.count { |(_, year)| year == 2024 }
+    num_completions_in_2024 = completed_exercises.count { |(_, date)| date >= '2023-12-31' && date <= '2025-01-01' }
     return :in_progress if num_completions_in_2024.zero?
     return :bronze if num_completions_in_2024 < 3
 
@@ -86,11 +86,12 @@ class User::Challenges::FeaturedExercisesProgress48In24
     user.solutions.completed.
       joins(exercise: :track).
       where(exercise: { slug: EXERCISES.pluck(:slug) }).
-      pluck('exercise.slug', 'tracks.slug', 'YEAR(completed_at)').
+      pluck('exercise.slug', 'tracks.slug', Arel.sql("DATE_FORMAT(completed_at, '%Y-%m-%d')")).
       group_by(&:first).
       transform_values { |entries| entries.map { |entry| entry[1..] } }
   end
 
+  memoize
   def csharp_exercises
     Track.find('csharp').practice_exercises.index_by(&:slug)
   rescue ActiveRecord::RecordNotFound

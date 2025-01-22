@@ -11,6 +11,7 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
+import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExercisePageContextWrapper'
 
 export default function DrawingPage({
   drawing,
@@ -27,9 +28,8 @@ export default function DrawingPage({
   } = useResizablePanels({
     initialSize: 800,
     direction: 'horizontal',
-    localStorageId: 'drawing-page-lhs',
+    localStorageId: 'solve-exercise-page-lhs',
   })
-
   const {
     handleRunCode,
     handleEditorDidMount,
@@ -62,35 +62,41 @@ export default function DrawingPage({
   }, [setEditorLocalStorageValue])
 
   return (
-    <div id="bootcamp-solve-exercise-page">
-      <Header
-        links={links}
-        backgrounds={backgrounds}
-        savingStateLabel={savingStateLabel}
-        drawing={drawing}
-        setBackgroundImage={setBackgroundImage}
-      />
-      <div className="page-body">
-        <div style={{ width: LHSWidth }} className="page-body-lhs">
-          <ErrorBoundary>
-            <CodeMirror
-              style={{ height: `100%` }}
-              ref={editorViewRef}
-              editorDidMount={handleEditorDidMount}
-              handleRunCode={handleRunCode}
-              setEditorLocalStorageValue={setEditorLocalStorageValue}
-              onEditorChangeCallback={patchCodeOnDebounce}
-            />
-            <Scrubber animationTimeline={animationTimeline} frames={frames} />
-          </ErrorBoundary>
-        </div>
-        <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-        {/* RHS */}
-        <div className="page-body-rhs" style={{ width: RHSWidth }}>
-          <div ref={viewContainerRef} id="view-container" />
+    <SolveExercisePageContextWrapper
+      value={{
+        editorView: editorViewRef.current,
+      }}
+    >
+      <div id="bootcamp-solve-exercise-page">
+        <Header
+          links={links}
+          backgrounds={backgrounds}
+          savingStateLabel={savingStateLabel}
+          drawing={drawing}
+          setBackgroundImage={setBackgroundImage}
+        />
+        <div className="page-body">
+          <div style={{ width: LHSWidth }} className="page-body-lhs">
+            <ErrorBoundary>
+              <CodeMirror
+                style={{ height: `100%` }}
+                ref={editorViewRef}
+                editorDidMount={handleEditorDidMount}
+                handleRunCode={handleRunCode}
+                setEditorLocalStorageValue={setEditorLocalStorageValue}
+                onEditorChangeCallback={patchCodeOnDebounce}
+              />
+              <Scrubber animationTimeline={animationTimeline} frames={frames} />
+            </ErrorBoundary>
+          </div>
+          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+          {/* RHS */}
+          <div className="page-body-rhs" style={{ width: RHSWidth }}>
+            <div ref={viewContainerRef} id="view-container" />
+          </div>
         </div>
       </div>
-    </div>
+    </SolveExercisePageContextWrapper>
   )
 }
 

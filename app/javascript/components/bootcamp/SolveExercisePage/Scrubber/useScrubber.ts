@@ -140,7 +140,7 @@ export function useScrubber({
         scrollToLine(editorView, highlightedLine)
       }
     },
-    [setValue, setInformationWidgetData]
+    [setValue, setInformationWidgetData, editorView]
   )
 
   const handleMouseDown = useCallback(

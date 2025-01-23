@@ -15,6 +15,7 @@ import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExerciseP
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Icon } from '@/components/common'
+import { StaticTooltip } from '../SolveExercisePage/Scrubber/ScrubberTooltipInformation'
 
 export default function DrawingPage({
   drawing,
@@ -115,7 +116,8 @@ export default function DrawingPage({
                   <button
                     className={assembleClassNames(
                       'autorun-segment',
-                      shouldAutoRunCode ? 'on' : 'off'
+                      shouldAutoRunCode ? 'on' : 'off',
+                      'relative group'
                     )}
                     onClick={() => handleToggleAutoRun(shouldAutoRunCode)}
                   >
@@ -124,6 +126,13 @@ export default function DrawingPage({
                       icon="autorun"
                       category="bootcamp"
                       className="w-[20px] h-[20px]"
+                    />
+                    <StaticTooltip
+                      text={
+                        shouldAutoRunCode
+                          ? 'Autorun is on. Click to turn off.'
+                          : 'Autorun is off. Click to turn on.'
+                      }
                     />
                   </button>
                 </div>

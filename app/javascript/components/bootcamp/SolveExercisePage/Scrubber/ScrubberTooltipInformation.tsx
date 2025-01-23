@@ -24,10 +24,10 @@ export function TooltipInformation({
   }
 }
 
-function StaticTooltip({ text }: { text: string }) {
+export function StaticTooltip({ text }: { text: string }) {
   return (
     <div
-      className="absolute left-1/2 -top-10 py-4 px-8 -translate-x-1/2 -translate-y-[100%] hidden group-hover:block bg-gray-800 text-[#fafaff] text-sm rounded shadow-lg"
+      className="absolute left-1/2 -top-10 py-6 px-10 -translate-x-1/2 -translate-y-[100%] hidden group-hover:block bg-[#333] text-[#E1EBFF] text-sm rounded shadow-lg rounded-5"
       role="tooltip"
     >
       {text}

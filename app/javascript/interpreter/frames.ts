@@ -52,9 +52,6 @@ export function describeFrame(
   externalFunctions: ExternalFunction[]
 ): string {
   try {
-    console.log(process.env.NODE_ENV)
-  } catch {}
-  try {
     // These need to come from the exercise.
     const functionDescriptions: Record<string, string> =
       externalFunctions.reduce(

@@ -13,6 +13,7 @@
           "slug": "scroll-and-shoot",
           "name": "Scroll and Shoot",
           "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [["enableReanimation"]],
           "checks": [
             {
               "name": "gameStatus",

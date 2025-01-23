@@ -72,9 +72,12 @@ describe('CallExpression', () => {
         [],
         location
       )
-      const actual = expr.description()
+      const result = {
+        value: 'Jeremy',
+      }
+      const actual = expr.description(result)
       expect(actual).toBe(
-        'the return of using the <code>getName()</code> function'
+        '<code>getName()</code> (which returned <code>"Jeremy"</code>)'
       )
     })
   })

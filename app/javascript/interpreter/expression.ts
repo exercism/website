@@ -46,9 +46,15 @@ export class CallExpression extends Expression {
     super('CallExpression')
   }
 
-  public description(result: EvaluationResultCallExpression): string {
+  public description(
+    result: Partial<'value' | EvaluationResultCallExpression>
+  ): string {
     const argsDescription = '()'
-    return `<code>${this.callee.name.lexeme}${argsDescription}</code> (which returned <code>${result.value}</code>)`
+    return `<code>${
+      this.callee.name.lexeme
+    }${argsDescription}</code> (which returned <code>${quoteLiteral(
+      result.value
+    )}</code>)`
   }
 }
 

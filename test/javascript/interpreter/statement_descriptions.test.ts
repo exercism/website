@@ -134,7 +134,7 @@ describe('IfStatement', () => {
       console.log(frames[0])
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
-        `<p>This checked whether <code>get_true()</code> (which returned <code>false</code>) was equal to <code>get_false()</code> (which returned <code>false</code>)</p>\n<p>The result was <code>false</code>.</p>`
+        `<p>This checked whether <code>get_true()</code> (which returned <code>true</code>) was equal to <code>get_false()</code> (which returned <code>false</code>)</p>\n<p>The result was <code>false</code>.</p>`
       )
     })
     test('function vs function with and', () => {

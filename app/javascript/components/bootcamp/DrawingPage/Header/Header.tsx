@@ -18,10 +18,12 @@ function _Header({
   setBackgroundImage: ((imageUrl: string | null) => void) | null
 } & Pick<DrawingPageProps, 'links' | 'drawing' | 'backgrounds'>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
+  const [prevTitleInputValue, setPrevTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
   const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
     DEFAULT_SAVE_BUTTON_LABEL
   )
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleSaveTitle = useCallback(() => {
     setTitleSavingStateLabel('Saving...')
@@ -42,6 +44,22 @@ function _Header({
     },
     [setBackgroundImage]
   )
+
+  const handleSwitchToEditMode = useCallback(() => {
+    setEditMode(true)
+    setPrevTitleInputValue(titleInputValue)
+  }, [titleInputValue])
+
+  const handleCancelEditMode = useCallback(() => {
+    setTitleInputValue(prevTitleInputValue)
+    setEditMode(false)
+  }, [prevTitleInputValue])
+
+  useEffect(() => {
+    if (editMode) {
+      inputRef.current?.focus()
+    }
+  }, [editMode])
 
   // setup the background on mount
   useEffect(() => {
@@ -95,6 +113,7 @@ function _Header({
             <>
               <input
                 value={titleInputValue}
+                ref={inputRef}
                 onChange={(e) => {
                   setTitleInputValue(e.target.value)
                   setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
@@ -107,7 +126,7 @@ function _Header({
               </button>
               <button
                 className="btn-secondary btn-xxs"
-                onClick={() => setEditMode(false)}
+                onClick={handleCancelEditMode}
               >
                 Cancel
               </button>

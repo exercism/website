@@ -86,7 +86,8 @@
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
-      "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}"
+      "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
+      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

@@ -204,7 +204,6 @@ export default class SpaceInvadersExercise extends Exercise {
   }
 
   public shoot(executionCtx: ExecutionContext) {
-    console.log(this.lastShotAt, executionCtx.getCurrentTime())
     if (this.lastShotAt > executionCtx.getCurrentTime() - 50) {
       executionCtx.logicError(
         'Oh no! Your laser canon overheated from shooting too fast! You need to move before you can shoot a second time.'

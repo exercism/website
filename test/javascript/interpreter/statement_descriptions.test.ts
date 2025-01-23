@@ -149,7 +149,7 @@ describe('IfStatement', () => {
       console.log(frames[0])
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
-        `<p>This checked whether both of these were true:</p><ul><li><code>get_true()</code> (which returned <code>true</code>) was equal to <code>get_true()</code> (which returned <code>true</code>)</li><li><code>get_false()</code> (which returned <code>true</code>) was equal to <code>get_false()</code> (which returned <code>true</code>)</li></ul><p></p>\n<p>The result was <code>true</code>.</p>`
+        `<p>This checked whether both of these were true:</p><ul><li><code>get_true()</code> (which returned <code>true</code>) was equal to <code>get_true()</code> (which returned <code>true</code>)</li><li><code>get_false()</code> (which returned <code>false</code>) was equal to <code>get_false()</code> (which returned <code>false</code>)</li></ul><p></p>\n<p>The result was <code>true</code>.</p>`
       )
     })
   })

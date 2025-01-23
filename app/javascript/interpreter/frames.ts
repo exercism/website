@@ -5,6 +5,7 @@ export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type {
   EvaluationResult,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultIfStatement,
 } from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
@@ -133,7 +134,6 @@ function describeExpression(expression: Expression, result: EvaluationResult) {
   }
   if (expression instanceof GroupingExpression) {
     return describeGroupingExpression(expression, result)
-    e
   }
   if (expression instanceof BinaryExpression) {
     return describeBinaryExpression(expression, result)
@@ -169,25 +169,22 @@ function describeBinaryExpression(
   expression: BinaryExpression,
   result: EvaluationResult
 ): string {
-  if (expression instanceof BinaryExpression) {
-    const left = describeExpression(expression.left, result)
-    const right = describeExpression(expression.right, result)
-    const operator = describeOperator(expression.operator.type)
-    if (isEqualityOperator(expression.operator.type)) {
-      return `${left} was ${operator} ${right}`
-    } else {
-      return `${left} ${operator} ${right}`
-    }
+  const left = describeExpression(expression.left, result.left)
+  const right = describeExpression(expression.right, result.right)
+  const operator = describeOperator(expression.operator.type)
+  if (isEqualityOperator(expression.operator.type)) {
+    return `${left} was ${operator} ${right}`
+  } else {
+    return `${left} ${operator} ${right}`
   }
-  return ''
 }
 
 function describeLogicalExpression(
   expression: LogicalExpression,
   result: EvaluationResult
 ): string {
-  const left = describeExpression(expression.left, result)
-  const right = describeExpression(expression.right, result)
+  const left = describeExpression(expression.left, result.left)
+  const right = describeExpression(expression.right, result.right)
 
   if (expression.operator.type == 'AND') {
     return `both of these were true:</p><ul><li>${left}</li><li>${right}</li></ul><p>`
@@ -205,9 +202,9 @@ function describeGroupingExpression(
 
 function describeCondition(
   expression: Expression,
-  result: EvaluationResult
+  result: EvaluationResultIfStatement
 ): string {
-  return describeExpression(expression, result)
+  return describeExpression(expression, result.condition)
 }
 
 function describeIfStatement(frame: FrameWithResult) {

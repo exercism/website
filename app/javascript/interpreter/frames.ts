@@ -51,33 +51,38 @@ export function describeFrame(
   frame: Frame,
   externalFunctions: ExternalFunction[]
 ): string {
-  // These need to come from the exercise.
-  const functionDescriptions: Record<string, string> = externalFunctions.reduce(
-    (acc: Record<string, string>, fn: ExternalFunction) => {
-      acc[fn.name] = fn.description
-      return acc
-    },
-    {}
-  )
+  try {
+    // These need to come from the exercise.
+    const functionDescriptions: Record<string, string> =
+      externalFunctions.reduce(
+        (acc: Record<string, string>, fn: ExternalFunction) => {
+          acc[fn.name] = fn.description
+          return acc
+        },
+        {}
+      )
 
-  if (!isFrameWithResult(frame)) {
-    return '<p>There is no information available for this line.</p>'
-  }
-  switch (frame.result.type) {
-    case 'SetVariableStatement':
-      return describeSetVariableStatement(frame)
-    case 'ForeachStatement':
-      return describeForeachStatement(frame)
-    case 'ChangeVariableStatement':
-      return describeChangeVariableStatement(frame)
-    case 'IfStatement':
-      return describeIfStatement(frame)
-    case 'ReturnStatement':
-      return describeReturnStatement(frame)
-    case 'CallExpression':
-      return describeCallExpression(frame, functionDescriptions)
-    default:
-      return `<p>There is no information available for this line.</p>`
+    if (!isFrameWithResult(frame)) {
+      return '<p>There is no information available for this line.</p>'
+    }
+    switch (frame.result.type) {
+      case 'SetVariableStatement':
+        return describeSetVariableStatement(frame)
+      case 'ForeachStatement':
+        return describeForeachStatement(frame)
+      case 'ChangeVariableStatement':
+        return describeChangeVariableStatement(frame)
+      case 'IfStatement':
+        return describeIfStatement(frame)
+      case 'ReturnStatement':
+        return describeReturnStatement(frame)
+      case 'CallExpression':
+        return describeCallExpression(frame, functionDescriptions)
+      default:
+        return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+    }
+  } catch (e) {
+    return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
   }
 }
 

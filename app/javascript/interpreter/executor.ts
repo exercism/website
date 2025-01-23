@@ -920,9 +920,25 @@ export class Executor {
   }
 
   private verifyNumberOperands(operator: Token, left: any, right: any): void {
-    if (isNumber(left) && isNumber(right)) return
+    const leftIsNumber = isNumber(left)
+    const rightIsNumber = isNumber(right)
+    if (leftIsNumber && rightIsNumber) {
+      return
+    }
 
-    this.error('OperandsMustBeNumbers', operator.location, { left, right })
+    const side = leftIsNumber ? 'right' : 'left'
+    let value = leftIsNumber ? right : left
+    if (isCallable(value)) {
+      value = `a function`
+    } else if (typeof value == 'string') {
+      value = `\`"${value}"\``
+    }
+
+    this.error('OperandsMustBeNumbers', operator.location, {
+      operator: operator.lexeme,
+      side,
+      value,
+    })
   }
 
   private verifyBooleanOperand(operand: any, location: Location): void {

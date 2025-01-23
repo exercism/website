@@ -268,7 +268,7 @@ describe('statements', () => {
       expect(frames[3].variables).toMatchObject({ pos: 25 })
     })
   })
-  describe('function', () => {
+  describe('creating function', () => {
     describe('without parameters', () => {
       test('define', () => {
         const { frames } = interpret(`

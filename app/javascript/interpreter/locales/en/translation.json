@@ -82,7 +82,7 @@
       "NonCallableTarget": "Can only call functions.",
       "OperandMustBeBoolean": "Operand must be a boolean.",
       "OperandMustBeNumber": "Operand must be a number.",
-      "OperandsMustBeNumber": "Operands must be numbers.",
+      "OperandsMustBeNumbers": "Both sides of the `{{operator}}` must be numbers. The {{side}} side is not a number - it is {{value}}.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
       "RepeatCountMustBeGreaterThanZero": "You must repeat things at least once.",
       "RepeatCountMustBeLessThanOneThousand": "The most times you can repeat things is 1000.",

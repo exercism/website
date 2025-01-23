@@ -81,7 +81,7 @@
       "NonCallableTarget": "NonCallableTarget",
       "OperandMustBeBoolean": "OperandMustBeBoolean",
       "OperandMustBeNumber": "OperandMustBeNumber",
-      "OperandsMustBeNumber": "OperandsMustBeNumber",
+      "OperandsMustBeNumbers": "OperandsMustBeNumbers: operator: {{operator}}, side: {{side}}, value: {{value}}",
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",

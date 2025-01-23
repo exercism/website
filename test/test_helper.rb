@@ -129,16 +129,16 @@ else
 end
 
 # Setup our indexes once (we'll keep them clear in teardowns)
-opensearch = Exercism.opensearch_client
-[
-  Document::OPENSEARCH_INDEX,
-  Solution::OPENSEARCH_INDEX,
-  Exercise::Representation::OPENSEARCH_INDEX
-].map do |index|
-  opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
-  opensearch.indices.create(index:)
-end
-Exercism::TOUCHED_OPENSEARCH_INDEXES = [] # rubocop:disable Style/MutableConstant
+# opensearch = Exercism.opensearch_client
+# [
+#   Document::OPENSEARCH_INDEX,
+#   Solution::OPENSEARCH_INDEX,
+#   Exercise::Representation::OPENSEARCH_INDEX
+# ].map do |index|
+#   opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
+#   opensearch.indices.create(index:)
+# end
+# Exercism::TOUCHED_OPENSEARCH_INDEXES = []
 
 class ActionMailer::TestCase
   def assert_email(email, to, subject, fixture, bulk: false) # rubocop:disable Lint/UnusedMethodArgument
@@ -170,6 +170,7 @@ class ActiveSupport::TestCase
   setup do
     reset_redis!
     reset_rack_attack!
+    stub_opensearch!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -181,7 +182,7 @@ class ActiveSupport::TestCase
   end
 
   teardown do
-    reset_opensearch!
+    unstub_opensearch!
 
     Bullet.perform_out_of_channel_notifications if Bullet.notification?
     Bullet.end_request
@@ -306,18 +307,13 @@ class ActiveSupport::TestCase
   ######################
   # OpenSearch Helpers #
   ######################
-  def reset_opensearch!
-    return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
+  def stub_opensearch!
+    opensearch_client = Exercism.opensearch_client
+    Exercism.define_method(:opensearch_client) { opensearch_client }
+  end
 
-    OpenSearch::Client.unstub(:new)
+  def unstub_opensearch!
     Exercism.unstub(:opensearch_client)
-    opensearch = Exercism.opensearch_client
-
-    Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|
-      opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
-      opensearch.indices.create(index:)
-    end
-    Exercism::TOUCHED_OPENSEARCH_INDEXES.clear
   end
 
   def get_opensearch_doc(index, id)

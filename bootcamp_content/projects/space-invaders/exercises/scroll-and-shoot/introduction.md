@@ -8,6 +8,9 @@ You can move the laser left and right using the `move_left()` and `move_right()`
 
 As you move, you need to check whether there's an alien above you using the `is_alien_above()` function and then `shoot()` it if so. If you shoot when there's not an alien, you'll lose the game - wasting ammo is not allowed!
 
+The laser canon easily overheats.
+You need to move between shoots to keep it cool.
+
 Once all the aliens have been shot down, you win!
 
 ### Reference

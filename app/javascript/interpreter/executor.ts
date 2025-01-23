@@ -728,7 +728,7 @@ export class Executor {
           rightResult.value
         )
 
-        const plusValue = leftResult.value - rightResult.value
+        const plusValue = leftResult.value + rightResult.value
         const plusValue2DP = Math.round(plusValue * 100) / 100
 
         return {

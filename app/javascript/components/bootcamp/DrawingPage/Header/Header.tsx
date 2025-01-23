@@ -77,8 +77,8 @@ function _Header({
             )
             handleBackgroundChange(selectedBackground)
           }}
-          value={drawing.backgroundSlug}
           className="bg-backgroundColorD rounded-5 py-4 px-8 font-medium"
+          defaultValue={drawing.backgroundSlug}
         >
           {backgrounds.map((background) => (
             <option

@@ -14,6 +14,7 @@ import { useSetupDrawingPage } from './useSetupDrawingPage'
 import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { Icon } from '@/components/common'
 
 export default function DrawingPage({
   drawing,
@@ -101,17 +102,29 @@ export default function DrawingPage({
               />
 
               <div className="flex items-center w-full">
-                <div className="btn-s flex items-center">
+                <div className="autorun-button">
+                  <button
+                    onClick={handleRunCode}
+                    className={assembleClassNames(
+                      'primary-segment',
+                      shouldAutoRunCode ? 'disabled' : ''
+                    )}
+                  >
+                    Run Code
+                  </button>
                   <button
                     className={assembleClassNames(
-                      shouldAutoRunCode ? 'text-textColor1' : 'text-gray'
+                      'autorun-segment',
+                      shouldAutoRunCode ? 'on' : 'off'
                     )}
                     onClick={() => handleToggleAutoRun(shouldAutoRunCode)}
                   >
-                    AUTO
-                  </button>
-                  <button className="text-textColor1" onClick={handleRunCode}>
-                    RUN
+                    <Icon
+                      alt="Autorun"
+                      icon="autorun"
+                      category="bootcamp"
+                      className="w-[20px] h-[20px]"
+                    />
                   </button>
                 </div>
                 <Scrubber

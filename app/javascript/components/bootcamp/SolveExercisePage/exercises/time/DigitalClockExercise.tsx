@@ -78,8 +78,13 @@ export default class DigitalClockExercise extends Exercise {
       return false
     }
 
+    let normalisedHours = this.hours
     const ampm = this.hours >= 12 ? 'pm' : 'am'
-    const normalisedHours = this.hours > 12 ? this.hours - 12 : this.hours
+    if (this.hours == 0) {
+      normalisedHours = 12
+    } else if (this.hours > 12) {
+      normalisedHours = this.hours - 12
+    }
 
     return this.displayedTime == `${normalisedHours}:${this.minutes}${ampm}`
   }

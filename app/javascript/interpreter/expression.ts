@@ -1,7 +1,10 @@
 import type { Token } from './token'
 import { Location } from './location'
 import { FrameWithResult } from './frames'
-import { EvaluationResult } from './evaluation-result'
+import {
+  EvaluationResult,
+  EvaluationResultCallExpression,
+} from './evaluation-result'
 
 function quoteLiteral(value: any): string {
   if (typeof value === 'string') {
@@ -41,6 +44,17 @@ export class CallExpression extends Expression {
     public location: Location
   ) {
     super('CallExpression')
+  }
+
+  public description(
+    result: Partial<'value' | EvaluationResultCallExpression>
+  ): string {
+    const argsDescription = '()'
+    return `<code>${
+      this.callee.name.lexeme
+    }${argsDescription}</code> (which returned <code>${quoteLiteral(
+      result.value
+    )}</code>)`
   }
 }
 

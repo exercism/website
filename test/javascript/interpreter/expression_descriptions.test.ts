@@ -1,12 +1,32 @@
 import { interpret } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
-import { LiteralExpression, VariableExpression } from '@/interpreter/expression'
+import {
+  CallExpression,
+  LiteralExpression,
+  VariableExpression,
+} from '@/interpreter/expression'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
 import { type Token, TokenType } from '@/interpreter/token'
 
 const location = new Location(0, new Span(0, 0), new Span(0, 0))
 
+const functionVariableToken: Token = {
+  lexeme: 'getName',
+  type: 'FUNCTION',
+  literal: 'name',
+  location: location,
+}
+const parenToken: Token = {
+  lexeme: '(',
+  type: 'LEFT_PAREN',
+  literal: '(',
+  location: location,
+}
+const functionVariableExpr = new VariableExpression(
+  functionVariableToken,
+  location
+)
 describe('LiteralExpression', () => {
   describe('description', () => {
     test('number', () => {
@@ -39,6 +59,26 @@ describe('VariableExpression', () => {
       const expr = new VariableExpression(token, location)
       const actual = expr.description()
       expect(actual).toBe('the <code>name</code> variable')
+    })
+  })
+})
+
+describe('CallExpression', () => {
+  describe('description', () => {
+    test('no args', () => {
+      const expr = new CallExpression(
+        functionVariableExpr,
+        parenToken,
+        [],
+        location
+      )
+      const result = {
+        value: 'Jeremy',
+      }
+      const actual = expr.description(result)
+      expect(actual).toBe(
+        '<code>getName()</code> (which returned <code>"Jeremy"</code>)'
+      )
     })
   })
 })

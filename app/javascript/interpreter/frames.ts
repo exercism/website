@@ -5,10 +5,12 @@ export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
 import type {
   EvaluationResult,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultIfStatement,
 } from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
   BinaryExpression,
+  CallExpression,
   Expression,
   GroupingExpression,
   LiteralExpression,
@@ -49,33 +51,41 @@ export function describeFrame(
   frame: Frame,
   externalFunctions: ExternalFunction[]
 ): string {
-  // These need to come from the exercise.
-  const functionDescriptions: Record<string, string> = externalFunctions.reduce(
-    (acc: Record<string, string>, fn: ExternalFunction) => {
-      acc[fn.name] = fn.description
-      return acc
-    },
-    {}
-  )
+  try {
+    console.log(process.env.NODE_ENV)
+  } catch {}
+  try {
+    // These need to come from the exercise.
+    const functionDescriptions: Record<string, string> =
+      externalFunctions.reduce(
+        (acc: Record<string, string>, fn: ExternalFunction) => {
+          acc[fn.name] = fn.description
+          return acc
+        },
+        {}
+      )
 
-  if (!isFrameWithResult(frame)) {
-    return '<p>There is no information available for this line.</p>'
-  }
-  switch (frame.result.type) {
-    case 'SetVariableStatement':
-      return describeSetVariableStatement(frame)
-    case 'ForeachStatement':
-      return describeForeachStatement(frame)
-    case 'ChangeVariableStatement':
-      return describeChangeVariableStatement(frame)
-    case 'IfStatement':
-      return describeIfStatement(frame)
-    case 'ReturnStatement':
-      return describeReturnStatement(frame)
-    case 'CallExpression':
-      return describeCallExpression(frame, functionDescriptions)
-    default:
-      return `<p>There is no information available for this line.</p>`
+    if (!isFrameWithResult(frame)) {
+      return '<p>There is no information available for this line.</p>'
+    }
+    switch (frame.result.type) {
+      case 'SetVariableStatement':
+        return describeSetVariableStatement(frame)
+      case 'ForeachStatement':
+        return describeForeachStatement(frame)
+      case 'ChangeVariableStatement':
+        return describeChangeVariableStatement(frame)
+      case 'IfStatement':
+        return describeIfStatement(frame)
+      case 'ReturnStatement':
+        return describeReturnStatement(frame)
+      case 'CallExpression':
+        return describeCallExpression(frame, functionDescriptions)
+      default:
+        return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+    }
+  } catch (e) {
+    return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
   }
 }
 
@@ -109,36 +119,35 @@ function describeChangeVariableStatement(frame: FrameWithResult): string {
   )
 }
 
-function describeForeachStatement(frame: FrameWithResult) {
-  let output = `<p>This looped through <code>${frame.result.iterable.name}</code> array. Each time this line of code is run, it selects the next item from the array and assigns to the <code>${frame.result.elementName}</code> variable.</p>`
+function describeForeachStatement(result: EvaluationResult) {
+  let output = `<p>This looped through <code>${result.iterable.name}</code> array. Each time this line of code is run, it selects the next item from the array and assigns to the <code>${frame.result.elementName}</code> variable.</p>`
 
-  if (frame.result.value) {
-    output += `<p>This iteration set <code>${frame.result.elementName}</code> to:</p>`
-    output += `<pre><code>${JSON.stringify(
-      frame.result.value,
-      null,
-      2
-    )}</code></pre>`
+  if (result.value) {
+    output += `<p>This iteration set <code>${result.elementName}</code> to:</p>`
+    output += `<pre><code>${JSON.stringify(result.value, null, 2)}</code></pre>`
   }
 
   return output
 }
 
-function describeExpression(expression: Expression) {
+function describeExpression(expression: Expression, result?: EvaluationResult) {
   if (expression instanceof VariableExpression) {
     return expression.description()
   }
   if (expression instanceof LiteralExpression) {
     return expression.description()
   }
+  if (expression instanceof CallExpression) {
+    return expression.description(result)
+  }
   if (expression instanceof GroupingExpression) {
-    return describeGroupingExpression(expression)
+    return describeGroupingExpression(expression, result)
   }
   if (expression instanceof BinaryExpression) {
-    return describeBinaryExpression(expression)
+    return describeBinaryExpression(expression, result)
   }
   if (expression instanceof LogicalExpression) {
-    return describeLogicalExpression(expression)
+    return describeLogicalExpression(expression, result)
   }
   return ''
 }
@@ -164,23 +173,26 @@ function describeOperator(operator: string): string {
   return ''
 }
 
-function describeBinaryExpression(expression: BinaryExpression): string {
-  if (expression instanceof BinaryExpression) {
-    const left = describeExpression(expression.left)
-    const right = describeExpression(expression.right)
-    const operator = describeOperator(expression.operator.type)
-    if (isEqualityOperator(expression.operator.type)) {
-      return `${left} was ${operator} ${right}`
-    } else {
-      return `${left} ${operator} ${right}`
-    }
+function describeBinaryExpression(
+  expression: BinaryExpression,
+  result?: EvaluationResult
+): string {
+  const left = describeExpression(expression.left, result?.left)
+  const right = describeExpression(expression.right, result?.right)
+  const operator = describeOperator(expression.operator.type)
+  if (isEqualityOperator(expression.operator.type)) {
+    return `${left} was ${operator} ${right}`
+  } else {
+    return `${left} ${operator} ${right}`
   }
-  return ''
 }
 
-function describeLogicalExpression(expression: LogicalExpression): string {
-  const left = describeExpression(expression.left)
-  const right = describeExpression(expression.right)
+function describeLogicalExpression(
+  expression: LogicalExpression,
+  result?: EvaluationResult
+): string {
+  const left = describeExpression(expression.left, result?.left)
+  const right = describeExpression(expression.right, result?.right)
 
   if (expression.operator.type == 'AND') {
     return `both of these were true:</p><ul><li>${left}</li><li>${right}</li></ul><p>`
@@ -189,21 +201,30 @@ function describeLogicalExpression(expression: LogicalExpression): string {
   }
 }
 
-function describeGroupingExpression(expression: GroupingExpression): string {
-  return `${describeExpression(expression.inner)}`
+function describeGroupingExpression(
+  expression: GroupingExpression,
+  result: EvaluationResult
+): string {
+  return `${describeExpression(expression.inner, result)}`
 }
 
-function describeCondition(expression: Expression): string {
-  return describeExpression(expression)
+function describeCondition(
+  expression: Expression,
+  result: EvaluationResultIfStatement
+): string {
+  return describeExpression(expression, result.condition)
 }
 
 function describeIfStatement(frame: FrameWithResult) {
   const ifStatement = frame.context as IfStatement
-  const conditionDescription = describeCondition(ifStatement.condition)
+  const conditionDescription = describeCondition(
+    ifStatement.condition,
+    frame.result
+  )
   let output = `
-    <p>This checked whether ${conditionDescription}</p>
-    <p>The result was <code>${frame.result.value}</code>.</p>
-    `
+<p>This checked whether ${conditionDescription}</p>
+<p>The result was <code>${frame.result.value}</code>.</p>
+    `.trim()
   return output
 }
 function describeReturnStatement(frame: FrameWithResult) {

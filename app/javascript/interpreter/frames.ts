@@ -2,7 +2,10 @@ import { type Callable } from './functions'
 import { RuntimeError } from './error'
 
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
-import type { EvaluationResult } from './evaluation-result'
+import type {
+  EvaluationResult,
+  EvaluationResultChangeVariableStatement,
+} from './evaluation-result'
 import type { ExternalFunction } from './executor'
 import {
   BinaryExpression,
@@ -12,8 +15,13 @@ import {
   LogicalExpression,
   VariableExpression,
 } from './expression'
-import { IfStatement, Statement } from './statement'
-import exp from 'constants'
+import {
+  ExpressionStatement,
+  IfStatement,
+  SetVariableStatement,
+  Statement,
+  ChangeVariableStatement,
+} from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -22,6 +30,7 @@ export type Frame = {
   code: string
   status: FrameExecutionStatus
   error?: RuntimeError
+  priorVariables: Record<string, any>
   variables: Record<string, any>
   functions: Record<string, Callable>
   time: number
@@ -53,12 +62,12 @@ export function describeFrame(
     return '<p>There is no information available for this line.</p>'
   }
   switch (frame.result.type) {
-    case 'VariableStatement':
-      return describeVariableStatement(frame)
+    case 'SetVariableStatement':
+      return describeSetVariableStatement(frame)
     case 'ForeachStatement':
       return describeForeachStatement(frame)
-    case 'AssignExpression':
-      return describeAssignExpression(frame)
+    case 'ChangeVariableStatement':
+      return describeChangeVariableStatement(frame)
     case 'IfStatement':
       return describeIfStatement(frame)
     case 'ReturnStatement':
@@ -79,23 +88,25 @@ function addExtraAssignInfo(frame: Frame, output: string) {
   return output
 }
 
-function describeVariableStatement(frame: FrameWithResult) {
-  let output
-  if (frame.result.data?.updating) {
-    output = `<p>This updated the <code>${frame.result.name}</code> variable to <code>${frame.result.value}</code>.</p>`
-  } else {
-    output = `<p>This created a new variable called <code>${frame.result.name}</code> and sets it to be equal to <code>${frame.result.value}</code>.</p>`
+function describeSetVariableStatement(frame: FrameWithResult) {
+  const context = frame.context as SetVariableStatement
+  if (context === undefined) {
+    return ''
   }
-  output = addExtraAssignInfo(frame, output)
-
-  return output
+  return context.description(frame.result)
 }
 
-function describeAssignExpression(frame: FrameWithResult) {
-  let output = `<p>This updated the variable called <code>${frame.result.name}</code> to <code>${frame.result.value.value}</code>.</p>`
-  output = addExtraAssignInfo(frame, output)
+function describeChangeVariableStatement(frame: FrameWithResult): string {
+  if (!frame.context === null) {
+    return ''
+  }
+  if (!(frame.context instanceof ChangeVariableStatement)) {
+    return ''
+  }
 
-  return output
+  return frame.context.description(
+    frame.result as EvaluationResultChangeVariableStatement
+  )
 }
 
 function describeForeachStatement(frame: FrameWithResult) {
@@ -115,10 +126,10 @@ function describeForeachStatement(frame: FrameWithResult) {
 
 function describeExpression(expression: Expression) {
   if (expression instanceof VariableExpression) {
-    return describeVariableExpression(expression)
+    return expression.description()
   }
   if (expression instanceof LiteralExpression) {
-    return describeLiteralExpression(expression)
+    return expression.description()
   }
   if (expression instanceof GroupingExpression) {
     return describeGroupingExpression(expression)
@@ -132,18 +143,6 @@ function describeExpression(expression: Expression) {
   return ''
 }
 
-function describeVariableExpression(expression: VariableExpression): string {
-  return `the <code>${expression.name.lexeme}</code> variable`
-}
-
-function describeLiteralExpression(expression: LiteralExpression): string {
-  let value = expression.value
-  if (typeof expression.value === 'string') {
-    value = '"' + expression.value + '"'
-  }
-
-  return `<code>${value}</code>`
-}
 function describeOperator(operator: string): string {
   switch (operator) {
     case 'GREATER':
@@ -154,9 +153,9 @@ function describeOperator(operator: string): string {
       return 'greater than or equal to'
     case 'LESS_EQUAL':
       return 'less than or equal to'
-    case 'STRICT_EQUALITY':
+    case 'EQUALITY':
       return 'equal to'
-    case 'STRICT_INEQUALITY':
+    case 'INEQUALITY':
       return 'not equal to'
     case 'MINUS':
       return 'minus'
@@ -234,8 +233,8 @@ function describeCallExpression(
 
 function isEqualityOperator(operator: string): boolean {
   return [
-    'STRICT_EQUALITY',
-    'STRICT_INEQUALITY',
+    'EQUALITY',
+    'INEQUALITY',
     'GREATER',
     'LESS',
     'GREATER_EQUAL',

@@ -1,31 +1,36 @@
 import type { Token } from './token'
 import { Location } from './location'
+import { FrameWithResult } from './frames'
+import { EvaluationResult } from './evaluation-result'
 
-export interface ExpressionVisitor<T> {
-  visitCallExpression(expression: CallExpression): T
-  visitLiteralExpression(expression: LiteralExpression): T
-  visitVariableExpression(expression: VariableExpression): T
-  visitUnaryExpression(expression: UnaryExpression): T
-  visitBinaryExpression(expression: BinaryExpression): T
-  visitLogicalExpression(expression: LogicalExpression): T
-  visitGroupingExpression(expression: GroupingExpression): T
-  visitTemplateLiteralExpression(expression: TemplateLiteralExpression): T
-  visitTemplatePlaceholderExpression(
-    expression: TemplatePlaceholderExpression
-  ): T
-  visitTemplateTextExpression(expression: TemplateTextExpression): T
-  visitAssignExpression(expression: AssignExpression): T
-  visitUpdateExpression(expression: UpdateExpression): T
-  visitArrayExpression(expression: ArrayExpression): T
-  visitDictionaryExpression(expression: DictionaryExpression): T
-  visitGetExpression(expression: GetExpression): T
-  visitSetExpression(expression: SetExpression): T
-  visitTernaryExpression(expression: TernaryExpression): T
+function quoteLiteral(value: any): string {
+  if (typeof value === 'string') {
+    return `"${value}"`
+  }
+  return value
 }
 
 export abstract class Expression {
-  abstract accept<T>(visitor: ExpressionVisitor<T>): T
+  constructor(public type: String) {}
   abstract location: Location
+}
+
+export class LiteralExpression extends Expression {
+  constructor(public value: any, public location: Location) {
+    super('LiteralExpression')
+  }
+  public description() {
+    return `<code>${quoteLiteral(this.value)}</code>`
+  }
+}
+
+export class VariableExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super('VariableExpression')
+  }
+  public description() {
+    return `the <code>${this.name.lexeme}</code> variable`
+  }
 }
 
 export class CallExpression extends Expression {
@@ -35,46 +40,13 @@ export class CallExpression extends Expression {
     public args: Expression[],
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitCallExpression(this)
-  }
-}
-
-export class TernaryExpression extends Expression {
-  constructor(
-    public condition: Expression,
-    public thenBranch: Expression,
-    public elseBranch: Expression,
-    public location: Location
-  ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTernaryExpression(this)
-  }
-}
-
-export class LiteralExpression extends Expression {
-  constructor(public value: any, public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitLiteralExpression(this)
+    super('CallExpression')
   }
 }
 
 export class ArrayExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitArrayExpression(this)
+    super('ArrayExpression')
   }
 }
 
@@ -83,21 +55,7 @@ export class DictionaryExpression extends Expression {
     public elements: Map<string, Expression>,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitDictionaryExpression(this)
-  }
-}
-
-export class VariableExpression extends Expression {
-  constructor(public name: Token, public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitVariableExpression(this)
+    super('DictionaryExpression')
   }
 }
 
@@ -108,11 +66,7 @@ export class BinaryExpression extends Expression {
     public right: Expression,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitBinaryExpression(this)
+    super('BinaryExpression')
   }
 }
 
@@ -123,11 +77,7 @@ export class LogicalExpression extends Expression {
     public right: Expression,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitLogicalExpression(this)
+    super('LogicalExpression')
   }
 }
 
@@ -137,67 +87,31 @@ export class UnaryExpression extends Expression {
     public operand: Expression,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitUnaryExpression(this)
+    super('UnaryExpression')
   }
 }
 
 export class GroupingExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitGroupingExpression(this)
+    super('GroupingExpression')
   }
 }
 
 export class TemplatePlaceholderExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplatePlaceholderExpression(this)
+    super('TemplatePlaceholderExpression')
   }
 }
 
 export class TemplateTextExpression extends Expression {
   constructor(public text: Token, public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplateTextExpression(this)
+    super('TemplateTextExpression')
   }
 }
 
 export class TemplateLiteralExpression extends Expression {
   constructor(public parts: Expression[], public location: Location) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitTemplateLiteralExpression(this)
-  }
-}
-
-export class AssignExpression extends Expression {
-  constructor(
-    public name: Token,
-    public operator: Token,
-    public value: Expression,
-    public updating: boolean,
-    public location: Location
-  ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitAssignExpression(this)
+    super('TemplateLiteralExpression')
   }
 }
 
@@ -207,11 +121,7 @@ export class UpdateExpression extends Expression {
     public operator: Token,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitUpdateExpression(this)
+    super('UpdateExpression')
   }
 }
 
@@ -221,11 +131,7 @@ export class GetExpression extends Expression {
     public field: Token,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitGetExpression(this)
+    super('GetExpression')
   }
 }
 
@@ -236,10 +142,6 @@ export class SetExpression extends Expression {
     public value: Expression,
     public location: Location
   ) {
-    super()
-  }
-
-  accept<T>(visitor: ExpressionVisitor<T>): T {
-    return visitor.visitSetExpression(this)
+    super('SetExpression')
   }
 }

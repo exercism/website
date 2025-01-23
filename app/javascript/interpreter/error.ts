@@ -59,7 +59,6 @@ export type SyntaxErrorType =
   | 'MissingColonAfterKey'
   | 'MissingFieldNameOrIndexAfterOpeningBracket'
   | 'InvalidTemplateLiteral'
-  | 'MissingColonAfterThenBranchOfTernaryOperator'
   | 'NumberEndsWithDecimalPoint'
   | 'NumberWithMultipleDecimalPoints'
   | 'NumberContainsAlpha'
@@ -108,6 +107,7 @@ export type RuntimeErrorType =
   | 'InvalidIndexSetterTarget'
   | 'UnexpectedEqualsForEquality'
   | 'VariableAlreadyDeclared'
+  | 'VariableNotDeclared'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

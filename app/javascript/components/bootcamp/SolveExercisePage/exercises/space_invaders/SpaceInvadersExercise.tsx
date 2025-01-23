@@ -133,12 +133,13 @@ export default class SpaceInvadersExercise extends Exercise {
           alien !== null &&
           alien.status === 'dead' &&
           alien.lastKilledAt &&
-          alien.lastKilledAt < executionCtx.getCurrentTime()
+          alien.lastKilledAt < executionCtx.getCurrentTime() + this.shotDuration
       )
 
+    // Skip 80% of the time
     if (Math.random() > 0.2) {
       return
-    } // Skip 90% of the time
+    }
 
     // Choose random dead alien from this.aliens
     const alien = deadAliens[Math.floor(Math.random() * deadAliens.length)]
@@ -147,7 +148,7 @@ export default class SpaceInvadersExercise extends Exercise {
     }
 
     alien.status = 'alive'
-    const renamationTime = executionCtx.getCurrentTime() + random(200)
+    const renamationTime = executionCtx.getCurrentTime()
 
     ;['tl', 'tr', 'bl', 'br'].forEach((pos) => {
       this.addAnimation({
@@ -203,6 +204,14 @@ export default class SpaceInvadersExercise extends Exercise {
   }
 
   public shoot(executionCtx: ExecutionContext) {
+    console.log(this.lastShotAt, executionCtx.getCurrentTime())
+    if (this.lastShotAt > executionCtx.getCurrentTime() - 50) {
+      executionCtx.logicError(
+        'Oh no! Your laser canon overheated from shooting too fast! You need to move before you can shoot a second time.'
+      )
+    }
+    this.lastShotAt = executionCtx.getCurrentTime()
+
     let targetRow = null
     let targetAlien: Alien | null = null
     this.aliens.forEach((row, rowIdx) => {

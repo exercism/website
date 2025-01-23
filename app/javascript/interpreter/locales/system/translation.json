@@ -87,7 +87,9 @@
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
-      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction"
+      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
+      "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
+      "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

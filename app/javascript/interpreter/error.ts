@@ -109,6 +109,8 @@ export type RuntimeErrorType =
   | 'VariableAlreadyDeclared'
   | 'VariableNotDeclared'
   | 'UnexpectedUncalledFunction'
+  | 'FunctionAlreadyDeclared'
+  | 'UnexpectedChangeOfFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

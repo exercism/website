@@ -1,6 +1,7 @@
 import { interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
+import { context } from 'msw'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -86,6 +87,28 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code, context)
       expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
       expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    })
+  })
+  describe('FunctionAlreadyDeclared', () => {
+    test('basic', () => {
+      const code = 'set get_name to 5'
+      const context = { externalFunctions: [getNameFunction] }
+      const { frames } = interpret(code, context)
+      expectFrameToBeError(frames[0], code, 'FunctionAlreadyDeclared')
+      expect(frames[0].error!.message).toBe(
+        'FunctionAlreadyDeclared: name: get_name'
+      )
+    })
+  })
+  describe('UnexpectedChangeOfFunction', () => {
+    test('basic', () => {
+      const code = 'change get_name to 5'
+      const context = { externalFunctions: [getNameFunction] }
+      const { frames } = interpret(code, context)
+      expectFrameToBeError(frames[0], code, 'UnexpectedChangeOfFunction')
+      expect(frames[0].error!.message).toBe(
+        'UnexpectedChangeOfFunction: name: get_name'
+      )
     })
   })
 })

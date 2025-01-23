@@ -216,7 +216,12 @@ export class Executor {
 
   public visitSetVariableStatement(statement: SetVariableStatement): void {
     this.executeFrame(statement, () => {
-      if (this.environment.inScope(statement.name.lexeme)) {
+      if (this.environment.inScope(statement.name)) {
+        if (isCallable(this.environment.get(statement.name))) {
+          this.error('FunctionAlreadyDeclared', statement.name.location, {
+            name: statement.name.lexeme,
+          })
+        }
         this.error('VariableAlreadyDeclared', statement.location, {
           name: statement.name.lexeme,
         })
@@ -249,6 +254,12 @@ export class Executor {
       // Ensure the variable exists
       if (!this.environment.inScope(statement.name.lexeme)) {
         this.error('VariableNotDeclared', statement.location, {
+          name: statement.name.lexeme,
+        })
+      }
+
+      if (isCallable(this.environment.get(statement.name))) {
+        this.error('UnexpectedChangeOfFunction', statement.name.location, {
           name: statement.name.lexeme,
         })
       }

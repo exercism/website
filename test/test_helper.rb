@@ -308,7 +308,7 @@ class ActiveSupport::TestCase
   # OpenSearch Helpers #
   ######################
   def stub_opensearch!
-    opensearch_client = mock
+    opensearch_client = Exercism.opensearch_client
     Exercism.define_method(:opensearch_client) { opensearch_client }
   end
 
@@ -327,9 +327,9 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    Exercism::TOUCHED_OPENSEARCH_INDEXES.each do |index|
-      Exercism.opensearch_client.indices.refresh(index:)
-    end
+    # Exercism::TOUCHED_OPENSEARCH_INDEXES.each do |index|
+    #   Exercism.opensearch_client.indices.refresh(index:)
+    # end
   end
 
   def perform_enqueued_jobs_until_empty

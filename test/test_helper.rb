@@ -308,7 +308,7 @@ class ActiveSupport::TestCase
   # OpenSearch Helpers #
   ######################
   def stub_opensearch!
-    opensearch_client = Exercism.opensearch_client
+    opensearch_client = mock
     Exercism.define_method(:opensearch_client) { opensearch_client }
   end
 

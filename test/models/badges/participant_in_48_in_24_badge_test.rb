@@ -5,7 +5,7 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
     badge = create :participant_in_48_in_24_badge
     assert_equal "#48in24 Participant", badge.name
     assert_equal :common, badge.rarity
-    assert_equal :'48_in_24', badge.icon
+    assert_equal :'48in24-participant', badge.icon
     assert_equal 'Participated in the #48in24 challenge and achieved a medal', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key

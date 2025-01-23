@@ -21,9 +21,9 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
       leap[t] = create(:practice_exercise, track: tracks[t], slug: 'leap')
     end
     user = create :user
+    challenge = create :user_challenge, user:, challenge_id: '48in24'
 
     # No solutions
-    create :user_challenge, user:, challenge_id: '48in24'
     refute badge.award_to?(user.reload), "new user does not qualify"
 
     # One exercise before 2024 does not qualify
@@ -50,6 +50,10 @@ class Badge::ParticipantIn48In24BadgeTest < ActiveSupport::TestCase
       track: tracks[:wren], exercise: leap[:wren],
       completed_at: Time.utc(2024, SecureRandom.rand(1..12), SecureRandom.rand(1..28)))
     assert badge.award_to?(user.reload), "one solution in 2024 qualifies"
+
+    # Has to have joined the challenge
+    challenge.destroy
+    refute badge.award_to?(user.reload), "user has to have joined the challenge"
 
     # One exercise on Dec 31, 2023
     user_2 = create :user

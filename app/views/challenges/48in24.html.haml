@@ -1,4 +1,4 @@
-- week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
+- week = (([ Time.zone.today, Date.new(2024,12,15) ].min - Date.new(2024, 1, 15)) / 7).ceil
 - live_exercises = @exercises.select { |e| e.week <= week }
 - tracks = Track.where(slug: live_exercises.flat_map(&:featured_tracks)).pluck(:slug, :title).to_h
 

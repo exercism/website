@@ -78,6 +78,7 @@ function _Header({
             handleBackgroundChange(selectedBackground)
           }}
           value={drawing.backgroundSlug}
+          className="bg-backgroundColorD rounded-5 py-4 px-8 font-medium"
         >
           {backgrounds.map((background) => (
             <option
@@ -89,9 +90,18 @@ function _Header({
             </option>
           ))}
         </select>
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4">
           {editMode ? (
             <>
+              <input
+                value={titleInputValue}
+                onChange={(e) => {
+                  setTitleInputValue(e.target.value)
+                  setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
+                }}
+                type="text"
+                className="!py-2 !text-14 !rounded-3 !border-borderColor5"
+              />
               <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
                 {titleSavingStateLabel}
               </button>
@@ -101,23 +111,21 @@ function _Header({
               >
                 Cancel
               </button>
-              <input
-                value={titleInputValue}
-                onChange={(e) => {
-                  setTitleInputValue(e.target.value)
-                  setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
-                }}
-                type="text"
-                style={{ all: 'unset', borderBottom: '1px solid' }}
-              />
             </>
           ) : (
-            <>
+            <div className="bg-backgroundColorD rounded-5 py-6 px-12">
+              <span className="font-medium mr-12">
+                Title: {titleInputValue}
+              </span>
               <button onClick={() => setEditMode(true)}>
-                <GraphicalIcon icon="edit" height={15} width={15} />
+                <GraphicalIcon
+                  icon="edit"
+                  category="bootcamp"
+                  height={15}
+                  width={15}
+                />
               </button>
-              <span>{titleInputValue}</span>
-            </>
+            </div>
           )}
         </div>
 

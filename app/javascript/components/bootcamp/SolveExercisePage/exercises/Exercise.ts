@@ -33,8 +33,11 @@ export abstract class Exercise {
     result: InterpretResult,
     statementType: string
   ): boolean {
+    if (result.frames === undefined) {
+      return false
+    }
     return result.frames.some(
-      (frame) => (frame.context as Statement).type == statementType
+      (frame) => (frame.context as Statement)?.type == statementType
     )
   }
 

@@ -1,0 +1,29 @@
+{
+  "title": "Process a guess",
+  "description": "Turn a guess into a valid response",
+  "project_type": "wordle",
+  "available_functions": [],
+  "concepts": ["conditionals", "arrays"],
+  "level": 3,
+  "idx": 1,
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Deal with a correct guess",
+      "tests": [
+        {
+          "slug": "all-correct",
+          "name": "Deal with a fully correct guess",
+          "function": "process_guess",
+          "checks": [
+            {
+              "name": "getGuessState1()",
+              "value": ["present", "absent", "absent", "absent", "correct"],
+              "error_html": "We expected the first letter to be present and the last one to be correct"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

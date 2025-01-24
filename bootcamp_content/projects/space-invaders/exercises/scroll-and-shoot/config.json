@@ -13,12 +13,18 @@
           "slug": "scroll-and-shoot",
           "name": "Scroll and Shoot",
           "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [["enableAlienRespawning"]],
           "checks": [
             {
               "name": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "name": "wasStatementUsed(\"RepeatStatement\")",
+              "matcher": "toBeFalse",
+              "error_html": "You can't use the repeat keyword to solve this exercise. Use repeat_until_game_over instead."
             }
           ]
         }

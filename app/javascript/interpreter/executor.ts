@@ -20,6 +20,7 @@ import {
   UnaryExpression,
   UpdateExpression,
   VariableExpression,
+  ExpressionWithValue,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -215,7 +216,12 @@ export class Executor {
 
   public visitSetVariableStatement(statement: SetVariableStatement): void {
     this.executeFrame(statement, () => {
-      if (this.environment.inScope(statement.name.lexeme)) {
+      if (this.environment.inScope(statement.name)) {
+        if (isCallable(this.environment.get(statement.name))) {
+          this.error('FunctionAlreadyDeclared', statement.name.location, {
+            name: statement.name.lexeme,
+          })
+        }
         this.error('VariableAlreadyDeclared', statement.location, {
           name: statement.name.lexeme,
         })
@@ -248,6 +254,12 @@ export class Executor {
       // Ensure the variable exists
       if (!this.environment.inScope(statement.name.lexeme)) {
         this.error('VariableNotDeclared', statement.location, {
+          name: statement.name.lexeme,
+        })
+      }
+
+      if (isCallable(this.environment.get(statement.name))) {
+        this.error('UnexpectedChangeOfFunction', statement.name.location, {
           name: statement.name.lexeme,
         })
       }
@@ -622,55 +634,85 @@ export class Executor {
   }
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
-    const left = this.evaluate(expression.left)
-    const right = this.evaluate(expression.right)
+    const leftResult = this.evaluate(expression.left)
+    const rightResult = this.evaluate(expression.right)
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
       value: undefined,
       operator: expression.operator.type,
-      left,
-      right,
+      left: leftResult,
+      right: rightResult,
     }
 
     switch (expression.operator.type) {
       case 'INEQUALITY':
         // TODO: throw error when types are not the same?
-        return { ...result, value: left.value !== right.value }
+        return { ...result, value: leftResult.value !== rightResult.value }
       case 'EQUALITY':
         // TODO: throw error when types are not the same?
         return {
           ...result,
-          value: left.value === right.value,
+          value: leftResult.value === rightResult.value,
         }
       case 'GREATER':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
         return {
           ...result,
-          value: left.value > right.value,
+          value: leftResult.value > rightResult.value,
         }
       case 'GREATER_EQUAL':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
         return {
           ...result,
-          value: left.value >= right.value,
+          value: leftResult.value >= rightResult.value,
         }
       case 'LESS':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
         return {
           ...result,
-          value: left.value < right.value,
+          value: leftResult.value < rightResult.value,
         }
       case 'LESS_EQUAL':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
         return {
           ...result,
-          value: left.value <= right.value,
+          value: leftResult.value <= rightResult.value,
         }
       case 'MINUS':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
 
-        const minusValue = left.value - right.value
+        const minusValue = leftResult.value - rightResult.value
         const minusValue2DP = Math.round(minusValue * 100) / 100
 
         return {
@@ -679,8 +721,24 @@ export class Executor {
         }
       //> binary-plus
       case 'PLUS':
-        if (isNumber(left.value) && isNumber(right.value)) {
-          const plusValue = left.value + right.value
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
+
+        const plusValue = leftResult.value + rightResult.value
+        const plusValue2DP = Math.round(plusValue * 100) / 100
+
+        return {
+          ...result,
+          value: plusValue2DP,
+        }
+
+        if (isNumber(leftResult.value) && isNumber(rightResult.value)) {
+          const plusValue = leftResult.value + rightResult.value
           const plusValue2DP = Math.round(plusValue * 100) / 100
 
           return {
@@ -688,7 +746,7 @@ export class Executor {
             value: plusValue2DP,
           }
         }
-        if (isString(left.value) && isString(right.value))
+      /*if (isString(left.value) && isString(right.value))
           return {
             ...result,
             value: left.value + right.value,
@@ -701,31 +759,49 @@ export class Executor {
             left,
             right,
           }
-        )
+        )*/
 
       case 'SLASH':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
-        const slashValue = left.value / right.value
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
+        const slashValue = leftResult.value / rightResult.value
         const slashValue2DP = Math.round(slashValue * 100) / 100
         return {
           ...result,
           value: slashValue2DP,
         }
       case 'STAR':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
 
-        const starValue = left.value * right.value
+        const starValue = leftResult.value * rightResult.value
         const starValue2DP = Math.round(starValue * 100) / 100
         return {
           ...result,
           value: starValue2DP,
         }
       case 'PERCENT':
-        this.verifyNumberOperands(expression.operator, left.value, right.value)
+        this.verifyNumberOperands(
+          expression.operator,
+          expression.left,
+          expression.right,
+          leftResult.value,
+          rightResult.value
+        )
 
         return {
           ...result,
-          value: left.value % right.value,
+          value: leftResult.value % rightResult.value,
         }
       case 'EQUAL':
         this.error('UnexpectedEqualsForEquality', expression.location, {
@@ -920,10 +996,48 @@ export class Executor {
     this.error('OperandMustBeNumber', operator.location, { operand })
   }
 
-  private verifyNumberOperands(operator: Token, left: any, right: any): void {
-    if (isNumber(left) && isNumber(right)) return
+  private verifyNumberOperands(
+    operator: Token,
+    leftExpr: Expression,
+    rightExpr: Expression,
+    leftValue: EvaluationResult,
+    rightValue: EvaluationResult
+  ): void {
+    const leftIsNumber = isNumber(leftValue)
+    const rightIsNumber = isNumber(rightValue)
+    if (leftIsNumber && rightIsNumber) {
+      return
+    }
 
-    this.error('OperandsMustBeNumbers', operator.location, { left, right })
+    let value
+    let eroneousExpr
+    let location
+    if (leftIsNumber) {
+      value = rightValue
+      eroneousExpr = rightExpr
+      location = Location.between(operator, rightExpr)
+    } else {
+      value = leftValue
+      eroneousExpr = leftExpr
+      location = Location.between(leftExpr, operator)
+    }
+
+    if (isCallable(value)) {
+      this.error('UnexpectedUncalledFunction', eroneousExpr.location, {
+        name: eroneousExpr.name,
+      })
+    }
+
+    // Quote strings
+    if (typeof value == 'string') {
+      //value = `"${value}""`
+    }
+
+    this.error('OperandsMustBeNumbers', location, {
+      operator: operator.lexeme,
+      side: leftIsNumber ? 'right' : 'left',
+      value: `\`${value}\``,
+    })
   }
 
   private verifyBooleanOperand(operand: any, location: Location): void {

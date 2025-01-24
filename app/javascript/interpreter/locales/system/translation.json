@@ -81,12 +81,15 @@
       "NonCallableTarget": "NonCallableTarget",
       "OperandMustBeBoolean": "OperandMustBeBoolean",
       "OperandMustBeNumber": "OperandMustBeNumber",
-      "OperandsMustBeNumber": "OperandsMustBeNumber",
+      "OperandsMustBeNumbers": "OperandsMustBeNumbers: operator: {{operator}}, side: {{side}}, value: {{value}}",
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
-      "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}"
+      "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
+      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
+      "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
+      "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

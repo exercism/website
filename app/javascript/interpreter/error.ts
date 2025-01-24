@@ -108,6 +108,9 @@ export type RuntimeErrorType =
   | 'UnexpectedEqualsForEquality'
   | 'VariableAlreadyDeclared'
   | 'VariableNotDeclared'
+  | 'UnexpectedUncalledFunction'
+  | 'FunctionAlreadyDeclared'
+  | 'UnexpectedChangeOfFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

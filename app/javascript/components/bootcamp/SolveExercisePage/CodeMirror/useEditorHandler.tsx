@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { useConstructRunCode } from '../hooks/useConstructRunCode/useConstructRunCode'
-import { cleanUpEditor } from './extensions/clean-up-editor'
 import type { EditorView } from 'codemirror'
 import type { Handler } from './CodeMirror'
 import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOnlyRanges'
@@ -80,9 +79,6 @@ export function useEditorHandler({
   }
 
   const handleRunCode = () => {
-    if (editorViewRef.current) {
-      cleanUpEditor(editorViewRef.current)
-    }
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()
 

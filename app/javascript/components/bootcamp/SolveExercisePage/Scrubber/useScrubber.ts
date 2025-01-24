@@ -59,9 +59,22 @@ export function useScrubber({
   // only check for error frame once when frames change, let users navigate freely
   useEffect(() => {
     if (frames.some((frame) => frame.status === 'ERROR')) {
-      setValue(frames.findIndex((frame) => frame.status === 'ERROR'))
+      const newValue = frames.findIndex((frame) => frame.status === 'ERROR')
+      const error = frames[newValue].error
+      showError({
+        error: error as StaticError,
+        setHighlightedLine,
+        setHighlightedLineColor,
+        setInformationWidgetData,
+        setShouldShowInformationWidget,
+        setUnderlineRange,
+      })
+      if (animationTimeline) {
+        animationTimeline.seek(frames[newValue].time)
+      }
+      setValue(frames[newValue].time)
     }
-  }, [frames])
+  }, [frames, animationTimeline])
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {

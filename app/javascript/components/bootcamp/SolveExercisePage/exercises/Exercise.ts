@@ -2,6 +2,7 @@ import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
 import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
+import { Statement } from '@/interpreter/statement'
 
 export abstract class Exercise {
   public availableFunctions!: ExternalFunction[]
@@ -28,8 +29,17 @@ export abstract class Exercise {
     this.functionCalls[name][JSON.stringify(args)] += 1
   }
 
+  public wasStatementUsed(
+    result: InterpretResult,
+    statementType: string
+  ): boolean {
+    return result.frames.some(
+      (frame) => (frame.context as Statement).type == statementType
+    )
+  }
+
   public wasFunctionUsed(
-    _: ExecutionContext | InterpretResult,
+    _: InterpretResult,
     name: string,
     args: any[] | null,
     times?: number

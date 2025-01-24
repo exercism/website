@@ -9,6 +9,7 @@ type AlienStatus = 'alive' | 'dead'
 class Alien {
   public status: AlienStatus
   public lastKilledAt?: number
+  public respawnsAt?: number
 
   public constructor(
     public elem: HTMLElement,
@@ -17,6 +18,17 @@ class Alien {
     type: number
   ) {
     this.status = 'alive'
+  }
+
+  public isAlive(time) {
+    if (this.status == 'alive') {
+      return true
+    }
+    if (this.respawnsAt === undefined) {
+      return false
+    }
+
+    return time > this.respawnsAt
   }
 }
 
@@ -34,7 +46,7 @@ export default class SpaceInvadersExercise extends Exercise {
     (_, idx) => this.laserStart + idx * this.laserStep
   )
   private laserPosition = 0
-  private features = { reanimation: false }
+  private features = { alienRespawning: false }
 
   public constructor() {
     super('space-invaders')
@@ -55,8 +67,8 @@ export default class SpaceInvadersExercise extends Exercise {
     return { gameStatus: this.gameStatus }
   }
 
-  public enableReanimation() {
-    this.features.reanimation = true
+  public enableAlienRespawning() {
+    this.features.alienRespawning = true
   }
 
   private addAliens(rows) {
@@ -92,9 +104,7 @@ export default class SpaceInvadersExercise extends Exercise {
     shot: HTMLElement
   ) {
     const deathTime = executionCtx.getCurrentTime() + this.shotDuration
-
     alien.status = 'dead'
-    alien.lastKilledAt = deathTime
     ;[
       ['tl', -10, -10, -180],
       ['tr', 10, -10, 180],
@@ -119,49 +129,44 @@ export default class SpaceInvadersExercise extends Exercise {
       transformations: { opacity: 0 },
       offset: deathTime,
     })
+    this.respawnAlien(executionCtx, alien)
   }
 
-  private reanimateRandomAlien(executionCtx: ExecutionContext) {
-    if (!this.features.reanimation) {
+  private respawnAlien(executionCtx: ExecutionContext, alien: Alien) {
+    if (!this.features.alienRespawning) {
       return
     }
 
-    const deadAliens = this.aliens
-      .flat()
-      .filter(
-        (alien) =>
-          alien !== null &&
-          alien.status === 'dead' &&
-          alien.lastKilledAt &&
-          alien.lastKilledAt < executionCtx.getCurrentTime() + this.shotDuration
-      )
+    // Only respawn each alien once
+    if (alien.respawnsAt !== undefined) {
+      alien.respawnsAt = undefined
+      return
+    }
+
+    // Stop respawning aliens after the first few seconds
+    if (executionCtx.getCurrentTime() > 5000) {
+      return
+    }
 
     // Skip 80% of the time
-    if (Math.random() > 0.2) {
+    if (Math.random() > 0.3) {
       return
     }
 
-    // Choose random dead alien from this.aliens
-    const alien = deadAliens[Math.floor(Math.random() * deadAliens.length)]
-    if (alien == null) {
-      return
-    }
-
-    alien.status = 'alive'
-    const renamationTime = executionCtx.getCurrentTime()
-
+    const respawnsAt = executionCtx.getCurrentTime() + this.shotDuration + 1000
+    alien.respawnsAt = respawnsAt
     ;['tl', 'tr', 'bl', 'br'].forEach((pos) => {
       this.addAnimation({
         targets: `#${this.view.id} #${alien.elem.id} .${pos}`,
         duration: 1,
         transformations: { translateX: 0, translateY: 0, rotate: 0 },
-        offset: renamationTime,
+        offset: respawnsAt,
       })
       this.addAnimation({
         targets: `#${this.view.id} #${alien.elem.id} .${pos}`,
         duration: 100,
         transformations: { opacity: 1 },
-        offset: renamationTime,
+        offset: respawnsAt,
       })
     })
   }
@@ -181,7 +186,10 @@ export default class SpaceInvadersExercise extends Exercise {
 
   private checkForWin(executionCtx: ExecutionContext) {
     const win = this.aliens.every((row) =>
-      row.every((alien) => alien === null || alien.status === 'dead')
+      row.every(
+        (alien) =>
+          alien === null || !alien.isAlive(executionCtx.getCurrentTime())
+      )
     )
     if (win) {
       this.gameStatus = 'won'
@@ -195,11 +203,7 @@ export default class SpaceInvadersExercise extends Exercise {
       if (alien === null) {
         return false
       }
-      if (alien.status == 'dead') {
-        return false
-      }
-
-      return true
+      return alien.isAlive(executionCtx.getCurrentTime())
     })
   }
 
@@ -218,7 +222,7 @@ export default class SpaceInvadersExercise extends Exercise {
       if (alien === null) {
         return
       }
-      if (alien.status == 'dead') {
+      if (!alien.isAlive(executionCtx.getCurrentTime())) {
         return
       }
 
@@ -264,7 +268,6 @@ export default class SpaceInvadersExercise extends Exercise {
       executionCtx.updateState('gameOver', true)
     } else {
       this.killAlien(executionCtx, targetAlien, shot)
-      this.reanimateRandomAlien(executionCtx)
 
       // Why do we do this?
       executionCtx.fastForward(30)

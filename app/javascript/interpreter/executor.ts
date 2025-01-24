@@ -329,6 +329,7 @@ export class Executor {
     var count = 0 // Count is a guard against infinite looping
 
     while (!this.externalState.gameOver) {
+      this.guardInfiniteLoop(statement.location)
       if (count >= 100) {
         const errorLoc = new Location(
           statement.location.line,

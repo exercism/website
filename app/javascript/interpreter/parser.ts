@@ -432,16 +432,6 @@ export class Parser {
       const operator = this.previous()
       const value = this.assignment()
 
-      if (expr instanceof VariableExpression) {
-        return new ChangeVariableStatement(
-          expr.name,
-          operator,
-          value,
-          true,
-          Location.between(expr, value)
-        )
-      }
-
       if (expr instanceof GetExpression) {
         return new SetExpression(
           expr.obj,

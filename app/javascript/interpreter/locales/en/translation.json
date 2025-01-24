@@ -2,7 +2,7 @@
   "error": {
     "syntax": {
       "ExceededMaximumNumberOfParameters": "Sorry you can't have more than 255 parameters.",
-      "InvalidAssignmentTarget": "Invalid assignment target.",
+      "InvalidAssignmentTarget": "Jiki can't work out what you're trying to do here.\n\nDid you miss the `change` keyword?",
       "InvalidNumericVariableName": "Invalid variable name \"{{name}}\". Variable names cannot start with a number.",
       "InvalidTemplateLiteral": "Invalid template literal.",
       "MissingBacktickToTerminateTemplateLiteral": "Missing backtick ('`') to terminate template literal.",

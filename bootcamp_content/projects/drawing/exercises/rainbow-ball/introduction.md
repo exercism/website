@@ -53,8 +53,14 @@ The functions used in this exercise are:
 
 ## Hints
 
-At the start you move the circle `2` to the right and `1` down. Think about what these numbers are. They're the **direction** that the ball is moving in. Use variables for them.
+At the start you move the circle `2` to the right and `1` down.
+Think about what these numbers are.
+They're the **velocity** (speed and distance) that the ball is moving.
+Use variables for them.
 
-Once the ball hits an edge, it needs to change the direction it's moving, so you need to update those direction variables.
+Once the ball hits an edge, it needs to change the direction it's moving, so you need to update those velocity variables.
+However, you do **not** have to change them by `1` or `2`.
+You could change them to any number.
+Maybe you could even change them to a different number each time?
 
-The hue works in the same way.
+The hue works in a similar way.

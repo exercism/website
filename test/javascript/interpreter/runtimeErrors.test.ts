@@ -35,7 +35,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: -, side: right, value: `&quot;a&quot;`'
+        'OperandsMustBeNumbers: operator: -, side: right, value: `a`'
       )
     })
     test('1 / true', () => {
@@ -68,7 +68,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code, context)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: *, side: right, value: `&quot;Jeremy&quot;`'
+        'OperandsMustBeNumbers: operator: *, side: right, value: `Jeremy`'
       )
     })
   })

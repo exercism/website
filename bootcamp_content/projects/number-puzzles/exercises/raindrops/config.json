@@ -1,0 +1,145 @@
+{
+  "title": "Raindrop Sounds",
+  "description": "Convert a number into a raindrop sound based on its factors.",
+  "level": 4,
+  "idx": 2,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 3 },
+    { "from": 5, "to": 5 }
+  ],
+  "tasks": [
+    {
+      "name": "Plings",
+      "tests": [
+        {
+          "slug": "number-3",
+          "description": "If 3 is input, return \"Pling\"",
+          "name": "Number 3",
+          "function": "raindrops",
+          "params": [3],
+          "expected": "Pling"
+        },
+        {
+          "slug": "number-5",
+          "type": "io",
+          "name": "Number 5",
+          "function": "raindrops",
+          "params": [5],
+          "expected": "Plang"
+        },
+        {
+          "slug": "number-7",
+          "type": "io",
+          "name": "Number 7",
+          "function": "raindrops",
+          "params": [7],
+          "expected": "Plong"
+        }
+      ]
+    },
+    {
+      "name": "Composite factor sounds",
+      "tests": [
+        {
+          "slug": "number-6",
+          "type": "io",
+          "name": "Number 6",
+          "function": "raindrops",
+          "params": [6],
+          "expected": "Pling"
+        },
+        {
+          "slug": "number-15",
+          "type": "io",
+          "name": "Number 15",
+          "function": "raindrops",
+          "params": [15],
+          "expected": "PlingPlang"
+        },
+        {
+          "slug": "number-21",
+          "type": "io",
+          "name": "Number 21",
+          "function": "raindrops",
+          "params": [21],
+          "expected": "PlingPlong"
+        },
+        {
+          "slug": "number-105",
+          "type": "io",
+          "name": "Number 105",
+          "function": "raindrops",
+          "params": [105],
+          "expected": "PlingPlangPlong"
+        }
+      ]
+    },
+    {
+      "name": "Numbers with no raindrop sound",
+      "tests": [
+        {
+          "slug": "number-8",
+          "type": "io",
+          "name": "Number 8",
+          "function": "raindrops",
+          "params": [8],
+          "expected": 8
+        },
+        {
+          "slug": "number-52",
+          "type": "io",
+          "name": "Number 52",
+          "function": "raindrops",
+          "params": [52],
+          "expected": 52
+        }
+      ]
+    },
+    {
+      "name": "Larger numbers with factors",
+      "tests": [
+        {
+          "slug": "number-27",
+          "type": "io",
+          "name": "Number 27",
+          "function": "raindrops",
+          "params": [27],
+          "expected": "Pling"
+        },
+        {
+          "slug": "number-35",
+          "type": "io",
+          "name": "Number 35",
+          "function": "raindrops",
+          "params": [35],
+          "expected": "PlangPlong"
+        },
+        {
+          "slug": "number-49",
+          "type": "io",
+          "name": "Number 49",
+          "function": "raindrops",
+          "params": [49],
+          "expected": "Plong"
+        },
+        {
+          "slug": "number-3125",
+          "type": "io",
+          "name": "Number 3125",
+          "function": "raindrops",
+          "params": [3125],
+          "expected": "Plang"
+        },
+        {
+          "slug": "number-1",
+          "name": "Number 1",
+          "description_html": "number 1 should return the number 1.",
+          "function": "raindrops",
+          "params": [1],
+          "expected": 1
+        }
+      ]
+    }
+  ]
+}

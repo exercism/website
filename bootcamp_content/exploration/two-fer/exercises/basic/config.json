@@ -1,0 +1,47 @@
+{
+  "title": "Empty Strings",
+  "description": "Return what you say when you hand the cookie other, using the person's name if you know it.",
+  "concepts": ["conditionals"],
+  "level": 3,
+  "idx": 1,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 1 },
+    { "from": 3, "to": 3 }
+  ],
+  "tasks": [
+    {
+      "name": "Get things working with a single string",
+      "tests": [
+        {
+          "slug": "no_name",
+          "name": "no name given",
+          "function": "two_fer",
+          "params": [""],
+          "expected": "One for you, one for me."
+        }
+      ]
+    },
+    {
+      "name": "Get things working with a name",
+      "tests": [
+        {
+          "type": "io",
+          "slug": "alice",
+          "name": "A name is given",
+          "function": "two_fer",
+          "params": ["Alice"],
+          "expected": "One for Alice, one for me."
+        },
+        {
+          "type": "io",
+          "slug": "bob",
+          "name": "Another name is given",
+          "function": "two_fer",
+          "params": ["Bob"],
+          "expected": "One for Bob, one for me."
+        }
+      ]
+    }
+  ]
+}

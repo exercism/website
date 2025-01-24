@@ -5,16 +5,16 @@
   "idx": 3,
   "tests_type": "io",
   "readonly_ranges": [
-    { "from": 1, "to": 3 },
-    { "from": 5, "to": 5 }
+    { "from": 1, "to": 4 },
+    { "from": 6, "to": 6 }
   ],
   "tasks": [
     {
-      "name": "Non-leap years",
+      "name": "Determine if the year is a leap year",
       "tests": [
         {
           "slug": "year-2015",
-          "description_html": "Year not divisible by 4 is not a leap year",
+          "description_html": "2015 is not divisible by 4 so is not a leap year",
           "name": "Year 2015",
           "function": "is_leap_year",
           "params": [2015],
@@ -22,7 +22,7 @@
         },
         {
           "slug": "year-1970",
-          "description_html": "Year divisible by 2 but not by 4 is not a leap year",
+          "description_html": "1970 is not divisible 4 so is not a leap year",
           "name": "Year 1970",
           "function": "is_leap_year",
           "params": [1970],
@@ -30,7 +30,7 @@
         },
         {
           "slug": "year-2100",
-          "description_html": "Year divisible by 100 but not by 400 is not a leap year",
+          "description_html": "2100 is divisible by 100 but not by 400 so is not a leap year",
           "name": "Year 2100",
           "function": "is_leap_year",
           "params": [2100],
@@ -38,7 +38,7 @@
         },
         {
           "slug": "year-1900",
-          "description_html": "Year divisible by 100 but not by 3 is still not a leap year",
+          "description_html": "1900 is divisible by 100 but not by 3 so is not a leap year",
           "name": "Year 1900",
           "function": "is_leap_year",
           "params": [1900],
@@ -46,36 +46,15 @@
         },
         {
           "slug": "year-1800",
-          "description_html": "Year divisible by 200 but not by 400 is not a leap year",
+          "description_html": "1800 is divisible by 200 but not by 400 so is not a leap year",
           "name": "Year 1800",
           "function": "is_leap_year",
           "params": [1800],
           "expected": false
-        }
-      ]
-    },
-    {
-      "name": "Leap years",
-      "tests": [
-        {
-          "slug": "year-1996",
-          "description_html": "Year divisible by 4 but not by 100 is a leap year",
-          "name": "Year 1996",
-          "function": "is_leap_year",
-          "params": [1996],
-          "expected": true
-        },
-        {
-          "slug": "year-1960",
-          "description_html": "Year divisible by 4 and 5 is still a leap year",
-          "name": "Year 1960",
-          "function": "is_leap_year",
-          "params": [1960],
-          "expected": true
         },
         {
           "slug": "year-2000",
-          "description_html": "Year divisible by 400 is a leap year",
+          "description_html": "2000 is divisible by 400 so is a leap year",
           "name": "Year 2000",
           "function": "is_leap_year",
           "params": [2000],
@@ -83,10 +62,26 @@
         },
         {
           "slug": "year-2400",
-          "description_html": "Year divisible by 400 but not by 125 is still a leap year",
+          "description_html": "2400 is divisible by 400 so is a leap year",
           "name": "Year 2400",
           "function": "is_leap_year",
           "params": [2400],
+          "expected": true
+        },
+        {
+          "slug": "year-1996",
+          "description_html": "1996 is divisible by 4 but not by 100 so is a leap year",
+          "name": "Year 1996",
+          "function": "is_leap_year",
+          "params": [1996],
+          "expected": true
+        },
+        {
+          "slug": "year-1960",
+          "description_html": "1960 is divisible by 4 and 5 so a leap year",
+          "name": "Year 1960",
+          "function": "is_leap_year",
+          "params": [1960],
           "expected": true
         }
       ]

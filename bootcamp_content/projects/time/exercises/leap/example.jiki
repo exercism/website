@@ -1,20 +1,14 @@
-// Receives a number as its input
-// Should return the equivelent raindrop sounds
-function raindrops with number do
-  set result to ""
-  if number % 3 == 0 do
-    change result to result + "Pling"
-  end
-  if number % 5 == 0 do
-    change result to result + "Plang"
-  end
-  if number % 7 == 0 do
-    change result to result + "Plong"
+// Receives a year as its input.
+// Should return true if it is a leap year.
+// Should return false if it is not a leap year.
+function is_leap_year with year do
+  if year % 4 != 0 do
+    return false
   end
 
-  if result == "" do
-    change result to number
+  if year % 100 == 0 do
+    return year % 400 == 0
   end
 
-  return result
+  return true 
 end

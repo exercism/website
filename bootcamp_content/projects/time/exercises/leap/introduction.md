@@ -1,19 +1,22 @@
-# Raindrops
+# Leap
 
-Raindrops is a version of the classic FizzBuzz challenge.
-This is a programming exercise that's been used in interviews forever.
+A leap year (in the Gregorian calendar) occurs:
 
-Your task is to convert a number into its corresponding raindrop sounds.
+- In every year that is evenly divisible by 4.
+- Unless the year is evenly divisible by 100, in which case it's only a leap year if the year is also evenly divisible by 400.
 
-If a given number:
+Some examples:
 
-- is divisible by 3, add `"Pling"` to the result.
-- is divisible by 5, add `"Plang"` to the result.
-- is divisible by 7, add `"Plong"` to the result.
-- is not divisible by 3, 5, or 7, the result should be the number as a string.
+- 1997 was not a leap year as it's not divisible by 4.
+- 1900 was not a leap year as it's not divisible by 400.
+- 2000 was a leap year!
 
-### Examples
+### Take your time!
 
-- 28 is divisible by 7, but not 3 or 5, so the result would be `"Plong"`.
-- 30 is divisible by 3 and 5, but not 7, so the result would be `"PlingPlang"`.
-- 34 is not divisible by 3, 5, or 7, so the result would be `"34"`.
+Take your time on this one. Once you enter whack-a-mole you'll be in trouble!
+
+If it all goes wrong, don't be afraid to click the Reset button and start again!
+
+```exercism/note
+For a delightful, four-minute explanation of the whole phenomenon of leap years, check out [this YouTube video](https://www.youtube.com/watch?v=xX96xng7sAE).
+```

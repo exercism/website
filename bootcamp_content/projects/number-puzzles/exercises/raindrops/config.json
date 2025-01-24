@@ -1,6 +1,6 @@
 {
   "title": "Raindrop Sounds",
-  "description_html": "Convert a number into a raindrop sound based on its factors.",
+  "description": "Convert a number into a raindrop sound based on its factors.",
   "level": 4,
   "idx": 2,
   "tests_type": "io",

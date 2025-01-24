@@ -2,5 +2,10 @@
   "slug": "number-puzzles",
   "title": "Number Puzzles",
   "description": "Implement the classic game",
-  "exercises": ["positive-negative-or-zero", "even-or-odd", "raindrops"]
+  "exercises": [
+    "positive-negative-or-zero",
+    "even-or-odd",
+    "raindrops",
+    "collatz-conjecture"
+  ]
 }

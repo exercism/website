@@ -12,6 +12,7 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
+import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 
 const FRAME_DURATION = 50
 
@@ -76,12 +77,14 @@ export function useScrubber({
     }
   }, [frames, animationTimeline])
 
+  const { inspectedTestResult } = useTestStore()
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
     let currentFrame: Frame | undefined = animationTimeline
       ? animationTimeline.currentFrame
       : frames[value]
 
+    cleanUpEditor(editorView)
     if (currentFrame) {
       setHighlightedLine(currentFrame.line)
       switch (currentFrame.status) {
@@ -107,10 +110,9 @@ export function useScrubber({
         }
       }
     }
-  }, [value, animationTimeline?.currentFrameIndex])
+  }, [value, animationTimeline?.currentFrameIndex, inspectedTestResult])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
-  const { inspectedTestResult } = useTestStore()
   useEffect(() => {
     if (inspectedTestResult && inspectedTestResult.animationTimeline) {
       handleScrubToCurrentTime(inspectedTestResult.animationTimeline)

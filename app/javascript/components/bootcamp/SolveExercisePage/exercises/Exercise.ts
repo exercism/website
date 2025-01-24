@@ -29,6 +29,7 @@ export abstract class Exercise {
     this.functionCalls[name][JSON.stringify(args)] += 1
   }
 
+  // TODO: Add test coverage
   public wasStatementUsed(
     result: InterpretResult,
     statementType: string
@@ -37,6 +38,7 @@ export abstract class Exercise {
       return false
     }
     return result.frames.some(
+      // TODO: Add test coverage to frame being an error frame without context
       (frame) => (frame.context as Statement)?.type == statementType
     )
   }

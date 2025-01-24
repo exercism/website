@@ -13,24 +13,33 @@ You need to move between shoots to keep it cool.
 
 Once all the aliens have been shot down, you win!
 
-### Reference
+## Functions
 
-Functions:
+You have the following functions available.
 
 - `move_left()`: Moves the laser to the left
 - `move_right()`: Moves the laser to the right
 - `is_alien_above()`: Returns `true` if there's an alien directly above you, or `false` if not.
 - `shoot()`: Shoots upwards.
 
-You'll also need the `set`, `change`, `if` and `repeat_until_game_over` concepts. To start with, you might find it better to use `repeat` with a fixed number of times, so that your code doesn't run forever!
+You'll also need the `set`, `change`, `if` and `repeat_until_game_over` concepts.
 
-### There's many ways to solve this!
+To start with, you might find it better to use `repeat` with a fixed number of times, so that your code doesn't run forever.
+
+## Bonus Task
+
+Solving this exercise is a big achievement, but you might like one more challenge.
+
+**Can you solve this exercise without using the `repeat` keyword?**
+It's not easy, but you'll be very proud of yourself if you can piece it together.
+
+## There's many ways to solve this!
 
 We've now entered the point of the course where there are **lots** (probably hundreds) of ways to solve this exercise. There are different tradeoffs between different approaches. Over time you'll learn "best practices" and why some ways are better than others, but for now don't get hung up on that. Your job is **just to solve the exercise**.
 
 In the Labs sessions I'll start discussing different ways to solve things, and you can tell me about what approach you took!
 
-### Hints
+## Hints
 
 As normal, it's important to break the exercise down into steps. You probably want to get the laser moving from side to side first, then add the logic for detecting and shooting aliens afterwards.
 

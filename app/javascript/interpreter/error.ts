@@ -111,6 +111,7 @@ export type RuntimeErrorType =
   | 'UnexpectedUncalledFunction'
   | 'FunctionAlreadyDeclared'
   | 'UnexpectedChangeOfFunction'
+  | 'UnexpectedReturnOutsideOfFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

@@ -2,6 +2,7 @@ import { Environment } from './environment'
 import { LanguageFeatures } from './interpreter'
 import { FunctionStatement } from './statement'
 import type { ExecutionContext, Executor } from './executor'
+import { Location } from './location'
 
 export type Arity = number | [min: number, max: number]
 
@@ -11,7 +12,7 @@ export interface Callable {
 }
 
 export class ReturnValue extends Error {
-  constructor(public value: any) {
+  constructor(public value: any, public location: Location) {
     super()
   }
 }

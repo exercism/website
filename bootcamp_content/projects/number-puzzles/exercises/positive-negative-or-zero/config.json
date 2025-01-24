@@ -5,6 +5,10 @@
   "level": 4,
   "idx": 1,
   "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 3 },
+    { "from": 5, "to": 5 }
+  ],
   "tasks": [
     {
       "name": "Correctly identify positive numbers",

@@ -2,11 +2,13 @@
     --prose-base-text-size: 19px;
     --prose-h3-text-size: 22px;
     --prose-h4-text-size: 20px;
+    --prose-h5-text-size: 19px;
 
     &.c-prose-small {
         --prose-base-text-size: 17px;
         --prose-h3-text-size: 21px;
         --prose-h4-text-size: 18px;
+        --prose-h5-text-size: 17px;
     }
     h3 {
         font-size: var(--prose-h3-text-size);
@@ -58,6 +60,17 @@
     }
     strong {
         @apply font-semibold;
+    }
+
+    details {
+        @apply mt-8;
+        summary {
+            font-size: var(--prose-h5-text-size);
+            @apply cursor-pointer;
+            @apply leading-140;
+            @apply font-medium;
+            @apply mb-8;
+        }
     }
 
     h3 + p,

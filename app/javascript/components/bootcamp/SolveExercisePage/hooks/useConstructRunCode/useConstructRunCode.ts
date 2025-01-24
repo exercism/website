@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { compile } from '@/interpreter/interpreter'
+import { compile, EvaluationContext } from '@/interpreter/interpreter'
 import useTestStore from '../../store/testStore'
 import useEditorStore from '../../store/editorStore'
 import useTaskStore from '../../store/taskStore/taskStore'
@@ -15,6 +15,9 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import useErrorStore from '../../store/errorStore'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
+import { StdlibFunctions } from '@/interpreter/stdlib'
+import { ExerciseFilterList } from '@/components/mentoring/queue/ExerciseFilterList'
+import { ExecutionContext } from '@/interpreter/executor'
 
 export function useConstructRunCode({
   links,
@@ -77,8 +80,15 @@ export function useConstructRunCode({
 
       const exercise = getAndInitializeExerciseClass(config)
 
-      const context = {
-        externalFunctions: exercise?.availableFunctions,
+      // Choose the functions that are available to the student from config.stdlibFunctions
+      const stdlibFunctions = Object.entries(StdlibFunctions)
+        .filter(([key]) => (config.stdlibFunctions || []).includes(key))
+        .map(([_, v]) => v)
+      const exerciseFunctions = exercise?.availableFunctions || []
+      const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
+
+      const context: EvaluationContext = {
+        externalFunctions,
         languageFeatures: config.interpreterOptions,
       }
       // @ts-ignore
@@ -114,6 +124,7 @@ export function useConstructRunCode({
         studentCode,
         tasks,
         config,
+        context,
       })
 
       setTestSuiteResult(testResults)

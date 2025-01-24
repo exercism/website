@@ -8,6 +8,7 @@
     { "from": 1, "to": 3 },
     { "from": 5, "to": 5 }
   ],
+  "stdlib_functions": ["join", "number_to_string"],
   "tasks": [
     {
       "name": "Plings",
@@ -106,7 +107,7 @@
           "name": "Number 8",
           "function": "raindrops",
           "params": [8],
-          "expected": 8
+          "expected": "8"
         },
         {
           "slug": "number-52",
@@ -114,7 +115,7 @@
           "name": "Number 52",
           "function": "raindrops",
           "params": [52],
-          "expected": 52
+          "expected": "52"
         }
       ]
     }

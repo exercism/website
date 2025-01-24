@@ -89,7 +89,8 @@
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
-      "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}"
+      "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
+      "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

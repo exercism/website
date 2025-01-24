@@ -1,34 +1,29 @@
 import { ReturnValue, UserDefinedFunction, isCallable } from './functions'
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
-import { RuntimeError, type RuntimeErrorType, isRuntimeError } from './error'
 import {
-  ArrayExpression,
-  ChangeVariableStatement,
+  FunctionCallTypeMismatchError,
+  RuntimeError,
+  type RuntimeErrorType,
+  isRuntimeError,
+} from './error'
+import {
   BinaryExpression,
   CallExpression,
-  DictionaryExpression,
   Expression,
   GetExpression,
   GroupingExpression,
   LiteralExpression,
   LogicalExpression,
   SetExpression,
-  TemplateLiteralExpression,
-  TemplatePlaceholderExpression,
-  TemplateTextExpression,
   UnaryExpression,
   UpdateExpression,
   VariableExpression,
-  ExpressionWithValue,
 } from './expression'
 import { Location, Span } from './location'
 import {
   BlockStatement,
-  ConstantStatement as ConstantStatement,
-  DoWhileStatement,
   ExpressionStatement,
-  ForeachStatement,
   FunctionStatement,
   IfStatement,
   RepeatStatement,
@@ -36,13 +31,9 @@ import {
   ReturnStatement,
   Statement,
   SetVariableStatement,
-  WhileStatement,
 } from './statement'
 import type { Token } from './token'
-import type {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-} from './evaluation-result'
+import type { EvaluationResult } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
 import type { LanguageFeatures } from './interpreter'
@@ -106,7 +97,6 @@ export class Executor {
       }
 
       this.globals.define(externalFunction.name, callable)
-      this.environment.define(externalFunction.name, callable)
     }
   }
 
@@ -570,6 +560,9 @@ export class Executor {
         args.map((arg) => arg.value)
       )
     } catch (e) {
+      if (e instanceof FunctionCallTypeMismatchError) {
+        this.error('FunctionCallTypeMismatch', expression.location, e.context)
+      }
       if (e instanceof LogicError) {
         this.error('LogicError', expression.location, { message: e.message })
       } else {
@@ -1061,7 +1054,7 @@ export class Executor {
   private lookupVariable(name: Token, expression: Expression): any {
     let value = this.environment.get(name)
     if (value === undefined) {
-      this.globals.get(name)
+      value = this.globals.get(name)
     }
     if (value === undefined) {
       this.error('CouldNotFindValueWithName', expression.location, {

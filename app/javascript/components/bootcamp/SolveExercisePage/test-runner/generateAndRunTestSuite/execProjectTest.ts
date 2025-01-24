@@ -3,6 +3,7 @@ import { type Project } from '@/components/bootcamp/SolveExercisePage/utils/exer
 import type { Exercise } from '../../exercises/Exercise'
 import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
 import { generateExpects } from './generateExpects'
+import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 
 /**
  This is of type TestCallback
@@ -22,19 +23,15 @@ export function execProjectTest(
     exercise[functionName](...params)
   })
 
-  const context = {
-    externalFunctions: exercise.availableFunctions,
-    languageFeatures: options.config.interpreterOptions,
-  }
   let evaluated
   if (testData.function) {
     evaluated = evaluateFunction(
       options.studentCode,
-      context,
+      options.context,
       testData.function
     )
   } else {
-    evaluated = interpret(options.studentCode, context)
+    evaluated = interpret(options.studentCode, options.context)
   }
 
   const { frames } = evaluated

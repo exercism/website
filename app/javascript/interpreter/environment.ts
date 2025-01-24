@@ -41,6 +41,7 @@ export class Environment {
     const variableNames = Object.keys(this.variables())
     const functionNames = Object.keys(this.functions())
 
+    return undefined
     throw new RuntimeError(
       translate('error.runtime.CouldNotFindValueWithName', {
         name: name.lexeme,

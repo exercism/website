@@ -47,5 +47,6 @@ declare global {
     // tasks: Task[];
     testsType: 'io' | 'state'
     interpreterOptions: LanguageFeatures
+    stdLibFunctions: string[]
   }
 }

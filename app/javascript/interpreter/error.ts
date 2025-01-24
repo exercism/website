@@ -111,6 +111,7 @@ export type RuntimeErrorType =
   | 'UnexpectedUncalledFunction'
   | 'FunctionAlreadyDeclared'
   | 'UnexpectedChangeOfFunction'
+  | 'FunctionCallTypeMismatch'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType
@@ -149,6 +150,15 @@ export class SemanticError extends FrontendError<SemanticErrorType> {}
 export class DisabledLanguageFeatureError extends FrontendError<DisabledLanguageFeatureErrorType> {}
 
 export class RuntimeError extends FrontendError<RuntimeErrorType> {}
+
+type FunctionCallTypeMismatchErrorContext = {
+  argIndex: number
+  expectedType: string
+  actualType: string
+}
+export class FunctionCallTypeMismatchError {
+  constructor(public context: FunctionCallTypeMismatchErrorContext) {}
+}
 
 export function isStaticError(obj: any): obj is StaticError {
   return (

@@ -12,6 +12,13 @@ If a given number:
 - is divisible by 7, add `"Plong"` to the result.
 - is not divisible by 3, 5, or 7, the result should be the number as a string.
 
+### Functions
+
+To solve this, you need two functions:
+
+- `join(string1, string2)` takes two strings as inputs and returns them joined into one string.
+- `number_to_string(number)` takes a number as an input and returns it magically changed into a string.
+
 ### Examples
 
 - 28 is divisible by 7, but not 3 or 5, so the result would be `"Plong"`.

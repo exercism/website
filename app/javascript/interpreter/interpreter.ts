@@ -31,7 +31,7 @@ export type InputLanguageFeatures = {
   allowGlobals?: boolean
 }
 
-export type Context = {
+export type EvaluationContext = {
   externalFunctions?: ExternalFunction[]
   languageFeatures?: InputLanguageFeatures
   state?: Record<string, any>
@@ -49,7 +49,7 @@ export type InterpretResult = {
   error: StaticError | null
 }
 
-export function compile(sourceCode: string, context: Context = {}) {
+export function compile(sourceCode: string, context: EvaluationContext = {}) {
   const interpreter = new Interpreter(sourceCode, context)
   try {
     interpreter.compile()
@@ -60,7 +60,7 @@ export function compile(sourceCode: string, context: Context = {}) {
 }
 export function interpret(
   sourceCode: string,
-  context: Context = {}
+  context: EvaluationContext = {}
 ): InterpretResult {
   const interpreter = new Interpreter(sourceCode, context)
   try {
@@ -73,7 +73,7 @@ export function interpret(
 
 export function evaluateFunction(
   sourceCode: string,
-  context: Context = {},
+  context: EvaluationContext = {},
   functionCall: string,
   ...args: any[]
 ): EvaluateFunctionResult {
@@ -92,7 +92,7 @@ export class Interpreter {
 
   private statements: Statement[] = []
 
-  constructor(private readonly sourceCode: string, context: Context) {
+  constructor(private readonly sourceCode: string, context: EvaluationContext) {
     // Set the instance variables based on the context that's been passed in.
     if (context.state !== undefined) {
       this.state = context.state

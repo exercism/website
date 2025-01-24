@@ -1,5 +1,6 @@
 import { evaluateFunction } from '@/interpreter/interpreter'
 import { generateExpects } from './generateExpects'
+import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 
 /**
  This is of type TestCallback
@@ -12,7 +13,7 @@ export function execGenericTest(
 
   const evaluated = evaluateFunction(
     options.studentCode,
-    {},
+    options.context,
     testData.function,
     ...params
   )

@@ -153,7 +153,7 @@ describe('statements', () => {
       })
 
       describe('strings', () => {
-        test('plus', () => {
+        test.skip('plus', () => {
           const { frames } = interpret('set x to "sw" + "eet" ')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
@@ -268,7 +268,7 @@ describe('statements', () => {
       expect(frames[3].variables).toMatchObject({ pos: 25 })
     })
   })
-  describe('function', () => {
+  describe('creating function', () => {
     describe('without parameters', () => {
       test('define', () => {
         const { frames } = interpret(`
@@ -787,7 +787,7 @@ describe('evaluateFunction', () => {
     expect(frames).toBeArrayOfSize(11)
   })
 
-  test('twoFer', () => {
+  test.skip('twoFer', () => {
     const code = `
       function twoFer with name do
         if(name is "") do

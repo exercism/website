@@ -1,3 +1,3 @@
 # Task 2
 
-Great! Now get the `"Odd"` check in place.
+Nice work! Now get the `"Plong"` sounds right.

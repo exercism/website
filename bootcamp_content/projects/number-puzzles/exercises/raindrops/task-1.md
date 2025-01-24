@@ -1,3 +1,3 @@
 # Task 1
 
-Start with trying to get the `"Even"` check in place.
+Start off by getting the `"Pling"` sounds right.

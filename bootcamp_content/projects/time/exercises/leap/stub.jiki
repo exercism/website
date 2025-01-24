@@ -1,0 +1,6 @@
+// Receives a year as its input.
+// Should return true if it is a leap year.
+// Should return false if it is not a leap year.
+function is_leap_year with year do
+
+end

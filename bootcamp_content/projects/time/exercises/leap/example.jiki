@@ -1,0 +1,20 @@
+// Receives a number as its input
+// Should return the equivelent raindrop sounds
+function raindrops with number do
+  set result to ""
+  if number % 3 == 0 do
+    change result to result + "Pling"
+  end
+  if number % 5 == 0 do
+    change result to result + "Plang"
+  end
+  if number % 7 == 0 do
+    change result to result + "Plong"
+  end
+
+  if result == "" do
+    change result to number
+  end
+
+  return result
+end

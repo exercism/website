@@ -15,6 +15,7 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import useErrorStore from '../../store/errorStore'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
+import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 
 export function useConstructRunCode({
   links,
@@ -54,6 +55,7 @@ export function useConstructRunCode({
       }
 
       // reset on each run
+      cleanUpEditor(editorView)
       setHasSyntaxError(false)
       setHasUnhandledError(false)
       setShouldShowInformationWidget(false)

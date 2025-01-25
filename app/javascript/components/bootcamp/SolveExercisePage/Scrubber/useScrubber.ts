@@ -12,6 +12,7 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
+import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 
 const FRAME_DURATION = 50
 
@@ -56,19 +57,34 @@ export function useScrubber({
     }
   }, [animationTimeline])
 
+  // only check for error frame once when frames change, let users navigate freely
+  useEffect(() => {
+    if (frames.some((frame) => frame.status === 'ERROR')) {
+      const newValue = frames.findIndex((frame) => frame.status === 'ERROR')
+      const error = frames[newValue].error
+      showError({
+        error: error as StaticError,
+        setHighlightedLine,
+        setHighlightedLineColor,
+        setInformationWidgetData,
+        setShouldShowInformationWidget,
+        setUnderlineRange,
+      })
+      if (animationTimeline) {
+        animationTimeline.seek(frames[newValue].time)
+      }
+      setValue(frames[newValue].time)
+    }
+  }, [frames, animationTimeline])
+
+  const { inspectedTestResult } = useTestStore()
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    let currentFrame: Frame | undefined
+    let currentFrame: Frame | undefined = animationTimeline
+      ? animationTimeline.currentFrame
+      : frames[value]
 
-    if (!currentFrame) {
-      if (animationTimeline) {
-        currentFrame = animationTimeline.currentFrame
-      } else {
-        // error frame could potentially occur *before* initialising the animationTimeline
-        // this one catches that, otherwise error frame will be shown once the animation timelien is at that frame
-        currentFrame = frames.find((f) => f.status === 'ERROR') ?? frames[value]
-      }
-    }
+    cleanUpEditor(editorView)
     if (currentFrame) {
       setHighlightedLine(currentFrame.line)
       switch (currentFrame.status) {
@@ -94,10 +110,9 @@ export function useScrubber({
         }
       }
     }
-  }, [value, animationTimeline?.currentFrameIndex, frames])
+  }, [value, animationTimeline?.currentFrameIndex, inspectedTestResult])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
-  const { inspectedTestResult } = useTestStore()
   useEffect(() => {
     if (inspectedTestResult && inspectedTestResult.animationTimeline) {
       handleScrubToCurrentTime(inspectedTestResult.animationTimeline)

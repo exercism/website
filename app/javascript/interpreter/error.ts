@@ -112,6 +112,7 @@ export type RuntimeErrorType =
   | 'FunctionAlreadyDeclared'
   | 'UnexpectedChangeOfFunction'
   | 'FunctionCallTypeMismatch'
+  | 'UnexpectedReturnOutsideOfFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

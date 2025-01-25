@@ -92,7 +92,8 @@
       "UnexpectedUncalledFunction": "You used a function as if it's a variable. Did you mean to use it by adding `()` at the end?",
       "FunctionAlreadyDeclared": "There is already a function called `{{name}}`. Please choose a different name for this variable.",
       "UnexpectedChangeOfFunction": "You are trying to change `{{name}}` but it is a function, not a variable.\n\nIt is not a box that you can change the contents of. It is machine for you to use.",
-      "FunctionCallTypeMismatch": "Jiki expected input {{argIdx}} to be a {{expectedType}} but it was actually a {{actualType}}."
+      "FunctionCallTypeMismatch": "Jiki expected input {{argIdx}} to be a {{expectedType}} but it was actually a {{actualType}}.",
+      "UnexpectedReturnOutsideOfFunction": "You used the `return` keyword, but you're not inside a function. So Jiki has nothing to return out from."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

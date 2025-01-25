@@ -19,6 +19,7 @@ import {
   UnaryExpression,
   UpdateExpression,
   VariableExpression,
+  ExpressionWithValue,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -113,6 +114,19 @@ export class Executor {
       try {
         this.executeStatement(statement)
       } catch (error) {
+        if (error instanceof ReturnValue) {
+          // Remove the last frame and replace it with an error frame
+          // This saves us having to pass the context down to where
+          // the error is thrown.
+          this.frames.pop()
+          this.addFrame(
+            error.location,
+            'ERROR',
+            undefined,
+            this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
+          )
+          break
+        }
         if (isRuntimeError(error)) {
           this.addFrame(
             this.location || error.location,
@@ -378,7 +392,7 @@ export class Executor {
         }
       }
     )
-    throw new ReturnValue(evaluationResult.value)
+    throw new ReturnValue(evaluationResult?.value, statement.location)
   }
 
   // visitForeachStatement(statement: ForeachStatement): void {
@@ -1107,6 +1121,14 @@ export class Executor {
     location: Location | null,
     context: any = {}
   ): never {
+    throw this.buildError(type, location, context)
+  }
+
+  private buildError(
+    type: RuntimeErrorType,
+    location: Location | null,
+    context: any = {}
+  ): RuntimeError {
     let message
     if (type == 'LogicError') {
       message = context.message
@@ -1114,6 +1136,6 @@ export class Executor {
       message = translate(`error.runtime.${type}`, context)
     }
 
-    throw new RuntimeError(message, location, type, context)
+    return new RuntimeError(message, location, type, context)
   }
 }

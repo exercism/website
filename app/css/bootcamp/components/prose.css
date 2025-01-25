@@ -63,13 +63,13 @@
     }
 
     details {
-        @apply mt-8;
+        @apply mt-12 pl-20;
         summary {
             font-size: var(--prose-h5-text-size);
             @apply cursor-pointer;
             @apply leading-140;
             @apply font-medium;
-            @apply mb-8;
+            @apply mb-8 ml-[-20px];
         }
     }
 
@@ -85,11 +85,13 @@
     h4 + div {
         @apply mt-6;
     }
-    p + ul {
+    p + ul,
+    p + ol {
         @apply mt-4;
     }
     p + p,
-    ul + p {
+    ul + p,
+    ol + p {
         @apply mt-12;
     }
     p + pre {

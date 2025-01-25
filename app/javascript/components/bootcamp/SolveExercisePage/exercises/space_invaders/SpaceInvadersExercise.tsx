@@ -305,22 +305,23 @@ export default class SpaceInvadersExercise extends Exercise {
     {
       name: 'move_left',
       func: this.moveLeft.bind(this),
-      description: '',
+      description: 'Moves the laser canon to the left',
     },
     {
       name: 'move_right',
       func: this.moveRight.bind(this),
-      description: '',
+      description: 'Moves the laser canon to the right',
     },
     {
       name: 'shoot',
       func: this.shoot.bind(this),
-      description: '',
+      description: 'Shoots the laser upwards',
     },
     {
       name: 'is_alien_above',
       func: this.isAlienAbove.bind(this),
-      description: '',
+      description:
+        'Returns a boolean indicating if there is an alien above the laser canon',
     },
   ]
 }

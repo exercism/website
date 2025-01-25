@@ -90,7 +90,8 @@
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
-      "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}"
+      "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",
+      "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

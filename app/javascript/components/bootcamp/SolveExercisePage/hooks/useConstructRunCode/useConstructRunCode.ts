@@ -18,6 +18,7 @@ import useAnimationTimelineStore from '../../store/animationTimelineStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
 import { ExerciseFilterList } from '@/components/mentoring/queue/ExerciseFilterList'
 import { ExecutionContext } from '@/interpreter/executor'
+import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 
 export function useConstructRunCode({
   links,
@@ -57,6 +58,7 @@ export function useConstructRunCode({
       }
 
       // reset on each run
+      cleanUpEditor(editorView)
       setHasSyntaxError(false)
       setHasUnhandledError(false)
       setShouldShowInformationWidget(false)

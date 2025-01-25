@@ -29,12 +29,17 @@ export abstract class Exercise {
     this.functionCalls[name][JSON.stringify(args)] += 1
   }
 
+  // TODO: Add test coverage
   public wasStatementUsed(
     result: InterpretResult,
     statementType: string
   ): boolean {
+    if (result.frames === undefined) {
+      return false
+    }
     return result.frames.some(
-      (frame) => (frame.context as Statement).type == statementType
+      // TODO: Add test coverage to frame being an error frame without context
+      (frame) => (frame.context as Statement)?.type == statementType
     )
   }
 

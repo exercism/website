@@ -111,4 +111,19 @@ describe('Runtime errors', () => {
       )
     })
   })
+  describe('UnexpectedReturnOutsideOfFunction', () => {
+    test('with result', () => {
+      const code = 'return 1'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'UnexpectedReturnOutsideOfFunction')
+      expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
+    })
+    test('without result', () => {
+      const code = 'return'
+      const { frames } = interpret(code)
+      console.log(frames)
+      expectFrameToBeError(frames[0], code, 'UnexpectedReturnOutsideOfFunction')
+      expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
+    })
+  })
 })

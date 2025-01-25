@@ -53,14 +53,49 @@ The functions used in this exercise are:
 
 ## Hints
 
-At the start you move the circle `2` to the right and `1` down.
-Think about what these numbers are.
-They're the **velocity** (speed and distance) that the ball is moving.
-Use variables for them.
+The key to this exercise is to do things one at a time:
 
-Once the ball hits an edge, it needs to change the direction it's moving, so you need to update those velocity variables.
-However, you do **not** have to change them by `1` or `2`.
-You could change them to any number.
-Maybe you could even change them to a different number each time?
+1. Make the ball change color as it moves
+2. Make it bounce off the right hand side
+3. Make it bounce off the bottom.
+4. Make it bounce randomly
 
-The hue works in a similar way.
+Here are a few hints if you get stuck.
+Click the titles to expand.
+
+<details>
+<summary>Hint 1: Don't use hard-coded numbers.</summary>
+
+At the start, the ball moves `2` to the right each time.
+
+Remember what we've learnt so far and use a **variable** to store that `2`. Then rather than having `x + 2` have `x + my_variable_name`.
+
+Now ask yourself when that variable should change.
+
+The same applies for `y` and for the `hue`.
+
+</details>
+
+<details>
+<summary>Hint 2: Velocity</summary>
+
+What are these numbers that x and y change by?
+They're a mixture of speed (the size of the number) and direction (whether it moves the ball forward or back).
+So `2` would be a speed of 2 moving to the right or bottom.
+And `-3` would be a speed of 3 moving to the left or top.
+
+A number that is a speed and a distance is called a **velocity** (time to update your variable names?)
+
+So when you want to change the direction of the ball, you change the sign of the velocity, from positive to negative or vis-versa.
+
+</details>
+
+<details>
+<summary>Hint 3: Randomness</summary>
+
+Hopefully by now you have the ball bouncing.
+How do you make it bounce more randomly?
+
+If you're currently changing the velocities by a fixed amount each time, why not change them by a different amount each time using the `random_number` function.
+
+</details>

@@ -27,6 +27,9 @@ export const underlineField = StateField.define<DecorationSet>({
       }
       if (e.is(addUnderlineEffect)) {
         const { from, to } = e.value
+        if (from === 0 && to === 0) {
+          return Decoration.none
+        }
         if (from >= 0 && to <= tr.newDoc.length) {
           updatedUnderlines = Decoration.none.update({
             add: [underlineMark.range(from, to)],

@@ -18,10 +18,12 @@ function _Header({
   setBackgroundImage: ((imageUrl: string | null) => void) | null
 } & Pick<DrawingPageProps, 'links' | 'drawing' | 'backgrounds'>) {
   const [titleInputValue, setTitleInputValue] = useState(drawing.title)
+  const [prevTitleInputValue, setPrevTitleInputValue] = useState(drawing.title)
   const [editMode, setEditMode] = useState(false)
   const [titleSavingStateLabel, setTitleSavingStateLabel] = useState<string>(
     DEFAULT_SAVE_BUTTON_LABEL
   )
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleSaveTitle = useCallback(() => {
     setTitleSavingStateLabel('Saving...')
@@ -42,6 +44,22 @@ function _Header({
     },
     [setBackgroundImage]
   )
+
+  const handleSwitchToEditMode = useCallback(() => {
+    setEditMode(true)
+    setPrevTitleInputValue(titleInputValue)
+  }, [titleInputValue])
+
+  const handleCancelEditMode = useCallback(() => {
+    setTitleInputValue(prevTitleInputValue)
+    setEditMode(false)
+  }, [prevTitleInputValue])
+
+  useEffect(() => {
+    if (editMode) {
+      inputRef.current?.focus()
+    }
+  }, [editMode])
 
   // setup the background on mount
   useEffect(() => {
@@ -77,7 +95,8 @@ function _Header({
             )
             handleBackgroundChange(selectedBackground)
           }}
-          value={drawing.backgroundSlug}
+          className="bg-backgroundColorD rounded-5 py-4 px-8 font-medium"
+          defaultValue={drawing.backgroundSlug}
         >
           {backgrounds.map((background) => (
             <option
@@ -89,35 +108,43 @@ function _Header({
             </option>
           ))}
         </select>
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4">
           {editMode ? (
             <>
-              <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
-                {titleSavingStateLabel}
-              </button>
-              <button
-                className="btn-secondary btn-xxs"
-                onClick={() => setEditMode(false)}
-              >
-                Cancel
-              </button>
               <input
                 value={titleInputValue}
+                ref={inputRef}
                 onChange={(e) => {
                   setTitleInputValue(e.target.value)
                   setTitleSavingStateLabel(DEFAULT_SAVE_BUTTON_LABEL)
                 }}
                 type="text"
-                style={{ all: 'unset', borderBottom: '1px solid' }}
+                className="!py-2 !text-14 !rounded-3 !border-borderColor5"
               />
+              <button onClick={handleSaveTitle} className="btn-primary btn-xxs">
+                {titleSavingStateLabel}
+              </button>
+              <button
+                className="btn-secondary btn-xxs"
+                onClick={handleCancelEditMode}
+              >
+                Cancel
+              </button>
             </>
           ) : (
-            <>
+            <div className="bg-backgroundColorD rounded-5 py-6 px-12">
+              <span className="font-medium mr-12">
+                Title: {titleInputValue}
+              </span>
               <button onClick={() => setEditMode(true)}>
-                <GraphicalIcon icon="edit" height={15} width={15} />
+                <GraphicalIcon
+                  icon="edit"
+                  category="bootcamp"
+                  height={15}
+                  width={15}
+                />
               </button>
-              <span>{titleInputValue}</span>
-            </>
+            </div>
           )}
         </div>
 

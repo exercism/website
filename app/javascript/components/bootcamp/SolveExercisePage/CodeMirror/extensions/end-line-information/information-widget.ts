@@ -40,12 +40,6 @@ export class InformationWidget extends WidgetType {
 
   private createRefElement() {
     const refElement = document.createElement('span')
-    refElement.classList.add('font-bold', 'text-black')
-    // refElement.style.float = 'right'
-    refElement.style.position = 'absolute'
-    refElement.style.right = '0'
-    refElement.innerText = ' '
-
     return refElement
   }
 

@@ -3,10 +3,9 @@ import React from 'react'
 
 import { createContext } from 'react'
 
-type SolveExercisePageContextValues = Pick<
-  SolveExercisePageProps,
-  'links' | 'solution' | 'exercise' | 'code'
-> & { resetEditorToStub: () => void; editorView: EditorView | null }
+type SolveExercisePageContextValues = Partial<
+  Pick<SolveExercisePageProps, 'links' | 'solution' | 'exercise' | 'code'>
+> & { resetEditorToStub?: () => void; editorView: EditorView | null }
 
 export const SolveExercisePageContext =
   createContext<SolveExercisePageContextValues>({

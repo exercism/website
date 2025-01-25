@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Header, StudentCodeGetter } from './Header/Header'
 import {
   Resizer,
@@ -11,6 +11,11 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
+import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExercisePageContextWrapper'
+import useEditorStore from '../SolveExercisePage/store/editorStore'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import { Icon } from '@/components/common'
+import { StaticTooltip } from '../SolveExercisePage/Scrubber/ScrubberTooltipInformation'
 
 export default function DrawingPage({
   drawing,
@@ -27,9 +32,8 @@ export default function DrawingPage({
   } = useResizablePanels({
     initialSize: 800,
     direction: 'horizontal',
-    localStorageId: 'drawing-page-lhs',
+    localStorageId: 'solve-exercise-page-lhs',
   })
-
   const {
     handleRunCode,
     handleEditorDidMount,
@@ -61,36 +65,92 @@ export default function DrawingPage({
     }, 5000)
   }, [setEditorLocalStorageValue])
 
+  const { shouldAutoRunCode, toggleShouldAutoRunCode } = useEditorStore()
+  const handleToggleAutoRun = useCallback(
+    (shouldAutoRunCode: boolean) => {
+      if (!shouldAutoRunCode) {
+        handleRunCode()
+      }
+      toggleShouldAutoRunCode()
+    },
+    [shouldAutoRunCode]
+  )
+
   return (
-    <div id="bootcamp-solve-exercise-page">
-      <Header
-        links={links}
-        backgrounds={backgrounds}
-        savingStateLabel={savingStateLabel}
-        drawing={drawing}
-        setBackgroundImage={setBackgroundImage}
-      />
-      <div className="page-body">
-        <div style={{ width: LHSWidth }} className="page-body-lhs">
-          <ErrorBoundary>
-            <CodeMirror
-              style={{ height: `100%` }}
-              ref={editorViewRef}
-              editorDidMount={handleEditorDidMount}
-              handleRunCode={handleRunCode}
-              setEditorLocalStorageValue={setEditorLocalStorageValue}
-              onEditorChangeCallback={patchCodeOnDebounce}
-            />
-            <Scrubber animationTimeline={animationTimeline} frames={frames} />
-          </ErrorBoundary>
-        </div>
-        <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-        {/* RHS */}
-        <div className="page-body-rhs" style={{ width: RHSWidth }}>
-          <div ref={viewContainerRef} id="view-container" />
+    <SolveExercisePageContextWrapper
+      value={{
+        editorView: editorViewRef.current,
+      }}
+    >
+      <div id="bootcamp-solve-exercise-page">
+        <Header
+          links={links}
+          backgrounds={backgrounds}
+          savingStateLabel={savingStateLabel}
+          drawing={drawing}
+          setBackgroundImage={setBackgroundImage}
+        />
+        <div className="page-body">
+          <div style={{ width: LHSWidth }} className="page-body-lhs">
+            <ErrorBoundary>
+              <CodeMirror
+                style={{ height: `100%` }}
+                ref={editorViewRef}
+                editorDidMount={handleEditorDidMount}
+                handleRunCode={handleRunCode}
+                setEditorLocalStorageValue={setEditorLocalStorageValue}
+                onEditorChangeCallback={patchCodeOnDebounce}
+              />
+
+              <div className="flex items-center w-full">
+                <div className="autorun-button">
+                  <button
+                    onClick={handleRunCode}
+                    className={assembleClassNames(
+                      'primary-segment',
+                      shouldAutoRunCode ? 'disabled' : ''
+                    )}
+                  >
+                    Run Code
+                  </button>
+                  <button
+                    className={assembleClassNames(
+                      'autorun-segment',
+                      shouldAutoRunCode ? 'on' : 'off',
+                      'relative group'
+                    )}
+                    onClick={() => handleToggleAutoRun(shouldAutoRunCode)}
+                  >
+                    <Icon
+                      alt="Autorun"
+                      icon="autorun"
+                      category="bootcamp"
+                      className="w-[20px] h-[20px]"
+                    />
+                    <StaticTooltip
+                      text={
+                        shouldAutoRunCode
+                          ? 'Autorun is on. Click to turn off.'
+                          : 'Autorun is off. Click to turn on.'
+                      }
+                    />
+                  </button>
+                </div>
+                <Scrubber
+                  animationTimeline={animationTimeline}
+                  frames={frames}
+                />
+              </div>
+            </ErrorBoundary>
+          </div>
+          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+          {/* RHS */}
+          <div className="page-body-rhs" style={{ width: RHSWidth }}>
+            <div ref={viewContainerRef} id="view-container" />
+          </div>
         </div>
       </div>
-    </div>
+    </SolveExercisePageContextWrapper>
   )
 }
 

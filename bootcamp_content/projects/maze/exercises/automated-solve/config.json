@@ -72,11 +72,12 @@
             {
               "name": "position",
               "value": [8, 5],
-              "error_html": "Your position should be 8, 5, but it's %actual% ."
+              "error_html": "Your position should be 8, 5, but it's %actual%."
             },
             {
               "name": "direction",
-              "value": "right"
+              "value": "right",
+              "error_html": "You seem to have done an extra unnecessary turn at the end."
             }
           ]
         }

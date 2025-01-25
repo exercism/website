@@ -82,6 +82,7 @@ export function describeFrame(
         return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
     }
   } catch (e) {
+    console.log(e)
     return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
   }
 }
@@ -202,7 +203,7 @@ function describeGroupingExpression(
   expression: GroupingExpression,
   result: EvaluationResult
 ): string {
-  return `${describeExpression(expression.inner, result)}`
+  return `${describeExpression(expression.inner, result.inner)}`
 }
 
 function describeCondition(

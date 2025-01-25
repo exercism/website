@@ -258,7 +258,7 @@ export default class MazeExercise extends Exercise {
     )
   }
 
-  private canMove(_: ExecutionContext) {
+  private canMove(_: ExecutionContext, a, b) {
     const { x, y } = this.characterPosition
     let newX = x
     let newY = y

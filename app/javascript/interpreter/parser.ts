@@ -450,13 +450,13 @@ export class Parser {
   }
 
   private or(): Expression {
-    const expr = this.and()
+    let expr = this.and()
 
     while (this.match('OR')) {
       let operator = this.previous()
       operator.type = 'OR'
       const right = this.and()
-      return new LogicalExpression(
+      expr = new LogicalExpression(
         expr,
         operator,
         right,

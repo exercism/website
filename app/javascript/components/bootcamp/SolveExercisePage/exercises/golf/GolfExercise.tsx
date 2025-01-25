@@ -86,12 +86,13 @@ export default class GolfExercise extends DrawExercise {
     {
       name: 'fill_color_rgb',
       func: this.fillColorRGB.bind(this),
-      description: 'Changes the fill color using three RGB values',
+      description: 'Changes the fill color using red, green and blue values',
     },
     {
       name: 'fill_color_hsl',
       func: this.fillColorHSL.bind(this),
-      description: 'Changes the fill color using three HSL values',
+      description:
+        'Changes the fill color using hue, saturation and lumisity values',
     },
   ]
 }

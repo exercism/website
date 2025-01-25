@@ -18,7 +18,6 @@ import {
   VariableExpression,
 } from './expression'
 import {
-  ExpressionStatement,
   IfStatement,
   SetVariableStatement,
   Statement,
@@ -166,6 +165,12 @@ function describeOperator(operator: string): string {
       return 'not equal to'
     case 'MINUS':
       return 'minus'
+    case 'PLUS':
+      return 'plus'
+    case 'STAR':
+      return 'multiplied by'
+    case 'SLASH':
+      return 'divided by'
   }
 
   return ''
@@ -177,12 +182,28 @@ function describeBinaryExpression(
 ): string {
   const left = describeExpression(expression.left, result?.left)
   const right = describeExpression(expression.right, result?.right)
-  const operator = describeOperator(expression.operator.type)
-  if (isEqualityOperator(expression.operator.type)) {
-    return `${left} was ${operator} ${right}`
-  } else {
-    return `${left} ${operator} ${right}`
+  const operatorDescription = describeOperator(expression.operator.type)
+
+  switch (expression.operator.type) {
+    case 'PLUS':
+    case 'MINUS':
+    case 'STAR':
+    case 'SLASH':
+      return `${left} ${operatorDescription} ${right}`
+
+    case 'PERCENT':
+      return `the remainder of ${left} divided by ${right}`
+
+    case 'GREATER':
+    case 'LESS':
+    case 'GREATER_EQUAL':
+    case 'LESS_EQUAL':
+    case 'EQUALITY':
+    case 'INEQUALITY':
+      return `${left} was ${operatorDescription} ${right}`
   }
+
+  return ''
 }
 
 function describeLogicalExpression(
@@ -248,15 +269,4 @@ function describeCallExpression(
   )
   output += interpolatedDescription
   return output
-}
-
-function isEqualityOperator(operator: string): boolean {
-  return [
-    'EQUALITY',
-    'INEQUALITY',
-    'GREATER',
-    'LESS',
-    'GREATER_EQUAL',
-    'LESS_EQUAL',
-  ].includes(operator)
 }

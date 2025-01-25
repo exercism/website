@@ -6,6 +6,7 @@
     "positive-negative-or-zero",
     "even-or-odd",
     "raindrops",
-    "collatz-conjecture"
+    "collatz-conjecture",
+    "triangle"
   ]
 }

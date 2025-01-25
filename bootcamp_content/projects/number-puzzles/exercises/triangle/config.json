@@ -1,0 +1,109 @@
+{
+  "title": "Triangle",
+  "description": "Determine if a triangle is valid and, if so, its type based on side lengths.",
+  "level": 4,
+  "idx": 5,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Invalid triangles",
+      "tests": [
+        {
+          "slug": "invalid-equilateral-all-zero",
+          "description_html": "All zero sides is not a triangle.",
+          "name": "Equilateral with all sides zero",
+          "function": "determine_triangle_type",
+          "params": [0, 0, 0],
+          "expected": "invalid"
+        },
+        {
+          "slug": "isosceles-first-inequality",
+          "description_html": "First triangle inequality violation.",
+          "name": "Isosceles triangle violating first inequality",
+          "function": "determine_triangle_type",
+          "params": [1, 1, 3],
+          "expected": "invalid"
+        },
+        {
+          "slug": "isosceles-second-inequality",
+          "description_html": "Second triangle inequality violation.",
+          "name": "Isosceles triangle violating second inequality",
+          "function": "determine_triangle_type",
+          "params": [1, 3, 1],
+          "expected": "invalid"
+        },
+        {
+          "slug": "isosceles-third-inequality",
+          "description_html": "Third triangle inequality violation.",
+          "name": "Isosceles triangle violating third inequality",
+          "function": "determine_triangle_type",
+          "params": [3, 1, 1],
+          "expected": "invalid"
+        },
+        {
+          "slug": "scalene-triangle-inequality",
+          "description_html": "May not violate triangle inequality.",
+          "name": "Scalene triangle violating inequality",
+          "function": "determine_triangle_type",
+          "params": [7, 3, 2],
+          "expected": "invalid"
+        }
+      ]
+    },
+    {
+      "name": "Equilateral triangles",
+      "tests": [
+        {
+          "slug": "valid-equilateral",
+          "description_html": "All sides are equal in an equilateral triangle.",
+          "name": "Equilateral triangle",
+          "function": "determine_triangle_type",
+          "params": [2, 2, 2],
+          "expected": "equilateral"
+        }
+      ]
+    },
+    {
+      "name": "Isosceles triangles",
+      "tests": [
+        {
+          "slug": "valid-isosceles-last-two-equal",
+          "description_html": "Last two sides are equal in an isosceles triangle.",
+          "name": "Isosceles triangle with last two sides equal",
+          "function": "determine_triangle_type",
+          "params": [3, 4, 4],
+          "expected": "isosceles"
+        },
+        {
+          "slug": "valid-isosceles-first-two-equal",
+          "description_html": "First two sides are equal in an isosceles triangle.",
+          "name": "Isosceles triangle with first two sides equal",
+          "function": "determine_triangle_type",
+          "params": [4, 4, 3],
+          "expected": "isosceles"
+        },
+        {
+          "slug": "valid-isosceles-first-and-last-equal",
+          "description_html": "First and last sides are equal in an isosceles triangle.",
+          "name": "Isosceles triangle with first and last sides equal",
+          "function": "determine_triangle_type",
+          "params": [4, 3, 4],
+          "expected": "isosceles"
+        }
+      ]
+    },
+    {
+      "name": "Scalene triangles",
+      "tests": [
+        {
+          "slug": "valid-scalene",
+          "description_html": "All sides are different in a scalene triangle.",
+          "name": "Scalene triangle",
+          "function": "determine_triangle_type",
+          "params": [5, 4, 6],
+          "expected": "scalene"
+        }
+      ]
+    }
+  ]
+}

@@ -93,6 +93,12 @@ export class RepeatStatement extends Statement {
   }
 }
 
+export class RepeatForeverStatement extends Statement {
+  constructor(public body: Statement[], public location: Location) {
+    super('RepeatForeverStatement')
+  }
+}
+
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(public body: Statement[], public location: Location) {
     super('RepeatUntilGameOverStatement')

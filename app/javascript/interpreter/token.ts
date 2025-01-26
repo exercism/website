@@ -50,6 +50,7 @@ export type TokenType =
   | 'IN'
   | 'OR'
   | 'REPEAT'
+  | 'REPEAT_FOREVER'
   | 'REPEAT_UNTIL_GAME_OVER'
   | 'RETURN'
   | 'SET'

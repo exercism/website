@@ -2,7 +2,7 @@
 // Should return the number of steps to reach 1
 function collatz_steps with number do
   set i to 0
-  repeat_forever times do
+  repeat_forever do
     if(number == 1) do
       return i
     end
@@ -13,5 +13,6 @@ function collatz_steps with number do
       change number to (number * 3) + 1
     end
     change i to i + 1
+
   end
 end

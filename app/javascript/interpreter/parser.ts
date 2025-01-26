@@ -35,6 +35,7 @@ import {
   SetVariableStatement,
   WhileStatement,
   ChangeVariableStatement,
+  RepeatForeverStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -163,6 +164,7 @@ export class Parser {
     if (this.match('IF')) return this.ifStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
+    if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
     if (this.match('REPEAT_UNTIL_GAME_OVER'))
       return this.repeatUntilGameOverStatement()
     if (this.match('WHILE')) return this.whileStatement()
@@ -335,6 +337,21 @@ export class Parser {
     const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
+      statements,
+      Location.between(begin, this.previous())
+    )
+  }
+  private repeatForeverStatement(): Statement {
+    const begin = this.previous()
+
+    this.consume('DO', 'MissingDoToStartBlock', {
+      type: 'repeat_forever',
+    })
+    this.consumeEndOfLine()
+
+    const statements = this.block('repeat_forever')
+
+    return new RepeatForeverStatement(
       statements,
       Location.between(begin, this.previous())
     )

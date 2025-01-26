@@ -34,6 +34,7 @@ import {
   Statement,
   SetVariableStatement,
   ChangeVariableStatement,
+  RepeatForeverStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -363,13 +364,35 @@ export class Executor {
 
     while (!this.externalState.gameOver) {
       this.guardInfiniteLoop(statement.location)
-      if (count >= 100) {
+      if (count >= 1000) {
         const errorLoc = new Location(
           statement.location.line,
           statement.location.relative,
           new Span(
             statement.location.absolute.begin,
             statement.location.absolute.begin + 22
+          )
+        )
+        this.error('InfiniteLoop', errorLoc)
+      }
+
+      this.guardInfiniteLoop(statement.location)
+      this.executeBlock(statement.body, this.environment)
+      count++
+    }
+  }
+  public visitRepeatForeverStatement(statement: RepeatForeverStatement): void {
+    var count = 0 // Count is a guard against infinite looping
+
+    while (true) {
+      this.guardInfiniteLoop(statement.location)
+      if (count >= 1000) {
+        const errorLoc = new Location(
+          statement.location.line,
+          statement.location.relative,
+          new Span(
+            statement.location.absolute.begin,
+            statement.location.absolute.begin + 14
           )
         )
         this.error('InfiniteLoop', errorLoc)

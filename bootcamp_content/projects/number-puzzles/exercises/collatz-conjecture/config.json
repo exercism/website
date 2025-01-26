@@ -3,7 +3,7 @@
   "description": "Calculate the number of steps to reach 1 in the Collatz sequence.",
   "level": 4,
   "idx": 4,
-  "tests_type": "integer",
+  "tests_type": "io",
   "readonly_ranges": [
     { "from": 1, "to": 3 },
     { "from": 5, "to": 5 }

@@ -6,6 +6,7 @@ import exerciseMap, {
 } from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exercise'
 import { camelize, camelizeKeys } from 'humps'
+import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -25,13 +26,15 @@ function getExampleScript(exerciseDir) {
   return fs.readFileSync(examplePath, 'utf-8')
 }
 
-function testIo(project, exercise, task, testData, exampleScript) {
-  test(`${project} - ${exercise} - ${task.name} - ${testData.name}`, () => {
+function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
+  test(`${project} - ${exerciseSlug} - ${task.name} - ${testData.name}`, () => {
     let error, value, frames
     try {
       ;({ error, value, frames } = evaluateFunction(
         exampleScript,
-        {},
+        {
+          externalFunctions: filteredStdLibFunctions(config.stdlibFunctions),
+        },
         testData.function,
         ...testData.params
       ))
@@ -129,7 +132,7 @@ describe('Exercise Tests', () => {
       if (config.testsType == 'io') {
         config.tasks.forEach((task) => {
           task.tests.forEach((testData) => {
-            testIo(project, exercise, task, testData, exampleScript)
+            testIo(project, exercise, config, task, testData, exampleScript)
           })
         })
       } else {

@@ -584,17 +584,6 @@ describe('timing', () => {
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].time).toBe(0)
     })
-
-    test('error', () => {
-      const context = {
-        externalFunctions: [
-          { name: 'echo', func: (_: any, _n: any) => {}, description: '' },
-        ],
-      }
-      const { frames } = interpret('127()', context)
-      expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].time).toBe(0)
-    })
   })
 
   describe('multiple statements', () => {
@@ -841,10 +830,8 @@ describe('errors', () => {
         expect(frames[0].code).toBe('foo()')
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
-        expect(frames[0].error!.message).toBe(
-          'CouldNotFindFunctionWithName: name: foo'
-        )
+        expect(frames[0].error!.type).toBe('CouldNotFindFunction')
+        expect(frames[0].error!.message).toBe('CouldNotFindFunction: name: foo')
         expect(error).toBeNull()
       })
 
@@ -865,10 +852,8 @@ describe('errors', () => {
         expect(frames[2].code).toBe('foo()')
         expect(frames[2].error).not.toBeNull()
         expect(frames[2].error!.category).toBe('RuntimeError')
-        expect(frames[2].error!.type).toBe('CouldNotFindFunctionWithName')
-        expect(frames[2].error!.message).toBe(
-          'CouldNotFindFunctionWithName: name: foo'
-        )
+        expect(frames[2].error!.type).toBe('CouldNotFindFunction')
+        expect(frames[2].error!.message).toBe('CouldNotFindFunction: name: foo')
         expect(error).toBeNull()
       })
     })
@@ -878,14 +863,9 @@ describe('errors', () => {
     describe('call', () => {
       test('non-callable', () => {
         const { frames, error } = interpret('1()')
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(1)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].code).toBe('1()')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('NonCallableTarget')
-        expect(error).toBeNull()
+        expect(error).not.toBeNull()
+
+        expect(error!.type).toBe('InvalidFunctionName')
       })
 
       test('forgetting brackets', () => {
@@ -961,9 +941,9 @@ describe('errors', () => {
           expect(frames[0].code).toBe('foo()')
           expect(frames[0].error).not.toBeNull()
           expect(frames[0].error!.category).toBe('RuntimeError')
-          expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
+          expect(frames[0].error!.type).toBe('CouldNotFindFunction')
           expect(frames[0].error!.message).toBe(
-            'CouldNotFindFunctionWithName: name: foo'
+            'CouldNotFindFunction: name: foo'
           )
           expect(error).toBeNull()
         })
@@ -982,11 +962,11 @@ describe('errors', () => {
           expect(frames[0].code).toBe('foobor()')
           expect(frames[0].error).not.toBeNull()
           expect(frames[0].error!.message).toBe(
-            'CouldNotFindFunctionWithNameSuggestion: name: foobor, suggestion: foobar'
+            'CouldNotFindFunctionWithSuggestion: name: foobor, suggestion: foobar'
           )
           expect(frames[0].error!.category).toBe('RuntimeError')
           expect(frames[0].error!.type).toBe(
-            'CouldNotFindFunctionWithNameSuggestion'
+            'CouldNotFindFunctionWithSuggestion'
           )
           expect(error).toBeNull()
         })
@@ -1049,10 +1029,8 @@ describe('errors', () => {
         expect(frames[1].code).toBe('foo()')
         expect(frames[1].error).not.toBeNull()
         expect(frames[1].error!.category).toBe('RuntimeError')
-        expect(frames[1].error!.type).toBe('CouldNotFindFunctionWithName')
-        expect(frames[1].error!.message).toBe(
-          'CouldNotFindFunctionWithName: name: foo'
-        )
+        expect(frames[1].error!.type).toBe('CouldNotFindFunction')
+        expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: foo')
         expect(error).toBeNull()
       })
 
@@ -1067,10 +1045,8 @@ describe('errors', () => {
         expect(frames[0].code).toBe('foo()')
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('CouldNotFindFunctionWithName')
-        expect(frames[0].error!.message).toBe(
-          'CouldNotFindFunctionWithName: name: foo'
-        )
+        expect(frames[0].error!.type).toBe('CouldNotFindFunction')
+        expect(frames[0].error!.message).toBe('CouldNotFindFunction: name: foo')
         expect(error).toBeNull()
       })
     })
@@ -1083,7 +1059,7 @@ describe('errors', () => {
         end
         m0ve()
       `
-      const { frames, error } = evaluateFunction(code, {}, 'move')
+      const { frames, error } = interpret(code, {})
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].error).not.toBeNull()
       expect(frames[0].error!.context).toMatchObject({
@@ -1113,8 +1089,9 @@ describe('errors', () => {
     })
 
     test('variable name differs by one letter', () => {
-      const code = 'set size to 23'
-      const { frames } = evaluateFunction(code, {}, 'saize + 2')
+      const code = `set size to 23
+                    set x to saize + 5`
+      const { frames } = interpret(code, {})
 
       expect(frames).toBeArrayOfSize(2)
       expect(frames[1].error).not.toBeNull()

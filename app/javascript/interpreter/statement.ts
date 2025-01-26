@@ -4,6 +4,7 @@ import {
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
 import { Expression } from './expression'
+import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
 
@@ -13,7 +14,7 @@ function quoteLiteral(value: any): string {
   }
   return value
 }
-export abstract class Statement {
+export abstract class Statement implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
 }

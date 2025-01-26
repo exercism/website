@@ -5,6 +5,7 @@ import {
   EvaluationResult,
   EvaluationResultCallExpression,
 } from './evaluation-result'
+import { SomethingWithLocation } from './interpreter'
 
 function quoteLiteral(value: any): string {
   if (typeof value === 'string') {
@@ -13,7 +14,7 @@ function quoteLiteral(value: any): string {
   return value
 }
 
-export abstract class Expression {
+export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
 }
@@ -27,18 +28,26 @@ export class LiteralExpression extends Expression {
   }
 }
 
-export class VariableExpression extends Expression {
+export class VariableLookupExpression extends Expression {
   constructor(public name: Token, public location: Location) {
-    super('VariableExpression')
+    super('VariableLookupExpression')
   }
   public description() {
     return `the <code>${this.name.lexeme}</code> variable`
   }
 }
 
+export class FunctionLookupExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super('FunctionLookupExpression')
+  }
+  public description() {
+    return `the <code>${this.name.lexeme}</code> function`
+  }
+}
 export class CallExpression extends Expression {
   constructor(
-    public callee: VariableExpression,
+    public callee: VariableLookupExpression,
     public paren: Token,
     public args: Expression[],
     public location: Location

@@ -1,4 +1,5 @@
 import { Location } from './location'
+import { SomethingWithLocation } from './interpreter'
 
 export type TokenType =
   // Single-character tokens
@@ -66,9 +67,8 @@ export type TokenType =
   | 'EOL' // End of statement
   | 'EOF' // End of file
 
-export type Token = {
+export type Token = SomethingWithLocation & {
   type: TokenType
   lexeme: string
   literal: any
-  location: Location
 }

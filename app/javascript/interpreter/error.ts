@@ -21,6 +21,7 @@ export type SyntaxErrorType =
   | 'ExceededMaximumNumberOfParameters'
   | 'MissingEndOfLine'
   | 'MissingFunctionName'
+  | 'InvalidFunctionName'
   | 'MissingLeftParenthesisAfterFunctionName'
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'MissingParameterName'
@@ -81,10 +82,10 @@ export type SemanticErrorType =
   | 'InvalidPostfixOperand'
 
 export type RuntimeErrorType =
-  | 'CouldNotFindValueWithName'
+  | 'CouldNotFindFunction'
   | 'CouldNotEvaluateFunction'
-  | 'CouldNotFindFunctionWithName'
-  | 'CouldNotFindFunctionWithNameSuggestion'
+  | 'CouldNotFindFunction'
+  | 'CouldNotFindFunctionWithSuggestion'
   | 'MissingParenthesesForFunctionCall'
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
@@ -152,6 +153,8 @@ export class SemanticError extends FrontendError<SemanticErrorType> {}
 export class DisabledLanguageFeatureError extends FrontendError<DisabledLanguageFeatureErrorType> {}
 
 export class RuntimeError extends FrontendError<RuntimeErrorType> {}
+
+export class LogicError extends Error {}
 
 type FunctionCallTypeMismatchErrorContext = {
   argIndex: number

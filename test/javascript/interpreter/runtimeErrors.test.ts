@@ -156,7 +156,6 @@ describe('Runtime errors', () => {
                     end
                     foo()`
       const { frames, error } = interpret(code)
-      console.log(frames, error)
       expectFrameToBeError(
         frames[1],
         'change x to 7',

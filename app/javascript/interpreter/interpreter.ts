@@ -15,6 +15,10 @@ export type FrameContext = {
   statement?: Statement
 }
 
+export interface SomethingWithLocation {
+  location: Location
+}
+
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {

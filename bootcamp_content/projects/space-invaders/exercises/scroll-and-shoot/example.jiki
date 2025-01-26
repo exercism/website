@@ -1,25 +1,25 @@
+set left_boundary to 0
+set right_boundary to 10
+
 set direction to "right"
-set steps to 0
+set position to 0
 
 repeat_until_game_over do
-  change steps to steps + 1
+  if is_alien_above() do
+    shoot()
+  end
+  
+  if position >= right_boundary do
+    change direction to "left"
+  else if position <= left_boundary do
+    change direction to "right"
+  end
 
   if direction is "right" do
     move_right()
-  
-    if (steps > 9) do
-      change direction to "left"
-      change steps to 0
-    end
-  else do
+    change position to position + 1
+  else if direction is "left" do
     move_left()
-    if (steps > 9) do
-      change direction to "right"
-      change steps to 0
-    end
-  end
-  
-  if is_alien_above() do
-    shoot()
+    change position to position - 1
   end
 end

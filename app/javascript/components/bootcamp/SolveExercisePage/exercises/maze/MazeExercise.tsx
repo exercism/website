@@ -18,6 +18,10 @@ export default class MazeExercise extends Exercise {
   private startingAngles = { down: 180, up: 0, left: -90, right: 90 }
 
   public getState() {
+    console.log({
+      direction: this.direction,
+      position: [this.characterPosition.x, this.characterPosition.y],
+    })
     return {
       direction: this.direction,
       position: [this.characterPosition.x, this.characterPosition.y],

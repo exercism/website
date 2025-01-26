@@ -1,12 +1,10 @@
 {
-  "title": "Programatically solve a maze",
-  "description": "Empower your blob to solve any maze with code!",
-  "level": 3,
-  "idx": 1,
-  "concepts": ["Conditionals", "loops-repeat"],
+  "title": "Turn around",
+  "description": "Create a turn_around() function",
+  "level": 4,
+  "idx": 3,
   "project_type": "maze",
   "tests_type": "state",
-  "available_functions": ["move", "turnLeft", "turnRight", "canMove"],
   "tasks": [
     {
       "name": "A straight path",
@@ -212,6 +210,11 @@
               "name": "position",
               "value": [4, 8],
               "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "name": "wasFunctionUsed('turn_around')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom turn_around() function wasn't used."
             }
           ]
         }

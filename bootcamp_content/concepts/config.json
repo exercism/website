@@ -70,14 +70,14 @@
     "level": 1
   },
   {
-    "slug": "functions-arguments",
+    "slug": "functions-using-arguments",
     "parent": "functions",
     "title": "Function Inputs",
     "description": "Learn how to pass inputs (also know as 'arguments') into functions.",
     "level": 1
   },
   {
-    "slug": "functions-return",
+    "slug": "functions-using-return",
     "parent": "functions",
     "title": "Function that return things",
     "description": "Learn about functions that return things and how to use them.",

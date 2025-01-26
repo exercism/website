@@ -1,0 +1,117 @@
+# Inside a function
+
+So we have a function on our shelves called `shoot_if_alien_above()`.
+It's been defined like this with no inputs:
+```
+function shoot_if_alien_above do
+  if is_alien_above()
+    shoot()
+  end
+end
+```
+
+What happens when we want to use the function?
+Well we know to use the function, we'd write `shoot_if_alien_above()` in our code. And we know that Jiki goes and gets that function off the shelf and wheels it over.
+
+```
+DIAGRAM Jiki getting `shoot_if_alien_above` function off the shelves and wheeling it over
+```
+
+At this point, he needs to actually get inside the function and follow the instructions you gave him about shooting the aliens. So he expands the function back up to be life-sized.
+And then he gets in...
+
+```
+DIAGRAM Jiki getting `shoot_if_alien_above` function off the shelves and wheeling it over
+```
+
+Now he's inside, he starts following the instructions on the function's whiteboard, just like he would follow the instructions on his main whiteboard outside. 
+He can still use any of the other functions he has access to outside.
+
+~~~
+Some sort of monospace title: `function shoot_if_alien_above`
+
+DIAGRAM: Jiki following whiteboard steps
+~~~
+
+So he runs your code, checks for an alien, and shoots it if it's there.
+
+## Inputs
+
+You can think of this function as it's own little program. 
+It has its own whiteboard and it also has its own set of shelves on which to store variables.
+
+And this is a very important thing to understand. 
+The variables Jiki uses **inside** the function are kept inside the function. 
+He can't use the variables from outside, and when he's finished with the function, the shelves are cleared again inside it.
+
+So anything you want Jiki to be able to use inside the function needs to be passed in via the inputs.
+
+Let's break down how that works.
+
+Firstly, when you use the function, you specify what inputs you're using.
+So if we want to use our `time_of_day` machine to say "What time of day is `2:50`?" you would write `time_of_day(2, 50)`.
+
+Jiki then gets function, puts a 2 and a 50 in, and then expands it and gets inside.
+
+```
+DIAGRAM: 
+P1: Jiki inserts 2 and 50 (half way in)
+P2: Jiki expands machine
+P3: Jiki walking into the machine (with 2 and 50 half way sticking out).
+```
+
+Once he's inside, Jiki takes the 2 and the 50 and puts them into new boxes that have the labels on the shoots.
+
+So on the first shoot we have the label "hour", so Jiki makes a new box, gives it the label "hour", puts the `2` in it, and pops it on the shelf.
+
+~~~~
+At the top of the image have `function time_of_day with hour, minutes` as a monospace title
+DIAGRAM Taking hour and putting in shelf
+Whiteboard says:
+```
+if hour == 0 and minutes == 0
+  return "midnight"
+else if hour == 12 and minutes == 0
+  return "noon"
+else if hour < 12
+  return "morning"
+else
+  return "afternoon"
+end
+~~~~
+
+Then he gets the 50, creates a box with the label "minutes", puts the `50` in it, and then puts the box on the shelf
+
+~~~
+Same base as above
+DIAGRAM Taking hour and putting in shelf
+~~~
+
+And then he follows the instructions on the whiteboard.
+
+As the hour is 2, he eventually gets to the line `return "morning"`. At this point, he takes the final step of creating a new string with `"morning"` written on, and pushing it out the return shoot.
+
+~~~
+Same base as above
+DIAGRAM LHS: Write "morning" on paper. RHS: Pushing it out of shoot
+~~~
+
+Jiki can only return one thing from a function. 
+And as soon as he returns something, or when he finishes everything on the whiteboard, he cleans up the function, leaves it, and shrinks it back down.
+
+~~~
+Diagram
+1. Jiki puting boxes in the bin.
+2. Jiki leaving function (it has "morning" sticking half way out)
+3. Jiki shrinking it back down (it has "morning" sticking half way out)
+~~~
+
+He now has whatever the function returned back in his normal workarea, and he puts the function back on the shelf to be used later if needed.
+
+### Think about the functions you've already used.
+
+Take a minute to imagine what Jiki has been doing in the functions you've already used. When you've used the `circle` function, Jiki has got the machine, expanded it, gone inside, made boxes for the numbers you've input into it, drawn the circle on the canvas, then cleaned up and left again.
+
+~~~~exercism/note
+Every language has a slightly different approach to what can and can't be access from inside functions. In fact, it's one of the things that often defines a language as been unique. Jiki takes the simplest route by keeping the variables inside the function entirely seperate from the variables outside the function, and relying on you inputing things when you need them. But be aware that if you've done some programming before, this might be different from what you've previously experienced.
+~~~~

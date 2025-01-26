@@ -13,15 +13,12 @@ end
 What happens when we want to use the function?
 Well we know to use the function, we'd write `shoot_if_alien_above()` in our code. And we know that Jiki goes and gets that function off the shelf and wheels it over.
 
-```
-DIAGRAM Jiki getting `shoot_if_alien_above` function off the shelves and wheeling it over
-```
 
 At this point, he needs to actually get inside the function and follow the instructions you gave him about shooting the aliens. So he expands the function back up to be life-sized.
 And then he gets in...
 
 ```
-DIAGRAM Jiki getting `shoot_if_alien_above` function off the shelves and wheeling it over
+DIAGRAM Jiki getting `shoot_if_alien_above` function off the shelves and wheeling it over. It grows. He walks in.
 ```
 
 Now he's inside, he starts following the instructions on the function's whiteboard, just like he would follow the instructions on his main whiteboard outside. 
@@ -79,13 +76,6 @@ else
   return "afternoon"
 end
 ~~~~
-
-Then he gets the 50, creates a box with the label "minutes", puts the `50` in it, and then puts the box on the shelf
-
-~~~
-Same base as above
-DIAGRAM Taking hour and putting in shelf
-~~~
 
 And then he follows the instructions on the whiteboard.
 

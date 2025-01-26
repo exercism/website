@@ -80,21 +80,10 @@ export function useConstructRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
-      const exercise = getAndInitializeExerciseClass(config)
-
-      // Choose the functions that are available to the student from config.stdlibFunctions
-      const stdlibFunctions = Object.entries(StdlibFunctions)
-        .filter(([key]) => (config.stdlibFunctions || []).includes(key))
-        .map(([_, v]) => v)
-      const exerciseFunctions = exercise?.availableFunctions || []
-      const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
-
-      const context: EvaluationContext = {
-        externalFunctions,
-        languageFeatures: config.interpreterOptions,
-      }
       // @ts-ignore
-      const compiled = compile(studentCode, context)
+      const compiled = compile(studentCode, {
+        languageFeatures: config.interpreterOptions,
+      })
 
       const error = compiled.error
 
@@ -126,7 +115,6 @@ export function useConstructRunCode({
         studentCode,
         tasks,
         config,
-        context,
       })
 
       setTestSuiteResult(testResults)

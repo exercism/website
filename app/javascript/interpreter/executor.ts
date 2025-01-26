@@ -19,7 +19,6 @@ import {
   UnaryExpression,
   UpdateExpression,
   VariableExpression,
-  ExpressionWithValue,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -32,6 +31,7 @@ import {
   ReturnStatement,
   Statement,
   SetVariableStatement,
+  ChangeVariableStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -74,6 +74,7 @@ export class Executor {
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
   private statementStartingVariables: Record<string, any> = {}
+  protected functionCallLog: Record<string, Record<any, number>> = {}
 
   constructor(
     private readonly sourceCode: string,
@@ -141,7 +142,11 @@ export class Executor {
       }
     }
 
-    return { frames: this.frames, error: null }
+    return {
+      frames: this.frames,
+      error: null,
+      functionCallLog: this.functionCallLog,
+    }
   }
 
   public evaluateSingleExpression(statement: Statement) {
@@ -154,7 +159,12 @@ export class Executor {
 
       // TODO: Also start/end the statement management
       const result = this.evaluate(statement.expression)
-      return { value: result.value, frames: this.frames, error: null }
+      return {
+        value: result.value,
+        frames: this.frames,
+        error: null,
+        functionCallLog: this.functionCallLog,
+      }
     } catch (error) {
       if (isRuntimeError(error)) {
         this.addFrame(
@@ -163,7 +173,12 @@ export class Executor {
           undefined,
           error
         )
-        return { value: undefined, frames: this.frames, error: null }
+        return {
+          value: undefined,
+          frames: this.frames,
+          error: null,
+          functionCallLog: this.functionCallLog,
+        }
       }
 
       throw error
@@ -257,9 +272,15 @@ export class Executor {
     this.executeFrame(statement, () => {
       // Ensure the variable exists
       if (!this.environment.inScope(statement.name.lexeme)) {
-        this.error('VariableNotDeclared', statement.location, {
-          name: statement.name.lexeme,
-        })
+        if (this.globals.inScope(statement.name.lexeme)) {
+          this.error('VariableNotAccessibleInFunction', statement.location, {
+            name: statement.name.lexeme,
+          })
+        } else {
+          this.error('VariableNotDeclared', statement.location, {
+            name: statement.name.lexeme,
+          })
+        }
       }
 
       if (isCallable(this.environment.get(statement.name))) {
@@ -556,9 +577,15 @@ export class Executor {
       }
     }
 
+    const fnName = callee.name
     let value
 
     try {
+      // Log it's usage for testing checks
+      this.functionCallLog[fnName] ||= {}
+      this.functionCallLog[fnName][JSON.stringify(args)] ||= 0
+      this.functionCallLog[fnName][JSON.stringify(args)] += 1
+
       value = callee.value.call(
         {
           state: this.externalState,

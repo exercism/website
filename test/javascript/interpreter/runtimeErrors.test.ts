@@ -1,7 +1,8 @@
+import { RuntimeError, RuntimeErrorType } from '@/interpreter/error'
+import { Frame } from '@/interpreter/frames'
 import { interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
-import { context } from 'msw'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -20,8 +21,12 @@ const getNameFunction = {
   description: '',
 }
 
-function expectFrameToBeError(frame, code, type) {
-  expect(frame.code).toBe(code)
+function expectFrameToBeError(
+  frame: Frame,
+  code: string,
+  type: RuntimeErrorType
+) {
+  expect(frame.code.trim()).toBe(code.trim())
   expect(frame.status).toBe('ERROR')
   expect(frame.error).not.toBeNull()
   expect(frame.error!.category).toBe('RuntimeError')
@@ -121,9 +126,45 @@ describe('Runtime errors', () => {
     test('without result', () => {
       const code = 'return'
       const { frames } = interpret(code)
-      console.log(frames)
       expectFrameToBeError(frames[0], code, 'UnexpectedReturnOutsideOfFunction')
       expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
+    })
+  })
+  describe('VariableAlreadyDeclared', () => {
+    test('basic', () => {
+      const code = `set x to 5
+                    set x to 6`
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[1], 'set x to 6', 'VariableAlreadyDeclared')
+      expect(frames[1].error!.message).toBe('VariableAlreadyDeclared: name: x')
+    })
+  })
+
+  describe('VariableNotDeclared', () => {
+    test('basic', () => {
+      const code = 'change x to 6'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'VariableNotDeclared')
+      expect(frames[0].error!.message).toBe('VariableNotDeclared: name: x')
+    })
+  })
+  describe('VariableNotAccessibleInFunction', () => {
+    test('basic', () => {
+      const code = `set x to 6
+                    function foo do
+                      change x to 7
+                    end
+                    foo()`
+      const { frames, error } = interpret(code)
+      console.log(frames, error)
+      expectFrameToBeError(
+        frames[1],
+        'change x to 7',
+        'VariableNotAccessibleInFunction'
+      )
+      expect(frames[1].error!.message).toBe(
+        'VariableNotAccessibleInFunction: name: x'
+      )
     })
   })
 })

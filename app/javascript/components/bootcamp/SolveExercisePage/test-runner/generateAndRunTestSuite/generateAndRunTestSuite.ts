@@ -4,7 +4,7 @@ import exerciseMap, {
 } from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import { execProjectTest } from './execProjectTest'
 import { execGenericTest } from './execGenericTest'
-import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
+import { type TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 
 export default (options: TestRunnerOptions) => {
   return describe(options.config.title, (test) => {

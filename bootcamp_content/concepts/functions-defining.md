@@ -13,9 +13,10 @@ For example, if we want to create a machine for our Space Invaders exercise call
 ```
 DIAGRAM:
 function shoot_if_alien_above do
-  if is_alien_above()
+  if is_alien_above() do
     shoot()
   end
+end
 ```
 
 From this, Jiki builds a new function.
@@ -35,7 +36,7 @@ Let's imagine we want a machine that tells us whether a time is midmight, mornin
 We can tell Jiki to create a new machine with the label `time_of_day`, an input with the labels `hour` and `minutes`, and a output shoot where the machine can return the resulting string.
 
 ```
-DIAGRAM: `function time_of_day with hour, minutes do`
+DIAGRAM: `function time_of_day with hour, minutes`
 Show jiki adding a new function onto the function shelves. This one has two inputs and an output.
 ```
 

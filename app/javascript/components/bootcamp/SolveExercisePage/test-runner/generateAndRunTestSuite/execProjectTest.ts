@@ -4,6 +4,7 @@ import type { Exercise } from '../../exercises/Exercise'
 import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
 import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
+import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 
 /**
  This is of type TestCallback
@@ -14,6 +15,18 @@ export function execProjectTest(
   options: TestRunnerOptions
 ): ReturnType<TestCallback> {
   const exercise: Exercise = new Project()
+
+  // Choose the functions that are available to the student from config.stdlibFunctions
+  const stdlibFunctions = filteredStdLibFunctions(
+    options.config.stdlibFunctions
+  )
+  const exerciseFunctions = exercise.availableFunctions || []
+  const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
+
+  const context = {
+    externalFunctions,
+    languageFeatures: options.config.interpreterOptions,
+  }
 
   ;(testData.setupFunctions || []).forEach((functionData) => {
     let [functionName, params] = functionData
@@ -27,11 +40,11 @@ export function execProjectTest(
   if (testData.function) {
     evaluated = evaluateFunction(
       options.studentCode,
-      options.context,
+      context,
       testData.function
     )
   } else {
-    evaluated = interpret(options.studentCode, options.context)
+    evaluated = interpret(options.studentCode, context)
   }
 
   const { frames } = evaluated

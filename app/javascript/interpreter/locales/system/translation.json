@@ -91,7 +91,10 @@
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
       "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",
-      "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction"
+      "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction",
+      "VariableAlreadyDeclared": "VariableAlreadyDeclared: name: {{name}}",
+      "VariableNotDeclared": "VariableNotDeclared: name: {{name}}",
+      "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

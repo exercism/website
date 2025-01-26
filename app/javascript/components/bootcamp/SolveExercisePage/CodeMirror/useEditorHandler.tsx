@@ -86,7 +86,13 @@ export function useEditorHandler({
       try {
         runCode(value, editorViewRef.current)
       } catch (e: unknown) {
-        console.log(e)
+        if (
+          process.env.NODE_ENV === 'development' ||
+          process.env.NODE_ENV === 'test'
+        ) {
+          throw e
+        }
+
         setHasUnhandledError(true)
         setUnhandledErrorBase64(
           JSON.stringify({

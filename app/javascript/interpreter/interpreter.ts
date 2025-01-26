@@ -47,6 +47,7 @@ export type EvaluateFunctionResult = {
 export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
+  functionCallLog: Record<string, Record<any, number>>
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {

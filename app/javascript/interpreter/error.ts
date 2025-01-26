@@ -108,6 +108,7 @@ export type RuntimeErrorType =
   | 'UnexpectedEqualsForEquality'
   | 'VariableAlreadyDeclared'
   | 'VariableNotDeclared'
+  | 'VariableNotAccessibleInFunction'
   | 'UnexpectedUncalledFunction'
   | 'FunctionAlreadyDeclared'
   | 'UnexpectedChangeOfFunction'

@@ -127,7 +127,7 @@ export function getDiffOfExpectedAndActual(
   actual: any
 ): Change[] {
   if (expected === actual) {
-    return []
+    return diffWords(formatLiteral(expected), formatLiteral(actual))
   }
 
   if (actual == null) {

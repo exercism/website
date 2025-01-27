@@ -13,6 +13,7 @@ export function _TaskPreview() {
   const viewContainerRef = useMountViewOrImage({
     config: exercise.config,
     taskTest: inspectedPreviewTaskTest,
+    testSuiteResult,
   })
 
   if (testSuiteResult) {

@@ -7,7 +7,7 @@ import { UnhandledErrorView } from './TestResultsView/UnhandledErrorView'
 import useErrorStore from './store/errorStore'
 
 export function ResultsPanel() {
-  const { hasSyntaxError } = useTestStore()
+  const { hasSyntaxError, testSuiteResult } = useTestStore()
   const { hasUnhandledError } = useErrorStore()
 
   if (hasUnhandledError) {
@@ -18,10 +18,5 @@ export function ResultsPanel() {
     return <SyntaxErrorView />
   }
 
-  return (
-    <>
-      <InspectedTestResultView />
-      <TaskPreview />
-    </>
-  )
+  return testSuiteResult ? <InspectedTestResultView /> : <TaskPreview />
 }

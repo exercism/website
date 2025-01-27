@@ -8,6 +8,9 @@
     { "from": 1, "to": 3 },
     { "from": 5, "to": 5 }
   ],
+  "interpreter_options": {
+    "exclude_list": ["WHILE"]
+  },
   "tasks": [
     {
       "name": "Basic steps",

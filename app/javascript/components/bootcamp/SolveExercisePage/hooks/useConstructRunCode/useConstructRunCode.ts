@@ -1,11 +1,10 @@
 import { useCallback } from 'react'
-import { compile, EvaluationContext } from '@/interpreter/interpreter'
+import { compile } from '@/interpreter/interpreter'
 import useTestStore from '../../store/testStore'
 import useEditorStore from '../../store/editorStore'
 import useTaskStore from '../../store/taskStore/taskStore'
 import { handleSetInspectedTestResult } from '../../TestResultsView/TestResultsButtons'
 import generateAndRunTestSuite from '../../test-runner/generateAndRunTestSuite/generateAndRunTestSuite'
-import { getAndInitializeExerciseClass } from '../../utils/exerciseMap'
 import { showError } from '../../utils/showError'
 import { submitCode } from './submitCode'
 import { getFirstFailingOrLastTest } from './getFirstFailingOrLastTest'
@@ -15,9 +14,6 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import useErrorStore from '../../store/errorStore'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
-import { StdlibFunctions } from '@/interpreter/stdlib'
-import { ExerciseFilterList } from '@/components/mentoring/queue/ExerciseFilterList'
-import { ExecutionContext } from '@/interpreter/executor'
 import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 
 export function useConstructRunCode({

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CodeRun } from './CodeRun'
 import { IOTestResultView } from './IOTestResultView'
 import { StateTestResultView } from './StateTestResultView'

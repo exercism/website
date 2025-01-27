@@ -234,7 +234,7 @@ export default class MazeExercise extends Exercise {
     } else if (square === 4) {
       return 'fire'
     } else if (square === 5) {
-      return 'fire'
+      return 'poop'
     } else {
       return 'empty'
     }

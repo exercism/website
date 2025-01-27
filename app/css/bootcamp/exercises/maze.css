@@ -114,7 +114,7 @@
                 @apply grid place-items-center;
                 &:before {
                     content: "💩";
-                    font-size: 140%;
+                    font-size: 160%;
                 }
             }
         }

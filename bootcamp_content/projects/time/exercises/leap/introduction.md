@@ -19,7 +19,7 @@ Your job is to write a function called `is_leap_year` that takes a year as its i
 
 ## Bonus Task
 
-Can you solve this with only **one live of code** within the function?
+Can you solve this with only **one line of code** within the function?
 
 ## Take your time!
 

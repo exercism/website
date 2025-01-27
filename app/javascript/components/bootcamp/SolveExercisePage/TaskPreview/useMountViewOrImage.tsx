@@ -68,7 +68,7 @@ export function useMountViewOrImage({
         })
         viewContainerRef.current.appendChild(img)
       }
-      img.style.backgroundImage = `url('/exercise-images/${taskTest.imageSlug}')`
+      img.style.backgroundImage = `url('https://assets.exercism.org/bootcamp/scenarios/${taskTest.imageSlug}')`
 
       const viewDisplay = taskTest.imageSlug === undefined ? 'none' : 'block'
       viewContainerRef.current.style.display = viewDisplay

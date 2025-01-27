@@ -44,15 +44,11 @@ export function useInspectedTestResultView() {
         img = viewContainerRef.current.children[0] as HTMLElement
       } else {
         img = document.createElement('div')
-        img.style.width = '100%'
-        img.style.height = '100%'
-        img.style.backgroundSize = '90%'
-        img.style.backgroundRepeat = 'no-repeat'
-        img.style.backgroundColor = 'white'
-        img.style.backgroundPosition = 'center'
+        img.classList.add('io-image')
+
         viewContainerRef.current.appendChild(img)
       }
-      img.style.backgroundImage = `url('/exercise-images/${result.imageSlug}')`
+      img.style.backgroundImage = `url('https://assets.exercism.org/bootcamp/scenarios/${result.imageSlug}')`
 
       const viewDisplay = result.imageSlug === undefined ? 'none' : 'block'
       viewContainerRef.current.style.display = viewDisplay
@@ -130,7 +126,7 @@ export function getDiffOfExpectedAndActual(
   expected: any,
   actual: any
 ): Change[] {
-  if (expected === 'actual') {
+  if (expected === actual) {
     return []
   }
 

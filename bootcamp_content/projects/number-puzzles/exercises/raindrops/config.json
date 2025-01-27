@@ -19,7 +19,8 @@
           "name": "Number 3",
           "function": "raindrops",
           "params": [3],
-          "expected": "Pling"
+          "expected": "Pling",
+          "image_slug": "number-puzzles/raindrops/3.jpg"
         },
         {
           "slug": "number-27",
@@ -28,7 +29,8 @@
           "name": "Number 27",
           "function": "raindrops",
           "params": [27],
-          "expected": "Pling"
+          "expected": "Pling",
+          "image_slug": "number-puzzles/raindrops/27.jpg"
         }
       ]
     },
@@ -41,7 +43,8 @@
           "name": "Number 5",
           "function": "raindrops",
           "params": [5],
-          "expected": "Plang"
+          "expected": "Plang",
+          "image_slug": "number-puzzles/raindrops/5.jpg"
         },
         {
           "slug": "number-3125",
@@ -49,7 +52,8 @@
           "name": "Number 3125",
           "function": "raindrops",
           "params": [3125],
-          "expected": "Plang"
+          "expected": "Plang",
+          "image_slug": "number-puzzles/raindrops/3125.jpg"
         },
         {
           "slug": "number-15",
@@ -57,7 +61,8 @@
           "name": "Number 15",
           "function": "raindrops",
           "params": [15],
-          "expected": "PlingPlang"
+          "expected": "PlingPlang",
+          "image_slug": "number-puzzles/raindrops/15.jpg"
         }
       ]
     },
@@ -70,7 +75,8 @@
           "name": "Number 7",
           "function": "raindrops",
           "params": [7],
-          "expected": "Plong"
+          "expected": "Plong",
+          "image_slug": "number-puzzles/raindrops/7.jpg"
         },
         {
           "slug": "number-21",
@@ -78,7 +84,8 @@
           "name": "Number 21",
           "function": "raindrops",
           "params": [21],
-          "expected": "PlingPlong"
+          "expected": "PlingPlong",
+          "image_slug": "number-puzzles/raindrops/21.jpg"
         },
         {
           "slug": "number-35",
@@ -86,7 +93,8 @@
           "name": "Number 35",
           "function": "raindrops",
           "params": [35],
-          "expected": "PlangPlong"
+          "expected": "PlangPlong",
+          "image_slug": "number-puzzles/raindrops/35.jpg"
         },
         {
           "slug": "number-105",
@@ -94,7 +102,8 @@
           "name": "Number 105",
           "function": "raindrops",
           "params": [105],
-          "expected": "PlingPlangPlong"
+          "expected": "PlingPlangPlong",
+          "image_slug": "number-puzzles/raindrops/105.jpg"
         }
       ]
     },
@@ -107,7 +116,8 @@
           "name": "Number 8",
           "function": "raindrops",
           "params": [8],
-          "expected": "8"
+          "expected": "8",
+          "image_slug": "number-puzzles/raindrops/8.jpg"
         },
         {
           "slug": "number-52",
@@ -115,7 +125,8 @@
           "name": "Number 52",
           "function": "raindrops",
           "params": [52],
-          "expected": "52"
+          "expected": "52",
+          "image_slug": "number-puzzles/raindrops/52.jpg"
         }
       ]
     }

@@ -62,6 +62,9 @@ export function useMountViewOrImage({
       img.style.backgroundImage = `url('/exercise-images/${
         taskTest.imageSlug ?? 'rock-paper-scissors/paper-paper.png'
       }')`
+
+      const viewDisplay = taskTest.imageSlug === undefined ? 'none' : 'block'
+      viewContainerRef.current.style.display = viewDisplay
     }
   }, [testSuiteResult])
 

@@ -53,6 +53,9 @@ export function useInspectedTestResultView() {
         viewContainerRef.current.appendChild(img)
       }
       img.style.backgroundImage = `url('/exercise-images/${result.imageSlug}')`
+
+      const viewDisplay = result.imageSlug === undefined ? 'none' : 'block'
+      viewContainerRef.current.style.display = viewDisplay
     }
   }, [result])
 

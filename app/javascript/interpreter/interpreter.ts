@@ -57,7 +57,6 @@ export type InterpretResult = {
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {
-  console.log(context)
   const interpreter = new Interpreter(sourceCode, context)
   try {
     interpreter.compile()

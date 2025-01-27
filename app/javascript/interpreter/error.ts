@@ -115,6 +115,8 @@ export type RuntimeErrorType =
   | 'UnexpectedChangeOfFunction'
   | 'FunctionCallTypeMismatch'
   | 'UnexpectedReturnOutsideOfFunction'
+  | 'ExpectedFunctionNotFound'
+  | 'ExpectedFunctionHasWrongArguments'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

@@ -173,12 +173,36 @@ export class Executor {
       }
     } catch (error) {
       if (isRuntimeError(error)) {
-        this.addFrame(
-          this.location || error.location,
-          'ERROR',
-          undefined,
-          error
-        )
+        if (
+          error.type === 'CouldNotFindFunction' ||
+          error.type === 'CouldNotFindFunctionWithSuggestion'
+        ) {
+          const newError = this.buildError(
+            'ExpectedFunctionNotFound',
+            new Location(1, new Span(1, 0), new Span(1, 1)),
+            { name: error.context.name }
+          )
+
+          this.addFrame(newError.location, 'ERROR', undefined, newError)
+        } else if (
+          error.type === 'TooFewArguments' ||
+          error.type === 'TooManyArguments'
+        ) {
+          const newError = this.buildError(
+            'ExpectedFunctionHasWrongArguments',
+            new Location(1, new Span(1, 0), new Span(1, 1)),
+            { name: error.context.name }
+          )
+
+          this.addFrame(newError.location, 'ERROR', undefined, newError)
+        } else {
+          this.addFrame(
+            this.location || error.location,
+            'ERROR',
+            undefined,
+            error
+          )
+        }
         return {
           value: undefined,
           frames: this.frames,

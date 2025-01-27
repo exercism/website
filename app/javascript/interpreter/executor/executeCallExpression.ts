@@ -67,6 +67,7 @@ export function executeCallExpression(
         'InvalidNumberOfArgumentsWithOptionalArguments',
         expression.paren.location,
         {
+          name: expression.callee.name.lexeme,
           minArity,
           maxArity,
           numberOfArgs: args.length,
@@ -76,12 +77,14 @@ export function executeCallExpression(
 
     if (args.length < minArity) {
       executor.error('TooFewArguments', expression.paren.location, {
+        name: expression.callee.name.lexeme,
         arity: maxArity,
         numberOfArgs: args.length,
         args,
       })
     } else {
       executor.error('TooManyArguments', expression.paren.location, {
+        name: expression.callee.name.lexeme,
         arity: maxArity,
         numberOfArgs: args.length,
         args,

@@ -1,22 +1,22 @@
-import React from 'react'
 import { useRef, useEffect, useMemo } from 'react'
 import { getAndInitializeExerciseClass } from '../utils/exerciseMap'
 
 export function useMountViewOrImage({
   config,
   taskTest,
-  result,
+  testSuiteResult,
 }: {
   config: Config
   taskTest: TaskTest
-  result?: PreviousTestResult
+  testSuiteResult: TestSuiteResult<any> | null
 }) {
   if (!taskTest) return
+
   const exercise = useMemo(
     () => getAndInitializeExerciseClass(config),
     [config]
   )
-
+  if (!exercise) return
   ;(taskTest.setupFunctions || []).forEach((functionData) => {
     let [functionName, params] = functionData
     if (!params) {
@@ -63,7 +63,7 @@ export function useMountViewOrImage({
         taskTest.imageSlug ?? 'rock-paper-scissors/paper-paper.png'
       }')`
     }
-  }, [result])
+  }, [testSuiteResult])
 
   return viewContainerRef
 }

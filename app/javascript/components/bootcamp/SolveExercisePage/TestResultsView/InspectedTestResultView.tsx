@@ -11,8 +11,7 @@ import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
 
 function _InspectedTestResultView() {
-  const { result, viewContainerRef, firstFailingExpect } =
-    useInspectedTestResultView()
+  const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()
 
   if (!result) return null
 
@@ -25,7 +24,7 @@ function _InspectedTestResultView() {
     >
       <InspectedTestResultViewLHS
         // if tests pass, this will be first processed `expect`, otherwise first failing `expect`.
-        firstExpect={firstFailingExpect}
+        firstExpect={firstExpect}
         result={result}
       />
 

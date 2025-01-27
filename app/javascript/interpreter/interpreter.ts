@@ -25,6 +25,7 @@ export type LanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
   repeatDelay: number
+  maxRepeatUntilGameOverIterations: number
   allowGlobals: boolean
 }
 
@@ -32,6 +33,7 @@ export type InputLanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
   repeatDelay?: number
+  maxRepeatUntilGameOverIterations?: number
   allowGlobals?: boolean
 }
 
@@ -55,6 +57,7 @@ export type InterpretResult = {
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {
+  console.log(context)
   const interpreter = new Interpreter(sourceCode, context)
   try {
     interpreter.compile()
@@ -110,6 +113,7 @@ export class Interpreter {
       includeList: undefined,
       excludeList: undefined,
       repeatDelay: 0,
+      maxRepeatUntilGameOverIterations: 1000,
       allowGlobals: false,
       ...context.languageFeatures,
     }

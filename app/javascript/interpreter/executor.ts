@@ -360,11 +360,13 @@ export class Executor {
   public visitRepeatUntilGameOverStatement(
     statement: RepeatUntilGameOverStatement
   ): void {
-    var count = 0 // Count is a guard against infinite looping
+    let count = 0 // Count is a guard against infinite looping
+    const maxIterations =
+      this.languageFeatures.maxRepeatUntilGameOverIterations || 1000
 
     while (!this.externalState.gameOver) {
       this.guardInfiniteLoop(statement.location)
-      if (count >= 1000) {
+      if (count >= maxIterations) {
         const errorLoc = new Location(
           statement.location.line,
           statement.location.relative,

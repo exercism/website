@@ -59,9 +59,7 @@ export function useMountViewOrImage({
         })
         viewContainerRef.current.appendChild(img)
       }
-      img.style.backgroundImage = `url('/exercise-images/${
-        taskTest.imageSlug ?? 'rock-paper-scissors/paper-paper.png'
-      }')`
+      img.style.backgroundImage = `url('/exercise-images/${taskTest.imageSlug}')`
 
       const viewDisplay = taskTest.imageSlug === undefined ? 'none' : 'block'
       viewContainerRef.current.style.display = viewDisplay

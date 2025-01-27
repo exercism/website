@@ -1,6 +1,5 @@
-import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
-import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
+import type { ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { Statement } from '@/interpreter/statement'
 

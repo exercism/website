@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Change } from 'diff'
+import { formatLiteral } from '@/interpreter/helpers'
 
 export function IOTestResultView({ diff }: { diff: Change[] }) {
   return (

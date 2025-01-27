@@ -1,6 +1,7 @@
 import React from 'react'
 import { CodeRun } from '../TestResultsView/CodeRun'
 import { generateCodeRunString } from '../hooks/useSetupStores'
+import { formatLiteral } from '@/interpreter/helpers'
 export function IOPreview({
   inspectedPreviewTaskTest,
 }: {
@@ -23,7 +24,7 @@ export function IOPreview({
             />
             <tr>
               <th>Expected:</th>
-              <td>{inspectedPreviewTaskTest.expected?.toString()}</td>
+              <td>{formatLiteral(inspectedPreviewTaskTest.expected)}</td>
             </tr>
           </tbody>
         </table>

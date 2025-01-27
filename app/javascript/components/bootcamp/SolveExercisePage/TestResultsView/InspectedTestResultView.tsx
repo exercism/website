@@ -67,8 +67,8 @@ export function InspectedTestResultViewLHS({
             />
           </div>
         )}
-        <TestResultInfo result={result} firstExpect={firstExpect} />
         {result.status === 'pass' && <PassMessage testIdx={result.testIndex} />}
+        <TestResultInfo result={result} firstExpect={firstExpect} />
       </div>
 
       {result.frames && (

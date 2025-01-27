@@ -3,6 +3,7 @@ import { diffWords, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
+import { formatLiteral } from '@/interpreter/helpers'
 
 export type ProcessedExpect = {
   diff: Change[]
@@ -126,7 +127,27 @@ export function getDiffOfExpectedAndActual(
   expected: any,
   actual: any
 ): Change[] {
+  if (expected === 'actual') {
+    return []
+  }
+
   expected = expected ?? '[null]'
   actual = actual ?? "[Your function didn't return anything]"
-  return diffWords(expected.toString(), actual.toString())
+  if (typeof expected == 'string' && typeof actual == 'string') {
+    return diffWords(formatLiteral(expected), formatLiteral(actual))
+  }
+  return [
+    {
+      added: false,
+      count: 1,
+      removed: true,
+      value: formatLiteral(expected),
+    },
+    {
+      added: true,
+      count: 1,
+      removed: false,
+      value: formatLiteral(actual),
+    },
+  ]
 }

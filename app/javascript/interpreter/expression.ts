@@ -6,13 +6,7 @@ import {
   EvaluationResultCallExpression,
 } from './evaluation-result'
 import { SomethingWithLocation } from './interpreter'
-
-function quoteLiteral(value: any): string {
-  if (typeof value === 'string') {
-    return `"${value}"`
-  }
-  return value
-}
+import { formatLiteral } from './helpers'
 
 export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}
@@ -24,7 +18,7 @@ export class LiteralExpression extends Expression {
     super('LiteralExpression')
   }
   public description() {
-    return `<code>${quoteLiteral(this.value)}</code>`
+    return `<code>${formatLiteral(this.value)}</code>`
   }
 }
 
@@ -61,7 +55,7 @@ export class CallExpression extends Expression {
     const argsDescription = '()'
     return `<code>${
       this.callee.name.lexeme
-    }${argsDescription}</code> (which returned <code>${quoteLiteral(
+    }${argsDescription}</code> (which returned <code>${formatLiteral(
       result.value
     )}</code>)`
   }

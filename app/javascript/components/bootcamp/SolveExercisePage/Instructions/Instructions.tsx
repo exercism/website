@@ -68,7 +68,6 @@ export function _Instructions({
             Task {activeTaskIndex + 1}: {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
-          {/*<div className="[&_p]:inline" ref={typewriterRef} />*/}
           <div ref={typewriterRef} />
         </>
       )}

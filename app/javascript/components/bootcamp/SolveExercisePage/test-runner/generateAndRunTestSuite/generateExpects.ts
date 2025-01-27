@@ -45,6 +45,7 @@ function generateExpectsForStateTests(
   // We only need to do this once, so do it outside the loop.
   const state = exercise.getState()
 
+  console.log(testData)
   return testData.checks!.map((check) => {
     const matcher = check.matcher || 'toEqual'
 

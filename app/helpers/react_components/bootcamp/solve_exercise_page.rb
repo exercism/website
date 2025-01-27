@@ -14,6 +14,7 @@ module ReactComponents
         exercise: {
           id: exercise.id,
           slug: exercise.slug,
+          title: exercise.title,
           introduction_html: exercise.introduction_html,
           tasks: exercise.tasks,
           config: {

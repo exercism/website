@@ -3,7 +3,7 @@
   "description": "Determine if a number is even or odd",
   "concepts": ["strings-using", "conditionals"],
   "level": 4,
-  "idx": 1,
+  "idx": 3,
   "tests_type": "io",
   "tasks": [
     {

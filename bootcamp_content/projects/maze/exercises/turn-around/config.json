@@ -2,7 +2,7 @@
   "title": "Turn around",
   "description": "Create a turn_around() function",
   "level": 4,
-  "idx": 3,
+  "idx": 1,
   "project_type": "maze",
   "tests_type": "state",
   "exercise_functions": [

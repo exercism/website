@@ -2,7 +2,7 @@
   "title": "Raindrop Sounds",
   "description": "Convert a number into a raindrop sound based on its factors.",
   "level": 4,
-  "idx": 2,
+  "idx": 4,
   "tests_type": "io",
   "readonly_ranges": [
     { "from": 1, "to": 3 },

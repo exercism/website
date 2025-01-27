@@ -1,5 +1,7 @@
 # Leap
 
+In this exercise, we're exploring Leap Years!
+
 A leap year (in the Gregorian calendar) occurs:
 
 - In every year that is evenly divisible by 4.
@@ -11,9 +13,17 @@ Some examples:
 - 1900 was not a leap year as it's not divisible by 400.
 - 2000 was a leap year!
 
-### Take your time!
+## Instructions
 
-Take your time on this one. Once you enter whack-a-mole you'll be in trouble!
+Your job is to write a function called `is_leap_year` that takes a year as its input and returns a boolean (`true` or `false`) for whether the year is a leap year.
+
+## Bonus Task
+
+Can you solve this with only **one live of code** within the function?
+
+## Take your time!
+
+Take your time on this one. Once you enter whack-a-mole you'll be in trouble! Think it through before starting hacking away!
 
 If it all goes wrong, don't be afraid to click the Reset button and start again!
 

@@ -131,8 +131,23 @@ export function getDiffOfExpectedAndActual(
     return []
   }
 
-  expected = expected ?? '[null]'
-  actual = actual ?? "[Your function didn't return anything]"
+  if (actual == null) {
+    return [
+      {
+        added: false,
+        count: 1,
+        removed: true,
+        value: formatLiteral(expected),
+      },
+      {
+        added: true,
+        count: 1,
+        removed: false,
+        value: "[Your function didn't return anything]",
+      },
+    ]
+  }
+
   if (typeof expected == 'string' && typeof actual == 'string') {
     return diffWords(formatLiteral(expected), formatLiteral(actual))
   }

@@ -486,13 +486,13 @@ export class Parser {
   }
 
   private and(): Expression {
-    const expr = this.equality()
+    let expr = this.equality()
 
     while (this.match('AND')) {
       let operator = this.previous()
       operator.type = 'AND'
       const right = this.equality()
-      return new LogicalExpression(
+      expr = new LogicalExpression(
         expr,
         operator,
         right,

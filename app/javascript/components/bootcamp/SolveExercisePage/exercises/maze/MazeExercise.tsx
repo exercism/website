@@ -11,7 +11,6 @@ export default class MazeExercise extends Exercise {
   private duration: number = 200
   private characterSelector: string
   private squareSize: number = 0
-  private maze: HTMLElement
   private character: HTMLElement
   private cells: HTMLElement
 
@@ -64,7 +63,9 @@ export default class MazeExercise extends Exercise {
         } else if (this.mazeLayout[y][x] === 3) {
           cell.classList.add('target')
         } else if (this.mazeLayout[y][x] === 4) {
-          cell.classList.add('bomb')
+          cell.classList.add('fire')
+        } else if (this.mazeLayout[y][x] === 5) {
+          cell.classList.add('poop')
         }
         this.cells.appendChild(cell)
       }
@@ -102,13 +103,18 @@ export default class MazeExercise extends Exercise {
       executionCtx.logicError('Ouch! You walked into a wall!')
       executionCtx.updateState('gameOver', true)
       return
-    } else if (square === 3) {
-      this.gameOverWin(executionCtx)
     }
 
     // If you hit an invalid square, blow up.
-    if (square === 4) {
+    else if (square === 4) {
       executionCtx.logicError('Ouch! You walked into the fire!')
+      executionCtx.updateState('gameOver', true)
+      return
+    }
+
+    // If you hit an invalid square, blow up.
+    else if (square === 5) {
+      executionCtx.logicError('Ewww! You walked into the poop!')
       executionCtx.updateState('gameOver', true)
       return
     } else if (square === 3) {
@@ -214,76 +220,107 @@ export default class MazeExercise extends Exercise {
     this.animateRotate(executionCtx)
   }
 
+  private describePosition(x: number, y: number) {
+    if (x >= 0 && x < this.gridSize && y >= 0 && y < this.gridSize) {
+      return this.describeSquare(this.mazeLayout[y][x])
+    }
+
+    return 'wall'
+  }
+
+  private describeSquare(square: number) {
+    if (square === 1) {
+      return 'wall'
+    } else if (square === 2) {
+      return 'start'
+    } else if (square === 3) {
+      return 'target'
+    } else if (square === 4) {
+      return 'fire'
+    } else if (square === 5) {
+      return 'poop'
+    } else {
+      return 'empty'
+    }
+  }
+
+  public canMoveToSquare(square: string) {
+    if (square === 'wall' || square === 'fire') {
+      return false
+    }
+    return true
+  }
   public canTurnLeft(_: ExecutionContext) {
-    const { x, y } = this.characterPosition
-    let newX = x
-    let newY = y
-
-    if (this.direction === 'up') {
-      newX -= 1
-    } else if (this.direction === 'down') {
-      newX += 1
-    } else if (this.direction === 'left') {
-      newY += 1
-    } else if (this.direction === 'right') {
-      newY -= 1
-    }
-
-    return (
-      newX >= 0 &&
-      newX < this.gridSize &&
-      newY >= 0 &&
-      newY < this.gridSize &&
-      this.mazeLayout[newY][newX] !== 1
-    )
+    return this.canMoveToSquare(this.lookLeft())
   }
-
   public canTurnRight(_: ExecutionContext) {
-    const { x, y } = this.characterPosition
-    let newX = x
-    let newY = y
-
-    if (this.direction === 'up') {
-      newX += 1
-    } else if (this.direction === 'down') {
-      newX -= 1
-    } else if (this.direction === 'left') {
-      newY -= 1
-    } else if (this.direction === 'right') {
-      newY += 1
-    }
-
-    return (
-      newX >= 0 &&
-      newX < this.gridSize &&
-      newY >= 0 &&
-      newY < this.gridSize &&
-      this.mazeLayout[newY][newX] !== 1
-    )
+    return this.canMoveToSquare(this.lookRight())
+  }
+  public canMove(_: ExecutionContext) {
+    return this.canMoveToSquare(this.lookAhead())
   }
 
-  private canMove(_: ExecutionContext) {
-    const { x, y } = this.characterPosition
-    let newX = x
-    let newY = y
+  public lookLeft() {
+    let { x, y } = this.characterPosition
 
     if (this.direction === 'up') {
-      newY -= 1
+      x -= 1
     } else if (this.direction === 'down') {
-      newY += 1
+      x += 1
     } else if (this.direction === 'left') {
-      newX -= 1
+      y += 1
     } else if (this.direction === 'right') {
-      newX += 1
+      y -= 1
     }
 
-    return (
-      newX >= 0 &&
-      newX < this.gridSize &&
-      newY >= 0 &&
-      newY < this.gridSize &&
-      this.mazeLayout[newY][newX] !== 1
-    )
+    return this.describePosition(x, y)
+  }
+
+  public lookRight() {
+    let { x, y } = this.characterPosition
+
+    if (this.direction === 'up') {
+      x += 1
+    } else if (this.direction === 'down') {
+      x -= 1
+    } else if (this.direction === 'left') {
+      y -= 1
+    } else if (this.direction === 'right') {
+      y += 1
+    }
+
+    return this.describePosition(x, y)
+  }
+
+  private lookAhead() {
+    let { x, y } = this.characterPosition
+
+    if (this.direction === 'up') {
+      y -= 1
+    } else if (this.direction === 'down') {
+      y += 1
+    } else if (this.direction === 'left') {
+      x -= 1
+    } else if (this.direction === 'right') {
+      x += 1
+    }
+
+    return this.describePosition(x, y)
+  }
+
+  private look(_: ExecutionContext, direction: string) {
+    let newX = this.characterPosition.x
+    let newY = this.characterPosition.y
+
+    if (direction === 'left') {
+      return this.lookLeft()
+    }
+    if (direction === 'right') {
+      return this.lookRight()
+    }
+    if (direction === 'ahead') {
+      return this.lookAhead()
+    }
   }
 
   public setupGrid(layout: number[][]) {
@@ -333,6 +370,11 @@ export default class MazeExercise extends Exercise {
       name: 'can_move',
       func: this.canMove.bind(this),
       description: 'Checks if the character can move forward',
+    },
+    {
+      name: 'look',
+      func: this.look.bind(this),
+      description: 'Looks in a direction and returns what is there',
     },
   ]
 }

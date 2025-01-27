@@ -1,0 +1,29 @@
+# Write the can... functions
+
+Last time you added a new function to help you navigate more delightfully: `turn_around()`.
+
+Now it's time to implement some of the functions that already existed! We've taken away the `can_turn_left()`, `can_turn_right()` and `can_move()` functions, and your job is to add them back!
+None of the functions have any inputs and all should return a boolean specifying whether it's possible to move in that direction.
+
+To help you, we've added a new `look(direction)` function.
+This function takes one input - a direction that can be `"left"`, `"right"`, or `"ahead"`.
+It returns one of:
+
+- `wall`
+- `start`
+- `target`
+- `fire`
+- `poop`
+- `empty`
+
+You shouldn't need to change any of the existing code for this exercise.
+Instead ad the three functions to the top of the code
+
+### Bonus Challenges
+
+Want something to push you a little more?
+
+Here are two challenges:
+
+1. Can you only use the `look` function once in the whole program?
+2. While only using the `look` function once once, can you solve it all by only adding 13 lines of code to the program?

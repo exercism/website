@@ -22,7 +22,8 @@ module ReactComponents
             project_type: exercise.config[:project_type],
             tests_type: exercise.config[:tests_type],
             interpreter_options: exercise.config[:interpreter_options],
-            stdlib_functions: exercise.config[:stdlib_functions]
+            stdlib_functions: exercise.config[:stdlib_functions],
+            exercise_functions: exercise.config[:exercise_functions]
           },
           test_results: submission&.test_results
         },

@@ -1,0 +1,93 @@
+{
+  "title": "Look Around",
+  "description": "Create a check_direction() function",
+  "level": 4,
+  "idx": 4,
+  "project_type": "maze",
+  "tests_type": "state",
+  "exercise_functions": ["move", "turn_left", "turn_right", "look"],
+  "tasks": [
+    {
+      "name": "Solve the Mazes",
+      "tests": [
+        {
+          "slug": "maze-1",
+          "name": "Solve maze 1",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 2, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 4, 4, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 1, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 4, 0, 0, 0, 0, 0, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [3, 0, 0, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [3, 0]]
+          ],
+          "checks": [
+            {
+              "name": "position",
+              "value": [0, 7],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "maze-2",
+          "name": "Solve maze 2",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 0, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 0, 0, 1, 0, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, 0, 0, 1, 0, 5, 1],
+                  [1, 4, 1, 1, 0, 1, 1, 0, 1],
+                  [1, 4, 4, 4, 0, 1, 0, 0, 1],
+                  [1, 1, 1, 1, 3, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "name": "position",
+              "value": [4, 8],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "name": "wasFunctionUsed('can_turn_left')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_turn_left() function wasn't used."
+            },
+            {
+              "name": "wasFunctionUsed('can_turn_right')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_turn_right() function wasn't used."
+            },
+            {
+              "name": "wasFunctionUsed('can_move')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_move() function wasn't used."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

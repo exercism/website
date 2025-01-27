@@ -5,6 +5,14 @@
   "idx": 3,
   "project_type": "maze",
   "tests_type": "state",
+  "exercise_functions": [
+    "move",
+    "turn_left",
+    "turn_right",
+    "can_move",
+    "can_turn_left",
+    "can_turn_right"
+  ],
   "tasks": [
     {
       "name": "A straight path",

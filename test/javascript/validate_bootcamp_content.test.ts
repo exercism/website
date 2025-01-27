@@ -69,8 +69,17 @@ function testState(
       exercise[functionName](...params)
     })
 
+    const stdlibFunctions = filteredStdLibFunctions(config.stdlibFunctions)
+    let exerciseFunctions = exercise.availableFunctions || []
+    if (config.exerciseFunctions !== null) {
+      exerciseFunctions = exerciseFunctions.filter((func) =>
+        config.exerciseFunctions.includes(func.name)
+      )
+    }
+    const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
+
     const context = {
-      externalFunctions: exercise.availableFunctions,
+      externalFunctions: exerciseFunctions,
       languageFeatures: config.interpreterOptions,
     }
     let evaluated

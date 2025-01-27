@@ -20,7 +20,12 @@ export function execProjectTest(
   const stdlibFunctions = filteredStdLibFunctions(
     options.config.stdlibFunctions
   )
-  const exerciseFunctions = exercise.availableFunctions || []
+  let exerciseFunctions = exercise.availableFunctions || []
+  if (options.config.exerciseFunctions !== null) {
+    exerciseFunctions = exerciseFunctions.filter((func) =>
+      options.config.exerciseFunctions.includes(func.name)
+    )
+  }
   const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
 
   const context = {

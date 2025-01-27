@@ -48,5 +48,6 @@ declare global {
     testsType: 'io' | 'state'
     interpreterOptions: LanguageFeatures
     stdlibFunctions: string[]
+    exerciseFunctions: string[]
   }
 }

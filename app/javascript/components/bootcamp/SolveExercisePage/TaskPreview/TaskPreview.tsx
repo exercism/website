@@ -14,6 +14,7 @@ export function _TaskPreview() {
     config: exercise.config,
     taskTest: inspectedPreviewTaskTest,
     testSuiteResult,
+    inspectedPreviewTaskTest,
   })
 
   if (testSuiteResult) {

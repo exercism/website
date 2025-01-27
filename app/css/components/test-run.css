@@ -191,7 +191,7 @@
     }
 
     & .c-test-summary {
-        @apply flex items-center;
+        @apply flex flex-col;
         @apply font-mono;
         @apply mb-12 rounded-8;
         @apply border-1 border-borderColor6;

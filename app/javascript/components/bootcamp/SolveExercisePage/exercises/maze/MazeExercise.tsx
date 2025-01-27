@@ -110,7 +110,7 @@ export default class MazeExercise extends Exercise {
 
     // If you hit an invalid square, blow up.
     else if (square === 5) {
-      executionCtx.logicError('Ewww! You walked into the poop!')
+      executionCtx.logicError('Ewww! You walked into the poop! 💩💩💩')
       executionCtx.updateState('gameOver', true)
       return
     } else if (square === 3) {

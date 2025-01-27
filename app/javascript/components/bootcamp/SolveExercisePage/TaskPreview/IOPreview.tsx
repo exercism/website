@@ -23,7 +23,7 @@ export function IOPreview({
             />
             <tr>
               <th>Expected:</th>
-              <td>{inspectedPreviewTaskTest.expected}</td>
+              <td>{inspectedPreviewTaskTest.expected?.toString()}</td>
             </tr>
           </tbody>
         </table>

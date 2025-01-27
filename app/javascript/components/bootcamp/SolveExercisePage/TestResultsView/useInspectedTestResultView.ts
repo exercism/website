@@ -64,7 +64,13 @@ export function useInspectedTestResultView() {
     [result?.expects]
   )
 
-  return { processedExpects, firstFailingExpect, viewContainerRef, result }
+  return {
+    processedExpects,
+    firstFailingExpect,
+    viewContainerRef,
+    result,
+    firstExpect: firstFailingExpect || processedExpects[0],
+  }
 }
 
 function getfirstFailingExpect(

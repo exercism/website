@@ -304,7 +304,7 @@ export default class MazeExercise extends Exercise {
     return this.describePosition(x, y)
   }
 
-  private look(_: ExecutionContext, direction: string) {
+  private look(executionCtx: ExecutionContext, direction: string) {
     let newX = this.characterPosition.x
     let newY = this.characterPosition.y
 
@@ -316,6 +316,10 @@ export default class MazeExercise extends Exercise {
     }
     if (direction === 'ahead') {
       return this.lookAhead()
+    } else {
+      executionCtx.logicError(
+        `You asked the blob to look in a direction it doesn't know about. It can only look \"left\", \"right\", or \"ahead\". You asked it to look \"${direction}\".`
+      )
     }
   }
 

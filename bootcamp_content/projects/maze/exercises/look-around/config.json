@@ -1,6 +1,6 @@
 {
   "title": "Look Around",
-  "description": "Create a check_direction() function",
+  "description": "Implement the can_turn..() and can_move() functions.",
   "level": 4,
   "idx": 4,
   "project_type": "maze",

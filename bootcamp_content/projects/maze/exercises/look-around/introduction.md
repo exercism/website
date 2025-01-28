@@ -17,7 +17,7 @@ It returns one of:
 - `wall` (Ouch!)
 
 You shouldn't need to change any of the existing code for this exercise.
-Instead ad the three functions to the top of the code
+Instead add the three functions to the top of the code
 
 ### Top Tip
 

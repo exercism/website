@@ -78,6 +78,7 @@ function generateExpectsForStateTests(
 
     const errorHtml = check.errorHtml?.replaceAll('%actual%', actual) || ''
 
+    console.log('matcher', matcher, 'checkvalue', check.value, 'actual', actual)
     return expect({
       ...check,
       testsType: 'state',

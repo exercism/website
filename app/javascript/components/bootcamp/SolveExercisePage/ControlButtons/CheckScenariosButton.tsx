@@ -11,6 +11,7 @@ export function CheckScenariosButton({
   const { shouldAutoRunCode, setShouldAutoRunCode } = useEditorStore()
   return (
     <button
+      data-ci="check-scenarios-button"
       className="scenarios-button btn-primary btn-s"
       onClick={() => {
         handleRunCode()

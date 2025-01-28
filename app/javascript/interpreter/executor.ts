@@ -173,7 +173,6 @@ export class Executor {
       }
     } catch (error) {
       if (isRuntimeError(error)) {
-        console.log(error.location)
         if (
           error.location?.line === 1 &&
           (error.type === 'CouldNotFindFunction' ||

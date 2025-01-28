@@ -844,9 +844,6 @@ describe('errors', () => {
           end
         `
         const { value, frames, error } = evaluateFunction(code, {}, 'move')
-        console.log(value)
-        console.log(frames)
-        console.log(error)
 
         expect(value).toBeUndefined()
         expect(frames).toBeArrayOfSize(3)

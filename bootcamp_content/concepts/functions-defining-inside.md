@@ -20,7 +20,7 @@ He can still use any of the other functions he has access to outside.
 
 So he runs your code, checks for an alien, and shoots it if it's there.
 
-## Inputs
+## Functions with Inputs
 
 Sometimes we also need functions that have inputs.
 

@@ -19,7 +19,8 @@
           "name": "Number 1",
           "function": "positive_negative_or_zero",
           "params": [1],
-          "expected": "Positive"
+          "expected": "Positive",
+          "image_slug": "number-puzzles/positive-negative-or-zero/1.png"
         },
         {
           "slug": "number-20",
@@ -27,7 +28,8 @@
           "name": "Number 20",
           "function": "positive_negative_or_zero",
           "params": [20],
-          "expected": "Positive"
+          "expected": "Positive",
+          "image_slug": "number-puzzles/positive-negative-or-zero/20.png"
         }
       ]
     },
@@ -40,7 +42,8 @@
           "name": "Number -1",
           "function": "positive_negative_or_zero",
           "params": [-1],
-          "expected": "Negative"
+          "expected": "Negative",
+          "image_slug": "number-puzzles/positive-negative-or-zero/-1.png"
         },
         {
           "slug": "negative-20",
@@ -48,7 +51,8 @@
           "name": "Number -20",
           "function": "positive_negative_or_zero",
           "params": [-20],
-          "expected": "Negative"
+          "expected": "Negative",
+          "image_slug": "number-puzzles/positive-negative-or-zero/-20.png"
         }
       ]
     },
@@ -61,7 +65,8 @@
           "name": "Number 0",
           "function": "positive_negative_or_zero",
           "params": [0],
-          "expected": "Zero"
+          "expected": "Zero",
+          "image_slug": "number-puzzles/positive-negative-or-zero/0.png"
         }
       ]
     }

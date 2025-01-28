@@ -71,7 +71,10 @@ function testState(
 
     const stdlibFunctions = filteredStdLibFunctions(config.stdlibFunctions)
     let exerciseFunctions = exercise.availableFunctions || []
-    if (config.exerciseFunctions !== null) {
+    if (
+      config.exerciseFunctions !== null &&
+      config.exerciseFunctions !== undefined
+    ) {
       exerciseFunctions = exerciseFunctions.filter((func) =>
         config.exerciseFunctions.includes(func.name)
       )

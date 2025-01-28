@@ -29,5 +29,7 @@ export async function changeLanguage(language: string): Promise<void> {
 }
 
 export function translate(key: string, options = {}): string {
-  return i18next.t(key, options).toString()
+  return i18next
+    .t(key, { ...options, interpolation: { escapeValue: false } })
+    .toString()
 }

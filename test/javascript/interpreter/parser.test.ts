@@ -719,7 +719,7 @@ describe('repeat', () => {
 })
 
 describe('while', () => {
-  test('with single statement', () => {
+  test.skip('with single statement', () => {
     const stmts = parse(`
       while something is true do
         set x to 1

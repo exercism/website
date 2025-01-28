@@ -167,7 +167,7 @@ export class Parser {
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
     if (this.match('REPEAT_UNTIL_GAME_OVER'))
       return this.repeatUntilGameOverStatement()
-    if (this.match('WHILE')) return this.whileStatement()
+    // if (this.match('WHILE')) return this.whileStatement()
     if (this.match('FOREACH')) return this.foreachStatement()
     if (this.match('DO')) return this.blockStatement('do')
 
@@ -753,6 +753,9 @@ export class Parser {
       )
     }
 
+    if (this.peek().type == 'FUNCTION') {
+      this.error('InvalidNestedFunction', this.peek().location)
+    }
     this.error('MissingExpression', this.peek().location)
   }
 

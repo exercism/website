@@ -159,7 +159,7 @@ export class RuntimeError extends FrontendError<RuntimeErrorType> {}
 export class LogicError extends Error {}
 
 type FunctionCallTypeMismatchErrorContext = {
-  argIndex: number
+  argIdx: number
   expectedType: string
   actualType: string
 }

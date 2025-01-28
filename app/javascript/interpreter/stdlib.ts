@@ -34,10 +34,10 @@ function numberToString(_: ExecutionContext, num: number) {
   return num.toString()
 }
 
-function verifyType(arg: any, type: 'string' | 'number', argIndex: number) {
+function verifyType(arg: any, type: 'string' | 'number', argIdx: number) {
   if (typeof arg !== type) {
     throw new FunctionCallTypeMismatchError({
-      argIndex,
+      argIdx,
       expectedType: type,
       actualType: typeof arg,
     })

@@ -1020,7 +1020,7 @@ export class Executor {
 
     // Quote strings
     if (typeof value == 'string') {
-      //value = `"${value}""`
+      value = `"${value}"`
     }
 
     this.error('OperandsMustBeNumbers', location, {

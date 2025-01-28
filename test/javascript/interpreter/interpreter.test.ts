@@ -844,6 +844,9 @@ describe('errors', () => {
           end
         `
         const { value, frames, error } = evaluateFunction(code, {}, 'move')
+        console.log(value)
+        console.log(frames)
+        console.log(error)
 
         expect(value).toBeUndefined()
         expect(frames).toBeArrayOfSize(3)
@@ -854,6 +857,52 @@ describe('errors', () => {
         expect(frames[2].error!.category).toBe('RuntimeError')
         expect(frames[2].error!.type).toBe('CouldNotFindFunction')
         expect(frames[2].error!.message).toBe('CouldNotFindFunction: name: foo')
+        expect(error).toBeNull()
+      })
+
+      test('missing function', () => {
+        const code = `
+          function m0ve do
+          end
+        `
+        const { value, frames, error } = evaluateFunction(code, {}, 'move')
+
+        expect(value).toBeUndefined()
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].line).toBe(1)
+        expect(frames[0].status).toBe('ERROR')
+        expect(frames[0].error).not.toBeNull()
+        expect(frames[0].error!.category).toBe('RuntimeError')
+        expect(frames[0].error!.type).toBe('ExpectedFunctionNotFound')
+        expect(frames[0].error!.message).toBe(
+          'ExpectedFunctionNotFound: name: move'
+        )
+        expect(error).toBeNull()
+      })
+
+      test('incorrect args', () => {
+        const code = `
+          function move with foo do
+          end
+        `
+        const { value, frames, error } = evaluateFunction(
+          code,
+          {},
+          'move',
+          1,
+          2
+        )
+
+        expect(value).toBeUndefined()
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].line).toBe(1)
+        expect(frames[0].status).toBe('ERROR')
+        expect(frames[0].error).not.toBeNull()
+        expect(frames[0].error!.category).toBe('RuntimeError')
+        expect(frames[0].error!.type).toBe('ExpectedFunctionHasWrongArguments')
+        expect(frames[0].error!.message).toBe(
+          'ExpectedFunctionHasWrongArguments: name: move'
+        )
         expect(error).toBeNull()
       })
     })

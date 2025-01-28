@@ -94,7 +94,8 @@
       "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction",
       "VariableAlreadyDeclared": "VariableAlreadyDeclared: name: {{name}}",
       "VariableNotDeclared": "VariableNotDeclared: name: {{name}}",
-      "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}"
+      "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",
+      "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

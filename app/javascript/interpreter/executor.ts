@@ -173,9 +173,11 @@ export class Executor {
       }
     } catch (error) {
       if (isRuntimeError(error)) {
+        console.log(error.location)
         if (
-          error.type === 'CouldNotFindFunction' ||
-          error.type === 'CouldNotFindFunctionWithSuggestion'
+          error.location?.line === 1 &&
+          (error.type === 'CouldNotFindFunction' ||
+            error.type === 'CouldNotFindFunctionWithSuggestion')
         ) {
           const newError = this.buildError(
             'ExpectedFunctionNotFound',
@@ -185,8 +187,9 @@ export class Executor {
 
           this.addFrame(newError.location, 'ERROR', undefined, newError)
         } else if (
-          error.type === 'TooFewArguments' ||
-          error.type === 'TooManyArguments'
+          error.location?.line === 1 &&
+          (error.type === 'TooFewArguments' ||
+            error.type === 'TooManyArguments')
         ) {
           const newError = this.buildError(
             'ExpectedFunctionHasWrongArguments',

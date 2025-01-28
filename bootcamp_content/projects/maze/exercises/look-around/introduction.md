@@ -9,12 +9,12 @@ To help you, we've added a new `look(direction)` function.
 This function takes one input - a direction that can be `"left"`, `"right"`, or `"ahead"`.
 It returns one of:
 
-- `start` (Where you start)
-- `target` (Where you're trying to get to)
-- `empty` (The route forward!)
-- `fire` (Careful!)
-- `poop` (Ewww)
-- `wall` (Ouch!)
+- `"start"` (Where you start)
+- `"target"` (Where you're trying to get to)
+- `"empty"` (The route forward!)
+- `"fire"` (Careful!)
+- `"poop"` (Ewww)
+- `"wall"` (Ouch!)
 
 You shouldn't need to change any of the existing code for this exercise.
 Instead add the three functions to the top of the code

@@ -19,8 +19,6 @@ module Bootcamp
         assert_selector(".page-body-rhs")
         assert_selector(".scenario-rhs")
         assert_text "This is fun!"
-
-        sleep 50
       end
     end
   end

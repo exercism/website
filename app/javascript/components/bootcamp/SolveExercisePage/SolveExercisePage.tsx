@@ -47,8 +47,8 @@ export default function SolveExercisePage({
     secondarySize: BottomHeight,
     handleMouseDown: handleHeightChangeMouseDown,
   } = useResizablePanels({
-    initialSize: 800,
-    secondaryMinSize: 500,
+    initialSize: 500,
+    secondaryMinSize: 250,
     direction: 'vertical',
     localStorageId: 'solve-exercise-page-editor-height',
   })

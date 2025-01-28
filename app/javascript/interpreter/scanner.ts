@@ -52,6 +52,7 @@ export class Scanner {
     not: 'NOT',
     or: 'OR',
     repeat: 'REPEAT',
+    repeat_forever: 'REPEAT_FOREVER',
     repeat_until_game_over: 'REPEAT_UNTIL_GAME_OVER',
     return: 'RETURN',
     set: 'SET',

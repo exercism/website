@@ -6,8 +6,10 @@ import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
 
 export function _Instructions({
+  exerciseTitle,
   exerciseInstructions,
 }: {
+  exerciseTitle: string
   exerciseInstructions: string
 }): JSX.Element {
   const { activeTaskIndex, tasks, areAllTasksCompleted } = useTaskStore()
@@ -49,7 +51,7 @@ export function _Instructions({
 
   return (
     <div className="scenario-rhs c-prose c-prose-small">
-      <h3>Instructions</h3>
+      <h3>{exerciseTitle}</h3>
 
       <div
         dangerouslySetInnerHTML={{
@@ -68,7 +70,6 @@ export function _Instructions({
             Task {activeTaskIndex + 1}: {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
-          {/*<div className="[&_p]:inline" ref={typewriterRef} />*/}
           <div ref={typewriterRef} />
         </>
       )}

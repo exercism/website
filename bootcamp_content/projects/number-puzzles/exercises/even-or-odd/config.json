@@ -3,19 +3,20 @@
   "description": "Determine if a number is even or odd",
   "concepts": ["strings-using", "conditionals"],
   "level": 4,
-  "idx": 1,
+  "idx": 3,
   "tests_type": "io",
   "tasks": [
     {
       "name": "Correctly identify even numbers",
       "tests": [
         {
-          "slug": "number-2",
+          "slug": "number-14",
           "type": "io",
-          "name": "Number 2",
+          "name": "Number 14",
           "function": "even_or_odd",
-          "params": [2],
-          "expected": "Even"
+          "params": [14],
+          "expected": "Even",
+          "image_slug": "number-puzzles/even-or-odd/14.png"
         },
         {
           "slug": "number-28",
@@ -23,7 +24,8 @@
           "name": "Number 28",
           "function": "even_or_odd",
           "params": [28],
-          "expected": "Even"
+          "expected": "Even",
+          "image_slug": "number-puzzles/even-or-odd/28.png"
         }
       ]
     },
@@ -31,20 +33,22 @@
       "name": "Correctly identify odd numbers",
       "tests": [
         {
-          "slug": "number-1",
+          "slug": "number--1",
           "type": "io",
-          "name": "Number 1",
+          "name": "Number -1",
           "function": "even_or_odd",
-          "params": [1],
-          "expected": "Odd"
+          "params": [-1],
+          "expected": "Odd",
+          "image_slug": "number-puzzles/even-or-odd/-1.png"
         },
         {
-          "slug": "number-21",
+          "slug": "number-17",
           "type": "io",
-          "name": "Number 21",
+          "name": "Number 17",
           "function": "even_or_odd",
-          "params": [21],
-          "expected": "Odd"
+          "params": [17],
+          "expected": "Odd",
+          "image_slug": "number-puzzles/even-or-odd/17.png"
         }
       ]
     },
@@ -57,7 +61,8 @@
           "name": "Number 0",
           "function": "even_or_odd",
           "params": [0],
-          "expected": "Even"
+          "expected": "Even",
+          "image_slug": "number-puzzles/even-or-odd/0.png"
         }
       ]
     }

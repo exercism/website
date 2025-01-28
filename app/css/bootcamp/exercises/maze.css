@@ -28,6 +28,12 @@
         background: white;
         position: relative;
     }
+
+    .io-image {
+        @apply absolute inset-[10px];
+        @apply bg-cover bg-no-repeat;
+        @apply rounded-5 border-1 border-borderColor8;
+    }
 }
 
 .exercise-maze {
@@ -97,11 +103,18 @@
                     );
                 background-blend-mode: multiply;
             }
-            &.bomb {
+            &.fire {
                 @apply grid place-items-center;
                 &:before {
                     content: "🔥";
                     font-size: 140%;
+                }
+            }
+            &.poop {
+                @apply grid place-items-center;
+                &:before {
+                    content: "💩";
+                    font-size: 160%;
                 }
             }
         }

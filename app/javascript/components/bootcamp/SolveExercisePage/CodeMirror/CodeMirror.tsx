@@ -233,6 +233,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     try {
       editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
     } catch (e: unknown) {
+      if (
+        process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'test'
+      ) {
+        throw e
+      }
+
       setHasUnhandledError(true)
       setUnhandledErrorBase64(
         JSON.stringify({

@@ -1,34 +1,31 @@
 import { ReturnValue, UserDefinedFunction, isCallable } from './functions'
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
-import { RuntimeError, type RuntimeErrorType, isRuntimeError } from './error'
 import {
-  ArrayExpression,
-  ChangeVariableStatement,
+  FunctionCallTypeMismatchError,
+  RuntimeError,
+  type RuntimeErrorType,
+  isRuntimeError,
+  LogicError,
+} from './error'
+import {
   BinaryExpression,
   CallExpression,
-  DictionaryExpression,
   Expression,
+  FunctionLookupExpression,
   GetExpression,
   GroupingExpression,
   LiteralExpression,
   LogicalExpression,
   SetExpression,
-  TemplateLiteralExpression,
-  TemplatePlaceholderExpression,
-  TemplateTextExpression,
   UnaryExpression,
   UpdateExpression,
-  VariableExpression,
-  ExpressionWithValue,
+  VariableLookupExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
   BlockStatement,
-  ConstantStatement as ConstantStatement,
-  DoWhileStatement,
   ExpressionStatement,
-  ForeachStatement,
   FunctionStatement,
   IfStatement,
   RepeatStatement,
@@ -36,20 +33,23 @@ import {
   ReturnStatement,
   Statement,
   SetVariableStatement,
-  WhileStatement,
+  ChangeVariableStatement,
+  RepeatForeverStatement,
 } from './statement'
 import type { Token } from './token'
-import type {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-} from './evaluation-result'
+import type { EvaluationResult } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
-import type { LanguageFeatures } from './interpreter'
+import type { LanguageFeatures, SomethingWithLocation } from './interpreter'
 import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
+import {
+  executeCallExpression,
+  ExecuteCallExpression,
+} from './executor/executeCallExpression'
+import didYouMean from 'didyoumean'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -67,8 +67,6 @@ export type ExternalFunction = {
   description: string
 }
 
-class LogicError extends Error {}
-
 export class Executor {
   private frames: Frame[] = []
   private frameTime: number = 0
@@ -82,6 +80,7 @@ export class Executor {
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
   private statementStartingVariables: Record<string, any> = {}
+  protected functionCallLog: Record<string, Record<any, number>> = {}
 
   constructor(
     private readonly sourceCode: string,
@@ -106,7 +105,6 @@ export class Executor {
       }
 
       this.globals.define(externalFunction.name, callable)
-      this.environment.define(externalFunction.name, callable)
     }
   }
 
@@ -150,7 +148,11 @@ export class Executor {
       }
     }
 
-    return { frames: this.frames, error: null }
+    return {
+      frames: this.frames,
+      error: null,
+      functionCallLog: this.functionCallLog,
+    }
   }
 
   public evaluateSingleExpression(statement: Statement) {
@@ -163,16 +165,52 @@ export class Executor {
 
       // TODO: Also start/end the statement management
       const result = this.evaluate(statement.expression)
-      return { value: result.value, frames: this.frames, error: null }
+      return {
+        value: result.value,
+        frames: this.frames,
+        error: null,
+        functionCallLog: this.functionCallLog,
+      }
     } catch (error) {
       if (isRuntimeError(error)) {
-        this.addFrame(
-          this.location || error.location,
-          'ERROR',
-          undefined,
-          error
-        )
-        return { value: undefined, frames: this.frames, error: null }
+        if (
+          error.location?.line === 1 &&
+          (error.type === 'CouldNotFindFunction' ||
+            error.type === 'CouldNotFindFunctionWithSuggestion')
+        ) {
+          const newError = this.buildError(
+            'ExpectedFunctionNotFound',
+            new Location(1, new Span(1, 0), new Span(1, 1)),
+            { name: error.context.name }
+          )
+
+          this.addFrame(newError.location, 'ERROR', undefined, newError)
+        } else if (
+          error.location?.line === 1 &&
+          (error.type === 'TooFewArguments' ||
+            error.type === 'TooManyArguments')
+        ) {
+          const newError = this.buildError(
+            'ExpectedFunctionHasWrongArguments',
+            new Location(1, new Span(1, 0), new Span(1, 1)),
+            { name: error.context.name }
+          )
+
+          this.addFrame(newError.location, 'ERROR', undefined, newError)
+        } else {
+          this.addFrame(
+            this.location || error.location,
+            'ERROR',
+            undefined,
+            error
+          )
+        }
+        return {
+          value: undefined,
+          frames: this.frames,
+          error: null,
+          functionCallLog: this.functionCallLog,
+        }
       }
 
       throw error
@@ -218,7 +256,7 @@ export class Executor {
     this.executeFrame(statement, () => {
       const result = this.evaluate(statement.expression)
 
-      if (statement.expression instanceof VariableExpression)
+      if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
           name: statement.expression.name.lexeme,
         })
@@ -245,7 +283,8 @@ export class Executor {
           'MissingParenthesesForFunctionCall',
           statement.initializer.location,
           {
-            name: (statement.initializer as VariableExpression).name.lexeme,
+            name: (statement.initializer as VariableLookupExpression).name
+              .lexeme,
           }
         )
       }
@@ -265,11 +304,7 @@ export class Executor {
   ): void {
     this.executeFrame(statement, () => {
       // Ensure the variable exists
-      if (!this.environment.inScope(statement.name.lexeme)) {
-        this.error('VariableNotDeclared', statement.location, {
-          name: statement.name.lexeme,
-        })
-      }
+      this.lookupVariable(statement.name)
 
       if (isCallable(this.environment.get(statement.name))) {
         this.error('UnexpectedChangeOfFunction', statement.name.location, {
@@ -351,17 +386,41 @@ export class Executor {
   public visitRepeatUntilGameOverStatement(
     statement: RepeatUntilGameOverStatement
   ): void {
-    var count = 0 // Count is a guard against infinite looping
+    let count = 0 // Count is a guard against infinite looping
+    const maxIterations =
+      this.languageFeatures.maxRepeatUntilGameOverIterations || 1000
 
     while (!this.externalState.gameOver) {
       this.guardInfiniteLoop(statement.location)
-      if (count >= 100) {
+      if (count >= maxIterations) {
         const errorLoc = new Location(
           statement.location.line,
           statement.location.relative,
           new Span(
             statement.location.absolute.begin,
             statement.location.absolute.begin + 22
+          )
+        )
+        this.error('InfiniteLoop', errorLoc)
+      }
+
+      this.guardInfiniteLoop(statement.location)
+      this.executeBlock(statement.body, this.environment)
+      count++
+    }
+  }
+  public visitRepeatForeverStatement(statement: RepeatForeverStatement): void {
+    var count = 0 // Count is a guard against infinite looping
+
+    while (true) {
+      this.guardInfiniteLoop(statement.location)
+      if (count >= 1000) {
+        const errorLoc = new Location(
+          statement.location.line,
+          statement.location.relative,
+          new Span(
+            statement.location.absolute.begin,
+            statement.location.absolute.begin + 14
           )
         )
         this.error('InfiniteLoop', errorLoc)
@@ -502,100 +561,7 @@ export class Executor {
   // }
 
   public visitCallExpression(expression: CallExpression): EvaluationResult {
-    let callee: any
-
-    try {
-      callee = this.evaluate(expression.callee)
-    } catch (e) {
-      if (isRuntimeError(e) && e.type == 'CouldNotFindValueWithName') {
-        if (e.context?.didYouMean?.function?.length > 0) {
-          const alternative = e.context.didYouMean.function
-          this.error('CouldNotFindFunctionWithNameSuggestion', e.location, {
-            ...e.context,
-            suggestion: alternative,
-            name: expression.callee.name.lexeme,
-          })
-        }
-
-        this.error('CouldNotFindFunctionWithName', e.location, {
-          ...e.context,
-          ...{
-            name: expression.callee.name.lexeme,
-          },
-        })
-      }
-
-      throw e
-    }
-
-    if (!isCallable(callee.value))
-      this.error('NonCallableTarget', expression.location, { callee })
-
-    const args: EvaluationResult[] = []
-    for (const arg of expression.args) args.push(this.evaluate(arg))
-
-    const arity = callee.value.arity()
-    const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
-
-    if (args.length < minArity || args.length > maxArity) {
-      if (minArity !== maxArity) {
-        this.error(
-          'InvalidNumberOfArgumentsWithOptionalArguments',
-          expression.paren.location,
-          {
-            minArity,
-            maxArity,
-            numberOfArgs: args.length,
-          }
-        )
-      }
-
-      if (args.length < minArity) {
-        this.error('TooFewArguments', expression.paren.location, {
-          arity: maxArity,
-          numberOfArgs: args.length,
-          args,
-        })
-      } else {
-        this.error('TooManyArguments', expression.paren.location, {
-          arity: maxArity,
-          numberOfArgs: args.length,
-          args,
-        })
-      }
-    }
-
-    let value
-
-    try {
-      value = callee.value.call(
-        {
-          state: this.externalState,
-          fastForward: (n: number) => {
-            this.time += n
-          },
-          getCurrentTime: () => this.time,
-          executeBlock: this.executeBlock.bind(this),
-          evaluate: this.evaluate.bind(this),
-          updateState: this.updateState.bind(this),
-          logicError: this.logicError.bind(this),
-        },
-        args.map((arg) => arg.value)
-      )
-    } catch (e) {
-      if (e instanceof LogicError) {
-        this.error('LogicError', expression.location, { message: e.message })
-      } else {
-        throw e
-      }
-    }
-
-    return {
-      type: 'CallExpression',
-      callee,
-      args,
-      value,
-    }
+    return executeCallExpression(this, expression)
   }
 
   public visitLiteralExpression(
@@ -607,12 +573,23 @@ export class Executor {
     }
   }
 
-  public visitVariableExpression(
-    expression: VariableExpression
+  public visitVariableLookupExpression(
+    expression: VariableLookupExpression
   ): EvaluationResult {
-    const value = this.lookupVariable(expression.name, expression)
+    const value = this.lookupVariable(expression.name)
     return {
-      type: 'VariableExpression',
+      type: 'VariableLookupExpression',
+      name: expression.name.lexeme,
+      value,
+    }
+  }
+
+  public visitFunctionLookupExpression(
+    expression: FunctionLookupExpression
+  ): EvaluationResult {
+    const value = this.lookupFunction(expression.name)
+    return {
+      type: 'FunctionLookupExpression',
       name: expression.name.lexeme,
       value,
     }
@@ -885,8 +862,8 @@ export class Executor {
     let value
     let newValue
 
-    if (expression.operand instanceof VariableExpression) {
-      value = this.lookupVariable(expression.operand.name, expression.operand)
+    if (expression.operand instanceof VariableLookupExpression) {
+      value = this.lookupVariable(expression.operand.name)
       this.verifyNumberOperand(expression.operator, value)
 
       newValue =
@@ -936,7 +913,7 @@ export class Executor {
     expression: Expression
   ) {
     // This will exception if the variable doesn't exist
-    this.lookupVariable(name, expression)
+    this.lookupVariable(name)
 
     this.environment.updateVariable(name, newValue)
   }
@@ -1071,23 +1048,72 @@ export class Executor {
     return this[method](expression)
   }
 
-  private lookupVariable(name: Token, expression: Expression): any {
-    let value = this.environment.get(name)
-    if (value === undefined) {
-      this.globals.get(name)
+  private lookupVariable(name: Token): any {
+    let variable = this.environment.get(name)
+    if (variable !== undefined) {
+      return variable
     }
-    if (value === undefined) {
-      this.error('CouldNotFindValueWithName', expression.location, {
+
+    // Check where we've got a global
+    if (this.globals.inScope(name)) {
+      // If we have then we're using a function as a variable
+      // (ie we've missed the paranetheses)
+      if (isCallable(this.globals.get(name))) {
+        this.error('MissingParenthesesForFunctionCall', name.location, {
+          name: name.lexeme,
+        })
+      }
+
+      // Otherwise we're accessing a global variable when we shouldn't
+      this.error('VariableNotAccessibleInFunction', name.location, {
         name: name.lexeme,
       })
     }
-    return value
+
+    // Otherwise we have no idea what this is
+    this.error('VariableNotDeclared', name.location, {
+      name: name.lexeme,
+      didYouMean: {
+        variable: didYouMean(
+          name.lexeme,
+          Object.keys(this.environment.variables())
+        ),
+        function: didYouMean(
+          name.lexeme,
+          Object.keys(this.environment.functions())
+        ),
+      },
+    })
+  }
+
+  public lookupFunction(name: Token): any {
+    let variable = this.environment.get(name)
+    if (variable === undefined) {
+      variable = this.globals.get(name)
+    }
+    if (variable === undefined) {
+      this.error('CouldNotFindFunction', name.location, {
+        name: name.lexeme,
+
+        didYouMean: {
+          variable: didYouMean(
+            name.lexeme,
+            Object.keys(this.environment.variables())
+          ),
+          function: didYouMean(
+            name.lexeme,
+            Object.keys(this.environment.functions())
+          ),
+        },
+      })
+    }
+    return variable
   }
 
   private guardInfiniteLoop(loc: Location) {
     this.totalLoopIterations++
 
-    if (this.totalLoopIterations > 5000) {
+    if (this.totalLoopIterations > 1000) {
       this.error('InfiniteLoop', loc)
     }
   }
@@ -1122,7 +1148,27 @@ export class Executor {
     this.frameTime = this.time
   }
 
-  private error(
+  public addFunctionCallToLog(name: string, args: any[]) {
+    this.functionCallLog[name] ||= {}
+    this.functionCallLog[name][JSON.stringify(args)] ||= 0
+    this.functionCallLog[name][JSON.stringify(args)] += 1
+  }
+
+  public getExecutionContext(): ExecutionContext {
+    return {
+      state: this.externalState,
+      fastForward: (n: number) => {
+        this.time += n
+      },
+      getCurrentTime: () => this.time,
+      executeBlock: this.executeBlock.bind(this),
+      evaluate: this.evaluate.bind(this),
+      updateState: this.updateState.bind(this),
+      logicError: this.logicError.bind(this),
+    }
+  }
+
+  public error(
     type: RuntimeErrorType,
     location: Location | null,
     context: any = {}

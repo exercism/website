@@ -5,15 +5,10 @@ import {
   EvaluationResult,
   EvaluationResultCallExpression,
 } from './evaluation-result'
+import { SomethingWithLocation } from './interpreter'
+import { formatLiteral } from './helpers'
 
-function quoteLiteral(value: any): string {
-  if (typeof value === 'string') {
-    return `"${value}"`
-  }
-  return value
-}
-
-export abstract class Expression {
+export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
 }
@@ -23,22 +18,30 @@ export class LiteralExpression extends Expression {
     super('LiteralExpression')
   }
   public description() {
-    return `<code>${quoteLiteral(this.value)}</code>`
+    return `<code>${formatLiteral(this.value)}</code>`
   }
 }
 
-export class VariableExpression extends Expression {
+export class VariableLookupExpression extends Expression {
   constructor(public name: Token, public location: Location) {
-    super('VariableExpression')
+    super('VariableLookupExpression')
   }
   public description() {
     return `the <code>${this.name.lexeme}</code> variable`
   }
 }
 
+export class FunctionLookupExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super('FunctionLookupExpression')
+  }
+  public description() {
+    return `the <code>${this.name.lexeme}</code> function`
+  }
+}
 export class CallExpression extends Expression {
   constructor(
-    public callee: VariableExpression,
+    public callee: VariableLookupExpression,
     public paren: Token,
     public args: Expression[],
     public location: Location
@@ -52,7 +55,7 @@ export class CallExpression extends Expression {
     const argsDescription = '()'
     return `<code>${
       this.callee.name.lexeme
-    }${argsDescription}</code> (which returned <code>${quoteLiteral(
+    }${argsDescription}</code> (which returned <code>${formatLiteral(
       result.value
     )}</code>)`
   }

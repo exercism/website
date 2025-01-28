@@ -21,6 +21,7 @@ export type SyntaxErrorType =
   | 'ExceededMaximumNumberOfParameters'
   | 'MissingEndOfLine'
   | 'MissingFunctionName'
+  | 'InvalidFunctionName'
   | 'MissingLeftParenthesisAfterFunctionName'
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'MissingParameterName'
@@ -81,10 +82,10 @@ export type SemanticErrorType =
   | 'InvalidPostfixOperand'
 
 export type RuntimeErrorType =
-  | 'CouldNotFindValueWithName'
+  | 'CouldNotFindFunction'
   | 'CouldNotEvaluateFunction'
-  | 'CouldNotFindFunctionWithName'
-  | 'CouldNotFindFunctionWithNameSuggestion'
+  | 'CouldNotFindFunction'
+  | 'CouldNotFindFunctionWithSuggestion'
   | 'MissingParenthesesForFunctionCall'
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
@@ -108,10 +109,14 @@ export type RuntimeErrorType =
   | 'UnexpectedEqualsForEquality'
   | 'VariableAlreadyDeclared'
   | 'VariableNotDeclared'
+  | 'VariableNotAccessibleInFunction'
   | 'UnexpectedUncalledFunction'
   | 'FunctionAlreadyDeclared'
   | 'UnexpectedChangeOfFunction'
+  | 'FunctionCallTypeMismatch'
   | 'UnexpectedReturnOutsideOfFunction'
+  | 'ExpectedFunctionNotFound'
+  | 'ExpectedFunctionHasWrongArguments'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType
@@ -150,6 +155,17 @@ export class SemanticError extends FrontendError<SemanticErrorType> {}
 export class DisabledLanguageFeatureError extends FrontendError<DisabledLanguageFeatureErrorType> {}
 
 export class RuntimeError extends FrontendError<RuntimeErrorType> {}
+
+export class LogicError extends Error {}
+
+type FunctionCallTypeMismatchErrorContext = {
+  argIndex: number
+  expectedType: string
+  actualType: string
+}
+export class FunctionCallTypeMismatchError {
+  constructor(public context: FunctionCallTypeMismatchErrorContext) {}
+}
 
 export function isStaticError(obj: any): obj is StaticError {
   return (

@@ -2,11 +2,21 @@
   "title": "Programatically solve a maze",
   "description": "Empower your blob to solve any maze with code!",
   "level": 3,
-  "idx": 6,
+  "idx": 1,
   "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",
-  "available_functions": ["move", "turnLeft", "turnRight", "canMove"],
+  "exercise_functions": [
+    "move",
+    "turn_left",
+    "turn_right",
+    "can_move",
+    "can_turn_left",
+    "can_turn_right"
+  ],
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 50
+  },
   "tasks": [
     {
       "name": "A straight path",

@@ -18,14 +18,11 @@ const baseTheme = EditorView.baseTheme({
 class LockMarker extends GutterMarker {
   toDOM() {
     const lockContainer = document.createElement('div')
+    lockContainer.classList.add('cm-lock-marker')
     Object.assign(lockContainer.style, {
       height: '16px',
       width: '16px',
-      padding: '2px',
-      display: 'grid',
-      placeContent: 'center',
     })
-    lockContainer.innerHTML = `🔒`
     return lockContainer
   }
 }

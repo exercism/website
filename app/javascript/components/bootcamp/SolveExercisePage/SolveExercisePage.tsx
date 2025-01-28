@@ -103,7 +103,10 @@ export default function SolveExercisePage({
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
           {/* RHS */}
           <div className="page-body-rhs" style={{ width: RHSWidth }}>
-            <Instructions exerciseInstructions={exercise.introductionHtml} />
+            <Instructions
+              exerciseTitle={exercise.title}
+              exerciseInstructions={exercise.introductionHtml}
+            />
             {/* <Tasks /> */}
           </div>
         </div>

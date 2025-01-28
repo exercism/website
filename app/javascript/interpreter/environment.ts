@@ -37,23 +37,6 @@ export class Environment {
     try {
       if (this.enclosing !== null) return this.enclosing.get(name)
     } catch (e) {}
-
-    const variableNames = Object.keys(this.variables())
-    const functionNames = Object.keys(this.functions())
-
-    throw new RuntimeError(
-      translate('error.runtime.CouldNotFindValueWithName', {
-        name: name.lexeme,
-      }),
-      name.location,
-      'CouldNotFindValueWithName',
-      {
-        didYouMean: {
-          variable: didYouMean(name.lexeme, variableNames),
-          function: didYouMean(name.lexeme, functionNames),
-        },
-      }
-    )
   }
 
   public updateVariable(name: Token, value: any): void {
@@ -66,14 +49,6 @@ export class Environment {
       this.enclosing?.updateVariable(name, value)
       return
     }
-
-    throw new RuntimeError(
-      translate('error.runtime.couldNotFindValueWithName', {
-        name: name.lexeme,
-      }),
-      name.location,
-      'CouldNotFindValueWithName'
-    )
   }
 
   public variables(): Record<string, any> {

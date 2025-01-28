@@ -30,6 +30,7 @@ declare global {
 
   interface Exercise {
     part: number
+    title: string
     introductionHtml: string
     config: Config
     tasks: Task[]
@@ -47,5 +48,7 @@ declare global {
     // tasks: Task[];
     testsType: 'io' | 'state'
     interpreterOptions: LanguageFeatures
+    stdlibFunctions: string[]
+    exerciseFunctions: string[]
   }
 }

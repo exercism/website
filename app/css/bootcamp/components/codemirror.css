@@ -25,13 +25,20 @@
         .cm-icon-container-gutter .cm-gutterElement {
             @apply px-4;
         }
+        .cm-lockedGutter {
+            .cm-lock-marker {
+                background-image: url("bootcamp/readonly-lock.svg");
+                background-size: 80%;
+                @apply bg-no-repeat bg-center;
+                @apply opacity-[0.4];
+            }
+        }
         .cm-line {
             padding: 2px 2px 2px 6px;
         }
         .cm-lockedLine,
         .cm-lockedGutter {
-            opacity: 0.6;
-            background: #eee;
+            background: #f6f6f6;
         }
         .ͼ1 .cm-underline {
             text-decoration: none;

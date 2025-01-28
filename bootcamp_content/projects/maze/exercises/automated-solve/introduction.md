@@ -2,13 +2,13 @@
 
 The first exercise you solved was manually moving your character around the maze. Already in Level 3, you're ready to solve any maze programmatically using code!
 
-To make that possible, we're giving you two new functions:
+To make that possible, we're giving you three new functions:
 
 - `can_turn_left()`: returns `true` if the space to the character's left is not a wall.
 - `can_turn_right()`: returns `true` if the space to the character's right is not a wall.
 - `can_move()`: returns `true` if the space ahead of the character is not a wall.
 
-With those two functions and the `move()`, `turn_left()` and `turn_right()` you had in Level 1, you can solve any maze.
+With those three functions and the `move()`, `turn_left()` and `turn_right()` you had in Level 1, you can solve any maze.
 
 Spend a little time trying to work out how (maybe 15-30 minutes). Treat it as a fun logic puzzle. Get some paper and draw things out. Then when you want to check your method (or if you give up), read the instructions below
 

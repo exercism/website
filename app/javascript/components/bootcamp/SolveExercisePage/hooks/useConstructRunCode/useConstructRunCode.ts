@@ -5,7 +5,6 @@ import useEditorStore from '../../store/editorStore'
 import useTaskStore from '../../store/taskStore/taskStore'
 import { handleSetInspectedTestResult } from '../../TestResultsView/TestResultsButtons'
 import generateAndRunTestSuite from '../../test-runner/generateAndRunTestSuite/generateAndRunTestSuite'
-import { getAndInitializeExerciseClass } from '../../utils/exerciseMap'
 import { showError } from '../../utils/showError'
 import { submitCode } from './submitCode'
 import { getFirstFailingOrLastTest } from './getFirstFailingOrLastTest'
@@ -77,14 +76,10 @@ export function useConstructRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
-      const exercise = getAndInitializeExerciseClass(config)
-
-      const context = {
-        externalFunctions: exercise?.availableFunctions,
-        languageFeatures: config.interpreterOptions,
-      }
       // @ts-ignore
-      const compiled = compile(studentCode, context)
+      const compiled = compile(studentCode, {
+        languageFeatures: config.interpreterOptions,
+      })
 
       const error = compiled.error
 

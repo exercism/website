@@ -12,7 +12,11 @@
     "description": "Learn about if and else keywords, and functions that return things."
   },
   {
-    "title": "Arrays",
-    "description": ""
+    "title": "Functions",
+    "description": "This week we learn how to make our own functions!"
+  },
+  {
+    "title": "Lists",
+    "description": "This week we learn our first compound data structure - lists."
   }
 ]

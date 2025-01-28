@@ -54,6 +54,14 @@
     %title= content_for(:title) || "Bootcamp"
     %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
+
+    -# Favicon
+    %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
+    - if Rails.env.production?
+      %link{ rel: "manifest", href: "/site.webmanifest" }
+
     = csrf_meta_tags
     = csp_meta_tag
     = yield :head

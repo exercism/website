@@ -24,8 +24,6 @@ export default class GolfExercise extends DrawExercise {
     return this.shotLength
   }
   fireFireworks(executionCtx: ExecutionContext) {
-    this.recordFunctionUse('fire_fireworks')
-
     const pyro = document.createElement('div')
     pyro.classList.add('pyro')
     pyro.style.opacity = '0'

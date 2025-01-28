@@ -15,7 +15,7 @@ import {
   GroupingExpression,
   LiteralExpression,
   LogicalExpression,
-  VariableExpression,
+  VariableLookupExpression,
 } from './expression'
 import {
   ExpressionStatement,
@@ -128,7 +128,7 @@ function describeForeachStatement(result: EvaluationResult) {
 }
 
 function describeExpression(expression: Expression, result?: EvaluationResult) {
-  if (expression instanceof VariableExpression) {
+  if (expression instanceof VariableLookupExpression) {
     return expression.description()
   }
   if (expression instanceof LiteralExpression) {

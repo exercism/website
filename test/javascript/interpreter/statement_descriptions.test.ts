@@ -1,6 +1,9 @@
 import { interpret } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
-import { LiteralExpression, VariableExpression } from '@/interpreter/expression'
+import {
+  LiteralExpression,
+  VariableLookupExpression,
+} from '@/interpreter/expression'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
 import { type Token, TokenType } from '@/interpreter/token'

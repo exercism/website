@@ -17,6 +17,7 @@
       "MissingExpression": "MissingExpression",
       "MissingFieldNameOrIndexAfterLeftBracket": "MissingFieldNameOrIndexAfterLeftBracket",
       "MissingFunctionName": "MissingFunctionName",
+      "InvalidFunctionName": "InvalidFunctionName",
       "MissingLeftBraceToStartBody": "MissingLeftBraceToStartBody: type: {{type}}",
       "MissingLeftBraceToStartForeachBody": "MissingLeftBraceToStartForeachBody",
       "MissingLeftParenthesisAfterForeach": "MissingLeftParenthesisAfterForeach",
@@ -67,9 +68,8 @@
     },
     "runtime": {
       "CouldNotEvaluateFunction": "CouldNotEvaluateFunction",
-      "CouldNotFindFunctionWithName": "CouldNotFindFunctionWithName: name: {{name}}",
-      "CouldNotFindFunctionWithNameSuggestion": "CouldNotFindFunctionWithNameSuggestion: name: {{name}}, suggestion: {{suggestion}}",
-      "CouldNotFindValueWithName": "CouldNotFindValueWithName: name: {{name}}",
+      "CouldNotFindFunction": "CouldNotFindFunction: name: {{name}}",
+      "CouldNotFindFunctionWithSuggestion": "CouldNotFindFunctionWithSuggestion: name: {{name}}, suggestion: {{suggestion}}",
       "InfiniteLoop": "InfiniteLoop",
       "InvalidBinaryExpression": "InvalidBinaryExpression",
       "InvalidExpression": "InvalidExpression",
@@ -90,7 +90,13 @@
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
-      "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction"
+      "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",
+      "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction",
+      "VariableAlreadyDeclared": "VariableAlreadyDeclared: name: {{name}}",
+      "VariableNotDeclared": "VariableNotDeclared: name: {{name}}",
+      "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",
+      "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
+      "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

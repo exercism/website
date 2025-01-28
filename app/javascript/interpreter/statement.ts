@@ -4,16 +4,12 @@ import {
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
 import { Expression } from './expression'
+import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
+import { formatLiteral } from './helpers'
 
-function quoteLiteral(value: any): string {
-  if (typeof value === 'string') {
-    return `"${value}"`
-  }
-  return value
-}
-export abstract class Statement {
+export abstract class Statement implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
 }
@@ -36,7 +32,7 @@ export class SetVariableStatement extends Statement {
   public description(result: EvaluationResultSetVariableStatement) {
     return `<p>This created a new variable called <code>${
       result.name
-    }</code> and sets its value to <code>${quoteLiteral(
+    }</code> and sets its value to <code>${formatLiteral(
       result.value
     )}</code>.</p>`
   }
@@ -53,8 +49,8 @@ export class ChangeVariableStatement extends Statement {
 
   public description(result: EvaluationResultChangeVariableStatement) {
     let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
-    output += `<pre><code>${quoteLiteral(result.oldValue)}</code></pre>`
-    output += `<p>to...</p><pre><code>${quoteLiteral(
+    output += `<pre><code>${formatLiteral(result.oldValue)}</code></pre>`
+    output += `<p>to...</p><pre><code>${formatLiteral(
       result.newValue.value
     )}</code></pre>`
     return output
@@ -89,6 +85,12 @@ export class RepeatStatement extends Statement {
     public location: Location
   ) {
     super('RepeatStatement')
+  }
+}
+
+export class RepeatForeverStatement extends Statement {
+  constructor(public body: Statement[], public location: Location) {
+    super('RepeatForeverStatement')
   }
 }
 

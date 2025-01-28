@@ -118,5 +118,11 @@
         @apply py-16 px-20;
         h3 {
         }
+
+        .Typewriter__wrapper {
+            p {
+                display: inline;
+            }
+        }
     }
 }

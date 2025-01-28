@@ -16,7 +16,8 @@ export const colorScheme = createTheme({
   styles: [
     {
       tag: t.comment,
-      color: '#B1BBC4',
+      color: '#818B94',
+      fontStyle: 'italic',
     },
     {
       tag: [t.variableName, t.propertyName, t.attributeName, t.regexp],

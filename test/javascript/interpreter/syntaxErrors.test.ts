@@ -10,39 +10,52 @@ afterAll(() => {
 })
 
 describe('syntax errors', () => {
-  describe('numbers', () => {
-    test('two periods', () => {
-      expect(() => parse('1.3.4')).toThrow(
-        'NumberWithMultipleDecimalPoints: suggestion: 1.34'
-      )
+  describe('InvalidFunctionName', () => {
+    test('number as a function name', () => {
+      expect(() => parse('1()')).toThrow('InvalidFunctionName')
     })
-
-    test('unfinished decimal number', () => {
-      expect(() => parse('123.')).toThrow(
-        'NumberEndsWithDecimalPoint: suggestion: 123'
-      )
-    })
-
-    test('invalid character in number', () => {
-      expect(() => parse('set x to 123abc')).toThrow(
-        'NumberContainsAlpha: suggestion: 123'
-      )
-    })
-
-    test('leading zeros', () => {
-      expect(() => parse('set x to 00123')).toThrow(
-        'NumberStartsWithZero: suggestion: 123'
-      )
+    test('boolean as a function name', () => {
+      expect(() => parse('true()')).toThrow('InvalidFunctionName')
     })
   })
 
-  describe('strings', () => {
-    test('unstarted', () => {
-      expect(() => parse('abc"')).toThrow(
-        'MissingDoubleQuoteToStartString: string: abc'
-      )
-    })
+  //
+  // Numbers
+  //
+  test('NumberWithMultipleDecimalPoints', () => {
+    expect(() => parse('1.3.4')).toThrow(
+      'NumberWithMultipleDecimalPoints: suggestion: 1.34'
+    )
+  })
 
+  test('NumberEndsWithDecimalPoint', () => {
+    expect(() => parse('123.')).toThrow(
+      'NumberEndsWithDecimalPoint: suggestion: 123'
+    )
+  })
+
+  test('NumberContainsAlpha', () => {
+    expect(() => parse('set x to 123abc')).toThrow(
+      'NumberContainsAlpha: suggestion: 123'
+    )
+  })
+
+  test('NumberStartsWithZero', () => {
+    expect(() => parse('set x to 00123')).toThrow(
+      'NumberStartsWithZero: suggestion: 123'
+    )
+  })
+
+  //
+  // Strings
+  //
+  test('MissingDoubleQuoteToStartString', () => {
+    expect(() => parse('abc"')).toThrow(
+      'MissingDoubleQuoteToStartString: string: abc'
+    )
+  })
+
+  describe('MissingDoubleQuoteToTerminateString', () => {
     test('unterminated - end of file', () => {
       expect(() => parse('"abc')).toThrow(
         'MissingDoubleQuoteToTerminateString: string: abc'
@@ -62,162 +75,162 @@ describe('syntax errors', () => {
     })
   })
 
-  describe('assignment', () => {
-    test('using = by accident', () => {
-      expect(() => parse('set value = "value"')).toThrow(
-        'UnexpectedEqualsForAssignment'
-      )
-    })
-
-    test('number as variable name', () => {
-      expect(() => parse('set 123 to "value"')).toThrow(
-        'InvalidNumericVariableName: name: 123'
-      )
-    })
-
-    test('missing to', () => {
-      expect(() => parse('set name "Jeremy"')).toThrow(
-        'MissingToAfterVariableNameToInitializeValue: name'
-      )
-    })
-    test('two identifiers', () => {
-      expect(() => parse('set na me to "Jeremy"')).toThrow(
-        'UnexpectedSpaceInIdentifier: first_half: na, second_half: me'
-      )
-    })
+  //
+  // Assignment
+  //
+  test('UnexpectedEqualsForAssignment', () => {
+    expect(() => parse('set value = "value"')).toThrow(
+      'UnexpectedEqualsForAssignment'
+    )
   })
 
-  describe('function definitions', () => {
-    test('missing function name', () => {
-      expect(() =>
-        parse(`
-          function with x, y do
-            set result to x + y
-          end
-        `)
-      ).toThrow('MissingFunctionName')
-    })
-
-    test('missing with', () => {
-      expect(() =>
-        parse(`
-        function foobar a do
-        end
-      `)
-      ).toThrow('MissingWithBeforeParameters')
-    })
-
-    test('missing do', () => {
-      expect(() =>
-        parse(`
-        function foobar with a
-        end
-      `)
-      ).toThrow('MissingDoToStartBlock: type: function')
-    })
-
-    test('missing end', () => {
-      expect(() =>
-        parse(`
-        function foobar with a do
-      `)
-      ).toThrow('MissingEndAfterBlock: type: function')
-    })
-
-    test('missing parameters', () => {
-      expect(() =>
-        parse(`
-          function move with do
-            set result to 10
-          end
-        `)
-      ).toThrow('MissingParameterName')
-    })
-
-    test('unexpected token after function name', () => {
-      expect(() =>
-        parse(`
-          function move unexpected (x, y) do
-            set result to x + y
-          end
-        `)
-      ).toThrow('MissingWithBeforeParameters')
-    })
-
-    test("extra tokens after 'end' keyword", () => {
-      expect(() =>
-        parse(`
-          function move with x, y do
-            set result to x + y
-          end end
-        `)
-      ).toThrow('MissingEndOfLine: previous: end')
-    })
-
-    test('invalid parameter name', () => {
-      expect(() =>
-        parse(`
-          function move with 1x, y do
-            set result to x + y
-          end
-        `)
-      ).toThrow('NumberContainsAlpha: suggestion: 1')
-    })
-
-    test('missing comma between parameters', () => {
-      expect(() =>
-        parse(`
-          function move with x y do
-            set result to x + y
-          end
-        `)
-      ).toThrow('MissingCommaBetweenParameters: parameter: x')
-    })
-
-    test('duplicate parameter names', () => {
-      expect(() =>
-        parse(`
-          function move with x, x do
-            set result to x + x
-          end
-        `)
-      ).toThrow('DuplicateParameterName: parameter: x')
-    })
-
-    test('empty parameter list with invalid syntax', () => {
-      expect(() =>
-        parse(`
-          function move with do
-            set result to 10
-          end
-        `)
-      ).toThrow('MissingParameterName')
-    })
-
-    test('unexpected token inside parameter list', () => {
-      expect(() =>
-        parse(`
-          function move with x, unexpected y do
-            set result to x + y
-          end
-        `)
-      ).toThrow('MissingCommaBetweenParameters: parameter: unexpected')
-    })
+  test('InvalidNumericVariableName', () => {
+    expect(() => parse('set 123 to "value"')).toThrow(
+      'InvalidNumericVariableName: name: 123'
+    )
   })
 
-  describe('function definition', () => {
-    test('missing opening parenthesis', () => {
-      expect(() =>
-        parse(`
-          function move do
-            return 1
-          end
+  test('MissingToAfterVariableNameToInitializeValue', () => {
+    expect(() => parse('set name "Jeremy"')).toThrow(
+      'MissingToAfterVariableNameToInitializeValue: name'
+    )
+  })
+  test('UnexpectedSpaceInIdentifier', () => {
+    expect(() => parse('set na me to "Jeremy"')).toThrow(
+      'UnexpectedSpaceInIdentifier: first_half: na, second_half: me'
+    )
+  })
 
-          move)
-        `)
-      ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-    })
+  // Function definitions
+  test('MissingFunctionName', () => {
+    expect(() =>
+      parse(`
+        function with x, y do
+          set result to x + y
+        end
+      `)
+    ).toThrow('MissingFunctionName')
+  })
 
+  test('MissingWithBeforeParameters', () => {
+    expect(() =>
+      parse(`
+      function foobar a do
+      end
+    `)
+    ).toThrow('MissingWithBeforeParameters')
+  })
+
+  test('MissingDoToStartBlock', () => {
+    expect(() =>
+      parse(`
+      function foobar with a
+      end
+    `)
+    ).toThrow('MissingDoToStartBlock: type: function')
+  })
+
+  test('MissingEndAfterBlock', () => {
+    expect(() =>
+      parse(`
+      function foobar with a do
+    `)
+    ).toThrow('MissingEndAfterBlock: type: function')
+  })
+
+  test('MissingParameterName', () => {
+    expect(() =>
+      parse(`
+        function move with do
+          set result to 10
+        end
+      `)
+    ).toThrow('MissingParameterName')
+  })
+
+  test('MissingWithBeforeParameters', () => {
+    expect(() =>
+      parse(`
+        function move unexpected (x, y) do
+          set result to x + y
+        end
+      `)
+    ).toThrow('MissingWithBeforeParameters')
+  })
+
+  test('MissingEndOfLine', () => {
+    expect(() =>
+      parse(`
+        function move with x, y do
+          set result to x + y
+        end end
+      `)
+    ).toThrow('MissingEndOfLine: previous: end')
+  })
+
+  test('NumberContainsAlpha', () => {
+    expect(() =>
+      parse(`
+        function move with 1x, y do
+          set result to x + y
+        end
+      `)
+    ).toThrow('NumberContainsAlpha: suggestion: 1')
+  })
+
+  test('MissingCommaBetweenParameters', () => {
+    expect(() =>
+      parse(`
+        function move with x y do
+          set result to x + y
+        end
+      `)
+    ).toThrow('MissingCommaBetweenParameters: parameter: x')
+  })
+
+  test('DuplicateParameterName', () => {
+    expect(() =>
+      parse(`
+        function move with x, x do
+          set result to x + x
+        end
+      `)
+    ).toThrow('DuplicateParameterName: parameter: x')
+  })
+
+  test('MissingParameterName', () => {
+    expect(() =>
+      parse(`
+        function move with do
+          set result to 10
+        end
+      `)
+    ).toThrow('MissingParameterName')
+  })
+
+  test('MissingCommaBetweenParameters', () => {
+    expect(() =>
+      parse(`
+        function move with x, unexpected y do
+          set result to x + y
+        end
+      `)
+    ).toThrow('MissingCommaBetweenParameters: parameter: unexpected')
+  })
+
+  test('MissingLeftParenthesisAfterFunctionCall', () => {
+    expect(() =>
+      parse(`
+        function move do
+          return 1
+        end
+
+        move)
+      `)
+    ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
+  })
+
+  describe('MissingRightParenthesisAfterFunctionCall', () => {
     test('missing closing parenthesis - no args', () => {
       expect(() => parse('move(')).toThrow(
         'MissingRightParenthesisAfterFunctionCall: function: move'
@@ -237,32 +250,30 @@ describe('syntax errors', () => {
     })
   })
 
-  describe('statement', () => {
-    test('multiple expressions on single line', () => {
-      expect(() => parse('1 1')).toThrow('MissingEndOfLine')
-    })
+  // Parse errors
+  test('MissingEndOfLine', () => {
+    expect(() => parse('1 1')).toThrow('MissingEndOfLine')
   })
 
-  describe('invalid characters', () => {
-    test('using = for assignment', () => {
-      expect(() => parse('set x = "value"')).toThrow(
-        'UnexpectedEqualsForAssignment'
-      )
-    })
-
-    test('using = for equality', () => {
+  test('UnexpectedEqualsForAssignment', () => {
+    expect(() => parse('set x = "value"')).toThrow(
+      'UnexpectedEqualsForAssignment'
+    )
+  })
+  describe('UnexpectedEqualsForEquality', () => {
+    test('in condition', () => {
       expect(() => parse('if a = "value"')).toThrow(
         'UnexpectedEqualsForEquality'
       )
     })
-    test('using = for equality in assignment', () => {
+    test('in assignment', () => {
       expect(() => parse('set a to x = "value"')).toThrow(
         'UnexpectedEqualsForEquality'
       )
     })
   })
 
-  describe('missing do', () => {
+  describe('MissingDoToStartBlock', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
@@ -280,9 +291,37 @@ describe('syntax errors', () => {
       `)
       ).toThrow('MissingDoToStartBlock: type: while')
     })
+    test('if', () => {
+      expect(() =>
+        parse(`
+        if x equals 1
+        end
+      `)
+      ).toThrow('MissingDoToStartBlock: type: if')
+    })
+
+    test('if with unexpected token', () => {
+      expect(() =>
+        parse(`
+        if x is 10 unexpected
+          set x to 20
+        end
+      `)
+      ).toThrow('MissingDoToStartBlock: type: if')
+    })
+
+    test('else', () => {
+      expect(() =>
+        parse(`
+        if 5 > 4 do
+        else
+        end
+      `)
+      ).toThrow('MissingDoToStartBlock: type: else')
+    })
   })
 
-  describe('missing end', () => {
+  describe('MissingEndAfterBlock', () => {
     test('repeat', () => {
       expect(() =>
         parse(`
@@ -298,37 +337,15 @@ describe('syntax errors', () => {
       `)
       ).toThrow('MissingEndAfterBlock: type: while')
     })
-  })
-
-  describe('if/else statements', () => {
-    test('missing do on if', () => {
+    test('if', () => {
       expect(() =>
         parse(`
-        if 5 > 4
-        end
-      `)
-      ).toThrow('MissingDoToStartBlock: type: if')
-    })
-
-    test('missing do on else', () => {
-      expect(() =>
-        parse(`
-        if 5 > 4 do
-        else
-        end
-      `)
-      ).toThrow('MissingDoToStartBlock: type: else')
-    })
-
-    test('missing end on if', () => {
-      expect(() =>
-        parse(`
-        if 5 > 4 do
+        if x equals 1 do
       `)
       ).toThrow('MissingEndAfterBlock: type: if')
     })
 
-    test('missing end on else', () => {
+    test('else', () => {
       expect(() =>
         parse(`
         if 5 > 4 do
@@ -337,17 +354,21 @@ describe('syntax errors', () => {
       ).toThrow('MissingEndAfterBlock: type: else')
     })
 
-    test('missing condition in if statement', () => {
+    test('nested ifs', () => {
       expect(() =>
         parse(`
-          if do
-            set x to 10
+          if x is 10 do
+            if y is 20 do
+              set x to 30
+            set y to 40
           end
         `)
-      ).toThrow('MissingConditionAfterIf')
+      ).toThrow('MissingEndAfterBlock: type: if')
     })
+  })
 
-    test('else without matching if', () => {
+  describe('UnexpectedElseWithoutIf', () => {
+    test('else', () => {
       expect(() =>
         parse(`
           else
@@ -357,7 +378,7 @@ describe('syntax errors', () => {
       ).toThrow('UnexpectedElseWithoutIf')
     })
 
-    test('else if without matching if', () => {
+    test('else if', () => {
       expect(() =>
         parse(`
           else if x is 10 do
@@ -367,7 +388,33 @@ describe('syntax errors', () => {
       ).toThrow('UnexpectedElseWithoutIf')
     })
 
-    test('missing condition in else if', () => {
+    // TODO: Could we do better here?
+    test('multiple else statements', () => {
+      expect(() =>
+        parse(`
+          if x is 10 do
+            set x to 20
+          else do
+            set x to 30
+          else do
+            set x to 40
+          end
+        `)
+      ).toThrow('UnexpectedElseWithoutIf')
+    })
+  })
+
+  describe('MissingConditionAfterIf', () => {
+    test('if', () => {
+      expect(() =>
+        parse(`
+          if do
+            set x to 10
+          end
+        `)
+      ).toThrow('MissingConditionAfterIf')
+    })
+    test('else if', () => {
       expect(() =>
         parse(`
           if x is 10 do
@@ -378,7 +425,9 @@ describe('syntax errors', () => {
         `)
       ).toThrow('MissingConditionAfterIf')
     })
+  })
 
+  describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
     test('misspelt comparison operator', () => {
       expect(() =>
         parse(`
@@ -402,82 +451,43 @@ describe('syntax errors', () => {
         'MissingRightParenthesisAfterExpressionWithPotentialTypo: actual: equal, potential: equals'
       )
     })
-
-    test('nested if without end', () => {
-      expect(() =>
-        parse(`
-          if x is 10 do
-            if y is 20 do
-              set x to 30
-            set y to 40
-          end
-        `)
-      ).toThrow('MissingEndAfterBlock: type: if')
-    })
-
-    test('unexpected token after if condition', () => {
-      expect(() =>
-        parse(`
-          if x is 10 unexpected
-            set x to 20
-          end
-        `)
-      ).toThrow('MissingDoToStartBlock: type: if')
-    })
-
-    test('literal conditions', () => {
-      expect(() =>
-        parse(`
-          if true do
-            set x to 20
-          end
-        `)
-      ).toThrow('UnexpectedLiteralExpressionAfterIf')
-    })
-
-    test('variable conditions', () => {
-      expect(() =>
-        parse(`
-          if something do
-            set x to 20
-          end
-        `)
-      ).toThrow('UnexpectedVariableExpressionAfterIf')
-    })
-
-    // TODO: Could we do better here?
-    test('multiple else statements', () => {
-      expect(() =>
-        parse(`
-          if x is 10 do
-            set x to 20
-          else do
-            set x to 30
-          else do
-            set x to 40
-          end
-        `)
-      ).toThrow('UnexpectedElseWithoutIf')
-    })
   })
 
-  describe('call', () => {
-    test('missing opening parenthesis', () => {
-      expect(() =>
-        parse(`
-          function move do
-            return 1
-          end
+  test('UnexpectedLiteralExpressionAfterIf', () => {
+    expect(() =>
+      parse(`
+        if true do
+          set x to 20
+        end
+      `)
+    ).toThrow('UnexpectedLiteralExpressionAfterIf')
+  })
 
-          move)
-        `)
-      ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-    })
+  test('UnexpectedVariableExpressionAfterIf', () => {
+    expect(() =>
+      parse(`
+        if something do
+          set x to 20
+        end
+      `)
+    ).toThrow('UnexpectedVariableExpressionAfterIf')
+  })
 
-    test('missing closing parenthesis', () => {
-      expect(() => parse('move(1')).toThrow(
-        'MissingRightParenthesisAfterFunctionCall: function: move'
-      )
-    })
+  test('MissingLeftParenthesisAfterFunctionCall', () => {
+    expect(() =>
+      parse(`
+        function move do
+          return 1
+        end
+
+        move)
+      `)
+    ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
+  })
+
+  test('MissingRightParenthesisAfterFunctionCall', () => {
+    expect(() => parse('move(1')).toThrow(
+      'MissingRightParenthesisAfterFunctionCall: function: move'
+    )
   })
 })

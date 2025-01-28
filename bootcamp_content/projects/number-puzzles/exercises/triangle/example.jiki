@@ -1,0 +1,21 @@
+function determine_triangle_type with side1, side2, side3 do
+  if side1 + side2 <= side3 do
+    return "invalid"
+  end
+  if side1 + side3 <= side2 do
+    return "invalid"
+  end
+  if side2 + side3 <= side1 do
+    return "invalid"
+  end
+  
+  if side1 == side2 and side2 == side3 do
+    return "equilateral"
+  end
+
+  if (side1 == side2 or side2 == side3) or (side1 == side3) do
+    return "isosceles"
+  end
+
+  return "scalene"
+end

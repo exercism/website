@@ -7,6 +7,8 @@ class Bootcamp::Exercise::AvailableForUser
     # If the exercise is gloabally locked, it's locked
     return false if exercise.locked?
 
+    return false if user.bootcamp_data.level_idx < exercise.level_idx
+
     # Otherwise the previous solution must be completed
     previous_exercises_completed?
   end

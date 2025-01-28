@@ -3,6 +3,7 @@ import { diffWords, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
+import { formatLiteral } from '@/interpreter/helpers'
 
 export type ProcessedExpect = {
   diff: Change[]
@@ -43,15 +44,14 @@ export function useInspectedTestResultView() {
         img = viewContainerRef.current.children[0] as HTMLElement
       } else {
         img = document.createElement('div')
-        img.style.width = '100%'
-        img.style.height = '100%'
-        img.style.backgroundSize = '90%'
-        img.style.backgroundRepeat = 'no-repeat'
-        img.style.backgroundColor = 'white'
-        img.style.backgroundPosition = 'center'
+        img.classList.add('io-image')
+
         viewContainerRef.current.appendChild(img)
       }
-      img.style.backgroundImage = `url('/exercise-images/${result.imageSlug}')`
+      img.style.backgroundImage = `url('https://assets.exercism.org/bootcamp/scenarios/${result.imageSlug}')`
+
+      const viewDisplay = result.imageSlug === undefined ? 'none' : 'block'
+      viewContainerRef.current.style.display = viewDisplay
     }
   }, [result])
 
@@ -64,7 +64,13 @@ export function useInspectedTestResultView() {
     [result?.expects]
   )
 
-  return { processedExpects, firstFailingExpect, viewContainerRef, result }
+  return {
+    processedExpects,
+    firstFailingExpect,
+    viewContainerRef,
+    result,
+    firstExpect: firstFailingExpect || processedExpects[0],
+  }
 }
 
 function getfirstFailingExpect(
@@ -120,7 +126,42 @@ export function getDiffOfExpectedAndActual(
   expected: any,
   actual: any
 ): Change[] {
-  expected = expected ?? '[null]'
-  actual = actual ?? "[Your function didn't return anything]"
-  return diffWords(expected.toString(), actual.toString())
+  if (expected === actual) {
+    return diffWords(formatLiteral(expected), formatLiteral(actual))
+  }
+
+  if (actual == null) {
+    return [
+      {
+        added: false,
+        count: 1,
+        removed: true,
+        value: formatLiteral(expected),
+      },
+      {
+        added: true,
+        count: 1,
+        removed: false,
+        value: "[Your function didn't return anything]",
+      },
+    ]
+  }
+
+  if (typeof expected == 'string' && typeof actual == 'string') {
+    return diffWords(formatLiteral(expected), formatLiteral(actual))
+  }
+  return [
+    {
+      added: false,
+      count: 1,
+      removed: true,
+      value: formatLiteral(expected),
+    },
+    {
+      added: true,
+      count: 1,
+      removed: false,
+      value: formatLiteral(actual),
+    },
+  ]
 }

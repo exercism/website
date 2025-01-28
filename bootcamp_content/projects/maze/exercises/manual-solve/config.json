@@ -4,7 +4,7 @@
   "project_type": "maze",
   "level": 1,
   "idx": 1,
-  "available_functions": ["move", "turnLeft", "turnRight"],
+  "exercise_functions": ["move", "turn_left", "turn_right"],
   "tests_type": "state",
   "concepts": ["functions-using"],
   "tasks": [

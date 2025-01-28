@@ -3,7 +3,7 @@ import type { ExecutionContext } from '@/interpreter/executor'
 import {
   CallExpression,
   LiteralExpression,
-  VariableExpression,
+  VariableLookupExpression,
 } from '@/interpreter/expression'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
@@ -23,7 +23,7 @@ const parenToken: Token = {
   literal: '(',
   location: location,
 }
-const functionVariableExpr = new VariableExpression(
+const functionVariableExpr = new VariableLookupExpression(
   functionVariableToken,
   location
 )
@@ -56,7 +56,7 @@ describe('VariableExpression', () => {
         literal: 'name',
         location: location,
       }
-      const expr = new VariableExpression(token, location)
+      const expr = new VariableLookupExpression(token, location)
       const actual = expr.description()
       expect(actual).toBe('the <code>name</code> variable')
     })

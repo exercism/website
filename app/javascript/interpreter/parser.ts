@@ -10,12 +10,13 @@ import {
   LogicalExpression,
   DictionaryExpression,
   UnaryExpression,
-  VariableExpression,
+  VariableLookupExpression,
   GetExpression,
   SetExpression,
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
   TemplateTextExpression,
+  FunctionLookupExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -34,6 +35,7 @@ import {
   SetVariableStatement,
   WhileStatement,
   ChangeVariableStatement,
+  RepeatForeverStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -56,7 +58,7 @@ export class Parser {
   public parse(sourceCode: string): Statement[] {
     this.tokens = this.scanner.scanTokens(sourceCode)
 
-    const statements = []
+    const statements: Statement[] = []
 
     while (!this.isAtEnd()) {
       const statement = this.declarationStatement()
@@ -162,6 +164,7 @@ export class Parser {
     if (this.match('IF')) return this.ifStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
+    if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
     if (this.match('REPEAT_UNTIL_GAME_OVER'))
       return this.repeatUntilGameOverStatement()
     if (this.match('WHILE')) return this.whileStatement()
@@ -243,7 +246,7 @@ export class Parser {
       if (condition instanceof LiteralExpression) {
         this.error('UnexpectedLiteralExpressionAfterIf', ifToken.location)
       }
-      if (condition instanceof VariableExpression) {
+      if (condition instanceof VariableLookupExpression) {
         const typoData = isTypo(this.peek())
         if (typoData) {
           this.error(
@@ -334,6 +337,21 @@ export class Parser {
     const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
+      statements,
+      Location.between(begin, this.previous())
+    )
+  }
+  private repeatForeverStatement(): Statement {
+    const begin = this.previous()
+
+    this.consume('DO', 'MissingDoToStartBlock', {
+      type: 'repeat_forever',
+    })
+    this.consumeEndOfLine()
+
+    const statements = this.block('repeat_forever')
+
+    return new RepeatForeverStatement(
       statements,
       Location.between(begin, this.previous())
     )
@@ -450,13 +468,13 @@ export class Parser {
   }
 
   private or(): Expression {
-    const expr = this.and()
+    let expr = this.and()
 
     while (this.match('OR')) {
       let operator = this.previous()
       operator.type = 'OR'
       const right = this.and()
-      return new LogicalExpression(
+      expr = new LogicalExpression(
         expr,
         operator,
         right,
@@ -468,13 +486,13 @@ export class Parser {
   }
 
   private and(): Expression {
-    const expr = this.equality()
+    let expr = this.equality()
 
     while (this.match('AND')) {
       let operator = this.previous()
       operator.type = 'AND'
       const right = this.equality()
-      return new LogicalExpression(
+      expr = new LogicalExpression(
         expr,
         operator,
         right,
@@ -581,56 +599,68 @@ export class Parser {
   private call(): Expression {
     let expression = this.primary()
 
-    while (true) {
-      if (this.match('LEFT_PAREN')) {
-        expression = this.finishCall(expression)
-      } else if (this.match('LEFT_BRACKET')) {
-        const leftBracket = this.previous()
-        if (!this.match('STRING', 'NUMBER'))
-          this.error(
-            'MissingFieldNameOrIndexAfterLeftBracket',
-            leftBracket.location,
-            {
-              expression,
-            }
-          )
-
-        const name = this.previous()
-        const rightBracket = this.consume(
-          'RIGHT_BRACKET',
-          'MissingRightBracketAfterFieldNameOrIndex',
-          { expression, name }
-        )
-        expression = new GetExpression(
-          expression,
-          name,
-          Location.between(expression, rightBracket)
-        )
-      } else {
-        if (
-          expression instanceof VariableExpression &&
-          this.functionNames.includes(expression.name.lexeme) &&
-          this.match('RIGHT_PAREN')
-        )
-          this.error(
-            'MissingLeftParenthesisAfterFunctionCall',
-            this.previous().location,
-            { expression, function: expression.name.lexeme }
-          )
-        break
+    // Function
+    if (this.match('LEFT_PAREN')) {
+      if (!(expression instanceof VariableLookupExpression)) {
+        this.error('InvalidFunctionName', expression.location, {})
       }
+      expression = this.finishCall(expression)
+    }
+    // Array call
+    else if (this.match('LEFT_BRACKET')) {
+      const leftBracket = this.previous()
+      if (!this.match('STRING', 'NUMBER'))
+        this.error(
+          'MissingFieldNameOrIndexAfterLeftBracket',
+          leftBracket.location,
+          {
+            expression,
+          }
+        )
+
+      const name = this.previous()
+      const rightBracket = this.consume(
+        'RIGHT_BRACKET',
+        'MissingRightBracketAfterFieldNameOrIndex',
+        { expression, name }
+      )
+      expression = new GetExpression(
+        expression,
+        name,
+        Location.between(expression, rightBracket)
+      )
+    }
+    // Varible?
+    else {
+      if (
+        expression instanceof VariableLookupExpression &&
+        this.functionNames.includes(expression.name.lexeme) &&
+        this.match('RIGHT_PAREN')
+      )
+        this.error(
+          'MissingLeftParenthesisAfterFunctionCall',
+          this.previous().location,
+          { expression, function: expression.name.lexeme }
+        )
     }
 
     return expression
   }
 
-  private finishCall(callee: Expression): Expression {
+  private finishCall(callee: VariableLookupExpression): Expression {
+    // Mutate the callee to be a FunctionLookupExpression,
+    // not a VariableLookupExpression so we can properly look things up
+    // in the right scopes later on.
+    callee = new FunctionLookupExpression(callee.name, callee.location)
+
     const args: Expression[] = []
 
     if (this.match('EOL')) {
       this.error('MissingRightParenthesisAfterFunctionCall', callee.location, {
         function:
-          callee instanceof VariableExpression ? callee.name.lexeme : null,
+          callee instanceof FunctionLookupExpression
+            ? callee.name.lexeme
+            : null,
       })
     }
     if (!this.check('RIGHT_PAREN')) {
@@ -645,7 +675,9 @@ export class Parser {
       {
         args,
         function:
-          callee instanceof VariableExpression ? callee.name.lexeme : null,
+          callee instanceof FunctionLookupExpression
+            ? callee.name.lexeme
+            : null,
       }
     )
     return new CallExpression(
@@ -677,7 +709,10 @@ export class Parser {
       )
 
     if (this.match('IDENTIFIER'))
-      return new VariableExpression(this.previous(), this.previous().location)
+      return new VariableLookupExpression(
+        this.previous(),
+        this.previous().location
+      )
 
     if (this.match('BACKTICK')) return this.templateLiteral()
 

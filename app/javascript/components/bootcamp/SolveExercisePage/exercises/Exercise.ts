@@ -1,6 +1,5 @@
-import { func } from 'prop-types'
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
-import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
+import type { ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { Statement } from '@/interpreter/statement'
 
@@ -13,7 +12,6 @@ export abstract class Exercise {
 
   protected view!: HTMLElement
   protected container!: HTMLElement
-  protected functionCalls: Record<string, Record<any, number>> = {}
 
   public constructor(private slug: String) {
     this.createView()
@@ -21,12 +19,6 @@ export abstract class Exercise {
 
   public wrapCode(code: string) {
     return code
-  }
-
-  public recordFunctionUse(name: string, ...args) {
-    this.functionCalls[name] ||= {}
-    this.functionCalls[name][JSON.stringify(args)] ||= 0
-    this.functionCalls[name][JSON.stringify(args)] += 1
   }
 
   // TODO: Add test coverage
@@ -44,24 +36,22 @@ export abstract class Exercise {
   }
 
   public wasFunctionUsed(
-    _: InterpretResult,
+    result: InterpretResult,
     name: string,
     args: any[] | null,
     times?: number
   ): boolean {
     let timesCalled
+    const fnCalls = result.functionCallLog
 
-    if (this.functionCalls[name] === undefined) {
+    if (fnCalls[name] === undefined) {
       timesCalled = 0
     } else if (args !== null && args !== undefined) {
-      timesCalled = this.functionCalls[name][JSON.stringify(args)]
+      timesCalled = fnCalls[name][JSON.stringify(args)]
     } else {
-      timesCalled = Object.values(this.functionCalls[name]).reduce(
-        (acc, count) => {
-          return acc + count
-        },
-        0
-      )
+      timesCalled = Object.values(fnCalls[name]).reduce((acc, count) => {
+        return acc + count
+      }, 0)
     }
 
     if (times === null || times === undefined) {

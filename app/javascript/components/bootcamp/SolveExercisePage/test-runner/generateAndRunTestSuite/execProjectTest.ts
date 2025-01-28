@@ -3,6 +3,8 @@ import { type Project } from '@/components/bootcamp/SolveExercisePage/utils/exer
 import type { Exercise } from '../../exercises/Exercise'
 import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
 import { generateExpects } from './generateExpects'
+import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
+import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 
 /**
  This is of type TestCallback
@@ -14,6 +16,23 @@ export function execProjectTest(
 ): ReturnType<TestCallback> {
   const exercise: Exercise = new Project()
 
+  // Choose the functions that are available to the student from config.stdlibFunctions
+  const stdlibFunctions = filteredStdLibFunctions(
+    options.config.stdlibFunctions
+  )
+  let exerciseFunctions = exercise.availableFunctions || []
+  if (options.config.exerciseFunctions !== null) {
+    exerciseFunctions = exerciseFunctions.filter((func) =>
+      options.config.exerciseFunctions.includes(func.name)
+    )
+  }
+  const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
+
+  const context = {
+    externalFunctions,
+    languageFeatures: options.config.interpreterOptions,
+  }
+
   ;(testData.setupFunctions || []).forEach((functionData) => {
     let [functionName, params] = functionData
     if (!params) {
@@ -22,10 +41,6 @@ export function execProjectTest(
     exercise[functionName](...params)
   })
 
-  const context = {
-    externalFunctions: exercise.availableFunctions,
-    languageFeatures: options.config.interpreterOptions,
-  }
   let evaluated
   if (testData.function) {
     evaluated = evaluateFunction(

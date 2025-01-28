@@ -4,7 +4,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
   test "return true if first exercise" do
     create :bootcamp_level, idx: 1
     exercise = create :bootcamp_exercise, level_idx: 1
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -14,7 +15,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
   test "return false if level not reached" do
     (1..2).each { |idx| create :bootcamp_level, idx: }
     exercise = create :bootcamp_exercise, level_idx: 2
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -26,7 +28,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -38,7 +41,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
     create(:bootcamp_solution, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
@@ -51,7 +55,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
     create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
@@ -64,7 +69,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
 
@@ -76,7 +82,8 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
     create(:bootcamp_solution, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
@@ -89,11 +96,23 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     project = create :bootcamp_project
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
-    user = create :user
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 10)
     create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
 
     assert Bootcamp::Exercise::AvailableForUser.(second_exercise, user)
+  end
+
+  test "return false if user's level isn't at this level yet" do
+    Bootcamp::Settings.instance.update(level_idx: 2)
+
+    (1..2).each { |idx| create :bootcamp_level, idx: }
+    exercise = create :bootcamp_exercise, level_idx: 2
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update!(level_idx: 1)
+
+    refute Bootcamp::Exercise::AvailableForUser.(exercise, user)
   end
 end

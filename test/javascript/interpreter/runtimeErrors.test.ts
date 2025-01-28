@@ -40,7 +40,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: -, side: right, value: `"a"`'
+        'OperandsMustBeNumbers: operator: -, side: right, value: "a"'
       )
     })
     test('1 / true', () => {
@@ -48,7 +48,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: /, side: right, value: `true`'
+        'OperandsMustBeNumbers: operator: /, side: right, value: true'
       )
     })
     test('false - 1', () => {
@@ -56,7 +56,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: -, side: left, value: `false`'
+        'OperandsMustBeNumbers: operator: -, side: left, value: false'
       )
     })
     test('1 * false', () => {
@@ -64,7 +64,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: *, side: right, value: `false`'
+        'OperandsMustBeNumbers: operator: *, side: right, value: false'
       )
     })
     test('1 * getName()', () => {
@@ -73,7 +73,7 @@ describe('Runtime errors', () => {
       const { frames } = interpret(code, context)
       expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
       expect(frames[0].error!.message).toBe(
-        'OperandsMustBeNumbers: operator: *, side: right, value: `"Jeremy"`'
+        'OperandsMustBeNumbers: operator: *, side: right, value: "Jeremy"'
       )
     })
   })

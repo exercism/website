@@ -77,11 +77,18 @@
     "level": 1
   },
   {
-    "slug": "functions-using-return",
+    "slug": "functions-defining",
     "parent": "functions",
-    "title": "Function that return things",
-    "description": "Learn about functions that return things and how to use them.",
-    "level": 3
+    "title": "Defining Functions",
+    "description": "Learn about to define (or make) you're own functions",
+    "level": 4
+  },
+  {
+    "slug": "functions-defining-inside",
+    "parent": "functions",
+    "title": "Inside a function",
+    "description": "Learn about what happens inside a function",
+    "level": 4
   },
   {
     "slug": "conditionals",
@@ -98,16 +105,10 @@
     "level": 3
   },
   {
-    "slug": "loops-repeat",
-    "title": "Repeat Loop",
-    "description": "",
-    "level": 4
-  },
-  {
     "slug": "arrays",
     "title": "Arrays",
     "description": "",
-    "level": 4
+    "level": 5
   },
   {
     "slug": "variables",

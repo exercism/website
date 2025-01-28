@@ -59,12 +59,10 @@ In a similar way, we have an `or` keyword which we can use when we want to say `
 
 Imagine our nightclub is putting on an alcohol-free event so people of any age are allowed, but everyone has to wear a ball gown or a tuxedo. To check this we can use an `or` statement to combine the two conditions:
 
-DIAGRAM: `conditions-and but or with outfit == "ball gown" or "tuxedo"
 <img src="https://assets.exercism.org/bootcamp/diagrams/conditions-or.png" class="diagram"/>
 
 Again, both sides of the `or` are individual conditions. Both most be comparisons that equate to `true` or `false`:
 
-DIAGRAM: `conditions-and-valid but or with outfit == "ball gown" or "tuxedo"
 <img src="https://assets.exercism.org/bootcamp/diagrams/conditions-or-valid.png" class="diagram"/>
 
 ## Joining multiple `and` and `or` together
@@ -74,8 +72,6 @@ Imagine our formal event has an afterparty that is for 25yr olds and over. Now w
 
 For this, we can use parentheses (`( )`) to group the conditions. So to ensure only smart-looking 25+ partygoes get in, we could write:
 
-DIAGRAM: `conditions-and but or with outfit == "ball gown" or "tuxedo"
-`if age >= 25 and (outfit == "ball gown" or outfit == "tuxedo") do`
 <img src="https://assets.exercism.org/bootcamp/diagrams/conditions-or-and.png" class="diagram"/>
 
 ---

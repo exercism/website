@@ -23,6 +23,7 @@ import {
   SetVariableStatement,
   Statement,
   ChangeVariableStatement,
+  ReturnStatement,
 } from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
@@ -225,8 +226,12 @@ function describeIfStatement(frame: FrameWithResult) {
   return output
 }
 function describeReturnStatement(frame: FrameWithResult) {
-  let output = `<p>This returned the value of <code>${frame.result.value.name}</code>, which in this case is <code>${frame.result.value.value}</code>.</p>`
-  return output
+  console.log(frame)
+  const context = frame.context as ReturnStatement
+  if (context === undefined) {
+    return ''
+  }
+  return context.description(frame.result)
 }
 function describeCallExpression(
   frame: FrameWithResult,

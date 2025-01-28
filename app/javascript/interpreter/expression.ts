@@ -50,14 +50,15 @@ export class CallExpression extends Expression {
   }
 
   public description(
-    result: Partial<'value' | EvaluationResultCallExpression>
+    result: EvaluationResultCallExpression,
+    includeReturnValue = true
   ): string {
     const argsDescription = '()'
-    return `<code>${
-      this.callee.name.lexeme
-    }${argsDescription}</code> (which returned <code>${formatLiteral(
-      result.value
-    )}</code>)`
+    let desc = `<code>${this.callee.name.lexeme}${argsDescription}</code>`
+    if (includeReturnValue) {
+      desc += ` (which returned <code>${formatLiteral(result.value)}</code>)`
+    }
+    return desc
   }
 }
 

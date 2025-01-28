@@ -31,6 +31,10 @@
           - if @level.youtube_id
             .mt-24
               = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
+          - if @level.youtube_id
+            .mt-24
+              = render ReactComponents::Common::YoutubePlayer.new(@level.labs_youtube_id, 'community')
+
 
           %hr.border-borderColor5.my-32
 

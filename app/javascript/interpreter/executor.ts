@@ -45,11 +45,9 @@ import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
-import {
-  executeCallExpression,
-  ExecuteCallExpression,
-} from './executor/executeCallExpression'
+import { executeCallExpression } from './executor/executeCallExpression'
 import didYouMean from 'didyoumean'
+import { formatLiteral } from './helpers'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -1018,15 +1016,10 @@ export class Executor {
       })
     }
 
-    // Quote strings
-    if (typeof value == 'string') {
-      value = `"${value}"`
-    }
-
     this.error('OperandsMustBeNumbers', location, {
       operator: operator.lexeme,
       side: leftIsNumber ? 'right' : 'left',
-      value: `\`${value}\``,
+      value: formatLiteral(value),
     })
   }
 

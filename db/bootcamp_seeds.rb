@@ -79,6 +79,7 @@ projects.each do |project_slug|
       e.description = ""
       e.level_idx = exercise_config[:level]
     end
+    p exercise
     exercise.update!(
       idx: exercise_config[:idx],
       title: exercise_config[:title],

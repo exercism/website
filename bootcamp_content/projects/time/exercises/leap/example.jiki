@@ -2,13 +2,5 @@
 // Should return true if it is a leap year.
 // Should return false if it is not a leap year.
 function is_leap_year with year do
-  if year % 4 != 0 do
-    return false
-  end
-
-  if year % 100 == 0 do
-    return year % 400 == 0
-  end
-
-  return true 
+  return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 end

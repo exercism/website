@@ -3,7 +3,6 @@
   "description": "Empower your blob to solve any maze with code!",
   "level": 3,
   "idx": 1,
-  "concepts": ["Conditionals", "loops-repeat"],
   "project_type": "maze",
   "tests_type": "state",
   "exercise_functions": [

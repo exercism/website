@@ -23,10 +23,10 @@ export class AnimationTimeline {
         ease: 'linear',
       },
       ...initialOptions,
-      // onUpdate: (anim: AnimeInstance) => {
-      //   this.updateScrubber(anim)
-      //   this.updateCallbacks.forEach((cb) => cb(anim))
-      // },
+      onUpdate: (anim: AnimeInstance) => {
+        this.updateScrubber(anim)
+        this.updateCallbacks.forEach((cb) => cb(anim))
+      },
     })
   }
 

@@ -226,7 +226,6 @@ function describeIfStatement(frame: FrameWithResult) {
   return output
 }
 function describeReturnStatement(frame: FrameWithResult) {
-  console.log(frame)
   const context = frame.context as ReturnStatement
   if (context === undefined) {
     return ''

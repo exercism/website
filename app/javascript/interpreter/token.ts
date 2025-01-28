@@ -57,7 +57,7 @@ export type TokenType =
   | 'TO'
   | 'TIMES'
   | 'TRUE'
-  | 'WHILE'
+  // | 'WHILE'
   | 'WITH'
 
   // Grouping tokens

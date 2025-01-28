@@ -26,4 +26,4 @@ That's a more commonly used term, but for now the key thing is to remember that 
 
 ---
 
-### Next Concept: [Inside a Function](./variables/functions-defining-inside-pure.md)
+### Next Concept: [Inside a Function](./variables/functions-defining-inside.md)

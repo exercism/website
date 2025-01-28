@@ -8,6 +8,10 @@ class User::BootcampData < ApplicationRecord
   scope :not_enrolled, -> { where(enrolled_at: nil) }
   scope :not_paid, -> { where(paid_at: nil) }
 
+  before_create do
+    self.level_idx = 1
+  end
+
   after_save_commit do
     User::Bootcamp::SubscribeToOnboardingEmails.defer(self)
   end

@@ -14,7 +14,7 @@ module ViewComponents
 
     private
     def status
-      user_project&.exercise_status(exercise, solution) || :available
+      user_project&.exercise_status(exercise, solution) || Bootcamp::Exercise::AvailableForUser.(exercise, user)
     end
 
     memoize

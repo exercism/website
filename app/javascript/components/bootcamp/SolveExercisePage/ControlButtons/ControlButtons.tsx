@@ -7,7 +7,10 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 
 function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
   return (
-    <div className="flex items-center gap-8 pb-12 overflow-auto shrink-0">
+    <div
+      data-ci="control-buttons"
+      className="flex items-center gap-8 pb-12 overflow-auto shrink-0"
+    >
       {/* Run the tests with this button */}
       <CheckScenariosButton handleRunCode={handleRunCode} />
       {/* These buttons let you select a test/scenario that you want to inspect.  */}

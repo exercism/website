@@ -17,7 +17,7 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
 
 function Task({ task, onClick }: { task: Task; onClick: () => void }) {
   return (
-    <div data-cy="task" className={`task ${task.status}`}>
+    <div data-ci="task" className={`task ${task.status}`}>
       <div className="imgs">
         <Icon
           icon="bootcamp-task-completed"

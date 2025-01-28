@@ -521,7 +521,7 @@ export default class DrawExercise extends Exercise {
     absX: number,
     absY: number
   ) {
-    const duration = 1
+    const duration = 0
     this.addAnimation({
       targets: `#${this.view.id} #${elem.id}`,
       duration,

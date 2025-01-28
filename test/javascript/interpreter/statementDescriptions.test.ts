@@ -77,7 +77,6 @@ describe('IfStatement', () => {
           set name to "Jeremy"
         end
       `)
-      console.log(error)
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
         `<p>This checked whether <code>true</code> was equal to <code>true</code></p>\n<p>The result was <code>true</code>.</p>`
@@ -89,7 +88,6 @@ describe('IfStatement', () => {
           set name to "Jeremy"
         end
       `)
-      console.log(error)
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
         `<p>This checked whether both of these were true:</p><ul><li><code>true</code> was equal to <code>true</code></li><li><code>true</code> was equal to <code>true</code></li></ul><p></p>\n<p>The result was <code>true</code>.</p>`
@@ -104,7 +102,6 @@ describe('IfStatement', () => {
       `,
         { externalFunctions: [getTrueFunction] }
       )
-      console.log(frames[0])
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
         `<p>This checked whether <code>get_true()</code> (which returned <code>true</code>) was equal to <code>true</code></p>\n<p>The result was <code>true</code>.</p>`
@@ -149,11 +146,59 @@ describe('IfStatement', () => {
       `,
         { externalFunctions: [getTrueFunction, getFalseFunction] }
       )
-      console.log(frames[0])
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
         `<p>This checked whether both of these were true:</p><ul><li><code>get_true()</code> (which returned <code>true</code>) was equal to <code>get_true()</code> (which returned <code>true</code>)</li><li><code>get_false()</code> (which returned <code>false</code>) was equal to <code>get_false()</code> (which returned <code>false</code>)</li></ul><p></p>\n<p>The result was <code>true</code>.</p>`
       )
     })
+  })
+})
+
+describe('ReturnStatement', () => {
+  test('no value', () => {
+    const { frames } = interpret(`
+      function get_name do
+        return
+      end
+      get_name()
+    `)
+    const actual = describeFrame(frames[0], [])
+    expect(actual).toBe('<p>This exited the function.</p>')
+  })
+  test('variable', () => {
+    const { frames } = interpret(`
+      function get_name do
+        set x to 1
+        return x
+      end
+      get_name()
+    `)
+    const actual = describeFrame(frames[1], [])
+    expect(actual).toBe(
+      '<p>This returned the value of <code>x</code>, which in this case is <code>1</code>.</p>'
+    )
+  })
+  test('complex option', () => {
+    const { frames } = interpret(`
+      function get_3 do
+        return 3
+      end
+      function get_name do
+        return get_3()
+      end
+      get_name()
+    `)
+    const actual = describeFrame(frames[1], [])
+    expect(actual).toBe('<p>This returned <code>3</code>.</p>')
+  })
+  test('literal', () => {
+    const { frames } = interpret(`
+      function get_name do
+        return 1
+      end
+      get_name()
+    `)
+    const actual = describeFrame(frames[0], [])
+    expect(actual).toBe('<p>This returned <code>1</code>.</p>')
   })
 })

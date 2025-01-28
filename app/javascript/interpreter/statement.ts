@@ -1,9 +1,10 @@
 import {
   EvaluationResult,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultReturnStatement,
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
-import { Expression } from './expression'
+import { Expression, LiteralExpression } from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
@@ -148,6 +149,18 @@ export class ReturnStatement extends Statement {
     public location: Location
   ) {
     super('ReturnStatement')
+  }
+  public description(result: EvaluationResultReturnStatement) {
+    if (result.value == undefined) {
+      return `<p>This exited the function.</p>`
+    }
+    if (result.value.type == 'VariableLookupExpression') {
+      return `<p>This returned the value of <code>${result.value.name}</code>, which in this case is <code>${result.value.value}</code>.</p>`
+    }
+    // if(result.value.type == "LiteralExpression") {
+    else {
+      return `<p>This returned <code>${result.value.value}</code>.</p>`
+    }
   }
 }
 

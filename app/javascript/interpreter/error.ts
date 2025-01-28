@@ -117,6 +117,7 @@ export type RuntimeErrorType =
   | 'UnexpectedReturnOutsideOfFunction'
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
+  | 'InvalidNestedFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

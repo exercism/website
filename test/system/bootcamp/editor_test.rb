@@ -1,5 +1,22 @@
 require "application_system_test_case"
 
+def change_codemirror_content(content)
+  escaped_content = content.gsub("\n", "\\n").gsub('"', '\"')
+
+  page.execute_script(%{
+    const observer = new MutationObserver((mutations, obs) => {
+      const lines = document.querySelectorAll('.cm-line');
+      if (lines.length > 0) {
+        lines.forEach(line => line.innerText = '');
+        lines[lines.length - 1].innerText = "#{escaped_content}";
+        obs.disconnect();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  })
+end
+
 module Bootcamp
   class EditorTest < ApplicationSystemTestCase
     test "things render" do
@@ -78,17 +95,12 @@ module Bootcamp
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
 
-        page.execute_script(%{
-          const observer = new MutationObserver((mutations, obs) => {
-            const ll = document.querySelector('.cm-line:last-of-type');
-            if (ll) {
-              ll.innerText = '\\nmove()\\nmove()\\nmove()\\nmove()';
-              obs.disconnect();
-              }
-              });
-
-              observer.observe(document.body, { childList: true, subtree: true });
-              })
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+          })
 
         find("[data-ci='check-scenarios-button']").click
         refute_selector(".c-scneario.fail")
@@ -106,17 +118,12 @@ module Bootcamp
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
 
-        page.execute_script(%{
-          const observer = new MutationObserver((mutations, obs) => {
-            const ll = document.querySelector('.cm-line:last-of-type');
-            if (ll) {
-              ll.innerText = '\\nmove()\\nmove()\\nmove()\\nmove()';
-              obs.disconnect();
-              }
-              });
-
-              observer.observe(document.body, { childList: true, subtree: true });
-          })
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+})
 
         find("[data-ci='check-scenarios-button']").click
 
@@ -142,28 +149,19 @@ module Bootcamp
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
 
-        page.execute_script(%{
-          const observer = new MutationObserver((mutations, obs) => {
-            const ll = document.querySelector('.cm-line:last-of-type');
-            if (ll) {
-              ll.innerText = `
+        change_codemirror_content(%(
 function even_or_odd with number do
   if number % 2 equals 0 do
     return "Even"
   else do
     return "Odd"
   end
-end`;
-              obs.disconnect();
-              }
-              });
-
-              observer.observe(document.body, { childList: true, subtree: true });
-              })
+end
+        ))
 
         find("[data-ci='check-scenarios-button']").click
-        refute_selector(".c-scneario.fail")
-        refute_selector(".c-scneario.pending")
+        refute_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
         assert_selector(".test-button.pass")
         assert_selector(".c-scenario.pass")
 
@@ -171,6 +169,54 @@ end`;
         assert_selector ".solve-exercise-page-react-modal-content"
         click_on "Tweak further"
         refute_selector ".solve-exercise-page-react-modal-content"
+      end
+    end
+
+    test "doesnt show modal on io test when tasks are undone" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  return "Even"
+end))
+
+        find("[data-ci='check-scenarios-button']").click
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
+        refute_selector(".c-scenario.pass")
+
+        refute_text "Nice work!"
+        refute_selector ".solve-exercise-page-react-modal-content"
+      end
+    end
+
+    test "shows modal on io test when after reiterating exercise correctly" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  return "Even"
+end))
+
+        sleep 15
+
+        find("[data-ci='check-scenarios-button']").click
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
+        refute_selector(".c-scenario.pass")
+
+        refute_text "Nice work!"
+        refute_selector ".solve-exercise-page-react-modal-content"
+
+        clear_editor
       end
     end
   end

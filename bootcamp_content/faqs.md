@@ -32,7 +32,7 @@ You can also format code in a sentence like `this one` by using single backticks
 
 ### Using Spoilers
 
-One of the keys of the bootcamp is for students not to lose the opportunity to learn by seeing other people's code.
+It is very important that students not to lose the opportunity to learn by seeing other people's code.
 So we ask that whenever you share code, or give away clues as to how to solve an exercise, you use "spoiler tags", which makes the text hidden until it's deliberately clicked.
 
 #### Spoilers On Discord

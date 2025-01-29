@@ -9,6 +9,7 @@
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 50
   },
+  "readonly_ranges": [{ "from": 3, "to": 21 }],
   "tasks": [
     {
       "name": "A straight path",

@@ -10,5 +10,6 @@ repeat_until_game_over do
   else do
     turn_left()
     turn_left()
+    move()
   end
 end

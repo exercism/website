@@ -1,3 +1,5 @@
+// Add your code here...
+
 function turn_around do
   turn_right()
   turn_right()
@@ -14,5 +16,6 @@ repeat_until_game_over do
     move()
   else do
     turn_around()
+    move()
   end
 end

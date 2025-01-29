@@ -11,7 +11,6 @@ import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
 import { Header } from './Header/Header'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { ResultsPanel } from './ResultsPanel'
-import { useLogger } from '@/hooks'
 
 export default function SolveExercisePage({
   exercise,
@@ -63,7 +62,6 @@ export default function SolveExercisePage({
     readonlyRanges: code.readonlyRanges,
   })
 
-  useLogger('bottom height', BottomHeight)
   return (
     <SolveExercisePageContextWrapper
       value={{

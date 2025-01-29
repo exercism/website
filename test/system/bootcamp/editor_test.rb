@@ -38,7 +38,7 @@ module Bootcamp
       end
     end
 
-    test "shows set up preview view" do
+    test "sets up exercise view correctly" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :manual_solve
 

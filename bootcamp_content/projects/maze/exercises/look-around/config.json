@@ -1,6 +1,6 @@
 {
   "title": "Look Around",
-  "description": "Implement the can_turn..() and can_move() functions.",
+  "description": "Implement the can_turn_...() and can_move() functions.",
   "level": 4,
   "idx": 4,
   "project_type": "maze",

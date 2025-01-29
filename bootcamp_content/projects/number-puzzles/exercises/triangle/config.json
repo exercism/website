@@ -2,7 +2,7 @@
   "title": "Triangle",
   "description": "Determine if a triangle is valid and, if so, its type based on side lengths.",
   "level": 4,
-  "idx": 5,
+  "idx": 7,
   "tests_type": "io",
   "tasks": [
     {

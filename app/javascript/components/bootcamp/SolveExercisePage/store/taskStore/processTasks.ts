@@ -14,7 +14,7 @@ export function processTasks(
     return {
       updatedTasks: [],
       numberOfCompletedTasks: 0,
-      areAllTasksCompleted: true,
+      areAllTasksCompleted: false,
       activeTaskIndex: 0,
     }
   }
@@ -58,7 +58,10 @@ export function processTasks(
     updatedTasks.push(task)
   }
 
-  const areAllTasksCompleted = numberOfCompletedTasks === updatedTasks.length
+  let areAllTasksCompleted = false
+  if (updatedTasks.length > 0) {
+    areAllTasksCompleted = numberOfCompletedTasks === updatedTasks.length
+  }
 
   return {
     updatedTasks,

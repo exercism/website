@@ -56,7 +56,7 @@ I think the issue is with ||how I'm setting my variable||. Could anyone help ple
 #### Spoilers On the Forum
 
 Using spoilers on the Forum is slightly different.
-There you wrap whatever you want to hide in `[Spoiler]...[/Spoiler]` tags.
+There you wrap whatever you want to hide in `[spoiler]...[/spoiler]` tags.
 
 For example:
 

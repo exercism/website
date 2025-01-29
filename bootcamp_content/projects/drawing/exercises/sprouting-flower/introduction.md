@@ -76,3 +76,14 @@ This is a challenging exercise. Take your time, and if you get really stuck, ask
 Use the scrubber (the play bar at the bottom left) to check the value of your variables if you're not clear on what's happening. Click on the little toggle button to see information on each line!
 
 Remember, the learning is in the struggle! Every time you get something wrong and solve it, you're becoming a coder, and eventually it will feel easy. Just keep going!
+
+### Got it working but have an error still?
+
+Lots of people get this exercise **almost** there but have an error such as "The first stem isn't correct?"
+
+If that's you, watch this video to understand how to solve it:
+
+<details><summary>Click to expand</summary>
+<p><a href="https://www.loom.com/share/67b196e501e4479688c2afca9b9b1926?sid=30f1ebe8-f69b-4603-9f40-4088fdb4d3ed"/></p>
+
+</details>

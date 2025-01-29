@@ -37,7 +37,7 @@ Here are a couple of hints. Click on the titles below to expand them.
 
 <details><summary>Hint 1: If you can't work out where to start</summary>
 
-Previously, you write `repeat 61 times do` to make the ball roll to where you needed it.
+In the previous exercise, you wrote `repeat 61 times do` to make the ball roll to where you needed it.
 
 Wherever you can use a number in code, you can use a variable or the result of a function instead. So that 61 could be a variable or the result of using a function.
 

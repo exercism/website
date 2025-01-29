@@ -1,5 +1,6 @@
 require "application_system_test_case"
 
+# best for initially setting content when the page loads
 def change_codemirror_content(content)
   escaped_content = content.gsub("\n", "\\n").gsub('"', '\"')
 
@@ -14,6 +15,18 @@ def change_codemirror_content(content)
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
+  })
+end
+
+# best for updating content after the page has loaded
+def update_codemirror_content(content)
+  escaped_content = content.gsub("\n", "\\n").gsub('"', '\"')
+  page.execute_script(%{
+      const lines = document.querySelectorAll('.cm-line');
+      if (lines.length > 0) {
+        lines.forEach(line => line.innerText = '');
+        lines[lines.length - 1].innerText = "#{escaped_content}";
+      }
   })
 end
 
@@ -300,6 +313,50 @@ end))
         check_scenarios
         refute_selector('.test-button.fail')
         assert find(".test-button.pass.selected").has_text?("5")
+      end
+    end
+
+    test "shows info-widget with error on erronous code" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+          run_this_thing()
+  return "Even"
+end))
+        check_scenarios
+
+        assert_text "[Your function didn't return anything]"
+        assert_text "Jiki couldn't find a function with the name run_this_thing."
+        assert_selector ".information-tooltip.error"
+      end
+    end
+
+    test "hides info-widget on editor change" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+          run_this_thing()
+  return "Even"
+end))
+        check_scenarios
+
+        assert_text "Your function didn't return anything"
+        assert_text "Jiki couldn't find a function with the name run_this_thing."
+        assert_selector ".information-tooltip.error"
+
+        change_codemirror_content(%(function even_or_odd with number do
+return "Even"
+end))
+        refute_text "Jiki couldn't find a function with the name run_this_thing."
+        refute_selector ".information-tooltip.error"
       end
     end
   end

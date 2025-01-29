@@ -28,7 +28,7 @@ Put your code here.
 
 Note that these are [backticks](https://en.wikipedia.org/wiki/Backtick), not quotation marks.
 
-You can also highlight individual words in a sentence like `this one` by using single backticks.
+You can also format code in a sentence like `this one` by using single backticks.
 
 ### Using Spoilers
 

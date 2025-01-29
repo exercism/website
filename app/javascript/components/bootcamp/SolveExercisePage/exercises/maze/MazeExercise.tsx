@@ -323,18 +323,18 @@ export default class MazeExercise extends Exercise {
     }
   }
 
-  public setupGrid(layout: number[][]) {
+  public setupGrid(_: ExecutionContext, layout: number[][]) {
     this.mazeLayout = layout
     this.gridSize = layout.length
     this.squareSize = 100 / layout.length
     this.redrawMaze()
   }
-  public setupDirection(direction: string) {
+  public setupDirection(_: ExecutionContext, direction: string) {
     this.direction = direction
     this.angle = this.startingAngles[direction]
     this.character.style.transform = `rotate(${this.angle}deg)`
   }
-  public setupPosition(x: number, y: number) {
+  public setupPosition(_: ExecutionContext, x: number, y: number) {
     this.characterPosition = { x: x, y: y }
     this.character.style.left = `${this.characterPosition.x * this.squareSize}%`
     this.character.style.top = `${this.characterPosition.y * this.squareSize}%`

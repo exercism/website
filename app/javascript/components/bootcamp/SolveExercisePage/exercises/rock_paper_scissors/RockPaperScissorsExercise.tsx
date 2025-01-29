@@ -31,7 +31,7 @@ export default class RockPaperScissorsExercise extends Exercise {
     return { result: this.result }
   }
 
-  public setChoices(player1: Choice, player2: Choice) {
+  public setChoices(_: ExecutionContext, player1: Choice, player2: Choice) {
     this.player1Choice = player1
     this.player2Choice = player2
     this.expectedResult = this.determineCorrectResult()

@@ -66,7 +66,7 @@ function testState(
       if (!params) {
         params = []
       }
-      exercise[functionName](undefined, ...params)
+      exercise[functionName](null, ...params)
     })
 
     const stdlibFunctions = filteredStdLibFunctions(config.stdlibFunctions)

@@ -138,7 +138,13 @@ export default class DrawExercise extends Exercise {
   ) {
     return getCircleAt(this.shapes, cx, cy, radius)
   }
-  public getEllipseAt(x: number, y: number, rx: number, ry: number) {
+  public getEllipseAt(
+    _: InterpretResult,
+    x: number,
+    y: number,
+    rx: number,
+    ry: number
+  ) {
     return getEllipseAt(this.shapes, x, y, rx, ry)
   }
   public getTriangleAt(
@@ -213,7 +219,6 @@ export default class DrawExercise extends Exercise {
       rToA(val)
     )
 
-    console.log('H1', this.penColor, this.strokeWidth)
     const elem = Shapes.rect(
       absX,
       absY,

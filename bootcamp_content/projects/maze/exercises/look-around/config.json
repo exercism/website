@@ -235,6 +235,16 @@
               "name": "wasFunctionUsed('can_move')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_move() function wasn't used."
+            },
+            {
+              "name": "wasFunctionUsed('turn_right')",
+              "matcher": "toBeTrue",
+              "error_html": "The turn_right() function was never used."
+            },
+            {
+              "name": "wasFunctionUsed('turn_left')",
+              "matcher": "toBeTrue",
+              "error_html": "The turn_left() function was never used."
             }
           ]
         }

@@ -236,6 +236,37 @@
               "error_html": "Your custom can_move() function wasn't used."
             }
           ]
+        },
+        {
+          "slug": "cover-old-ground",
+          "name": "Cover old ground if you need to",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 1, 0, 0, 2, 1, 1, 1, 1],
+                  [0, 1, 0, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 0, 1, 0, 0, 0, 0, 1],
+                  [0, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [0, 1, 4, 1, 0, 1, 4, 1, 1],
+                  [5, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [1, 4, 1, 1, 0, 4, 4, 1, 1],
+                  [1, 4, 4, 4, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "name": "position",
+              "value": [0, 0],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
         }
       ]
     }

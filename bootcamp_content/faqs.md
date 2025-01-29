@@ -4,7 +4,7 @@
 
 Asking good questions is absolutely key to getting the most out of the Bootcamp.
 
-Jeremy and the mentor are here to help answer yoru questions and help you get unstuck.
+Jeremy and the mentors are here to help answer your questions and help you get unstuck.
 **Asking questions is part of the Bootcamp. Do not feel like it is a failure or a weakness or an inconvenince to us to ask questions.**
 
 The [first video (01:12:04)](https://www.youtube.com/live/bOAL_EIFwhg?si=9A4v_mx2s2b4sRsx&t=4324) Jeremy goes through all of this in great depth, including showing how to use Spoilers, Codeblocks, Discord and the Forum.

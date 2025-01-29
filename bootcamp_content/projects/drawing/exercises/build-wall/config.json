@@ -2,8 +2,8 @@
   "title": "Build a Wall",
   "description": "Use rectangles to build a wall",
   "project_type": "draw",
-  "level": 1,
-  "idx": 1,
+  "level": 2,
+  "idx": 5,
   "concepts": [],
   "tests_type": "state",
   "readonly_ranges": [],
@@ -15,7 +15,7 @@
         {
           "slug": "fill-holes",
           "name": "Fill the holes",
-          "description_html": "Cover each hole with a brick-coloured rectangle.",
+          "description_html": "Build a wall of 55 bricks",
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
             ["changePenColor", ["#7f3732"]],
@@ -25,7 +25,7 @@
             {
               "name": "getRectangleAt(0, 0, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The top left rectangle isn't correct"
+              "error_html": "The top left rectangle isn't correct."
             },
             {
               "name": "getRectangleAt(80, 0, 20, 10)",
@@ -43,14 +43,29 @@
               "error_html": "The last rectangle on the second row isn't correct."
             },
             {
-              "name": "getRectangleAt(60, 70, 20, 10)",
+              "name": "getRectangleAt(40, 20, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The bottom hole isn't filled correctly."
+              "error_html": "The middle rectangles on the third row isn't correct."
             },
             {
-              "name": "wasFunctionUsed('rectangle', 55)",
+              "name": "getRectangleAt(30, 30, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "One of the middle rectangles on the fourth row isn't correct."
+            },
+            {
+              "name": "getRectangleAt(-10, 90, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rectangle isn't correct."
+            },
+            {
+              "name": "getRectangleAt(90, 90, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rectangle isn't correct."
+            },
+            {
+              "name": "wasFunctionUsed('rectangle', null, 55)",
               "matcher": "toBeTrue",
-              "error_html": "You didn't use rectangle function the right amount of times to build the wall (55 times)."
+              "error_html": "You didn't add 55 bricks."
             }
           ]
         }

@@ -2,7 +2,7 @@
 
 In the first drawing exercise you did, you used the `rectangle` and the `fill_color_hex` functions to fill in some gaps in a wall.
 
-In this exercise, we build on that by using `repeats` to add **lots** of bricks, to build a wall.
+In this exercise, we build on that by using the `repeat` keyword to add **lots** of bricks and build a wall.
 
 The final wall should look like this:
 

@@ -3,7 +3,7 @@
   "description": "Make the flower sprout",
   "project_type": "draw",
   "level": 2,
-  "idx": 5,
+  "idx": 6,
   "concepts": [],
   "tests_type": "state",
   "interpreter_options": {

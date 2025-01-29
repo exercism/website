@@ -34,7 +34,7 @@
         },
         {
           "slug": "year-1900",
-          "description_html": "1900 is divisible by 100 but not by 3 so is not a leap year",
+          "description_html": "1900 is divisible by 100 but not by 400 so is not a leap year",
           "name": "Year 1900",
           "function": "is_leap_year",
           "params": [1900],

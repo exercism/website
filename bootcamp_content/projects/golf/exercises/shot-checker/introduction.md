@@ -33,19 +33,22 @@ The positioning is slightly different from the first exercise:
 
 ## Hints
 
-### Hint 1
+Here are a couple of hints. Click on the titles below to expand them.
 
-The result of `get_shot_length()` tells you how many `x` the ball moves forward. So if shot length is `5` and the ball's starting position is `30`, then its final position should be `35`, which is `6` frames of animation (30, 31, 32, 33, 34, 35).
+<details><summary>Hint 1: If you can't work out where to start</summary>
 
-### Hint 2
+Previously, you write `repeat 61 times do` to make the ball roll to where you needed it.
 
-Remember, wherever you can use a number, you can use a variable or the result of a function instead.
+Wherever you can use a number in code, you can use a variable or the result of a function instead. So that 61 could be a variable or the result of using a function.
 
-e.g. All of these are valid ways to write code (presuming Jiki has the relevant functions on his shelves):
+You have a function called `get_shot_length()` which returns a different value for each scenario. How can you use it to roll the ball the correct length each time?
 
-```
-circle(1, 2, 3)
-circle(x, y, r)
-circle(calculate_sun_left(), calculate_sun_width(), calculate_sun_radius())
-circle(1, y, calculate_sun_radius())
-```
+</details>
+
+<details><summary>Hint 2: If your ball is rolling one step too few times.</summary>
+
+The result of `get_shot_length()` tells you how many `x` the ball moves **forward.** But that doesn't include the initial animation frame you need to draw the ball on the tee to start with.
+
+So if shot length is `5` and the ball's starting position is `30` (the tee), then if you animate it 5 times, it will draw at `30, 31, 32, 33, 34`. But if you're trying to get to `35` that's not enough!
+
+</details>

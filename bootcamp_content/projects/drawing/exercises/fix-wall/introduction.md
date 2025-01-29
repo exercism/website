@@ -11,7 +11,7 @@ To draw rectangles, we use the `rectangle` function with 4 inputs:
 - `width`: How wide the rectangle is
 - `height`: How high the rectangle is.
 
-[DIAGRAM of rectangle]
+<img src="https://assets.exercism.org/bootcamp/graphics/intro-rectangle.jpg" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
 ### Changing colors
 

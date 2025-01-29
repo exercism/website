@@ -23,24 +23,34 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('fill_color_hex', null)",
-              "matcher": "toBeTrue",
-              "error_html": "You didn't use fill_color_hex to choose a natural color for your bricks."
+              "name": "getRectangleAt(0, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top left rectangle isn't correct"
             },
             {
-              "name": "getRectangleAt(20, 20, 20, 10)",
+              "name": "getRectangleAt(80, 0, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The top hole isn't filled correctly."
+              "error_html": "The top right rectangle isn't correct."
             },
             {
-              "name": "getRectangleAt(0, 50, 20, 10)",
+              "name": "getRectangleAt(-10, 10, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The left hole isn't filled correctly."
+              "error_html": "The first rectangle on the second row isn't correct."
+            },
+            {
+              "name": "getRectangleAt(90, 10, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The last rectangle on the second row isn't correct."
             },
             {
               "name": "getRectangleAt(60, 70, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The bottom hole isn't filled correctly."
+            },
+            {
+              "name": "wasFunctionUsed('rectangle', 55)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't use rectangle function the right amount of times to build the wall (55 times)."
             }
           ]
         }

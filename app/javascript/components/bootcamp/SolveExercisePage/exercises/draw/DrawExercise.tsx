@@ -10,66 +10,25 @@ import {
 } from '@/interpreter/expression'
 import { ExpressionStatement } from '@/interpreter/statement'
 import { Frame } from '@/interpreter/frames'
-
-class Shape {
-  public constructor(public element: SVGElement) {}
-}
-
-class Rectangle extends Shape {
-  public constructor(
-    public x: number,
-    public y: number,
-    public width: number,
-    public height: number,
-    public fillColor: FillColor,
-    element: SVGElement
-  ) {
-    super(element)
-  }
-}
-
-class Circle extends Shape {
-  public constructor(
-    public cx: number,
-    public cy: number,
-    public radius: number,
-    public fillColor: FillColor,
-    element: SVGElement
-  ) {
-    super(element)
-  }
-}
-
-class Ellipse extends Shape {
-  public constructor(
-    public x: number,
-    public y: number,
-    public rx: number,
-    public ry: number,
-    element: SVGElement
-  ) {
-    super(element)
-  }
-}
-
-class Triangle extends Shape {
-  public constructor(
-    public x1: number,
-    public y1: number,
-    public x2: number,
-    public y2: number,
-    public x3: number,
-    public y3: number,
-    element: SVGElement
-  ) {
-    super(element)
-  }
-}
-
-export type FillColor =
-  | { type: 'hex'; color: string }
-  | { type: 'rgb'; color: [number, number, number] }
-  | { type: 'hsl'; color: [number, number, number] }
+import {
+  checkCanvasCoverage,
+  checkUniqueColoredCircles,
+  checkUniqueColoredRectangles,
+} from './checks'
+import {
+  Shape,
+  Circle,
+  Rectangle,
+  Triangle,
+  FillColor,
+  Ellipse,
+} from './shapes'
+import {
+  getCircleAt,
+  getEllipseAt,
+  getRectangleAt,
+  getTriangleAt,
+} from './retrievers'
 
 export default class DrawExercise extends Exercise {
   private canvas: HTMLDivElement
@@ -77,6 +36,7 @@ export default class DrawExercise extends Exercise {
   private visibleShapes: Shape[] = []
 
   private penColor = '#333333'
+  private strokeWidth = 0
   private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
 
   constructor(slug = 'draw') {
@@ -168,33 +128,7 @@ export default class DrawExercise extends Exercise {
     width: number,
     height: number
   ) {
-    return this.shapes.find((shape) => {
-      if (shape instanceof Rectangle) {
-        if (x !== undefined) {
-          if (shape.x != x) {
-            return false
-          }
-        }
-
-        if (y !== undefined) {
-          if (shape.y != y) {
-            return false
-          }
-        }
-
-        if (width !== undefined) {
-          if (shape.width != width) {
-            return false
-          }
-        }
-        if (height !== undefined) {
-          if (shape.height != height) {
-            return false
-          }
-        }
-        return true
-      }
-    })
+    return getRectangleAt(this.shapes, x, y, width, height)
   }
   public getCircleAt(
     _: InterpretResult,
@@ -202,24 +136,10 @@ export default class DrawExercise extends Exercise {
     cy: number,
     radius: number
   ) {
-    return this.shapes.find((shape) => {
-      if (shape instanceof Circle) {
-        return shape.cx == cx && shape.cy == cy && shape.radius == radius
-      }
-    })
+    return getCircleAt(this.shapes, cx, cy, radius)
   }
-  public getEllipseAt(
-    _: InterpretResult,
-    x: number,
-    y: number,
-    rx: number,
-    ry: number
-  ) {
-    return this.shapes.find((shape) => {
-      if (shape instanceof Ellipse) {
-        return shape.x == x && shape.y == y && shape.rx == rx && shape.ry == ry
-      }
-    })
+  public getEllipseAt(x: number, y: number, rx: number, ry: number) {
+    return getEllipseAt(this.shapes, x, y, rx, ry)
   }
   public getTriangleAt(
     _: InterpretResult,
@@ -230,94 +150,19 @@ export default class DrawExercise extends Exercise {
     x3: number,
     y3: number
   ) {
-    return this.shapes.find((shape) => {
-      if (shape instanceof Triangle) {
-        const arePointsEqual = (p1, p2) => p1[0] === p2[0] && p1[1] === p2[1]
-
-        const shapePoints = [
-          [shape.x1, shape.y1],
-          [shape.x2, shape.y2],
-          [shape.x3, shape.y3],
-        ]
-        const points = [
-          [x1, y1],
-          [x2, y2],
-          [x3, y3],
-        ]
-
-        const match = (a, b, c) =>
-          arePointsEqual(shapePoints[0], a) &&
-          arePointsEqual(shapePoints[1], b) &&
-          arePointsEqual(shapePoints[2], c)
-
-        return (
-          match(points[0], points[1], points[2]) ||
-          match(points[0], points[2], points[1]) ||
-          match(points[1], points[0], points[2]) ||
-          match(points[1], points[2], points[0]) ||
-          match(points[2], points[0], points[1]) ||
-          match(points[2], points[1], points[0])
-        )
-      }
-    })
+    return getTriangleAt(this.shapes, x1, y1, x2, y2, x3, y3)
   }
 
   public checkUniqueColoredRectangles(_: InterpretResult, count: number) {
-    let colors = new Set()
-    this.shapes.forEach((shape) => {
-      if (!(shape instanceof Rectangle)) {
-        return
-      }
-
-      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
-    })
-    return colors.size >= count
+    return checkUniqueColoredRectangles(this.shapes, count)
   }
 
   public checkUniqueColoredCircles(_: InterpretResult, count: number) {
-    let colors = new Set()
-    this.shapes.forEach((shape) => {
-      if (!(shape instanceof Circle)) {
-        return
-      }
-
-      colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
-    })
-    return colors.size >= count
+    return checkUniqueColoredCircles(this.shapes, count)
   }
 
   public checkCanvasCoverage(_: InterpretResult, requiredPercentage) {
-    const gridSize = 100
-    const grid = Array.from({ length: gridSize }, () =>
-      Array(gridSize).fill(false)
-    )
-
-    // Iterate through each circle
-    this.shapes.forEach((shape) => {
-      if (!(shape instanceof Circle)) {
-        return
-      }
-      for (let x = 0; x < gridSize; x++) {
-        for (let y = 0; y < gridSize; y++) {
-          const distanceSquared = (x - shape.cx) ** 2 + (y - shape.cy) ** 2
-          if (distanceSquared <= shape.radius ** 2) {
-            grid[x][y] = true // Mark grid point as covered
-          }
-        }
-      }
-    })
-
-    // Count covered points
-    let coveredPoints = 0
-    grid.forEach((row) => {
-      coveredPoints += row.filter((point) => point).length
-    })
-
-    // Calculate coverage percentage
-    const totalPoints = gridSize * gridSize
-    const percentage = (coveredPoints / totalPoints) * 100
-
-    return percentage >= requiredPercentage
+    return checkCanvasCoverage(this.shapes, requiredPercentage)
   }
 
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
@@ -344,6 +189,9 @@ export default class DrawExercise extends Exercise {
   public changePenColor(_: ExecutionContext, color: string) {
     this.penColor = color
   }
+  public changeStrokeWidth(_: ExecutionContext, width: number) {
+    this.strokeWidth = width
+  }
   public fillColorHex(_: ExecutionContext, color: string) {
     this.fillColor = { type: 'hex', color: color }
   }
@@ -365,12 +213,14 @@ export default class DrawExercise extends Exercise {
       rToA(val)
     )
 
+    console.log('H1', this.penColor, this.strokeWidth)
     const elem = Shapes.rect(
       absX,
       absY,
       absWidth,
       absHeight,
       this.penColor,
+      this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
@@ -395,6 +245,7 @@ export default class DrawExercise extends Exercise {
       absY,
       absRadius,
       this.penColor,
+      this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
@@ -421,6 +272,7 @@ export default class DrawExercise extends Exercise {
       absRx,
       absRy,
       this.penColor,
+      this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
@@ -458,6 +310,7 @@ export default class DrawExercise extends Exercise {
       absX3,
       absY3,
       this.penColor,
+      this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
@@ -548,10 +401,10 @@ export default class DrawExercise extends Exercise {
     this.visibleShapes = []
   }
 
-  public setBackgroundImage(imageUrl: string | null) {
+  public setBackgroundImage(_: ExecutionContext, imageUrl: string | null) {
     if (imageUrl) {
       this.canvas.style.backgroundImage = 'url(' + imageUrl + ')'
-      this.canvas.style.backgroundSize = '99.5%'
+      this.canvas.style.backgroundSize = 'cover'
       this.canvas.style.backgroundPosition = 'center'
     } else {
       this.canvas.style.backgroundImage = 'none'

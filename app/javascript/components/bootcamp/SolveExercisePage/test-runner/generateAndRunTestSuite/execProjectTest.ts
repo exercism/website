@@ -38,7 +38,7 @@ export function execProjectTest(
     if (!params) {
       params = []
     }
-    exercise[functionName](...params)
+    exercise[functionName](null, ...params)
   })
 
   let evaluated

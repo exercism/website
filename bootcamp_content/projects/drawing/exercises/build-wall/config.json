@@ -1,6 +1,6 @@
 {
-  "title": "Fix the Wall",
-  "description": "Add some rectangles to fix the wall",
+  "title": "Build a Wall",
+  "description": "Use rectangles to build a wall",
   "project_type": "draw",
   "level": 1,
   "idx": 1,
@@ -19,11 +19,7 @@
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
             ["changePenColor", ["#7f3732"]],
-            ["fillColorHex", ["red"]],
-            [
-              "setBackgroundImage",
-              ["https://assets.exercism.org/bootcamp/graphics/wall-to-fix.png"]
-            ]
+            ["fillColorHex", ["red"]]
           ],
           "checks": [
             {

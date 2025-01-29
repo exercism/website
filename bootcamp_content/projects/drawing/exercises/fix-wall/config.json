@@ -1,5 +1,5 @@
 {
-  "title": "Fix the Wall",
+  "title": "Fix a Wall",
   "description": "Add some rectangles to fix the wall",
   "project_type": "draw",
   "level": 1,
@@ -32,17 +32,17 @@
               "error_html": "You didn't use fill_color_hex to choose a natural color for your bricks."
             },
             {
-              "name": "getRectangleAt(20, 20, 20, 10)",
+              "name": "getRectangleAt(10, 10, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The top hole isn't filled correctly."
             },
             {
-              "name": "getRectangleAt(0, 50, 20, 10)",
+              "name": "getRectangleAt(70, 30, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The left hole isn't filled correctly."
+              "error_html": "The middle hole isn't filled correctly."
             },
             {
-              "name": "getRectangleAt(60, 70, 20, 10)",
+              "name": "getRectangleAt(20, 60, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The bottom hole isn't filled correctly."
             }

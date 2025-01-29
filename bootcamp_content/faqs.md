@@ -80,7 +80,7 @@ Sign up with your Exercism login details and you'll have access to the private [
 - [Bootcamp Annoucements](https://forum.exercism.org/c/bootcamp/bootcamp-meta/666): A space where we post anything important for you to know.
 - [Bootcamp Exercise Help](https://forum.exercism.org/c/bootcamp/bootcamp-exercise-help/662): An area to get help on exercises.
 - [Bootcamp Conceptual Help](https://forum.exercism.org/c/bootcamp/bootcamp-conceptual-help/663): An area to get help on the concepts you're learning.
-- [Bootcamp Meta Discussions](https://forum.exercism.org/c/bootcamp/bootcamp-meta/664): An area to have discussions about the bootcamp
+- [Bootcamp Meta Discussions](https://forum.exercism.org/c/bootcamp/bootcamp-meta/664): An area to have discussions about the bootcamp.
 
 If you get stuck, this is the best place to ask for help.
 

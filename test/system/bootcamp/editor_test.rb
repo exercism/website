@@ -17,6 +17,8 @@ def change_codemirror_content(content)
   })
 end
 
+def check_scenarios = find("[data-ci='check-scenarios-button']").click
+
 module Bootcamp
   class EditorTest < ApplicationSystemTestCase
     test "things render" do
@@ -206,17 +208,98 @@ end))
   return "Even"
 end))
 
-        sleep 15
-
         find("[data-ci='check-scenarios-button']").click
         assert_selector(".c-scenario.fail")
-        refute_selector(".c-scenario.pending")
         refute_selector(".c-scenario.pass")
 
         refute_text "Nice work!"
         refute_selector ".solve-exercise-page-react-modal-content"
 
-        clear_editor
+        change_codemirror_content(%(
+          function even_or_odd with number do
+            if number % 2 equals 0 do
+              return "Even"
+            else do
+              return "Odd"
+            end
+          end
+                  ))
+        find("[data-ci='check-scenarios-button']").click
+
+        assert_text "Nice work!"
+        assert_selector ".solve-exercise-page-react-modal-content"
+        refute_selector(".c-scenario.fail")
+        assert_selector(".c-scenario.pass")
+      end
+    end
+
+    test "shows first failing case" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  return "Even"
+end))
+        find("[data-ci='check-scenarios-button']").click
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pass")
+        assert find(".test-button.fail.selected").has_text?("3")
+      end
+    end
+
+    test "stays on inspected failing scenario after rerunning code" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  return "Even"
+end))
+        check_scenarios
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pass")
+        assert find(".test-button.fail.selected").has_text?("3")
+        find(".test-button.fail", text: "4").click
+        check_scenarios
+        assert find(".test-button.fail.selected").has_text?("4")
+      end
+    end
+
+    test "selects last scenario on passing tests" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  return "Even"
+end))
+        check_scenarios
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pass")
+        assert find(".test-button.fail.selected").has_text?("3")
+        find(".test-button.fail", text: "4").click
+        check_scenarios
+        assert find(".test-button.fail.selected").has_text?("4")
+
+        change_codemirror_content(%(
+          function even_or_odd with number do
+            if number % 2 equals 0 do
+              return "Even"
+            else do
+              return "Odd"
+            end
+          end
+                  ))
+        check_scenarios
+        refute_selector('.test-button.fail')
+        assert find(".test-button.pass.selected").has_text?("5")
       end
     end
   end

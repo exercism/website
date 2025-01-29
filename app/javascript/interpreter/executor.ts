@@ -399,7 +399,7 @@ export class Executor {
             statement.location.absolute.begin + 22
           )
         )
-        this.error('InfiniteLoop', errorLoc)
+        this.error('MaxIterationsReached', errorLoc, { maxIterations })
       }
 
       this.guardInfiniteLoop(statement.location)

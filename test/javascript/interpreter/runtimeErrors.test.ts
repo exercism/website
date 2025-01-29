@@ -166,4 +166,21 @@ describe('Runtime errors', () => {
       )
     })
   })
+  test('MaxIterationsReached', () => {
+    const code = `repeat_until_game_over do
+                  end`
+
+    const maxIterations = 50
+    const { frames } = interpret(code, {
+      languageFeatures: { maxRepeatUntilGameOverIterations: maxIterations },
+    })
+    expectFrameToBeError(
+      frames[0],
+      'repeat_until_game_over',
+      'MaxIterationsReached'
+    )
+    expect(frames[0].error!.message).toBe(
+      `MaxIterationsReached: maxIterations: ${maxIterations}`
+    )
+  })
 })

@@ -118,6 +118,7 @@ export type RuntimeErrorType =
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
   | 'InvalidNestedFunction'
+  | 'MaxIterationsReached'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

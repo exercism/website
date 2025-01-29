@@ -71,6 +71,7 @@
       "CouldNotFindFunction": "CouldNotFindFunction: name: {{name}}",
       "CouldNotFindFunctionWithSuggestion": "CouldNotFindFunctionWithSuggestion: name: {{name}}, suggestion: {{suggestion}}",
       "InfiniteLoop": "InfiniteLoop",
+      "MaxIterationsReached": "MaxIterationsReached: maxIterations: {{maxIterations}}",
       "InvalidBinaryExpression": "InvalidBinaryExpression",
       "InvalidExpression": "InvalidExpression",
       "InvalidIndexGetterTarget": "InvalidIndexGetterTarget",

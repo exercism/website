@@ -91,7 +91,7 @@ If you get stuck, this is the best place to ask for help.
 We have a private #Bootcamp area.
 To access it you need to connect your Discord and Exercism accounts.
 [You do that here](https://exercism.org/settings/integrations).
-If after doing that, you still don't have access to #bootcamp, please ask for help in the public #bootcamp-signup-questions channel.
+If after doing that, you still don't have access to #bootcamp channel, please ask for help in the public #bootcamp-signup-questions channel.
 
 Use Discord to chat with other students, post your successes and stuggles, and be part of our community.
 

@@ -12,4 +12,14 @@ FactoryBot.define do
     slug { "penguin" }
     project { Bootcamp::Project.find_by(slug: "drawing") || create(:bootcamp_project, slug: "drawing") }
   end
+
+  trait :even_or_odd do
+    slug { "even-or-odd" }
+    project { Bootcamp::Project.find_by(slug: "numbers") || create(:bootcamp_project, slug: "numbers") }
+  end
+
+  trait :manual_solve do
+    slug { "manual-solve" }
+    project { Bootcamp::Project.find_by(slug: "maze") || create(:bootcamp_project, slug: "maze") }
+  end
 end

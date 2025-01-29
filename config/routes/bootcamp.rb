@@ -1,5 +1,6 @@
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard
+  get "faqs", to: "pages#faqs", as: :faqs
   resources "levels", param: :idx, only: %i[index show]
   resources "concepts", param: :slug, only: %i[index show]
   resources "projects", param: :slug, only: %i[index show] do

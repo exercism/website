@@ -14,7 +14,7 @@ export function processTasks(
     return {
       updatedTasks: [],
       numberOfCompletedTasks: 0,
-      areAllTasksCompleted: true,
+      areAllTasksCompleted: false,
       activeTaskIndex: 0,
     }
   }
@@ -33,8 +33,13 @@ export function processTasks(
       continue
     }
 
-    // always set the task to completed if all tests are passing
-    if (task.tests.every((test) => passingTests.has(test.name))) {
+    // Always set the task to completed if all tests are passing.
+    // Unless there are no tests, in which case we're in a weird state,
+    // but we shouldn't mark the whole thing as passing.
+    if (
+      task.tests.length > 0 &&
+      task.tests.every((test) => passingTests.has(test.name))
+    ) {
       updatedTasks.push({ ...task, status: 'completed' })
       numberOfCompletedTasks++
       continue
@@ -58,7 +63,10 @@ export function processTasks(
     updatedTasks.push(task)
   }
 
-  const areAllTasksCompleted = numberOfCompletedTasks === updatedTasks.length
+  // Ensure that we have **some** completed tasks to mark this as true.
+  // A lack of completed tasks should not mark the whole thing as completed.
+  const areAllTasksCompleted =
+    numberOfCompletedTasks > 0 && numberOfCompletedTasks === updatedTasks.length
 
   return {
     updatedTasks,

@@ -88,7 +88,7 @@ If you get stuck, this is the best place to ask for help.
 
 [Discord](https://exercism.org/r/discord) is our social space.
 
-We have a private #Bootcamp area.
+We have private Bootcamp channels (`#bootcamp`, `#bootcamp-announcements` and `#bootcamp-creations`) for you.
 To access it you need to connect your Discord and Exercism accounts.
 [You do that here](https://exercism.org/settings/integrations).
 If after doing that, you still don't have access to #bootcamp channel, please ask for help in the public #bootcamp-signup-questions channel.

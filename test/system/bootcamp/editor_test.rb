@@ -32,6 +32,55 @@ end
 
 def check_scenarios = find("[data-ci='check-scenarios-button']").click
 
+def toggle_information_tooltip = find("[data-ci=information-widget-toggle]").click
+
+def scrub_to__(value)
+  page.execute_script(%{
+    let scrubber = document.querySelector("[data-ci='scrubber-range-input']");
+    if (scrubber) {
+      let previousValue = scrubber.value;
+
+      let pointerDownEvent = new PointerEvent('pointerdown', { bubbles: true });
+      scrubber.dispatchEvent(pointerDownEvent);
+
+      let inputEvent = new Event('input', { bubbles: true });
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(scrubber, #{value});
+      scrubber.dispatchEvent(inputEvent);
+
+      let pointerMoveEvent = new PointerEvent('pointermove', { bubbles: true });
+      scrubber.dispatchEvent(pointerMoveEvent);
+
+      let pointerUpEvent = new PointerEvent('pointerup', { bubbles: true });
+      scrubber.dispatchEvent(pointerUpEvent);
+
+      let changeEvent = new Event('change', { bubbles: true });
+      scrubber.dispatchEvent(changeEvent);
+
+      console.log(`Scrubber moved from ${previousValue} to ${scrubber.value}`);
+    }
+  })
+end
+
+def scrub_to(value)
+  scrubber = find("[data-ci='scrubber-range-input']")
+
+  # Get slider dimensions
+  min = scrubber[:min].to_f
+  max = scrubber[:max].to_f
+  width = scrubber.native.rect.width
+
+  # Convert value into pixel offset
+  percent = (value - min) / (max - min)
+  x_offset = (percent * width).to_i - (width / 2) # Center-based calculation
+
+  # Perform the drag action
+  page.driver.browser.action.
+    click_and_hold(scrubber.native).
+    move_by(x_offset, 0).
+    release.
+    perform
+end
+
 module Bootcamp
   class EditorTest < ApplicationSystemTestCase
     test "things render" do
@@ -377,6 +426,48 @@ end))
 
         assert_text "This created a new variable called this and sets its value to 5."
         assert_selector ".information-tooltip.description"
+      end
+    end
+
+    test "can scrub between animation timeline frames" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(move()
+turn_right()
+))
+        check_scenarios
+
+        toggle_information_tooltip
+        assert_selector ".information-tooltip.description"
+        assert_text "This called the turn_right function."
+        scrub_to(0)
+        assert_text "This called the move function."
+      end
+    end
+
+    test "can scrub between io frames" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+          set this to 5
+          return "Even"
+        end))
+
+        check_scenarios
+
+        toggle_information_tooltip
+        assert_selector ".information-tooltip.description"
+        assert_text "This created a new variable called this and sets its value to 5."
+        scrub_to(1)
+        assert_text "This returned the value of undefined, which in this case is Even."
       end
     end
   end

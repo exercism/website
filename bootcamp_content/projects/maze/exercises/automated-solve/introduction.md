@@ -21,6 +21,6 @@ You can solve all the mazes using the following method (this is what we call an 
 - If you can turn left, turn left and move forward
 - Otherwise, if you can move forward, move forward.
 - Otherwise if you can turn right, turn right and move forward.
-- Otherwise turn around
+- Otherwise turn around and move forward
 
 This exercise is broken into different tasks. Follow the instructions below and as you completed each task, one or more the scenarios will complete, and more instructions will appear below!

@@ -37,6 +37,7 @@ function PreviewTestButtons() {
     <div className="test-selector-buttons ">
       {flatPreviewTaskTests.map((taskTest, testIdx) => (
         <button
+          data-ci="preview-scenario-button"
           key={testIdx}
           onClick={() => setInspectedPreviewTaskTest(taskTest)}
           className={assembleClassNames(

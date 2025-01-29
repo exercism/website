@@ -1,19 +1,7 @@
-//set x to -1
-//set y to -1
-//fill_color_hex("#AA4A44")
+// Use the fill_color_hex function to set the color
+fill_color_hex("#AA4A44")
 
-//repeat 10 times do
-//  change y to y + 1
-//  change x to -1
-//  repeat 5 times do
-//    change x to x + 1
-//    rectangle(x * 20, y * 10, 20, 10)
-//  end
-//end
-
-//fill_color_hex("#fff")
-
-fill_color_hex("orange")
+// Draw three rectangles that cover the holes.
 rectangle(20, 20, 20, 10)
 rectangle(0, 50, 20, 10)
 rectangle(60, 70, 20, 10)

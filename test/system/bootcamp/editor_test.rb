@@ -54,5 +54,124 @@ module Bootcamp
         assert_selector(".character")
       end
     end
+
+    test "shows failing tests state" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        find("[data-ci='check-scenarios-button']").click
+        assert_selector(".test-button.fail")
+        assert_selector(".c-scenario.fail")
+        assert_text "Uh Oh. You didn't reach the end of the maze. "
+      end
+    end
+
+    test "shows passing tests state" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        page.execute_script(%{
+          const observer = new MutationObserver((mutations, obs) => {
+            const ll = document.querySelector('.cm-line:last-of-type');
+            if (ll) {
+              ll.innerText = '\\nmove()\\nmove()\\nmove()\\nmove()';
+              obs.disconnect();
+              }
+              });
+
+              observer.observe(document.body, { childList: true, subtree: true });
+              })
+
+        find("[data-ci='check-scenarios-button']").click
+        refute_selector(".c-scneario.fail")
+        refute_selector(".c-scneario.pending")
+        assert_selector(".test-button.pass")
+        assert_selector(".c-scenario.pass")
+      end
+    end
+
+    test "shows modal on passing all tests and finishing timeline then tweaks further" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        page.execute_script(%{
+          const observer = new MutationObserver((mutations, obs) => {
+            const ll = document.querySelector('.cm-line:last-of-type');
+            if (ll) {
+              ll.innerText = '\\nmove()\\nmove()\\nmove()\\nmove()';
+              obs.disconnect();
+              }
+              });
+
+              observer.observe(document.body, { childList: true, subtree: true });
+          })
+
+        find("[data-ci='check-scenarios-button']").click
+
+        scrubber = find("[data-ci='scrubber-range-input']")
+        refute_equal scrubber.value, scrubber["max"]
+        refute_selector(".solve-exercise-page-react-modal-content")
+        sleep 1.5
+        assert_equal scrubber.value, scrubber["max"]
+        assert_selector(".solve-exercise-page-react-modal-content")
+
+        assert_text "Nice work!"
+        assert_selector ".solve-exercise-page-react-modal-content"
+        click_on "Tweak further"
+        refute_selector ".solve-exercise-page-react-modal-content"
+      end
+    end
+
+    test "shows modal on io test when all tasks are done" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        page.execute_script(%{
+          const observer = new MutationObserver((mutations, obs) => {
+            const ll = document.querySelector('.cm-line:last-of-type');
+            if (ll) {
+              ll.innerText = `
+function even_or_odd with number do
+  if number % 2 equals 0 do
+    return "Even"
+  else do
+    return "Odd"
+  end
+end`;
+              obs.disconnect();
+              }
+              });
+
+              observer.observe(document.body, { childList: true, subtree: true });
+              })
+
+        find("[data-ci='check-scenarios-button']").click
+        refute_selector(".c-scneario.fail")
+        refute_selector(".c-scneario.pending")
+        assert_selector(".test-button.pass")
+        assert_selector(".c-scenario.pass")
+
+        assert_text "Nice work!"
+        assert_selector ".solve-exercise-page-react-modal-content"
+        click_on "Tweak further"
+        refute_selector ".solve-exercise-page-react-modal-content"
+      end
+    end
   end
 end

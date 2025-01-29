@@ -352,11 +352,31 @@ end))
         assert_text "Jiki couldn't find a function with the name run_this_thing."
         assert_selector ".information-tooltip.error"
 
-        change_codemirror_content(%(function even_or_odd with number do
+        update_codemirror_content(%(function even_or_odd with number do
 return "Even"
 end))
         refute_text "Jiki couldn't find a function with the name run_this_thing."
         refute_selector ".information-tooltip.error"
+      end
+    end
+
+    test "can inspect line with information widget" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+  set this to 5
+  return "Even"
+end))
+        check_scenarios
+
+        find("[data-ci=information-widget-toggle]").click
+
+        assert_text "This created a new variable called this and sets its value to 5."
+        assert_selector ".information-tooltip.description"
       end
     end
   end

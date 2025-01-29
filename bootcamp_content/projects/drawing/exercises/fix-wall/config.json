@@ -29,7 +29,7 @@
             {
               "name": "wasFunctionUsed('fill_color_hex', null)",
               "matcher": "toBeTrue",
-              "error_html": "Yiu didn't use fill_color_hex to choose a natural color for your bricks."
+              "error_html": "You didn't use fill_color_hex to choose a natural color for your bricks."
             },
             {
               "name": "getRectangleAt(20, 20, 20, 10)",

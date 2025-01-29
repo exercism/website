@@ -32,6 +32,7 @@
 @import "../bootcamp/pages/concept";
 @import "../bootcamp/pages/levels";
 @import "../bootcamp/pages/level";
+@import "../bootcamp/pages/faqs";
 
 @import "../bootcamp/pages/admin/base";
 @import "../bootcamp/pages/admin/exercises";

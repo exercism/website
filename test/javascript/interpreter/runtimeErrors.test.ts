@@ -180,7 +180,22 @@ describe('Runtime errors', () => {
       'MaxIterationsReached'
     )
     expect(frames[0].error!.message).toBe(
-      `MaxIterationsReached: maxIterations: ${maxIterations}`
+      `MaxIterationsReached: max: ${maxIterations}`
     )
+  })
+
+  describe('RepeatCountTooHigh', () => {
+    test('default', () => {
+      const max = 100
+      const { frames } = interpret(`
+        repeat ${max + 1} times do
+        end
+      `)
+
+      expectFrameToBeError(frames[1], `${max + 1}`, 'RepeatCountTooHigh')
+      expect(frames[1].error!.message).toBe(
+        `RepeatCountTooHigh: count: 101, max: ${max}`
+      )
+    })
   })
 })

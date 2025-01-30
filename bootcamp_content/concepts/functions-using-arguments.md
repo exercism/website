@@ -22,6 +22,6 @@ You can see from the diagram, that the `rectangle` function has 4 inputs, the x 
 rectangle(10, 20, 40, 70);
 ```
 
-This tells Jiki that when he uses the `rectangle` function, he needs to put 10, 20, 40 and 70 into the input slots. The order is important - Jiki will put the first value you give it into the first slot, the second value into the second slot, etc.
+This tells Jiki that when he uses the `rectangle` function, he needs to put 10, 20, 40 and 70 into the input chutes. The order is important - Jiki will put the first value you give it into the first chute, the second value into the second chute, etc.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/using-rectangle-function.png" class="diagram"/>

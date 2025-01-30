@@ -59,7 +59,7 @@ export class Scanner {
     to: 'TO',
     true: 'TRUE',
     times: 'TIMES',
-    while: 'WHILE',
+    // while: 'WHILE',
     with: 'WITH',
   }
 
@@ -345,7 +345,7 @@ export class Scanner {
     this.addToken('NUMBER', Number.parseFloat(number))
   }
 
-  private tokenForLexeme(lexeme: string): string {
+  private tokenForLexeme(lexeme: string): string | null {
     if (lexeme == 'is') {
       return 'EQUALITY'
     }
@@ -353,7 +353,16 @@ export class Scanner {
       return 'EQUALITY'
     }
 
-    return Scanner.keywords[this.lexeme()]
+    const keyword = Scanner.keywords[this.lexeme()]
+    if (keyword) return keyword
+
+    if (Scanner.keywords[this.lexeme().toLowerCase()]) {
+      this.error('MiscapitalizedKeyword', {
+        actual: this.lexeme(),
+        expected: this.lexeme().toLowerCase(),
+      })
+    }
+    return null
   }
 
   private tokenizeIdentifier(): void {

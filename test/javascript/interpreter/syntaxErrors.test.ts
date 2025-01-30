@@ -502,4 +502,22 @@ describe('syntax errors', () => {
       `)
     ).toThrow('InvalidNestedFunction')
   })
+
+  describe('MiscapitalizedKeyword', () => {
+    test('initial letter is wrong', () => {
+      expect(() => parse('If x to 10')).toThrow(
+        'MiscapitalizedKeyword: actual: If, expected: if'
+      )
+    })
+    test('later letter is wrong', () => {
+      expect(() => parse('seT x to 10')).toThrow(
+        'MiscapitalizedKeyword: actual: seT, expected: set'
+      )
+    })
+    test('all wrong', () => {
+      expect(() => parse('FUNCTION something do')).toThrow(
+        'MiscapitalizedKeyword: actual: FUNCTION, expected: function'
+      )
+    })
+  })
 })

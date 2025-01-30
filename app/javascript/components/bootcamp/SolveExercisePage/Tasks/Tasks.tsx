@@ -43,12 +43,12 @@ function _Tasks() {
 
   if (!tasks) return null
   return (
-    <div data-cy="task-list" id="tasks">
+    <div data-ci="task-list" id="tasks">
       <div className="flex flex-row items-center justify-between">
         <h2>
           <span>Your</span> Tasks
         </h2>
-        <div data-cy="task-completion-count">
+        <div data-ci="task-completion-count">
           {numberOfCompletedTasks}/{numberOfTasks}
         </div>
       </div>

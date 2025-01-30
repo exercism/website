@@ -39,7 +39,7 @@ export function InformationWidgetToggleButton({
     }
   }, [shouldShowInformationWidget, inspectedTestResult])
   return (
-    <label className="switch">
+    <label data-ci="information-widget-toggle" className="switch">
       <input
         disabled={disabled}
         type="checkbox"

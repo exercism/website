@@ -22,7 +22,7 @@ export function _TaskPreview() {
   }
 
   return (
-    <section className="c-scenario pending">
+    <section data-ci="task-preview" className="c-scenario pending">
       {exercise.config.testsType === 'io' ? (
         <IOPreview inspectedPreviewTaskTest={inspectedPreviewTaskTest} />
       ) : (

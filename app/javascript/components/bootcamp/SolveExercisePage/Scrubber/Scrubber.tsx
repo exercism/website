@@ -38,7 +38,7 @@ function Scrubber({
 
   return (
     <div
-      data-cy="scrubber"
+      data-ci="scrubber"
       id="scrubber"
       onClick={() => {
         // we wanna focus the range input, so keyboard shortcuts work
@@ -60,7 +60,7 @@ function Scrubber({
         />
       )}
       <input
-        data-cy="scrubber-range-input"
+        data-ci="scrubber-range-input"
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           animationTimeline,

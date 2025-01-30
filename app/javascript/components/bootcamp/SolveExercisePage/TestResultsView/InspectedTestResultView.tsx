@@ -50,7 +50,7 @@ export function InspectedTestResultViewLHS({
     [flatPreviewTaskTests, result.testIndex]
   )
   return (
-    <div className="scenario-lhs">
+    <div data-ci="inspected-test-result-view" className="scenario-lhs">
       <div className="scenario-lhs-content">
         <h3>
           <strong>Scenario: </strong>

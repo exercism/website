@@ -2,19 +2,17 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
   before_action :use_solution
 
   def complete
+    old_level_idx = current_user.bootcamp_data.level_idx
     Bootcamp::Solution::Complete.(@solution)
+    new_level_idx = current_user.bootcamp_data.reload.level_idx
 
-    level_idx = @solution.exercise.level_idx
-    num_level_exercises = @solution.exercise.level.exercises.count
-    num_level_solutions = current_user.bootcamp_solutions.completed.
-      joins(:exercise).where('bootcamp_exercises.level_idx': level_idx).
-      count
-
-    if num_level_exercises == num_level_solutions
-      completed_level_idx = level_idx
-      next_level_idx = Bootcamp::Settings.level_idx > completed_level_idx ? completed_level_idx + 1 : nil
-    else
+    # If we're on the same level still, find the next exercise
+    # Otherwise we'll tell the student they've completed the level
+    if old_level_idx == new_level_idx
       next_exercise = Bootcamp::SelectNextExercise.(current_user)
+    else
+      completed_level_idx = old_level_idx
+      next_level_idx = new_level_idx if Bootcamp::Level.where(idx: new_level_idx).exists?
     end
 
     render json: {

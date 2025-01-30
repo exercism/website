@@ -369,13 +369,10 @@ export class Executor {
     }
 
     if (count > this.maxTotalLoopIterations) {
-      this.error(
-        'RepeatCountMustBeLessThanOneThousand',
-        statement.count.location,
-        {
-          count,
-        }
-      )
+      this.error('RepeatCountTooHigh', statement.count.location, {
+        count,
+        max: this.maxTotalLoopIterations,
+      })
     }
 
     while (count > 0) {
@@ -404,7 +401,9 @@ export class Executor {
             statement.location.absolute.begin + 22
           )
         )
-        this.error('MaxIterationsReached', errorLoc, { maxIterations })
+        this.error('MaxIterationsReached', errorLoc, {
+          max: this.maxRepeatUntilGameOverIterations,
+        })
       }
 
       this.guardInfiniteLoop(statement.location)

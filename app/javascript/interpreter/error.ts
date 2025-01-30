@@ -90,7 +90,7 @@ export type RuntimeErrorType =
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
   | 'RepeatCountMustBeGreaterThanZero'
-  | 'RepeatCountMustBeLessThanOneThousand'
+  | 'RepeatCountTooHigh'
   | 'NonCallableTarget'
   | 'InfiniteLoop'
   | 'TooFewArguments'

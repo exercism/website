@@ -456,7 +456,7 @@ turn_right()
         assert_selector ".information-tooltip.description"
         assert_text "This created a new variable called this and sets its value to 5."
         scrub_to(1)
-        assert_text "This returned the value of undefined, which in this case is Even."
+        assert_text "This returned Even."
       end
     end
 

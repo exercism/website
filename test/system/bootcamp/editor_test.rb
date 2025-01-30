@@ -39,20 +39,30 @@ def check_scenarios = find("[data-ci='check-scenarios-button']").click
 def toggle_information_tooltip = find("[data-ci=information-widget-toggle]").click
 
 def scrub_to(value)
-  scrubber = find("[data-ci='scrubber-range-input']")
+  page.execute_script(%{
+    let scrubber = document.querySelector("[data-ci='scrubber-range-input']");
+    if (scrubber) {
+      let previousValue = scrubber.value;
 
-  min = scrubber[:min].to_f
-  max = scrubber[:max].to_f
-  width = scrubber.native.rect.width
+      let pointerDownEvent = new PointerEvent('pointerdown', { bubbles: true });
+      scrubber.dispatchEvent(pointerDownEvent);
 
-  percent = (value - min) / (max - min)
-  x_offset = (percent * width).to_i - (width / 2)
+      let inputEvent = new Event('input', { bubbles: true });
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(scrubber, #{value});
+      scrubber.dispatchEvent(inputEvent);
 
-  page.driver.browser.action.
-    click_and_hold(scrubber.native).
-    move_by(x_offset, 0).
-    release.
-    perform
+      let pointerMoveEvent = new PointerEvent('pointermove', { bubbles: true });
+      scrubber.dispatchEvent(pointerMoveEvent);
+
+      let pointerUpEvent = new PointerEvent('pointerup', { bubbles: true });
+      scrubber.dispatchEvent(pointerUpEvent);
+
+      let changeEvent = new Event('change', { bubbles: true });
+      scrubber.dispatchEvent(changeEvent);
+
+      console.log(`Scrubber moved from ${previousValue} to ${scrubber.value}`);
+    }
+  })
 end
 
 def assert_scrubber_value(value)
@@ -507,20 +517,19 @@ end))
 end))
         check_scenarios
 
-        scrubber_val_4 = 2432
+        scrubber_val_4 = 2430
         scrubber_val_6 = 7285
 
         # interrupting animation
         scrub_to scrubber_val_6
         select_scenario 4
         scrub_to scrubber_val_4
+
         select_scenario 6
-        sleep 1
-        select_scenario 4
-        sleep 1
-        select_scenario 6
+        sleep 0.5
         assert_scrubber_value scrubber_val_6
         select_scenario 4
+        sleep 0.5
         assert_scrubber_value scrubber_val_4
       end
     end

@@ -22,4 +22,9 @@ FactoryBot.define do
     slug { "manual-solve" }
     project { Bootcamp::Project.find_by(slug: "maze") || create(:bootcamp_project, slug: "maze") }
   end
+
+  trait :automated_solve do
+    slug { "automated-solve" }
+    project { Bootcamp::Project.find_by(slug: "maze") || create(:bootcamp_project, slug: "maze") }
+  end
 end

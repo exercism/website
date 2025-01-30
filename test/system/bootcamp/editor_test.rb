@@ -30,7 +30,35 @@ def update_codemirror_content(content)
   })
 end
 
+def select_scenario(number)
+  find("[data-ci='test-selector-button']:nth-of-type(#{number})").click
+end
+
 def check_scenarios = find("[data-ci='check-scenarios-button']").click
+
+def toggle_information_tooltip = find("[data-ci=information-widget-toggle]").click
+
+def scrub_to(value)
+  scrubber = find("[data-ci='scrubber-range-input']")
+
+  min = scrubber[:min].to_f
+  max = scrubber[:max].to_f
+  width = scrubber.native.rect.width
+
+  percent = (value - min) / (max - min)
+  x_offset = (percent * width).to_i - (width / 2)
+
+  page.driver.browser.action.
+    click_and_hold(scrubber.native).
+    move_by(x_offset, 0).
+    release.
+    perform
+end
+
+def assert_scrubber_value(value)
+  scrubber = find("[data-ci='scrubber-range-input']")
+  assert_equal value, scrubber.value.to_i
+end
 
 module Bootcamp
   class EditorTest < ApplicationSystemTestCase
@@ -377,6 +405,123 @@ end))
 
         assert_text "This created a new variable called this and sets its value to 5."
         assert_selector ".information-tooltip.description"
+      end
+    end
+
+    test "can scrub between animation timeline frames" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(move()
+turn_right()
+))
+        check_scenarios
+
+        toggle_information_tooltip
+        assert_selector ".information-tooltip.description"
+        assert_text "This called the turn_right function."
+        scrub_to(0)
+        assert_text "This called the move function."
+      end
+    end
+
+    test "can scrub between io frames" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(function even_or_odd with number do
+          set this to 5
+          return "Even"
+        end))
+
+        check_scenarios
+
+        toggle_information_tooltip
+        assert_selector ".information-tooltip.description"
+        assert_text "This created a new variable called this and sets its value to 5."
+        scrub_to(1)
+        assert_text "This returned the value of undefined, which in this case is Even."
+      end
+    end
+
+    test "scrubbing interrupts animation" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        scrubber_val_6 = 7285
+
+        # interrupting animation
+        scrub_to scrubber_val_6
+        sleep 0.1
+        assert_scrubber_value scrubber_val_6
+        sleep 0.5
+        assert_scrubber_value scrubber_val_6
+      end
+    end
+
+    test "keeps scrubber value between inspected scenarios" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        scrubber_val_4 = 2432
+        scrubber_val_6 = 7285
+
+        # interrupting animation
+        scrub_to scrubber_val_6
+        select_scenario 4
+        scrub_to scrubber_val_4
+        select_scenario 6
+        sleep 1
+        select_scenario 4
+        sleep 1
+        select_scenario 6
+        assert_scrubber_value scrubber_val_6
+        select_scenario 4
+        assert_scrubber_value scrubber_val_4
       end
     end
   end

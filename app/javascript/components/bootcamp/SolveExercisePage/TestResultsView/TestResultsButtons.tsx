@@ -20,6 +20,7 @@ export function TestResultsButtons() {
       {testSuiteResult.tests.map((test, idx) => {
         return (
           <button
+            data-ci="test-selector-button"
             key={test.name + idx}
             onClick={() =>
               handleSetInspectedTestResult({

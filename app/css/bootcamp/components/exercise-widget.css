@@ -26,7 +26,7 @@
         @apply mb-2;
     }
     .description {
-        @apply text-15 leading-140;
+        @apply text-15 leading-140 pr-24;
     }
     .tag {
         width: 20px;

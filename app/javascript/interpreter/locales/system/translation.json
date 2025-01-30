@@ -58,7 +58,7 @@
       "UnexpectedSpaceInIdentifier": "UnexpectedSpaceInIdentifier: first_half: {{first_half}}, second_half: {{second_half}}",
       "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
       "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
-      "UnexpectedChainedEquality": "UnexpectedChainedEquality"
+      "UnexpectedChainedEquality": "UnexpectedChainedEquality",
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}"
     },
     "semantic": {

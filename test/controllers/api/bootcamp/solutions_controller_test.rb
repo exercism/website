@@ -44,7 +44,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
 
     freeze_time do
       user = create :user, :with_bootcamp_data
-      2.times { create :bootcamp_level }
+      3.times { create :bootcamp_level }
       l1e1 = create(:bootcamp_exercise, level_idx: 1)
       l1e2 = create(:bootcamp_exercise, level_idx: 1)
       l2e1 = create(:bootcamp_exercise, level_idx: 2)

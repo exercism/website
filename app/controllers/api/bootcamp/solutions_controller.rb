@@ -12,7 +12,7 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
       next_exercise = Bootcamp::SelectNextExercise.(current_user)
     else
       completed_level_idx = old_level_idx
-      next_level_idx = new_level_idx if Bootcamp::Level.where(idx: new_level_idx).exists?
+      next_level_idx = Bootcamp::Settings.level_idx >= new_level_idx ? new_level_idx : nil
     end
 
     render json: {

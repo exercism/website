@@ -119,6 +119,7 @@ export type RuntimeErrorType =
   | 'ExpectedFunctionHasWrongArguments'
   | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
+  | 'InfiniteRecursion'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

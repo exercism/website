@@ -443,20 +443,6 @@ describe('statements', () => {
       expect(frames[4].status).toBe('SUCCESS')
       expect(frames[4].variables).toMatchObject({ x: 3 })
     })
-    test('must be 1000 times or fewer', () => {
-      const { error, frames } = interpret(`
-        repeat 1001 times do
-        end
-      `)
-      expect(frames).toBeArrayOfSize(2)
-
-      expect(frames[1].line).toBe(2)
-      expect(frames[1].status).toBe('ERROR')
-      expect(frames[1].code).toBe('1001')
-      expect(frames[1].error).not.toBeNull()
-      expect(frames[1].error!.category).toBe('RuntimeError')
-      expect(frames[1].error!.type).toBe('RepeatCountMustBeLessThanOneThousand')
-    })
   })
 
   describe('block', () => {

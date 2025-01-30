@@ -12,7 +12,7 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
 
     if num_level_exercises == num_level_solutions
       completed_level_idx = level_idx
-      next_level_idx = Bootcamp::Settings.level_idx > completed_level_idx ? completed_level_idx + 1 : nil
+      next_level_idx = current_user.bootcamp_data.level_idx
     else
       next_exercise = Bootcamp::SelectNextExercise.(current_user)
     end

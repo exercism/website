@@ -503,6 +503,15 @@ describe('syntax errors', () => {
     ).toThrow('InvalidNestedFunction')
   })
 
+  describe('chained things', () => {
+    test('triple equals', () => {
+      expect(() => parse('1 == 2 == 3')).toThrow('UnexpectedChainedEquality')
+    })
+    test.skip('triple not equals', () => {
+      expect(() => parse('1 != 2 != 3')).toThrow('UnexpectedChainedEquality')
+    })
+  })
+
   describe('MiscapitalizedKeyword', () => {
     test('initial letter is wrong', () => {
       expect(() => parse('If x to 10')).toThrow(

@@ -73,6 +73,7 @@ export type SyntaxErrorType =
   | 'MissingTimesInRepeat'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
+  | 'UnexpectedChainedEquality'
   | 'MiscapitalizedKeyword'
 
 export type SemanticErrorType =

@@ -617,7 +617,7 @@ export class Parser {
     // e.g. foobar()[0]
     while (this.match('LEFT_BRACKET')) {
       const leftBracket = this.previous()
-      if (!this.match('STRING', 'NUMBER'))
+      if (!this.match('STRING', 'NUMBER', 'IDENTIFIER'))
         this.error(
           'MissingFieldNameOrIndexAfterLeftBracket',
           leftBracket.location,

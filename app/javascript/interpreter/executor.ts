@@ -937,7 +937,16 @@ export class Executor {
       }
     }
 
-    if (isArray(obj.value) && expression.field.type === 'NUMBER') {
+    if (isArray(obj.value)) {
+      let field
+      if (expression.field.type === 'NUMBER') {
+        field = expression.field.literal
+      } else if (expression.field.type === 'IDENTIFIER') {
+        field = this.lookupVariable(expression.field)
+      }
+
+      const value = obj.value[field - 1] // 1-indexd
+
       // TODO: consider if we want to throw an error when the index does not exist or return null
       return {
         type: 'GetExpression',
@@ -945,8 +954,8 @@ export class Executor {
         expression: `${expression.obj.location.toCode(this.sourceCode)}[${
           expression.field.lexeme
         }]`,
-        field: expression.field.literal,
-        value: obj.value[expression.field.literal],
+        field,
+        value,
       }
     }
 

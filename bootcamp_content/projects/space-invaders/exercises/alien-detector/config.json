@@ -1,14 +1,14 @@
 {
-  "title": "Scroll and Shoot",
+  "title": "Alien Detector",
   "description": "Move your laser from left to right and shoot the aliens.",
   "project_type": "space-invaders",
-  "level": 3,
+  "level": 5,
   "idx": 5,
   "tests_type": "state",
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 100
   },
-  "exercise_functions": ["move_left", "move_right", "is_alien_above", "shoot"],
+  "exercise_functions": ["move_left", "move_right", "shoot", "get_alien_row"],
   "tasks": [
     {
       "name": "Move your laser from left to right and shoot the aliens.",

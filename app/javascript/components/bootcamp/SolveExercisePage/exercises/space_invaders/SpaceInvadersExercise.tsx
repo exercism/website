@@ -1,7 +1,7 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
-import { random } from 'lodash'
+import { cloneDeep, random } from 'lodash'
 import { d } from '@codemirror/legacy-modes/mode/d'
 
 type GameStatus = 'running' | 'won' | 'lost'
@@ -296,6 +296,17 @@ export default class SpaceInvadersExercise extends Exercise {
     this.moveLaser(executionCtx)
   }
 
+  public getAlienRow(executionCtx: ExecutionContext, row: number) {
+    // 1-indexed to 0-indexed
+    const now = executionCtx.getCurrentTime()
+    return this.aliens.toReversed()[row - 1].map((alien) => {
+      if (alien === null) {
+        return ''
+      }
+      return alien.isAlive(now) ? 'alive' : 'dead'
+    })
+  }
+
   public availableFunctions = [
     {
       name: 'runGame',
@@ -322,6 +333,11 @@ export default class SpaceInvadersExercise extends Exercise {
       func: this.isAlienAbove.bind(this),
       description:
         'Returns a boolean indicating if there is an alien above the laser canon',
+    },
+    {
+      name: 'get_alien_row',
+      func: this.getAlienRow.bind(this),
+      description: 'Returns the row of the aliens at the index you input.',
     },
   ]
 }

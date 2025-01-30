@@ -3,7 +3,7 @@ require_relative '../base_test_case'
 class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
   test "complete: proxies and returns 200" do
     freeze_time do
-      user = create :user
+      user = create :user, :with_bootcamp_data
       solution = create(:bootcamp_solution, user:)
 
       setup_user(user)
@@ -20,7 +20,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
 
   test "complete: returns next exercise" do
     freeze_time do
-      user = create :user
+      user = create :user, :with_bootcamp_data
       solution = create(:bootcamp_solution, user:)
       project = solution.project
       create(:bootcamp_user_project, user:, project:)
@@ -43,7 +43,7 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
     Bootcamp::Settings.instance.update(level_idx: 2)
 
     freeze_time do
-      user = create :user
+      user = create :user, :with_bootcamp_data
       2.times { create :bootcamp_level }
       l1e1 = create(:bootcamp_exercise, level_idx: 1)
       l1e2 = create(:bootcamp_exercise, level_idx: 1)

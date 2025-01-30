@@ -9,10 +9,6 @@ Jeremy and the mentors are here to help answer your questions and help you get u
 
 The [first video (01:12:04)](https://www.youtube.com/live/bOAL_EIFwhg?si=9A4v_mx2s2b4sRsx&t=4324) Jeremy goes through all of this in great depth, including showing how to use spoilers, codeblocks, Discord and the Forum.
 
-How to ask questions (no images, codeblock and spoiler, code and error).
-
-Link to YouTube video one
-
 ### Using Codeblocks
 
 When you share code anywhere, it's polite to use codeblocks.

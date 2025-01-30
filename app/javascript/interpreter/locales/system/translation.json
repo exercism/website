@@ -57,7 +57,8 @@
       "UnknownCharacter": "UnknownCharacter: character: {{character}}",
       "UnexpectedSpaceInIdentifier": "UnexpectedSpaceInIdentifier: first_half: {{first_half}}, second_half: {{second_half}}",
       "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
-      "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment"
+      "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
+      "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

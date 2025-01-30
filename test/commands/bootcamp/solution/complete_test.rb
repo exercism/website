@@ -18,7 +18,7 @@ class Bootcamp::Solution::CompleteTest < ActiveSupport::TestCase
 
   test "updates the status of the project" do
     freeze_time do
-      user = create :user
+      user = create :user, :with_bootcamp_data
       project = create :bootcamp_project
       user_project = create(:bootcamp_user_project, user:, project:)
       exercise = create(:bootcamp_exercise, project:)

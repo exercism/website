@@ -21,14 +21,6 @@ export function describeError(error: StaticError) {
 
   let output = `<h2>${errorHeading}</h2>`
   output += `<div class="content">${marked.parse(error.message)}`
-  if (error.context && error.context.didYouMean) {
-    if (error.context.didYouMean.variable) {
-      output += `<p>Did you mean <code>${error.context.didYouMean.variable}</code>?</p>`
-    }
-    if (error.context.didYouMean.function) {
-      output += `<p>Did you mean to call the <code>${error.context.didYouMean.function}</code> function?</p>`
-    }
-  }
   output += `</div>`
   return output
 }

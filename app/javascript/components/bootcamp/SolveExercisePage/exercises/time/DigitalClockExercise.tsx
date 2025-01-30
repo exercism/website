@@ -2,19 +2,13 @@ import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
 
-type GameStatus = 'running' | 'won' | 'lost'
-type AlienStatus = 'alive' | 'dead'
 class Alien {
-  public status: AlienStatus
-
   public constructor(
     public elem: HTMLElement,
     row: number,
     col: number,
     type: number
-  ) {
-    this.status = 'alive'
-  }
+  ) {}
 }
 export default class DigitalClockExercise extends Exercise {
   private displayedTime?: String
@@ -68,7 +62,7 @@ export default class DigitalClockExercise extends Exercise {
     return { displayedTime: this.displayedTime }
   }
 
-  public setTime(hours: number, minutes: number) {
+  public setTime(_: ExecutionContext, hours: number, minutes: number) {
     this.hours = hours
     this.minutes = minutes
   }

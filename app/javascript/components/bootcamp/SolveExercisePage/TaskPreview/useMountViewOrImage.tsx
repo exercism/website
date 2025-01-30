@@ -36,7 +36,7 @@ export function useMountViewOrImage({
           return
         }
         if (typeof exercise[functionName] === 'function') {
-          ;(exercise[functionName] as Function)(...params)
+          ;(exercise[functionName] as Function)(null, ...params)
         }
       })
       if (exercise && exercise.getView()) {

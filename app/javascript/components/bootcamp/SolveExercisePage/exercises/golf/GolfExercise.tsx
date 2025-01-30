@@ -17,7 +17,7 @@ export default class GolfExercise extends DrawExercise {
     this.shotLength = 0
   }
 
-  setShotLength(length: number) {
+  setShotLength(_: ExecutionContext, length: number) {
     this.shotLength = length
   }
   getShotLength(_: ExecutionContext): number {

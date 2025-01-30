@@ -3,11 +3,13 @@
   "title": "Drawing",
   "description": "With only a few basic shapes you can draw and animate almost anything.",
   "exercises": [
+    "fix-wall",
     "penguin",
     "jumbled-house",
     "structured-house",
     "rainbow",
     "sunset",
+    "build-wall",
     "sprouting-flower",
     "rainbow-ball"
   ]

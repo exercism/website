@@ -486,7 +486,7 @@ end))
 end))
         check_scenarios
 
-        sleep 1
+        sleep 1.5
         select_scenario 1
         assert_text "Nice work!"
         assert_selector ".solve-exercise-page-react-modal-content"

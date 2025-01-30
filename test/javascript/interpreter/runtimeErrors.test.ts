@@ -183,4 +183,13 @@ describe('Runtime errors', () => {
       `MaxIterationsReached: maxIterations: ${maxIterations}`
     )
   })
+  test('InfiniteRecursion', () => {
+    const code = `function foo do
+                    foo()
+                  end
+                  foo()`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foo()', 'InfiniteRecursion')
+    expect(frames[0].error!.message).toBe('InfiniteRecursion')
+  })
 })

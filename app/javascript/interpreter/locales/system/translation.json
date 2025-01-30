@@ -98,7 +98,8 @@
       "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",
       "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
       "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}",
-      "InvalidNestedFunction": "InvalidNestedFunction"
+      "InvalidNestedFunction": "InvalidNestedFunction",
+      "InfiniteRecursion": "InfiniteRecursion"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

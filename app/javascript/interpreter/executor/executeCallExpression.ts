@@ -106,9 +106,12 @@ export function executeCallExpression(
   } catch (e) {
     if (e instanceof FunctionCallTypeMismatchError) {
       executor.error('FunctionCallTypeMismatch', expression.location, e.context)
-    }
-    if (e instanceof LogicError) {
+    } else if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
+    } else if (e instanceof RangeError) {
+      executor.error('InfiniteRecursion', expression.location, {
+        message: e.message,
+      })
     } else {
       throw e
     }

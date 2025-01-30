@@ -11,5 +11,5 @@ The final wall should look like this:
 Things you need to know:
 
 - Each brick is 10 high and 20 wide.
-- The rows alternative between bricks starting at the left edge, and bricks that start to the left of that.
+- The rows alternate between bricks starting at the left edge, and bricks that start to the left of that.
 - The `rectangle` function can only appear once in your code!

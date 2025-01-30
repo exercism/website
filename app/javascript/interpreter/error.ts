@@ -74,6 +74,7 @@ export type SyntaxErrorType =
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
   | 'UnexpectedChainedEquality'
+  | 'MiscapitalizedKeyword'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -91,7 +92,7 @@ export type RuntimeErrorType =
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
   | 'RepeatCountMustBeGreaterThanZero'
-  | 'RepeatCountMustBeLessThanOneThousand'
+  | 'RepeatCountTooHigh'
   | 'NonCallableTarget'
   | 'InfiniteLoop'
   | 'TooFewArguments'
@@ -120,6 +121,7 @@ export type RuntimeErrorType =
   | 'ExpectedFunctionHasWrongArguments'
   | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
+  | 'InfiniteRecursion'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

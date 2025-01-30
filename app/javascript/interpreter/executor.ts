@@ -71,6 +71,8 @@ export class Executor {
   private location: Location | null = null
   private time: number = 0
   private totalLoopIterations = 0 // TODO: Every time a loop iterates, use this to guard
+  private maxTotalLoopIterations = 0 // TODO: Every time a loop iterates, use this to guard
+  private maxRepeatUntilGameOverIterations = 0
 
   private readonly globals = new Environment()
   private environment = this.globals
@@ -104,6 +106,11 @@ export class Executor {
 
       this.globals.define(externalFunction.name, callable)
     }
+    this.maxTotalLoopIterations =
+      this.languageFeatures.maxTotalLoopIterations || 100
+
+    this.maxRepeatUntilGameOverIterations =
+      this.languageFeatures.maxRepeatUntilGameOverIterations || 100
   }
 
   public updateState(name: string, value: any) {
@@ -361,14 +368,11 @@ export class Executor {
       })
     }
 
-    if (count > 1000) {
-      this.error(
-        'RepeatCountMustBeLessThanOneThousand',
-        statement.count.location,
-        {
-          count,
-        }
-      )
+    if (count > this.maxTotalLoopIterations) {
+      this.error('RepeatCountTooHigh', statement.count.location, {
+        count,
+        max: this.maxTotalLoopIterations,
+      })
     }
 
     while (count > 0) {
@@ -385,12 +389,10 @@ export class Executor {
     statement: RepeatUntilGameOverStatement
   ): void {
     let count = 0 // Count is a guard against infinite looping
-    const maxIterations =
-      this.languageFeatures.maxRepeatUntilGameOverIterations || 1000
 
     while (!this.externalState.gameOver) {
       this.guardInfiniteLoop(statement.location)
-      if (count >= maxIterations) {
+      if (count >= this.maxRepeatUntilGameOverIterations) {
         const errorLoc = new Location(
           statement.location.line,
           statement.location.relative,
@@ -399,7 +401,9 @@ export class Executor {
             statement.location.absolute.begin + 22
           )
         )
-        this.error('MaxIterationsReached', errorLoc, { maxIterations })
+        this.error('MaxIterationsReached', errorLoc, {
+          max: this.maxRepeatUntilGameOverIterations,
+        })
       }
 
       this.guardInfiniteLoop(statement.location)

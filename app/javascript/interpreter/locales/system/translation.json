@@ -59,6 +59,7 @@
       "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
       "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
       "UnexpectedChainedEquality": "UnexpectedChainedEquality"
+      "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -72,7 +73,7 @@
       "CouldNotFindFunction": "CouldNotFindFunction: name: {{name}}",
       "CouldNotFindFunctionWithSuggestion": "CouldNotFindFunctionWithSuggestion: name: {{name}}, suggestion: {{suggestion}}",
       "InfiniteLoop": "InfiniteLoop",
-      "MaxIterationsReached": "MaxIterationsReached: maxIterations: {{maxIterations}}",
+      "MaxIterationsReached": "MaxIterationsReached: max: {{max}}",
       "InvalidBinaryExpression": "InvalidBinaryExpression",
       "InvalidExpression": "InvalidExpression",
       "InvalidIndexGetterTarget": "InvalidIndexGetterTarget",
@@ -87,6 +88,7 @@
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
+      "RepeatCountTooHigh": "RepeatCountTooHigh: count: {{count}}, max: {{max}}",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
@@ -99,7 +101,8 @@
       "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",
       "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
       "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}",
-      "InvalidNestedFunction": "InvalidNestedFunction"
+      "InvalidNestedFunction": "InvalidNestedFunction",
+      "InfiniteRecursion": "InfiniteRecursion"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

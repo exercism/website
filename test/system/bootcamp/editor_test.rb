@@ -533,5 +533,35 @@ end))
         assert_scrubber_value scrubber_val_4
       end
     end
+
+    test "switching to completed timeline scenario immediately fires complete modal" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        sleep 1
+        select_scenario 1
+        assert_text "Nice work!"
+        assert_selector ".solve-exercise-page-react-modal-content"
+      end
+    end
   end
 end

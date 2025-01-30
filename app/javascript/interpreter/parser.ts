@@ -506,8 +506,9 @@ export class Parser {
   private equality(): Expression {
     let expr = this.comparison()
 
-    while (this.match('EQUALITY')) {
-      let operator = this.previous()
+    const nextToken = this.peek()
+    if (nextToken.type == 'EQUALITY' || nextToken.type == 'INEQUALITY') {
+      const operator = this.advance()
       const right = this.comparison()
       expr = new BinaryExpression(
         expr,
@@ -515,9 +516,10 @@ export class Parser {
         right,
         Location.between(expr, right)
       )
+      this.guardDoubleEquality()
+    } else {
+      this.guardEqualsSignForEquality(this.peek())
     }
-
-    this.guardEqualsSignForEquality(this.peek())
 
     return expr
   }
@@ -525,16 +527,7 @@ export class Parser {
   private comparison(): Expression {
     let expr = this.term()
 
-    while (
-      this.match(
-        'GREATER',
-        'GREATER_EQUAL',
-        'LESS',
-        'LESS_EQUAL',
-        'EQUALITY',
-        'INEQUALITY'
-      )
-    ) {
+    while (this.match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
       const operator = this.previous()
       const right = this.term()
       expr = new BinaryExpression(
@@ -920,6 +913,13 @@ export class Parser {
   private guardEqualsSignForEquality(token: Token) {
     if (token.type == 'EQUAL') {
       this.error('UnexpectedEqualsForEquality', token.location)
+    }
+  }
+
+  private guardDoubleEquality() {
+    const nextToken = this.peek()
+    if (nextToken.type == 'EQUALITY' || nextToken.type == 'INEQUALITY') {
+      this.error('UnexpectedChainedEquality', nextToken.location)
     }
   }
 

@@ -73,6 +73,7 @@ export type SyntaxErrorType =
   | 'MissingTimesInRepeat'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
+  | 'UnexpectedChainedEquality'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

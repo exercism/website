@@ -25,6 +25,7 @@ export type LanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
   repeatDelay: number
+  maxTotalLoopIterations: number
   maxRepeatUntilGameOverIterations: number
   allowGlobals: boolean
 }
@@ -33,6 +34,7 @@ export type InputLanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
   repeatDelay?: number
+  maxTotalLoopIterations?: number
   maxRepeatUntilGameOverIterations?: number
   allowGlobals?: boolean
 }

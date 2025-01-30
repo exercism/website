@@ -8,8 +8,10 @@
   "tests_type": "state",
   "readonly_ranges": [],
   "interpreter_options": {
+    "max_total_loop_iterations": 1000,
     "repeat_delay": 10
   },
+
   "tasks": [
     {
       "name": "Draw the scene",

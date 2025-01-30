@@ -30,55 +30,34 @@ def update_codemirror_content(content)
   })
 end
 
+def select_scenario(number)
+  find("[data-ci='test-selector-button']:nth-of-type(#{number})").click
+end
+
 def check_scenarios = find("[data-ci='check-scenarios-button']").click
 
 def toggle_information_tooltip = find("[data-ci=information-widget-toggle]").click
 
-def scrub_to__(value)
-  page.execute_script(%{
-    let scrubber = document.querySelector("[data-ci='scrubber-range-input']");
-    if (scrubber) {
-      let previousValue = scrubber.value;
-
-      let pointerDownEvent = new PointerEvent('pointerdown', { bubbles: true });
-      scrubber.dispatchEvent(pointerDownEvent);
-
-      let inputEvent = new Event('input', { bubbles: true });
-      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(scrubber, #{value});
-      scrubber.dispatchEvent(inputEvent);
-
-      let pointerMoveEvent = new PointerEvent('pointermove', { bubbles: true });
-      scrubber.dispatchEvent(pointerMoveEvent);
-
-      let pointerUpEvent = new PointerEvent('pointerup', { bubbles: true });
-      scrubber.dispatchEvent(pointerUpEvent);
-
-      let changeEvent = new Event('change', { bubbles: true });
-      scrubber.dispatchEvent(changeEvent);
-
-      console.log(`Scrubber moved from ${previousValue} to ${scrubber.value}`);
-    }
-  })
-end
-
 def scrub_to(value)
   scrubber = find("[data-ci='scrubber-range-input']")
 
-  # Get slider dimensions
   min = scrubber[:min].to_f
   max = scrubber[:max].to_f
   width = scrubber.native.rect.width
 
-  # Convert value into pixel offset
   percent = (value - min) / (max - min)
-  x_offset = (percent * width).to_i - (width / 2) # Center-based calculation
+  x_offset = (percent * width).to_i - (width / 2)
 
-  # Perform the drag action
   page.driver.browser.action.
     click_and_hold(scrubber.native).
     move_by(x_offset, 0).
     release.
     perform
+end
+
+def assert_scrubber_value(value)
+  scrubber = find("[data-ci='scrubber-range-input']")
+  assert_equal value, scrubber.value.to_i
 end
 
 module Bootcamp
@@ -468,6 +447,47 @@ turn_right()
         assert_text "This created a new variable called this and sets its value to 5."
         scrub_to(1)
         assert_text "This returned the value of undefined, which in this case is Even."
+      end
+    end
+
+    test "keeps scrubber value between inspected scenarios" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        scrubber_val_4 = 2432
+        scrubber_val_6 = 7285
+
+        # interrupting animation
+        scrub_to scrubber_val_6
+        select_scenario 4
+        scrub_to scrubber_val_4
+        select_scenario 6
+        sleep 1
+        select_scenario 4
+        sleep 1
+        select_scenario 6
+        assert_scrubber_value scrubber_val_6
+        select_scenario 4
+        assert_scrubber_value scrubber_val_4
       end
     end
   end

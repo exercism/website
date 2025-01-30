@@ -450,6 +450,40 @@ turn_right()
       end
     end
 
+    test "scrubbing interrupts animation" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        scrubber_val_6 = 7285
+
+        # interrupting animation
+        scrub_to scrubber_val_6
+        sleep 0.1
+        assert_scrubber_value scrubber_val_6
+        sleep 0.5
+        assert_scrubber_value scrubber_val_6
+      end
+    end
+
     test "keeps scrubber value between inspected scenarios" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :automated_solve

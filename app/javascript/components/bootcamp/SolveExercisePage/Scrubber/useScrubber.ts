@@ -425,7 +425,7 @@ export function useScrubber({
 
   useEffect(() => {
     updateInputBackground()
-  }, [value])
+  }, [value, inspectedTestResult])
 
   return {
     value,

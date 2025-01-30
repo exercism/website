@@ -511,10 +511,10 @@ end))
       end
     end
 
-    test "hide button hides error information widget" do
-      user = create(:user, bootcamp_attendee: true)
-      exercise = create :bootcamp_exercise, :penguin
 
+    test "interrupt animation on scenario change" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
@@ -650,6 +650,38 @@ asdf()
         refute_selector(".test-button.pass")
         refute_selector(".c-scenario.pass")
         assert_text "Your code has an error in it."
+      end
+    end
+
+    test "hide button hides error information widget" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :penguin
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+        change_codemirror_content(%(repeat_until_game_over do
+
+
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        select_scenario 4
+        scrubber = find("[data-ci='scrubber-range-input']")
+        scrubber_val = scrubber.value.to_i
+        sleep 0.5
+        assert_equal scrubber_val, scrubber.value.to_i
       end
     end
   end

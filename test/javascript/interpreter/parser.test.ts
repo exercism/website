@@ -1,5 +1,5 @@
 import {
-  ArrayExpression,
+  ListExpression,
   BinaryExpression,
   CallExpression,
   GroupingExpression,
@@ -16,6 +16,7 @@ import {
 } from '@/interpreter/expression'
 import {
   BlockStatement,
+  ChangeVariableStatement,
   ExpressionStatement,
   ForeachStatement,
   FunctionStatement,
@@ -141,81 +142,7 @@ describe('literals', () => {
   })
 })
 
-describe('array', () => {
-  test('empty', () => {
-    const stmts = parse('[]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = exprStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeEmpty()
-  })
-
-  test('single element', () => {
-    const stmts = parse('[1]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = exprStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(1)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    const firstElemExpr = arrayExpr.elements[0] as LiteralExpression
-    expect(firstElemExpr.value).toBe(1)
-  })
-
-  test('multiple elements', () => {
-    const stmts = parse('[1,2,3]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = exprStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(3)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(LiteralExpression)
-    expect(arrayExpr.elements[2]).toBeInstanceOf(LiteralExpression)
-    expect((arrayExpr.elements[0] as LiteralExpression).value).toBe(1)
-    expect((arrayExpr.elements[1] as LiteralExpression).value).toBe(2)
-    expect((arrayExpr.elements[2] as LiteralExpression).value).toBe(3)
-  })
-
-  test('nested', () => {
-    const stmts = parse('[1,[2,[3]]]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = exprStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(2)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((arrayExpr.elements[0] as LiteralExpression).value).toBe(1)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(ArrayExpression)
-    const nestedExpr = arrayExpr.elements[1] as ArrayExpression
-    expect(nestedExpr.elements).toBeArrayOfSize(2)
-    expect(nestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((nestedExpr.elements[0] as LiteralExpression).value).toBe(2)
-    expect(nestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    const nestedNestedExpr = nestedExpr.elements[1] as ArrayExpression
-    expect(nestedNestedExpr.elements).toBeArrayOfSize(1)
-    expect(nestedNestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((nestedNestedExpr.elements[0] as LiteralExpression).value).toBe(3)
-  })
-
-  test('expressions', () => {
-    const stmts = parse('[-1,2*2,3+3]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = exprStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(3)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(UnaryExpression)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(BinaryExpression)
-    expect(arrayExpr.elements[2]).toBeInstanceOf(BinaryExpression)
-  })
-})
+describe('list', () => {})
 
 describe('dictionary', () => {
   test('empty', () => {
@@ -384,47 +311,6 @@ describe('get', () => {
       expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
         'movie'
-      )
-    })
-  })
-
-  describe('array', () => {
-    test.skip('single field', () => {
-      const stmts = parse(`
-        set scores to [7, 3, 10]
-        set latest to scores[2]
-      `)
-      expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-      const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe(2)
-      expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
-      expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
-        'scores'
-      )
-    })
-
-    test.skip('chained', () => {
-      const stmts = parse(`
-        set scoreMinMax to [[3, 7], [1, 6]]
-        set secondMin to scoreMinMax[1][0]
-      `)
-      expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-      const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe(0)
-      expect(getExpr.obj).toBeInstanceOf(GetExpression)
-      const nestedGetExpr = getExpr.obj as GetExpression
-      expect(nestedGetExpr.field.literal).toBe(1)
-      expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
-      expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
-        'scoreMinMax'
       )
     })
   })
@@ -746,7 +632,7 @@ describe('foreach', () => {
     expect(stmts[0]).toBeInstanceOf(ForeachStatement)
     const foreachStmt = stmts[0] as ForeachStatement
     expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
+    expect(foreachStmt.iterable).toBeInstanceOf(ListExpression)
     expect(foreachStmt.body).toBeArrayOfSize(1)
     expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
   })
@@ -762,7 +648,7 @@ describe('foreach', () => {
     expect(stmts[0]).toBeInstanceOf(ForeachStatement)
     const foreachStmt = stmts[0] as ForeachStatement
     expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
+    expect(foreachStmt.iterable).toBeInstanceOf(ListExpression)
     expect(foreachStmt.body).toBeArrayOfSize(2)
     expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
     expect(foreachStmt.body[1]).toBeInstanceOf(SetVariableStatement)
@@ -960,3 +846,5 @@ describe('location', () => {
     })
   })
 })
+
+describe('lists', () => {})

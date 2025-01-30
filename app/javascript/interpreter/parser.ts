@@ -1,7 +1,7 @@
 import { SyntaxError } from './error'
 import { type SyntaxErrorType } from './error'
 import {
-  ArrayExpression,
+  ListExpression,
   BinaryExpression,
   CallExpression,
   Expression,
@@ -179,9 +179,7 @@ export class Parser {
     return this.expressionStatement()
   }
 
-  private setupVariableStatement(): Statement {
-    const setToken = this.previous()
-
+  private identifier(): Token {
     let name
     try {
       name = this.consume('IDENTIFIER', 'MissingVariableName')
@@ -196,16 +194,19 @@ export class Parser {
       }
     }
 
-    if (
-      (this.peek().type == 'IDENTIFIER' || this.peek().type == 'STRING') &&
-      this.peek(2).type == 'TO'
-    ) {
+    if (this.peek().type == 'IDENTIFIER' && this.peek(2).type == 'TO') {
       const errorLocation = Location.between(this.previous(), this.peek())
       this.error('UnexpectedSpaceInIdentifier', errorLocation, {
         first_half: name.lexeme,
         second_half: this.peek().lexeme,
       })
     }
+    return name
+  }
+
+  private setVariableStatement(): Statement {
+    const setToken = this.previous()
+    const name = this.identifier()
 
     // Guard mistaken equals sign for assignment
     this.guardEqualsSignForAssignment(this.peek())
@@ -217,11 +218,6 @@ export class Parser {
     const initializer = this.expression()
     this.consumeEndOfLine()
 
-    return [name, initializer, setToken]
-  }
-
-  private setVariableStatement(): Statement {
-    const [name, initializer, setToken] = this.setupVariableStatement()
     return new SetVariableStatement(
       name,
       initializer,
@@ -230,7 +226,19 @@ export class Parser {
   }
 
   private changeVariableStatement(): Statement {
-    const [name, initializer, changeToken] = this.setupVariableStatement()
+    const changeToken = this.previous()
+    const name = this.identifier()
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: name.lexeme,
+    })
+
+    const initializer = this.expression()
+    this.consumeEndOfLine()
+
     return new ChangeVariableStatement(
       name,
       initializer,
@@ -596,18 +604,18 @@ export class Parser {
     return this.call()
   }
 
-  private call(): Expression {
-    let expression = this.primary()
-
-    // Function
+  private chainedVariableAccessors(expression: Expression): Expression {
+    // Firstly handle this if it is a function call
     if (this.match('LEFT_PAREN')) {
       if (!(expression instanceof VariableLookupExpression)) {
         this.error('InvalidFunctionName', expression.location, {})
       }
       expression = this.finishCall(expression)
     }
-    // Array call
-    else if (this.match('LEFT_BRACKET')) {
+
+    // Now handle an array (this might be on the result of the function call)
+    // e.g. foobar()[0]
+    while (this.match('LEFT_BRACKET')) {
       const leftBracket = this.previous()
       if (!this.match('STRING', 'NUMBER'))
         this.error(
@@ -630,18 +638,26 @@ export class Parser {
         Location.between(expression, rightBracket)
       )
     }
-    // Varible?
-    else {
-      if (
-        expression instanceof VariableLookupExpression &&
-        this.functionNames.includes(expression.name.lexeme) &&
-        this.match('RIGHT_PAREN')
+    return expression
+  }
+
+  private call(): Expression {
+    let expression = this.primary()
+    expression = this.chainedVariableAccessors(expression)
+
+    // Guard against missing start parenthesis for function call
+    if (
+      // This is a variable expression because we don't convert VariableLookupExpression
+      // to FunctionLookupExpression until we know it's a function call or in this guard.
+      expression instanceof VariableLookupExpression &&
+      this.functionNames.includes(expression.name.lexeme) &&
+      this.match('RIGHT_PAREN')
+    ) {
+      this.error(
+        'MissingLeftParenthesisAfterFunctionCall',
+        this.previous().location,
+        { expression, function: expression.name.lexeme }
       )
-        this.error(
-          'MissingLeftParenthesisAfterFunctionCall',
-          this.previous().location,
-          { expression, function: expression.name.lexeme }
-        )
     }
 
     return expression
@@ -813,7 +829,7 @@ export class Parser {
       'MissingRightBracketAfterListElements',
       { elements }
     )
-    return new ArrayExpression(
+    return new ListExpression(
       elements,
       Location.between(leftBracket, rightBracket)
     )

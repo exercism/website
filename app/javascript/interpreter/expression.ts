@@ -62,9 +62,9 @@ export class CallExpression extends Expression {
   }
 }
 
-export class ArrayExpression extends Expression {
+export class ListExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
-    super('ArrayExpression')
+    super('ListExpression')
   }
 }
 

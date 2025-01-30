@@ -73,6 +73,7 @@ export type SyntaxErrorType =
   | 'MissingTimesInRepeat'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
+  | 'InvalidNestedFunction'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -117,7 +118,6 @@ export type RuntimeErrorType =
   | 'UnexpectedReturnOutsideOfFunction'
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
-  | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
   | 'InfiniteRecursion'
 

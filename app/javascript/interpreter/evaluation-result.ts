@@ -115,8 +115,8 @@ export type EvaluationResultSetExpression = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultArrayExpression = {
-  type: 'ArrayExpression'
+export type EvaluationResultListExpression = {
+  type: 'ListExpression'
   value: any
   data?: Record<string, any>
 }
@@ -162,7 +162,7 @@ export type EvaluationResult =
   | EvaluationResultForeachStatement
   | EvaluationResultReturnStatement
   | EvaluationResultLiteralExpression
-  | EvaluationResultArrayExpression
+  | EvaluationResultListExpression
   | EvaluationResultDictionaryExpression
   | EvaluationResultVariableExpression
   | EvaluationResultCallExpression

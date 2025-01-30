@@ -9,6 +9,7 @@ import {
   LogicError,
 } from './error'
 import {
+  ListExpression,
   BinaryExpression,
   CallExpression,
   Expression,
@@ -465,6 +466,13 @@ export class Executor {
     throw new ReturnValue(evaluationResult?.value, statement.location)
   }
 
+  visitListExpression(expression: ListExpression): EvaluationResult {
+    return {
+      type: 'ListExpression',
+      value: expression.elements.map((element) => this.evaluate(element).value),
+    }
+  }
+
   // visitForeachStatement(statement: ForeachStatement): void {
   //   const iterable = this.evaluate(statement.iterable)
   //   if (!isArray(iterable.value) || iterable.value?.length === 0) {
@@ -541,13 +549,6 @@ export class Executor {
   //   return {
   //     type: 'TemplateTextExpression',
   //     value: expression.text.literal,
-  //   }
-  // }
-
-  // visitArrayExpression(expression: ArrayExpression): EvaluationResult {
-  //   return {
-  //     type: 'ArrayExpression',
-  //     value: expression.elements.map((element) => this.evaluate(element).value),
   //   }
   // }
 

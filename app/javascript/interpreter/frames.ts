@@ -24,7 +24,9 @@ import {
   Statement,
   ChangeVariableStatement,
   ReturnStatement,
+  LogStatement,
 } from './statement'
+import { log } from 'xstate/lib/actions'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -75,6 +77,8 @@ export function describeFrame(
         return describeChangeVariableStatement(frame)
       case 'IfStatement':
         return describeIfStatement(frame)
+      case 'LogStatement':
+        return describeLogStatement(frame)
       case 'ReturnStatement':
         return describeReturnStatement(frame)
       case 'CallExpression':
@@ -225,6 +229,12 @@ function describeIfStatement(frame: FrameWithResult) {
     `.trim()
   return output
 }
+
+function describeLogStatement(frame: FrameWithResult) {
+  const logStatement = frame.context as LogStatement
+  return logStatement.description(frame.result)
+}
+
 function describeReturnStatement(frame: FrameWithResult) {
   const context = frame.context as ReturnStatement
   if (context === undefined) {

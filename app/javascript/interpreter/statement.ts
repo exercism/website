@@ -4,7 +4,12 @@ import {
   EvaluationResultReturnStatement,
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
-import { Expression, LiteralExpression } from './expression'
+import {
+  CallExpression,
+  Expression,
+  LiteralExpression,
+  VariableLookupExpression,
+} from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
@@ -172,5 +177,33 @@ export class ForeachStatement extends Statement {
     public location: Location
   ) {
     super('ForeachStatement')
+  }
+}
+
+export class LogStatement extends Statement {
+  constructor(public value: Expression, public location: Location) {
+    super('LogStatement')
+  }
+
+  public description(result: EvaluationResult) {
+    console.log(this.value)
+    console.log(result)
+    if (this.value.type == 'VariableLookupExpression') {
+      return `<p>This logged the value of <code>${
+        (this.value as VariableLookupExpression).name.lexeme
+      }</code>, which was <code>${result.value.value}</code>.</p>`
+    } else if (this.value.type == 'CallExpression') {
+      return `<p>This logged the value of <code>${(
+        this.value as CallExpression
+      ).description()}</code>, which was <code>${
+        result.value.value
+      }</code>.</p>`
+    }
+    return `<p>This logged <code>${formatLiteral(
+      result.value.value
+    )}</code>.</p>`
+
+    // return `<p>This logged <code>${this.value.description()}</code>.</p>`
+    // return `<p>This logged <code>${formatLiteral(result.value)}</code>.</p>`
   }
 }

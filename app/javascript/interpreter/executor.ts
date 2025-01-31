@@ -35,6 +35,7 @@ import {
   SetVariableStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  LogStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -383,6 +384,16 @@ export class Executor {
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
     }
+  }
+
+  public visitLogStatement(statement: LogStatement): void {
+    this.executeFrame(statement, () => {
+      const value = this.evaluate(statement.value)
+      return {
+        type: 'LogStatement',
+        value: value,
+      }
+    })
   }
 
   public visitRepeatUntilGameOverStatement(

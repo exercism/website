@@ -36,6 +36,7 @@ import {
   WhileStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  LogStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -162,6 +163,7 @@ export class Parser {
     if (this.match('SET')) return this.setVariableStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
     if (this.match('IF')) return this.ifStatement()
+    if (this.match('LOG')) return this.logStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
@@ -293,6 +295,14 @@ export class Parser {
       elseBranch,
       Location.between(ifToken, this.previous())
     )
+  }
+
+  private logStatement(): Statement {
+    const logToken = this.previous()
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new LogStatement(value, Location.between(logToken, value))
   }
 
   private returnStatement(): Statement {

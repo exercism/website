@@ -8,6 +8,7 @@
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 100
   },
+  "readonly_ranges": [{ "from": 3, "to": 27 }],
   "exercise_functions": ["move_left", "move_right", "shoot", "get_alien_row"],
   "tasks": [
     {

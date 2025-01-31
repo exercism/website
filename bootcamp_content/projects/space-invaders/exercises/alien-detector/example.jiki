@@ -1,11 +1,17 @@
-set left_boundary to 0
-set right_boundary to 10
+// Define is_alien_above(col) here
+function is_alien_above with col do
+  log(get_alien_row)
+  return get_alien_row(1)[col] == "alive" or get_alien_row(2)[col] == "alive" or get_alien_row(3)[col] == "alive"
+end
+
+set left_boundary to 1
+set right_boundary to 11
 
 set direction to "right"
-set position to 0
+set position to 1
 
 repeat_until_game_over do
-  if is_alien_above() do
+  if is_alien_above(position) do
     shoot()
   end
   

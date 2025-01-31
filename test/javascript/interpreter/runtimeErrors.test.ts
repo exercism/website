@@ -35,7 +35,7 @@ function expectFrameToBeError(
 
 describe('OperandsMustBeNumbers', () => {
   test('1 - "a"', () => {
-    const code = '1 - "a"'
+    const code = 'log 1 - "a"'
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
     expect(frames[0].error!.message).toBe(
@@ -43,7 +43,7 @@ describe('OperandsMustBeNumbers', () => {
     )
   })
   test('1 / true', () => {
-    const code = '1 / true'
+    const code = 'log 1 / true'
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
     expect(frames[0].error!.message).toBe(
@@ -51,7 +51,7 @@ describe('OperandsMustBeNumbers', () => {
     )
   })
   test('false - 1', () => {
-    const code = 'false - 1'
+    const code = 'log false - 1'
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
     expect(frames[0].error!.message).toBe(
@@ -59,7 +59,7 @@ describe('OperandsMustBeNumbers', () => {
     )
   })
   test('1 * false', () => {
-    const code = '1 * false'
+    const code = 'log 1 * false'
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
     expect(frames[0].error!.message).toBe(
@@ -67,7 +67,7 @@ describe('OperandsMustBeNumbers', () => {
     )
   })
   test('1 * getName()', () => {
-    const code = '1 * get_name()'
+    const code = 'log 1 * get_name()'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
@@ -79,14 +79,14 @@ describe('OperandsMustBeNumbers', () => {
 
 describe('UnexpectedUncalledFunction', () => {
   test('in a equation with a +', () => {
-    const code = 'get_name + 1'
+    const code = 'log get_name + 1'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
     expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
   })
   test('in a equation with a -', () => {
-    const code = 'get_name - 1'
+    const code = 'log get_name - 1'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
@@ -189,7 +189,6 @@ describe('InfiniteRecursion', () => {
                   end
                   foo()`
     const { error, frames } = interpret(code)
-    console.log(error, frames)
     expectFrameToBeError(frames[0], 'foo()', 'InfiniteRecursion')
     expect(frames[0].error!.message).toBe('InfiniteRecursion')
   })
@@ -244,7 +243,6 @@ describe('CannotStoreNullFromFunction', () => {
       change foo to bar()
     `)
 
-    console.log(frames)
     expectFrameToBeError(
       frames[1],
       `change foo to bar()`,

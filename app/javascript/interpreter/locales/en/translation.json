@@ -59,7 +59,8 @@
       "InvalidNestedFunction": "You can't create a function within a function. Did you mean to create a function outside of this one?",
       "UnexpectedChainedEquality": "You can't chain equality operators like this. Did you mean to use `and` or `or` instead?",
       "MiscapitalizedKeyword": "Did you make a typo in `{{actual}}`? Maybe you meant `{{expected}}`?",
-      "InactiveStatement": "This line of code doesn't actually do anything."
+      "PointlessStatement": "This line of code doesn't do anything.",
+      "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

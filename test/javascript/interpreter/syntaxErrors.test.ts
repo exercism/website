@@ -530,3 +530,9 @@ describe('PointlessStatement', () => {
     expect(() => parse('(10)')).toThrow('PointlessStatement')
   })
 })
+
+test('PotentialMissingParenthesesForFunctionCall', () => {
+  expect(() => parse('foo')).toThrow(
+    'PotentialMissingParenthesesForFunctionCall'
+  )
+})

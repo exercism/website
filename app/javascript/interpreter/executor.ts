@@ -35,6 +35,7 @@ import {
   ChangeVariableStatement,
   RepeatForeverStatement,
   CallStatement,
+  LogStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -170,7 +171,9 @@ export class Executor {
       }
 
       // TODO: Also start/end the statement management
-      const result = this.evaluate(statement.expression)
+      // Do not execute here, as this is the only expression without
+      // a result that's allowed, so it needs to be called manually
+      const result = this.visitCallExpression(statement.expression)
       return {
         value: result.value,
         frames: this.frames,
@@ -260,7 +263,7 @@ export class Executor {
 
   public visitCallStatement(statement: CallStatement): void {
     this.executeFrame(statement, () => {
-      const result = this.evaluate(statement.expression)
+      const result = this.visitCallExpression(statement.expression)
 
       if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
@@ -406,6 +409,16 @@ export class Executor {
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
     }
+  }
+
+  public visitLogStatement(statement: LogStatement): void {
+    this.executeFrame(statement, () => {
+      const value = this.evaluate(statement.expression)
+      return {
+        type: 'LogStatement',
+        value: value,
+      }
+    })
   }
 
   public visitRepeatUntilGameOverStatement(

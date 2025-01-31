@@ -76,6 +76,7 @@ export type SyntaxErrorType =
   | 'UnexpectedChainedEquality'
   | 'MiscapitalizedKeyword'
   | 'PointlessStatement'
+  | 'PotentialMissingParenthesesForFunctionCall'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

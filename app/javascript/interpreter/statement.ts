@@ -4,7 +4,11 @@ import {
   EvaluationResultReturnStatement,
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
-import { CallExpression, Expression, LiteralExpression } from './expression'
+import {
+  CallExpression,
+  Expression,
+  VariableLookupExpression,
+} from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
@@ -172,5 +176,31 @@ export class ForeachStatement extends Statement {
     public location: Location
   ) {
     super('ForeachStatement')
+  }
+}
+
+export class LogStatement extends Statement {
+  constructor(public expression: Expression, public location: Location) {
+    super('LogStatement')
+  }
+
+  public description(result: EvaluationResult) {
+    if (this.expression.type == 'VariableLookupExpression') {
+      return `<p>This logged the value of <code>${
+        (this.expression as VariableLookupExpression).name.lexeme
+      }</code>, which was <code>${result.value.value}</code>.</p>`
+    } else if (this.expression.type == 'CallExpression') {
+      return `<p>This logged the value of <code>${(
+        this.expression as CallExpression
+      ).description()}</code>, which was <code>${
+        result.value.value
+      }</code>.</p>`
+    }
+    return `<p>This logged <code>${formatLiteral(
+      result.value.value
+    )}</code>.</p>`
+
+    // return `<p>This logged <code>${this.value.description()}</code>.</p>`
+    // return `<p>This logged <code>${formatLiteral(result.value)}</code>.</p>`
   }
 }

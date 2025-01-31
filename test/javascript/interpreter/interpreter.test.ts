@@ -481,11 +481,11 @@ describe('statements', () => {
 describe('frames', () => {
   describe('single statement', () => {
     test('literal', () => {
-      const { frames } = interpret('125')
+      const { frames } = interpret('log 125')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].line).toBe(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].code).toBe('125')
+      expect(frames[0].code).toBe('log 125')
       expect(frames[0].error).toBeNil()
       expect(frames[0].variables).toBeEmpty()
     })
@@ -501,7 +501,7 @@ describe('frames', () => {
           },
         ],
       }
-      const { frames } = interpret('echo(1)', context)
+      const { error, frames } = interpret('echo(1)', context)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].line).toBe(1)
       expect(frames[0].status).toBe('SUCCESS')
@@ -552,7 +552,7 @@ describe('frames', () => {
   })
 
   test('no error', () => {
-    const { frames, error } = interpret('125')
+    const { frames, error } = interpret('log 125')
     expect(frames).not.toBeEmpty()
     expect(error).toBeNull()
   })
@@ -609,9 +609,9 @@ describe('timing', () => {
       }
       const { frames } = interpret(
         `
-          1
+          log 1
           advanceTime(20)
-          2
+          log 2
         `,
         context
       )
@@ -1004,27 +1004,6 @@ describe('errors', () => {
         })
       })
 
-      test('missing parentheses', () => {
-        const { frames, error } = interpret(`
-            function foo do
-              return 1
-            end
-
-            foo
-          `)
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(6)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].code).toBe('foo')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
-        expect(frames[0].error!.message).toBe(
-          'MissingParenthesesForFunctionCall: name: foo'
-        )
-        expect(error).toBeNull()
-      })
-
       test('missing parentheses within set', () => {
         const context = {
           externalFunctions: [
@@ -1048,13 +1027,13 @@ describe('errors', () => {
 
       test('after success', () => {
         const { frames, error } = interpret(`
-          123
+          log 123
           foo()
         `)
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].line).toBe(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].code).toBe('123')
+        expect(frames[0].code).toBe('log 123')
         expect(frames[0].error).toBeNil()
         expect(frames[1].line).toBe(3)
         expect(frames[1].status).toBe('ERROR')

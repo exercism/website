@@ -1,5 +1,9 @@
 import type { TokenType } from './token'
 
+export type EvaluationResultLogStatement = {
+  type: 'LogStatement'
+  value: any
+}
 export type EvaluationResultSetVariableStatement = {
   type: 'SetVariableStatement'
   value: any
@@ -154,6 +158,7 @@ export type EvaluationResultCallExpression = {
 }
 
 export type EvaluationResult =
+  | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
   | EvaluationResultConstantStatement

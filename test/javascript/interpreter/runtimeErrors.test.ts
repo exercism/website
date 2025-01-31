@@ -253,3 +253,29 @@ describe('CannotStoreNullFromFunction', () => {
     expect(frames[1].error!.message).toBe(`CannotStoreNullFromFunction`)
   })
 })
+
+describe('ExpressionIsNull', () => {
+  test('BinaryExpression: lhs', () => {
+    const max = 100
+    const { frames } = interpret(`
+      function something with meh do\nend
+      function bar do\n end
+      something(bar() + 1)
+    `)
+
+    expectFrameToBeError(frames[0], `something(bar() + 1)`, 'ExpressionIsNull')
+    expect(frames[0].error!.message).toBe(`ExpressionIsNull`)
+  })
+
+  test('BinaryExpression: rhs', () => {
+    const max = 100
+    const { frames } = interpret(`
+      function something with meh do\nend
+      function bar do\n end
+      something(1 + bar())
+    `)
+
+    expectFrameToBeError(frames[0], `something(1 + bar())`, 'ExpressionIsNull')
+    expect(frames[0].error!.message).toBe(`ExpressionIsNull`)
+  })
+})

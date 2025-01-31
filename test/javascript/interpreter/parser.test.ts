@@ -16,7 +16,7 @@ import {
 } from '@/interpreter/expression'
 import {
   BlockStatement,
-  ExpressionStatement,
+  CallStatement,
   ForeachStatement,
   FunctionStatement,
   IfStatement,
@@ -54,7 +54,7 @@ describe('comments', () => {
     move()
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
   })
 })
 describe('literals', () => {
@@ -62,8 +62,8 @@ describe('literals', () => {
     test('integer', () => {
       const stmts = parse('1')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
       const literalExpr = exprStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe(1)
@@ -71,8 +71,8 @@ describe('literals', () => {
     test('floating points', () => {
       const stmts = parse('1.5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
       const literalExpr = exprStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe(1.5)
@@ -81,8 +81,8 @@ describe('literals', () => {
     test('negative integer', () => {
       const stmts = parse('-5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
       const literalExpr = exprStmt.expression as UnaryExpression
       expect(literalExpr.operator.lexeme).toBe('-')
@@ -91,8 +91,8 @@ describe('literals', () => {
     test('negative floating point', () => {
       const stmts = parse('-1.5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
       const literalExpr = exprStmt.expression as UnaryExpression
       expect(literalExpr.operator.lexeme).toBe('-')
@@ -103,8 +103,8 @@ describe('literals', () => {
   test('string', () => {
     const stmts = parse('"nice"')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
     const literalExpr = exprStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe('nice')
@@ -113,8 +113,8 @@ describe('literals', () => {
   test('true', () => {
     const stmts = parse('true')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
     const literalExpr = exprStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe(true)
@@ -123,8 +123,8 @@ describe('literals', () => {
   test('false', () => {
     const stmts = parse('false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
     const literalExpr = exprStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe(false)
@@ -133,8 +133,8 @@ describe('literals', () => {
   test('null', () => {
     const stmts = parse('null')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
     const literalExpr = exprStmt.expression as LiteralExpression
     expect(literalExpr.value).toBeNull()
@@ -145,8 +145,8 @@ describe('array', () => {
   test('empty', () => {
     const stmts = parse('[]')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
     const arrayExpr = exprStmt.expression as ArrayExpression
     expect(arrayExpr.elements).toBeEmpty()
@@ -155,8 +155,8 @@ describe('array', () => {
   test('single element', () => {
     const stmts = parse('[1]')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
     const arrayExpr = exprStmt.expression as ArrayExpression
     expect(arrayExpr.elements).toBeArrayOfSize(1)
@@ -168,8 +168,8 @@ describe('array', () => {
   test('multiple elements', () => {
     const stmts = parse('[1,2,3]')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
     const arrayExpr = exprStmt.expression as ArrayExpression
     expect(arrayExpr.elements).toBeArrayOfSize(3)
@@ -184,8 +184,8 @@ describe('array', () => {
   test('nested', () => {
     const stmts = parse('[1,[2,[3]]]')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
     const arrayExpr = exprStmt.expression as ArrayExpression
     expect(arrayExpr.elements).toBeArrayOfSize(2)
@@ -206,8 +206,8 @@ describe('array', () => {
   test('expressions', () => {
     const stmts = parse('[-1,2*2,3+3]')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(ArrayExpression)
     const arrayExpr = exprStmt.expression as ArrayExpression
     expect(arrayExpr.elements).toBeArrayOfSize(3)
@@ -327,8 +327,8 @@ describe('call', () => {
   test('without arguments', () => {
     const stmts = parse('move()')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const expStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const expStmt = stmts[0] as CallStatement
     expect(expStmt.expression).toBeInstanceOf(CallExpression)
     const callExpr = expStmt.expression as CallExpression
     expect(callExpr.args).toBeEmpty()
@@ -337,8 +337,8 @@ describe('call', () => {
   test('single argument', () => {
     const stmts = parse('turn("left")')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(CallExpression)
     const callExpr = exprStmt.expression as CallExpression
     expect(callExpr.args).toBeArrayOfSize(1)
@@ -434,8 +434,8 @@ describe('grouping', () => {
   test('non-nested', () => {
     const stmts = parse('(1 + 2)')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(GroupingExpression)
     const groupingExpr = exprStmt.expression as GroupingExpression
     expect(groupingExpr.inner).toBeInstanceOf(BinaryExpression)
@@ -448,8 +448,8 @@ describe('grouping', () => {
   test('nested', () => {
     const stmts = parse('(1 + (2 - 3))')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(GroupingExpression)
     const groupingExpr = exprStmt.expression as GroupingExpression
     expect(groupingExpr.inner).toBeInstanceOf(BinaryExpression)
@@ -470,8 +470,8 @@ describe('binary', () => {
   test('addition', () => {
     const stmts = parse('1 + 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
     const binaryExpr = exprStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -482,8 +482,8 @@ describe('binary', () => {
   test('subtraction', () => {
     const stmts = parse('1 - 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
     const binaryExpr = exprStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -494,8 +494,8 @@ describe('binary', () => {
   test('multiplication', () => {
     const stmts = parse('1 * 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
     const binaryExpr = exprStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -506,8 +506,8 @@ describe('binary', () => {
   test('division', () => {
     const stmts = parse('1 / 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
     const binaryExpr = exprStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -518,8 +518,8 @@ describe('binary', () => {
   test('string concatenation', () => {
     const stmts = parse('"hello" + "world"')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
     const binaryExpr = exprStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -531,8 +531,8 @@ describe('binary', () => {
     test('numbers', () => {
       const stmts = parse('1 + 2 * 3 / 4 - 5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
 
       const binaryExpr = exprStmt.expression as BinaryExpression
@@ -576,8 +576,8 @@ describe('binary', () => {
     test('string concatenation', () => {
       const stmts = parse('"hello" + "world" + "!"')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
+      expect(stmts[0]).toBeInstanceOf(CallStatement)
+      const exprStmt = stmts[0] as CallStatement
       expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
       const binaryExpr = exprStmt.expression as BinaryExpression
       expect(binaryExpr.operator.type).toBe('PLUS')
@@ -604,8 +604,8 @@ describe('logical', () => {
   test('and', () => {
     const stmts = parse('true and false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
     const logicalExpr = exprStmt.expression as LogicalExpression
     expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
@@ -616,8 +616,8 @@ describe('logical', () => {
   test('or', () => {
     const stmts = parse('true or false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const exprStmt = stmts[0] as CallStatement
     expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
     const logicalExpr = exprStmt.expression as LogicalExpression
     expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
@@ -893,25 +893,25 @@ describe('location', () => {
     test('expression', () => {
       const statements = parse('123')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      expect(expressionStatement.location.line).toBe(1)
-      expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(4)
-      expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(4)
+      expect(statements[0]).toBeInstanceOf(CallStatement)
+      const callStatement = statements[0] as CallStatement
+      expect(callStatement.location.line).toBe(1)
+      expect(callStatement.location.relative.begin).toBe(1)
+      expect(callStatement.location.relative.end).toBe(4)
+      expect(callStatement.location.absolute.begin).toBe(1)
+      expect(callStatement.location.absolute.end).toBe(4)
     })
 
     test('variable', () => {
       const statements = parse('set x to 1')
       expect(statements).toBeArrayOfSize(1)
       expect(statements[0]).toBeInstanceOf(SetVariableStatement)
-      const expressionStatement = statements[0] as SetVariableStatement
-      expect(expressionStatement.location.line).toBe(1)
-      expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(11)
-      expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(11)
+      const callStatement = statements[0] as SetVariableStatement
+      expect(callStatement.location.line).toBe(1)
+      expect(callStatement.location.relative.begin).toBe(1)
+      expect(callStatement.location.relative.end).toBe(11)
+      expect(callStatement.location.absolute.begin).toBe(1)
+      expect(callStatement.location.absolute.end).toBe(11)
     })
   })
 
@@ -919,9 +919,9 @@ describe('location', () => {
     test('literal', () => {
       const statements = parse('123')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(CallStatement)
+      const callStatement = statements[0] as CallStatement
+      const expression = callStatement.expression
       expect(expression).toBeInstanceOf(LiteralExpression)
 
       expect(expression.location.line).toBe(1)
@@ -934,9 +934,9 @@ describe('location', () => {
     test('variable', () => {
       const statements = parse('foo')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(CallStatement)
+      const callStatement = statements[0] as CallStatement
+      const expression = callStatement.expression
       expect(expression).toBeInstanceOf(VariableLookupExpression)
       expect(expression.location.line).toBe(1)
       expect(expression.location.relative.begin).toBe(1)
@@ -948,9 +948,9 @@ describe('location', () => {
     test('call', () => {
       const statements = parse('move(7)')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(CallStatement)
+      const callStatement = statements[0] as CallStatement
+      const expression = callStatement.expression
       expect(expression).toBeInstanceOf(CallExpression)
       expect(expression.location.line).toBe(1)
       expect(expression.location.relative.begin).toBe(1)

@@ -23,7 +23,7 @@ import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
-  ExpressionStatement,
+  CallStatement,
   ForeachStatement,
   FunctionParameter,
   FunctionStatement,
@@ -176,7 +176,7 @@ export class Parser {
       this.error('UnexpectedElseWithoutIf', this.previous().location)
     }
 
-    return this.expressionStatement()
+    return this.callStatement()
   }
 
   private setupVariableStatement(): Statement {
@@ -432,11 +432,23 @@ export class Parser {
     return statements
   }
 
-  private expressionStatement(): Statement {
-    const expression = this.expression()
+  private callStatement(): Statement {
+    let expression = this.expression()
+    while (true) {
+      if (expression instanceof CallExpression) {
+        break
+      }
+      if (expression instanceof GroupingExpression) {
+        expression = expression.inner
+        continue
+      }
+
+      this.error('PointlessStatement', expression.location)
+    }
+
     this.consumeEndOfLine()
 
-    return new ExpressionStatement(expression, expression.location)
+    return new CallStatement(expression, expression.location)
   }
 
   private expression(): Expression {

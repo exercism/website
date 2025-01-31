@@ -4,7 +4,7 @@ import {
   EvaluationResultReturnStatement,
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
-import { Expression, LiteralExpression } from './expression'
+import { CallExpression, Expression, LiteralExpression } from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
@@ -15,9 +15,9 @@ export abstract class Statement implements SomethingWithLocation {
   abstract location: Location
 }
 
-export class ExpressionStatement extends Statement {
-  constructor(public expression: Expression, public location: Location) {
-    super('ExpressionStatement')
+export class CallStatement extends Statement {
+  constructor(public expression: CallExpression, public location: Location) {
+    super('CallStatement')
   }
 }
 

@@ -1069,7 +1069,7 @@ describe('errors', () => {
       test('stop execution after error', () => {
         const { frames, error } = interpret(`
           foo()
-          123
+          set x to 123
         `)
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].line).toBe(2)

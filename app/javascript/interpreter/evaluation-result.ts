@@ -28,8 +28,8 @@ export type EvaluationResultForeachStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultExpressionStatement = {
-  type: 'ExpressionStatement'
+export type EvaluationResultCallStatement = {
+  type: 'CallStatement'
   value: any
   expression: EvaluationResult
   data?: Record<string, any>
@@ -155,10 +155,10 @@ export type EvaluationResultCallExpression = {
 
 export type EvaluationResult =
   | EvaluationResultSetVariableStatement
-  | EvaluationResultUpdateExpression
+  | EvaluationResultChangeVariableStatement
   | EvaluationResultConstantStatement
   | EvaluationResultIfStatement
-  | EvaluationResultExpressionStatement
+  | EvaluationResultCallStatement
   | EvaluationResultForeachStatement
   | EvaluationResultReturnStatement
   | EvaluationResultLiteralExpression

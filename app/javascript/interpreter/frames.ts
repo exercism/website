@@ -18,7 +18,6 @@ import {
   VariableLookupExpression,
 } from './expression'
 import {
-  ExpressionStatement,
   IfStatement,
   SetVariableStatement,
   Statement,

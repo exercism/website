@@ -25,7 +25,6 @@ import {
 import { Location, Span } from './location'
 import {
   BlockStatement,
-  ExpressionStatement,
   FunctionStatement,
   IfStatement,
   RepeatStatement,
@@ -35,6 +34,7 @@ import {
   SetVariableStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  CallStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -163,7 +163,7 @@ export class Executor {
 
   public evaluateSingleExpression(statement: Statement) {
     try {
-      if (!(statement instanceof ExpressionStatement)) {
+      if (!(statement instanceof CallStatement)) {
         this.error('InvalidExpression', Location.unknown, {
           statement: statement,
         })
@@ -258,7 +258,7 @@ export class Executor {
     return result.value
   }
 
-  public visitExpressionStatement(statement: ExpressionStatement): void {
+  public visitCallStatement(statement: CallStatement): void {
     this.executeFrame(statement, () => {
       const result = this.evaluate(statement.expression)
 
@@ -283,8 +283,19 @@ export class Executor {
           name: statement.name.lexeme,
         })
       }
-      const value = this.evaluate(statement.initializer).value
-      this.guardSettingVariableToNull(value, statement.initializer)
+      let value
+      try {
+        value = this.evaluate(statement.initializer).value
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error(
+            'CannotStoreNullFromFunction',
+            statement.initializer.location
+          )
+        } else {
+          throw e
+        }
+      }
 
       if (isCallable(value)) {
         this.error(
@@ -320,8 +331,16 @@ export class Executor {
         })
       }
 
-      const value = this.evaluate(statement.value)
-      this.guardSettingVariableToNull(value.value, statement.value)
+      let value
+      try {
+        value = this.evaluate(statement.value)
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error('CannotStoreNullFromFunction', statement.value.location)
+        } else {
+          throw e
+        }
+      }
 
       this.updateVariable(statement.name, value.value, statement)
 
@@ -631,7 +650,10 @@ export class Executor {
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
     const leftResult = this.evaluate(expression.left)
+    // this.guardNull(leftResult.value, expression.left)
+
     const rightResult = this.evaluate(expression.right)
+    // this.guardNull(rightResult.value, expression.right)
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
@@ -1046,7 +1068,9 @@ export class Executor {
 
   public evaluate(expression: Expression): EvaluationResult {
     const method = `visit${expression.type}`
-    return this[method](expression)
+    const result = this[method](expression)
+    this.guardNull(result.value, expression)
+    return result
   }
 
   private lookupVariable(name: Token): any {
@@ -1118,15 +1142,11 @@ export class Executor {
       this.error('InfiniteLoop', loc)
     }
   }
-
-  private guardSettingVariableToNull(value, guiltyExpression) {
-    if (value === null || value === undefined) {
-      if (guiltyExpression.type == 'CallExpression') {
-        this.error('CannotStoreNullFromFunction', guiltyExpression.location)
-      } else {
-        this.error('CannotStoreNull', guiltyExpression.location)
-      }
+  private guardNull(value, guiltyExpression) {
+    if (value !== null && value !== undefined) {
+      return
     }
+    this.error('ExpressionIsNull', guiltyExpression.location)
   }
 
   private addFrame(

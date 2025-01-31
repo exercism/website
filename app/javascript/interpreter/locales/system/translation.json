@@ -102,7 +102,9 @@
       "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
       "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}",
       "InvalidNestedFunction": "InvalidNestedFunction",
-      "InfiniteRecursion": "InfiniteRecursion"
+      "InfiniteRecursion": "InfiniteRecursion",
+      "CannotStoreNullFromFunction": "CannotStoreNullFromFunction",
+      "CannotStoreNull": "CannotStoreNull"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

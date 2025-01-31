@@ -81,6 +81,7 @@ export class Executor {
   // the changes in the frame descriptions
   private statementStartingVariables: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
+  protected functionCallStack: String[] = []
 
   constructor(
     private readonly sourceCode: string,
@@ -283,6 +284,8 @@ export class Executor {
         })
       }
       const value = this.evaluate(statement.initializer).value
+      this.guardSettingVariableToNull(value, statement.initializer)
+
       if (isCallable(value)) {
         this.error(
           'MissingParenthesesForFunctionCall',
@@ -318,6 +321,7 @@ export class Executor {
       }
 
       const value = this.evaluate(statement.value)
+      this.guardSettingVariableToNull(value.value, statement.value)
 
       this.updateVariable(statement.name, value.value, statement)
 
@@ -1115,6 +1119,16 @@ export class Executor {
     }
   }
 
+  private guardSettingVariableToNull(value, guiltyExpression) {
+    if (value === null || value === undefined) {
+      if (guiltyExpression.type == 'CallExpression') {
+        this.error('CannotStoreNullFromFunction', guiltyExpression.location)
+      } else {
+        this.error('CannotStoreNull', guiltyExpression.location)
+      }
+    }
+  }
+
   private addFrame(
     location: Location | null,
     status: FrameExecutionStatus,
@@ -1149,6 +1163,18 @@ export class Executor {
     this.functionCallLog[name] ||= {}
     this.functionCallLog[name][JSON.stringify(args)] ||= 0
     this.functionCallLog[name][JSON.stringify(args)] += 1
+  }
+
+  public addFunctionToCallStack(name: string, expression: CallExpression) {
+    this.functionCallStack.push(name)
+
+    if (this.functionCallStack.filter((n) => n == name).length > 5) {
+      this.error('InfiniteRecursion', expression.location)
+    }
+  }
+
+  public popCallStack() {
+    this.functionCallStack.pop()
   }
 
   public getExecutionContext(): ExecutionContext {

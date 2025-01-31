@@ -122,6 +122,8 @@ export type RuntimeErrorType =
   | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
   | 'InfiniteRecursion'
+  | 'CannotStoreNullFromFunction'
+  | 'CannotStoreNull'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

@@ -1,12 +1,4 @@
 import type { ExecutionContext } from '@/interpreter/executor'
-import { InterpretResult } from '@/interpreter/interpreter'
-import {
-  CallExpression,
-  Expression,
-  LiteralExpression,
-} from '@/interpreter/expression'
-import { ExpressionStatement } from '@/interpreter/statement'
-import { Frame } from '@/interpreter/frames'
 import DrawExercise from '../draw'
 
 export default class GolfExercise extends DrawExercise {

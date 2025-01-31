@@ -59,7 +59,8 @@
       "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
       "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
       "UnexpectedChainedEquality": "UnexpectedChainedEquality",
-      "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}"
+      "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
+      "PointlessStatement": "PointlessStatement"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -102,7 +103,10 @@
       "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
       "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}",
       "InvalidNestedFunction": "InvalidNestedFunction",
-      "InfiniteRecursion": "InfiniteRecursion"
+      "InfiniteRecursion": "InfiniteRecursion",
+      "CannotStoreNullFromFunction": "CannotStoreNullFromFunction",
+      "CannotStoreNull": "CannotStoreNull",
+      "ExpressionIsNull": "ExpressionIsNull"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

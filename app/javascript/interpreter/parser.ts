@@ -311,7 +311,7 @@ export class Parser {
   }
 
   private repeatStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
     const condition = this.expression()
     this.consume('TIMES', 'MissingTimesInRepeat')
     this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
@@ -320,14 +320,15 @@ export class Parser {
     const statements = this.block('repeat')
 
     return new RepeatStatement(
+      keyword,
       condition,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
 
   private repeatUntilGameOverStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
 
     this.consume('DO', 'MissingDoToStartBlock', {
       type: 'repeat_until_game_over',
@@ -337,12 +338,13 @@ export class Parser {
     const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
+      keyword,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
   private repeatForeverStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
 
     this.consume('DO', 'MissingDoToStartBlock', {
       type: 'repeat_forever',
@@ -352,8 +354,9 @@ export class Parser {
     const statements = this.block('repeat_forever')
 
     return new RepeatForeverStatement(
+      keyword,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
 

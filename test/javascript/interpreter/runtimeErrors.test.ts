@@ -166,22 +166,84 @@ describe('Runtime errors', () => {
       )
     })
   })
-  test('MaxIterationsReached', () => {
-    const code = `repeat_until_game_over do
-                  end`
+  describe('MaxIterationsReached', () => {
+    describe('nested loop', () => {
+      test('default value', () => {
+        const code = `repeat 11 times do
+                        repeat 11 times do
+                        end
+                      end`
 
-    const maxIterations = 50
-    const { frames } = interpret(code, {
-      languageFeatures: { maxRepeatUntilGameOverIterations: maxIterations },
+        const { frames } = interpret(code)
+        const frame = frames[frames.length - 1]
+        expectFrameToBeError(frame, 'repeat', 'MaxIterationsReached')
+        expect(frame.error!.message).toBe(`MaxIterationsReached: max: 100`)
+      })
+      test('custom value', () => {
+        const code = `repeat 5 times do
+                        repeat 11 times do
+                        end
+                      end`
+
+        const maxIterations = 50
+        const { frames } = interpret(code, {
+          languageFeatures: { maxTotalLoopIterations: maxIterations },
+        })
+        const frame = frames[frames.length - 1]
+        expectFrameToBeError(frame, 'repeat', 'MaxIterationsReached')
+        expect(frame.error!.message).toBe(
+          `MaxIterationsReached: max: ${maxIterations}`
+        )
+      })
     })
-    expectFrameToBeError(
-      frames[0],
-      'repeat_until_game_over',
-      'MaxIterationsReached'
-    )
-    expect(frames[0].error!.message).toBe(
-      `MaxIterationsReached: max: ${maxIterations}`
-    )
+    describe('repeat_until_game_over', () => {
+      test('default value', () => {
+        const code = `repeat_until_game_over do
+                      end`
+
+        const { frames } = interpret(code)
+        expectFrameToBeError(
+          frames[0],
+          'repeat_until_game_over',
+          'MaxIterationsReached'
+        )
+        expect(frames[0].error!.message).toBe(`MaxIterationsReached: max: 100`)
+      })
+      test('custom maxTotalLoopIterations', () => {
+        const code = `repeat_until_game_over do
+                      end`
+
+        const maxIterations = 50
+        const { frames } = interpret(code, {
+          languageFeatures: { maxTotalLoopIterations: maxIterations },
+        })
+        expectFrameToBeError(
+          frames[0],
+          'repeat_until_game_over',
+          'MaxIterationsReached'
+        )
+        expect(frames[0].error!.message).toBe(
+          `MaxIterationsReached: max: ${maxIterations}`
+        )
+      })
+    })
+    test('custom maxRepeatUntilGameOverIterations', () => {
+      const code = `repeat_until_game_over do
+                    end`
+
+      const maxIterations = 50
+      const { frames } = interpret(code, {
+        languageFeatures: { maxRepeatUntilGameOverIterations: maxIterations },
+      })
+      expectFrameToBeError(
+        frames[0],
+        'repeat_until_game_over',
+        'MaxIterationsReached'
+      )
+      expect(frames[0].error!.message).toBe(
+        `MaxIterationsReached: max: ${maxIterations}`
+      )
+    })
   })
   test('InfiniteRecursion', () => {
     const code = `function foo do

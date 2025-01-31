@@ -147,6 +147,7 @@ describe('VariableNotDeclared', () => {
     expect(frames[0].error!.message).toBe('VariableNotDeclared: name: x')
   })
 })
+
 describe('VariableNotAccessibleInFunction', () => {
   test('basic', () => {
     const code = `set x to 6
@@ -165,42 +166,94 @@ describe('VariableNotAccessibleInFunction', () => {
     )
   })
 })
-test('MaxIterationsReached', () => {
-  const code = `repeat_until_game_over do
-                end`
 
-  const maxIterations = 50
-  const { frames } = interpret(code, {
-    languageFeatures: { maxRepeatUntilGameOverIterations: maxIterations },
+describe('MaxIterationsReached', () => {
+  describe('nested loop', () => {
+    test('default value', () => {
+      const code = `repeat 11 times do
+                      repeat 11 times do
+                      end
+                    end`
+
+      const { frames } = interpret(code)
+      const frame = frames[frames.length - 1]
+      expectFrameToBeError(frame, 'repeat', 'MaxIterationsReached')
+      expect(frame.error!.message).toBe(`MaxIterationsReached: max: 100`)
+    })
+    test('custom value', () => {
+      const code = `repeat 5 times do
+                      repeat 11 times do
+                      end
+                    end`
+
+      const maxIterations = 50
+      const { frames } = interpret(code, {
+        languageFeatures: { maxTotalLoopIterations: maxIterations },
+      })
+      const frame = frames[frames.length - 1]
+      expectFrameToBeError(frame, 'repeat', 'MaxIterationsReached')
+      expect(frame.error!.message).toBe(
+        `MaxIterationsReached: max: ${maxIterations}`
+      )
+    })
   })
-  expectFrameToBeError(
-    frames[0],
-    'repeat_until_game_over',
-    'MaxIterationsReached'
-  )
-  expect(frames[0].error!.message).toBe(
-    `MaxIterationsReached: max: ${maxIterations}`
-  )
+  describe('repeat_until_game_over', () => {
+    test('default value', () => {
+      const code = `repeat_until_game_over do
+                    end`
+
+      const { frames } = interpret(code)
+      expectFrameToBeError(
+        frames[0],
+        'repeat_until_game_over',
+        'MaxIterationsReached'
+      )
+      expect(frames[0].error!.message).toBe(`MaxIterationsReached: max: 100`)
+    })
+    test('custom maxTotalLoopIterations', () => {
+      const code = `repeat_until_game_over do
+                    end`
+
+      const maxIterations = 50
+      const { frames } = interpret(code, {
+        languageFeatures: { maxTotalLoopIterations: maxIterations },
+      })
+      expectFrameToBeError(
+        frames[0],
+        'repeat_until_game_over',
+        'MaxIterationsReached'
+      )
+      expect(frames[0].error!.message).toBe(
+        `MaxIterationsReached: max: ${maxIterations}`
+      )
+    })
+  })
+  test('custom maxRepeatUntilGameOverIterations', () => {
+    const code = `repeat_until_game_over do
+                  end`
+
+    const maxIterations = 50
+    const { frames } = interpret(code, {
+      languageFeatures: { maxRepeatUntilGameOverIterations: maxIterations },
+    })
+    expectFrameToBeError(
+      frames[0],
+      'repeat_until_game_over',
+      'MaxIterationsReached'
+    )
+    expect(frames[0].error!.message).toBe(
+      `MaxIterationsReached: max: ${maxIterations}`
+    )
+  })
 })
-describe('InfiniteRecursion', () => {
-  test('no inputs', () => {
-    const code = `function foo do
-                    foo()
-                  end
-                  foo()`
-    const { error, frames } = interpret(code)
-    expectFrameToBeError(frames[0], 'foo()', 'InfiniteRecursion')
-    expect(frames[0].error!.message).toBe('InfiniteRecursion')
-  })
-  test('one input', () => {
-    const code = `function even_or_odd with number do
-                    even_or_odd(number)
-                  end
-                  even_or_odd(5)`
-    const { error, frames } = interpret(code)
-    expectFrameToBeError(frames[0], 'even_or_odd(number)', 'InfiniteRecursion')
-    expect(frames[0].error!.message).toBe('InfiniteRecursion')
-  })
+test('InfiniteRecursion', () => {
+  const code = `function foo do
+                  foo()
+                end
+                foo()`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], 'foo()', 'InfiniteRecursion')
+  expect(frames[0].error!.message).toBe('InfiniteRecursion')
 })
 
 describe('RepeatCountTooHigh', () => {

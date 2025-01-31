@@ -9,7 +9,8 @@
     { "from": 5, "to": 5 }
   ],
   "interpreter_options": {
-    "exclude_list": ["WHILE"]
+    "exclude_list": ["WHILE"],
+    "max_total_loop_iterations": 200
   },
   "tasks": [
     {

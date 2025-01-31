@@ -85,6 +85,7 @@ export class IfStatement extends Statement {
 
 export class RepeatStatement extends Statement {
   constructor(
+    public keyword: Token,
     public count: Expression,
     public body: Statement[],
     public location: Location
@@ -94,13 +95,21 @@ export class RepeatStatement extends Statement {
 }
 
 export class RepeatForeverStatement extends Statement {
-  constructor(public body: Statement[], public location: Location) {
+  constructor(
+    public keyword: Token,
+    public body: Statement[],
+    public location: Location
+  ) {
     super('RepeatForeverStatement')
   }
 }
 
 export class RepeatUntilGameOverStatement extends Statement {
-  constructor(public body: Statement[], public location: Location) {
+  constructor(
+    public keyword: Token,
+    public body: Statement[],
+    public location: Location
+  ) {
     super('RepeatUntilGameOverStatement')
   }
 }

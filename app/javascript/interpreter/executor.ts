@@ -71,8 +71,8 @@ export class Executor {
   private frameTime: number = 0
   private location: Location | null = null
   private time: number = 0
-  private totalLoopIterations = 0 // TODO: Every time a loop iterates, use this to guard
-  private maxTotalLoopIterations = 0 // TODO: Every time a loop iterates, use this to guard
+  private totalLoopIterations = 0
+  private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
 
   private readonly globals = new Environment()
@@ -108,11 +108,10 @@ export class Executor {
 
       this.globals.define(externalFunction.name, callable)
     }
-    this.maxTotalLoopIterations =
-      this.languageFeatures.maxTotalLoopIterations || 100
+    this.maxTotalLoopIterations = this.languageFeatures.maxTotalLoopIterations
 
     this.maxRepeatUntilGameOverIterations =
-      this.languageFeatures.maxRepeatUntilGameOverIterations || 100
+      this.languageFeatures.maxRepeatUntilGameOverIterations
   }
 
   public updateState(name: string, value: any) {
@@ -402,7 +401,7 @@ export class Executor {
     }
 
     while (count > 0) {
-      this.guardInfiniteLoop(statement.location)
+      this.guardInfiniteLoop(statement.keyword.location)
       this.executeBlock(statement.body, this.environment)
       count--
 
@@ -427,22 +426,13 @@ export class Executor {
     let count = 0 // Count is a guard against infinite looping
 
     while (!this.externalState.gameOver) {
-      this.guardInfiniteLoop(statement.location)
       if (count >= this.maxRepeatUntilGameOverIterations) {
-        const errorLoc = new Location(
-          statement.location.line,
-          statement.location.relative,
-          new Span(
-            statement.location.absolute.begin,
-            statement.location.absolute.begin + 22
-          )
-        )
-        this.error('MaxIterationsReached', errorLoc, {
+        this.error('MaxIterationsReached', statement.keyword.location, {
           max: this.maxRepeatUntilGameOverIterations,
         })
       }
 
-      this.guardInfiniteLoop(statement.location)
+      this.guardInfiniteLoop(statement.keyword.location)
       this.executeBlock(statement.body, this.environment)
       count++
     }
@@ -451,17 +441,8 @@ export class Executor {
     var count = 0 // Count is a guard against infinite looping
 
     while (true) {
-      this.guardInfiniteLoop(statement.location)
-      if (count >= 1000) {
-        const errorLoc = new Location(
-          statement.location.line,
-          statement.location.relative,
-          new Span(
-            statement.location.absolute.begin,
-            statement.location.absolute.begin + 14
-          )
-        )
-        this.error('InfiniteLoop', errorLoc)
+      if (count >= this.maxTotalLoopIterations) {
+        this.error('InfiniteLoop', statement.keyword.location)
       }
 
       this.guardInfiniteLoop(statement.location)
@@ -1151,8 +1132,10 @@ export class Executor {
   private guardInfiniteLoop(loc: Location) {
     this.totalLoopIterations++
 
-    if (this.totalLoopIterations > 1000) {
-      this.error('InfiniteLoop', loc)
+    if (this.totalLoopIterations > this.maxTotalLoopIterations) {
+      this.error('MaxIterationsReached', loc, {
+        max: this.maxTotalLoopIterations,
+      })
     }
   }
   private guardNull(value, guiltyExpression) {

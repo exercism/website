@@ -114,7 +114,8 @@ export class Interpreter {
       includeList: undefined,
       excludeList: undefined,
       repeatDelay: 0,
-      maxRepeatUntilGameOverIterations: 1000,
+      maxRepeatUntilGameOverIterations: 100,
+      maxTotalLoopIterations: 100,
       allowGlobals: false,
       ...context.languageFeatures,
     }

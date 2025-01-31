@@ -1,13 +1,6 @@
 import { interpret } from '@/interpreter/interpreter'
-import type { ExecutionContext } from '@/interpreter/executor'
-import {
-  LiteralExpression,
-  VariableLookupExpression,
-} from '@/interpreter/expression'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
-import { type Token, TokenType } from '@/interpreter/token'
-import { SetVariableStatement } from '@/interpreter/statement'
 import { describeFrame } from '@/interpreter/frames'
 
 const location = new Location(0, new Span(0, 0), new Span(0, 0))

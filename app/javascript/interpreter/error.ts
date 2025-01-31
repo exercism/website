@@ -75,6 +75,8 @@ export type SyntaxErrorType =
   | 'UnexpectedEqualsForEquality'
   | 'UnexpectedChainedEquality'
   | 'MiscapitalizedKeyword'
+  | 'PointlessStatement'
+  | 'PotentialMissingParenthesesForFunctionCall'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -122,6 +124,9 @@ export type RuntimeErrorType =
   | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
   | 'InfiniteRecursion'
+  | 'CannotStoreNullFromFunction'
+  | 'CannotStoreNull'
+  | 'ExpressionIsNull'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

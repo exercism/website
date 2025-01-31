@@ -8,7 +8,7 @@ import {
   Expression,
   LiteralExpression,
 } from '@/interpreter/expression'
-import { ExpressionStatement } from '@/interpreter/statement'
+import { CallStatement } from '@/interpreter/statement'
 import { Frame } from '@/interpreter/frames'
 import {
   checkCanvasCoverage,
@@ -173,11 +173,11 @@ export default class DrawExercise extends Exercise {
 
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
     return interpreterResult.frames.every((frame: Frame) => {
-      if (!(frame.context instanceof ExpressionStatement)) {
+      if (!(frame.context instanceof CallStatement)) {
         return true
       }
 
-      const context = frame.context as ExpressionStatement
+      const context = frame.context as CallStatement
       if (!(context.expression instanceof CallExpression)) {
         return true
       }

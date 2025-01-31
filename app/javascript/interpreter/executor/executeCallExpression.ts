@@ -98,20 +98,19 @@ export function executeCallExpression(
   try {
     // Log it's usage for testing checks
     executor.addFunctionCallToLog(fnName, args)
+    executor.addFunctionToCallStack(fnName, expression)
 
     value = callee.value.call(
       executor.getExecutionContext(),
       args.map((arg) => arg.value)
     )
+
+    executor.popCallStack()
   } catch (e) {
     if (e instanceof FunctionCallTypeMismatchError) {
       executor.error('FunctionCallTypeMismatch', expression.location, e.context)
     } else if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
-    } else if (e instanceof RangeError) {
-      executor.error('InfiniteRecursion', expression.location, {
-        message: e.message,
-      })
     } else {
       throw e
     }

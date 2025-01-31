@@ -48,6 +48,7 @@ export class Scanner {
     if: 'IF',
     in: 'IN',
     is: 'EQUALITY',
+    log: 'LOG',
     null: 'NULL',
     not: 'NOT',
     or: 'OR',

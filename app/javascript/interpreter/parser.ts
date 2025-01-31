@@ -23,7 +23,7 @@ import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
-  ExpressionStatement,
+  CallStatement,
   ForeachStatement,
   FunctionParameter,
   FunctionStatement,
@@ -36,6 +36,7 @@ import {
   WhileStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  LogStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -162,6 +163,7 @@ export class Parser {
     if (this.match('SET')) return this.setVariableStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
     if (this.match('IF')) return this.ifStatement()
+    if (this.match('LOG')) return this.logStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
@@ -176,7 +178,7 @@ export class Parser {
       this.error('UnexpectedElseWithoutIf', this.previous().location)
     }
 
-    return this.expressionStatement()
+    return this.callStatement()
   }
 
   private setupVariableStatement(): Statement {
@@ -293,6 +295,14 @@ export class Parser {
       elseBranch,
       Location.between(ifToken, this.previous())
     )
+  }
+
+  private logStatement(): Statement {
+    const logToken = this.previous()
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new LogStatement(value, Location.between(logToken, value))
   }
 
   private returnStatement(): Statement {
@@ -432,11 +442,29 @@ export class Parser {
     return statements
   }
 
-  private expressionStatement(): Statement {
-    const expression = this.expression()
+  private callStatement(): Statement {
+    let expression = this.expression()
+    while (true) {
+      if (expression instanceof CallExpression) {
+        break
+      }
+      if (expression instanceof GroupingExpression) {
+        expression = expression.inner
+        continue
+      }
+      if (expression instanceof VariableLookupExpression) {
+        this.error(
+          'PotentialMissingParenthesesForFunctionCall',
+          expression.location
+        )
+      }
+
+      this.error('PointlessStatement', expression.location)
+    }
+
     this.consumeEndOfLine()
 
-    return new ExpressionStatement(expression, expression.location)
+    return new CallStatement(expression, expression.location)
   }
 
   private expression(): Expression {

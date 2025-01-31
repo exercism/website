@@ -49,13 +49,10 @@ export class CallExpression extends Expression {
     super('CallExpression')
   }
 
-  public description(
-    result: EvaluationResultCallExpression,
-    includeReturnValue = true
-  ): string {
+  public description(result?: EvaluationResultCallExpression): string {
     const argsDescription = '()'
     let desc = `<code>${this.callee.name.lexeme}${argsDescription}</code>`
-    if (includeReturnValue) {
+    if (result) {
       desc += ` (which returned <code>${formatLiteral(result.value)}</code>)`
     }
     return desc

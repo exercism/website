@@ -25,7 +25,6 @@ import {
 import { Location, Span } from './location'
 import {
   BlockStatement,
-  ExpressionStatement,
   FunctionStatement,
   IfStatement,
   RepeatStatement,
@@ -35,6 +34,8 @@ import {
   SetVariableStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  CallStatement,
+  LogStatement,
 } from './statement'
 import type { Token } from './token'
 import type { EvaluationResult } from './evaluation-result'
@@ -81,6 +82,7 @@ export class Executor {
   // the changes in the frame descriptions
   private statementStartingVariables: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
+  protected functionCallStack: String[] = []
 
   constructor(
     private readonly sourceCode: string,
@@ -162,14 +164,16 @@ export class Executor {
 
   public evaluateSingleExpression(statement: Statement) {
     try {
-      if (!(statement instanceof ExpressionStatement)) {
+      if (!(statement instanceof CallStatement)) {
         this.error('InvalidExpression', Location.unknown, {
           statement: statement,
         })
       }
 
       // TODO: Also start/end the statement management
-      const result = this.evaluate(statement.expression)
+      // Do not execute here, as this is the only expression without
+      // a result that's allowed, so it needs to be called manually
+      const result = this.visitCallExpression(statement.expression)
       return {
         value: result.value,
         frames: this.frames,
@@ -257,9 +261,9 @@ export class Executor {
     return result.value
   }
 
-  public visitExpressionStatement(statement: ExpressionStatement): void {
+  public visitCallStatement(statement: CallStatement): void {
     this.executeFrame(statement, () => {
-      const result = this.evaluate(statement.expression)
+      const result = this.visitCallExpression(statement.expression)
 
       if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
@@ -282,7 +286,20 @@ export class Executor {
           name: statement.name.lexeme,
         })
       }
-      const value = this.evaluate(statement.initializer).value
+      let value
+      try {
+        value = this.evaluate(statement.initializer).value
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error(
+            'CannotStoreNullFromFunction',
+            statement.initializer.location
+          )
+        } else {
+          throw e
+        }
+      }
+
       if (isCallable(value)) {
         this.error(
           'MissingParenthesesForFunctionCall',
@@ -317,7 +334,16 @@ export class Executor {
         })
       }
 
-      const value = this.evaluate(statement.value)
+      let value
+      try {
+        value = this.evaluate(statement.value)
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error('CannotStoreNullFromFunction', statement.value.location)
+        } else {
+          throw e
+        }
+      }
 
       this.updateVariable(statement.name, value.value, statement)
 
@@ -383,6 +409,16 @@ export class Executor {
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
     }
+  }
+
+  public visitLogStatement(statement: LogStatement): void {
+    this.executeFrame(statement, () => {
+      const value = this.evaluate(statement.expression)
+      return {
+        type: 'LogStatement',
+        value: value,
+      }
+    })
   }
 
   public visitRepeatUntilGameOverStatement(
@@ -627,7 +663,10 @@ export class Executor {
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
     const leftResult = this.evaluate(expression.left)
+    // this.guardNull(leftResult.value, expression.left)
+
     const rightResult = this.evaluate(expression.right)
+    // this.guardNull(rightResult.value, expression.right)
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
@@ -1042,7 +1081,9 @@ export class Executor {
 
   public evaluate(expression: Expression): EvaluationResult {
     const method = `visit${expression.type}`
-    return this[method](expression)
+    const result = this[method](expression)
+    this.guardNull(result.value, expression)
+    return result
   }
 
   private lookupVariable(name: Token): any {
@@ -1114,6 +1155,12 @@ export class Executor {
       this.error('InfiniteLoop', loc)
     }
   }
+  private guardNull(value, guiltyExpression) {
+    if (value !== null && value !== undefined) {
+      return
+    }
+    this.error('ExpressionIsNull', guiltyExpression.location)
+  }
 
   private addFrame(
     location: Location | null,
@@ -1149,6 +1196,18 @@ export class Executor {
     this.functionCallLog[name] ||= {}
     this.functionCallLog[name][JSON.stringify(args)] ||= 0
     this.functionCallLog[name][JSON.stringify(args)] += 1
+  }
+
+  public addFunctionToCallStack(name: string, expression: CallExpression) {
+    this.functionCallStack.push(name)
+
+    if (this.functionCallStack.filter((n) => n == name).length > 5) {
+      this.error('InfiniteRecursion', expression.location)
+    }
+  }
+
+  public popCallStack() {
+    this.functionCallStack.pop()
   }
 
   public getExecutionContext(): ExecutionContext {

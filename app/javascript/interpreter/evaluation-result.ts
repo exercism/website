@@ -97,7 +97,7 @@ export type EvaluationResultChangeVariableStatement = {
   type: 'ChangeVariableStatement'
   name: string
   oldValue: any
-  newValue: any
+  value: any
   data?: Record<string, any>
 }
 
@@ -158,6 +158,10 @@ export type EvaluationResultCallExpression = {
 }
 
 export type EvaluationResult =
+  | EvaluationResultStatement
+  | EvaluationResultExpression
+
+export type EvaluationResultStatement =
   | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
@@ -166,6 +170,8 @@ export type EvaluationResult =
   | EvaluationResultCallStatement
   | EvaluationResultForeachStatement
   | EvaluationResultReturnStatement
+
+export type EvaluationResultExpression =
   | EvaluationResultLiteralExpression
   | EvaluationResultArrayExpression
   | EvaluationResultDictionaryExpression
@@ -175,7 +181,6 @@ export type EvaluationResult =
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression
   | EvaluationResultGroupingExpression
-  | EvaluationResultChangeVariableStatement
   | EvaluationResultGetExpression
   | EvaluationResultSetExpression
   | EvaluationResultTemplateTextExpression

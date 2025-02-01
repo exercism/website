@@ -38,7 +38,10 @@ import {
   LogStatement,
 } from './statement'
 import type { Token } from './token'
-import type { EvaluationResult } from './evaluation-result'
+import type {
+  EvaluationResult,
+  EvaluationResultExpression,
+} from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
 import type { LanguageFeatures, SomethingWithLocation } from './interpreter'
@@ -354,7 +357,7 @@ export class Executor {
         type: 'ChangeVariableStatement',
         name: statement.name.lexeme,
         oldValue,
-        newValue: value,
+        value: value,
       }
     })
   }
@@ -362,6 +365,8 @@ export class Executor {
   public visitIfStatement(statement: IfStatement): void {
     const conditionResult = this.executeFrame(statement, () => {
       const result = this.evaluate(statement.condition)
+      this.verifyBoolean(result.value, statement.condition.location)
+
       return {
         type: 'IfStatement',
         value: result.value,
@@ -621,7 +626,7 @@ export class Executor {
 
     switch (expression.operator.type) {
       case 'NOT':
-        this.verifyBooleanOperand(operand.value, expression.operator.location)
+        this.verifyBoolean(operand.value, expression.operator.location)
         return {
           type: 'UnaryExpression',
           operator: expression.operator.type,
@@ -831,13 +836,13 @@ export class Executor {
   ): EvaluationResult {
     if (expression.operator.type === 'OR') {
       const leftOr = this.evaluate(expression.left)
-      this.verifyBooleanOperand(leftOr.value, expression.operator.location)
+      this.verifyBoolean(leftOr.value, expression.operator.location)
 
       let rightOr: EvaluationResult | undefined = undefined
 
       if (!leftOr.value) {
         rightOr = this.evaluate(expression.right)
-        this.verifyBooleanOperand(rightOr.value, expression.operator.location)
+        this.verifyBoolean(rightOr.value, expression.operator.location)
       }
 
       return {
@@ -851,13 +856,13 @@ export class Executor {
     }
 
     const leftAnd = this.evaluate(expression.left)
-    this.verifyBooleanOperand(leftAnd.value, expression.operator.location)
+    this.verifyBoolean(leftAnd.value, expression.operator.location)
 
     let rightAnd: EvaluationResult | undefined = undefined
 
     if (leftAnd.value) {
       rightAnd = this.evaluate(expression.right)
-      this.verifyBooleanOperand(rightAnd.value, expression.operator.location)
+      this.verifyBoolean(rightAnd.value, expression.operator.location)
     }
 
     return {
@@ -1049,10 +1054,12 @@ export class Executor {
     })
   }
 
-  private verifyBooleanOperand(operand: any, location: Location): void {
-    if (isBoolean(operand)) return
+  private verifyBoolean(value: any, location: Location): void {
+    if (isBoolean(value)) return
 
-    this.error('OperandMustBeBoolean', location, { operand })
+    this.error('OperandMustBeBoolean', location, {
+      value: formatLiteral(value),
+    })
   }
 
   public executeStatement(statement: Statement): void {
@@ -1062,7 +1069,7 @@ export class Executor {
     this[method](statement)
   }
 
-  public evaluate(expression: Expression): EvaluationResult {
+  public evaluate(expression: Expression): EvaluationResultExpression {
     const method = `visit${expression.type}`
     const result = this[method](expression)
     this.guardNull(result.value, expression)

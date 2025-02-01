@@ -330,3 +330,41 @@ describe('ExpressionIsNull', () => {
     expect(frames[0].error!.message).toBe(`ExpressionIsNull`)
   })
 })
+
+describe('OperandMustBeBoolean', () => {
+  test('not number', () => {
+    const { frames } = interpret(`log not 1`)
+
+    expectFrameToBeError(frames[0], `log not 1`, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: 1`)
+  })
+  test('bang string', () => {
+    const { frames } = interpret(`log !"foo"`)
+
+    expectFrameToBeError(frames[0], `log !"foo"`, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
+  })
+
+  test('strings in conditionals', () => {
+    const code = `if "foo" do 
+                  end`
+    const { error, frames } = interpret(code)
+    console.log(frames)
+
+    expectFrameToBeError(frames[0], code, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
+  })
+
+  test('function call in conditionals', () => {
+    const code = `function ret_str do
+                    return "foo"
+                  end
+                  if ret_str() do 
+                  end`
+    const { error, frames } = interpret(code)
+    console.log(frames)
+
+    expectFrameToBeError(frames[1], 'ret_str()', 'OperandMustBeBoolean')
+    expect(frames[1].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
+  })
+})

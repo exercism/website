@@ -63,9 +63,10 @@
               "error_html": "The bottom right rectangle isn't correct."
             },
             {
-              "name": "wasFunctionUsed('rectangle', null, 55)",
-              "matcher": "toBeTrue",
-              "error_html": "You didn't add 55 bricks."
+              "name": "numberOfFunctionCallsInCode('rectangle')",
+              "matcher": "toEqual",
+              "value": 1,
+              "error_html": "You are using the `rectangle` function in multiple places in your code."
             }
           ]
         }

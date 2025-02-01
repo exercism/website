@@ -48,7 +48,7 @@ import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import didYouMean from 'didyoumean'
-import { formatLiteral } from './helpers'
+import { extractCallExpressions, formatLiteral } from './helpers'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -158,6 +158,7 @@ export class Executor {
       frames: this.frames,
       error: null,
       functionCallLog: this.functionCallLog,
+      callExpressions: extractCallExpressions(statements),
     }
   }
 
@@ -218,6 +219,7 @@ export class Executor {
           frames: this.frames,
           error: null,
           functionCallLog: this.functionCallLog,
+          callExpressions: extractCallExpressions([statement]),
         }
       }
 

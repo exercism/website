@@ -20,7 +20,7 @@ class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
 
   test "sets to next level when completed" do
     user = create :user, :with_bootcamp_data
-    create :bootcamp_level, idx: 1
+    [1, 2].each { |idx| create :bootcamp_level, idx: }
     exercise = create :bootcamp_exercise, level_idx: 1
     create(:bootcamp_solution, :completed, user:, exercise:)
 
@@ -42,8 +42,7 @@ class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
 
   test "sets to next possible level when multiple completed" do
     user = create :user, :with_bootcamp_data
-    create :bootcamp_level, idx: 1
-    create :bootcamp_level, idx: 2
+    [1, 2].each { |idx| create :bootcamp_level, idx: }
     exercise_1 = create :bootcamp_exercise, level_idx: 1
     exercise_2 = create :bootcamp_exercise, level_idx: 2
     create :bootcamp_solution, :completed, user:, exercise: exercise_1
@@ -56,9 +55,7 @@ class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
 
   test "requires consecutive levels" do
     user = create :user, :with_bootcamp_data
-    create :bootcamp_level, idx: 1
-    create :bootcamp_level, idx: 2
-    create :bootcamp_level, idx: 3
+    [1, 2, 3].each { |idx| create :bootcamp_level, idx: }
     exercise_1 = create :bootcamp_exercise, level_idx: 1
     exercise_2 = create :bootcamp_exercise, level_idx: 2
     exercise_3 = create :bootcamp_exercise, level_idx: 3
@@ -69,5 +66,19 @@ class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
     Bootcamp::UpdateUserLevel.(user)
 
     assert_equal 2, user.bootcamp_data.level_idx
+  end
+
+  test "doesn't let user go backwards" do
+    initial_level_idx = 3
+    [1, 2, 3].each { |idx| create :bootcamp_level, idx: }
+    user = create :user, :with_bootcamp_data
+    user.bootcamp_data.update(level_idx: initial_level_idx)
+
+    exercise = create :bootcamp_exercise, level_idx: 1
+    create(:bootcamp_solution, :completed, user:, exercise:)
+
+    Bootcamp::UpdateUserLevel.(user)
+
+    assert_equal initial_level_idx, user.bootcamp_data.level_idx
   end
 end

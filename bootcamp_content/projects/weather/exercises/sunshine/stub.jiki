@@ -2,9 +2,6 @@
 fill_color_hex("#ADD8E6") 
 rectangle(0, 0, 100, 100)
 
-// Sun
-fill_color_hex("#ffed06")
-
 // Draw the Spikes
 triangle(10,10,29,33,33,29)
 triangle(50,2,47,23,53,23)
@@ -15,5 +12,8 @@ triangle(10,90,29,67,33,71)
 triangle(50,98,47,77,53,77)
 triangle(2,50,23,47,23,53)
 
-// TODO: Draw the sun
+// Sun
+fill_color_hex("#ffed06")
+
+// TODO: Draw the sun here
 

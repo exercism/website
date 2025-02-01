@@ -4,6 +4,14 @@ class Bootcamp::UpdateUserLevel
   initialize_with :user
 
   def call
+    # Users can't go backwards!
+    return if user.bootcamp_data.level_idx >= new_level_idx
+
+    user.bootcamp_data.update!(level_idx: new_level_idx)
+  end
+
+  memoize
+  def new_level_idx
     max = 0
     exercise_ids_by_level_idx.each do |level_idx, exercise_ids|
       next if level_idx < max
@@ -11,7 +19,7 @@ class Bootcamp::UpdateUserLevel
 
       max = level_idx
     end
-    user.bootcamp_data.update!(level_idx: max + 1)
+    max + 1
   end
 
   memoize

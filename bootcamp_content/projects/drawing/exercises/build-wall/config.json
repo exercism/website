@@ -1,5 +1,5 @@
 {
-  "title": "Build a Wall",
+  "title": "Build the Wall",
   "description": "Use rectangles to build a wall",
   "project_type": "draw",
   "level": 4,
@@ -61,6 +61,11 @@
               "name": "getRectangleAt(90, 90, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The bottom right rectangle isn't correct."
+            },
+            {
+              "name": "wasFunctionUsed('rectangle', null, 55)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't add exactly 55 bricks."
             },
             {
               "name": "numberOfFunctionCallsInCode('rectangle')",

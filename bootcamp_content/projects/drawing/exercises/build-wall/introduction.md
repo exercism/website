@@ -1,8 +1,8 @@
-# Fix the Wall
+# Build the Wall
 
-In the first drawing exercise you did, you used the `rectangle` and the `fill_color_hex` functions to fill in some gaps in a wall.
+Last time you saw the wall, you added a top layer to it.
 
-In this exercise, we build on that by using the `repeat` keyword to add **lots** of bricks and build a wall.
+In this exercise, we build on that by adding **lots** of bricks (55 in total) to build a wall from scratch.
 
 The final wall should look like this:
 
@@ -10,6 +10,10 @@ The final wall should look like this:
 
 Things you need to know:
 
-- Each brick is 10 high and 20 wide.
-- The rows alternate between bricks starting at the left edge, and bricks that start to the left of that.
+- **Every** brick is 10 high and 20 wide.
+- The rows alternate between starting at the left edge, and starting off-screen to the left.
 - The `rectangle` function can only appear once in your code!
+
+The aim of this exercise is for you to experiment with using `repeat` blocks and potentially use `functions`.
+There are **lots** of different ways to solve this exercise, and there is no right or wrong way.
+Your challenge is to solve it in a way that you feel results in as clean and satsifying code as you can achieve.

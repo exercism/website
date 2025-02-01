@@ -22,13 +22,18 @@ export function TestResultsButtons() {
           <button
             data-ci="test-selector-button"
             key={test.name + idx}
-            onClick={() =>
+            onClick={() => {
+              testSuiteResult.tests.forEach((test) => {
+                if (test.animationTimeline) {
+                  test.animationTimeline.pause()
+                }
+              })
               handleSetInspectedTestResult({
                 testResult: test,
                 setInspectedTestResult,
                 setInformationWidgetData,
               })
-            }
+            }}
             style={{ transitionDelay: `${idx * TRANSITION_DELAY}s` }}
             className={assembleClassNames(
               'test-button',

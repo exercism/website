@@ -1,9 +1,9 @@
 {
-  "title": "Build the Wall",
-  "description": "Use rectangles to build a wall",
+  "title": "Finish the Wall",
+  "description": "Use rectangles to finish the wall",
   "project_type": "draw",
-  "level": 4,
-  "idx": 9,
+  "level": 2,
+  "idx": 2,
   "concepts": [],
   "tests_type": "state",
   "readonly_ranges": [],
@@ -19,11 +19,7 @@
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
             ["changePenColor", ["#7f3732"]],
-            ["fillColorHex", ["red"]],
-            [
-              "setBackgroundImage",
-              ["https://assets.exercism.org/bootcamp/graphics/topless-wall.png"]
-            ]
+            ["fillColorHex", ["red"]]
           ],
           "checks": [
             {

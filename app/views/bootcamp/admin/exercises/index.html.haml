@@ -10,6 +10,7 @@
             %th Exercise
             %th Level
             %th Concepts
+            %th # Stale
             %th # Active
             %th # Done
         %tbody
@@ -27,5 +28,6 @@
                 .bubbles
                   - exercise.concepts.each do |concept|
                     .bubble= concept.title
-              %td= @in_progress_exercise_counts[exercise.id].to_i
+              %td= @stale_exercise_counts[exercise.id].to_i
+              %td= @active_exercise_counts[exercise.id].to_i
               %td= @completed_exercise_counts[exercise.id].to_i

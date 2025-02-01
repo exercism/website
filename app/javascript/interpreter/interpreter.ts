@@ -1,5 +1,5 @@
 import { RuntimeError, type RuntimeErrorType, type StaticError } from './error'
-import { Expression } from './expression'
+import { CallExpression, Expression } from './expression'
 import { Location } from './location'
 import { Parser } from './parser'
 import { Executor } from './executor'
@@ -56,6 +56,7 @@ export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
   functionCallLog: Record<string, Record<any, number>>
+  callExpressions: CallExpression[]
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {

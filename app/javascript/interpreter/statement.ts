@@ -17,11 +17,15 @@ import { formatLiteral } from './helpers'
 export abstract class Statement implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
+  abstract children()
 }
 
 export class CallStatement extends Statement {
   constructor(public expression: CallExpression, public location: Location) {
     super('CallStatement')
+  }
+  public children() {
+    return [this.expression]
   }
 }
 
@@ -32,6 +36,9 @@ export class SetVariableStatement extends Statement {
     public location: Location
   ) {
     super('SetVariableStatement')
+  }
+  public children() {
+    return [this.initializer]
   }
 
   public description(result: EvaluationResultSetVariableStatement) {
@@ -50,6 +57,9 @@ export class ChangeVariableStatement extends Statement {
     public location: Location
   ) {
     super('ChangeVariableStatement')
+  }
+  public children() {
+    return [this.value]
   }
 
   public description(result: EvaluationResultChangeVariableStatement) {
@@ -70,6 +80,9 @@ export class ConstantStatement extends Statement {
   ) {
     super('ConstantStatement')
   }
+  public children() {
+    return [this.initializer]
+  }
 }
 
 export class IfStatement extends Statement {
@@ -80,6 +93,9 @@ export class IfStatement extends Statement {
     public location: Location
   ) {
     super('IfStatement')
+  }
+  public children() {
+    return [this.condition, this.thenBranch, this.elseBranch].flat()
   }
 }
 
@@ -92,6 +108,9 @@ export class RepeatStatement extends Statement {
   ) {
     super('RepeatStatement')
   }
+  public children() {
+    return [this.count].concat(this.body)
+  }
 }
 
 export class RepeatForeverStatement extends Statement {
@@ -101,6 +120,9 @@ export class RepeatForeverStatement extends Statement {
     public location: Location
   ) {
     super('RepeatForeverStatement')
+  }
+  public children() {
+    return this.body
   }
 }
 
@@ -112,6 +134,9 @@ export class RepeatUntilGameOverStatement extends Statement {
   ) {
     super('RepeatUntilGameOverStatement')
   }
+  public children() {
+    return this.body
+  }
 }
 
 export class WhileStatement extends Statement {
@@ -121,6 +146,9 @@ export class WhileStatement extends Statement {
     public location: Location
   ) {
     super('WhileStatement')
+  }
+  public children() {
+    return [this.condition].concat(this.body)
   }
 }
 
@@ -132,11 +160,17 @@ export class DoWhileStatement extends Statement {
   ) {
     super('DoWhileStatement')
   }
+  public children() {
+    return [this.condition].concat(this.body)
+  }
 }
 
 export class BlockStatement extends Statement {
   constructor(public statements: Statement[], public location: Location) {
     super('BlockStatement')
+  }
+  public children() {
+    return this.statements
   }
 }
 
@@ -153,6 +187,9 @@ export class FunctionStatement extends Statement {
   ) {
     super('FunctionStatement')
   }
+  public children() {
+    return this.body
+  }
 }
 
 export class ReturnStatement extends Statement {
@@ -162,6 +199,9 @@ export class ReturnStatement extends Statement {
     public location: Location
   ) {
     super('ReturnStatement')
+  }
+  public children() {
+    return [this.value].flat()
   }
   public description(result: EvaluationResultReturnStatement) {
     if (result.value == undefined) {
@@ -186,11 +226,17 @@ export class ForeachStatement extends Statement {
   ) {
     super('ForeachStatement')
   }
+  public children() {
+    return [this.iterable].concat(this.body)
+  }
 }
 
 export class LogStatement extends Statement {
   constructor(public expression: Expression, public location: Location) {
     super('LogStatement')
+  }
+  public children() {
+    return []
   }
 
   public description(result: EvaluationResult) {

@@ -1,24 +1,8 @@
-set height to 10
-set width to 20
-
-set col to -1
-set row to -1
-
-set num_iterations to 0
 fill_color_hex("#AA4A44")
 
-repeat 10 times do
-  change row to row + 1
-  if row % 2 == 0 do
-    change col to -1
-    change num_iterations to 5
-  else do
-    change col to -1.5
-    change num_iterations to 6
-  end
-  
-  repeat num_iterations times do
-    change col to col + 1
-    rectangle(col * width, row * height, width, height)
-  end
+set x to -1
+repeat 5 times do
+  change x to x + 1
+
+  rectangle(x * 20, 0, 20, 10)
 end

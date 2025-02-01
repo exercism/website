@@ -1,10 +1,12 @@
 # Finish the Wall
 
-In the first drawing exercise you did, you used the `rectangle` and the `fill_color_hex` functions to fill in some gaps in a wall.
+In the first drawing exercise you completed, you used the `rectangle` and the `fill_color_hex` functions to fill in some gaps in a wall.
 
 In this exercise, we build on that by using the `repeat` keyword to add the top layer to a wall.
 
-The final wall should look like this. All the layers other than the top one area already complete.
+The final wall should look like this.
+All the layers other than the top one are already complete.
+You need to add the final layer of 5 bricks.
 
 <img src="https://assets.exercism.org/bootcamp/graphics/completed-wall.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 

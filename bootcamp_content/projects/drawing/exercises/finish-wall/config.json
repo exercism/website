@@ -19,48 +19,32 @@
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
             ["changePenColor", ["#7f3732"]],
-            ["fillColorHex", ["red"]]
+            ["fillColorHex", ["red"]],
+            [
+              "setBackgroundImage",
+              ["https://assets.exercism.org/bootcamp/graphics/topless-wall.png"]
+            ]
           ],
           "checks": [
             {
               "name": "getRectangleAt(0, 0, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The top left rectangle isn't correct."
+              "error_html": "The left brick isn't correct."
+            },
+            {
+              "name": "getRectangleAt(40, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The middle brick isn't correct."
             },
             {
               "name": "getRectangleAt(80, 0, 20, 10)",
               "matcher": "toBeDefined",
-              "error_html": "The top right rectangle isn't correct."
+              "error_html": "The right brick isn't correct."
             },
             {
-              "name": "getRectangleAt(-10, 10, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "The first rectangle on the second row isn't correct."
-            },
-            {
-              "name": "getRectangleAt(90, 10, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "The last rectangle on the second row isn't correct."
-            },
-            {
-              "name": "getRectangleAt(40, 20, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "The middle rectangles on the third row isn't correct."
-            },
-            {
-              "name": "getRectangleAt(30, 30, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "One of the middle rectangles on the fourth row isn't correct."
-            },
-            {
-              "name": "getRectangleAt(-10, 90, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "The bottom left rectangle isn't correct."
-            },
-            {
-              "name": "getRectangleAt(90, 90, 20, 10)",
-              "matcher": "toBeDefined",
-              "error_html": "The bottom right rectangle isn't correct."
+              "name": "wasFunctionUsed('rectangle', null, 5)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't add exactly 5 bricks."
             },
             {
               "name": "numberOfFunctionCallsInCode('rectangle')",

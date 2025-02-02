@@ -523,7 +523,13 @@ export class Executor {
 
   visitForeachStatement(statement: ForeachStatement): void {
     const iterable = this.evaluate(statement.iterable)
-    if (!isArray(iterable.value) || iterable.value?.length === 0) {
+    if (!isArray(iterable.value) && !isString(iterable.value)) {
+      this.error('ForeachNotIterable', statement.iterable.location, {
+        value: formatLiteral(iterable.value),
+      })
+    }
+
+    if (iterable.value?.length === 0) {
       this.executeFrame<any>(statement, () => {
         return {
           type: 'ForeachStatement',

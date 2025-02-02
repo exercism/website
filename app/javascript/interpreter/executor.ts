@@ -38,6 +38,7 @@ import {
   CallStatement,
   LogStatement,
   ChangeListElementStatement,
+  ForeachStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -85,7 +86,7 @@ export class Executor {
 
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
-  private statementStartingVariables: Record<string, any> = {}
+  private statementStartingVariablesLog: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
 
@@ -353,7 +354,7 @@ export class Executor {
 
       this.updateVariable(statement.name, value.value, statement)
 
-      const oldValue = this.statementStartingVariables[statement.name.lexeme]
+      const oldValue = this.statementStartingVariablesLog[statement.name.lexeme]
 
       return {
         type: 'ChangeVariableStatement',
@@ -520,38 +521,34 @@ export class Executor {
     }
   }
 
-  // visitForeachStatement(statement: ForeachStatement): void {
-  //   const iterable = this.evaluate(statement.iterable)
-  //   if (!isArray(iterable.value) || iterable.value?.length === 0) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value: undefined,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
-  //   }
+  visitForeachStatement(statement: ForeachStatement): void {
+    const iterable = this.evaluate(statement.iterable)
+    if (!isArray(iterable.value) || iterable.value?.length === 0) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value: undefined,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
+    }
 
-  //   for (const value of iterable.value) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
+    for (const value of iterable.value) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
 
-  //     // TODO: Think about this. Currently it creates a new environment for each loop iteration
-  //     // with the element in. But that's maybe not what we want as it'll be a new scope
-  //     // and the rest of Jiki is currently not scoped on a block basis.
-  //     // Consider a `finally` to unset the variable instead?
-  //     const loopEnvironment = new Environment(this.environment)
-  //     loopEnvironment.define(statement.elementName.lexeme, value)
-  //     this.executeBlock(statement.body, loopEnvironment)
-  //   }
-  // }
+      this.environment.define(statement.elementName.lexeme, value)
+      this.executeBlock(statement.body, this.environment)
+      this.environment.undefine(statement.elementName.lexeme)
+    }
+  }
 
   // public visitWhileStatement(statement: WhileStatement): void {
   //   while (
@@ -1028,7 +1025,8 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
-    this.statementStartingVariables = cloneDeep(this.environment.variables())
+    // Store a clone of the values so that any changes do not affect this
+    this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
 
     const method = `visit${statement.type}`
     this[method](statement)
@@ -1134,7 +1132,7 @@ export class Executor {
       status,
       result,
       error,
-      priorVariables: this.statementStartingVariables,
+      priorVariables: this.statementStartingVariablesLog,
       variables: this.environment.variables(),
       functions: this.environment.functions(),
       time: this.frameTime,

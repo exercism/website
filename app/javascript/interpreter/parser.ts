@@ -172,7 +172,7 @@ export class Parser {
     if (this.match('REPEAT_UNTIL_GAME_OVER'))
       return this.repeatUntilGameOverStatement()
     // if (this.match('WHILE')) return this.whileStatement()
-    if (this.match('FOREACH')) return this.foreachStatement()
+    if (this.match('FOR')) return this.forStatement()
     if (this.match('DO')) return this.blockStatement('do')
 
     // Error cases
@@ -422,8 +422,13 @@ export class Parser {
     )
   }
 
-  private foreachStatement(): Statement {
-    const foreachToken = this.previous()
+  private forStatement(): Statement {
+    const forToken = this.previous()
+    console.log(this.peek())
+    const eachToken = this.consume('EACH', 'MissingEachAfterFor')
+    return this.foreachStatement(forToken, eachToken)
+  }
+  private foreachStatement(forToken: Token, eachToken: Token): Statement {
     const elementName = this.consume(
       'IDENTIFIER',
       'MissingElementNameAfterForeach'
@@ -442,7 +447,7 @@ export class Parser {
       elementName,
       iterable,
       statements,
-      Location.between(foreachToken, this.previous())
+      Location.between(forToken, this.previous())
     )
   }
 

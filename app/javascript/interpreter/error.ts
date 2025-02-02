@@ -77,6 +77,7 @@ export type SyntaxErrorType =
   | 'MiscapitalizedKeyword'
   | 'PointlessStatement'
   | 'PotentialMissingParenthesesForFunctionCall'
+  | 'MissingEachAfterFor'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

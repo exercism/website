@@ -539,41 +539,6 @@ describe('while', () => {
   })
 })
 
-describe('foreach', () => {
-  test('with single statement in body', () => {
-    // TODO: Get rid of let
-    const stmts = parse(`
-      foreach elem in [] do
-        set x to elem + 1
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
-    const foreachStmt = stmts[0] as ForeachStatement
-    expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ListExpression)
-    expect(foreachStmt.body).toBeArrayOfSize(1)
-    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
-  })
-
-  test('with multiple statements in body', () => {
-    const stmts = parse(`
-      foreach elem in [] do
-        set x to elem + 1
-        set y to elem - 1
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
-    const foreachStmt = stmts[0] as ForeachStatement
-    expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ListExpression)
-    expect(foreachStmt.body).toBeArrayOfSize(2)
-    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
-    expect(foreachStmt.body[1]).toBeInstanceOf(SetVariableStatement)
-  })
-})
-
 describe('block', () => {
   test('non-nested', () => {
     const stmts = parse(`

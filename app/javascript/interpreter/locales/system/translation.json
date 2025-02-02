@@ -58,7 +58,8 @@
       "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
       "UnexpectedChainedEquality": "UnexpectedChainedEquality",
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
-      "PointlessStatement": "PointlessStatement"
+      "PointlessStatement": "PointlessStatement",
+      "MissingEachAfterFor": "MissingEachAfterFor"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

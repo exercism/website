@@ -492,3 +492,13 @@ test('PotentialMissingParenthesesForFunctionCall', () => {
     'PotentialMissingParenthesesForFunctionCall'
   )
 })
+
+test('MissingEachAfterFor', () => {
+  expect(() =>
+    parse(`
+      for elem in [] do
+        set x to elem
+      end
+    `)
+  ).toThrow('MissingEachAfterFor')
+})

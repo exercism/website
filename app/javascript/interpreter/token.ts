@@ -42,7 +42,7 @@ export type TokenType =
   | 'END'
   | 'FALSE'
   | 'FOR'
-  | 'FOREACH'
+  | 'EACH'
   | 'FUNCTION'
   | 'IF'
   | 'IN'

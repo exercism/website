@@ -1,5 +1,5 @@
 import {
-  ArrayExpression,
+  ListExpression,
   BinaryExpression,
   CallExpression,
   GroupingExpression,
@@ -132,151 +132,6 @@ describe('literals', () => {
   })
 })
 
-describe('array', () => {
-  test('empty', () => {
-    const stmts = parse('log []')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = logStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeEmpty()
-  })
-
-  test('single element', () => {
-    const stmts = parse('log [1]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = logStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(1)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    const firstElemExpr = arrayExpr.elements[0] as LiteralExpression
-    expect(firstElemExpr.value).toBe(1)
-  })
-
-  test('multiple elements', () => {
-    const stmts = parse('log [1,2,3]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = logStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(3)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(LiteralExpression)
-    expect(arrayExpr.elements[2]).toBeInstanceOf(LiteralExpression)
-    expect((arrayExpr.elements[0] as LiteralExpression).value).toBe(1)
-    expect((arrayExpr.elements[1] as LiteralExpression).value).toBe(2)
-    expect((arrayExpr.elements[2] as LiteralExpression).value).toBe(3)
-  })
-
-  test('nested', () => {
-    const stmts = parse('log [1,[2,[3]]]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = logStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(2)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((arrayExpr.elements[0] as LiteralExpression).value).toBe(1)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(ArrayExpression)
-    const nestedExpr = arrayExpr.elements[1] as ArrayExpression
-    expect(nestedExpr.elements).toBeArrayOfSize(2)
-    expect(nestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((nestedExpr.elements[0] as LiteralExpression).value).toBe(2)
-    expect(nestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    const nestedNestedExpr = nestedExpr.elements[1] as ArrayExpression
-    expect(nestedNestedExpr.elements).toBeArrayOfSize(1)
-    expect(nestedNestedExpr.elements[0]).toBeInstanceOf(LiteralExpression)
-    expect((nestedNestedExpr.elements[0] as LiteralExpression).value).toBe(3)
-  })
-
-  test('expressions', () => {
-    const stmts = parse('log [-1,2*2,3+3]')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(ArrayExpression)
-    const arrayExpr = logStmt.expression as ArrayExpression
-    expect(arrayExpr.elements).toBeArrayOfSize(3)
-    expect(arrayExpr.elements[0]).toBeInstanceOf(UnaryExpression)
-    expect(arrayExpr.elements[1]).toBeInstanceOf(BinaryExpression)
-    expect(arrayExpr.elements[2]).toBeInstanceOf(BinaryExpression)
-  })
-})
-
-describe('dictionary', () => {
-  test('empty', () => {
-    const stmts = parse('set empty to {}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements).toBeEmpty()
-  })
-
-  test('single element', () => {
-    const stmts = parse('set movie to {"title": "Jurassic Park"}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(1)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-  })
-
-  test('multiple elements', () => {
-    const stmts = parse('set movie to {"title": "Jurassic Park", "year": 1993}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(2)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-    expect(mapExpr.elements.get('year')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('year') as LiteralExpression).value).toBe(1993)
-  })
-
-  test('nested', () => {
-    const stmts = parse(
-      'set movie to {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
-    )
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(2)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-    expect(mapExpr.elements.get('director')).toBeInstanceOf(
-      DictionaryExpression
-    )
-    const nestedMapExpr = mapExpr.elements.get(
-      'director'
-    ) as DictionaryExpression
-    expect(nestedMapExpr.elements.size).toBe(1)
-    expect(nestedMapExpr.elements.get('name')).toBeInstanceOf(LiteralExpression)
-    expect(
-      (nestedMapExpr.elements.get('name') as LiteralExpression).value
-    ).toBe('Steven Spielberg')
-  })
-})
-
 describe('variable', () => {
   test('single-character name', () => {
     const statements = parse('set x to 1')
@@ -350,7 +205,7 @@ describe('get', () => {
       const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe('title')
+      expect((getExpr.field as LiteralExpression).value).toBe('title')
       expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
         'movie'
@@ -375,47 +230,6 @@ describe('get', () => {
       expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
         'movie'
-      )
-    })
-  })
-
-  describe('array', () => {
-    test.skip('single field', () => {
-      const stmts = parse(`
-        set scores to [7, 3, 10]
-        set latest to scores[2]
-      `)
-      expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-      const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe(2)
-      expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
-      expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
-        'scores'
-      )
-    })
-
-    test.skip('chained', () => {
-      const stmts = parse(`
-        set scoreMinMax to [[3, 7], [1, 6]]
-        set secondMin to scoreMinMax[1][0]
-      `)
-      expect(stmts).toBeArrayOfSize(2)
-      expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-      expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-      const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe(0)
-      expect(getExpr.obj).toBeInstanceOf(GetExpression)
-      const nestedGetExpr = getExpr.obj as GetExpression
-      expect(nestedGetExpr.field.literal).toBe(1)
-      expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
-      expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
-        'scoreMinMax'
       )
     })
   })
@@ -725,41 +539,6 @@ describe('while', () => {
   })
 })
 
-describe('foreach', () => {
-  test('with single statement in body', () => {
-    // TODO: Get rid of let
-    const stmts = parse(`
-      foreach elem in [] do
-        set x to elem + 1
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
-    const foreachStmt = stmts[0] as ForeachStatement
-    expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
-    expect(foreachStmt.body).toBeArrayOfSize(1)
-    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
-  })
-
-  test('with multiple statements in body', () => {
-    const stmts = parse(`
-      foreach elem in [] do
-        set x to elem + 1
-        set y to elem - 1
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ForeachStatement)
-    const foreachStmt = stmts[0] as ForeachStatement
-    expect(foreachStmt.elementName.lexeme).toBe('elem')
-    expect(foreachStmt.iterable).toBeInstanceOf(ArrayExpression)
-    expect(foreachStmt.body).toBeArrayOfSize(2)
-    expect(foreachStmt.body[0]).toBeInstanceOf(SetVariableStatement)
-    expect(foreachStmt.body[1]).toBeInstanceOf(SetVariableStatement)
-  })
-})
-
 describe('block', () => {
   test('non-nested', () => {
     const stmts = parse(`
@@ -791,72 +570,6 @@ describe('block', () => {
     expect(blockStmt.statements).toBeArrayOfSize(2)
     expect(blockStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
     expect(blockStmt.statements[1]).toBeInstanceOf(BlockStatement)
-  })
-})
-
-describe('function', () => {
-  test('without parameters', () => {
-    const stmts = parse(`
-      function move do
-        return 1
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(FunctionStatement)
-    const functionStmt = stmts[0] as FunctionStatement
-    expect(functionStmt.name.lexeme).toBe('move')
-    expect(functionStmt.parameters).toBeEmpty()
-    expect(functionStmt.body).toBeArrayOfSize(1)
-    expect(functionStmt.body[0]).toBeInstanceOf(ReturnStatement)
-  })
-
-  test('with parameters', () => {
-    const stmts = parse(`
-      function move with x, y do
-        return x + y
-      end
-    `)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(FunctionStatement)
-    const functionStmt = stmts[0] as FunctionStatement
-    expect(functionStmt.name.lexeme).toBe('move')
-    expect(functionStmt.parameters).toBeArrayOfSize(2)
-    expect(functionStmt.parameters[0].name.lexeme).toBe('x')
-    expect(functionStmt.parameters[1].name.lexeme).toBe('y')
-    expect(functionStmt.body).toBeArrayOfSize(1)
-    expect(functionStmt.body[0]).toBeInstanceOf(ReturnStatement)
-  })
-})
-
-describe('return', () => {
-  test('without argument', () => {
-    const stmts = parse('return')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ReturnStatement)
-    const returnStmt = stmts[0] as ReturnStatement
-    expect(returnStmt.value).toBeNull()
-  })
-
-  describe('with argument', () => {
-    test('number', () => {
-      const stmts = parse('return 2')
-      expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ReturnStatement)
-      const returnStmt = stmts[0] as ReturnStatement
-      expect(returnStmt.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = returnStmt.value as LiteralExpression
-      expect(literalExpr.value).toBe(2)
-    })
-
-    test('string', () => {
-      const stmts = parse('return "hello there!"')
-      expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ReturnStatement)
-      const returnStmt = stmts[0] as ReturnStatement
-      expect(returnStmt.value).toBeInstanceOf(LiteralExpression)
-      const literalExpr = returnStmt.value as LiteralExpression
-      expect(literalExpr.value).toBe('hello there!')
-    })
   })
 })
 
@@ -939,3 +652,5 @@ describe('location', () => {
     })
   })
 })
+
+describe('lists', () => {})

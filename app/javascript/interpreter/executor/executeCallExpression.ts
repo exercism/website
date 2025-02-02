@@ -8,6 +8,7 @@ import {
 import { isCallable } from '../functions'
 import { EvaluationResult } from '../evaluation-result'
 import { isNumber } from '../checks'
+import { cloneDeep } from 'lodash'
 
 function throwMissingFunctionError(
   executor: Executor,
@@ -102,7 +103,7 @@ export function executeCallExpression(
 
     value = callee.value.call(
       executor.getExecutionContext(),
-      args.map((arg) => arg.value)
+      args.map((arg) => cloneDeep(arg.value))
     )
 
     executor.popCallStack()

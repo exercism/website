@@ -9,6 +9,7 @@ import {
   LogicError,
 } from './error'
 import {
+  ListExpression,
   BinaryExpression,
   CallExpression,
   Expression,
@@ -36,6 +37,8 @@ import {
   RepeatForeverStatement,
   CallStatement,
   LogStatement,
+  ChangeListElementStatement,
+  ForeachStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -83,7 +86,7 @@ export class Executor {
 
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
-  private statementStartingVariables: Record<string, any> = {}
+  private statementStartingVariablesLog: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
 
@@ -351,13 +354,35 @@ export class Executor {
 
       this.updateVariable(statement.name, value.value, statement)
 
-      const oldValue = this.statementStartingVariables[statement.name.lexeme]
+      const oldValue = this.statementStartingVariablesLog[statement.name.lexeme]
 
       return {
         type: 'ChangeVariableStatement',
         name: statement.name.lexeme,
         oldValue,
         value: value,
+      }
+    })
+  }
+
+  public visitChangeListElementStatement(
+    statement: ChangeListElementStatement
+  ): void {
+    this.executeFrame(statement, () => {
+      const list = this.evaluate(statement.list)
+      const index = this.evaluate(statement.index)
+      this.verifyNumber(index.value, statement.index)
+      const value = this.evaluate(statement.value).value
+
+      // Do the update
+      const oldValue = list.value[index.value - 1]
+      list.value[index.value - 1] = value
+      console.log(index.value, ': ', oldValue, '->', value)
+
+      return {
+        type: 'ChangeListElementStatement',
+        oldValue,
+        value,
       }
     })
   }
@@ -489,38 +514,41 @@ export class Executor {
     throw new ReturnValue(evaluationResult?.value, statement.location)
   }
 
-  // visitForeachStatement(statement: ForeachStatement): void {
-  //   const iterable = this.evaluate(statement.iterable)
-  //   if (!isArray(iterable.value) || iterable.value?.length === 0) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value: undefined,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
-  //   }
+  visitListExpression(expression: ListExpression): EvaluationResult {
+    return {
+      type: 'ListExpression',
+      value: expression.elements.map((element) => this.evaluate(element).value),
+    }
+  }
 
-  //   for (const value of iterable.value) {
-  //     this.executeFrame<any>(statement, () => {
-  //       return {
-  //         type: 'ForeachStatement',
-  //         value,
-  //         iterable,
-  //         elementName: statement.elementName.lexeme,
-  //       }
-  //     })
+  visitForeachStatement(statement: ForeachStatement): void {
+    const iterable = this.evaluate(statement.iterable)
+    if (!isArray(iterable.value) || iterable.value?.length === 0) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value: undefined,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
+    }
 
-  //     // TODO: Think about this. Currently it creates a new environment for each loop iteration
-  //     // with the element in. But that's maybe not what we want as it'll be a new scope
-  //     // and the rest of Jiki is currently not scoped on a block basis.
-  //     // Consider a `finally` to unset the variable instead?
-  //     const loopEnvironment = new Environment(this.environment)
-  //     loopEnvironment.define(statement.elementName.lexeme, value)
-  //     this.executeBlock(statement.body, loopEnvironment)
-  //   }
-  // }
+    for (const value of iterable.value) {
+      this.executeFrame<any>(statement, () => {
+        return {
+          type: 'ForeachStatement',
+          value,
+          iterable,
+          elementName: statement.elementName.lexeme,
+        }
+      })
+
+      this.environment.define(statement.elementName.lexeme, value)
+      this.executeBlock(statement.body, this.environment)
+      this.environment.undefine(statement.elementName.lexeme)
+    }
+  }
 
   // public visitWhileStatement(statement: WhileStatement): void {
   //   while (
@@ -565,13 +593,6 @@ export class Executor {
   //   return {
   //     type: 'TemplateTextExpression',
   //     value: expression.text.literal,
-  //   }
-  // }
-
-  // visitArrayExpression(expression: ArrayExpression): EvaluationResult {
-  //   return {
-  //     type: 'ArrayExpression',
-  //     value: expression.elements.map((element) => this.evaluate(element).value),
   //   }
   // }
 
@@ -862,13 +883,25 @@ export class Executor {
     } else if (expression.operand instanceof GetExpression) {
       const obj = this.evaluate(expression.operand.obj)
 
+      /*
       if (isObject(obj.value) && expression.operand.field.type === 'STRING') {
-        value = obj.value[expression.operand.field.literal]
+        const fieldValue = this.evaluate(expression.operand.field)
+        value = obj.value[fieldValue.value]
       } else if (
         isArray(obj.value) &&
         expression.operand.field.type === 'NUMBER'
       ) {
         value = obj.value[expression.operand.field.literal]
+      }*/
+      console.log('here')
+      console.log(obj.value)
+      console.log(this.evaluate(expression.operand.field))
+      if (isArray(obj.value)) {
+        const idx = this.evaluate(expression.operand.field)
+        // TODO: Maybe a custom error message here about array indexes
+        // needing to be numbers?
+        this.verifyNumber(idx.value, expression.operand.field)
+        value = obj.value[idx.value]
       }
 
       this.verifyNumber(expression.operator, value)
@@ -902,7 +935,7 @@ export class Executor {
   public visitGetExpression(expression: GetExpression): EvaluationResult {
     const obj = this.evaluate(expression.obj)
 
-    if (isObject(obj.value) && expression.field.type === 'STRING') {
+    /*if (isObject(obj.value) && expression.field.type === 'STRING') {
       // TODO: consider if we want to throw an error when the field does not exist or return null
       return {
         type: 'GetExpression',
@@ -913,18 +946,23 @@ export class Executor {
         field: expression.field.literal,
         value: obj.value[expression.field.literal],
       }
-    }
+    }*/
 
-    if (isArray(obj.value) && expression.field.type === 'NUMBER') {
-      // TODO: consider if we want to throw an error when the index does not exist or return null
+    if (isArray(obj.value)) {
+      const idx = this.evaluate(expression.field)
+      // TODO: Maybe a custom error message here about array indexes
+      // needing to be numbers?
+      this.verifyNumber(idx.value, expression.field)
+      const value = obj.value[idx.value - 1] // 0-index
+
       return {
         type: 'GetExpression',
         obj: obj,
         expression: `${expression.obj.location.toCode(this.sourceCode)}[${
-          expression.field.lexeme
+          idx.value
         }]`,
-        field: expression.field.literal,
-        value: obj.value[expression.field.literal],
+        field: idx,
+        value,
       }
     }
 
@@ -987,7 +1025,8 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
-    this.statementStartingVariables = cloneDeep(this.environment.variables())
+    // Store a clone of the values so that any changes do not affect this
+    this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
 
     const method = `visit${statement.type}`
     this[method](statement)
@@ -1093,7 +1132,7 @@ export class Executor {
       status,
       result,
       error,
-      priorVariables: this.statementStartingVariables,
+      priorVariables: this.statementStartingVariablesLog,
       variables: this.environment.variables(),
       functions: this.environment.functions(),
       time: this.frameTime,

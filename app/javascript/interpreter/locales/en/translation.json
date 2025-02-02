@@ -57,7 +57,8 @@
       "UnexpectedChainedEquality": "You can't chain equality operators like this. Did you mean to use `and` or `or` instead?",
       "MiscapitalizedKeyword": "Did you make a typo in `{{actual}}`? Maybe you meant `{{expected}}`?",
       "PointlessStatement": "This line of code doesn't do anything.",
-      "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)"
+      "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)",
+      "MissingEachAfterFor": "Did you forget to write `each` after the `for` keyword?"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

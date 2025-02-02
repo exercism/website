@@ -43,7 +43,7 @@ export class Scanner {
     end: 'END',
     false: 'FALSE',
     for: 'FOR',
-    foreach: 'FOREACH',
+    each: 'EACH',
     function: 'FUNCTION',
     if: 'IF',
     in: 'IN',

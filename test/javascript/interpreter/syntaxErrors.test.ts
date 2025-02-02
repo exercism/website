@@ -157,14 +157,20 @@ test('MissingWithBeforeParameters', () => {
   ).toThrow('MissingWithBeforeParameters')
 })
 
-test('MissingEndOfLine', () => {
-  expect(() =>
-    parse(`
-      function move with x, y do
-        set result to x + y
-      end end
-    `)
-  ).toThrow('MissingEndOfLine: previous: end')
+describe('MissingEndOfLine', () => {
+  test('Two expressions', () => {
+    expect(() => parse('log 1 1')).toThrow('MissingEndOfLine')
+  })
+
+  test('Two ends', () => {
+    expect(() =>
+      parse(`
+        function move with x, y do
+          set result to x + y
+        end end
+      `)
+    ).toThrow('MissingEndOfLine: previous: end')
+  })
 })
 
 test('NumberContainsAlpha', () => {
@@ -433,24 +439,6 @@ describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
   })
 })
 
-test('MissingLeftParenthesisAfterFunctionCall', () => {
-  expect(() =>
-    parse(`
-      function move do
-        return 1
-      end
-
-      move)
-    `)
-  ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-})
-
-test('MissingRightParenthesisAfterFunctionCall', () => {
-  expect(() => parse('move(1')).toThrow(
-    'MissingRightParenthesisAfterFunctionCall: function: move'
-  )
-})
-
 test('InvalidNestedFunction', () => {
   expect(() =>
     parse(`
@@ -503,4 +491,14 @@ test('PotentialMissingParenthesesForFunctionCall', () => {
   expect(() => parse('foo')).toThrow(
     'PotentialMissingParenthesesForFunctionCall'
   )
+})
+
+test('MissingEachAfterFor', () => {
+  expect(() =>
+    parse(`
+      for elem in [] do
+        set x to elem
+      end
+    `)
+  ).toThrow('MissingEachAfterFor')
 })

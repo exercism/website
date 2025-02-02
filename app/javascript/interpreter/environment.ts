@@ -29,6 +29,10 @@ export class Environment {
     this.values.set(name, value)
   }
 
+  public undefine(name: string): void {
+    this.values.delete(name)
+  }
+
   public get(name: Token): any {
     if (this.values.has(name.lexeme)) return this.values.get(name.lexeme)
 

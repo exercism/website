@@ -5,6 +5,7 @@ export type DisabledLanguageFeatureErrorType =
   | 'IncludeListViolation'
 
 export type SyntaxErrorType =
+  | 'GenericSyntaxError'
   | 'UnknownCharacter'
   | 'MissingCommaAfterParameters'
   | 'MissingDoToStartBlock'
@@ -13,6 +14,7 @@ export type SyntaxErrorType =
   | 'MissingDoubleQuoteToStartString'
   | 'MissingDoubleQuoteToTerminateString'
   | 'MissingFieldNameOrIndexAfterLeftBracket'
+  | 'MissingRightBracketAfterExpression'
   | 'MissingRightParenthesisAfterExpression'
   | 'MissingRightBraceToTerminatePlaceholder'
   | 'MissingBacktickToTerminateTemplateLiteral'
@@ -70,10 +72,12 @@ export type SyntaxErrorType =
   | 'MissingTimesInRepeat'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
+  | 'InvalidNestedFunction'
   | 'UnexpectedChainedEquality'
   | 'MiscapitalizedKeyword'
   | 'PointlessStatement'
   | 'PotentialMissingParenthesesForFunctionCall'
+  | 'MissingEachAfterFor'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -116,7 +120,6 @@ export type RuntimeErrorType =
   | 'UnexpectedReturnOutsideOfFunction'
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
-  | 'InvalidNestedFunction'
   | 'MaxIterationsReached'
   | 'InfiniteRecursion'
   | 'CannotStoreNullFromFunction'

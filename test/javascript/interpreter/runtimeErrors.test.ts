@@ -358,3 +358,31 @@ describe('OperandMustBeBoolean', () => {
     expect(frames[1].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
   })
 })
+
+describe('ForeachNotIterable', () => {
+  test('number', () => {
+    const code = `for each num in 1 do
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], '1', 'ForeachNotIterable')
+    expect(frames[0].error!.message).toBe('ForeachNotIterable: value: 1')
+  })
+  test('boolean', () => {
+    const code = `for each num in true do
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'true', 'ForeachNotIterable')
+    expect(frames[0].error!.message).toBe('ForeachNotIterable: value: true')
+  })
+  test('function that returns number', () => {
+    const code = `
+      function ret_5 do
+        return 5
+      end
+      for each num in ret_5() do
+      end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'ret_5()', 'ForeachNotIterable')
+    expect(frames[1].error!.message).toBe('ForeachNotIterable: value: 5')
+  })
+})

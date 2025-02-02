@@ -125,6 +125,7 @@ export type RuntimeErrorType =
   | 'CannotStoreNullFromFunction'
   | 'CannotStoreNull'
   | 'ExpressionIsNull'
+  | 'ForeachNotIterable'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

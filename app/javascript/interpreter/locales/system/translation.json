@@ -104,7 +104,8 @@
       "InfiniteRecursion": "InfiniteRecursion",
       "CannotStoreNullFromFunction": "CannotStoreNullFromFunction",
       "CannotStoreNull": "CannotStoreNull",
-      "ExpressionIsNull": "ExpressionIsNull"
+      "ExpressionIsNull": "ExpressionIsNull",
+      "ForeachNotIterable": "ForeachNotIterable: value: {{value}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

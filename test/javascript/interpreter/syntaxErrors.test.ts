@@ -420,18 +420,6 @@ describe('MissingConditionAfterIf', () => {
 })
 
 describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
-  test('misspelt comparison operator', () => {
-    expect(() =>
-      parse(`
-        if x equal 10 do
-          set x to 20
-        end
-      `)
-    ).toThrow(
-      'UnexpectedVariableExpressionAfterIfWithPotentialTypo: actual: equal, potential: equals'
-    )
-  })
-
   test('misspelt comparison operator with brackets', () => {
     expect(() =>
       parse(`
@@ -443,26 +431,6 @@ describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
       'MissingRightParenthesisAfterExpressionWithPotentialTypo: actual: equal, potential: equals'
     )
   })
-})
-
-test('UnexpectedLiteralExpressionAfterIf', () => {
-  expect(() =>
-    parse(`
-      if true do
-        set x to 20
-      end
-    `)
-  ).toThrow('UnexpectedLiteralExpressionAfterIf')
-})
-
-test('UnexpectedVariableExpressionAfterIf', () => {
-  expect(() =>
-    parse(`
-      if something do
-        set x to 20
-      end
-    `)
-  ).toThrow('UnexpectedVariableExpressionAfterIf')
 })
 
 test('MissingLeftParenthesisAfterFunctionCall', () => {

@@ -66,7 +66,7 @@ export class ChangeVariableStatement extends Statement {
     let output = `<p>This updated the variable called <code>${result.name}</code> from...</p>`
     output += `<pre><code>${formatLiteral(result.oldValue)}</code></pre>`
     output += `<p>to...</p><pre><code>${formatLiteral(
-      result.newValue.value
+      result.value.value
     )}</code></pre>`
     return output
   }

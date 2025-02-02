@@ -33,50 +33,6 @@ function expectFrameToBeError(
   expect(frame.error!.type).toBe(type)
 }
 
-describe('OperandsMustBeNumbers', () => {
-  test('1 - "a"', () => {
-    const code = 'log 1 - "a"'
-    const { frames } = interpret(code)
-    expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
-    expect(frames[0].error!.message).toBe(
-      'OperandsMustBeNumbers: operator: -, side: right, value: "a"'
-    )
-  })
-  test('1 / true', () => {
-    const code = 'log 1 / true'
-    const { frames } = interpret(code)
-    expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
-    expect(frames[0].error!.message).toBe(
-      'OperandsMustBeNumbers: operator: /, side: right, value: true'
-    )
-  })
-  test('false - 1', () => {
-    const code = 'log false - 1'
-    const { frames } = interpret(code)
-    expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
-    expect(frames[0].error!.message).toBe(
-      'OperandsMustBeNumbers: operator: -, side: left, value: false'
-    )
-  })
-  test('1 * false', () => {
-    const code = 'log 1 * false'
-    const { frames } = interpret(code)
-    expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
-    expect(frames[0].error!.message).toBe(
-      'OperandsMustBeNumbers: operator: *, side: right, value: false'
-    )
-  })
-  test('1 * getName()', () => {
-    const code = 'log 1 * get_name()'
-    const context = { externalFunctions: [getNameFunction] }
-    const { frames } = interpret(code, context)
-    expectFrameToBeError(frames[0], code, 'OperandsMustBeNumbers')
-    expect(frames[0].error!.message).toBe(
-      'OperandsMustBeNumbers: operator: *, side: right, value: "Jeremy"'
-    )
-  })
-})
-
 describe('UnexpectedUncalledFunction', () => {
   test('in a equation with a +', () => {
     const code = 'log get_name + 1'
@@ -328,5 +284,77 @@ describe('ExpressionIsNull', () => {
 
     expectFrameToBeError(frames[0], `something(1 + bar())`, 'ExpressionIsNull')
     expect(frames[0].error!.message).toBe(`ExpressionIsNull`)
+  })
+})
+
+describe('OperandMustBeNumber', () => {
+  test('1 - "a"', () => {
+    const code = 'log 1 - "a"'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+  test('1 / true', () => {
+    const code = 'log 1 / true'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: true')
+  })
+  test('false - 1', () => {
+    const code = 'log false - 1'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: false')
+  })
+  test('1 * false', () => {
+    const code = 'log 1 * false'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: false')
+  })
+  test('1 * getName()', () => {
+    const code = 'log 1 * get_name()'
+    const context = { externalFunctions: [getNameFunction] }
+    const { frames } = interpret(code, context)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe(
+      'OperandMustBeNumber: value: "Jeremy"'
+    )
+  })
+})
+
+describe('OperandMustBeBoolean', () => {
+  test('not number', () => {
+    const { frames } = interpret(`log not 1`)
+
+    expectFrameToBeError(frames[0], `log not 1`, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: 1`)
+  })
+  test('bang string', () => {
+    const { frames } = interpret(`log !"foo"`)
+
+    expectFrameToBeError(frames[0], `log !"foo"`, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
+  })
+
+  test('strings in conditionals', () => {
+    const code = `if "foo" do 
+                  end`
+    const { error, frames } = interpret(code)
+
+    expectFrameToBeError(frames[0], code, 'OperandMustBeBoolean')
+    expect(frames[0].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
+  })
+
+  test('function call in conditionals', () => {
+    const code = `function ret_str do
+                    return "foo"
+                  end
+                  if ret_str() do 
+                  end`
+    const { error, frames } = interpret(code)
+
+    expectFrameToBeError(frames[1], 'ret_str()', 'OperandMustBeBoolean')
+    expect(frames[1].error!.message).toBe(`OperandMustBeBoolean: value: "foo"`)
   })
 })

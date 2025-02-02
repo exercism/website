@@ -245,21 +245,6 @@ export class Parser {
     let condition
     try {
       condition = this.expression()
-      if (condition instanceof LiteralExpression) {
-        this.error('UnexpectedLiteralExpressionAfterIf', ifToken.location)
-      }
-      if (condition instanceof VariableLookupExpression) {
-        const typoData = isTypo(this.peek())
-        if (typoData) {
-          this.error(
-            'UnexpectedVariableExpressionAfterIfWithPotentialTypo',
-            ifToken.location,
-            { actual: typoData.actual, potential: typoData.potential }
-          )
-        }
-
-        this.error('UnexpectedVariableExpressionAfterIf', ifToken.location)
-      }
     } catch (e) {
       if (e instanceof SyntaxError && e.type == 'MissingExpression') {
         this.error('MissingConditionAfterIf', ifToken.location)

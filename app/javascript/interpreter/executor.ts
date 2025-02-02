@@ -38,7 +38,10 @@ import {
   LogStatement,
 } from './statement'
 import type { Token } from './token'
-import type { EvaluationResult } from './evaluation-result'
+import type {
+  EvaluationResult,
+  EvaluationResultExpression,
+} from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
 import type { LanguageFeatures, SomethingWithLocation } from './interpreter'
@@ -354,7 +357,7 @@ export class Executor {
         type: 'ChangeVariableStatement',
         name: statement.name.lexeme,
         oldValue,
-        newValue: value,
+        value: value,
       }
     })
   }
@@ -362,6 +365,8 @@ export class Executor {
   public visitIfStatement(statement: IfStatement): void {
     const conditionResult = this.executeFrame(statement, () => {
       const result = this.evaluate(statement.condition)
+      this.verifyBoolean(result.value, statement.condition)
+
       return {
         type: 'IfStatement',
         value: result.value,
@@ -621,7 +626,7 @@ export class Executor {
 
     switch (expression.operator.type) {
       case 'NOT':
-        this.verifyBooleanOperand(operand.value, expression.operator.location)
+        this.verifyBoolean(operand.value, expression.operand)
         return {
           type: 'UnaryExpression',
           operator: expression.operator.type,
@@ -629,7 +634,7 @@ export class Executor {
           right: operand,
         }
       case 'MINUS':
-        this.verifyNumberOperand(expression.operator, operand.value)
+        this.verifyNumber(operand.value, expression.operand)
         return {
           type: 'UnaryExpression',
           operator: expression.operator.type,
@@ -646,10 +651,7 @@ export class Executor {
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
     const leftResult = this.evaluate(expression.left)
-    // this.guardNull(leftResult.value, expression.left)
-
     const rightResult = this.evaluate(expression.right)
-    // this.guardNull(rightResult.value, expression.right)
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
@@ -670,61 +672,36 @@ export class Executor {
           value: leftResult.value === rightResult.value,
         }
       case 'GREATER':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
         return {
           ...result,
           value: leftResult.value > rightResult.value,
         }
       case 'GREATER_EQUAL':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
         return {
           ...result,
           value: leftResult.value >= rightResult.value,
         }
       case 'LESS':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
         return {
           ...result,
           value: leftResult.value < rightResult.value,
         }
       case 'LESS_EQUAL':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
         return {
           ...result,
           value: leftResult.value <= rightResult.value,
         }
       case 'MINUS':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
 
         const minusValue = leftResult.value - rightResult.value
         const minusValue2DP = Math.round(minusValue * 100) / 100
@@ -735,13 +712,8 @@ export class Executor {
         }
       //> binary-plus
       case 'PLUS':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
 
         const plusValue = leftResult.value + rightResult.value
         const plusValue2DP = Math.round(plusValue * 100) / 100
@@ -776,13 +748,8 @@ export class Executor {
         )*/
 
       case 'SLASH':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
         const slashValue = leftResult.value / rightResult.value
         const slashValue2DP = Math.round(slashValue * 100) / 100
         return {
@@ -790,13 +757,8 @@ export class Executor {
           value: slashValue2DP,
         }
       case 'STAR':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
 
         const starValue = leftResult.value * rightResult.value
         const starValue2DP = Math.round(starValue * 100) / 100
@@ -805,13 +767,8 @@ export class Executor {
           value: starValue2DP,
         }
       case 'PERCENT':
-        this.verifyNumberOperands(
-          expression.operator,
-          expression.left,
-          expression.right,
-          leftResult.value,
-          rightResult.value
-        )
+        this.verifyNumber(leftResult.value, expression.left)
+        this.verifyNumber(rightResult.value, expression.right)
 
         return {
           ...result,
@@ -831,13 +788,13 @@ export class Executor {
   ): EvaluationResult {
     if (expression.operator.type === 'OR') {
       const leftOr = this.evaluate(expression.left)
-      this.verifyBooleanOperand(leftOr.value, expression.operator.location)
+      this.verifyBoolean(leftOr.value, expression.left)
 
       let rightOr: EvaluationResult | undefined = undefined
 
       if (!leftOr.value) {
         rightOr = this.evaluate(expression.right)
-        this.verifyBooleanOperand(rightOr.value, expression.operator.location)
+        this.verifyBoolean(rightOr.value, expression.right)
       }
 
       return {
@@ -851,13 +808,13 @@ export class Executor {
     }
 
     const leftAnd = this.evaluate(expression.left)
-    this.verifyBooleanOperand(leftAnd.value, expression.operator.location)
+    this.verifyBoolean(leftAnd.value, expression.left)
 
     let rightAnd: EvaluationResult | undefined = undefined
 
     if (leftAnd.value) {
       rightAnd = this.evaluate(expression.right)
-      this.verifyBooleanOperand(rightAnd.value, expression.operator.location)
+      this.verifyBoolean(rightAnd.value, expression.right)
     }
 
     return {
@@ -888,7 +845,7 @@ export class Executor {
 
     if (expression.operand instanceof VariableLookupExpression) {
       value = this.lookupVariable(expression.operand.name)
-      this.verifyNumberOperand(expression.operator, value)
+      this.verifyNumber(expression.operator, value)
 
       newValue =
         expression.operator.type === 'PLUS_PLUS' ? value + 1 : value - 1
@@ -914,7 +871,7 @@ export class Executor {
         value = obj.value[expression.operand.field.literal]
       }
 
-      this.verifyNumberOperand(expression.operator, value)
+      this.verifyNumber(expression.operator, value)
       newValue =
         expression.operator.type === 'PLUS_PLUS' ? value + 1 : value - 1
       obj.value[expression.operand.field.literal] = newValue
@@ -1004,55 +961,29 @@ export class Executor {
     })
   }
 
-  private verifyNumberOperand(operator: Token, operand: any): void {
-    if (isNumber(operand)) return
-
-    this.error('OperandMustBeNumber', operator.location, { operand })
-  }
-
-  private verifyNumberOperands(
-    operator: Token,
-    leftExpr: Expression,
-    rightExpr: Expression,
-    leftValue: EvaluationResult,
-    rightValue: EvaluationResult
-  ): void {
-    const leftIsNumber = isNumber(leftValue)
-    const rightIsNumber = isNumber(rightValue)
-    if (leftIsNumber && rightIsNumber) {
-      return
-    }
-
-    let value
-    let eroneousExpr
-    let location
-    if (leftIsNumber) {
-      value = rightValue
-      eroneousExpr = rightExpr
-      location = Location.between(operator, rightExpr)
-    } else {
-      value = leftValue
-      eroneousExpr = leftExpr
-      location = Location.between(leftExpr, operator)
-    }
-
+  private guardUncalledFunction(value: any, expr: Expression): void {
     if (isCallable(value)) {
-      this.error('UnexpectedUncalledFunction', eroneousExpr.location, {
-        name: eroneousExpr.name,
+      this.error('UnexpectedUncalledFunction', expr.location, {
+        name: (expr as VariableLookupExpression).name,
       })
     }
+  }
 
-    this.error('OperandsMustBeNumbers', location, {
-      operator: operator.lexeme,
-      side: leftIsNumber ? 'right' : 'left',
+  private verifyNumber(value: any, expr: Expression): void {
+    if (isNumber(value)) return
+    this.guardUncalledFunction(value, expr)
+
+    this.error('OperandMustBeNumber', expr.location, {
       value: formatLiteral(value),
     })
   }
 
-  private verifyBooleanOperand(operand: any, location: Location): void {
-    if (isBoolean(operand)) return
+  private verifyBoolean(value: any, expr: Expression): void {
+    if (isBoolean(value)) return
 
-    this.error('OperandMustBeBoolean', location, { operand })
+    this.error('OperandMustBeBoolean', expr.location, {
+      value: formatLiteral(value),
+    })
   }
 
   public executeStatement(statement: Statement): void {
@@ -1062,7 +993,7 @@ export class Executor {
     this[method](statement)
   }
 
-  public evaluate(expression: Expression): EvaluationResult {
+  public evaluate(expression: Expression): EvaluationResultExpression {
     const method = `visit${expression.type}`
     const result = this[method](expression)
     this.guardNull(result.value, expression)

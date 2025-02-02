@@ -15,57 +15,49 @@ export const colorScheme = createTheme({
   },
   styles: [
     {
-      tag: t.comment,
+      tag: [t.comment, t.lineComment],
       color: '#818B94',
       fontStyle: 'italic',
     },
     {
-      tag: [t.variableName, t.propertyName, t.attributeName, t.regexp],
-      color: '#019da4',
+      tag: t.string,
+      color: '#3E8A00',
     },
     {
-      tag: [t.paren, t.brace],
-      color: '#8A99A6',
-      fontWeight: 600,
+      tag: t.controlKeyword,
+      color: '#0080FF',
+      fontWeight: '500',
     },
     {
-      tag: [t.number, t.bool, t.null],
-      color: 'green',
-    },
-    {
-      tag: [t.className, t.typeName, t.definition(t.typeName)],
-      color: '#C99E00',
-    },
-    {
-      tag: [t.string, t.special(t.brace)],
-      color: 'red',
-    },
-    {
-      tag: t.operator,
-      color: '#3E999F',
-    },
-    {
-      tag: [t.definition(t.propertyName), t.function(t.variableName)],
-      color: '#0081fc',
+      tag: t.definitionKeyword,
+      color: '#0080FF',
+      fontWeight: '500',
     },
     {
       tag: t.keyword,
-      color: 'blue',
+      color: '#0080FF',
+      fontWeight: '500',
     },
     {
-      tag: t.operatorKeyword,
-      color: '#73abeb',
+      tag: [t.paren],
+      color: '#888',
     },
-
     {
-      tag: t.controlKeyword,
-      color: '#A626A4',
-      fontWeight: 500,
+      tag: [t.bool, t.number, t.float],
+      color: '#F33636',
     },
-
     {
-      tag: t.derefOperator,
-      color: '#4D4D4C',
+      tag: [
+        t.logicOperator,
+        t.arithmeticOperator,
+        t.operator,
+        t.compareOperator,
+      ],
+      color: '#0080FF',
+    },
+    {
+      tag: t.variableName,
+      color: '#7A009F',
     },
   ],
 })

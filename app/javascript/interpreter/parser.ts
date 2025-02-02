@@ -37,11 +37,13 @@ import {
   ChangeVariableStatement,
   RepeatForeverStatement,
   LogStatement,
+  ChangeListElementStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
+import { get } from 'lodash'
 
 export class Parser {
   private readonly scanner: Scanner
@@ -229,6 +231,13 @@ export class Parser {
 
   private changeVariableStatement(): Statement {
     const changeToken = this.previous()
+
+    // If we have a left bracket, we're changing an element in a list
+    // not a variable, so move to that function instead
+    if (this.peek(2).type == 'LEFT_BRACKET') {
+      return this.changeListElementStatement(changeToken)
+    }
+
     const name = this.identifier()
 
     // Guard mistaken equals sign for assignment
@@ -243,6 +252,40 @@ export class Parser {
 
     return new ChangeVariableStatement(
       name,
+      initializer,
+      Location.between(changeToken, initializer)
+    )
+  }
+
+  private changeListElementStatement(
+    changeToken: Token
+  ): ChangeListElementStatement {
+    // Convert the statement
+    // change foobar[123] into a lookup expression for foobar[123]
+    // and then we'll break down the foobar and the 123 as the list
+    // and the index, while still maintaining the integrity of both sides.
+    const getExpression = this.chainedVariableAccessors(this.primary())
+
+    if (!(getExpression instanceof GetExpression)) {
+      this.error('GenericSyntaxError', getExpression.location)
+    }
+
+    const list = getExpression.obj
+    const index = getExpression.field
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: list,
+    })
+
+    const initializer = this.expression()
+    this.consumeEndOfLine()
+
+    return new ChangeListElementStatement(
+      list,
+      index,
       initializer,
       Location.between(changeToken, initializer)
     )
@@ -625,25 +668,16 @@ export class Parser {
     // Now handle an array (this might be on the result of the function call)
     // e.g. foobar()[0]
     while (this.match('LEFT_BRACKET')) {
-      const leftBracket = this.previous()
-      if (!this.match('STRING', 'NUMBER'))
-        this.error(
-          'MissingFieldNameOrIndexAfterLeftBracket',
-          leftBracket.location,
-          {
-            expression,
-          }
-        )
-
-      const name = this.previous()
+      // const leftBracket = this.previous()
+      const field = this.call()
       const rightBracket = this.consume(
         'RIGHT_BRACKET',
         'MissingRightBracketAfterFieldNameOrIndex',
-        { expression, name }
+        { expression }
       )
       expression = new GetExpression(
         expression,
-        name,
+        field,
         Location.between(expression, rightBracket)
       )
     }

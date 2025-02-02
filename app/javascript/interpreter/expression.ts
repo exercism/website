@@ -182,13 +182,13 @@ export class UpdateExpression extends Expression {
 export class GetExpression extends Expression {
   constructor(
     public obj: Expression,
-    public field: Token,
+    public field: Expression,
     public location: Location
   ) {
     super('GetExpression')
   }
   public children() {
-    return [this.obj]
+    return [this.obj, this.field]
   }
 }
 

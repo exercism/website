@@ -863,13 +863,25 @@ export class Executor {
     } else if (expression.operand instanceof GetExpression) {
       const obj = this.evaluate(expression.operand.obj)
 
+      /*
       if (isObject(obj.value) && expression.operand.field.type === 'STRING') {
-        value = obj.value[expression.operand.field.literal]
+        const fieldValue = this.evaluate(expression.operand.field)
+        value = obj.value[fieldValue.value]
       } else if (
         isArray(obj.value) &&
         expression.operand.field.type === 'NUMBER'
       ) {
         value = obj.value[expression.operand.field.literal]
+      }*/
+      console.log('here')
+      console.log(obj.value)
+      console.log(this.evaluate(expression.operand.field))
+      if (isArray(obj.value)) {
+        const idx = this.evaluate(expression.operand.field)
+        // TODO: Maybe a custom error message here about array indexes
+        // needing to be numbers?
+        this.verifyNumber(idx.value, expression.operand.field)
+        value = obj.value[idx.value]
       }
 
       this.verifyNumber(expression.operator, value)
@@ -903,7 +915,7 @@ export class Executor {
   public visitGetExpression(expression: GetExpression): EvaluationResult {
     const obj = this.evaluate(expression.obj)
 
-    if (isObject(obj.value) && expression.field.type === 'STRING') {
+    /*if (isObject(obj.value) && expression.field.type === 'STRING') {
       // TODO: consider if we want to throw an error when the field does not exist or return null
       return {
         type: 'GetExpression',
@@ -914,18 +926,23 @@ export class Executor {
         field: expression.field.literal,
         value: obj.value[expression.field.literal],
       }
-    }
+    }*/
 
-    if (isArray(obj.value) && expression.field.type === 'NUMBER') {
-      // TODO: consider if we want to throw an error when the index does not exist or return null
+    if (isArray(obj.value)) {
+      const idx = this.evaluate(expression.field)
+      // TODO: Maybe a custom error message here about array indexes
+      // needing to be numbers?
+      this.verifyNumber(idx.value, expression.field)
+      const value = obj.value[idx.value]
+
       return {
         type: 'GetExpression',
         obj: obj,
         expression: `${expression.obj.location.toCode(this.sourceCode)}[${
-          expression.field.lexeme
+          idx.value
         }]`,
-        field: expression.field.literal,
-        value: obj.value[expression.field.literal],
+        field: idx,
+        value: obj.value[idx.value],
       }
     }
 

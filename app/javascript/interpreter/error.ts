@@ -5,6 +5,7 @@ export type DisabledLanguageFeatureErrorType =
   | 'IncludeListViolation'
 
 export type SyntaxErrorType =
+  | 'GenericSyntaxError'
   | 'UnknownCharacter'
   | 'MissingCommaAfterParameters'
   | 'MissingDoToStartBlock'
@@ -13,6 +14,7 @@ export type SyntaxErrorType =
   | 'MissingDoubleQuoteToStartString'
   | 'MissingDoubleQuoteToTerminateString'
   | 'MissingFieldNameOrIndexAfterLeftBracket'
+  | 'MissingRightBracketAfterExpression'
   | 'MissingRightParenthesisAfterExpression'
   | 'MissingRightBraceToTerminatePlaceholder'
   | 'MissingBacktickToTerminateTemplateLiteral'

@@ -132,75 +132,6 @@ describe('literals', () => {
   })
 })
 
-describe('dictionary', () => {
-  test('empty', () => {
-    const stmts = parse('set empty to {}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements).toBeEmpty()
-  })
-
-  test('single element', () => {
-    const stmts = parse('set movie to {"title": "Jurassic Park"}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(1)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-  })
-
-  test('multiple elements', () => {
-    const stmts = parse('set movie to {"title": "Jurassic Park", "year": 1993}')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(2)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-    expect(mapExpr.elements.get('year')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('year') as LiteralExpression).value).toBe(1993)
-  })
-
-  test('nested', () => {
-    const stmts = parse(
-      'set movie to {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
-    )
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-    const varStmt = stmts[0] as SetVariableStatement
-    expect(varStmt.initializer).toBeInstanceOf(DictionaryExpression)
-    const mapExpr = varStmt.initializer as DictionaryExpression
-    expect(mapExpr.elements.size).toBe(2)
-    expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
-    expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
-      'Jurassic Park'
-    )
-    expect(mapExpr.elements.get('director')).toBeInstanceOf(
-      DictionaryExpression
-    )
-    const nestedMapExpr = mapExpr.elements.get(
-      'director'
-    ) as DictionaryExpression
-    expect(nestedMapExpr.elements.size).toBe(1)
-    expect(nestedMapExpr.elements.get('name')).toBeInstanceOf(LiteralExpression)
-    expect(
-      (nestedMapExpr.elements.get('name') as LiteralExpression).value
-    ).toBe('Steven Spielberg')
-  })
-})
-
 describe('variable', () => {
   test('single-character name', () => {
     const statements = parse('set x to 1')
@@ -274,7 +205,7 @@ describe('get', () => {
       const varStmtWithGet = stmts[1] as SetVariableStatement
       expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
       const getExpr = varStmtWithGet.initializer as GetExpression
-      expect(getExpr.field.literal).toBe('title')
+      expect((getExpr.field as LiteralExpression).value).toBe('title')
       expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
         'movie'

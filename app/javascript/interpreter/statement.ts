@@ -72,6 +72,20 @@ export class ChangeVariableStatement extends Statement {
   }
 }
 
+export class ChangeListElementStatement extends Statement {
+  constructor(
+    public list: Expression,
+    public index: Expression,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('ChangeListElementStatement')
+  }
+  public children() {
+    return [this.list, this.index, this.value]
+  }
+}
+
 export class ConstantStatement extends Statement {
   constructor(
     public name: Token,

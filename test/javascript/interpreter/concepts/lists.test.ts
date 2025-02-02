@@ -259,7 +259,7 @@ describe('execute', () => {
       expect(frames[1].status).toBe('SUCCESS')
       expect(frames[1].variables).toMatchObject({
         scores: [7, 3, 10],
-        latest: 10,
+        latest: 3,
       })
     })
     test('function', () => {
@@ -278,14 +278,14 @@ describe('execute', () => {
       expect(frames[2].status).toBe('SUCCESS')
       expect(frames[2].variables).toMatchObject({
         scores: [7, 3, 10],
-        latest: 10,
+        latest: 3,
       })
     })
 
     test('chained', () => {
       const { frames } = interpret(`
       set scoreMinMax to [["a", "b"], ["c", "d"]]
-      set secondMin to scoreMinMax[1][0]
+      set secondMin to scoreMinMax[2][1]
     `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')

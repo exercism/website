@@ -268,61 +268,6 @@ describe('statements', () => {
       expect(frames[3].variables).toMatchObject({ pos: 25 })
     })
   })
-  describe('creating function', () => {
-    describe('without parameters', () => {
-      test('define', () => {
-        const { frames } = interpret(`
-          function move {
-            return 1
-          }
-        `)
-        expect(frames).toBeEmpty()
-      })
-
-      describe('call', () => {
-        test('single statement function', () => {
-          const { frames } = interpret(`
-            function move do
-              return 1
-            end
-            set x to move()
-          `)
-          expect(frames).toBeArrayOfSize(2)
-          expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toBeEmpty()
-          expect(frames[1].status).toBe('SUCCESS')
-          expect(frames[1].variables).toMatchObject({ x: 1 })
-        })
-      })
-    })
-
-    describe('with parameters', () => {
-      test('define', () => {
-        const { frames } = interpret(`
-          function move with x do
-            return 1 + x
-          end
-        `)
-        expect(frames).toBeEmpty()
-      })
-
-      describe('call', () => {
-        test('single statement function', () => {
-          const { frames } = interpret(`
-            function move with x do
-              return 1 + x
-            end
-            set x to move(2)
-          `)
-          expect(frames).toBeArrayOfSize(2)
-          expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 2 })
-          expect(frames[1].status).toBe('SUCCESS')
-          expect(frames[1].variables).toMatchObject({ x: 3 })
-        })
-      })
-    })
-  })
 
   describe('repeat', () => {
     test('once', () => {

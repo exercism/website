@@ -376,6 +376,7 @@ export class Executor {
       // Do the update
       const oldValue = list.value[index.value - 1]
       list.value[index.value - 1] = value
+      console.log(index.value, ': ', oldValue, '->', value)
 
       return {
         type: 'ChangeListElementStatement',
@@ -955,7 +956,7 @@ export class Executor {
       // TODO: Maybe a custom error message here about array indexes
       // needing to be numbers?
       this.verifyNumber(idx.value, expression.field)
-      const value = obj.value[idx.value]
+      const value = obj.value[idx.value - 1] // 0-index
 
       return {
         type: 'GetExpression',
@@ -964,7 +965,7 @@ export class Executor {
           idx.value
         }]`,
         field: idx,
-        value: obj.value[idx.value],
+        value,
       }
     }
 

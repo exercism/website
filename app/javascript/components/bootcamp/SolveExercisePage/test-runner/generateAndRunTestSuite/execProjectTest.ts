@@ -52,13 +52,12 @@ export function execProjectTest(
     evaluated = interpret(options.studentCode, context)
   }
 
-  const { frames } = evaluated
+  const { error, frames } = evaluated
+
+  console.log(error)
 
   const { animations } = exercise
-  const animationTimeline =
-    animations.length > 0
-      ? new AnimationTimeline({}, frames).populateTimeline(animations)
-      : null
+  const animationTimeline = buildAnimationTimeline(error, frames, animations)
 
   const expects = generateExpects(
     options.config.testsType,
@@ -77,4 +76,29 @@ export function execProjectTest(
     view: exercise.getView(),
     slug: testData.slug,
   }
+}
+
+function buildAnimationTimeline(error, frames, animations) {
+  if (error) {
+    return null
+  }
+  if (!animations) {
+    return null
+  }
+
+  let animationsForTimeline = animations
+
+  // If we've got an infinite loop, then don't add the millions of animations
+  // to the timeline
+  const lastFrame = frames.at(-1)
+  if (
+    lastFrame.status === 'ERROR' &&
+    (lastFrame.error.type == 'MaxIterationsReached' ||
+      lastFrame.error.type == 'InfiniteRecursion')
+  ) {
+    animationsForTimeline = []
+  }
+  return new AnimationTimeline({}, frames).populateTimeline(
+    animationsForTimeline
+  )
 }

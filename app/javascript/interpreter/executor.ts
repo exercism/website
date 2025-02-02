@@ -37,6 +37,7 @@ import {
   RepeatForeverStatement,
   CallStatement,
   LogStatement,
+  ChangeListElementStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -359,6 +360,27 @@ export class Executor {
         name: statement.name.lexeme,
         oldValue,
         value: value,
+      }
+    })
+  }
+
+  public visitChangeListElementStatement(
+    statement: ChangeListElementStatement
+  ): void {
+    this.executeFrame(statement, () => {
+      const list = this.evaluate(statement.list)
+      const index = this.evaluate(statement.index)
+      this.verifyNumber(index.value, statement.index)
+      const value = this.evaluate(statement.value).value
+
+      // Do the update
+      const oldValue = list.value[index.value - 1]
+      list.value[index.value - 1] = value
+
+      return {
+        type: 'ChangeListElementStatement',
+        oldValue,
+        value,
       }
     })
   }

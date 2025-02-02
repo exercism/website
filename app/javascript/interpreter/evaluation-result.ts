@@ -1,3 +1,4 @@
+import { ChangeListElementStatement } from './statement'
 import type { TokenType } from './token'
 
 export type EvaluationResultLogStatement = {
@@ -101,6 +102,13 @@ export type EvaluationResultChangeVariableStatement = {
   data?: Record<string, any>
 }
 
+export type EvaluationResultChangeListElementStatement = {
+  type: 'ChangeListElementStatement'
+  oldValue: any
+  value: any
+  data?: Record<string, any>
+}
+
 export type EvaluationResultGetExpression = {
   type: 'GetExpression'
   value: any
@@ -165,6 +173,7 @@ export type EvaluationResultStatement =
   | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
+  | EvaluationResultChangeListElementStatement
   | EvaluationResultConstantStatement
   | EvaluationResultIfStatement
   | EvaluationResultCallStatement

@@ -201,6 +201,49 @@ describe('execute', () => {
       })
     })
   })
+  describe('change', () => {
+    test('to string', () => {
+      const { frames } = interpret(`
+      set scores to [7, 3, 10]
+      change scores[2] to "foo"
+    `)
+      expect(frames).toBeArrayOfSize(2)
+      expect(frames[1].status).toBe('SUCCESS')
+      expect(frames[1].variables).toMatchObject({
+        scores: [7, 'foo', 10],
+      })
+    })
+    test('functions', () => {
+      const { frames } = interpret(`
+      function ret_2 do
+        return 2
+      end
+      function ret_true do
+        return true
+      end
+      set scores to [7, 3, 10]
+      change scores[ret_2()] to ret_true()
+    `)
+      expect(frames).toBeArrayOfSize(4)
+      expect(frames[3].status).toBe('SUCCESS')
+      expect(frames[3].variables).toMatchObject({
+        scores: [7, true, 10],
+      })
+    })
+    test('variables', () => {
+      const { frames } = interpret(`
+      set ret_2 to 2
+      set ret_true to true
+      set scores to [7, 3, 10]
+      change scores[ret_2] to ret_true
+    `)
+      expect(frames).toBeArrayOfSize(4)
+      expect(frames[3].status).toBe('SUCCESS')
+      expect(frames[3].variables).toMatchObject({
+        scores: [7, true, 10],
+      })
+    })
+  })
 
   describe('get', () => {
     test('single index', () => {

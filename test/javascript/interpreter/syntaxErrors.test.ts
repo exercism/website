@@ -157,14 +157,20 @@ test('MissingWithBeforeParameters', () => {
   ).toThrow('MissingWithBeforeParameters')
 })
 
-test('MissingEndOfLine', () => {
-  expect(() =>
-    parse(`
-      function move with x, y do
-        set result to x + y
-      end end
-    `)
-  ).toThrow('MissingEndOfLine: previous: end')
+describe('MissingEndOfLine', () => {
+  test('Two expressions', () => {
+    expect(() => parse('log 1 1')).toThrow('MissingEndOfLine')
+  })
+
+  test('Two ends', () => {
+    expect(() =>
+      parse(`
+        function move with x, y do
+          set result to x + y
+        end end
+      `)
+    ).toThrow('MissingEndOfLine: previous: end')
+  })
 })
 
 test('NumberContainsAlpha', () => {
@@ -247,11 +253,6 @@ describe('MissingRightParenthesisAfterFunctionCall', () => {
       'MissingRightParenthesisAfterFunctionCall: function: move'
     )
   })
-})
-
-// Parse errors
-test('MissingEndOfLine', () => {
-  expect(() => parse('log 1 1')).toThrow('MissingEndOfLine')
 })
 
 test('UnexpectedEqualsForAssignment', () => {

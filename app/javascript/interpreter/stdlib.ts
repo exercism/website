@@ -25,6 +25,16 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: numberToString,
     description: 'Converts a number to a string',
   },
+  to_upper_case: {
+    name: 'to_upper_case',
+    func: toUpperCase,
+    description: 'Converts a string to its uppercase equivelent',
+  },
+  lowercase_latin_alphabet: {
+    name: 'lowercase_latin_alphabet',
+    func: (_) => 'abcdefghijklmnopqrstuvwxyz',
+    description: 'Returns the lowercase latin alphabet',
+  },
 }
 
 function join(_: ExecutionContext, str1: string, str2: string) {
@@ -43,6 +53,12 @@ function numberToString(_: ExecutionContext, num: number) {
   verifyType(num, 'number', 1)
 
   return num.toString()
+}
+
+function toUpperCase(_: ExecutionContext, str: string) {
+  verifyType(str, 'string', 1)
+
+  return str.toUpperCase()
 }
 
 function verifyType(arg: any, type: 'string' | 'number', argIdx: number) {

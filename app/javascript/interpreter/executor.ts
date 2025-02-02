@@ -439,6 +439,7 @@ export class Executor {
 
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
+      console.log(this.languageFeatures.repeatDelay)
     }
   }
 
@@ -467,6 +468,9 @@ export class Executor {
       this.guardInfiniteLoop(statement.keyword.location)
       this.executeBlock(statement.body, this.environment)
       count++
+
+      // Delay repeat for things like animations
+      this.time += this.languageFeatures.repeatDelay
     }
   }
   public visitRepeatForeverStatement(statement: RepeatForeverStatement): void {
@@ -480,6 +484,9 @@ export class Executor {
       this.guardInfiniteLoop(statement.location)
       this.executeBlock(statement.body, this.environment)
       count++
+
+      // Delay repeat for things like animations
+      this.time += this.languageFeatures.repeatDelay
     }
   }
 

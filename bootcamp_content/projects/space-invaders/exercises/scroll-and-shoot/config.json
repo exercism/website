@@ -16,7 +16,19 @@
           "slug": "scroll-and-shoot",
           "name": "Scroll and Shoot",
           "description_html": "Move your laser from left to right and shoot the aliens.",
-          "setup_functions": [["enableAlienRespawning"]],
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
           "checks": [
             {
               "name": "gameStatus",

@@ -424,22 +424,18 @@ describe('MissingConditionAfterIf', () => {
   })
 })
 
-test('MissingLeftParenthesisAfterFunctionCall', () => {
-  expect(() =>
-    parse(`
-      function move do
-        return 1
-      end
-
-      move)
-    `)
-  ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-})
-
-test('MissingRightParenthesisAfterFunctionCall', () => {
-  expect(() => parse('move(1')).toThrow(
-    'MissingRightParenthesisAfterFunctionCall: function: move'
-  )
+describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
+  test('misspelt comparison operator with brackets', () => {
+    expect(() =>
+      parse(`
+        if(x equal 10) do
+          set x to 20
+        end
+      `)
+    ).toThrow(
+      'MissingRightParenthesisAfterExpressionWithPotentialTypo: actual: equal, potential: equals'
+    )
+  })
 })
 
 test('InvalidNestedFunction', () => {

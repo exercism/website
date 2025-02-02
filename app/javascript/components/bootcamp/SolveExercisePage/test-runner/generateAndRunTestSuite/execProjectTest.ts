@@ -52,12 +52,10 @@ export function execProjectTest(
     evaluated = interpret(options.studentCode, context)
   }
 
-  const { error, frames } = evaluated
-
-  console.log(error)
+  const { frames } = evaluated
 
   const { animations } = exercise
-  const animationTimeline = buildAnimationTimeline(error, frames, animations)
+  const animationTimeline = buildAnimationTimeline(frames, animations)
 
   const expects = generateExpects(
     options.config.testsType,
@@ -78,11 +76,8 @@ export function execProjectTest(
   }
 }
 
-function buildAnimationTimeline(error, frames, animations) {
-  if (error) {
-    return null
-  }
-  if (!animations) {
+function buildAnimationTimeline(frames, animations) {
+  if (!animations || animations.length == 0) {
     return null
   }
 

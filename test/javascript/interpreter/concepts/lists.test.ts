@@ -219,6 +219,25 @@ describe('execute', () => {
         latest: 10,
       })
     })
+    test('function', () => {
+      const { frames } = interpret(`
+      function ret_2 do
+        return 2
+      end
+      set scores to [7, 3, 10]
+      set latest to scores[ret_2()]
+    `)
+      expect(frames).toBeArrayOfSize(3)
+      expect(frames[0].status).toBe('SUCCESS')
+      expect(frames[0].variables).toMatchObject({
+        scores: [7, 3, 10],
+      })
+      expect(frames[2].status).toBe('SUCCESS')
+      expect(frames[2].variables).toMatchObject({
+        scores: [7, 3, 10],
+        latest: 10,
+      })
+    })
 
     test('chained', () => {
       const { frames } = interpret(`

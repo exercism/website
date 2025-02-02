@@ -1,4 +1,9 @@
-import { ReturnValue, UserDefinedFunction, isCallable } from './functions'
+import {
+  Arity,
+  ReturnValue,
+  UserDefinedFunction,
+  isCallable,
+} from './functions'
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
 import {
@@ -70,6 +75,7 @@ export type ExternalFunction = {
   name: string
   func: Function
   description: string
+  arity?: Arity
 }
 
 export class Executor {
@@ -103,7 +109,7 @@ export class Executor {
       // The first value passed to the function is the interpreter
       // so we discount that when working out the user's arity.
       // TODO: We need to consider default params here
-      const arity = () => [func.length - 1, func.length - 1]
+      const arity = externalFunction.arity || [func.length - 1, func.length - 1]
       const call = (context: ExecutionContext, args: any[]) =>
         func(context, ...args)
 

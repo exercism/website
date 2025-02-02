@@ -59,7 +59,7 @@ export function executeCallExpression(
   const args: EvaluationResult[] = []
   for (const arg of expression.args) args.push(executor.evaluate(arg))
 
-  const arity = callee.value.arity()
+  const arity = callee.value.arity
   const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
 
   if (args.length < minArity || args.length > maxArity) {

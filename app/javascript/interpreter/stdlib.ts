@@ -14,6 +14,12 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: join,
     description: 'Joins two strings together',
   },
+  concatenate: {
+    name: 'concatenate',
+    func: concatenate,
+    description: 'Concatenates multiple strings together',
+    arity: [2, Infinity],
+  },
   number_to_string: {
     name: 'number_to_string',
     func: numberToString,
@@ -26,6 +32,11 @@ function join(_: ExecutionContext, str1: string, str2: string) {
   verifyType(str2, 'string', 2)
 
   return `${str1}${str2}`
+}
+
+function concatenate(_: ExecutionContext, ...strings) {
+  strings.forEach((str, idx) => verifyType(str, 'string', idx + 1))
+  return strings.join('')
 }
 
 function numberToString(_: ExecutionContext, num: number) {

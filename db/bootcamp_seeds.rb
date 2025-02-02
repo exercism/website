@@ -57,6 +57,7 @@ projects = %w[
   time
   rock-paper-scissors
   number-puzzles
+  string-puzzles
 ]
 
 projects.each do |project_slug|

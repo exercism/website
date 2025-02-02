@@ -114,4 +114,32 @@
     li a {
         @apply font-semibold text-linkColor;
     }
+
+    & table {
+        @apply my-16;
+        @apply bg-backgroundColorA;
+        @apply rounded-5 overflow-hidden;
+
+        & td,
+        & th {
+            @apply px-24 py-12;
+            @apply text-left;
+        }
+        & th {
+            @apply font-mono font-bold leading-150 text-textColor2;
+            @apply border-b-2 border-borderColor6;
+            font-size: calc(var(--prose-base-text-size) - 2px);
+        }
+        & td {
+            font-size: var(--prose-base-text-size);
+        }
+        & td {
+            @apply border-b-1 border-borderColor6;
+        }
+        & tr:last-child {
+            & td {
+                @apply border-b-0;
+            }
+        }
+    }
 }

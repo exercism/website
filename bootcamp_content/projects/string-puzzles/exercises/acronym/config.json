@@ -10,78 +10,87 @@
       "name": "Basic acronyms",
       "tests": [
         {
-          "slug": "acronym-basic",
+          "slug": "png",
           "description_html": "Generate an acronym for 'Portable Network Graphics'.",
           "name": "Basic acronym",
           "function": "acronym",
           "params": ["Portable Network Graphics"],
-          "expected": "PNG"
+          "expected": "PNG",
+          "image_slug": "string-puzzles/acronym/png.jpg"
         },
         {
-          "slug": "acronym-lowercase-words",
+          "slug": "ror",
           "description_html": "Generate an acronym for 'Ruby on Rails'.",
           "name": "Lowercase words",
           "function": "acronym",
           "params": ["Ruby on Rails"],
-          "expected": "ROR"
+          "expected": "ROR",
+          "image_slug": "string-puzzles/acronym/ror.jpg"
         },
         {
-          "slug": "acronym-all-caps",
+          "slug": "gimp",
           "description_html": "Generate an acronym for 'GNU Image Manipulation Program'.",
           "name": "All caps word",
           "function": "acronym",
           "params": ["GNU Image Manipulation Program"],
-          "expected": "GIMP"
+          "expected": "GIMP",
+          "image_slug": "string-puzzles/acronym/gimp.jpg"
         },
         {
-          "slug": "acronym-punctuation",
+          "slug": "fifo",
           "description_html": "Generate an acronym for 'First In, First Out'.",
           "name": "Acronym with punctuation",
           "function": "acronym",
           "params": ["First In, First Out"],
-          "expected": "FIFO"
+          "expected": "FIFO",
+          "image_slug": "string-puzzles/acronym/fifo.jpg"
         },
         {
-          "slug": "acronym-punctuation-no-whitespace",
+          "slug": "cmos",
           "description_html": "Generate an acronym for 'Complementary metal-oxide semiconductor'.",
           "name": "Punctuation without whitespace",
           "function": "acronym",
           "params": ["Complementary metal-oxide semiconductor"],
-          "expected": "CMOS"
+          "expected": "CMOS",
+          "image_slug": "string-puzzles/acronym/cmos.jpg"
         },
         {
-          "slug": "acronym-apostrophes",
+          "slug": "hc",
           "description_html": "Generate an acronym for 'Halley's Comet'.",
           "name": "Acronym with apostrophes",
           "function": "acronym",
           "params": ["Halley's Comet"],
-          "expected": "HC"
+          "expected": "HC",
+          "image_slug": "string-puzzles/acronym/hc.jpg"
         },
         {
-          "slug": "acronym-very-long",
+          "slug": "roflshtmdcoalm",
           "description_html": "Generate an acronym for 'Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me'.",
           "name": "Very long acronym",
           "function": "acronym",
           "params": [
             "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me"
           ],
-          "expected": "ROTFLSHTMDCOALM"
+          "expected": "ROTFLSHTMDCOALM",
+          "image_slug": "string-puzzles/acronym/roflshtmdcoalm.jpg"
         },
         {
-          "slug": "acronym-consecutive-delimiters",
+          "slug": "simufta",
           "description_html": "Generate an acronym for 'Something - I made up from thin air'.",
           "name": "Acronym with consecutive delimiters",
           "function": "acronym",
           "params": ["Something - I made up from thin air"],
-          "expected": "SIMUFTA"
+          "expected": "SIMUFTA",
+          "image_slug": "string-puzzles/acronym/simufta.jpg"
         },
         {
-          "slug": "acronym-underscore-emphasis",
+          "slug": "trnt",
           "description_html": "Generate an acronym for 'The Road _Not_ Taken'.",
           "name": "Acronym with underscore emphasis",
           "function": "acronym",
           "params": ["The Road _Not_ Taken"],
-          "expected": "TRNT"
+          "expected": "TRNT",
+          "image_slug": "string-puzzles/acronym/trnt.jpg"
         }
       ]
     }

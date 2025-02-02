@@ -1,5 +1,9 @@
 import type { TokenType } from './token'
 
+export type EvaluationResultLogStatement = {
+  type: 'LogStatement'
+  value: any
+}
 export type EvaluationResultSetVariableStatement = {
   type: 'SetVariableStatement'
   value: any
@@ -28,8 +32,8 @@ export type EvaluationResultForeachStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultExpressionStatement = {
-  type: 'ExpressionStatement'
+export type EvaluationResultCallStatement = {
+  type: 'CallStatement'
   value: any
   expression: EvaluationResult
   data?: Record<string, any>
@@ -93,7 +97,7 @@ export type EvaluationResultChangeVariableStatement = {
   type: 'ChangeVariableStatement'
   name: string
   oldValue: any
-  newValue: any
+  value: any
   data?: Record<string, any>
 }
 
@@ -154,13 +158,20 @@ export type EvaluationResultCallExpression = {
 }
 
 export type EvaluationResult =
+  | EvaluationResultStatement
+  | EvaluationResultExpression
+
+export type EvaluationResultStatement =
+  | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
-  | EvaluationResultUpdateExpression
+  | EvaluationResultChangeVariableStatement
   | EvaluationResultConstantStatement
   | EvaluationResultIfStatement
-  | EvaluationResultExpressionStatement
+  | EvaluationResultCallStatement
   | EvaluationResultForeachStatement
   | EvaluationResultReturnStatement
+
+export type EvaluationResultExpression =
   | EvaluationResultLiteralExpression
   | EvaluationResultListExpression
   | EvaluationResultDictionaryExpression
@@ -170,7 +181,6 @@ export type EvaluationResult =
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression
   | EvaluationResultGroupingExpression
-  | EvaluationResultChangeVariableStatement
   | EvaluationResultGetExpression
   | EvaluationResultSetExpression
   | EvaluationResultTemplateTextExpression

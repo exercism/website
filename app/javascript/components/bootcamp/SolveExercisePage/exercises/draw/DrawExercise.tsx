@@ -8,9 +8,10 @@ import {
   Expression,
   LiteralExpression,
 } from '@/interpreter/expression'
-import { ExpressionStatement } from '@/interpreter/statement'
+import { CallStatement } from '@/interpreter/statement'
 import { Frame } from '@/interpreter/frames'
 import {
+  assertAllArgumentsAreVariables,
   checkCanvasCoverage,
   checkUniqueColoredCircles,
   checkUniqueColoredRectangles,
@@ -159,6 +160,7 @@ export default class DrawExercise extends Exercise {
     return getTriangleAt(this.shapes, x1, y1, x2, y2, x3, y3)
   }
 
+  // These all delegate to checks.
   public checkUniqueColoredRectangles(_: InterpretResult, count: number) {
     return checkUniqueColoredRectangles(this.shapes, count)
   }
@@ -172,24 +174,7 @@ export default class DrawExercise extends Exercise {
   }
 
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
-    return interpreterResult.frames.every((frame: Frame) => {
-      if (!(frame.context instanceof ExpressionStatement)) {
-        return true
-      }
-
-      const context = frame.context as ExpressionStatement
-      if (!(context.expression instanceof CallExpression)) {
-        return true
-      }
-
-      return context.expression.args.every((arg: Expression) => {
-        if (arg instanceof LiteralExpression) {
-          return false
-        }
-
-        return true
-      })
-    })
+    return assertAllArgumentsAreVariables(interpreterResult)
   }
 
   public changePenColor(_: ExecutionContext, color: string) {

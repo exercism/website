@@ -217,6 +217,18 @@ test('MissingCommaBetweenParameters', () => {
   ).toThrow('MissingCommaBetweenParameters: parameter: unexpected')
 })
 
+test('MissingLeftParenthesisAfterFunctionCall', () => {
+  expect(() =>
+    parse(`
+      function move do
+        return 1
+      end
+
+      move)
+    `)
+  ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
+})
+
 describe('MissingRightParenthesisAfterFunctionCall', () => {
   test('missing closing parenthesis - no args', () => {
     expect(() => parse('move(')).toThrow(
@@ -239,7 +251,7 @@ describe('MissingRightParenthesisAfterFunctionCall', () => {
 
 // Parse errors
 test('MissingEndOfLine', () => {
-  expect(() => parse('1 1')).toThrow('MissingEndOfLine')
+  expect(() => parse('log 1 1')).toThrow('MissingEndOfLine')
 })
 
 test('UnexpectedEqualsForAssignment', () => {
@@ -412,52 +424,6 @@ describe('MissingConditionAfterIf', () => {
   })
 })
 
-describe('UnexpectedVariableExpressionAfterIfWithPotentialTypo', () => {
-  test('misspelt comparison operator', () => {
-    expect(() =>
-      parse(`
-        if x equal 10 do
-          set x to 20
-        end
-      `)
-    ).toThrow(
-      'UnexpectedVariableExpressionAfterIfWithPotentialTypo: actual: equal, potential: equals'
-    )
-  })
-
-  test('misspelt comparison operator with brackets', () => {
-    expect(() =>
-      parse(`
-        if(x equal 10) do
-          set x to 20
-        end
-      `)
-    ).toThrow(
-      'MissingRightParenthesisAfterExpressionWithPotentialTypo: actual: equal, potential: equals'
-    )
-  })
-})
-
-test('UnexpectedLiteralExpressionAfterIf', () => {
-  expect(() =>
-    parse(`
-      if true do
-        set x to 20
-      end
-    `)
-  ).toThrow('UnexpectedLiteralExpressionAfterIf')
-})
-
-test('UnexpectedVariableExpressionAfterIf', () => {
-  expect(() =>
-    parse(`
-      if something do
-        set x to 20
-      end
-    `)
-  ).toThrow('UnexpectedVariableExpressionAfterIf')
-})
-
 test('MissingLeftParenthesisAfterFunctionCall', () => {
   expect(() =>
     parse(`
@@ -486,4 +452,46 @@ test('InvalidNestedFunction', () => {
       end
     `)
   ).toThrow('InvalidNestedFunction')
+})
+
+describe('chained things', () => {
+  test('triple equals', () => {
+    expect(() => parse('1 == 2 == 3')).toThrow('UnexpectedChainedEquality')
+  })
+  test.skip('triple not equals', () => {
+    expect(() => parse('1 != 2 != 3')).toThrow('UnexpectedChainedEquality')
+  })
+})
+
+describe('MiscapitalizedKeyword', () => {
+  test('initial letter is wrong', () => {
+    expect(() => parse('If x to 10')).toThrow(
+      'MiscapitalizedKeyword: actual: If, expected: if'
+    )
+  })
+  test('later letter is wrong', () => {
+    expect(() => parse('seT x to 10')).toThrow(
+      'MiscapitalizedKeyword: actual: seT, expected: set'
+    )
+  })
+  test('all wrong', () => {
+    expect(() => parse('FUNCTION something do')).toThrow(
+      'MiscapitalizedKeyword: actual: FUNCTION, expected: function'
+    )
+  })
+})
+
+describe('PointlessStatement', () => {
+  test('with a literal', () => {
+    expect(() => parse('10')).toThrow('PointlessStatement')
+  })
+  test('with a literal in a group', () => {
+    expect(() => parse('(10)')).toThrow('PointlessStatement')
+  })
+})
+
+test('PotentialMissingParenthesesForFunctionCall', () => {
+  expect(() => parse('foo')).toThrow(
+    'PotentialMissingParenthesesForFunctionCall'
+  )
 })

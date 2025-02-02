@@ -324,89 +324,6 @@ describe('statements', () => {
     })
   })
 
-  describe('if', () => {
-    test('without else', () => {
-      const { frames } = interpret(`
-        if true is true do
-          set x to 2
-        end
-      `)
-      expect(frames).toBeArrayOfSize(2)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toBeEmpty()
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 2 })
-    })
-
-    test('with else', () => {
-      const { frames } = interpret(`
-        if true is false do
-          set x to 2
-        else do
-          set x to 3
-        end
-      `)
-      expect(frames).toBeArrayOfSize(2)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toBeEmpty()
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 3 })
-    })
-
-    test('stacked', () => {
-      const { frames } = interpret(`
-        if true is false do
-          set x to 2
-        else if true is true do
-          set x to 3
-        else do
-          set x to 4
-        end
-      `)
-      expect(frames).toBeArrayOfSize(3)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toBeEmpty()
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toBeEmpty()
-      expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[2].variables).toMatchObject({ x: 3 })
-    })
-    test('nested if', () => {
-      const { error, frames } = interpret(`
-        set x to 1
-        if true is true do
-          change x to 2
-          if true is true do
-            change x to 3
-          end
-        end
-      `)
-      expect(error).toBeNull()
-      expect(frames).toBeArrayOfSize(5)
-      frames.forEach((frame) => {
-        expect(frame.status).toBe('SUCCESS')
-      })
-    })
-    test('nested if/else', () => {
-      const { error, frames } = interpret(`
-        set x to 1
-        if true is true do
-          change x to 2
-          if true is true do
-            change x to 3
-          end
-        else do
-          change x to 4
-        end
-      `)
-      expect(error).toBeNull()
-      expect(frames).toBeArrayOfSize(5)
-      frames.forEach((frame) => {
-        expect(frame.status).toBe('SUCCESS')
-      })
-    })
-  })
-
   describe('repeat', () => {
     test('once', () => {
       const { error, frames } = interpret(`
@@ -481,11 +398,11 @@ describe('statements', () => {
 describe('frames', () => {
   describe('single statement', () => {
     test('literal', () => {
-      const { frames } = interpret('125')
+      const { frames } = interpret('log 125')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].line).toBe(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].code).toBe('125')
+      expect(frames[0].code).toBe('log 125')
       expect(frames[0].error).toBeNil()
       expect(frames[0].variables).toBeEmpty()
     })
@@ -501,7 +418,7 @@ describe('frames', () => {
           },
         ],
       }
-      const { frames } = interpret('echo(1)', context)
+      const { error, frames } = interpret('echo(1)', context)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].line).toBe(1)
       expect(frames[0].status).toBe('SUCCESS')
@@ -552,7 +469,7 @@ describe('frames', () => {
   })
 
   test('no error', () => {
-    const { frames, error } = interpret('125')
+    const { frames, error } = interpret('log 125')
     expect(frames).not.toBeEmpty()
     expect(error).toBeNull()
   })
@@ -609,9 +526,9 @@ describe('timing', () => {
       }
       const { frames } = interpret(
         `
-          1
+          log 1
           advanceTime(20)
-          2
+          log 2
         `,
         context
       )
@@ -1004,27 +921,6 @@ describe('errors', () => {
         })
       })
 
-      test('missing parentheses', () => {
-        const { frames, error } = interpret(`
-            function foo do
-              return 1
-            end
-
-            foo
-          `)
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(6)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].code).toBe('foo')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
-        expect(frames[0].error!.message).toBe(
-          'MissingParenthesesForFunctionCall: name: foo'
-        )
-        expect(error).toBeNull()
-      })
-
       test('missing parentheses within set', () => {
         const context = {
           externalFunctions: [
@@ -1048,13 +944,13 @@ describe('errors', () => {
 
       test('after success', () => {
         const { frames, error } = interpret(`
-          123
+          log 123
           foo()
         `)
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].line).toBe(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].code).toBe('123')
+        expect(frames[0].code).toBe('log 123')
         expect(frames[0].error).toBeNil()
         expect(frames[1].line).toBe(3)
         expect(frames[1].status).toBe('ERROR')
@@ -1069,7 +965,7 @@ describe('errors', () => {
       test('stop execution after error', () => {
         const { frames, error } = interpret(`
           foo()
-          123
+          set x to 123
         `)
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].line).toBe(2)

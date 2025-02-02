@@ -29,12 +29,16 @@ function getExampleScript(exerciseDir) {
 function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
   test(`${project} - ${exerciseSlug} - ${task.name} - ${testData.name}`, () => {
     let error, value, frames
+
+    const context = {
+      externalFunctions: filteredStdLibFunctions(config.stdlibFunctions),
+      languageFeatures: config.interpreterOptions,
+    }
+
     try {
       ;({ error, value, frames } = evaluateFunction(
         exampleScript,
-        {
-          externalFunctions: filteredStdLibFunctions(config.stdlibFunctions),
-        },
+        context,
         testData.function,
         ...testData.params
       ))

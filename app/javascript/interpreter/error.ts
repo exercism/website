@@ -65,15 +65,16 @@ export type SyntaxErrorType =
   | 'NumberContainsAlpha'
   | 'NumberStartsWithZero'
   | 'UnexpectedElseWithoutIf'
-  | 'UnexpectedLiteralExpressionAfterIf'
   | 'UnexpectedSpaceInIdentifier'
-  | 'UnexpectedVariableExpressionAfterIf'
-  | 'UnexpectedVariableExpressionAfterIfWithPotentialTypo'
   | 'DuplicateParameterName'
   | 'MissingTimesInRepeat'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
   | 'InvalidNestedFunction'
+  | 'UnexpectedChainedEquality'
+  | 'MiscapitalizedKeyword'
+  | 'PointlessStatement'
+  | 'PotentialMissingParenthesesForFunctionCall'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -101,9 +102,7 @@ export type RuntimeErrorType =
   | 'InvalidBinaryExpression'
   | 'LogicError'
   | 'OperandMustBeBoolean'
-  | 'OperandsMustBeBooleans'
   | 'OperandMustBeNumber'
-  | 'OperandsMustBeNumbers'
   | 'OperandsMustBeTwoNumbersOrTwoStrings'
   | 'InvalidIndexGetterTarget'
   | 'InvalidIndexSetterTarget'
@@ -120,6 +119,9 @@ export type RuntimeErrorType =
   | 'ExpectedFunctionHasWrongArguments'
   | 'MaxIterationsReached'
   | 'InfiniteRecursion'
+  | 'CannotStoreNullFromFunction'
+  | 'CannotStoreNull'
+  | 'ExpressionIsNull'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

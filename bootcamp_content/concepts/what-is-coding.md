@@ -2,7 +2,7 @@
 
 ## What does it mean to code?
 
-There’s a lot of concepts in computer science and in programming, and if you choose to go down certain rabbit holes, things eventually get pretty complicated. But the **core of coding is quite simple**. We give a computer a set of instructions to follow. And as long as our instructions make sense, the computer will follow them in a total predictable way.
+There are lots of concepts in computer science and in programming, and if you choose to go down certain rabbit holes, things eventually get pretty complicated. But the **core of coding is quite simple**. We give a computer a set of instructions to follow. And as long as our instructions make sense, the computer will follow them in a totally predictable way.
 
 One of the nice things about programming is that **we know exactly what will happen**. If we run the same instructions ten times, the same things will happen ten times. We can introduce random variables if we choose - like letting the computer choose a random number or analyzing some varying data like a image someone uploads or text written in a box - but the way the computer reacts to that will remain entirely predictable and consistent.
 
@@ -20,7 +20,7 @@ Develop a curious mindset and you’ll enjoy coding. When something goes wrong, 
 
 Throughout this course, we’re going to be using a lot of visual images and metaphors to make sense of programming. Trying to think of code in terms of 1s and 0s is a very counterproductive way to learn. Our brains are hardwired to think in real-world terms - things we see and the stories we associate with them. So in this course, we’re going to give our brains lots of images and stories that it can build on as we learn.
 
-Let’s start off with what a program actually looks like. At it’s core we two things:
+Let’s start off with what a program actually looks like. At it’s core we have two things:
 
 - The lines of code - you can also think of them as instructions - that you’ve written out.
 - The bit of the computer that’s in charge of following those instructions, and carrying them out (we often call this “executing” the lines of code)
@@ -31,13 +31,13 @@ We’re going to think of our programs as a workshop that’s run by an old man 
 
 To follow those instructions, he has to understand the language you’re speaking. Jiki understands JikiScript and can follow instructions that you write in JikiScript. If you write instructions in a different language, or make mistakes in what you write, Jiki won’t know what to do, and will either do the wrong thing, or more likely will just say “Nope” and give you an error message.
 
-Different programming languages optimise for different things. Some are very enjoyable to work with, some are very fast to run, some are very specialised to certain scenarios, some are deliberately very general purpose. And every language has different character that runs their code, that speaks that language and follows those instructions.
+Different programming languages optimise for different things. Some are very enjoyable to work with, some are very fast to run, some are very specialised to certain scenarios, some are deliberately very general purpose. And every language has a different character that runs their code, that speaks that language and follows those instructions.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/languages.png" class="diagram"/>
 
 ## What does it mean to read and write a programming language?
 
-Programming languages are called “languages” because they provide a way of communicating (e.g. between you and Jiki). But they’re not really like spoken languages at all, so it’s best not think of them in that way. Instead, think of programming languages as a structured way of a human writing instructions to a computer.
+Programming languages are called “languages” because they provide a way of communicating (e.g. between you and Jiki). But they’re not really like spoken languages at all, so it’s best not to think of them in that way. Instead, think of programming languages as a structured way of a human writing instructions to a computer.
 
 When you learn a programming language, what you’re learning are the different types of instructions it lets you give to a computer and the correct way to write those out. They range from quite straight-forward concepts like “only do this if this thing is true” or “do this thing multiple times”, to more weird abstract ideas - most of which we don’t need for now and can stay away from. These things are your tools when you want to code - they’re the building blocks that enable you to do pretty much anything with a computer.
 

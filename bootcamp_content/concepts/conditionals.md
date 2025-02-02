@@ -1,7 +1,7 @@
 # Conditionals
 
 Often we need to only run code in certain situations.
-To achieve this we use `if` statements - also know as conditionals.
+To achieve this we use `if` statements - also known as conditionals.
 
 We specifiy the `if` keyword, then a **condition** then a block of code we want to run if that condition is `true`
 

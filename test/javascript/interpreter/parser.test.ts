@@ -16,11 +16,11 @@ import {
 } from '@/interpreter/expression'
 import {
   BlockStatement,
-  ChangeVariableStatement,
-  ExpressionStatement,
+  CallStatement,
   ForeachStatement,
   FunctionStatement,
   IfStatement,
+  LogStatement,
   RepeatStatement,
   ReturnStatement,
   SetVariableStatement,
@@ -55,94 +55,82 @@ describe('comments', () => {
     move()
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
   })
 })
 describe('literals', () => {
   describe('numbers', () => {
     test('integer', () => {
-      const stmts = parse('1')
+      const stmts = parse('log 1')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-      const literalExpr = exprStmt.expression as LiteralExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
+      const literalExpr = logStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe(1)
     })
     test('floating points', () => {
-      const stmts = parse('1.5')
+      const stmts = parse('log 1.5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-      const literalExpr = exprStmt.expression as LiteralExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
+      const literalExpr = logStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe(1.5)
     })
 
     test('negative integer', () => {
-      const stmts = parse('-5')
+      const stmts = parse('log -5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
-      const literalExpr = exprStmt.expression as UnaryExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(UnaryExpression)
+      const literalExpr = logStmt.expression as UnaryExpression
       expect(literalExpr.operator.lexeme).toBe('-')
       expect((literalExpr.operand as LiteralExpression).value).toBe(5)
     })
     test('negative floating point', () => {
-      const stmts = parse('-1.5')
+      const stmts = parse('log -1.5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(UnaryExpression)
-      const literalExpr = exprStmt.expression as UnaryExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(UnaryExpression)
+      const literalExpr = logStmt.expression as UnaryExpression
       expect(literalExpr.operator.lexeme).toBe('-')
       expect((literalExpr.operand as LiteralExpression).value).toBe(1.5)
     })
   })
 
   test('string', () => {
-    const stmts = parse('"nice"')
+    const stmts = parse('log "nice"')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-    const literalExpr = exprStmt.expression as LiteralExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
+    const literalExpr = logStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe('nice')
   })
 
   test('true', () => {
-    const stmts = parse('true')
+    const stmts = parse('log true')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-    const literalExpr = exprStmt.expression as LiteralExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
+    const literalExpr = logStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe(true)
   })
 
   test('false', () => {
-    const stmts = parse('false')
+    const stmts = parse('log false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-    const literalExpr = exprStmt.expression as LiteralExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
+    const literalExpr = logStmt.expression as LiteralExpression
     expect(literalExpr.value).toBe(false)
   })
-
-  test('null', () => {
-    const stmts = parse('null')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LiteralExpression)
-    const literalExpr = exprStmt.expression as LiteralExpression
-    expect(literalExpr.value).toBeNull()
-  })
 })
-
-describe('list', () => {})
 
 describe('dictionary', () => {
   test('empty', () => {
@@ -254,8 +242,8 @@ describe('call', () => {
   test('without arguments', () => {
     const stmts = parse('move()')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const expStmt = stmts[0] as ExpressionStatement
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const expStmt = stmts[0] as CallStatement
     expect(expStmt.expression).toBeInstanceOf(CallExpression)
     const callExpr = expStmt.expression as CallExpression
     expect(callExpr.args).toBeEmpty()
@@ -264,10 +252,10 @@ describe('call', () => {
   test('single argument', () => {
     const stmts = parse('turn("left")')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(CallExpression)
-    const callExpr = exprStmt.expression as CallExpression
+    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    const logStmt = stmts[0] as CallStatement
+    expect(logStmt.expression).toBeInstanceOf(CallExpression)
+    const callExpr = logStmt.expression as CallExpression
     expect(callExpr.args).toBeArrayOfSize(1)
     expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
   })
@@ -318,12 +306,12 @@ describe('get', () => {
 
 describe('grouping', () => {
   test('non-nested', () => {
-    const stmts = parse('(1 + 2)')
+    const stmts = parse('log (1 + 2)')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(GroupingExpression)
-    const groupingExpr = exprStmt.expression as GroupingExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(GroupingExpression)
+    const groupingExpr = logStmt.expression as GroupingExpression
     expect(groupingExpr.inner).toBeInstanceOf(BinaryExpression)
     const binaryExpr = groupingExpr.inner as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -332,12 +320,12 @@ describe('grouping', () => {
   })
 
   test('nested', () => {
-    const stmts = parse('(1 + (2 - 3))')
+    const stmts = parse('log (1 + (2 - 3))')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(GroupingExpression)
-    const groupingExpr = exprStmt.expression as GroupingExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(GroupingExpression)
+    const groupingExpr = logStmt.expression as GroupingExpression
     expect(groupingExpr.inner).toBeInstanceOf(BinaryExpression)
     const binaryExpr = groupingExpr.inner as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
@@ -354,60 +342,60 @@ describe('grouping', () => {
 
 describe('binary', () => {
   test('addition', () => {
-    const stmts = parse('1 + 2')
+    const stmts = parse('log 1 + 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-    const binaryExpr = exprStmt.expression as BinaryExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+    const binaryExpr = logStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.operator.type).toBe('PLUS')
   })
 
   test('subtraction', () => {
-    const stmts = parse('1 - 2')
+    const stmts = parse('log 1 - 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-    const binaryExpr = exprStmt.expression as BinaryExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+    const binaryExpr = logStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.operator.type).toBe('MINUS')
   })
 
   test('multiplication', () => {
-    const stmts = parse('1 * 2')
+    const stmts = parse('log 1 * 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-    const binaryExpr = exprStmt.expression as BinaryExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+    const binaryExpr = logStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.operator.type).toBe('STAR')
   })
 
   test('division', () => {
-    const stmts = parse('1 / 2')
+    const stmts = parse('log 1 / 2')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-    const binaryExpr = exprStmt.expression as BinaryExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+    const binaryExpr = logStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.operator.type).toBe('SLASH')
   })
 
   test('string concatenation', () => {
-    const stmts = parse('"hello" + "world"')
+    const stmts = parse('log "hello" + "world"')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-    const binaryExpr = exprStmt.expression as BinaryExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+    const binaryExpr = logStmt.expression as BinaryExpression
     expect(binaryExpr.left).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
     expect(binaryExpr.operator.type).toBe('PLUS')
@@ -415,13 +403,13 @@ describe('binary', () => {
 
   describe('nesting', () => {
     test('numbers', () => {
-      const stmts = parse('1 + 2 * 3 / 4 - 5')
+      const stmts = parse('log 1 + 2 * 3 / 4 - 5')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
 
-      const binaryExpr = exprStmt.expression as BinaryExpression
+      const binaryExpr = logStmt.expression as BinaryExpression
       expect(binaryExpr.operator.type).toBe('MINUS')
       expect(binaryExpr.left).toBeInstanceOf(BinaryExpression)
       expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
@@ -460,12 +448,12 @@ describe('binary', () => {
     })
 
     test('string concatenation', () => {
-      const stmts = parse('"hello" + "world" + "!"')
+      const stmts = parse('log "hello" + "world" + "!"')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(BinaryExpression)
-      const binaryExpr = exprStmt.expression as BinaryExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(BinaryExpression)
+      const binaryExpr = logStmt.expression as BinaryExpression
       expect(binaryExpr.operator.type).toBe('PLUS')
       expect(binaryExpr.left).toBeInstanceOf(BinaryExpression)
       expect(binaryExpr.right).toBeInstanceOf(LiteralExpression)
@@ -488,24 +476,24 @@ describe('binary', () => {
 
 describe('logical', () => {
   test('and', () => {
-    const stmts = parse('true and false')
+    const stmts = parse('log true and false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
-    const logicalExpr = exprStmt.expression as LogicalExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(LogicalExpression)
+    const logicalExpr = logStmt.expression as LogicalExpression
     expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
     expect(logicalExpr.right).toBeInstanceOf(LiteralExpression)
     expect(logicalExpr.operator.type).toBe('AND')
   })
 
   test('or', () => {
-    const stmts = parse('true or false')
+    const stmts = parse('log true or false')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-    const exprStmt = stmts[0] as ExpressionStatement
-    expect(exprStmt.expression).toBeInstanceOf(LogicalExpression)
-    const logicalExpr = exprStmt.expression as LogicalExpression
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(LogicalExpression)
+    const logicalExpr = logStmt.expression as LogicalExpression
     expect(logicalExpr.left).toBeInstanceOf(LiteralExpression)
     expect(logicalExpr.right).toBeInstanceOf(LiteralExpression)
     expect(logicalExpr.operator.type).toBe('OR')
@@ -776,67 +764,55 @@ describe('white space', () => {
 
 describe('location', () => {
   describe('statement', () => {
-    test('expression', () => {
-      const statements = parse('123')
+    test('LogStatement', () => {
+      const statements = parse('log 123')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      expect(expressionStatement.location.line).toBe(1)
-      expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(4)
-      expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(4)
-    })
-
-    test('variable', () => {
-      const statements = parse('set x to 1')
-      expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(SetVariableStatement)
-      const expressionStatement = statements[0] as SetVariableStatement
-      expect(expressionStatement.location.line).toBe(1)
-      expect(expressionStatement.location.relative.begin).toBe(1)
-      expect(expressionStatement.location.relative.end).toBe(11)
-      expect(expressionStatement.location.absolute.begin).toBe(1)
-      expect(expressionStatement.location.absolute.end).toBe(11)
+      expect(statements[0]).toBeInstanceOf(LogStatement)
+      const logStatement = statements[0] as LogStatement
+      expect(logStatement.location.line).toBe(1)
+      expect(logStatement.location.relative.begin).toBe(1)
+      expect(logStatement.location.relative.end).toBe(8)
+      expect(logStatement.location.absolute.begin).toBe(1)
+      expect(logStatement.location.absolute.end).toBe(8)
     })
   })
 
   describe('expression', () => {
     test('literal', () => {
-      const statements = parse('123')
+      const statements = parse('log 123')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(LogStatement)
+      const callStatement = statements[0] as LogStatement
+      const expression = callStatement.expression
       expect(expression).toBeInstanceOf(LiteralExpression)
 
       expect(expression.location.line).toBe(1)
-      expect(expression.location.relative.begin).toBe(1)
-      expect(expression.location.relative.end).toBe(4)
-      expect(expression.location.absolute.begin).toBe(1)
-      expect(expression.location.absolute.end).toBe(4)
+      expect(expression.location.relative.begin).toBe(5)
+      expect(expression.location.relative.end).toBe(8)
+      expect(expression.location.absolute.begin).toBe(5)
+      expect(expression.location.absolute.end).toBe(8)
     })
 
     test('variable', () => {
-      const statements = parse('foo')
+      const statements = parse('log foo')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(LogStatement)
+      const logStatement = statements[0] as LogStatement
+      const expression = logStatement.expression
       expect(expression).toBeInstanceOf(VariableLookupExpression)
       expect(expression.location.line).toBe(1)
-      expect(expression.location.relative.begin).toBe(1)
-      expect(expression.location.relative.end).toBe(4)
-      expect(expression.location.absolute.begin).toBe(1)
-      expect(expression.location.absolute.end).toBe(4)
+      expect(expression.location.relative.begin).toBe(5)
+      expect(expression.location.relative.end).toBe(8)
+      expect(expression.location.absolute.begin).toBe(5)
+      expect(expression.location.absolute.end).toBe(8)
     })
 
     test('call', () => {
       const statements = parse('move(7)')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(ExpressionStatement)
-      const expressionStatement = statements[0] as ExpressionStatement
-      const expression = expressionStatement.expression
+      expect(statements[0]).toBeInstanceOf(CallStatement)
+      const callStatement = statements[0] as CallStatement
+      const expression = callStatement.expression
       expect(expression).toBeInstanceOf(CallExpression)
       expect(expression.location.line).toBe(1)
       expect(expression.location.relative.begin).toBe(1)

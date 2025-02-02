@@ -28,3 +28,16 @@ To solve this, you need two functions:
 - We would expect `raindrops(28)` to return `"Plong"` because 28 is divisible by 7, but not 3 or 5.
 - We would expect `raindrops(30)` to return `"PlingPlang"` because 30 is divisible by 3 and 5, but not 7.
 - We would expect `raindrops(34)` to return `"34"` because 34 is not divisible by 3, 5, or 7.
+
+## Hints
+
+Have a good go first, but if you get stuck, check out these hints!
+Click to expand.
+
+<details><summary>Can't get <code>"PlingPlangPlong"</code>? Got more than 4 <code>if</code> statements?</summary>
+
+The key to this exercise is to **accumulate** the sounds as you work through the `if` statements. You don't want to `return` straight away as you find sounds. Instead build up the resulting string.
+
+This whole exercise should really only have one or two return statements.
+
+</details>

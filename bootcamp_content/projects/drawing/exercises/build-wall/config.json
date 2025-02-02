@@ -1,5 +1,5 @@
 {
-  "title": "Build a Wall",
+  "title": "Build the Wall",
   "description": "Use rectangles to build a wall",
   "project_type": "draw",
   "level": 4,
@@ -65,7 +65,13 @@
             {
               "name": "wasFunctionUsed('rectangle', null, 55)",
               "matcher": "toBeTrue",
-              "error_html": "You didn't add 55 bricks."
+              "error_html": "You didn't add exactly 55 bricks."
+            },
+            {
+              "name": "numberOfFunctionCallsInCode('rectangle')",
+              "matcher": "toEqual",
+              "value": 1,
+              "error_html": "You are using the `rectangle` function in multiple places in your code."
             }
           ]
         }

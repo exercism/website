@@ -23,7 +23,7 @@ import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
-  ExpressionStatement,
+  CallStatement,
   ForeachStatement,
   FunctionParameter,
   FunctionStatement,
@@ -36,6 +36,7 @@ import {
   WhileStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
+  LogStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -162,6 +163,7 @@ export class Parser {
     if (this.match('SET')) return this.setVariableStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
     if (this.match('IF')) return this.ifStatement()
+    if (this.match('LOG')) return this.logStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
@@ -176,7 +178,7 @@ export class Parser {
       this.error('UnexpectedElseWithoutIf', this.previous().location)
     }
 
-    return this.expressionStatement()
+    return this.callStatement()
   }
 
   private identifier(): Token {
@@ -251,21 +253,6 @@ export class Parser {
     let condition
     try {
       condition = this.expression()
-      if (condition instanceof LiteralExpression) {
-        this.error('UnexpectedLiteralExpressionAfterIf', ifToken.location)
-      }
-      if (condition instanceof VariableLookupExpression) {
-        const typoData = isTypo(this.peek())
-        if (typoData) {
-          this.error(
-            'UnexpectedVariableExpressionAfterIfWithPotentialTypo',
-            ifToken.location,
-            { actual: typoData.actual, potential: typoData.potential }
-          )
-        }
-
-        this.error('UnexpectedVariableExpressionAfterIf', ifToken.location)
-      }
     } catch (e) {
       if (e instanceof SyntaxError && e.type == 'MissingExpression') {
         this.error('MissingConditionAfterIf', ifToken.location)
@@ -303,6 +290,14 @@ export class Parser {
     )
   }
 
+  private logStatement(): Statement {
+    const logToken = this.previous()
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new LogStatement(value, Location.between(logToken, value))
+  }
+
   private returnStatement(): Statement {
     const keyword = this.previous()
     const value: Expression | null = this.isAtEndOfStatement()
@@ -319,7 +314,7 @@ export class Parser {
   }
 
   private repeatStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
     const condition = this.expression()
     this.consume('TIMES', 'MissingTimesInRepeat')
     this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
@@ -328,14 +323,15 @@ export class Parser {
     const statements = this.block('repeat')
 
     return new RepeatStatement(
+      keyword,
       condition,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
 
   private repeatUntilGameOverStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
 
     this.consume('DO', 'MissingDoToStartBlock', {
       type: 'repeat_until_game_over',
@@ -345,12 +341,13 @@ export class Parser {
     const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
+      keyword,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
   private repeatForeverStatement(): Statement {
-    const begin = this.previous()
+    const keyword = this.previous()
 
     this.consume('DO', 'MissingDoToStartBlock', {
       type: 'repeat_forever',
@@ -360,8 +357,9 @@ export class Parser {
     const statements = this.block('repeat_forever')
 
     return new RepeatForeverStatement(
+      keyword,
       statements,
-      Location.between(begin, this.previous())
+      Location.between(keyword, this.previous())
     )
   }
 
@@ -440,11 +438,29 @@ export class Parser {
     return statements
   }
 
-  private expressionStatement(): Statement {
-    const expression = this.expression()
+  private callStatement(): Statement {
+    let expression = this.expression()
+    while (true) {
+      if (expression instanceof CallExpression) {
+        break
+      }
+      if (expression instanceof GroupingExpression) {
+        expression = expression.inner
+        continue
+      }
+      if (expression instanceof VariableLookupExpression) {
+        this.error(
+          'PotentialMissingParenthesesForFunctionCall',
+          expression.location
+        )
+      }
+
+      this.error('PointlessStatement', expression.location)
+    }
+
     this.consumeEndOfLine()
 
-    return new ExpressionStatement(expression, expression.location)
+    return new CallStatement(expression, expression.location)
   }
 
   private expression(): Expression {
@@ -514,8 +530,9 @@ export class Parser {
   private equality(): Expression {
     let expr = this.comparison()
 
-    while (this.match('EQUALITY')) {
-      let operator = this.previous()
+    const nextToken = this.peek()
+    if (nextToken.type == 'EQUALITY' || nextToken.type == 'INEQUALITY') {
+      const operator = this.advance()
       const right = this.comparison()
       expr = new BinaryExpression(
         expr,
@@ -523,9 +540,10 @@ export class Parser {
         right,
         Location.between(expr, right)
       )
+      this.guardDoubleEquality()
+    } else {
+      this.guardEqualsSignForEquality(this.peek())
     }
-
-    this.guardEqualsSignForEquality(this.peek())
 
     return expr
   }
@@ -533,16 +551,7 @@ export class Parser {
   private comparison(): Expression {
     let expr = this.term()
 
-    while (
-      this.match(
-        'GREATER',
-        'GREATER_EQUAL',
-        'LESS',
-        'LESS_EQUAL',
-        'EQUALITY',
-        'INEQUALITY'
-      )
-    ) {
+    while (this.match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
       const operator = this.previous()
       const right = this.term()
       expr = new BinaryExpression(
@@ -936,6 +945,13 @@ export class Parser {
   private guardEqualsSignForEquality(token: Token) {
     if (token.type == 'EQUAL') {
       this.error('UnexpectedEqualsForEquality', token.location)
+    }
+  }
+
+  private guardDoubleEquality() {
+    const nextToken = this.peek()
+    if (nextToken.type == 'EQUALITY' || nextToken.type == 'INEQUALITY') {
+      this.error('UnexpectedChainedEquality', nextToken.location)
     }
   }
 

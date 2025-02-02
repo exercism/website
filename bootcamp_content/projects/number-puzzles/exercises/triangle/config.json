@@ -85,7 +85,7 @@
         {
           "slug": "valid-isosceles-first-and-last-equal",
           "name": "Isosceles triangle (4, 3, 4)",
-          "description_html": "A triangle with teh same first and last sides should return \"isosceles\".",
+          "description_html": "A triangle with the same first and last sides should return \"isosceles\".",
           "function": "determine_triangle_type",
           "params": [4, 3, 4],
           "expected": "isosceles"

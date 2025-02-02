@@ -1,13 +1,6 @@
 import { interpret } from '@/interpreter/interpreter'
-import type { ExecutionContext } from '@/interpreter/executor'
-import {
-  LiteralExpression,
-  VariableLookupExpression,
-} from '@/interpreter/expression'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
-import { type Token, TokenType } from '@/interpreter/token'
-import { SetVariableStatement } from '@/interpreter/statement'
 import { describeFrame } from '@/interpreter/frames'
 
 const location = new Location(0, new Span(0, 0), new Span(0, 0))
@@ -116,7 +109,6 @@ describe('IfStatement', () => {
       `,
         { externalFunctions: [getTrueFunction] }
       )
-      console.log(frames[0])
       const actual = describeFrame(frames[0], [])
       expect(actual).toBe(
         `<p>This checked whether <code>true</code> was equal to <code>get_true()</code> (which returned <code>true</code>)</p>\n<p>The result was <code>true</code>.</p>`

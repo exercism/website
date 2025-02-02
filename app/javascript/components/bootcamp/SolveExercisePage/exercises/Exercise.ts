@@ -21,18 +21,13 @@ export abstract class Exercise {
     return code
   }
 
-  // TODO: Add test coverage
-  public wasStatementUsed(
-    result: InterpretResult,
-    statementType: string
-  ): boolean {
-    if (result.frames === undefined) {
-      return false
-    }
-    return result.frames.some(
-      // TODO: Add test coverage to frame being an error frame without context
-      (frame) => (frame.context as Statement)?.type == statementType
-    )
+  public numberOfFunctionCallsInCode(
+    interpreterResult: InterpretResult,
+    fnName: string
+  ) {
+    return interpreterResult.callExpressions.filter(
+      (expr) => expr.callee.name.lexeme == fnName
+    ).length
   }
 
   public wasFunctionUsed(

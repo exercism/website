@@ -39,7 +39,8 @@
             &:nth-child(4) {
             }
             &:nth-child(5),
-            &:nth-child(6) {
+            &:nth-child(6),
+            &:nth-child(7) {
                 width: 1px;
                 @apply whitespace-nowrap;
                 @apply text-right;

@@ -51,12 +51,13 @@
       "UnknownCharacter": "Unknown character: '{{character}}'.",
       "UnexpectedEqualsForAssignment": "We don't use the equals sign (`=`) to assign variables in JikiScript. Use the `to` keyword instead.",
       "UnexpectedElseWithoutIf": "We can't work out which if statement this `else` belongs to. Did you forget to add an `if` statement before this `else`?",
-      "UnexpectedLiteralExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `==`, `>`, etc are always required).",
       "UnexpectedSpaceInIdentifier": "Did you accidently put a space in the middle of a variable name?",
-      "UnexpectedVariableExpressionAfterIf": "Did you forget to compare to things? In JikiScript the comparison (`is`, `==`, `>`, etc are always required).",
-      "UnexpectedVariableExpressionAfterIfWithPotentialTypo": "We were expecting some sort of comparison here. Did you mean to type `{{potential}}` instead of `{{actual}}`?",
       "UnexpectedEqualsForEquality": "To say \"equals\" in JikiScript, we use two equals signs (`==`). Did you forget one?",
-      "InvalidNestedFunction": "You can't create a function within a function. Did you mean to create a function outside of this one?"
+      "InvalidNestedFunction": "You can't create a function within a function. Did you mean to create a function outside of this one?",
+      "UnexpectedChainedEquality": "You can't chain equality operators like this. Did you mean to use `and` or `or` instead?",
+      "MiscapitalizedKeyword": "Did you make a typo in `{{actual}}`? Maybe you meant `{{expected}}`?",
+      "PointlessStatement": "This line of code doesn't do anything.",
+      "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",
@@ -82,9 +83,8 @@
       "LogicError": "{{message}}",
       "MissingParenthesesForFunctionCall": "Did you forget the parenthesis when trying to use this function?\n\nDid you mean:\n\n```{{name}}()```",
       "NonCallableTarget": "Can only call functions.",
-      "OperandMustBeBoolean": "Operand must be a boolean.",
-      "OperandMustBeNumber": "Operand must be a number.",
-      "OperandsMustBeNumbers": "Both sides of the `{{operator}}` must be numbers. The {{side}} side is not a number. It is `{{value}}`.",
+      "OperandMustBeBoolean": "This must be a boolean (`true` or `false`) but it is `{{value}}`.",
+      "OperandMustBeNumber": "This should be a number but it is `{{value}}`.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
       "RepeatCountMustBeGreaterThanZero": "You must repeat things at least once.",
       "RepeatCountTooHigh": "The maximum number of times you can repeat things in this exercise is {{max}}.",
@@ -99,7 +99,10 @@
       "UnexpectedReturnOutsideOfFunction": "You used the `return` keyword, but you're not inside a function. So Jiki has nothing to return out from.",
       "ExpectedFunctionNotFound": "Jiki couldn't find the `{{name}}` function. Have you defined it correctly?",
       "ExpectedFunctionHasWrongArguments": "Jiki tried to run the `{{name}}` function but it had a different amount of inputs to what he expected.",
-      "InfiniteRecursion": "Jiki kept on running the same code over and over again. Do you have a function that is somehow trying to use itself?"
+      "InfiniteRecursion": "Jiki kept on running the same code over and over again. Do you have a function that is somehow trying to use itself?",
+      "CannotStoreNullFromFunction": "The function didn't return anything, so there's nothing to put in the variable. Check the function carefully if you think it should have returned something.",
+      "CannotStoreNull": "The function didn't return anything, so there's nothing to put in the variable. Check the function carefully if you think it should have returned something.",
+      "ExpressionIsNull": "This didn't return a value, which has left Jiki very confused. Check your functions carefully to see what they return. Remember to use the scrubber."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

@@ -52,12 +52,13 @@
       "NumberStartsWithZero": "NumberStartsWithZero: suggestion: {{suggestion}}",
       "NumberWithMultipleDecimalPoints": "NumberWithMultipleDecimalPoints: suggestion: {{suggestion}}",
       "UnexpectedElseWithoutIf": "UnexpectedElseWithoutIf",
-      "UnexpectedLiteralExpressionAfterIf": "UnexpectedLiteralExpressionAfterIf",
-      "UnexpectedVariableExpressionAfterIfWithPotentialTypo": "UnexpectedVariableExpressionAfterIfWithPotentialTypo: actual: {{actual}}, potential: {{potential}}",
       "UnknownCharacter": "UnknownCharacter: character: {{character}}",
       "UnexpectedSpaceInIdentifier": "UnexpectedSpaceInIdentifier: first_half: {{first_half}}, second_half: {{second_half}}",
       "UnexpectedEqualsForEquality": "UnexpectedEqualsForEquality",
-      "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment"
+      "UnexpectedEqualsForAssignment": "UnexpectedEqualsForAssignment",
+      "UnexpectedChainedEquality": "UnexpectedChainedEquality",
+      "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
+      "PointlessStatement": "PointlessStatement"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -80,9 +81,8 @@
       "InvalidUnaryOperator": "InvalidUnaryOperator",
       "MissingParenthesesForFunctionCall": "MissingParenthesesForFunctionCall: name: {{name}}",
       "NonCallableTarget": "NonCallableTarget",
-      "OperandMustBeBoolean": "OperandMustBeBoolean",
-      "OperandMustBeNumber": "OperandMustBeNumber",
-      "OperandsMustBeNumbers": "OperandsMustBeNumbers: operator: {{operator}}, side: {{side}}, value: {{value}}",
+      "OperandMustBeBoolean": "OperandMustBeBoolean: value: {{value}}",
+      "OperandMustBeNumber": "OperandMustBeNumber: value: {{value}}",
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
       "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
@@ -100,7 +100,10 @@
       "ExpectedFunctionNotFound": "ExpectedFunctionNotFound: name: {{name}}",
       "VariableNotAccessibleInFunction": "VariableNotAccessibleInFunction: name: {{name}}",
       "InvalidNestedFunction": "InvalidNestedFunction",
-      "InfiniteRecursion": "InfiniteRecursion"
+      "InfiniteRecursion": "InfiniteRecursion",
+      "CannotStoreNullFromFunction": "CannotStoreNullFromFunction",
+      "CannotStoreNull": "CannotStoreNull",
+      "ExpressionIsNull": "ExpressionIsNull"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

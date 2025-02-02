@@ -61,7 +61,7 @@ describe('keyword', () => {
     ['set', 'SET'],
     ['to', 'TO'],
     ['true', 'TRUE'],
-    ['while', 'WHILE'],
+    // ['while', 'WHILE'],
     ['with', 'WITH'],
     ['is', 'EQUALITY'],
     ['equals', 'EQUALITY'],

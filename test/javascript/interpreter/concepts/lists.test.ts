@@ -8,7 +8,7 @@ import type { ExecutionContext } from '@/interpreter/executor'
 import { changeLanguage } from '@/interpreter/translator'
 import {
   ChangeVariableStatement,
-  ExpressionStatement,
+  LogStatement,
   SetVariableStatement,
 } from '@/interpreter/statement'
 import {
@@ -31,22 +31,22 @@ afterAll(() => {
 describe('lists', () => {
   describe('parse', () => {
     test('empty', () => {
-      const stmts = parse('[]')
+      const stmts = parse('log []')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(ListExpression)
-      const listExpr = exprStmt.expression as ListExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(ListExpression)
+      const listExpr = logStmt.expression as ListExpression
       expect(listExpr.elements).toBeEmpty()
     })
 
     test('single element', () => {
-      const stmts = parse('[1]')
+      const stmts = parse('log [1]')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(ListExpression)
-      const listExpr = exprStmt.expression as ListExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(ListExpression)
+      const listExpr = logStmt.expression as ListExpression
       expect(listExpr.elements).toBeArrayOfSize(1)
       expect(listExpr.elements[0]).toBeInstanceOf(LiteralExpression)
       const firstElemExpr = listExpr.elements[0] as LiteralExpression
@@ -54,12 +54,12 @@ describe('lists', () => {
     })
 
     test('multiple elements', () => {
-      const stmts = parse('[1,2,3]')
+      const stmts = parse('log [1,2,3]')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(ListExpression)
-      const listExpr = exprStmt.expression as ListExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(ListExpression)
+      const listExpr = logStmt.expression as ListExpression
       expect(listExpr.elements).toBeArrayOfSize(3)
       expect(listExpr.elements[0]).toBeInstanceOf(LiteralExpression)
       expect(listExpr.elements[1]).toBeInstanceOf(LiteralExpression)
@@ -70,12 +70,12 @@ describe('lists', () => {
     })
 
     test('nested', () => {
-      const stmts = parse('[1,[2,[3]]]')
+      const stmts = parse('log [1,[2,[3]]]')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(ListExpression)
-      const listExpr = exprStmt.expression as ListExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(ListExpression)
+      const listExpr = logStmt.expression as ListExpression
       expect(listExpr.elements).toBeArrayOfSize(2)
       expect(listExpr.elements[0]).toBeInstanceOf(LiteralExpression)
       expect((listExpr.elements[0] as LiteralExpression).value).toBe(1)
@@ -92,12 +92,12 @@ describe('lists', () => {
     })
 
     test('expressions', () => {
-      const stmts = parse('[-1,2*2,3+3]')
+      const stmts = parse('log [-1,2*2,3+3]')
       expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(ExpressionStatement)
-      const exprStmt = stmts[0] as ExpressionStatement
-      expect(exprStmt.expression).toBeInstanceOf(ListExpression)
-      const listExpr = exprStmt.expression as ListExpression
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(ListExpression)
+      const listExpr = logStmt.expression as ListExpression
       expect(listExpr.elements).toBeArrayOfSize(3)
       expect(listExpr.elements[0]).toBeInstanceOf(UnaryExpression)
       expect(listExpr.elements[1]).toBeInstanceOf(BinaryExpression)

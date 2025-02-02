@@ -1,21 +1,21 @@
 import type { Token } from './token'
 import { Location } from './location'
-import { FrameWithResult } from './frames'
-import {
-  EvaluationResult,
-  EvaluationResultCallExpression,
-} from './evaluation-result'
+import { EvaluationResultCallExpression } from './evaluation-result'
 import { SomethingWithLocation } from './interpreter'
 import { formatLiteral } from './helpers'
 
 export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}
   abstract location: Location
+  abstract children(): Expression[]
 }
 
 export class LiteralExpression extends Expression {
   constructor(public value: any, public location: Location) {
     super('LiteralExpression')
+  }
+  public children() {
+    return []
   }
   public description() {
     return `<code>${formatLiteral(this.value)}</code>`
@@ -26,6 +26,9 @@ export class VariableLookupExpression extends Expression {
   constructor(public name: Token, public location: Location) {
     super('VariableLookupExpression')
   }
+  public children() {
+    return []
+  }
   public description() {
     return `the <code>${this.name.lexeme}</code> variable`
   }
@@ -34,6 +37,9 @@ export class VariableLookupExpression extends Expression {
 export class FunctionLookupExpression extends Expression {
   constructor(public name: Token, public location: Location) {
     super('FunctionLookupExpression')
+  }
+  public children() {
+    return []
   }
   public description() {
     return `the <code>${this.name.lexeme}</code> function`
@@ -48,14 +54,14 @@ export class CallExpression extends Expression {
   ) {
     super('CallExpression')
   }
+  public children() {
+    return ([this.callee] as Expression[]).concat(this.args)
+  }
 
-  public description(
-    result: EvaluationResultCallExpression,
-    includeReturnValue = true
-  ): string {
+  public description(result?: EvaluationResultCallExpression): string {
     const argsDescription = '()'
     let desc = `<code>${this.callee.name.lexeme}${argsDescription}</code>`
-    if (includeReturnValue) {
+    if (result) {
       desc += ` (which returned <code>${formatLiteral(result.value)}</code>)`
     }
     return desc
@@ -66,6 +72,9 @@ export class ListExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
     super('ListExpression')
   }
+  public children() {
+    return this.elements
+  }
 }
 
 export class DictionaryExpression extends Expression {
@@ -74,6 +83,9 @@ export class DictionaryExpression extends Expression {
     public location: Location
   ) {
     super('DictionaryExpression')
+  }
+  public children() {
+    return this.elements.values
   }
 }
 
@@ -86,6 +98,9 @@ export class BinaryExpression extends Expression {
   ) {
     super('BinaryExpression')
   }
+  public children() {
+    return [this.left, this.right]
+  }
 }
 
 export class LogicalExpression extends Expression {
@@ -97,6 +112,9 @@ export class LogicalExpression extends Expression {
   ) {
     super('LogicalExpression')
   }
+  public children() {
+    return [this.left, this.right]
+  }
 }
 
 export class UnaryExpression extends Expression {
@@ -107,11 +125,17 @@ export class UnaryExpression extends Expression {
   ) {
     super('UnaryExpression')
   }
+  public children() {
+    return [this.operand]
+  }
 }
 
 export class GroupingExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
     super('GroupingExpression')
+  }
+  public children() {
+    return [this.inner]
   }
 }
 
@@ -119,17 +143,26 @@ export class TemplatePlaceholderExpression extends Expression {
   constructor(public inner: Expression, public location: Location) {
     super('TemplatePlaceholderExpression')
   }
+  public children() {
+    return [this.inner]
+  }
 }
 
 export class TemplateTextExpression extends Expression {
   constructor(public text: Token, public location: Location) {
     super('TemplateTextExpression')
   }
+  public children() {
+    return []
+  }
 }
 
 export class TemplateLiteralExpression extends Expression {
   constructor(public parts: Expression[], public location: Location) {
     super('TemplateLiteralExpression')
+  }
+  public children() {
+    return this.parts
   }
 }
 
@@ -141,6 +174,9 @@ export class UpdateExpression extends Expression {
   ) {
     super('UpdateExpression')
   }
+  public children() {
+    return [this.operand]
+  }
 }
 
 export class GetExpression extends Expression {
@@ -150,6 +186,9 @@ export class GetExpression extends Expression {
     public location: Location
   ) {
     super('GetExpression')
+  }
+  public children() {
+    return [this.obj]
   }
 }
 
@@ -161,5 +200,8 @@ export class SetExpression extends Expression {
     public location: Location
   ) {
     super('SetExpression')
+  }
+  public children() {
+    return [this.obj, this.value]
   }
 }

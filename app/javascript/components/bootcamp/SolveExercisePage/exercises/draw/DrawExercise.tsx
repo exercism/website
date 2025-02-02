@@ -42,6 +42,7 @@ export default class DrawExercise extends Exercise {
 
   constructor(slug = 'draw') {
     super(slug)
+    this.showAnimationsOnInfiniteLoops = false
 
     Object.assign(this.view.style, {
       display: 'none',

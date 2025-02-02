@@ -4,6 +4,7 @@ import { InterpretResult } from '@/interpreter/interpreter'
 import { Statement } from '@/interpreter/statement'
 
 export abstract class Exercise {
+  public showAnimationsOnInfiniteLoops: boolean
   public availableFunctions!: ExternalFunction[]
   public animations: Animation[] = []
   public abstract getState(): any | null
@@ -15,6 +16,7 @@ export abstract class Exercise {
 
   public constructor(private slug: String) {
     this.createView()
+    this.showAnimationsOnInfiniteLoops = true
   }
 
   public wrapCode(code: string) {

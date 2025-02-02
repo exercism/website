@@ -15,6 +15,71 @@ export const colorScheme = createTheme({
   },
   styles: [
     {
+      tag: [t.comment, t.lineComment],
+      color: '#818B94',
+      fontStyle: 'italic',
+    },
+    {
+      tag: t.string,
+      color: '#3E8A00',
+    },
+    {
+      tag: t.controlKeyword,
+      color: '#0080FF',
+      fontWeight: '500',
+    },
+    {
+      tag: t.definitionKeyword,
+      color: '#0080FF',
+      fontWeight: '500',
+    },
+    {
+      tag: t.keyword,
+      color: '#0080FF',
+      fontWeight: '500',
+    },
+    {
+      tag: [t.paren],
+      color: '#888',
+    },
+    {
+      tag: [t.bool, t.number, t.float],
+      color: '#F33636',
+    },
+    {
+      tag: t.logicOperator,
+      color: '#0080FF',
+    },
+    {
+      tag: t.arithmeticOperator,
+      color: '#0080FF',
+    },
+    {
+      tag: t.operator,
+      color: '#0080FF',
+    },
+    {
+      tag: t.variableName,
+      color: '#7A009F',
+    },
+    /*
+    {
+      tag: t.paren,
+      color: '#00ff00',
+      border: '1px solid #0000ff',
+    },
+    {
+      tag: t.squareBracket,
+      color: '#ff0000',
+      border: '1px solid #0000ff',
+    },
+    {
+      tag: t.compareOperator,
+      color: '#0000AA',
+      border: '1px solid #ff0000',
+    },*/
+
+    /*({
       tag: t.comment,
       color: '#818B94',
       fontStyle: 'italic',
@@ -66,6 +131,6 @@ export const colorScheme = createTheme({
     {
       tag: t.derefOperator,
       color: '#4D4D4C',
-    },
+    },*/
   ],
 })

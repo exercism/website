@@ -17,3 +17,10 @@ Things you need to know:
 The aim of this exercise is for you to experiment with using `repeat` blocks and potentially use `functions`.
 There are **lots** of different ways to solve this exercise, and there is no right or wrong way.
 Your challenge is to solve it in a way that you feel results in as clean and satsifying code as you can achieve.
+
+### Functions
+
+You need two functions for this exercise:
+
+- `fill_color_hex(hex)`: Changes the color of whatever comes after it
+- `rectangle(left, top, width, height)`: Draws a rectangle.

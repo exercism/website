@@ -14,3 +14,10 @@ Things you need to know:
 
 - Each brick is 10 high and 20 wide.
 - The `rectangle` function can only appear once in your code!
+
+### Functions
+
+You need two functions for this exercise:
+
+- `fill_color_hex(hex)`: Changes the color of whatever comes after it
+- `rectangle(left, top, width, height)`: Draws a rectangle.

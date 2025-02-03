@@ -41,11 +41,6 @@
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down the alien."
-            },
-            {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
-              "matcher": "toBeTrue",
-              "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
           ]
         },
@@ -71,11 +66,6 @@
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
-            },
-            {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
-              "matcher": "toBeTrue",
-              "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
           ]
         },
@@ -101,6 +91,61 @@
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        },
+        {
+          "slug": "full-rows",
+          "name": "Three packed rows",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fire the fireworks when they're all shot down",
+      "tests": [
+        {
+          "slug": "three-rows",
+          "name": "Three rows with Fireworks",
+          "description_html": "Add some fireworks into the mix!",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0],
+                  [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
             },
             {
               "name": "wasFunctionUsed('fire_fireworks', null)",
@@ -110,9 +155,9 @@
           ]
         },
         {
-          "slug": "full-rows",
-          "name": "Three packed rows",
-          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "slug": "full-rows-fireworks",
+          "name": "Three packed rows with fireworks",
+          "description_html": "A full grid with fireworks!",
           "setup_functions": [
             [
               "setupAliens",

@@ -61,6 +61,10 @@
             @apply py-8 px-20;
             @apply relative z-tooltip-content bg-red-100;
             @apply rounded-t-[6px];
+
+            .tooltip-close {
+                @apply float-right -mr-10;
+            }
         }
         .content {
             @apply text-textColor1;

@@ -66,7 +66,6 @@ describe('lists', () => {
 
     test('index access', () => {
       const { frames } = interpret(`log "foobar"[4] `)
-      console.log(frames)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].result?.value.value).toBe('b')

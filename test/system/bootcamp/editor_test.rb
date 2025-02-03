@@ -492,5 +492,20 @@ end))
         assert_selector ".solve-exercise-page-react-modal-content"
       end
     end
+
+    test "hide button hides error information widget" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :penguin
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        check_scenarios
+        assert_selector ".information-tooltip.error"
+        find("button.tooltip-close").click
+        refute_selector ".information-tooltip.error"
+      end
+    end
   end
 end

@@ -298,11 +298,6 @@ export default class SpaceInvadersExercise extends Exercise {
 
   public availableFunctions = [
     {
-      name: 'runGame',
-      func: this.runGame,
-      description: '',
-    },
-    {
       name: 'move_left',
       func: this.moveLeft.bind(this),
       description: 'Moves the laser canon to the left',

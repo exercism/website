@@ -395,7 +395,6 @@ export class Executor {
       // Do the update
       const oldValue = list.value[index.value - 1]
       list.value[index.value - 1] = value
-      console.log(index.value, ': ', oldValue, '->', value)
 
       return {
         type: 'ChangeListElementStatement',
@@ -923,9 +922,6 @@ export class Executor {
       ) {
         value = obj.value[expression.operand.field.literal]
       }*/
-      console.log('here')
-      console.log(obj.value)
-      console.log(this.evaluate(expression.operand.field))
       if (isArray(obj.value)) {
         const idx = this.evaluate(expression.operand.field)
         // TODO: Maybe a custom error message here about array indexes

@@ -22,11 +22,10 @@ Some examples:
 
 ### Functions
 
-For this exercise, you have three functions available:
+For this exercise, you have two functions available:
 
 - `join(str1, str2)`: This takes two strings and outputs them joined together.
 - `to_upper_case(str)`: This takes a string and returns its uppercase equivelent (e.g. it turns `"frog"` into `"FROG"`).
-- `lowercase_latin_alphabet`: This returns a list of the all the lowercase latin letters (`["a","b","c"...]`)
 
 ### A little tricky?
 

@@ -3,6 +3,7 @@
   "description": "Calculate the Hamming distance between two DNA strands of equal length.",
   "level": 5,
   "idx": 3,
+  "tests_type": "io",
   "tasks": [
     {
       "name": "Calculate the Hamming Distances",

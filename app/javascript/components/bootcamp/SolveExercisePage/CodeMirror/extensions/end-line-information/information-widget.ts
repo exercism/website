@@ -61,9 +61,25 @@ export class InformationWidget extends WidgetType {
     this.tooltip.innerHTML = this.tooltipHtml
     document.body.appendChild(this.tooltip)
 
+    const closeButton = document.createElement('button')
+    closeButton.innerHTML = '&times;'
+    closeButton.classList.add('tooltip-close')
+    closeButton.onclick = () => this.hideTooltip()
+
+    const errorHeader = this.tooltip.querySelector('.error h2')
+    if (errorHeader) {
+      errorHeader.appendChild(closeButton)
+    }
+
     this.applyHighlighting(this.tooltip)
 
     this.tooltip.style.opacity = '0'
+  }
+
+  private hideTooltip() {
+    if (this.tooltip) {
+      this.tooltip.style.opacity = '0'
+    }
   }
 
   private cleanupDuplicateTooltips() {
@@ -145,12 +161,6 @@ export class InformationWidget extends WidgetType {
         top: `${top}px`,
       })
     })
-  }
-
-  private hideTooltip() {
-    if (this.tooltip) {
-      this.tooltip.style.opacity = '0'
-    }
   }
 
   // observe elements and remove tooltip if info icon ceases to exist

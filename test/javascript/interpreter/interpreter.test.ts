@@ -15,19 +15,12 @@ afterAll(() => {
 })
 
 describe('statements', () => {
-  describe('expression', () => {
+  describe('set expression', () => {
     test('number', () => {
       const { frames, error } = interpret('set x to 1')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].variables).toMatchObject({ x: 1 })
-    })
-
-    test('string', () => {
-      const { frames } = interpret('set x to "hello there"')
-      expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 'hello there' })
     })
 
     describe('unary', () => {

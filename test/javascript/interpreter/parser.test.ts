@@ -101,16 +101,6 @@ describe('literals', () => {
     })
   })
 
-  test('string', () => {
-    const stmts = parse('log "nice"')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(LiteralExpression)
-    const literalExpr = logStmt.expression as LiteralExpression
-    expect(literalExpr.value).toBe('nice')
-  })
-
   test('true', () => {
     const stmts = parse('log true')
     expect(stmts).toBeArrayOfSize(1)

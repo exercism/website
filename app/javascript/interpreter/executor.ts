@@ -966,10 +966,10 @@ export class Executor {
       }
     }*/
 
-    if (isArray(obj.value)) {
+    if (isArray(obj.value) || isString(obj.value)) {
       const idx = this.evaluate(expression.field)
       // TODO: Maybe a custom error message here about array indexes
-      // needing to be numbers?
+      // or string indexes needing to be numbers?
       this.verifyNumber(idx.value, expression.field)
       const value = obj.value[idx.value - 1] // 0-index
 

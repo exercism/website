@@ -28,6 +28,14 @@ For this exercise, you have three functions available:
 - `to_upper_case(str)`: This takes a string and returns its uppercase equivelent (e.g. it turns `"frog"` into `"FROG"`).
 - `lowercase_latin_alphabet`: This returns a list of the all the lowercase latin letters (`["a","b","c"...]`)
 
+### A little tricky?
+
+Some people find this one quite tricky!
+
+With the right tools, you can solve this exercise in only 3 lines of code. Right now though, you don't have those tools at your disposal and so you're more likely to need to write 20 or 30 (or more!) lines of code.
+
+**Once you've finished**, if you'd like to see some more elegant ways of solving this and learn about Regular Expressions (a special type of language for parsing text) [watch this video](https://www.youtube.com/watch?v=ofzqp4MFHvM&ab_channel=Exercism).
+
 ### Hints
 
 Click to expand.

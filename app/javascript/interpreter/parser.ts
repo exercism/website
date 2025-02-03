@@ -424,7 +424,6 @@ export class Parser {
 
   private forStatement(): Statement {
     const forToken = this.previous()
-    console.log(this.peek())
     const eachToken = this.consume('EACH', 'MissingEachAfterFor')
     return this.foreachStatement(forToken, eachToken)
   }

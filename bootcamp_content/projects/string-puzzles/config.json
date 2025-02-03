@@ -2,5 +2,5 @@
   "slug": "string-puzzles",
   "title": "String Puzzles",
   "description": "An assortment of string-based puzzles",
-  "exercises": ["two-fer", "acronym"]
+  "exercises": ["two-fer", "hamming", "acronym"]
 }

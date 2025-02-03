@@ -1,0 +1,11 @@
+function hamming_distance with str1, str2 do
+  set counter to 0
+  set distance to 0
+  for each letter in str1 do
+    change counter to counter + 1
+    if letter != str2[counter] do
+      change distance  to distance + 1
+    end
+  end
+  return distance
+end

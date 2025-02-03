@@ -1,0 +1,53 @@
+{
+  "title": "Hamming",
+  "description": "Calculate the Hamming distance between two DNA strands of equal length.",
+  "level": 5,
+  "idx": 2,
+  "tasks": [
+    {
+      "name": "Calculate the Hamming Distances",
+      "tests": [
+        {
+          "slug": "hamming-empty-strands",
+          "description_html": "Empty strands have a Hamming distance of 0.",
+          "name": "Empty strands",
+          "function": "hamming_distance",
+          "params": ["", ""],
+          "expected": 0
+        },
+        {
+          "slug": "hamming-single-letter-identical",
+          "description_html": "Single-letter identical strands have a Hamming distance of 0.",
+          "name": "Single letter identical strands",
+          "function": "hamming_distance",
+          "params": ["A", "A"],
+          "expected": 0
+        },
+        {
+          "slug": "hamming-long-identical-strands",
+          "description_html": "Long identical strands have a Hamming distance of 0.",
+          "name": "Long identical strands",
+          "function": "hamming_distance",
+          "params": ["GGACTGAAATCTG", "GGACTGAAATCTG"],
+          "expected": 0
+        },
+        {
+          "slug": "hamming-single-letter-different",
+          "description_html": "Single-letter different strands have a Hamming distance of 1.",
+          "name": "Single letter different strands",
+          "function": "hamming_distance",
+          "params": ["G", "T"],
+          "expected": 1
+        },
+        {
+          "slug": "hamming-long-different-strands",
+          "description_html": "Long strands with differences have a calculated Hamming distance.",
+          "name": "Long different strands",
+          "function": "hamming_distance",
+          "params": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "expected": 9
+        }
+      ]
+    }
+  ]
+}

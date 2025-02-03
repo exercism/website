@@ -60,9 +60,11 @@ For example:
 Hi everyone, I'm stuck.
 
 My code looks like this:
-[spoiler]```
+[spoiler]
+```
 some code here...
-```[/spoiler]
+```
+[/spoiler]
 
 I think the issue is with [Spoiler]how I'm setting my variable[/Spoiler]. Could anyone help please? Thanks!
 ````

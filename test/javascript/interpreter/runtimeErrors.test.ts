@@ -394,3 +394,20 @@ describe('ForeachNotIterable', () => {
     expect(frames[1].error!.message).toBe('ForeachNotIterable: value: 5')
   })
 })
+describe('InvalidIndexGetterTarget', () => {
+  test('inline', () => {
+    const code = 'log ""[2]'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'InvalidIndexGetterTarget')
+    expect(frames[0].error!.message).toBe('InvalidIndexGetterTarget')
+  })
+})
+
+describe.skip('InvalidIndexSetterTarget', () => {
+  test('basic', () => {
+    const code = 'change x to 6'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'VariableNotDeclared')
+    expect(frames[0].error!.message).toBe('VariableNotDeclared: name: x')
+  })
+})

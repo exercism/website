@@ -529,6 +529,12 @@ export class Executor {
       })
     }
 
+    if (this.environment.inScope(statement.elementName)) {
+      this.error('VariableAlreadyDeclared', statement.location, {
+        name: statement.elementName.lexeme,
+      })
+    }
+
     if (iterable.value?.length === 0) {
       this.executeFrame<any>(statement, () => {
         return {

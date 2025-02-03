@@ -93,6 +93,18 @@ describe('VariableAlreadyDeclared', () => {
     expectFrameToBeError(frames[1], 'set x to 6', 'VariableAlreadyDeclared')
     expect(frames[1].error!.message).toBe('VariableAlreadyDeclared: name: x')
   })
+  test('foreach', () => {
+    const code = `set x to 5
+                  for each x in "" do
+                  end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'for each x in "" do\n                  end',
+      'VariableAlreadyDeclared'
+    )
+    expect(frames[1].error!.message).toBe('VariableAlreadyDeclared: name: x')
+  })
 })
 
 describe('VariableNotDeclared', () => {

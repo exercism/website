@@ -1,6 +1,6 @@
 # Guest List
 
-You're a bouncer at at the Oscars, and need a function to check if someone is on the Guest List.
+You're a bouncer at the Oscars, and need a function to check if someone is on the Guest List.
 
 To help you, you need to write a function called `on_guest_list`.
 

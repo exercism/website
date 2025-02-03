@@ -2,6 +2,7 @@ import { evaluateFunction } from '@/interpreter/interpreter'
 import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
+import { generateCodeRunString } from '../../utils/generateCodeRunString'
 
 /**
  This is of type TestCallback
@@ -30,7 +31,7 @@ export function execGenericTest(
 
   const { value: actual, frames } = evaluated
 
-  const codeRun = testData.function + '(' + params.join(', ') + ')'
+  const codeRun = generateCodeRunString(testData.function, params)
 
   const expects = generateExpects(
     options.config.testsType,

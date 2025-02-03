@@ -14,8 +14,3 @@ export function useSetupStores({
     setFlatPreviewTaskTests(exercise.tasks.flatMap((task) => task.tests))
   }, [exercise, code])
 }
-
-export function generateCodeRunString(fn: string, params: any[]) {
-  if (!fn || !params) return ''
-  return `${fn}(${params.join(', ')})`
-}

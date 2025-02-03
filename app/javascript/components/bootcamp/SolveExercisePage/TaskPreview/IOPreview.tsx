@@ -1,6 +1,6 @@
 import React from 'react'
 import { CodeRun } from '../TestResultsView/CodeRun'
-import { generateCodeRunString } from '../hooks/useSetupStores'
+import { generateCodeRunString } from '../utils/generateCodeRunString'
 import { formatLiteral } from '@/interpreter/helpers'
 export function IOPreview({
   inspectedPreviewTaskTest,

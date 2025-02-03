@@ -26,7 +26,7 @@ Two strands might look like this:
 
 They have 7 differences, and therefore the Hamming distance is 7.
 
-Write a function called `hamming_distance` that has two inputs: the two DNA strands as strings.
+Create a function called `hamming_distance` that has two inputs: the two DNA strands as strings.
 It should return a number as the distance.
 
 Both DNA strands will always be the same length.

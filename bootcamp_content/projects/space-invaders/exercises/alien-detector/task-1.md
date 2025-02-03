@@ -1,3 +1,4 @@
 # Task 1
 
-Save earth from the aliens!
+Start by tracking and shooting down all the aliens.
+Don't worry about the fireworks for now!

@@ -12,12 +12,15 @@ Take it slowly.
 
 ## Instructions
 
-### Your task
+### Your tasks
 
-Your task is to shoot down all the aliens.
-Rather than being able to ask the exercise if there's an alien above you, you need to track which aliens you've shot down, and which are still there.
-When you've shot them all down, you should immediately use the `fire_fireworks()` function.
-This **must** happen in the same `repeat_until_game_over` iteration as shooting the final alien.
+You have two tasks.
+
+1.  Shoot down all the aliens. Rather than being able to ask the exercise if there's an alien above you, you need to track which aliens you've shot down, and which are still there.
+2.  When you've shot them all down, you should immediately use the `fire_fireworks()` function. This **must** happen in the same `repeat_until_game_over` iteration as shooting the final alien.
+
+I highly recommend completing first task before starting the second.
+The first few scenarios can be passed without the fireworks firing!
 
 ### Meet `get_starting_aliens_in_row(idx)`
 
@@ -31,6 +34,15 @@ Each boolean specifies whether there is an alien in that position at the **start
 So `[true, false, false, ...]` would mean that, before you do anything, there is an alien in the first position, but not in the next two (etc).
 
 The function returns the relevant positions for each scenario.
+
+### Functions
+
+You have four functions available:
+
+- `shoot()`: Shoot upwards.
+- `move_left()`: Move the laser one position to the left
+- `move_right()`: Move the laser one position to the right
+- `get_starting_aliens_in_row(idx)`: Explained in detail above.
 
 ### Notes
 

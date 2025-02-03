@@ -42,6 +42,13 @@
     "level": 1
   },
   {
+    "slug": "strings-indexing",
+    "parent": "strings",
+    "title": "Indexing Strings",
+    "description": "Learn how to access a letter by it's index",
+    "level": 5
+  },
+  {
     "slug": "numbers",
     "parent": "data-types",
     "title": "Numbers",
@@ -105,9 +112,17 @@
     "level": 3
   },
   {
-    "slug": "arrays",
-    "title": "Arrays",
-    "description": "",
+    "slug": "foreach",
+    "parent": "flow-control",
+    "title": "For each statements",
+    "description": "For each statements allow you to loop through a list or string.",
+    "level": 5
+  },
+  {
+    "slug": "lists",
+    "parent": "data-types",
+    "title": "Lists",
+    "description": "Lists allow us to store multiple pieces of data together in order.",
     "level": 5
   },
   {

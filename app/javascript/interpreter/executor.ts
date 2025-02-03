@@ -377,7 +377,6 @@ export class Executor {
       // Do the update
       const oldValue = list.value[index.value - 1]
       list.value[index.value - 1] = value
-      console.log(index.value, ': ', oldValue, '->', value)
 
       return {
         type: 'ChangeListElementStatement',
@@ -439,7 +438,6 @@ export class Executor {
 
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
-      console.log(this.languageFeatures.repeatDelay)
     }
   }
 

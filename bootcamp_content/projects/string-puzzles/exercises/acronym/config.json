@@ -91,6 +91,15 @@
           "params": ["The Road _Not_ Taken"],
           "expected": "TRNT",
           "image_slug": "string-puzzles/acronym/trnt.jpg"
+        },
+        {
+          "slug": "random",
+          "description_html": "Generate an acronym for an every changing string!",
+          "name": "A scenario that changes every time",
+          "function": "acronym",
+          "params": ["setup.join(\"Hello W\", setup.randomEmoji(), \"rld\")"],
+          "expected": "HW",
+          "image_slug": "string-puzzles/acronym/trnt.jpg"
         }
       ]
     }

@@ -3,6 +3,7 @@ import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 import { generateCodeRunString } from '../../utils/generateCodeRunString'
+import { genericSetupFunctions as setupFunctions } from './genericSetupFunctions'
 
 /**
  This is of type TestCallback
@@ -18,11 +19,23 @@ export function execGenericTest(
     languageFeatures: options.config.interpreterOptions,
   }
 
+  let parsedParams = params.map((elem) => {
+    if (!(elem.startsWith('setup.') && elem.endsWith(')'))) {
+      return elem
+    }
+
+    // Wild dark magic
+    return new Function('setup', `"use strict"; return (${elem});`)(
+      setupFunctions
+    )
+  })
+  console.log(parsedParams)
+
   const evaluated = evaluateFunction(
     options.studentCode,
     context,
     testData.function,
-    ...params
+    ...parsedParams
   )
 
   if (evaluated.error) {
@@ -31,7 +44,7 @@ export function execGenericTest(
 
   const { value: actual, frames } = evaluated
 
-  const codeRun = generateCodeRunString(testData.function, params)
+  const codeRun = generateCodeRunString(testData.function, parsedParams)
 
   const expects = generateExpects(
     options.config.testsType,

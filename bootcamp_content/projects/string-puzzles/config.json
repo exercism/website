@@ -2,5 +2,11 @@
   "slug": "string-puzzles",
   "title": "String Puzzles",
   "description": "An assortment of string-based puzzles",
-  "exercises": ["two-fer", "hamming", "rna-transcription", "acronym"]
+  "exercises": [
+    "two-fer",
+    "reverse-string",
+    "hamming",
+    "rna-transcription",
+    "acronym"
+  ]
 }

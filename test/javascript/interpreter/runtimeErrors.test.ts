@@ -98,12 +98,7 @@ describe('VariableAlreadyDeclared', () => {
                   for each x in "" do
                   end`
     const { frames } = interpret(code)
-    expectFrameToBeError(
-      frames[1],
-      `for each x in "" do
-                  end`,
-      'VariableAlreadyDeclared'
-    )
+    expectFrameToBeError(frames[1], 'x', 'VariableAlreadyDeclared')
     expect(frames[1].error!.message).toBe('VariableAlreadyDeclared: name: x')
   })
 })

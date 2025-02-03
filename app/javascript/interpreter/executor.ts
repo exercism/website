@@ -530,7 +530,7 @@ export class Executor {
     }
 
     if (this.environment.inScope(statement.elementName)) {
-      this.error('VariableAlreadyDeclared', statement.location, {
+      this.error('VariableAlreadyDeclared', statement.elementName.location, {
         name: statement.elementName.lexeme,
       })
     }

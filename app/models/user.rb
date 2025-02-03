@@ -106,6 +106,9 @@ class User < ApplicationRecord
   has_many :solution_stars, dependent: :destroy, class_name: "Solution::Star"
   has_many :solution_tags, dependent: :destroy, class_name: "Solution::Tag"
 
+  has_many :viewed_community_solutions, class_name: "UserTrack::ViewedCommunitySolution", dependent: :destroy
+  has_many :viewed_exercise_approaches, class_name: "UserTrack::ViewedExerciseApproach", dependent: :destroy
+
   has_many :track_mentorships, dependent: :destroy
   has_many :mentored_tracks, through: :track_mentorships, source: :track
 

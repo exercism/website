@@ -31,7 +31,7 @@
 
     .io-image {
         @apply absolute inset-[10px];
-        @apply bg-cover bg-no-repeat;
+        @apply bg-center bg-contain bg-no-repeat;
         @apply rounded-5 border-1 border-borderColor8;
     }
 }

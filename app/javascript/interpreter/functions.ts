@@ -7,7 +7,7 @@ import { Location } from './location'
 export type Arity = number | [min: number, max: number]
 
 export interface Callable {
-  arity(): Arity
+  arity: Arity
   call(context: ExecutionContext, args: any[]): any
 }
 
@@ -28,12 +28,10 @@ export class UserDefinedFunction implements Callable {
     private languageFeatures: LanguageFeatures
   ) {}
 
-  arity(): Arity {
-    return [
-      this.declaration.parameters.filter((p) => p.defaultValue === null).length,
-      this.declaration.parameters.length,
-    ]
-  }
+  arity: Arity = [
+    this.declaration.parameters.filter((p) => p.defaultValue === null).length,
+    this.declaration.parameters.length,
+  ]
 
   call(executor: ExecutionContext, args: any[]): any {
     let environment

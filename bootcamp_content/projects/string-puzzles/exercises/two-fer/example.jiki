@@ -1,7 +1,7 @@
 function two_fer with name do
-  if name is "" do
+  if name == "" do
     return "One for you, one for me."
   else do
-    return "One for " + name + ", one for me."
+    return concatenate("One for ", name, ", one for me.")
   end
 end

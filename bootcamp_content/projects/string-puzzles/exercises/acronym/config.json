@@ -1,0 +1,107 @@
+{
+  "title": "Acronym",
+  "description": "Generate an acronym from a given phrase.",
+  "level": 5,
+  "idx": 6,
+  "tests_type": "io",
+  "stdlib_functions": ["join", "to_upper_case"],
+  "tasks": [
+    {
+      "name": "Basic acronyms",
+      "tests": [
+        {
+          "slug": "png",
+          "description_html": "Generate an acronym for 'Portable Network Graphics'.",
+          "name": "Basic acronym",
+          "function": "acronym",
+          "params": ["Portable Network Graphics"],
+          "expected": "PNG",
+          "image_slug": "string-puzzles/acronym/png.jpg"
+        },
+        {
+          "slug": "ror",
+          "description_html": "Generate an acronym for 'Ruby on Rails'.",
+          "name": "Lowercase words",
+          "function": "acronym",
+          "params": ["Ruby on Rails"],
+          "expected": "ROR",
+          "image_slug": "string-puzzles/acronym/ror.jpg"
+        },
+        {
+          "slug": "gimp",
+          "description_html": "Generate an acronym for 'GNU Image Manipulation Program'.",
+          "name": "All caps word",
+          "function": "acronym",
+          "params": ["GNU Image Manipulation Program"],
+          "expected": "GIMP",
+          "image_slug": "string-puzzles/acronym/gimp.jpg"
+        },
+        {
+          "slug": "fifo",
+          "description_html": "Generate an acronym for 'First In, First Out'.",
+          "name": "Acronym with punctuation",
+          "function": "acronym",
+          "params": ["First In, First Out"],
+          "expected": "FIFO",
+          "image_slug": "string-puzzles/acronym/fifo.jpg"
+        },
+        {
+          "slug": "cmos",
+          "description_html": "Generate an acronym for 'Complementary metal-oxide semiconductor'.",
+          "name": "Punctuation without whitespace",
+          "function": "acronym",
+          "params": ["Complementary metal-oxide semiconductor"],
+          "expected": "CMOS",
+          "image_slug": "string-puzzles/acronym/cmos.jpg"
+        },
+        {
+          "slug": "hc",
+          "description_html": "Generate an acronym for 'Halley's Comet'.",
+          "name": "Acronym with apostrophes",
+          "function": "acronym",
+          "params": ["Halley's Comet"],
+          "expected": "HC",
+          "image_slug": "string-puzzles/acronym/hc.jpg"
+        },
+        {
+          "slug": "roflshtmdcoalm",
+          "description_html": "Generate an acronym for 'Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me'.",
+          "name": "Very long acronym",
+          "function": "acronym",
+          "params": [
+            "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me"
+          ],
+          "expected": "ROTFLSHTMDCOALM",
+          "image_slug": "string-puzzles/acronym/roflshtmdcoalm.jpg"
+        },
+        {
+          "slug": "simufta",
+          "description_html": "Generate an acronym for 'Something - I made up from thin air'.",
+          "name": "Acronym with consecutive delimiters",
+          "function": "acronym",
+          "params": ["Something - I made up from thin air"],
+          "expected": "SIMUFTA",
+          "image_slug": "string-puzzles/acronym/simufta.jpg"
+        },
+        {
+          "slug": "trnt",
+          "description_html": "Generate an acronym for 'The Road _Not_ Taken'.",
+          "name": "Acronym with underscore emphasis",
+          "function": "acronym",
+          "params": ["The Road _Not_ Taken"],
+          "expected": "TRNT",
+          "image_slug": "string-puzzles/acronym/trnt.jpg"
+        },
+        {
+          "slug": "random",
+          "description_html": "Generate an acronym for an every changing string!",
+          "name": "A scenario that changes every time",
+          "function": "acronym",
+          "params": ["setup.join(\"Hello \", setup.randomEmoji(), \"World\")"],
+          "expected": "HW",
+          "image_slug": "string-puzzles/acronym/trnt.jpg"
+        }
+      ]
+    }
+  ]
+}

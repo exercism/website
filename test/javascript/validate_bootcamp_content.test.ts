@@ -1,12 +1,12 @@
 import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import fs from 'fs'
 import path from 'path'
-import exerciseMap, {
-  type Project,
-} from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
+import exerciseMap from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
+import { genericSetupFunctions } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/genericSetupFunctions'
 import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exercise'
 import { camelize, camelizeKeys } from 'humps'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
+import { isString } from '@/interpreter/checks'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -35,20 +35,35 @@ function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
       languageFeatures: config.interpreterOptions,
     }
 
+    const parsedParams = testData.params.map((elem) => {
+      if (!isString(elem)) {
+        return elem
+      }
+
+      if (!(elem.startsWith('setup.') && elem.endsWith(')'))) {
+        return elem
+      }
+
+      return new Function('setup', `"use strict"; return (${elem});`)(
+        genericSetupFunctions
+      )
+    })
+
     try {
       ;({ error, value, frames } = evaluateFunction(
         exampleScript,
         context,
         testData.function,
-        ...testData.params
+        ...parsedParams
       ))
     } catch (e) {
+      console.log(e)
       expect(true).toBe(false)
     }
 
-    // if(value != testData.expected.return) {
-    //   console.log(error, value, frames);
-    // }
+    if (value != testData.expected) {
+      console.log(error, value, frames)
+    }
     expect(value).toEqual(testData.expected)
   })
 }

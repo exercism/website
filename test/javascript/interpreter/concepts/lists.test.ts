@@ -186,35 +186,34 @@ describe('lists', () => {
       'scoreMinMax'
     )
   })
-})
 
-describe('execute', () => {
-  describe('set', () => {
-    test('set list', () => {
-      const { frames } = interpret(`
+  describe('execute', () => {
+    describe('set', () => {
+      test('set list', () => {
+        const { frames } = interpret(`
       set scores to [7, 3, 10]
     `)
-      expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
-        scores: [7, 3, 10],
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables).toMatchObject({
+          scores: [7, 3, 10],
+        })
       })
     })
-  })
-  describe('change', () => {
-    test('to string', () => {
-      const { frames } = interpret(`
+    describe('change', () => {
+      test('to string', () => {
+        const { frames } = interpret(`
       set scores to [7, 3, 10]
       change scores[2] to "foo"
     `)
-      expect(frames).toBeArrayOfSize(2)
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
-        scores: [7, 'foo', 10],
+        expect(frames).toBeArrayOfSize(2)
+        expect(frames[1].status).toBe('SUCCESS')
+        expect(frames[1].variables).toMatchObject({
+          scores: [7, 'foo', 10],
+        })
       })
-    })
-    test('functions', () => {
-      const { frames } = interpret(`
+      test('functions', () => {
+        const { frames } = interpret(`
       function ret_2 do
         return 2
       end
@@ -224,84 +223,85 @@ describe('execute', () => {
       set scores to [7, 3, 10]
       change scores[ret_2()] to ret_true()
     `)
-      expect(frames).toBeArrayOfSize(4)
-      expect(frames[3].status).toBe('SUCCESS')
-      expect(frames[3].variables).toMatchObject({
-        scores: [7, true, 10],
+        expect(frames).toBeArrayOfSize(4)
+        expect(frames[3].status).toBe('SUCCESS')
+        expect(frames[3].variables).toMatchObject({
+          scores: [7, true, 10],
+        })
       })
-    })
-    test('variables', () => {
-      const { frames } = interpret(`
+      test('variables', () => {
+        const { frames } = interpret(`
       set ret_2 to 2
       set ret_true to true
       set scores to [7, 3, 10]
       change scores[ret_2] to ret_true
     `)
-      expect(frames).toBeArrayOfSize(4)
-      expect(frames[3].status).toBe('SUCCESS')
-      expect(frames[3].variables).toMatchObject({
-        scores: [7, true, 10],
+        expect(frames).toBeArrayOfSize(4)
+        expect(frames[3].status).toBe('SUCCESS')
+        expect(frames[3].variables).toMatchObject({
+          scores: [7, true, 10],
+        })
       })
     })
-  })
 
-  describe('get', () => {
-    test('single index', () => {
-      const { frames } = interpret(`
+    describe('get', () => {
+      test('single index', () => {
+        const { frames } = interpret(`
       set scores to [7, 3, 10]
       set latest to scores[2]
     `)
-      expect(frames).toBeArrayOfSize(2)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
-        scores: [7, 3, 10],
+        expect(frames).toBeArrayOfSize(2)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables).toMatchObject({
+          scores: [7, 3, 10],
+        })
+        expect(frames[1].status).toBe('SUCCESS')
+        expect(frames[1].variables).toMatchObject({
+          scores: [7, 3, 10],
+          latest: 3,
+        })
       })
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
-        scores: [7, 3, 10],
-        latest: 3,
-      })
-    })
-    test('function', () => {
-      const { frames } = interpret(`
+      test('function', () => {
+        const { frames } = interpret(`
       function ret_2 do
         return 2
       end
       set scores to [7, 3, 10]
       set latest to scores[ret_2()]
     `)
-      expect(frames).toBeArrayOfSize(3)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
-        scores: [7, 3, 10],
+        expect(frames).toBeArrayOfSize(3)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables).toMatchObject({
+          scores: [7, 3, 10],
+        })
+        expect(frames[2].status).toBe('SUCCESS')
+        expect(frames[2].variables).toMatchObject({
+          scores: [7, 3, 10],
+          latest: 3,
+        })
       })
-      expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[2].variables).toMatchObject({
-        scores: [7, 3, 10],
-        latest: 3,
-      })
-    })
 
-    test('chained', () => {
-      const { frames } = interpret(`
+      test('chained', () => {
+        const { frames } = interpret(`
       set scoreMinMax to [["a", "b"], ["c", "d"]]
       set secondMin to scoreMinMax[2][1]
     `)
-      expect(frames).toBeArrayOfSize(2)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
-        scoreMinMax: [
-          ['a', 'b'],
-          ['c', 'd'],
-        ],
-      })
-      expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
-        scoreMinMax: [
-          ['a', 'b'],
-          ['c', 'd'],
-        ],
-        secondMin: 'c',
+        expect(frames).toBeArrayOfSize(2)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables).toMatchObject({
+          scoreMinMax: [
+            ['a', 'b'],
+            ['c', 'd'],
+          ],
+        })
+        expect(frames[1].status).toBe('SUCCESS')
+        expect(frames[1].variables).toMatchObject({
+          scoreMinMax: [
+            ['a', 'b'],
+            ['c', 'd'],
+          ],
+          secondMin: 'c',
+        })
       })
     })
   })

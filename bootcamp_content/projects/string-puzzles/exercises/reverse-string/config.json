@@ -1,0 +1,87 @@
+{
+  "title": "Reverse String",
+  "description": "Reverse the given string while preserving Unicode characters correctly.",
+  "level": 5,
+  "idx": 3,
+  "tests_type": "io",
+  "stdlib_functions": ["join"],
+  "tasks": [
+    {
+      "name": "Reverse Strings",
+      "tests": [
+        {
+          "slug": "reverse-empty-string",
+          "description_html": "An empty string should return an empty string when reversed.",
+          "name": "Empty string",
+          "function": "reverse",
+          "params": [""],
+          "expected": ""
+        },
+        {
+          "slug": "reverse-word",
+          "description_html": "Reverse the word 'robot'.",
+          "name": "A word",
+          "function": "reverse",
+          "params": ["robot"],
+          "expected": "tobor"
+        },
+        {
+          "slug": "reverse-capitalized-word",
+          "description_html": "Reverse a capitalized word 'Ramen'.",
+          "name": "A capitalized word",
+          "function": "reverse",
+          "params": ["Ramen"],
+          "expected": "nemaR"
+        },
+        {
+          "slug": "reverse-sentence-punctuation",
+          "description_html": "Reverse a sentence with punctuation 'I'm hungry!'.",
+          "name": "Sentence with punctuation",
+          "function": "reverse",
+          "params": ["I'm hungry!"],
+          "expected": "!yrgnuh m'I"
+        },
+        {
+          "slug": "reverse-palindrome",
+          "description_html": "A palindrome remains the same when reversed.",
+          "name": "Palindrome",
+          "function": "reverse",
+          "params": ["racecar"],
+          "expected": "racecar"
+        },
+        {
+          "slug": "reverse-even-sized-word",
+          "description_html": "Reverse an even-sized word 'drawer'.",
+          "name": "Even-sized word",
+          "function": "reverse",
+          "params": ["drawer"],
+          "expected": "reward"
+        },
+        {
+          "slug": "reverse-wide-characters",
+          "description_html": "Reverse wide Unicode characters '子猫'.",
+          "name": "Wide characters",
+          "function": "reverse",
+          "params": ["子猫"],
+          "expected": "猫子"
+        },
+        {
+          "slug": "reverse-emoji-family",
+          "description_html": "Reverse an emoji family.",
+          "name": "Emoji Family",
+          "function": "reverse",
+          "params": ["👩‍👩‍👧‍👦"],
+          "expected": "👦‍👧‍👩‍👩"
+        },
+        {
+          "slug": "reverse-emoji-rainbow flag",
+          "description_html": "Make a rainbow flag.",
+          "name": "Rainbow Flag",
+          "function": "reverse",
+          "params": ["️🌈‍️🏳"],
+          "expected": "🏳️‍🌈️"
+        }
+      ]
+    }
+  ]
+}

@@ -108,7 +108,7 @@ export type RuntimeErrorType =
   | 'OperandMustBeNumber'
   | 'OperandsMustBeTwoNumbersOrTwoStrings'
   | 'InvalidIndexGetterTarget'
-  | 'InvalidIndexSetterTarget'
+  | 'InvalidChangeElementTarget'
   | 'UnexpectedEqualsForEquality'
   | 'VariableAlreadyDeclared'
   | 'VariableNotDeclared'
@@ -126,6 +126,9 @@ export type RuntimeErrorType =
   | 'CannotStoreNull'
   | 'ExpressionIsNull'
   | 'ForeachNotIterable'
+  | 'IndexIsZero'
+  | 'IndexOutOfBoundsInGet'
+  | 'IndexOutOfBoundsInChange'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

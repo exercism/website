@@ -3,6 +3,7 @@ import { Frame } from '@/interpreter/frames'
 import { interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
+import { end } from '@popperjs/core'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -215,6 +216,7 @@ test('InfiniteRecursion', () => {
                   foo()
                 end
                 foo()`
+
   const { frames } = interpret(code)
   expectFrameToBeError(frames[0], 'foo()', 'InfiniteRecursion')
   expect(frames[0].error!.message).toBe('InfiniteRecursion')
@@ -394,3 +396,112 @@ describe('ForeachNotIterable', () => {
     expect(frames[1].error!.message).toBe('ForeachNotIterable: value: 5')
   })
 })
+
+describe('IndexOutOfBoundsInGet', () => {
+  describe('string', () => {
+    test('inline on empty', () => {
+      const code = 'log ""[1]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexOutOfBoundsInGet')
+      expect(frames[0].error!.message).toBe(
+        'IndexOutOfBoundsInGet: index: 1, length: 0, dataType: string'
+      )
+    })
+    test('too high', () => {
+      const code = 'log "foo"[4]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexOutOfBoundsInGet')
+      expect(frames[0].error!.message).toBe(
+        'IndexOutOfBoundsInGet: index: 4, length: 3, dataType: string'
+      )
+    })
+  })
+  describe('list', () => {
+    test('inline on empty', () => {
+      const code = 'log [][1]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexOutOfBoundsInGet')
+      expect(frames[0].error!.message).toBe(
+        'IndexOutOfBoundsInGet: index: 1, length: 0, dataType: list'
+      )
+    })
+    test('too high', () => {
+      const code = 'log [1,2,3][4]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexOutOfBoundsInGet')
+      expect(frames[0].error!.message).toBe(
+        'IndexOutOfBoundsInGet: index: 4, length: 3, dataType: list'
+      )
+    })
+  })
+})
+
+describe('IndexIsZero', () => {
+  describe('string', () => {
+    test('get', () => {
+      const code = 'log "foo"[0]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexIsZero')
+      expect(frames[0].error!.message).toBe('IndexIsZero')
+    })
+  })
+  describe('list', () => {
+    test('get', () => {
+      const code = 'log ["foo"][0]'
+      const { frames } = interpret(code)
+      expectFrameToBeError(frames[0], code, 'IndexIsZero')
+      expect(frames[0].error!.message).toBe('IndexIsZero')
+    })
+  })
+})
+
+describe('IndexOutOfBoundsInChange', () => {
+  describe('list', () => {
+    test('inline on empty', () => {
+      const code = `
+      set list to []
+      change list[1] to 5
+      `
+      const { frames } = interpret(code)
+      expectFrameToBeError(
+        frames[1],
+        'change list[1] to 5',
+        'IndexOutOfBoundsInChange'
+      )
+      expect(frames[1].error!.message).toBe(
+        'IndexOutOfBoundsInChange: index: 1, length: 0, dataType: list'
+      )
+    })
+    test('too high', () => {
+      const code = `
+      set list to [1,2,3]
+      change list[4] to 5
+      `
+      const { frames } = interpret(code)
+      expectFrameToBeError(
+        frames[1],
+        'change list[4] to 5',
+        'IndexOutOfBoundsInChange'
+      )
+      expect(frames[1].error!.message).toBe(
+        'IndexOutOfBoundsInChange: index: 4, length: 3, dataType: list'
+      )
+    })
+  })
+})
+
+test('InvalidChangeElementTarget', () => {
+  const code = `
+    set str to "foo"
+    change str[1] to "a"
+    `
+  const { frames } = interpret(code)
+  expectFrameToBeError(
+    frames[1],
+    `change str[1] to "a"`,
+    'InvalidChangeElementTarget'
+  )
+  expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+})
+
+// TOOD: Strings are immutable

@@ -296,7 +296,8 @@ export default class SpaceInvadersExercise extends Exercise {
 
   public getStartingAliensInRow(_: ExecutionContext, row: number) {
     return this.startingAliens
-      .toReversed()
+      .slice()
+      .reverse()
       [row - 1].map((alien) => alien !== null)
   }
 

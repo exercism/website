@@ -77,7 +77,7 @@
       "InvalidBinaryExpression": "Invalid binary expression",
       "InvalidExpression": "Invalid expression",
       "InvalidIndexGetterTarget": "Can't index object, only dictionaries and arrays can be indexed'.",
-      "InvalidIndexSetterTarget": "Can only set dictionaries and arrays via indexer.",
+      "InvalidChangeElementTarget": "Jiki can only change elements of lists.",
       "TooFewArguments": "Did you forget an input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "TooManyArguments": "Did you add an extra input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "InvalidNumberOfArgumentsWithOptionalArguments": "Expected at least {{minArity}} inputs but got {{numberOfArgs}}.",
@@ -104,7 +104,10 @@
       "InfiniteRecursion": "Jiki kept on running the same code over and over again. Do you have a function that is somehow trying to use itself?",
       "CannotStoreNullFromFunction": "The function didn't return anything, so there's nothing to put in the variable. Check the function carefully if you think it should have returned something.",
       "CannotStoreNull": "The function didn't return anything, so there's nothing to put in the variable. Check the function carefully if you think it should have returned something.",
-      "ExpressionIsNull": "This didn't return a value, which has left Jiki very confused. Check your functions carefully to see what they return. Remember to use the scrubber."
+      "ExpressionIsNull": "This didn't return a value, which has left Jiki very confused. Check your functions carefully to see what they return. Remember to use the scrubber.",
+      "IndexIsZero": "When using indexes to look inside strings or lists, Jiki starts counting from 1, not 0.",
+      "IndexOutOfBoundsInGet": "Jiki tried to access the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
+      "IndexOutOfBoundsInChange": "Jiki tried to change the element {{index}} in the {{dataType}}, but it only has {{length}} elements."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

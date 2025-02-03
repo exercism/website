@@ -77,7 +77,7 @@
       "InvalidBinaryExpression": "InvalidBinaryExpression",
       "InvalidExpression": "InvalidExpression",
       "InvalidIndexGetterTarget": "InvalidIndexGetterTarget",
-      "InvalidIndexSetterTarget": "InvalidIndexSetterTarget",
+      "InvalidChangeElementTarget": "InvalidChangeElementTarget",
       "InvalidNumberOfArgumentsWithOptionalArguments": "InvalidNumberOfArgumentsWithOptionalArguments: minArity: {{minArity}}, maxArity: {{maxArity}}, numberOfArgs: {{numberOfArgs}}",
       "InvalidUnaryOperator": "InvalidUnaryOperator",
       "MissingParenthesesForFunctionCall": "MissingParenthesesForFunctionCall: name: {{name}}",
@@ -105,7 +105,13 @@
       "CannotStoreNullFromFunction": "CannotStoreNullFromFunction",
       "CannotStoreNull": "CannotStoreNull",
       "ExpressionIsNull": "ExpressionIsNull",
+<<<<<<< HEAD
       "ForeachNotIterable": "ForeachNotIterable: value: {{value}}"
+=======
+      "IndexIsZero": "IndexIsZero",
+      "IndexOutOfBoundsInGet": "IndexOutOfBoundsInGet: index: {{index}}, length: {{length}}, dataType: {{dataType}}",
+      "IndexOutOfBoundsInChange": "IndexOutOfBoundsInChange: index: {{index}}, length: {{length}}, dataType: {{dataType}}"
+>>>>>>> 062e6ffa9 (More guards)
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

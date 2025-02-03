@@ -69,7 +69,7 @@
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operanden moeten twee getallen of twee strings zijn.",
       "InvalidBinaryExpression": "Ongeldige binaire expressie",
       "InvalidIndexGetterTarget": "Kan object niet indexeren, alleen dictionaries en arrays kunnen geïndexeerd worden'.",
-      "InvalidIndexSetterTarget": "Kan alleen dictionaries en arrays instellen via indexer.",
+      "InvalidChangeElementTarget": "Kan alleen dictionaries en arrays instellen via indexer.",
       "OperandMustBeNumber": "Operand moet een getal zijn.",
       "OperandsMustBeNumber": "Operanden moeten getallen zijn.",
       "OperandMustBeBoolean": "Operand moet een boolean zijn.",

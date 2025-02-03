@@ -376,8 +376,20 @@ export class Executor {
   ): void {
     this.executeFrame(statement, () => {
       const list = this.evaluate(statement.list)
+
+      if (!isArray(list.value)) {
+        this.error('InvalidChangeElementTarget', statement.list.location)
+      }
+
       const index = this.evaluate(statement.index)
       this.verifyNumber(index.value, statement.index)
+      this.guardOutofBoundsIndex(
+        list.value,
+        index.value,
+        statement.index.location,
+        'change'
+      )
+
       const value = this.evaluate(statement.value).value
 
       // Do the update
@@ -966,28 +978,36 @@ export class Executor {
       }
     }*/
 
-    if (isArray(obj.value) || isString(obj.value)) {
-      const idx = this.evaluate(expression.field)
-      // TODO: Maybe a custom error message here about array indexes
-      // or string indexes needing to be numbers?
-      this.verifyNumber(idx.value, expression.field)
-      const value = obj.value[idx.value - 1] // 0-index
-
-      return {
-        type: 'GetExpression',
-        obj: obj,
-        expression: `${expression.obj.location.toCode(this.sourceCode)}[${
-          idx.value
-        }]`,
-        field: idx,
-        value,
-      }
+    if (!(isArray(obj.value) || isString(obj.value))) {
+      this.error('InvalidIndexGetterTarget', expression.location, {
+        expression,
+        obj,
+      })
     }
 
-    this.error('InvalidIndexGetterTarget', expression.location, {
-      expression,
-      obj,
-    })
+    const idx = this.evaluate(expression.field)
+    // TODO: Maybe a custom error message here about array indexes
+    // or string indexes needing to be numbers?
+    this.verifyNumber(idx.value, expression.field)
+
+    this.guardOutofBoundsIndex(
+      obj.value,
+      idx.value,
+      expression.field.location,
+      'get'
+    )
+
+    const value = obj.value[idx.value - 1] // 0-index
+
+    return {
+      type: 'GetExpression',
+      obj: obj,
+      expression: `${expression.obj.location.toCode(this.sourceCode)}[${
+        idx.value
+      }]`,
+      field: idx,
+      value,
+    }
   }
 
   public visitSetExpression(expression: SetExpression): EvaluationResult {
@@ -1011,7 +1031,7 @@ export class Executor {
       }
     }
 
-    this.error('InvalidIndexSetterTarget', expression.location, {
+    this.error('InvalidChangeElementTarget', expression.location, {
       expression,
       obj,
     })
@@ -1117,6 +1137,31 @@ export class Executor {
       })
     }
     return variable
+  }
+
+  private guardOutofBoundsIndex(
+    obj: any,
+    idx: number,
+    location: Location,
+    getOrChange: 'get' | 'change'
+  ) {
+    if (idx == 0) {
+      this.error('IndexIsZero', location)
+    }
+    if (idx > obj.length) {
+      // Set to IndexOutOfBoundsInGet or IndexOutOfBoundsInSet
+      // by capitalzing the first letter of get or set
+      const errorType:
+        | 'IndexOutOfBoundsInGet'
+        | 'IndexOutOfBoundsInChange' = `IndexOutOfBoundsIn${
+        getOrChange.charAt(0).toUpperCase() + getOrChange.slice(1)
+      }`
+      this.error(errorType, location, {
+        index: idx,
+        length: obj.length,
+        dataType: isArray(obj) ? 'list' : 'string',
+      })
+    }
   }
 
   private guardInfiniteLoop(loc: Location) {

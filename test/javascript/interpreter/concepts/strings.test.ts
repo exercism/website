@@ -64,11 +64,13 @@ describe('lists', () => {
       expect(frames[4].result?.value.value).toBe('b')
     })
 
-    test('index access', () => {
-      const { frames } = interpret(`log "foobar"[4] `)
-      expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].result?.value.value).toBe('b')
+    describe('index access', () => {
+      test('single', () => {
+        const { frames } = interpret(`log "foobar"[4] `)
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].result?.value.value).toBe('b')
+      })
     })
   })
 })

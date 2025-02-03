@@ -9,7 +9,7 @@ Your job is to create a function `acronym` that takes a string as an input, and 
 You should:
 
 - Treat spaces as word seperators
-- Treat hyphens (`-`) are word separators
+- Treat hyphens (`-`) as word separators
 - Ignore all other punctuation
 
 Some examples:
@@ -43,6 +43,6 @@ Click to expand.
 <details>
 <summary>Hint 1</summary>
 
-`"a"` is not the same as `"A"`. You don't really about whether a letter is lowercase or uppercase when working out what the acroynm is, but you do need to consider case a lot during the exercise.
+`"a"` is not the same as `"A"`. You don't really care about whether a letter is lowercase or uppercase when working out what the acronym is, but you do need to consider case a lot during the exercise.
 
 </details>

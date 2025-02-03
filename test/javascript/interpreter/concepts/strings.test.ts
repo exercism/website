@@ -24,7 +24,7 @@ afterAll(() => {
   changeLanguage('en')
 })
 
-describe('lists', () => {
+describe('strings', () => {
   describe('parse', () => {
     test('literal', () => {
       const stmts = parse('log "nice"')
@@ -58,10 +58,10 @@ describe('lists', () => {
           log char
         end
       `)
-      expect(frames).toBeArrayOfSize(5)
+      expect(frames).toBeArrayOfSize(4)
       expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[2].result?.value.value).toBe('a')
-      expect(frames[4].result?.value.value).toBe('b')
+      expect(frames[1].result?.value.value).toBe('a')
+      expect(frames[3].result?.value.value).toBe('b')
     })
 
     describe('index access', () => {

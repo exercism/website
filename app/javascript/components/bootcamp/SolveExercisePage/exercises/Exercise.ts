@@ -1,5 +1,5 @@
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
-import type { ExternalFunction } from '@/interpreter/executor'
+import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { Statement } from '@/interpreter/statement'
 
@@ -75,5 +75,33 @@ export abstract class Exercise {
 
   public getView(): HTMLElement {
     return this.view
+  }
+
+  protected fireFireworks(_: ExecutionContext, startTime: number) {
+    const fireworks = document.createElement('div')
+    fireworks.classList.add('fireworks')
+    fireworks.style.opacity = '0'
+    fireworks.innerHTML = `
+      <div class="before"></div>
+      <div class="after"></div>
+    `
+    this.view.appendChild(fireworks)
+
+    this.addAnimation({
+      targets: `#${this.view.id} .fireworks`,
+      duration: 1,
+      transformations: {
+        opacity: 1,
+      },
+      offset: startTime,
+    })
+    this.addAnimation({
+      targets: `#${this.view.id} .fireworks`,
+      duration: 1,
+      transformations: {
+        opacity: 0,
+      },
+      offset: startTime + 2500,
+    })
   }
 }

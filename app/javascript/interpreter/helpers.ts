@@ -1,15 +1,11 @@
+import { isArray } from './checks'
 import {
   BinaryExpression,
   CallExpression,
   Expression,
   GroupingExpression,
 } from './expression'
-import {
-  CallStatement,
-  ChangeVariableStatement,
-  SetVariableStatement,
-  Statement,
-} from './statement'
+import { Statement } from './statement'
 
 export function formatLiteral(value?: any): string {
   if (value === undefined) {
@@ -18,6 +14,9 @@ export function formatLiteral(value?: any): string {
 
   if (typeof value === 'string') {
     return `"${value}"`
+  }
+  if (isArray(value)) {
+    return `[${value.map(formatLiteral).join(', ')}]`
   }
   return value.toString()
 }

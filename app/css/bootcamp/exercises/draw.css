@@ -18,9 +18,9 @@
 }
 
 #bootcamp-solve-exercise-page {
-    .exercise-golf {
+    .exercise-container {
         overflow: hidden;
-        .pyro {
+        .fireworks {
             position: absolute;
             top: -20%;
             left: 0;
@@ -29,8 +29,8 @@
             overflow: hidden;
         }
 
-        .pyro > .before,
-        .pyro > .after {
+        .fireworks > .before,
+        .fireworks > .after {
             position: absolute;
             width: 5px;
             height: 5px;
@@ -41,7 +41,7 @@
                 position 2.5s linear infinite backwards;
         }
 
-        .pyro > .after {
+        .fireworks > .after {
             animation-delay: 1.25s, 1.25s, 1.25s;
             animation-duration: 1.25s, 1.25s, 6.25s;
         }

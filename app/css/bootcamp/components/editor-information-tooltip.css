@@ -6,6 +6,10 @@
     @apply text-16 leading-150;
     @apply absolute rounded-8 opacity-0;
 
+    code {
+        overflow-wrap: break-word;
+    }
+
     & :not(pre) > code {
         @apply bg-thick-border-blue px-[6px] py-[1px] rounded-5;
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
-import { random } from 'lodash'
+import { cloneDeep, random } from 'lodash'
 import { d } from '@codemirror/legacy-modes/mode/d'
 
 type GameStatus = 'running' | 'won' | 'lost'
@@ -55,29 +55,24 @@ export default class SpaceInvadersExercise extends Exercise {
     this.laser.classList.add('laser')
     this.laser.style.left = `${this.laserPositions[this.laserPosition]}%`
     this.view.appendChild(this.laser)
-
-    this.addAliens([
-      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    ])
   }
 
   public getState() {
     return { gameStatus: this.gameStatus }
   }
 
-  public enableAlienRespawning() {
-    this.features.alienRespawning = true
-  }
-
-  private addAliens(rows) {
+  public setupAliens(_: ExecutionContext, rows: number[][]) {
     this.aliens = rows.map((row, rowIdx) => {
       return row.map((type, colIdx) => {
         if (type === 0) return null
         return this.addAlien(rowIdx, colIdx, type)
       })
     })
+    this.startingAliens = cloneDeep(this.aliens)
+  }
+
+  public enableAlienRespawning() {
+    this.features.alienRespawning = true
   }
 
   private addAlien(row: number, col: number, type: number) {
@@ -184,14 +179,17 @@ export default class SpaceInvadersExercise extends Exercise {
     executionCtx.fastForward(this.moveDuration)
   }
 
-  private checkForWin(executionCtx: ExecutionContext) {
-    const win = this.aliens.every((row) =>
+  private allAliensDead(executionCtx: ExecutionContext) {
+    return this.aliens.every((row) =>
       row.every(
         (alien) =>
           alien === null || !alien.isAlive(executionCtx.getCurrentTime())
       )
     )
-    if (win) {
+  }
+
+  private checkForWin(executionCtx: ExecutionContext) {
+    if (this.allAliensDead(executionCtx)) {
       this.gameStatus = 'won'
       executionCtx.updateState('gameOver', true)
     }
@@ -219,7 +217,7 @@ export default class SpaceInvadersExercise extends Exercise {
     let targetAlien: Alien | null = null
     this.aliens.forEach((row, rowIdx) => {
       const alien = row[this.laserPosition]
-      if (alien === null) {
+      if (alien == null) {
         return
       }
       if (!alien.isAlive(executionCtx.getCurrentTime())) {
@@ -269,7 +267,7 @@ export default class SpaceInvadersExercise extends Exercise {
     } else {
       this.killAlien(executionCtx, targetAlien, shot)
 
-      // Why do we do this?
+      // Let the bullet leave the laser before moving
       executionCtx.fastForward(30)
 
       this.checkForWin(executionCtx)
@@ -294,6 +292,28 @@ export default class SpaceInvadersExercise extends Exercise {
 
     this.laserPosition += 1
     this.moveLaser(executionCtx)
+  }
+
+  public getStartingAliensInRow(_: ExecutionContext, row: number) {
+    return this.startingAliens
+      .slice()
+      .reverse()
+      [row - 1].map((alien) => alien !== null)
+  }
+
+  fireFireworks(executionCtx: ExecutionContext) {
+    if (!this.allAliensDead(executionCtx)) {
+      executionCtx.logicError(
+        'You need to defeat all the aliens before you can celebrate!'
+      )
+    }
+    super.fireFireworks(
+      executionCtx,
+      executionCtx.getCurrentTime() + this.shotDuration
+    )
+
+    executionCtx.fastForward(2500)
+    executionCtx.updateState('gameOver', true)
   }
 
   public availableFunctions = [
@@ -322,6 +342,16 @@ export default class SpaceInvadersExercise extends Exercise {
       func: this.isAlienAbove.bind(this),
       description:
         'Returns a boolean indicating if there is an alien above the laser canon',
+    },
+    {
+      name: 'get_starting_aliens_in_row',
+      func: this.getStartingAliensInRow.bind(this),
+      description: 'Returns the starting row of aliens at the index you input.',
+    },
+    {
+      name: 'fire_fireworks',
+      func: this.fireFireworks.bind(this),
+      description: 'Fires celebratory fireworks',
     },
   ]
 }

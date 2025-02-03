@@ -30,11 +30,6 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: toUpperCase,
     description: 'Converts a string to its uppercase equivelent',
   },
-  lowercase_latin_alphabet: {
-    name: 'lowercase_latin_alphabet',
-    func: (_) => 'abcdefghijklmnopqrstuvwxyz',
-    description: 'Returns the lowercase latin alphabet',
-  },
 }
 
 function join(_: ExecutionContext, str1: string, str2: string) {

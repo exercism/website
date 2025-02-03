@@ -4,6 +4,7 @@ import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 import { generateCodeRunString } from '../../utils/generateCodeRunString'
 import { genericSetupFunctions } from './genericSetupFunctions'
+import { isString } from '@/interpreter/checks'
 
 /**
  This is of type TestCallback
@@ -20,6 +21,9 @@ export function execGenericTest(
   }
 
   const parsedParams = params.map((elem) => {
+    if (!isString(elem)) {
+      return elem
+    }
     if (!(elem.startsWith('setup.') && elem.endsWith(')'))) {
       return elem
     }

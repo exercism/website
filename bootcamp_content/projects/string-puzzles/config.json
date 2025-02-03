@@ -4,6 +4,7 @@
   "description": "An assortment of string-based puzzles",
   "exercises": [
     "two-fer",
+    "guest-list",
     "reverse-string",
     "hamming",
     "rna-transcription",

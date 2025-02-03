@@ -2,7 +2,7 @@
   "title": "Acronym",
   "description": "Generate an acronym from a given phrase.",
   "level": 5,
-  "idx": 5,
+  "idx": 6,
   "tests_type": "io",
   "stdlib_functions": ["join", "to_upper_case"],
   "tasks": [
@@ -97,7 +97,7 @@
           "description_html": "Generate an acronym for an every changing string!",
           "name": "A scenario that changes every time",
           "function": "acronym",
-          "params": ["setup.join(\"Hello W\", setup.randomEmoji(), \"rld\")"],
+          "params": ["setup.join(\"Hello \", setup.randomEmoji(), \"World\")"],
           "expected": "HW",
           "image_slug": "string-puzzles/acronym/trnt.jpg"
         }

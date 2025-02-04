@@ -1,3 +1,3 @@
 # Task 1
 
-Extract the Acronyms!
+Reverse the strings!

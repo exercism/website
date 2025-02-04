@@ -59,9 +59,8 @@ function lineInformationWidget(view: EditorView): DecorationSet {
   const widgetData = view.state.field(informationWidgetDataField)
 
   // soft return
-  if (widgetData.line > view.state.doc.lines) return Decoration.none
-  if (widgetData.html.length === 0) return Decoration.none
-  if (widgetData.line === 0) return Decoration.none
+  if (widgetData.line > view.state.doc.lines || widgetData.line === 0)
+    return Decoration.none
   if (!shouldShowWidget) return Decoration.none
 
   const data = widgetData.html

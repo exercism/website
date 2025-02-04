@@ -9,6 +9,7 @@
             @apply flex flex-col;
 
             .scenario-lhs-content {
+                @apply overflow-auto; /* Needed to ensure the scrubber shows */
                 @apply flex-grow;
                 @apply flex flex-col;
 

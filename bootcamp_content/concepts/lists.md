@@ -20,8 +20,8 @@ Lists where everything is the same type are called homogeneous lists.
 
 ## Creating a list
 
-To create a list with use square brackets.
-We put a open square bracket to start (`[`), then write whatever we want in the list seperated by commas, then we put an closing square bracket (`]`).
+To create a list we use square brackets.
+We put an open square bracket to start (`[`), then write whatever we want in the list separated by commas, then we put a closing square bracket (`]`).
 
 Jiki makes whatever we need to put in the list, then constructs a new list, and puts the items in it.
 

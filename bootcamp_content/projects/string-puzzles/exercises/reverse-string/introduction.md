@@ -22,10 +22,10 @@ For this exercise, you have one function available:
 
 ### Emojis
 
-That last two scenarios are weird ones, aren't they... Any ideas what's going on?
+Those last two scenarios are weird ones, aren't they... Any ideas what's going on?
 
 It turns out that lots of emojis are acutally made up of other emojis joined together with hidden (zero width) spaces.
 
-In the first example, the family emoji (👩‍👩‍👧‍👦) is made up of two women and two women (👦‍👧‍👩‍👩). When it's reversed you can see the individual characters.
+In the first example, the family emoji (👩‍👩‍👧‍👦) is made up of two women and two children. When it's reversed you can see the individual characters (👦‍👧‍👩‍👩).
 
 In the second example we have a rainbow and a flag (🌈‍️🏳), but when we reverse the order to get the flag then the rainbow, it becomes a rainbow flag! (🏳️‍🌈️).

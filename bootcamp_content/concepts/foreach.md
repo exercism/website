@@ -4,7 +4,7 @@
 
 We step through each item in the list/string, running a block of code for each one.
 
-The syntax follows the same patters we've seen with `repeat` blocks and `if statements`.
+The syntax follows the same patterns we've seen with `repeat` blocks and `if statements`.
 This time we specify the list, and the variable name we'd like each item to have in its turn in the loop.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/foreach-syntax.png" class="diagram"/>
@@ -26,7 +26,7 @@ When he wants to use `"DJ"` to say thank you, he simply retrieves it from the bo
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/foreach-step-1-2.png" class="diagram"/>
 
-When the iterate has finsished, he clears the box off the shelves, so everything is back how it was at the start of the loop.
+When the iteration has finsished, he clears the box off the shelves, so everything is back how it was at the start of the loop.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/foreach-step-1-3.png" class="diagram"/>
 

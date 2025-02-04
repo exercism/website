@@ -10,6 +10,6 @@ So the first item can be accessed via `[1]`, the second via `[2]` etc.
 
 Jiki will scan through the string until he gets to the index you specify.
 He then makes a copy of whatever letter he finds as a new string.
-If you ask him to, store it in a box.
+If you ask him to, he'll store it in a box.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/strings-index-3.png" class="diagram"/>

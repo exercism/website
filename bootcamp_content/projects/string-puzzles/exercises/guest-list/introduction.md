@@ -17,7 +17,7 @@ Click to expand.
 
 <details><summary>Can't work out where to start?</summary>
 
-Imagine real life. You have list and you need to see if there is a name on it. What do you do?
+Imagine real life. You have a list and you need to see if there is a name on it. What do you do?
 
 You read through the list and check to see if each entry on the list matches the name.
 

@@ -35,12 +35,24 @@ With the right tools, you can solve this exercise in only 3 lines of code. Right
 
 **Once you've finished**, if you'd like to see some more elegant ways of solving this and learn about Regular Expressions (a special type of language for parsing text) [watch this video](https://www.youtube.com/watch?v=ofzqp4MFHvM&ab_channel=Exercism).
 
+## Bonus Task
+
+Can you solve this without having a capital letter anywhere in your code?
+
 ### Hints
 
 Click to expand.
 
 <details>
 <summary>Hint 1</summary>
+
+You don't need 26 if/else statements to check whether something is a letter.
+How could you use something you learnt in Level 5 to do it a better way?
+
+</details>
+
+<details>
+<summary>Hint 2</summary>
 
 `"a"` is not the same as `"A"`. You don't really care about whether a letter is lowercase or uppercase when working out what the acronym is, but you do need to consider case a lot during the exercise.
 

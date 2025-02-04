@@ -30,3 +30,7 @@ Create a function called `hamming_distance` that has two inputs: the two DNA str
 It should return a number as the distance.
 
 Both DNA strands will always be the same length.
+
+## Bonus Task
+
+Can you solve it in 11 lines of code?

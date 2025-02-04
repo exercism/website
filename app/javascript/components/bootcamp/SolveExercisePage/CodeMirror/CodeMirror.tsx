@@ -190,18 +190,18 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.multiHighlightLine({ from: 0, to: 0 }),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
           onEditorChange(
-            () => setHighlightedLine(0),
-            (e) => {
-              updateLocalStorageValueOnDebounce(e.state.doc.toString(), e.view)
-            },
-            () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
-            () => setShouldShowInformationWidget(false),
             () =>
               setInformationWidgetData({
                 html: '',
                 line: 0,
                 status: 'SUCCESS',
               }),
+            () => setHighlightedLine(0),
+            (e) => {
+              updateLocalStorageValueOnDebounce(e.state.doc.toString(), e.view)
+            },
+            () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
+            () => setShouldShowInformationWidget(false),
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
             () => {

@@ -507,5 +507,61 @@ end))
         refute_selector ".information-tooltip.error"
       end
     end
+
+    test "removing line that information widget is tied to cleans up error widget" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :penguin
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(
+
+
+
+
+
+
+
+
+
+      end))
+
+        check_scenarios
+        assert_selector ".information-tooltip.error"
+        remove_editor_lines
+        refute_selector ".information-tooltip.error"
+      end
+    end
+
+    test "removing line that information widget is tied to cleans up info widget" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(
+          function even_or_odd with number do
+            if number % 2 equals 0 do
+              return "Even"
+            else do
+              return "Odd"
+            end
+          end
+                  ))
+        check_scenarios
+        click_on "Tweak further"
+
+        # make sure toggle button is visible
+        execute_script("document.querySelector('.page-body-lhs-bottom').style.height = '600px';")
+        toggle_information_tooltip
+        assert_selector ".information-tooltip.description"
+        remove_editor_lines
+        refute_selector ".information-tooltip.description"
+      end
+    end
   end
 end

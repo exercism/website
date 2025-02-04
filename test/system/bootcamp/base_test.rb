@@ -32,6 +32,10 @@ module Bootcamp
       })
     end
 
+    def remove_editor_lines
+      page.execute_script(%{document.querySelectorAll('.cm-line').forEach(line => line.remove());})
+    end
+
     def select_scenario(number)
       find("[data-ci='test-selector-button']:nth-of-type(#{number})").click
     end

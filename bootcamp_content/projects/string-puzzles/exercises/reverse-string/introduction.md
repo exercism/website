@@ -29,3 +29,21 @@ It turns out that lots of emojis are acutally made up of other emojis joined tog
 In the first example, the family emoji (👩‍👩‍👧‍👦) is made up of two women and two children. When it's reversed you can see the individual characters (👦‍👧‍👩‍👩).
 
 In the second example we have a rainbow and a flag (🌈‍️🏳), but when we reverse the order to get the flag then the rainbow, it becomes a rainbow flag! (🏳️‍🌈️).
+
+## Hints
+
+Click to expand...
+
+<details><summary>Stuck on the Emoji?</summary>
+
+If you use the optimal method to solve this, the emojis should **just** work.
+If you use a non-optimal method, you might run into trouble.
+So try to simplify your code to solve this.
+
+One method is to get out a pen and paper and reverse the word "robot" manually.
+What steps do you take?
+Can you do the same using code?
+
+</details>
+
+</details>

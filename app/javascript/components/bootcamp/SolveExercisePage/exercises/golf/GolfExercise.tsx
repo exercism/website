@@ -16,31 +16,7 @@ export default class GolfExercise extends DrawExercise {
     return this.shotLength
   }
   fireFireworks(executionCtx: ExecutionContext) {
-    const pyro = document.createElement('div')
-    pyro.classList.add('pyro')
-    pyro.style.opacity = '0'
-    pyro.innerHTML = `
-      <div class="before"></div>
-      <div class="after"></div>
-    `
-    this.view.appendChild(pyro)
-
-    this.addAnimation({
-      targets: `#${this.view.id} .pyro`,
-      duration: 1,
-      transformations: {
-        opacity: 1,
-      },
-      offset: executionCtx.getCurrentTime(),
-    })
-    this.addAnimation({
-      targets: `#${this.view.id} .pyro`,
-      duration: 1,
-      transformations: {
-        opacity: 0,
-      },
-      offset: executionCtx.getCurrentTime() + 2500,
-    })
+    super.fireFireworks(executionCtx, executionCtx.getCurrentTime())
   }
 
   // TODO: How do I get just the ones I want out of DrawExercise

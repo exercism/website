@@ -40,6 +40,9 @@ export const informationWidgetDataField =
       return { html: '', line: 0, status: 'SUCCESS' }
     },
     update(value, tr) {
+      if (tr.docChanged) {
+        return { html: '', line: 1, status: 'SUCCESS' }
+      }
       for (const effect of tr.effects) {
         if (effect.is(informationWidgetDataEffect)) {
           return effect.value
@@ -56,6 +59,8 @@ function lineInformationWidget(view: EditorView): DecorationSet {
   const widgetData = view.state.field(informationWidgetDataField)
 
   // soft return
+  if (widgetData.line > view.state.doc.lines) return Decoration.none
+  if (widgetData.html.length === 0) return Decoration.none
   if (widgetData.line === 0) return Decoration.none
   if (!shouldShowWidget) return Decoration.none
 

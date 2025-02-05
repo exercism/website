@@ -22,7 +22,7 @@ export function CheckScenariosButton({
     setIsTimelineComplete(false)
     cleanUpTestStore()
     cleanUpEditorStore()
-    cleanUpErrorStore
+    cleanUpErrorStore()
   }
 
   return (

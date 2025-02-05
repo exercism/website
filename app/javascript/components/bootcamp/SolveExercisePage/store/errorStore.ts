@@ -5,6 +5,7 @@ type ErrorStore = {
   setHasUnhandledError: (hasUnhandledMountingError: boolean) => void
   unhandledErrorBase64: string
   setUnhandledErrorBase64: (unhandledErrorBase64: string) => void
+  cleanUpErrorStore: () => void
 }
 
 const useErrorStore = createStoreWithMiddlewares<ErrorStore>(
@@ -21,6 +22,16 @@ const useErrorStore = createStoreWithMiddlewares<ErrorStore>(
         false,
         'editor/setUnhandledErrorBase64'
       ),
+    cleanUpErrorStore: () => {
+      set(
+        {
+          hasUnhandledError: false,
+          unhandledErrorBase64: '',
+        },
+        false,
+        'editor/cleanUpErrorStore'
+      )
+    },
   }),
   'ErrorStore'
 )

@@ -508,6 +508,23 @@ end))
       end
     end
 
+    test "error information widget retrievable after hiding it" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :penguin
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        check_scenarios
+        assert_selector ".information-tooltip.error"
+        find("button.tooltip-close").click
+        refute_selector ".information-tooltip.error"
+        check_scenarios
+        assert_selector ".information-tooltip.error"
+      end
+    end
+
     test "removing line that information widget is tied to cleans up error widget" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :penguin

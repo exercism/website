@@ -30,6 +30,7 @@ type EditorStore = {
   setHighlightedLineColor: (highlightedLine: string) => void
   readonlyRanges: Array<{ from: number; to: number }>
   setReadonlyRanges: (ranges: Array<{ from: number; to: number }>) => void
+  cleanUpEditorStore: () => void
 }
 
 const useEditorStore = createStoreWithMiddlewares<EditorStore>(
@@ -110,6 +111,23 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     readonlyRanges: [],
     setReadonlyRanges: (readonlyRanges) => {
       set({ readonlyRanges }, false, 'exercise/setReadonlyRanges')
+    },
+    cleanUpEditorStore: () => {
+      set(
+        {
+          shouldAutoRunCode: false,
+          readonly: false,
+          hasCodeBeenEdited: false,
+          shouldShowInformationWidget: false,
+          informationWidgetData: { html: '', line: 0, status: 'SUCCESS' },
+          underlineRange: { from: 0, to: 0 },
+          highlightedLine: 0,
+          highlightedLineColor: INFO_HIGHLIGHT_COLOR,
+          readonlyRanges: [],
+        },
+        false,
+        'editor/cleanUpEditorStore'
+      )
     },
   }),
   'EditorStore'

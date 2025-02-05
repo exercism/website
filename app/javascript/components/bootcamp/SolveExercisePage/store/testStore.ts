@@ -13,6 +13,7 @@ type TestStore = {
   inspectedPreviewTaskTest: TaskTest
   hasSyntaxError: boolean
   setHasSyntaxError: (hasSyntaxError: boolean) => void
+  cleanUpTestStore: () => void
 }
 
 const useTestStore = createStoreWithMiddlewares<TestStore>(
@@ -51,6 +52,17 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
     hasSyntaxError: false,
     setHasSyntaxError: (hasSyntaxError) => {
       set({ hasSyntaxError }, false, 'exercise/setHasSyntaxError')
+    },
+    cleanUpTestStore: () => {
+      set(
+        {
+          inspectedTestResult: null,
+          testSuiteResult: null,
+          hasSyntaxError: false,
+        },
+        false,
+        'exercise/cleanUpTestStore'
+      )
     },
   }),
   'TestStore'

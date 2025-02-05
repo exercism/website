@@ -18,7 +18,7 @@ export class LiteralExpression extends Expression {
     return []
   }
   public description() {
-    return `\`${quoteLiteral(this.value)}\``
+    return `\`${formatLiteral(this.value)}\``
   }
 }
 

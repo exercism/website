@@ -77,10 +77,10 @@ export function describeFrame(
       case 'ChangeVariableStatement':
         return describeChangeVariableStatement(frame)
       case 'IfStatement':
-        return describeIfStatement(frame)
-      case 'LogStatement':
         description = describeIfStatement(frame)
         break
+      case 'LogStatement':
+        return describeLogStatement(frame)
       case 'ReturnStatement':
         return describeReturnStatement(frame)
       case 'CallExpression':
@@ -89,8 +89,9 @@ export function describeFrame(
         return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
     }
     return marked.parse(description)
-  } catch (e) {
-    return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+    //} catch (e) {
+    //  return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+  } finally {
   }
 }
 
@@ -218,19 +219,6 @@ function describeCondition(
   result: EvaluationResultIfStatement
 ): string {
   return describeExpression(expression, result.condition)
-}
-
-function describeIfStatement(frame: FrameWithResult) {
-  const ifStatement = frame.context as IfStatement
-  const conditionDescription = describeCondition(
-    ifStatement.condition,
-    frame.result
-  )
-  let output = `
-<p>This checked whether ${conditionDescription}</p>
-<p>The result was <code>${frame.result.value}</code>.</p>
-    `.trim()
-  return output
 }
 
 function describeLogStatement(frame: FrameWithResult) {

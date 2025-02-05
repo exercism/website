@@ -11,11 +11,11 @@ set position to 1
 
 // Play the game
 repeat_until_game_over do
-
-  // If we can shoot, shoot
-  if is_alien_above() do
+  // TODO: This function no longer exists...
+  // How can you solve the exercise without it?
+  // if is_alien_above() do
     shoot()
-  end
+  // end
 
   // If we hit an edge, change direction
   if position >= right_boundary do

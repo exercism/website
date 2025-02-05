@@ -25,7 +25,7 @@ Some examples:
 For this exercise, you have two functions available:
 
 - `join(str1, str2)`: This takes two strings and outputs them joined together.
-- `to_upper_case(str)`: This takes a string and returns its uppercase equivelent (e.g. it turns `"frog"` into `"FROG"`).
+- `to_upper_case(str)`: This takes a string and returns its uppercase equivalent (e.g. it turns `"frog"` into `"FROG"`).
 
 ### A little tricky?
 
@@ -59,4 +59,4 @@ How could you use something you learnt in Level 5 to do it a better way?
 Congratulations on solving it! Ready for an extra challenge?
 
 1. Can you solve this without having a capital letter anywhere in your code?
-2. Can you solve it with only have 23 lines of code?
+2. Can you solve it with only 23 lines of code?

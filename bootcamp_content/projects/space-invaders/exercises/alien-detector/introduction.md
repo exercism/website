@@ -1,6 +1,6 @@
 # Space Invaders
 
-In the last space-invaders exercise moved your laser from side to side to shoot down all the aliens.
+In the last space-invaders exercise you moved your laser from side to side to shoot down all the aliens.
 A big part of what made that possible was the `is_alien_above()` function.
 In this exercise, we've removed it, but you still need to shoot down all the aliens!
 

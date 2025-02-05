@@ -24,3 +24,16 @@ You read through the list and check to see if each entry on the list matches the
 Do the same here! 🙂
 
 </details>
+
+<details><summary>Can't get the third scenario to pass?</summary>
+
+It will **really** help you to think through what you'd do in the real world here.
+
+Imagine you have a guest list.
+Imagine you have a name.
+
+How do you see whether the name is on the list. At what point(s) do you announce whether it is or isn't? Very carefully step through each thing you'd do in the real world.
+
+Try and model that code the same!
+
+</details>

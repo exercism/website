@@ -11,7 +11,7 @@ import {
   LogicalExpression,
   CallExpression,
 } from '../expression'
-import { FrameWithResult } from '../frames'
+import { Description, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
 import { SetVariableStatement } from '../statement'
 import { describeCallExpression } from './describeCallExpression'
@@ -20,28 +20,29 @@ import { describeLiteralExpression } from './describeLiteralExpression'
 import { describeSteps } from './describeSteps'
 import { appendFullStopIfAppropriate, deepTrim } from './helpers'
 
-export function describeSetVariableStatement(frame: FrameWithResult) {
+export function describeSetVariableStatement(
+  frame: FrameWithResult
+): Description {
   const context = frame.context as SetVariableStatement
-  const result = frame.result as EvaluationResultSetVariableStatement
+  const frameResult = frame.result as EvaluationResultSetVariableStatement
 
-  const steps = describeSteps(context.initializer, result.value).join('\n')
   const name = context.name.lexeme
-  const value = formatLiteral(result.value.value)
+  const value = formatLiteral(frameResult.value.value)
   // let value = describeExpression(context.initializer, result.value)
   // value = appendFullStopIfAppropriate(value)
 
-  return deepTrim(`
-    <p>
-      This created a new variable called <code>${name}</code> and set its value to <code>${value}</code>.
-    </p>
-    <hr/>
-    <h3>Steps Jiki Took</h3>
-    <ul>
-      ${steps}
-      <li>Jiki created a new box called <code>${name}</code>.</li>
-      <li>Jiki put <code>${value}</code> in the box.</li>
-    </ul>
-  `)
+  const result = `<p> This created a new variable called <code>${name}</code> and set its value to <code>${value}</code>.  </p>`
+  let steps = describeSteps(context.initializer, frameResult.value)
+  steps = [
+    ...steps,
+    `<li>Jiki created a new box called <code>${name}</code>.</li>`,
+    `<li>Jiki put <code>${value}</code> in the box.</li>`,
+  ]
+
+  return {
+    result: result,
+    steps: steps,
+  }
 }
 
 function describeExpression(

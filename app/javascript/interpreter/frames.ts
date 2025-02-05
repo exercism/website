@@ -29,6 +29,7 @@ import { describeIfStatement } from './describers/describeIfStatement'
 import { marked } from 'marked'
 import { describeSetVariableStatement } from './describers/describeSetStatement'
 import { describeLogStatement } from './describers/describeLogStatement'
+import { deepTrim } from './describers/helpers'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -48,15 +49,74 @@ export type Frame = {
 }
 export type FrameWithResult = Frame & { result: EvaluationResult }
 
+export type Description = {
+  result: String
+  steps: String[]
+}
+
 function isFrameWithResult(frame: Frame): frame is FrameWithResult {
   return !!frame.result
 }
 
-export function describeFrame(
-  frame: Frame,
-  externalFunctions: ExternalFunction[]
-): string {
+const defaultMessage = `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+
+export function describeFrame(frame: Frame, functionDescription: []): string {
+  if (!isFrameWithResult(frame)) {
+    return defaultMessage
+  }
+
+  let description: Description | null = null
   try {
+    description = generateDescription(frame)
+  } catch (e) {
+    if (process.env.NODE_ENV != 'production') {
+      throw e
+    }
+    return defaultMessage
+  }
+  if (description == null) {
+    return defaultMessage
+  }
+
+  return deepTrim(`
+  <h3>What happened</h3>
+  ${description.result}
+  <hr/>
+  <h3>Steps Jiki Took</h3>
+  <ul>
+    ${description.steps.join('\n')}
+  </ul>
+  `)
+}
+
+function generateDescription(frame: FrameWithResult): Description | null {
+  switch (frame.result.type) {
+    case 'LogStatement':
+      return describeLogStatement(frame)
+
+    case 'SetVariableStatement':
+      return describeSetVariableStatement(frame)
+
+    case 'IfStatement':
+      return describeIfStatement(frame)
+  }
+  return null
+}
+/*
+      // case 'ForeachStatement':
+      //   return describeForeachStatement(frame)
+      // case 'ChangeVariableStatement':
+      //   return describeChangeVariableStatement(frame)
+      // case 'ReturnStatement':
+      //   return describeReturnStatement(frame)
+      // case 'CallExpression':
+      //   return describeCallExpression(frame, functionDescriptions)
+      // default:
+    // } catch (e) {
+    //  return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
+
+
+/*
     // These need to come from the exercise.
     const functionDescriptions: Record<string, string> =
       externalFunctions.reduce(
@@ -220,3 +280,4 @@ function describeReturnStatement(frame: FrameWithResult) {
   }
   return context.description(frame.result)
 }
+*/

@@ -1,7 +1,7 @@
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
 
-export const assertHTML = (actual, markdown) => {
+export const assertHTML = (actual, result, steps) => {
   const tidy = (text) =>
     text
       .split('\n')
@@ -12,7 +12,15 @@ export const assertHTML = (actual, markdown) => {
       .replaceAll(/>\s+/g, '>')
       .replaceAll(/\s+</g, '<')
 
-  expect(tidy(actual)).toBe(tidy(markdown))
+  const expected = `<h3>What happened</h3>
+       ${result}
+       <hr/>
+       <h3>Steps Jiki Took</h3>
+       <ul>
+       ${steps.join('\n')}
+      </ul>`
+
+  expect(tidy(actual)).toBe(tidy(expected))
 }
 
 export const location = new Location(0, new Span(0, 0), new Span(0, 0))

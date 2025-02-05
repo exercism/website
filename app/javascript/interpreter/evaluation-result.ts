@@ -45,10 +45,13 @@ export type EvaluationResultLogicalExpression = {
   value: any
   left: EvaluationResult
   right?: EvaluationResult
-  operator: TokenType
+  operator: Token
   shortCircuited: boolean
   data?: Record<string, any>
 }
+
+export type EvaluationResultFullyEvaluatedLogicalExpression =
+  EvaluationResultLogicalExpression & { right: EvaluationResult }
 
 export type EvaluationResultBinaryExpression = {
   type: 'BinaryExpression'

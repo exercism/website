@@ -12,34 +12,17 @@ export function CheckScenariosButton({
 }: {
   handleRunCode: () => void
 }) {
-  const { shouldAutoRunCode, setShouldAutoRunCode } = useEditorStore()
-  const { setInformationWidgetData, setShouldShowInformationWidget } =
+  const { shouldAutoRunCode, setShouldAutoRunCode, cleanUpEditorStore } =
     useEditorStore()
-  const {
-    setHasSyntaxError,
-    inspectedTestResult,
-    setTestSuiteResult,
-    setInspectedTestResult,
-  } = useTestStore()
+  const { cleanUpTestStore } = useTestStore()
   const { setIsTimelineComplete } = useAnimationTimelineStore()
-  const { setHasUnhandledError } = useErrorStore()
+  const { cleanUpErrorStore } = useErrorStore()
 
   function cleanUpState() {
-    setHasSyntaxError(false)
-    setHasUnhandledError(false)
-    setShouldShowInformationWidget(false)
-    setInformationWidgetData({
-      html: '',
-      line: 0,
-      status: 'SUCCESS',
-    })
-    if (inspectedTestResult) {
-      inspectedTestResult.animationTimeline?.destroy()
-      inspectedTestResult.animationTimeline = null
-    }
     setIsTimelineComplete(false)
-    setTestSuiteResult(null)
-    setInspectedTestResult(null)
+    cleanUpTestStore()
+    cleanUpEditorStore()
+    cleanUpErrorStore
   }
 
   return (

@@ -27,6 +27,7 @@ export type LanguageFeatures = {
   repeatDelay: number
   maxTotalLoopIterations: number
   maxRepeatUntilGameOverIterations: number
+  maxTotalExecutionTime: number
   allowGlobals: boolean
 }
 
@@ -36,6 +37,7 @@ export type InputLanguageFeatures = {
   repeatDelay?: number
   maxTotalLoopIterations?: number
   maxRepeatUntilGameOverIterations?: number
+  maxTotalExecutionTime?: number
   allowGlobals?: boolean
 }
 
@@ -117,6 +119,7 @@ export class Interpreter {
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 100,
+      maxTotalExecutionTime: 10 * 1000, // 10 seconds
       allowGlobals: false,
       ...context.languageFeatures,
     }

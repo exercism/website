@@ -129,6 +129,7 @@ export type RuntimeErrorType =
   | 'IndexIsZero'
   | 'IndexOutOfBoundsInGet'
   | 'IndexOutOfBoundsInChange'
+  | 'MaxTotalExecutionTimeReached'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

@@ -14,7 +14,8 @@
     "can_turn_right"
   ],
   "interpreter_options": {
-    "max_repeat_until_game_over_iterations": 50
+    "max_repeat_until_game_over_iterations": 50,
+    "max_total_execution_time": 30000
   },
   "tasks": [
     {

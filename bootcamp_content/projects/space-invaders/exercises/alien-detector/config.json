@@ -7,7 +7,7 @@
   "tests_type": "state",
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 100,
-    "max_total_execution_time": 20000
+    "max_total_execution_time": 30000
   },
   "exercise_functions": [
     "move_left",

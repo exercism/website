@@ -28,7 +28,7 @@ export default (options: TestRunnerOptions) => {
           // make sure a test is only successful if all frames are successful
           expects.push({
             actual: 'running',
-            errorHtml: 'Your code has an error',
+            errorHtml: 'Your code has an error in it.',
             name: 'Code passes',
             expected: true,
             pass: frames.every((frame) => frame.status === 'SUCCESS'),

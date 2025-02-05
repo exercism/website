@@ -88,6 +88,7 @@ export class AnimationTimeline {
   }
 
   private updateScrubber(anim: AnimeInstance) {
+    if (!anim) return
     this.progress = anim.currentTime
 
     const reversedIndex = this.frames

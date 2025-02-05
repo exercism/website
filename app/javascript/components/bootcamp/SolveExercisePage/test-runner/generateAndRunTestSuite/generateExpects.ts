@@ -11,17 +11,13 @@ export function generateExpects(
   if (testsType == 'state') {
     return generateExpectsForStateTests(exercise!, interpreterResult, testData)
   } else {
-    return generateExpectsForIoTests(interpreterResult, testData, actual)
+    return generateExpectsForIoTests(testData, actual)
   }
 }
 
 // These are normal function in/out tests. We always know the actual value at this point
 // (as it's returned from the function) so we can just compare it to the check value.
-function generateExpectsForIoTests(
-  interpreterResult: InterpretResult,
-  testData: TaskTest,
-  actual: any
-) {
+function generateExpectsForIoTests(testData: TaskTest, actual: any) {
   const matcher = testData.matcher || 'toEqual'
 
   return [

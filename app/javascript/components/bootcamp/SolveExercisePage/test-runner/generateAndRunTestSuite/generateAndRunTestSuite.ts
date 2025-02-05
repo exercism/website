@@ -15,11 +15,28 @@ export default (options: TestRunnerOptions) => {
     options.tasks.map((taskData) => {
       taskData.tests.map((testData) => {
         test(testData.name, () => {
+          let result: ReturnType<TestCallback>
           if (project) {
-            return execProjectTest(project, testData, options)
+            result = execProjectTest(project, testData, options)
           } else {
-            return execGenericTest(testData, options)
+            result = execGenericTest(testData, options)
           }
+
+          const { frames } = result
+          let { expects } = result
+
+          // make sure a test is only successful if all frames are successful
+          expects.push({
+            actual: 'running',
+            errorHtml: 'Your code has an error in it.',
+            name: 'Code passes',
+            expected: true,
+            pass: frames.every((frame) => frame.status === 'SUCCESS'),
+            slug: 'code-passes',
+            testsType: 'state',
+          })
+
+          return { ...result, expects }
         })
       })
     })

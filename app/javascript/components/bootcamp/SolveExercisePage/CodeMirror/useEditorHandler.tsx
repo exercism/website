@@ -33,7 +33,7 @@ export function useEditorHandler({
     editorHandler.current = handler
 
     if (
-      // if there is no stored at it means we have not submitted the code yet, ignore this, and keep using localStorage
+      // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage
       // localStorage defaults to the stub code.
       editorLocalStorageValue.storedAt &&
       code.storedAt &&

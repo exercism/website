@@ -12,8 +12,6 @@ import type { EditorView } from 'codemirror'
 import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
-import useErrorStore from '../../store/errorStore'
-import useAnimationTimelineStore from '../../store/animationTimelineStore'
 import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 
 export function useConstructRunCode({
@@ -28,7 +26,6 @@ export function useConstructRunCode({
     inspectedTestResult,
     setHasSyntaxError,
   } = useTestStore()
-  const { setIsTimelineComplete } = useAnimationTimelineStore()
 
   const {
     setHighlightedLine,
@@ -38,8 +35,6 @@ export function useConstructRunCode({
     setHasCodeBeenEdited,
     setUnderlineRange,
   } = useEditorStore()
-
-  const { setHasUnhandledError } = useErrorStore()
 
   const { markTaskAsCompleted, tasks } = useTaskStore()
 
@@ -55,21 +50,6 @@ export function useConstructRunCode({
 
       // reset on each run
       cleanUpEditor(editorView)
-      setHasSyntaxError(false)
-      setHasUnhandledError(false)
-      setShouldShowInformationWidget(false)
-      setInformationWidgetData({
-        html: '',
-        line: 0,
-        status: 'SUCCESS',
-      })
-      if (inspectedTestResult) {
-        inspectedTestResult.animationTimeline?.destroy()
-        inspectedTestResult.animationTimeline = null
-      }
-      setIsTimelineComplete(false)
-      setTestSuiteResult(null)
-      setInspectedTestResult(null)
 
       // remove previous views
       document

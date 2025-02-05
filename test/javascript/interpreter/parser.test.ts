@@ -422,6 +422,22 @@ describe('logical', () => {
 })
 
 describe('if', () => {
+  test('single boolean', () => {
+    const stmts = parse(`
+      if true do
+        set x to 1
+      end
+    `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(IfStatement)
+    const expStmt = stmts[0] as IfStatement
+    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
+    expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
+    const thenStmt = expStmt.thenBranch as BlockStatement
+    expect(thenStmt.statements).toBeArrayOfSize(1)
+    expect(thenStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
+    expect(expStmt.elseBranch).toBeNil()
+  })
   test('without else', () => {
     const stmts = parse(`
       if something is true do

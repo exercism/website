@@ -43,7 +43,6 @@ import type { Token, TokenType } from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
-import { get } from 'lodash'
 
 export class Parser {
   private readonly scanner: Scanner

@@ -57,14 +57,9 @@ export function execProjectTest(
   const { animations } = exercise
   const animationTimeline = buildAnimationTimeline(exercise, frames, animations)
 
-  const expects = generateExpects(
-    options.config.testsType,
-    evaluated,
-    testData,
-    {
-      exercise,
-    }
-  )
+  let expects = generateExpects(options.config.testsType, evaluated, testData, {
+    exercise,
+  })
 
   return {
     expects,

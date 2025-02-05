@@ -25,7 +25,8 @@ import {
   ReturnStatement,
   LogStatement,
 } from './statement'
-import { log } from 'xstate/lib/actions'
+import { describeIfStatement } from './describers/describeIfStatement'
+import { marked } from 'marked'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -67,6 +68,7 @@ export function describeFrame(
     if (!isFrameWithResult(frame)) {
       return '<p>There is no information available for this line.</p>'
     }
+    let description = ''
     switch (frame.result.type) {
       case 'SetVariableStatement':
         return describeSetVariableStatement(frame)
@@ -77,7 +79,8 @@ export function describeFrame(
       case 'IfStatement':
         return describeIfStatement(frame)
       case 'LogStatement':
-        return describeLogStatement(frame)
+        description = describeIfStatement(frame)
+        break
       case 'ReturnStatement':
         return describeReturnStatement(frame)
       case 'CallExpression':
@@ -85,6 +88,7 @@ export function describeFrame(
       default:
         return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
     }
+    return marked.parse(description)
   } catch (e) {
     return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
   }
@@ -240,35 +244,4 @@ function describeReturnStatement(frame: FrameWithResult) {
     return ''
   }
   return context.description(frame.result)
-}
-function describeCallExpression(
-  frame: FrameWithResult,
-  functionDescriptions: any
-) {
-  let output = `<p class="mb-8">This called the <code>${frame.result.callee.name}</code> function`
-  if (frame.result.args.length > 0) {
-    const argsValues = frame.result.args.map((arg) => arg.value).join(', ')
-    output += ` with the values (${argsValues})`
-  }
-  output += `.</p>`
-  const descriptionTemplate =
-    functionDescriptions[frame.result.callee.name] || ''
-  const argsValues = frame.result.args.map((arg) => arg.value)
-  const interpolatedDescription = descriptionTemplate.replace(
-    /\${arg(\d+)}/g,
-    (_, index) => argsValues[index - 1].toString() || ''
-  )
-  output += interpolatedDescription
-  return output
-}
-
-function isEqualityOperator(operator: string): boolean {
-  return [
-    'EQUALITY',
-    'INEQUALITY',
-    'GREATER',
-    'LESS',
-    'GREATER_EQUAL',
-    'LESS_EQUAL',
-  ].includes(operator)
 }

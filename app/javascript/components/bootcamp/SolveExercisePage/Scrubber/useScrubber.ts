@@ -140,6 +140,7 @@ export function useScrubber({
       const newValue = Number((event.target as HTMLInputElement).value)
       setValue(newValue)
 
+      if (frames.length === 0) return
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seek(newValue)

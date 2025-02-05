@@ -3,53 +3,48 @@ import { describeFrame } from '@/interpreter/frames'
 import { getNameFunction, assertHTML } from './helpers'
 
 test('literal', () => {
-  const { frames } = interpret('set my_name to "Jeremy"')
+  const { frames } = interpret('log "Jeremy"')
   const actual = describeFrame(frames[0], [])
   assertHTML(
     actual,
-    `<p>This created a new variable called <code>my_name</code> and set its value to <code>"Jeremy"</code>.</p>
+    `<p>This logged <code>"Jeremy"</code>.</p>
      <hr/>
      <h3>Steps Jiki Took</h3>
      <ul>
-      <li>Jiki created a new box called <code>my_name</code>.</li>
-      <li>Jiki put <code>"Jeremy"</code> in the box.</li>
+      <li>Jiki wrote <code>"Jeremy"</code> here for you!</li>
     </ul>`
   )
 })
 
 test('function', () => {
   const context = { externalFunctions: [getNameFunction] }
-  const { frames } = interpret('set my_name to get_name()', context)
+  const { frames } = interpret('log get_name()', context)
   const actual = describeFrame(frames[0], [])
   assertHTML(
     actual,
-    `<p>This created a new variable called<code>my_name</code>and set its value to <code>"Jeremy"</code>.</p>
+    `<p>This logged <code>"Jeremy"</code>.</p>
      <hr/>
      <h3>Steps Jiki Took</h3>
      <ul>
       <li>Jiki used the <code>get_name()</code> function which returned <code>"Jeremy"</code>.</li>
-      <li>Jiki created a new box called <code>my_name</code>.</li>
-      <li>Jiki put <code>"Jeremy"</code> in the box.</li>
-    </ul>
-    `
+      <li>Jiki wrote <code>"Jeremy"</code> here for you!</li>
+    </ul>`
   )
 })
 
 test('binary comparison', () => {
   const context = { externalFunctions: [getNameFunction] }
-  const { frames } = interpret('set a_bool to 5 > 3', context)
+  const { frames } = interpret('log 5 > 3', context)
   const actual = describeFrame(frames[0], [])
   assertHTML(
     actual,
-    `<p>This created a new variable called<code>a_bool</code>and set its value to <code>true</code>.</p>
-     <hr/>
-     <h3>Steps Jiki Took</h3>
-     <ul>
-       <li>Jiki evaluated <code>5 > 3</code> and determined it was <code>true</code>.</li>
-       <li>Jiki created a new box called <code>a_bool</code>.</li>
-       <li>Jiki put <code>true</code> in the box.</li>
-    </ul>
-    `
+    `<p>This logged <code>true</code>.</p>
+    <hr/>
+    <h3>Steps Jiki Took</h3>
+    <ul>
+      <li>Jiki evaluated <code>5 > 3</code> and determined it was <code>true</code>.</li>
+     <li>Jiki wrote <code>true</code> here for you!</li>
+   </ul>`
   )
 })
 

@@ -18,6 +18,23 @@ export function describeCallExpression(
   )}</code>)`
 }
 
+export function describeCallExpressionAsSteps(
+  expression: CallExpression,
+  result: EvaluationResultCallExpression
+) {
+  const fnName = result.callee.name
+
+  const args = ((args) => {
+    return args.map((arg) => arg.value).join(', ')
+  })(result.args)
+
+  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
+  const value = formatLiteral(result.value)
+  return [
+    `<li>Jiki used the <code>${fnDesc}</code> which returned <code>${value}</code>.</li>`,
+  ]
+}
+
 /*
 export function describeCallExpression(
   expression: CallExpression,

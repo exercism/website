@@ -28,6 +28,7 @@ import {
 import { describeIfStatement } from './describers/describeIfStatement'
 import { marked } from 'marked'
 import { describeSetVariableStatement } from './describers/describeSetStatement'
+import { describeLogStatement } from './describers/describeLogStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -78,8 +79,7 @@ export function describeFrame(
       case 'ChangeVariableStatement':
         return describeChangeVariableStatement(frame)
       case 'IfStatement':
-        description = describeIfStatement(frame)
-        break
+        return describeIfStatement(frame)
       case 'LogStatement':
         return describeLogStatement(frame)
       case 'ReturnStatement':
@@ -89,8 +89,7 @@ export function describeFrame(
       default:
         return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
     }
-    return marked.parse(description)
-    //} catch (e) {
+    // } catch (e) {
     //  return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
   } finally {
   }
@@ -212,11 +211,6 @@ function describeCondition(
   result: EvaluationResultIfStatement
 ): string {
   return describeExpression(expression, result.condition)
-}
-
-function describeLogStatement(frame: FrameWithResult) {
-  const logStatement = frame.context as LogStatement
-  return logStatement.description(frame.result)
 }
 
 function describeReturnStatement(frame: FrameWithResult) {

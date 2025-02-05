@@ -26,13 +26,14 @@ export default (options: TestRunnerOptions) => {
           let { expects } = result
 
           // make sure a test is only successful if all frames are successful
-          expects = expects.map((expect) => {
-            return {
-              ...expect,
-              pass:
-                expect.pass &&
-                frames.every((frame) => frame.status === 'SUCCESS'),
-            }
+          expects.push({
+            actual: 'running',
+            errorHtml: 'Your code has an error',
+            name: 'Code passes',
+            expected: true,
+            pass: frames.every((frame) => frame.status === 'SUCCESS'),
+            slug: 'code-passes',
+            testsType: 'state',
           })
 
           return { ...result, expects }

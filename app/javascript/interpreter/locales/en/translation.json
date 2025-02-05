@@ -107,7 +107,8 @@
       "ExpressionIsNull": "This didn't return a value, which has left Jiki very confused. Check your functions carefully to see what they return. Remember to use the scrubber.",
       "IndexIsZero": "When using indexes to look inside strings or lists, Jiki starts counting from 1, not 0.",
       "IndexOutOfBoundsInGet": "Jiki tried to access the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
-      "IndexOutOfBoundsInChange": "Jiki tried to change the element {{index}} in the {{dataType}}, but it only has {{length}} elements."
+      "IndexOutOfBoundsInChange": "Jiki tried to change the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
+      "MaxTotalExecutionTimeReached": "Your code took too long to run and we stopped it here to prevent it crashing your browser."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

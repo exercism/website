@@ -1065,6 +1065,21 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
+    if (this.time > this.languageFeatures.maxTotalExecutionTime) {
+      const location = new Location(
+        statement.location.line,
+        new Span(
+          statement.location.relative.begin,
+          statement.location.relative.begin + 1
+        ),
+        new Span(
+          statement.location.absolute.begin,
+          statement.location.absolute.begin + 1
+        )
+      )
+      this.error('MaxTotalExecutionTimeReached', location)
+    }
+
     // Store a clone of the values so that any changes do not affect this
     this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
 

@@ -160,7 +160,7 @@ export type EvaluationResultTemplateLiteralExpression = {
 export type EvaluationResultCallExpression = {
   type: 'CallExpression'
   value: any
-  callee: EvaluationResult
+  callee: EvaluationResultVariableExpression
   args: EvaluationResult[]
   data?: Record<string, any>
 }

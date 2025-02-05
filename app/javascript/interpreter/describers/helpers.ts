@@ -6,6 +6,17 @@ export function deepTrim(str: string): string {
     .trim()
 }
 
+export function appendFullStopIfAppropriate(html): string {
+  // If we're after a </p> or </ul> then this will already have
+  // been handled deeper in the code so just return the input
+  // If the string already ends with a full stop, return the input
+  if (deepTrim(html).match(/<\/(p|ul)>$/) || deepTrim(html).endsWith('.')) {
+    return html
+  }
+
+  return `${html}.`
+}
+
 export function describeOperator(operator: string): string {
   switch (operator) {
     case 'GREATER':

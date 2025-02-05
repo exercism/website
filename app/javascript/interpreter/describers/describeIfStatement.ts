@@ -17,15 +17,24 @@ import {
 import { FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
 import { IfStatement } from '../statement'
-import { deepTrim, describeOperator, isEqualityOperator } from './helpers'
+import { describeCallExpression } from './describeCallExpression'
+import { describeLiteralExpression } from './describeLiteralExpression'
+import {
+  appendFullStopIfAppropriate,
+  deepTrim,
+  describeOperator,
+  isEqualityOperator,
+} from './helpers'
 
 export function describeIfStatement(frame: FrameWithResult) {
   const ifStatement = frame.context as IfStatement
 
-  const conditionDescription = describeCondition(
+  let conditionDescription = describeCondition(
     ifStatement.condition,
     frame.result.condition
   )
+
+  conditionDescription = appendFullStopIfAppropriate(conditionDescription)
 
   return deepTrim(`
     <p>This checked whether ${conditionDescription}</p>
@@ -83,10 +92,6 @@ function describeGroupingExpression(
   return describeExpression(expression.inner, result.inner)
 }
 
-function describeLiteralExpression(expression, _) {
-  return `<code>${formatLiteral(expression.value)}</code>`
-}
-
 function describeVariableExpression(expression, _) {
   return expression.description()
 }
@@ -111,20 +116,6 @@ export function describeLogicalExpression(
     </ul>
     `
   }
-}
-
-export function describeCallExpression(
-  expression: CallExpression,
-  result: EvaluationResultCallExpression
-) {
-  const fnName = result.callee.name
-
-  const args = ((args) => {
-    return args.map((arg) => arg.value).join(', ')
-  })(result.args)
-
-  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
-  return `the value returned from <code>${fnDesc}</code>`
 }
 
 function describeExpression(

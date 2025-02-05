@@ -40,14 +40,6 @@ export class SetVariableStatement extends Statement {
   public children() {
     return [this.initializer]
   }
-
-  public description(result: EvaluationResultSetVariableStatement) {
-    return `<p>This created a new variable called <code>${
-      result.name
-    }</code> and sets its value to <code>${formatLiteral(
-      result.value
-    )}</code>.</p>`
-  }
 }
 
 export class ChangeVariableStatement extends Statement {

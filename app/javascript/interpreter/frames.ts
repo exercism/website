@@ -27,6 +27,7 @@ import {
 } from './statement'
 import { describeIfStatement } from './describers/describeIfStatement'
 import { marked } from 'marked'
+import { describeSetVariableStatement } from './describers/describeSetStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -102,14 +103,6 @@ function addExtraAssignInfo(frame: Frame, output: string) {
   }
 
   return output
-}
-
-function describeSetVariableStatement(frame: FrameWithResult) {
-  const context = frame.context as SetVariableStatement
-  if (context === undefined) {
-    return ''
-  }
-  return context.description(frame.result)
 }
 
 function describeChangeVariableStatement(frame: FrameWithResult): string {

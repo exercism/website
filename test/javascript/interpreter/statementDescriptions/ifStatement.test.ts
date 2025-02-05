@@ -1,23 +1,6 @@
 import { interpret } from '@/interpreter/interpreter'
-import { Location } from '@/interpreter/location'
-import { Span } from '@/interpreter/location'
 import { describeFrame } from '@/interpreter/frames'
-import { marked } from 'marked'
-
-const location = new Location(0, new Span(0, 0), new Span(0, 0))
-const assertHTML = (actual, markdown) => {
-  const tidy = (text) =>
-    text
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0)
-      .flat() // Remove nils
-      .join('\n')
-      .replaceAll(/>\s+/g, '>')
-      .replaceAll(/\s+</g, '<')
-
-  expect(tidy(actual)).toBe(tidy(markdown))
-}
+import { assertHTML } from './helpers'
 
 describe('literals', () => {
   test('if true', () => {
@@ -29,7 +12,7 @@ describe('literals', () => {
     assertHTML(
       actual,
       `
-      <p>This checked whether <code>true</code> was <code>true</code></p>
+      <p>This checked whether <code>true</code> was <code>true</code>.</p>
       <p>The result was <code>true</code>.</p>
     `
     )
@@ -43,7 +26,7 @@ describe('literals', () => {
     assertHTML(
       actual,
       `
-      <p>This checked whether <code>true</code> was <code>true</code></p>
+      <p>This checked whether <code>true</code> was <code>true</code>.</p>
       <p>The result was <code>true</code>.</p>
     `
     )
@@ -62,7 +45,7 @@ describe('function calls', () => {
     assertHTML(
       actual,
       `
-      <p>This checked whether the value returned from <code>ret_true()</code> was <code>true</code></p>
+      <p>This checked whether the value returned from <code>ret_true()</code> (<code>true</code>) was <code>true</code>.</p>
       <p>The result was <code>true</code>.</p>
     `
     )
@@ -79,7 +62,7 @@ describe('function calls', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether the value returned from <code>ret_true()</code> was <code>true</code></p>
+        <p>This checked whether the value returned from <code>ret_true()</code> (<code>true</code>) was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -96,7 +79,7 @@ describe('function calls', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether the value returned from <code>ret_true(1)</code> was <code>true</code></p>
+        <p>This checked whether the value returned from <code>ret_true(1)</code> (<code>true</code>) was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -113,7 +96,7 @@ describe('function calls', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether the value returned from <code>ret_true(true)</code> was <code>true</code></p>
+        <p>This checked whether the value returned from <code>ret_true(true)</code> (<code>true</code>) was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -129,7 +112,7 @@ describe('single binary expressions', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether <code>true</code> was <code>true</code></p>
+        <p>This checked whether <code>true</code> was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -143,7 +126,7 @@ describe('single binary expressions', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether <code>true</code> was <code>true</code></p>
+        <p>This checked whether <code>true</code> was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -160,7 +143,7 @@ describe('single binary expressions', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether the value returned from <code>ret_true()</code> was <code>true</code></p>
+        <p>This checked whether the value returned from <code>ret_true()</code> (<code>true</code>) was <code>true</code>.</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -177,7 +160,7 @@ describe('single binary expressions', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether <code>true</code> was equal to the value returned from <code>ret_true()</code></p>
+        <p>This checked whether <code>true</code> was equal to the value returned from <code>ret_true()</code> (<code>true</code>).</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -197,7 +180,7 @@ describe('single binary expressions', () => {
     assertHTML(
       actual,
       `
-        <p>This checked whether the value returned from <code>ret_true_1()</code> was equal to the value returned from <code>ret_true_2()</code></p>
+        <p>This checked whether the value returned from <code>ret_true_1()</code> (<code>true</code>) was equal to the value returned from <code>ret_true_2()</code> (<code>true</code>).</p>
         <p>The result was <code>true</code>.</p>
       `
     )
@@ -264,8 +247,8 @@ describe('single logical expressions', () => {
         <p>
           This checked whether both of these were true:
           <ul>
-            <li>the value returned from <code>foo(1, 2, 3)</code> was <code>true</code></li>
-            <li>the value returned from <code>bar()</code> was <code>true</code></li>
+            <li>the value returned from <code>foo(1, 2, 3)</code> (<code>true</code>) was <code>true</code></li>
+            <li>the value returned from <code>bar()</code> (<code>true</code>) was <code>true</code></li>
           </ul>
         </p>
         
@@ -291,8 +274,8 @@ describe('single logical expressions', () => {
         <p>
           This checked whether both of these were true:
           <ul>
-            <li>the value returned from <code>foo(1, 2, 3)</code> was <code>true</code></li>
-            <li>the value returned from <code>bar()</code> was <code>true</code></li>
+            <li>the value returned from <code>foo(1, 2, 3)</code> (<code>true</code>) was <code>true</code></li>
+            <li>the value returned from <code>bar()</code> (<code>true</code>) was <code>true</code></li>
           </ul>
         </p>
         <p>The result was <code>true</code>.</p>
@@ -368,11 +351,11 @@ describe('chained logical expressions', () => {
           <li>
             both of these were true:
             <ul>
-              <li>the value returned from<code>ret_true(1)</code> was <code>true</code></li>
-              <li>the value returned from<code>ret_true(2)</code> was <code>true</code></li>
+              <li>the value returned from<code>ret_true(1)</code> (<code>true</code>) was <code>true</code></li>
+              <li>the value returned from<code>ret_true(2)</code> (<code>true</code>) was <code>true</code></li>
             </ul>
           </li>
-          <li>the value returned from<code>ret_true(3)</code> was <code>true</code></li>
+          <li>the value returned from<code>ret_true(3)</code> (<code>true</code>) was <code>true</code></li>
         </ul>
       </p>
       <p>The result was <code>true</code>.</p>

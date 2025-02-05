@@ -1,6 +1,24 @@
 import { EvaluationResultCallExpression } from '../evaluation-result'
 import { CallExpression } from '../expression'
+import { formatLiteral } from '../helpers'
 
+export function describeCallExpression(
+  expression: CallExpression,
+  result: EvaluationResultCallExpression
+) {
+  const fnName = result.callee.name
+
+  const args = ((args) => {
+    return args.map((arg) => arg.value).join(', ')
+  })(result.args)
+
+  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
+  return `the value returned from <code>${fnDesc}</code> (<code>${formatLiteral(
+    result.value
+  )}</code>)`
+}
+
+/*
 export function describeCallExpression(
   expression: CallExpression,
   result: EvaluationResultCallExpression
@@ -11,7 +29,6 @@ export function describeCallExpression(
   return `\`${fnName}()\``
 }
 
-/*
 export function describeCallExpression(
   expression: CallExpression,
   result: EvaluationResultCallExpression,

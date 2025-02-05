@@ -301,7 +301,7 @@ export class Executor {
       }
       let value
       try {
-        value = this.evaluate(statement.initializer).value
+        value = this.evaluate(statement.initializer)
       } catch (e) {
         if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
           this.error(
@@ -324,7 +324,7 @@ export class Executor {
         )
       }
 
-      this.environment.define(statement.name.lexeme, value)
+      this.environment.define(statement.name.lexeme, value.value)
 
       return {
         type: 'SetVariableStatement',

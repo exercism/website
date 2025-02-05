@@ -111,24 +111,6 @@ describe('ReturnStatement', () => {
     expect(actual).toBe('<p>This returned <code>1</code>.</p>')
   })
 })
-const location = new Location(0, new Span(0, 0), new Span(0, 0))
-const assertMarkdown = (actual, markdown) => {
-  markdown = markdown
-    .split('\n')
-    .map((line) => line.trim())
-    .join('\n')
-  expect(actual).toBe(marked.parse(markdown))
-}
-
-describe.skip('SetVariableStatement', () => {
-  test('standard', () => {
-    const { frames } = interpret('set my_name to "Jeremy"')
-    const actual = describeFrame(frames[0], [])
-    expect(actual).toBe(
-      '<p>This created a new variable called <code>my_name</code> and sets its value to <code>"Jeremy"</code>.</p>'
-    )
-  })
-})
 
 describe.skip('ChangeVariableStatement', () => {
   test('standard', () => {

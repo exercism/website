@@ -85,8 +85,8 @@ move()
           })
 
         find("[data-ci='check-scenarios-button']").click
-        refute_selector(".c-scneario.fail")
-        refute_selector(".c-scneario.pending")
+        refute_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
         assert_selector(".test-button.pass")
         assert_selector(".c-scenario.pass")
       end
@@ -578,6 +578,60 @@ end))
         assert_selector ".information-tooltip.description"
         remove_editor_lines
         refute_selector ".information-tooltip.description"
+      end
+    end
+
+    test "stateful exercise only passes if all frames are successful" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+asdf()
+          })
+
+        check_scenarios
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
+        refute_selector(".test-button.pass")
+        refute_selector(".c-scenario.pass")
+        assert_text "Your code has an error in it."
+      end
+    end
+
+    test "io exercise only passes if all frames are successful" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :even_or_odd
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(
+          function even_or_odd with number do
+            if number % 2 equals 0 do
+              return "Even"
+            else do
+              return "Odd"
+            end
+          end
+          asdf()
+                  ))
+        check_scenarios
+
+        # make sure toggle button is visible
+        assert_selector(".c-scenario.fail")
+        refute_selector(".c-scenario.pending")
+        refute_selector(".test-button.pass")
+        refute_selector(".c-scenario.pass")
+        assert_text "Your code has an error in it."
       end
     end
   end

@@ -1,3 +1,4 @@
+import { DescriptionContext } from '@/interpreter/frames'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
 
@@ -31,6 +32,14 @@ export const getNameFunction = {
   },
   description: 'always returns the string Jeremy',
 }
+export const getNameWithArgsFunction = {
+  name: 'get_name',
+  func: (_: any, _2: any) => {
+    return 'Jeremy'
+  },
+  description: 'always returns the string Jeremy',
+}
+
 export const getTrueFunction = {
   name: 'get_true',
   func: (_interpreter: any) => {
@@ -44,4 +53,29 @@ export const getFalseFunction = {
     return false
   },
   description: '',
+}
+
+export const mehFunction = {
+  name: 'meh',
+  func: (_: any) => {},
+  description: 'is a little meh',
+}
+
+export const mehWithArgsFunction = {
+  name: 'meh',
+  func: (_: any, _2: any) => {},
+  description: 'is a little meh',
+}
+
+export const contextToDescriptionContext = (context): DescriptionContext => {
+  // Convert array into object with name as key
+  // and description as value
+  const funcs = context.externalFunctions.reduce((acc, fn) => {
+    acc[fn.name] = fn.description
+    return acc
+  }, {})
+
+  return {
+    functionDescriptions: funcs,
+  }
 }

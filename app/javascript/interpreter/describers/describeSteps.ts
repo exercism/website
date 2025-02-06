@@ -69,7 +69,7 @@ export function describeCallExpression(
     ? context.functionDescriptions[fnName] || ''
     : ''
 
-  if (result.value) {
+  if (result.value !== null && result.value !== undefined) {
     if (fnDesc) {
       fnDesc = `, which ${fnDesc}. It `
     } else {

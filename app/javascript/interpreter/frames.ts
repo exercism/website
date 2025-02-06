@@ -32,6 +32,7 @@ import { describeLogStatement } from './describers/describeLogStatement'
 import { deepTrim } from './describers/helpers'
 import { describeChangeVariableStatement } from './describers/describeChangeStatement'
 import { describeCallStatement } from './describers/describeCallStatement'
+import { describeReturnStatement } from './describers/describeReturnStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -116,8 +117,8 @@ function generateDescription(
 
     case 'CallStatement':
       return describeCallStatement(frame, context)
-    // case 'ReturnStatement':
-    //   return describeReturnStatement(frame)
+    case 'ReturnStatement':
+      return describeReturnStatement(frame, context)
 
     case 'IfStatement':
       return describeIfStatement(frame, context)

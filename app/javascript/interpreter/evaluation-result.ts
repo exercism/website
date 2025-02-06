@@ -21,7 +21,8 @@ export type EvaluationResultIfStatement = {
 
 export type EvaluationResultReturnStatement = {
   type: 'ReturnStatement'
-  value: any
+  expression?: EvaluationResult
+  value?: EvaluationResult
   data?: Record<string, any>
 }
 

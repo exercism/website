@@ -51,6 +51,7 @@ import type {
   EvaluationResultCallExpression,
   EvaluationResultCallStatement,
   EvaluationResultExpression,
+  EvaluationResultReturnStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -526,15 +527,21 @@ export class Executor {
   }
 
   public visitReturnStatement(statement: ReturnStatement): void {
-    const evaluationResult = this.executeFrame<EvaluationResult>(
+    const evaluationResult = this.executeFrame<EvaluationResultReturnStatement>(
       statement,
       () => {
+        if (statement.expression === null) {
+          return {
+            type: 'ReturnStatement',
+            value: undefined,
+          }
+        }
+
+        const value = this.evaluate(statement.expression)
         return {
           type: 'ReturnStatement',
-          value:
-            statement.value === null
-              ? undefined
-              : this.evaluate(statement.value),
+          expression: value,
+          value: value.value,
         }
       }
     )

@@ -192,13 +192,13 @@ export class FunctionStatement extends Statement {
 export class ReturnStatement extends Statement {
   constructor(
     public keyword: Token,
-    public value: Expression | null,
+    public expression: Expression | null,
     public location: Location
   ) {
     super('ReturnStatement')
   }
   public children() {
-    return [this.value].flat()
+    return [this.expression].flat()
   }
 }
 

@@ -39,7 +39,7 @@ test('function interpolation', () => {
   console.log(frames)
   const actual = describeFrame(frames[0], descContext)
   assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
-    `<li>Jiki used the <code>argy_fn(42, "foo")</code> function, which start 42 and "foo" end. It returned <code>"Jeremy"</code>.</li>`,
+    `<li>Jiki used the <code>argy_fn(42, "foo")</code> function, which start <code>42</code> and <code>"foo"</code> end. It returned <code>"Jeremy"</code>.</li>`,
     `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
   ])
 })

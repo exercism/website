@@ -200,7 +200,7 @@ export default class DrawExercise extends Exercise {
     y: number,
     width: number,
     height: number
-  ): Rectangle {
+  ): void {
     const [absX, absY, absWidth, absHeight] = [x, y, width, height].map((val) =>
       rToA(val)
     )
@@ -220,7 +220,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
-    return rect
+    // return rect
   }
 
   public circle(
@@ -228,7 +228,7 @@ export default class DrawExercise extends Exercise {
     x: number,
     y: number,
     radius: number
-  ): Circle {
+  ): void {
     const [absX, absY, absRadius] = [x, y, radius].map((val) => rToA(val))
 
     const elem = Shapes.circle(
@@ -245,7 +245,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)
-    return circle
+    // return circle
   }
 
   public ellipse(
@@ -254,7 +254,7 @@ export default class DrawExercise extends Exercise {
     y: number,
     rx: number,
     ry: number
-  ) {
+  ): void {
     const [absX, absY, absRx, absRy] = [x, y, rx, ry].map((val) => rToA(val))
 
     const elem = Shapes.ellipse(
@@ -272,7 +272,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(ellipse)
     this.visibleShapes.push(ellipse)
     this.animateElement(executionCtx, elem, absX, absY)
-    return ellipse
+    // return ellipse
   }
 
   public triangle(
@@ -310,7 +310,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(triangle)
     this.visibleShapes.push(triangle)
     this.animateElement(executionCtx, elem, absX1, absY1)
-    return triangle
+    // return triangle
   }
 
   public move(

@@ -13,13 +13,20 @@ export function describeCallExpression(
     .map((arg, idx) => describeExpression(arg, result.args[idx], context))
     .flat()
 
-  const args = ((args) => {
-    return args.map((arg) => arg.resultingValue).join(', ')
+  const argNames = ((args) => {
+    return args.map((arg) => formatLiteral(arg.resultingValue)).join(', ')
   })(result.args)
 
   const fnName = result.callee.name
-  const fnDesc = generateFunctionDescription(fnName, args, result, context)
-  const fnCallDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
+  const fnDesc = generateFunctionDescription(
+    result,
+    fnName,
+    argNames,
+    result,
+    context
+  )
+  const fnCallDesc =
+    argNames.length > 0 ? `${fnName}(${argNames})` : `${fnName}()`
 
   return [
     ...steps,
@@ -28,14 +35,22 @@ export function describeCallExpression(
 }
 
 function generateFunctionDescription(
+  restul: EvaluationResultCallExpression,
   fnName: string,
-  args: string,
+  argNames: string,
   result: any,
   context: DescriptionContext
 ) {
-  let fnDesc: string = context.functionDescriptions
+  const descriptionTemplate = context.functionDescriptions
     ? context.functionDescriptions[fnName] || ''
     : ''
+  const argsValues = result.args.map(
+    (arg) => `<code>${formatLiteral(arg.resultingValue)}</code>`
+  )
+  let fnDesc = descriptionTemplate.replace(
+    /\${arg(\d+)}/g,
+    (_, index) => argsValues[index - 1].toString() || ''
+  )
 
   if (result.resultingValue !== null && result.resultingValue !== undefined) {
     if (fnDesc) {

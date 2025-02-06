@@ -1,8 +1,18 @@
 import { interpret } from '@/interpreter/interpreter'
 import { describeFrame } from '@/interpreter/frames'
-import { getNameFunction, assertHTML } from './helpers'
+import {
+  getNameFunction,
+  assertHTML,
+  contextToDescriptionContext,
+} from './helpers'
 
 import { getTrueFunction, getFalseFunction } from './helpers'
+
+const argyFunction = {
+  name: 'argy_fn',
+  func: (_, _1, _2) => 'Jeremy',
+  description: 'start ${arg1} and ${arg2} end',
+}
 
 test('literal', () => {
   const { frames } = interpret('log "Jeremy"')
@@ -18,6 +28,18 @@ test('function', () => {
   const actual = describeFrame(frames[0], [])
   assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
     `<li>Jiki used the <code>get_name()</code> function, which returned <code>"Jeremy"</code>.</li>`,
+    `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
+  ])
+})
+
+test('function interpolation', () => {
+  const context = { externalFunctions: [argyFunction] }
+  const descContext = contextToDescriptionContext(context)
+  const { frames } = interpret('log argy_fn(42, "foo")', context)
+  console.log(frames)
+  const actual = describeFrame(frames[0], descContext)
+  assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
+    `<li>Jiki used the <code>argy_fn(42, "foo")</code> function, which start 42 and "foo" end. It returned <code>"Jeremy"</code>.</li>`,
     `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
   ])
 })

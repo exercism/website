@@ -55,7 +55,7 @@ function describeReturnWithValue(
   const frameContext = frame.context as ReturnStatement
   const frameResult = frame.result as EvaluationResultReturnStatement
 
-  const value = formatLiteral(frameResult.value)
+  const value = formatLiteral(frameResult.resultingValue)
   const result = `<p>This returned <code>${value}</code> and ended the function. No further code was run in the function.</p>`
 
   let steps = describeExpression(

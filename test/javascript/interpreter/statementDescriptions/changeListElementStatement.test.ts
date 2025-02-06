@@ -8,6 +8,7 @@ describe('variable list', () => {
     set my_list to [""]
     change my_list[1] to "Jeremy"
     `)
+    console.log(frames)
     const actual = describeFrame(frames[1])
     assertHTML(
       actual,
@@ -29,6 +30,7 @@ describe('variable list', () => {
     `,
       context
     )
+    console.log(frames)
     const actual = describeFrame(frames[1])
     assertHTML(
       actual,

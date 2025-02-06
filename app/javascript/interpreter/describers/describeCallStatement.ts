@@ -19,7 +19,7 @@ export function describeCallStatement(
   const fnName = expression.callee.name.lexeme
 
   const args = ((args) => {
-    return args.map((arg) => arg.value).join(', ')
+    return args.map((arg) => arg.resultingValue).join(', ')
   })(frameResult.expression.args)
 
   const argsDesc =
@@ -70,7 +70,7 @@ export function describeCallExpression(
   const argsValues = result.args.map((arg) => arg.value)
   const interpolatedDescription = descriptionTemplate.replace(
     /\${arg(\d+)}/g,
-    (_, index) => argsValues[index - 1].toString() || ''
+    (_, resultingValue) => argsValues[resultingValue - 1].toString() || ''
   )
   output += interpolatedDescription
   return output

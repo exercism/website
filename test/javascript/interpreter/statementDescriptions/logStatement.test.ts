@@ -53,7 +53,7 @@ test('nested functions', () => {
       end
       log ret_true(ret_true(true))
     `)
-  const actual = describeFrame(frames[2], [])
+  const actual = describeFrame(frames[2])
   assertHTML(actual, `<p>This logged<code>true</code>.</p>`, [
     `<li>Jiki used the<code>ret_true(true)</code>function, which returned<code>true</code>.</li>`,
     `<li>Jiki used the<code>ret_true(true)</code>function, which returned<code>true</code>.</li>`,

@@ -28,7 +28,7 @@ export function describeSetVariableStatement(
   const frameResult = frame.result as EvaluationResultSetVariableStatement
 
   const name = frameContext.name.lexeme
-  const value = formatLiteral(frameResult.value.value)
+  const value = formatLiteral(frameResult.resultingValue)
 
   const result = `<p> This created a new variable called <code>${name}</code> and set its value to <code>${value}</code>.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)

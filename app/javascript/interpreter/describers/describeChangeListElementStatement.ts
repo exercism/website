@@ -37,9 +37,9 @@ export function describeChangeListElementStatement(
   const frameResult = frame.result as EvaluationResultChangeListElementStatement
 
   const name = frameContext.list
-  const idx = frameResult.index
+  const idx = frameResult.resultingValue
   const oldValue = formatLiteral(frameResult.oldValue)
-  const value = formatLiteral(frameResult.value.value)
+  const value = formatLiteral(frameResult.resultingValue)
 
   let boxStep
   let listDescription
@@ -55,7 +55,7 @@ export function describeChangeListElementStatement(
 
   ;[boxStep].flat()
 
-  const ordinaledIndex = addOrdinalSuffix(idx)
+  const ordinaledIndex = addOrdinalSuffix(idx.resultingValue)
   const result = `<p>This changed the value in the ${ordinaledIndex} element of ${listDescription} to <code>${value}</code>.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)
   if (boxStep) {

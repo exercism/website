@@ -431,7 +431,7 @@ describe('if', () => {
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(IfStatement)
     const expStmt = stmts[0] as IfStatement
-    expect(expStmt.condition).toBeInstanceOf(BinaryExpression)
+    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
     expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
     const thenStmt = expStmt.thenBranch as BlockStatement
     expect(thenStmt.statements).toBeArrayOfSize(1)

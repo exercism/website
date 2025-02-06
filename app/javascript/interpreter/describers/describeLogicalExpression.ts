@@ -11,7 +11,7 @@ export function describeLogicalExpression(
   result: EvaluationResultLogicalExpression,
   context: DescriptionContext
 ) {
-  return result.right == null
+  return result.shortCircuited
     ? describeShortCircuitedExpression(expression, result, context)
     : describeFullExpression(expression, result, context)
 }
@@ -24,7 +24,7 @@ function describeShortCircuitedExpression(
   let steps = describeExpression(expression.left, result.left, context)
   steps = [
     ...steps,
-    `<li>Jiki saw the left side of the <code>${expression.operator.lexeme}</code> was <code>${result.left.value}</code> and so did not bother looking at the right side.</li>`,
+    `<li>Jiki saw the left side of the <code>${expression.operator.lexeme}</code> was <code>${result.left.resultingValue}</code> and so did not bother looking at the right side.</li>`,
   ]
   return steps
 }
@@ -40,7 +40,7 @@ function describeFullExpression(
   let inBetweenSteps: string[] = []
   if (expression.left.type === 'LiteralExpression') {
     inBetweenSteps.push(
-      `<li>Jiki saw the left side of the <code>${expression.operator.lexeme}</code> was <code>${result.left.value}</code> and so decided to evaluate the right side.</li>`
+      `<li>Jiki saw the left side of the <code>${expression.operator.lexeme}</code> was <code>${result.left.resultingValue}</code> and so decided to evaluate the right side.</li>`
     )
   }
 
@@ -48,7 +48,7 @@ function describeFullExpression(
     ...describeExpression(expression.left, result.left, context),
     ...inBetweenSteps,
     ...describeExpression(expression.right, result.right, context),
-    `<li>Jiki evaluated <code>${result.left.value} ${expression.operator.lexeme} ${result.right.value}</code> and determined the result was <code>${result.value}</code>.</li>`,
+    `<li>Jiki evaluated <code>${result.left.resultingValue} ${expression.operator.lexeme} ${result.right.resultingValue}</code> and determined the result was <code>${result.resultingValue}</code>.</li>`,
   ]
 }
 /*

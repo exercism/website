@@ -1,3 +1,4 @@
+import { EvaluationResultLogStatement } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
 import { LogStatement } from '../statement'
@@ -8,12 +9,13 @@ export function describeLogStatement(
   context: DescriptionContext
 ): Description {
   const logStatement = frame.context as LogStatement
-  const value = formatLiteral(frame.result.value.value)
+  const frameResult = frame.result as EvaluationResultLogStatement
+  const value = formatLiteral(frameResult.resultingValue)
 
   const result = `<p> This logged <code>${value}</code>.</p>`
   let steps = describeExpression(
     logStatement.expression,
-    frame.result.value,
+    frameResult.expression,
     context
   )
   steps = [...steps, `<li>Jiki wrote <code>${value}</code> here for you!</li>`]

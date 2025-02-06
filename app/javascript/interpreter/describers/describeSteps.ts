@@ -61,7 +61,7 @@ export function describeCallExpression(
   const fnName = result.callee.name
 
   const args = ((args) => {
-    return args.map((arg) => arg.value).join(', ')
+    return args.map((arg) => arg.resultingValue).join(', ')
   })(result.args)
 
   const fnCallDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
@@ -69,13 +69,13 @@ export function describeCallExpression(
     ? context.functionDescriptions[fnName] || ''
     : ''
 
-  if (result.value !== null && result.value !== undefined) {
+  if (result.resultingValue !== null && result.resultingValue !== undefined) {
     if (fnDesc) {
       fnDesc = `, which ${fnDesc}. It `
     } else {
       fnDesc = `, which `
     }
-    const value = formatLiteral(result.value)
+    const value = formatLiteral(result.resultingValue)
     fnDesc += `returned <code>${value}</code>`
   } else if (fnDesc) {
     fnDesc = `, which ${fnDesc}`
@@ -94,7 +94,7 @@ export function describeBinaryExpression(
   const leftSteps = describeExpression(expression.left, result.left, context)
   const rightSteps = describeExpression(expression.right, result.right, context)
 
-  const finalStep = `<li>Jiki evaluated <code>${result.left.value} ${expression.operator.lexeme} ${result.right.value}</code> and determined it was <code>${result.value}</code>.</li>`
+  const finalStep = `<li>Jiki evaluated <code>${result.left.resultingValue} ${expression.operator.lexeme} ${result.right.resultingValue}</code> and determined it was <code>${result.resultingValue}</code>.</li>`
   return [...leftSteps, ...rightSteps, finalStep]
 }
 

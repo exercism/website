@@ -49,7 +49,7 @@ export function describeIfStatement(
 }
 
 function describeFinalStep(result: EvaluationResultIfStatement) {
-  if (result.value == true) {
+  if (result.resultingValue == true) {
     return `<li>The result was <code>true</code> so Jiki decided to run the if block.</li>`
   } else {
     return `<li>The result was <code>false</code> so Jiki decided to skip the if block.</li>`
@@ -57,7 +57,7 @@ function describeFinalStep(result: EvaluationResultIfStatement) {
 }
 
 function describeResult(result: EvaluationResultIfStatement) {
-  if (result.value == true) {
+  if (result.resultingValue == true) {
     return `<p>The condition evaluated to <code>true</code> so the code block ran.</p>`
   } else {
     return `<p>The condition evaluated to <code>false</code> so the code block did not run.</p>`

@@ -1,52 +1,76 @@
+import { Callable } from './functions'
 import { ChangeListElementStatement } from './statement'
 import type { TokenType } from './token'
 
-export type EvaluationResultLogStatement = {
-  type: 'LogStatement'
-  value: any
+export type EvaluationResultCallStatement = {
+  type: 'CallStatement'
+  expression: EvaluationResultCallExpression
+  resultingValue: any
+  data?: Record<string, any>
 }
-export type EvaluationResultSetVariableStatement = {
-  type: 'SetVariableStatement'
-  value: any
+
+export type EvaluationResultChangeListElementStatement = {
+  type: 'ChangeListElementStatement'
+  list: EvaluationResult
+  index: EvaluationResult
+  value: EvaluationResult
+  oldValue: any
+  resultingValue: any
+  data?: Record<string, any>
+}
+
+export type EvaluationResultChangeVariableStatement = {
+  type: 'ChangeVariableStatement'
   name: string
-  data?: Record<string, any>
-}
-
-export type EvaluationResultIfStatement = {
-  type: 'IfStatement'
-  value: any
-  condition: EvaluationResult
-  data?: Record<string, any>
-}
-
-export type EvaluationResultReturnStatement = {
-  type: 'ReturnStatement'
-  expression?: EvaluationResult
-  value?: EvaluationResult
+  value: EvaluationResult
+  oldValue: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultForeachStatement = {
   type: 'ForeachStatement'
-  value?: any
   elementName: string
   iterable: EvaluationResult
+  temporaryVariableName?: any
+  temporaryVariablValue?: any
+  resultingValue?: any
   data?: Record<string, any>
 }
 
-export type EvaluationResultCallStatement = {
-  type: 'CallStatement'
-  value: any
-  expression: EvaluationResultCallExpression
+export type EvaluationResultIfStatement = {
+  type: 'IfStatement'
+  condition: EvaluationResult
+  resultingValue: any
+  data?: Record<string, any>
+}
+
+export type EvaluationResultLogStatement = {
+  type: 'LogStatement'
+  expression: EvaluationResult
+  resultingValue: any
+}
+
+export type EvaluationResultReturnStatement = {
+  type: 'ReturnStatement'
+  expression?: EvaluationResult
+  resultingValue?: any
+  data?: Record<string, any>
+}
+
+export type EvaluationResultSetVariableStatement = {
+  type: 'SetVariableStatement'
+  name: string
+  value: EvaluationResultExpression
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultLogicalExpression = {
   type: 'LogicalExpression'
-  value: any
+  resultingValue: any
   left: EvaluationResult
   right?: EvaluationResult
-  operator: Token
   shortCircuited: boolean
   data?: Record<string, any>
 }
@@ -56,67 +80,56 @@ export type EvaluationResultFullyEvaluatedLogicalExpression =
 
 export type EvaluationResultBinaryExpression = {
   type: 'BinaryExpression'
-  value: any
+  resultingValue: any
   left: EvaluationResult
   right: EvaluationResult
-  operator: TokenType
   data?: Record<string, any>
 }
 
 export type EvaluationResultUnaryExpression = {
   type: 'UnaryExpression'
-  value: any
+  resultingValue: any
   right: EvaluationResult
-  operator: TokenType
   data?: Record<string, any>
 }
 
 export type EvaluationResultGroupingExpression = {
   type: 'GroupingExpression'
-  value: any
+  resultingValue: any
   inner: EvaluationResult
   data?: Record<string, any>
 }
 
 export type EvaluationResultLiteralExpression = {
   type: 'LiteralExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
-export type EvaluationResultVariableExpression = {
-  type: 'VariableExpression'
-  value: any
+export type EvaluationResultVariableLookupExpression = {
+  type: 'VariableLookupExpression'
   name: string
+  resultingValue: any
+  data?: Record<string, any>
+}
+export type EvaluationResultFunctionLookupExpression = {
+  type: 'FunctionLookupExpression'
+  name: string
+  function: Callable
+  resultingValue?: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultConstantStatement = {
   type: 'ConstantStatement'
-  value: any
+  resultingValue: any
   name: string
-  data?: Record<string, any>
-}
-
-export type EvaluationResultChangeVariableStatement = {
-  type: 'ChangeVariableStatement'
-  name: string
-  oldValue: any
-  value: any
-  data?: Record<string, any>
-}
-
-export type EvaluationResultChangeListElementStatement = {
-  type: 'ChangeListElementStatement'
-  index: number
-  oldValue: any
-  value: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultGetExpression = {
   type: 'GetExpression'
-  value: any
+  resultingValue: any
   obj: any
   field: any
   expression: string
@@ -125,7 +138,7 @@ export type EvaluationResultGetExpression = {
 
 export type EvaluationResultSetExpression = {
   type: 'SetExpression'
-  value: any
+  resultingValue: any
   obj: any
   field: any
   expression: string
@@ -134,38 +147,38 @@ export type EvaluationResultSetExpression = {
 
 export type EvaluationResultListExpression = {
   type: 'ListExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultDictionaryExpression = {
   type: 'DictionaryExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultTemplateTextExpression = {
   type: 'TemplateTextExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultTemplatePlaceholderExpression = {
   type: 'TemplatePlaceholderExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultTemplateLiteralExpression = {
   type: 'TemplateLiteralExpression'
-  value: any
+  resultingValue: any
   data?: Record<string, any>
 }
 
 export type EvaluationResultCallExpression = {
   type: 'CallExpression'
-  value: any
-  callee: EvaluationResultVariableExpression
+  resultingValue: any
+  callee: EvaluationResultVariableLookupExpression
   args: EvaluationResult[]
   data?: Record<string, any>
 }
@@ -189,7 +202,7 @@ export type EvaluationResultExpression =
   | EvaluationResultLiteralExpression
   | EvaluationResultListExpression
   | EvaluationResultDictionaryExpression
-  | EvaluationResultVariableExpression
+  | EvaluationResultVariableLookupExpression
   | EvaluationResultCallExpression
   | EvaluationResultLogicalExpression
   | EvaluationResultBinaryExpression

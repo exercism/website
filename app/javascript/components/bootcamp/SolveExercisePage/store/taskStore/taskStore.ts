@@ -5,6 +5,7 @@ import { handleMarkTaskAsCompleted } from './handleMarkTaskAsCompleted'
 const useTaskStore = createStoreWithMiddlewares<TaskStore>(
   (set) => ({
     tasks: null,
+    bonusTasks: null,
     numberOfTasks: 0,
     numberOfCompletedTasks: 0,
     wasFinishLessonModalShown: false,
@@ -35,7 +36,8 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
       const taskData = getInitialTasks(tasks, testResults)
       set(
         {
-          tasks: taskData.tasks as Task[],
+          tasks: taskData.tasks.filter((t) => !t.bonus) as Task[],
+          bonusTasks: taskData.tasks.filter((t) => t.bonus) as Task[],
           numberOfTasks: taskData.numberOfTasks,
           numberOfCompletedTasks: taskData.numberOfCompletedTasks,
           areAllTasksCompleted: taskData.areAllTasksCompleted,
@@ -56,6 +58,7 @@ export default useTaskStore
 
 export type TaskStore = {
   tasks: Task[] | null
+  bonusTasks: Task[] | null
   initializeTasks: (
     tasks: Omit<Task, 'status'>[] | null,
     testResults: TestSuiteResult<PreviousTestResult> | null

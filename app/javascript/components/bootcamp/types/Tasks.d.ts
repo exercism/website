@@ -5,6 +5,7 @@ declare type Task = {
   projectType?: string
   testsType: TestsType
   tests: TaskTest[]
+  bonus?: boolean
 }
 
 type TestsType = 'io' | 'state'

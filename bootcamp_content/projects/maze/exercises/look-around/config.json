@@ -279,7 +279,13 @@
               "error_html": "You didn't reach the end of the maze."
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Bonus challenges",
+      "bonus": true,
+      "tests": [
         {
           "slug": "bonus-1",
           "name": "You used `look` only once.",

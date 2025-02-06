@@ -335,18 +335,17 @@ export default class SpaceInvadersExercise extends Exercise {
     {
       name: 'is_alien_above',
       func: this.isAlienAbove.bind(this),
-      description:
-        'Returns a boolean indicating if there is an alien above the laser canon',
+      description: 'determined if ther was an alien above the laser canon',
     },
     {
       name: 'get_starting_aliens_in_row',
       func: this.getStartingAliensInRow.bind(this),
-      description: 'Returns the starting row of aliens at the index you input.',
+      description: 'retrieved the starting positions of row ${arg1} of aliens',
     },
     {
       name: 'fire_fireworks',
       func: this.fireFireworks.bind(this),
-      description: 'Fires celebratory fireworks',
+      description: 'fired off celebratory fireworks',
     },
   ]
 }

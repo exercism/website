@@ -27,9 +27,9 @@ export abstract class Exercise {
     interpreterResult: InterpretResult,
     fnName: string
   ) {
-    return interpreterResult.callExpressions.filter(
-      (expr) => expr.callee.name.lexeme == fnName
-    ).length
+    return interpreterResult.getters
+      .getCallExpressions()
+      .filter((expr) => expr.callee.name.lexeme == fnName).length
   }
 
   public wasFunctionUsed(
@@ -39,7 +39,7 @@ export abstract class Exercise {
     times?: number
   ): boolean {
     let timesCalled
-    const fnCalls = result.functionCallLog
+    const fnCalls = result.getters.getFunctionCallLog()
 
     if (fnCalls[name] === undefined) {
       timesCalled = 0
@@ -61,6 +61,14 @@ export abstract class Exercise {
 
   public addAnimation(animation: Animation) {
     this.animations.push(animation)
+  }
+
+  public didFunctionOccurNTimes(
+    result: InterpretResult,
+    fnName: string,
+    times: number
+  ): boolean {
+    return result.getters.getFunctionOccurenceInCode(fnName) === times
   }
 
   protected createView() {

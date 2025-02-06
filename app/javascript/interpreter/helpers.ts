@@ -38,3 +38,8 @@ export function extractCallExpressions(
     })
     .flat()
 }
+
+export function extractFunctionOccurenceInCode(code: string, fnName: string) {
+  const regex = new RegExp(`\\b${fnName}\\b`, 'g')
+  return (code.match(regex) || []).length
+}

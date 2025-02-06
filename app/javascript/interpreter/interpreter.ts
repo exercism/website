@@ -57,8 +57,11 @@ export type EvaluateFunctionResult = {
 export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
-  functionCallLog: Record<string, Record<any, number>>
-  callExpressions: CallExpression[]
+  getters: {
+    getFunctionCallLog: () => Record<string, Record<any, number>>
+    getCallExpressions: () => CallExpression[]
+    getFunctionOccurenceInCode: (string) => number
+  }
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {

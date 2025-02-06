@@ -61,6 +61,7 @@ export type InterpretResult = {
     getFunctionCallLog: () => Record<string, Record<any, number>>
     getCallExpressions: () => CallExpression[]
     getFunctionOccurenceInCode: (string) => number
+    getSourceCode: () => string
   }
 }
 

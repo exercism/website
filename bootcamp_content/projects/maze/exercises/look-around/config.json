@@ -288,26 +288,58 @@
               "setupGrid",
               [
                 [
-                  [3, 1, 0, 0, 2, 1, 1, 1, 1],
-                  [0, 1, 0, 1, 0, 1, 1, 1, 1],
-                  [0, 1, 0, 1, 0, 0, 0, 0, 1],
-                  [0, 0, 0, 1, 0, 1, 4, 1, 1],
-                  [0, 1, 4, 1, 0, 1, 4, 1, 1],
-                  [5, 0, 0, 1, 0, 1, 4, 1, 1],
-                  [1, 4, 1, 1, 0, 4, 4, 1, 1],
-                  [1, 4, 4, 4, 0, 1, 1, 1, 1],
-                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                  [4, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 0, 1],
+                  [0, 1, 0, 0, 0, 0, 1, 0, 1],
+                  [0, 1, 0, 1, 1, 3, 1, 0, 1],
+                  [0, 5, 0, 1, 1, 1, 1, 0, 1],
+                  [0, 1, 0, 0, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 5, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 2]
                 ]
               ]
             ],
-            ["setupDirection", ["down"]],
-            ["setupPosition", [4, 0]]
+            ["setupDirection", ["left"]],
+            ["setupPosition", [8, 8]]
           ],
           "checks": [
             {
               "name": "didFunctionOccurNTimes('look', 1)",
               "value": true,
               "error_html": "You used look more than once."
+            }
+          ]
+        },
+        {
+          "slug": "bonus-2",
+          "name": "You added no more than 13 new lines of code.",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [4, 0, 0, 0, 0, 0, 0, 0, 4],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 5, 0, 0, 0, 0, 0, 5, 1],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 0, 0, 1, 1, 1],
+                  [1, 1, 1, 1, 2, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 8]]
+          ],
+          "checks": [
+            {
+              "name": "getLineCountDiff(18)",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 13,
+              "error_html": "You added more than 13 lines of code. (%actual%)"
             }
           ]
         }

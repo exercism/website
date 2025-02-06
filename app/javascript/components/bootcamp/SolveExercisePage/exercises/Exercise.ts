@@ -71,6 +71,15 @@ export abstract class Exercise {
     return result.getters.getFunctionOccurenceInCode(fnName) === times
   }
 
+  public getLineCountDiff(result: InterpretResult, stubLines: number): number {
+    const lines = result.getters
+      .getSourceCode()
+      .split('\n')
+      .filter((l) => l.trim() !== '' && !l.startsWith('//'))
+
+    return lines.length - stubLines
+  }
+
   protected createView() {
     const cssClass = `exercise-${this.slug}`
     this.view = document.createElement('div')

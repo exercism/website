@@ -195,6 +195,7 @@ export class Executor {
           null,
           this.sourceCode
         ),
+        getSourceCode: () => this.sourceCode,
       },
     }
   }

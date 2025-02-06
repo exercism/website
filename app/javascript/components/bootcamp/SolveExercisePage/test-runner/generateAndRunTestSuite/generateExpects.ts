@@ -21,7 +21,6 @@ function generateExpectsForIoTests(testData: TaskTest, actual: any) {
   const matcher = testData.matcher || 'toEqual'
 
   return [
-    // for now let's always include a label
     expect({
       actual,
       testsType: 'io',

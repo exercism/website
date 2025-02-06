@@ -3,6 +3,7 @@ import {
   EvaluationResultBinaryExpression,
   EvaluationResultCallExpression,
   EvaluationResultGroupingExpression,
+  EvaluationResultIfStatement,
   EvaluationResultLogicalExpression,
 } from '../evaluation-result'
 import {
@@ -14,11 +15,12 @@ import {
   LogicalExpression,
   VariableLookupExpression,
 } from '../expression'
-import { FrameWithResult } from '../frames'
+import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
-import { IfStatement } from '../statement'
-import { describeCallExpression } from './describeCallExpression'
+import { IfStatement, LogStatement } from '../statement'
+import { describeCallExpression } from './describeCallStatement'
 import { describeLiteralExpression } from './describeLiteralExpression'
+import { describeExpression, describeSteps } from './describeSteps'
 import {
   appendFullStopIfAppropriate,
   deepTrim,
@@ -26,6 +28,43 @@ import {
   isEqualityOperator,
 } from './helpers'
 
+export function describeIfStatement(
+  frame: FrameWithResult,
+  context: DescriptionContext
+): Description {
+  const ifStatement = frame.context as IfStatement
+  const result = frame.result as EvaluationResultIfStatement
+
+  let steps = describeExpression(
+    ifStatement.condition,
+    result.condition,
+    context
+  )
+  steps = [...steps, describeFinalStep(result)]
+
+  return {
+    result: describeResult(result),
+    steps,
+  }
+}
+
+function describeFinalStep(result: EvaluationResultIfStatement) {
+  if (result.value == true) {
+    return `<li>The result was <code>true</code> so Jiki decided to run the if block.</li>`
+  } else {
+    return `<li>The result was <code>false</code> so Jiki decided to skip the if block.</li>`
+  }
+}
+
+function describeResult(result: EvaluationResultIfStatement) {
+  if (result.value == true) {
+    return `<p>The condition evaluated to <code>true</code> so the code block ran.</p>`
+  } else {
+    return `<p>The condition evaluated to <code>false</code> so the code block did not run.</p>`
+  }
+}
+
+/*
 export function describeIfStatement(frame: FrameWithResult) {
   const ifStatement = frame.context as IfStatement
 
@@ -142,3 +181,4 @@ function describeExpression(
   }
   throw new Error(`Unhandled expression type: ${expression.type}`)
 }
+*/

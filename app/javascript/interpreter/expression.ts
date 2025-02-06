@@ -57,15 +57,6 @@ export class CallExpression extends Expression {
   public children() {
     return ([this.callee] as Expression[]).concat(this.args)
   }
-
-  public description(result?: EvaluationResultCallExpression): string {
-    const argsDescription = '()'
-    let desc = `<code>${this.callee.name.lexeme}${argsDescription}</code>`
-    if (result) {
-      desc += ` (which returned <code>${formatLiteral(result.value)}</code>)`
-    }
-    return desc
-  }
 }
 
 export class ListExpression extends Expression {

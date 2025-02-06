@@ -27,9 +27,11 @@ import {
 } from './statement'
 import { describeIfStatement } from './describers/describeIfStatement'
 import { marked } from 'marked'
-import { describeSetVariableStatement } from './describers/describeSetStatement'
+import { describeSetVariableStatement } from './describers/describeSetVariableStatement'
 import { describeLogStatement } from './describers/describeLogStatement'
 import { deepTrim } from './describers/helpers'
+import { describeChangeVariableStatement } from './describers/describeChangeStatement'
+import { describeCallStatement } from './describers/describeCallStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -54,20 +56,30 @@ export type Description = {
   steps: String[]
 }
 
+export type DescriptionContext = {
+  functionDescriptions: Record<string, string>
+}
+
 function isFrameWithResult(frame: Frame): frame is FrameWithResult {
   return !!frame.result
 }
 
 const defaultMessage = `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
 
-export function describeFrame(frame: Frame, functionDescription: []): string {
+export function describeFrame(
+  frame: Frame,
+  context?: DescriptionContext
+): string {
   if (!isFrameWithResult(frame)) {
     return defaultMessage
+  }
+  if (context == null) {
+    context = { functionDescriptions: {} }
   }
 
   let description: Description | null = null
   try {
-    description = generateDescription(frame)
+    description = generateDescription(frame, context)
   } catch (e) {
     if (process.env.NODE_ENV != 'production') {
       throw e
@@ -89,28 +101,32 @@ export function describeFrame(frame: Frame, functionDescription: []): string {
   `)
 }
 
-function generateDescription(frame: FrameWithResult): Description | null {
+function generateDescription(
+  frame: FrameWithResult,
+  context: DescriptionContext
+): Description | null {
   switch (frame.result.type) {
     case 'LogStatement':
-      return describeLogStatement(frame)
+      return describeLogStatement(frame, context)
 
     case 'SetVariableStatement':
-      return describeSetVariableStatement(frame)
+      return describeSetVariableStatement(frame, context)
+    case 'ChangeVariableStatement':
+      return describeChangeVariableStatement(frame, context)
+
+    case 'CallStatement':
+      return describeCallStatement(frame, context)
+    // case 'ReturnStatement':
+    //   return describeReturnStatement(frame)
 
     case 'IfStatement':
-      return describeIfStatement(frame)
+      return describeIfStatement(frame, context)
   }
   return null
 }
 /*
       // case 'ForeachStatement':
       //   return describeForeachStatement(frame)
-      // case 'ChangeVariableStatement':
-      //   return describeChangeVariableStatement(frame)
-      // case 'ReturnStatement':
-      //   return describeReturnStatement(frame)
-      // case 'CallExpression':
-      //   return describeCallExpression(frame, functionDescriptions)
       // default:
     // } catch (e) {
     //  return `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`

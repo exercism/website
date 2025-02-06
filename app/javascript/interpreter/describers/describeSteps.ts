@@ -1,8 +1,9 @@
-import { string } from 'prop-types'
+import { func, string } from 'prop-types'
 import {
   EvaluationResult,
   EvaluationResultBinaryExpression,
   EvaluationResultCallExpression,
+  EvaluationResultGroupingExpression,
   EvaluationResultLogicalExpression,
 } from '../evaluation-result'
 import {
@@ -15,24 +16,26 @@ import {
   CallExpression,
 } from '../expression'
 import { formatLiteral } from '../helpers'
-import { describeLogicalExpression } from './steps/describeLogicalExpression'
-
-export function describeSteps(
-  expression: Expression,
-  result: EvaluationResult
-): String[] {
-  return describeExpression(expression, result)
-}
+import { describeLogicalExpression } from './describeLogicalExpression'
+import { DescriptionContext } from '../frames'
+import { fn } from 'jquery'
 
 export function describeExpression(
   expression: Expression,
-  result: EvaluationResult
+  result: EvaluationResult,
+  context: DescriptionContext
 ): String[] {
   if (expression instanceof BinaryExpression) {
-    return describeBinaryExpression(expression, result)
+    return describeBinaryExpression(expression, result, context)
   }
   if (expression instanceof LogicalExpression) {
-    return describeLogicalExpression(expression, result)
+    return describeLogicalExpression(expression, result, context)
+  }
+  if (expression instanceof GroupingExpression) {
+    return describeGroupingExpression(expression, result, context)
+  }
+  if (expression instanceof CallExpression) {
+    return describeCallExpression(expression, result, context)
   }
 
   /*if (expression instanceof VariableLookupExpression) {
@@ -41,42 +44,64 @@ export function describeExpression(
   if (expression instanceof LiteralExpression) {
     return describeLiteralExpression(expression, result)
   }
-  if (expression instanceof GroupingExpression) {
-    return describeGroupingExpression(expression, result)
-  }
   if (expression instanceof BinaryExpression) {
     return describeBinaryExpression(expression, result)
   }*/
-  if (expression instanceof CallExpression) {
-    return describeCallExpression(expression, result)
-  }
   return []
 }
 
 export function describeCallExpression(
   expression: CallExpression,
-  result: EvaluationResultCallExpression
+  result: EvaluationResultCallExpression,
+  context: DescriptionContext
 ) {
+  let steps = expression.args
+    .map((arg, idx) => describeExpression(arg, result.args[idx], context))
+    .flat()
   const fnName = result.callee.name
 
   const args = ((args) => {
     return args.map((arg) => arg.value).join(', ')
   })(result.args)
 
-  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
-  const value = formatLiteral(result.value)
+  const fnCallDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
+  let fnDesc: string = context.functionDescriptions
+    ? context.functionDescriptions[fnName] || ''
+    : ''
+
+  if (result.value) {
+    if (fnDesc) {
+      fnDesc = `, which ${fnDesc}. It `
+    } else {
+      fnDesc = `, which `
+    }
+    const value = formatLiteral(result.value)
+    fnDesc += `returned <code>${value}</code>`
+  } else if (fnDesc) {
+    fnDesc = `, which ${fnDesc}`
+  }
   return [
-    `<li>Jiki used the <code>${fnDesc}</code> function, which returned <code>${value}</code>.</li>`,
+    ...steps,
+    `<li>Jiki used the <code>${fnCallDesc}</code> function${fnDesc}.</li>`,
   ]
 }
 
 export function describeBinaryExpression(
   expression: BinaryExpression,
-  result: EvaluationResultBinaryExpression
+  result: EvaluationResultBinaryExpression,
+  context: DescriptionContext
 ) {
-  const leftSteps = describeExpression(expression.left, result.left)
-  const rightSteps = describeExpression(expression.right, result.right)
+  const leftSteps = describeExpression(expression.left, result.left, context)
+  const rightSteps = describeExpression(expression.right, result.right, context)
 
   const finalStep = `<li>Jiki evaluated <code>${result.left.value} ${expression.operator.lexeme} ${result.right.value}</code> and determined it was <code>${result.value}</code>.</li>`
   return [...leftSteps, ...rightSteps, finalStep]
+}
+
+export function describeGroupingExpression(
+  expression: GroupingExpression,
+  result: EvaluationResultGroupingExpression,
+  context: DescriptionContext
+) {
+  return describeExpression(expression.inner, result.inner, context)
 }

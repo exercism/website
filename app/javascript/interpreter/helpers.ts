@@ -12,13 +12,7 @@ export function formatLiteral(value?: any): string {
     return ''
   }
 
-  if (typeof value === 'string') {
-    return `"${value}"`
-  }
-  if (isArray(value)) {
-    return `[${value.map(formatLiteral).join(', ')}]`
-  }
-  return value.toString()
+  return JSON.stringify(value)
 }
 
 export function extractCallExpressions(

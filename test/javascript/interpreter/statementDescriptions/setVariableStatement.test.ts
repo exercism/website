@@ -23,7 +23,7 @@ test('function', () => {
     actual,
     `<p>This created a new variable called<code>my_name</code>and set its value to <code>"Jeremy"</code>.</p>`,
     [
-      `<li>Jiki used the <code>get_name()</code> function which returned <code>"Jeremy"</code>.</li>`,
+      `<li>Jiki used the <code>get_name()</code> function, which returned <code>"Jeremy"</code>.</li>`,
       `<li>Jiki created a new box called <code>my_name</code>.</li>`,
       `<li>Jiki put <code>"Jeremy"</code> in the box.</li>`,
     ]

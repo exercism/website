@@ -150,8 +150,8 @@ describe('lists', () => {
     expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
     expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
     const varStmtWithGet = stmts[1] as SetVariableStatement
-    expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-    const getExpr = varStmtWithGet.initializer as GetExpression
+    expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
+    const getExpr = varStmtWithGet.value as GetExpression
     expect((getExpr.field as LiteralExpression).value).toBe(2)
     expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
     expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe('scores')
@@ -175,8 +175,8 @@ describe('lists', () => {
 
     expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
     const varStmtWithGet = stmts[1] as SetVariableStatement
-    expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-    const getExpr = varStmtWithGet.initializer as GetExpression
+    expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
+    const getExpr = varStmtWithGet.value as GetExpression
     expect((getExpr.field as LiteralExpression).value).toBe(0)
     expect(getExpr.obj).toBeInstanceOf(GetExpression)
     const nestedGetExpr = getExpr.obj as GetExpression

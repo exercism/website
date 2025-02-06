@@ -48,6 +48,8 @@ import {
 import type { Token } from './token'
 import type {
   EvaluationResult,
+  EvaluationResultCallExpression,
+  EvaluationResultCallStatement,
   EvaluationResultExpression,
 } from './evaluation-result'
 import { translate } from './translator'
@@ -276,14 +278,20 @@ export class Executor {
 
   public visitCallStatement(statement: CallStatement): void {
     this.executeFrame(statement, () => {
-      const result = this.visitCallExpression(statement.expression)
+      const result = this.visitCallExpression(
+        statement.expression
+      ) as EvaluationResultCallExpression
 
       if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
           name: statement.expression.name.lexeme,
         })
 
-      return result
+      return {
+        type: 'CallStatement',
+        value: result.value,
+        expression: result,
+      }
     })
   }
 
@@ -301,13 +309,10 @@ export class Executor {
       }
       let value
       try {
-        value = this.evaluate(statement.initializer)
+        value = this.evaluate(statement.value)
       } catch (e) {
         if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
-          this.error(
-            'CannotStoreNullFromFunction',
-            statement.initializer.location
-          )
+          this.error('CannotStoreNullFromFunction', statement.value.location)
         } else {
           throw e
         }
@@ -316,10 +321,9 @@ export class Executor {
       if (isCallable(value)) {
         this.error(
           'MissingParenthesesForFunctionCall',
-          statement.initializer.location,
+          statement.value.location,
           {
-            name: (statement.initializer as VariableLookupExpression).name
-              .lexeme,
+            name: (statement.value as VariableLookupExpression).name.lexeme,
           }
         )
       }
@@ -1065,21 +1069,6 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
-    if (this.time > this.languageFeatures.maxTotalExecutionTime) {
-      const location = new Location(
-        statement.location.line,
-        new Span(
-          statement.location.relative.begin,
-          statement.location.relative.begin + 1
-        ),
-        new Span(
-          statement.location.absolute.begin,
-          statement.location.absolute.begin + 1
-        )
-      )
-      this.error('MaxTotalExecutionTimeReached', location)
-    }
-
     // Store a clone of the values so that any changes do not affect this
     this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
 
@@ -1219,7 +1208,14 @@ export class Executor {
       description: '',
       context: context,
     }
-    frame.description = describeFrame(frame, this.externalFunctions)
+    const descriptionContext = {
+      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
+        acc[fn.name] = fn.description
+        return acc
+      }, {}),
+    }
+
+    frame.description = describeFrame(frame, descriptionContext)
 
     this.frames.push(frame)
 

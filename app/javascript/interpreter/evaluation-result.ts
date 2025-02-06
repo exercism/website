@@ -36,7 +36,7 @@ export type EvaluationResultForeachStatement = {
 export type EvaluationResultCallStatement = {
   type: 'CallStatement'
   value: any
-  expression: EvaluationResult
+  expression: EvaluationResultCallExpression
   data?: Record<string, any>
 }
 

@@ -1,0 +1,42 @@
+import { interpret } from '@/interpreter/interpreter'
+import { describeFrame } from '@/interpreter/frames'
+import { getNameFunction, assertHTML } from './helpers'
+
+test('literal', () => {
+  const { frames } = interpret(`
+    set my_name to ""
+    change my_name to "Jeremy"
+    `)
+  const actual = describeFrame(frames[1], [])
+  assertHTML(
+    actual,
+    `<p>This created a new variable called <code>my_name</code> and set its value to <code>"Jeremy"</code>.</p>`,
+    [
+      `<li>Jiki found the<code>my_name</code>box.</li>`,
+      `<li>Jiki remove the existing contents (<code>""</code>) from the box.</li>`,
+      `<li>Jiki put <code>"Jeremy"</code> in the box.</li>`,
+    ]
+  )
+})
+
+test('function', () => {
+  const context = { externalFunctions: [getNameFunction] }
+  const { frames } = interpret(
+    `
+    set my_name to "foo"
+    change my_name to get_name()
+    `,
+    context
+  )
+  const actual = describeFrame(frames[1], [])
+  assertHTML(
+    actual,
+    `<p>This created a new variable called<code>my_name</code>and set its value to <code>"Jeremy"</code>.</p>`,
+    [
+      `<li>Jiki used the<code>get_name()</code>function, which returned<code>\"Jeremy\"</code>.</li>`,
+      `<li>Jiki found the<code>my_name</code>box.</li>`,
+      `<li>Jiki remove the existing contents (<code>"foo"</code>) from the box.</li>`,
+      `<li>Jiki put <code>"Jeremy"</code> in the box.</li>`,
+    ]
+  )
+})

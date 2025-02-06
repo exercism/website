@@ -29,7 +29,7 @@ export const getNameFunction = {
   func: (_interpreter: any) => {
     return 'Jeremy'
   },
-  description: '',
+  description: 'always returns the string Jeremy',
 }
 export const getTrueFunction = {
   name: 'get_true',

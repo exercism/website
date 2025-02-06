@@ -1,38 +1,41 @@
-import { EvaluationResultCallExpression } from '../evaluation-result'
+import {
+  EvaluationResultCallExpression,
+  EvaluationResultCallStatement,
+} from '../evaluation-result'
 import { CallExpression } from '../expression'
+import { DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
+import { CallStatement } from '../statement'
+import { describeExpression, describeSteps } from './describeSteps'
 
-export function describeCallExpression(
-  expression: CallExpression,
-  result: EvaluationResultCallExpression
+export function describeCallStatement(
+  frame: FrameWithResult,
+  context: DescriptionContext
 ) {
-  const fnName = result.callee.name
+  const frameContext = frame.context as CallStatement
+  const frameResult = frame.result as EvaluationResultCallStatement
+  const expression = frameContext.expression as CallExpression
+
+  const fnName = expression.callee.name.lexeme
 
   const args = ((args) => {
     return args.map((arg) => arg.value).join(', ')
-  })(result.args)
+  })(frameResult.expression.args)
 
-  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
-  return `the value returned from <code>${fnDesc}</code> (<code>${formatLiteral(
-    result.value
-  )}</code>)`
-}
+  const argsDesc =
+    args.length > 0 ? ` with the inputs <code>${args}</code>` : ''
+  const result = `<p>This used the <code>${fnName}</code> function${argsDesc}.</p>`
 
-export function describeCallExpressionAsSteps(
-  expression: CallExpression,
-  result: EvaluationResultCallExpression
-) {
-  const fnName = result.callee.name
+  let steps = describeExpression(
+    frameContext.expression,
+    frameResult.expression,
+    context
+  )
 
-  const args = ((args) => {
-    return args.map((arg) => arg.value).join(', ')
-  })(result.args)
-
-  const fnDesc = args.length > 0 ? `${fnName}(${args})` : `${fnName}()`
-  const value = formatLiteral(result.value)
-  return [
-    `<li>Jiki used the <code>${fnDesc}</code> which returned <code>${value}</code>.</li>`,
-  ]
+  return {
+    result: result,
+    steps: steps,
+  }
 }
 
 /*

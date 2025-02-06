@@ -34,6 +34,7 @@ import { describeChangeVariableStatement } from './describers/describeChangeStat
 import { describeCallStatement } from './describers/describeCallStatement'
 import { describeReturnStatement } from './describers/describeReturnStatement'
 import { describeChangeListElementStatement } from './describers/describeChangeListElementStatement'
+import { describeForeachStatement } from './describers/describeForeachStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -126,6 +127,8 @@ function generateDescription(
 
     case 'IfStatement':
       return describeIfStatement(frame, context)
+    case 'ForeachStatement':
+      return describeForeachStatement(frame, context)
   }
   return null
 }

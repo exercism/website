@@ -1,12 +1,8 @@
-import {
-  EvaluationResultCallExpression,
-  EvaluationResultCallStatement,
-} from '../evaluation-result'
+import { EvaluationResultCallStatement } from '../evaluation-result'
 import { CallExpression } from '../expression'
 import { DescriptionContext, FrameWithResult } from '../frames'
-import { formatLiteral } from '../helpers'
 import { CallStatement } from '../statement'
-import { describeExpression, describeSteps } from './describeSteps'
+import { describeExpression } from './describeSteps'
 
 export function describeCallStatement(
   frame: FrameWithResult,

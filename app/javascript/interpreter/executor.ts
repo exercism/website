@@ -603,13 +603,16 @@ export class Executor {
       this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
         return {
           type: 'ForeachStatement',
+          index: 0,
           elementName: statement.elementName.lexeme,
           iterable,
         }
       })
     }
 
+    let index = 0
     for (const temporaryVariableValue of iterable.resultingValue) {
+      index += 1
       const temporaryVariableName = statement.elementName.lexeme
 
       this.environment.define(temporaryVariableName, temporaryVariableValue)
@@ -618,6 +621,7 @@ export class Executor {
         return {
           type: 'ForeachStatement',
           elementName: statement.elementName.lexeme,
+          index,
           iterable,
           temporaryVariableName,
           temporaryVariableValue,

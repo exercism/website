@@ -1,24 +1,9 @@
-import {
-  EvaluationResult,
-  EvaluationResultSetVariableStatement,
-} from '../evaluation-result'
-import {
-  Expression,
-  VariableLookupExpression,
-  LiteralExpression,
-  GroupingExpression,
-  BinaryExpression,
-  LogicalExpression,
-  CallExpression,
-} from '../expression'
+import { EvaluationResultSetVariableStatement } from '../evaluation-result'
+
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
 import { SetVariableStatement } from '../statement'
-import { describeCallExpression } from './describeCallStatement'
-import { describeLogicalExpression } from './describeIfStatement'
-import { describeLiteralExpression } from './describeLiteralExpression'
-import { describeExpression, describeSteps } from './describeSteps'
-import { appendFullStopIfAppropriate, deepTrim } from './helpers'
+import { describeExpression } from './describeSteps'
 
 export function describeSetVariableStatement(
   frame: FrameWithResult,

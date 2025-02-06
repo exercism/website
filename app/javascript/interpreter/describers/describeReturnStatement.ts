@@ -1,28 +1,8 @@
-import {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-  EvaluationResultReturnStatement,
-  EvaluationResultSetVariableStatement,
-} from '../evaluation-result'
-import {
-  Expression,
-  VariableLookupExpression,
-  LiteralExpression,
-  GroupingExpression,
-  BinaryExpression,
-  LogicalExpression,
-  CallExpression,
-} from '../expression'
+import { EvaluationResultReturnStatement } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
-import {
-  ChangeVariableStatement,
-  ReturnStatement,
-  SetVariableStatement,
-} from '../statement'
-import { describeLiteralExpression } from './describeLiteralExpression'
+import { ReturnStatement } from '../statement'
 import { describeExpression } from './describeSteps'
-import { appendFullStopIfAppropriate, deepTrim } from './helpers'
 
 const finalStep = `<li>Jiki cleared up and left the function.</li>`
 

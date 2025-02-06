@@ -1,33 +1,10 @@
-import {
-  EvaluationResult,
-  EvaluationResultChangeListElementStatement,
-  EvaluationResultChangeVariableStatement,
-  EvaluationResultSetVariableStatement,
-} from '../evaluation-result'
-import {
-  Expression,
-  VariableLookupExpression,
-  LiteralExpression,
-  GroupingExpression,
-  BinaryExpression,
-  LogicalExpression,
-  CallExpression,
-} from '../expression'
+import { EvaluationResultChangeListElementStatement } from '../evaluation-result'
+import { VariableLookupExpression } from '../expression'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
-import {
-  ChangeListElementStatement,
-  ChangeVariableStatement,
-  SetVariableStatement,
-} from '../statement'
-import { describeLogicalExpression } from './describeIfStatement'
-import { describeLiteralExpression } from './describeLiteralExpression'
-import { describeExpression, describeSteps } from './describeSteps'
-import {
-  addOrdinalSuffix,
-  appendFullStopIfAppropriate,
-  deepTrim,
-} from './helpers'
+import { ChangeListElementStatement } from '../statement'
+import { describeExpression } from './describeSteps'
+import { addOrdinalSuffix } from './helpers'
 
 export function describeChangeListElementStatement(
   frame: FrameWithResult,
@@ -36,8 +13,9 @@ export function describeChangeListElementStatement(
   const frameContext = frame.context as ChangeListElementStatement
   const frameResult = frame.result as EvaluationResultChangeListElementStatement
 
-  const name = frameContext.list
-  const idx = frameResult.resultingValue
+  const idx = frameResult.index.resultingValue
+  const ordinaledIndex = addOrdinalSuffix(idx)
+
   const oldValue = formatLiteral(frameResult.oldValue)
   const value = formatLiteral(frameResult.resultingValue)
 
@@ -55,7 +33,6 @@ export function describeChangeListElementStatement(
 
   ;[boxStep].flat()
 
-  const ordinaledIndex = addOrdinalSuffix(idx.resultingValue)
   const result = `<p>This changed the value in the ${ordinaledIndex} element of ${listDescription} to <code>${value}</code>.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)
   if (boxStep) {

@@ -87,6 +87,21 @@ describe('single binary expressions', () => {
       ]
     )
   })
+  test('strings', () => {
+    const { frames } = interpret(`
+        if " " == "" do
+        end
+      `)
+    const actual = describeFrame(frames[0])
+    assertHTML(
+      actual,
+      `<p>The condition evaluated to<code>false</code> so the code block did not run.</p>`,
+      [
+        `<li>Jiki evaluated <code>" " == ""</code> and determined it was<code>false</code>.</li>`,
+        `<li>The result was <code>false</code> so Jiki decided to skip the if block.</li>`,
+      ]
+    )
+  })
 })
 
 describe('chained logical expressions', () => {

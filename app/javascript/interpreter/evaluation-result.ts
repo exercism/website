@@ -32,8 +32,9 @@ export type EvaluationResultForeachStatement = {
   type: 'ForeachStatement'
   elementName: string
   iterable: EvaluationResult
+  index: number
   temporaryVariableName?: any
-  temporaryVariablValue?: any
+  temporaryVariableValue?: any
   resultingValue?: any
   data?: Record<string, any>
 }

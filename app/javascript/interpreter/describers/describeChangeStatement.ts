@@ -1,24 +1,9 @@
-import {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-  EvaluationResultSetVariableStatement,
-} from '../evaluation-result'
-import {
-  Expression,
-  VariableLookupExpression,
-  LiteralExpression,
-  GroupingExpression,
-  BinaryExpression,
-  LogicalExpression,
-  CallExpression,
-} from '../expression'
+import { EvaluationResultChangeVariableStatement } from '../evaluation-result'
+
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
-import { ChangeVariableStatement, SetVariableStatement } from '../statement'
-import { describeLogicalExpression } from './describeIfStatement'
-import { describeLiteralExpression } from './describeLiteralExpression'
-import { describeExpression, describeSteps } from './describeSteps'
-import { appendFullStopIfAppropriate, deepTrim } from './helpers'
+import { ChangeVariableStatement } from '../statement'
+import { describeExpression } from './describeSteps'
 
 export function describeChangeVariableStatement(
   frame: FrameWithResult,

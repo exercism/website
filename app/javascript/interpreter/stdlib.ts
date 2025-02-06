@@ -12,23 +12,23 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
   join: {
     name: 'join',
     func: join,
-    description: 'Joins two strings together',
+    description: 'joined the two strings together',
   },
   concatenate: {
     name: 'concatenate',
     func: concatenate,
-    description: 'Concatenates multiple strings together',
+    description: 'concatenated the strings together',
     arity: [2, Infinity],
   },
   number_to_string: {
     name: 'number_to_string',
     func: numberToString,
-    description: 'Converts a number to a string',
+    description: 'converted the number to a string',
   },
   to_upper_case: {
     name: 'to_upper_case',
     func: toUpperCase,
-    description: 'Converts a string to its uppercase equivelent',
+    description: 'converted the string to its uppercase equivalent',
   },
 }
 

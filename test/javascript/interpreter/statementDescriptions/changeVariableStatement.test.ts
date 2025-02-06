@@ -10,7 +10,7 @@ test('literal', () => {
   const actual = describeFrame(frames[1], [])
   assertHTML(
     actual,
-    `<p>This created a new variable called <code>my_name</code> and set its value to <code>"Jeremy"</code>.</p>`,
+    `<p>This changed the value in <code>my_name</code> to <code>"Jeremy"</code>.</p>`,
     [
       `<li>Jiki found the<code>my_name</code>box.</li>`,
       `<li>Jiki remove the existing contents (<code>""</code>) from the box.</li>`,
@@ -31,7 +31,7 @@ test('function', () => {
   const actual = describeFrame(frames[1], [])
   assertHTML(
     actual,
-    `<p>This created a new variable called<code>my_name</code>and set its value to <code>"Jeremy"</code>.</p>`,
+    `<p>This changed the value in <code>my_name</code> to <code>"Jeremy"</code>.</p>`,
     [
       `<li>Jiki used the<code>get_name()</code>function, which returned<code>\"Jeremy\"</code>.</li>`,
       `<li>Jiki found the<code>my_name</code>box.</li>`,

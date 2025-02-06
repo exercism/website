@@ -136,7 +136,7 @@ export class RepeatUntilGameOverStatement extends Statement {
   }
 }
 
-export class WhileStatement extends Statement {
+/*export class WhileStatement extends Statement {
   constructor(
     public condition: Expression,
     public body: Statement[],
@@ -160,7 +160,7 @@ export class DoWhileStatement extends Statement {
   public children() {
     return [this.condition].concat(this.body)
   }
-}
+}*/
 
 export class BlockStatement extends Statement {
   constructor(public statements: Statement[], public location: Location) {

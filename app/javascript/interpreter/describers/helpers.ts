@@ -6,6 +6,21 @@ export function deepTrim(str: string): string {
     .trim()
 }
 
+export function addOrdinalSuffix(number) {
+  let lastDigit = number % 10,
+    lastTwoDigits = number % 100
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return number + 'st'
+  }
+  if (lastDigit === 2 && lastTwoDigits !== 12) {
+    return number + 'nd'
+  }
+  if (lastDigit === 3 && lastTwoDigits !== 13) {
+    return number + 'rd'
+  }
+  return number + 'th'
+}
+
 export function appendFullStopIfAppropriate(html): string {
   // If we're after a </p> or </ul> then this will already have
   // been handled deeper in the code so just return the input
@@ -47,4 +62,19 @@ export function isEqualityOperator(operator: string): boolean {
     'GREATER_EQUAL',
     'LESS_EQUAL',
   ].includes(operator)
+}
+
+function ordinal_suffix_of(i) {
+  let j = i % 10,
+    k = i % 100
+  if (j === 1 && k !== 11) {
+    return i + 'st'
+  }
+  if (j === 2 && k !== 12) {
+    return i + 'nd'
+  }
+  if (j === 3 && k !== 13) {
+    return i + 'rd'
+  }
+  return i + 'th'
 }

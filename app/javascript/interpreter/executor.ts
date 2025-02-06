@@ -50,6 +50,7 @@ import type {
   EvaluationResult,
   EvaluationResultCallExpression,
   EvaluationResultCallStatement,
+  EvaluationResultChangeListElementStatement,
   EvaluationResultExpression,
   EvaluationResultReturnStatement,
 } from './evaluation-result'
@@ -379,34 +380,38 @@ export class Executor {
   public visitChangeListElementStatement(
     statement: ChangeListElementStatement
   ): void {
-    this.executeFrame(statement, () => {
-      const list = this.evaluate(statement.list)
+    this.executeFrame<EvaluationResultChangeListElementStatement>(
+      statement,
+      () => {
+        const list = this.evaluate(statement.list)
 
-      if (!isArray(list.value)) {
-        this.error('InvalidChangeElementTarget', statement.list.location)
+        if (!isArray(list.value)) {
+          this.error('InvalidChangeElementTarget', statement.list.location)
+        }
+
+        const index = this.evaluate(statement.index)
+        this.verifyNumber(index.value, statement.index)
+        this.guardOutofBoundsIndex(
+          list.value,
+          index.value,
+          statement.index.location,
+          'change'
+        )
+
+        const value = this.evaluate(statement.value)
+
+        // Do the update
+        const oldValue = list.value[index.value - 1]
+        list.value[index.value - 1] = value
+
+        return {
+          type: 'ChangeListElementStatement',
+          index: index.value,
+          oldValue,
+          value,
+        }
       }
-
-      const index = this.evaluate(statement.index)
-      this.verifyNumber(index.value, statement.index)
-      this.guardOutofBoundsIndex(
-        list.value,
-        index.value,
-        statement.index.location,
-        'change'
-      )
-
-      const value = this.evaluate(statement.value).value
-
-      // Do the update
-      const oldValue = list.value[index.value - 1]
-      list.value[index.value - 1] = value
-
-      return {
-        type: 'ChangeListElementStatement',
-        oldValue,
-        value,
-      }
-    })
+    )
   }
 
   public visitIfStatement(statement: IfStatement): void {

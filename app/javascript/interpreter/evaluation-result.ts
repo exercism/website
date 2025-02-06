@@ -108,6 +108,7 @@ export type EvaluationResultChangeVariableStatement = {
 
 export type EvaluationResultChangeListElementStatement = {
   type: 'ChangeListElementStatement'
+  index: number
   oldValue: any
   value: any
   data?: Record<string, any>

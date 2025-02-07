@@ -342,7 +342,7 @@ end))
 
         find("[data-ci=information-widget-toggle]").click
 
-        assert_text "This created a new variable called this and sets its value to 5."
+        assert_text "This created a new variable called this and set its value to 5."
         assert_selector ".information-tooltip.description"
       end
     end
@@ -361,9 +361,9 @@ turn_right()
 
         toggle_information_tooltip
         assert_selector ".information-tooltip.description"
-        assert_text "This called the turn_right function."
+        assert_text "Jiki used the turn_right() function"
         scrub_to(0)
-        assert_text "This called the move function."
+        assert_text "Jiki used the move() function"
       end
     end
 
@@ -383,7 +383,7 @@ turn_right()
 
         toggle_information_tooltip
         assert_selector ".information-tooltip.description"
-        assert_text "This created a new variable called this and sets its value to 5."
+        assert_text "This created a new variable called this and set its value to 5."
         scrub_to(1)
         assert_text "This returned Even."
       end
@@ -412,7 +412,7 @@ turn_right()
 end))
         check_scenarios
 
-        scrubber_val_6 = 7285
+        scrubber_val_6 = 10_118
 
         # interrupting animation
         scrub_to scrubber_val_6
@@ -447,7 +447,7 @@ end))
         check_scenarios
 
         scrubber_val_4 = 2430
-        scrubber_val_6 = 7285
+        scrubber_val_6 = 10_118
 
         # interrupting animation
         scrub_to scrubber_val_6
@@ -488,7 +488,7 @@ end))
 
         sleep 1.5
         select_scenario 1
-        assert_text "Nice work!"
+        assert_text "Fantastic job!"
         assert_selector ".solve-exercise-page-react-modal-content"
       end
     end

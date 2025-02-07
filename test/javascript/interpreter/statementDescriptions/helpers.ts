@@ -12,8 +12,6 @@ export const assertHTML = (actual, result, steps) => {
       .join('\n')
       .replaceAll(/>\s+/g, '>')
       .replaceAll(/\s+</g, '<')
-      // Replace all data-hl-from=\"30\" data-hl-to=\"41\" with empty string
-      // where the 30 and the 41 can be any number
       .replace(/ data-hl-from=\"\d+\" data-hl-to=\"\d+\"/g, '')
 
   const expected = `<h3>What happened</h3>

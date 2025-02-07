@@ -119,35 +119,6 @@ export function useConstructRunCode({
       // reset on successful test run
       setHasCodeBeenEdited(false)
 
-      const tests = testResults.tests.map((test) => {
-        const firstFailingExpect = test.expects.find((e) => e.pass === false)
-        const actual = firstFailingExpect
-          ? firstFailingExpect.testsType === 'io'
-            ? firstFailingExpect.actual
-            : firstFailingExpect.errorHtml
-          : null
-        return {
-          slug: test.slug,
-          status: test.status,
-          actual,
-        }
-      })
-
-      const bonusTests = bonusTestResults.tests.map((test) => {
-        const firstFailingExpect = test.expects.find((e) => e.pass === false)
-        const actual = firstFailingExpect
-          ? firstFailingExpect.testsType === 'io'
-            ? firstFailingExpect.actual
-            : firstFailingExpect.errorHtml
-          : null
-        return {
-          slug: test.slug,
-          status: test.status,
-          actual,
-          bonus: true,
-        }
-      })
-
       submitCode({
         code: studentCode,
         testResults: {

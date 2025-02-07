@@ -21,7 +21,7 @@ export function describeChangeVariableStatement(
   steps = [
     ...steps,
     `<li>Jiki found the <code>${name}</code> box.</li>`,
-    `<li>Jiki remove the existing contents (<code>${oldValue}</code>) from the box.</li>`,
+    `<li>Jiki removed the existing contents (<code>${oldValue}</code>) from the box.</li>`,
     `<li>Jiki put <code>${value}</code> in the box.</li>`,
   ]
 

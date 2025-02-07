@@ -21,6 +21,17 @@ test('literal', () => {
     `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
   ])
 })
+test('variable', () => {
+  const { frames } = interpret(`
+    set name to "Jeremy"
+    log name
+    `)
+  const actual = describeFrame(frames[1])
+  assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
+    `<li>Jiki got the box called<code>name</code>off the shelves and took<code>"Jeremy"</code>out of it.</li>`,
+    `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
+  ])
+})
 
 test('function', () => {
   const context = { externalFunctions: [getNameFunction] }
@@ -36,7 +47,6 @@ test('function interpolation', () => {
   const context = { externalFunctions: [argyFunction] }
   const descContext = contextToDescriptionContext(context)
   const { frames } = interpret('log argy_fn(42, "foo")', context)
-  console.log(frames)
   const actual = describeFrame(frames[0], descContext)
   assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
     `<li>Jiki used the <code>argy_fn(42, "foo")</code> function, which start <code>42</code> and <code>"foo"</code> end. It returned <code>"Jeremy"</code>.</li>`,

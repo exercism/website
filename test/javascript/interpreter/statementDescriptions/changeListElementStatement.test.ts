@@ -8,14 +8,13 @@ describe('variable list', () => {
     set my_list to [""]
     change my_list[1] to "Jeremy"
     `)
-    console.log(frames)
     const actual = describeFrame(frames[1])
     assertHTML(
       actual,
       `<p>This changed the value in the 1st element of the <code>my_list</code> list to <code>"Jeremy"</code>.</p>`,
       [
         `<li>Jiki found the<code>my_list</code>box.</li>`,
-        `<li>Jiki remove the existing contents (<code>""</code>) from the 1st slot of the list.</li>`,
+        `<li>Jiki removed the existing contents (<code>""</code>) from the 1st slot of the list.</li>`,
         `<li>Jiki put <code>"Jeremy"</code> in the 1st slot of the list.</li>`,
       ]
     )
@@ -30,7 +29,6 @@ describe('variable list', () => {
     `,
       context
     )
-    console.log(frames)
     const actual = describeFrame(frames[1])
     assertHTML(
       actual,
@@ -38,7 +36,7 @@ describe('variable list', () => {
       [
         `<li>Jiki used the<code>get_name()</code>function, which returned<code>\"Jeremy\"</code>.</li>`,
         `<li>Jiki found the<code>my_list</code>box.</li>`,
-        `<li>Jiki remove the existing contents (<code>""</code>) from the 1st slot of the list.</li>`,
+        `<li>Jiki removed the existing contents (<code>""</code>) from the 1st slot of the list.</li>`,
         `<li>Jiki put <code>"Jeremy"</code> in the 1st slot of the list.</li>`,
       ]
     )

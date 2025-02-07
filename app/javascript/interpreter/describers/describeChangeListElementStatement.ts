@@ -40,7 +40,7 @@ export function describeChangeListElementStatement(
   }
   steps = [
     ...steps,
-    `<li>Jiki remove the existing contents (<code>${oldValue}</code>) from the ${ordinaledIndex} slot of the list.</li>`,
+    `<li>Jiki removed the existing contents (<code>${oldValue}</code>) from the ${ordinaledIndex} slot of the list.</li>`,
     `<li>Jiki put <code>${value}</code> in the ${ordinaledIndex} slot of the list.</li>`,
   ]
 

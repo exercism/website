@@ -13,7 +13,7 @@ test('literal', () => {
     `<p>This changed the value in <code>my_name</code> to <code>"Jeremy"</code>.</p>`,
     [
       `<li>Jiki found the<code>my_name</code>box.</li>`,
-      `<li>Jiki remove the existing contents (<code>""</code>) from the box.</li>`,
+      `<li>Jiki removed the existing contents (<code>""</code>) from the box.</li>`,
       `<li>Jiki put <code>"Jeremy"</code> in the box.</li>`,
     ]
   )
@@ -35,7 +35,7 @@ test('function', () => {
     [
       `<li>Jiki used the<code>get_name()</code>function, which returned<code>\"Jeremy\"</code>.</li>`,
       `<li>Jiki found the<code>my_name</code>box.</li>`,
-      `<li>Jiki remove the existing contents (<code>"foo"</code>) from the box.</li>`,
+      `<li>Jiki removed the existing contents (<code>"foo"</code>) from the box.</li>`,
       `<li>Jiki put <code>"Jeremy"</code> in the box.</li>`,
     ]
   )

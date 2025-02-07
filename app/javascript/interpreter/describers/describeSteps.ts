@@ -5,12 +5,14 @@ import {
   BinaryExpression,
   LogicalExpression,
   CallExpression,
+  VariableLookupExpression,
 } from '../expression'
 import { describeLogicalExpression } from './describeLogicalExpression'
 import { DescriptionContext } from '../frames'
 import { describeBinaryExpression } from './describeBinaryExpression'
 import { describeCallExpression } from './describeCallExpression'
 import { describeGroupingExpression } from './describeGroupingExpression'
+import { describeVariableLookupExpression } from './describeVariableLookupExpression'
 
 export function describeExpression(
   expression: Expression,
@@ -29,8 +31,9 @@ export function describeExpression(
   if (expression instanceof CallExpression) {
     return describeCallExpression(expression, result, context)
   }
-
-  // Lookup variable expression?
+  if (expression instanceof VariableLookupExpression) {
+    return describeVariableLookupExpression(expression, result, context)
+  }
 
   return []
 }

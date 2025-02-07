@@ -22,6 +22,7 @@ export function useConstructRunCode({
 }) {
   const {
     setTestSuiteResult,
+    setBonusTestSuiteResult,
     setInspectedTestResult,
     inspectedTestResult,
     setHasSyntaxError,
@@ -36,7 +37,7 @@ export function useConstructRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { markTaskAsCompleted, tasks } = useTaskStore()
+  const { markTaskAsCompleted, tasks, bonusTasks } = useTaskStore()
 
   /**
    * This function is used to run the code in the editor
@@ -93,7 +94,14 @@ export function useConstructRunCode({
         config,
       })
 
+      const bonusTestResults = generateAndRunTestSuite({
+        studentCode,
+        tasks: bonusTasks ?? [],
+        config,
+      })
+
       setTestSuiteResult(testResults)
+      setBonusTestSuiteResult(bonusTestResults)
 
       markTaskAsCompleted(testResults)
 
@@ -138,7 +146,13 @@ export function useConstructRunCode({
         ),
       })
     },
-    [setTestSuiteResult, tasks, inspectedTestResult]
+    [
+      setTestSuiteResult,
+      setBonusTestSuiteResult,
+      tasks,
+      inspectedTestResult,
+      bonusTasks,
+    ]
   )
 
   return runCode

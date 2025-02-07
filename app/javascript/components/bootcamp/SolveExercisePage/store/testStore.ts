@@ -7,6 +7,10 @@ type TestStore = {
   setTestSuiteResult: (
     testSuiteResult: TestSuiteResult<NewTestResult> | null
   ) => void
+  bonusTestSuiteResult: TestSuiteResult<NewTestResult> | null
+  setBonusTestSuiteResult: (
+    testSuiteResult: TestSuiteResult<NewTestResult> | null
+  ) => void
   flatPreviewTaskTests: TaskTest[]
   setFlatPreviewTaskTests: (flatPreviewTaskTests: TaskTest[]) => void
   setInspectedPreviewTaskTest: (inspectedPreviewTaskTest: TaskTest) => void
@@ -45,6 +49,14 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
     setTestSuiteResult: (testSuiteResult) => {
       set(
         { testSuiteResult: testSuiteResult },
+        false,
+        'exercise/setTestSuiteResult'
+      )
+    },
+    bonusTestSuiteResult: null,
+    setBonusTestSuiteResult: (bonusTestSuiteResult) => {
+      set(
+        { bonusTestSuiteResult: bonusTestSuiteResult },
         false,
         'exercise/setTestSuiteResult'
       )

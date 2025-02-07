@@ -44,6 +44,44 @@ export function TestResultsButtons() {
   )
 }
 
+export function BonusTestResultsButtons() {
+  const { bonusTestSuiteResult, setInspectedTestResult, inspectedTestResult } =
+    useTestStore()
+  const { setInformationWidgetData } = useEditorStore()
+
+  const { shouldAnimate } = useShouldAnimate(bonusTestSuiteResult)
+
+  if (!bonusTestSuiteResult) return null
+
+  return (
+    <div className="test-selector-buttons px-8 border-l-1 border-borderColor4">
+      {bonusTestSuiteResult.tests.map((test, idx) => {
+        return (
+          <button
+            data-ci="test-selector-button"
+            key={test.name + idx}
+            onClick={() =>
+              handleSetInspectedTestResult({
+                testResult: test,
+                setInspectedTestResult,
+                setInformationWidgetData,
+              })
+            }
+            style={{ transitionDelay: `${idx * TRANSITION_DELAY}s` }}
+            className={assembleClassNames(
+              'test-button',
+              shouldAnimate ? test.status : 'idle',
+              inspectedTestResult?.name === test.name ? 'selected' : ''
+            )}
+          >
+            B{idx + 1}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 export function handleSetInspectedTestResult({
   testResult,
   setInformationWidgetData,

@@ -71,7 +71,10 @@ export abstract class Exercise {
     return result.getters.getFunctionOccurenceInCode(fnName) === times
   }
 
-  public getLineCountDiff(result: InterpretResult, stubLines: number): number {
+  public getAddedLineCount(
+    result: InterpretResult,
+    stubLines: number = 0
+  ): number {
     const lines = result.getters
       .getSourceCode()
       .split('\n')

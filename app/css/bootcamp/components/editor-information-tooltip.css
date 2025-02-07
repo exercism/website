@@ -8,6 +8,9 @@
 
     code {
         overflow-wrap: break-word;
+        &[data-hl-from] {
+            cursor: help;
+        }
     }
 
     & :not(pre) > code {

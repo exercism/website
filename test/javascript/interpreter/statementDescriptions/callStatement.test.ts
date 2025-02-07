@@ -124,3 +124,34 @@ test('args, no description, no return', () => {
     [`<li>Jiki used the<code>get_name(1)</code>function.</li>`]
   )
 })
+
+test('2 args, no description, no return', () => {
+  const { frames } = interpret(
+    `
+    function get_name with x, y do
+    end
+    get_name(1, 2)`,
+    {}
+  )
+  const actual = describeFrame(frames[0])
+  assertHTML(
+    actual,
+    `<p>This used the<code>get_name</code> function with the inputs <code>1</code> and <code>2</code>.</p>`,
+    [`<li>Jiki used the<code>get_name(1, 2)</code>function.</li>`]
+  )
+})
+test('3 args, no description, no return', () => {
+  const { frames } = interpret(
+    `
+    function get_name with x, y, z do
+    end
+    get_name(1, 2, 3)`,
+    {}
+  )
+  const actual = describeFrame(frames[0])
+  assertHTML(
+    actual,
+    `<p>This used the<code>get_name</code> function with the inputs <code>1</code>, <code>2</code> and <code>3</code>.</p>`,
+    [`<li>Jiki used the<code>get_name(1, 2, 3)</code>function.</li>`]
+  )
+})

@@ -2,7 +2,6 @@ import { EvaluationResultVariableLookupExpression } from '../evaluation-result'
 import { VariableLookupExpression } from '../expression'
 import { DescriptionContext } from '../frames'
 import { formatLiteral } from '../helpers'
-import { describeExpression } from './describeSteps'
 
 export function describeVariableLookupExpression(
   expression: VariableLookupExpression,

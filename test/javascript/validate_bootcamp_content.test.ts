@@ -106,7 +106,12 @@ function testState(
     }
     let evaluated
     if (testData.function) {
-      evaluated = evaluateFunction(exampleScript, context, testData.function)
+      evaluated = evaluateFunction(
+        exampleScript,
+        context,
+        testData.function,
+        ...testData.params
+      )
     } else {
       evaluated = interpret(exampleScript, context)
     }
@@ -144,6 +149,7 @@ function testState(
         actual = state[check.name]
       }
 
+      console.log(actual, matcher, check.name)
       expect(actual)[matcher](check.value)
     })
   })

@@ -61,6 +61,11 @@ function draw_snow do
   circle(60, 80, 5)
 end
 
+//
+//
+// Your code from the part-1
+//
+//
 function description_to_elements with description do
   if description == "sunny" do
     return ["sun"]

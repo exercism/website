@@ -6,13 +6,13 @@ function description_to_elements with description do
   else if description == "miserable" do
     return ["cloud", "rain"]
   else if description == "hopeful" do
-    return ["cloud", "sun"]
+    return ["sun", "cloud"]
   else if description == "rainbow-territory" do
-    return ["cloud", "rain", "sun"]
+    return ["sun", "cloud", "rain"]
   else if description == "exciting" do
     return ["cloud", "snow"]
   else if description == "snowboarding-time" do
-    return ["cloud", "snow", "sun"]
+    return ["sun", "cloud", "snow"]
   end
 end
 

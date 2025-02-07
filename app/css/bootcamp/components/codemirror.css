@@ -101,7 +101,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            border: 1.5px solid #0000ff77;
+            border: 1.5px solid var(--highlighted-line-border-color);
             border-radius: 2px;
             z-index: 99999;
         }

@@ -11,6 +11,7 @@ import {
   StateEffect,
   RangeSetBuilder,
 } from '@codemirror/state'
+import { showInfoWidgetField } from './end-line-information/line-information'
 
 export const INFO_HIGHLIGHT_COLOR = '#EFEDFF88'
 export const ERROR_HIGHLIGHT_COLOR = '#fecaca88'
@@ -49,7 +50,9 @@ export const highlightColorField = StateField.define<string>({
 
 // Base theme for highlighting
 const baseTheme = EditorView.baseTheme({
-  '&light .cm-highlightedLine': { backgroundColor: INFO_HIGHLIGHT_COLOR },
+  '&light .cm-highlightedLine': {
+    backgroundColor: INFO_HIGHLIGHT_COLOR,
+  },
   '&dark .cm-highlightedLine': { backgroundColor: '#1a272788' },
 })
 
@@ -98,9 +101,31 @@ const showStripes = ViewPlugin.fromClass(
   }
 )
 
+function updateHighlightedLineBorder() {
+  return EditorView.updateListener.of((update) => {
+    if (update.state.field(showInfoWidgetField)) {
+      let highlightColor = update.state.field(highlightColorField)
+
+      highlightColor =
+        highlightColor === INFO_HIGHLIGHT_COLOR ? '#0000ff77' : '#ff000077'
+
+      update.view.dom.style.setProperty(
+        '--highlighted-line-border-color',
+        highlightColor
+      )
+    } else {
+      update.view.dom.style.setProperty(
+        '--highlighted-line-border-color',
+        'transparent'
+      )
+    }
+  })
+}
+
 export function highlightLine(initialLineNumber: number): Extension {
   return [
     baseTheme,
+    updateHighlightedLineBorder(),
     highlightedLineField.init(() => initialLineNumber),
     highlightColorField.init(() => INFO_HIGHLIGHT_COLOR),
     showStripes,

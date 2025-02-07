@@ -59,10 +59,5 @@ You might find it easier to think about the fireworks last and just get the alie
 
 If you've got everything working? **Congratulations!! 🎉**
 
-Now, can you beautify your code to make it cleaner?
-Can you get rid of duplication?
-
-Experiment with different approaches.
-Can you use extra variables or lists or functions to clean things up more?
-Do they help or make it messier?
-Experiment!
+It's possible to solve the exercise much more easily with `fire_fireworks()` function at the very end of the program.
+Can you solve it by putting `fire_fireworks()` **within** the `repeat_until_game_over` loop?

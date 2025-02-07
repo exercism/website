@@ -54,7 +54,7 @@ export function BonusTestResultsButtons() {
   if (!bonusTestSuiteResult) return null
 
   return (
-    <div className="test-selector-buttons px-8 border-l-1 border-borderColor4">
+    <div className="test-selector-buttons bonus px-8 border-l-1 border-borderColor4">
       {bonusTestSuiteResult.tests.map((test, idx) => {
         return (
           <button

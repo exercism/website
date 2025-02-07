@@ -71,14 +71,21 @@ export class InformationWidget extends WidgetType {
     closeButton.classList.add('tooltip-close')
     closeButton.onclick = () => this.hideTooltip()
 
-    this.tooltip.addEventListener('mouseenter', () => {
-      this.view.dispatch({
-        effects: addHighlight.of({ from: 1, to: 3 }),
+    this.tooltip.querySelectorAll('code').forEach((ct) => {
+      ct.addEventListener('mouseenter', () => {
+        const from = ct.getAttribute('data-hl-from')
+        const to = ct.getAttribute('data-hl-to')
+        if (from && to) {
+          this.view.dispatch({
+            effects: addHighlight.of({
+              from: Number(from) - 1,
+              to: Number(to) - 1,
+            }),
+          })
+        }
       })
-    })
-    this.tooltip.addEventListener('mouseleave', () => {
-      this.view.dispatch({
-        effects: removeAllHighlightEffect.of(),
+      ct.addEventListener('mouseleave', () => {
+        this.view.dispatch({ effects: removeAllHighlightEffect.of() })
       })
     })
 

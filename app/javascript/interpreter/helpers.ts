@@ -19,7 +19,7 @@ export function formatLiteral(value?: any): string {
 export function codeTag(code: string, location: Location): string {
   const from = location.absolute.begin
   const to = location.absolute.end
-  return `<code data-hl-from="${from}" data-hl-to-"${to}">${code}</code>`
+  return `<code data-hl-from="${from}" data-hl-to="${to}">${code}</code>`
 }
 
 export function extractCallExpressions(

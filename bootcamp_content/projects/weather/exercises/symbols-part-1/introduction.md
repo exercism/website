@@ -2,7 +2,7 @@
 
 In the last exercise, you draw the sun peaking out behind a raining cloud.
 
-For our next step, we're going to start to draw a wider range of weather symbols, made up of smaller components.
+For our next step, we're going to start to drew a wider range of weather symbols, made up of smaller components.
 It's split into two parts.
 
 In this first part, we're going to take a weather description (like `sunny` or `rainbow-territory`) and turn it into a list of the components that need drawing.
@@ -16,7 +16,7 @@ This is how they should map:
 - `"exciting"`: `["cloud", "snow"]`
 - `"snowboarding-time"`: `["sun", "cloud", "snow"]`
 
-In the next exercise, we'll turn those into drawings.
+In the next exercise, we'll turn these into drawings.
 
 ## Instructions
 

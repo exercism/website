@@ -67,7 +67,7 @@ export function checkUniqueColoredCircles(shapes: Shape[], count: number) {
 export function assertAllArgumentsAreVariables(
   interpreterResult: InterpretResult
 ) {
-  return interpreterResult.getters
+  return interpreterResult.meta
     .getCallExpressions()
     .every((expr: CallExpression) => {
       return expr.args.every((arg: Expression) => {

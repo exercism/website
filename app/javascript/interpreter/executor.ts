@@ -187,7 +187,7 @@ export class Executor {
     return {
       frames: this.frames,
       error: null,
-      getters: {
+      meta: {
         getFunctionCallLog: () => this.functionCallLog,
         getCallExpressions: () => extractCallExpressions(statements),
         // fixed first arg, varying second arg

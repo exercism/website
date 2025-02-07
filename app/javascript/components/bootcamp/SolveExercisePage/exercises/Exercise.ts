@@ -27,7 +27,7 @@ export abstract class Exercise {
     interpreterResult: InterpretResult,
     fnName: string
   ) {
-    return interpreterResult.getters
+    return interpreterResult.meta
       .getCallExpressions()
       .filter((expr) => expr.callee.name.lexeme == fnName).length
   }
@@ -39,7 +39,7 @@ export abstract class Exercise {
     times?: number
   ): boolean {
     let timesCalled
-    const fnCalls = result.getters.getFunctionCallLog()
+    const fnCalls = result.meta.getFunctionCallLog()
 
     if (fnCalls[name] === undefined) {
       timesCalled = 0
@@ -68,14 +68,14 @@ export abstract class Exercise {
     fnName: string,
     times: number
   ): boolean {
-    return result.getters.getFunctionOccurenceInCode(fnName) === times
+    return result.meta.getFunctionOccurenceInCode(fnName) === times
   }
 
   public getAddedLineCount(
     result: InterpretResult,
     stubLines: number = 0
   ): number {
-    const lines = result.getters
+    const lines = result.meta
       .getSourceCode()
       .split('\n')
       .filter((l) => l.trim() !== '' && !l.startsWith('//'))

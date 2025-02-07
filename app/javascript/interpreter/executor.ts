@@ -191,7 +191,7 @@ export class Executor {
         getFunctionCallLog: () => this.functionCallLog,
         getCallExpressions: () => extractCallExpressions(statements),
         // fixed first arg, varying second arg
-        getFunctionOccurenceInCode: extractFunctionOccurenceInCode.bind(
+        numTimesFunctionOccurred: extractFunctionOccurenceInCode.bind(
           null,
           this.sourceCode
         ),

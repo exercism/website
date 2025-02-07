@@ -63,12 +63,11 @@ export abstract class Exercise {
     this.animations.push(animation)
   }
 
-  public didFunctionOccurNTimes(
+  public numTimesFunctionOccurred(
     result: InterpretResult,
-    fnName: string,
-    times: number
-  ): boolean {
-    return result.meta.getFunctionOccurenceInCode(fnName) === times
+    fnName: string
+  ): number {
+    return result.meta.numTimesFunctionOccurred(fnName)
   }
 
   public getAddedLineCount(

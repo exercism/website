@@ -60,7 +60,7 @@ export type InterpretResult = {
   meta: {
     getFunctionCallLog: () => Record<string, Record<any, number>>
     getCallExpressions: () => CallExpression[]
-    getFunctionOccurenceInCode: (string) => number
+    numTimesFunctionOccurred: (fnName: string) => number
     getSourceCode: () => string
   }
 }

@@ -311,9 +311,9 @@
           ],
           "checks": [
             {
-              "name": "didFunctionOccurNTimes('look', 1)",
-              "value": true,
-              "error_html": "You used look more than once."
+              "name": "numTimesFunctionOccurred('look')",
+              "value": 1,
+              "error_html": "You used look more than once (%actual% times)."
             }
           ]
         },

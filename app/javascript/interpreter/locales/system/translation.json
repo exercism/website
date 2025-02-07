@@ -85,7 +85,7 @@
       "OperandMustBeBoolean": "OperandMustBeBoolean: value: {{value}}",
       "OperandMustBeNumber": "OperandMustBeNumber: value: {{value}}",
       "OperandsMustBeTwoNumbersOrTwoStrings": "OperandsMustBeTwoNumbersOrTwoStrings",
-      "RepeatCountMustBeGreaterThanZero": "RepeatCountMustBeGreaterThanZero",
+      "RepeatCountMustBeZeroOrGreater": "RepeatCountMustBeZeroOrGreater",
       "RepeatCountMustBeNumber": "RepeatCountMustBeNumber",
       "RepeatCountTooHigh": "RepeatCountTooHigh: count: {{count}}, max: {{max}}",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",

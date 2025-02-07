@@ -59,7 +59,7 @@
       "InvalidExpression": "Ongeldige expressie",
       "MissingParenthesesForFunctionCall": "Ben je de haakjes vergeten toen je de functie probeerde aan te roepen?",
       "RepeatCountMustBeNumber": "repeat accepteert alleen een getal als argument.",
-      "RepeatCountMustBeGreaterThanZero": "Het repeat argument moet groter zijn dan nul.",
+      "RepeatCountMustBeZeroOrGreater": "Het repeat argument moet groter zijn dan nul.",
       "CouldNotFindFunctionWithName": "Kon functie met naam niet vinden.",
       "CouldNotFindFunctionWithNameSuggestion": "We weten niet wat `{{name}}` betekent. Misschien bedoelde je de `{{suggestion}}` functie?",
       "NonCallableTarget": "Alleen functies kunnen worden uitgevoerd.",

@@ -35,7 +35,7 @@ export type EvaluationResultForeachStatement = {
   index: number
   temporaryVariableName?: any
   temporaryVariableValue?: any
-  resultingValue?: any
+  resultingValue?: undefined
   data?: Record<string, any>
 }
 
@@ -50,6 +50,14 @@ export type EvaluationResultLogStatement = {
   type: 'LogStatement'
   expression: EvaluationResult
   resultingValue: any
+}
+
+export type EvaluationResultRepeatStatement = {
+  type: 'RepeatStatement'
+  count: EvaluationResult
+  iteration: number
+  resultingValue?: undefined
+  data?: Record<string, any>
 }
 
 export type EvaluationResultReturnStatement = {
@@ -197,6 +205,7 @@ export type EvaluationResultStatement =
   | EvaluationResultIfStatement
   | EvaluationResultCallStatement
   | EvaluationResultForeachStatement
+  | EvaluationResultRepeatStatement
   | EvaluationResultReturnStatement
 
 export type EvaluationResultExpression =

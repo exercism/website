@@ -88,7 +88,7 @@
       "OperandMustBeBoolean": "This must be a boolean (`true` or `false`) but it is `{{value}}`.",
       "OperandMustBeNumber": "This should be a number but it is `{{value}}`.",
       "OperandsMustBeTwoNumbersOrTwoStrings": "Operands must be two numbers or two strings.",
-      "RepeatCountMustBeGreaterThanZero": "You must repeat things at least once.",
+      "RepeatCountMustBeZeroOrGreater": "You must repeat things at least once.",
       "RepeatCountTooHigh": "The maximum number of times you can repeat things in this exercise is {{max}}.",
       "RepeatCountMustBeNumber": "repeat can only take a number as its input.",
       "VariableAlreadyDeclared": "A variable with this name has already been created. Did you mean to use the <code>change</code> keyword?",

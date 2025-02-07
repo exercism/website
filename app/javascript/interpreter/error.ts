@@ -94,7 +94,7 @@ export type RuntimeErrorType =
   | 'MissingParenthesesForFunctionCall'
   | 'InvalidExpression'
   | 'RepeatCountMustBeNumber'
-  | 'RepeatCountMustBeGreaterThanZero'
+  | 'RepeatCountMustBeZeroOrGreater'
   | 'RepeatCountTooHigh'
   | 'NonCallableTarget'
   | 'InfiniteLoop'

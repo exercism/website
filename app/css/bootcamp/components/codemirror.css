@@ -94,4 +94,19 @@
         /* width: 2em; */
         text-align: right;
     }
+
+    .cm-highlightedLine {
+        @apply relative;
+        &:after {
+            content: "";
+            outline: blue;
+            position: absolute;
+            inset: 0;
+            border: 1.5px solid #0000ff77;
+            border-radius: 2px;
+            /* margin-left: -36px; */
+            margin-right: 5px;
+            z-index: 99999;
+        }
+    }
 }

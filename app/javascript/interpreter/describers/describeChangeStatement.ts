@@ -1,7 +1,7 @@
 import { EvaluationResultChangeVariableStatement } from '../evaluation-result'
 
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { formatLiteral } from '../helpers'
+import { codeTag, formatLiteral } from '../helpers'
 import { ChangeVariableStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -20,9 +20,12 @@ export function describeChangeVariableStatement(
   let steps = describeExpression(frameContext.value, frameResult.value, context)
   steps = [
     ...steps,
-    `<li>Jiki found the <code>${name}</code> box.</li>`,
+    `<li>Jiki found the ${codeTag(name, frameContext.name.location)} box.</li>`,
     `<li>Jiki removed the existing contents (<code>${oldValue}</code>) from the box.</li>`,
-    `<li>Jiki put <code>${value}</code> in the box.</li>`,
+    `<li>Jiki put ${codeTag(
+      value,
+      frameContext.value.location
+    )} in the box.</li>`,
   ]
 
   return {

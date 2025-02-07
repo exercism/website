@@ -34,9 +34,8 @@ const highlightMark = Decoration.mark({ class: 'cm-highlighted-code' })
 
 export const highlightTheme = EditorView.baseTheme({
   '.cm-highlighted-code': {
-    background: '#C2DEF3',
-    outline: '1px solid #2E57E8',
-    borderRadius: '4px',
+    background: '#C2DEF366',
+    borderBottom: '2px solid #2E57E8',
   },
 })
 

@@ -1,7 +1,7 @@
 import { isString } from '../checks'
 import { EvaluationResultForeachStatement } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { formatLiteral } from '../helpers'
+import { codeTag, formatLiteral } from '../helpers'
 import { ForeachStatement } from '../statement'
 import { addOrdinalSuffix } from './helpers'
 
@@ -15,7 +15,7 @@ export function describeForeachStatement(
   if (frameResult.iterable.resultingValue.length === 0) {
     return describeEmptyList(frameResult)
   } else {
-    return describePopulatedList(frameResult)
+    return describePopulatedList(frameContext, frameResult)
   }
 }
 function describeEmptyList(
@@ -33,15 +33,25 @@ function describeEmptyList(
 }
 
 function describePopulatedList(
+  frameContext: ForeachStatement,
   frameResult: EvaluationResultForeachStatement
 ): Description {
   const name = frameResult.temporaryVariableName
   const value = formatLiteral(frameResult.temporaryVariableValue)
   const ordinaledIndex = addOrdinalSuffix(frameResult.index)
-  const result = `<p>This line started the ${ordinaledIndex} iteration with the <code>${name}</code> variable set to <code>${value}</code>.</p>`
+  const result = `<p>This line started the ${ordinaledIndex} iteration with the ${codeTag(
+    name,
+    frameContext.elementName.location
+  )} variable set to ${codeTag(value, frameContext.iterable.location)}.</p>`
   const steps = [
-    `<li>Jiki created a new box called <code>${name}</code>.</li>`,
-    `<li>Jiki put <code>${value}</code> in the box, and put it on the shelf, ready to use in the code block.</li>`,
+    `<li>Jiki created a new box called ${codeTag(
+      name,
+      frameContext.elementName.location
+    )}.</li>`,
+    `<li>Jiki put ${codeTag(
+      value,
+      frameContext.iterable.location
+    )} in the box, and put it on the shelf, ready to use in the code block.</li>`,
   ]
   return {
     result,

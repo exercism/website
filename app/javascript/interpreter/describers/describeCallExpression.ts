@@ -1,7 +1,7 @@
 import { EvaluationResultCallExpression } from '../evaluation-result'
 import { CallExpression } from '../expression'
 import { DescriptionContext } from '../frames'
-import { formatLiteral } from '../helpers'
+import { codeTag, formatLiteral } from '../helpers'
 import { describeExpression } from './describeSteps'
 
 export function describeCallExpression(
@@ -19,10 +19,10 @@ export function describeCallExpression(
 
   const fnName = result.callee.name
   const fnDesc = generateFunctionDescription(
+    expression,
     result,
     fnName,
     argNames,
-    result,
     context
   )
   const fnCallDesc =
@@ -30,22 +30,25 @@ export function describeCallExpression(
 
   return [
     ...steps,
-    `<li>Jiki used the <code>${fnCallDesc}</code> function${fnDesc}.</li>`,
+    `<li>Jiki used the ${codeTag(
+      fnCallDesc,
+      expression.location
+    )} function${fnDesc}.</li>`,
   ]
 }
 
 function generateFunctionDescription(
-  restul: EvaluationResultCallExpression,
+  expression: CallExpression,
+  result: EvaluationResultCallExpression,
   fnName: string,
   argNames: string,
-  result: any,
   context: DescriptionContext
 ) {
   const descriptionTemplate = context.functionDescriptions
     ? context.functionDescriptions[fnName] || ''
     : ''
-  const argsValues = result.args.map(
-    (arg) => `<code>${formatLiteral(arg.resultingValue)}</code>`
+  const argsValues = result.args.map((arg) =>
+    codeTag(formatLiteral(arg.resultingValue), expression.location)
   )
   let fnDesc = descriptionTemplate.replace(
     /\${arg(\d+)}/g,
@@ -59,7 +62,7 @@ function generateFunctionDescription(
       fnDesc = `, which `
     }
     const value = formatLiteral(result.resultingValue)
-    fnDesc += `returned <code>${value}</code>`
+    fnDesc += `returned ${codeTag(value, expression.location)}`
   } else if (fnDesc) {
     fnDesc = `, which ${fnDesc}`
   }

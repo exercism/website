@@ -48,7 +48,20 @@ import {
 import type { Token } from './token'
 import type {
   EvaluationResult,
+  EvaluationResultCallExpression,
+  EvaluationResultCallStatement,
+  EvaluationResultChangeListElementStatement,
+  EvaluationResultChangeVariableStatement,
   EvaluationResultExpression,
+  EvaluationResultForeachStatement,
+  EvaluationResultFunctionLookupExpression,
+  EvaluationResultIfStatement,
+  EvaluationResultListExpression,
+  EvaluationResultLiteralExpression,
+  EvaluationResultLogStatement,
+  EvaluationResultReturnStatement,
+  EvaluationResultSetVariableStatement,
+  EvaluationResultVariableLookupExpression,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -187,7 +200,7 @@ export class Executor {
       // a result that's allowed, so it needs to be called manually
       const result = this.visitCallExpression(statement.expression)
       return {
-        value: result.value,
+        value: result.resultingValue,
         frames: this.frames,
         error: null,
         functionCallLog: this.functionCallLog,
@@ -262,33 +275,38 @@ export class Executor {
       this.environment = previous
     }
   }
-
-  private executeFrame<T>(
+  private executeFrame<T extends EvaluationResult>(
     context: Statement | Expression,
-    code: () => EvaluationResult
+    code: () => T
   ): T {
     this.location = context.location
     const result = code()
     this.addFrame(context.location, 'SUCCESS', result, undefined, context)
     this.location = null
-    return result.value
+    return result as T
   }
 
   public visitCallStatement(statement: CallStatement): void {
     this.executeFrame(statement, () => {
-      const result = this.visitCallExpression(statement.expression)
+      const result = this.visitCallExpression(
+        statement.expression
+      ) as EvaluationResultCallExpression
 
       if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
           name: statement.expression.name.lexeme,
         })
 
-      return result
+      return {
+        type: 'CallStatement',
+        resultingValue: result.resultingValue,
+        expression: result,
+      }
     })
   }
 
   public visitSetVariableStatement(statement: SetVariableStatement): void {
-    this.executeFrame(statement, () => {
+    this.executeFrame<EvaluationResultSetVariableStatement>(statement, () => {
       if (this.environment.inScope(statement.name)) {
         if (isCallable(this.environment.get(statement.name))) {
           this.error('FunctionAlreadyDeclared', statement.name.location, {
@@ -299,55 +317,7 @@ export class Executor {
           name: statement.name.lexeme,
         })
       }
-      let value
-      try {
-        value = this.evaluate(statement.initializer).value
-      } catch (e) {
-        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
-          this.error(
-            'CannotStoreNullFromFunction',
-            statement.initializer.location
-          )
-        } else {
-          throw e
-        }
-      }
-
-      if (isCallable(value)) {
-        this.error(
-          'MissingParenthesesForFunctionCall',
-          statement.initializer.location,
-          {
-            name: (statement.initializer as VariableLookupExpression).name
-              .lexeme,
-          }
-        )
-      }
-
-      this.environment.define(statement.name.lexeme, value)
-
-      return {
-        type: 'SetVariableStatement',
-        name: statement.name.lexeme,
-        value: value,
-      }
-    })
-  }
-
-  public visitChangeVariableStatement(
-    statement: ChangeVariableStatement
-  ): void {
-    this.executeFrame(statement, () => {
-      // Ensure the variable exists
-      this.lookupVariable(statement.name)
-
-      if (isCallable(this.environment.get(statement.name))) {
-        this.error('UnexpectedChangeOfFunction', statement.name.location, {
-          name: statement.name.lexeme,
-        })
-      }
-
-      let value
+      let value: EvaluationResultExpression
       try {
         value = this.evaluate(statement.value)
       } catch (e) {
@@ -358,65 +328,124 @@ export class Executor {
         }
       }
 
-      this.updateVariable(statement.name, value.value, statement)
+      if (isCallable(value.resultingValue)) {
+        this.error(
+          'MissingParenthesesForFunctionCall',
+          statement.value.location,
+          {
+            name: (statement.value as VariableLookupExpression).name.lexeme,
+          }
+        )
+      }
 
-      const oldValue = this.statementStartingVariablesLog[statement.name.lexeme]
+      this.environment.define(statement.name.lexeme, value.resultingValue)
 
       return {
-        type: 'ChangeVariableStatement',
+        type: 'SetVariableStatement',
         name: statement.name.lexeme,
-        oldValue,
         value: value,
+        resultingValue: value.resultingValue,
       }
     })
+  }
+
+  public visitChangeVariableStatement(
+    statement: ChangeVariableStatement
+  ): void {
+    this.executeFrame<EvaluationResultChangeVariableStatement>(
+      statement,
+      () => {
+        // Ensure the variable exists
+        this.lookupVariable(statement.name)
+
+        if (isCallable(this.environment.get(statement.name))) {
+          this.error('UnexpectedChangeOfFunction', statement.name.location, {
+            name: statement.name.lexeme,
+          })
+        }
+
+        let value: EvaluationResultExpression
+        try {
+          value = this.evaluate(statement.value)
+        } catch (e) {
+          if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+            this.error('CannotStoreNullFromFunction', statement.value.location)
+          } else {
+            throw e
+          }
+        }
+
+        this.updateVariable(statement.name, value.resultingValue, statement)
+
+        const oldValue =
+          this.statementStartingVariablesLog[statement.name.lexeme]
+
+        return {
+          type: 'ChangeVariableStatement',
+          name: statement.name.lexeme,
+          value: value,
+          oldValue,
+          resultingValue: value.resultingValue,
+        }
+      }
+    )
   }
 
   public visitChangeListElementStatement(
     statement: ChangeListElementStatement
   ): void {
-    this.executeFrame(statement, () => {
-      const list = this.evaluate(statement.list)
+    this.executeFrame<EvaluationResultChangeListElementStatement>(
+      statement,
+      () => {
+        const list = this.evaluate(statement.list)
 
-      if (!isArray(list.value)) {
-        this.error('InvalidChangeElementTarget', statement.list.location)
+        if (!isArray(list.resultingValue)) {
+          this.error('InvalidChangeElementTarget', statement.list.location)
+        }
+
+        const index = this.evaluate(statement.index)
+        this.verifyNumber(index.resultingValue, statement.index)
+        this.guardOutofBoundsIndex(
+          list.resultingValue,
+          index.resultingValue,
+          statement.index.location,
+          'change'
+        )
+
+        const value = this.evaluate(statement.value)
+
+        // Do the update
+        const oldValue = list.resultingValue[index.resultingValue - 1]
+        list.resultingValue[index.resultingValue - 1] = value.resultingValue
+
+        return {
+          type: 'ChangeListElementStatement',
+          list,
+          index,
+          value,
+          oldValue,
+          resultingValue: value.resultingValue,
+        }
       }
-
-      const index = this.evaluate(statement.index)
-      this.verifyNumber(index.value, statement.index)
-      this.guardOutofBoundsIndex(
-        list.value,
-        index.value,
-        statement.index.location,
-        'change'
-      )
-
-      const value = this.evaluate(statement.value).value
-
-      // Do the update
-      const oldValue = list.value[index.value - 1]
-      list.value[index.value - 1] = value
-
-      return {
-        type: 'ChangeListElementStatement',
-        oldValue,
-        value,
-      }
-    })
+    )
   }
 
   public visitIfStatement(statement: IfStatement): void {
-    const conditionResult = this.executeFrame(statement, () => {
-      const result = this.evaluate(statement.condition)
-      this.verifyBoolean(result.value, statement.condition)
+    const conditionResult = this.executeFrame<EvaluationResultIfStatement>(
+      statement,
+      () => {
+        const result = this.evaluate(statement.condition)
+        this.verifyBoolean(result.resultingValue, statement.condition)
 
-      return {
-        type: 'IfStatement',
-        value: result.value,
-        condition: result,
+        return {
+          type: 'IfStatement',
+          condition: result,
+          resultingValue: result.resultingValue,
+        }
       }
-    })
+    )
 
-    if (conditionResult) {
+    if (conditionResult.resultingValue) {
       this.executeStatement(statement.thenBranch)
       return
     }
@@ -425,10 +454,21 @@ export class Executor {
     this.executeStatement(statement.elseBranch!)
   }
 
+  public visitLogStatement(statement: LogStatement): void {
+    this.executeFrame<EvaluationResultLogStatement>(statement, () => {
+      const value = this.evaluate(statement.expression)
+      return {
+        type: 'LogStatement',
+        expression: value,
+        resultingValue: value.resultingValue,
+      }
+    })
+  }
+
   public visitRepeatStatement(statement: RepeatStatement): void {
-    let count = this.executeFrame(statement, () =>
+    let count = this.executeFrame<EvaluationResult>(statement, () =>
       this.evaluate(statement.count)
-    )
+    ).resultingValue
 
     if (!isNumber(count)) {
       this.error('RepeatCountMustBeNumber', statement.count.location, {
@@ -457,16 +497,6 @@ export class Executor {
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay
     }
-  }
-
-  public visitLogStatement(statement: LogStatement): void {
-    this.executeFrame(statement, () => {
-      const value = this.evaluate(statement.expression)
-      return {
-        type: 'LogStatement',
-        value: value,
-      }
-    })
   }
 
   public visitRepeatUntilGameOverStatement(
@@ -522,33 +552,44 @@ export class Executor {
   }
 
   public visitReturnStatement(statement: ReturnStatement): void {
-    const evaluationResult = this.executeFrame<EvaluationResult>(
+    const evaluationResult = this.executeFrame<EvaluationResultReturnStatement>(
       statement,
       () => {
+        if (statement.expression === null) {
+          return {
+            type: 'ReturnStatement',
+            resultingValue: undefined,
+          }
+        }
+
+        const value = this.evaluate(statement.expression)
         return {
           type: 'ReturnStatement',
-          value:
-            statement.value === null
-              ? undefined
-              : this.evaluate(statement.value),
+          expression: value,
+          resultingValue: value.resultingValue,
         }
       }
     )
-    throw new ReturnValue(evaluationResult?.value, statement.location)
+    throw new ReturnValue(evaluationResult?.resultingValue, statement.location)
   }
 
   visitListExpression(expression: ListExpression): EvaluationResult {
     return {
       type: 'ListExpression',
-      value: expression.elements.map((element) => this.evaluate(element).value),
+      resultingValue: expression.elements.map(
+        (element) => this.evaluate(element).resultingValue
+      ),
     }
   }
 
   visitForeachStatement(statement: ForeachStatement): void {
     const iterable = this.evaluate(statement.iterable)
-    if (!isArray(iterable.value) && !isString(iterable.value)) {
+    if (
+      !isArray(iterable.resultingValue) &&
+      !isString(iterable.resultingValue)
+    ) {
       this.error('ForeachNotIterable', statement.iterable.location, {
-        value: formatLiteral(iterable.value),
+        value: formatLiteral(iterable.resultingValue),
       })
     }
 
@@ -558,30 +599,37 @@ export class Executor {
       })
     }
 
-    if (iterable.value?.length === 0) {
-      this.executeFrame<any>(statement, () => {
+    if (iterable.resultingValue?.length === 0) {
+      this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
         return {
           type: 'ForeachStatement',
-          value: undefined,
-          iterable,
+          index: 0,
           elementName: statement.elementName.lexeme,
+          iterable,
         }
       })
     }
 
-    for (const value of iterable.value) {
-      this.executeFrame<any>(statement, () => {
+    let index = 0
+    for (const temporaryVariableValue of iterable.resultingValue) {
+      index += 1
+      const temporaryVariableName = statement.elementName.lexeme
+
+      this.environment.define(temporaryVariableName, temporaryVariableValue)
+
+      this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
         return {
           type: 'ForeachStatement',
-          value,
-          iterable,
           elementName: statement.elementName.lexeme,
+          index,
+          iterable,
+          temporaryVariableName,
+          temporaryVariableValue,
         }
       })
 
-      this.environment.define(statement.elementName.lexeme, value)
       this.executeBlock(statement.body, this.environment)
-      this.environment.undefine(statement.elementName.lexeme)
+      this.environment.undefine(temporaryVariableName)
     }
   }
 
@@ -642,38 +690,41 @@ export class Executor {
   //   return { type: 'DictionaryExpression', value: dict }
   // }
 
-  public visitCallExpression(expression: CallExpression): EvaluationResult {
+  public visitCallExpression(
+    expression: CallExpression
+  ): EvaluationResultCallExpression {
     return executeCallExpression(this, expression)
   }
 
   public visitLiteralExpression(
     expression: LiteralExpression
-  ): EvaluationResult {
+  ): EvaluationResultLiteralExpression {
     return {
       type: 'LiteralExpression',
-      value: expression.value,
+      resultingValue: expression.value,
     }
   }
 
   public visitVariableLookupExpression(
     expression: VariableLookupExpression
-  ): EvaluationResult {
+  ): EvaluationResultVariableLookupExpression {
     const value = this.lookupVariable(expression.name)
     return {
       type: 'VariableLookupExpression',
       name: expression.name.lexeme,
-      value,
+      resultingValue: value,
     }
   }
 
   public visitFunctionLookupExpression(
     expression: FunctionLookupExpression
-  ): EvaluationResult {
+  ): EvaluationResultFunctionLookupExpression {
     const value = this.lookupFunction(expression.name)
     return {
       type: 'FunctionLookupExpression',
       name: expression.name.lexeme,
-      value,
+      function: value,
+      resultingValue: true,
     }
   }
 
@@ -682,19 +733,17 @@ export class Executor {
 
     switch (expression.operator.type) {
       case 'NOT':
-        this.verifyBoolean(operand.value, expression.operand)
+        this.verifyBoolean(operand.resultingValue, expression.operand)
         return {
           type: 'UnaryExpression',
-          operator: expression.operator.type,
-          value: !operand.value,
+          resultingValue: !operand.resultingValue,
           right: operand,
         }
       case 'MINUS':
-        this.verifyNumber(operand.value, expression.operand)
+        this.verifyNumber(operand.resultingValue, expression.operand)
         return {
           type: 'UnaryExpression',
-          operator: expression.operator.type,
-          value: -operand.value,
+          resultingValue: -operand.resultingValue,
           right: operand,
         }
     }
@@ -711,81 +760,94 @@ export class Executor {
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
-      value: undefined,
-      operator: expression.operator.type,
       left: leftResult,
       right: rightResult,
+      resultingValue: undefined,
     }
 
     switch (expression.operator.type) {
       case 'INEQUALITY':
         // TODO: throw error when types are not the same?
-        return { ...result, value: leftResult.value !== rightResult.value }
+        return {
+          ...result,
+          resultingValue:
+            leftResult.resultingValue !== rightResult.resultingValue,
+        }
       case 'EQUALITY':
         // TODO: throw error when types are not the same?
         return {
           ...result,
-          value: leftResult.value === rightResult.value,
+          resultingValue:
+            leftResult.resultingValue === rightResult.resultingValue,
         }
       case 'GREATER':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
         return {
           ...result,
-          value: leftResult.value > rightResult.value,
+          resultingValue:
+            leftResult.resultingValue > rightResult.resultingValue,
         }
       case 'GREATER_EQUAL':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
         return {
           ...result,
-          value: leftResult.value >= rightResult.value,
+          resultingValue:
+            leftResult.resultingValue >= rightResult.resultingValue,
         }
       case 'LESS':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
         return {
           ...result,
-          value: leftResult.value < rightResult.value,
+          resultingValue:
+            leftResult.resultingValue < rightResult.resultingValue,
         }
       case 'LESS_EQUAL':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
         return {
           ...result,
-          value: leftResult.value <= rightResult.value,
+          resultingValue:
+            leftResult.resultingValue <= rightResult.resultingValue,
         }
       case 'MINUS':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
 
-        const minusValue = leftResult.value - rightResult.value
+        const minusValue =
+          leftResult.resultingValue - rightResult.resultingValue
         const minusValue2DP = Math.round(minusValue * 100) / 100
 
         return {
           ...result,
-          value: minusValue2DP,
+          resultingValue: minusValue2DP,
         }
       //> binary-plus
       case 'PLUS':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
 
-        const plusValue = leftResult.value + rightResult.value
+        const plusValue = leftResult.resultingValue + rightResult.resultingValue
         const plusValue2DP = Math.round(plusValue * 100) / 100
 
         return {
           ...result,
-          value: plusValue2DP,
+          resultingValue: plusValue2DP,
         }
 
-        if (isNumber(leftResult.value) && isNumber(rightResult.value)) {
-          const plusValue = leftResult.value + rightResult.value
+        if (
+          isNumber(leftResult.resultingValue) &&
+          isNumber(rightResult.resultingValue)
+        ) {
+          const plusValue =
+            leftResult.resultingValue + rightResult.resultingValue
           const plusValue2DP = Math.round(plusValue * 100) / 100
 
           return {
             ...result,
-            value: plusValue2DP,
+            resultingValue: plusValue2DP,
           }
         }
       /*if (isString(left.value) && isString(right.value))
@@ -804,31 +866,33 @@ export class Executor {
         )*/
 
       case 'SLASH':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
-        const slashValue = leftResult.value / rightResult.value
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
+        const slashValue =
+          leftResult.resultingValue / rightResult.resultingValue
         const slashValue2DP = Math.round(slashValue * 100) / 100
         return {
           ...result,
-          value: slashValue2DP,
+          resultingValue: slashValue2DP,
         }
       case 'STAR':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
 
-        const starValue = leftResult.value * rightResult.value
+        const starValue = leftResult.resultingValue * rightResult.resultingValue
         const starValue2DP = Math.round(starValue * 100) / 100
         return {
           ...result,
-          value: starValue2DP,
+          resultingValue: starValue2DP,
         }
       case 'PERCENT':
-        this.verifyNumber(leftResult.value, expression.left)
-        this.verifyNumber(rightResult.value, expression.right)
+        this.verifyNumber(leftResult.resultingValue, expression.left)
+        this.verifyNumber(rightResult.resultingValue, expression.right)
 
         return {
           ...result,
-          value: leftResult.value % rightResult.value,
+          resultingValue:
+            leftResult.resultingValue % rightResult.resultingValue,
         }
       case 'EQUAL':
         this.error('UnexpectedEqualsForEquality', expression.location, {
@@ -844,41 +908,39 @@ export class Executor {
   ): EvaluationResult {
     if (expression.operator.type === 'OR') {
       const leftOr = this.evaluate(expression.left)
-      this.verifyBoolean(leftOr.value, expression.left)
+      this.verifyBoolean(leftOr.resultingValue, expression.left)
 
       let rightOr: EvaluationResult | undefined = undefined
 
-      if (!leftOr.value) {
+      if (!leftOr.resultingValue) {
         rightOr = this.evaluate(expression.right)
-        this.verifyBoolean(rightOr.value, expression.right)
+        this.verifyBoolean(rightOr.resultingValue, expression.right)
       }
 
       return {
-        value: leftOr.value || rightOr?.value,
+        resultingValue: leftOr.resultingValue || rightOr?.resultingValue,
         type: 'LogicalExpression',
         left: leftOr,
         right: rightOr,
-        operator: expression.operator.type,
         shortCircuited: rightOr === undefined,
       }
     }
 
     const leftAnd = this.evaluate(expression.left)
-    this.verifyBoolean(leftAnd.value, expression.left)
+    this.verifyBoolean(leftAnd.resultingValue, expression.left)
 
     let rightAnd: EvaluationResult | undefined = undefined
 
-    if (leftAnd.value) {
+    if (leftAnd.resultingValue) {
       rightAnd = this.evaluate(expression.right)
-      this.verifyBoolean(rightAnd.value, expression.right)
+      this.verifyBoolean(rightAnd.resultingValue, expression.right)
     }
 
     return {
-      value: leftAnd.value && rightAnd?.value,
+      resultingValue: leftAnd.resultingValue && rightAnd?.resultingValue,
       type: 'LogicalExpression',
       left: leftAnd,
       right: rightAnd,
-      operator: expression.operator.type,
       shortCircuited: rightAnd === undefined,
     }
   }
@@ -890,12 +952,12 @@ export class Executor {
 
     return {
       type: 'GroupingExpression',
-      value: inner.value,
+      resultingValue: inner.resultingValue,
       inner,
     }
   }
 
-  public visitUpdateExpression(expression: UpdateExpression): EvaluationResult {
+  /*public visitUpdateExpression(expression: UpdateExpression): EvaluationResult {
     let value
     let newValue
 
@@ -912,46 +974,36 @@ export class Executor {
         type: 'UpdateExpression',
         operand: expression.operand,
         operator: expression.operator.type,
-        value,
+        result: value,
         newValue,
       }
     } else if (expression.operand instanceof GetExpression) {
       const obj = this.evaluate(expression.operand.obj)
 
-      /*
-      if (isObject(obj.value) && expression.operand.field.type === 'STRING') {
-        const fieldValue = this.evaluate(expression.operand.field)
-        value = obj.value[fieldValue.value]
-      } else if (
-        isArray(obj.value) &&
-        expression.operand.field.type === 'NUMBER'
-      ) {
-        value = obj.value[expression.operand.field.literal]
-      }*/
-      if (isArray(obj.value)) {
+      if (isArray(obj.result)) {
         const idx = this.evaluate(expression.operand.field)
         // TODO: Maybe a custom error message here about array indexes
         // needing to be numbers?
-        this.verifyNumber(idx.value, expression.operand.field)
-        value = obj.value[idx.value]
+        this.verifyNumber(idx.result, expression.operand.field)
+        value = obj.result[idx.result]
       }
 
       this.verifyNumber(expression.operator, value)
       newValue =
         expression.operator.type === 'PLUS_PLUS' ? value + 1 : value - 1
-      obj.value[expression.operand.field.literal] = newValue
+      obj.result[expression.operand.field.literal] = newValue
 
       return {
         type: 'UpdateExpression',
         operand: expression.operand,
         operator: expression.operator.type,
-        value,
+        result: value,
         newValue,
       }
     }
 
     throw new Error('InvalidUpdateExpression')
-  }
+  }*/
 
   private updateVariable(
     name: Token,
@@ -980,7 +1032,7 @@ export class Executor {
       }
     }*/
 
-    if (!(isArray(obj.value) || isString(obj.value))) {
+    if (!(isArray(obj.resultingValue) || isString(obj.resultingValue))) {
       this.error('InvalidIndexGetterTarget', expression.location, {
         expression,
         obj,
@@ -990,25 +1042,25 @@ export class Executor {
     const idx = this.evaluate(expression.field)
     // TODO: Maybe a custom error message here about array indexes
     // or string indexes needing to be numbers?
-    this.verifyNumber(idx.value, expression.field)
+    this.verifyNumber(idx.resultingValue, expression.field)
 
     this.guardOutofBoundsIndex(
-      obj.value,
-      idx.value,
+      obj.resultingValue,
+      idx.resultingValue,
       expression.field.location,
       'get'
     )
 
-    const value = obj.value[idx.value - 1] // 0-index
+    const value = obj.resultingValue[idx.resultingValue - 1] // 0-index
 
     return {
       type: 'GetExpression',
       obj: obj,
       expression: `${expression.obj.location.toCode(this.sourceCode)}[${
-        idx.value
+        idx.resultingValue
       }]`,
       field: idx,
-      value,
+      resultingValue: value,
     }
   }
 
@@ -1016,16 +1068,16 @@ export class Executor {
     const obj = this.evaluate(expression.obj)
 
     if (
-      (isObject(obj.value) && expression.field.type === 'STRING') ||
-      (isArray(obj.value) && expression.field.type === 'NUMBER')
+      (isObject(obj.resultingValue) && expression.field.type === 'STRING') ||
+      (isArray(obj.resultingValue) && expression.field.type === 'NUMBER')
     ) {
       const value = this.evaluate(expression.value)
-      obj.value[expression.field.literal] = value.value
+      obj.resultingValue[expression.field.literal] = value.resultingValue
 
       return {
         type: 'SetExpression',
         obj,
-        value,
+        resultingValue: value,
         field: expression.field.literal,
         expression: `${expression.obj.location.toCode(this.sourceCode)}[${
           expression.field.lexeme
@@ -1089,9 +1141,9 @@ export class Executor {
 
   public evaluate(expression: Expression): EvaluationResultExpression {
     const method = `visit${expression.type}`
-    const result = this[method](expression)
-    this.guardNull(result.value, expression)
-    return result
+    const evaluationResult = this[method](expression)
+    this.guardNull(evaluationResult.resultingValue, expression)
+    return evaluationResult
   }
 
   private lookupVariable(name: Token): any {
@@ -1133,11 +1185,11 @@ export class Executor {
   }
 
   public lookupFunction(name: Token): any {
-    let variable = this.environment.get(name)
-    if (variable === undefined) {
-      variable = this.globals.get(name)
+    let fn = this.environment.get(name)
+    if (fn === undefined) {
+      fn = this.globals.get(name)
     }
-    if (variable === undefined) {
+    if (fn === undefined) {
       this.error('CouldNotFindFunction', name.location, {
         name: name.lexeme,
 
@@ -1153,7 +1205,7 @@ export class Executor {
         },
       })
     }
-    return variable
+    return fn
   }
 
   private guardOutofBoundsIndex(
@@ -1219,7 +1271,14 @@ export class Executor {
       description: '',
       context: context,
     }
-    frame.description = describeFrame(frame, this.externalFunctions)
+    const descriptionContext = {
+      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
+        acc[fn.name] = fn.description
+        return acc
+      }, {}),
+    }
+
+    frame.description = describeFrame(frame, descriptionContext)
 
     this.frames.push(frame)
 

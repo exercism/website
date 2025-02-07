@@ -8,6 +8,9 @@
 
     code {
         overflow-wrap: break-word;
+        &[data-hl-from] {
+            cursor: help;
+        }
     }
 
     & :not(pre) > code {
@@ -51,6 +54,13 @@
 
         .tooltip-arrow {
             border-right-color: rgb(59 130 246);
+        }
+
+        hr {
+            @apply my-12 opacity-[0.5];
+        }
+        h3 {
+            @apply font-medium mb-4;
         }
     }
 

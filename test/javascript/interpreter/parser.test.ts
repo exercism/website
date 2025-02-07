@@ -43,8 +43,8 @@ describe('comments', () => {
     expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
     const varStmt = stmts[0] as SetVariableStatement
     expect(varStmt.name.lexeme).toBe('a')
-    expect(varStmt.initializer).toBeInstanceOf(LiteralExpression)
-    expect((varStmt.initializer as LiteralExpression).value).toBe(5)
+    expect(varStmt.value).toBeInstanceOf(LiteralExpression)
+    expect((varStmt.value as LiteralExpression).value).toBe(5)
   })
   test('text with symbols', () => {
     const stmts = parse(`
@@ -129,7 +129,7 @@ describe('variable', () => {
     expect(statements[0]).toBeInstanceOf(SetVariableStatement)
     const varStatement = statements[0] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('x')
-    const literalExpr = varStatement.initializer as LiteralExpression
+    const literalExpr = varStatement.value as LiteralExpression
     expect(literalExpr.value).toBe(1)
   })
 
@@ -139,7 +139,7 @@ describe('variable', () => {
     expect(statements[0]).toBeInstanceOf(SetVariableStatement)
     const varStatement = statements[0] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('fooBar')
-    const literalExpr = varStatement.initializer as LiteralExpression
+    const literalExpr = varStatement.value as LiteralExpression
     expect(literalExpr.value).toBe('abc')
   })
 })
@@ -154,7 +154,7 @@ describe('assignment', () => {
     expect(statements[1]).toBeInstanceOf(SetVariableStatement)
     const varStatement = statements[1] as SetVariableStatement
     expect(varStatement.name.lexeme).toBe('x')
-    const literalExpr = varStatement.initializer as LiteralExpression
+    const literalExpr = varStatement.value as LiteralExpression
     expect(literalExpr.value).toBe(2)
   })
 })
@@ -193,8 +193,8 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
+      const getExpr = varStmtWithGet.value as GetExpression
       expect((getExpr.field as LiteralExpression).value).toBe('title')
       expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
@@ -211,8 +211,8 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.initializer).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.initializer as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
+      const getExpr = varStmtWithGet.value as GetExpression
       expect(getExpr.field.literal).toBe('name')
       expect(getExpr.obj).toBeInstanceOf(GetExpression)
       const nestedGetExpr = getExpr.obj as GetExpression
@@ -422,6 +422,22 @@ describe('logical', () => {
 })
 
 describe('if', () => {
+  test('single boolean', () => {
+    const stmts = parse(`
+      if true do
+        set x to 1
+      end
+    `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(IfStatement)
+    const expStmt = stmts[0] as IfStatement
+    expect(expStmt.condition).toBeInstanceOf(LiteralExpression)
+    expect(expStmt.thenBranch).toBeInstanceOf(BlockStatement)
+    const thenStmt = expStmt.thenBranch as BlockStatement
+    expect(thenStmt.statements).toBeArrayOfSize(1)
+    expect(thenStmt.statements[0]).toBeInstanceOf(SetVariableStatement)
+    expect(expStmt.elseBranch).toBeNil()
+  })
   test('without else', () => {
     const stmts = parse(`
       if something is true do

@@ -49,7 +49,7 @@ describe('strings', () => {
       const { frames } = interpret(`log "foobar"`)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].result?.value.value).toBe('foobar')
+      expect(frames[0].result?.resultingValue).toBe('foobar')
     })
 
     test('iterate', () => {
@@ -60,8 +60,8 @@ describe('strings', () => {
       `)
       expect(frames).toBeArrayOfSize(4)
       expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[1].result?.value.value).toBe('a')
-      expect(frames[3].result?.value.value).toBe('b')
+      expect(frames[1].result?.resultingValue).toBe('a')
+      expect(frames[3].result?.resultingValue).toBe('b')
     })
 
     describe('index access', () => {
@@ -69,7 +69,7 @@ describe('strings', () => {
         const { frames } = interpret(`log "foobar"[4] `)
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].result?.value.value).toBe('b')
+        expect(frames[0].result?.resultingValue).toBe('b')
       })
     })
   })

@@ -521,7 +521,7 @@ describe('evaluateFunction', () => {
     )
     expect(value).toBe(1)
     expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.value.value).toBe(1)
+    expect(frames[0].result?.resultingValue).toBe(1)
   })
 
   test('with arguments', () => {
@@ -990,7 +990,7 @@ describe('context', () => {
         'main'
       )
       expect(frames).toBeArrayOfSize(4)
-      expect(frames[3].result?.value.value).toBe(3)
+      expect(frames[3].result?.resultingValue.value).toBe(3)
     })
 
     test("don't wrap function declarations", () => {
@@ -1005,7 +1005,7 @@ describe('context', () => {
       )
       expect(value).toBe(1)
       expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].result?.value.value).toBe(1)
+      expect(frames[0].result?.resultingValue).toBe(1)
     })
   })
 })

@@ -33,7 +33,6 @@ import {
   ReturnStatement,
   Statement,
   SetVariableStatement,
-  WhileStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
   LogStatement,
@@ -43,7 +42,6 @@ import type { Token, TokenType } from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
-import { get } from 'lodash'
 
 export class Parser {
   private readonly scanner: Scanner
@@ -219,13 +217,13 @@ export class Parser {
       name: name.lexeme,
     })
 
-    const initializer = this.expression()
+    const value = this.expression()
     this.consumeEndOfLine()
 
     return new SetVariableStatement(
       name,
-      initializer,
-      Location.between(setToken, initializer)
+      value,
+      Location.between(setToken, value)
     )
   }
 
@@ -280,14 +278,14 @@ export class Parser {
       name: list,
     })
 
-    const initializer = this.expression()
+    const value = this.expression()
     this.consumeEndOfLine()
 
     return new ChangeListElementStatement(
       list,
       index,
-      initializer,
-      Location.between(changeToken, initializer)
+      value,
+      Location.between(changeToken, value)
     )
   }
 

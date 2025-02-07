@@ -94,10 +94,10 @@ describe('for each', () => {
         const echos: string[] = []
         const { frames } = interpret(
           `
-            for each num in [] do
-              echo(num)
-            end
-            `,
+          for each num in [] do
+            echo(num)
+          end
+          `,
           generateEchosContext(echos)
         )
         expect(frames).toBeArrayOfSize(1)
@@ -117,7 +117,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(frames[0].variables).toMatchObject({ num: 1 })
         expect(frames[1].status).toBe('SUCCESS')
         expect(frames[1].variables).toMatchObject({ num: 1 })
         expect(echos).toEqual(['1'])
@@ -134,7 +134,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(6)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(frames[0].variables).toMatchObject({ num: 1 })
         expect(frames[1].status).toBe('SUCCESS')
         expect(frames[1].variables).toMatchObject({ num: 1 })
         expect(frames[2].status).toBe('SUCCESS')
@@ -174,7 +174,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(frames[0].variables).toMatchObject({ num: 'a' })
         expect(frames[1].status).toBe('SUCCESS')
         expect(frames[1].variables).toMatchObject({ num: 'a' })
         expect(echos).toEqual(['a'])
@@ -192,7 +192,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(6)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(frames[0].variables).toMatchObject({ num: 'a' })
         expect(frames[1].status).toBe('SUCCESS')
         expect(frames[1].variables).toMatchObject({ num: 'a' })
         expect(frames[2].status).toBe('SUCCESS')

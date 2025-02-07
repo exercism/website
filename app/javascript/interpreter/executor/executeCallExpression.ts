@@ -6,7 +6,11 @@ import {
   LogicError,
 } from '../error'
 import { isCallable } from '../functions'
-import { EvaluationResult } from '../evaluation-result'
+import {
+  EvaluationResult,
+  EvaluationResultCallExpression,
+  EvaluationResultFunctionLookupExpression,
+} from '../evaluation-result'
 import { isNumber } from '../checks'
 import { cloneDeep } from 'lodash'
 
@@ -42,24 +46,27 @@ function throwMissingFunctionError(
 export function executeCallExpression(
   executor: Executor,
   expression: CallExpression
-): EvaluationResult {
-  let callee: any
+): EvaluationResultCallExpression {
+  let ce
 
   // The catch here always rethrows the error.
   try {
-    callee = executor.evaluate(expression.callee)
+    ce = executor.evaluate(expression.callee)
   } catch (e: Error) {
     throwMissingFunctionError(executor, expression, e)
   }
+  const callee = ce as EvaluationResultFunctionLookupExpression
 
-  if (!isCallable(callee.value)) {
+  if (!isCallable(callee.function)) {
     executor.error('NonCallableTarget', expression.location, { callee })
   }
 
   const args: EvaluationResult[] = []
-  for (const arg of expression.args) args.push(executor.evaluate(arg))
+  for (const arg of expression.args) {
+    args.push(executor.evaluate(arg))
+  }
 
-  const arity = callee.value.arity
+  const arity = callee.function.arity
   const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
 
   if (args.length < minArity || args.length > maxArity) {
@@ -94,16 +101,16 @@ export function executeCallExpression(
   }
 
   const fnName = callee.name
-  let value
+  let value: EvaluationResultCallExpression
 
   try {
     // Log it's usage for testing checks
     executor.addFunctionCallToLog(fnName, args)
     executor.addFunctionToCallStack(fnName, expression)
 
-    value = callee.value.call(
+    value = callee.function.call(
       executor.getExecutionContext(),
-      args.map((arg) => cloneDeep(arg.value))
+      args.map((arg) => cloneDeep(arg.resultingValue))
     )
 
     executor.popCallStack()
@@ -119,8 +126,8 @@ export function executeCallExpression(
 
   return {
     type: 'CallExpression',
+    resultingValue: value,
     callee,
     args,
-    value,
   }
 }

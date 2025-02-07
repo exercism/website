@@ -63,10 +63,10 @@ function lineInformationWidget(view: EditorView): DecorationSet {
     return Decoration.none
   if (!shouldShowWidget) return Decoration.none
 
-  const data = widgetData.html
+  const { html, status } = widgetData
 
   let deco = Decoration.widget({
-    widget: new InformationWidget(data, widgetData.status),
+    widget: new InformationWidget(html, status, view),
     side: 1,
   })
   let lastPosOfLine = view.state.doc.line(widgetData.line).to

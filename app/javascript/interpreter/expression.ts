@@ -17,9 +17,6 @@ export class LiteralExpression extends Expression {
   public children() {
     return []
   }
-  public description() {
-    return `<code>${formatLiteral(this.value)}</code>`
-  }
 }
 
 export class VariableLookupExpression extends Expression {
@@ -29,9 +26,6 @@ export class VariableLookupExpression extends Expression {
   public children() {
     return []
   }
-  public description() {
-    return `the <code>${this.name.lexeme}</code> variable`
-  }
 }
 
 export class FunctionLookupExpression extends Expression {
@@ -40,9 +34,6 @@ export class FunctionLookupExpression extends Expression {
   }
   public children() {
     return []
-  }
-  public description() {
-    return `the <code>${this.name.lexeme}</code> function`
   }
 }
 export class CallExpression extends Expression {
@@ -56,15 +47,6 @@ export class CallExpression extends Expression {
   }
   public children() {
     return ([this.callee] as Expression[]).concat(this.args)
-  }
-
-  public description(result?: EvaluationResultCallExpression): string {
-    const argsDescription = '()'
-    let desc = `<code>${this.callee.name.lexeme}${argsDescription}</code>`
-    if (result) {
-      desc += ` (which returned <code>${formatLiteral(result.value)}</code>)`
-    }
-    return desc
   }
 }
 
@@ -85,7 +67,7 @@ export class DictionaryExpression extends Expression {
     super('DictionaryExpression')
   }
   public children() {
-    return this.elements.values
+    return Array.from(this.elements.values())
   }
 }
 

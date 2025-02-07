@@ -200,7 +200,7 @@ export default class DrawExercise extends Exercise {
     y: number,
     width: number,
     height: number
-  ): Rectangle {
+  ): void {
     const [absX, absY, absWidth, absHeight] = [x, y, width, height].map((val) =>
       rToA(val)
     )
@@ -220,7 +220,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
-    return rect
+    // return rect
   }
 
   public circle(
@@ -228,7 +228,7 @@ export default class DrawExercise extends Exercise {
     x: number,
     y: number,
     radius: number
-  ): Circle {
+  ): void {
     const [absX, absY, absRadius] = [x, y, radius].map((val) => rToA(val))
 
     const elem = Shapes.circle(
@@ -245,7 +245,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
     this.animateElement(executionCtx, elem, absX, absY)
-    return circle
+    // return circle
   }
 
   public ellipse(
@@ -254,7 +254,7 @@ export default class DrawExercise extends Exercise {
     y: number,
     rx: number,
     ry: number
-  ) {
+  ): void {
     const [absX, absY, absRx, absRy] = [x, y, rx, ry].map((val) => rToA(val))
 
     const elem = Shapes.ellipse(
@@ -272,7 +272,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(ellipse)
     this.visibleShapes.push(ellipse)
     this.animateElement(executionCtx, elem, absX, absY)
-    return ellipse
+    // return ellipse
   }
 
   public triangle(
@@ -310,7 +310,7 @@ export default class DrawExercise extends Exercise {
     this.shapes.push(triangle)
     this.visibleShapes.push(triangle)
     this.animateElement(executionCtx, elem, absX1, absY1)
-    return triangle
+    // return triangle
   }
 
   public move(
@@ -408,68 +408,68 @@ export default class DrawExercise extends Exercise {
       func: (_: any, min: number, max: number) => {
         return Math.floor(Math.random() * (max - min + 1)) + min
       },
-      description: 'Gives a random number between ${arg1} and ${arg2}.',
+      description: 'generated a random number between ${arg1} and ${arg2}',
     },
 
     {
       name: 'rectangle',
       func: this.rectangle.bind(this),
       description:
-        'It drew a rectangle at coordinates (${arg1}, ${arg2}) with a width of ${arg3} and a height of ${arg4}.',
+        'drew a rectangle at coordinates (${arg1}, ${arg2}) with a width of ${arg3} and a height of ${arg4}',
     },
     {
       name: 'triangle',
       func: this.triangle.bind(this),
       description:
-        'It drew a rectangle with three points: (${arg1}, ${arg2}), (${arg3}, ${arg4}), and (${arg5}, ${arg6}).',
+        'drew a rectangle with three points: (${arg1}, ${arg2}), (${arg3}, ${arg4}), and (${arg5}, ${arg6})',
     },
     {
       name: 'circle',
       func: this.circle.bind(this),
       description:
-        'It drew a circle with its center at (${arg1}, ${arg2}), and a radius of ${arg3}.',
+        'drew a circle with its center at (${arg1}, ${arg2}), and a radius of ${arg3}',
     },
     {
       name: 'ellipse',
       func: this.ellipse.bind(this),
       description:
-        'It drew an ellipse with its center at (${arg1}, ${arg2}), a radial width of ${arg3}, and a radial height of ${arg4}.',
+        'drew an ellipse with its center at (${arg1}, ${arg2}), a radial width of ${arg3}, and a radial height of ${arg4}',
     },
     {
       name: 'polygon',
       func: this.polygon.bind(this),
-      description: 'Draws a polygon at the specified position.',
+      description: 'drew a polygon at the specified position',
     },
     {
       name: 'clear',
       func: this.clear.bind(this),
-      description: 'Clears the canvas.',
+      description: 'cleared the canvas',
     },
     {
       name: 'move',
       func: this.move.bind(this),
-      description: 'Moves an element to the specified position.',
+      description: 'moved an element to the specified position',
     },
     {
       name: 'change_pen_color',
       func: this.changePenColor.bind(this),
-      description: 'Changes the pen color',
+      description: 'changed the pen color',
     },
     {
       name: 'fill_color_hex',
       func: this.fillColorHex.bind(this),
-      description: 'Changes the fill color using a hex string',
+      description: 'changed the fill color using a hex string',
     },
     {
       name: 'fill_color_rgb',
       func: this.fillColorRGB.bind(this),
-      description: 'Changes the fill color using red, green and blue values',
+      description: 'changed the fill color using red, green and blue values',
     },
     {
       name: 'fill_color_hsl',
       func: this.fillColorHSL.bind(this),
       description:
-        'Changes the fill color using hue, saturation and lumisity values',
+        'changed the fill color using hue, saturation and lumisity values',
     },
   ]
 }

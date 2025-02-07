@@ -94,4 +94,12 @@
         /* width: 2em; */
         text-align: right;
     }
+
+    .cm-highlightedLine {
+        @apply relative;
+        outline: 1.5px solid var(--highlighted-line-border-color);
+        border-radius: 2px;
+        @apply mx-[2px];
+        padding-left: 4px !important;
+    }
 }

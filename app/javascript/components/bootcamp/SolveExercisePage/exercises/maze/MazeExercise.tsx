@@ -344,37 +344,37 @@ export default class MazeExercise extends Exercise {
     {
       name: 'move',
       func: this.move.bind(this),
-      description: 'Moves the character one step forward',
+      description: 'moved the character one step forward',
     },
     {
       name: 'turn_left',
       func: this.turnLeft.bind(this),
-      description: 'Turns the character to the left',
+      description: 'turned the character to the left',
     },
     {
       name: 'turn_right',
       func: this.turnRight.bind(this),
-      description: 'Turns the character to the right',
+      description: 'turned the character to the right',
     },
     {
       name: 'can_turn_left',
       func: this.canTurnLeft.bind(this),
-      description: 'Checks if the character can turn left',
+      description: 'checked if the character can turn left',
     },
     {
       name: 'can_turn_right',
       func: this.canTurnRight.bind(this),
-      description: 'Checks if the character can turn right',
+      description: 'checked if the character can turn right',
     },
     {
       name: 'can_move',
       func: this.canMove.bind(this),
-      description: 'Checks if the character can move forward',
+      description: 'checked if the character can move forward',
     },
     {
       name: 'look',
       func: this.look.bind(this),
-      description: 'Looks in a direction and returns what is there',
+      description: 'looked in a direction and returns what is there',
     },
   ]
 }

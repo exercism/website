@@ -46,7 +46,8 @@ export function execProjectTest(
     evaluated = evaluateFunction(
       options.studentCode,
       context,
-      testData.function
+      testData.function,
+      ...testData.params
     )
   } else {
     evaluated = interpret(options.studentCode, context)

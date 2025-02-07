@@ -1,0 +1,77 @@
+{
+  "title": "Symbols (Part 1) Tests",
+  "description": "Turn descriptions into drawing elements",
+  "level": 5,
+  "idx": 6,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Map descriptions to components",
+      "tests": [
+        {
+          "slug": "sunny",
+          "description_html": "Sunny days only need a sun",
+          "name": "Sunny",
+          "function": "description_to_elements",
+          "params": ["sunny"],
+          "expected": ["sun"],
+          "image_slug": "weather/symbols-part-1/sunny.jpg"
+        },
+        {
+          "slug": "dull",
+          "description_html": "Dull days need clouds",
+          "name": "Dull",
+          "function": "description_to_elements",
+          "params": ["dull"],
+          "expected": ["clouds"],
+          "image_slug": "weather/symbols-part-1/dull.jpg"
+        },
+        {
+          "slug": "miserable",
+          "description_html": "Miserable days need clouds and rain",
+          "name": "Miserable",
+          "function": "description_to_elements",
+          "params": ["miserable"],
+          "expected": ["clouds", "rain"],
+          "image_slug": "weather/symbols-part-1/miserable.jpg"
+        },
+        {
+          "slug": "hopeful",
+          "description_html": "Hopeful days need clouds and sun",
+          "name": "Hopeful",
+          "function": "description_to_elements",
+          "params": ["hopeful"],
+          "expected": ["sun", "clouds"],
+          "image_slug": "weather/symbols-part-1/hopeful.jpg"
+        },
+        {
+          "slug": "rainbow-territory",
+          "description_html": "Rainbow territory needs clouds, rain, and sun",
+          "name": "Rainbow Territory",
+          "function": "description_to_elements",
+          "params": ["rainbow-territory"],
+          "expected": ["sun", "clouds", "rain"],
+          "image_slug": "weather/symbols-part-1/rainbow-territory.jpg"
+        },
+        {
+          "slug": "exciting",
+          "description_html": "Exciting days need clouds and snow",
+          "name": "Exciting",
+          "function": "description_to_elements",
+          "params": ["exciting"],
+          "expected": ["clouds", "snow"],
+          "image_slug": "weather/symbols-part-1/exciting.jpg"
+        },
+        {
+          "slug": "snowboarding-time",
+          "description_html": "Snowboarding time needs clouds, snow, and sun",
+          "name": "Snowboarding Time",
+          "function": "description_to_elements",
+          "params": ["snowboarding-time"],
+          "expected": ["sun", "clouds", "snow"],
+          "image_slug": "weather/symbols-part-1/snowboarding-time.jpg"
+        }
+      ]
+    }
+  ]
+}

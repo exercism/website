@@ -288,7 +288,7 @@
       "tests": [
         {
           "slug": "bonus-1",
-          "name": "You used `look` only once.",
+          "name": "Use `look` only once.",
           "setup_functions": [
             [
               "setupGrid",
@@ -319,7 +319,7 @@
         },
         {
           "slug": "bonus-2",
-          "name": "You added no more than 13 new lines of code.",
+          "name": "Refactor your code to add only 13 new lines.",
           "setup_functions": [
             [
               "setupGrid",

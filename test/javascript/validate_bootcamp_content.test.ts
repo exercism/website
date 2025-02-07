@@ -106,7 +106,12 @@ function testState(
     }
     let evaluated
     if (testData.function) {
-      evaluated = evaluateFunction(exampleScript, context, testData.function)
+      evaluated = evaluateFunction(
+        exampleScript,
+        context,
+        testData.function,
+        ...testData.params
+      )
     } else {
       evaluated = interpret(exampleScript, context)
     }

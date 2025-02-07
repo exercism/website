@@ -1,0 +1,27 @@
+//
+//
+// Code for sunshine
+//
+//
+
+// Draw the sky
+fill_color_hex("#ADD8E6") 
+rectangle(0, 0, 100, 100)
+
+// Draw the sun
+fill_color_hex("#ffed06")
+circle(50,50,25)
+
+//
+//
+// Your code for cloud-rain-sun
+//
+//
+{{EXERCISE:weather/cloud-rain-sun}}
+
+//
+//
+// Your code from the part-1
+//
+//
+{{EXERCISE:weather/symbols-part-1}}

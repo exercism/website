@@ -19,6 +19,9 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
     assert_equal code, submission.code
     assert_equal test_results, submission.test_results
     assert_equal readonly_ranges, submission.readonly_ranges
+
+    # Updates solution
+    assert_equal code, solution.reload.code
   end
 
   test "fail fails" do

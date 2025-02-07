@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import Modal from 'react-modal'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
@@ -6,6 +6,7 @@ import animation from '@/../animations/finish-lesson-modal-top.json'
 import { FinishLessonModalContext } from './FinishLessonModalContextWrapper'
 import { useContext } from 'react'
 import { SolveExercisePageContext } from '@/components/bootcamp/SolveExercisePage/SolveExercisePageContextWrapper'
+import useTestStore from '../../SolveExercisePage/store/testStore'
 // import { playAudio } from "@/utils/play-audio";
 // @ts-ignore
 // import celebrationSound from "/task-completed-sound.aac";
@@ -51,6 +52,25 @@ function InitialView() {
   const { handleCompleteSolution, setIsOpen } = useContext(
     FinishLessonModalContext
   )
+
+  const { bonusTestSuiteResult } = useTestStore()
+
+  const hasMoreBonusTasks = useMemo(() => {
+    if (!bonusTestSuiteResult) return false
+    const uncompletedBonusTests = bonusTestSuiteResult?.tests.filter((bt) => {
+      return bt.expects.some((e) => !e.pass)
+    })
+    return uncompletedBonusTests.length > 0
+  }, [bonusTestSuiteResult])
+
+  const bonusTaskInfoText = useMemo(() => {
+    return bonusTestSuiteResult!.tests.length > 1
+      ? `There are ${
+          bonusTestSuiteResult!.tests.length
+        } bonus tasks on this exercise to complete. Do you want to go back to complete those now?`
+      : `There is a bonus task on this exercise to complete. Do you want to go back to complete it now?`
+  }, [bonusTestSuiteResult])
+
   return (
     <>
       <LottieAnimation
@@ -59,17 +79,22 @@ function InitialView() {
         style={{ height: '200px', width: '300px' }}
       />
       <h2 className="text-[25px] mb-12 font-semibold">Nice work!</h2>
-      <p className="text-18 leading-140 mb-20">
-        You can now mark this exercise as completed and move forward, or go back
-        and carry on tweaking your code.
-      </p>
+
+      {hasMoreBonusTasks ? (
+        <p className="text-18 leading-140 mb-8">{bonusTaskInfoText}</p>
+      ) : (
+        <p className="text-18 leading-140 mb-20">
+          You can now mark this exercise as completed and move forward, or go
+          back and carry on tweaking your code.
+        </p>
+      )}
 
       <div className="flex items-center gap-8 self-stretch">
         <button
           onClick={() => setIsOpen(false)}
           className="btn-l btn-secondary"
         >
-          Tweak further
+          {hasMoreBonusTasks ? 'Tackle bonus tasks' : 'Tweak further'}
         </button>
         <button
           onClick={handleCompleteSolution}

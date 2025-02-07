@@ -119,25 +119,45 @@ export function useConstructRunCode({
       // reset on successful test run
       setHasCodeBeenEdited(false)
 
+      const tests = testResults.tests.map((test) => {
+        const firstFailingExpect = test.expects.find((e) => e.pass === false)
+        const actual = firstFailingExpect
+          ? firstFailingExpect.testsType === 'io'
+            ? firstFailingExpect.actual
+            : firstFailingExpect.errorHtml
+          : null
+        return {
+          slug: test.slug,
+          status: test.status,
+          actual,
+        }
+      })
+
+      const bonusTests = bonusTestResults.tests.map((test) => {
+        const firstFailingExpect = test.expects.find((e) => e.pass === false)
+        const actual = firstFailingExpect
+          ? firstFailingExpect.testsType === 'io'
+            ? firstFailingExpect.actual
+            : firstFailingExpect.errorHtml
+          : null
+        return {
+          slug: test.slug,
+          status: test.status,
+          actual,
+          bonus: true,
+        }
+      })
+
       submitCode({
         code: studentCode,
         testResults: {
           status: testResults.status,
-          tests: testResults.tests.map((test) => {
-            const firstFailingExpect = test.expects.find(
-              (e) => e.pass === false
-            )
-            const actual = firstFailingExpect
-              ? firstFailingExpect.testsType === 'io'
-                ? firstFailingExpect.actual
-                : firstFailingExpect.errorHtml
-              : null
-            return {
-              slug: test.slug,
-              status: test.status,
-              actual,
-            }
-          }),
+          tests: [testResults, bonusTestResults].flatMap((testResults, index) =>
+            generateSubmissionTestArray({
+              testResults,
+              isBonus: index === 1,
+            })
+          ),
         },
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
@@ -156,4 +176,28 @@ export function useConstructRunCode({
   )
 
   return runCode
+}
+
+function generateSubmissionTestArray({
+  testResults,
+  isBonus = false,
+}: {
+  testResults: TestSuiteResult<NewTestResult>
+  isBonus?: boolean
+}) {
+  return testResults.tests.map((test) => {
+    const firstFailingExpect = test.expects.find((e) => !e.pass)
+    const actual = firstFailingExpect
+      ? firstFailingExpect.testsType === 'io'
+        ? firstFailingExpect.actual
+        : firstFailingExpect.errorHtml
+      : null
+
+    return {
+      slug: test.slug,
+      status: test.status,
+      actual,
+      ...(isBonus && { bonus: true }),
+    }
+  })
 }

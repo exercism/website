@@ -230,8 +230,8 @@ describe('statements', () => {
           change pos to pos + 10
         end
       `)
-      expect(frames).toBeArrayOfSize(7)
-      expect(frames[6].variables).toMatchObject({ pos: 60 })
+      expect(frames).toBeArrayOfSize(11)
+      expect(frames[10].variables).toMatchObject({ pos: 60 })
     })
 
     test('declared variable is persisted after repeat', () => {
@@ -242,8 +242,8 @@ describe('statements', () => {
         end
         change pos to pos + 10
       `)
-      expect(frames).toBeArrayOfSize(8)
-      expect(frames[7].variables).toMatchObject({ pos: 70 })
+      expect(frames).toBeArrayOfSize(12)
+      expect(frames[11].variables).toMatchObject({ pos: 70 })
     })
 
     test('declared variable is persisted after if', () => {
@@ -286,7 +286,8 @@ describe('statements', () => {
           change x to x + 1
         end
       `)
-      expect(frames).toBeArrayOfSize(5)
+
+      expect(frames).toBeArrayOfSize(7)
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].variables).toMatchObject({ x: 0 })
       expect(frames[1].status).toBe('SUCCESS')
@@ -294,9 +295,13 @@ describe('statements', () => {
       expect(frames[2].status).toBe('SUCCESS')
       expect(frames[2].variables).toMatchObject({ x: 1 })
       expect(frames[3].status).toBe('SUCCESS')
-      expect(frames[3].variables).toMatchObject({ x: 2 })
+      expect(frames[3].variables).toMatchObject({ x: 1 })
       expect(frames[4].status).toBe('SUCCESS')
-      expect(frames[4].variables).toMatchObject({ x: 3 })
+      expect(frames[4].variables).toMatchObject({ x: 2 })
+      expect(frames[5].status).toBe('SUCCESS')
+      expect(frames[5].variables).toMatchObject({ x: 2 })
+      expect(frames[6].status).toBe('SUCCESS')
+      expect(frames[6].variables).toMatchObject({ x: 3 })
     })
   })
 

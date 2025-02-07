@@ -500,10 +500,9 @@ export class Executor {
     }
 
     let iteration = 0
-    while (iteration <= count) {
+    while (iteration < count) {
       iteration++
       this.guardInfiniteLoop(statement.keyword.location)
-      this.executeBlock(statement.body, this.environment)
 
       this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
         return {
@@ -512,6 +511,8 @@ export class Executor {
           iteration,
         }
       })
+
+      this.executeBlock(statement.body, this.environment)
 
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay

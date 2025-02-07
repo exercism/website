@@ -5,6 +5,7 @@ import {
   Expression,
   GroupingExpression,
 } from './expression'
+import { Location } from './location'
 import { Statement } from './statement'
 
 export function formatLiteral(value?: any): string {
@@ -13,6 +14,12 @@ export function formatLiteral(value?: any): string {
   }
 
   return JSON.stringify(value)
+}
+
+export function codeTag(code: string, location: Location): string {
+  const from = location.absolute.begin
+  const to = location.absolute.end
+  return `<code data-hl-from="${from}" data-hl-to-"${to}">${code}</code>`
 }
 
 export function extractCallExpressions(

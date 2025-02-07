@@ -28,7 +28,7 @@ test('variable', () => {
     `)
   const actual = describeFrame(frames[1])
   assertHTML(actual, `<p>This logged <code>"Jeremy"</code>.</p>`, [
-    `<li>Jiki got the box called<code>name</code>off the shelves and took<code>"Jeremy"</code>out of it.</li>`,
+    `<li>Jiki got the box called <code data-hl-from=\"35\" data-hl-to-\"39\">name</code> off the shelves and took <code data-hl-from=\"35\" data-hl-to-\"39\">"Jeremy"</code> out of it.</li>`,
     `<li>Jiki wrote <code>"Jeremy"</code> here for you!</li>`,
   ])
 })

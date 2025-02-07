@@ -1,4 +1,4 @@
-import { WidgetType } from '@codemirror/view'
+import { EditorView, WidgetType } from '@codemirror/view'
 import {
   computePosition,
   autoUpdate,
@@ -10,6 +10,10 @@ import {
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import 'highlight.js/styles/default.min.css'
+import {
+  addHighlight,
+  removeAllHighlightEffect,
+} from '../edit-editor/highlightRange'
 
 export class InformationWidget extends WidgetType {
   private tooltip: HTMLElement | null = null
@@ -21,7 +25,8 @@ export class InformationWidget extends WidgetType {
 
   constructor(
     private readonly tooltipHtml: string,
-    private readonly status: 'ERROR' | 'SUCCESS'
+    private readonly status: 'ERROR' | 'SUCCESS',
+    private readonly view: EditorView
   ) {
     super()
   }
@@ -65,6 +70,24 @@ export class InformationWidget extends WidgetType {
     closeButton.innerHTML = '&times;'
     closeButton.classList.add('tooltip-close')
     closeButton.onclick = () => this.hideTooltip()
+
+    this.tooltip.querySelectorAll('code').forEach((ct) => {
+      ct.addEventListener('mouseenter', () => {
+        const from = ct.getAttribute('data-hl-from')
+        const to = ct.getAttribute('data-hl-to')
+        if (from && to) {
+          this.view.dispatch({
+            effects: addHighlight.of({
+              from: Number(from) - 1,
+              to: Number(to) - 1,
+            }),
+          })
+        }
+      })
+      ct.addEventListener('mouseleave', () => {
+        this.view.dispatch({ effects: removeAllHighlightEffect.of() })
+      })
+    })
 
     const errorHeader = this.tooltip.querySelector('.error h2')
     if (errorHeader) {

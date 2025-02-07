@@ -1,8 +1,8 @@
 {
-  "title": "Symbols (Part 2) Tests",
+  "title": "Symbols (Part 2)",
   "description": "Turn descriptions into drawing elements",
   "level": 5,
-  "idx": 7,
+  "idx": 6,
   "project_type": "draw",
   "tests_type": "state",
   "tasks": [

@@ -2,7 +2,7 @@
   "title": "Acronym",
   "description": "Generate an acronym from a given phrase.",
   "level": 5,
-  "idx": 6,
+  "idx": 7,
   "tests_type": "io",
   "stdlib_functions": ["join", "to_upper_case"],
   "tasks": [

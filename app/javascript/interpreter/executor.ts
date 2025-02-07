@@ -59,6 +59,7 @@ import type {
   EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
   EvaluationResultLogStatement,
+  EvaluationResultRepeatStatement,
   EvaluationResultReturnStatement,
   EvaluationResultSetVariableStatement,
   EvaluationResultVariableLookupExpression,
@@ -466,9 +467,8 @@ export class Executor {
   }
 
   public visitRepeatStatement(statement: RepeatStatement): void {
-    let count = this.executeFrame<EvaluationResult>(statement, () =>
-      this.evaluate(statement.count)
-    ).resultingValue
+    const countResult = this.evaluate(statement.count)
+    const count = countResult.resultingValue
 
     if (!isNumber(count)) {
       this.error('RepeatCountMustBeNumber', statement.count.location, {
@@ -476,8 +476,8 @@ export class Executor {
       })
     }
 
-    if (count < 1) {
-      this.error('RepeatCountMustBeGreaterThanZero', statement.count.location, {
+    if (count < 0) {
+      this.error('RepeatCountMustBeZeroOrGreater', statement.count.location, {
         count,
       })
     }
@@ -489,10 +489,30 @@ export class Executor {
       })
     }
 
-    while (count > 0) {
+    if (count == 0) {
+      this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
+        return {
+          type: 'RepeatStatement',
+          count: countResult,
+          iteration: 0,
+        }
+      })
+    }
+
+    let iteration = 0
+    while (iteration < count) {
+      iteration++
       this.guardInfiniteLoop(statement.keyword.location)
+
+      this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
+        return {
+          type: 'RepeatStatement',
+          count: countResult,
+          iteration,
+        }
+      })
+
       this.executeBlock(statement.body, this.environment)
-      count--
 
       // Delay repeat for things like animations
       this.time += this.languageFeatures.repeatDelay

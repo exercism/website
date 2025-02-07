@@ -230,8 +230,8 @@ describe('RepeatCountTooHigh', () => {
       end
     `)
 
-    expectFrameToBeError(frames[1], `${max + 1}`, 'RepeatCountTooHigh')
-    expect(frames[1].error!.message).toBe(
+    expectFrameToBeError(frames[0], `${max + 1}`, 'RepeatCountTooHigh')
+    expect(frames[0].error!.message).toBe(
       `RepeatCountTooHigh: count: 101, max: ${max}`
     )
   })

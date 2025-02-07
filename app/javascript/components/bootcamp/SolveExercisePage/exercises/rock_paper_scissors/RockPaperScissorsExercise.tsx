@@ -90,18 +90,17 @@ export default class RockPaperScissorsExercise extends Exercise {
     {
       name: 'announce_result',
       func: this.announceResult.bind(this),
-      description:
-        'Announces the result of the game - a string of "player_1", "player_2" or "tie"',
+      description: 'announced the result of the game as ${arg1}',
     },
     {
       name: 'get_player_1_choice',
       func: this.getPlayer1Choice.bind(this),
-      description: 'Returns the choice of player 1',
+      description: 'returned the choice of player 1',
     },
     {
       name: 'get_player_2_choice',
       func: this.getPlayer2Choice.bind(this),
-      description: 'Returns the choice of player 2',
+      description: 'returned the choice of player 2',
     },
   ]
 }

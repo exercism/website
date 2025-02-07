@@ -5,6 +5,7 @@ class Bootcamp::Submission::Create
 
   def call
     create_submission.tap do |submission|
+      solution.update(code:)
       fire_events!(submission)
     end
   end

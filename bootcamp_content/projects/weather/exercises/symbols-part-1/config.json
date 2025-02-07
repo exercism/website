@@ -23,7 +23,7 @@
           "name": "Dull",
           "function": "description_to_elements",
           "params": ["dull"],
-          "expected": ["clouds"],
+          "expected": ["cloud"],
           "image_slug": "weather/symbols-part-1/dull.jpg"
         },
         {
@@ -32,7 +32,7 @@
           "name": "Miserable",
           "function": "description_to_elements",
           "params": ["miserable"],
-          "expected": ["clouds", "rain"],
+          "expected": ["cloud", "rain"],
           "image_slug": "weather/symbols-part-1/miserable.jpg"
         },
         {
@@ -41,7 +41,7 @@
           "name": "Hopeful",
           "function": "description_to_elements",
           "params": ["hopeful"],
-          "expected": ["sun", "clouds"],
+          "expected": ["sun", "cloud"],
           "image_slug": "weather/symbols-part-1/hopeful.jpg"
         },
         {
@@ -50,7 +50,7 @@
           "name": "Rainbow Territory",
           "function": "description_to_elements",
           "params": ["rainbow-territory"],
-          "expected": ["sun", "clouds", "rain"],
+          "expected": ["sun", "cloud", "rain"],
           "image_slug": "weather/symbols-part-1/rainbow-territory.jpg"
         },
         {
@@ -59,7 +59,7 @@
           "name": "Exciting",
           "function": "description_to_elements",
           "params": ["exciting"],
-          "expected": ["clouds", "snow"],
+          "expected": ["cloud", "snow"],
           "image_slug": "weather/symbols-part-1/exciting.jpg"
         },
         {
@@ -68,7 +68,7 @@
           "name": "Snowboarding Time",
           "function": "description_to_elements",
           "params": ["snowboarding-time"],
-          "expected": ["sun", "clouds", "snow"],
+          "expected": ["sun", "cloud", "snow"],
           "image_slug": "weather/symbols-part-1/snowboarding-time.jpg"
         }
       ]

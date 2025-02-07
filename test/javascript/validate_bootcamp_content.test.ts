@@ -149,7 +149,6 @@ function testState(
         actual = state[check.name]
       }
 
-      console.log(actual, matcher, check.name)
       expect(actual)[matcher](check.value)
     })
   })

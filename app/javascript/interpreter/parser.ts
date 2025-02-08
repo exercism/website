@@ -671,7 +671,7 @@ export class Parser {
     // e.g. foobar()[0]
     while (this.match('LEFT_BRACKET')) {
       // const leftBracket = this.previous()
-      const field = this.call()
+      const field = this.expression()
       const rightBracket = this.consume(
         'RIGHT_BRACKET',
         'MissingRightBracketAfterFieldNameOrIndex',

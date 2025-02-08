@@ -306,11 +306,10 @@ export default class SpaceInvadersExercise extends Exercise {
 
     if (row < 1 || row > this.startingAliens.length) {
       executionCtx.logicError(
-        deepTrim(
-          `Oh no, you tried to access a row of aliens that doesn't exist.
-        You asked for row ${row}, but there are only ${this.startingAliens.length} rows of aliens.
-        `
-        )
+        deepTrim(`
+          Oh no, you tried to access a row of aliens that doesn't exist.
+          You asked for row ${row}, but there are only ${this.startingAliens.length} rows of aliens.
+        `)
       )
     }
 

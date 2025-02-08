@@ -35,6 +35,42 @@ describe('strings', () => {
       const literalExpr = logStmt.expression as LiteralExpression
       expect(literalExpr.value).toBe('nice')
     })
+    describe('index access', () => {
+      test('literal', () => {
+        const stmts = parse(`log "foobar"[4] `)
+        console.log(stmts)
+        expect(stmts).toBeArrayOfSize(1)
+        expect(stmts[0]).toBeInstanceOf(LogStatement)
+        const logStmt = stmts[0] as LogStatement
+        expect(logStmt.expression).toBeInstanceOf(GetExpression)
+        const getExpr = logStmt.expression as GetExpression
+        expect(getExpr.obj).toBeInstanceOf(LiteralExpression)
+        expect(getExpr.field).toBeInstanceOf(LiteralExpression)
+
+        expect((getExpr.obj as LiteralExpression).value).toBe('foobar')
+        expect((getExpr.field as LiteralExpression).value).toBe(4)
+      })
+      test('expression', () => {
+        const stmts = parse(`log "foobar"[4 + 1] `)
+        console.log(stmts)
+        expect(stmts).toBeArrayOfSize(1)
+        expect(stmts[0]).toBeInstanceOf(LogStatement)
+        const logStmt = stmts[0] as LogStatement
+        expect(logStmt.expression).toBeInstanceOf(GetExpression)
+        const getExpr = logStmt.expression as GetExpression
+        expect(getExpr.obj).toBeInstanceOf(LiteralExpression)
+        expect(getExpr.field).toBeInstanceOf(BinaryExpression)
+
+        expect((getExpr.obj as LiteralExpression).value).toBe('foobar')
+
+        const fieldExpr = getExpr.field as BinaryExpression
+        expect(fieldExpr.operator.lexeme).toBe('+')
+        expect(fieldExpr.left).toBeInstanceOf(LiteralExpression)
+        expect(fieldExpr.right).toBeInstanceOf(LiteralExpression)
+        expect((fieldExpr.left as LiteralExpression).value).toBe(4)
+        expect((fieldExpr.right as LiteralExpression).value).toBe(1)
+      })
+    })
   })
 
   describe('execute', () => {
@@ -70,6 +106,12 @@ describe('strings', () => {
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
         expect(frames[0].result?.resultingValue).toBe('b')
+      })
+      test('expression', () => {
+        const { frames } = interpret(`log "foobar"[4 + 1] `)
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].result?.resultingValue).toBe('a')
       })
     })
   })

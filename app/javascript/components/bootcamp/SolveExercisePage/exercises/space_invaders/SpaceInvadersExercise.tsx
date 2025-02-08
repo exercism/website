@@ -3,6 +3,8 @@ import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
 import { cloneDeep, random } from 'lodash'
 import { d } from '@codemirror/legacy-modes/mode/d'
+import { deepTrim } from '@/interpreter/describers/helpers'
+import { isNumber } from '@/interpreter/checks'
 
 type GameStatus = 'running' | 'won' | 'lost'
 type AlienStatus = 'alive' | 'dead'
@@ -294,7 +296,24 @@ export default class SpaceInvadersExercise extends Exercise {
     this.moveLaser(executionCtx)
   }
 
-  public getStartingAliensInRow(_: ExecutionContext, row: number) {
+  public getStartingAliensInRow(executionCtx: ExecutionContext, row: number) {
+    console.log(executionCtx, row)
+    if (!isNumber(row)) {
+      executionCtx.logicError(
+        'Oh no, the row input you provided is not a number.'
+      )
+    }
+
+    if (row < 1 || row > this.startingAliens.length) {
+      executionCtx.logicError(
+        deepTrim(
+          `Oh no, you tried to access a row of aliens that doesn't exist.
+        You asked for row ${row}, but there are only ${this.startingAliens.length} rows of aliens.
+        `
+        )
+      )
+    }
+
     return this.startingAliens
       .slice()
       .reverse()

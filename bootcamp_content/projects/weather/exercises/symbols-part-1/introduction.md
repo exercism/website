@@ -1,8 +1,8 @@
 # Weather Symbols (Part 1)
 
-In the last exercise, you draw the sun peaking out behind a raining cloud.
+In the last exercise, you drew the sun peaking out behind a raining cloud.
 
-For our next step, we're going to start to drew a wider range of weather symbols, made up of smaller components.
+For our next step, we're going to start to draw a wider range of weather symbols, made up of smaller components.
 It's split into two parts.
 
 In this first part, we're going to take a weather description (like `sunny` or `rainbow-territory`) and turn it into a list of the components that need drawing.

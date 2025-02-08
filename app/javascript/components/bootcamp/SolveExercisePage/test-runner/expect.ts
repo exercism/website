@@ -78,5 +78,12 @@ export function expect({
         pass: actual <= expected,
       }
     },
+    toIncludeSameMembers(expected: any[]) {
+      return {
+        ...returnObject,
+        expected,
+        pass: isEqual(expected.sort(), actual.sort()),
+      }
+    },
   }
 }

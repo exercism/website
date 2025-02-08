@@ -1,5 +1,5 @@
 import React from 'react'
-import { diffWords, type Change } from 'diff'
+import { diffChars, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
@@ -127,7 +127,7 @@ export function getDiffOfExpectedAndActual(
   actual: any
 ): Change[] {
   if (expected === actual) {
-    return diffWords(formatLiteral(expected), formatLiteral(actual))
+    return diffChars(formatLiteral(expected), formatLiteral(actual))
   }
 
   if (actual == null) {
@@ -148,7 +148,7 @@ export function getDiffOfExpectedAndActual(
   }
 
   if (typeof expected == 'string' && typeof actual == 'string') {
-    return diffWords(formatLiteral(expected), formatLiteral(actual))
+    return diffChars(formatLiteral(expected), formatLiteral(actual))
   }
   return [
     {

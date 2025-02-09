@@ -504,4 +504,11 @@ test('InvalidChangeElementTarget', () => {
   expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
 })
 
+test('ListsCannotBeCompared', () => {
+  const code = `log [] == []`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], `log [] == []`, 'ListsCannotBeCompared')
+  expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
+})
+
 // TOOD: Strings are immutable

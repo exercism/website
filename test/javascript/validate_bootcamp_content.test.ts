@@ -62,7 +62,7 @@ function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
     }
 
     if (value != testData.expected) {
-      console.log(error, value, frames)
+      // console.log(error, value, frames)
     }
     expect(value).toEqual(testData.expected)
   })

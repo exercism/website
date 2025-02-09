@@ -776,7 +776,10 @@ export class Executor {
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
     const leftResult = this.evaluate(expression.left)
+    this.verifyLiteral(leftResult.resultingValue, expression.left)
+
     const rightResult = this.evaluate(expression.right)
+    this.verifyLiteral(rightResult.resultingValue, expression.right)
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',
@@ -1117,6 +1120,23 @@ export class Executor {
         name: (expr as VariableLookupExpression).name,
       })
     }
+  }
+
+  private verifyLiteral(value: any, expr: Expression): void {
+    if (isNumber(value)) return
+    if (isString(value)) return
+    if (isBoolean(value)) return
+
+    this.guardUncalledFunction(value, expr)
+
+    if (isArray(value)) {
+      this.error('ListsCannotBeCompared', expr.location, {
+        value: formatLiteral(value),
+      })
+    }
+    this.error('IncomparableTypes', expr.location, {
+      value: formatLiteral(value),
+    })
   }
 
   private verifyNumber(value: any, expr: Expression): void {

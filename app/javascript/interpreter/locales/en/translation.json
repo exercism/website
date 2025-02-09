@@ -59,7 +59,8 @@
       "PointlessStatement": "This line of code doesn't do anything.",
       "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)",
       "MissingEachAfterFor": "Did you forget to write `each` after the `for` keyword?",
-      "ForeachNotIterable": "Jiki couldn't work out how to iterate over `{{value}}`. He expected it to be a string or a list."
+      "ForeachNotIterable": "Jiki couldn't work out how to iterate over `{{value}}`. He expected it to be a string or a list.",
+      "ListsCannotBeCompared": "You can't compare lists directly to each other in JikiScript. Different languages handle this very differently, and Jiki's decided to opt out of the confusion. If you need to compare lists, we'll provide you with a specific function in the instructions."
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

@@ -130,6 +130,8 @@ export type RuntimeErrorType =
   | 'IndexOutOfBoundsInGet'
   | 'IndexOutOfBoundsInChange'
   | 'MaxTotalExecutionTimeReached'
+  | 'ListsCannotBeCompared'
+  | 'IncomparableTypes'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

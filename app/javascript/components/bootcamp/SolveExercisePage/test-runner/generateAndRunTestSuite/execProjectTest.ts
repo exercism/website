@@ -6,9 +6,13 @@ import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 
-/**
- This is of type TestCallback
- */
+export function execProjectTestAsync(
+  project: Project,
+  testData: TaskTest,
+  options: TestRunnerOptions
+) {
+  return Promise.resolve(execProjectTest(project, testData, options))
+}
 export function execProjectTest(
   Project: Project,
   testData: TaskTest,

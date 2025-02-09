@@ -42,7 +42,7 @@ export function useConstructRunCode({
    * This function is used to run the code in the editor
    */
   const runCode = useCallback(
-    (studentCode: string, editorView: EditorView | null) => {
+    async (studentCode: string, editorView: EditorView | null) => {
       if (!tasks) {
         console.error('tasks are missing in useRunCode')
         return
@@ -87,7 +87,7 @@ export function useConstructRunCode({
         return
       }
 
-      const testResults = generateAndRunTestSuite({
+      const testResults = await generateAndRunTestSuite({
         studentCode,
         tasks,
         config,

@@ -14,7 +14,7 @@ export default (options: TestRunnerOptions) => {
     }
     options.tasks.map((taskData) => {
       taskData.tests.map((testData) => {
-        test(testData.name, () => {
+        test(testData.name, testData.descriptionHtml, () => {
           let result: ReturnType<TestCallback>
           if (project) {
             result = execProjectTest(project, testData, options)

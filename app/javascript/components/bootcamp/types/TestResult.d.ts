@@ -13,6 +13,7 @@ declare type TestSuiteResult<Result> = {
 declare type NewTestResult = {
   name: string
   slug: string
+  descriptionHtml?: string
   testIndex: number
   status: 'pass' | 'fail'
 } & ReturnType<TestCallback>
@@ -20,6 +21,7 @@ declare type NewTestResult = {
 declare type PreviousTestResult = {
   testIndex: number
   name: string
+  descriptionHtml?: string
   slug: string
   status: 'pass' | 'fail'
   actual: string | null

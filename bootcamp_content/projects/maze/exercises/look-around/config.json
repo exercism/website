@@ -288,7 +288,8 @@
       "tests": [
         {
           "slug": "bonus-1",
-          "name": "Use `look` only once.",
+          "name": "Only write look() once.",
+          "description_html": "Can you have the `look` function appear only once in your code?",
           "setup_functions": [
             [
               "setupGrid",
@@ -319,7 +320,8 @@
         },
         {
           "slug": "bonus-2",
-          "name": "Refactor your code to add only 13 new lines.",
+          "name": "Add only 13 lines.",
+          "description_html": "Can you solve this by adding only 13 new lines of code?",
           "setup_functions": [
             [
               "setupGrid",

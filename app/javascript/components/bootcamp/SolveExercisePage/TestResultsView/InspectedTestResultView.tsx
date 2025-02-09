@@ -44,11 +44,6 @@ export function InspectedTestResultViewLHS({
   result: NewTestResult
   firstExpect: ProcessedExpect | null
 }) {
-  const { flatPreviewTaskTests } = useTestStore()
-  const descriptionHtml = useMemo(
-    () => flatPreviewTaskTests[result.testIndex].descriptionHtml,
-    [flatPreviewTaskTests, result.testIndex]
-  )
   return (
     <div data-ci="inspected-test-result-view" className="scenario-lhs">
       <div className="scenario-lhs-content">
@@ -57,12 +52,12 @@ export function InspectedTestResultViewLHS({
           {result.name}
         </h3>
 
-        {descriptionHtml && descriptionHtml.length > 0 && (
+        {result.descriptionHtml && result.descriptionHtml.length > 0 && (
           <div className="description">
             <strong>Task: </strong>
             <span
               dangerouslySetInnerHTML={{
-                __html: descriptionHtml,
+                __html: result.descriptionHtml,
               }}
             />
           </div>

@@ -1,10 +1,11 @@
 {
   "slug": "string-puzzles",
-  "title": "String Puzzles",
-  "description": "An assortment of string-based puzzles",
+  "title": "String And List Puzzles",
+  "description": "An assortment of string-based and/or list-based puzzles",
   "exercises": [
     "two-fer",
     "guest-list",
+    "chop-shop",
     "reverse-string",
     "hamming",
     "rna-transcription",

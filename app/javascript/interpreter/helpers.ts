@@ -14,7 +14,7 @@ export function formatLiteral(value?: any): string {
     return ''
   }
 
-  return JSON.stringify(value)
+  return JSON.stringify(value, null, 1)
 }
 
 export function codeTag(code: string, location: Location): string {

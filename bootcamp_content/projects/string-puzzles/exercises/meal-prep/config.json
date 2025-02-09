@@ -23,8 +23,8 @@
           "name": "You have everything",
           "function": "shopping_list",
           "params": [
-            ["salsa", "guac", "chills", "spring greens", "cilantro"],
-            ["salsa", "guac", "chills", "spring greens", "cilantro"]
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"],
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"]
           ],
           "expected": []
         },

@@ -1,0 +1,57 @@
+function length with word do
+  set counter to 0
+  for each letter in word do
+    change counter to counter + 1
+  end
+  return counter
+end
+
+function surname with word do
+  set counter to 1
+  set final_space to 0
+  for each letter in word do
+    if letter == " " do
+      change final_space to counter
+    end
+    change counter to counter + 1
+  end
+
+  
+  change counter to final_space
+  set res to ""
+  repeat length(word) - final_space times do
+    change counter to counter + 1
+    change res to join(res, word[counter])
+  end
+
+  return res
+end
+
+function ends_with with word, substr do
+  set word_length to length(word)
+  set substr_length to length(substr)
+  if substr_length > word_length do
+    return false
+  end
+  
+  set counter to 1
+  for each letter in substr do
+    if letter != word[counter] do
+      return false
+    end
+    change counter to counter + 1
+  end
+  if substr_length == word_length or word[counter] == " " do
+    return true
+  end
+  return false
+end
+
+function on_guest_list with names, person do
+  for each name in names do
+    if surname(name) == surname(person) do
+      return true
+    end
+  end
+  return false
+end

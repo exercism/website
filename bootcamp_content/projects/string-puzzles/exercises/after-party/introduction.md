@@ -1,13 +1,13 @@
-# A-List Guest List
+# After Party
 
 We're back to playing the role of a bouncer.
-But this time, we're dealing with A-List celebrities.
+But this time, we're dealing with A-List Celebrities at the After Party.
 
 When these people show up to your party, they expect you to know them just by their first-names.
 Brad Pitt isn't going to waste his breath telling you his surname, he'll just say "Brad".
 
 Now, you're not really into all the celebrity nonsense, so despite Brad's expectations, you have no idea who he is.
-But you've been told not to make a fuss, so you just check the list to see if there's **any** Brad on there, and if there is, you let him in.
+But you've been told not to make a fuss, so you just check the list to see if there's **any** Brads on there, and if there are, you let him in.
 
 ## Instructions
 

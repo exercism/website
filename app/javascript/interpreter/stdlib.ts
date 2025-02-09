@@ -1,3 +1,4 @@
+import { isArray } from './checks'
 import { FunctionCallTypeMismatchError } from './error'
 import { ExecutionContext, ExternalFunction } from './executor'
 
@@ -19,6 +20,16 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: concatenate,
     description: 'concatenated the strings together',
     arity: [2, Infinity],
+  },
+  push: {
+    name: 'push',
+    func: push,
+    description: 'added an element to the list',
+  },
+  concat: {
+    name: 'concat',
+    func: concat,
+    description: 'joined the two lists together',
   },
   number_to_string: {
     name: 'number_to_string',
@@ -44,6 +55,20 @@ function concatenate(_: ExecutionContext, ...strings) {
   return strings.join('')
 }
 
+function push(_: ExecutionContext, list: any[], element: any) {
+  verifyType(list, 'list', 1)
+
+  list.push(element)
+  return list
+}
+
+function concat(_: ExecutionContext, list1: any[], list2: any[]) {
+  verifyType(list1, 'list', 1)
+  verifyType(list2, 'list', 2)
+
+  return list1.concat(list2)
+}
+
 function numberToString(_: ExecutionContext, num: number) {
   verifyType(num, 'number', 1)
 
@@ -56,11 +81,21 @@ function toUpperCase(_: ExecutionContext, str: string) {
   return str.toUpperCase()
 }
 
-function verifyType(arg: any, type: 'string' | 'number', argIdx: number) {
-  if (typeof arg !== type) {
+function verifyType(
+  arg: any,
+  targetType: 'string' | 'number' | 'list',
+  argIdx: number
+) {
+  let argType
+  if (isArray(arg)) {
+    argType = 'list'
+  } else {
+    argType = typeof arg
+  }
+  if (argType !== targetType) {
     throw new FunctionCallTypeMismatchError({
       argIdx,
-      expectedType: type,
+      expectedType: targetType,
       actualType: typeof arg,
     })
   }

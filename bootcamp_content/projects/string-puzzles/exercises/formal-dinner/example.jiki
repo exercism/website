@@ -6,23 +6,17 @@ function length with word do
   return counter
 end
 
-function first_space_position with name do
-  set counter to 1
-  for each letter in name do
-    if letter == " " do
-      return counter
-    end
-    change counter to counter + 1
-  end
-end
-
-function surname with name do
-  set fsp to first_space_position(name)
-  set counter to fsp
+function remove_honorific with name do
+  set counter to 0
+  set adding to false
   set res to ""
-  repeat length(name) - fsp times do
-    change counter to counter + 1
-    change res to join(res, name[counter])
+  for each letter in name do
+    if adding do
+      change res to join(res, letter)
+    end
+    if letter == " " do
+      change adding to true
+    end
   end
 
   return res
@@ -47,7 +41,7 @@ end
 
 function on_guest_list with names, person do
   for each name in names do
-    if ends_with(name, surname(person)) do
+    if ends_with(name, remove_honorific(person)) do
       return true
     end
   end

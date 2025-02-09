@@ -117,16 +117,17 @@ function processExpects(result: NewTestResult | null): ProcessedExpects {
     const { expected, actual } = expect
     return {
       ...expect,
-      diff: getDiffOfExpectedAndActual(expected, actual),
+      diff: getDiffOfExpectedAndActual(expect.pass, expected, actual),
     }
   })
 }
 
 export function getDiffOfExpectedAndActual(
+  passed: boolean,
   expected: any,
   actual: any
 ): Change[] {
-  if (expected === actual) {
+  if (passed) {
     return diffChars(formatLiteral(expected), formatLiteral(actual))
   }
 

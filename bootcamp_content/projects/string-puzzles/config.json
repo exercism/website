@@ -5,11 +5,12 @@
   "exercises": [
     "two-fer",
     "guest-list",
-    "after-party",
-    "formal-dinner",
     "reverse-string",
     "hamming",
     "rna-transcription",
+    "after-party",
+    "formal-dinner",
+    "matching-socks",
     "acronym"
   ]
 }

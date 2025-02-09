@@ -1,13 +1,17 @@
 {
-  "title": "Socks",
+  "title": "Matching Socks",
   "description": "Find the matching socks",
   "level": 5,
   "idx": 7,
   "tests_type": "io",
-  "stdlib_functions": ["join"],
+  "stdlib_functions": ["join", "push", "concat"],
+  "interpreter_options": {
+    "max_total_loop_iterations": 1000
+  },
+
   "tasks": [
     {
-      "name": "Socks",
+      "name": "Matching Socks",
       "tests": [
         {
           "slug": "empty-baskets",
@@ -22,17 +26,19 @@
           "description_html": "There's nothing clean",
           "name": "Nothing clean",
           "function": "matching_socks",
-          "params": [[], ["sweater"]]
+          "params": [[], ["sweater"]],
+          "expected": []
         },
         {
           "slug": "nothing-dirty",
           "description_html": "There's nothing dirty",
-          "name": "Nothing clean",
+          "name": "Nothing dirty",
           "function": "matching_socks",
-          "params": [["left spotty sock"], []]
+          "params": [["left spotty sock"], []],
+          "expected": []
         },
         {
-          "slug": "no socks",
+          "slug": "no-socks",
           "description_html": "There are no socks anywhere",
           "name": "No socks",
           "function": "matching_socks",
@@ -50,10 +56,16 @@
         {
           "slug": "a-big-mix",
           "description_html": "A mix of clothes",
-          "name": "One in each",
+          "name": "A big mix!",
           "function": "matching_socks",
           "params": [
-            ["left red sock", "sweater", "right red sock", "left blue sock"],
+            [
+              "left red sock",
+              "right green sock",
+              "sweater",
+              "right red sock",
+              "left blue sock"
+            ],
             [
               "right blue sock",
               "right red sock",
@@ -61,7 +73,7 @@
               "right spotty sock"
             ]
           ],
-          "expected": [["red socks", "blue socks", "spotty socks"]],
+          "expected": ["red socks", "blue socks", "spotty socks"],
           "matcher": "toIncludeSameMembers"
         }
       ]

@@ -81,10 +81,10 @@
           "function": "on_guest_list",
           "params": [
             [
-              "Andrew Lloyd Webber",
               "Brian May",
               "Brad Pitt",
-              "Albert Einstein"
+              "Albert Einstein",
+              "Andrew Lloyd Webber"
             ],
             "Baron Lloyd Webber"
           ],

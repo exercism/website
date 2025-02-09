@@ -27,6 +27,7 @@ body {
 }
 code {
     @apply leading-code;
+    white-space: pre-wrap;
 }
 
 .js-focus-visible :focus {

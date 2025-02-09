@@ -15,14 +15,17 @@ It takes two inputs, the dirty basket and the clean basket - both as lists of st
 Return a list of all the pairs of socks.
 
 For example:
+
 - If the clean basket contains: `["left blue sock", "green sweater"]`
-- And the dirty basket contains: `["blue shorts", "right blue sock", "left green sock"]` 
+- And the dirty basket contains: `["blue shorts", "right blue sock", "left green sock"]`
 - You should return `["blue socks"]
 
 The descriptions follow these rules:
+
 - They'll always be lower case.
 - They'll always be one or more words seperated by spaces.
 - For things that can be pair, they will always start with `"left"` and `"right"`
 
 You have the following functions available:
+
 - `join(str1, str2)`: This takes two strings and returns them joined together.

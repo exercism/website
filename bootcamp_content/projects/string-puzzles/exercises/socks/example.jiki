@@ -1,9 +1,0 @@
-function matching_socks with clean, dirty do
-  set upper_letter to to_upper_case(letter)
-  for each alpha_letter in "abcdefghijklmnopqrstuvwxyz" do
-    if upper_letter == to_upper_case(alpha_letter) do
-      return true
-    end
-  end
-  return false
-end

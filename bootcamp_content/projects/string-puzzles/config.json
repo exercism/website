@@ -5,6 +5,7 @@
   "exercises": [
     "two-fer",
     "guest-list",
+    "a-list-guest-list",
     "reverse-string",
     "hamming",
     "rna-transcription",

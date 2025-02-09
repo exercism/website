@@ -38,7 +38,7 @@
           "function": "matching_socks",
           "params": [["blue sweater"], ["green trousers"]],
           "expected": []
-        }
+        },
         {
           "slug": "one-in-each",
           "description_html": "There's a matching sock in each",
@@ -52,7 +52,15 @@
           "description_html": "A mix of clothes",
           "name": "One in each",
           "function": "matching_socks",
-          "params": [["left red sock", "sweater", "right red sock", "left blue sock"], ["right blue sock", "right red sock", "left spotty sock", "right spotty sock"]],
+          "params": [
+            ["left red sock", "sweater", "right red sock", "left blue sock"],
+            [
+              "right blue sock",
+              "right red sock",
+              "left spotty sock",
+              "right spotty sock"
+            ]
+          ],
           "expected": [["red socks", "blue socks", "spotty socks"]],
           "matcher": "toIncludeSameMembers"
         }

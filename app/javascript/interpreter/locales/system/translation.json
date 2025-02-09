@@ -109,7 +109,8 @@
       "IndexIsZero": "IndexIsZero",
       "IndexOutOfBoundsInGet": "IndexOutOfBoundsInGet: index: {{index}}, length: {{length}}, dataType: {{dataType}}",
       "IndexOutOfBoundsInChange": "IndexOutOfBoundsInChange: index: {{index}}, length: {{length}}, dataType: {{dataType}}",
-      "MaxTotalExecutionTimeReached": "MaxTotalExecutionTimeReached"
+      "MaxTotalExecutionTimeReached": "MaxTotalExecutionTimeReached",
+      "ListsCannotBeCompared": "ListsCannotBeCompared"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

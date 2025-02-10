@@ -1,3 +1,3 @@
 # Task 1
 
-Work out if you can fit another cut in!
+Work out if you what you need from the shops.

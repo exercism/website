@@ -4,7 +4,7 @@ You run a small hairdressing salon that focusses on speed over quality.
 People might leave a little rough around the edges, but they're not having to spend too long in the chair.
 
 You offer a few different services from styling to full haircuts, which take different times to complete.
-Your run the salon on a first-come, first-serve basis.
+You run the salon on a first-come, first-serve basis.
 There's no appointment system.
 
 As it gets towards the end of the day, you need a way of knowing if you

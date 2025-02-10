@@ -13,7 +13,7 @@ Write a function called `shopping_list`.
 It takes two inputs.
 The first is the contents of your fridge as a list of strings.
 The second are the items in the recipe, also as a list of strings.
-It should return a the things you need to buy, as a list of strings.
+It should return the things you need to buy, as a list of strings.
 
 You have one function avaiable:
 

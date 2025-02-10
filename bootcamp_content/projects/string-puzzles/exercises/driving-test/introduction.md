@@ -10,7 +10,7 @@ Otherwise, they send you out on the road!
 In your spare time, you administer these Driving Tests.
 As the student drives, you make notes on each area.
 If they make a minor mistake, you add a ❌ to the chart.
-If they make a major mistakee, you add a 💥.
+If they make a major mistake, you add a 💥.
 And if they pass that area without issue, you put down a ️✔.
 
 Now you just need to work out whether those notes means they've passed or not!

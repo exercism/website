@@ -1,6 +1,7 @@
 import { useLayoutEffect } from 'react'
 import useTaskStore from '../store/taskStore/taskStore'
 import useTestStore from '../store/testStore'
+import { parseParams } from '../test-runner/generateAndRunTestSuite/parseParams'
 
 export function useSetupStores({
   exercise,
@@ -11,6 +12,17 @@ export function useSetupStores({
 
   useLayoutEffect(() => {
     initializeTasks(exercise.tasks, null)
-    setFlatPreviewTaskTests(exercise.tasks.flatMap((task) => task.tests))
+    setFlatPreviewTaskTests(
+      exercise.tasks.flatMap((task) => {
+        const { tests } = task
+
+        const newTests = tests.map((test) => {
+          test.params = parseParams(test.params)
+          return test
+        })
+
+        return newTests
+      })
+    )
   }, [exercise, code])
 }

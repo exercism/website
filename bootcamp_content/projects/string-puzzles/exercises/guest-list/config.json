@@ -2,7 +2,7 @@
   "title": "Guest List",
   "description": "Determine if someone is on the guest list",
   "level": 5,
-  "idx": 2,
+  "idx": 3,
   "tests_type": "io",
   "tasks": [
     {

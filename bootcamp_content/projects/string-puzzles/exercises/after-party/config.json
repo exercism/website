@@ -2,7 +2,7 @@
   "title": "After Party",
   "description": "Solve an After Party guest list",
   "level": 5,
-  "idx": 7,
+  "idx": 10,
   "tests_type": "io",
   "tasks": [
     {

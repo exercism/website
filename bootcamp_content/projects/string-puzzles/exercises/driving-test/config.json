@@ -2,7 +2,7 @@
   "title": "Driving Test",
   "description": "Work out whether someone passes the driving test",
   "level": 5,
-  "idx": 1,
+  "idx": 2,
   "tests_type": "io",
   "tasks": [
     {

@@ -2,7 +2,7 @@
   "title": "Matching Socks",
   "description": "Find the matching socks",
   "level": 5,
-  "idx": 7,
+  "idx": 13,
   "tests_type": "io",
   "stdlib_functions": ["join", "push", "concat"],
   "interpreter_options": {

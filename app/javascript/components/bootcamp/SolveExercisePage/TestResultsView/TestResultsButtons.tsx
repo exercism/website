@@ -4,8 +4,7 @@ import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
 import type { InformationWidgetData } from '../CodeMirror/extensions/end-line-information/line-information'
 import { useShouldAnimate } from './useShouldAnimate'
-import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
-import { useLogger } from '../../common/hooks/useLogger'
+import useTaskStore from '../store/taskStore/taskStore'
 
 const TRANSITION_DELAY = 0.1
 
@@ -49,13 +48,13 @@ export function TestResultsButtons() {
 export function BonusTestResultsButtons() {
   const { bonusTestSuiteResult, setInspectedTestResult, inspectedTestResult } =
     useTestStore()
+  const { shouldShowBonusTasks } = useTaskStore()
   const { setInformationWidgetData } = useEditorStore()
 
   const { shouldAnimate } = useShouldAnimate(bonusTestSuiteResult)
-  const { solution } = useContext(SolveExercisePageContext)
 
   // Don't show these if the basic tasks are not done yet.
-  if (!solution.passedBasicTests) return null
+  if (!shouldShowBonusTasks) return null
   if (!bonusTestSuiteResult) return null
 
   return (

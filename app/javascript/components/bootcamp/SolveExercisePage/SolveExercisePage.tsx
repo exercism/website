@@ -30,7 +30,7 @@ export default function SolveExercisePage({
     code,
   })
 
-  useSetupStores({ exercise, code })
+  useSetupStores({ exercise, code, solution })
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,

@@ -9,6 +9,15 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
     numberOfTasks: 0,
     numberOfCompletedTasks: 0,
     wasFinishLessonModalShown: false,
+    shouldShowBonusTasks: false,
+    setShouldShowBonusTasks: (shouldShowBonusTasks) => {
+      set((state) => ({
+        shouldShowBonusTasks:
+          state.bonusTasks &&
+          state.bonusTasks.length > 0 &&
+          shouldShowBonusTasks,
+      }))
+    },
     areAllTasksCompleted: undefined,
     activeTaskIndex: 0,
     setWasFinishLessonModalShown: (wasFinishLessonModalShown) => {
@@ -69,6 +78,8 @@ export type TaskStore = {
   numberOfCompletedTasks: number
   activeTaskIndex: number
   wasFinishLessonModalShown: boolean
+  shouldShowBonusTasks: boolean
+  setShouldShowBonusTasks: (shouldShowBonusTasks: boolean) => void
   setWasFinishLessonModalShown: (wasFinishLessonModalShown: boolean) => void
   setCurrentTaskIndex: (index: number) => void
 }

@@ -6,11 +6,13 @@ import { parseParams } from '../test-runner/generateAndRunTestSuite/parseParams'
 export function useSetupStores({
   exercise,
   code,
-}: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
-  const { initializeTasks } = useTaskStore()
+  solution,
+}: Pick<SolveExercisePageProps, 'exercise' | 'solution' | 'code'>) {
+  const { initializeTasks, setShouldShowBonusTasks } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
   useLayoutEffect(() => {
+    setShouldShowBonusTasks(solution.passedBasicTests)
     initializeTasks(exercise.tasks, null)
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {

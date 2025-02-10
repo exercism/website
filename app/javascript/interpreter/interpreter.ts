@@ -19,6 +19,11 @@ export interface SomethingWithLocation {
   location: Location
 }
 
+type FunctionCall = {
+  name: string
+  args: any[]
+}
+
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {
@@ -93,6 +98,15 @@ export function evaluateFunction(
   interpreter.compile()
   return interpreter.evaluateFunction(functionCall, ...args)
 }
+export function evaluateFunctions(
+  sourceCode: string,
+  context: EvaluationContext = {},
+  functions: FunctionCall[]
+): EvaluateFunctionResult {
+  const interpreter = new Interpreter(sourceCode, context)
+  interpreter.compile()
+  return interpreter.evaluateFunctions(functions)
+}
 
 export class Interpreter {
   private readonly parser: Parser
@@ -153,30 +167,53 @@ export class Interpreter {
     name: string,
     ...args: any[]
   ): EvaluateFunctionResult {
-    const callingCode = `${name}(${args
-      .map((arg) => JSON.stringify(arg))
-      .join(', ')})`
+    return this.evaluateFunctions([{ name, args }])
+  }
 
-    // Create a new parser with wrapTopLevelStatements set to false
-    // and use it to generate the calling statements.
-    const callingStatements = new Parser(
-      this.externalFunctions.map((f) => f.name),
-      this.languageFeatures,
-      false
-    ).parse(callingCode)
-
-    if (callingStatements.length !== 1)
-      this.error('CouldNotEvaluateFunction', Location.unknown, {
-        callingStatements,
-      })
-
+  public evaluateFunctions(functions: FunctionCall[]): EvaluateFunctionResult {
     const executor = new Executor(
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions
     )
-    executor.execute(this.statements)
-    return executor.evaluateSingleExpression(callingStatements[0])
+
+    let result: EvaluateFunctionResult = {
+      value: undefined,
+      frames: [],
+      error: null,
+      callExpressions: [],
+    }
+
+    functions.forEach((fn) => {
+      const callingCode = `${fn.name}(${fn.args
+        .map((arg) => JSON.stringify(arg))
+        .join(', ')})`
+
+      // Create a new parser with wrapTopLevelStatements set to false
+      // and use it to generate the calling statements.
+      const callingStatements = new Parser(
+        this.externalFunctions.map((f) => f.name),
+        this.languageFeatures,
+        false
+      ).parse(callingCode)
+
+      if (callingStatements.length !== 1)
+        this.error('CouldNotEvaluateFunction', Location.unknown, {
+          callingStatements,
+        })
+
+      executor.execute(this.statements)
+      const evalResult = executor.evaluateSingleExpression(callingStatements[0])
+      result = {
+        value: evalResult.value,
+        frames: result.frames.concat(evalResult.frames),
+        error: evalResult.error,
+      }
+      if (evalResult.error) {
+        return result
+      }
+    })
+    return result
   }
 
   private error(

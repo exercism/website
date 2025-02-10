@@ -13,8 +13,9 @@ declare type TaskTest = {
   name: string
   slug: string
   data: any
-  function: string
-  params: string[]
+  function?: string
+  functions?: SetupFunction[]
+  params?: string[]
   imageSlug?: string
   matcher?: string
   expected?: string

@@ -14,15 +14,14 @@ export function useSetupStores({
     initializeTasks(exercise.tasks, null)
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {
-        const { tests } = task
+        // we don't show bonus tasks in the preview.
+        if (task.bonus) return []
 
-        const newTests = tests.map((test) => {
+        return task.tests.map((test) => {
           if (!test.params) return test
           test.params = parseParams(test.params)
           return test
         })
-
-        return newTests
       })
     )
   }, [exercise, code])

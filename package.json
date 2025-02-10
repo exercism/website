@@ -64,7 +64,7 @@
     "diff": "^7.0.0",
     "diff2html": "^3.4.5",
     "easymde": "^2.15.0",
-    "esbuild": "^0.14.5",
+    "esbuild": "^0.25.0",
     "esbuild-plugin-import-glob": "^0.1.1",
     "focus-visible": "^5.2.0",
     "fontfaceobserver": "^2.1.0",

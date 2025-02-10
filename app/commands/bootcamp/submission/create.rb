@@ -5,8 +5,7 @@ class Bootcamp::Submission::Create
 
   def call
     create_submission.tap do |submission|
-      solution.update(code:)
-      fire_events!(submission)
+      update_solution!(submission)
     end
   end
 
@@ -18,6 +17,18 @@ class Bootcamp::Submission::Create
       test_results: test_results.to_h,
       readonly_ranges: readonly_ranges || []
     )
+  end
+
+  def update_solution!(submission)
+    case submission.status
+    when :pass
+      solution.update!(passed_basic_tests: true)
+    when :pass_bonus
+      solution.update!(
+        passed_basic_tests: true,
+        passed_bonus_tests: true
+      )
+    end
   end
 
   def fire_events!(_submission)

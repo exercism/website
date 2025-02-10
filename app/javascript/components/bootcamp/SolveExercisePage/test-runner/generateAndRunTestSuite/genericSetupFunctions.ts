@@ -1,5 +1,10 @@
-import { emojis } from './emoji'
+import { emojis } from '../setupHeleprs/emoji'
+import { honorifics } from '../setupHeleprs/honorifics'
+
 export const genericSetupFunctions = {
   join: (...args: any[]) => args.join(''),
-  randomEmoji: () => emojis[Math.floor(Math.random() * emojis.length)],
+  randomEmoji: () => randomItem(emojis),
+  randomHonorific: () => randomItem(honorifics),
 }
+
+const randomItem = (list) => list[Math.floor(Math.random() * list.length)]

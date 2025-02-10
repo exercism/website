@@ -78,5 +78,20 @@ export function expect({
         pass: actual <= expected,
       }
     },
+    toIncludeSameMembers(expected: any[]) {
+      let pass
+      if (expected == null) {
+        pass = false
+      } else if (actual == null) {
+        pass = false
+      } else {
+        pass = isEqual([...expected].sort(), [...actual].sort())
+      }
+      return {
+        ...returnObject,
+        expected,
+        pass,
+      }
+    },
   }
 }

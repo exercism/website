@@ -25,7 +25,7 @@ export function describeRepeatStatement(
   return {
     result: res.result,
     steps: [
-      describeExpression(frameContext.count, frameResult.count, context),
+      ...describeExpression(frameContext.count, frameResult.count, context),
       ...res.steps,
     ],
   }

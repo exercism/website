@@ -1,0 +1,54 @@
+{
+  "title": "Driving Test",
+  "description": "Work out whether someone passes the driving test",
+  "level": 5,
+  "idx": 2,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "perfect-marks",
+          "description_html": "They did everything right - wow!",
+          "name": "The perfect student!",
+          "function": "did_they_pass",
+          "params": ["✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️"],
+          "expected": true
+        },
+        {
+          "slug": "dangerous",
+          "description_html": "We can't let this one on the road!",
+          "name": "Danger to society",
+          "function": "did_they_pass",
+          "params": ["✔️✔️💥💥✔️✔️✔️️💥💥✔️✔️✔️❌✔️✔️❌✔️✔️❌❌"],
+          "expected": false
+        },
+        {
+          "slug": "one-big-mistake",
+          "description_html": "One big mistake is all it takes to fail!",
+          "name": "One big mistake.",
+          "function": "did_they_pass",
+          "params": ["✔️✔️✔️✔️✔️✔️✔️✔️💥✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️"],
+          "expected": false
+        },
+        {
+          "slug": "scraped-through",
+          "description_html": "They cut it close but they passed!",
+          "name": "Scraped through.",
+          "function": "did_they_pass",
+          "params": ["✔️✔️✔️❌✔️✔️✔️❌✔️✔️✔️❌️✔️✔️✔️✔️✔️❌️✔️✔️"],
+          "expected": true
+        },
+        {
+          "slug": "one-mistake-too-many",
+          "description_html": "All those little errors added up.",
+          "name": "One mistake too many!",
+          "function": "did_they_pass",
+          "params": ["✔️✔️✔️❌✔️✔️✔️❌✔️✔️✔️❌️✔️✔️✔️✔️✔️❌️❌️✔️"],
+          "expected": false
+        }
+      ]
+    }
+  ]
+}

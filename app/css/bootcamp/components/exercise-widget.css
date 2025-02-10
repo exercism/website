@@ -3,6 +3,7 @@
     @apply flex flex-col items-stretch;
     @apply bg-white;
     @apply relative;
+    @apply shadow-sm;
 
     img {
         @apply w-[80px] h-[80px] mr-12;
@@ -52,6 +53,7 @@
     &.locked {
         @apply bg-gray-200;
         @apply opacity-[0.5] cursor-not-allowed;
+        @apply shadow-none;
 
         .tag {
             @apply border-gray-400;

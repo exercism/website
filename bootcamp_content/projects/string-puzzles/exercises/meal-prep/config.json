@@ -1,0 +1,56 @@
+{
+  "title": "Meal Prep",
+  "description": "Work out what you need to buy for a meal",
+  "level": 5,
+  "idx": 4,
+  "tests_type": "io",
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-fridge",
+          "description_html": "Today is a simple pasta salad",
+          "name": "Empty fridge",
+          "function": "shopping_list",
+          "params": [[], ["peas", "tomatoes", "garlic", "basil", "olives"]],
+          "expected": ["peas", "tomatoes", "garlic", "basil", "olives"]
+        },
+        {
+          "slug": "you-have-everything",
+          "description_html": "Today we're going mexican",
+          "name": "You have everything",
+          "function": "shopping_list",
+          "params": [
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"],
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"]
+          ],
+          "expected": []
+        },
+        {
+          "slug": "one-thing",
+          "description_html": "A fresh Japanese Miso soup",
+          "name": "One thing",
+          "function": "shopping_list",
+          "params": [
+            ["miso", "seaweed", "spring onions"],
+            ["tofu", "miso", "seaweed", "spring onions"]
+          ],
+          "expected": ["tofu"]
+        },
+        {
+          "slug": "few-things",
+          "description_html": "It's falafel wrap day!",
+          "name": "A few things",
+          "function": "shopping_list",
+          "params": [
+            ["chills", "pickles", "tahini"],
+            ["chills", "cucumber", "pickles", "tahini", "hummus"]
+          ],
+          "expected": ["cucumber", "hummus"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,50 +1,19 @@
-# Space Invaders
+# Tic Tac Toe
 
-Welcome to the first Space Invaders exercise. This is a classic 1970s game, and one of the first I ever played!
+## Rules
 
-By the end of the Bootcamp you'll have built this from scratch. But for now, your job is to play and win the game, by shooting down all the aliens.
+Here are the rules to follow
 
-You can move the laser left and right using the `move_left()` and `move_right()` functions. You can experiment to see how far left and right you can move. If you go off the edge of the screen, you lose.
+- Moves should alternative between `o` and `x`
+- The first move should always be an `o`
+- If a player makes an invalid move, you should use the `error_invalid_move()` function, which updates the game state, and then not do anything further.
 
-As you move, you need to check whether there's an alien above you using the `is_alien_above()` function and then `shoot()` it if so. If you shoot when there's not an alien, you'll lose the game - wasting ammo is not allowed!
+- Board
 
-The laser canon easily overheats.
-You need to move between shoots to keep it cool.
+  - The board starts at 5,5 and has a width and height of 90.
+  - The grid lines divide the board equally into 9.
 
-Once all the aliens have been shot down, you win!
-
-## Functions
-
-You have the following functions available.
-
-- `move_left()`: Moves the laser to the left
-- `move_right()`: Moves the laser to the right
-- `is_alien_above()`: Returns `true` if there's an alien directly above you, or `false` if not.
-- `shoot()`: Shoots upwards.
-
-You'll also need the `set`, `change`, `if` and `repeat_until_game_over` concepts.
-
-To start with, you might find it better to use `repeat` with a fixed number of times, so that your code doesn't run forever.
-
-## Bonus Task
-
-Solving this exercise is a big achievement, but you might like one more challenge.
-
-**Can you solve it with these two constraints?**
-
-- Do not use the `repeat` keyword? (You can still use `repeat_until_game_over`).
-- Only have `shoot()` appear once in your code?
-
-It's not easy, but you'll be very proud of yourself if you can piece it together.
-
-## There's many ways to solve this!
-
-We've now entered the point of the course where there are **lots** (probably hundreds) of ways to solve this exercise. There are different tradeoffs between different approaches. Over time you'll learn "best practices" and why some ways are better than others, but for now don't get hung up on that. Your job is **just to solve the exercise**.
-
-In the Labs sessions I'll start discussing different ways to solve things, and you can tell me about what approach you took!
-
-## Hints
-
-As normal, it's important to break the exercise down into steps. You probably want to get the laser moving from side to side first, then add the logic for detecting and shooting aliens afterwards.
-
-Much of the logic is similar to the rainbow ball exercise, but it's a little different as you aren't moving using coordinates. You'll need to use different variables and take a slightly different approach, but the core logic of keeping track of where you are is the same.
+- Pieces
+  - All pieces should be placed in the center of the squares.
+  - The circles should have a radius of 10
+  - The crosses should be two lines, spanning 20 in both directions.

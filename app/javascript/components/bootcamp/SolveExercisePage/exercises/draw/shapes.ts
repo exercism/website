@@ -2,6 +2,19 @@ export class Shape {
   public constructor(public element: SVGElement) {}
 }
 
+export class Line extends Shape {
+  public constructor(
+    public x1: number,
+    public y1: number,
+    public x2: number,
+    public y2: number,
+    public fillColor: FillColor,
+    element: SVGElement
+  ) {
+    super(element)
+  }
+}
+
 export class Rectangle extends Shape {
   public constructor(
     public x: number,
@@ -104,6 +117,25 @@ function createSVGElement(
     elem.setAttribute(key, attrs[key])
   }
   return elem
+}
+export function line(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+
+  strokeColor: string,
+  strokeWidth: number,
+  fillColor: FillColor
+) {
+  const rect = createSVGElement('line', fillColor, strokeColor, strokeWidth, {
+    x1: x1.toString(),
+    y1: y1.toString(),
+    x2: x2.toString(),
+    y2: y2.toString(),
+  })
+
+  return createSVG([rect])
 }
 
 export function rect(

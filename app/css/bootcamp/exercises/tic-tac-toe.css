@@ -2,11 +2,9 @@
     .exercise-tic-tac-toe {
         .board {
             @apply w-fill h-fill;
-            @apply bg-black;
             @apply grid grid-cols-3 gap-2;
 
             .cell {
-                @apply bg-white;
                 @apply relative;
                 .o,
                 .x {

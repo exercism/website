@@ -19,6 +19,7 @@ import {
 import {
   Shape,
   Circle,
+  Line,
   Rectangle,
   Triangle,
   FillColor,
@@ -26,6 +27,7 @@ import {
 } from './shapes'
 import {
   getCircleAt,
+  getLineAt,
   getEllipseAt,
   getRectangleAt,
   getTriangleAt,
@@ -36,9 +38,9 @@ export default class DrawExercise extends Exercise {
   private shapes: Shape[] = []
   private visibleShapes: Shape[] = []
 
-  private penColor = '#333333'
-  private strokeWidth = 0
-  private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
+  protected penColor = '#333333'
+  protected strokeWidth = 0
+  protected fillColor: FillColor = { type: 'hex', color: '#ff0000' }
 
   constructor(slug = 'draw') {
     super(slug)
@@ -48,10 +50,6 @@ export default class DrawExercise extends Exercise {
       display: 'none',
       position: 'relative',
     })
-
-    const grid = document.createElement('div')
-    grid.classList.add('bg-grid')
-    this.view.appendChild(grid)
 
     this.canvas = document.createElement('div')
     this.canvas.classList.add('canvas')
@@ -122,6 +120,15 @@ export default class DrawExercise extends Exercise {
   }
   public numElements(_: InterpretResult) {
     return this.shapes.length
+  }
+  public getLineAt(
+    _: InterpretResult,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ) {
+    return getLineAt(this.shapes, x1, y1, x2, y2)
   }
   public getRectangleAt(
     _: InterpretResult,
@@ -221,6 +228,34 @@ export default class DrawExercise extends Exercise {
     this.visibleShapes.push(rect)
     this.animateElement(executionCtx, elem, absX, absY)
     // return rect
+  }
+  public line(
+    executionCtx: ExecutionContext,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ): void {
+    const [absX1, absY1, absX2, absY2] = [x1, y1, x2, y2].map((val) =>
+      rToA(val)
+    )
+
+    const elem = Shapes.line(
+      absX1,
+      absY1,
+      absX2,
+      absY2,
+      this.penColor,
+      this.strokeWidth,
+      this.fillColor
+    )
+    this.canvas.appendChild(elem)
+
+    const line = new Line(x1, y1, x2, y2, this.fillColor, elem)
+    console.log(line)
+    this.shapes.push(line)
+    this.visibleShapes.push(line)
+    this.animateElement(executionCtx, elem, absX1, absY1)
   }
 
   public circle(

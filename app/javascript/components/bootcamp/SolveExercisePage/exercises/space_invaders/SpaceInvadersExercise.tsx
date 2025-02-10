@@ -297,7 +297,6 @@ export default class SpaceInvadersExercise extends Exercise {
   }
 
   public getStartingAliensInRow(executionCtx: ExecutionContext, row: number) {
-    console.log(executionCtx, row)
     if (!isNumber(row)) {
       executionCtx.logicError(
         'Oh no, the row input you provided is not a number.'

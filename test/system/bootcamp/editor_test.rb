@@ -37,6 +37,24 @@ module Bootcamp
       end
     end
 
+    test "parses preview params correctly" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :acronym
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        assert_selector("[data-ci='task-preview']")
+        assert_selector("[data-ci='preview-scenario-button']", count: 3)
+        assert_text "acronym(\"Something - I made up from thin air\")"
+        assert_text "SIMUFTA"
+        select_scenario_preview 3
+        assert_text(/acronym\("Hello [\u{1F300}-\u{1FAFF}]{1,2}World"\)/)
+        assert_text "Expected: \"HW\""
+      end
+    end
+
     test "sets up exercise view correctly" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :manual_solve
@@ -385,7 +403,7 @@ turn_right()
         assert_selector ".information-tooltip.description"
         assert_text "This created a new variable called this and set its value to 5."
         scrub_to(1)
-        assert_text "This returned Even."
+        assert_text "This returned \"Even\" and ended the function."
       end
     end
 

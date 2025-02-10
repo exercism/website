@@ -40,6 +40,10 @@ module Bootcamp
       find("[data-ci='test-selector-button']:nth-of-type(#{number})").click
     end
 
+    def select_scenario_preview(number)
+      find("[data-ci='preview-scenario-button']:nth-of-type(#{number})").click
+    end
+
     def check_scenarios = find("[data-ci='check-scenarios-button']").click
 
     def toggle_information_tooltip = find("[data-ci=information-widget-toggle]").click

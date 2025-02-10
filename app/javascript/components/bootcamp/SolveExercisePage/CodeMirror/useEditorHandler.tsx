@@ -38,6 +38,8 @@ export function useEditorHandler({
       editorLocalStorageValue.storedAt &&
       code.storedAt &&
       // if the code on the server is newer than in localstorage, update the storage and load the code from the server
+      // ---
+      // code on the server must be newer by at least a minute
       new Date(editorLocalStorageValue.storedAt).getTime() <
         new Date(code.storedAt).getTime() - 60000
     ) {

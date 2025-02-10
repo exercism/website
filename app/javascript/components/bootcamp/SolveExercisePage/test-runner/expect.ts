@@ -85,10 +85,7 @@ export function expect({
       } else if (actual == null) {
         pass = false
       } else {
-        const expectedSorted = [...expected].sort()
-        const actualSorted = [...actual].sort()
-
-        pass = isEqual(expectedSorted, actualSorted)
+        pass = isEqual([...expected].sort(), [...actual].sort())
       }
       return {
         ...returnObject,

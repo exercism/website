@@ -652,5 +652,96 @@ asdf()
         assert_text "Your code has an error in it."
       end
     end
+
+    test "doesnt see bonus tasks before completing basic tasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        assert_text "Guide person to the end of the maze"
+        assert_text "Your job is to reach the goal"
+        assert_selector ".test-button", count: 1
+        refute_selector ".test-selector-buttons.bonus"
+
+        check_scenarios
+
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+      end
+    end
+
+    test "sees bonus task after completing basic tasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+          })
+        check_scenarios
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+        assert_text "There is a bonus task on this exercise to complete."
+
+        click_on "Tackle bonus task"
+
+        assert_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 2
+        find(".test-selector-buttons.bonus .test-button").click
+        assert_text "Your job is to solve bonus 1"
+        assert_text "You added more than 3 lines of code."
+        assert_selector ".test-button.fail", count: 1
+
+        update_codemirror_content(%{
+        repeat 4 times do
+          move()
+        end
+        })
+        check_scenarios
+
+        refute_selector ".test-button.fail"
+        assert_selector ".test-button.pass", count: 2
+      end
+    end
+
+    test "doesnt see bonus-task-related modal text after completing all tasks at once but sees bonus scenarios immediately" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+
+        update_codemirror_content(%{
+        repeat 4 times do
+          move()
+        end
+        })
+
+        check_scenarios
+        assert_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 2
+
+        refute_text "There is a bonus task on this exercise to complete."
+        refute_text "Tackle bonus task"
+        assert_text "Tweak further"
+        click_on "Tweak further"
+
+        refute_selector ".test-button.fail"
+        assert_selector ".test-button.pass", count: 2
+      end
+    end
   end
 end

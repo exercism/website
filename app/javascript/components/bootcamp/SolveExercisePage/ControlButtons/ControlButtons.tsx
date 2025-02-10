@@ -38,7 +38,7 @@ function PreviewTestButtons() {
   if (testSuiteResult) return null
 
   return (
-    <div className="test-selector-buttons ">
+    <div className="test-selector-buttons">
       {flatPreviewTaskTests.map((taskTest, testIdx) => (
         <button
           data-ci="preview-scenario-button"

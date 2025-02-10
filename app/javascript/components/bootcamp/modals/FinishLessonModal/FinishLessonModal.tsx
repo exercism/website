@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import Modal from 'react-modal'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
@@ -73,6 +73,13 @@ function InitialView() {
       : `There is a bonus task on this exercise to complete. Do you want to go back to complete it now?`
   }, [bonusTestSuiteResult])
 
+  const handleTweakFurther = useCallback(() => {
+    setIsOpen(false)
+    if (hasMoreBonusTasks) {
+      setShouldShowBonusTasks(true)
+    }
+  }, [bonusTestSuiteResult, hasMoreBonusTasks])
+
   return (
     <>
       <LottieAnimation
@@ -92,13 +99,7 @@ function InitialView() {
       )}
 
       <div className="flex items-center gap-8 self-stretch">
-        <button
-          onClick={() => {
-            setIsOpen(false)
-            hasMoreBonusTasks && setShouldShowBonusTasks(true)
-          }}
-          className="btn-l btn-secondary"
-        >
+        <button onClick={handleTweakFurther} className="btn-l btn-secondary">
           {hasMoreBonusTasks ? 'Tackle bonus tasks' : 'Tweak further'}
         </button>
         <button

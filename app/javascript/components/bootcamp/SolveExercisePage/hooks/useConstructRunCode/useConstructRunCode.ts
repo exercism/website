@@ -37,7 +37,8 @@ export function useConstructRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { markTaskAsCompleted, tasks, bonusTasks } = useTaskStore()
+  const { markTaskAsCompleted, tasks, bonusTasks, setShouldShowBonusTasks } =
+    useTaskStore()
 
   /**
    * This function is used to run the code in the editor
@@ -125,6 +126,10 @@ export function useConstructRunCode({
         areBasicTestsPassing && areBonusTestsPassing
           ? 'pass_bonus'
           : testResults.status
+
+      if (submissionStatus === 'pass_bonus') {
+        setShouldShowBonusTasks(true)
+      }
 
       submitCode({
         code: studentCode,

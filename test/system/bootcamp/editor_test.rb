@@ -403,7 +403,7 @@ turn_right()
         assert_selector ".information-tooltip.description"
         assert_text "This created a new variable called this and set its value to 5."
         scrub_to(1)
-        assert_text "This returned Even."
+        assert_text "This returned \"Even\" and ended the function."
       end
     end
 

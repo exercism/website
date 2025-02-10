@@ -17,6 +17,7 @@ export function useSetupStores({
         const { tests } = task
 
         const newTests = tests.map((test) => {
+          if (!test.params) return test
           test.params = parseParams(test.params)
           return test
         })

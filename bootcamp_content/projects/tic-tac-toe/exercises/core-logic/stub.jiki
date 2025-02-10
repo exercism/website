@@ -1,0 +1,9 @@
+// TODO: Set any initial variables here
+
+// TODO: Change this to repeat_until_game_over once you've
+// progressed some of the way towards a solution.
+repeat 20 times do
+  // TODO: Move the laser and shoot the aliens
+  // Write out all the logical steps using comments first
+  // then write the actual JikiScript to make things happen.
+end

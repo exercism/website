@@ -1,0 +1,58 @@
+{
+  "title": "Core Logic",
+  "description": "Build out the core logic of the game",
+  "project_type": "tic-tac-toe",
+  "level": 6,
+  "idx": 1,
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Draw the x and the o",
+      "tests": [
+        {
+          "slug": "double-placement-o",
+          "name": "Double placement - o",
+          "description_html": "We use <code>place_piece</code> twice with the same coordinates",
+          "functions": [
+            ["place_piece", [2, 3]],
+            ["place_piece", [2, 3]]
+          ],
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "error",
+              "matcher": "toEqual",
+              "error_html": "The game didn't error when placing an o in an existing cell."
+            }
+          ]
+        },
+        {
+          "slug": "double-placement-x",
+          "name": "Double placement - x",
+          "description_html": "Placing a x in an existing cell should result in an errro.",
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "error",
+              "matcher": "toEqual",
+              "error_html": "The game didn't error when placing an x in an existing cell."
+            }
+          ]
+        },
+        {
+          "slug": "draw-the-symbols",
+          "name": "Draw the symbols",
+          "description_html": "Draw the x and the o.",
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

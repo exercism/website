@@ -58,6 +58,7 @@ projects = %w[
   rock-paper-scissors
   number-puzzles
   string-puzzles
+  tic-tac-toe
 ]
 
 projects.each do |project_slug|

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
 import type { InformationWidgetData } from '../CodeMirror/extensions/end-line-information/line-information'
 import { useShouldAnimate } from './useShouldAnimate'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { useLogger } from '../../common/hooks/useLogger'
 
 const TRANSITION_DELAY = 0.1
 
@@ -50,7 +52,10 @@ export function BonusTestResultsButtons() {
   const { setInformationWidgetData } = useEditorStore()
 
   const { shouldAnimate } = useShouldAnimate(bonusTestSuiteResult)
+  const { solution } = useContext(SolveExercisePageContext)
 
+  // Don't show these if the basic tasks are not done yet.
+  if (!solution.passedBasicTests) return null
   if (!bonusTestSuiteResult) return null
 
   return (

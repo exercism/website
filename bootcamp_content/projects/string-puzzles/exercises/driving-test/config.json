@@ -13,7 +13,7 @@
           "description_html": "They did everything right - wow!",
           "name": "The perfect student!",
           "function": "did_they_pass",
-          "params": ["✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️"],
+          "params": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
           "expected": true
         },
         {
@@ -21,7 +21,7 @@
           "description_html": "We can't let this one on the road!",
           "name": "Danger to society",
           "function": "did_they_pass",
-          "params": ["✔️✔️💥💥✔️✔️✔️️💥💥✔️✔️✔️❌✔️✔️❌✔️✔️❌❌"],
+          "params": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌"],
           "expected": false
         },
         {
@@ -29,7 +29,7 @@
           "description_html": "One big mistake is all it takes to fail!",
           "name": "One big mistake.",
           "function": "did_they_pass",
-          "params": ["✔️✔️✔️✔️✔️✔️✔️✔️💥✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️✔️"],
+          "params": ["✅✅✅✅✅✅✅✅✅💥✅✅✅✅✅✅✅✅✅✅"],
           "expected": false
         },
         {
@@ -37,7 +37,7 @@
           "description_html": "They cut it close but they passed!",
           "name": "Scraped through.",
           "function": "did_they_pass",
-          "params": ["✔️✔️✔️❌✔️✔️✔️❌✔️✔️✔️❌️✔️✔️✔️✔️✔️❌️✔️✔️"],
+          "params": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️✅✅"],
           "expected": true
         },
         {
@@ -45,7 +45,7 @@
           "description_html": "All those little errors added up.",
           "name": "One mistake too many!",
           "function": "did_they_pass",
-          "params": ["✔️✔️✔️❌✔️✔️✔️❌✔️✔️✔️❌️✔️✔️✔️✔️✔️❌️❌️✔️"],
+          "params": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️❌️✅"],
           "expected": false
         }
       ]

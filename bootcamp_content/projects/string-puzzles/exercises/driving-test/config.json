@@ -13,7 +13,7 @@
           "description_html": "They did everything right - wow!",
           "name": "The perfect student!",
           "function": "did_they_pass",
-          "params": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
+          "params": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
           "expected": true
         },
         {
@@ -21,7 +21,7 @@
           "description_html": "We can't let this one on the road!",
           "name": "Danger to society",
           "function": "did_they_pass",
-          "params": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌"],
+          "params": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌✅"],
           "expected": false
         },
         {

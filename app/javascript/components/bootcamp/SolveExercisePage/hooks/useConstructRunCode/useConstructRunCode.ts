@@ -119,10 +119,16 @@ export function useConstructRunCode({
       // reset on successful test run
       setHasCodeBeenEdited(false)
 
+      const areBasicTestsPassing = testResults.status === 'pass'
+      const areBonusTestsPassing = bonusTestResults.status === 'pass'
+      const submissionStatus =
+        areBasicTestsPassing && areBonusTestsPassing
+          ? 'pass_bonus'
+          : testResults.status
       submitCode({
         code: studentCode,
         testResults: {
-          status: testResults.status,
+          status: submissionStatus,
           tests: [testResults, bonusTestResults].flatMap((testResults, index) =>
             generateSubmissionTestArray({
               testResults,

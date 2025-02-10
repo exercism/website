@@ -1,10 +1,16 @@
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import {
+  evaluateFunction,
+  evaluateFunctions,
+  interpret,
+  Interpreter,
+} from '@/interpreter/interpreter'
 import { type Project } from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import type { Exercise } from '../../exercises/Exercise'
 import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
 import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
+import { fn } from 'jquery'
 
 /**
  This is of type TestCallback
@@ -42,7 +48,16 @@ export function execProjectTest(
   })
 
   let evaluated
-  if (testData.function) {
+  if (testData.functions) {
+    const interpreter = new Interpreter(options.studentCode, context)
+    interpreter.compile()
+    evaluated = interpreter.execute()
+
+    const functions = testData.functions.map((fnData) => {
+      return { name: fnData[0], args: fnData[1] || [] }
+    })
+    evaluated = evaluateFunctions(options.studentCode, context, functions)
+  } else if (testData.function) {
     evaluated = evaluateFunction(
       options.studentCode,
       context,
@@ -54,6 +69,7 @@ export function execProjectTest(
   }
 
   const { frames } = evaluated
+  console.log('frames!', frames)
 
   const { animations } = exercise
   const animationTimeline = buildAnimationTimeline(exercise, frames, animations)

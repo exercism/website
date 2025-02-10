@@ -38,8 +38,14 @@ export function useEditorHandler({
       editorLocalStorageValue.storedAt &&
       code.storedAt &&
       // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      editorLocalStorageValue.storedAt < code.storedAt
+      new Date(editorLocalStorageValue.storedAt).getTime() <
+        new Date(code.storedAt).getTime() - 60000
     ) {
+      console.log(
+        'code is newer',
+        code.storedAt,
+        editorLocalStorageValue.storedAt
+      )
       setEditorLocalStorageValue({
         code: code.code,
         storedAt: code.storedAt,
@@ -48,6 +54,7 @@ export function useEditorHandler({
       setDefaultCode(code.code)
       setupEditor(editorViewRef.current, code)
     } else {
+      console.log('code is older', code.storedAt)
       // otherwise we are using the code from the storage
       setDefaultCode(editorLocalStorageValue.code)
       setupEditor(editorViewRef.current, editorLocalStorageValue)

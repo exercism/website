@@ -7,6 +7,7 @@ import { FinishLessonModalContext } from './FinishLessonModalContextWrapper'
 import { useContext } from 'react'
 import { SolveExercisePageContext } from '@/components/bootcamp/SolveExercisePage/SolveExercisePageContextWrapper'
 import useTestStore from '../../SolveExercisePage/store/testStore'
+import useTaskStore from '../../SolveExercisePage/store/taskStore/taskStore'
 // import { playAudio } from "@/utils/play-audio";
 // @ts-ignore
 // import celebrationSound from "/task-completed-sound.aac";
@@ -54,6 +55,7 @@ function InitialView() {
   )
 
   const { bonusTestSuiteResult } = useTestStore()
+  const { setShouldShowBonusTasks } = useTaskStore()
 
   const hasMoreBonusTasks = useMemo(() => {
     if (!bonusTestSuiteResult) return false
@@ -91,7 +93,10 @@ function InitialView() {
 
       <div className="flex items-center gap-8 self-stretch">
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false)
+            hasMoreBonusTasks && setShouldShowBonusTasks(true)
+          }}
           className="btn-l btn-secondary"
         >
           {hasMoreBonusTasks ? 'Tackle bonus tasks' : 'Tweak further'}

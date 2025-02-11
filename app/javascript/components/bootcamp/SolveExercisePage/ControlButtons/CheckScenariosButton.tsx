@@ -12,16 +12,18 @@ export function CheckScenariosButton({
 }: {
   handleRunCode: () => void
 }) {
-  const { shouldAutoRunCode, setShouldAutoRunCode, cleanUpEditorStore } =
-    useEditorStore()
+  const {
+    shouldAutoRunCode,
+    setShouldAutoRunCode,
+    cleanUpEditorStore,
+    setHasCodeBeenEdited,
+  } = useEditorStore()
   const { cleanUpTestStore } = useTestStore()
-  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
-    useAnimationTimelineStore()
+  const { setIsTimelineComplete } = useAnimationTimelineStore()
   const { cleanUpErrorStore } = useErrorStore()
 
   const cleanUpState = useCallback(() => {
     setIsTimelineComplete(false)
-    setShouldAutoplayAnimation(true)
     cleanUpTestStore()
     cleanUpEditorStore()
     cleanUpErrorStore()

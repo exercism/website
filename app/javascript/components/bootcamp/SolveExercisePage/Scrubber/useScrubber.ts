@@ -1,5 +1,12 @@
 import type { AnimeInstance } from 'animejs'
-import { useState, useEffect, useCallback, useRef, useContext } from 'react'
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useContext,
+  useMemo,
+} from 'react'
 import anime from 'animejs'
 import useEditorStore from '../store/editorStore'
 import type { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
@@ -13,6 +20,7 @@ import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
+import useTaskStore from '../store/taskStore/taskStore'
 
 const FRAME_DURATION = 50
 
@@ -20,10 +28,12 @@ export function useScrubber({
   setIsPlaying,
   animationTimeline,
   frames,
+  hasCodeBeenEdited,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
+  hasCodeBeenEdited: boolean
 }) {
   const [value, setValue] = useState(0)
   const {
@@ -39,6 +49,14 @@ export function useScrubber({
 
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
+
+  const { testSuiteResult, inspectedTestResult } = useTestStore()
+  const { wasFinishLessonModalShown } = useTaskStore()
+
+  const isSpotlightActive = useMemo(() => {
+    if (!testSuiteResult) return false
+    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
+  }, [wasFinishLessonModalShown, testSuiteResult?.status])
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -78,7 +96,6 @@ export function useScrubber({
     }
   }, [frames, animationTimeline])
 
-  const { inspectedTestResult } = useTestStore()
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
     let currentFrame: Frame | undefined = animationTimeline
@@ -119,6 +136,15 @@ export function useScrubber({
       handleScrubToCurrentTime(inspectedTestResult.animationTimeline)
     }
   }, [inspectedTestResult])
+
+  useEffect(() => {
+    if (hasCodeBeenEdited) {
+      if (animationTimeline) {
+        setShouldAutoplayAnimation(false)
+        animationTimeline?.pause()
+      }
+    }
+  }, [hasCodeBeenEdited, animationTimeline])
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline | undefined | null) => {
@@ -444,6 +470,7 @@ export function useScrubber({
     rangeRef,
     updateInputBackground,
     handleScrubToCurrentTime,
+    isSpotlightActive,
   }
 }
 

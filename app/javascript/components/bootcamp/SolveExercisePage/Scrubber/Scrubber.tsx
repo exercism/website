@@ -7,8 +7,6 @@ import { Icon } from '@/components/common'
 import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
-import useTaskStore from '../store/taskStore/taskStore'
-import useTestStore from '../store/testStore'
 
 function Scrubber({
   animationTimeline,
@@ -20,8 +18,6 @@ function Scrubber({
   const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
-  const { testSuiteResult } = useTestStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
 
   const {
     value,
@@ -34,16 +30,13 @@ function Scrubber({
     rangeRef,
     handleGoToNextFrame,
     handleGoToPreviousFrame,
+    isSpotlightActive,
   } = useScrubber({
     setIsPlaying,
     animationTimeline,
     frames,
+    hasCodeBeenEdited,
   })
-
-  const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
 
   return (
     <div

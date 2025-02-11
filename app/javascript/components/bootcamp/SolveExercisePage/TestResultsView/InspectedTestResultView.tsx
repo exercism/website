@@ -9,9 +9,17 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
+import useTaskStore from '../store/taskStore/taskStore'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()
+  const { testSuiteResult } = useTestStore()
+  const { wasFinishLessonModalShown } = useTaskStore()
+
+  const shouldSpotlight = useMemo(() => {
+    if (!testSuiteResult) return false
+    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
+  }, [wasFinishLessonModalShown, testSuiteResult])
 
   if (!result) return null
 
@@ -28,7 +36,11 @@ function _InspectedTestResultView() {
         result={result}
       />
 
-      <div ref={viewContainerRef} id="view-container" />
+      <div
+        className={assembleClassNames(shouldSpotlight && 'spotlight')}
+        ref={viewContainerRef}
+        id="view-container"
+      />
     </div>
   )
 }

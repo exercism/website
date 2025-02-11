@@ -21,6 +21,12 @@ You should return if the person is on the guest list.
 
 For this task, you can presume that honorifics will always be one word.
 
+### Functions
+
+You have one function available:
+
+- `join(str1, str2)`: This takes two strings and returns them joined together.
+
 ## Hints
 
 <details><summary>A general piece of advice</summary>

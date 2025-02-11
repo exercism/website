@@ -37,7 +37,8 @@ export function useScrubber({
 
   const { editorView } = useContext(SolveExercisePageContext)
 
-  const { setIsTimelineComplete } = useAnimationTimelineStore()
+  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
+    useAnimationTimelineStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -144,6 +145,8 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seek(newValue)
+        setShouldAutoplayAnimation(false)
+
         const line = animationTimeline.currentFrame?.line
 
         if (line) {

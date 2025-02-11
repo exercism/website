@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useEditorStore from '../store/editorStore'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
@@ -15,15 +15,17 @@ export function CheckScenariosButton({
   const { shouldAutoRunCode, setShouldAutoRunCode, cleanUpEditorStore } =
     useEditorStore()
   const { cleanUpTestStore } = useTestStore()
-  const { setIsTimelineComplete } = useAnimationTimelineStore()
+  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
+    useAnimationTimelineStore()
   const { cleanUpErrorStore } = useErrorStore()
 
-  function cleanUpState() {
+  const cleanUpState = useCallback(() => {
     setIsTimelineComplete(false)
+    setShouldAutoplayAnimation(true)
     cleanUpTestStore()
     cleanUpEditorStore()
     cleanUpErrorStore()
-  }
+  }, [])
 
   return (
     <button

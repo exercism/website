@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
 import type { InformationWidgetData } from '../CodeMirror/extensions/end-line-information/line-information'
 import { useShouldAnimate } from './useShouldAnimate'
+import useTaskStore from '../store/taskStore/taskStore'
+import useAnimationTimelineStore from '../store/animationTimelineStore'
 
 const TRANSITION_DELAY = 0.1
 
@@ -11,8 +13,42 @@ export function TestResultsButtons() {
   const { testSuiteResult, setInspectedTestResult, inspectedTestResult } =
     useTestStore()
   const { setInformationWidgetData } = useEditorStore()
-
+  const { wasFinishLessonModalShown } = useTaskStore()
+  const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldAnimate } = useShouldAnimate(testSuiteResult)
+
+  const isSpotlightActive = useMemo(() => {
+    if (!testSuiteResult) return false
+    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
+  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+
+  const handleTestResultSelection = useCallback(
+    (test: NewTestResult, idx: number) => {
+      if (!testSuiteResult) return
+      // if we are showing spotlight, don't allow changing tests/scenarios
+      if (isSpotlightActive) return
+
+      if (shouldAutoplayAnimation) {
+        testSuiteResult.tests.forEach((test) => {
+          if (test.animationTimeline) {
+            const timeline = test.animationTimeline
+            if (test.testIndex === idx) {
+              timeline.timeline.play()
+            } else {
+              timeline.pause()
+            }
+          }
+        })
+      }
+
+      handleSetInspectedTestResult({
+        testResult: test,
+        setInspectedTestResult,
+        setInformationWidgetData,
+      })
+    },
+    [isSpotlightActive, testSuiteResult, shouldAutoplayAnimation]
+  )
 
   if (!testSuiteResult) return null
   return (
@@ -23,21 +59,7 @@ export function TestResultsButtons() {
             data-ci="test-selector-button"
             key={test.name + idx}
             onClick={() => {
-              testSuiteResult.tests.forEach((test) => {
-                if (test.animationTimeline) {
-                  const timeline = test.animationTimeline
-                  if (test.testIndex === idx) {
-                    timeline.timeline.play()
-                  } else {
-                    timeline.pause()
-                  }
-                }
-              })
-              handleSetInspectedTestResult({
-                testResult: test,
-                setInspectedTestResult,
-                setInformationWidgetData,
-              })
+              handleTestResultSelection(test, idx)
             }}
             style={{ transitionDelay: `${idx * TRANSITION_DELAY}s` }}
             className={assembleClassNames(

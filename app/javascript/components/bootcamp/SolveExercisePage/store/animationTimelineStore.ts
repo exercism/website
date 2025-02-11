@@ -6,6 +6,8 @@ type AnimationTimelineStore = {
   setAnimationTimeline: (animationTimeline: AnimationTimeline) => void
   isTimelineComplete: boolean
   setIsTimelineComplete: (isTimelineComplete: boolean) => void
+  shouldAutoplayAnimation: boolean
+  setShouldAutoplayAnimation: (shouldAutoplayAnimation: boolean) => void
 }
 
 const useAnimationTimelineStore =
@@ -25,6 +27,14 @@ const useAnimationTimelineStore =
           { isTimelineComplete },
           false,
           'animationTimelineStore/setIsTimelineComplete'
+        )
+      },
+      shouldAutoplayAnimation: false,
+      setShouldAutoplayAnimation: (shouldAutoplayAnimation) => {
+        set(
+          { shouldAutoplayAnimation },
+          false,
+          'animationTimelineStore/setShouldAutoplayAnimation'
         )
       },
     }),

@@ -3,7 +3,7 @@
 You're the sort of person that likes to pop to the shops each day to get whatever ingredients you need for dinner.
 It gives you a nice excuse to stretch your legs and chat to the local shopkeeper.
 
-Each day you choose a recipe, then check whats in the fridge, and note down what you need to buy.
+Each day you choose a recipe, then check what's in the fridge, and note down what you need to buy.
 
 Now you've decided to make your life a little easier, by writing a program to do the hard work for you!
 

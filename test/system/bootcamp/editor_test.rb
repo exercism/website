@@ -511,8 +511,7 @@ end))
       end
     end
 
-
-    test "interrupt animation on scenario change" do
+    test "hide button hides error information widget" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :automated_solve
       use_capybara_host do
@@ -653,9 +652,9 @@ asdf()
       end
     end
 
-    test "hide button hides error information widget" do
+    test "interrupt animation on scenario change" do
       user = create(:user, bootcamp_attendee: true)
-      exercise = create :bootcamp_exercise, :penguin
+      exercise = create :bootcamp_exercise, :automated_solve
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)

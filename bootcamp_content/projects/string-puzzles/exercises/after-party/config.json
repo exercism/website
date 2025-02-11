@@ -18,7 +18,7 @@
         },
         {
           "slug": "name-missing",
-          "description_html": "The name's not on the list",
+          "description_html": "The name's but on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
           "params": [["Brian May", "Albert Einstein"], "Brad"],

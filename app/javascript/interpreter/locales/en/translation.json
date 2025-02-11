@@ -59,8 +59,7 @@
       "PointlessStatement": "This line of code doesn't do anything.",
       "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)",
       "MissingEachAfterFor": "Did you forget to write `each` after the `for` keyword?",
-      "ForeachNotIterable": "Jiki couldn't work out how to iterate over `{{value}}`. He expected it to be a string or a list.",
-      "ListsCannotBeCompared": "You can't compare lists directly to each other in JikiScript. Different languages handle this very differently, and Jiki's decided to opt out of the confusion. If you need to compare lists, we'll provide you with a specific function in the instructions."
+      "ForeachNotIterable": "Jiki couldn't work out how to iterate over `{{value}}`. He expected it to be a string or a list."
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",
@@ -109,7 +108,8 @@
       "IndexIsZero": "When using indexes to look inside strings or lists, Jiki starts counting from 1, not 0.",
       "IndexOutOfBoundsInGet": "Jiki tried to access the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
       "IndexOutOfBoundsInChange": "Jiki tried to change the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
-      "MaxTotalExecutionTimeReached": "Your code took too long to run and we stopped it here to prevent it crashing your browser."
+      "MaxTotalExecutionTimeReached": "Your code took too long to run and we stopped it here to prevent it crashing your browser.",
+      "ListsCannotBeCompared": "You can't compare lists directly to each other in JikiScript. Different languages handle this very differently, and Jiki's decided to opt out of the confusion. If you need to compare lists, we'll provide you with a specific function in the instructions."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

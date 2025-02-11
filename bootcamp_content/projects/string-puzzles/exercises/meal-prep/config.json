@@ -45,8 +45,8 @@
           "name": "A few things",
           "function": "shopping_list",
           "params": [
-            ["chills", "pickles", "tahini"],
-            ["chills", "cucumber", "pickles", "tahini", "hummus"]
+            ["chilis", "pickles", "tahini"],
+            ["chilis", "cucumber", "pickles", "tahini", "hummus"]
           ],
           "expected": ["cucumber", "hummus"]
         }

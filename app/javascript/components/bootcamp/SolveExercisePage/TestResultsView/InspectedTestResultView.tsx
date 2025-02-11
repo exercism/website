@@ -16,10 +16,10 @@ function _InspectedTestResultView() {
   const { testSuiteResult } = useTestStore()
   const { wasFinishLessonModalShown } = useTaskStore()
 
-  const shouldSpotlight = useMemo(() => {
+  const isSpotlightActive = useMemo(() => {
     if (!testSuiteResult) return false
     return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult])
+  }, [wasFinishLessonModalShown, testSuiteResult?.status])
 
   if (!result) return null
 
@@ -37,7 +37,7 @@ function _InspectedTestResultView() {
       />
 
       <div
-        className={assembleClassNames(shouldSpotlight && 'spotlight')}
+        className={assembleClassNames(isSpotlightActive && 'spotlight')}
         ref={viewContainerRef}
         id="view-container"
       />

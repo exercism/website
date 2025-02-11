@@ -2,7 +2,7 @@
   "title": "RNA Transcription",
   "description": "Convert a DNA sequence into its RNA complement.",
   "level": 5,
-  "idx": 7,
+  "idx": 6,
   "tests_type": "io",
   "stdlib_functions": ["join"],
   "tasks": [

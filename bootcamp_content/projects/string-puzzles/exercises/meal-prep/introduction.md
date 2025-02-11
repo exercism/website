@@ -18,3 +18,6 @@ It should return the things you need to buy, as a list of strings.
 You have one function avaiable:
 
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
+
+Remember to write out your method of solving this on pen and paper.
+Try and replicate what you would do in the real world! Good luck and ask for help if you get too stuck!

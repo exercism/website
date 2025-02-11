@@ -19,3 +19,8 @@ Now you just need to work out whether those notes means they've passed or not!
 
 Write a function called `did_they_pass` that expects a string containing the pass, minor and major symbols as an input.
 It should determine if they pass or not, returning `true` if they do, and `false` if they don't.
+
+## Hints
+
+Remember that strings always need quotation marks!
+Without them, Jiki will have no idea what you mean.

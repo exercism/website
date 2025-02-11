@@ -25,11 +25,11 @@ export function TestResultsButtons() {
             onClick={() => {
               testSuiteResult.tests.forEach((test) => {
                 if (test.animationTimeline) {
+                  const timeline = test.animationTimeline
                   if (test.testIndex === idx) {
-                    test.animationTimeline.play()
+                    timeline.timeline.play()
                   } else {
-                    test.animationTimeline.pause()
-                    test.animationTimeline.seek(0)
+                    timeline.pause()
                   }
                 }
               })

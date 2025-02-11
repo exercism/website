@@ -16,14 +16,8 @@ export type TaskType = {
 }
 
 function _Tasks() {
-  const {
-    tasks,
-    numberOfTasks,
-    numberOfCompletedTasks,
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  } = useTaskStore()
+  const { tasks, numberOfTasks, numberOfCompletedTasks, areAllTasksCompleted } =
+    useTaskStore()
 
   const { solution } = useContext(SolveExercisePageContext)
 
@@ -35,11 +29,7 @@ function _Tasks() {
     nextExerciseData,
     completedLevelIdx,
     nextLevelIdx,
-  } = useTasks({
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  })
+  } = useTasks()
 
   if (!tasks) return null
   return (

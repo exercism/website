@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
@@ -119,7 +119,12 @@ function PlayButton({
   onClick: () => void
 }) {
   return (
-    <button disabled={disabled} className="play-button" onClick={onClick}>
+    <button
+      data-ci="play-button"
+      disabled={disabled}
+      className="play-button"
+      onClick={onClick}
+    >
       <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
     </button>
   )
@@ -135,7 +140,7 @@ function FrameStepperButtons({
   disabled: boolean
 }) {
   return (
-    <div className="frame-stepper-buttons">
+    <div data-ci="frame-stepper-buttons" className="frame-stepper-buttons">
       <button disabled={disabled} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"

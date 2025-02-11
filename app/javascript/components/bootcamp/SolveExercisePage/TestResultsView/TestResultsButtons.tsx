@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
@@ -12,7 +12,7 @@ const TRANSITION_DELAY = 0.1
 export function TestResultsButtons() {
   const { testSuiteResult, setInspectedTestResult, inspectedTestResult } =
     useTestStore()
-  const { setInformationWidgetData } = useEditorStore()
+  const { setInformationWidgetData, setReadonly } = useEditorStore()
   const { wasFinishLessonModalShown } = useTaskStore()
   const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldAnimate } = useShouldAnimate(testSuiteResult)
@@ -21,6 +21,14 @@ export function TestResultsButtons() {
     if (!testSuiteResult) return false
     return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
   }, [wasFinishLessonModalShown, testSuiteResult?.status])
+
+  useEffect(() => {
+    if (isSpotlightActive) {
+      setReadonly(true)
+    } else {
+      setReadonly(false)
+    }
+  }, [isSpotlightActive])
 
   const handleTestResultSelection = useCallback(
     (test: NewTestResult, idx: number) => {

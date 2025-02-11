@@ -75,6 +75,34 @@
           ],
           "expected": ["red socks", "blue socks", "spotty socks"],
           "matcher": "toIncludeSameMembers"
+        },
+        {
+          "slug": "some-added-pain",
+          "description_html": "A few oddities snuck in",
+          "name": "Odds and ends",
+          "function": "matching_socks",
+          "params": [
+            [
+              "left red sock",
+              "right pink sock",
+              "left shoe",
+              "sweater",
+              "leftover fabric",
+              "right blue sock",
+              "left blue sock",
+              "left green sock",
+              "right spotty sock",
+              "left spotty sock"
+            ],
+            [
+              "left blue sock",
+              "right red sock",
+              "right shoe",
+              "left green sock"
+            ]
+          ],
+          "expected": ["red socks", "blue socks", "spotty socks"],
+          "matcher": "toIncludeSameMembers"
         }
       ]
     }

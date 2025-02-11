@@ -102,6 +102,10 @@ export function useConstructRunCode({
         inspectedTestResult
       )
 
+      if (automaticallyInspectedTest.animationTimeline) {
+        automaticallyInspectedTest.animationTimeline.play()
+      }
+
       handleSetInspectedTestResult({
         testResult: automaticallyInspectedTest,
         setInspectedTestResult,

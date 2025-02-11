@@ -25,7 +25,12 @@ export function TestResultsButtons() {
             onClick={() => {
               testSuiteResult.tests.forEach((test) => {
                 if (test.animationTimeline) {
-                  test.animationTimeline.pause()
+                  if (test.testIndex === idx) {
+                    test.animationTimeline.play()
+                  } else {
+                    test.animationTimeline.pause()
+                    test.animationTimeline.seek(0)
+                  }
                 }
               })
               handleSetInspectedTestResult({

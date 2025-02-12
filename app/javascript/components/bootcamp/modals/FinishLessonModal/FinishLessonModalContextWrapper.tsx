@@ -5,8 +5,10 @@ import { createContext } from 'react'
 import { FinishLessonModalView } from '../../SolveExercisePage/Tasks/useTasks'
 
 type FinishLessonModalContextValues = {
-  isOpen: boolean
-  setIsOpen: (value: boolean) => void
+  isFinishLessonModalOpen: boolean
+  setIsFinishLessonModalOpen: (value: boolean) => void
+  isCompletedBonusTasksModalOpen: boolean
+  setIsCompletedBonusTasksModalOpen: (value: boolean) => void
   handleCompleteSolution: () => void
   nextExerciseData: NextExercise | null
   nextLevelIdx: number | null

@@ -6,10 +6,9 @@ import useTestStore from '@/components/bootcamp/SolveExercisePage/store/testStor
 import { useContext, useMemo, useCallback } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 
-function InitialView() {
-  const { handleCompleteSolution, setIsOpen } = useContext(
-    FinishLessonModalContext
-  )
+export function InitialView() {
+  const { handleCompleteSolution, setIsFinishLessonModalOpen: setIsOpen } =
+    useContext(FinishLessonModalContext)
 
   const { bonusTestSuiteResult } = useTestStore()
   const { setShouldShowBonusTasks } = useTaskStore()

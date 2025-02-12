@@ -2,14 +2,15 @@ import React from 'react'
 import Modal from 'react-modal'
 import { FinishLessonModalContext } from './FinishLessonModalContextWrapper'
 import { useContext } from 'react'
-import { InitialView } from '@/components/modals/welcome-modal/InitialView'
-import { CompletedBonusTasksView } from './views/CompletedBonusTasksView'
+import { InitialView } from './views/InitialView'
 import { CompletedExerciseView } from './views/CompletedExerciseView'
 import { CompletedLevelView } from './views/CompletedLevelView'
 
 Modal.setAppElement('body')
 export function FinishLessonModal() {
-  const { isOpen } = useContext(FinishLessonModalContext)
+  const { isFinishLessonModalOpen: isOpen } = useContext(
+    FinishLessonModalContext
+  )
 
   return (
     // @ts-ignore
@@ -31,8 +32,6 @@ function Inner() {
       return <InitialView />
     case 'completedExercise':
       return <CompletedExerciseView />
-    case 'completedBonusTasks':
-      return <CompletedBonusTasksView />
     case 'completedLevel':
       return <CompletedLevelView />
   }

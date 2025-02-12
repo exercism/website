@@ -8,10 +8,10 @@ import {
 } from 'react'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { type NextExercise, completeSolution } from './completeSolution'
-import type { TaskStore } from '../store/taskStore/taskStore'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { launchConfetti } from './launchConfetti'
 import useTestStore from '../store/testStore'
+import useTaskStore from '../store/taskStore/taskStore'
 
 export type FinishLessonModalView =
   | 'initial'
@@ -19,17 +19,11 @@ export type FinishLessonModalView =
   | 'completedLevel'
   | 'completedBonusTasks'
 
-export function useTasks({
-  areAllTasksCompleted,
-  wasFinishLessonModalShown,
-  setWasFinishLessonModalShown,
-}: Pick<
-  TaskStore,
-  | 'areAllTasksCompleted'
-  | 'wasFinishLessonModalShown'
-  | 'setWasFinishLessonModalShown'
->) {
+export function useTasks() {
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
+  const [isCompletedBonusTasksModalOpen, setIsCompletedBonusTasksModalOpen] =
+    useState(false)
+
   const [nextExerciseData, setNextExerciseData] = useState<NextExercise | null>(
     null
   )
@@ -43,6 +37,11 @@ export function useTasks({
     links: { completeSolution: completeSolutionLink },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
+  const {
+    areAllTasksCompleted,
+    wasFinishLessonModalShown,
+    setWasFinishLessonModalShown,
+  } = useTaskStore()
   const { inspectedTestResult } = useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
@@ -113,5 +112,7 @@ export function useTasks({
     nextLevelIdx,
     completedLevelIdx,
     hasRuntimeErrors,
+    isCompletedBonusTasksModalOpen,
+    setIsCompletedBonusTasksModalOpen,
   }
 }

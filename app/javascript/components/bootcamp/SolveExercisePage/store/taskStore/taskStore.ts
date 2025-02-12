@@ -9,6 +9,22 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
     numberOfTasks: 0,
     numberOfCompletedTasks: 0,
     wasFinishLessonModalShown: false,
+    setWasFinishLessonModalShown: (wasFinishLessonModalShown) => {
+      set(
+        { wasFinishLessonModalShown },
+        false,
+        'exercise/setWasFinishLessonModalShown'
+      )
+    },
+    wasCompletedBonusTasksModalShown: false,
+    setWasCompletedBonusTasksModalShown: (wasCompletedBonusTasksModalShown) => {
+      set(
+        { wasCompletedBonusTasksModalShown },
+        false,
+        'exercise/setwasCompletedBonusTasksModalShown'
+      )
+    },
+
     shouldShowBonusTasks: false,
     setShouldShowBonusTasks: (shouldShowBonusTasks) => {
       set((state) => ({
@@ -20,13 +36,6 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
     },
     areAllTasksCompleted: undefined,
     activeTaskIndex: 0,
-    setWasFinishLessonModalShown: (wasFinishLessonModalShown) => {
-      set(
-        { wasFinishLessonModalShown },
-        false,
-        'exercise/setWasFinishLessonModalShown'
-      )
-    },
     markTaskAsCompleted: (testResults) => {
       set(
         (state) => {
@@ -78,8 +87,12 @@ export type TaskStore = {
   numberOfCompletedTasks: number
   activeTaskIndex: number
   wasFinishLessonModalShown: boolean
+  setWasFinishLessonModalShown: (wasFinishLessonModalShown: boolean) => void
+  wasCompletedBonusTasksModalShown: boolean
+  setWasCompletedBonusTasksModalShown: (
+    wasCompletedBonusTasksModalShown: boolean
+  ) => void
   shouldShowBonusTasks: boolean
   setShouldShowBonusTasks: (shouldShowBonusTasks: boolean) => void
-  setWasFinishLessonModalShown: (wasFinishLessonModalShown: boolean) => void
   setCurrentTaskIndex: (index: number) => void
 }

@@ -1,10 +1,10 @@
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import React, { useContext } from 'react'
-import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 import animation from '@/../animations/finish-lesson-modal-top.json'
+import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModalContextWrapper'
 
 export function CompletedBonusTasksView() {
-  const { handleCompleteSolution, setIsOpen } = useContext(
+  const { isCompletedBonusTasksModalOpen } = useContext(
     FinishLessonModalContext
   )
 
@@ -15,7 +15,9 @@ export function CompletedBonusTasksView() {
         className="confetti"
         style={{ height: '200px', width: '300px' }}
       />
-      <h2 className="text-[25px] mb-12 font-semibold">Nice work!</h2>
+      <h2 className="text-[25px] mb-12 font-semibold">
+        You aced the bonus tasks!
+      </h2>
 
       <p className="text-18 leading-140 mb-20">
         You've completed the bonus tasks! You can now mark this exercise as
@@ -23,16 +25,10 @@ export function CompletedBonusTasksView() {
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
-        <button
-          onClick={() => setIsOpen(false)}
-          className="btn-l btn-secondary"
-        >
+        <button onClick={() => {}} className="btn-l btn-secondary">
           Tweak further
         </button>
-        <button
-          onClick={handleCompleteSolution}
-          className="btn-l btn-primary flex-grow"
-        >
+        <button onClick={() => {}} className="btn-l btn-primary flex-grow">
           Complete Exercise
         </button>
       </div>

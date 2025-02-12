@@ -10,14 +10,10 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
+import { CompletedBonusTasksModal } from '../../modals/CompletedBonusTasksModal/CompletedBonusTasksModal'
 
 function _Header() {
-  const {
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  } = useTaskStore()
-
+  const { areAllTasksCompleted } = useTaskStore()
   const { solution, links } = useContext(SolveExercisePageContext)
 
   const {
@@ -29,11 +25,9 @@ function _Header() {
     completedLevelIdx,
     nextLevelIdx,
     hasRuntimeErrors,
-  } = useTasks({
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  })
+    isCompletedBonusTasksModalOpen,
+    setIsCompletedBonusTasksModalOpen,
+  } = useTasks()
 
   return (
     <div className="page-header">
@@ -61,16 +55,19 @@ function _Header() {
             {areAllTasksCompleted && (
               <FinishLessonModalContextWrapper
                 value={{
-                  isOpen: isFinishModalOpen,
+                  isFinishLessonModalOpen: isFinishModalOpen,
+                  setIsFinishLessonModalOpen: setIsFinishModalOpen,
+                  isCompletedBonusTasksModalOpen,
+                  setIsCompletedBonusTasksModalOpen,
                   completedLevelIdx,
                   nextLevelIdx,
-                  setIsOpen: setIsFinishModalOpen,
                   handleCompleteSolution,
                   modalView,
                   nextExerciseData,
                 }}
               >
                 <FinishLessonModal />
+                <CompletedBonusTasksModal />
               </FinishLessonModalContextWrapper>
             )}
           </>

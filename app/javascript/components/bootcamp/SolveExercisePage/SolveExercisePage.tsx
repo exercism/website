@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { Instructions } from './Instructions/Instructions'
@@ -7,10 +7,14 @@ import { ControlButtons } from './ControlButtons/ControlButtons'
 import { CodeMirror } from './CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { Resizer, useResizablePanels } from './hooks/useResize'
-import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
+import SolveExercisePageContextWrapper, {
+  ExerciseLocalStorageData,
+} from './SolveExercisePageContextWrapper'
 import { Header } from './Header/Header'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { ResultsPanel } from './ResultsPanel'
+import useTestStore from './store/testStore'
+import useTaskStore from './store/taskStore/taskStore'
 
 export default function SolveExercisePage({
   exercise,
@@ -18,7 +22,26 @@ export default function SolveExercisePage({
   links,
   solution,
 }: SolveExercisePageProps): JSX.Element {
-  // this returns handleRunCode which is onRunCode but with studentCode passed in as an argument
+  const [oldEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.config.title,
+    {
+      code: code.code,
+      storedAt: code.storedAt,
+      readonlyRanges: code.readonlyRanges,
+      wasFinishLessonModalShown: false,
+    }
+  )
+
+  const [exerciseLocalStorageData, setExerciseLocalStorageData] =
+    useLocalStorage<{
+      code: string
+      storedAt: string | Date | null
+      readonlyRanges?: { from: number; to: number }[]
+    }>(
+      'bootcamp-exercise-' + exercise.id,
+      migrateToLatestCodeStorageData(code, oldEditorLocalStorageValue)
+    )
+
   const {
     handleEditorDidMount,
     handleRunCode,
@@ -26,11 +49,13 @@ export default function SolveExercisePage({
     resetEditorToStub,
   } = useEditorHandler({
     links,
-    config: exercise.config,
+    exercise,
     code,
+    exerciseLocalStorageData,
+    setExerciseLocalStorageData,
   })
 
-  useSetupStores({ exercise, code })
+  useSetupStores({ exercise, code, exerciseLocalStorageData })
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,
@@ -52,15 +77,14 @@ export default function SolveExercisePage({
     localStorageId: 'solve-exercise-page-editor-height',
   })
 
-  const [_, setEditorLocalStorageValue] = useLocalStorage<{
-    code: string
-    storedAt: string | Date | null
-    readonlyRanges?: { from: number; to: number }[]
-  }>('bootcamp-editor-value-' + exercise.config.title, {
-    code: code.code,
-    storedAt: code.storedAt,
-    readonlyRanges: code.readonlyRanges,
-  })
+  const { testSuiteResult } = useTestStore()
+  const { wasFinishLessonModalShown } = useTaskStore()
+
+  const isSpotlightActive = useMemo(() => {
+    if (!testSuiteResult) return false
+    if (wasFinishLessonModalShown) return false
+    return testSuiteResult.status === 'pass'
+  }, [wasFinishLessonModalShown, testSuiteResult?.status])
 
   return (
     <SolveExercisePageContextWrapper
@@ -71,6 +95,9 @@ export default function SolveExercisePage({
         code,
         resetEditorToStub,
         editorView: editorViewRef.current,
+        isSpotlightActive,
+        exerciseLocalStorageData,
+        setExerciseLocalStorageData,
       }}
     >
       <div id="bootcamp-solve-exercise-page">
@@ -83,7 +110,6 @@ export default function SolveExercisePage({
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
                 handleRunCode={handleRunCode}
-                setEditorLocalStorageValue={setEditorLocalStorageValue}
               />
             </ErrorBoundary>
 
@@ -107,10 +133,31 @@ export default function SolveExercisePage({
               exerciseTitle={exercise.title}
               exerciseInstructions={exercise.introductionHtml}
             />
-            {/* <Tasks /> */}
           </div>
         </div>
       </div>
     </SolveExercisePageContextWrapper>
   )
+}
+
+export function migrateToLatestCodeStorageData(
+  code: Code,
+  deprecatedStorage: ExerciseLocalStorageData
+): ExerciseLocalStorageData {
+  const deprecatedDataIsNewer =
+    !!code.storedAt &&
+    !!deprecatedStorage.storedAt &&
+    deprecatedStorage.storedAt > code.storedAt
+  const onlyDeprecatedExists = !code.storedAt && !!deprecatedStorage.storedAt
+
+  if (deprecatedDataIsNewer || onlyDeprecatedExists) {
+    return deprecatedStorage
+  }
+
+  return {
+    code: code.code,
+    readonlyRanges: code.readonlyRanges,
+    storedAt: code.storedAt,
+    wasFinishLessonModalShown: false,
+  }
 }

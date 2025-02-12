@@ -7,7 +7,7 @@ export function processTasks(
   const passingTests = new Set(
     testResults.tests
       .filter((test) => test.status === 'pass')
-      .map((test) => test.name)
+      .map((test) => test.slug)
   )
 
   if (!state || !state.tasks || state.tasks.length === 0) {
@@ -38,7 +38,7 @@ export function processTasks(
     // but we shouldn't mark the whole thing as passing.
     if (
       task.tests.length > 0 &&
-      task.tests.every((test) => passingTests.has(test.name))
+      task.tests.every((test) => passingTests.has(test.slug))
     ) {
       updatedTasks.push({ ...task, status: 'completed' })
       numberOfCompletedTasks++

@@ -12,11 +12,7 @@ import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
 
 function _Header() {
-  const {
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  } = useTaskStore()
+  const { areAllTasksCompleted } = useTaskStore()
 
   const { solution, links } = useContext(SolveExercisePageContext)
 
@@ -29,11 +25,7 @@ function _Header() {
     completedLevelIdx,
     nextLevelIdx,
     hasRuntimeErrors,
-  } = useTasks({
-    areAllTasksCompleted,
-    wasFinishLessonModalShown,
-    setWasFinishLessonModalShown,
-  })
+  } = useTasks()
 
   return (
     <div className="page-header">

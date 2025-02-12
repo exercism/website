@@ -8,38 +8,41 @@ import {
 } from 'react'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { type NextExercise, completeSolution } from './completeSolution'
-import type { TaskStore } from '../store/taskStore/taskStore'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { launchConfetti } from './launchConfetti'
 import useTestStore from '../store/testStore'
+import useTaskStore from '../store/taskStore/taskStore'
 
 export type FinishLessonModalView =
   | 'initial'
   | 'completedExercise'
   | 'completedLevel'
 
-export function useTasks({
-  areAllTasksCompleted,
-  wasFinishLessonModalShown,
-  setWasFinishLessonModalShown,
-}: Pick<
-  TaskStore,
-  | 'areAllTasksCompleted'
-  | 'wasFinishLessonModalShown'
-  | 'setWasFinishLessonModalShown'
->) {
+export function useTasks() {
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
   const [nextExerciseData, setNextExerciseData] = useState<NextExercise | null>(
     null
   )
+
+  const { exerciseLocalStorageData, setExerciseLocalStorageData } = useContext(
+    SolveExercisePageContext
+  )
+
   const [nextLevelIdx, setNextLevelIdx] = useState<number | null>(null)
   const [completedLevelIdx, setCompletedLevelIdx] = useState<number | null>(
     null
   )
   const [modalView, setModalView] = useState<FinishLessonModalView>('initial')
+
+  const {
+    areAllTasksCompleted,
+    wasFinishLessonModalShown,
+    setWasFinishLessonModalShown,
+  } = useTaskStore()
   const {
     solution,
     links: { completeSolution: completeSolutionLink },
+    exercise: { id: exerciseId },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
   const { inspectedTestResult } = useTestStore()
@@ -59,7 +62,10 @@ export function useTasks({
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
       // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (solution.status === 'completed') {
+      if (
+        solution.status === 'completed' ||
+        exerciseLocalStorageData.wasFinishLessonModalShown
+      ) {
         setWasFinishLessonModalShown(true)
       }
       isSetupStage.current = false
@@ -73,6 +79,10 @@ export function useTasks({
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
+        setExerciseLocalStorageData({
+          ...exerciseLocalStorageData,
+          wasFinishLessonModalShown: true,
+        })
       }
     }
   }, [

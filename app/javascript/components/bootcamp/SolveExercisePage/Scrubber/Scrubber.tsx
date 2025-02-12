@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
@@ -7,6 +7,7 @@ import { Icon } from '@/components/common'
 import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 function Scrubber({
   animationTimeline,
@@ -18,6 +19,7 @@ function Scrubber({
   const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const {
     value,
@@ -34,6 +36,7 @@ function Scrubber({
     setIsPlaying,
     animationTimeline,
     frames,
+    hasCodeBeenEdited,
   })
 
   return (
@@ -52,7 +55,8 @@ function Scrubber({
           disabled={shouldScrubberBeDisabled(
             hasCodeBeenEdited,
             animationTimeline,
-            frames
+            frames,
+            isSpotlightActive
           )}
           onClick={() => {
             animationTimeline?.play(() => setShouldShowInformationWidget(false))
@@ -64,7 +68,8 @@ function Scrubber({
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           animationTimeline,
-          frames
+          frames,
+          isSpotlightActive
         )}
         type="range"
         onKeyUp={(event) => handleOnKeyUp(event, animationTimeline)}
@@ -89,10 +94,13 @@ function Scrubber({
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           animationTimeline,
-          frames
+          frames,
+          isSpotlightActive
         )}
       />
-      <InformationWidgetToggleButton disabled={hasCodeBeenEdited} />
+      <InformationWidgetToggleButton
+        disabled={hasCodeBeenEdited || isSpotlightActive}
+      />
       <TooltipInformation
         hasCodeBeenEdited={hasCodeBeenEdited}
         notEnoughFrames={frames.length === 1}
@@ -112,7 +120,12 @@ function PlayButton({
   onClick: () => void
 }) {
   return (
-    <button disabled={disabled} className="play-button" onClick={onClick}>
+    <button
+      data-ci="play-button"
+      disabled={disabled}
+      className="play-button"
+      onClick={onClick}
+    >
       <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
     </button>
   )
@@ -128,7 +141,7 @@ function FrameStepperButtons({
   disabled: boolean
 }) {
   return (
-    <div className="frame-stepper-buttons">
+    <div data-ci="frame-stepper-buttons" className="frame-stepper-buttons">
       <button disabled={disabled} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"
@@ -146,9 +159,14 @@ function FrameStepperButtons({
 function shouldScrubberBeDisabled(
   hasCodeBeenEdited: boolean,
   animationTimeline: AnimationTimeline | undefined | null,
-  frames: Frame[]
+  frames: Frame[],
+  isSpotlightActive: boolean
 ) {
   // if the code has been edited, the scrubber should be disabled
   // if there is no animation timeline and there is only one frame, the scrubber should be disabled
-  return hasCodeBeenEdited || (!animationTimeline && frames.length === 1)
+  return (
+    hasCodeBeenEdited ||
+    (!animationTimeline && frames.length === 1) ||
+    isSpotlightActive
+  )
 }

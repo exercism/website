@@ -4,6 +4,7 @@ import React, {
   forwardRef,
   type ForwardedRef,
   useMemo,
+  useContext,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 import { EditorState, Compartment } from '@codemirror/state'
@@ -38,6 +39,8 @@ import { getCodeMirrorFieldValue } from './getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnlyRanges'
 import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
 import useErrorStore from '../store/errorStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import useTaskStore from '../store/taskStore/taskStore'
 
 export const readonlyCompartment = new Compartment()
 
@@ -70,18 +73,12 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     editorDidMount,
     handleRunCode,
     style,
-    setEditorLocalStorageValue,
     onEditorChangeCallback,
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
     onEditorChangeCallback?: () => void
-    setEditorLocalStorageValue: (value: {
-      code: string
-      storedAt: string
-      readonlyRanges?: { from: number; to: number }[]
-    }) => void
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -101,7 +98,10 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     setInformationWidgetData,
   } = useEditorStore()
 
+  const { setExerciseLocalStorageData } = useContext(SolveExercisePageContext)
+
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
+  const { wasFinishLessonModalShown } = useTaskStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
@@ -111,13 +111,18 @@ export const CodeMirror = forwardRef(function _CodeMirror(
         view,
         readOnlyRangesStateField
       )
-      setEditorLocalStorageValue({
+      setExerciseLocalStorageData({
         code: value,
         storedAt: new Date().toISOString(),
         readonlyRanges: readonlyRanges,
+        wasFinishLessonModalShown,
       })
     }, 500)
-  }, [setEditorLocalStorageValue, readOnlyRangesStateField])
+  }, [
+    setExerciseLocalStorageData,
+    readOnlyRangesStateField,
+    wasFinishLessonModalShown,
+  ])
 
   let value = defaultCode
 

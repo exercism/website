@@ -76,4 +76,26 @@
 
 body.namespace-bootcamp.controller-exercises.action-edit {
     overflow: hidden;
+
+    &::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0);
+        pointer-events: none;
+        z-index: 999;
+        transition: background-color 5s ease-in-out;
+    }
+
+    &:has(.spotlight)::after {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .spotlight {
+        position: relative;
+        z-index: 1000;
+    }
 }

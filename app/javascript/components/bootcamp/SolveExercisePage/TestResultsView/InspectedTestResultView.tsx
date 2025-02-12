@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import Scrubber from '../Scrubber/Scrubber'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
@@ -9,9 +9,11 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   if (!result) return null
 
@@ -28,7 +30,11 @@ function _InspectedTestResultView() {
         result={result}
       />
 
-      <div ref={viewContainerRef} id="view-container" />
+      <div
+        className={assembleClassNames(isSpotlightActive && 'spotlight')}
+        ref={viewContainerRef}
+        id="view-container"
+      />
     </div>
   )
 }

@@ -1,12 +1,20 @@
 # Tic Tac Toe
 
-## Rules
+## Game Rules
+
+In Tic Tac Toe, one player is `o` and one player is `x`, and you take turns to write your symbol in one of the squares of a 3x3 grid.
+
+If you get place three of your symbols in a row (either horizontally, vertically, or diagnoally) then you win! If all spaces get taken without three in a row, the game is draw.
+
+## Implementation Rules
 
 Here are the rules to follow
 
+Playing pieces:
+
 - Moves should alternative between `o` and `x`
 - The first move should always be an `o`
-- If a player makes an invalid move, you should use the `error_invalid_move()` function, which updates the game state, and then not do anything further.
+- If a player makes an invalid move, you should use the `error_invalid_move()` function, which shows a error message, and then not do anything further.
 
 - Board
 

@@ -63,7 +63,7 @@ function testState(
   testData,
   exampleScript
 ) {
-  test(`${project} - ${exerciseSlug} - ${task.name}`, () => {
+  test(`${project} - ${exerciseSlug} - ${task.name} - ${testData.name}`, () => {
     const Project = exerciseMap.get(config.projectType)
     const exercise: Exercise = new Project()
 
@@ -88,7 +88,7 @@ function testState(
     const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
 
     const context = {
-      externalFunctions: exerciseFunctions,
+      externalFunctions: externalFunctions,
       languageFeatures: config.interpreterOptions,
     }
     let evaluated

@@ -1,5 +1,13 @@
 #bootcamp-solve-exercise-page {
     .exercise-tic-tac-toe {
+        .result {
+            @apply absolute inset-0;
+            @apply bg-purple text-[white];
+            background: rgba(96, 79, 205, 0.85);
+            @apply text-[23px] font-semibold text-center;
+            @apply grid place-items-center;
+            opacity: 0;
+        }
         .board {
             @apply w-fill h-fill;
             @apply grid grid-cols-3 gap-2;

@@ -69,15 +69,12 @@ export function checkUniqueColoredCircles(shapes: Shape[], count: number) {
     if (!(shape instanceof Circle)) {
       return
     }
-    console.log(colors)
-
     colors.add(
       `${
         shape.fillColor.type
       }-${shape.strokeColor.color.toString()}-${shape.fillColor.color.toString()}`
     )
   })
-  console.log(colors)
   return colors.size >= count
 }
 

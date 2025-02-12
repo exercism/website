@@ -235,7 +235,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return rect
   }
   public line(
@@ -271,7 +271,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(line)
     this.visibleShapes.push(line)
-    this.animateElement(executionCtx, elem, absX1, absY1)
+    this.animateElementIntoView(executionCtx, elem)
   }
 
   public circle(
@@ -302,7 +302,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return circle
   }
 
@@ -337,7 +337,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(ellipse)
     this.visibleShapes.push(ellipse)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return ellipse
   }
 
@@ -385,7 +385,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(triangle)
     this.visibleShapes.push(triangle)
-    this.animateElement(executionCtx, elem, absX1, absY1)
+    this.animateElementIntoView(executionCtx, elem)
     // return triangle
   }
 
@@ -435,11 +435,9 @@ export default class DrawExercise extends Exercise {
     // executionCtx.time += duration;
   }
 
-  private animateElement(
+  protected animateElementIntoView(
     executionCtx: ExecutionContext,
-    elem: SVGElement,
-    absX: number,
-    absY: number
+    elem: SVGElement
   ) {
     const duration = 1
     this.addAnimation({

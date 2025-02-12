@@ -17,6 +17,13 @@ export default class TicTacToeExercise extends DrawExercise {
   public constructor() {
     super('tic-tac-toe')
 
+    this.resultElem = document.createElement('div')
+    this.resultElem.style.opacity = 0
+    this.resultElem.style.height = '0'
+    this.resultElem.style.top = '-100%'
+    this.resultElem.classList.add('result')
+    this.view.appendChild(this.resultElem)
+
     /*this.boardElem = document.createElement('div')
     this.boardElem.classList.add('board')
     ;[1, 2, 3].forEach((row) => {
@@ -38,7 +45,7 @@ export default class TicTacToeExercise extends DrawExercise {
   }
 
   public getState() {
-    //console.log(this.shapes)
+    // console.log(this.shapes)
     return { gameStatus: this.gameStatus, gameWinner: this.gameWinner }
   }
 
@@ -58,6 +65,8 @@ export default class TicTacToeExercise extends DrawExercise {
 
   public errorInvalidMove(executionCtx: ExecutionContext) {
     this.gameStatus = 'error'
+    this.resultElem.innerHTML = `Illegal move detected!`
+    this.animateResult(executionCtx)
   }
 
   public announceWinner(executionCtx: ExecutionContext, winner: 'x' | 'o') {
@@ -69,6 +78,8 @@ export default class TicTacToeExercise extends DrawExercise {
     }
     this.gameWinner = winner
     this.gameStatus = 'won'
+    this.resultElem.innerHTML = `Player ${winner.toUpperCase()} wins!`
+    this.animateResult(executionCtx)
   }
 
   public announceDraw(executionCtx: ExecutionContext) {
@@ -77,6 +88,21 @@ export default class TicTacToeExercise extends DrawExercise {
     }
 
     this.gameStatus = 'draw'
+    this.resultElem.innerHTML = `The game is a draw!`
+    this.animateResult(executionCtx)
+  }
+
+  private animateResult(executionCtx: ExecutionContext) {
+    this.addAnimation({
+      targets: `#${this.view.id} .result`,
+      duration: 1,
+      transformations: {
+        opacity: 1,
+        height: '100%',
+        top: 0,
+      },
+      offset: executionCtx.getCurrentTime() + 200,
+    })
   }
 
   /*private guardDoublePlacement(

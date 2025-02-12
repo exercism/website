@@ -1,12 +1,11 @@
-import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import React, { useContext } from 'react'
+import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'
 import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModalContextWrapper'
 
 export function CompletedBonusTasksView() {
-  const { isCompletedBonusTasksModalOpen } = useContext(
-    FinishLessonModalContext
-  )
+  const { setIsCompletedBonusTasksModalOpen, handleCompleteSolution } =
+    useContext(FinishLessonModalContext)
 
   return (
     <>
@@ -25,10 +24,16 @@ export function CompletedBonusTasksView() {
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
-        <button onClick={() => {}} className="btn-l btn-secondary">
+        <button
+          onClick={() => setIsCompletedBonusTasksModalOpen(false)}
+          className="btn-l btn-secondary"
+        >
           Tweak further
         </button>
-        <button onClick={() => {}} className="btn-l btn-primary flex-grow">
+        <button
+          onClick={handleCompleteSolution}
+          className="btn-l btn-primary flex-grow"
+        >
           Complete Exercise
         </button>
       </div>

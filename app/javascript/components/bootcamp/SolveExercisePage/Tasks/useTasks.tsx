@@ -81,15 +81,16 @@ export function useTasks() {
           setWasCompletedBonusTasksModalShown(true)
         }
       }
-    }
-
-    if (
-      wasFinishLessonModalShown &&
-      !wasCompletedBonusTasksModalShown &&
-      bonusTestSuiteResult?.status === 'pass'
-    ) {
-      setIsCompletedBonusTasksModalOpen(true)
-      setWasCompletedBonusTasksModalShown(true)
+      if (
+        wasFinishLessonModalShown &&
+        isTimelineReady &&
+        !wasCompletedBonusTasksModalShown &&
+        bonusTestSuiteResult?.status === 'pass'
+      ) {
+        setIsCompletedBonusTasksModalOpen(true)
+        launchConfetti()
+        setWasCompletedBonusTasksModalShown(true)
+      }
     }
   }, [
     areAllTasksCompleted,

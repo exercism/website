@@ -17,6 +17,7 @@ export type FinishLessonModalView =
   | 'initial'
   | 'completedExercise'
   | 'completedLevel'
+  | 'completedBonusTasks'
 
 export function useTasks({
   areAllTasksCompleted,

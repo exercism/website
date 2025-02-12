@@ -109,12 +109,10 @@ function handle_win with board, permutation, winner do
     draw_piece(winner, cell[1], cell[2])
   end
   write_message(concatenate("The ", winner, "'s won!"))
-  end_game(winner)
 end
 
 function handle_draw do
   write_message("The game was a draw!")
-  end_game("draw")
 end
 
 function guard_move_allowed with board, row, col do
@@ -123,7 +121,6 @@ function guard_move_allowed with board, row, col do
   end
 
   write_message("Invalid move!")
-  end_game("error")
   
   return false
 end
@@ -180,7 +177,7 @@ function run_game with moves do
     end
 
     if num_moves == 9 do
-      handle_draw()
+      write_message("The game was a draw!")
       return
     end
   end

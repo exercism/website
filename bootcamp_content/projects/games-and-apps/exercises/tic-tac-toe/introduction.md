@@ -46,7 +46,6 @@ In these situations, you decide what move to play:
 
 There are no game functions provided.
 You have to write the whole thing from scratch!
-The only one thing we've added is an `end_game` function that helps us know when you've solved things correctly - but this does not affect the game itself.
 
 ### Drawing
 
@@ -60,7 +59,7 @@ This exercise asks you to write to the screen for the first time.
 
 **Whenever** you're asked to write below, you should:
 
-- Draw a box from 0,0 to 100,100 with the fill of RGBA (96, 79, 205) with the alpha channel set to 0.85.
+- Draw a box from 0,0 to 100,100. Unless specified it should be filled with an rgba value of red: 96, green: 79, blue: 205, and the alpha channel set to 0.85.
 - Use the new `write` function, which writes big text to the center of the screen in white ink.
 
 ### The Board
@@ -90,8 +89,15 @@ Together the board and the pieces should look something like this:
 - The first move should always be an `o`
 - Moves should alternate between `o` and `x`
 - If a player makes an invalid move, you should:
-  - Write `"Invalid move!"`.
-  - Use the `end_game` function with `"error"` as the input.
+  - Write `"Invalid move!"` with a background of red: 200, green: 0, blue: 0, and alpha: 0.85.
+  - Stop processing moves.
+
+### Draws
+
+If the game board fills without a winner, you should:
+
+- Turn all the x's and o's to a light grey.
+- Write `"The game was a draw!"`
 
 ### Winning
 
@@ -100,18 +106,10 @@ If either player gets 3 in a row, you should:
 - Highlight the winning row in `"#604fcd"`.
 - Turn all the other x's and o's to a light grey.
 - Write either `"The x's won!"` or `"The o's won!"`.
-- Use the `end_game` function with `"x"` or `"o"` as the input.
 
 The resulting situation should be something like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/tic-tac-toe-won.png" style="width: 100%; max-width:300px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
-
-### Draws
-
-If the game board fills without a winner, you should
-
-- Write `"The game was a draw!"`.
-- Use the `end_game` function with `"draw"` as the input.
 
 ## Functions Available
 
@@ -131,7 +129,3 @@ You have a few functions available:
 - `rectangle(top, left, width, height)`: Draws a rectangle by specifying the top, left, width and height.
 - `line(x1,y1, x2, y2)`: Draws a line from x1,y1 to x2,y2.
 - `write(text)`: Writes whatever text is provided to the center of the screen in white ink.
-
-### Game Functions
-
-- `end_game(result)`: Ends the game with the given result. Should be one of `"error"`, `"draw"`, `"x"` or `"y"`. This doesn't do anything other than inform the checking-system of your decision.

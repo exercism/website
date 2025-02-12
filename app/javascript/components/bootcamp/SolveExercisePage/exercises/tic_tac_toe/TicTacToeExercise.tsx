@@ -5,14 +5,10 @@ import { addOrdinalSuffix } from '@/interpreter/describers/helpers'
 import DrawExercise from '../draw/DrawExercise'
 import { Color } from '../draw/shapes'
 
-type GameStatus = 'running' | 'won' | 'draw' | 'error'
-
 export default class TicTacToeExercise extends DrawExercise {
-  private gameStatus: GameStatus = 'running'
   protected strokeColor: Color = { type: 'hex', color: '#333' }
   protected strokeWidth = 1
   protected fillColor: Color = { type: 'hex', color: '#ffffff' }
-  protected gameWinner: null | 'x' | 'o' = null
 
   public constructor() {
     super('tic-tac-toe')
@@ -25,63 +21,11 @@ export default class TicTacToeExercise extends DrawExercise {
   }
 
   public getState() {
-    // console.log(this.shapes)
-    return { gameStatus: this.gameStatus, gameWinner: this.gameWinner }
-  }
-
-  public endGame(
-    executionCtx: ExecutionContext,
-    result: 'x' | 'o' | 'error' | 'draw'
-  ) {
-    if (
-      result !== 'error' &&
-      result !== 'draw' &&
-      result !== 'x' &&
-      result !== 'o'
-    ) {
-      executionCtx.logicError(
-        'Invalid game result. Return "x", "o", "draw", or "error"'
-      )
-    }
-
-    if (result === 'error') {
-      this.gameStatus = 'error'
-    } else if (result === 'draw') {
-      this.gameStatus = 'draw'
-    } else if (result === 'x') {
-      this.gameStatus = 'won'
-      this.gameWinner = 'x'
-    } else if (result === 'o') {
-      this.gameStatus = 'won'
-      this.gameWinner = 'o'
-    }
+    return {}
   }
 
   public write(executionCtx: ExecutionContext, text: string) {
     this.resultElem.innerHTML = text
-    this.animateResult(executionCtx)
-  }
-
-  public announceWinner(executionCtx: ExecutionContext, winner: 'x' | 'o') {
-    if (this.gameStatus !== 'running') {
-      this.logicError('The game has already ended.')
-    }
-    if (winner !== 'x' && winner !== 'o') {
-      this.logicError('You announce an invalid winner.')
-    }
-    this.gameWinner = winner
-    this.gameStatus = 'won'
-    this.resultElem.innerHTML = `Player ${winner.toUpperCase()} wins!`
-    this.animateResult(executionCtx)
-  }
-
-  public announceDraw(executionCtx: ExecutionContext) {
-    if (this.gameStatus !== 'running') {
-      this.logicError('The game has already ended')
-    }
-
-    this.gameStatus = 'draw'
-    this.resultElem.innerHTML = `The game is a draw!`
     this.animateResult(executionCtx)
   }
 
@@ -131,11 +75,6 @@ export default class TicTacToeExercise extends DrawExercise {
       func: this.rectangle.bind(this),
       description:
         'drew a rectangle at coordinates (${arg1}, ${arg2}) with a width of ${arg3} and a height of ${arg4}',
-    },
-    {
-      name: 'end_game',
-      func: this.endGame.bind(this),
-      description: 'ended the game with the result as ${arg1}',
     },
     {
       name: 'write',

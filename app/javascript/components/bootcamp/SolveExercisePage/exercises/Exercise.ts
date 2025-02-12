@@ -40,6 +40,7 @@ export abstract class Exercise {
   ): boolean {
     let timesCalled
     const fnCalls = result.functionCallLog
+    console.log(result.functionCallLog)
 
     if (fnCalls[name] === undefined) {
       timesCalled = 0

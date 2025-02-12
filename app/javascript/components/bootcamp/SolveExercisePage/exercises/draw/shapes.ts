@@ -76,6 +76,7 @@ export class Triangle extends Shape {
 export type Color =
   | { type: 'hex'; color: string }
   | { type: 'rgb'; color: [number, number, number] }
+  | { type: 'rgba'; color: [number, number, number, number] }
   | { type: 'hsl'; color: [number, number, number] }
 
 const svgNS = 'http://www.w3.org/2000/svg'
@@ -103,6 +104,8 @@ function colorToString(color: Color) {
     return color.color
   } else if (color.type === 'rgb') {
     return 'rgb(' + color.color.join(',') + ')'
+  } else if (color.type === 'rgba') {
+    return 'rgba(' + color.color.join(',') + ')'
   } else {
     return `hsl(${color.color[0]}, ${color.color[1]}%, ${color.color[2]}%)`
   }

@@ -27,7 +27,6 @@ export function execProjectTest(
     )
   }
   const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
-  console.log(externalFunctions)
 
   const context = {
     externalFunctions,

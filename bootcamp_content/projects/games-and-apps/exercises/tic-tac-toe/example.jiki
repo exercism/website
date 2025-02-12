@@ -7,7 +7,7 @@ function calculate_next_move with board, turn do
   change move to calculate_next_move_block(board, turn)
   if move != false do
     return move
-  end
+    end
   return calculate_next_move_valid(board)
 end
 
@@ -103,12 +103,18 @@ function handle_win with board, permutation, winner do
     end
   end
   
-  stroke_color_hex("purple")
+  stroke_color_hex("#604fcd")
   stroke_width(1.5)
   for each cell in permutation do
     draw_piece(winner, cell[1], cell[2])
   end
-  announce_winner(winner)
+  write_message(concatenate("The ", winner, "'s won!"))
+  end_game(winner)
+end
+
+function handle_draw do
+  write_message("The game was a draw!")
+  end_game("draw")
 end
 
 function guard_move_allowed with board, row, col do
@@ -116,8 +122,16 @@ function guard_move_allowed with board, row, col do
     return true
   end
 
-  error_invalid_move()
+  write_message("Invalid move!")
+  end_game("error")
+  
   return false
+end
+
+function write_message with message do
+  fill_color_rgba(96, 79, 205, 0.85)
+  rectangle(0,0,100,100)
+  write(message)
 end
 
 function switch_turn with turn do
@@ -144,7 +158,7 @@ function run_game with moves do
     change num_moves to num_moves + 1
     change turn to switch_turn(turn)
   
-    if(move == "ai") do
+    if(move == "?") do
       change move to calculate_next_move(board, turn)
     end
   
@@ -166,7 +180,7 @@ function run_game with moves do
     end
 
     if num_moves == 9 do
-      announce_draw()
+      handle_draw()
       return
     end
   end

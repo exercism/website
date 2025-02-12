@@ -5,7 +5,7 @@
   "level": 6,
   "idx": 1,
   "tests_type": "state",
-  "stdlib_functions": ["push"],
+  "stdlib_functions": ["push", "concatenate"],
   "tasks": [
     {
       "name": "Draw the x and the o",
@@ -13,7 +13,7 @@
         {
           "slug": "draw",
           "name": "A drawn game",
-          "description_html": "Draw the grid, put \"x\"s and the \"o\"s on all the squares correctly and announce a draw.",
+          "description_html": "Draw the grid, put \"x\"s and the \"o\"s on all the squares correctly and end the game as a draw.",
           "function": "run_game",
           "params": [
             [
@@ -148,7 +148,22 @@
               "name": "gameStatus",
               "value": "draw",
               "matcher": "toEqual",
-              "error_html": "You did not announce a draw."
+              "error_html": "You did not end the game as a draw."
+            },
+            {
+              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't write the result on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -170,6 +185,21 @@
               "value": "error",
               "matcher": "toEqual",
               "error_html": "The game didn't error when placing an o in an existing piece."
+            },
+            {
+              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't write the invalid move on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -190,6 +220,21 @@
               "value": "error",
               "matcher": "toEqual",
               "error_html": "The game didn't error when placing an x in an existing piece."
+            },
+            {
+              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't write the invalid move on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -211,7 +256,22 @@
               "name": "gameStatus",
               "value": "running",
               "matcher": "toEqual",
-              "error_html": "You announce the game when it's still running"
+              "error_html": "You ended the game but it's still in progress."
+            },
+            {
+              "name": "wasFunctionUsed('write')",
+              "matcher": "toBeFalse",
+              "error_html": "You didn't write the invalid move on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeFalse",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeUndefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -242,13 +302,28 @@
               "name": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
-              "error_html": "You didn't announce a winner."
+              "error_html": "You didn't end the game as a win for \"x\"."
             },
             {
               "name": "gameWinner",
               "value": "x",
               "matcher": "toEqual",
-              "error_html": "You didn't announce \"x\" as the winner."
+              "error_html": "You didn't end the game as a win for \"x\"."
+            },
+            {
+              "name": "wasFunctionUsed('write', [\"The x's won!\"])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't write the result on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -330,13 +405,28 @@
               "name": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
-              "error_html": "You didn't announce a winner."
+              "error_html": "You didn't end the game as a win for \"o\"."
             },
             {
               "name": "gameWinner",
               "value": "o",
               "matcher": "toEqual",
-              "error_html": "You didn't announce \"o\" as the winner."
+              "error_html": "You didn't end the game as a win for \"o\"."
+            },
+            {
+              "name": "wasFunctionUsed('write', [\"The o's won!\"])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't write the result on the screen correctly."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't draw the purple overlay correctly."
             }
           ]
         },
@@ -356,7 +446,7 @@
               [3, 3],
               [3, 2],
               [2, 3],
-              "ai"
+              "?"
             ]
           ],
           "checks": [
@@ -383,7 +473,7 @@
           "name": "AI \"x\" win",
           "description_html": "Can your AI win a game for crosses?",
           "function": "run_game",
-          "params": [[[1, 1], [2, 2], [1, 3], [2, 1], [3, 2], "ai"]],
+          "params": [[[1, 1], [2, 2], [1, 3], [2, 1], [3, 2], "?"]],
           "checks": [
             {
               "name": "getLineAt(70,40,90,60)",
@@ -399,7 +489,7 @@
               "name": "gameWinner",
               "value": "x",
               "matcher": "toEqual",
-              "error_html": "You didn't announce \"x\" as the winner."
+              "error_html": "You didn't end the game as a win for \"x\"."
             }
           ]
         },
@@ -408,7 +498,7 @@
           "name": "AI \"o\" win",
           "description_html": "Can your AI win a game for naughts?",
           "function": "run_game",
-          "params": [[[1, 1], [2, 1], [2, 2], [3, 2], "ai"]],
+          "params": [[[1, 1], [2, 1], [2, 2], [3, 2], "?"]],
           "checks": [
             {
               "name": "getCircleAt(80,80,10)",
@@ -419,7 +509,7 @@
               "name": "gameWinner",
               "value": "o",
               "matcher": "toEqual",
-              "error_html": "You didn't announce \"o\" as the winner."
+              "error_html": "You didn't end the game as a win for \"o\"."
             }
           ]
         },
@@ -428,7 +518,7 @@
           "name": "AI \"x\" block",
           "description_html": "Can your AI win block naughts win?",
           "function": "run_game",
-          "params": [[[3, 1], [2, 1], [2, 2], "ai"]],
+          "params": [[[3, 1], [2, 1], [2, 2], "?"]],
           "checks": [
             {
               "name": "getLineAt(70,10,90,30)",
@@ -453,9 +543,7 @@
           "name": "AI game",
           "description_html": "Can your AI play this game out to a draw?",
           "function": "run_game",
-          "params": [
-            [[1, 1], [2, 2], [1, 2], "ai", "ai", "ai", "ai", "ai", "ai"]
-          ],
+          "params": [[[1, 1], [2, 2], [1, 2], "?", "?", "?", "?", "?", "?"]],
           "checks": [
             {
               "name": "getCircleAt(20,20,10)",

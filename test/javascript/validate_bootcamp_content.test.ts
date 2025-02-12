@@ -120,10 +120,7 @@ function testState(
 
         // We eval the args to turn numbers into numbers, strings into strings, etc.
         const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
-        const args =
-          argsString === ''
-            ? []
-            : argsString.split(',').map((arg) => safe_eval(arg.trim()))
+        const args = safe_eval(`[${argsString}]`)
 
         // And then we get the function and call it.
         const fn = exercise[fnName]

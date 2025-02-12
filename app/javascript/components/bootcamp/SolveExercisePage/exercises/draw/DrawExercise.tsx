@@ -198,6 +198,9 @@ export default class DrawExercise extends Exercise {
   public fillColorRGB(_: ExecutionContext, red, green, blue) {
     this.fillColor = { type: 'rgb', color: [red, green, blue] }
   }
+  public fillColorRGBA(_: ExecutionContext, red, green, blue, alpha) {
+    this.fillColor = { type: 'rgba', color: [red, green, blue, alpha] }
+  }
   public fillColorHSL(_: ExecutionContext, h, s, l) {
     this.fillColor = { type: 'hsl', color: [h, s, l] }
   }

@@ -6,23 +6,30 @@ import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOn
 import { useLocalStorage } from '@uidotdev/usehooks'
 import useEditorStore from '../store/editorStore'
 import useErrorStore from '../store/errorStore'
+import { migrateToLatestCodeStorageData } from '../SolveExercisePage'
 
 export function useEditorHandler({
   links,
   code,
-  config,
-}: Pick<SolveExercisePageProps, 'links' | 'code'> & { config: Config }) {
+  exercise,
+}: Pick<SolveExercisePageProps, 'links' | 'code' | 'exercise'>) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const { setDefaultCode } = useEditorStore()
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
-  const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + config.title,
+
+  const [oldEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.config.title,
     {
       code: code.code,
       storedAt: code.storedAt,
       readonlyRanges: code.readonlyRanges,
     }
+  )
+
+  const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.id,
+    migrateToLatestCodeStorageData(code, oldEditorLocalStorageValue)
   )
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
@@ -60,7 +67,7 @@ export function useEditorHandler({
 
   const runCode = useConstructRunCode({
     links,
-    config,
+    config: exercise.config,
   })
 
   const resetEditorToStub = () => {

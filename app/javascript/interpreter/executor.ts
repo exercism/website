@@ -74,6 +74,7 @@ import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import didYouMean from 'didyoumean'
 import { extractCallExpressions, formatLiteral } from './helpers'
+import { left } from '@popperjs/core'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -776,10 +777,17 @@ export class Executor {
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
     const leftResult = this.evaluate(expression.left)
-    this.verifyLiteral(leftResult.resultingValue, expression.left)
+    // this.verifyLiteral(leftResult.resultingValue, expression.left)
 
     const rightResult = this.evaluate(expression.right)
-    this.verifyLiteral(rightResult.resultingValue, expression.right)
+    // this.verifyLiteral(rightResult.resultingValue, expression.right)
+
+    if (
+      isArray(leftResult.resultingValue) &&
+      isArray(rightResult.resultingValue)
+    ) {
+      this.error('ListsCannotBeCompared', expression.location)
+    }
 
     const result: EvaluationResult = {
       type: 'BinaryExpression',

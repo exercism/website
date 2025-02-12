@@ -18,7 +18,7 @@
           "description_html": "Cover each hole with a brick-coloured rectangle.",
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
-            ["changePenColor", ["#7f3732"]],
+            ["strokeColorHex", ["#7f3732"]],
             ["fillColorHex", ["red"]],
             [
               "setBackgroundImage",

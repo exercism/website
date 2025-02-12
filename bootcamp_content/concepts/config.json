@@ -180,5 +180,19 @@
     "title": "Using Repeat Blocks",
     "description": "Learn how to use repeat blocks",
     "level": 2
+  },
+  {
+    "slug": "index-access-chaining",
+    "parent": "lists",
+    "title": "Index Access Chaining",
+    "description": "Learn how to chain index accessors",
+    "level": 6
+  },
+  {
+    "slug": "lists-of-lists",
+    "parent": "lists",
+    "title": "Lists of Lists",
+    "description": "Learn how to to put lists inside of lists",
+    "level": 6
   }
 ]

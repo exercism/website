@@ -105,7 +105,8 @@ export function executeCallExpression(
 
   try {
     // Log it's usage for testing checks
-    executor.addFunctionCallToLog(fnName, args)
+    const argResults = args.map((arg) => cloneDeep(arg.resultingValue))
+    executor.addFunctionCallToLog(fnName, argResults)
     executor.addFunctionToCallStack(fnName, expression)
 
     value = callee.function.call(

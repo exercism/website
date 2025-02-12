@@ -3,7 +3,7 @@ import {
   Expression,
   LiteralExpression,
 } from '@/interpreter/expression'
-import { Shape, Circle, Rectangle, Triangle, FillColor } from './shapes'
+import { Shape, Circle, Rectangle, Triangle, FillColor, Line } from './shapes'
 import { InterpretResult } from '@/interpreter/interpreter'
 
 export function checkCanvasCoverage(shapes: Shape[], requiredPercentage) {
@@ -51,6 +51,17 @@ export function checkUniqueColoredRectangles(shapes: Shape[], count: number) {
   })
   return colors.size >= count
 }
+export function checkUniqueColoredLines(shapes: Shape[], count: number) {
+  let colors = new Set()
+  shapes.forEach((shape) => {
+    if (!(shape instanceof Line)) {
+      return
+    }
+
+    colors.add(`${shape.strokeColor.color.toString()}`)
+  })
+  return colors.size >= count
+}
 
 export function checkUniqueColoredCircles(shapes: Shape[], count: number) {
   let colors = new Set()
@@ -58,8 +69,11 @@ export function checkUniqueColoredCircles(shapes: Shape[], count: number) {
     if (!(shape instanceof Circle)) {
       return
     }
-
-    colors.add(`${shape.fillColor.type}-${shape.fillColor.color.toString()}`)
+    colors.add(
+      `${
+        shape.fillColor.type
+      }-${shape.strokeColor.color.toString()}-${shape.fillColor.color.toString()}`
+    )
   })
   return colors.size >= count
 }

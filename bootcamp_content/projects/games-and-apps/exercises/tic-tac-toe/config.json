@@ -82,12 +82,12 @@
             {
               "name": "getCircleAt(80,50,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,50 is missing or wrong"
+              "error_html": "The nought at 80,50 is missing or wrong"
             },
             {
               "name": "getCircleAt(20,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,80 is missing or wrong"
+              "error_html": "The nought at 20,80 is missing or wrong"
             },
             {
               "name": "getRectangleAt(0,0,100,100)",
@@ -143,7 +143,7 @@
             {
               "name": "getCircleAt(20,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,20 is missing or wrong."
+              "error_html": "The nought at 20,20 is missing or wrong."
             },
             {
               "name": "getLineAt(40,40,60,60)",
@@ -158,7 +158,7 @@
             {
               "name": "getCircleAt(50,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 50,20 is missing or wrong."
+              "error_html": "The nought at 50,20 is missing or wrong."
             },
             {
               "name": "getLineAt(70,10,90,30)",
@@ -173,7 +173,7 @@
             {
               "name": "getCircleAt(20,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,80 is missing or wrong."
+              "error_html": "The nought at 20,80 is missing or wrong."
             },
             {
               "name": "getLineAt(10,40,30,60)",
@@ -188,7 +188,7 @@
             {
               "name": "getCircleAt(80,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,80 is missing or wrong."
+              "error_html": "The nought at 80,80 is missing or wrong."
             },
             {
               "name": "getLineAt(40,70,60,90)",
@@ -203,7 +203,7 @@
             {
               "name": "getCircleAt(80,50,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,50 is missing or wrong."
+              "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
               "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
@@ -233,7 +233,7 @@
             {
               "name": "checkUniqueColoredCircles(2)",
               "matcher": "toBeTrue",
-              "error_html": "We expected the naughts to be greyed out."
+              "error_html": "We expected the noughts to be greyed out."
             }
           ]
         },
@@ -353,8 +353,8 @@
         },
         {
           "slug": "win-o",
-          "name": "The naughts win!",
-          "description_html": "Play a game where the naughts win.",
+          "name": "The noughts win!",
+          "description_html": "Play a game where the noughts win.",
           "function": "run_game",
           "params": [
             [
@@ -373,7 +373,7 @@
             {
               "name": "getCircleAt(20,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,20 is missing or wrong."
+              "error_html": "The nought at 20,20 is missing or wrong."
             },
             {
               "name": "getLineAt(40,10,60,30)",
@@ -388,7 +388,7 @@
             {
               "name": "getCircleAt(80,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,20 is missing or wrong."
+              "error_html": "The nought at 80,20 is missing or wrong."
             },
             {
               "name": "getLineAt(10,40,30,60)",
@@ -403,7 +403,7 @@
             {
               "name": "getCircleAt(50,50,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 50,50 is missing or wrong."
+              "error_html": "The nought at 50,50 is missing or wrong."
             },
             {
               "name": "getLineAt(70,40,90,60)",
@@ -418,12 +418,12 @@
             {
               "name": "getCircleAt(20,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,80 is missing or wrong."
+              "error_html": "The nought at 20,80 is missing or wrong."
             },
             {
               "name": "checkUniqueColoredCircles(3)",
               "matcher": "toBeTrue",
-              "error_html": "We expected to see 4 black naughts, at least one light-grey naught, and 3 purple naughts"
+              "error_html": "We expected to see 4 black noughts, at least one light-grey nought, and 3 purple noughts"
             },
             {
               "name": "wasFunctionUsed('write', [\"The o's won!\"])",
@@ -521,14 +521,14 @@
         {
           "slug": "ai-o-win",
           "name": "AI \"o\" win",
-          "description_html": "Can your AI win a game for naughts?",
+          "description_html": "Can your AI win a game for noughts?",
           "function": "run_game",
           "params": [[[1, 1], [2, 1], [2, 2], [3, 2], "?"]],
           "checks": [
             {
               "name": "getCircleAt(80,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "Did you add the naught to the winning spot?"
+              "error_html": "Did you add the nought to the winning spot?"
             },
             {
               "name": "wasFunctionUsed('write', [\"The o's won!\"])",
@@ -545,7 +545,7 @@
         {
           "slug": "ai-x-block",
           "name": "AI \"x\" block",
-          "description_html": "Can your AI win block naughts' win?",
+          "description_html": "Can your AI win block noughts' win?",
           "function": "run_game",
           "params": [[[3, 1], [2, 1], [2, 2], "?"]],
           "checks": [
@@ -576,7 +576,7 @@
             {
               "name": "getCircleAt(20,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,20 is missing or wrong."
+              "error_html": "The nought at 20,20 is missing or wrong."
             },
             {
               "name": "getLineAt(40,40,60,60)",
@@ -591,7 +591,7 @@
             {
               "name": "getCircleAt(50,20,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 50,20 is missing or wrong."
+              "error_html": "The nought at 50,20 is missing or wrong."
             },
             {
               "name": "getLineAt(70,10,90,30)",
@@ -606,7 +606,7 @@
             {
               "name": "getCircleAt(20,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 20,80 is missing or wrong."
+              "error_html": "The nought at 20,80 is missing or wrong."
             },
             {
               "name": "getLineAt(10,40,30,60)",
@@ -621,7 +621,7 @@
             {
               "name": "getCircleAt(80,50,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,50 is missing or wrong."
+              "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
               "name": "getLineAt(40,70,60,90)",
@@ -636,7 +636,7 @@
             {
               "name": "getCircleAt(80,80,10)",
               "matcher": "toBeDefined",
-              "error_html": "The naught at 80,80 is missing or wrong."
+              "error_html": "The nought at 80,80 is missing or wrong."
             },
             {
               "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",

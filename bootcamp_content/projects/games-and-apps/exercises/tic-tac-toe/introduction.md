@@ -25,7 +25,7 @@ That said, if you get a solution that's in the region of 170 lines of code, you 
 
 ## Game Rules
 
-In Tic Tac Toe, one player is `o` and one player is `x`, and you take turns to write your symbol in one of the squares of a 3x3 grid.
+In Tic Tac Toe (also known as Noughts and Crosses in England!), one player is `o` and one player is `x`, and you take turns to write your symbol in one of the squares of a 3x3 grid.
 
 If you place three of your symbols in a row (either horizontally, vertically, or diagnoally) then you win! If all spaces get taken without three in a row, the game is a draw.
 

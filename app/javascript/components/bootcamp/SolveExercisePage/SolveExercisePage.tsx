@@ -20,28 +20,6 @@ export default function SolveExercisePage({
   links,
   solution,
 }: SolveExercisePageProps): JSX.Element {
-  const [oldEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.config.title,
-    {
-      code: code.code,
-      storedAt: code.storedAt,
-      readonlyRanges: code.readonlyRanges,
-    }
-  )
-
-  const [_, setEditorLocalStorageValue] = useLocalStorage<{
-    code: string
-    storedAt: string | Date | null
-    readonlyRanges?: { from: number; to: number }[]
-  }>(
-    'bootcamp-exercise-' + exercise.id,
-    migrateToLatestCodeStorageData(
-      code,
-      oldEditorLocalStorageValue,
-      'bootcamp-editor-value-' + exercise.config.title
-    )
-  )
-
   const {
     handleEditorDidMount,
     handleRunCode,
@@ -74,6 +52,28 @@ export default function SolveExercisePage({
     direction: 'vertical',
     localStorageId: 'solve-exercise-page-editor-height',
   })
+
+  const [oldEditorLocalStorageValue] = useLocalStorage(
+    'bootcamp-editor-value-' + exercise.config.title,
+    {
+      code: code.code,
+      storedAt: code.storedAt,
+      readonlyRanges: code.readonlyRanges,
+    }
+  )
+
+  const [_, setEditorLocalStorageValue] = useLocalStorage<{
+    code: string
+    storedAt: string | Date | null
+    readonlyRanges?: { from: number; to: number }[]
+  }>(
+    'bootcamp-exercise-' + exercise.id,
+    migrateToLatestCodeStorageData(
+      code,
+      oldEditorLocalStorageValue,
+      'bootcamp-editor-value-' + exercise.config.title
+    )
+  )
 
   const { testSuiteResult } = useTestStore()
   const { wasFinishLessonModalShown } = useTaskStore()

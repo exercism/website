@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { Instructions } from './Instructions/Instructions'
@@ -11,6 +11,8 @@ import SolveExercisePageContextWrapper from './SolveExercisePageContextWrapper'
 import { Header } from './Header/Header'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { ResultsPanel } from './ResultsPanel'
+import useTestStore from './store/testStore'
+import useTaskStore from './store/taskStore/taskStore'
 
 export default function SolveExercisePage({
   exercise,
@@ -62,6 +64,14 @@ export default function SolveExercisePage({
     readonlyRanges: code.readonlyRanges,
   })
 
+  const { testSuiteResult } = useTestStore()
+  const { wasFinishLessonModalShown } = useTaskStore()
+
+  const isSpotlightActive = useMemo(() => {
+    if (!testSuiteResult) return false
+    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
+  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+
   return (
     <SolveExercisePageContextWrapper
       value={{
@@ -71,6 +81,7 @@ export default function SolveExercisePage({
         code,
         resetEditorToStub,
         editorView: editorViewRef.current,
+        isSpotlightActive,
       }}
     >
       <div id="bootcamp-solve-exercise-page">
@@ -107,7 +118,6 @@ export default function SolveExercisePage({
               exerciseTitle={exercise.title}
               exerciseInstructions={exercise.introductionHtml}
             />
-            {/* <Tasks /> */}
           </div>
         </div>
       </div>

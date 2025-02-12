@@ -1,12 +1,5 @@
 import type { AnimeInstance } from 'animejs'
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useContext,
-  useMemo,
-} from 'react'
+import { useState, useEffect, useCallback, useRef, useContext } from 'react'
 import anime from 'animejs'
 import useEditorStore from '../store/editorStore'
 import type { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
@@ -20,7 +13,6 @@ import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
-import useTaskStore from '../store/taskStore/taskStore'
 
 const FRAME_DURATION = 50
 
@@ -50,13 +42,7 @@ export function useScrubber({
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
 
-  const { testSuiteResult, inspectedTestResult } = useTestStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
-
-  const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+  const { inspectedTestResult } = useTestStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -470,7 +456,6 @@ export function useScrubber({
     rangeRef,
     updateInputBackground,
     handleScrubToCurrentTime,
-    isSpotlightActive,
   }
 }
 

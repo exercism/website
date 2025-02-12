@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
@@ -7,6 +7,7 @@ import { Icon } from '@/components/common'
 import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 function Scrubber({
   animationTimeline,
@@ -18,6 +19,7 @@ function Scrubber({
   const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const {
     value,
@@ -30,7 +32,6 @@ function Scrubber({
     rangeRef,
     handleGoToNextFrame,
     handleGoToPreviousFrame,
-    isSpotlightActive,
   } = useScrubber({
     setIsPlaying,
     animationTimeline,

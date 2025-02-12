@@ -6,7 +6,11 @@ import { createContext } from 'react'
 type SolveExercisePageContextValues = Pick<
   SolveExercisePageProps,
   'links' | 'solution' | 'exercise' | 'code'
-> & { resetEditorToStub: () => void; editorView: EditorView | null }
+> & {
+  resetEditorToStub: () => void
+  editorView: EditorView | null
+  isSpotlightActive: boolean
+}
 
 export const SolveExercisePageContext =
   createContext<SolveExercisePageContextValues>({
@@ -16,6 +20,7 @@ export const SolveExercisePageContext =
     code: {} as SolveExercisePageContextValues['code'],
     resetEditorToStub: () => {},
     editorView: {} as EditorView | null,
+    isSpotlightActive: false,
   })
 
 export default function SolveExercisePageContextWrapper({

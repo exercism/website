@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import Scrubber from '../Scrubber/Scrubber'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
@@ -9,17 +9,11 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import useTestStore from '../store/testStore'
-import useTaskStore from '../store/taskStore/taskStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()
-  const { testSuiteResult } = useTestStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
-
-  const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   if (!result) return null
 

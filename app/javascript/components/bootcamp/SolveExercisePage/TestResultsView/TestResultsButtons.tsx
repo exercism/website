@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
 import type { InformationWidgetData } from '../CodeMirror/extensions/end-line-information/line-information'
 import { useShouldAnimate } from './useShouldAnimate'
-import useTaskStore from '../store/taskStore/taskStore'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 const TRANSITION_DELAY = 0.1
 
@@ -13,14 +13,10 @@ export function TestResultsButtons() {
   const { testSuiteResult, setInspectedTestResult, inspectedTestResult } =
     useTestStore()
   const { setInformationWidgetData, setReadonly } = useEditorStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
   const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldAnimate } = useShouldAnimate(testSuiteResult)
 
-  const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   useEffect(() => {
     if (isSpotlightActive) {

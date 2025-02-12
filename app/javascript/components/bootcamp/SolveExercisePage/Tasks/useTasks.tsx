@@ -40,9 +40,11 @@ export function useTasks() {
   const {
     areAllTasksCompleted,
     wasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
     setWasFinishLessonModalShown,
+    setWasCompletedBonusTasksModalShown,
   } = useTaskStore()
-  const { inspectedTestResult } = useTestStore()
+  const { inspectedTestResult, bonusTestSuiteResult } = useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
   // see useSetupStores.ts
@@ -73,7 +75,21 @@ export function useTasks() {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
+
+        // if student completes bonus tests and normal tests in one go, we mark bonus completion modal as shown
+        if (bonusTestSuiteResult?.status === 'pass') {
+          setWasCompletedBonusTasksModalShown(true)
+        }
       }
+    }
+
+    if (
+      wasFinishLessonModalShown &&
+      !wasCompletedBonusTasksModalShown &&
+      bonusTestSuiteResult?.status === 'pass'
+    ) {
+      setIsCompletedBonusTasksModalOpen(true)
+      setWasCompletedBonusTasksModalShown(true)
     }
   }, [
     areAllTasksCompleted,
@@ -81,6 +97,7 @@ export function useTasks() {
     isTimelineComplete,
     inspectedTestResult,
     solution.status,
+    bonusTestSuiteResult?.status,
   ])
 
   const handleCompleteSolution = useCallback(async () => {

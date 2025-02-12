@@ -159,9 +159,6 @@ export function migrateToLatestCodeStorageData(
     deprecatedStorage.storedAt > code.storedAt
   const onlyDeprecatedExists = !code.storedAt && !!deprecatedStorage.storedAt
 
-  // remove old item
-  localStorage.removeItem(oldKey)
-
   if (deprecatedDataIsNewer || onlyDeprecatedExists) {
     return deprecatedStorage
   }

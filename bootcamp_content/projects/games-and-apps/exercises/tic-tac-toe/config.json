@@ -11,6 +11,92 @@
       "name": "Draw the x and the o",
       "tests": [
         {
+          "slug": "partial-game",
+          "name": "The first few moves of a game",
+          "description_html": "Draw the grid, put \"x\"s and the \"o\"s on the squares correctly.",
+          "function": "run_game",
+          "params": [
+            [
+              [2, 3],
+              [1, 3],
+              [3, 1],
+              [2, 2]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getRectangleAt(5,5,90,90)",
+              "matcher": "toBeDefined",
+              "error_html": "The game outline is wrong or missing."
+            },
+            {
+              "name": "getLineAt(5,35,95,35)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 5,35 to 5,35 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(5,65,95,65)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 5,65 to 5,65 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(35,5,35,95)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 35,5 to 35,5 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(65,5,65,95)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 65,5 to 65,5 is wrong or missing."
+            },
+            {
+              "name": "wasFunctionUsed('write')",
+              "matcher": "toBeFalse",
+              "error_html": "You wrote to the screen when the game is still going."
+            },
+            {
+              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "matcher": "toBeFalse",
+              "error_html": "You didn't draw the purple overlay with the right color."
+            },
+            {
+              "name": "getLineAt(70,10,90,30)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross line from 70,10 to 90,30 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(70,30,90,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross line from 90,10 to 70,30 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(40,40,60,60)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross line from 40,40 to 60,60 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(40,60,60,40)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross line from 40,60 to 60,40 is wrong or missing."
+            },
+            {
+              "name": "getCircleAt(80,50,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 80,50 is missing or wrong"
+            },
+            {
+              "name": "getCircleAt(20,80,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 20,80 is missing or wrong"
+            },
+            {
+              "name": "getRectangleAt(0,0,100,100)",
+              "matcher": "toBeUndefined",
+              "error_html": "You didn't draw the purple overlay correctly."
+            }
+          ]
+        },
+        {
           "slug": "draw",
           "name": "A drawn game",
           "description_html": "Draw the grid, put \"x\"s and the \"o\"s on all the squares correctly and end the game as a draw.",
@@ -55,31 +141,6 @@
               "error_html": "The grid line from 65,5 to 65,5 is wrong or missing."
             },
             {
-              "name": "getRectangleAt(5,5,90,90)",
-              "matcher": "toBeDefined",
-              "error_html": "The game outline is wrong or missing."
-            },
-            {
-              "name": "getLineAt(5,35,95,35)",
-              "matcher": "toBeDefined",
-              "error_html": "The grid line from 5,35 to 5,35."
-            },
-            {
-              "name": "getLineAt(5,65,95,65)",
-              "matcher": "toBeDefined",
-              "error_html": "The grid line from 5,65 to 5,65."
-            },
-            {
-              "name": "getLineAt(35,5,35,95)",
-              "matcher": "toBeDefined",
-              "error_html": "The grid line from 35,5 to 35,5."
-            },
-            {
-              "name": "getLineAt(65,5,65,95)",
-              "matcher": "toBeDefined",
-              "error_html": "The grid line from 65,5 to 65,5."
-            },
-            {
               "name": "getCircleAt(20,20,10)",
               "matcher": "toBeDefined",
               "error_html": "The naught at 20,20 is missing or wrong."
@@ -87,12 +148,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -102,12 +163,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -117,12 +178,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,80,10)",
@@ -132,12 +193,12 @@
             {
               "name": "getLineAt(40,70,60,90)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,70 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,70 to 40,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,90,60,70)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,90 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,90 to 40,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",
@@ -170,7 +231,7 @@
               "error_html": "We expected the crosses to be greyed out."
             },
             {
-              "name": "checkUniqueColoredLines(2)",
+              "name": "checkUniqueColoredCircles(2)",
               "matcher": "toBeTrue",
               "error_html": "We expected the naughts to be greyed out."
             }
@@ -246,40 +307,9 @@
           ]
         },
         {
-          "slug": "partial-game",
-          "name": "The first few moves of a game",
-          "description_html": "Play the first few moves of a game",
-          "function": "run_game",
-          "params": [
-            [
-              [2, 3],
-              [1, 3],
-              [3, 1],
-              [2, 2]
-            ]
-          ],
-          "checks": [
-            {
-              "name": "wasFunctionUsed('write')",
-              "matcher": "toBeFalse",
-              "error_html": "You wrote to the screen when the game is still going."
-            },
-            {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
-              "matcher": "toBeFalse",
-              "error_html": "You didn't draw the purple overlay with the right color."
-            },
-            {
-              "name": "getRectangleAt(0,0,100,100)",
-              "matcher": "toBeUndefined",
-              "error_html": "You didn't draw the purple overlay correctly."
-            }
-          ]
-        },
-        {
           "slug": "win-x",
           "name": "The crosses win!",
-          "description_html": "Play a game where the crosses win",
+          "description_html": "Play a game where the crosses win.",
           "function": "run_game",
           "params": [
             [
@@ -324,7 +354,7 @@
         {
           "slug": "win-o",
           "name": "The naughts win!",
-          "description_html": "Play a game where the naughts win",
+          "description_html": "Play a game where the naughts win.",
           "function": "run_game",
           "params": [
             [
@@ -348,12 +378,12 @@
             {
               "name": "getLineAt(40,10,60,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,10 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,10 to 40,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,30,60,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,30 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,30 to 40,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,20,10)",
@@ -363,12 +393,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,50,10)",
@@ -378,12 +408,12 @@
             {
               "name": "getLineAt(70,40,90,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,40 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,40 to 70,90 is missing or wrong."
             },
             {
               "name": "getLineAt(70,60,90,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,60 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,60 to 70,90 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -515,7 +545,7 @@
         {
           "slug": "ai-x-block",
           "name": "AI \"x\" block",
-          "description_html": "Can your AI win block naughts win?",
+          "description_html": "Can your AI win block naughts' win?",
           "function": "run_game",
           "params": [[[3, 1], [2, 1], [2, 2], "?"]],
           "checks": [
@@ -551,12 +581,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -566,12 +596,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -581,12 +611,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",
@@ -596,12 +626,12 @@
             {
               "name": "getLineAt(40,70,60,90)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,70 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,70 to 40,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,90,60,70)",
               "matcher": "toBeDefined",
-              "error_html": "The cross with lines from 40,90 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,90 to 40,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,80,10)",

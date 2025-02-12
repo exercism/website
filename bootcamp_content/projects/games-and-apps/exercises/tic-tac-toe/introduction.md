@@ -52,6 +52,7 @@ You have to write the whole thing from scratch!
 In this exercise, rectangles and circles are filled white by default.
 They have an outline (known as a "stroke") that you can control, by setting its width and its color.
 We've also added a `line` function that draws a line between two points.
+Lines must be drawn from left to right for the checks to pass.
 
 ### Writing
 

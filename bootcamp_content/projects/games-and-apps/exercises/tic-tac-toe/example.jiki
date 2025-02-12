@@ -93,8 +93,9 @@ function has_won with board, permutation, target do
   return cell1 == target and cell1 == cell2 and cell2 == cell3
 end
 
-function handle_win with board, permutation, winner do
+function grey_out with board do
   stroke_color_hex("#ccc")
+  
   for each row in [1,2,3] do
     for each col in [1,2,3] do
       if board[row][col] != "" do
@@ -102,16 +103,24 @@ function handle_win with board, permutation, winner do
       end
     end
   end
-  
+end
+
+function handle_win with board, permutation, winner do
+  grey_out(board)
+
   stroke_color_hex("#604fcd")
   stroke_width(1.5)
   for each cell in permutation do
     draw_piece(winner, cell[1], cell[2])
   end
+  
+  fill_color_rgba(96, 79, 205, 0.85)
   write_message(concatenate("The ", winner, "'s won!"))
 end
 
-function handle_draw do
+function handle_draw with board do
+  grey_out(board)
+  fill_color_rgba(96, 79, 205, 0.85)
   write_message("The game was a draw!")
 end
 
@@ -119,14 +128,14 @@ function guard_move_allowed with board, row, col do
   if board[row][col] == "" do
     return true
   end
-
+  
+  fill_color_rgba(200, 0, 0, 0.85)
   write_message("Invalid move!")
   
   return false
 end
 
 function write_message with message do
-  fill_color_rgba(96, 79, 205, 0.85)
   rectangle(0,0,100,100)
   write(message)
 end
@@ -177,7 +186,7 @@ function run_game with moves do
     end
 
     if num_moves == 9 do
-      write_message("The game was a draw!")
+      handle_draw(board)
       return
     end
   end

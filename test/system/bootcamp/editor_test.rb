@@ -626,7 +626,7 @@ asdf()
 
     test "spotlight behaves as it should" do
       user = create(:user, bootcamp_attendee: true)
-      exercise = create :bootcamp_exercise, :automated_solve
+      exercise = create :bootcamp_exercise, :automated_solve_mini
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
@@ -656,10 +656,27 @@ end))
         assert_selector("[data-ci=frame-stepper-buttons] button[disabled]", count: 2)
 
         # can't change scenarios
-        assert_selector("[data-ci='test-selector-button']:nth-of-type(6).selected")
-        select_scenario 3
-        refute_selector("[data-ci='test-selector-button']:nth-of-type(3).selected")
-        assert_selector("[data-ci='test-selector-button']:nth-of-type(6).selected")
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        select_scenario 1
+        refute_selector("[data-ci='test-selector-button']:nth-of-type(1).selected")
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        assert_selector("[data-ci='check-scenarios-button'][disabled]")
+
+        click_on "Tweak further"
+
+        # everything goes back to normal
+        refute_css("#view-container.spotlight")
+        # buttons are enabled
+        refute_selector("[data-ci=play-button][disabled]")
+        refute_selector("[data-ci=scrubber-range-input][disabled]")
+        refute_selector("[data-ci=frame-stepper-buttons] button[disabled]", count: 2)
+
+        # can change scenarios
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        select_scenario 1
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(1).selected")
+        refute_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        refute_selector("[data-ci='check-scenarios-button'][disabled]")
       end
     end
 

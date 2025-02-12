@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useEditorStore from '../store/editorStore'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
@@ -6,6 +6,7 @@ import useTestStore from '../store/testStore'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useErrorStore from '../store/errorStore'
 import { flushSync } from 'react-dom'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 export function CheckScenariosButton({
   handleRunCode,
@@ -17,6 +18,7 @@ export function CheckScenariosButton({
   const { cleanUpTestStore } = useTestStore()
   const { setIsTimelineComplete } = useAnimationTimelineStore()
   const { cleanUpErrorStore } = useErrorStore()
+  const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const cleanUpState = useCallback(() => {
     setIsTimelineComplete(false)
@@ -29,6 +31,7 @@ export function CheckScenariosButton({
     <button
       data-ci="check-scenarios-button"
       className="scenarios-button btn-primary btn-s"
+      disabled={isSpotlightActive}
       onClick={() => {
         flushSync(cleanUpState)
         handleRunCode()

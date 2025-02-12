@@ -28,6 +28,11 @@ FactoryBot.define do
     project { Bootcamp::Project.find_by(slug: "maze") || create(:bootcamp_project, slug: "maze") }
   end
 
+  trait :automated_solve_mini do
+    slug { "automated-solve-mini" }
+    project { Bootcamp::Project.find_by(slug: "maze") || create(:bootcamp_project, slug: "maze") }
+  end
+
   trait :acronym do
     slug { "acronym" }
     project { Bootcamp::Project.find_by(slug: "string-puzzles") || create(:bootcamp_project, slug: "string-puzzles") }

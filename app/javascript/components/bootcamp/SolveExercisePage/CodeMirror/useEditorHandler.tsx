@@ -53,10 +53,6 @@ export function useEditorHandler({
     } else {
       // otherwise we are using the code from the storage
       setDefaultCode(exerciseLocalStorageData.code)
-      console.log(
-        'was finish modal shown',
-        exerciseLocalStorageData.wasFinishLessonModalShown
-      )
       setWasFinishLessonModalShown(
         !!exerciseLocalStorageData.wasFinishLessonModalShown
       )

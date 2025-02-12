@@ -413,7 +413,7 @@ turn_right()
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
-        page.execute_script("localStorage.setItem('finish-modals-shown', JSON.stringify([#{exercise.id}]));")
+        mark_modal_as_shown exercise.id
 
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
@@ -448,7 +448,7 @@ end))
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
-        page.execute_script("localStorage.setItem('finish-modals-shown', JSON.stringify([#{exercise.id}]));")
+        mark_modal_as_shown exercise.id
 
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
@@ -686,7 +686,6 @@ end))
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
-        # page.execute_script("localStorage.setItem('finish-modals-shown', JSON.stringify([#{exercise.id}]));")
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
     turn_left()
@@ -725,7 +724,7 @@ end))
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
-        page.execute_script("localStorage.setItem('finish-modals-shown', JSON.stringify([#{exercise.id}]));")
+        mark_modal_as_shown exercise.id
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
     turn_left()

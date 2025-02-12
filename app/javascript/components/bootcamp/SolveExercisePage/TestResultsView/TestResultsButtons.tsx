@@ -12,18 +12,15 @@ const TRANSITION_DELAY = 0.1
 export function TestResultsButtons() {
   const { testSuiteResult, setInspectedTestResult, inspectedTestResult } =
     useTestStore()
-  const { setInformationWidgetData, setReadonly } = useEditorStore()
+  const { setInformationWidgetData, setReadonly: setIsEditorReadonly } =
+    useEditorStore()
   const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldAnimate } = useShouldAnimate(testSuiteResult)
 
   const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   useEffect(() => {
-    if (isSpotlightActive) {
-      setReadonly(true)
-    } else {
-      setReadonly(false)
-    }
+    setIsEditorReadonly(isSpotlightActive)
   }, [isSpotlightActive])
 
   const handleTestResultSelection = useCallback(
@@ -33,16 +30,7 @@ export function TestResultsButtons() {
       if (isSpotlightActive) return
 
       if (shouldAutoplayAnimation) {
-        testSuiteResult.tests.forEach((test) => {
-          if (test.animationTimeline) {
-            const timeline = test.animationTimeline
-            if (test.testIndex === idx) {
-              timeline.timeline.play()
-            } else {
-              timeline.pause()
-            }
-          }
-        })
+        manageTestAnimations(testSuiteResult, idx)
       }
 
       handleSetInspectedTestResult({
@@ -98,4 +86,20 @@ export function handleSetInspectedTestResult({
       status: 'SUCCESS',
     })
   }
+}
+
+function manageTestAnimations(
+  testSuiteResult: TestSuiteResult<NewTestResult>,
+  idx: number
+) {
+  testSuiteResult.tests.forEach((test) => {
+    if (test.animationTimeline) {
+      const timeline = test.animationTimeline
+      if (test.testIndex === idx) {
+        timeline.timeline.play()
+      } else {
+        timeline.pause()
+      }
+    }
+  })
 }

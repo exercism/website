@@ -69,7 +69,8 @@ export default function SolveExercisePage({
 
   const isSpotlightActive = useMemo(() => {
     if (!testSuiteResult) return false
-    return !wasFinishLessonModalShown && testSuiteResult.status === 'pass'
+    if (wasFinishLessonModalShown) return false
+    return testSuiteResult.status === 'pass'
   }, [wasFinishLessonModalShown, testSuiteResult?.status])
 
   return (

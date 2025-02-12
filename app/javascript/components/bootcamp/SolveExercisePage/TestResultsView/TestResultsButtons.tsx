@@ -61,7 +61,7 @@ export function TestResultsButtons() {
         return (
           <button
             data-ci="test-selector-button"
-            key={test.name + idx}
+            key={test.slug + idx}
             onClick={() => {
               handleTestResultSelection(test, idx)
             }}
@@ -69,7 +69,7 @@ export function TestResultsButtons() {
             className={assembleClassNames(
               'test-button',
               shouldAnimate ? test.status : 'idle',
-              inspectedTestResult?.name === test.name ? 'selected' : ''
+              inspectedTestResult?.slug === test.slug ? 'selected' : ''
             )}
           >
             {idx + 1}

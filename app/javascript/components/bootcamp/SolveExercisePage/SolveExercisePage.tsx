@@ -34,8 +34,12 @@ export default function SolveExercisePage({
     storedAt: string | Date | null
     readonlyRanges?: { from: number; to: number }[]
   }>(
-    'bootcamp-editor-value-' + exercise.id,
-    migrateToLatestCodeStorageData(code, oldEditorLocalStorageValue)
+    'bootcamp-exercise-' + exercise.id,
+    migrateToLatestCodeStorageData(
+      code,
+      oldEditorLocalStorageValue,
+      'bootcamp-editor-value-' + exercise.config.title
+    )
   )
 
   const {
@@ -143,15 +147,22 @@ type CodeStorageData = {
       }[]
     | undefined
 }
+
 export function migrateToLatestCodeStorageData(
   code: Code,
-  deprecatedStorage: CodeStorageData
+  deprecatedStorage: CodeStorageData,
+  oldKey: string
 ): CodeStorageData {
-  if (
-    code.storedAt &&
-    deprecatedStorage.storedAt &&
+  const deprecatedDataIsNewer =
+    !!code.storedAt &&
+    !!deprecatedStorage.storedAt &&
     deprecatedStorage.storedAt > code.storedAt
-  ) {
+  const onlyDeprecatedExists = !code.storedAt && !!deprecatedStorage.storedAt
+
+  // remove old item
+  localStorage.removeItem(oldKey)
+
+  if (deprecatedDataIsNewer || onlyDeprecatedExists) {
     return deprecatedStorage
   }
 

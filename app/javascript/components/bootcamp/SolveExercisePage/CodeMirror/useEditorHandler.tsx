@@ -28,8 +28,12 @@ export function useEditorHandler({
   )
 
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.id,
-    migrateToLatestCodeStorageData(code, oldEditorLocalStorageValue)
+    'bootcamp-exercise-' + exercise.id,
+    migrateToLatestCodeStorageData(
+      code,
+      oldEditorLocalStorageValue,
+      'bootcamp-editor-value-' + exercise.config.title
+    )
   )
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<

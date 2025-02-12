@@ -1,7 +1,19 @@
-import { EditorView } from '@codemirror/view'
 import React from 'react'
-
 import { createContext } from 'react'
+
+import { EditorView } from '@codemirror/view'
+
+export type ExerciseLocalStorageData = {
+  code: string
+  storedAt: string | Date | null
+  wasFinishLessonModalShown?: boolean
+  readonlyRanges?:
+    | {
+        from: number
+        to: number
+      }[]
+    | undefined
+}
 
 type SolveExercisePageContextValues = Pick<
   SolveExercisePageProps,
@@ -10,6 +22,8 @@ type SolveExercisePageContextValues = Pick<
   resetEditorToStub: () => void
   editorView: EditorView | null
   isSpotlightActive: boolean
+  exerciseLocalStorageData: ExerciseLocalStorageData
+  setExerciseLocalStorageData: (data: ExerciseLocalStorageData) => void
 }
 
 export const SolveExercisePageContext =
@@ -21,6 +35,8 @@ export const SolveExercisePageContext =
     resetEditorToStub: () => {},
     editorView: {} as EditorView | null,
     isSpotlightActive: false,
+    exerciseLocalStorageData: {} as ExerciseLocalStorageData,
+    setExerciseLocalStorageData: () => {},
   })
 
 export default function SolveExercisePageContextWrapper({

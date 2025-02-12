@@ -2,15 +2,22 @@ import { useLayoutEffect } from 'react'
 import useTaskStore from '../store/taskStore/taskStore'
 import useTestStore from '../store/testStore'
 import { parseParams } from '../test-runner/generateAndRunTestSuite/parseParams'
+import { ExerciseLocalStorageData } from '../SolveExercisePageContextWrapper'
 
 export function useSetupStores({
   exercise,
   code,
-}: Pick<SolveExercisePageProps, 'exercise' | 'code'>) {
-  const { initializeTasks } = useTaskStore()
+  exerciseLocalStorageData,
+}: Pick<SolveExercisePageProps, 'exercise' | 'code'> & {
+  exerciseLocalStorageData: ExerciseLocalStorageData
+}) {
+  const { initializeTasks, setWasFinishLessonModalShown } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
   useLayoutEffect(() => {
+    setWasFinishLessonModalShown(
+      !!exerciseLocalStorageData.wasFinishLessonModalShown
+    )
     initializeTasks(exercise.tasks, null)
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {
@@ -25,5 +32,5 @@ export function useSetupStores({
         return newTests
       })
     )
-  }, [exercise, code])
+  }, [exercise, code, setWasFinishLessonModalShown])
 }

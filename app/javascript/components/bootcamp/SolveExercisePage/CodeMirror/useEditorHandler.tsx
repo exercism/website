@@ -1,40 +1,31 @@
-import { useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { useConstructRunCode } from '../hooks/useConstructRunCode/useConstructRunCode'
 import type { EditorView } from 'codemirror'
 import type { Handler } from './CodeMirror'
 import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOnlyRanges'
-import { useLocalStorage } from '@uidotdev/usehooks'
 import useEditorStore from '../store/editorStore'
 import useErrorStore from '../store/errorStore'
-import { migrateToLatestCodeStorageData } from '../SolveExercisePage'
+import { ExerciseLocalStorageData } from '../SolveExercisePageContextWrapper'
+import useTaskStore from '../store/taskStore/taskStore'
 
 export function useEditorHandler({
   links,
   code,
   exercise,
-}: Pick<SolveExercisePageProps, 'links' | 'code' | 'exercise'>) {
+  exerciseLocalStorageData,
+  setExerciseLocalStorageData,
+}: Pick<SolveExercisePageProps, 'links' | 'code' | 'exercise'> & {
+  exerciseLocalStorageData: ExerciseLocalStorageData
+  setExerciseLocalStorageData: Dispatch<
+    SetStateAction<ExerciseLocalStorageData>
+  >
+}) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
   const { setDefaultCode } = useEditorStore()
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
 
-  const [oldEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-editor-value-' + exercise.config.title,
-    {
-      code: code.code,
-      storedAt: code.storedAt,
-      readonlyRanges: code.readonlyRanges,
-    }
-  )
-
-  const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
-    'bootcamp-exercise-' + exercise.id,
-    migrateToLatestCodeStorageData(
-      code,
-      oldEditorLocalStorageValue,
-      'bootcamp-editor-value-' + exercise.config.title
-    )
-  )
+  const { setWasFinishLessonModalShown } = useTaskStore()
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
@@ -46,22 +37,30 @@ export function useEditorHandler({
     if (
       // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage
       // localStorage defaults to the stub code.
-      editorLocalStorageValue.storedAt &&
+      exerciseLocalStorageData.storedAt &&
       code.storedAt &&
       // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      editorLocalStorageValue.storedAt < code.storedAt
+      exerciseLocalStorageData.storedAt < code.storedAt
     ) {
-      setEditorLocalStorageValue({
+      setExerciseLocalStorageData({
         code: code.code,
         storedAt: code.storedAt,
         readonlyRanges: code.readonlyRanges,
+        wasFinishLessonModalShown: false,
       })
       setDefaultCode(code.code)
       setupEditor(editorViewRef.current, code)
     } else {
       // otherwise we are using the code from the storage
-      setDefaultCode(editorLocalStorageValue.code)
-      setupEditor(editorViewRef.current, editorLocalStorageValue)
+      setDefaultCode(exerciseLocalStorageData.code)
+      console.log(
+        'was finish modal shown',
+        exerciseLocalStorageData.wasFinishLessonModalShown
+      )
+      setWasFinishLessonModalShown(
+        !!exerciseLocalStorageData.wasFinishLessonModalShown
+      )
+      setupEditor(editorViewRef.current, exerciseLocalStorageData)
     }
 
     if (code.storedAt) {
@@ -76,10 +75,11 @@ export function useEditorHandler({
 
   const resetEditorToStub = () => {
     if (editorHandler.current) {
-      setEditorLocalStorageValue({
+      setExerciseLocalStorageData({
         code: code.stub,
         storedAt: new Date().toISOString(),
         readonlyRanges: code.readonlyRanges,
+        wasFinishLessonModalShown: false,
       })
       setupEditor(editorViewRef.current, { code: '', readonlyRanges: [] })
       setupEditor(editorViewRef.current, {

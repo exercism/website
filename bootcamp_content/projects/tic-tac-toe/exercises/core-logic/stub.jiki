@@ -1,9 +1,7 @@
-// TODO: Set any initial variables here
-
-// TODO: Change this to repeat_until_game_over once you've
-// progressed some of the way towards a solution.
-repeat 20 times do
-  // TODO: Move the laser and shoot the aliens
-  // Write out all the logical steps using comments first
-  // then write the actual JikiScript to make things happen.
+// This is your entry point. It takes a list of moves
+// as the input. Each move is a list with two numbers: row and column.
+// You may want to keep the `log move` line here to check on the input
+// for each scenario as you work through the exercise.
+function run_game with moves do
+  log moves
 end

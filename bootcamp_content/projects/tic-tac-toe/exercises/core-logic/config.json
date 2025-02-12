@@ -5,14 +5,126 @@
   "level": 6,
   "idx": 1,
   "tests_type": "state",
+  "stdlib_functions": ["push"],
   "tasks": [
     {
       "name": "Draw the x and the o",
       "tests": [
         {
+          "slug": "draw-the-symbols",
+          "name": "Draw the symbols",
+          "description_html": "Draw the \"x\"s and the \"o\"s in the right places.",
+          "function": "run_game",
+          "params": [
+            [
+              [1, 1],
+              [1, 2],
+              [1, 3],
+              [2, 1],
+              [2, 2],
+              [2, 3],
+              [3, 1],
+              [3, 2],
+              [3, 3]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getRectangleAt(5,5,90,90)",
+              "matcher": "toBeDefined",
+              "error_html": "The game outline is wrong or missing."
+            },
+            {
+              "name": "getLineAt(5,35,95,35)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 5,35 to 5,35 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(5,65,95,65)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 5,65 to 5,65 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(35,5,35,95)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 35,5 to 35,5 is wrong or missing."
+            },
+            {
+              "name": "getLineAt(65,5,65,95)",
+              "matcher": "toBeDefined",
+              "error_html": "The grid line from 65,5 to 65,5 is wrong or missing."
+            },
+            {
+              "name": "getCircleAt(20,20,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 20,20 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(40,10,60,30)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 40,10 to 40, 60 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(40,30,60,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 40,30 to 40, 60 is missing or wrong."
+            },
+            {
+              "name": "getCircleAt(80,20,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 80,20 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(10,40,30,60)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 10,40 to 10, 30 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(10,60,30,40)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 10,60 to 10, 30 is missing or wrong."
+            },
+            {
+              "name": "getCircleAt(50,50,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 50,50 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(70,40,90,60)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 70,40 to 70, 90 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(70,60,90,40)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 70,60 to 70, 90 is missing or wrong."
+            },
+            {
+              "name": "getCircleAt(20,80,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 20,80 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(40,70,60,90)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 40,70 to 40, 60 is missing or wrong."
+            },
+            {
+              "name": "getLineAt(40,90,60,70)",
+              "matcher": "toBeDefined",
+              "error_html": "The cross with lines from 40,90 to 40, 60 is missing or wrong."
+            },
+            {
+              "name": "getCircleAt(80,80,10)",
+              "matcher": "toBeDefined",
+              "error_html": "The naught at 80,80 is missing or wrong."
+            }
+          ]
+        },
+        {
           "slug": "double-placement-duplicate",
-          "name": "Placing an o on an o",
-          "description_html": "Placing an o on top of an o should be an error.",
+          "name": "Placing an \"o\" on an \"o\"",
+          "description_html": "Placing an \"o\" on top of an \"o\" should be an error.",
           "function": "run_game",
           "params": [
             [
@@ -32,8 +144,8 @@
         },
         {
           "slug": "double-placement-on-top",
-          "name": "Placing an x on an o",
-          "description_html": "Placing an x on top of an o should be an error",
+          "name": "Placing an \"x\" on an \"o\"",
+          "description_html": "Placing an \"x\" on top of an \"o\" should be an error",
           "function": "run_game",
           "params": [
             [

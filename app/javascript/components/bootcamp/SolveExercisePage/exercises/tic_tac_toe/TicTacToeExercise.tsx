@@ -3,15 +3,16 @@ import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
 import { addOrdinalSuffix } from '@/interpreter/describers/helpers'
 import DrawExercise from '../draw/DrawExercise'
-import { FillColor } from '../draw/shapes'
+import { Color } from '../draw/shapes'
 
-type GameStatus = 'running' | 'error'
+type GameStatus = 'running' | 'won' | 'draw' | 'error'
 
 export default class TicTacToeExercise extends DrawExercise {
   private gameStatus: GameStatus = 'running'
-  protected penColor = '#333333'
+  protected strokeColor: Color = { type: 'hex', color: '#333' }
   protected strokeWidth = 1
-  protected fillColor: FillColor = { type: 'hex', color: '#ffffff' }
+  protected fillColor: Color = { type: 'hex', color: '#ffffff' }
+  protected gameWinner: null | 'x' | 'o' = null
 
   public constructor() {
     super('tic-tac-toe')
@@ -37,8 +38,8 @@ export default class TicTacToeExercise extends DrawExercise {
   }
 
   public getState() {
-    console.log(this.shapes)
-    return { gameStatus: this.gameStatus }
+    //console.log(this.shapes)
+    return { gameStatus: this.gameStatus, gameWinner: this.gameWinner }
   }
 
   /*public placeX(executionCtx: ExecutionContext, row: number, col: number) {
@@ -59,6 +60,25 @@ export default class TicTacToeExercise extends DrawExercise {
     this.gameStatus = 'error'
   }
 
+  public announceWinner(executionCtx: ExecutionContext, winner: 'x' | 'o') {
+    if (this.gameStatus !== 'running') {
+      this.logicError('The game has already ended.')
+    }
+    if (winner !== 'x' && winner !== 'o') {
+      this.logicError('You announce an invalid winner.')
+    }
+    this.gameWinner = winner
+    this.gameStatus = 'won'
+  }
+
+  public announceDraw(executionCtx: ExecutionContext) {
+    if (this.gameStatus !== 'running') {
+      this.logicError('The game has already ended')
+    }
+
+    this.gameStatus = 'draw'
+  }
+
   /*private guardDoublePlacement(
     executionCtx: ExecutionContext,
     row: number,
@@ -73,7 +93,7 @@ export default class TicTacToeExercise extends DrawExercise {
     }
   }*/
 
-  private fillCell(
+  /*private fillCell(
     executionCtx: ExecutionContext,
     row: number,
     col: number,
@@ -87,7 +107,7 @@ export default class TicTacToeExercise extends DrawExercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
-  }
+  }*/
 
   public availableFunctions = [
     /*{
@@ -100,6 +120,17 @@ export default class TicTacToeExercise extends DrawExercise {
       func: this.placeO.bind(this),
       description: 'placed an O on the board',
     },*/
+
+    {
+      name: 'stroke_color_hex',
+      func: this.strokeColorHex.bind(this),
+      description: 'set the stroke color to ${arg1}',
+    },
+    {
+      name: 'stroke_width',
+      func: this.setStrokeWidth.bind(this),
+      description: 'set the stroke width to ${arg1}',
+    },
     {
       name: 'line',
       func: this.line.bind(this),
@@ -122,6 +153,16 @@ export default class TicTacToeExercise extends DrawExercise {
       func: this.errorInvalidMove.bind(this),
       description:
         'alerted the user that they cannot place a piece in a cell that is already occupied',
+    },
+    {
+      name: 'announce_winner',
+      func: this.announceWinner.bind(this),
+      description: 'announced the winner of the game as ${arg1}',
+    },
+    {
+      name: 'announce_draw',
+      func: this.announceDraw.bind(this),
+      description: 'announced the game was a draw',
     },
   ]
 }

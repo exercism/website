@@ -188,16 +188,20 @@ export class Executor {
     return {
       frames: this.frames,
       error: null,
-      meta: {
-        getFunctionCallLog: () => this.functionCallLog,
-        getCallExpressions: () => extractCallExpressions(statements),
-        // fixed first arg, varying second arg
-        numTimesFunctionOccurred: extractFunctionOccurenceInCode.bind(
-          null,
-          this.sourceCode
-        ),
-        getSourceCode: () => this.sourceCode,
-      },
+      meta: this.generateMeta(statements),
+    }
+  }
+
+  private generateMeta(statements) {
+    return {
+      getFunctionCallLog: () => this.functionCallLog,
+      getCallExpressions: () => extractCallExpressions(statements),
+      // fixed first arg, varying second arg
+      numTimesFunctionOccurred: extractFunctionOccurenceInCode.bind(
+        null,
+        this.sourceCode
+      ),
+      getSourceCode: () => this.sourceCode,
     }
   }
 
@@ -217,7 +221,7 @@ export class Executor {
         value: result.resultingValue,
         frames: this.frames,
         error: null,
-        functionCallLog: this.functionCallLog,
+        meta: this.generateMeta([statement]),
       }
     } catch (error) {
       if (isRuntimeError(error)) {
@@ -257,8 +261,7 @@ export class Executor {
           value: undefined,
           frames: this.frames,
           error: null,
-          functionCallLog: this.functionCallLog,
-          callExpressions: extractCallExpressions([statement]),
+          meta: this.generateMeta([statement]),
         }
       }
 

@@ -22,14 +22,15 @@ export default function SolveExercisePage({
   links,
   solution,
 }: SolveExercisePageProps): JSX.Element {
+  const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
+    useTaskStore()
+
   const [oldEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
     {
       code: code.code,
       storedAt: code.storedAt,
       readonlyRanges: code.readonlyRanges,
-      wasFinishLessonModalShown: false,
-      wasCompletedBonusTasksModalShown: false,
     }
   )
 
@@ -79,8 +80,6 @@ export default function SolveExercisePage({
   })
 
   const { testSuiteResult, bonusTestSuiteResult } = useTestStore()
-  const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
-    useTaskStore()
 
   /* spotlight is active if 
    - testSuiteResult is passing and basic testResult modal wasn't shown before
@@ -176,7 +175,5 @@ export function migrateToLatestCodeStorageData(
     code: code.code,
     readonlyRanges: code.readonlyRanges,
     storedAt: code.storedAt,
-    wasFinishLessonModalShown: false,
-    wasCompletedBonusTasksModalShown: false,
   }
 }

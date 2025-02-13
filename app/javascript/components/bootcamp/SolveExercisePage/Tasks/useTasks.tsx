@@ -67,10 +67,7 @@ export function useTasks() {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
       // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (
-        solution.status === 'completed' ||
-        exerciseLocalStorageData.wasFinishLessonModalShown
-      ) {
+      if (solution.status === 'completed') {
         setWasFinishLessonModalShown(true)
       }
       isSetupStage.current = false
@@ -84,20 +81,10 @@ export function useTasks() {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
-        setExerciseLocalStorageData({
-          ...exerciseLocalStorageData,
-          wasFinishLessonModalShown: true,
-          wasCompletedBonusTasksModalShown: false,
-        })
 
         // if student completes bonus tests and normal tests in one go, we mark bonus completion modal as shown
         if (bonusTestSuiteResult?.status === 'pass') {
           setWasCompletedBonusTasksModalShown(true)
-          setExerciseLocalStorageData({
-            ...exerciseLocalStorageData,
-            wasCompletedBonusTasksModalShown: true,
-            wasFinishLessonModalShown: true,
-          })
         }
       }
       if (
@@ -106,13 +93,10 @@ export function useTasks() {
         !wasCompletedBonusTasksModalShown &&
         bonusTestSuiteResult?.status === 'pass'
       ) {
+        console.log('we are here')
         setIsCompletedBonusTasksModalOpen(true)
         launchConfetti()
         setWasCompletedBonusTasksModalShown(true)
-        setExerciseLocalStorageData({
-          ...exerciseLocalStorageData,
-          wasCompletedBonusTasksModalShown: true,
-        })
       }
     }
   }, [

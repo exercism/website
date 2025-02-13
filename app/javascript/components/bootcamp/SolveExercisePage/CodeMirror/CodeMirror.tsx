@@ -106,8 +106,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce((value: string, view) => {
-      const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
-        useTaskStore.getState()
       const readonlyRanges = getCodeMirrorFieldValue(
         view,
         readOnlyRangesStateField
@@ -116,8 +114,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
         code: value,
         storedAt: new Date().toISOString(),
         readonlyRanges: readonlyRanges,
-        wasFinishLessonModalShown,
-        wasCompletedBonusTasksModalShown,
       })
     }, 500)
   }, [setExerciseLocalStorageData, readOnlyRangesStateField])

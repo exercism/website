@@ -462,7 +462,6 @@
               [2, 1],
               [3, 3],
               [3, 2],
-              [2, 3],
               "?"
             ]
           ],
@@ -622,21 +621,6 @@
               "name": "getCircleAt(80,50,10)",
               "matcher": "toBeDefined",
               "error_html": "The nought at 80,50 is missing or wrong."
-            },
-            {
-              "name": "getLineAt(40,70,60,90)",
-              "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,70 to 40,60 is missing or wrong."
-            },
-            {
-              "name": "getLineAt(40,90,60,70)",
-              "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,90 to 40,60 is missing or wrong."
-            },
-            {
-              "name": "getCircleAt(80,80,10)",
-              "matcher": "toBeDefined",
-              "error_html": "The nought at 80,80 is missing or wrong."
             },
             {
               "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",

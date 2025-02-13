@@ -41,35 +41,35 @@ function _Header() {
         <ResetButton />
 
         {solution.status === 'in_progress' && (
-          <>
-            <button
-              onClick={handleCompleteSolution}
-              disabled={!areAllTasksCompleted || hasRuntimeErrors}
-              className={assembleClassNames(
-                'btn-primary btn-xxs',
-                areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
-              )}
-            >
-              Complete Exercise
-            </button>
-            {areAllTasksCompleted && (
-              <FinishLessonModalContextWrapper
-                value={{
-                  isFinishLessonModalOpen: isFinishModalOpen,
-                  setIsFinishLessonModalOpen: setIsFinishModalOpen,
-                  isCompletedBonusTasksModalOpen,
-                  setIsCompletedBonusTasksModalOpen,
-                  completedLevelIdx,
-                  nextLevelIdx,
-                  handleCompleteSolution,
-                  modalView,
-                  nextExerciseData,
-                }}
-              >
-                <FinishLessonModal />
-                <CompletedBonusTasksModal />
-              </FinishLessonModalContextWrapper>
+          <button
+            onClick={handleCompleteSolution}
+            disabled={!areAllTasksCompleted || hasRuntimeErrors}
+            className={assembleClassNames(
+              'btn-primary btn-xxs',
+              areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
             )}
+          >
+            Complete Exercise
+          </button>
+        )}
+        {areAllTasksCompleted && (
+          <>
+            <FinishLessonModalContextWrapper
+              value={{
+                isFinishLessonModalOpen: isFinishModalOpen,
+                setIsFinishLessonModalOpen: setIsFinishModalOpen,
+                isCompletedBonusTasksModalOpen,
+                setIsCompletedBonusTasksModalOpen,
+                completedLevelIdx,
+                nextLevelIdx,
+                handleCompleteSolution,
+                modalView,
+                nextExerciseData,
+              }}
+            >
+              <FinishLessonModal />
+              <CompletedBonusTasksModal />
+            </FinishLessonModalContextWrapper>
           </>
         )}
 

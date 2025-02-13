@@ -66,10 +66,6 @@ export function useTasks() {
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
-      // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (solution.status === 'completed') {
-        setWasFinishLessonModalShown(true)
-      }
       isSetupStage.current = false
     } else {
       const shouldShowModal = areAllTasksCompleted && !wasFinishLessonModalShown

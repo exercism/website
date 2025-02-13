@@ -57,7 +57,7 @@ export default function SolveExercisePage({
     setExerciseLocalStorageData,
   })
 
-  useSetupStores({ exercise, code, exerciseLocalStorageData })
+  useSetupStores({ exercise, code, solution })
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,

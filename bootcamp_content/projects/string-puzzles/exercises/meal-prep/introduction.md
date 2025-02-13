@@ -21,3 +21,22 @@ You have one function avaiable:
 
 Remember to write out your method of solving this on pen and paper.
 Try and replicate what you would do in the real world! Good luck and ask for help if you get too stuck!
+
+## Hints
+
+Stuck? Click to expand the hints below.
+
+<details><summary>How do I compare two lists?</summary>
+
+In JikiScript, you can't just compare two lists by writing `["a"] == ["a"]`.
+Jiki will give you an error.
+
+But do you actually want to do that?
+Do you want to know if the lists are identical, or rather if they contain the same items?
+
+You can check to see if the items in two lists are the same.
+Imagine you're given two lists both containing 20 items.
+If I ask you if the lists contain the same items, what are the steps you take to work that out?
+The way you do that in the real world is pretty much identical to the way you do it in code.
+
+</details>

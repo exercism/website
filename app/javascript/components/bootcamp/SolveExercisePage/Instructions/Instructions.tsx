@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import useTaskStore from '../store/taskStore/taskStore'
-import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
 import useTestStore from '../store/testStore'
@@ -32,20 +31,10 @@ export function _Instructions({
     [activeTaskIndex, tasks]
   )
 
-  const bonusTasksList = useMemo(
-    () =>
-      bonusTasks?.flatMap((task) =>
-        task.tests.map((test, index) => (
-          <li
-            key={test.slug + index}
-            dangerouslySetInnerHTML={{
-              __html: test.descriptionHtml || '<p>Instructions are missing</p>',
-            }}
-          />
-        ))
-      ) ?? [],
-    [bonusTasks]
-  )
+  const bonusTasksInstructions: string = useMemo(() => {
+    if (!bonusTasks) return ''
+    return bonusTasks.map((task) => task.instructionsHtml).join('')
+  }, [bonusTasks])
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
@@ -88,12 +77,7 @@ export function _Instructions({
       {shouldShowBonusTasks &&
       remainingBonusTasksCount > 0 &&
       !solution.passedBonusTests ? (
-        <>
-          <h4 id="h-bonus-challenges">Bonus Challenges</h4>
-          <p>Want something to push you a little more?</p>
-          <p>Here are two challenges:</p>
-          <ul>{bonusTasksList} </ul>
-        </>
+        <div dangerouslySetInnerHTML={{ __html: bonusTasksInstructions }} />
       ) : areAllTasksCompleted || solution.passedBasicTests ? (
         <>
           <h4 className="mt-12">Congratulations!</h4>

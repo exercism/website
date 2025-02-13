@@ -1,3 +1,4 @@
+import { isArray } from '@/interpreter/checks'
 import isEqual from 'lodash.isequal'
 
 export function expect({
@@ -80,9 +81,9 @@ export function expect({
     },
     toIncludeSameMembers(expected: any[]) {
       let pass
-      if (expected == null) {
+      if (expected == null || actual == null) {
         pass = false
-      } else if (actual == null) {
+      } else if (!isArray(expected) || !isArray(actual)) {
         pass = false
       } else {
         pass = isEqual([...expected].sort(), [...actual].sort())

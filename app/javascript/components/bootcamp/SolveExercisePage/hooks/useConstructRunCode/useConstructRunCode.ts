@@ -178,17 +178,9 @@ function generateSubmissionTestArray({
   isBonus?: boolean
 }) {
   return testResults.tests.map((test) => {
-    const firstFailingExpect = test.expects.find((e) => !e.pass)
-    const actual = firstFailingExpect
-      ? firstFailingExpect.testsType === 'io'
-        ? firstFailingExpect.actual
-        : firstFailingExpect.errorHtml
-      : null
-
     return {
       slug: test.slug,
       status: test.status,
-      actual,
       ...(isBonus && { bonus: true }),
     }
   })

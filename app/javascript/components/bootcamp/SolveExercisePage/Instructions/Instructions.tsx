@@ -48,10 +48,6 @@ export function _Instructions({
   )
 
   useEffect(() => {
-    console.log('bonusTasks', bonusTasks)
-  }, [bonusTasks])
-
-  useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
 
     // skip Typewriter on the first render

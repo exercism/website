@@ -4,6 +4,7 @@ import useTaskStore from '../store/taskStore/taskStore'
 import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
+import { useLogger } from '@/hooks'
 
 export function _Instructions({
   exerciseTitle,
@@ -17,9 +18,11 @@ export function _Instructions({
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
   const currentTask = useMemo(
-    () => (tasks !== null ? tasks[activeTaskIndex] : null),
+    () => (tasks !== null && activeTaskIndex ? tasks[activeTaskIndex] : null),
     [activeTaskIndex, tasks]
   )
+
+  useLogger('current task', currentTask)
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
@@ -67,7 +70,8 @@ export function _Instructions({
       ) : (
         <>
           <h4 className="mt-12">
-            Task {activeTaskIndex + 1}: {currentTask?.name}
+            Task{activeTaskIndex && ` ${activeTaskIndex + 1}`}:{' '}
+            {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
           <div ref={typewriterRef} />

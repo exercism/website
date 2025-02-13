@@ -22,13 +22,15 @@ export default function SolveExercisePage({
   links,
   solution,
 }: SolveExercisePageProps): JSX.Element {
+  const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
+    useTaskStore()
+
   const [oldEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
     {
       code: code.code,
       storedAt: code.storedAt,
       readonlyRanges: code.readonlyRanges,
-      wasFinishLessonModalShown: false,
     }
   )
 
@@ -55,7 +57,7 @@ export default function SolveExercisePage({
     setExerciseLocalStorageData,
   })
 
-  useSetupStores({ exercise, code, exerciseLocalStorageData })
+  useSetupStores({ exercise, code, solution })
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,
@@ -77,14 +79,29 @@ export default function SolveExercisePage({
     localStorageId: 'solve-exercise-page-editor-height',
   })
 
-  const { testSuiteResult } = useTestStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
+  const { testSuiteResult, bonusTestSuiteResult } = useTestStore()
 
+  /* spotlight is active if 
+   - testSuiteResult is passing and basic testResult modal wasn't shown before
+   - bonus tests are unlocked, bonusTestSuiteResult is passing and bonus modal wasn't shown before 
+  */
   const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    if (wasFinishLessonModalShown) return false
-    return testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+    const basicTestsArePassing = testSuiteResult?.status === 'pass'
+    const bonusTestsArePassing = bonusTestSuiteResult?.status === 'pass'
+    const isActiveForBasicTasks =
+      basicTestsArePassing && !wasFinishLessonModalShown
+    const isActiveForBonusTasks =
+      basicTestsArePassing &&
+      bonusTestsArePassing &&
+      !wasCompletedBonusTasksModalShown
+
+    return isActiveForBasicTasks || isActiveForBonusTasks
+  }, [
+    wasFinishLessonModalShown,
+    testSuiteResult?.status,
+    wasCompletedBonusTasksModalShown,
+    bonusTestSuiteResult?.status,
+  ])
 
   return (
     <SolveExercisePageContextWrapper
@@ -158,6 +175,5 @@ export function migrateToLatestCodeStorageData(
     code: code.code,
     readonlyRanges: code.readonlyRanges,
     storedAt: code.storedAt,
-    wasFinishLessonModalShown: false,
   }
 }

@@ -2,22 +2,24 @@ import { useLayoutEffect } from 'react'
 import useTaskStore from '../store/taskStore/taskStore'
 import useTestStore from '../store/testStore'
 import { parseParams } from '../test-runner/generateAndRunTestSuite/parseParams'
-import { ExerciseLocalStorageData } from '../SolveExercisePageContextWrapper'
 
 export function useSetupStores({
   exercise,
-  code,
-  exerciseLocalStorageData,
-}: Pick<SolveExercisePageProps, 'exercise' | 'code'> & {
-  exerciseLocalStorageData: ExerciseLocalStorageData
-}) {
-  const { initializeTasks, setWasFinishLessonModalShown } = useTaskStore()
+  solution,
+}: Pick<SolveExercisePageProps, 'exercise' | 'code' | 'solution'>) {
+  const {
+    initializeTasks,
+    setWasFinishLessonModalShown,
+    setWasCompletedBonusTasksModalShown,
+    setShouldShowBonusTasks,
+  } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
   useLayoutEffect(() => {
-    setWasFinishLessonModalShown(
-      !!exerciseLocalStorageData.wasFinishLessonModalShown
-    )
+    setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
+    setWasFinishLessonModalShown(solution.passedBasicTests)
+    setShouldShowBonusTasks(solution.passedBasicTests)
+
     initializeTasks(exercise.tasks, null)
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {
@@ -31,5 +33,9 @@ export function useSetupStores({
         })
       })
     )
-  }, [exercise, code, setWasFinishLessonModalShown])
+  }, [
+    setWasFinishLessonModalShown,
+    setWasCompletedBonusTasksModalShown,
+    setWasFinishLessonModalShown,
+  ])
 }

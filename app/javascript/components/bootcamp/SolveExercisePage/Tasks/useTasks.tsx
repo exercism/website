@@ -48,7 +48,6 @@ export function useTasks() {
   const {
     solution,
     links: { completeSolution: completeSolutionLink },
-    exercise: { id: exerciseId },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
   const { inspectedTestResult, bonusTestSuiteResult } = useTestStore()
@@ -67,13 +66,6 @@ export function useTasks() {
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
-      // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (
-        solution.status === 'completed' ||
-        exerciseLocalStorageData.wasFinishLessonModalShown
-      ) {
-        setWasFinishLessonModalShown(true)
-      }
       isSetupStage.current = false
     } else {
       const shouldShowModal = areAllTasksCompleted && !wasFinishLessonModalShown
@@ -97,18 +89,16 @@ export function useTasks() {
         !wasCompletedBonusTasksModalShown &&
         bonusTestSuiteResult?.status === 'pass'
       ) {
+        console.log('we are here')
         setIsCompletedBonusTasksModalOpen(true)
         launchConfetti()
         setWasCompletedBonusTasksModalShown(true)
-        setExerciseLocalStorageData({
-          ...exerciseLocalStorageData,
-          wasFinishLessonModalShown: true,
-        })
       }
     }
   }, [
     areAllTasksCompleted,
     wasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
     isTimelineComplete,
     inspectedTestResult,
     solution.status,

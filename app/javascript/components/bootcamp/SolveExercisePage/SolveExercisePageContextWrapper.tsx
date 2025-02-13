@@ -6,7 +6,6 @@ import { EditorView } from '@codemirror/view'
 export type ExerciseLocalStorageData = {
   code: string
   storedAt: string | Date | null
-  wasFinishLessonModalShown?: boolean
   readonlyRanges?:
     | {
         from: number

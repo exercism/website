@@ -20,6 +20,8 @@ class Bootcamp::Submission::Create
   end
 
   def update_solution!(submission)
+    solution.update(code:)
+
     case submission.status
     when :pass
       solution.update!(passed_basic_tests: true)

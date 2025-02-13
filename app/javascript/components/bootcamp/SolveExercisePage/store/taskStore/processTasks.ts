@@ -51,7 +51,7 @@ export function processTasks(
     const hasAnActiveTask = updatedTasks.some(
       (task) => task.status === 'active'
     )
-    console.log(hasAnActiveTask)
+
     // if doesn't have active task, find the first inactive task and set it to active
     if (
       !hasAnActiveTask &&

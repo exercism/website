@@ -64,7 +64,7 @@ export type TaskStore = {
   numberOfTasks: number
   areAllTasksCompleted: boolean | undefined
   numberOfCompletedTasks: number
-  activeTaskIndex: number
+  activeTaskIndex: number | undefined
   wasFinishLessonModalShown: boolean
   setWasFinishLessonModalShown: (wasFinishLessonModalShown: boolean) => void
   setCurrentTaskIndex: (index: number) => void

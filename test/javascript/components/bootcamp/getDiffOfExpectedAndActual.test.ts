@@ -1,4 +1,4 @@
-import { getDiffOfExpectedAndActual } from '../../../../app/javascript/components/bootcamp/SolveExercisePage/TestResultsView/useInspectedTestResultView'
+import { getDiffOfExpectedAndActual } from '@/components/bootcamp/SolveExercisePage/TestResultsView/useInspectedTestResultView'
 
 test('handles commas correctly', async () => {
   const right = 'One for me, one for you!'

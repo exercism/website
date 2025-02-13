@@ -22,7 +22,7 @@ export function processTasks(
   const updatedTasks: Task[] = []
   let foundFirstInactiveTask = false
   let numberOfCompletedTasks = state.numberOfCompletedTasks ?? 0
-  let activeTaskIndex = state.activeTaskIndex
+  let activeTaskIndex: number | undefined = state.activeTaskIndex
 
   for (let i = 0; i < state.tasks.length; i++) {
     const task = state.tasks[i]
@@ -37,8 +37,11 @@ export function processTasks(
     // Unless there are no tests, in which case we're in a weird state,
     // but we shouldn't mark the whole thing as passing.
     if (
+      // Check all tests on all tasks up to here have passed
       task.tests.length > 0 &&
-      task.tests.every((test) => passingTests.has(test.slug))
+      state.tasks
+        .slice(0, i + 1)
+        .every((t) => t.tests.every((test) => passingTests.has(test.slug)))
     ) {
       updatedTasks.push({ ...task, status: 'completed' })
       numberOfCompletedTasks++
@@ -48,6 +51,7 @@ export function processTasks(
     const hasAnActiveTask = updatedTasks.some(
       (task) => task.status === 'active'
     )
+
     // if doesn't have active task, find the first inactive task and set it to active
     if (
       !hasAnActiveTask &&
@@ -67,6 +71,10 @@ export function processTasks(
   // A lack of completed tasks should not mark the whole thing as completed.
   const areAllTasksCompleted =
     numberOfCompletedTasks > 0 && numberOfCompletedTasks === updatedTasks.length
+
+  if (areAllTasksCompleted) {
+    activeTaskIndex = undefined
+  }
 
   return {
     updatedTasks,

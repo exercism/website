@@ -45,7 +45,7 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
         'exercise/markTaskAsCompleted'
       )
     },
-    initializeTasks: (tasks, testResults) => {
+    initializeTasks: (tasks, testResults, wasFinishLessonModalShown) => {
       if (!tasks) {
         console.warn('tasks are missing in store')
         return
@@ -60,6 +60,9 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
           numberOfCompletedTasks: taskData.numberOfCompletedTasks,
           areAllTasksCompleted: taskData.areAllTasksCompleted,
           activeTaskIndex: taskData.activeTaskIndex,
+          // if it was previously shown, we wanna enable bonusTasks
+          // so if user refreshes page without clicking the modal can see them
+          shouldShowBonusTasks: wasFinishLessonModalShown,
         },
         false,
         'exercise/initializeTasks'
@@ -79,7 +82,8 @@ export type TaskStore = {
   bonusTasks: Task[] | null
   initializeTasks: (
     tasks: Omit<Task, 'status'>[] | null,
-    testResults: TestSuiteResult<PreviousTestResult> | null
+    testResults: TestSuiteResult<PreviousTestResult> | null,
+    wasFinishLessonModalShown: boolean
   ) => void
   markTaskAsCompleted: (testResults: TestSuiteResult<NewTestResult>) => void
   numberOfTasks: number

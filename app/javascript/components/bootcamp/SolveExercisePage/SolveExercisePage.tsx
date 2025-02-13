@@ -29,6 +29,7 @@ export default function SolveExercisePage({
       storedAt: code.storedAt,
       readonlyRanges: code.readonlyRanges,
       wasFinishLessonModalShown: false,
+      wasCompletedBonusTasksModalShown: false,
     }
   )
 
@@ -77,14 +78,31 @@ export default function SolveExercisePage({
     localStorageId: 'solve-exercise-page-editor-height',
   })
 
-  const { testSuiteResult } = useTestStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
+  const { testSuiteResult, bonusTestSuiteResult } = useTestStore()
+  const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
+    useTaskStore()
 
+  /* spotlight is active if 
+   - testSuiteResult is passing and basic testResult modal wasn't shown before
+   - bonus tests are unlocked, bonusTestSuiteResult is passing and bonus modal wasn't shown before 
+  */
   const isSpotlightActive = useMemo(() => {
-    if (!testSuiteResult) return false
-    if (wasFinishLessonModalShown) return false
-    return testSuiteResult.status === 'pass'
-  }, [wasFinishLessonModalShown, testSuiteResult?.status])
+    const basicTestsArePassing = testSuiteResult?.status === 'pass'
+    const bonusTestsArePassing = bonusTestSuiteResult?.status === 'pass'
+    const isActiveForBasicTasks =
+      basicTestsArePassing && !wasFinishLessonModalShown
+    const isActiveForBonusTasks =
+      basicTestsArePassing &&
+      bonusTestsArePassing &&
+      !wasCompletedBonusTasksModalShown
+
+    return isActiveForBasicTasks || isActiveForBonusTasks
+  }, [
+    wasFinishLessonModalShown,
+    testSuiteResult?.status,
+    wasCompletedBonusTasksModalShown,
+    bonusTestSuiteResult?.status,
+  ])
 
   return (
     <SolveExercisePageContextWrapper
@@ -159,5 +177,6 @@ export function migrateToLatestCodeStorageData(
     readonlyRanges: code.readonlyRanges,
     storedAt: code.storedAt,
     wasFinishLessonModalShown: false,
+    wasCompletedBonusTasksModalShown: false,
   }
 }

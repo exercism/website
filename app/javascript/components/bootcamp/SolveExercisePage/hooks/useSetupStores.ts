@@ -11,14 +11,26 @@ export function useSetupStores({
 }: Pick<SolveExercisePageProps, 'exercise' | 'code'> & {
   exerciseLocalStorageData: ExerciseLocalStorageData
 }) {
-  const { initializeTasks, setWasFinishLessonModalShown } = useTaskStore()
+  const {
+    initializeTasks,
+    setWasFinishLessonModalShown,
+    setWasCompletedBonusTasksModalShown,
+  } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
   useLayoutEffect(() => {
     setWasFinishLessonModalShown(
       !!exerciseLocalStorageData.wasFinishLessonModalShown
     )
-    initializeTasks(exercise.tasks, null)
+
+    setWasCompletedBonusTasksModalShown(
+      !!exerciseLocalStorageData.wasCompletedBonusTasksModalShown
+    )
+    initializeTasks(
+      exercise.tasks,
+      null,
+      !!exerciseLocalStorageData.wasFinishLessonModalShown
+    )
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {
         // we don't show bonus tasks in the preview.
@@ -31,5 +43,11 @@ export function useSetupStores({
         })
       })
     )
-  }, [exercise, code, setWasFinishLessonModalShown])
+  }, [
+    exercise,
+    code,
+    setWasFinishLessonModalShown,
+    setWasCompletedBonusTasksModalShown,
+    setWasFinishLessonModalShown,
+  ])
 }

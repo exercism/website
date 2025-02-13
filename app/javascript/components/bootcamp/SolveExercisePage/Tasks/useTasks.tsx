@@ -48,7 +48,6 @@ export function useTasks() {
   const {
     solution,
     links: { completeSolution: completeSolutionLink },
-    exercise: { id: exerciseId },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
   const { inspectedTestResult, bonusTestSuiteResult } = useTestStore()
@@ -85,10 +84,20 @@ export function useTasks() {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
+        setExerciseLocalStorageData({
+          ...exerciseLocalStorageData,
+          wasFinishLessonModalShown: true,
+          wasCompletedBonusTasksModalShown: false,
+        })
 
         // if student completes bonus tests and normal tests in one go, we mark bonus completion modal as shown
         if (bonusTestSuiteResult?.status === 'pass') {
           setWasCompletedBonusTasksModalShown(true)
+          setExerciseLocalStorageData({
+            ...exerciseLocalStorageData,
+            wasCompletedBonusTasksModalShown: true,
+            wasFinishLessonModalShown: true,
+          })
         }
       }
       if (
@@ -102,13 +111,14 @@ export function useTasks() {
         setWasCompletedBonusTasksModalShown(true)
         setExerciseLocalStorageData({
           ...exerciseLocalStorageData,
-          wasFinishLessonModalShown: true,
+          wasCompletedBonusTasksModalShown: true,
         })
       }
     }
   }, [
     areAllTasksCompleted,
     wasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
     isTimelineComplete,
     inspectedTestResult,
     solution.status,

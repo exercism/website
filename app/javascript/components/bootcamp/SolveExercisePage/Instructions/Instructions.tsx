@@ -18,7 +18,10 @@ export function _Instructions({
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
   const currentTask = useMemo(
-    () => (tasks !== null && activeTaskIndex ? tasks[activeTaskIndex] : null),
+    () =>
+      tasks !== null && activeTaskIndex !== undefined
+        ? tasks[activeTaskIndex]
+        : null,
     [activeTaskIndex, tasks]
   )
 
@@ -70,8 +73,8 @@ export function _Instructions({
       ) : (
         <>
           <h4 className="mt-12">
-            Task{activeTaskIndex && ` ${activeTaskIndex + 1}`}:{' '}
-            {currentTask?.name}
+            Task{activeTaskIndex !== undefined ? ` ${activeTaskIndex + 1}` : ''}
+            : {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
           <div ref={typewriterRef} />

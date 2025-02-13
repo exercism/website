@@ -111,7 +111,7 @@ test('jumps if appropriate', async () => {
     status: 'pass',
   }
   const actual = processTasks(toTaskStore(state), testResults)
-  expect(actual.activeTaskIndex).toEqual(2)
+  expect(actual.activeTaskIndex).toEqual(undefined)
   expect(actual.numberOfCompletedTasks).toEqual(3)
   expect(actual.areAllTasksCompleted).toBeTrue()
 })

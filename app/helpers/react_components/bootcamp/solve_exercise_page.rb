@@ -31,8 +31,8 @@ module ReactComponents
         solution: {
           uuid: solution.uuid,
           status: solution.status,
-          passed_basic_tests: solution.passed_basic_tests,
-          passed_bonus_tests: solution.passed_bonus_tests
+          passed_basic_tests: solution.passed_basic_tests?,
+          passed_bonus_tests: solution.passed_bonus_tests?
         },
         test_results: submission&.test_results,
         code: {

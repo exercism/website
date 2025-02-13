@@ -81,11 +81,19 @@ projects.each do |project_slug|
       e.description = ""
       e.level_idx = exercise_config[:level]
     end
+
+    has_bonus_tasks = false
+    exercise_config[:tasks].each.with_index do |task, _idx|
+      task[:tests].each do |test|
+        has_bonus_tasks = true if test[:bonus] == true
+      end
+    end
     exercise.update!(
       idx: exercise_config[:idx],
       title: exercise_config[:title],
       description: exercise_config[:description],
       level_idx: exercise_config[:level],
+      has_bonus_tasks:,
       concepts: (exercise_config[:concepts] || []).map do |slug|
                   Bootcamp::Concept.find_by!(slug:)
                 end

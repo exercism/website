@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_10_125139) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_13_132920) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_10_125139) do
     t.integer "level_idx", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "has_bonus_tasks", default: false, null: false
     t.index ["level_idx"], name: "index_bootcamp_exercises_on_level_idx"
     t.index ["project_id", "slug"], name: "index_bootcamp_exercises_on_project_id_and_slug", unique: true
     t.index ["project_id"], name: "index_bootcamp_exercises_on_project_id"

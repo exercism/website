@@ -12,6 +12,7 @@
     img.mandatory {
         @apply w-[20px] h-[20px];
         @apply absolute bottom-[12px] right-[0];
+        opacity: 0.5;
     }
 
     .title {
@@ -27,7 +28,7 @@
         @apply mb-2;
     }
     .description {
-        @apply text-15 leading-140 pr-24;
+        @apply text-15 leading-140 pr-40;
     }
     .tag {
         width: 20px;
@@ -62,12 +63,26 @@
     }
 
     &.completed {
+        background: #118e3611;
+        border-color: #93ac9b;
         .tag {
             background: #e7fdf6;
             border-color: #43b593;
             color: #43b593;
             background-image: url("icons/bootcamp-completed-check-circle.svg");
             background-repeat: no-repeat;
+        }
+    }
+    &.completed-bonus {
+        box-shadow: 0 0 5px 0 #efbf04aa;
+        border-color: #efbf04;
+        background: #efbf0411;
+        .tag {
+            border: none;
+            padding: 0;
+            background-image: url("icons/gold-star.svg");
+            background-repeat: no-repeat;
+            background-size: 30px;
         }
     }
     &.size-large {

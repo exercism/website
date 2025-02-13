@@ -1,4 +1,5 @@
 - tag_type = status == :locked ? :div : :a
+
 = content_tag tag_type, href: bootcamp_project_exercise_url(project, exercise), class: "c-exercise-widget #{status} size-#{size}" do
   .flex.items-start
     = image_tag exercise.icon_url

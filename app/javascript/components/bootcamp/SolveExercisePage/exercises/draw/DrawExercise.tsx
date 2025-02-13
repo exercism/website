@@ -4,28 +4,24 @@ import * as Shapes from './shapes'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 import {
-  CallExpression,
-  Expression,
-  LiteralExpression,
-} from '@/interpreter/expression'
-import { CallStatement } from '@/interpreter/statement'
-import { Frame } from '@/interpreter/frames'
-import {
   assertAllArgumentsAreVariables,
   checkCanvasCoverage,
+  checkUniqueColoredLines,
   checkUniqueColoredCircles,
   checkUniqueColoredRectangles,
 } from './checks'
 import {
   Shape,
   Circle,
+  Line,
   Rectangle,
   Triangle,
-  FillColor,
+  Color,
   Ellipse,
 } from './shapes'
 import {
   getCircleAt,
+  getLineAt,
   getEllipseAt,
   getRectangleAt,
   getTriangleAt,
@@ -36,9 +32,9 @@ export default class DrawExercise extends Exercise {
   private shapes: Shape[] = []
   private visibleShapes: Shape[] = []
 
-  private penColor = '#333333'
-  private strokeWidth = 0
-  private fillColor: FillColor = { type: 'hex', color: '#ff0000' }
+  protected strokeColor: Color = { type: 'hex', color: '#333333' }
+  protected strokeWidth = 0
+  protected fillColor: Color = { type: 'hex', color: '#ff0000' }
 
   constructor(slug = 'draw') {
     super(slug)
@@ -48,10 +44,6 @@ export default class DrawExercise extends Exercise {
       display: 'none',
       position: 'relative',
     })
-
-    const grid = document.createElement('div')
-    grid.classList.add('bg-grid')
-    this.view.appendChild(grid)
 
     this.canvas = document.createElement('div')
     this.canvas.classList.add('canvas')
@@ -123,6 +115,15 @@ export default class DrawExercise extends Exercise {
   public numElements(_: InterpretResult) {
     return this.shapes.length
   }
+  public getLineAt(
+    _: InterpretResult,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ) {
+    return getLineAt(this.shapes, x1, y1, x2, y2)
+  }
   public getRectangleAt(
     _: InterpretResult,
     x: number,
@@ -162,6 +163,10 @@ export default class DrawExercise extends Exercise {
   }
 
   // These all delegate to checks.
+  public checkUniqueColoredLines(_: InterpretResult, count: number) {
+    return checkUniqueColoredLines(this.shapes, count)
+  }
+
   public checkUniqueColoredRectangles(_: InterpretResult, count: number) {
     return checkUniqueColoredRectangles(this.shapes, count)
   }
@@ -178,8 +183,11 @@ export default class DrawExercise extends Exercise {
     return assertAllArgumentsAreVariables(interpreterResult)
   }
 
-  public changePenColor(_: ExecutionContext, color: string) {
-    this.penColor = color
+  public strokeColorHex(_: ExecutionContext, color: string) {
+    this.strokeColor = { type: 'hex', color }
+  }
+  public setStrokeWidth(_: ExecutionContext, width: number) {
+    this.strokeWidth = width
   }
   public changeStrokeWidth(_: ExecutionContext, width: number) {
     this.strokeWidth = width
@@ -189,6 +197,9 @@ export default class DrawExercise extends Exercise {
   }
   public fillColorRGB(_: ExecutionContext, red, green, blue) {
     this.fillColor = { type: 'rgb', color: [red, green, blue] }
+  }
+  public fillColorRGBA(_: ExecutionContext, red, green, blue, alpha) {
+    this.fillColor = { type: 'rgba', color: [red, green, blue, alpha] }
   }
   public fillColorHSL(_: ExecutionContext, h, s, l) {
     this.fillColor = { type: 'hsl', color: [h, s, l] }
@@ -210,17 +221,60 @@ export default class DrawExercise extends Exercise {
       absY,
       absWidth,
       absHeight,
-      this.penColor,
+      this.strokeColor,
       this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
 
-    const rect = new Rectangle(x, y, width, height, this.fillColor, elem)
+    const rect = new Rectangle(
+      x,
+      y,
+      width,
+      height,
+      this.strokeColor,
+      this.fillColor,
+      elem
+    )
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return rect
+  }
+  public line(
+    executionCtx: ExecutionContext,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+  ): void {
+    const [absX1, absY1, absX2, absY2] = [x1, y1, x2, y2].map((val) =>
+      rToA(val)
+    )
+
+    const elem = Shapes.line(
+      absX1,
+      absY1,
+      absX2,
+      absY2,
+      this.strokeColor,
+      this.strokeWidth,
+      this.fillColor
+    )
+    this.canvas.appendChild(elem)
+
+    const line = new Line(
+      x1,
+      y1,
+      x2,
+      y2,
+      this.strokeColor,
+      this.fillColor,
+      elem
+    )
+    this.shapes.push(line)
+    this.visibleShapes.push(line)
+    this.animateElementIntoView(executionCtx, elem)
   }
 
   public circle(
@@ -235,16 +289,23 @@ export default class DrawExercise extends Exercise {
       absX,
       absY,
       absRadius,
-      this.penColor,
+      this.strokeColor,
       this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
 
-    const circle = new Circle(x, y, radius, this.fillColor, elem)
+    const circle = new Circle(
+      x,
+      y,
+      radius,
+      this.strokeColor,
+      this.fillColor,
+      elem
+    )
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return circle
   }
 
@@ -262,16 +323,24 @@ export default class DrawExercise extends Exercise {
       absY,
       absRx,
       absRy,
-      this.penColor,
+      this.strokeColor,
       this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
 
-    const ellipse = new Ellipse(x, y, rx, ry, elem)
+    const ellipse = new Ellipse(
+      x,
+      y,
+      rx,
+      ry,
+      this.strokeColor,
+      this.fillColor,
+      elem
+    )
     this.shapes.push(ellipse)
     this.visibleShapes.push(ellipse)
-    this.animateElement(executionCtx, elem, absX, absY)
+    this.animateElementIntoView(executionCtx, elem)
     // return ellipse
   }
 
@@ -300,16 +369,26 @@ export default class DrawExercise extends Exercise {
       absY2,
       absX3,
       absY3,
-      this.penColor,
+      this.strokeColor,
       this.strokeWidth,
       this.fillColor
     )
     this.canvas.appendChild(elem)
 
-    const triangle = new Triangle(x1, y1, x2, y2, x3, y3, elem)
+    const triangle = new Triangle(
+      x1,
+      y1,
+      x2,
+      y2,
+      x3,
+      y3,
+      this.strokeColor,
+      this.fillColor,
+      elem
+    )
     this.shapes.push(triangle)
     this.visibleShapes.push(triangle)
-    this.animateElement(executionCtx, elem, absX1, absY1)
+    this.animateElementIntoView(executionCtx, elem)
     // return triangle
   }
 
@@ -359,11 +438,9 @@ export default class DrawExercise extends Exercise {
     // executionCtx.time += duration;
   }
 
-  private animateElement(
+  protected animateElementIntoView(
     executionCtx: ExecutionContext,
-    elem: SVGElement,
-    absX: number,
-    absY: number
+    elem: SVGElement
   ) {
     const duration = 1
     this.addAnimation({
@@ -449,11 +526,6 @@ export default class DrawExercise extends Exercise {
       name: 'move',
       func: this.move.bind(this),
       description: 'moved an element to the specified position',
-    },
-    {
-      name: 'change_pen_color',
-      func: this.changePenColor.bind(this),
-      description: 'changed the pen color',
     },
     {
       name: 'fill_color_hex',

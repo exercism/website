@@ -413,6 +413,7 @@ turn_right()
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
+        mark_modal_as_shown exercise.id
 
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
@@ -447,6 +448,7 @@ end))
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
+        mark_modal_as_shown exercise.id
 
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
@@ -481,40 +483,9 @@ end))
       end
     end
 
-    test "switching to completed timeline scenario immediately fires complete modal" do
-      user = create(:user, bootcamp_attendee: true)
-      exercise = create :bootcamp_exercise, :automated_solve
-      use_capybara_host do
-        sign_in!(user)
-        visit bootcamp_project_exercise_url(exercise.project, exercise)
-
-        change_codemirror_content(%(repeat_until_game_over do
-  if can_turn_left() is true do
-    turn_left()
-    move()
-  else if can_move() is true do
-    move()
-  else if can_turn_right() is true do
-    turn_right()
-    move()
-  else do
-    turn_left()
-    turn_left()
-  end
-end))
-        check_scenarios
-
-        sleep 1.5
-        select_scenario 1
-        assert_text "Fantastic job!"
-        assert_selector ".solve-exercise-page-react-modal-content"
-      end
-    end
-
     test "hide button hides error information widget" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :penguin
-
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
@@ -741,6 +712,138 @@ move()
 
         refute_selector ".test-button.fail"
         assert_selector ".test-button.pass", count: 2
+      end
+    end
+
+    test "spotlight behaves as it should" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve_mini
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+        change_codemirror_content(%(repeat_until_game_over do
+
+
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        # view is spotlighted
+        assert_css("#view-container.spotlight")
+        # buttons are disabled
+        assert_selector("[data-ci=play-button][disabled]")
+        assert_selector("[data-ci=scrubber-range-input][disabled]")
+        assert_selector("[data-ci=frame-stepper-buttons] button[disabled]", count: 2)
+
+        # can't change scenarios
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        select_scenario 1
+        refute_selector("[data-ci='test-selector-button']:nth-of-type(1).selected")
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        assert_selector("[data-ci='check-scenarios-button'][disabled]")
+
+        click_on "Tweak further"
+
+        # everything goes back to normal
+        refute_css("#view-container.spotlight")
+        # buttons are enabled
+        refute_selector("[data-ci=play-button][disabled]")
+        refute_selector("[data-ci=scrubber-range-input][disabled]")
+        refute_selector("[data-ci=frame-stepper-buttons] button[disabled]", count: 2)
+
+        # can change scenarios
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        select_scenario 1
+        assert_selector("[data-ci='test-selector-button']:nth-of-type(1).selected")
+        refute_selector("[data-ci='test-selector-button']:nth-of-type(2).selected")
+        refute_selector("[data-ci='check-scenarios-button'][disabled]")
+      end
+    end
+
+    test "editor is readonly while spotlight is active" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        assert_css("#view-container.spotlight")
+
+        third_line = all(".cm-line")[2]
+        assert_equal "repeat_until_game_over do", third_line.text
+
+        # should error, because editor is not interactable
+        begin
+          third_line.send_keys "asdf"
+          raise "Expected ElementNotInteractableError, but send_keys succeeded"
+        rescue Selenium::WebDriver::Error::ElementNotInteractableError
+        end
+
+        assert_equal "repeat_until_game_over do", third_line.text
+      end
+    end
+
+    test "changing code stops animation" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :automated_solve
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+        mark_modal_as_shown exercise.id
+        change_codemirror_content(%(repeat_until_game_over do
+  if can_turn_left() is true do
+    turn_left()
+    move()
+  else if can_move() is true do
+    move()
+  else if can_turn_right() is true do
+    turn_right()
+    move()
+  else do
+    turn_left()
+    turn_left()
+  end
+end))
+        check_scenarios
+
+        third_line = all(".cm-line")[2]
+
+        scrubber = find('[data-ci=scrubber-range-input]')
+        scrubber_val = scrubber.value.to_i
+        sleep 0.5
+        assert scrubber_val < scrubber.value.to_i
+
+        third_line.send_keys "asdf"
+
+        scrubber_val = scrubber.value.to_i
+        sleep 0.5
+        assert_equal scrubber.value.to_i, scrubber_val
       end
     end
   end

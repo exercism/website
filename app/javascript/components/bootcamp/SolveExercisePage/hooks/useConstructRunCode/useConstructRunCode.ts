@@ -13,6 +13,7 @@ import { getCodeMirrorFieldValue } from '../../CodeMirror/getCodeMirrorFieldValu
 import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
+import useAnimationTimelineStore from '../../store/animationTimelineStore'
 
 export function useConstructRunCode({
   links,
@@ -27,6 +28,8 @@ export function useConstructRunCode({
     inspectedTestResult,
     setHasSyntaxError,
   } = useTestStore()
+
+  const { setShouldAutoplayAnimation } = useAnimationTimelineStore()
 
   const {
     setHighlightedLine,
@@ -110,6 +113,12 @@ export function useConstructRunCode({
         testResults,
         inspectedTestResult
       )
+
+      if (automaticallyInspectedTest.animationTimeline) {
+        // means it should autoplay animation on scenario change
+        setShouldAutoplayAnimation(true)
+        automaticallyInspectedTest.animationTimeline.play()
+      }
 
       handleSetInspectedTestResult({
         testResult: automaticallyInspectedTest,

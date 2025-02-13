@@ -1,6 +1,7 @@
 #bootcamp-solve-exercise-page {
     .exercise-draw,
-    .exercise-golf {
+    .exercise-golf,
+    .exercise-tic-tac-toe {
         @apply border-1 border-[#efefef] rounded-5;
         @apply bg-white;
         .bg-grid {

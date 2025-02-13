@@ -1,15 +1,14 @@
 #page-bootcamp-admin-exercises.page-bootcamp-admin.pt-20
   .lg-container
     %h1 Exercises
-    - @projects_with_exercises.each do |project, exercises|
-      %h2= project.title
+    - @exercises_by_level.each do |level_idx, exercises|
+      %h2 Level #{level_idx}
       %table
         %thead
           %tr
             %th
+            %th Project
             %th Exercise
-            %th Level
-            %th Concepts
             %th # Stale
             %th # Active
             %th # Done
@@ -17,17 +16,8 @@
           - exercises.each do |exercise|
             %tr
               %td #{exercise.idx}.
-              %td= link_to exercise.title, bootcamp_admin_exercise_path(exercise)
-              %td
-                - if @current_level_idx >= exercise.level_idx
-                  .level.positive= exercise.level_idx
-                - else
-                  .level.negative= exercise.level_idx
-
-              %td
-                .bubbles
-                  - exercise.concepts.each do |concept|
-                    .bubble= concept.title
+              %td= link_to exercise.project.title, bootcamp_project_path(exercise.project)
+              %td= link_to exercise.title, bootcamp_project_exercise_path(exercise.project, exercise)
               %td= @stale_exercise_counts[exercise.id].to_i
               %td= @active_exercise_counts[exercise.id].to_i
               %td= @completed_exercise_counts[exercise.id].to_i

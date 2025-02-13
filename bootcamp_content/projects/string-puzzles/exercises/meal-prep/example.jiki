@@ -1,0 +1,18 @@
+function in_list with items, target do
+  for each item in items do
+    if item == target do
+      return true
+    end
+  end
+  return false
+end
+
+function shopping_list with fridge, recipe do
+  set list to []
+  for each item in recipe do
+    if not in_list(fridge, item) do
+      change list to push(list, item)
+    end
+  end
+  return list
+end

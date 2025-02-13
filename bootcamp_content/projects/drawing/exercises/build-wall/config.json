@@ -18,7 +18,7 @@
           "description_html": "Build a wall of 55 bricks",
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
-            ["changePenColor", ["#7f3732"]],
+            ["strokeColorHex", ["#7f3732"]],
             ["fillColorHex", ["red"]]
           ],
           "checks": [

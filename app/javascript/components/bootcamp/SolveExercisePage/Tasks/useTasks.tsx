@@ -27,23 +27,30 @@ export function useTasks() {
   const [nextExerciseData, setNextExerciseData] = useState<NextExercise | null>(
     null
   )
+
+  const { exerciseLocalStorageData, setExerciseLocalStorageData } = useContext(
+    SolveExercisePageContext
+  )
+
   const [nextLevelIdx, setNextLevelIdx] = useState<number | null>(null)
   const [completedLevelIdx, setCompletedLevelIdx] = useState<number | null>(
     null
   )
   const [modalView, setModalView] = useState<FinishLessonModalView>('initial')
-  const {
-    solution,
-    links: { completeSolution: completeSolutionLink },
-  } = useContext(SolveExercisePageContext)
-  const { isTimelineComplete } = useAnimationTimelineStore()
+
   const {
     areAllTasksCompleted,
     wasFinishLessonModalShown,
-    wasCompletedBonusTasksModalShown,
     setWasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
     setWasCompletedBonusTasksModalShown,
   } = useTaskStore()
+  const {
+    solution,
+    links: { completeSolution: completeSolutionLink },
+    exercise: { id: exerciseId },
+  } = useContext(SolveExercisePageContext)
+  const { isTimelineComplete } = useAnimationTimelineStore()
   const { inspectedTestResult, bonusTestSuiteResult } = useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
@@ -61,7 +68,10 @@ export function useTasks() {
     // Don't show FinishLessonModal on page-revisit
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
       // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (solution.status === 'completed') {
+      if (
+        solution.status === 'completed' ||
+        exerciseLocalStorageData.wasFinishLessonModalShown
+      ) {
         setWasFinishLessonModalShown(true)
       }
       isSetupStage.current = false
@@ -90,6 +100,10 @@ export function useTasks() {
         setIsCompletedBonusTasksModalOpen(true)
         launchConfetti()
         setWasCompletedBonusTasksModalShown(true)
+        setExerciseLocalStorageData({
+          ...exerciseLocalStorageData,
+          wasFinishLessonModalShown: true,
+        })
       }
     }
   }, [

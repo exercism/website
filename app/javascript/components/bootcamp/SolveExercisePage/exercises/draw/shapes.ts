@@ -2,13 +2,28 @@ export class Shape {
   public constructor(public element: SVGElement) {}
 }
 
+export class Line extends Shape {
+  public constructor(
+    public x1: number,
+    public y1: number,
+    public x2: number,
+    public y2: number,
+    public strokeColor: Color,
+    public fillColor: Color,
+    element: SVGElement
+  ) {
+    super(element)
+  }
+}
+
 export class Rectangle extends Shape {
   public constructor(
     public x: number,
     public y: number,
     public width: number,
     public height: number,
-    public fillColor: FillColor,
+    public strokeColor: Color,
+    public fillColor: Color,
     element: SVGElement
   ) {
     super(element)
@@ -20,7 +35,8 @@ export class Circle extends Shape {
     public cx: number,
     public cy: number,
     public radius: number,
-    public fillColor: FillColor,
+    public strokeColor: Color,
+    public fillColor: Color,
     element: SVGElement
   ) {
     super(element)
@@ -33,6 +49,8 @@ export class Ellipse extends Shape {
     public y: number,
     public rx: number,
     public ry: number,
+    public strokeColor: Color,
+    public fillColor: Color,
     element: SVGElement
   ) {
     super(element)
@@ -47,15 +65,18 @@ export class Triangle extends Shape {
     public y2: number,
     public x3: number,
     public y3: number,
+    public strokeColor: Color,
+    public fillColor: Color,
     element: SVGElement
   ) {
     super(element)
   }
 }
 
-export type FillColor =
+export type Color =
   | { type: 'hex'; color: string }
   | { type: 'rgb'; color: [number, number, number] }
+  | { type: 'rgba'; color: [number, number, number, number] }
   | { type: 'hsl'; color: [number, number, number] }
 
 const svgNS = 'http://www.w3.org/2000/svg'
@@ -78,32 +99,53 @@ function createSVG(children) {
   return svg
 }
 
+function colorToString(color: Color) {
+  if (color.type === 'hex') {
+    return color.color
+  } else if (color.type === 'rgb') {
+    return 'rgb(' + color.color.join(',') + ')'
+  } else if (color.type === 'rgba') {
+    return 'rgba(' + color.color.join(',') + ')'
+  } else {
+    return `hsl(${color.color[0]}, ${color.color[1]}%, ${color.color[2]}%)`
+  }
+}
+
 function createSVGElement(
   type: string,
-  fillColor: FillColor,
-  strokeColor: string,
+  fillColor: Color,
+  strokeColor: Color,
   strokeWidth: number,
   attrs
 ) {
   const elem = document.createElementNS(svgNS, type)
-  elem.setAttribute('stroke', strokeColor)
+  elem.setAttribute('stroke', colorToString(strokeColor))
   elem.setAttribute('stroke-width', strokeWidth.toString())
-
-  if (fillColor.type === 'hex') {
-    elem.setAttribute('fill', fillColor.color)
-  } else if (fillColor.type === 'rgb') {
-    elem.setAttribute('fill', 'rgb(' + fillColor.color.join(',') + ')')
-  } else {
-    elem.setAttribute(
-      'fill',
-      `hsl(${fillColor.color[0]}, ${fillColor.color[1]}%, ${fillColor.color[2]}%)`
-    )
-  }
+  elem.setAttribute('fill', colorToString(fillColor))
 
   for (const key in attrs) {
     elem.setAttribute(key, attrs[key])
   }
   return elem
+}
+export function line(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+
+  strokeColor: Color,
+  strokeWidth: number,
+  fillColor: Color
+) {
+  const rect = createSVGElement('line', fillColor, strokeColor, strokeWidth, {
+    x1: x1.toString(),
+    y1: y1.toString(),
+    x2: x2.toString(),
+    y2: y2.toString(),
+  })
+
+  return createSVG([rect])
 }
 
 export function rect(
@@ -111,9 +153,9 @@ export function rect(
   y: number,
   width: number,
   height: number,
-  strokeColor: string,
+  strokeColor: Color,
   strokeWidth: number,
-  fillColor: FillColor
+  fillColor: Color
 ) {
   const rect = createSVGElement('rect', fillColor, strokeColor, strokeWidth, {
     x: x.toString(),
@@ -129,9 +171,9 @@ export function circle(
   cx: number,
   cy: number,
   radius: number,
-  strokeColor: string,
+  strokeColor: Color,
   strokeWidth: number,
-  fillColor: FillColor
+  fillColor: Color
 ) {
   const circle = createSVGElement(
     'circle',
@@ -153,9 +195,9 @@ export function ellipse(
   cy: number,
   rx: number,
   ry: number,
-  strokeColor: string,
+  strokeColor: Color,
   strokeWidth: number,
-  fillColor: FillColor
+  fillColor: Color
 ) {
   const ellipse = createSVGElement(
     'ellipse',
@@ -180,9 +222,9 @@ export function triangle(
   y2: number,
   x3: number,
   y3: number,
-  strokeColor: string,
+  strokeColor: Color,
   strokeWidth: number,
-  fillColor: FillColor
+  fillColor: Color
 ) {
   const polygon = createSVGElement(
     'polygon',

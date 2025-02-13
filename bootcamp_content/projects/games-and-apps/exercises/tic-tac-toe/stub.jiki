@@ -1,0 +1,6 @@
+// This is your entry point. 
+// You may want to keep the `log moves` line here to check on the input
+// for each scenario as you work through the exercise.
+function run_game with moves do
+  log moves
+end

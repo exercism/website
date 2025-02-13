@@ -20,10 +20,12 @@ export function useScrubber({
   setIsPlaying,
   animationTimeline,
   frames,
+  hasCodeBeenEdited,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
+  hasCodeBeenEdited: boolean
 }) {
   const [value, setValue] = useState(0)
   const {
@@ -37,7 +39,10 @@ export function useScrubber({
 
   const { editorView } = useContext(SolveExercisePageContext)
 
-  const { setIsTimelineComplete } = useAnimationTimelineStore()
+  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
+    useAnimationTimelineStore()
+
+  const { inspectedTestResult } = useTestStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -77,7 +82,6 @@ export function useScrubber({
     }
   }, [frames, animationTimeline])
 
-  const { inspectedTestResult } = useTestStore()
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
     let currentFrame: Frame | undefined = animationTimeline
@@ -119,6 +123,15 @@ export function useScrubber({
     }
   }, [inspectedTestResult])
 
+  useEffect(() => {
+    if (hasCodeBeenEdited) {
+      if (animationTimeline) {
+        setShouldAutoplayAnimation(false)
+        animationTimeline?.pause()
+      }
+    }
+  }, [hasCodeBeenEdited, animationTimeline])
+
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline | undefined | null) => {
       if (!animationTimeline) return
@@ -144,6 +157,8 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seek(newValue)
+        setShouldAutoplayAnimation(false)
+
         const line = animationTimeline.currentFrame?.line
 
         if (line) {
@@ -425,7 +440,7 @@ export function useScrubber({
 
   useEffect(() => {
     updateInputBackground()
-  }, [value])
+  }, [value, inspectedTestResult])
 
   return {
     value,

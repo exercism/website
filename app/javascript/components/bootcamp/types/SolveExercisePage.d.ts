@@ -33,6 +33,8 @@ declare global {
   interface Exercise {
     part: number
     title: string
+    slug: string
+    id: number
     introductionHtml: string
     config: Config
     tasks: Task[]

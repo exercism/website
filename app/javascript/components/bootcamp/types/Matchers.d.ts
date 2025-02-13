@@ -7,6 +7,7 @@ declare type AvailableMatchers =
   | 'toEqual'
   | 'toBeGreaterThanOrEqual'
   | 'toBeLessThanOrEqual'
+  | 'toIncludeSameMembers'
 
 interface MatcherResult {
   testsType: TestsType

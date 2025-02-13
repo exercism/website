@@ -32,15 +32,11 @@
                 width: 250px;
             }
             &:nth-child(3) {
-                width: 20px;
-                @apply relative;
             }
 
-            &:nth-child(4) {
-            }
+            &:nth-child(4),
             &:nth-child(5),
-            &:nth-child(6),
-            &:nth-child(7) {
+            &:nth-child(6) {
                 width: 1px;
                 @apply whitespace-nowrap;
                 @apply text-right;

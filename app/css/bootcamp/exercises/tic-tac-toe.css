@@ -1,0 +1,35 @@
+#bootcamp-solve-exercise-page {
+    .exercise-tic-tac-toe {
+        .result {
+            @apply absolute inset-0;
+            @apply text-[white];
+            /* background: rgba(96, 79, 205, 0.85); */
+            @apply text-[7cqw] font-semibold text-center;
+            @apply grid place-items-center;
+            opacity: 0;
+        }
+        /*.board {
+            @apply w-fill h-fill;
+            @apply grid grid-cols-3 gap-2;
+
+            .cell {
+                @apply relative;
+                .o,
+                .x {
+                    @apply w-full h-full;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 70%;
+                    opacity: 0;
+                    @apply absolute inset-0;
+                }
+                .o {
+                    background-image: url("data:image/svg+xml,<svg width='66' height='66' viewBox='0 0 66 66' fill='none' xmlns='http://www.w3.org/2000/svg'> <path fill-rule='evenodd' clip-rule='evenodd' d='M33.375 14.5C23.3649 14.5 15.25 22.6149 15.25 32.625C15.25 42.6351 23.3649 50.75 33.375 50.75C43.3851 50.75 51.5 42.6351 51.5 32.625C51.5 22.6149 43.3851 14.5 33.375 14.5ZM0.75 32.625C0.75 14.6067 15.3566 0 33.375 0C51.3934 0 66 14.6067 66 32.625C66 50.6433 51.3934 65.25 33.375 65.25C15.3566 65.25 0.75 50.6433 0.75 32.625Z' fill='black'/></svg>");
+                }
+                .x {
+                    background-image: url("data:image/svg+xml,<svg width='66' height='66' viewBox='0 0 66 66' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M2.12345 2.12345C4.95479 -0.707818 9.5452 -0.707818 12.3765 2.12345L32.625 22.372L52.8734 2.12345C55.7048 -0.707818 60.2953 -0.707818 63.1265 2.12345C65.9576 4.95479 65.9576 9.5452 63.1265 12.3765L42.878 32.625L63.1265 52.8734C65.9576 55.7048 65.9576 60.2953 63.1265 63.1265C60.2953 65.9576 55.7048 65.9576 52.8734 63.1265L32.625 42.878L12.3765 63.1265C9.5452 65.9576 4.95479 65.9576 2.12345 63.1265C-0.707818 60.2953 -0.707818 55.7048 2.12345 52.8734L22.372 32.625L2.12345 12.3765C-0.707818 9.5452 -0.707818 4.95479 2.12345 2.12345Z' fill='black'/></svg>");
+                }
+            }
+        }*/
+    }
+}

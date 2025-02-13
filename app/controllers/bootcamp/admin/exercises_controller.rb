@@ -1,6 +1,6 @@
 class Bootcamp::Admin::ExercisesController < Bootcamp::Admin::BaseController
   def index
-    @projects_with_exercises = Bootcamp::Exercise.includes(:project).group_by(&:project)
+    @exercises_by_level = Bootcamp::Exercise.order(:idx).includes(:project).group_by(&:level_idx)
     in_progress = Bootcamp::Solution.in_progress
     threshold = Time.current - 10.days
     @active_exercise_counts = in_progress.where('updated_at >= ?', threshold).group(:exercise_id).count

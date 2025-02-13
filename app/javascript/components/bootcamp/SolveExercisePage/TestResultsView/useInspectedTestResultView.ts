@@ -1,5 +1,5 @@
 import React from 'react'
-import { diffChars, type Change } from 'diff'
+import { diffChars, diffWords, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
@@ -92,7 +92,7 @@ function getfirstFailingExpect(
       const { expected, actual } = expect
       return {
         ...expect,
-        diff: getDiffOfExpectedAndActual(expected, actual),
+        diff: getDiffOfExpectedAndActual(false, expected, actual),
       }
     }
   }
@@ -117,20 +117,21 @@ function processExpects(result: NewTestResult | null): ProcessedExpects {
     const { expected, actual } = expect
     return {
       ...expect,
-      diff: getDiffOfExpectedAndActual(expected, actual),
+      diff: getDiffOfExpectedAndActual(expect.pass, expected, actual),
     }
   })
 }
 
 export function getDiffOfExpectedAndActual(
+  passed: boolean,
   expected: any,
   actual: any
 ): Change[] {
-  if (expected === actual) {
+  if (passed) {
     return diffChars(formatLiteral(expected), formatLiteral(actual))
   }
 
-  if (actual == null) {
+  if (actual === null || actual === undefined) {
     return [
       {
         added: false,
@@ -150,6 +151,10 @@ export function getDiffOfExpectedAndActual(
   if (typeof expected == 'string' && typeof actual == 'string') {
     return diffChars(formatLiteral(expected), formatLiteral(actual))
   }
+  if (typeof expected == 'boolean' && typeof actual == 'boolean') {
+    return diffWords(formatLiteral(expected), formatLiteral(actual))
+  }
+
   return [
     {
       added: false,

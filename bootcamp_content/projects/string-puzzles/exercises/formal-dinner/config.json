@@ -1,0 +1,96 @@
+{
+  "title": "Formal Dinner",
+  "description": "Solve a Formal Dinner guest list",
+  "level": 5,
+  "idx": 12,
+  "tests_type": "io",
+  "stdlib_functions": ["join"],
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-list",
+          "description_html": "No-one's allowed in",
+          "name": "Empty register",
+          "function": "on_guest_list",
+          "params": [[], "Mr Pitt"],
+          "expected": false
+        },
+        {
+          "slug": "name-missing",
+          "description_html": "The name's not on the list",
+          "name": "Brad's turned away",
+          "function": "on_guest_list",
+          "params": [["Brian May", "Albert Einstein"], "Mr Pitt"],
+          "expected": false
+        },
+        {
+          "slug": "name-present",
+          "description_html": "The name's on the list",
+          "name": "Brad's allowed in",
+          "function": "on_guest_list",
+          "params": [["Brian May", "Brad Pitt", "Albert Einstein"], "Mr Pitt"],
+          "expected": true
+        },
+        {
+          "slug": "different-honorific",
+          "description_html": "Handle a different honourific",
+          "name": "Knight of the realm",
+          "function": "on_guest_list",
+          "params": [
+            ["Arthur Conan Doyle", "Bradley Cooper", "Albert Einstein"],
+            "Lord Doyle"
+          ],
+          "expected": true
+        },
+        {
+          "slug": "bond-allowed",
+          "description_html": "James is always allowed, regardless of the disguise",
+          "name": "Mr Bond, I presume",
+          "function": "on_guest_list",
+
+          "params": [
+            ["James Bond"],
+            "setup.join(setup.randomHonorific(), \" Bond\")"
+          ],
+          "expected": true
+        },
+        {
+          "slug": "bond-not-allowed",
+          "description_html": "You see James a mile off. He's not getting in here.",
+          "name": "Hmmm.. Mr Bond, I presume",
+          "function": "on_guest_list",
+
+          "params": [
+            ["Jason Bourne"],
+            "setup.join(setup.randomHonorific(), \" Bond\")"
+          ],
+          "expected": false
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks!",
+      "tests": [
+        {
+          "bonus": true,
+          "slug": "cheryl",
+          "description_html": "Baron Lloyd Webber has two words in his surname!",
+          "name": "How about a Baron?",
+          "function": "on_guest_list",
+          "params": [
+            [
+              "Brian May",
+              "Brad Pitt",
+              "Albert Einstein",
+              "Andrew Lloyd Webber"
+            ],
+            "Baron Lloyd Webber"
+          ],
+          "expected": true
+        }
+      ]
+    }
+  ]
+}

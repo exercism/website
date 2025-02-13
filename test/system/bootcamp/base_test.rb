@@ -36,6 +36,10 @@ module Bootcamp
       page.execute_script(%{document.querySelectorAll('.cm-line').forEach(line => line.remove());})
     end
 
+    def mark_modal_as_shown(id)
+      page.execute_script("localStorage.setItem('bootcamp-exercise-#{id}', JSON.stringify({wasFinishLessonModalShown: true}));")
+    end
+
     def select_scenario(number)
       find("[data-ci='test-selector-button']:nth-of-type(#{number})").click
     end

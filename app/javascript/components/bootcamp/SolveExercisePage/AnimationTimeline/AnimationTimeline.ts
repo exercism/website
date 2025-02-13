@@ -19,6 +19,7 @@ export class AnimationTimeline {
   constructor(initialOptions: anime.AnimeParams, private frames: Frame[] = []) {
     this.animationTimeline = anime.timeline({
       easing: 'linear',
+      autoplay: false,
       ...initialOptions,
       update: (anim: AnimeInstance) => {
         this.updateScrubber(anim)

@@ -63,7 +63,7 @@ function testState(
   testData,
   exampleScript
 ) {
-  test(`${project} - ${exerciseSlug} - ${task.name}`, () => {
+  test(`${project} - ${exerciseSlug} - ${task.name} - ${testData.name}`, () => {
     const Project = exerciseMap.get(config.projectType)
     const exercise: Exercise = new Project()
 
@@ -88,7 +88,7 @@ function testState(
     const externalFunctions = stdlibFunctions.concat(exerciseFunctions)
 
     const context = {
-      externalFunctions: exerciseFunctions,
+      externalFunctions: externalFunctions,
       languageFeatures: config.interpreterOptions,
     }
     let evaluated
@@ -120,10 +120,7 @@ function testState(
 
         // We eval the args to turn numbers into numbers, strings into strings, etc.
         const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
-        const args =
-          argsString === ''
-            ? []
-            : argsString.split(',').map((arg) => safe_eval(arg.trim()))
+        const args = safe_eval(`[${argsString}]`)
 
         // And then we get the function and call it.
         const fn = exercise[fnName]

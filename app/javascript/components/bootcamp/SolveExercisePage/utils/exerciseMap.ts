@@ -5,6 +5,7 @@ import WordleExercise from '../exercises/wordle/WordleExercise'
 import GolfExercise from '../exercises/golf/GolfExercise'
 import DigitalClockExercise from '../exercises/time/DigitalClockExercise'
 import RockPaperScissorsExercise from '../exercises/rock_paper_scissors/RockPaperScissorsExercise'
+import TicTacToeExercise from '../exercises/tic_tac_toe/TicTacToeExercise'
 
 import { Exercise } from '../exercises/Exercise'
 
@@ -18,6 +19,7 @@ projectsCache.set('golf', GolfExercise)
 projectsCache.set('space-invaders', SpaceInvadersExercise)
 projectsCache.set('digital-clock', DigitalClockExercise)
 projectsCache.set('rock-paper-scissors', RockPaperScissorsExercise)
+projectsCache.set('tic-tac-toe', TicTacToeExercise)
 
 export default projectsCache
 

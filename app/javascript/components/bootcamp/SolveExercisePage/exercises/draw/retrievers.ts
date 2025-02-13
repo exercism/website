@@ -1,4 +1,4 @@
-import { Circle, Ellipse, Rectangle, Shape, Triangle } from './shapes'
+import { Circle, Ellipse, Line, Rectangle, Shape, Triangle } from './shapes'
 
 export function getRectangleAt(
   shapes: Shape[],
@@ -32,6 +32,21 @@ export function getRectangleAt(
         }
       }
       return true
+    }
+  })
+}
+export function getLineAt(
+  shapes: Shape[],
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+) {
+  return shapes.find((shape) => {
+    if (shape instanceof Line) {
+      return (
+        shape.x1 == x1 && shape.y1 == y1 && shape.x2 == x2 && shape.y2 == y2
+      )
     }
   })
 }

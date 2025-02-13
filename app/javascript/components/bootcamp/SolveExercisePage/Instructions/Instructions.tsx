@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import useTaskStore from '../store/taskStore/taskStore'
 import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
+import useTestStore from '../store/testStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 export function _Instructions({
   exerciseTitle,
@@ -12,7 +14,16 @@ export function _Instructions({
   exerciseTitle: string
   exerciseInstructions: string
 }): JSX.Element {
-  const { activeTaskIndex, tasks, areAllTasksCompleted } = useTaskStore()
+  const {
+    activeTaskIndex,
+    tasks,
+    areAllTasksCompleted,
+    bonusTasks,
+    shouldShowBonusTasks,
+  } = useTaskStore()
+  const { remainingBonusTasksCount } = useTestStore()
+
+  const { solution } = useContext(SolveExercisePageContext)
 
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
@@ -20,6 +31,25 @@ export function _Instructions({
     () => (tasks !== null ? tasks[activeTaskIndex] : null),
     [activeTaskIndex, tasks]
   )
+
+  const bonusTasksList = useMemo(
+    () =>
+      bonusTasks?.flatMap((task) =>
+        task.tests.map((test, index) => (
+          <li
+            key={test.slug + index}
+            dangerouslySetInnerHTML={{
+              __html: test.descriptionHtml || '<p>Instructions are missing</p>',
+            }}
+          />
+        ))
+      ) ?? [],
+    [bonusTasks]
+  )
+
+  useEffect(() => {
+    console.log('bonusTasks', bonusTasks)
+  }, [bonusTasks])
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
@@ -59,7 +89,16 @@ export function _Instructions({
         }}
       />
 
-      {areAllTasksCompleted ? (
+      {shouldShowBonusTasks &&
+      remainingBonusTasksCount > 0 &&
+      !solution.passedBonusTests ? (
+        <>
+          <h4 id="h-bonus-challenges">Bonus Challenges</h4>
+          <p>Want something to push you a little more?</p>
+          <p>Here are two challenges:</p>
+          <ul>{bonusTasksList} </ul>
+        </>
+      ) : areAllTasksCompleted || solution.passedBasicTests ? (
         <>
           <h4 className="mt-12">Congratulations!</h4>
           <p>You have successfully completed all the tasks!</p>

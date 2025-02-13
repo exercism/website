@@ -25,12 +25,3 @@ A best practice in an exercise like this is to start by creating the functions t
 Set their return values to be some sensible default (either `true` or `false` in this case).
 
 You can then implement the logic of each function and make some progress each time, rather than just consistently getting an error that a function doesn't exist until you've written the whole program.
-
-### Bonus Challenges
-
-Want something to push you a little more?
-
-Here are two challenges:
-
-1. Can you only use the `look` function once in the whole program?
-2. While only using the `look` function once, can you solve it all by only adding 13 lines of code to the program?

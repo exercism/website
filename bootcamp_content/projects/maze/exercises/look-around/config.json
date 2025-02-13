@@ -289,7 +289,7 @@
         {
           "slug": "bonus-1",
           "name": "Only write look() once.",
-          "description_html": "Can you have the `look` function appear only once in your code?",
+          "description_html": "Can you have the <code>look</code> function appear only once in your code?",
           "setup_functions": [
             [
               "setupGrid",

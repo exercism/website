@@ -10,16 +10,16 @@ export function InitialView() {
   const { handleCompleteSolution, setIsFinishLessonModalOpen: setIsOpen } =
     useContext(FinishLessonModalContext)
 
-  const { bonusTestSuiteResult } = useTestStore()
+  const { bonusTestSuiteResult, remainingBonusTasksCount } = useTestStore()
   const { setShouldShowBonusTasks } = useTaskStore()
 
   const hasMoreBonusTasks = useMemo(() => {
-    if (!bonusTestSuiteResult) return false
-    const uncompletedBonusTests = bonusTestSuiteResult?.tests.filter((bt) => {
-      return bt.expects.some((e) => !e.pass)
-    })
-    return uncompletedBonusTests.length > 0
-  }, [bonusTestSuiteResult])
+    return (
+      bonusTestSuiteResult &&
+      bonusTestSuiteResult.tests.length > 1 &&
+      remainingBonusTasksCount > 0
+    )
+  }, [bonusTestSuiteResult, remainingBonusTasksCount])
 
   const bonusTaskInfoText = useMemo(() => {
     return bonusTestSuiteResult!.tests.length > 1

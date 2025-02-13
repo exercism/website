@@ -18,6 +18,7 @@ type TestStore = {
   hasSyntaxError: boolean
   setHasSyntaxError: (hasSyntaxError: boolean) => void
   cleanUpTestStore: () => void
+  remainingBonusTasksCount: number
 }
 
 const useTestStore = createStoreWithMiddlewares<TestStore>(
@@ -55,12 +56,18 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
     },
     bonusTestSuiteResult: null,
     setBonusTestSuiteResult: (bonusTestSuiteResult) => {
+      const remainingBonusTasksCount = bonusTestSuiteResult?.tests.reduce(
+        (count, bonusTest) =>
+          count + (bonusTest.expects.every((expect) => expect.pass) ? 0 : 1),
+        0
+      )
       set(
-        { bonusTestSuiteResult: bonusTestSuiteResult },
+        { bonusTestSuiteResult, remainingBonusTasksCount },
         false,
         'exercise/setTestSuiteResult'
       )
     },
+    remainingBonusTasksCount: 0,
     hasSyntaxError: false,
     setHasSyntaxError: (hasSyntaxError) => {
       set({ hasSyntaxError }, false, 'exercise/setHasSyntaxError')
@@ -70,6 +77,7 @@ const useTestStore = createStoreWithMiddlewares<TestStore>(
         {
           inspectedTestResult: null,
           testSuiteResult: null,
+          bonusTestSuiteResult: null,
           hasSyntaxError: false,
         },
         false,

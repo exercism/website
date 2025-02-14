@@ -33,16 +33,6 @@ export default function CustomFunctionEditor({
   links,
 }: CustomFunctionEditorProps) {
   const {
-    primarySize: LHSWidth,
-    secondarySize: RHSWidth,
-    handleMouseDown,
-  } = useResizablePanels({
-    initialSize: 800,
-    direction: 'horizontal',
-    localStorageId: 'drawing-page-lhs',
-  })
-
-  const {
     tests,
     testBeingEdited,
     setTestBeingEdited,
@@ -60,6 +50,16 @@ export default function CustomFunctionEditor({
 
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
+
+  const {
+    primarySize: LHSWidth,
+    secondarySize: RHSWidth,
+    handleMouseDown,
+  } = useResizablePanels({
+    initialSize: 800,
+    direction: 'horizontal',
+    localStorageId: 'drawing-page-lhs',
+  })
 
   return (
     <div id="bootcamp-solve-exercise-page">
@@ -79,7 +79,10 @@ export default function CustomFunctionEditor({
           </ErrorBoundary>
 
           <div className="page-lhs-bottom">
-            <button className="scenarios-button flex btn-primary btn-s">
+            <button
+              onClick={handleRunCode}
+              className="scenarios-button flex btn-primary btn-s"
+            >
               Check code
             </button>
           </div>

@@ -38,7 +38,6 @@ export function useCustomFunctionEditorHandler() {
   } = useEditorStore()
 
   const handleRunCode = () => {
-    document.querySelectorAll('.exercise-container').forEach((e) => e.remove())
     setHasCodeBeenEdited(false)
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()

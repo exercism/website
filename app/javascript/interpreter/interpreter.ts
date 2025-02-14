@@ -54,21 +54,21 @@ export type EvaluationContext = {
   wrapTopLevelStatements?: boolean
 }
 
-export type EvaluateFunctionResult = {
+export type EvaluateFunctionResult = InterpretResult & {
   value: any
-  frames: Frame[]
-  error: StaticError | null
 }
 
 export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
-  meta: {
-    getFunctionCallLog: () => Record<string, Record<any, number>>
-    getCallExpressions: () => CallExpression[]
-    numTimesFunctionOccurred: (fnName: string) => number
-    getSourceCode: () => string
-  }
+  meta: Meta
+}
+
+type Meta = {
+  getFunctionCallLog: () => Record<string, Record<any, number>>
+  getCallExpressions: () => CallExpression[]
+  numTimesFunctionOccurred: (fnName: string) => number
+  getSourceCode: () => string
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {

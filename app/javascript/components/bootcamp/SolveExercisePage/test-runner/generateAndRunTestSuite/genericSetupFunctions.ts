@@ -1,5 +1,5 @@
-import { emojis } from '../setupHeleprs/emoji'
-import { honorifics } from '../setupHeleprs/honorifics'
+import { emojis } from '../setupHelpers/emoji'
+import { honorifics } from '../setupHelpers/honorifics'
 
 export const genericSetupFunctions = {
   join: (...args: any[]) => args.join(''),

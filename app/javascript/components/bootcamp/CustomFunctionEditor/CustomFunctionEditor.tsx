@@ -7,12 +7,31 @@ import {
   useResizablePanels,
 } from '../SolveExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
-import { useTestManager } from './useTestManager'
+import { CustomTests, useTestManager } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
 import { useFunctionDetailsManager } from './useFunctionDetailsManager'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
+import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 
-export default function CustomFunctionEditor({ data }) {
+export type CustomFunction = {
+  uuid: string
+  name: string
+  description: string
+  code: string
+  tests: CustomTests
+}
+
+export type CustomFunctionEditorProps = {
+  customFunction: CustomFunction
+  links: {
+    update: string
+  }
+}
+
+export default function CustomFunctionEditor({
+  customFunction,
+  links,
+}: CustomFunctionEditorProps) {
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,
@@ -39,9 +58,12 @@ export default function CustomFunctionEditor({ data }) {
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler()
 
+  const { updateLocalStorageValueOnDebounce } =
+    useManageEditorDefaultValue(customFunction)
+
   return (
     <div id="bootcamp-solve-exercise-page">
-      <Header links={data.links} />
+      <Header links={links} />
       <div className="page-body">
         <div style={{ width: LHSWidth }} className="page-body-lhs">
           <ErrorBoundary>
@@ -50,6 +72,9 @@ export default function CustomFunctionEditor({ data }) {
               ref={editorViewRef}
               editorDidMount={handleEditorDidMount}
               handleRunCode={handleRunCode}
+              onEditorChangeCallback={(view) =>
+                updateLocalStorageValueOnDebounce(view.state.doc.toString())
+              }
             />
           </ErrorBoundary>
 

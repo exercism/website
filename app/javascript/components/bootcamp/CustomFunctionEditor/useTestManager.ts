@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react'
 import { v4 as uuid } from 'uuid'
 
-export type CustomTest = { codeRun: string; expected: string; uuid: string }[]
+export type CustomTests = { codeRun: string; expected: string; uuid: string }[]
 
 export function useTestManager() {
-  const [tests, setTests] = useState<CustomTest>([])
+  const [tests, setTests] = useState<CustomTests>([])
 
   const [testBeingEdited, setTestBeingEdited] = useState<string>()
 

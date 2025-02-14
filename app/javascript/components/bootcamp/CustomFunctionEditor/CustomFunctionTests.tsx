@@ -1,6 +1,6 @@
 import React from 'react'
 import { CustomFunctionTest } from './CustomFunctionTest'
-import { CustomTest } from './useTestManager'
+import { CustomTests } from './useTestManager'
 
 export function CustomFunctionTests({
   tests,
@@ -11,7 +11,7 @@ export function CustomFunctionTests({
   handleCancelEditing,
   handleAddNewTest,
 }: {
-  tests: CustomTest
+  tests: CustomTests
   testBeingEdited: string | undefined
   setTestBeingEdited: React.Dispatch<React.SetStateAction<string | undefined>>
   handleDeleteTest: (uuid: string) => void

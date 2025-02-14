@@ -78,7 +78,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
-    onEditorChangeCallback?: () => void
+    onEditorChangeCallback?: (view: EditorView) => void
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -217,7 +217,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             },
             () => {
               if (onEditorChangeCallback) {
-                onEditorChangeCallback()
+                onEditorChangeCallback(view)
               }
             }
           ),

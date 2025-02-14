@@ -9,6 +9,8 @@ import {
 import { Header } from './Header/Header'
 import { useTestManager } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
+import { useFunctionDetailsManager } from './useFunctionDetailsManager'
+import { CustomFunctionDetails } from './CustomFunctionDetails'
 
 export default function CustomFunctionEditor({ data }) {
   const {
@@ -21,9 +23,6 @@ export default function CustomFunctionEditor({ data }) {
     localStorageId: 'drawing-page-lhs',
   })
 
-  const { editorViewRef, handleEditorDidMount, handleRunCode } =
-    useCustomFunctionEditorHandler()
-
   const {
     tests,
     testBeingEdited,
@@ -33,6 +32,12 @@ export default function CustomFunctionEditor({ data }) {
     handleCancelEditing,
     handleAddNewTest,
   } = useTestManager()
+
+  const { name, setName, description, setDescription } =
+    useFunctionDetailsManager()
+
+  const { editorViewRef, handleEditorDidMount, handleRunCode } =
+    useCustomFunctionEditorHandler()
 
   return (
     <div id="bootcamp-solve-exercise-page">
@@ -58,7 +63,12 @@ export default function CustomFunctionEditor({ data }) {
         <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
         {/* RHS */}
         <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
-          <CustomFunctionDetails />
+          <CustomFunctionDetails
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
+          />
           <CustomFunctionTests
             tests={tests}
             testBeingEdited={testBeingEdited}
@@ -70,23 +80,6 @@ export default function CustomFunctionEditor({ data }) {
           />
         </div>
       </div>
-    </div>
-  )
-}
-
-const labelClassName = 'font-mono font-semibold mb-4'
-function CustomFunctionDetails() {
-  return (
-    <div className="flex flex-col mb-24">
-      <label className={labelClassName} htmlFor="fn-name">
-        Function name{' '}
-      </label>
-      <input className="mb-12" name="fn-name" type="text" />
-
-      <label className={labelClassName} htmlFor="description">
-        Description{' '}
-      </label>
-      <textarea name="description" id=""></textarea>
     </div>
   )
 }

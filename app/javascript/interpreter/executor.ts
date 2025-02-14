@@ -405,6 +405,7 @@ export class Executor {
   ): void {
     this.executeFrame<EvaluationResultChangeElementStatement>(statement, () => {
       const field = this.evaluate(statement.field)
+      this.verifyString(field.resultingValue, statement.field)
       const value = this.evaluate(statement.value)
 
       // Do the update
@@ -1117,6 +1118,7 @@ export class Executor {
   ): EvaluationResult {
     const key = this.evaluate(expression.field)
 
+    this.verifyString(key.resultingValue, expression.field)
     this.guardMissingDictionaryKey(
       obj.resultingValue,
       key.resultingValue,
@@ -1224,6 +1226,14 @@ export class Executor {
     this.guardUncalledFunction(value, expr)
 
     this.error('OperandMustBeNumber', expr.location, {
+      value: formatLiteral(value),
+    })
+  }
+  private verifyString(value: any, expr: Expression): void {
+    if (isString(value)) return
+    this.guardUncalledFunction(value, expr)
+
+    this.error('OperandMustBeString', expr.location, {
       value: formatLiteral(value),
     })
   }
@@ -1364,7 +1374,7 @@ export class Executor {
       return
     }
 
-    this.error('MissingKeyInDictionary', location, { key: key })
+    this.error('MissingKeyInDictionary', location, { key: formatLiteral(key) })
   }
 
   private guardDefinedName(name: Token) {

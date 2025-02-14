@@ -106,6 +106,7 @@ export type RuntimeErrorType =
   | 'LogicError'
   | 'OperandMustBeBoolean'
   | 'OperandMustBeNumber'
+  | 'OperandMustBeString'
   | 'OperandsMustBeTwoNumbersOrTwoStrings'
   | 'MissingKeyInDictionary'
   | 'InvalidIndexGetterTarget'

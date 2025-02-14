@@ -528,18 +528,16 @@ describe('IndexOutOfBoundsInChange', () => {
   })
 })
 
-test('InvalidChangeElementTarget', () => {
-  const code = `
-    set str to "foo"
-    change str[1] to "a"
-    `
-  const { frames } = interpret(code)
-  expectFrameToBeError(
-    frames[1],
-    `change str[1] to "a"`,
-    'InvalidChangeElementTarget'
-  )
-  expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+describe('InvalidChangeElementTarget', () => {
+  test('string', () => {
+    const code = `
+      set str to "foo"
+      change str[1] to "a"
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], `str`, 'InvalidChangeElementTarget')
+    expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+  })
 })
 
 test('ListsCannotBeCompared', () => {
@@ -547,6 +545,55 @@ test('ListsCannotBeCompared', () => {
   const { frames } = interpret(code)
   expectFrameToBeError(frames[0], `log [] == []`, 'ListsCannotBeCompared')
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
+})
+
+test('MissingKeyInDictionary', () => {
+  const code = `log {}["a"]`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], code, 'MissingKeyInDictionary')
+  expect(frames[0].error!.message).toBe('MissingKeyInDictionary: key: "a"')
+})
+
+describe('OperandMustBeString', () => {
+  test('dictionary get', () => {
+    const code = `log {}[1]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeString')
+    expect(frames[0].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+
+  test('dictionary change', () => {
+    const code = `
+      set foo to {}
+      change foo[1] to 1
+    `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'change foo[1] to 1', 'OperandMustBeString')
+    expect(frames[1].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+})
+
+describe('OperandMustBeNumber', () => {
+  test('list get', () => {
+    const code = `log [1]["a"]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+  test('list change', () => {
+    const code = `
+      set foo to ["b"]
+      change foo["a"] to 1
+    `
+    const { error, frames } = interpret(code)
+    console.log(error, frames)
+    expectFrameToBeError(
+      frames[1],
+      'change foo["a"] to 1',
+      'OperandMustBeNumber'
+    )
+    expect(frames[1].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
 })
 
 // TOOD: Strings are immutable

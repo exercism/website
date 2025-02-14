@@ -1467,6 +1467,11 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"
   integrity sha512-LiCFDhXCr3iIEGESHEsSCpCI7qNa2suHcrBWeOYSEtEwCXc+IQpEh5i4K8qPcOMJB9ckVOgLgbSNML8TyvPCVg==
 
+"@exercism/highlightjs-jikiscript@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-jikiscript/-/highlightjs-jikiscript-0.0.1.tgz#c5958c21cae4ce10520ace540115e248d2348094"
+  integrity sha512-seb9UnqQc3/V0qFZLXnVAwJDGgMl1lKSkR/ahYSHroq5/BgbJs9TBeTDwJFjSs9pcf85cL2M9qvdp6SinzrqjQ==
+
 "@exercism/highlightjs-uiua@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-uiua/-/highlightjs-uiua-0.0.4.tgz#82799b3a47345596d85fc1ebbb193308db068202"

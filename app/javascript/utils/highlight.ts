@@ -14,6 +14,7 @@ import setupJq from 'highlightjs-jq'
 import setupArturo from '@exercism/highlightjs-arturo'
 import setupRoc from 'highlightjs-roc'
 import setupUiua from '@exercism/highlightjs-uiua'
+import setupJikiscript from '@exercism/highlightjs-jikiscript'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -29,6 +30,7 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('jq', setupJq)
   highlighter.default.registerLanguage('roc', setupRoc)
   highlighter.default.registerLanguage('uiua', setupUiua)
+  highlighter.default.registerLanguage('jikiscript', setupJikiscript)
 }
 
 highlighter.default.configure({

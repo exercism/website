@@ -3,11 +3,13 @@ class CreateBootcampCustomFunctions < ActiveRecord::Migration[7.0]
     return if Rails.env.production?
 
     create_table :bootcamp_custom_functions do |t|
+      t.string :uuid, null: false, index: { unique: true }
+
       t.belongs_to :user, null: false, foreign_key: true
 
       t.string :name, null: false
-      t.text :code, null: false
       t.text :description, null: false
+      t.text :code, null: false
       
       t.string :fn_name, null: false
       t.string :fn_arity, null: false

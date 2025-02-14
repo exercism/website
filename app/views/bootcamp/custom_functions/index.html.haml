@@ -1,0 +1,7 @@
+%h1 Custom Functions
+
+%ul
+  - @custom_functions.each do |custom_function|
+    %li= link_to custom_function.name, [:edit, custom_function]
+
+= button_to 'New Custom Function', bootcamp_custom_functions_path

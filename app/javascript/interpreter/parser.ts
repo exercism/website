@@ -11,8 +11,8 @@ import {
   DictionaryExpression,
   UnaryExpression,
   VariableLookupExpression,
-  GetExpression,
-  SetExpression,
+  GetElementExpression,
+  SetElementExpression,
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
   TemplateTextExpression,
@@ -36,7 +36,7 @@ import {
   ChangeVariableStatement,
   RepeatForeverStatement,
   LogStatement,
-  ChangeListElementStatement,
+  ChangeElementStatement,
 } from './statement'
 import type { Token, TokenType } from './token'
 import { translate } from './translator'
@@ -257,14 +257,14 @@ export class Parser {
 
   private changeListElementStatement(
     changeToken: Token
-  ): ChangeListElementStatement {
+  ): ChangeElementStatement {
     // Convert the statement
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
     // and the index, while still maintaining the integrity of both sides.
     const getExpression = this.chainedVariableAccessors(this.primary())
 
-    if (!(getExpression instanceof GetExpression)) {
+    if (!(getExpression instanceof GetElementExpression)) {
       this.error('GenericSyntaxError', getExpression.location)
     }
 
@@ -281,7 +281,7 @@ export class Parser {
     const value = this.expression()
     this.consumeEndOfLine()
 
-    return new ChangeListElementStatement(
+    return new ChangeElementStatement(
       list,
       index,
       value,
@@ -519,8 +519,8 @@ export class Parser {
       const operator = this.previous()
       const value = this.assignment()
 
-      if (expr instanceof GetExpression) {
-        return new SetExpression(
+      if (expr instanceof GetElementExpression) {
+        return new SetElementExpression(
           expr.obj,
           expr.field,
           value,
@@ -677,7 +677,7 @@ export class Parser {
         'MissingRightBracketAfterFieldNameOrIndex',
         { expression }
       )
-      expression = new GetExpression(
+      expression = new GetElementExpression(
         expression,
         field,
         Location.between(expression, rightBracket)

@@ -1,19 +1,19 @@
-import { EvaluationResultChangeListElementStatement } from '../evaluation-result'
+import { EvaluationResultChangeElementStatement } from '../evaluation-result'
 import { VariableLookupExpression } from '../expression'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 import { formatLiteral } from '../helpers'
-import { ChangeListElementStatement } from '../statement'
+import { ChangeElementStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 import { addOrdinalSuffix } from './helpers'
 
-export function describeChangeListElementStatement(
+export function describeChangeElementStatement(
   frame: FrameWithResult,
   context: DescriptionContext
 ): Description {
-  const frameContext = frame.context as ChangeListElementStatement
-  const frameResult = frame.result as EvaluationResultChangeListElementStatement
+  const frameContext = frame.context as ChangeElementStatement
+  const frameResult = frame.result as EvaluationResultChangeElementStatement
 
-  const idx = frameResult.index.resultingValue
+  const idx = frameResult.field.resultingValue
   const ordinaledIndex = addOrdinalSuffix(idx)
 
   const oldValue = formatLiteral(frameResult.oldValue)
@@ -22,8 +22,8 @@ export function describeChangeListElementStatement(
   let boxStep
   let listDescription
 
-  if (frameContext.list.type == 'VariableLookupExpression') {
-    const variableName = (frameContext.list as VariableLookupExpression).name
+  if (frameContext.obj.type == 'VariableLookupExpression') {
+    const variableName = (frameContext.obj as VariableLookupExpression).name
       .lexeme
     ;(boxStep = `<li>Jiki found the <code>${variableName}</code> box.</li>`),
       (listDescription = `the <code>${variableName}</code> list`)

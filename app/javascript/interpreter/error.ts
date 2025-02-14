@@ -107,6 +107,7 @@ export type RuntimeErrorType =
   | 'OperandMustBeBoolean'
   | 'OperandMustBeNumber'
   | 'OperandsMustBeTwoNumbersOrTwoStrings'
+  | 'MissingKeyInDictionary'
   | 'InvalidIndexGetterTarget'
   | 'InvalidChangeElementTarget'
   | 'UnexpectedEqualsForEquality'

@@ -29,17 +29,17 @@ export class CallStatement extends Statement {
   }
 }
 
-export class ChangeListElementStatement extends Statement {
+export class ChangeElementStatement extends Statement {
   constructor(
-    public list: Expression,
-    public index: Expression,
+    public obj: Expression,
+    public field: Expression,
     public value: Expression,
     public location: Location
   ) {
-    super('ChangeListElementStatement')
+    super('ChangeElementStatement')
   }
   public children() {
-    return [this.list, this.index, this.value]
+    return [this.obj, this.field, this.value]
   }
 }
 

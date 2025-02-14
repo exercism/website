@@ -19,14 +19,15 @@ import {
   CallExpression,
   Expression,
   FunctionLookupExpression,
-  GetExpression,
+  GetElementExpression,
   GroupingExpression,
   LiteralExpression,
   LogicalExpression,
-  SetExpression,
+  SetElementExpression,
   UnaryExpression,
   UpdateExpression,
   VariableLookupExpression,
+  DictionaryExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -42,7 +43,7 @@ import {
   RepeatForeverStatement,
   CallStatement,
   LogStatement,
-  ChangeListElementStatement,
+  ChangeElementStatement,
   ForeachStatement,
 } from './statement'
 import type { Token } from './token'
@@ -50,11 +51,13 @@ import type {
   EvaluationResult,
   EvaluationResultCallExpression,
   EvaluationResultCallStatement,
-  EvaluationResultChangeListElementStatement,
+  EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultDictionaryExpression,
   EvaluationResultExpression,
   EvaluationResultForeachStatement,
   EvaluationResultFunctionLookupExpression,
+  EvaluationResultGetElementExpression,
   EvaluationResultIfStatement,
   EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
@@ -385,43 +388,69 @@ export class Executor {
     )
   }
 
-  public visitChangeListElementStatement(
-    statement: ChangeListElementStatement
+  public visitChangeElementStatement(statement: ChangeElementStatement): void {
+    const obj = this.evaluate(statement.obj)
+    if (isArray(obj.resultingValue)) {
+      return this.visitChangeListElementStatement(statement, obj)
+    }
+    if (isObject(obj.resultingValue)) {
+      return this.visitChangeDictionaryElementStatement(statement, obj)
+    }
+    this.error('InvalidChangeElementTarget', statement.obj.location)
+  }
+
+  public visitChangeDictionaryElementStatement(
+    statement: ChangeElementStatement,
+    dictionary: EvaluationResult
   ): void {
-    this.executeFrame<EvaluationResultChangeListElementStatement>(
-      statement,
-      () => {
-        const list = this.evaluate(statement.list)
+    this.executeFrame<EvaluationResultChangeElementStatement>(statement, () => {
+      const field = this.evaluate(statement.field)
+      const value = this.evaluate(statement.value)
 
-        if (!isArray(list.resultingValue)) {
-          this.error('InvalidChangeElementTarget', statement.list.location)
-        }
+      // Do the update
+      const oldValue = dictionary.resultingValue[field.resultingValue]
+      dictionary.resultingValue[field.resultingValue] = value.resultingValue
 
-        const index = this.evaluate(statement.index)
-        this.verifyNumber(index.resultingValue, statement.index)
-        this.guardOutofBoundsIndex(
-          list.resultingValue,
-          index.resultingValue,
-          statement.index.location,
-          'change'
-        )
-
-        const value = this.evaluate(statement.value)
-
-        // Do the update
-        const oldValue = list.resultingValue[index.resultingValue - 1]
-        list.resultingValue[index.resultingValue - 1] = value.resultingValue
-
-        return {
-          type: 'ChangeListElementStatement',
-          list,
-          index,
-          value,
-          oldValue,
-          resultingValue: value.resultingValue,
-        }
+      return {
+        type: 'ChangeElementStatement',
+        obj: dictionary,
+        field,
+        value,
+        oldValue,
+        resultingValue: value.resultingValue,
       }
-    )
+    })
+  }
+
+  public visitChangeListElementStatement(
+    statement: ChangeElementStatement,
+    list: EvaluationResult
+  ): void {
+    this.executeFrame<EvaluationResultChangeElementStatement>(statement, () => {
+      const index = this.evaluate(statement.field)
+      this.verifyNumber(index.resultingValue, statement.field)
+      this.guardOutofBoundsIndex(
+        list.resultingValue,
+        index.resultingValue,
+        statement.field.location,
+        'change'
+      )
+
+      const value = this.evaluate(statement.value)
+
+      // Do the update
+      const oldValue = list.resultingValue[index.resultingValue - 1]
+      list.resultingValue[index.resultingValue - 1] = value.resultingValue
+
+      return {
+        type: 'ChangeElementStatement',
+        obj: list,
+        field: index,
+        value,
+        oldValue,
+        resultingValue: value.resultingValue,
+      }
+    })
   }
 
   public visitIfStatement(statement: IfStatement): void {
@@ -593,6 +622,19 @@ export class Executor {
         (element) => this.evaluate(element).resultingValue
       ),
     }
+  }
+
+  visitDictionaryExpression(
+    expression: DictionaryExpression
+  ): EvaluationResultDictionaryExpression {
+    let dict: Record<string, any> = {}
+
+    for (const [key, value] of expression.elements) {
+      const evalRes = this.evaluate(value)
+      dict[key] = evalRes.resultingValue
+    }
+
+    return { type: 'DictionaryExpression', resultingValue: dict }
   }
 
   visitForeachStatement(statement: ForeachStatement): void {
@@ -1036,10 +1078,27 @@ export class Executor {
     this.environment.updateVariable(name, newValue)
   }
 
-  public visitGetExpression(expression: GetExpression): EvaluationResult {
-    const obj = this.evaluate(expression.obj)
+  public visitGetElementExpression(
+    expression: GetElementExpression
+  ): EvaluationResult {
+    const obj = this.evaluate(
+      expression.obj
+    ) as EvaluationResultGetElementExpression
+    if (isArray(obj.resultingValue) || isString(obj.resultingValue)) {
+      return this.visitGetElementExpressionForList(expression, obj)
+    }
 
-    /*if (isObject(obj.value) && expression.field.type === 'STRING') {
+    if (isObject(obj.resultingValue)) {
+      return this.visitGetElementExpressionForDictionary(expression, obj)
+    }
+
+    this.error('InvalidIndexGetterTarget', expression.location, {
+      expression,
+      obj,
+    })
+  }
+
+  /*if (isObject(obj.value) && expression.field.type === 'STRING') {
       // TODO: consider if we want to throw an error when the field does not exist or return null
       return {
         type: 'GetExpression',
@@ -1052,13 +1111,35 @@ export class Executor {
       }
     }*/
 
-    if (!(isArray(obj.resultingValue) || isString(obj.resultingValue))) {
-      this.error('InvalidIndexGetterTarget', expression.location, {
-        expression,
-        obj,
-      })
-    }
+  public visitGetElementExpressionForDictionary(
+    expression: GetElementExpression,
+    obj: EvaluationResultGetElementExpression
+  ): EvaluationResult {
+    const key = this.evaluate(expression.field)
 
+    this.guardMissingDictionaryKey(
+      obj.resultingValue,
+      key.resultingValue,
+      expression.location
+    )
+
+    const value = obj.resultingValue[key.resultingValue]
+
+    return {
+      type: 'GetElementExpression',
+      obj: obj,
+      expression: `${expression.obj.location.toCode(this.sourceCode)}[${
+        key.resultingValue
+      }]`,
+      field: key,
+      resultingValue: value,
+    }
+  }
+
+  public visitGetElementExpressionForList(
+    expression: GetElementExpression,
+    obj: EvaluationResultGetElementExpression
+  ): EvaluationResult {
     const idx = this.evaluate(expression.field)
     // TODO: Maybe a custom error message here about array indexes
     // or string indexes needing to be numbers?
@@ -1074,7 +1155,7 @@ export class Executor {
     const value = obj.resultingValue[idx.resultingValue - 1] // 0-index
 
     return {
-      type: 'GetExpression',
+      type: 'GetElementExpression',
       obj: obj,
       expression: `${expression.obj.location.toCode(this.sourceCode)}[${
         idx.resultingValue
@@ -1084,7 +1165,9 @@ export class Executor {
     }
   }
 
-  public visitSetExpression(expression: SetExpression): EvaluationResult {
+  public visitSetElementExpression(
+    expression: SetElementExpression
+  ): EvaluationResult {
     const obj = this.evaluate(expression.obj)
 
     if (
@@ -1254,20 +1337,34 @@ export class Executor {
     if (idx == 0) {
       this.error('IndexIsZero', location)
     }
-    if (idx > obj.length) {
-      // Set to IndexOutOfBoundsInGet or IndexOutOfBoundsInSet
-      // by capitalzing the first letter of get or set
-      const errorType:
-        | 'IndexOutOfBoundsInGet'
-        | 'IndexOutOfBoundsInChange' = `IndexOutOfBoundsIn${
-        getOrChange.charAt(0).toUpperCase() + getOrChange.slice(1)
-      }`
-      this.error(errorType, location, {
-        index: idx,
-        length: obj.length,
-        dataType: isArray(obj) ? 'list' : 'string',
-      })
+    if (idx <= obj.length) {
+      return
     }
+
+    // Set to IndexOutOfBoundsInGet or IndexOutOfBoundsInSet
+    // by capitalzing the first letter of get or set
+    const errorType:
+      | 'IndexOutOfBoundsInGet'
+      | 'IndexOutOfBoundsInChange' = `IndexOutOfBoundsIn${
+      getOrChange.charAt(0).toUpperCase() + getOrChange.slice(1)
+    }`
+    this.error(errorType, location, {
+      index: idx,
+      length: obj.length,
+      dataType: isArray(obj) ? 'list' : 'string',
+    })
+  }
+
+  private guardMissingDictionaryKey(
+    dictionary: Record<string, any>,
+    key: any,
+    location: Location
+  ) {
+    if (Object.keys(dictionary).includes(key)) {
+      return
+    }
+
+    this.error('MissingKeyInDictionary', location, { key: key })
   }
 
   private guardDefinedName(name: Token) {

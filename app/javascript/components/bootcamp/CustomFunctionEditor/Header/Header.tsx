@@ -20,7 +20,7 @@ function _Header({ links }: { links: Record<any, any> }) {
         href={links.customFunctionsIndex}
         className={assembleClassNames('btn-secondary btn-xxs')}
       >
-        Back my stdlib
+        Back to my stdlib
       </a>
     </div>
   )

@@ -1,4 +1,4 @@
-class Bootcamp::CustomFunctionsController < ApplicationController
+class Bootcamp::CustomFunctionsController < Bootcamp::BaseController
   def index
     @custom_functions = current_user.bootcamp_custom_functions
   end

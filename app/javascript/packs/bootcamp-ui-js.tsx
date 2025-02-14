@@ -10,6 +10,10 @@ const SolveExercisePage = lazy(
 const DrawingPage = lazy(
   () => import('../components/bootcamp/DrawingPage/DrawingPage')
 )
+const CustomFunctionEditor = lazy(
+  () =>
+    import('../components/bootcamp/CustomFunctionEditor/CustomFunctionEditor')
+)
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
 )
@@ -36,6 +40,11 @@ const mappings = {
   'bootcamp-drawing-page': (data: DrawingPageProps): JSX.Element => (
     <Suspense>
       <DrawingPage {...camelizeKeysAs<DrawingPageProps>(data)} />
+    </Suspense>
+  ),
+  'bootcamp-custom-function-editor': (data): JSX.Element => (
+    <Suspense>
+      <CustomFunctionEditor data={data} />
     </Suspense>
   ),
   'settings-bootcamp-affiliate-coupon-form': (data: any) => (

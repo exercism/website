@@ -22,5 +22,9 @@
   {
     "title": "Recap Week",
     "description": "We go over everything we've learned so far and introduce your first major project!"
+  },
+  {
+    "title": "Dictionaries",
+    "description": "We  look at dictionaries and counters as part of loops"
   }
 ]

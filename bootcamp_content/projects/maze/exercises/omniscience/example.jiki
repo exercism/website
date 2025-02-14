@@ -1,0 +1,116 @@
+function calculate_starting_position with maze do
+  set r to 0
+  set c to 0
+  for each row in maze do
+    change r to r + 1
+    change c to 0
+    for each cell in row do
+    change c to c + 1
+      if cell == "^" do
+        return [r,c]
+      end
+    end
+  end
+end
+
+function can_turn_right do
+  return check_direction("right")
+end
+
+function check_boundaries with maze, row, col do
+  if row < 1 or row > 9 or col < 1 or col > 9 do
+    return false
+  end
+  return true
+end
+
+function space_free with maze, row, col do
+  if !check_boundaries(maze, row, col) do
+    return false
+  end
+
+  if maze[row][col] != "x"
+    return [row, col]
+  else
+    return false
+  end
+end
+
+function can_move with maze, position, direction do
+  if direction == "down" do
+    return space_free(maze, position[1] + 1, position[2])
+  end
+end
+
+function can_turn_left with maze, position, direction do
+  if direction == "down" do
+    return space_free(maze, position[1], position[2] + 1)
+  end
+end
+
+function my_turn_left do
+  turn_left()
+end
+
+function my_turn_right do
+  turn_right()
+end
+
+function my_move do
+  move()
+  position
+end
+
+function my_turn_around do
+  my_turn_right()
+  my_turn_right()
+end
+
+function move_left_if_appropriate do
+  change new_pos to can_turn_left(maze, position, direction)
+  if new_pos != false
+    my_turn_left()
+    my_move()
+    return new_pos
+  end
+end
+
+function make_move with maze, position, direction do
+  change new_pos to move_left_if_appropriate(maze, position, direction)
+  if new_pos != false
+    return new_pos
+  end
+
+  change new_pos to move_if_appropriate(maze, position, direction)
+  if new_pos != false
+    return new_pos
+  end
+
+  change new_pos to move_right_if_appropriate(maze, position, direction)
+  if new_pos != false
+    return new_pos
+  end
+
+  
+if
+  else if can_move(maze, position, direction) do
+    my_move()
+  else if can_turn_right() do
+    my_turn_right()
+    my_move()
+  else do
+    my_turn_around()
+    my_move()
+  end
+end
+
+set maze to get_maze()
+set position to calculate_starting_position(maze)
+set direction to "down"
+
+set new_pos = []
+
+set result to {}
+repeat_until_game_over do
+  change position to make_move(maze, position, direction)
+end

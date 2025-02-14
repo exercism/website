@@ -1,6 +1,7 @@
 import React from 'react'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { Exercise } from '../Exercise'
+import cloneDeep from 'lodash.clonedeep'
 
 export default class MazeExercise extends Exercise {
   private mazeLayout: number[][] = []
@@ -324,10 +325,23 @@ export default class MazeExercise extends Exercise {
   }
 
   public setupGrid(_: ExecutionContext, layout: number[][]) {
-    this.mazeLayout = layout
+    this.mazeLayout = cloneDeep(layout)
+    this.initialMazeLayout = cloneDeep(layout)
     this.gridSize = layout.length
     this.squareSize = 100 / layout.length
     this.redrawMaze()
+  }
+  public getInitialMaze(_: ExecutionContext) {
+    return this.initialMazeLayout.map((row) =>
+      row.map((cell) => {
+        if (cell === 0) return '-'
+        if (cell === 1) return 'x'
+        if (cell === 2) return '^'
+        if (cell === 3) return '$'
+        if (cell === 4) return '🔥'
+        if (cell === 5) return '💩'
+      })
+    )
   }
   public setupDirection(_: ExecutionContext, direction: string) {
     this.direction = direction
@@ -375,6 +389,11 @@ export default class MazeExercise extends Exercise {
       name: 'look',
       func: this.look.bind(this),
       description: 'looked in a direction and returns what is there',
+    },
+    {
+      name: 'get_maze',
+      func: this.getInitialMaze.bind(this),
+      description: 'get the initial maze layout',
     },
   ]
 }

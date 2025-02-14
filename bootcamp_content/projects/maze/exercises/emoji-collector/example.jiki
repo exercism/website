@@ -1,0 +1,33 @@
+function check_direction with direction do
+  set space to look(direction)
+  return space != "fire" and space != "wall" and space != "poop"
+end
+
+function can_turn_left do
+  return check_direction("left")
+end
+function can_turn_right do
+  return check_direction("right")
+end
+function can_move do
+  return check_direction("ahead")
+end
+
+function turn_around do
+  turn_right()
+  turn_right()
+end
+
+repeat_until_game_over do
+  if can_turn_left() do
+    turn_left()
+    move()
+  else if can_move() do
+    move()
+  else if can_turn_right() do
+    turn_right()
+    move()
+  else do
+    turn_around()
+  end
+end

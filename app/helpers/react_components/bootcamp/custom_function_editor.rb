@@ -14,7 +14,8 @@ module ReactComponents
           uuid: custom_function.uuid,
           name: custom_function.name,
           description: custom_function.description,
-          code: custom_function.code
+          code: custom_function.code,
+          tests: custom_function.tests
         },
         links: {
           # update: Exercism::Routes.api_bootcamp_custom_function_url(custom_function),

@@ -91,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_14_131755) do
     t.string "name", null: false
     t.text "code", null: false
     t.text "description", null: false
+    t.text "tests", size: :long, null: false
     t.string "fn_name", null: false
     t.string "fn_arity", null: false
     t.datetime "created_at", null: false

@@ -10,6 +10,7 @@ class CreateBootcampCustomFunctions < ActiveRecord::Migration[7.0]
       t.string :name, null: false
       t.text :description, null: false
       t.text :code, null: false
+      t.longtext :tests, null: false
       
       t.string :fn_name, null: false
       t.string :fn_arity, null: false

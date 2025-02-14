@@ -40,6 +40,7 @@ module ReactComponents
           readonly_ranges:,
           default_readonly_ranges: exercise.readonly_ranges
         },
+        custom_functions:,
         links: {
           post_submission: Exercism::Routes.api_bootcamp_solution_submissions_url(solution_uuid: solution.uuid, only_path: true),
           complete_solution: Exercism::Routes.complete_api_bootcamp_solution_url(solution.uuid, only_path: true),
@@ -51,6 +52,10 @@ module ReactComponents
     end
 
     private
+    def custom_functions
+      current_user.bootcamp_custom_functions.active.select(:fn_name, :fn_arity, :code)
+    end
+
     def readonly_ranges
       return submission.readonly_ranges if submission
 

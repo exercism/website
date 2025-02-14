@@ -1,10 +1,22 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
+import { CustomFunction } from './CustomFunctionEditor'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 export type CustomTests = { codeRun: string; expected: string; uuid: string }[]
 
-export function useTestManager() {
-  const [tests, setTests] = useState<CustomTests>([])
+export function useTestManager(customFunction: CustomFunction) {
+  const [testsLocalStorageValue, setTestsLocalStorageValue] = useLocalStorage(
+    `custom-fn-tests-${customFunction.uuid}`,
+    { tests: customFunction.tests }
+  )
+  const [tests, setTests] = useState<CustomTests>(
+    testsLocalStorageValue.tests ?? []
+  )
+
+  useEffect(() => {
+    setTestsLocalStorageValue({ tests })
+  }, [tests])
 
   const [testBeingEdited, setTestBeingEdited] = useState<string>()
 

@@ -50,10 +50,10 @@ export default function CustomFunctionEditor({
     handleUpdateTest,
     handleCancelEditing,
     handleAddNewTest,
-  } = useTestManager()
+  } = useTestManager(customFunction)
 
   const { name, setName, description, setDescription } =
-    useFunctionDetailsManager()
+    useFunctionDetailsManager(customFunction)
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler()

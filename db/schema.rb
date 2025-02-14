@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_28_231332) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_14_131755) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -81,7 +81,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_28_231332) do
     t.text "content_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid"
     t.index ["parent_id"], name: "fk_rails_a7c513f5e1"
+  end
+
+  create_table "bootcamp_custom_functions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.text "code", null: false
+    t.text "description", null: false
+    t.string "fn_name", null: false
+    t.string "fn_arity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"
   end
 
   create_table "bootcamp_drawings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1773,6 +1786,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_28_231332) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "bootcamp_concepts", "bootcamp_concepts", column: "parent_id"
+  add_foreign_key "bootcamp_custom_functions", "users"
   add_foreign_key "bootcamp_drawings", "users"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"

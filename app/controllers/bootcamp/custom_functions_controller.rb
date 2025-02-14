@@ -4,8 +4,8 @@ class Bootcamp::CustomFunctionsController < ApplicationController
   end
 
   def create
-    @custom_functions = current_user.bootcamp_custom_functions.create!
-    redirect_to edit_bootcamp_drawing_path(@drawing)
+    @custom_function = current_user.bootcamp_custom_functions.create!
+    redirect_to [:edit, @custom_function]
   end
 
   def edit

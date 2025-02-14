@@ -65,6 +65,11 @@ export function useTasks() {
 
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
+    const allBonusTestsPassed =
+      bonusTestSuiteResult &&
+      bonusTestSuiteResult.tests.length > 0 &&
+      bonusTestSuiteResult.status === 'pass'
+
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
       isSetupStage.current = false
     } else {
@@ -87,9 +92,8 @@ export function useTasks() {
         wasFinishLessonModalShown &&
         isTimelineReady &&
         !wasCompletedBonusTasksModalShown &&
-        bonusTestSuiteResult?.status === 'pass'
+        allBonusTestsPassed
       ) {
-        console.log('we are here')
         setIsCompletedBonusTasksModalOpen(true)
         launchConfetti()
         setWasCompletedBonusTasksModalShown(true)
@@ -102,7 +106,7 @@ export function useTasks() {
     isTimelineComplete,
     inspectedTestResult,
     solution.status,
-    bonusTestSuiteResult?.status,
+    bonusTestSuiteResult,
   ])
 
   const handleCompleteSolution = useCallback(async () => {

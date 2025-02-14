@@ -8,6 +8,7 @@ class CreateBootcampCustomFunctions < ActiveRecord::Migration[7.0]
       t.belongs_to :user, null: false, foreign_key: true
 
       t.string :name, null: false
+      t.boolean :active, null: false, default: false
       t.text :description, null: false
       t.text :code, null: false
       t.longtext :tests, null: false

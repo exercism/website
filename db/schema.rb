@@ -89,6 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_14_131755) do
     t.string "uuid", null: false
     t.bigint "user_id", null: false
     t.string "name", null: false
+    t.boolean "active", default: false, null: false
     t.text "code", null: false
     t.text "description", null: false
     t.text "tests", size: :long, null: false

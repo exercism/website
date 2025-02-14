@@ -1,4 +1,4 @@
-### Bonus Challenges
+# Bonus Challenges
 
 Want something to push you a little more?
 

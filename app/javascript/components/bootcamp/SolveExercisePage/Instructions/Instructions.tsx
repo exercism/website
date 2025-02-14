@@ -80,7 +80,10 @@ export function _Instructions({
       {shouldShowBonusTasks &&
       remainingBonusTasksCount > 0 &&
       !solution.passedBonusTests ? (
-        <div dangerouslySetInnerHTML={{ __html: bonusTasksInstructions }} />
+        <>
+          <h4>Bonus Challenges</h4>
+          <div dangerouslySetInnerHTML={{ __html: bonusTasksInstructions }} />
+        </>
       ) : areAllTasksCompleted || solution.passedBasicTests ? (
         <>
           <h4 className="mt-12">Congratulations!</h4>

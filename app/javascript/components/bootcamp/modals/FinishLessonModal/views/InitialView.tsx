@@ -14,11 +14,7 @@ export function InitialView() {
   const { setShouldShowBonusTasks } = useTaskStore()
 
   const hasMoreBonusTasks = useMemo(() => {
-    return (
-      bonusTestSuiteResult &&
-      bonusTestSuiteResult.tests.length > 1 &&
-      remainingBonusTasksCount > 0
-    )
+    return bonusTestSuiteResult && remainingBonusTasksCount > 0
   }, [bonusTestSuiteResult, remainingBonusTasksCount])
 
   const bonusTaskInfoText = useMemo(() => {

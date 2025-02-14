@@ -458,25 +458,25 @@ end))
     move()
   else if can_turn_right() is true do
     turn_right()
-    move()
   else do
-    turn_left()
-    turn_left()
+turn_right()
+    turn_right()
   end
 end))
         check_scenarios
 
         scrubber_val_4 = 2430
-        scrubber_val_6 = 10_118
+        scrubber_val_5 = 3848
 
+        select_scenario 5
         # interrupting animation
-        scrub_to scrubber_val_6
+        scrub_to scrubber_val_5
         select_scenario 4
         scrub_to scrubber_val_4
 
-        select_scenario 6
+        select_scenario 5
         sleep 0.5
-        assert_scrubber_value scrubber_val_6
+        assert_scrubber_value scrubber_val_5
         select_scenario 4
         sleep 0.5
         assert_scrubber_value scrubber_val_4
@@ -659,12 +659,17 @@ move()
 move()
           })
         check_scenarios
+
         refute_selector ".test-selector-buttons.bonus"
         assert_selector ".test-button", count: 1
         assert_text "There is a bonus task on this exercise to complete."
 
+        refute_text "Solve the bonus tasks!"
+        assert_text "Congratulations"
+
         click_on "Tackle bonus task"
 
+        assert_text "Solve the bonus tasks!"
         assert_selector ".test-selector-buttons.bonus"
         assert_selector ".test-button", count: 2
         find(".test-selector-buttons.bonus .test-button").click
@@ -678,6 +683,8 @@ move()
         end
         })
         check_scenarios
+        refute_text "Solve the bonus tasks!"
+        assert_text "Congratulations"
 
         refute_selector ".test-button.fail"
         assert_selector ".test-button.pass", count: 2
@@ -812,13 +819,13 @@ end))
     test "changing code stops animation" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :automated_solve
+
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
         mark_modal_as_shown exercise.id
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
-    turn_left()
     move()
   else if can_move() is true do
     move()
@@ -831,6 +838,8 @@ end))
   end
 end))
         check_scenarios
+
+        select_scenario 3
 
         third_line = all(".cm-line")[2]
 

@@ -1,3 +1,3 @@
-# Bonus Task
+### Bonus Task
 
-Solve the bonus task!
+Solve the bonus tasks!

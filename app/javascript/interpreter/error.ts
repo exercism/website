@@ -120,6 +120,7 @@ export type RuntimeErrorType =
   | 'UnexpectedChangeOfFunction'
   | 'FunctionCallTypeMismatch'
   | 'UnexpectedReturnOutsideOfFunction'
+  | 'UnexpectedContinueOutsideOfLoop'
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
   | 'MaxIterationsReached'

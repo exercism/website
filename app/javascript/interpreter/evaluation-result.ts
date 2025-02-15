@@ -28,6 +28,12 @@ export type EvaluationResultChangeVariableStatement = {
   data?: Record<string, any>
 }
 
+export type EvaluationResultContinueStatement = {
+  type: 'ContinueStatement'
+  resultingValue?: undefined
+  data?: Record<string, any>
+}
+
 export type EvaluationResultForeachStatement = {
   type: 'ForeachStatement'
   elementName: string
@@ -202,6 +208,7 @@ export type EvaluationResultStatement =
   | EvaluationResultChangeVariableStatement
   | EvaluationResultChangeElementStatement
   | EvaluationResultConstantStatement
+  | EvaluationResultContinueStatement
   | EvaluationResultIfStatement
   | EvaluationResultCallStatement
   | EvaluationResultForeachStatement

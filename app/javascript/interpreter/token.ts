@@ -37,6 +37,7 @@ export type TokenType =
   // Keywords
   | 'AND'
   | 'CHANGE'
+  | 'CONTINUE'
   | 'DO'
   | 'ELSE'
   | 'END'

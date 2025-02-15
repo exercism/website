@@ -97,6 +97,7 @@
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
       "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",
       "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction",
+      "UnexpectedContinueOutsideOfLoop": "UnexpectedContinueOutsideOfLoop",
       "VariableAlreadyDeclared": "VariableAlreadyDeclared: name: {{name}}",
       "VariableNotDeclared": "VariableNotDeclared: name: {{name}}",
       "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",

@@ -56,6 +56,15 @@ export class ChangeVariableStatement extends Statement {
   }
 }
 
+export class ContinueStatement extends Statement {
+  constructor(public keyword: Token, public location: Location) {
+    super('ContinueStatement')
+  }
+  public children() {
+    return []
+  }
+}
+
 export class ForeachStatement extends Statement {
   constructor(
     public elementName: Token,

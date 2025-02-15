@@ -24,6 +24,7 @@ import { Scanner } from './scanner'
 import {
   BlockStatement,
   CallStatement,
+  ContinueStatement,
   ForeachStatement,
   FunctionParameter,
   FunctionStatement,
@@ -162,6 +163,7 @@ export class Parser {
   private statement(): Statement {
     if (this.match('SET')) return this.setVariableStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
+    if (this.match('CONTINUE')) return this.continueStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('LOG')) return this.logStatement()
     if (this.match('RETURN')) return this.returnStatement()
@@ -506,6 +508,13 @@ export class Parser {
     this.consumeEndOfLine()
 
     return new CallStatement(expression, expression.location)
+  }
+
+  private continueStatement(): ContinueStatement {
+    const keyword = this.previous()
+    this.consumeEndOfLine()
+
+    return new ContinueStatement(keyword, keyword.location)
   }
 
   private expression(): Expression {

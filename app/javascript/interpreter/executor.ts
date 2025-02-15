@@ -45,6 +45,7 @@ import {
   LogStatement,
   ChangeElementStatement,
   ForeachStatement,
+  ContinueStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -53,6 +54,7 @@ import type {
   EvaluationResultCallStatement,
   EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultContinueStatement,
   EvaluationResultDictionaryExpression,
   EvaluationResultExpression,
   EvaluationResultForeachStatement,
@@ -94,6 +96,12 @@ export type ExternalFunction = {
   func: Function
   description: string
   arity?: Arity
+}
+
+class ContinueFlowControlError extends Error {
+  constructor(public location: Location) {
+    super()
+  }
 }
 
 export class Executor {
@@ -167,6 +175,19 @@ export class Executor {
             'ERROR',
             undefined,
             this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
+          )
+          break
+        }
+        if (error instanceof ContinueFlowControlError) {
+          // Remove the last frame and replace it with an error frame
+          // This saves us having to pass the context down to where
+          // the error is thrown.
+          this.frames.pop()
+          this.addFrame(
+            error.location,
+            'ERROR',
+            undefined,
+            this.buildError('UnexpectedContinueOutsideOfLoop', error.location)
           )
           break
         }
@@ -421,6 +442,16 @@ export class Executor {
         resultingValue: value.resultingValue,
       }
     })
+  }
+
+  public visitContinueStatement(statement: ContinueStatement): void {
+    this.executeFrame<EvaluationResultContinueStatement>(statement, () => {
+      return {
+        type: 'ContinueStatement',
+      }
+    })
+
+    throw new ContinueFlowControlError(statement.location)
   }
 
   public visitChangeListElementStatement(
@@ -679,7 +710,10 @@ export class Executor {
         }
       })
 
-      this.executeBlock(statement.body, this.environment)
+      try {
+        this.executeBlock(statement.body, this.environment)
+      } catch (ContinueFlowControlError) {}
+
       this.environment.undefine(temporaryVariableName)
     }
   }

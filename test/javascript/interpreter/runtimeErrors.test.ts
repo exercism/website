@@ -124,6 +124,27 @@ describe('UnexpectedReturnOutsideOfFunction', () => {
     expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
   })
 })
+describe('UnexpectedContinueOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'continue'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe('UnexpectedContinueOutsideOfLoop')
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      continue
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'continue',
+      'UnexpectedContinueOutsideOfLoop'
+    )
+    expect(frames[1].error!.message).toBe('UnexpectedContinueOutsideOfLoop')
+  })
+})
 describe('VariableAlreadyDeclared', () => {
   test('basic', () => {
     const code = `set x to 5

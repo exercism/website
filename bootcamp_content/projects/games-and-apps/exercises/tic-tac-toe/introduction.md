@@ -118,7 +118,7 @@ You have a few functions available:
 
 ### List functions
 
-- `push(list, elem)`: Adds an element to an array and returns a new array.
+- `push(list, elem)`: Adds an element to an list and returns a new list.
 - `concatenate(str1, str2, ...)`: Concatenates 2 or more strings together and returns the new string.
 
 ### Drawing functions

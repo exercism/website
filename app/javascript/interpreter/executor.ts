@@ -712,7 +712,17 @@ export class Executor {
 
       try {
         this.executeBlock(statement.body, this.environment)
-      } catch (ContinueFlowControlError) {}
+      } catch (e) {
+        // If we've got a control flow error, don't do anything.
+        if (e instanceof ContinueFlowControlError) {
+        }
+
+        // Otherwise we have some error that shouldn't be handled here,
+        // so get out of dodge!
+        else {
+          throw e
+        }
+      }
 
       this.environment.undefine(temporaryVariableName)
     }

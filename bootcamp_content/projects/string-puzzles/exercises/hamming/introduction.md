@@ -1,4 +1,4 @@
-# Two Fer
+# Hammming
 
 This is a classic Exercism exercise and one of a couple about molecular biology (what Katrina - Exercism's co-founder's degree was in!)
 

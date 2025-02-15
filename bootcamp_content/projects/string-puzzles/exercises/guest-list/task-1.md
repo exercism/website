@@ -1,3 +1,3 @@
 # Task 1
 
-Solve the Two Fer exercise.
+Solve the Guest List exercise.

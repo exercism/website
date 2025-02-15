@@ -39,7 +39,12 @@ import {
   LogStatement,
   ChangeElementStatement,
 } from './statement'
-import type { Token, TokenType } from './token'
+import {
+  KeywordTokens,
+  StatementKeywordTokens,
+  type Token,
+  type TokenType,
+} from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
@@ -857,9 +862,53 @@ export class Parser {
     const elements: Expression[] = []
 
     if (!this.check('RIGHT_BRACKET')) {
-      do {
-        elements.push(this.or())
-      } while (this.match('COMMA'))
+      this.match('EOL') // Allow for the first element to be on a new line
+
+      let moreItems = true
+      let lastComma: Token | undefined
+
+      while (moreItems) {
+        moreItems = false
+
+        try {
+          elements.push(this.or())
+        } catch (e) {
+          if (!(e instanceof SyntaxError && e.type == 'MissingExpression')) {
+            throw e
+          }
+          this.error(
+            'MissingRightBracketAfterListElements',
+            (lastComma || this.previous()).location
+          )
+        }
+
+        // If we've got a comma, then we consume an end of line if it's there and go again
+        if (this.check('COMMA')) {
+          lastComma = this.consume('COMMA', 'MissingCommaInList')
+          moreItems = true
+
+          if (this.check('EOL')) {
+            this.consumeEndOfLine()
+          }
+        }
+        // If there's no comma, we expect either a `]` or ` `\n]`.
+        // Firstly check for the newline version, and consume the
+        // newline if it's there.
+        else if (this.check('EOL') && this.check('RIGHT_BRACKET', 2)) {
+          this.consumeEndOfLine()
+        }
+        // Finally, we expect just a right bracket. If we don't have
+        // that, we're probably missing a comma.
+        else if (!this.check('RIGHT_BRACKET')) {
+          if (this.nextTokenIsKeyword()) {
+            this.error(
+              'MissingRightBracketAfterListElements',
+              leftBracket.location
+            )
+          }
+          this.error('MissingCommaInList', this.peek().location)
+        }
+      }
     }
 
     const rightBracket = this.consume(
@@ -878,16 +927,65 @@ export class Parser {
     const elements = new Map<string, Expression>()
 
     if (!this.check('RIGHT_BRACE')) {
-      do {
-        const key = this.consume('STRING', 'MissingStringAsKey')
+      this.match('EOL') // Allow for the first element to be on a new line
+
+      let moreItems = true
+      let lastComma: Token | undefined
+
+      while (moreItems) {
+        if (this.nextTokenIsKeyword()) {
+          this.error(
+            'MissingRightBraceAfterDictionaryElements',
+            leftBrace.location
+          )
+        }
+
+        moreItems = false
+        let key
+        try {
+          key = this.consume('STRING', 'MissingStringAsKey')
+        } catch (e) {
+          if (!(e instanceof SyntaxError && e.type == 'MissingExpression')) {
+            throw e
+          }
+          this.error(
+            'MissingRightBraceAfterDictionaryElements',
+            (lastComma || this.previous()).location
+          )
+        }
+
         this.consume('COLON', 'MissingColonAfterKey')
         elements.set(key.literal, this.primary())
-      } while (this.match('COMMA'))
+
+        // If we have a comma, continue onwards
+        if (this.match('COMMA')) {
+          lastComma = this.previous()
+          this.match('EOL') // Allow for things to be split over lines
+          moreItems = !this.isAtEnd()
+        }
+        // If there's no comma, we expect either a `}` or ` `\n}`.
+        // Firstly check for the newline version, and consume the
+        // newline if it's there.
+        else if (this.check('EOL') && this.check('RIGHT_BRACE', 2)) {
+          this.consumeEndOfLine()
+        }
+        // Finally, we expect just a right bracket. If we don't have
+        // that, we're either missing a comma or an end closing brace.
+        else if (!this.check('RIGHT_BRACE')) {
+          if (this.nextTokenIsKeyword()) {
+            this.error(
+              'MissingRightBraceAfterDictionaryElements',
+              leftBrace.location
+            )
+          }
+          this.error('MissingCommaInDictionary', this.peek().location)
+        }
+      }
     }
 
     const rightBracket = this.consume(
       'RIGHT_BRACE',
-      'MissingRightBraceAfterMapElements',
+      'MissingRightBraceAfterDictionaryElements',
       { elements }
     )
     return new DictionaryExpression(
@@ -906,9 +1004,9 @@ export class Parser {
     return false
   }
 
-  private check(tokenType: TokenType): boolean {
+  private check(tokenType: TokenType, steps = 1): boolean {
     if (this.isAtEnd()) return false
-    return this.peek().type == tokenType
+    return this.peek(steps).type == tokenType
   }
 
   private advance(): Token {
@@ -990,6 +1088,16 @@ export class Parser {
 
   private isAtEndOfStatement(): boolean {
     return this.peek().type == 'EOL' || this.isAtEnd()
+  }
+
+  private nextTokenIsKeyword(): boolean {
+    let counter = 1
+    while (this.check('EOL', counter)) {
+      counter++
+    }
+    const nextActualThing = this.peek(counter)
+
+    return KeywordTokens.includes(nextActualThing.type)
   }
 
   private peek(n = 1): Token {

@@ -68,6 +68,27 @@ describe('parse', () => {
       )
     })
 
+    test('multiple elements over 2 lines', () => {
+      const stmts = parse(`log {
+                                "title": "Jurassic Park", 
+                                "year": 1993
+                               }`)
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(DictionaryExpression)
+      const mapExpr = logStmt.expression as DictionaryExpression
+      expect(mapExpr.elements.size).toBe(2)
+      expect(mapExpr.elements.get('title')).toBeInstanceOf(LiteralExpression)
+      expect((mapExpr.elements.get('title') as LiteralExpression).value).toBe(
+        'Jurassic Park'
+      )
+      expect(mapExpr.elements.get('year')).toBeInstanceOf(LiteralExpression)
+      expect((mapExpr.elements.get('year') as LiteralExpression).value).toBe(
+        1993
+      )
+    })
+
     test('nested', () => {
       const stmts = parse(
         'log {"title": "Jurassic Park", "director": { "name": "Steven Spielberg" } }'
@@ -282,7 +303,6 @@ describe('execute', () => {
           set movie to {"director": {"name": "Peter Jackson"}}
           change movie["director"]["name"] to "James Cameron"
         `)
-      console.log(error, frames)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].variables).toMatchObject({

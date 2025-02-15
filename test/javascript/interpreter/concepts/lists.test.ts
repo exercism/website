@@ -64,6 +64,40 @@ describe('parse', () => {
     expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
   })
 
+  test('multiple elements over lines', () => {
+    const stmts = parse(`log [
+                              1,
+                              2,
+                              3
+                             ]`)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(3)
+    expect((listExpr.elements[0] as LiteralExpression).value).toBe(1)
+    expect((listExpr.elements[1] as LiteralExpression).value).toBe(2)
+    expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
+  })
+
+  test('multiple elements over lines', () => {
+    const stmts = parse(`
+    log [ 1,
+    2,
+      3
+    ]`)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(3)
+    expect((listExpr.elements[0] as LiteralExpression).value).toBe(1)
+    expect((listExpr.elements[1] as LiteralExpression).value).toBe(2)
+    expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
+  })
+
   test('nested', () => {
     const stmts = parse('log [1,[2,[3]]]')
     expect(stmts).toBeArrayOfSize(1)

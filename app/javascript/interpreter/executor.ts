@@ -1129,7 +1129,7 @@ export class Executor {
 
     this.error('InvalidIndexGetterTarget', expression.location, {
       expression,
-      obj,
+      type: typeof obj.resultingValue,
     })
   }
 

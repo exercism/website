@@ -606,8 +606,7 @@ describe('OperandMustBeNumber', () => {
       set foo to ["b"]
       change foo["a"] to 1
     `
-    const { error, frames } = interpret(code)
-    console.log(error, frames)
+    const { frames } = interpret(code)
     expectFrameToBeError(
       frames[1],
       'change foo["a"] to 1',

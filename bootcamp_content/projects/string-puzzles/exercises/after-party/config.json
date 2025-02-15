@@ -21,7 +21,7 @@
           "description_html": "The name's but on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
-          "params": [["Brian May", "Albert Einstein"], "Brad"],
+          "params": [["Brian May", "Bryn Harrison", "Albert Einstein"], "Brad"],
           "expected": false
         },
         {

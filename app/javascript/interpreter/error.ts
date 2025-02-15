@@ -78,6 +78,8 @@ export type SyntaxErrorType =
   | 'PointlessStatement'
   | 'PotentialMissingParenthesesForFunctionCall'
   | 'MissingEachAfterFor'
+  | 'UnexpectedToken'
+  | 'UnexpectedClosingBracket'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

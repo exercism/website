@@ -59,7 +59,10 @@
       "UnexpectedChainedEquality": "UnexpectedChainedEquality",
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
       "PointlessStatement": "PointlessStatement",
-      "MissingEachAfterFor": "MissingEachAfterFor"
+      "MissingEachAfterFor": "MissingEachAfterFor",
+      "UnexpectedToken": "UnexpectedToken: lexeme: {{lexeme}}",
+      "UnexpectedClosingBracket": "UnexpectedClosingBracket: lexeme: {{lexeme}}",
+      "MissingTimesInRepeat": "MissingTimesInRepeat"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

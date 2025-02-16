@@ -83,6 +83,7 @@ export type SyntaxErrorType =
   | 'UnexpectedClosingBracket'
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'UnexpectedKeyword'
+  | 'UnexpectedTrailingComma'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

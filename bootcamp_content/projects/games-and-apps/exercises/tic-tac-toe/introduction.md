@@ -112,6 +112,12 @@ The resulting situation should be something like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/tic-tac-toe-won.png" style="width: 100%; max-width:300px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
+### Incomplete Games
+
+Some scenarios have incomplete games, where there's not yet a winner and the game is not yet a draw.
+In those situations you should not show the results screen.
+Leave the game in the state where another move could be made.
+
 ## Functions Available
 
 You have a few functions available:

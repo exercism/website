@@ -92,7 +92,7 @@
             {
               "name": "getRectangleAt(0,0,100,100)",
               "matcher": "toBeUndefined",
-              "error_html": "You didn't draw the purple overlay correctly."
+              "error_html": "You drew a results screen but the game hasn't ended."
             }
           ]
         },

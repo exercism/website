@@ -878,8 +878,11 @@ export class Parser {
     if (!this.check('RIGHT_BRACKET')) {
       this.match('EOL') // Allow for the first element to be on a new line
 
+      // Check for comma before anything else.
+      this.guardTrailingComma('COMMA', this.peek().location)
+
       let moreItems = true
-      let lastComma: Token | undefined
+      let prevComma: Token | undefined
 
       while (moreItems) {
         moreItems = false
@@ -892,18 +895,24 @@ export class Parser {
           }
           this.error(
             'MissingRightBracketAfterListElements',
-            (lastComma || this.previous()).location
+            (prevComma || this.previous()).location
           )
         }
 
         // If we've got a comma, then we consume an end of line if it's there and go again
         if (this.check('COMMA')) {
-          lastComma = this.consume('COMMA', 'MissingCommaInList')
+          prevComma = this.consume('COMMA', 'MissingCommaInList')
           moreItems = true
 
           if (this.check('EOL')) {
             this.consumeEndOfLine()
           }
+
+          // Check for trailing commas
+          this.guardTrailingComma(
+            'RIGHT_BRACKET',
+            (prevComma || leftBracket).location
+          )
         }
         // If there's no comma, we expect either a `]` or ` `\n]`.
         // Firstly check for the newline version, and consume the
@@ -943,10 +952,16 @@ export class Parser {
     if (!this.check('RIGHT_BRACE')) {
       this.match('EOL') // Allow for the first element to be on a new line
 
+      // Check for trailing commas
+      this.guardTrailingComma('COMMA', this.peek().location)
+
       let moreItems = true
-      let lastComma: Token | undefined
+      let prevComma: Token | undefined
 
       while (moreItems) {
+        if (this.check('RIGHT_BRACE')) {
+          this.error('UnexpectedTrailingComma', leftBrace.location)
+        }
         if (this.nextTokenIsKeyword()) {
           this.error(
             'MissingRightBraceAfterDictionaryElements',
@@ -964,17 +979,24 @@ export class Parser {
           }
           this.error(
             'MissingRightBraceAfterDictionaryElements',
-            (lastComma || this.previous()).location
+            (prevComma || this.previous()).location
           )
         }
 
         this.consume('COLON', 'MissingColonAfterKey')
-        elements.set(key.literal, this.primary())
+        elements.set(key.literal, this.or())
 
         // If we have a comma, continue onwards
         if (this.match('COMMA')) {
-          lastComma = this.previous()
+          prevComma = this.previous()
           this.match('EOL') // Allow for things to be split over lines
+
+          // Check for trailing commas
+          this.guardTrailingComma(
+            'RIGHT_BRACE',
+            (prevComma || leftBrace).location
+          )
+
           moreItems = !this.isAtEnd()
         }
         // If there's no comma, we expect either a `}` or ` `\n}`.
@@ -1095,6 +1117,16 @@ export class Parser {
       type,
       context
     )
+  }
+
+  private guardTrailingComma(
+    token: 'COMMA' | 'RIGHT_BRACKET' | 'RIGHT_BRACE',
+    location: Location
+  ) {
+    if (!this.check(token)) {
+      return
+    }
+    this.error('UnexpectedTrailingComma', location)
   }
 
   private guardEqualsSignForAssignment(name: Token) {

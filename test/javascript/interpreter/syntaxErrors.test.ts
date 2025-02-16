@@ -630,6 +630,7 @@ describe('MissingRightBraceAfterDictionaryElements', () => {
       `)
     ).toThrow('MissingRightBraceAfterDictionaryElements')
   })
+
   test('multiple lines', () => {
     expect(() =>
       parse(`
@@ -688,6 +689,37 @@ describe('MissingCommaInDictionary', () => {
                     "3"
       `)
     ).toThrow('MissingCommaInDictionary')
+  })
+})
+
+describe('UnexpectedTrailingComma', () => {
+  test('dictionary with elems', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",}
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('naked dictionary', () => {
+    expect(() =>
+      parse(`
+        set foo to {,}
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('list with elems', () => {
+    expect(() =>
+      parse(`
+        set foo to ["1", "2",]
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('naked list', () => {
+    expect(() =>
+      parse(`
+        set foo to [,]
+      `)
+    ).toThrow('UnexpectedTrailingComma')
   })
 })
 

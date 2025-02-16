@@ -13,6 +13,7 @@ import {
   BinaryExpression,
   VariableLookupExpression,
   CallExpression,
+  LogicalExpression,
 } from '@/interpreter/expression'
 import { parse } from '@/interpreter/parser'
 
@@ -87,6 +88,22 @@ describe('parse', () => {
       expect((mapExpr.elements.get('year') as LiteralExpression).value).toBe(
         1993
       )
+    })
+
+    test('or with function call as a value', () => {
+      const stmts = parse('log {"bar": foo() or true }')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(DictionaryExpression)
+      const mapExpr = logStmt.expression as DictionaryExpression
+      console.log(mapExpr.elements)
+      expect(mapExpr.elements.get('bar')).toBeInstanceOf(LogicalExpression)
+      const orExpr = mapExpr.elements.get('bar') as LogicalExpression
+      expect(orExpr.left).toBeInstanceOf(CallExpression)
+      expect(orExpr.right).toBeInstanceOf(LiteralExpression)
+      const callExpr = orExpr.left as CallExpression
+      expect(callExpr.callee.name.lexeme).toBe('foo')
     })
 
     test('nested', () => {

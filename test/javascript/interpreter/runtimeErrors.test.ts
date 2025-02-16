@@ -129,7 +129,9 @@ describe('UnexpectedContinueOutsideOfLoop', () => {
     const code = 'continue'
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'UnexpectedContinueOutsideOfLoop')
-    expect(frames[0].error!.message).toBe('UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
   })
   test('in statement', () => {
     const code = `
@@ -142,7 +144,34 @@ describe('UnexpectedContinueOutsideOfLoop', () => {
       'continue',
       'UnexpectedContinueOutsideOfLoop'
     )
-    expect(frames[1].error!.message).toBe('UnexpectedContinueOutsideOfLoop')
+    expect(frames[1].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
+  })
+  test('next keyword', () => {
+    const code = `next`
+    const { error, frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'next', 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: next'
+    )
+  })
+})
+describe('UnexpectedBreakOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'break'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[0].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      break
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'break', 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[1].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
   })
 })
 describe('VariableAlreadyDeclared', () => {

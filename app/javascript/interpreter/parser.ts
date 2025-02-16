@@ -23,6 +23,7 @@ import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
+  BreakStatement,
   CallStatement,
   ContinueStatement,
   ForeachStatement,
@@ -128,6 +129,13 @@ export class Parser {
           )
         }
 
+        // If we have some keyword other than "DO", it's probably
+        // someone using a reserved keyword by accident
+        if (this.nextTokenIsKeyword() && !this.check('DO')) {
+          this.error('UnexpectedKeyword', this.peek().location, {
+            lexeme: this.peek().lexeme,
+          })
+        }
         const parameterName = this.consume(
           'IDENTIFIER',
           'MissingParameterName',
@@ -166,11 +174,13 @@ export class Parser {
   }
 
   private statement(): Statement {
-    if (this.match('SET')) return this.setVariableStatement()
+    if (this.match('BREAK')) return this.breakStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
     if (this.match('CONTINUE')) return this.continueStatement()
+    if (this.match('NEXT')) return this.continueStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('LOG')) return this.logStatement()
+    if (this.match('SET')) return this.setVariableStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
@@ -520,6 +530,13 @@ export class Parser {
     this.consumeEndOfLine()
 
     return new ContinueStatement(keyword, keyword.location)
+  }
+
+  private breakStatement(): BreakStatement {
+    const keyword = this.previous()
+    this.consumeEndOfLine()
+
+    return new BreakStatement(keyword, keyword.location)
   }
 
   private expression(): Expression {

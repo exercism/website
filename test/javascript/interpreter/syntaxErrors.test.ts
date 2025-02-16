@@ -627,3 +627,11 @@ describe('MissingCommaInDictionary', () => {
     ).toThrow('MissingCommaInDictionary')
   })
 })
+
+describe('UnexpectedKeyword', () => {
+  test('function definition', () => {
+    expect(() =>
+      parse(`function can_fit_in with queue, next, time do`)
+    ).toThrow('UnexpectedKeyword: lexeme: next')
+  })
+})

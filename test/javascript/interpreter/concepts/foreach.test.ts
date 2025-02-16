@@ -241,6 +241,43 @@ describe('for each', () => {
       )
       expect(frames).toBeArrayOfSize(15)
       expect(echos).toEqual(['1', '2', '5'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
+    })
+    test('next', () => {
+      const echos: string[] = []
+
+      const { frames } = interpret(
+        `
+        for each num in [1,2,3,4,5] do
+          if num == 3 or num == 4 do
+            next 
+          end
+          echo(num)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(15)
+      expect(echos).toEqual(['1', '2', '5'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
+    })
+    test('break', () => {
+      const echos: string[] = []
+
+      const { frames } = interpret(
+        `
+        for each num in [1,2,3,4,5] do
+          if num == 3 do
+            break 
+          end
+          echo(num)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(9)
+      expect(echos).toEqual(['1', '2'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
     })
     test('sets variables in top scope', () => {
       const { frames } = interpret(
@@ -260,6 +297,21 @@ describe('for each', () => {
       const { frames } = interpret(
         `
         for each num in [1] do
+        end
+        log num
+      `,
+        {}
+      )
+      const lastFrame = frames[frames.length - 1]
+      expect(lastFrame.status).toBe('ERROR')
+      expect(lastFrame.error).toBeInstanceOf(RuntimeError)
+      expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: num/)
+    })
+    test('iterator does not leak with break', () => {
+      const { frames } = interpret(
+        `
+        for each num in [1] do
+          break
         end
         log num
       `,

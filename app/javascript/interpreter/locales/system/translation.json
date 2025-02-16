@@ -61,7 +61,8 @@
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
       "PointlessStatement": "PointlessStatement",
       "MissingEachAfterFor": "MissingEachAfterFor",
-      "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}"
+      "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}",
+      "UnexpectedKeyword": "UnexpectedKeyword: lexeme: {{lexeme}}"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -99,7 +100,8 @@
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
       "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",
       "UnexpectedReturnOutsideOfFunction": "UnexpectedReturnOutsideOfFunction",
-      "UnexpectedContinueOutsideOfLoop": "UnexpectedContinueOutsideOfLoop",
+      "UnexpectedContinueOutsideOfLoop": "UnexpectedContinueOutsideOfLoop: lexeme: {{lexeme}}",
+      "UnexpectedBreakOutsideOfLoop": "UnexpectedBreakOutsideOfLoop",
       "VariableAlreadyDeclared": "VariableAlreadyDeclared: name: {{name}}",
       "VariableNotDeclared": "VariableNotDeclared: name: {{name}}",
       "ExpectedFunctionHasWrongArguments": "ExpectedFunctionHasWrongArguments: name: {{name}}",

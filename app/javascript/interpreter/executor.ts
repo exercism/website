@@ -45,11 +45,13 @@ import {
   LogStatement,
   ChangeElementStatement,
   ForeachStatement,
+  BreakStatement,
   ContinueStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
   EvaluationResult,
+  EvaluationResultBreakStatement,
   EvaluationResultCallExpression,
   EvaluationResultCallStatement,
   EvaluationResultChangeElementStatement,
@@ -99,6 +101,11 @@ export type ExternalFunction = {
 }
 
 class ContinueFlowControlError extends Error {
+  constructor(public location: Location, public lexeme: String) {
+    super()
+  }
+}
+class BreakFlowControlError extends Error {
   constructor(public location: Location) {
     super()
   }
@@ -187,7 +194,22 @@ export class Executor {
             error.location,
             'ERROR',
             undefined,
-            this.buildError('UnexpectedContinueOutsideOfLoop', error.location)
+            this.buildError('UnexpectedContinueOutsideOfLoop', error.location, {
+              lexeme: error.lexeme,
+            })
+          )
+          break
+        }
+        if (error instanceof BreakFlowControlError) {
+          // Remove the last frame and replace it with an error frame
+          // This saves us having to pass the context down to where
+          // the error is thrown.
+          this.frames.pop()
+          this.addFrame(
+            error.location,
+            'ERROR',
+            undefined,
+            this.buildError('UnexpectedBreakOutsideOfLoop', error.location)
           )
           break
         }
@@ -451,7 +473,20 @@ export class Executor {
       }
     })
 
-    throw new ContinueFlowControlError(statement.location)
+    throw new ContinueFlowControlError(
+      statement.location,
+      statement.keyword.lexeme
+    )
+  }
+
+  public visitBreakStatement(statement: BreakStatement): void {
+    this.executeFrame<EvaluationResultBreakStatement>(statement, () => {
+      return {
+        type: 'BreakStatement',
+      }
+    })
+
+    throw new BreakFlowControlError(statement.location)
   }
 
   public visitChangeListElementStatement(
@@ -693,38 +728,50 @@ export class Executor {
       })
     }
 
-    let index = 0
-    for (const temporaryVariableValue of iterable.resultingValue) {
-      index += 1
-      const temporaryVariableName = statement.elementName.lexeme
-      this.environment.define(temporaryVariableName, temporaryVariableValue)
+    try {
+      let index = 0
+      for (const temporaryVariableValue of iterable.resultingValue) {
+        index += 1
+        const temporaryVariableName = statement.elementName.lexeme
+        this.environment.define(temporaryVariableName, temporaryVariableValue)
 
-      this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
-        return {
-          type: 'ForeachStatement',
-          elementName: statement.elementName.lexeme,
-          index,
-          iterable,
-          temporaryVariableName,
-          temporaryVariableValue,
-        }
-      })
+        this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
+          return {
+            type: 'ForeachStatement',
+            elementName: statement.elementName.lexeme,
+            index,
+            iterable,
+            temporaryVariableName,
+            temporaryVariableValue,
+          }
+        })
 
-      try {
-        this.executeBlock(statement.body, this.environment)
-      } catch (e) {
-        // If we've got a control flow error, don't do anything.
-        if (e instanceof ContinueFlowControlError) {
-        }
+        try {
+          this.executeBlock(statement.body, this.environment)
+        } catch (e) {
+          // If we've got a control flow error, don't do anything.
+          if (e instanceof ContinueFlowControlError) {
+          }
 
-        // Otherwise we have some error that shouldn't be handled here,
-        // so get out of dodge!
-        else {
-          throw e
+          // Otherwise we have some error that shouldn't be handled here,
+          // so get out of dodge!
+          else {
+            throw e
+          }
+        } finally {
+          this.environment.undefine(temporaryVariableName)
         }
       }
+    } catch (e) {
+      // If we've got a control flow error, don't do anything.
+      if (e instanceof BreakFlowControlError) {
+      }
 
-      this.environment.undefine(temporaryVariableName)
+      // Otherwise we have some error that shouldn't be handled here,
+      // so get out of dodge!
+      else {
+        throw e
+      }
     }
   }
 

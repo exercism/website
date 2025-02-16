@@ -2,8 +2,10 @@ import { Location } from './location'
 import { SomethingWithLocation } from './interpreter'
 
 const StatementKeywordTokens = [
+  'BREAK',
   'CHANGE',
   'CONTINUE',
+  'NEXT',
   'FOR',
   'FUNCTION',
   'IF',

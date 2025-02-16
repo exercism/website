@@ -80,6 +80,7 @@ export type SyntaxErrorType =
   | 'PotentialMissingParenthesesForFunctionCall'
   | 'MissingEachAfterFor'
   | 'MissingLeftParenthesisAfterFunctionCall'
+  | 'UnexpectedKeyword'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -123,6 +124,7 @@ export type RuntimeErrorType =
   | 'FunctionCallTypeMismatch'
   | 'UnexpectedReturnOutsideOfFunction'
   | 'UnexpectedContinueOutsideOfLoop'
+  | 'UnexpectedBreakOutsideOfLoop'
   | 'ExpectedFunctionNotFound'
   | 'ExpectedFunctionHasWrongArguments'
   | 'MaxIterationsReached'

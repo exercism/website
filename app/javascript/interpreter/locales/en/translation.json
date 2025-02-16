@@ -62,7 +62,8 @@
       "PotentialMissingParenthesesForFunctionCall": "Jiki didn't know what to do with this line of code. Did you mean to call a function and forget the parentheses? (`()`)",
       "MissingEachAfterFor": "Did you forget to write `each` after the `for` keyword?",
       "ForeachNotIterable": "Jiki couldn't work out how to iterate over `{{value}}`. He expected it to be a string or a list.",
-      "UnexpectedKeyword": "Jiki didn't expect the `{{lexeme}}` keyword here. Did you maybe forget that `{{lexeme}}` is a keyword? Or maybe you forget to finish the previous statement before using it?"
+      "UnexpectedKeyword": "Jiki didn't expect the `{{lexeme}}` keyword here. Did you maybe forget that `{{lexeme}}` is a keyword? Or maybe you forget to finish the previous statement before using it?",
+      "UnexpectedTrailingComma": "Jiki didn't expect a comma here."
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

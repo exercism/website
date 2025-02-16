@@ -12,6 +12,7 @@ import {
   GetElementExpression,
   ListExpression,
   LiteralExpression,
+  LogicalExpression,
   UnaryExpression,
   VariableLookupExpression,
 } from '@/interpreter/expression'
@@ -98,6 +99,22 @@ describe('parse', () => {
     expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
   })
 
+  test('or with function call as an elem', () => {
+    const stmts = parse('log [foo() or true]')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(1)
+    expect(listExpr.elements[0]).toBeInstanceOf(LogicalExpression)
+    const orExpr = listExpr.elements[0] as LogicalExpression
+    expect(orExpr.left).toBeInstanceOf(CallExpression)
+    expect(orExpr.right).toBeInstanceOf(LiteralExpression)
+    const callExpr = orExpr.left as CallExpression
+    expect(callExpr.callee.name.lexeme).toBe('foo')
+  })
+
   test('nested', () => {
     const stmts = parse('log [1,[2,[3]]]')
     expect(stmts).toBeArrayOfSize(1)
@@ -156,7 +173,6 @@ describe('parse', () => {
     })
     test('expression', () => {
       const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4 + 1] `)
-      console.log(stmts)
       expect(stmts).toBeArrayOfSize(1)
       expect(stmts[0]).toBeInstanceOf(LogStatement)
       const logStmt = stmts[0] as LogStatement

@@ -25,7 +25,6 @@ export type SyntaxErrorType =
   | 'MissingFunctionName'
   | 'InvalidFunctionName'
   | 'MissingLeftParenthesisAfterFunctionName'
-  | 'MissingLeftParenthesisAfterFunctionCall'
   | 'MissingParameterName'
   | 'MissingRightParenthesisAfterParameters'
   | 'MissingLeftParenthesisAfterWhile'
@@ -78,6 +77,7 @@ export type SyntaxErrorType =
   | 'PointlessStatement'
   | 'PotentialMissingParenthesesForFunctionCall'
   | 'MissingEachAfterFor'
+  | 'MissingLeftParenthesisAfterFunctionCall'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

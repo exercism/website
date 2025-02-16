@@ -60,7 +60,6 @@ function generateExpectsForStateTests(
 
       // And then we get the function and call it.
       const fn = exercise[fnName]
-      console.log(fnName, args)
       actual = fn.bind(exercise).call(exercise, interpreterResult, ...args)
     }
 

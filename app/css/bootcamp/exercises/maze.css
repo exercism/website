@@ -64,7 +64,7 @@
             & .emoji {
                 @apply absolute inset-0;
                 @apply grid place-items-center;
-                font-size: 160%;
+                font-size: 7cqh;
             }
 
             &.blocked {
@@ -114,14 +114,14 @@
                 @apply grid place-items-center;
                 &:before {
                     content: "🔥";
-                    font-size: 140%;
+                    font-size: 7cqh;
                 }
             }
             &.poop {
                 @apply grid place-items-center;
                 &:before {
                     content: "💩";
-                    font-size: 160%;
+                    font-size: 7cqh;
                 }
             }
         }

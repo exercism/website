@@ -490,3 +490,148 @@ test('MissingEachAfterFor', () => {
     `)
   ).toThrow('MissingEachAfterFor')
 })
+
+describe('MissingRightBracketAfterListElements', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2,
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to [1,
+                    2,
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement with comma', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2,
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement without comma', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement without elements', () => {
+    expect(() =>
+      parse(`
+        set foo to [
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('before a do', () => {
+    expect(() =>
+      parse(`
+        for each x in [1 do
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+})
+
+describe('MissingCommaInList', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to [1 2
+      `)
+    ).toThrow('MissingCommaInList')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to [1 
+                    2
+      `)
+    ).toThrow('MissingCommaInList')
+  })
+})
+
+describe('MissingRightBraceAfterDictionaryElements', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+                    "3": 4,
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('new statement with comma', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('new statement without comma', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2"
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+
+  test('new statement without elements', () => {
+    expect(() =>
+      parse(`
+        set foo to {
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('before a do', () => {
+    expect(() =>
+      parse(`
+        for each x in {"1": "2" do
+        end
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+})
+
+describe('MissingCommaInDictionary', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2" "3"
+      `)
+    ).toThrow('MissingCommaInDictionary')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2"
+                    "3"
+      `)
+    ).toThrow('MissingCommaInDictionary')
+  })
+})
+
+describe('UnexpectedKeyword', () => {
+  test('function definition', () => {
+    expect(() =>
+      parse(`function can_fit_in with queue, next, time do`)
+    ).toThrow('UnexpectedKeyword: lexeme: next')
+  })
+})

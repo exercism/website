@@ -1,7 +1,12 @@
 import { interpret } from '@/interpreter/interpreter'
 import { parse } from '@/interpreter/parser'
 import { changeLanguage } from '@/interpreter/translator'
-import { ForeachStatement, SetVariableStatement } from '@/interpreter/statement'
+import {
+  ContinueStatement,
+  ForeachStatement,
+  SetVariableStatement,
+} from '@/interpreter/statement'
+import { Location } from '@/interpreter/location'
 import {
   CallExpression,
   ListExpression,
@@ -76,6 +81,7 @@ describe('for each', () => {
       expect(foreachStmt.elementName.lexeme).toBe('elem')
       expect(foreachStmt.iterable).toBeInstanceOf(LiteralExpression)
     })
+
     test('with functions', () => {
       const stmts = parse(`
       for each elem in foo() do
@@ -86,6 +92,18 @@ describe('for each', () => {
       const foreachStmt = stmts[0] as ForeachStatement
       expect(foreachStmt.elementName.lexeme).toBe('elem')
       expect(foreachStmt.iterable).toBeInstanceOf(CallExpression)
+    })
+
+    test('continue', () => {
+      const stmts = parse(`
+      for each elem in "foo" do
+        continue
+      end
+    `)
+      expect(stmts).toBeArrayOfSize(1)
+      expect((stmts[0] as ForeachStatement).body[0]).toBeInstanceOf(
+        ContinueStatement
+      )
     })
   })
   describe('execute', () => {
@@ -162,6 +180,7 @@ describe('for each', () => {
         expect(frames[0].variables).toBeEmpty()
         expect(echos).toBeEmpty()
       })
+
       test('once', () => {
         const echos: string[] = []
         const { frames } = interpret(
@@ -179,6 +198,7 @@ describe('for each', () => {
         expect(frames[1].variables).toMatchObject({ num: 'a' })
         expect(echos).toEqual(['a'])
       })
+
       test('multiple times', () => {
         const echos: string[] = []
 
@@ -204,6 +224,61 @@ describe('for each', () => {
         expect(echos).toEqual(['a', 'b', 'c'])
       })
     })
+
+    test('continue', () => {
+      const echos: string[] = []
+
+      const { frames } = interpret(
+        `
+        for each num in [1,2,3,4,5] do
+          if num == 3 or num == 4 do
+            continue 
+          end
+          echo(num)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(15)
+      expect(echos).toEqual(['1', '2', '5'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
+    })
+    test('next', () => {
+      const echos: string[] = []
+
+      const { frames } = interpret(
+        `
+        for each num in [1,2,3,4,5] do
+          if num == 3 or num == 4 do
+            next 
+          end
+          echo(num)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(15)
+      expect(echos).toEqual(['1', '2', '5'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
+    })
+    test('break', () => {
+      const echos: string[] = []
+
+      const { frames } = interpret(
+        `
+        for each num in [1,2,3,4,5] do
+          if num == 3 do
+            break 
+          end
+          echo(num)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(9)
+      expect(echos).toEqual(['1', '2'])
+      expect(frames[frames.length - 1].status).toBe('SUCCESS')
+    })
     test('sets variables in top scope', () => {
       const { frames } = interpret(
         `
@@ -222,6 +297,21 @@ describe('for each', () => {
       const { frames } = interpret(
         `
         for each num in [1] do
+        end
+        log num
+      `,
+        {}
+      )
+      const lastFrame = frames[frames.length - 1]
+      expect(lastFrame.status).toBe('ERROR')
+      expect(lastFrame.error).toBeInstanceOf(RuntimeError)
+      expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: num/)
+    })
+    test('iterator does not leak with break', () => {
+      const { frames } = interpret(
+        `
+        for each num in [1] do
+          break
         end
         log num
       `,

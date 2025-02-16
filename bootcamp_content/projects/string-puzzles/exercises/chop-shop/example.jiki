@@ -7,10 +7,10 @@ function name_to_time with name do
   end
 end
 
-function can_fit_in with queue, next, time do
+function can_fit_in with queue, next_cut, time do
   for each cut in queue do
     change time to time - name_to_time(cut)
   end
 
-  return time >= name_to_time(next)
+  return time >= name_to_time(next_cut)
 end

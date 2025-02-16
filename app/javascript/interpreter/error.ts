@@ -81,6 +81,7 @@ export type SyntaxErrorType =
   | 'MissingEachAfterFor'
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'UnexpectedKeyword'
+  | 'UnexpectedTrailingComma'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

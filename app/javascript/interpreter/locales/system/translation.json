@@ -62,7 +62,8 @@
       "PointlessStatement": "PointlessStatement",
       "MissingEachAfterFor": "MissingEachAfterFor",
       "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}",
-      "UnexpectedKeyword": "UnexpectedKeyword: lexeme: {{lexeme}}"
+      "UnexpectedKeyword": "UnexpectedKeyword: lexeme: {{lexeme}}",
+      "UnexpectedTrailingComma": "UnexpectedTrailingComma"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

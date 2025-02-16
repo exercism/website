@@ -3,8 +3,10 @@ import type { ExecutionContext } from '@/interpreter/executor'
 import { Exercise } from '../Exercise'
 import cloneDeep from 'lodash.clonedeep'
 import { isString } from '@/interpreter/checks'
+import { randomEmoji } from '../../test-runner/generateAndRunTestSuite/genericSetupFunctions'
+import { isEqual } from 'lodash'
 
-type Cell = 0 | 1 | 2 | 3 | 4 | 5 | string
+type Cell = 0 | 1 | 2 | 3 | 4 | 5 | 6 | string
 export default class MazeExercise extends Exercise {
   private mazeLayout: Cell[][] = []
   private gridSize: number = 0
@@ -31,6 +33,15 @@ export default class MazeExercise extends Exercise {
     return 'win'
   }
 
+  public randomEmojisAllCollected() {
+    // Turn array of emoji strings into a count map
+    const expected = this.randomEmojis.reduce((acc, emoji) => {
+      acc[emoji] = (acc[emoji] || 0) + 1
+      return acc
+    }, {})
+    return isEqual(this.collectedEmojis, expected)
+  }
+
   public constructor() {
     super('maze')
 
@@ -48,6 +59,42 @@ export default class MazeExercise extends Exercise {
     this.redrawMaze()
 
     this.emojiMode = false
+    this.randomEmojis = []
+  }
+
+  // Setup Functions
+  public setupGrid(_: ExecutionContext, layout: Cell[][]) {
+    layout = this.processRandomEmojis(layout)
+    console.log(layout)
+    this.mazeLayout = cloneDeep(layout)
+    this.initialMazeLayout = cloneDeep(layout)
+    this.gridSize = layout.length
+    this.squareSize = 100 / layout.length
+    this.redrawMaze()
+  }
+  private processRandomEmojis(layout: Cell[][]) {
+    const reservedEmojis = ['⬜', '🧱', '⭐', '🏁', '🔥', '💩']
+    return layout.map((row) =>
+      row.map((cell) => {
+        if (cell != 6) {
+          return cell
+        }
+
+        let emoji: string | undefined
+        do {
+          emoji = randomEmoji()
+          if (reservedEmojis.includes(emoji!)) {
+            emoji = undefined
+          }
+        } while (emoji === undefined)
+
+        this.randomEmojis.push(emoji)
+        return emoji
+      })
+    )
+  }
+  public enableEmojiMode(_: ExecutionContext) {
+    this.emojiMode = true
   }
 
   private redrawMaze(): void {
@@ -57,8 +104,7 @@ export default class MazeExercise extends Exercise {
     for (let y = 0; y < this.mazeLayout.length; y++) {
       for (let x = 0; x < this.mazeLayout[y].length; x++) {
         const cell = document.createElement('div')
-        cell.classList.add('cell')
-        cell.id = 'cell-' + y + '-' + x
+        cell.classList.add('cell', `cell-${y}-${x}`)
         const square = this.mazeLayout[y][x]
         if (square === 0) {
         } else if (square === 1) {
@@ -101,6 +147,7 @@ export default class MazeExercise extends Exercise {
     }
 
     const square = yRow[this.characterPosition.x]
+
     // If we can't move, blow up
     if (square === undefined) {
       executionCtx.logicError('Oh no, you tried to move off the map')
@@ -141,21 +188,29 @@ export default class MazeExercise extends Exercise {
       offset: executionCtx.getCurrentTime(),
     })
     executionCtx.fastForward(this.duration)
+  }
 
-    const emoji = document.getElementById(
-      'cell-' + this.characterPosition.y + '-' + this.characterPosition.x
-    )?.children[0]
-    console.log(emoji)
-    if (isString(square)) {
-      this.addAnimation({
-        targets: emoji,
-        duration: 1,
-        transformations: {
-          opacity: 0,
-        },
-        offset: executionCtx.getCurrentTime(),
-      })
+  private collectEmoji(executionCtx: ExecutionContext) {
+    const yRow = this.mazeLayout[this.characterPosition.y]
+    const square = yRow[this.characterPosition.x]
+
+    if (!isString(square)) {
+      executionCtx.logicError(
+        'You tried to collect an emoji from a square that does not have an emoji!'
+      )
     }
+
+    yRow[this.characterPosition.x] = 0
+
+    const emojiSelector = `#${this.view.id} .cell-${this.characterPosition.y}-${this.characterPosition.x} .emoji`
+    this.addAnimation({
+      targets: emojiSelector,
+      duration: 1,
+      transformations: {
+        opacity: 0,
+      },
+      offset: executionCtx.getCurrentTime(),
+    })
   }
 
   private gameOverWin(executionCtx: ExecutionContext) {
@@ -339,16 +394,6 @@ export default class MazeExercise extends Exercise {
     }
   }
 
-  public setupGrid(_: ExecutionContext, layout: Cell[][]) {
-    this.mazeLayout = cloneDeep(layout)
-    this.initialMazeLayout = cloneDeep(layout)
-    this.gridSize = layout.length
-    this.squareSize = 100 / layout.length
-    this.redrawMaze()
-  }
-  public enableEmojiMode(_: ExecutionContext) {
-    this.emojiMode = true
-  }
   public getInitialMaze(_: ExecutionContext) {
     return this.initialMazeLayout.map((row) => row.map(this.describeSquare))
   }
@@ -380,7 +425,7 @@ export default class MazeExercise extends Exercise {
     this.character.style.left = `${this.characterPosition.x * this.squareSize}%`
     this.character.style.top = `${this.characterPosition.y * this.squareSize}%`
   }
-  public announceEmoji(executionCtx: ExecutionContext, emojis) {
+  public announceEmojis(_: ExecutionContext, emojis) {
     this.collectedEmojis = emojis
   }
 
@@ -426,9 +471,14 @@ export default class MazeExercise extends Exercise {
       description: 'get the initial maze layout',
     },
     {
-      name: 'announce_emoji',
-      func: this.announceEmoji.bind(this),
+      name: 'announce_emojis',
+      func: this.announceEmojis.bind(this),
       description: 'announced the emojis that had been collected',
+    },
+    {
+      name: 'collect_emoji',
+      func: this.collectEmoji.bind(this),
+      description: 'collected the emoji from the current square',
     },
   ]
 }

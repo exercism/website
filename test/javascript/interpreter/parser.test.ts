@@ -6,8 +6,8 @@ import {
   LiteralExpression,
   DictionaryExpression,
   VariableLookupExpression,
-  GetExpression,
-  SetExpression,
+  GetElementExpression,
+  SetElementExpression,
   UnaryExpression,
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
@@ -193,8 +193,8 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.value as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+      const getExpr = varStmtWithGet.value as GetElementExpression
       expect((getExpr.field as LiteralExpression).value).toBe('title')
       expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
@@ -211,11 +211,11 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.value as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+      const getExpr = varStmtWithGet.value as GetElementExpression
       expect(getExpr.field.literal).toBe('name')
-      expect(getExpr.obj).toBeInstanceOf(GetExpression)
-      const nestedGetExpr = getExpr.obj as GetExpression
+      expect(getExpr.obj).toBeInstanceOf(GetElementExpression)
+      const nestedGetExpr = getExpr.obj as GetElementExpression
       expect(nestedGetExpr.field.literal).toBe('director')
       expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(

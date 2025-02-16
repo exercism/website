@@ -46,59 +46,67 @@ describe('function', () => {
   })
   describe('interpret', () => {
     describe('creating function', () => {
-      describe('without parameters', () => {
-        test('define', () => {
-          const { frames } = interpret(`
+      test('without parameters', () => {
+        const { frames } = interpret(`
             function move {
               return 1
             }
           `)
-          expect(frames).toBeEmpty()
-        })
-
-        describe('call', () => {
-          test('single statement function', () => {
-            const { frames } = interpret(`
-              function move do
-                return 1
-              end
-              set x to move()
-            `)
-            expect(frames).toBeArrayOfSize(2)
-            expect(frames[0].status).toBe('SUCCESS')
-            expect(frames[0].variables).toBeEmpty()
-            expect(frames[1].status).toBe('SUCCESS')
-            expect(frames[1].variables).toMatchObject({ x: 1 })
-          })
-        })
+        expect(frames).toBeEmpty()
       })
-
-      describe('with parameters', () => {
-        test('define', () => {
-          const { frames } = interpret(`
-            function move with x do
-              return 1 + x
-            end
-          `)
-          expect(frames).toBeEmpty()
-        })
-
-        describe('call', () => {
-          test('single statement function', () => {
-            const { frames } = interpret(`
-              function move with x do
-                return 1 + x
-              end
-              set x to move(2)
-            `)
-            expect(frames).toBeArrayOfSize(2)
-            expect(frames[0].status).toBe('SUCCESS')
-            expect(frames[0].variables).toMatchObject({ x: 2 })
-            expect(frames[1].status).toBe('SUCCESS')
-            expect(frames[1].variables).toMatchObject({ x: 3 })
-          })
-        })
+      test('with parameters', () => {
+        const { frames } = interpret(`
+          function move with x do
+            return 1 + x
+          end
+        `)
+        expect(frames).toBeEmpty()
       })
+    })
+
+    describe('call', () => {
+      test('single statement function', () => {
+        const { frames } = interpret(`
+          function move do
+            return 1
+          end
+          set x to move()
+        `)
+        expect(frames).toBeArrayOfSize(2)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables).toBeEmpty()
+        expect(frames[1].status).toBe('SUCCESS')
+        expect(frames[1].variables).toMatchObject({ x: 1 })
+      })
+    })
+
+    test('with params', () => {
+      const { frames } = interpret(`
+        function move with x do
+          return 1 + x
+        end
+        set x to move(2)
+      `)
+      expect(frames).toBeArrayOfSize(2)
+      expect(frames[0].status).toBe('SUCCESS')
+      expect(frames[0].variables).toMatchObject({ x: 2 })
+      expect(frames[1].status).toBe('SUCCESS')
+      expect(frames[1].variables).toMatchObject({ x: 3 })
+    })
+
+    test('return pops loop and function', () => {
+      const { frames } = interpret(`
+        function move do
+          set x to 0
+          for each i in [1,2,3] do
+            return x + 1
+          end
+        end
+        set res to move()
+      `)
+      expect(frames).toBeArrayOfSize(4)
+      expect(frames[3].status).toBe('SUCCESS')
+      expect(frames[3].variables).toMatchObject({ res: 1 })
     })
   })
 })

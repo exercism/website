@@ -1,5 +1,5 @@
 import { Callable } from './functions'
-import { ChangeListElementStatement } from './statement'
+import { ChangeElementStatement } from './statement'
 import type { TokenType } from './token'
 
 export type EvaluationResultCallStatement = {
@@ -9,10 +9,10 @@ export type EvaluationResultCallStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultChangeListElementStatement = {
-  type: 'ChangeListElementStatement'
-  list: EvaluationResult
-  index: EvaluationResult
+export type EvaluationResultChangeElementStatement = {
+  type: 'ChangeElementStatement'
+  obj: EvaluationResult
+  field: EvaluationResult
   value: EvaluationResult
   oldValue: any
   resultingValue: any
@@ -25,6 +25,18 @@ export type EvaluationResultChangeVariableStatement = {
   value: EvaluationResult
   oldValue: any
   resultingValue: any
+  data?: Record<string, any>
+}
+
+export type EvaluationResultContinueStatement = {
+  type: 'ContinueStatement'
+  resultingValue?: undefined
+  data?: Record<string, any>
+}
+
+export type EvaluationResultBreakStatement = {
+  type: 'BreakStatement'
+  resultingValue?: undefined
   data?: Record<string, any>
 }
 
@@ -136,8 +148,8 @@ export type EvaluationResultConstantStatement = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultGetExpression = {
-  type: 'GetExpression'
+export type EvaluationResultGetElementExpression = {
+  type: 'GetElementExpression'
   resultingValue: any
   obj: any
   field: any
@@ -145,8 +157,8 @@ export type EvaluationResultGetExpression = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultSetExpression = {
-  type: 'SetExpression'
+export type EvaluationResultSetElementExpression = {
+  type: 'SetElementExpression'
   resultingValue: any
   obj: any
   field: any
@@ -200,8 +212,10 @@ export type EvaluationResultStatement =
   | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
-  | EvaluationResultChangeListElementStatement
+  | EvaluationResultChangeElementStatement
   | EvaluationResultConstantStatement
+  | EvaluationResultContinueStatement
+  | EvaluationResultBreakStatement
   | EvaluationResultIfStatement
   | EvaluationResultCallStatement
   | EvaluationResultForeachStatement
@@ -218,8 +232,8 @@ export type EvaluationResultExpression =
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression
   | EvaluationResultGroupingExpression
-  | EvaluationResultGetExpression
-  | EvaluationResultSetExpression
+  | EvaluationResultGetElementExpression
+  | EvaluationResultSetElementExpression
   | EvaluationResultTemplateTextExpression
   | EvaluationResultTemplatePlaceholderExpression
   | EvaluationResultTemplateLiteralExpression

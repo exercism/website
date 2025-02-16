@@ -877,9 +877,9 @@ describe('errors', () => {
         expect(frames[0].code).toBe('set x to y')
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
+        expect(frames[0].error!.type).toBe('UnexpectedUncalledFunction')
         expect(frames[0].error!.message).toBe(
-          'MissingParenthesesForFunctionCall: name: y'
+          'UnexpectedUncalledFunction: name: y'
         )
 
         expect(error).toBeNull()

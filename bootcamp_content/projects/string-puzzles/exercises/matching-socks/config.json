@@ -6,7 +6,8 @@
   "tests_type": "io",
   "stdlib_functions": ["join", "push", "concat"],
   "interpreter_options": {
-    "max_total_loop_iterations": 1000
+    "max_total_loop_iterations": 10000,
+    "max_total_execution_time": 30000
   },
 
   "tasks": [

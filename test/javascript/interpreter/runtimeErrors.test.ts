@@ -40,14 +40,52 @@ describe('UnexpectedUncalledFunction', () => {
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
   })
   test('in a equation with a -', () => {
     const code = 'log get_name - 1'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
+  })
+  test('in other function', () => {
+    const code = `
+        function move with x do
+          return 1
+        end
+
+        log move(move)
+      `
+    const { error, frames } = interpret(code)
+    console.log(error)
+    expectFrameToBeError(
+      frames[0],
+      `log move(move)`,
+      'UnexpectedUncalledFunction'
+    )
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
+  })
+
+  test('with left parenthesis', () => {
+    const code = `
+        function move do
+          return 1
+        end
+
+        log move
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], `log move`, 'UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
   })
 })
 describe('FunctionAlreadyDeclared', () => {
@@ -84,6 +122,56 @@ describe('UnexpectedReturnOutsideOfFunction', () => {
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'UnexpectedReturnOutsideOfFunction')
     expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
+  })
+})
+describe('UnexpectedContinueOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'continue'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      continue
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'continue',
+      'UnexpectedContinueOutsideOfLoop'
+    )
+    expect(frames[1].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
+  })
+  test('next keyword', () => {
+    const code = `next`
+    const { error, frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'next', 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: next'
+    )
+  })
+})
+describe('UnexpectedBreakOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'break'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[0].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      break
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'break', 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[1].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
   })
 })
 describe('VariableAlreadyDeclared', () => {
@@ -490,18 +578,16 @@ describe('IndexOutOfBoundsInChange', () => {
   })
 })
 
-test('InvalidChangeElementTarget', () => {
-  const code = `
-    set str to "foo"
-    change str[1] to "a"
-    `
-  const { frames } = interpret(code)
-  expectFrameToBeError(
-    frames[1],
-    `change str[1] to "a"`,
-    'InvalidChangeElementTarget'
-  )
-  expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+describe('InvalidChangeElementTarget', () => {
+  test('string', () => {
+    const code = `
+      set str to "foo"
+      change str[1] to "a"
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], `str`, 'InvalidChangeElementTarget')
+    expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+  })
 })
 
 test('ListsCannotBeCompared', () => {
@@ -509,6 +595,54 @@ test('ListsCannotBeCompared', () => {
   const { frames } = interpret(code)
   expectFrameToBeError(frames[0], `log [] == []`, 'ListsCannotBeCompared')
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
+})
+
+test('MissingKeyInDictionary', () => {
+  const code = `log {}["a"]`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], code, 'MissingKeyInDictionary')
+  expect(frames[0].error!.message).toBe('MissingKeyInDictionary: key: "a"')
+})
+
+describe('OperandMustBeString', () => {
+  test('dictionary get', () => {
+    const code = `log {}[1]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeString')
+    expect(frames[0].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+
+  test('dictionary change', () => {
+    const code = `
+      set foo to {}
+      change foo[1] to 1
+    `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'change foo[1] to 1', 'OperandMustBeString')
+    expect(frames[1].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+})
+
+describe('OperandMustBeNumber', () => {
+  test('list get', () => {
+    const code = `log [1]["a"]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+  test('list change', () => {
+    const code = `
+      set foo to ["b"]
+      change foo["a"] to 1
+    `
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'change foo["a"] to 1',
+      'OperandMustBeNumber'
+    )
+    expect(frames[1].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
 })
 
 // TOOD: Strings are immutable

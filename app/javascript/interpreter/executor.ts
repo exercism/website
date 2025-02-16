@@ -19,14 +19,15 @@ import {
   CallExpression,
   Expression,
   FunctionLookupExpression,
-  GetExpression,
+  GetElementExpression,
   GroupingExpression,
   LiteralExpression,
   LogicalExpression,
-  SetExpression,
+  SetElementExpression,
   UnaryExpression,
   UpdateExpression,
   VariableLookupExpression,
+  DictionaryExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -42,19 +43,25 @@ import {
   RepeatForeverStatement,
   CallStatement,
   LogStatement,
-  ChangeListElementStatement,
+  ChangeElementStatement,
   ForeachStatement,
+  BreakStatement,
+  ContinueStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
   EvaluationResult,
+  EvaluationResultBreakStatement,
   EvaluationResultCallExpression,
   EvaluationResultCallStatement,
-  EvaluationResultChangeListElementStatement,
+  EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
+  EvaluationResultContinueStatement,
+  EvaluationResultDictionaryExpression,
   EvaluationResultExpression,
   EvaluationResultForeachStatement,
   EvaluationResultFunctionLookupExpression,
+  EvaluationResultGetElementExpression,
   EvaluationResultIfStatement,
   EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
@@ -91,6 +98,17 @@ export type ExternalFunction = {
   func: Function
   description: string
   arity?: Arity
+}
+
+class ContinueFlowControlError extends Error {
+  constructor(public location: Location, public lexeme: String) {
+    super()
+  }
+}
+class BreakFlowControlError extends Error {
+  constructor(public location: Location) {
+    super()
+  }
 }
 
 export class Executor {
@@ -164,6 +182,34 @@ export class Executor {
             'ERROR',
             undefined,
             this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
+          )
+          break
+        }
+        if (error instanceof ContinueFlowControlError) {
+          // Remove the last frame and replace it with an error frame
+          // This saves us having to pass the context down to where
+          // the error is thrown.
+          this.frames.pop()
+          this.addFrame(
+            error.location,
+            'ERROR',
+            undefined,
+            this.buildError('UnexpectedContinueOutsideOfLoop', error.location, {
+              lexeme: error.lexeme,
+            })
+          )
+          break
+        }
+        if (error instanceof BreakFlowControlError) {
+          // Remove the last frame and replace it with an error frame
+          // This saves us having to pass the context down to where
+          // the error is thrown.
+          this.frames.pop()
+          this.addFrame(
+            error.location,
+            'ERROR',
+            undefined,
+            this.buildError('UnexpectedBreakOutsideOfLoop', error.location)
           )
           break
         }
@@ -294,10 +340,10 @@ export class Executor {
         statement.expression
       ) as EvaluationResultCallExpression
 
-      if (statement.expression instanceof VariableLookupExpression)
+      /*if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
           name: statement.expression.name.lexeme,
-        })
+        })*/
 
       return {
         type: 'CallStatement',
@@ -309,16 +355,8 @@ export class Executor {
 
   public visitSetVariableStatement(statement: SetVariableStatement): void {
     this.executeFrame<EvaluationResultSetVariableStatement>(statement, () => {
-      if (this.environment.inScope(statement.name)) {
-        if (isCallable(this.environment.get(statement.name))) {
-          this.error('FunctionAlreadyDeclared', statement.name.location, {
-            name: statement.name.lexeme,
-          })
-        }
-        this.error('VariableAlreadyDeclared', statement.location, {
-          name: statement.name.lexeme,
-        })
-      }
+      this.guardDefinedName(statement.name)
+
       let value: EvaluationResultExpression
       try {
         value = this.evaluate(statement.value)
@@ -393,43 +431,93 @@ export class Executor {
     )
   }
 
-  public visitChangeListElementStatement(
-    statement: ChangeListElementStatement
+  public visitChangeElementStatement(statement: ChangeElementStatement): void {
+    const obj = this.evaluate(statement.obj)
+    if (isArray(obj.resultingValue)) {
+      return this.visitChangeListElementStatement(statement, obj)
+    }
+    if (isObject(obj.resultingValue)) {
+      return this.visitChangeDictionaryElementStatement(statement, obj)
+    }
+    this.error('InvalidChangeElementTarget', statement.obj.location)
+  }
+
+  public visitChangeDictionaryElementStatement(
+    statement: ChangeElementStatement,
+    dictionary: EvaluationResult
   ): void {
-    this.executeFrame<EvaluationResultChangeListElementStatement>(
-      statement,
-      () => {
-        const list = this.evaluate(statement.list)
+    this.executeFrame<EvaluationResultChangeElementStatement>(statement, () => {
+      const field = this.evaluate(statement.field)
+      this.verifyString(field.resultingValue, statement.field)
+      const value = this.evaluate(statement.value)
 
-        if (!isArray(list.resultingValue)) {
-          this.error('InvalidChangeElementTarget', statement.list.location)
-        }
+      // Do the update
+      const oldValue = dictionary.resultingValue[field.resultingValue]
+      dictionary.resultingValue[field.resultingValue] = value.resultingValue
 
-        const index = this.evaluate(statement.index)
-        this.verifyNumber(index.resultingValue, statement.index)
-        this.guardOutofBoundsIndex(
-          list.resultingValue,
-          index.resultingValue,
-          statement.index.location,
-          'change'
-        )
-
-        const value = this.evaluate(statement.value)
-
-        // Do the update
-        const oldValue = list.resultingValue[index.resultingValue - 1]
-        list.resultingValue[index.resultingValue - 1] = value.resultingValue
-
-        return {
-          type: 'ChangeListElementStatement',
-          list,
-          index,
-          value,
-          oldValue,
-          resultingValue: value.resultingValue,
-        }
+      return {
+        type: 'ChangeElementStatement',
+        obj: dictionary,
+        field,
+        value,
+        oldValue,
+        resultingValue: value.resultingValue,
       }
+    })
+  }
+
+  public visitContinueStatement(statement: ContinueStatement): void {
+    this.executeFrame<EvaluationResultContinueStatement>(statement, () => {
+      return {
+        type: 'ContinueStatement',
+      }
+    })
+
+    throw new ContinueFlowControlError(
+      statement.location,
+      statement.keyword.lexeme
     )
+  }
+
+  public visitBreakStatement(statement: BreakStatement): void {
+    this.executeFrame<EvaluationResultBreakStatement>(statement, () => {
+      return {
+        type: 'BreakStatement',
+      }
+    })
+
+    throw new BreakFlowControlError(statement.location)
+  }
+
+  public visitChangeListElementStatement(
+    statement: ChangeElementStatement,
+    list: EvaluationResult
+  ): void {
+    this.executeFrame<EvaluationResultChangeElementStatement>(statement, () => {
+      const index = this.evaluate(statement.field)
+      this.verifyNumber(index.resultingValue, statement.field)
+      this.guardOutofBoundsIndex(
+        list.resultingValue,
+        index.resultingValue,
+        statement.field.location,
+        'change'
+      )
+
+      const value = this.evaluate(statement.value)
+
+      // Do the update
+      const oldValue = list.resultingValue[index.resultingValue - 1]
+      list.resultingValue[index.resultingValue - 1] = value.resultingValue
+
+      return {
+        type: 'ChangeElementStatement',
+        obj: list,
+        field: index,
+        value,
+        oldValue,
+        resultingValue: value.resultingValue,
+      }
+    })
   }
 
   public visitIfStatement(statement: IfStatement): void {
@@ -603,6 +691,19 @@ export class Executor {
     }
   }
 
+  visitDictionaryExpression(
+    expression: DictionaryExpression
+  ): EvaluationResultDictionaryExpression {
+    let dict: Record<string, any> = {}
+
+    for (const [key, value] of expression.elements) {
+      const evalRes = this.evaluate(value)
+      dict[key] = evalRes.resultingValue
+    }
+
+    return { type: 'DictionaryExpression', resultingValue: dict }
+  }
+
   visitForeachStatement(statement: ForeachStatement): void {
     const iterable = this.evaluate(statement.iterable)
     if (
@@ -614,11 +715,7 @@ export class Executor {
       })
     }
 
-    if (this.environment.inScope(statement.elementName)) {
-      this.error('VariableAlreadyDeclared', statement.elementName.location, {
-        name: statement.elementName.lexeme,
-      })
-    }
+    this.guardDefinedName(statement.elementName)
 
     if (iterable.resultingValue?.length === 0) {
       this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
@@ -631,26 +728,50 @@ export class Executor {
       })
     }
 
-    let index = 0
-    for (const temporaryVariableValue of iterable.resultingValue) {
-      index += 1
-      const temporaryVariableName = statement.elementName.lexeme
+    try {
+      let index = 0
+      for (const temporaryVariableValue of iterable.resultingValue) {
+        index += 1
+        const temporaryVariableName = statement.elementName.lexeme
+        this.environment.define(temporaryVariableName, temporaryVariableValue)
 
-      this.environment.define(temporaryVariableName, temporaryVariableValue)
+        this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
+          return {
+            type: 'ForeachStatement',
+            elementName: statement.elementName.lexeme,
+            index,
+            iterable,
+            temporaryVariableName,
+            temporaryVariableValue,
+          }
+        })
 
-      this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
-        return {
-          type: 'ForeachStatement',
-          elementName: statement.elementName.lexeme,
-          index,
-          iterable,
-          temporaryVariableName,
-          temporaryVariableValue,
+        try {
+          this.executeBlock(statement.body, this.environment)
+        } catch (e) {
+          // If we've got a control flow error, don't do anything.
+          if (e instanceof ContinueFlowControlError) {
+          }
+
+          // Otherwise we have some error that shouldn't be handled here,
+          // so get out of dodge!
+          else {
+            throw e
+          }
+        } finally {
+          this.environment.undefine(temporaryVariableName)
         }
-      })
+      }
+    } catch (e) {
+      // If we've got a control flow error, don't do anything.
+      if (e instanceof BreakFlowControlError) {
+      }
 
-      this.executeBlock(statement.body, this.environment)
-      this.environment.undefine(temporaryVariableName)
+      // Otherwise we have some error that shouldn't be handled here,
+      // so get out of dodge!
+      else {
+        throw e
+      }
     }
   }
 
@@ -730,6 +851,8 @@ export class Executor {
     expression: VariableLookupExpression
   ): EvaluationResultVariableLookupExpression {
     const value = this.lookupVariable(expression.name)
+    this.guardUncalledFunction(value, expression)
+
     return {
       type: 'VariableLookupExpression',
       name: expression.name.lexeme,
@@ -1047,10 +1170,27 @@ export class Executor {
     this.environment.updateVariable(name, newValue)
   }
 
-  public visitGetExpression(expression: GetExpression): EvaluationResult {
-    const obj = this.evaluate(expression.obj)
+  public visitGetElementExpression(
+    expression: GetElementExpression
+  ): EvaluationResult {
+    const obj = this.evaluate(
+      expression.obj
+    ) as EvaluationResultGetElementExpression
+    if (isArray(obj.resultingValue) || isString(obj.resultingValue)) {
+      return this.visitGetElementExpressionForList(expression, obj)
+    }
 
-    /*if (isObject(obj.value) && expression.field.type === 'STRING') {
+    if (isObject(obj.resultingValue)) {
+      return this.visitGetElementExpressionForDictionary(expression, obj)
+    }
+
+    this.error('InvalidIndexGetterTarget', expression.location, {
+      expression,
+      type: typeof obj.resultingValue,
+    })
+  }
+
+  /*if (isObject(obj.value) && expression.field.type === 'STRING') {
       // TODO: consider if we want to throw an error when the field does not exist or return null
       return {
         type: 'GetExpression',
@@ -1063,13 +1203,36 @@ export class Executor {
       }
     }*/
 
-    if (!(isArray(obj.resultingValue) || isString(obj.resultingValue))) {
-      this.error('InvalidIndexGetterTarget', expression.location, {
-        expression,
-        obj,
-      })
-    }
+  public visitGetElementExpressionForDictionary(
+    expression: GetElementExpression,
+    obj: EvaluationResultGetElementExpression
+  ): EvaluationResult {
+    const key = this.evaluate(expression.field)
 
+    this.verifyString(key.resultingValue, expression.field)
+    this.guardMissingDictionaryKey(
+      obj.resultingValue,
+      key.resultingValue,
+      expression.location
+    )
+
+    const value = obj.resultingValue[key.resultingValue]
+
+    return {
+      type: 'GetElementExpression',
+      obj: obj,
+      expression: `${expression.obj.location.toCode(this.sourceCode)}[${
+        key.resultingValue
+      }]`,
+      field: key,
+      resultingValue: value,
+    }
+  }
+
+  public visitGetElementExpressionForList(
+    expression: GetElementExpression,
+    obj: EvaluationResultGetElementExpression
+  ): EvaluationResult {
     const idx = this.evaluate(expression.field)
     // TODO: Maybe a custom error message here about array indexes
     // or string indexes needing to be numbers?
@@ -1085,7 +1248,7 @@ export class Executor {
     const value = obj.resultingValue[idx.resultingValue - 1] // 0-index
 
     return {
-      type: 'GetExpression',
+      type: 'GetElementExpression',
       obj: obj,
       expression: `${expression.obj.location.toCode(this.sourceCode)}[${
         idx.resultingValue
@@ -1095,7 +1258,9 @@ export class Executor {
     }
   }
 
-  public visitSetExpression(expression: SetExpression): EvaluationResult {
+  public visitSetElementExpression(
+    expression: SetElementExpression
+  ): EvaluationResult {
     const obj = this.evaluate(expression.obj)
 
     if (
@@ -1125,7 +1290,7 @@ export class Executor {
   private guardUncalledFunction(value: any, expr: Expression): void {
     if (isCallable(value)) {
       this.error('UnexpectedUncalledFunction', expr.location, {
-        name: (expr as VariableLookupExpression).name,
+        name: (expr as VariableLookupExpression).name.lexeme,
       })
     }
   }
@@ -1152,6 +1317,14 @@ export class Executor {
     this.guardUncalledFunction(value, expr)
 
     this.error('OperandMustBeNumber', expr.location, {
+      value: formatLiteral(value),
+    })
+  }
+  private verifyString(value: any, expr: Expression): void {
+    if (isString(value)) return
+    this.guardUncalledFunction(value, expr)
+
+    this.error('OperandMustBeString', expr.location, {
       value: formatLiteral(value),
     })
   }
@@ -1265,18 +1438,45 @@ export class Executor {
     if (idx == 0) {
       this.error('IndexIsZero', location)
     }
-    if (idx > obj.length) {
-      // Set to IndexOutOfBoundsInGet or IndexOutOfBoundsInSet
-      // by capitalzing the first letter of get or set
-      const errorType:
-        | 'IndexOutOfBoundsInGet'
-        | 'IndexOutOfBoundsInChange' = `IndexOutOfBoundsIn${
-        getOrChange.charAt(0).toUpperCase() + getOrChange.slice(1)
-      }`
-      this.error(errorType, location, {
-        index: idx,
-        length: obj.length,
-        dataType: isArray(obj) ? 'list' : 'string',
+    if (idx <= obj.length) {
+      return
+    }
+
+    // Set to IndexOutOfBoundsInGet or IndexOutOfBoundsInSet
+    // by capitalzing the first letter of get or set
+    const errorType:
+      | 'IndexOutOfBoundsInGet'
+      | 'IndexOutOfBoundsInChange' = `IndexOutOfBoundsIn${
+      getOrChange.charAt(0).toUpperCase() + getOrChange.slice(1)
+    }`
+    this.error(errorType, location, {
+      index: idx,
+      length: obj.length,
+      dataType: isArray(obj) ? 'list' : 'string',
+    })
+  }
+
+  private guardMissingDictionaryKey(
+    dictionary: Record<string, any>,
+    key: any,
+    location: Location
+  ) {
+    if (Object.keys(dictionary).includes(key)) {
+      return
+    }
+
+    this.error('MissingKeyInDictionary', location, { key: formatLiteral(key) })
+  }
+
+  private guardDefinedName(name: Token) {
+    if (this.environment.inScope(name)) {
+      if (isCallable(this.environment.get(name))) {
+        this.error('FunctionAlreadyDeclared', name.location, {
+          name: name.lexeme,
+        })
+      }
+      this.error('VariableAlreadyDeclared', name.location, {
+        name: name.lexeme,
       })
     }
   }

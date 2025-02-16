@@ -223,18 +223,6 @@ test('MissingCommaBetweenParameters', () => {
   ).toThrow('MissingCommaBetweenParameters: parameter: unexpected')
 })
 
-test('MissingLeftParenthesisAfterFunctionCall', () => {
-  expect(() =>
-    parse(`
-      function move do
-        return 1
-      end
-
-      move)
-    `)
-  ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-})
-
 describe('MissingRightParenthesisAfterFunctionCall', () => {
   test('missing closing parenthesis - no args', () => {
     expect(() => parse('move(')).toThrow(

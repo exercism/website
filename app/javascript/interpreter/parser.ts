@@ -689,22 +689,6 @@ export class Parser {
   private call(): Expression {
     let expression = this.primary()
     expression = this.chainedVariableAccessors(expression)
-
-    // Guard against missing start parenthesis for function call
-    if (
-      // This is a variable expression because we don't convert VariableLookupExpression
-      // to FunctionLookupExpression until we know it's a function call or in this guard.
-      expression instanceof VariableLookupExpression &&
-      this.functionNames.includes(expression.name.lexeme) &&
-      this.match('RIGHT_PAREN')
-    ) {
-      this.error(
-        'MissingLeftParenthesisAfterFunctionCall',
-        this.previous().location,
-        { expression, function: expression.name.lexeme }
-      )
-    }
-
     return expression
   }
 

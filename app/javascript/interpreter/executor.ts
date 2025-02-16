@@ -294,10 +294,10 @@ export class Executor {
         statement.expression
       ) as EvaluationResultCallExpression
 
-      if (statement.expression instanceof VariableLookupExpression)
+      /*if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
           name: statement.expression.name.lexeme,
-        })
+        })*/
 
       return {
         type: 'CallStatement',
@@ -309,16 +309,8 @@ export class Executor {
 
   public visitSetVariableStatement(statement: SetVariableStatement): void {
     this.executeFrame<EvaluationResultSetVariableStatement>(statement, () => {
-      if (this.environment.inScope(statement.name)) {
-        if (isCallable(this.environment.get(statement.name))) {
-          this.error('FunctionAlreadyDeclared', statement.name.location, {
-            name: statement.name.lexeme,
-          })
-        }
-        this.error('VariableAlreadyDeclared', statement.location, {
-          name: statement.name.lexeme,
-        })
-      }
+      this.guardDefinedName(statement.name)
+
       let value: EvaluationResultExpression
       try {
         value = this.evaluate(statement.value)
@@ -614,11 +606,7 @@ export class Executor {
       })
     }
 
-    if (this.environment.inScope(statement.elementName)) {
-      this.error('VariableAlreadyDeclared', statement.elementName.location, {
-        name: statement.elementName.lexeme,
-      })
-    }
+    this.guardDefinedName(statement.elementName)
 
     if (iterable.resultingValue?.length === 0) {
       this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
@@ -635,7 +623,6 @@ export class Executor {
     for (const temporaryVariableValue of iterable.resultingValue) {
       index += 1
       const temporaryVariableName = statement.elementName.lexeme
-
       this.environment.define(temporaryVariableName, temporaryVariableValue)
 
       this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
@@ -730,6 +717,8 @@ export class Executor {
     expression: VariableLookupExpression
   ): EvaluationResultVariableLookupExpression {
     const value = this.lookupVariable(expression.name)
+    this.guardUncalledFunction(value, expression)
+
     return {
       type: 'VariableLookupExpression',
       name: expression.name.lexeme,
@@ -1125,7 +1114,7 @@ export class Executor {
   private guardUncalledFunction(value: any, expr: Expression): void {
     if (isCallable(value)) {
       this.error('UnexpectedUncalledFunction', expr.location, {
-        name: (expr as VariableLookupExpression).name,
+        name: (expr as VariableLookupExpression).name.lexeme,
       })
     }
   }
@@ -1277,6 +1266,19 @@ export class Executor {
         index: idx,
         length: obj.length,
         dataType: isArray(obj) ? 'list' : 'string',
+      })
+    }
+  }
+
+  private guardDefinedName(name: Token) {
+    if (this.environment.inScope(name)) {
+      if (isCallable(this.environment.get(name))) {
+        this.error('FunctionAlreadyDeclared', name.location, {
+          name: name.lexeme,
+        })
+      }
+      this.error('VariableAlreadyDeclared', name.location, {
+        name: name.lexeme,
       })
     }
   }

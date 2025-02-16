@@ -21,7 +21,6 @@
       "MissingLeftBraceToStartBody": "MissingLeftBraceToStartBody: type: {{type}}",
       "MissingLeftBraceToStartForeachBody": "MissingLeftBraceToStartForeachBody",
       "MissingLeftParenthesisAfterForeach": "MissingLeftParenthesisAfterForeach",
-      "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}",
       "MissingLeftParenthesisAfterFunctionName": "MissingLeftParenthesisAfterFunctionName",
       "MissingLeftParenthesisBeforeIfCondition": "MissingLeftParenthesisBeforeIfCondition",
       "MissingLeftParenthesisAfterWhile": "MissingLeftParenthesisAfterWhile",
@@ -59,7 +58,8 @@
       "UnexpectedChainedEquality": "UnexpectedChainedEquality",
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
       "PointlessStatement": "PointlessStatement",
-      "MissingEachAfterFor": "MissingEachAfterFor"
+      "MissingEachAfterFor": "MissingEachAfterFor",
+      "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -90,7 +90,7 @@
       "RepeatCountTooHigh": "RepeatCountTooHigh: count: {{count}}, max: {{max}}",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
-      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction",
+      "UnexpectedUncalledFunction": "UnexpectedUncalledFunction: name: {{name}}",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
       "FunctionCallTypeMismatch": "FunctionCallTypeMismatch: argIdx {{argIdx}}, expectedType: {{expectedType}}, actualType: {{actualType}}",

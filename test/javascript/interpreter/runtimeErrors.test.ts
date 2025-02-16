@@ -40,14 +40,52 @@ describe('UnexpectedUncalledFunction', () => {
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
   })
   test('in a equation with a -', () => {
     const code = 'log get_name - 1'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
+  })
+  test('in other function', () => {
+    const code = `
+        function move with x do
+          return 1
+        end
+
+        log move(move)
+      `
+    const { error, frames } = interpret(code)
+    console.log(error)
+    expectFrameToBeError(
+      frames[0],
+      `log move(move)`,
+      'UnexpectedUncalledFunction'
+    )
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
+  })
+
+  test('with left parenthesis', () => {
+    const code = `
+        function move do
+          return 1
+        end
+
+        log move
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], `log move`, 'UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
   })
 })
 describe('FunctionAlreadyDeclared', () => {

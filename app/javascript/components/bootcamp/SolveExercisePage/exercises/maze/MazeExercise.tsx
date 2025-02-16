@@ -2,9 +2,11 @@ import React from 'react'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { Exercise } from '../Exercise'
 import cloneDeep from 'lodash.clonedeep'
+import { isString } from '@/interpreter/checks'
 
+type Cell = 0 | 1 | 2 | 3 | 4 | 5 | string
 export default class MazeExercise extends Exercise {
-  private mazeLayout: number[][] = []
+  private mazeLayout: Cell[][] = []
   private gridSize: number = 0
   private characterPosition: { x: number; y: number } = { x: 0, y: 0 }
   private direction: string = 'down'
@@ -21,6 +23,7 @@ export default class MazeExercise extends Exercise {
     return {
       direction: this.direction,
       position: [this.characterPosition.x, this.characterPosition.y],
+      collectedEmojis: this.collectedEmojis,
     }
   }
 
@@ -43,6 +46,8 @@ export default class MazeExercise extends Exercise {
     this.container.appendChild(this.character)
     this.characterSelector = `#${this.view.id} .character`
     this.redrawMaze()
+
+    this.emojiMode = false
   }
 
   private redrawMaze(): void {
@@ -53,16 +58,24 @@ export default class MazeExercise extends Exercise {
       for (let x = 0; x < this.mazeLayout[y].length; x++) {
         const cell = document.createElement('div')
         cell.classList.add('cell')
-        if (this.mazeLayout[y][x] === 1) {
+        cell.id = 'cell-' + y + '-' + x
+        const square = this.mazeLayout[y][x]
+        if (square === 0) {
+        } else if (square === 1) {
           cell.classList.add('blocked')
-        } else if (this.mazeLayout[y][x] === 2) {
+        } else if (square === 2) {
           cell.classList.add('start')
-        } else if (this.mazeLayout[y][x] === 3) {
+        } else if (square === 3) {
           cell.classList.add('target')
-        } else if (this.mazeLayout[y][x] === 4) {
+        } else if (square === 4) {
           cell.classList.add('fire')
-        } else if (this.mazeLayout[y][x] === 5) {
+        } else if (square === 5) {
           cell.classList.add('poop')
+        } else {
+          const child = document.createElement('div')
+          child.classList.add('emoji')
+          child.textContent = square.toString()
+          cell.appendChild(child)
         }
         this.cells.appendChild(cell)
       }
@@ -128,6 +141,21 @@ export default class MazeExercise extends Exercise {
       offset: executionCtx.getCurrentTime(),
     })
     executionCtx.fastForward(this.duration)
+
+    const emoji = document.getElementById(
+      'cell-' + this.characterPosition.y + '-' + this.characterPosition.x
+    )?.children[0]
+    console.log(emoji)
+    if (isString(square)) {
+      this.addAnimation({
+        targets: emoji,
+        duration: 1,
+        transformations: {
+          opacity: 0,
+        },
+        offset: executionCtx.getCurrentTime(),
+      })
+    }
   }
 
   private gameOverWin(executionCtx: ExecutionContext) {
@@ -222,23 +250,7 @@ export default class MazeExercise extends Exercise {
       return this.describeSquare(this.mazeLayout[y][x])
     }
 
-    return 'wall'
-  }
-
-  private describeSquare(square: number) {
-    if (square === 1) {
-      return 'wall'
-    } else if (square === 2) {
-      return 'start'
-    } else if (square === 3) {
-      return 'target'
-    } else if (square === 4) {
-      return 'fire'
-    } else if (square === 5) {
-      return 'poop'
-    } else {
-      return 'empty'
-    }
+    return this.emojiMode ? '🧱' : 'wall'
   }
 
   public canMoveToSquare(square: string) {
@@ -306,9 +318,6 @@ export default class MazeExercise extends Exercise {
   }
 
   private look(executionCtx: ExecutionContext, direction: string) {
-    let newX = this.characterPosition.x
-    let newY = this.characterPosition.y
-
     if (direction === 'left') {
       return this.lookLeft()
     }
@@ -317,6 +326,12 @@ export default class MazeExercise extends Exercise {
     }
     if (direction === 'ahead') {
       return this.lookAhead()
+    }
+    if (direction === 'down') {
+      return this.describePosition(
+        this.characterPosition.x,
+        this.characterPosition.y
+      )
     } else {
       executionCtx.logicError(
         `You asked the blob to look in a direction it doesn't know about. It can only look \"left\", \"right\", or \"ahead\". You asked it to look \"${direction}\".`
@@ -324,24 +339,36 @@ export default class MazeExercise extends Exercise {
     }
   }
 
-  public setupGrid(_: ExecutionContext, layout: number[][]) {
+  public setupGrid(_: ExecutionContext, layout: Cell[][]) {
     this.mazeLayout = cloneDeep(layout)
     this.initialMazeLayout = cloneDeep(layout)
     this.gridSize = layout.length
     this.squareSize = 100 / layout.length
     this.redrawMaze()
   }
+  public enableEmojiMode(_: ExecutionContext) {
+    this.emojiMode = true
+  }
   public getInitialMaze(_: ExecutionContext) {
-    return this.initialMazeLayout.map((row) =>
-      row.map((cell) => {
-        if (cell === 0) return '-'
-        if (cell === 1) return 'x'
-        if (cell === 2) return '^'
-        if (cell === 3) return '$'
-        if (cell === 4) return '🔥'
-        if (cell === 5) return '💩'
-      })
-    )
+    return this.initialMazeLayout.map((row) => row.map(this.describeSquare))
+  }
+  private describeSquare(cell: Cell) {
+    if (this.emojiMode) {
+      if (cell === 0) return '⬜'
+      if (cell === 1) return '🧱'
+      if (cell === 2) return '⭐'
+      if (cell === 3) return '🏁'
+      if (cell === 4) return '🔥'
+      if (cell === 5) return '💩'
+    } else {
+      if (cell === 0) return 'empty'
+      if (cell === 1) return 'wall'
+      if (cell === 2) return 'start'
+      if (cell === 3) return 'target'
+      if (cell === 4) return 'fire'
+      if (cell === 5) return 'poop'
+    }
+    return cell
   }
   public setupDirection(_: ExecutionContext, direction: string) {
     this.direction = direction
@@ -352,6 +379,9 @@ export default class MazeExercise extends Exercise {
     this.characterPosition = { x: x, y: y }
     this.character.style.left = `${this.characterPosition.x * this.squareSize}%`
     this.character.style.top = `${this.characterPosition.y * this.squareSize}%`
+  }
+  public announceEmoji(executionCtx: ExecutionContext, emojis) {
+    this.collectedEmojis = emojis
   }
 
   public availableFunctions = [
@@ -394,6 +424,11 @@ export default class MazeExercise extends Exercise {
       name: 'get_maze',
       func: this.getInitialMaze.bind(this),
       description: 'get the initial maze layout',
+    },
+    {
+      name: 'announce_emoji',
+      func: this.announceEmoji.bind(this),
+      description: 'announced the emojis that had been collected',
     },
   ]
 }

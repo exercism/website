@@ -60,6 +60,13 @@
         height: var(--cellWidth); */
             background-color: white;
             border: 0.5px solid #000;
+            @apply relative;
+            & .emoji {
+                @apply absolute inset-0;
+                @apply grid place-items-center;
+                font-size: 160%;
+            }
+
             &.blocked {
                 background: radial-gradient(
                         circle,

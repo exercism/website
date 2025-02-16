@@ -1,42 +1,25 @@
 # Emoji Collector
 
-Last time you implemented the `can_...()` functions to move around by looking around.
+Last time you were in the maze, you implemented the `can_...()` functions to move around by looking around.
 
-In this exercise, we've scattered some emojis around the mazes for you to pick up.
+Previously, you checked for words when you looked around. But now we've upgraded the mazes to use emojis! So you need to update your code to handle these:
 
-You should only get to the
+- `"⭐"` (Where you start)
+- `"🏁"` (Where you're trying to get to)
+- `"⬜"` (An empty space you can move into)
+- `"🔥"` (Careful!)
+- `"💩"` (Ewww)
+- `"🧱"` (A wall)
 
-Last time you added a new function to help you navigate more delightfully: `turn_around()`.
+We've also scattered some extra emojis around the mazes for you to pick up. Each time your character find an emoji that's not in the list above, it should add it to its tally.
 
-Now it's time to implement some of the functions that already existed! We've taken away the `can_turn_left()`, `can_turn_right()` and `can_move()` functions, and your job is to add them back!
-None of the functions have any inputs and all should return a boolean specifying whether it's possible to move in that direction.
+Once you move into the finishing square (`"🏁`), you should use the `game_over(result)` function, passing a dictionary representing the amount of emojis you've collected into its `result` chute. For example, if you've collected 4x 💎s and 3x 🧠s the dictionary should be:
 
-To help you, we've added a new `look(direction)` function.
-This function takes one input - a direction that can be `"left"`, `"right"`, or `"ahead"`.
-It returns one of:
+```
+{
+  "💎": 4,
+  "🧠": 3
+}
+```
 
-- `"start"` (Where you start)
-- `"target"` (Where you're trying to get to)
-- `"empty"` (The route forward!)
-- `"fire"` (Careful!)
-- `"poop"` (Ewww)
-- `"wall"` (Ouch!)
-
-You shouldn't need to change any of the existing code for this exercise.
-Instead add the three functions to the top of the code
-
-### Top Tip
-
-A best practice in an exercise like this is to start by creating the functions that the code needs to run (i.e.`can_turn_left()`, `can_turn_right()` and `can_move()`).
-Set their return values to be some sensible default (either `true` or `false` in this case).
-
-You can then implement the logic of each function and make some progress each time, rather than just consistently getting an error that a function doesn't exist until you've written the whole program.
-
-### Bonus Challenges
-
-Want something to push you a little more?
-
-Here are two challenges:
-
-1. Can you only use the `look` function once in the whole program?
-2. While only using the `look` function once, can you solve it all by only adding 13 lines of code to the program?
+To help, you can use the `look(direction)` function with a new direction `"down"`, which tells you what's by your feet in the current square.

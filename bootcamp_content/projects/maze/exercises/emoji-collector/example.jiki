@@ -1,6 +1,6 @@
 function check_direction with direction do
   set space to look(direction)
-  return space != "fire" and space != "wall" and space != "poop"
+  return space != "🔥" and space != "🧱" and space != "💩"
 end
 
 function can_turn_left do

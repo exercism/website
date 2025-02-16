@@ -63,7 +63,7 @@
       "MissingEachAfterFor": "MissingEachAfterFor",
       "UnexpectedToken": "UnexpectedToken: lexeme: {{lexeme}}",
       "UnexpectedClosingBracket": "UnexpectedClosingBracket: lexeme: {{lexeme}}",
-      "MissingTimesInRepeat": "MissingTimesInRepeat"
+      "MissingTimesInRepeat": "MissingTimesInRepeat",
       "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}",
       "UnexpectedKeyword": "UnexpectedKeyword: lexeme: {{lexeme}}"
     },

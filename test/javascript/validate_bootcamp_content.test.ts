@@ -1,4 +1,8 @@
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import {
+  evaluateFunction,
+  EvaluateFunctionResult,
+  interpret,
+} from '@/interpreter/interpreter'
 import fs from 'fs'
 import path from 'path'
 import exerciseMap from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
@@ -6,6 +10,7 @@ import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exer
 import { parseParams } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/parseParams'
 import { camelizeKeys } from 'humps'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
+import checkers from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/checkers'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -27,8 +32,6 @@ function getExampleScript(exerciseDir) {
 
 function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
   test(`${project} - ${exerciseSlug} - ${task.name} - ${testData.name}`, () => {
-    let error, value, frames
-
     const context = {
       externalFunctions: filteredStdLibFunctions(config.stdlibFunctions),
       languageFeatures: config.interpreterOptions,
@@ -36,23 +39,51 @@ function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
 
     const parsedParams = parseParams(testData.params)
 
+    let result: EvaluateFunctionResult
     try {
-      ;({ error, value, frames } = evaluateFunction(
+      result = evaluateFunction(
         exampleScript,
         context,
         testData.function,
         ...parsedParams
-      ))
+      )
     } catch (e) {
       console.log(e)
       expect(true).toBe(false)
+      return
     }
+
+    if (testData.check) {
+      return testIOChecker(testData, result)
+    }
+    const { error, value, frames } = result
 
     if (value != testData.expected) {
       // console.log(error, value, frames)
     }
+
     expect(value).toEqual(testData.expected)
   })
+}
+
+function testIOChecker(testData, interpreterResult: EvaluateFunctionResult) {
+  const check = testData.check.function
+  // If it's a function call, we split out any params and then call the function
+  // on the exercise with those params passed in.
+  const fnName = check.slice(0, check.indexOf('('))
+  const argsString = check.slice(check.indexOf('(') + 1, -1)
+
+  // We eval the args to turn numbers into numbers, strings into strings, etc.
+  const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
+  const args = safe_eval(`[${argsString}]`)
+
+  // And then we get the function and call it.
+  const fn = checkers[fnName]
+  const actual = fn.call(null, interpreterResult, ...args)
+  const expected = testData.check.expected
+  const matcher = testData.check.matcher || 'toEqual'
+
+  expect(actual)[matcher](expected)
 }
 
 function testState(

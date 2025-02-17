@@ -72,13 +72,15 @@
       "tests": [
         {
           "slug": "bonus-1",
-          "name": "13 Lines of Code",
+          "name": "6 Lines of Code",
           "function": "even_or_odd",
           "params": [0],
-          "checkFunction": "getAddedLineCount(0)",
-          "matcher": "toBeLessThanOrEqual",
-          "expected": 13,
-          "error_html": "You added more than %actual% lines of code."
+          "check": {
+            "description": "We checked how many lines of code you added.",
+            "function": "getAddedLineCount(0)",
+            "matcher": "toBeLessThanOrEqual",
+            "expected": 6
+          }
         }
       ]
     }

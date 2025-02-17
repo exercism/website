@@ -23,8 +23,9 @@ function generateExpectsForIoTests(
   interpreterResult: InterpretResult,
   actual: any
 ) {
-  if (testData.checkFunction) {
-    const check = testData.checkFunction
+  let expected = testData.expected
+  if (testData.check) {
+    const check = testData.check.function
     // If it's a function call, we split out any params and then call the function
     // on the exercise with those params passed in.
     const fnName = check.slice(0, check.indexOf('('))
@@ -36,12 +37,11 @@ function generateExpectsForIoTests(
 
     // And then we get the function and call it.
     const fn = checkers[fnName]
-    console.log(fnName, args)
     actual = fn.call(null, interpreterResult, ...args)
+    expected = testData.check.expected
   }
 
   const matcher = testData.matcher || 'toEqual'
-  console.log(actual, matcher, testData.expected)
 
   return [
     expect({
@@ -49,7 +49,7 @@ function generateExpectsForIoTests(
       testsType: 'io',
       name: testData.name,
       slug: testData.slug,
-    })[matcher as AvailableMatchers](testData.expected),
+    })[matcher as AvailableMatchers](expected),
   ]
 }
 

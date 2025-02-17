@@ -46,22 +46,23 @@ end
 
 set emoji to {}
 
-repeat_until_game_over do
+function turn_if_required do
   if can_turn_left() do
     turn_left()
-    change emoji to move_and_collect(emoji)
   else if can_move() do
-    change emoji to move_and_collect(emoji)
+    return
   else if can_turn_right() do
     turn_right()
-    change emoji to move_and_collect(emoji)
   else do
     turn_around()
-    change emoji to move_and_collect(emoji)
   end
+end
+
+repeat_until_game_over do
+  turn_if_required()
+  change emoji to move_and_collect(emoji)
 
   if look("down") == "🏁" do
-    log emoji
     announce_emojis(emoji)
   end
 end

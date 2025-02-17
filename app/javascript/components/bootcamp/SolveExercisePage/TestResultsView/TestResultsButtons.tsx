@@ -22,10 +22,7 @@ export function TestResultsButtons({ isBonus = false }) {
   const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldShowBonusTasks } = useTaskStore()
 
-  const testResults = useMemo(
-    () => (isBonus ? bonusTestSuiteResult : testSuiteResult),
-    [isBonus]
-  )
+  const testResults = isBonus ? bonusTestSuiteResult : testSuiteResult
   const { shouldAnimate } = useShouldAnimate(testResults)
   const { isSpotlightActive } = useContext(SolveExercisePageContext)
 

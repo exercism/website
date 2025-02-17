@@ -19,6 +19,8 @@
       "MissingExpression": "Jiki doesn't know what this means.",
       "MissingFieldNameOrIndexAfterLeftBracket": "Expect field name or index after '['.",
       "InvalidFunctionName": "Jiki couldn't work out what function you wanted to use here.",
+      "MissingByAfterIndexed": "Did you forget to add `by` after `indexed`?",
+      "MissingIndexNameAfterIndexedBy": "Did you forget to add an name for your counter after `indexed by`?",
       "MissingFunctionName": "Did you forget to give your function a name?",
       "MissingLeftBraceToStartBody": "Expected '{' to start {{type}} body.",
       "MissingLeftBraceToStartForeachBody": "Expected '{' to start 'foreach' body",

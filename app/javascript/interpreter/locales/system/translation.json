@@ -20,6 +20,8 @@
       "MissingFieldNameOrIndexAfterLeftBracket": "MissingFieldNameOrIndexAfterLeftBracket",
       "MissingFunctionName": "MissingFunctionName",
       "InvalidFunctionName": "InvalidFunctionName",
+      "MissingByAfterIndexed": "MissingByAfterIndexed",
+      "MissingIndexNameAfterIndexedBy": "MissingIndexNameAfterIndexedBy",
       "MissingLeftBraceToStartBody": "MissingLeftBraceToStartBody: type: {{type}}",
       "MissingLeftBraceToStartForeachBody": "MissingLeftBraceToStartForeachBody",
       "MissingLeftParenthesisAfterForeach": "MissingLeftParenthesisAfterForeach",

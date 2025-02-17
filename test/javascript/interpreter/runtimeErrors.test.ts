@@ -62,7 +62,6 @@ describe('UnexpectedUncalledFunction', () => {
         log move(move)
       `
     const { error, frames } = interpret(code)
-    console.log(error)
     expectFrameToBeError(
       frames[0],
       `log move(move)`,

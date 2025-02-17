@@ -730,3 +730,19 @@ describe('UnexpectedKeyword', () => {
     ).toThrow('UnexpectedKeyword: lexeme: next')
   })
 })
+
+describe('MissingByAfterIndexed', () => {
+  test('repeat', () => {
+    expect(() => parse(`repeat 10 times indexed do`)).toThrow(
+      'MissingByAfterIndexed'
+    )
+  })
+})
+
+describe('MissingIndexNameAfterIndexedBy', () => {
+  test('repeat', () => {
+    expect(() => parse(`repeat 10 times indexed by do`)).toThrow(
+      'MissingIndexNameAfterIndexedBy'
+    )
+  })
+})

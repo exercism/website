@@ -376,6 +376,7 @@ export class Parser {
     const keyword = this.previous()
     const condition = this.expression()
     this.consume('TIMES', 'MissingTimesInRepeat')
+    const counter = this.counter()
     this.consumeDo('repeat')
     this.consumeEndOfLine()
 
@@ -384,6 +385,7 @@ export class Parser {
     return new RepeatStatement(
       keyword,
       condition,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
@@ -392,6 +394,7 @@ export class Parser {
   private repeatUntilGameOverStatement(): Statement {
     const keyword = this.previous()
 
+    const counter = this.counter()
     this.consumeDo('repeat_until_game_over')
     this.consumeEndOfLine()
 
@@ -399,13 +402,14 @@ export class Parser {
 
     return new RepeatUntilGameOverStatement(
       keyword,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
   }
   private repeatForeverStatement(): Statement {
     const keyword = this.previous()
-
+    const counter = this.counter()
     this.consumeDo('repeat_forever')
     this.consumeEndOfLine()
 
@@ -413,12 +417,13 @@ export class Parser {
 
     return new RepeatForeverStatement(
       keyword,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
   }
 
-  private whileStatement(): Statement {
+  /*private whileStatement(): Statement {
     const begin = this.previous()
     const condition = this.expression()
 
@@ -432,7 +437,7 @@ export class Parser {
       statements,
       Location.between(begin, this.previous())
     )
-  }
+  }*/
 
   private forStatement(): Statement {
     const forToken = this.previous()
@@ -448,6 +453,7 @@ export class Parser {
       elementName,
     })
     const iterable = this.expression()
+    const counter = this.counter()
 
     this.consumeDo('foreach')
     this.consumeEndOfLine()
@@ -457,9 +463,18 @@ export class Parser {
     return new ForeachStatement(
       elementName,
       iterable,
+      counter,
       statements,
       Location.between(forToken, this.previous())
     )
+  }
+
+  private counter(): Token | null {
+    if (this.match('INDEXED')) {
+      this.consume('BY', 'MissingByAfterIndexed')
+      return this.consume('IDENTIFIER', 'MissingIndexNameAfterIndexedBy')
+    }
+    return null
   }
 
   private blockStatement(

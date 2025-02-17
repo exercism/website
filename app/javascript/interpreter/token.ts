@@ -32,6 +32,8 @@ const OtherKeywordTokens = [
   'TIMES',
   'TRUE',
   'WITH',
+  'INDEXED',
+  'BY',
 ]
 
 export const KeywordTokens = [...StatementKeywordTokens, ...OtherKeywordTokens]

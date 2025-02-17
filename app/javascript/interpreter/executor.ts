@@ -555,96 +555,6 @@ export class Executor {
     })
   }
 
-  public visitRepeatStatement(statement: RepeatStatement): void {
-    const countResult = this.evaluate(statement.count)
-    const count = countResult.resultingValue
-
-    if (!isNumber(count)) {
-      this.error('RepeatCountMustBeNumber', statement.count.location, {
-        count,
-      })
-    }
-
-    if (count < 0) {
-      this.error('RepeatCountMustBeZeroOrGreater', statement.count.location, {
-        count,
-      })
-    }
-
-    if (count > this.maxTotalLoopIterations) {
-      this.error('RepeatCountTooHigh', statement.count.location, {
-        count,
-        max: this.maxTotalLoopIterations,
-      })
-    }
-
-    if (count == 0) {
-      this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
-        return {
-          type: 'RepeatStatement',
-          count: countResult,
-          iteration: 0,
-        }
-      })
-    }
-
-    let iteration = 0
-    while (iteration < count) {
-      iteration++
-      this.guardInfiniteLoop(statement.keyword.location)
-
-      this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
-        return {
-          type: 'RepeatStatement',
-          count: countResult,
-          iteration,
-        }
-      })
-
-      this.executeBlock(statement.body, this.environment)
-
-      // Delay repeat for things like animations
-      this.time += this.languageFeatures.repeatDelay
-    }
-  }
-
-  public visitRepeatUntilGameOverStatement(
-    statement: RepeatUntilGameOverStatement
-  ): void {
-    let count = 0 // Count is a guard against infinite looping
-
-    while (!this.externalState.gameOver) {
-      if (count >= this.maxRepeatUntilGameOverIterations) {
-        this.error('MaxIterationsReached', statement.keyword.location, {
-          max: this.maxRepeatUntilGameOverIterations,
-        })
-      }
-
-      this.guardInfiniteLoop(statement.keyword.location)
-      this.executeBlock(statement.body, this.environment)
-      count++
-
-      // Delay repeat for things like animations
-      this.time += this.languageFeatures.repeatDelay
-    }
-  }
-  public visitRepeatForeverStatement(statement: RepeatForeverStatement): void {
-    var count = 0 // Count is a guard against infinite looping
-
-    while (true) {
-      if (count >= this.maxTotalLoopIterations) {
-        this.error('InfiniteLoop', statement.keyword.location)
-      }
-
-      this.guardInfiniteLoop(statement.location)
-      this.executeBlock(statement.body, this.environment)
-      count++
-
-      // Delay repeat for things like animations
-      this.time += this.languageFeatures.repeatDelay
-    }
-  }
-
   public visitBlockStatement(statement: BlockStatement): void {
     // Change this to allow scoping
     // this.executeBlock(statement.statements, new Environment(this.environment))
@@ -704,6 +614,21 @@ export class Executor {
     return { type: 'DictionaryExpression', resultingValue: dict }
   }
 
+  private retrieveCounterVariableNameForLoop(
+    statement:
+      | ForeachStatement
+      | RepeatStatement
+      | RepeatForeverStatement
+      | RepeatUntilGameOverStatement
+  ): string | null {
+    if (statement.counter == null) {
+      return null
+    }
+
+    this.guardDefinedName(statement.counter)
+    return statement.counter.lexeme
+  }
+
   visitForeachStatement(statement: ForeachStatement): void {
     const iterable = this.evaluate(statement.iterable)
     if (
@@ -717,6 +642,9 @@ export class Executor {
 
     this.guardDefinedName(statement.elementName)
 
+    const counterVariableName =
+      this.retrieveCounterVariableNameForLoop(statement)
+
     if (iterable.resultingValue?.length === 0) {
       this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
         return {
@@ -728,7 +656,7 @@ export class Executor {
       })
     }
 
-    try {
+    this.executeLoop(() => {
       let index = 0
       for (const temporaryVariableValue of iterable.resultingValue) {
         index += 1
@@ -746,22 +674,19 @@ export class Executor {
           }
         })
 
-        try {
-          this.executeBlock(statement.body, this.environment)
-        } catch (e) {
-          // If we've got a control flow error, don't do anything.
-          if (e instanceof ContinueFlowControlError) {
-          }
-
-          // Otherwise we have some error that shouldn't be handled here,
-          // so get out of dodge!
-          else {
-            throw e
-          }
-        } finally {
-          this.environment.undefine(temporaryVariableName)
-        }
+        this.executeLoopIteration(
+          statement.body,
+          index,
+          temporaryVariableName,
+          counterVariableName
+        )
       }
+    })
+  }
+
+  private executeLoop(body: () => void): void {
+    try {
+      body.call(this)
     } catch (e) {
       // If we've got a control flow error, don't do anything.
       if (e instanceof BreakFlowControlError) {
@@ -775,62 +700,158 @@ export class Executor {
     }
   }
 
-  // public visitWhileStatement(statement: WhileStatement): void {
-  //   while (
-  //     this.executeFrame(statement, () => this.evaluate(statement.condition))
-  //   )
-  //     this.executeBlock(statement.body, this.environment)
-  // }
+  private executeLoopIteration(
+    body: Statement[],
+    iteration: number,
+    temporaryVariableName: string | null,
+    counterVariableName: string | null
+  ): void {
+    if (counterVariableName) {
+      this.environment.define(counterVariableName, iteration)
+    }
 
-  // public visitDoWhileStatement(statement: DoWhileStatement): void {
-  //   do {
-  //     this.executeBlock(statement.body, this.environment)
-  //   } while (
-  //     this.executeFrame<boolean>(statement, () =>
-  //       this.evaluate(statement.condition)
-  //     )
-  //   )
-  // }
+    try {
+      this.executeBlock(body, this.environment)
+    } catch (e) {
+      // If we've got a control flow error, don't do anything.
+      if (e instanceof ContinueFlowControlError) {
+      }
 
-  // visitTemplateLiteralExpression(
-  //   expression: TemplateLiteralExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplateLiteralExpression',
-  //     value: expression.parts
-  //       .map((part) => this.evaluate(part).value.toString())
-  //       .join(''),
-  //   }
-  // }
+      // Otherwise we have some error that shouldn't be handled here,
+      // so get out of dodge!
+      else {
+        throw e
+      }
+    } finally {
+      if (temporaryVariableName) {
+        this.environment.undefine(temporaryVariableName)
+      }
+      if (counterVariableName) {
+        this.environment.undefine(counterVariableName)
+      }
+    }
+  }
 
-  // visitTemplatePlaceholderExpression(
-  //   expression: TemplatePlaceholderExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplatePlaceholderExpression',
-  //     value: this.evaluate(expression.inner).value,
-  //   }
-  // }
+  public visitRepeatStatement(statement: RepeatStatement): void {
+    const countResult = this.evaluate(statement.count)
+    const count = countResult.resultingValue
+    const counterVariableName =
+      this.retrieveCounterVariableNameForLoop(statement)
 
-  // visitTemplateTextExpression(
-  //   expression: TemplateTextExpression
-  // ): EvaluationResult {
-  //   return {
-  //     type: 'TemplateTextExpression',
-  //     value: expression.text.literal,
-  //   }
-  // }
+    if (!isNumber(count)) {
+      this.error('RepeatCountMustBeNumber', statement.count.location, {
+        count,
+      })
+    }
 
-  // visitDictionaryExpression(
-  //   expression: DictionaryExpression
-  // ): EvaluationResult {
-  //   let dict: Record<string, any> = {}
+    if (count < 0) {
+      this.error('RepeatCountMustBeZeroOrGreater', statement.count.location, {
+        count,
+      })
+    }
 
-  //   for (const [key, value] of expression.elements)
-  //     dict[key] = this.evaluate(value).value
+    if (count > this.maxTotalLoopIterations) {
+      this.error('RepeatCountTooHigh', statement.count.location, {
+        count,
+        max: this.maxTotalLoopIterations,
+      })
+    }
 
-  //   return { type: 'DictionaryExpression', value: dict }
-  // }
+    if (count == 0) {
+      this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
+        return {
+          type: 'RepeatStatement',
+          count: countResult,
+          iteration: 0,
+        }
+      })
+    }
+
+    this.executeLoop(() => {
+      let iteration = 0
+      while (iteration < count) {
+        iteration++
+        this.guardInfiniteLoop(statement.keyword.location)
+
+        if (counterVariableName) {
+          this.environment.define(counterVariableName, iteration)
+        }
+
+        this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
+          return {
+            type: 'RepeatStatement',
+            count: countResult,
+            iteration,
+          }
+        })
+
+        this.executeLoopIteration(
+          statement.body,
+          iteration,
+          null,
+          counterVariableName
+        )
+
+        // Delay repeat for things like animations
+        this.time += this.languageFeatures.repeatDelay
+      }
+    })
+  }
+
+  public visitRepeatUntilGameOverStatement(
+    statement: RepeatUntilGameOverStatement
+  ): void {
+    let iteration = 0 // Count is a guard against infinite looping
+    const counterVariableName =
+      this.retrieveCounterVariableNameForLoop(statement)
+
+    this.executeLoop(() => {
+      while (!this.externalState.gameOver) {
+        iteration++
+        if (iteration >= this.maxRepeatUntilGameOverIterations) {
+          this.error('MaxIterationsReached', statement.keyword.location, {
+            max: this.maxRepeatUntilGameOverIterations,
+          })
+        }
+
+        this.guardInfiniteLoop(statement.keyword.location)
+        this.executeLoopIteration(
+          statement.body,
+          iteration,
+          null,
+          counterVariableName
+        )
+
+        // Delay repeat for things like animations
+        this.time += this.languageFeatures.repeatDelay
+      }
+    })
+  }
+  public visitRepeatForeverStatement(statement: RepeatForeverStatement): void {
+    var iteration = 0 // Count is a guard against infinite looping
+    const counterVariableName =
+      this.retrieveCounterVariableNameForLoop(statement)
+
+    this.executeLoop(() => {
+      while (true) {
+        iteration++
+        if (iteration >= this.maxTotalLoopIterations) {
+          this.error('InfiniteLoop', statement.keyword.location)
+        }
+
+        this.guardInfiniteLoop(statement.location)
+        this.executeLoopIteration(
+          statement.body,
+          iteration,
+          null,
+          counterVariableName
+        )
+
+        // Delay repeat for things like animations
+        this.time += this.languageFeatures.repeatDelay
+      }
+    })
+  }
 
   public visitCallExpression(
     expression: CallExpression

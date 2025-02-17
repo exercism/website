@@ -3,7 +3,9 @@
   "description": "Move your laser from left to right and shoot the aliens.",
   "project_type": "space-invaders",
   "level": 5,
-  "idx": 14,
+  "idx": 9,
+  "blocks_level_progression": false,
+  "blocks_project_progression": true,
   "tests_type": "state",
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 100,

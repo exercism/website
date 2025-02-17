@@ -1,8 +1,8 @@
 {
   "title": "Formal Dinner",
   "description": "Solve a Formal Dinner guest list",
-  "level": 5,
-  "idx": 12,
+  "level": 6,
+  "idx": 5,
   "tests_type": "io",
   "stdlib_functions": ["join"],
   "tasks": [

@@ -108,7 +108,7 @@
 
         mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/400% 100%;
         background-repeat: no-repeat;
-        animation: shimmer 10s infinite;
+        animation: shimmer 7s infinite;
 
         .tag {
             border: none;
@@ -141,7 +141,7 @@
     0% {
         mask-position: right/300% 100%;
     }
-    15% {
+    20% {
         mask-position: left;
     }
     100% {

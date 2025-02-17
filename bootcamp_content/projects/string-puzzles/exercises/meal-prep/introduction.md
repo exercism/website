@@ -15,7 +15,7 @@ The first is the contents of your fridge as a list of strings.
 The second are the items in the recipe, also as a list of strings.
 It should return the things you need to buy, as a list of strings.
 
-You have one function avaiable:
+You have one function available:
 
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
 

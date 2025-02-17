@@ -223,18 +223,6 @@ test('MissingCommaBetweenParameters', () => {
   ).toThrow('MissingCommaBetweenParameters: parameter: unexpected')
 })
 
-test('MissingLeftParenthesisAfterFunctionCall', () => {
-  expect(() =>
-    parse(`
-      function move do
-        return 1
-      end
-
-      move)
-    `)
-  ).toThrow('MissingLeftParenthesisAfterFunctionCall: function: move')
-})
-
 describe('MissingRightParenthesisAfterFunctionCall', () => {
   test('missing closing parenthesis - no args', () => {
     expect(() => parse('move(')).toThrow(
@@ -293,16 +281,6 @@ describe('MissingDoToStartBlock', () => {
     expect(() =>
       parse(`
       if x equals 1
-      end
-    `)
-    ).toThrow('MissingDoToStartBlock: type: if')
-  })
-
-  test('if with unexpected token', () => {
-    expect(() =>
-      parse(`
-      if x is 10 unexpected
-        set x to 20
       end
     `)
     ).toThrow('MissingDoToStartBlock: type: if')
@@ -501,4 +479,270 @@ test('MissingEachAfterFor', () => {
       end
     `)
   ).toThrow('MissingEachAfterFor')
+})
+
+describe('UnexpectedClosingBracket', () => {
+  describe('brackets', () => {
+    test(')', () => {
+      expect(() =>
+        parse(`
+          if true) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('}', () => {
+      expect(() =>
+        parse(`
+          if true} do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test(']', () => {
+      expect(() =>
+        parse(`
+          if true] do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+  })
+  describe('places', () => {
+    test('if', () => {
+      expect(() =>
+        parse(`
+          if true) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('for each', () => {
+      expect(() =>
+        parse(`
+          for each x in []) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat', () => {
+      expect(() =>
+        parse(`
+          repeat 5 times) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat_until_game_over', () => {
+      expect(() =>
+        parse(`
+          repeat_until_game_over) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat_forever', () => {
+      expect(() =>
+        parse(`
+          repeat_forever) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+  })
+})
+
+describe('UnexpectedToken', () => {
+  test('if with random word', () => {
+    expect(() =>
+      parse(`
+      if x is 10 unexpected
+      end
+    `)
+    ).toThrow('UnexpectedToken: lexeme: unexpected')
+  })
+})
+describe('MissingRightBracketAfterListElements', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2,
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to [1,
+                    2,
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement with comma', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2,
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement without comma', () => {
+    expect(() =>
+      parse(`
+        set foo to [1, 2
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('new statement without elements', () => {
+    expect(() =>
+      parse(`
+        set foo to [
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+  test('before a do', () => {
+    expect(() =>
+      parse(`
+        for each x in [1 do
+        set x to 1
+      `)
+    ).toThrow('MissingRightBracketAfterListElements')
+  })
+})
+
+describe('MissingCommaInList', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to [1 2
+      `)
+    ).toThrow('MissingCommaInList')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to [1 
+                    2
+      `)
+    ).toThrow('MissingCommaInList')
+  })
+})
+
+describe('MissingRightBraceAfterDictionaryElements', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+                    "3": 4,
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('new statement with comma', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('new statement without comma', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2"
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+
+  test('new statement without elements', () => {
+    expect(() =>
+      parse(`
+        set foo to {
+        set x to 1
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+  test('before a do', () => {
+    expect(() =>
+      parse(`
+        for each x in {"1": "2" do
+        end
+      `)
+    ).toThrow('MissingRightBraceAfterDictionaryElements')
+  })
+})
+
+describe('MissingCommaInDictionary', () => {
+  test('one line', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2" "3"
+      `)
+    ).toThrow('MissingCommaInDictionary')
+  })
+  test('multiple lines', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2"
+                    "3"
+      `)
+    ).toThrow('MissingCommaInDictionary')
+  })
+})
+
+describe('UnexpectedTrailingComma', () => {
+  test('dictionary with elems', () => {
+    expect(() =>
+      parse(`
+        set foo to {"1": "2",}
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('naked dictionary', () => {
+    expect(() =>
+      parse(`
+        set foo to {,}
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('list with elems', () => {
+    expect(() =>
+      parse(`
+        set foo to ["1", "2",]
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+  test('naked list', () => {
+    expect(() =>
+      parse(`
+        set foo to [,]
+      `)
+    ).toThrow('UnexpectedTrailingComma')
+  })
+})
+
+describe('UnexpectedKeyword', () => {
+  test('function definition', () => {
+    expect(() =>
+      parse(`function can_fit_in with queue, next, time do`)
+    ).toThrow('UnexpectedKeyword: lexeme: next')
+  })
+})
+
+describe('MissingByAfterIndexed', () => {
+  test('repeat', () => {
+    expect(() => parse(`repeat 10 times indexed do`)).toThrow(
+      'MissingByAfterIndexed'
+    )
+  })
+})
+
+describe('MissingIndexNameAfterIndexedBy', () => {
+  test('repeat', () => {
+    expect(() => parse(`repeat 10 times indexed by do`)).toThrow(
+      'MissingIndexNameAfterIndexedBy'
+    )
+  })
 })

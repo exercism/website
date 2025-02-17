@@ -33,7 +33,7 @@ import { deepTrim } from './describers/helpers'
 import { describeChangeVariableStatement } from './describers/describeChangeStatement'
 import { describeCallStatement } from './describers/describeCallStatement'
 import { describeReturnStatement } from './describers/describeReturnStatement'
-import { describeChangeListElementStatement } from './describers/describeChangeListElementStatement'
+import { describeChangeElementStatement } from './describers/describeChangeElementStatement'
 import { describeForeachStatement } from './describers/describeForeachStatement'
 import { describeRepeatStatement } from './describers/describeRepeatStatement'
 
@@ -118,8 +118,8 @@ function generateDescription(
     case 'ChangeVariableStatement':
       return describeChangeVariableStatement(frame, context)
 
-    case 'ChangeListElementStatement':
-      return describeChangeListElementStatement(frame, context)
+    case 'ChangeElementStatement':
+      return describeChangeElementStatement(frame, context)
 
     case 'CallStatement':
       return describeCallStatement(frame, context)

@@ -17,7 +17,7 @@
       "InvalidTemplateLiteral": "Ongeldige template literal.",
       "MissingRightBracketAfterListElements": "Ontbrekende ']' na lijstelementen.",
       "MissingStringAsKey": "Ontbrekende string als sleutel.",
-      "MissingRightBraceAfterMapElements": "Ontbrekende '}' na de elementen van een map.",
+      "MissingRightBraceAfterDictionaryElements": "Ontbrekende '}' na de elementen van een map.",
       "MissingEndOfLine": "Einde van regel verwacht.",
       "MissingFunctionName": "Ontbrekende functie naam.",
       "MissingLeftParenthesisAfterFunctionName": "Ontbrekende '(' na functie naam.",

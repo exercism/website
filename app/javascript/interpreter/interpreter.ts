@@ -19,6 +19,12 @@ export interface SomethingWithLocation {
   location: Location
 }
 
+export type CompilationError = {
+  type: 'CompilationError'
+  error: StaticError
+  frames: Frame[]
+}
+
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {
@@ -139,7 +145,7 @@ export class Interpreter {
     try {
       this.statements = this.parser.parse(this.sourceCode)
     } catch (error: unknown) {
-      throw { frames: [], error: error }
+      throw { type: 'CompilationError', frames: [], error: error }
     }
   }
 

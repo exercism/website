@@ -11,8 +11,8 @@ import {
   DictionaryExpression,
   UnaryExpression,
   VariableLookupExpression,
-  GetExpression,
-  SetExpression,
+  GetElementExpression,
+  SetElementExpression,
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
   TemplateTextExpression,
@@ -23,7 +23,9 @@ import { Location } from './location'
 import { Scanner } from './scanner'
 import {
   BlockStatement,
+  BreakStatement,
   CallStatement,
+  ContinueStatement,
   ForeachStatement,
   FunctionParameter,
   FunctionStatement,
@@ -36,9 +38,14 @@ import {
   ChangeVariableStatement,
   RepeatForeverStatement,
   LogStatement,
-  ChangeListElementStatement,
+  ChangeElementStatement,
 } from './statement'
-import type { Token, TokenType } from './token'
+import {
+  KeywordTokens,
+  StatementKeywordTokens,
+  type Token,
+  type TokenType,
+} from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
@@ -122,6 +129,13 @@ export class Parser {
           )
         }
 
+        // If we have some keyword other than "DO", it's probably
+        // someone using a reserved keyword by accident
+        if (this.nextTokenIsKeyword() && !this.check('DO')) {
+          this.error('UnexpectedKeyword', this.peek().location, {
+            lexeme: this.peek().lexeme,
+          })
+        }
         const parameterName = this.consume(
           'IDENTIFIER',
           'MissingParameterName',
@@ -160,10 +174,13 @@ export class Parser {
   }
 
   private statement(): Statement {
-    if (this.match('SET')) return this.setVariableStatement()
+    if (this.match('BREAK')) return this.breakStatement()
     if (this.match('CHANGE')) return this.changeVariableStatement()
+    if (this.match('CONTINUE')) return this.continueStatement()
+    if (this.match('NEXT')) return this.continueStatement()
     if (this.match('IF')) return this.ifStatement()
     if (this.match('LOG')) return this.logStatement()
+    if (this.match('SET')) return this.setVariableStatement()
     if (this.match('RETURN')) return this.returnStatement()
     if (this.match('REPEAT')) return this.repeatStatement()
     if (this.match('REPEAT_FOREVER')) return this.repeatForeverStatement()
@@ -257,14 +274,14 @@ export class Parser {
 
   private changeListElementStatement(
     changeToken: Token
-  ): ChangeListElementStatement {
+  ): ChangeElementStatement {
     // Convert the statement
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
     // and the index, while still maintaining the integrity of both sides.
     const getExpression = this.chainedVariableAccessors(this.primary())
 
-    if (!(getExpression instanceof GetExpression)) {
+    if (!(getExpression instanceof GetElementExpression)) {
       this.error('GenericSyntaxError', getExpression.location)
     }
 
@@ -281,7 +298,7 @@ export class Parser {
     const value = this.expression()
     this.consumeEndOfLine()
 
-    return new ChangeListElementStatement(
+    return new ChangeElementStatement(
       list,
       index,
       value,
@@ -302,7 +319,8 @@ export class Parser {
       }
     }
 
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'if' })
+    this.consumeDo('if')
+
     const thenBranch = this.blockStatement('if', {
       allowElse: true,
       consumeEnd: false,
@@ -313,7 +331,7 @@ export class Parser {
       if (this.match('IF')) {
         elseBranch = this.ifStatement()
       } else {
-        this.consume('DO', 'MissingDoToStartBlock', { type: 'else' })
+        this.consumeDo('else')
         elseBranch = this.blockStatement('else')
       }
     } else {
@@ -358,7 +376,8 @@ export class Parser {
     const keyword = this.previous()
     const condition = this.expression()
     this.consume('TIMES', 'MissingTimesInRepeat')
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
+    const counter = this.counter()
+    this.consumeDo('repeat')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat')
@@ -366,6 +385,7 @@ export class Parser {
     return new RepeatStatement(
       keyword,
       condition,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
@@ -374,37 +394,36 @@ export class Parser {
   private repeatUntilGameOverStatement(): Statement {
     const keyword = this.previous()
 
-    this.consume('DO', 'MissingDoToStartBlock', {
-      type: 'repeat_until_game_over',
-    })
+    const counter = this.counter()
+    this.consumeDo('repeat_until_game_over')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat_until_game_over')
 
     return new RepeatUntilGameOverStatement(
       keyword,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
   }
   private repeatForeverStatement(): Statement {
     const keyword = this.previous()
-
-    this.consume('DO', 'MissingDoToStartBlock', {
-      type: 'repeat_forever',
-    })
+    const counter = this.counter()
+    this.consumeDo('repeat_forever')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat_forever')
 
     return new RepeatForeverStatement(
       keyword,
+      counter,
       statements,
       Location.between(keyword, this.previous())
     )
   }
 
-  private whileStatement(): Statement {
+  /*private whileStatement(): Statement {
     const begin = this.previous()
     const condition = this.expression()
 
@@ -418,7 +437,7 @@ export class Parser {
       statements,
       Location.between(begin, this.previous())
     )
-  }
+  }*/
 
   private forStatement(): Statement {
     const forToken = this.previous()
@@ -434,8 +453,9 @@ export class Parser {
       elementName,
     })
     const iterable = this.expression()
+    const counter = this.counter()
 
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'foreach' })
+    this.consumeDo('foreach')
     this.consumeEndOfLine()
 
     const statements = this.block('foreach')
@@ -443,9 +463,18 @@ export class Parser {
     return new ForeachStatement(
       elementName,
       iterable,
+      counter,
       statements,
       Location.between(forToken, this.previous())
     )
+  }
+
+  private counter(): Token | null {
+    if (this.match('INDEXED')) {
+      this.consume('BY', 'MissingByAfterIndexed')
+      return this.consume('IDENTIFIER', 'MissingIndexNameAfterIndexedBy')
+    }
+    return null
   }
 
   private blockStatement(
@@ -508,6 +537,20 @@ export class Parser {
     return new CallStatement(expression, expression.location)
   }
 
+  private continueStatement(): ContinueStatement {
+    const keyword = this.previous()
+    this.consumeEndOfLine()
+
+    return new ContinueStatement(keyword, keyword.location)
+  }
+
+  private breakStatement(): BreakStatement {
+    const keyword = this.previous()
+    this.consumeEndOfLine()
+
+    return new BreakStatement(keyword, keyword.location)
+  }
+
   private expression(): Expression {
     return this.assignment()
   }
@@ -519,8 +562,8 @@ export class Parser {
       const operator = this.previous()
       const value = this.assignment()
 
-      if (expr instanceof GetExpression) {
-        return new SetExpression(
+      if (expr instanceof GetElementExpression) {
+        return new SetElementExpression(
           expr.obj,
           expr.field,
           value,
@@ -677,7 +720,7 @@ export class Parser {
         'MissingRightBracketAfterFieldNameOrIndex',
         { expression }
       )
-      expression = new GetExpression(
+      expression = new GetElementExpression(
         expression,
         field,
         Location.between(expression, rightBracket)
@@ -689,22 +732,6 @@ export class Parser {
   private call(): Expression {
     let expression = this.primary()
     expression = this.chainedVariableAccessors(expression)
-
-    // Guard against missing start parenthesis for function call
-    if (
-      // This is a variable expression because we don't convert VariableLookupExpression
-      // to FunctionLookupExpression until we know it's a function call or in this guard.
-      expression instanceof VariableLookupExpression &&
-      this.functionNames.includes(expression.name.lexeme) &&
-      this.match('RIGHT_PAREN')
-    ) {
-      this.error(
-        'MissingLeftParenthesisAfterFunctionCall',
-        this.previous().location,
-        { expression, function: expression.name.lexeme }
-      )
-    }
-
     return expression
   }
 
@@ -864,9 +891,62 @@ export class Parser {
     const elements: Expression[] = []
 
     if (!this.check('RIGHT_BRACKET')) {
-      do {
-        elements.push(this.or())
-      } while (this.match('COMMA'))
+      this.match('EOL') // Allow for the first element to be on a new line
+
+      // Check for comma before anything else.
+      this.guardTrailingComma('COMMA', this.peek().location)
+
+      let moreItems = true
+      let prevComma: Token | undefined
+
+      while (moreItems) {
+        moreItems = false
+
+        try {
+          elements.push(this.or())
+        } catch (e) {
+          if (!(e instanceof SyntaxError && e.type == 'MissingExpression')) {
+            throw e
+          }
+          this.error(
+            'MissingRightBracketAfterListElements',
+            (prevComma || this.previous()).location
+          )
+        }
+
+        // If we've got a comma, then we consume an end of line if it's there and go again
+        if (this.check('COMMA')) {
+          prevComma = this.consume('COMMA', 'MissingCommaInList')
+          moreItems = true
+
+          if (this.check('EOL')) {
+            this.consumeEndOfLine()
+          }
+
+          // Check for trailing commas
+          this.guardTrailingComma(
+            'RIGHT_BRACKET',
+            (prevComma || leftBracket).location
+          )
+        }
+        // If there's no comma, we expect either a `]` or ` `\n]`.
+        // Firstly check for the newline version, and consume the
+        // newline if it's there.
+        else if (this.check('EOL') && this.check('RIGHT_BRACKET', 2)) {
+          this.consumeEndOfLine()
+        }
+        // Finally, we expect just a right bracket. If we don't have
+        // that, we're probably missing a comma.
+        else if (!this.check('RIGHT_BRACKET')) {
+          if (this.nextTokenIsKeyword()) {
+            this.error(
+              'MissingRightBracketAfterListElements',
+              leftBracket.location
+            )
+          }
+          this.error('MissingCommaInList', this.peek().location)
+        }
+      }
     }
 
     const rightBracket = this.consume(
@@ -885,16 +965,78 @@ export class Parser {
     const elements = new Map<string, Expression>()
 
     if (!this.check('RIGHT_BRACE')) {
-      do {
-        const key = this.consume('STRING', 'MissingStringAsKey')
+      this.match('EOL') // Allow for the first element to be on a new line
+
+      // Check for trailing commas
+      this.guardTrailingComma('COMMA', this.peek().location)
+
+      let moreItems = true
+      let prevComma: Token | undefined
+
+      while (moreItems) {
+        if (this.check('RIGHT_BRACE')) {
+          this.error('UnexpectedTrailingComma', leftBrace.location)
+        }
+        if (this.nextTokenIsKeyword()) {
+          this.error(
+            'MissingRightBraceAfterDictionaryElements',
+            leftBrace.location
+          )
+        }
+
+        moreItems = false
+        let key
+        try {
+          key = this.consume('STRING', 'MissingStringAsKey')
+        } catch (e) {
+          if (!(e instanceof SyntaxError && e.type == 'MissingExpression')) {
+            throw e
+          }
+          this.error(
+            'MissingRightBraceAfterDictionaryElements',
+            (prevComma || this.previous()).location
+          )
+        }
+
         this.consume('COLON', 'MissingColonAfterKey')
-        elements.set(key.literal, this.primary())
-      } while (this.match('COMMA'))
+        elements.set(key.literal, this.or())
+
+        // If we have a comma, continue onwards
+        if (this.match('COMMA')) {
+          prevComma = this.previous()
+          this.match('EOL') // Allow for things to be split over lines
+
+          // Check for trailing commas
+          this.guardTrailingComma(
+            'RIGHT_BRACE',
+            (prevComma || leftBrace).location
+          )
+
+          moreItems = !this.isAtEnd()
+        }
+        // If there's no comma, we expect either a `}` or ` `\n}`.
+        // Firstly check for the newline version, and consume the
+        // newline if it's there.
+        else if (this.check('EOL') && this.check('RIGHT_BRACE', 2)) {
+          this.consumeEndOfLine()
+        }
+        // Finally, we expect just a right bracket. If we don't have
+        // that, we're either missing a comma or an end closing brace.
+        else if (!this.check('RIGHT_BRACE')) {
+          if (this.nextTokenIsKeyword()) {
+            this.error(
+              'MissingRightBraceAfterDictionaryElements',
+              leftBrace.location
+            )
+          }
+          this.error('MissingCommaInDictionary', this.peek().location)
+        }
+      }
     }
 
     const rightBracket = this.consume(
       'RIGHT_BRACE',
-      'MissingRightBraceAfterMapElements',
+      'MissingRightBraceAfterDictionaryElements',
       { elements }
     )
     return new DictionaryExpression(
@@ -913,9 +1055,9 @@ export class Parser {
     return false
   }
 
-  private check(tokenType: TokenType): boolean {
+  private check(tokenType: TokenType, steps = 1): boolean {
     if (this.isAtEnd()) return false
-    return this.peek().type == tokenType
+    return this.peek(steps).type == tokenType
   }
 
   private advance(): Token {
@@ -931,6 +1073,27 @@ export class Parser {
     if (this.check(tokenType)) return this.advance()
 
     this.error(type, this.peek().location, context)
+  }
+
+  private consumeDo(type): void {
+    const next = this.peek()
+
+    // The DO will work, the EOL will fail.
+    // Both of these can be handled normally.
+    if (next.type == 'EOL' || next.type == 'DO') {
+      this.consume('DO', 'MissingDoToStartBlock', { type })
+      return
+    }
+
+    if ([')', '}', ']'].includes(next.lexeme)) {
+      this.error('UnexpectedClosingBracket', this.peek().location, {
+        lexeme: next.lexeme,
+      })
+    } else {
+      this.error('UnexpectedToken', this.peek().location, {
+        lexeme: next.lexeme,
+      })
+    }
   }
 
   private consumeEndOfLine(): void {
@@ -971,6 +1134,16 @@ export class Parser {
     )
   }
 
+  private guardTrailingComma(
+    token: 'COMMA' | 'RIGHT_BRACKET' | 'RIGHT_BRACE',
+    location: Location
+  ) {
+    if (!this.check(token)) {
+      return
+    }
+    this.error('UnexpectedTrailingComma', location)
+  }
+
   private guardEqualsSignForAssignment(name: Token) {
     if (this.peek().type == 'EQUAL') {
       this.error('UnexpectedEqualsForAssignment', this.peek().location, {
@@ -997,6 +1170,16 @@ export class Parser {
 
   private isAtEndOfStatement(): boolean {
     return this.peek().type == 'EOL' || this.isAtEnd()
+  }
+
+  private nextTokenIsKeyword(): boolean {
+    let counter = 1
+    while (this.check('EOL', counter)) {
+      counter++
+    }
+    const nextActualThing = this.peek(counter)
+
+    return KeywordTokens.includes(nextActualThing.type)
   }
 
   private peek(n = 1): Token {

@@ -22,7 +22,7 @@
           "description_html": "The name's not on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
-          "params": [["Brian May", "Albert Einstein"], "Mr Pitt"],
+          "params": [["Brian May", "Albert Einstein", "James Watt"], "Mr Pitt"],
           "expected": false
         },
         {
@@ -75,7 +75,7 @@
       "tests": [
         {
           "bonus": true,
-          "slug": "cheryl",
+          "slug": "lloyd-webber",
           "description_html": "Baron Lloyd Webber has two words in his surname!",
           "name": "How about a Baron?",
           "function": "on_guest_list",
@@ -89,6 +89,18 @@
             "Baron Lloyd Webber"
           ],
           "expected": true
+        },
+        {
+          "bonus": true,
+          "slug": "mark-webber",
+          "description_html": "A differ Webber doesn't count",
+          "name": "Is Mark the Baron?",
+          "function": "on_guest_list",
+          "params": [
+            ["Brian May", "Brad Pitt", "Albert Einstein", "Mark Webber"],
+            "Baron Lloyd Webber"
+          ],
+          "expected": false
         }
       ]
     }

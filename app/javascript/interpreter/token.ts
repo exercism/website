@@ -1,7 +1,51 @@
 import { Location } from './location'
 import { SomethingWithLocation } from './interpreter'
 
+const StatementKeywordTokens = [
+  'BREAK',
+  'CHANGE',
+  'CONTINUE',
+  'NEXT',
+  'FOR',
+  'FUNCTION',
+  'IF',
+  'LOG',
+  'REPEAT',
+  'REPEAT_FOREVER',
+  'REPEAT_UNTIL_GAME_OVER',
+  'RETURN',
+  'SET',
+  // 'WHILE'
+] as const
+
+const OtherKeywordTokens = [
+  'AND',
+  'DO',
+  'ELSE',
+  'END',
+  'FALSE',
+  'EACH',
+  'IN',
+  'NULL',
+  'OR',
+  'TO',
+  'TIMES',
+  'TRUE',
+  'WITH',
+  'INDEXED',
+  'BY',
+]
+
+export const KeywordTokens = [...StatementKeywordTokens, ...OtherKeywordTokens]
+
+// Convert the array of strings into a union type
+type StatementKeywordTokenType = (typeof StatementKeywordTokens)[number]
+type OtherKeywordTokenType = (typeof OtherKeywordTokens)[number]
+export type KeywordTokenType = StatementKeywordTokenType | OtherKeywordTokenType
+
 export type TokenType =
+  | KeywordTokenType
+
   // Single-character tokens
   | 'BACKTICK'
   | 'COLON'
@@ -33,32 +77,6 @@ export type TokenType =
   | 'NUMBER'
   | 'STRING'
   | 'TEMPLATE_LITERAL_TEXT'
-
-  // Keywords
-  | 'AND'
-  | 'CHANGE'
-  | 'DO'
-  | 'ELSE'
-  | 'END'
-  | 'FALSE'
-  | 'FOR'
-  | 'EACH'
-  | 'FUNCTION'
-  | 'IF'
-  | 'IN'
-  | 'LOG'
-  | 'NULL'
-  | 'OR'
-  | 'REPEAT'
-  | 'REPEAT_FOREVER'
-  | 'REPEAT_UNTIL_GAME_OVER'
-  | 'RETURN'
-  | 'SET'
-  | 'TO'
-  | 'TIMES'
-  | 'TRUE'
-  // | 'WHILE'
-  | 'WITH'
 
   // Grouping tokens
   | 'EQUALITY'

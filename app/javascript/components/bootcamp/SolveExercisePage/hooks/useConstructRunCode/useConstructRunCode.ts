@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { compile } from '@/interpreter/interpreter'
+import { CompilationError, compile } from '@/interpreter/interpreter'
 import useTestStore from '../../store/testStore'
 import useEditorStore from '../../store/editorStore'
 import useTaskStore from '../../store/taskStore/taskStore'
@@ -48,6 +48,28 @@ export function useConstructRunCode({
     shouldShowBonusTasks,
   } = useTaskStore()
 
+  const handleCompilationError = (error, editorView) => {
+    setHasSyntaxError(true)
+    if (!error.location) {
+      return
+    }
+    if (editorView) {
+      scrollToLine(editorView, error.location.line)
+    }
+
+    showError({
+      error,
+      setHighlightedLine,
+      setHighlightedLineColor,
+      setInformationWidgetData,
+      setShouldShowInformationWidget,
+      setUnderlineRange,
+    })
+
+    setTestSuiteResult(null)
+    setInspectedTestResult(null)
+  }
+
   /**
    * This function is used to run the code in the editor
    */
@@ -71,37 +93,31 @@ export function useConstructRunCode({
         languageFeatures: config.interpreterOptions,
       })
 
-      const error = compiled.error
+      const error = compiled.error as CompilationError
 
       if (error) {
-        setHasSyntaxError(true)
-        if (!error.location) {
-          return
-        }
-        if (editorView) {
-          scrollToLine(editorView, error.location.line)
-        }
-
-        showError({
-          error,
-          setHighlightedLine,
-          setHighlightedLineColor,
-          setInformationWidgetData,
-          setShouldShowInformationWidget,
-          setUnderlineRange,
-        })
-
-        setTestSuiteResult(null)
-        setInspectedTestResult(null)
-
+        handleCompilationError(error, editorView)
         return
       }
 
-      const testResults = generateAndRunTestSuite({
-        studentCode,
-        tasks,
-        config,
-      })
+      let testResults
+      try {
+        testResults = generateAndRunTestSuite({
+          studentCode,
+          tasks,
+          config,
+        })
+      } catch (error) {
+        const compError = error as CompilationError
+        console.log(compError)
+        if (
+          compError.hasOwnProperty('type') &&
+          compError.type == 'CompilationError'
+        ) {
+          handleCompilationError(compError.error, editorView)
+          return
+        }
+      }
 
       const bonusTestResults = generateAndRunTestSuite({
         studentCode,

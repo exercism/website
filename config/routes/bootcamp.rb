@@ -6,6 +6,7 @@ namespace :bootcamp do
   resources "projects", param: :slug, only: %i[index show] do
     resources "exercises", param: :slug, only: %i[show edit]
   end
+  resources "exercises", param: :slug, only: %i[index]
   resources "drawings", param: :uuid, only: %i[create edit]
 
   namespace :admin do

@@ -14,9 +14,11 @@ class Bootcamp::Exercise < ApplicationRecord
   scope :unlocked, -> { where('level_idx <= ?', Bootcamp::Settings.level_idx) }
 
   def to_param = slug
+  def brain_buster? = !blocks_level_progression?
   def locked? = level_idx > Bootcamp::Settings.level_idx
   def unlocked? = !locked?
   def concepts = super.to_a.sort
+  def major_project? = project.slug == 'games-and-apps'
 
   def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/exercises/#{project.slug}/#{slug}.svg"
 

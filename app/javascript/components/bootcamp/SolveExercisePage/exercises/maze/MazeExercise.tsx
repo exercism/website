@@ -65,7 +65,6 @@ export default class MazeExercise extends Exercise {
   // Setup Functions
   public setupGrid(_: ExecutionContext, layout: Cell[][]) {
     layout = this.processRandomEmojis(layout)
-    console.log(layout)
     this.mazeLayout = cloneDeep(layout)
     this.initialMazeLayout = cloneDeep(layout)
     this.gridSize = layout.length

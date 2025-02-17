@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import Scrubber from '../Scrubber/Scrubber'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
@@ -8,8 +8,8 @@ import {
 } from './useInspectedTestResultView'
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
-import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { useLogger } from '@/hooks'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()

@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  BonusTestResultsButtons,
-  TestResultsButtons,
-} from '../TestResultsView/TestResultsButtons'
+import { TestResultsButtons } from '../TestResultsView/TestResultsButtons'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { CheckScenariosButton } from './CheckScenariosButton'
 import useTestStore from '../store/testStore'
@@ -21,7 +18,7 @@ function _ControlButtons({ handleRunCode }: { handleRunCode: () => void }) {
       <PreviewTestButtons />
       {/* Just ran the tests */}
       <TestResultsButtons />
-      <BonusTestResultsButtons />
+      <TestResultsButtons isBonus />
     </div>
   )
 }

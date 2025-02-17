@@ -11,9 +11,9 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
 
       assert_response :ok
       assert_json_response({
+        next_exercise: nil,
         completed_level_idx: 1,
-        next_level_idx: nil,
-        next_exercise: nil
+        next_level_idx: nil
       })
     end
   end
@@ -31,9 +31,9 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
 
       assert_response :ok
       assert_json_response({
+        next_exercise: SerializeBootcampExercise.(next_exercise),
         completed_level_idx: nil,
-        next_level_idx: nil,
-        next_exercise: SerializeBootcampExercise.(next_exercise)
+        next_level_idx: nil
       })
     end
   end
@@ -55,25 +55,25 @@ class API::Bootcamp::SolutionsControllerTest < API::BaseTestCase
       patch complete_api_bootcamp_solution_url(solutions.first), headers: @headers
       assert_response :ok
       assert_json_response({
+        next_exercise: SerializeBootcampExercise.(l1e2),
         completed_level_idx: nil,
-        next_level_idx: nil,
-        next_exercise: SerializeBootcampExercise.(l1e2)
+        next_level_idx: nil
       })
 
       patch complete_api_bootcamp_solution_url(solutions.second), headers: @headers
       assert_response :ok
       assert_json_response({
+        next_exercise: SerializeBootcampExercise.(l2e1),
         completed_level_idx: 1,
-        next_level_idx: 2,
-        next_exercise: nil
+        next_level_idx: 2
       })
 
       patch complete_api_bootcamp_solution_url(solutions.third), headers: @headers
       assert_response :ok
       assert_json_response({
+        next_exercise: nil,
         completed_level_idx: 2,
-        next_level_idx: nil,
-        next_exercise: nil
+        next_level_idx: nil
       })
     end
   end

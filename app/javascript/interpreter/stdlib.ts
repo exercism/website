@@ -46,6 +46,11 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: hasKey,
     description: 'checked if the object has the key',
   },
+  keys: {
+    name: 'keys',
+    func: keys,
+    description: 'retrieved the keys of the dictionary',
+  },
 }
 
 function join(_: ExecutionContext, str1: string, str2: string) {
@@ -91,6 +96,12 @@ function hasKey(_: ExecutionContext, obj: Record<string, any>, key: string) {
   verifyType(key, 'string', 2)
 
   return obj.hasOwnProperty(key)
+}
+
+function keys(_: ExecutionContext, obj: Record<string, any>) {
+  verifyType(obj, 'object', 1)
+
+  return Object.keys(obj)
 }
 
 function verifyType(

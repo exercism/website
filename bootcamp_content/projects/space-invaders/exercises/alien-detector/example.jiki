@@ -22,12 +22,10 @@ function move with position, direction do
   return position
 end
 
-function all_aliens_dead with rows do
-  for each row in rows do
-    for each alien in row do
-      if alien do
-        return false
-      end
+function all_aliens_dead with row do
+  for each alien in row do
+    if alien do
+      return false
     end
   end
 
@@ -35,27 +33,27 @@ function all_aliens_dead with rows do
 end
 
 // Get the first row of aliens (the bottom one)
-set rows to [
-  get_starting_aliens_in_row(1),
-  get_starting_aliens_in_row(2),
-  get_starting_aliens_in_row(3)
-]
+set bottom_row to get_starting_aliens_in_row(1)
+set middle_row to get_starting_aliens_in_row(2)
+set top_row to get_starting_aliens_in_row(3)
 
 // Set variables to track things
 set direction to "right"
 set position to 1
+set shot to false
 
 // Play the game
 repeat_until_game_over do
-  for each row in rows do
-    if row[position] do
+  change shot to false  
+  for each row in [bottom_row, middle_row, top_row] do
+    if shot is false and row[position] do
       shoot()
       change row[position] to false
-      break
+      change shot to true  
     end
   end
 
-  if all_aliens_dead(rows) do
+  if all_aliens_dead(bottom_row) and all_aliens_dead(middle_row) and all_aliens_dead(top_row) do
     fire_fireworks()
   else do
     change direction to determine_direction(position, direction)

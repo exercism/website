@@ -4,7 +4,6 @@ import useTaskStore from '../store/taskStore/taskStore'
 import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
-import { useLogger } from '@/hooks'
 
 export function _Instructions({
   exerciseTitle,
@@ -24,8 +23,6 @@ export function _Instructions({
         : null,
     [activeTaskIndex, tasks]
   )
-
-  useLogger('current task', currentTask)
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return

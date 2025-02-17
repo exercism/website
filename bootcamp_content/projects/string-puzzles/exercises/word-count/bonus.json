@@ -1,0 +1,32 @@
+{
+  "name": "Bonus Tasks",
+  "bonus": true,
+  "tests": [
+    {
+      "slug": "word-count-with-apostrophes-and-quotations",
+      "description_html": "Handle words with apostrophes and quotations.",
+      "name": "Words with apostrophes and quotations",
+      "function": "count_words",
+      "params": ["Joe can't tell between 'large' and large."],
+      "expected": {
+        "joe": 1,
+        "can't": 1,
+        "tell": 1,
+        "between": 1,
+        "large": 2,
+        "and": 1
+      }
+    },
+    {
+      "slug": "word-count-apostrophe-word-variation",
+      "description_html": "Correctly count variations of words with apostrophes.",
+      "name": "Apostrophe word variation",
+      "function": "count_words",
+      "params": ["can, can't, 'can't'"],
+      "expected": {
+        "can": 1,
+        "can't": 2
+      }
+    }
+  ]
+}

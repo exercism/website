@@ -41,6 +41,11 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: toUpperCase,
     description: 'converted the string to its uppercase equivalent',
   },
+  to_lower_case: {
+    name: 'to_lower_case',
+    func: toLowerCase,
+    description: 'converted the string to its lowercase equivalent',
+  },
   has_key: {
     name: 'has_key',
     func: hasKey,
@@ -89,6 +94,12 @@ function toUpperCase(_: ExecutionContext, str: string) {
   verifyType(str, 'string', 1)
 
   return str.toUpperCase()
+}
+
+function toLowerCase(_: ExecutionContext, str: string) {
+  verifyType(str, 'string', 1)
+
+  return str.toLowerCase()
 }
 
 function hasKey(_: ExecutionContext, obj: Record<string, any>, key: string) {

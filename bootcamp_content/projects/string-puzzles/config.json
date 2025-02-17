@@ -16,6 +16,7 @@
     "matching-socks",
     "acronym",
     "nucleotide-count",
+    "word-count",
     "protein-translation",
     "pangram"
   ]

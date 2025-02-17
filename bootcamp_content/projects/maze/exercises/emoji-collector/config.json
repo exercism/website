@@ -11,7 +11,7 @@
     "turn_left",
     "turn_right",
     "look",
-    "collect_emoji",
+    "remove_emoji",
     "announce_emojis"
   ],
   "interpreter_options": {

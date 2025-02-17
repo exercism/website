@@ -20,9 +20,9 @@ We've also scattered some extra emojis around the mazes for you to pick up. Each
 To help we've added:
 
 - A new direction you can look (`"down"`!). This tells you what's in the current square.
-- A new function `collect_emoji()` that collects whatever is on the current square. Don't try and pick up a special emoji from above!
+- A new function `remove_emoji()` that removes whatever emoji is on the current square from the board. Don't try and pick up a special emoji from above!
 
-Once you move into the finishing square (`"🏁`), you should use the `announce_emojis(result)` function, passing a dictionary representing the amount of emojis you've collected into its `result` chute. For example, if you've collected 4x 🐽s and 3x 🧠s, you should use the function like this:
+Once you move into the finishing square (`"🏁"`), you should use the `announce_emojis(result)` function, passing a dictionary representing the amount of emojis you've collected into its `result` chute. For example, if you've collected 4x 🐽s and 3x 🧠s, you should use the function like this:
 
 ```
 announce_emojis({ "🐽": 4, "🧠": 3 })

@@ -189,13 +189,13 @@ export default class MazeExercise extends Exercise {
     executionCtx.fastForward(this.duration)
   }
 
-  private collectEmoji(executionCtx: ExecutionContext) {
+  private removeEmoji(executionCtx: ExecutionContext) {
     const yRow = this.mazeLayout[this.characterPosition.y]
     const square = yRow[this.characterPosition.x]
 
     if (!isString(square)) {
       executionCtx.logicError(
-        'You tried to collect an emoji from a square that does not have an emoji!'
+        'You tried to remove an emoji from a square that does not have one.'
       )
     }
 
@@ -475,9 +475,9 @@ export default class MazeExercise extends Exercise {
       description: 'announced the emojis that had been collected',
     },
     {
-      name: 'collect_emoji',
-      func: this.collectEmoji.bind(this),
-      description: 'collected the emoji from the current square',
+      name: 'remove_emoji',
+      func: this.removeEmoji.bind(this),
+      description: 'removed the emoji from the current square',
     },
   ]
 }

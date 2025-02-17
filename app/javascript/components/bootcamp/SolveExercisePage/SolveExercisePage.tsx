@@ -87,7 +87,10 @@ export default function SolveExercisePage({
   */
   const isSpotlightActive = useMemo(() => {
     const basicTestsArePassing = testSuiteResult?.status === 'pass'
-    const bonusTestsArePassing = bonusTestSuiteResult?.status === 'pass'
+    const bonusExists = !!bonusTestSuiteResult
+    const bonusHasTests = bonusExists && bonusTestSuiteResult.tests.length > 0
+    const bonusTestsArePassing =
+      bonusHasTests && bonusTestSuiteResult?.status === 'pass'
     const isActiveForBasicTasks =
       basicTestsArePassing && !wasFinishLessonModalShown
     const isActiveForBonusTasks =

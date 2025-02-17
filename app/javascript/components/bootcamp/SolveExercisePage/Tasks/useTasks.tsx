@@ -28,10 +28,6 @@ export function useTasks() {
     null
   )
 
-  const { exerciseLocalStorageData, setExerciseLocalStorageData } = useContext(
-    SolveExercisePageContext
-  )
-
   const [nextLevelIdx, setNextLevelIdx] = useState<number | null>(null)
   const [completedLevelIdx, setCompletedLevelIdx] = useState<number | null>(
     null

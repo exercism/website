@@ -319,7 +319,8 @@ export class Parser {
       }
     }
 
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'if' })
+    this.consumeDo('if')
+
     const thenBranch = this.blockStatement('if', {
       allowElse: true,
       consumeEnd: false,
@@ -330,7 +331,7 @@ export class Parser {
       if (this.match('IF')) {
         elseBranch = this.ifStatement()
       } else {
-        this.consume('DO', 'MissingDoToStartBlock', { type: 'else' })
+        this.consumeDo('else')
         elseBranch = this.blockStatement('else')
       }
     } else {
@@ -375,7 +376,7 @@ export class Parser {
     const keyword = this.previous()
     const condition = this.expression()
     this.consume('TIMES', 'MissingTimesInRepeat')
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'repeat' })
+    this.consumeDo('repeat')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat')
@@ -391,9 +392,7 @@ export class Parser {
   private repeatUntilGameOverStatement(): Statement {
     const keyword = this.previous()
 
-    this.consume('DO', 'MissingDoToStartBlock', {
-      type: 'repeat_until_game_over',
-    })
+    this.consumeDo('repeat_until_game_over')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat_until_game_over')
@@ -407,9 +406,7 @@ export class Parser {
   private repeatForeverStatement(): Statement {
     const keyword = this.previous()
 
-    this.consume('DO', 'MissingDoToStartBlock', {
-      type: 'repeat_forever',
-    })
+    this.consumeDo('repeat_forever')
     this.consumeEndOfLine()
 
     const statements = this.block('repeat_forever')
@@ -452,7 +449,7 @@ export class Parser {
     })
     const iterable = this.expression()
 
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'foreach' })
+    this.consumeDo('foreach')
     this.consumeEndOfLine()
 
     const statements = this.block('foreach')
@@ -1061,6 +1058,27 @@ export class Parser {
     if (this.check(tokenType)) return this.advance()
 
     this.error(type, this.peek().location, context)
+  }
+
+  private consumeDo(type): void {
+    const next = this.peek()
+
+    // The DO will work, the EOL will fail.
+    // Both of these can be handled normally.
+    if (next.type == 'EOL' || next.type == 'DO') {
+      this.consume('DO', 'MissingDoToStartBlock', { type })
+      return
+    }
+
+    if ([')', '}', ']'].includes(next.lexeme)) {
+      this.error('UnexpectedClosingBracket', this.peek().location, {
+        lexeme: next.lexeme,
+      })
+    } else {
+      this.error('UnexpectedToken', this.peek().location, {
+        lexeme: next.lexeme,
+      })
+    }
   }
 
   private consumeEndOfLine(): void {

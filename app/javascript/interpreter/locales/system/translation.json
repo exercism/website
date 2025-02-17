@@ -61,6 +61,9 @@
       "MiscapitalizedKeyword": "MiscapitalizedKeyword: actual: {{actual}}, expected: {{expected}}",
       "PointlessStatement": "PointlessStatement",
       "MissingEachAfterFor": "MissingEachAfterFor",
+      "UnexpectedToken": "UnexpectedToken: lexeme: {{lexeme}}",
+      "UnexpectedClosingBracket": "UnexpectedClosingBracket: lexeme: {{lexeme}}",
+      "MissingTimesInRepeat": "MissingTimesInRepeat",
       "MissingLeftParenthesisAfterFunctionCall": "MissingLeftParenthesisAfterFunctionCall: function: {{function}}",
       "UnexpectedKeyword": "UnexpectedKeyword: lexeme: {{lexeme}}",
       "UnexpectedTrailingComma": "UnexpectedTrailingComma"

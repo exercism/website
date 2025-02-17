@@ -286,16 +286,6 @@ describe('MissingDoToStartBlock', () => {
     ).toThrow('MissingDoToStartBlock: type: if')
   })
 
-  test('if with unexpected token', () => {
-    expect(() =>
-      parse(`
-      if x is 10 unexpected
-        set x to 20
-      end
-    `)
-    ).toThrow('MissingDoToStartBlock: type: if')
-  })
-
   test('else', () => {
     expect(() =>
       parse(`
@@ -491,6 +481,79 @@ test('MissingEachAfterFor', () => {
   ).toThrow('MissingEachAfterFor')
 })
 
+describe('UnexpectedClosingBracket', () => {
+  describe('brackets', () => {
+    test(')', () => {
+      expect(() =>
+        parse(`
+          if true) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('}', () => {
+      expect(() =>
+        parse(`
+          if true} do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test(']', () => {
+      expect(() =>
+        parse(`
+          if true] do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+  })
+  describe('places', () => {
+    test('if', () => {
+      expect(() =>
+        parse(`
+          if true) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('for each', () => {
+      expect(() =>
+        parse(`
+          for each x in []) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat', () => {
+      expect(() =>
+        parse(`
+          repeat 5 times) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat_until_game_over', () => {
+      expect(() =>
+        parse(`
+          repeat_until_game_over) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+    test('repeat_forever', () => {
+      expect(() =>
+        parse(`
+          repeat_forever) do
+        `)
+      ).toThrow('UnexpectedClosingBracket')
+    })
+  })
+})
+
+describe('UnexpectedToken', () => {
+  test('if with random word', () => {
+    expect(() =>
+      parse(`
+      if x is 10 unexpected
+      end
+    `)
+    ).toThrow('UnexpectedToken: lexeme: unexpected')
+  })
+})
 describe('MissingRightBracketAfterListElements', () => {
   test('one line', () => {
     expect(() =>

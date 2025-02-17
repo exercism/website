@@ -79,6 +79,8 @@ export type SyntaxErrorType =
   | 'PointlessStatement'
   | 'PotentialMissingParenthesesForFunctionCall'
   | 'MissingEachAfterFor'
+  | 'UnexpectedToken'
+  | 'UnexpectedClosingBracket'
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'UnexpectedKeyword'
   | 'UnexpectedTrailingComma'

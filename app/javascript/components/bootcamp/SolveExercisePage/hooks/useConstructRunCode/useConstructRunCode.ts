@@ -40,8 +40,13 @@ export function useConstructRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { markTaskAsCompleted, tasks, bonusTasks, setShouldShowBonusTasks } =
-    useTaskStore()
+  const {
+    markTaskAsCompleted,
+    tasks,
+    bonusTasks,
+    setShouldShowBonusTasks,
+    shouldShowBonusTasks,
+  } = useTaskStore()
 
   /**
    * This function is used to run the code in the editor
@@ -111,7 +116,9 @@ export function useConstructRunCode({
 
       const automaticallyInspectedTest = getFirstFailingOrLastTest(
         testResults,
-        inspectedTestResult
+        bonusTestResults,
+        inspectedTestResult,
+        shouldShowBonusTasks
       )
 
       if (automaticallyInspectedTest.animationTimeline) {
@@ -163,6 +170,7 @@ export function useConstructRunCode({
       setBonusTestSuiteResult,
       tasks,
       inspectedTestResult,
+      shouldShowBonusTasks,
       bonusTasks,
     ]
   )

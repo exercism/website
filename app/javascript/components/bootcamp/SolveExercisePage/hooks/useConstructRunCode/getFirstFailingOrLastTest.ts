@@ -3,25 +3,37 @@
  */
 export function getFirstFailingOrLastTest(
   testResults: TestSuiteResult<NewTestResult>,
-  inspectedTestResult: NewTestResult | null
+  bonusTestResults: TestSuiteResult<NewTestResult>,
+  inspectedTestResult: NewTestResult | null,
+  shouldShowBonusTasks: boolean
 ): NewTestResult {
-  // if inspectedTestResult is already set and it fails again, keep it.
+  const allTests = [...testResults.tests, ...bonusTestResults.tests]
+
+  const failingSlugs = new Set(
+    allTests.filter((t) => t.status === 'fail').map((t) => t.slug)
+  )
+
+  // if inspectedTestResult is still failing, return it
   if (
     inspectedTestResult &&
     inspectedTestResult.status === 'fail' &&
-    testResults.tests[inspectedTestResult.testIndex].status === 'fail'
+    failingSlugs.has(inspectedTestResult.slug)
   ) {
-    return testResults.tests[inspectedTestResult.testIndex]
-  } else {
-    const firstFailingOrLastIndex = (() => {
-      const firstFailingIndex = testResults.tests.findIndex(
-        (test) => test.status === 'fail'
-      )
-      return firstFailingIndex !== -1
-        ? firstFailingIndex
-        : testResults.tests.length - 1
-    })()
-
-    return testResults.tests[firstFailingOrLastIndex]
+    return inspectedTestResult
   }
+
+  const firstFailingTest = testResults.tests.find(
+    (test) => test.status === 'fail'
+  )
+  if (firstFailingTest) return firstFailingTest
+
+  // if all basic tests pass and shouldShowBonusTasks, return the first failing bonus test
+  const firstFailingBonusTest = bonusTestResults.tests.find(
+    (test) => test.status === 'fail'
+  )
+  if (firstFailingBonusTest && shouldShowBonusTasks)
+    return firstFailingBonusTest
+
+  // if everything passes, return the last test
+  return testResults.tests[testResults.tests.length - 1]
 }

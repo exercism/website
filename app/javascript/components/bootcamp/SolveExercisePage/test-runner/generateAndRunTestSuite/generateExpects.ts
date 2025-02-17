@@ -23,8 +23,14 @@ function generateExpectsForIoTests(
   interpreterResult: InterpretResult,
   actual: any
 ) {
-  let expected = testData.expected
-  let matcher = testData.matcher || 'toEqual'
+  let expects = [
+    expect({
+      actual,
+      testsType: 'io',
+      name: testData.name,
+      slug: testData.slug,
+    })[(testData.matcher || 'toEqual') as AvailableMatchers](testData.expected),
+  ]
 
   if (testData.check) {
     const check = testData.check.function
@@ -39,27 +45,20 @@ function generateExpectsForIoTests(
 
     // And then we get the function and call it.
     const fn = checkers[fnName]
-    actual = fn.call(null, interpreterResult, ...args)
-    expected = testData.check.expected
-    matcher = testData.check.matcher || 'toEqual'
+    const checkActual = fn.call(null, interpreterResult, ...args)
+    const checkExpected = testData.check.expected
+    const checkMatcher = testData.check.matcher || 'toEqual'
+    expects.push(
+      expect({
+        actual: checkActual,
+        testsType: 'io',
+        name: testData.name,
+        slug: testData.slug,
+      })[checkMatcher as AvailableMatchers](checkExpected)
+    )
   }
 
-  console.log(
-    expect({
-      actual,
-      testsType: 'io',
-      name: testData.name,
-      slug: testData.slug,
-    })[matcher as AvailableMatchers](expected)
-  )
-  return [
-    expect({
-      actual,
-      testsType: 'io',
-      name: testData.name,
-      slug: testData.slug,
-    })[matcher as AvailableMatchers](expected),
-  ]
+  return expects
 }
 
 // These are the state tests, where we're comparing mutiple different variables or functions

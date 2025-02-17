@@ -75,6 +75,8 @@
           "name": "6 Lines of Code",
           "function": "even_or_odd",
           "params": [0],
+          "expected": "Even",
+
           "check": {
             "description": "We checked how many lines of code you added.",
             "function": "getAddedLineCount(0)",

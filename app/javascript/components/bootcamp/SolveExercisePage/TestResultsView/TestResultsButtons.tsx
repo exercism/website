@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import useTestStore from '../store/testStore'
 import useEditorStore from '../store/editorStore'
@@ -22,7 +22,10 @@ export function TestResultsButtons({ isBonus = false }) {
   const { shouldAutoplayAnimation } = useAnimationTimelineStore()
   const { shouldShowBonusTasks } = useTaskStore()
 
-  const testResults = isBonus ? bonusTestSuiteResult : testSuiteResult
+  const testResults = useMemo(
+    () => (isBonus ? bonusTestSuiteResult : testSuiteResult),
+    [isBonus]
+  )
   const { shouldAnimate } = useShouldAnimate(testResults)
   const { isSpotlightActive } = useContext(SolveExercisePageContext)
 

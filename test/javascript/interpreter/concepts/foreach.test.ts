@@ -225,6 +225,19 @@ describe('for each', () => {
       })
     })
 
+    test('indexed by', () => {
+      const echos: string[] = []
+      const { frames } = interpret(
+        `
+        for each num in ["a","b","c"] indexed by idx do
+          echo(idx)
+        end
+      `,
+        generateEchosContext(echos)
+      )
+      expect(frames).toBeArrayOfSize(6)
+      expect(echos).toEqual(['1', '2', '3'])
+    })
     test('continue', () => {
       const echos: string[] = []
 
@@ -307,6 +320,7 @@ describe('for each', () => {
       expect(lastFrame.error).toBeInstanceOf(RuntimeError)
       expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: num/)
     })
+
     test('iterator does not leak with break', () => {
       const { frames } = interpret(
         `
@@ -321,6 +335,36 @@ describe('for each', () => {
       expect(lastFrame.status).toBe('ERROR')
       expect(lastFrame.error).toBeInstanceOf(RuntimeError)
       expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: num/)
+    })
+
+    test('counter does not leak', () => {
+      const { frames } = interpret(
+        `
+        for each num in [1] indexed by idx do
+        end
+        log idx
+      `,
+        {}
+      )
+      const lastFrame = frames[frames.length - 1]
+      expect(lastFrame.status).toBe('ERROR')
+      expect(lastFrame.error).toBeInstanceOf(RuntimeError)
+      expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: idx/)
+    })
+    test('counter does not leak with break', () => {
+      const { frames } = interpret(
+        `
+        for each num in [1] indexed by idx do
+          break
+        end
+        log idx
+      `,
+        {}
+      )
+      const lastFrame = frames[frames.length - 1]
+      expect(lastFrame.status).toBe('ERROR')
+      expect(lastFrame.error).toBeInstanceOf(RuntimeError)
+      expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: idx/)
     })
   })
 })

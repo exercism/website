@@ -78,6 +78,7 @@ export class ForeachStatement extends Statement {
   constructor(
     public elementName: Token,
     public iterable: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -114,6 +115,7 @@ export class RepeatStatement extends Statement {
   constructor(
     public keyword: Token,
     public count: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -127,6 +129,7 @@ export class RepeatStatement extends Statement {
 export class RepeatForeverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -140,6 +143,7 @@ export class RepeatForeverStatement extends Statement {
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {

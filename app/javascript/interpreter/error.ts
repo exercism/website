@@ -62,6 +62,8 @@ export type SyntaxErrorType =
   | 'MissingStringAsKey'
   | 'MissingColonAfterKey'
   | 'MissingFieldNameOrIndexAfterOpeningBracket'
+  | 'MissingByAfterIndexed'
+  | 'MissingIndexNameAfterIndexedBy'
   | 'InvalidTemplateLiteral'
   | 'NumberEndsWithDecimalPoint'
   | 'NumberWithMultipleDecimalPoints'

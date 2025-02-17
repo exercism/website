@@ -157,7 +157,6 @@ describe('parse', () => {
   describe('index access', () => {
     test('literal', () => {
       const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4] `)
-      console.log(stmts)
       expect(stmts).toBeArrayOfSize(1)
       expect(stmts[0]).toBeInstanceOf(LogStatement)
       const logStmt = stmts[0] as LogStatement

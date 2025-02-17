@@ -38,7 +38,6 @@ describe('strings', () => {
     describe('index access', () => {
       test('literal', () => {
         const stmts = parse(`log "foobar"[4] `)
-        console.log(stmts)
         expect(stmts).toBeArrayOfSize(1)
         expect(stmts[0]).toBeInstanceOf(LogStatement)
         const logStmt = stmts[0] as LogStatement
@@ -52,7 +51,6 @@ describe('strings', () => {
       })
       test('expression', () => {
         const stmts = parse(`log "foobar"[4 + 1] `)
-        console.log(stmts)
         expect(stmts).toBeArrayOfSize(1)
         expect(stmts[0]).toBeInstanceOf(LogStatement)
         const logStmt = stmts[0] as LogStatement

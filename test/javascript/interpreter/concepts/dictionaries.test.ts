@@ -336,7 +336,6 @@ describe('execute', () => {
           set movie to {"director": {"name": "Peter Jackson"}}
           change movie["director"]["skill"] to 10
         `)
-      console.log(error, frames)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].variables).toMatchObject({

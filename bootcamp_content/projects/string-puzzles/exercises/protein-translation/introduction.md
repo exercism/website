@@ -38,8 +38,15 @@ Below are the codons and resulting amino acids needed for the exercise.
 | UGG                | Tryptophan    |
 | UAA, UAG, UGA      | STOP          |
 
-### Instructions
+## Instructions
 
 Your task is to write a function `translate_rna` that takes in an RNA sequence, and returns the list of Animo Acids.
 
 For example, if we ran the code `translate_rna("AUGUUUUCUUAAAUG")`, we'd expect your function to return `["Methionine", "Phenylalanine", "Serine"]`.
+
+### Functions
+
+You have two functions avaialble
+
+- `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
+- `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.

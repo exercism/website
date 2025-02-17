@@ -4,7 +4,7 @@
   "level": 7,
   "idx": 1,
   "tests_type": "io",
-  "stdlib_functions": ["has_key", "push", "join"],
+  "stdlib_functions": ["push", "join"],
   "tasks": [
     {
       "name": "Basic translations",

@@ -27,20 +27,18 @@ function codons_to_proteins with codons do
   end
   return proteins
 end
+
 function rna_to_codons with rna do
   set codons to []
-  set counter to 0
   set codon to ""
   
-  for each letter in rna do    
-    change counter to counter + 1
+  for each letter in rna indexed by counter do
     change codon to join(codon, letter)
   
     if counter % 3 == 0 and codon != "" do
       change codons to push(codons, codon)
       change codon to ""
     end
-
   end
   return codons
 end

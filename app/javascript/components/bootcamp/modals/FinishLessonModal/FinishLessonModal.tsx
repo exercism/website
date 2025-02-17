@@ -36,8 +36,7 @@ export function FinishLessonModal() {
 }
 
 function Inner() {
-  const { modalView } = useContext(FinishLessonModalContext)
-  const { nextLevelIdx, nextExerciseData } = useContext(
+  const { modalView, nextLevelIdx, nextExerciseData } = useContext(
     FinishLessonModalContext
   )
   switch (modalView) {

@@ -44,7 +44,11 @@ function Inner() {
     case 'initial':
       return <InitialView />
     case 'completedExercise':
-      return <CompletedExerciseView nextExerciseData={nextExerciseData!} />
+      if (nextExerciseData) {
+        return <CompletedExerciseView nextExerciseData={nextExerciseData} />
+      } else {
+        return <CompletedEverythingView />
+      }
     case 'completedLevel':
       if (nextLevelIdx) {
         return <CompletedLevelView nextLevelIdx={nextLevelIdx} />

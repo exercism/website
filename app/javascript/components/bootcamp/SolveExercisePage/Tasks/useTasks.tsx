@@ -108,11 +108,7 @@ export function useTasks() {
         setModalView('completedLevel')
         setCompletedLevelIdx(completedData.completed_level_idx)
       } else {
-        setModalView(
-          completedData.next_exercise
-            ? 'completedExercise'
-            : 'completedEverything'
-        )
+        setModalView('completedExercise')
       }
     } catch (e) {
       console.error('Error completing solution: ', e)

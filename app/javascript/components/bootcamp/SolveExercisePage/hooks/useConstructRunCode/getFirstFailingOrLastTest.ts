@@ -7,19 +7,26 @@ export function getFirstFailingOrLastTest(
   inspectedTestResult: NewTestResult | null,
   shouldShowBonusTasks: boolean
 ): NewTestResult {
-  const allTests = [...testResults.tests, ...bonusTestResults.tests]
+  const allTests = [
+    ...(testResults?.tests ?? []),
+    ...(bonusTestResults?.tests ?? []),
+  ]
 
   const failingSlugs = new Set(
     allTests.filter((t) => t.status === 'fail').map((t) => t.slug)
   )
 
-  // if inspectedTestResult is still failing, return it
+  const inspectedTest = inspectedTestResult
+    ? allTests.find((t) => t.slug === inspectedTestResult.slug)
+    : undefined
+
+  // if inspected test still fails, keep it
   if (
-    inspectedTestResult &&
-    inspectedTestResult.status === 'fail' &&
-    failingSlugs.has(inspectedTestResult.slug)
+    inspectedTest &&
+    inspectedTest.status === 'fail' &&
+    failingSlugs.has(inspectedTest.slug)
   ) {
-    return inspectedTestResult
+    return inspectedTest
   }
 
   const firstFailingTest = testResults.tests.find(

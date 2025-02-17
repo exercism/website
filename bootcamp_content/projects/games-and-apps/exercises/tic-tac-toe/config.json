@@ -67,7 +67,7 @@
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 90,10 to 70,30 is wrong or missing."
+              "error_html": "The cross line from 70,30 to 90,10 is wrong or missing."
             },
             {
               "name": "getLineAt(40,40,60,60)",
@@ -148,12 +148,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 60,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 60,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -163,12 +163,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 90,30 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 90,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -178,12 +178,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,80,10)",
@@ -193,12 +193,12 @@
             {
               "name": "getLineAt(40,70,60,90)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,70 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,70 to 60,90 is missing or wrong."
             },
             {
               "name": "getLineAt(40,90,60,70)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,90 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,90 to 60,70 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",
@@ -378,12 +378,12 @@
             {
               "name": "getLineAt(40,10,60,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,10 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,10 to 60,30 is missing or wrong."
             },
             {
               "name": "getLineAt(40,30,60,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,30 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,30 to 60,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,20,10)",
@@ -393,12 +393,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,50,10)",
@@ -408,12 +408,12 @@
             {
               "name": "getLineAt(70,40,90,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,40 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,40 to 90,60 is missing or wrong."
             },
             {
               "name": "getLineAt(70,60,90,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,60 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,60 to 90,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -580,12 +580,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 60,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 60,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -595,12 +595,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 90,30 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 90,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -610,12 +610,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",

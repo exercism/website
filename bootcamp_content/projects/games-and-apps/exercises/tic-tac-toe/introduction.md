@@ -118,6 +118,11 @@ Some scenarios have incomplete games, where there's not yet a winner and the gam
 In those situations you should not show the results screen.
 Leave the game in the state where another move could be made.
 
+### Play the game in order.
+
+The scenarios expect you to play the game out in order.
+Make each move on the board, then deal with the final state at the end.
+
 ## Functions Available
 
 You have a few functions available:

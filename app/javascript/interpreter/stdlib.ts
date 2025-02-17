@@ -41,6 +41,11 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: toUpperCase,
     description: 'converted the string to its uppercase equivalent',
   },
+  has_key: {
+    name: 'has_key',
+    func: hasKey,
+    description: 'checked if the object has the key',
+  },
 }
 
 function join(_: ExecutionContext, str1: string, str2: string) {
@@ -81,9 +86,16 @@ function toUpperCase(_: ExecutionContext, str: string) {
   return str.toUpperCase()
 }
 
+function hasKey(_: ExecutionContext, obj: Record<string, any>, key: string) {
+  verifyType(obj, 'object', 1)
+  verifyType(key, 'string', 2)
+
+  return obj.hasOwnProperty(key)
+}
+
 function verifyType(
   arg: any,
-  targetType: 'string' | 'number' | 'list',
+  targetType: 'string' | 'number' | 'list' | 'object',
   argIdx: number
 ) {
   let argType

@@ -691,6 +691,34 @@ move()
       end
     end
 
+    test "autoselects failing bonus test if shouldShowBonusTasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+          })
+
+        check_scenarios
+        assert_selector ".test-button", count: 1
+        assert_selector ".test-button.selected"
+
+        click_on "Tackle bonus task"
+
+        assert_selector ".test-button", count: 2
+
+        check_scenarios
+        assert_selector('.test-selector-buttons.bonus .test-button.selected')
+      end
+    end
+
     test "doesnt see bonus-task-related modal text after completing all tasks at once but sees bonus scenarios immediately" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task

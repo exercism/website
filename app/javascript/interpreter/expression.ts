@@ -161,27 +161,27 @@ export class UpdateExpression extends Expression {
   }
 }
 
-export class GetExpression extends Expression {
+export class GetElementExpression extends Expression {
   constructor(
     public obj: Expression,
     public field: Expression,
     public location: Location
   ) {
-    super('GetExpression')
+    super('GetElementExpression')
   }
   public children() {
     return [this.obj, this.field]
   }
 }
 
-export class SetExpression extends Expression {
+export class SetElementExpression extends Expression {
   constructor(
     public obj: Expression,
     public field: Token,
     public value: Expression,
     public location: Location
   ) {
-    super('SetExpression')
+    super('SetElementExpression')
   }
   public children() {
     return [this.obj, this.value]

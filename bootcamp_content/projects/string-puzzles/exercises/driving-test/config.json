@@ -3,6 +3,8 @@
   "description": "Work out whether someone passes the driving test",
   "level": 5,
   "idx": 2,
+  "blocks_level_progression": true,
+  "blocks_project_progression": false,
   "tests_type": "io",
   "tasks": [
     {

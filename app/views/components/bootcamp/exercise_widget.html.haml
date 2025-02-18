@@ -1,5 +1,5 @@
 - tag_type = status == :locked ? :div : :a
-= content_tag tag_type, href: bootcamp_project_exercise_url(project, exercise), class: "c-exercise-widget #{status} size-#{size}" do
+= content_tag tag_type, href: bootcamp_project_exercise_url(project, exercise), class: "c-exercise-widget #{status} #{'major-project' if exercise.major_project?}  #{'brain-buster' if exercise.brain_buster?} size-#{size}" do
   .flex.items-start
     = image_tag exercise.icon_url
     .flex-grow.flex.flex-col
@@ -11,4 +11,5 @@
         = exercise.title
       .description= exercise.description
 
-    = icon "bootcamp-mandatory", "Mandatory Exercise", css_class: "mandatory"
+  = icon "bootcamp-brain-buster", "Brain Buster", css_class: "brain-buster"
+  = icon "bootcamp-major-project", "Major Project", css_class: "major-project"

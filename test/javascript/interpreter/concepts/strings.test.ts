@@ -2,14 +2,14 @@ import { interpret } from '@/interpreter/interpreter'
 import { parse } from '@/interpreter/parser'
 import { changeLanguage } from '@/interpreter/translator'
 import {
-  ChangeListElementStatement,
+  ChangeElementStatement,
   LogStatement,
   SetVariableStatement,
 } from '@/interpreter/statement'
 import {
   BinaryExpression,
   CallExpression,
-  GetExpression,
+  GetElementExpression,
   ListExpression,
   LiteralExpression,
   UnaryExpression,
@@ -38,12 +38,11 @@ describe('strings', () => {
     describe('index access', () => {
       test('literal', () => {
         const stmts = parse(`log "foobar"[4] `)
-        console.log(stmts)
         expect(stmts).toBeArrayOfSize(1)
         expect(stmts[0]).toBeInstanceOf(LogStatement)
         const logStmt = stmts[0] as LogStatement
-        expect(logStmt.expression).toBeInstanceOf(GetExpression)
-        const getExpr = logStmt.expression as GetExpression
+        expect(logStmt.expression).toBeInstanceOf(GetElementExpression)
+        const getExpr = logStmt.expression as GetElementExpression
         expect(getExpr.obj).toBeInstanceOf(LiteralExpression)
         expect(getExpr.field).toBeInstanceOf(LiteralExpression)
 
@@ -52,12 +51,11 @@ describe('strings', () => {
       })
       test('expression', () => {
         const stmts = parse(`log "foobar"[4 + 1] `)
-        console.log(stmts)
         expect(stmts).toBeArrayOfSize(1)
         expect(stmts[0]).toBeInstanceOf(LogStatement)
         const logStmt = stmts[0] as LogStatement
-        expect(logStmt.expression).toBeInstanceOf(GetExpression)
-        const getExpr = logStmt.expression as GetExpression
+        expect(logStmt.expression).toBeInstanceOf(GetElementExpression)
+        const getExpr = logStmt.expression as GetElementExpression
         expect(getExpr.obj).toBeInstanceOf(LiteralExpression)
         expect(getExpr.field).toBeInstanceOf(BinaryExpression)
 

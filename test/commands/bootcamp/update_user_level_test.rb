@@ -29,6 +29,18 @@ class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
     assert_equal 2, user.bootcamp_data.level_idx
   end
 
+  test "ignores non-blockers " do
+    user = create :user, :with_bootcamp_data
+    [1, 2].each { |idx| create :bootcamp_level, idx: }
+    exercise = create :bootcamp_exercise, level_idx: 1
+    create :bootcamp_exercise, level_idx: 1, blocks_level_progression: false
+    create(:bootcamp_solution, :completed, user:, exercise:)
+
+    Bootcamp::UpdateUserLevel.(user)
+
+    assert_equal 2, user.bootcamp_data.level_idx
+  end
+
   test "sets to current level when not all completed" do
     user = create :user, :with_bootcamp_data
     create :bootcamp_level, idx: 1

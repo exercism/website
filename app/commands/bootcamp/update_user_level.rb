@@ -24,14 +24,17 @@ class Bootcamp::UpdateUserLevel
 
   memoize
   def exercise_ids_by_level_idx
-    Bootcamp::Exercise.pluck(:level_idx, :id).
+    Bootcamp::Exercise.where(blocks_level_progression: true).
+      pluck(:level_idx, :id).
       group_by(&:first).
       transform_values { |v| v.map(&:last).sort }.
       sort.to_h
   end
 
   def solved_exercise_ids_by_level_idx
-    user.bootcamp_solutions.completed.joins(:exercise).pluck(:level_idx, :exercise_id).
+    user.bootcamp_solutions.completed.joins(:exercise).
+      where('bootcamp_exercises.blocks_level_progression': true).
+      pluck(:level_idx, :exercise_id).
       group_by(&:first).
       transform_values { |v| v.map(&:last).sort }
   end

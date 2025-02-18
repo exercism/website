@@ -37,7 +37,10 @@ export class Scanner {
 
   private static readonly keywords: Record<string, TokenType> = {
     and: 'AND',
+    break: 'BREAK',
+    by: 'BY',
     change: 'CHANGE',
+    continue: 'CONTINUE',
     do: 'DO',
     else: 'ELSE',
     end: 'END',
@@ -47,8 +50,10 @@ export class Scanner {
     function: 'FUNCTION',
     if: 'IF',
     in: 'IN',
+    indexed: 'INDEXED',
     is: 'EQUALITY',
     log: 'LOG',
+    next: 'NEXT',
     null: 'NULL',
     not: 'NOT',
     or: 'OR',

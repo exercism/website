@@ -2,16 +2,17 @@ import { interpret } from '@/interpreter/interpreter'
 import { parse } from '@/interpreter/parser'
 import { changeLanguage } from '@/interpreter/translator'
 import {
-  ChangeListElementStatement,
+  ChangeElementStatement,
   LogStatement,
   SetVariableStatement,
 } from '@/interpreter/statement'
 import {
   BinaryExpression,
   CallExpression,
-  GetExpression,
+  GetElementExpression,
   ListExpression,
   LiteralExpression,
+  LogicalExpression,
   UnaryExpression,
   VariableLookupExpression,
 } from '@/interpreter/expression'
@@ -64,6 +65,56 @@ describe('parse', () => {
     expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
   })
 
+  test('multiple elements over lines', () => {
+    const stmts = parse(`log [
+                              1,
+                              2,
+                              3
+                             ]`)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(3)
+    expect((listExpr.elements[0] as LiteralExpression).value).toBe(1)
+    expect((listExpr.elements[1] as LiteralExpression).value).toBe(2)
+    expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
+  })
+
+  test('multiple elements over lines', () => {
+    const stmts = parse(`
+    log [ 1,
+    2,
+      3
+    ]`)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(3)
+    expect((listExpr.elements[0] as LiteralExpression).value).toBe(1)
+    expect((listExpr.elements[1] as LiteralExpression).value).toBe(2)
+    expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
+  })
+
+  test('or with function call as an elem', () => {
+    const stmts = parse('log [foo() or true]')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(LogStatement)
+    const logStmt = stmts[0] as LogStatement
+    expect(logStmt.expression).toBeInstanceOf(ListExpression)
+    const listExpr = logStmt.expression as ListExpression
+    expect(listExpr.elements).toBeArrayOfSize(1)
+    expect(listExpr.elements[0]).toBeInstanceOf(LogicalExpression)
+    const orExpr = listExpr.elements[0] as LogicalExpression
+    expect(orExpr.left).toBeInstanceOf(CallExpression)
+    expect(orExpr.right).toBeInstanceOf(LiteralExpression)
+    const callExpr = orExpr.left as CallExpression
+    expect(callExpr.callee.name.lexeme).toBe('foo')
+  })
+
   test('nested', () => {
     const stmts = parse('log [1,[2,[3]]]')
     expect(stmts).toBeArrayOfSize(1)
@@ -98,132 +149,130 @@ describe('parse', () => {
     expect(listExpr.elements[1]).toBeInstanceOf(BinaryExpression)
     expect(listExpr.elements[2]).toBeInstanceOf(BinaryExpression)
   })
-})
-test('create', () => {
-  const stmts = parse(`set scores to [7, 3, 10]`)
-  expect(stmts).toBeArrayOfSize(1)
-  expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-})
-describe('index access', () => {
-  test('literal', () => {
-    const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4] `)
-    console.log(stmts)
+  test('create', () => {
+    const stmts = parse(`set scores to [7, 3, 10]`)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(GetExpression)
-    const getExpr = logStmt.expression as GetExpression
-    expect(getExpr.obj).toBeInstanceOf(ListExpression)
-    expect(getExpr.field).toBeInstanceOf(LiteralExpression)
-
-    expect(
-      (getExpr.obj as ListExpression).elements.map((e) => e.value)
-    ).toEqual(['f', 'o', 'o', 'b', 'a', 'r'])
-    expect((getExpr.field as LiteralExpression).value).toBe(4)
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
   })
-  test('expression', () => {
-    const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4 + 1] `)
-    console.log(stmts)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(LogStatement)
-    const logStmt = stmts[0] as LogStatement
-    expect(logStmt.expression).toBeInstanceOf(GetExpression)
-    const getExpr = logStmt.expression as GetExpression
-    expect(getExpr.obj).toBeInstanceOf(ListExpression)
-    expect(getExpr.field).toBeInstanceOf(BinaryExpression)
+  describe('index access', () => {
+    test('literal', () => {
+      const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4] `)
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(GetElementExpression)
+      const getExpr = logStmt.expression as GetElementExpression
+      expect(getExpr.obj).toBeInstanceOf(ListExpression)
+      expect(getExpr.field).toBeInstanceOf(LiteralExpression)
 
-    expect(
-      (getExpr.obj as ListExpression).elements.map((e) => e.value)
-    ).toEqual(['f', 'o', 'o', 'b', 'a', 'r'])
+      expect(
+        (getExpr.obj as ListExpression).elements.map((e) => e.value)
+      ).toEqual(['f', 'o', 'o', 'b', 'a', 'r'])
+      expect((getExpr.field as LiteralExpression).value).toBe(4)
+    })
+    test('expression', () => {
+      const stmts = parse(`log ["f", "o", "o", "b", "a", "r"][4 + 1] `)
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+      const logStmt = stmts[0] as LogStatement
+      expect(logStmt.expression).toBeInstanceOf(GetElementExpression)
+      const getExpr = logStmt.expression as GetElementExpression
+      expect(getExpr.obj).toBeInstanceOf(ListExpression)
+      expect(getExpr.field).toBeInstanceOf(BinaryExpression)
 
-    const fieldExpr = getExpr.field as BinaryExpression
-    expect(fieldExpr.operator.lexeme).toBe('+')
-    expect(fieldExpr.left).toBeInstanceOf(LiteralExpression)
-    expect(fieldExpr.right).toBeInstanceOf(LiteralExpression)
-    expect((fieldExpr.left as LiteralExpression).value).toBe(4)
-    expect((fieldExpr.right as LiteralExpression).value).toBe(1)
-  })
-})
+      expect(
+        (getExpr.obj as ListExpression).elements.map((e) => e.value)
+      ).toEqual(['f', 'o', 'o', 'b', 'a', 'r'])
 
-describe('change element', () => {
-  test('to a string', () => {
-    const stmts = parse(`change scores[2] to "Hello"`)
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(ChangeListElementStatement)
-
-    const changeStmt = stmts[0] as ChangeListElementStatement
-    expect(changeStmt.list).toBeInstanceOf(VariableLookupExpression)
-    const lookupExpr = changeStmt.list as VariableLookupExpression
-    expect(lookupExpr.name.lexeme).toBe('scores')
-
-    expect(changeStmt.index).toBeInstanceOf(LiteralExpression)
-    const indexExpr = changeStmt.index as LiteralExpression
-    expect(indexExpr.value).toBe(2)
+      const fieldExpr = getExpr.field as BinaryExpression
+      expect(fieldExpr.operator.lexeme).toBe('+')
+      expect(fieldExpr.left).toBeInstanceOf(LiteralExpression)
+      expect(fieldExpr.right).toBeInstanceOf(LiteralExpression)
+      expect((fieldExpr.left as LiteralExpression).value).toBe(4)
+      expect((fieldExpr.right as LiteralExpression).value).toBe(1)
+    })
   })
 
-  test('to a variable', () => {
-    const stmts = parse(`change scores[foo] to 1`)
-    expect(stmts).toBeArrayOfSize(1)
-    const changeStmt = stmts[0] as ChangeListElementStatement
-    expect(changeStmt.index).toBeInstanceOf(VariableLookupExpression)
-    const indexExpr = changeStmt.index as VariableLookupExpression
-    expect(indexExpr.name.lexeme).toBe('foo')
+  describe('change element', () => {
+    test('to a string', () => {
+      const stmts = parse(`change scores[2] to "Hello"`)
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(ChangeElementStatement)
+
+      const changeStmt = stmts[0] as ChangeElementStatement
+      expect(changeStmt.obj).toBeInstanceOf(VariableLookupExpression)
+      const lookupExpr = changeStmt.obj as VariableLookupExpression
+      expect(lookupExpr.name.lexeme).toBe('scores')
+
+      expect(changeStmt.field).toBeInstanceOf(LiteralExpression)
+      const indexExpr = changeStmt.field as LiteralExpression
+      expect(indexExpr.value).toBe(2)
+    })
+
+    test('to a variable', () => {
+      const stmts = parse(`change scores[foo] to 1`)
+      expect(stmts).toBeArrayOfSize(1)
+      const changeStmt = stmts[0] as ChangeElementStatement
+      expect(changeStmt.field).toBeInstanceOf(VariableLookupExpression)
+      const indexExpr = changeStmt.field as VariableLookupExpression
+      expect(indexExpr.name.lexeme).toBe('foo')
+    })
+
+    test('to a function call', () => {
+      const stmts = parse(`change scores[foo()] to 1`)
+      expect(stmts).toBeArrayOfSize(1)
+      const changeStmt = stmts[0] as ChangeElementStatement
+      expect(changeStmt.field).toBeInstanceOf(CallExpression)
+      const indexExpr = changeStmt.field as CallExpression
+      expect(indexExpr.callee.name.lexeme).toBe('foo')
+    })
   })
 
-  test('to a function call', () => {
-    const stmts = parse(`change scores[foo()] to 1`)
-    expect(stmts).toBeArrayOfSize(1)
-    const changeStmt = stmts[0] as ChangeListElementStatement
-    expect(changeStmt.index).toBeInstanceOf(CallExpression)
-    const indexExpr = changeStmt.index as CallExpression
-    expect(indexExpr.callee.name.lexeme).toBe('foo')
+  test('access single field', () => {
+    const stmts = parse(`
+          set scores to [7, 3, 10]
+          set latest to scores[2]
+        `)
+    expect(stmts).toBeArrayOfSize(2)
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+    expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+    const varStmtWithGet = stmts[1] as SetVariableStatement
+    expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+    const getExpr = varStmtWithGet.value as GetElementExpression
+    expect((getExpr.field as LiteralExpression).value).toBe(2)
+    expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
+    expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe('scores')
   })
-})
 
-test('access single field', () => {
-  const stmts = parse(`
-        set scores to [7, 3, 10]
-        set latest to scores[2]
-      `)
-  expect(stmts).toBeArrayOfSize(2)
-  expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-  expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-  const varStmtWithGet = stmts[1] as SetVariableStatement
-  expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-  const getExpr = varStmtWithGet.value as GetExpression
-  expect((getExpr.field as LiteralExpression).value).toBe(2)
-  expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
-  expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe('scores')
-})
+  test('set nested', () => {
+    const stmts = parse(`
+          set scoreMinMax to [[3, 7], [1, 6]]
+        `)
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
+  })
 
-test('set nested', () => {
-  const stmts = parse(`
-        set scoreMinMax to [[3, 7], [1, 6]]
-      `)
-  expect(stmts).toBeArrayOfSize(1)
-  expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-})
+  test('access nested', () => {
+    const stmts = parse(`
+          set scoreMinMax to [[3, 7], [1, 6]]
+          set secondMin to scoreMinMax[1][0]
+        `)
+    expect(stmts).toBeArrayOfSize(2)
+    expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
 
-test('access nested', () => {
-  const stmts = parse(`
-        set scoreMinMax to [[3, 7], [1, 6]]
-        set secondMin to scoreMinMax[1][0]
-      `)
-  expect(stmts).toBeArrayOfSize(2)
-  expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
-
-  expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
-  const varStmtWithGet = stmts[1] as SetVariableStatement
-  expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-  const getExpr = varStmtWithGet.value as GetExpression
-  expect((getExpr.field as LiteralExpression).value).toBe(0)
-  expect(getExpr.obj).toBeInstanceOf(GetExpression)
-  const nestedGetExpr = getExpr.obj as GetExpression
-  expect((nestedGetExpr.field as LiteralExpression).value).toBe(1)
-  expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
-  expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
-    'scoreMinMax'
-  )
+    expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
+    const varStmtWithGet = stmts[1] as SetVariableStatement
+    expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+    const getExpr = varStmtWithGet.value as GetElementExpression
+    expect((getExpr.field as LiteralExpression).value).toBe(0)
+    expect(getExpr.obj).toBeInstanceOf(GetElementExpression)
+    const nestedGetExpr = getExpr.obj as GetElementExpression
+    expect((nestedGetExpr.field as LiteralExpression).value).toBe(1)
+    expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
+    expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
+      'scoreMinMax'
+    )
+  })
 })
 
 describe('execute', () => {

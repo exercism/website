@@ -29,17 +29,17 @@ export class CallStatement extends Statement {
   }
 }
 
-export class ChangeListElementStatement extends Statement {
+export class ChangeElementStatement extends Statement {
   constructor(
-    public list: Expression,
-    public index: Expression,
+    public obj: Expression,
+    public field: Expression,
     public value: Expression,
     public location: Location
   ) {
-    super('ChangeListElementStatement')
+    super('ChangeElementStatement')
   }
   public children() {
-    return [this.list, this.index, this.value]
+    return [this.obj, this.field, this.value]
   }
 }
 
@@ -56,10 +56,29 @@ export class ChangeVariableStatement extends Statement {
   }
 }
 
+export class BreakStatement extends Statement {
+  constructor(public keyword: Token, public location: Location) {
+    super('BreakStatement')
+  }
+  public children() {
+    return []
+  }
+}
+
+export class ContinueStatement extends Statement {
+  constructor(public keyword: Token, public location: Location) {
+    super('ContinueStatement')
+  }
+  public children() {
+    return []
+  }
+}
+
 export class ForeachStatement extends Statement {
   constructor(
     public elementName: Token,
     public iterable: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -96,6 +115,7 @@ export class RepeatStatement extends Statement {
   constructor(
     public keyword: Token,
     public count: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -109,6 +129,7 @@ export class RepeatStatement extends Statement {
 export class RepeatForeverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -122,6 +143,7 @@ export class RepeatForeverStatement extends Statement {
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {

@@ -47,18 +47,26 @@
                   .text-20.leading-140.font-semibold.mb-2= concept.title
                   .text-18.leading-140.text-textColor5.font-normal= concept.description
 
-      .rhs
+      .rhs.mb-40
+        - brain_busters, core = @level.exercises.partition(&:brain_buster?)
+        - projects, core = core.partition(&:major_project?)
         .c-rhs-list
-          %h2 Exercises
+          %h2 Core Exercises
           %p Complete these exercises to complete this level.
           %ul
-            - @level.exercises.each do |exercise|
+            - core.each do |exercise|
               %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
 
-        -#
-          .c-rhs-list
-            %h2 Concepts
-            %p Make sure you understand these concepts before moving on from this level.
+          - if brain_busters.present?
+            %h2.mt-24 Brain Busters
+            %p.mb-8 Push your limits with these optional exercises!
             %ul
-              - @level.concepts.non_apex.each do |concept|
-                %li= render ViewComponents::Bootcamp::ConceptWidget.new(concept)
+              - brain_busters.each do |exercise|
+                %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
+
+          - if projects.present?
+            %h2.mt-28 Major Project 🎉
+            %p.mb-8 Get started on this larger project, designed to be completed over multiple weeks.
+            %ul
+              - projects.each do |exercise|
+                %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

@@ -44,6 +44,7 @@ describe('one, two or three characters', () => {
 describe('keyword', () => {
   test.each([
     ['and', 'AND'],
+    ['continue', 'CONTINUE'],
     ['do', 'DO'],
     ['else', 'ELSE'],
     ['end', 'END'],

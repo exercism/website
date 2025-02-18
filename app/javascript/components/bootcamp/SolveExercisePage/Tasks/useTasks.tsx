@@ -17,6 +17,8 @@ export type FinishLessonModalView =
   | 'initial'
   | 'completedExercise'
   | 'completedLevel'
+  | 'completedAllLevels'
+  | 'completedEverything'
 
 export function useTasks() {
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
@@ -105,9 +107,9 @@ export function useTasks() {
       if (completedData.completed_level_idx) {
         setModalView('completedLevel')
         setCompletedLevelIdx(completedData.completed_level_idx)
-        return
+      } else {
+        setModalView('completedExercise')
       }
-      setModalView('completedExercise')
     } catch (e) {
       console.error('Error completing solution: ', e)
     }

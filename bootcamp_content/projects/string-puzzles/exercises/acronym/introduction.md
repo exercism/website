@@ -1,4 +1,4 @@
-# Two Fer
+# Acronym
 
 This is another classic Exercism exercise where your job is to convert a phase into its acronym.
 

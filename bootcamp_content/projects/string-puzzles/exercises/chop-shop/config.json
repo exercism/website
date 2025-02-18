@@ -1,8 +1,8 @@
 {
   "title": "The Chop Shop",
   "description": "Work out if you have time for an extra client",
-  "level": 5,
-  "idx": 9,
+  "level": 6,
+  "idx": 3,
   "tests_type": "io",
   "tasks": [
     {

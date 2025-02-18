@@ -1,8 +1,8 @@
 {
   "title": "After Party",
   "description": "Solve an After Party guest list",
-  "level": 5,
-  "idx": 10,
+  "level": 6,
+  "idx": 4,
   "tests_type": "io",
   "tasks": [
     {
@@ -21,7 +21,7 @@
           "description_html": "The name's but on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
-          "params": [["Brian May", "Albert Einstein"], "Brad"],
+          "params": [["Brian May", "Bryn Harrison", "Albert Einstein"], "Brad"],
           "expected": false
         },
         {

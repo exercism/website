@@ -14,7 +14,6 @@ import {
   addHighlight,
   removeAllHighlightEffect,
 } from '../edit-editor/highlightRange'
-import { jqLanguage } from 'codemirror-lang-jq'
 
 export class InformationWidget extends WidgetType {
   private tooltip: HTMLElement | null = null

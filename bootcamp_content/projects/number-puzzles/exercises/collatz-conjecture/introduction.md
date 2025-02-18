@@ -35,7 +35,7 @@ Create a function called `collatz_steps` that takes one input, a number. Return 
 You might like to use a new keyword in this exercise: `repeat_forever`.
 It works like this:
 
-```
+```jikiscript
 repeat_forever do
   // Anything in here repeats forever
   // until you tell Jiki to return

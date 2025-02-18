@@ -5,6 +5,8 @@ import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
 import { useLogger } from '@/hooks'
+import { highlightAllAlways, useHighlighting } from '@/utils/highlight'
+import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
 
 export function _Instructions({
   exerciseTitle,
@@ -24,8 +26,6 @@ export function _Instructions({
         : null,
     [activeTaskIndex, tasks]
   )
-
-  useLogger('current task', currentTask)
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
@@ -55,11 +55,14 @@ export function _Instructions({
     }
   }, [currentTask])
 
+  const highlightRef = useContinuousHighlighting<HTMLDivElement>()
+
   return (
     <div className="scenario-rhs c-prose c-prose-small">
       <h3>{exerciseTitle}</h3>
 
       <div
+        ref={highlightRef}
         dangerouslySetInnerHTML={{
           __html: exerciseInstructions || '<p>Instructions are missing</p>',
         }}

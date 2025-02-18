@@ -23,10 +23,13 @@ You have three functions to use:
 
 In case its not clear how to use the functions, imagine this parallel universe where if player 1 chooses `"paper"`, the game is always a tie. In that situation you could write the following code:
 
-```
-if(get_player_1_choice() == "paper") do
-  announce_result("tie")
-end
+```haskell
+helloWorld : '{IO, Exception} ()
+helloWorld = 'let
+  use Text ++
+  name = !console.getLine
+  printLine ("Hello " ++ name)
+
 ```
 
 ### Bonus Challenges

@@ -4,13 +4,13 @@ Having variables isn't much use if we can't do something with them. And then mai
 
 For example, rather than writing this:
 
-```
+```jikiscript
 fill_color_hex("blue")
 ```
 
 we can create and use a variable instead.
 
-```
+```jikiscript
 set sky_color to "blue"
 fill_color_hex(sky_color)
 ```

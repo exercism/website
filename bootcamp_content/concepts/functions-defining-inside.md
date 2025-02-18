@@ -31,7 +31,7 @@ Let's imagine we want a machine that tells us whether a time is midmight, mornin
 
 We can tell Jiki to create a new machine with the label `time_of_day`, an input with the labels `hour` and `minutes`, and a output shoot where the machine can return the resulting string.
 
-```
+```jikiscript
 function time_of_day with hours, minutes do
   // ...
 end

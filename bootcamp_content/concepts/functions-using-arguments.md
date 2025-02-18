@@ -4,7 +4,7 @@ To explain this concept, we’re going to use functions to draw things. And we�
 
 Think for a moment about what you expect to happen if you wrote a program:
 
-```jsx
+```jikiscript
 rectangle();
 ```
 
@@ -18,7 +18,7 @@ So let’s expand our mental image of what a functions look like, and add a vers
 
 You can see from the diagram, that the `rectangle` function has 4 inputs, the x and y co-ordinates it’s to be drawn at, and its width/height. When we use the function, we have to tell it what to put into those values. If we want to draw a rectangle at 10x20 with a width of 40 and a height of 70, we’d write a program that looks like:
 
-```jsx
+```jikiscript
 rectangle(10, 20, 40, 70);
 ```
 

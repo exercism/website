@@ -91,6 +91,8 @@ projects.each do |project_slug|
     exercise.update!(
       idx: exercise_config[:idx],
       title: exercise_config[:title],
+      blocks_level_progression: exercise_config.fetch(:blocks_level_progression, true),
+      blocks_project_progression: exercise_config.fetch(:blocks_project_progression, true),
       description: exercise_config[:description],
       level_idx: exercise_config[:level],
       has_bonus_tasks:,

@@ -14,6 +14,11 @@
     "after-party",
     "formal-dinner",
     "matching-socks",
-    "acronym"
+    "acronym",
+    "nucleotide-count",
+    "scrabble-score",
+    "word-count",
+    "protein-translation",
+    "pangram"
   ]
 }

@@ -1,8 +1,8 @@
 {
   "title": "Meal Prep",
   "description": "Work out what you need to buy for a meal",
-  "level": 5,
-  "idx": 7,
+  "level": 6,
+  "idx": 1,
   "tests_type": "io",
   "stdlib_functions": ["push"],
   "tasks": [

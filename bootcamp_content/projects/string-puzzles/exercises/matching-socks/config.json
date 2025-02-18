@@ -1,8 +1,10 @@
 {
   "title": "Matching Socks",
   "description": "Find the matching socks",
-  "level": 5,
-  "idx": 13,
+  "level": 6,
+  "idx": 6,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
   "tests_type": "io",
   "stdlib_functions": ["join", "push", "concat"],
   "interpreter_options": {

@@ -3,7 +3,9 @@
   "description": "Build out the core logic of the game",
   "project_type": "tic-tac-toe",
   "level": 6,
-  "idx": 1,
+  "idx": 7,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
   "tests_type": "state",
   "stdlib_functions": ["push", "concatenate"],
   "tasks": [

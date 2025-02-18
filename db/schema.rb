@@ -115,6 +115,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_13_132920) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "has_bonus_tasks", default: false, null: false
+    t.boolean "blocks_project_progression", default: true, null: false
+    t.boolean "blocks_level_progression", default: true, null: false
     t.index ["level_idx"], name: "index_bootcamp_exercises_on_level_idx"
     t.index ["project_id", "slug"], name: "index_bootcamp_exercises_on_project_id_and_slug", unique: true
     t.index ["project_id"], name: "index_bootcamp_exercises_on_project_id"

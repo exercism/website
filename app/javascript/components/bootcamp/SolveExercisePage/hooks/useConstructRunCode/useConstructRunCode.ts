@@ -109,7 +109,6 @@ export function useConstructRunCode({
         })
       } catch (error) {
         const compError = error as CompilationError
-        console.log(compError)
         if (
           compError.hasOwnProperty('type') &&
           compError.type == 'CompilationError'

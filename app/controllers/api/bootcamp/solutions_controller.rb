@@ -5,20 +5,18 @@ class API::Bootcamp::SolutionsController < API::Bootcamp::BaseController
     old_level_idx = current_user.bootcamp_data.level_idx
     Bootcamp::Solution::Complete.(@solution)
     new_level_idx = current_user.bootcamp_data.reload.level_idx
+    next_exercise = Bootcamp::SelectNextExercise.(current_user)
 
-    # If we're on the same level still, find the next exercise
-    # Otherwise we'll tell the student they've completed the level
-    if old_level_idx == new_level_idx
-      next_exercise = Bootcamp::SelectNextExercise.(current_user)
-    else
+    # If they've moved forward, add the completed/new levels to the data
+    if old_level_idx != new_level_idx
       completed_level_idx = old_level_idx
       next_level_idx = Bootcamp::Settings.level_idx >= new_level_idx ? new_level_idx : nil
     end
 
     render json: {
+      next_exercise: SerializeBootcampExercise.(next_exercise),
       completed_level_idx:,
-      next_level_idx:,
-      next_exercise: SerializeBootcampExercise.(next_exercise)
+      next_level_idx:
     }, status: :ok
   end
 

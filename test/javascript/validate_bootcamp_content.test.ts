@@ -8,9 +8,10 @@ import path from 'path'
 import exerciseMap from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exercise'
 import { parseParams } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/parseParams'
-import { camelizeKeys } from 'humps'
+import { Camelized, camelizeKeys } from 'humps'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 import checkers from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/checkers'
+import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -177,7 +178,7 @@ describe('Exercise Tests', () => {
     const exercises = getSubdirectories(projectDir)
     exercises.forEach((exercise) => {
       const exerciseDir = path.join(projectDir, exercise)
-      const config = camelizeKeys(getConfig(exerciseDir))
+      const config = camelizeKeysAs<Camelized<any>>(getConfig(exerciseDir))
       const exampleScript = getExampleScript(exerciseDir)
 
       if (config.testsType == 'io') {

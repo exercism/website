@@ -1,6 +1,6 @@
 import { RuntimeError, RuntimeErrorType } from '@/interpreter/error'
 import { Frame } from '@/interpreter/frames'
-import { interpret } from '@/interpreter/interpreter'
+import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
 import { end } from '@popperjs/core'

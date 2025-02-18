@@ -75,8 +75,10 @@ import type { InterpretResult } from './interpreter'
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
+import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
 import { extractCallExpressions, formatLiteral } from './helpers'
+import { executeBinaryExpression } from './executor/executeBinaryExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -338,13 +340,13 @@ export class Executor {
       this.environment = previous
     }
   }
-  private executeFrame<T extends EvaluationResult>(
+  public executeFrame<T extends EvaluationResult>(
     context: Statement | Expression,
     code: () => T
   ): T {
     this.location = context.location
     const result = code()
-    this.addFrame(context.location, 'SUCCESS', result, undefined, context)
+    this.addSuccessFrame(context.location, result, context)
     this.location = null
     return result as T
   }
@@ -536,27 +538,7 @@ export class Executor {
   }
 
   public visitIfStatement(statement: IfStatement): void {
-    const conditionResult = this.executeFrame<EvaluationResultIfStatement>(
-      statement,
-      () => {
-        const result = this.evaluate(statement.condition)
-        this.verifyBoolean(result.resultingValue, statement.condition)
-
-        return {
-          type: 'IfStatement',
-          condition: result,
-          resultingValue: result.resultingValue,
-        }
-      }
-    )
-
-    if (conditionResult.resultingValue) {
-      this.executeStatement(statement.thenBranch)
-      return
-    }
-
-    if (statement.elseBranch === null) return
-    this.executeStatement(statement.elseBranch!)
+    return executeIfStatement(this, statement)
   }
 
   public visitLogStatement(statement: LogStatement): void {
@@ -935,162 +917,7 @@ export class Executor {
   }
 
   public visitBinaryExpression(expression: BinaryExpression): EvaluationResult {
-    const leftResult = this.evaluate(expression.left)
-    // this.verifyLiteral(leftResult.resultingValue, expression.left)
-
-    const rightResult = this.evaluate(expression.right)
-    // this.verifyLiteral(rightResult.resultingValue, expression.right)
-
-    if (
-      isArray(leftResult.resultingValue) &&
-      isArray(rightResult.resultingValue)
-    ) {
-      this.error('ListsCannotBeCompared', expression.location)
-    }
-
-    const result: EvaluationResult = {
-      type: 'BinaryExpression',
-      left: leftResult,
-      right: rightResult,
-      resultingValue: undefined,
-    }
-
-    switch (expression.operator.type) {
-      case 'INEQUALITY':
-        // TODO: throw error when types are not the same?
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue !== rightResult.resultingValue,
-        }
-      case 'EQUALITY':
-        // TODO: throw error when types are not the same?
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue === rightResult.resultingValue,
-        }
-      case 'GREATER':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue > rightResult.resultingValue,
-        }
-      case 'GREATER_EQUAL':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue >= rightResult.resultingValue,
-        }
-      case 'LESS':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue < rightResult.resultingValue,
-        }
-      case 'LESS_EQUAL':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue <= rightResult.resultingValue,
-        }
-      case 'MINUS':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-
-        const minusValue =
-          leftResult.resultingValue - rightResult.resultingValue
-        const minusValue2DP = Math.round(minusValue * 100) / 100
-
-        return {
-          ...result,
-          resultingValue: minusValue2DP,
-        }
-      //> binary-plus
-      case 'PLUS':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-
-        const plusValue = leftResult.resultingValue + rightResult.resultingValue
-        const plusValue2DP = Math.round(plusValue * 100) / 100
-
-        return {
-          ...result,
-          resultingValue: plusValue2DP,
-        }
-
-        if (
-          isNumber(leftResult.resultingValue) &&
-          isNumber(rightResult.resultingValue)
-        ) {
-          const plusValue =
-            leftResult.resultingValue + rightResult.resultingValue
-          const plusValue2DP = Math.round(plusValue * 100) / 100
-
-          return {
-            ...result,
-            resultingValue: plusValue2DP,
-          }
-        }
-      /*if (isString(left.value) && isString(right.value))
-          return {
-            ...result,
-            value: left.value + right.value,
-          }
-
-        this.error(
-          'OperandsMustBeTwoNumbersOrTwoStrings',
-          expression.operator.location,
-          {
-            left,
-            right,
-          }
-        )*/
-
-      case 'SLASH':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-        const slashValue =
-          leftResult.resultingValue / rightResult.resultingValue
-        const slashValue2DP = Math.round(slashValue * 100) / 100
-        return {
-          ...result,
-          resultingValue: slashValue2DP,
-        }
-      case 'STAR':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-
-        const starValue = leftResult.resultingValue * rightResult.resultingValue
-        const starValue2DP = Math.round(starValue * 100) / 100
-        return {
-          ...result,
-          resultingValue: starValue2DP,
-        }
-      case 'PERCENT':
-        this.verifyNumber(leftResult.resultingValue, expression.left)
-        this.verifyNumber(rightResult.resultingValue, expression.right)
-
-        return {
-          ...result,
-          resultingValue:
-            leftResult.resultingValue % rightResult.resultingValue,
-        }
-      case 'EQUAL':
-        this.error('UnexpectedEqualsForEquality', expression.location, {
-          expression,
-        })
-    }
-
-    this.error('InvalidBinaryExpression', expression.location, { expression })
+    return executeBinaryExpression(this, expression)
   }
 
   public visitLogicalExpression(
@@ -1331,7 +1158,7 @@ export class Executor {
     }
   }
 
-  private verifyLiteral(value: any, expr: Expression): void {
+  public verifyLiteral(value: any, expr: Expression): void {
     if (isNumber(value)) return
     if (isString(value)) return
     if (isBoolean(value)) return
@@ -1348,7 +1175,7 @@ export class Executor {
     })
   }
 
-  private verifyNumber(value: any, expr: Expression): void {
+  public verifyNumber(value: any, expr: Expression): void {
     if (isNumber(value)) return
     this.guardUncalledFunction(value, expr)
 
@@ -1356,7 +1183,7 @@ export class Executor {
       value: formatLiteral(value),
     })
   }
-  private verifyString(value: any, expr: Expression): void {
+  public verifyString(value: any, expr: Expression): void {
     if (isString(value)) return
     this.guardUncalledFunction(value, expr)
 
@@ -1364,8 +1191,7 @@ export class Executor {
       value: formatLiteral(value),
     })
   }
-
-  private verifyBoolean(value: any, expr: Expression): void {
+  public verifyBoolean(value: any, expr: Expression): void {
     if (isBoolean(value)) return
 
     this.error('OperandMustBeBoolean', expr.location, {
@@ -1531,6 +1357,22 @@ export class Executor {
       return
     }
     this.error('ExpressionIsNull', guiltyExpression.location)
+  }
+
+  public addSuccessFrame(
+    location: Location | null,
+    result: EvaluationResult,
+    context?: Statement | Expression
+  ): void {
+    this.addFrame(location, 'SUCCESS', result, undefined, context)
+  }
+
+  public addErrorFrme(
+    location: Location | null,
+    error: RuntimeError,
+    context?: Statement | Expression
+  ): void {
+    this.addFrame(location, 'ERROR', undefined, error, context)
   }
 
   private addFrame(

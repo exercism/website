@@ -30,7 +30,7 @@ count_nucleotides("INVALID")
 ### Functions
 
 You have one new function available called `keys(dictionary)`.
-This takes a list as its input and returns a list of all its keys.
+This takes a dictionary as its input and returns a list of all its keys.
 
 So for the dictionary:
 

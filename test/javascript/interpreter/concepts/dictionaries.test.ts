@@ -97,7 +97,6 @@ describe('parse', () => {
       const logStmt = stmts[0] as LogStatement
       expect(logStmt.expression).toBeInstanceOf(DictionaryExpression)
       const mapExpr = logStmt.expression as DictionaryExpression
-      console.log(mapExpr.elements)
       expect(mapExpr.elements.get('bar')).toBeInstanceOf(LogicalExpression)
       const orExpr = mapExpr.elements.get('bar') as LogicalExpression
       expect(orExpr.left).toBeInstanceOf(CallExpression)

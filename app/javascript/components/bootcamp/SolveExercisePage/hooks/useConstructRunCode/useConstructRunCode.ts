@@ -108,6 +108,7 @@ export function useConstructRunCode({
           config,
         })
       } catch (error) {
+        console.log(error)
         const compError = error as CompilationError
         if (
           compError.hasOwnProperty('type') &&
@@ -116,6 +117,7 @@ export function useConstructRunCode({
           handleCompilationError(compError.error, editorView)
           return
         }
+        console.log(compError)
       }
 
       const bonusTestResults = generateAndRunTestSuite({

@@ -48,4 +48,5 @@
 @import "../components/textblock";
 
 @import "../highlighters/highlightjs-colors";
+@import "../highlighters/highlightjs-jikiscript";
 @import "../highlighters/highlight-links";

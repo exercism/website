@@ -35,10 +35,10 @@ Here's an example that incorporates several of the elements discussed above:
 - contractions
 - numbers
 - case insensitive words
-- punctuation (including apostrophes) to separate words
+- punctuation to separate words
 - different forms of whitespace to separate words
 
-`"That's the password: 'PASSWORD 123'!", cried the Special Agent. So I fled.`
+`"That's the password: PASSWORD 123!", cried the Special Agent. So I fled.`
 
 The mapping for this subtitle would be:
 

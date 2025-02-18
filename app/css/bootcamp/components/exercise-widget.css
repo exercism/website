@@ -13,7 +13,6 @@
         @apply hidden;
         @apply w-[24px] h-[24px];
         @apply absolute bottom-[12px] right-[0];
-        opacity: 0.5;
     }
 
     img.major-project {
@@ -36,7 +35,7 @@
         @apply mb-2;
     }
     .description {
-        @apply text-15 leading-140 pr-40;
+        @apply text-15 leading-140 pr-24;
     }
     .tag {
         width: 20px;
@@ -91,10 +90,8 @@
     }
 
     &.completed {
-        background: #118e3611;
-        border-color: #93ac9b;
-        /* background: #ecf8ec; */
-        /* border-color: #4bb543; */
+        background: #ecf8ec;
+        border-color: #4bb543;
         .tag {
             background: #e7fdf6;
             border-color: #43b593;
@@ -104,12 +101,9 @@
         }
     }
     &.completed-bonus {
-        box-shadow: 0 0 5px 0 #efbf04aa;
-        border-color: #efbf04;
-        background: #efbf0411;
         filter: drop-shadow(0px 0px 9px #fdd017cc);
-        /* border-color: #fdd017; */
-        /* background: #fdd01722; */
+        border-color: #fdd017;
+        background: #fdd01722;
         border-width: 2px;
 
         mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/400% 100%;

@@ -42,5 +42,5 @@ Game functions:
 - `turn_left()`
 - `turn_right()`
 - `look(direction)`
-- `collect_emoji()`
+- `remove_emoji()`
 - `announce_emojis(dict)`

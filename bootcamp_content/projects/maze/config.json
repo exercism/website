@@ -2,5 +2,11 @@
   "slug": "maze",
   "title": "Maze",
   "description": "Solve a maze, automate it, then build your own maze generator.",
-  "exercises": ["manual-solve", "automated-solve", "turn-around", "look-around"]
+  "exercises": [
+    "manual-solve",
+    "automated-solve",
+    "turn-around",
+    "look-around",
+    "emoji-collector"
+  ]
 }

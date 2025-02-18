@@ -73,6 +73,7 @@ export type SyntaxErrorType =
   | 'UnexpectedSpaceInIdentifier'
   | 'DuplicateParameterName'
   | 'MissingTimesInRepeat'
+  | 'UnexpectedIfInBinaryExpression'
   | 'UnexpectedEqualsForAssignment'
   | 'UnexpectedEqualsForEquality'
   | 'InvalidNestedFunction'

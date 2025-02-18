@@ -585,6 +585,12 @@ export class Parser {
     while (this.match('OR')) {
       let operator = this.previous()
       operator.type = 'OR'
+
+      // Guard against someone writing if x and if y do
+      if (this.check('IF')) {
+        this.error('UnexpectedIfInBinaryExpression', this.peek().location)
+      }
+
       const right = this.and()
       expr = new LogicalExpression(
         expr,
@@ -603,6 +609,12 @@ export class Parser {
     while (this.match('AND')) {
       let operator = this.previous()
       operator.type = 'AND'
+
+      // Guard against someone writing if x and if y do
+      if (this.check('IF')) {
+        this.error('UnexpectedIfInBinaryExpression', this.peek().location)
+      }
+
       const right = this.equality()
       expr = new LogicalExpression(
         expr,

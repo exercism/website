@@ -57,6 +57,7 @@
       "UnexpectedElseWithoutIf": "We can't work out which if statement this `else` belongs to. Did you forget to add an `if` statement before this `else`?",
       "UnexpectedSpaceInIdentifier": "Did you accidently put a space in the middle of a variable name?",
       "UnexpectedEqualsForEquality": "To say \"equals\" in JikiScript, we use two equals signs (`==`). Did you forget one?",
+      "UnexpectedIfInBinaryExpression": "You don't need to specify an `if` twice within a condition. Rather than `if x and if y do`, you can write `if x and y do`.",
       "InvalidNestedFunction": "You're trying to create a function within a function, which Jiki doesn't allow. Maybe you missed at `end` somewhere above here so the previous function didn't end?",
       "UnexpectedChainedEquality": "You can't chain equality operators like this. Did you mean to use `and` or `or` instead?",
       "MiscapitalizedKeyword": "Did you make a typo in `{{actual}}`? Maybe you meant `{{expected}}`?",

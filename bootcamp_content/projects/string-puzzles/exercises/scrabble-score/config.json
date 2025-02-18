@@ -2,7 +2,7 @@
   "title": "Scrabble Score",
   "description": "Compute the Scrabble score for a word.",
   "level": 7,
-  "idx": 2,
+  "idx": 4,
   "tests_type": "io",
   "stdlib_functions": [],
   "tasks": [

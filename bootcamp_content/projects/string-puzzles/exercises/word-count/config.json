@@ -2,7 +2,7 @@
   "title": "Word Count",
   "description": "Count the frequency of words in a sentence.",
   "level": 7,
-  "idx": 2,
+  "idx": 3,
   "tests_type": "io",
   "stdlib_functions": ["join", "push", "has_key", "to_lower_case"],
   "tasks": [

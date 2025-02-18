@@ -2,7 +2,7 @@
   "title": "Pangram",
   "description": "Determine if a sentence is a pangram",
   "level": 7,
-  "idx": 4,
+  "idx": 2,
   "tests_type": "io",
   "stdlib_functions": ["join"],
   "tasks": [

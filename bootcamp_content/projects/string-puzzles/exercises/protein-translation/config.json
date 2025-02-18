@@ -2,7 +2,7 @@
   "title": "Protein Translation",
   "description": "Translate RNA sequences into proteins.",
   "level": 7,
-  "idx": 3,
+  "idx": 5,
   "tests_type": "io",
   "stdlib_functions": ["push", "join"],
   "tasks": [

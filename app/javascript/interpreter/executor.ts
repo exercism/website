@@ -263,7 +263,7 @@ export class Executor {
       })
 
       return {
-        value: result?.resultingValue,
+        value: result ? result.resultingValue : undefined,
         frames: this.frames,
         error: null,
         functionCallLog: this.functionCallLog,

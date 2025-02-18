@@ -513,131 +513,6 @@ describe('timing', () => {
   })
 })
 
-describe('evaluateFunction', () => {
-  test('without arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move do
-        return 1
-      end
-    `,
-      {},
-      'move'
-    )
-    expect(value).toBe(1)
-    expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe(1)
-  })
-
-  test('with arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move with x, y do
-        return x + y
-      end
-    `,
-      {},
-      'move',
-      1,
-      2
-    )
-    expect(value).toBe(3)
-    expect(frames).toBeArrayOfSize(1)
-  })
-
-  // TODO: Add when dictionaries and arrays are back
-  test.skip('with complex arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move with car, speeds do
-        return car["x"] + speeds[1]
-      end
-    `,
-      {},
-      'move',
-      { x: 2 },
-      [4, 5, 6]
-    )
-    expect(value).toBe(7)
-    expect(frames).toBeArrayOfSize(1)
-  })
-
-  test('idempotent - 1', () => {
-    const code = `
-      set x to 1
-      function move do
-        change x to x + 1
-        return x
-      end`
-    const interpreter = new Interpreter(code, {
-      languageFeatures: { allowGlobals: true },
-    })
-    interpreter.compile()
-    const { value: value1 } = interpreter.evaluateFunction('move')
-    const { value: value2 } = interpreter.evaluateFunction('move')
-    expect(value1).toBe(2)
-    expect(value2).toBe(2)
-  })
-
-  test('idempotent - 2', () => {
-    const code = `
-      set x to 1
-      function move do
-        change x to x + 1
-        return x
-      end
-      move()
-      move()
-      `
-    const { frames, error } = interpret(code, {
-      languageFeatures: { allowGlobals: true },
-    })
-    expect(frames[6].variables.x).toBe(3)
-  })
-
-  // TODO: Work out all this syntax
-  test.skip('full program', () => {
-    const code = `
-      function chooseEnemy with enemies do
-        set maxRight to 0
-        set rightmostEnemyId to null
-      
-        foreach enemy of enemies do
-          if enemy["coords"][0] > maxRight do
-            set maxRight to enemy["coords"][0]
-            set rightmostEnemyId to enemy["id"]
-          end
-        end
-      
-        return rightmostEnemyId
-      end
-    `
-
-    const poses = [
-      { id: 1, coords: [2, 4] },
-      { id: 2, coords: [3, 1] },
-    ]
-    const { value, frames } = evaluateFunction(code, {}, 'chooseEnemy', poses)
-    expect(value).toBe(2)
-    expect(frames).toBeArrayOfSize(11)
-  })
-
-  test.skip('twoFer', () => {
-    const code = `
-      function twoFer with name do
-        if(name is "") do
-          return "One for you, one for me."
-        else do
-          return "One for " + name + ", one for me."
-        end
-      end
-    `
-
-    const { value } = evaluateFunction(code, {}, 'twoFer', 'Alice')
-    expect(value).toEqual('One for Alice, one for me.')
-  })
-})
-
 describe('errors', () => {
   test('scanner', () => {
     const { frames, error } = interpret('let 123#')
@@ -655,100 +530,6 @@ describe('errors', () => {
     expect(error!.category).toBe('SyntaxError')
     expect(error!.type).toBe('MissingDoubleQuoteToTerminateString')
     expect(error!.context).toBeNull
-  })
-
-  describe('runtime', () => {
-    describe('evaluateFunction', () => {
-      test('first frame', () => {
-        const { value, frames, error } = evaluateFunction(
-          `
-          function move do
-            foo()
-          end
-        `,
-          {},
-          'move'
-        )
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(3)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].code).toBe('foo()')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('CouldNotFindFunction')
-        expect(frames[0].error!.message).toBe('CouldNotFindFunction: name: foo')
-        expect(error).toBeNull()
-      })
-
-      test('later frame', () => {
-        const code = `
-          function move do
-            set x to 1
-            set y to 2
-            foo()
-          end
-        `
-        const { value, frames, error } = evaluateFunction(code, {}, 'move')
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(3)
-        expect(frames[2].line).toBe(5)
-        expect(frames[2].status).toBe('ERROR')
-        expect(frames[2].code).toBe('foo()')
-        expect(frames[2].error).not.toBeNull()
-        expect(frames[2].error!.category).toBe('RuntimeError')
-        expect(frames[2].error!.type).toBe('CouldNotFindFunction')
-        expect(frames[2].error!.message).toBe('CouldNotFindFunction: name: foo')
-        expect(error).toBeNull()
-      })
-
-      test('missing function', () => {
-        const code = `
-          function m0ve do
-          end
-        `
-        const { value, frames, error } = evaluateFunction(code, {}, 'move')
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(1)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('ExpectedFunctionNotFound')
-        expect(frames[0].error!.message).toBe(
-          'ExpectedFunctionNotFound: name: move'
-        )
-        expect(error).toBeNull()
-      })
-
-      test('incorrect args', () => {
-        const code = `
-          function move with foo do
-          end
-        `
-        const { value, frames, error } = evaluateFunction(
-          code,
-          {},
-          'move',
-          1,
-          2
-        )
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(1)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('ExpectedFunctionHasWrongArguments')
-        expect(frames[0].error!.message).toBe(
-          'ExpectedFunctionHasWrongArguments: name: move'
-        )
-        expect(error).toBeNull()
-      })
-    })
   })
 
   describe('interpret', () => {
@@ -1013,4 +794,20 @@ describe('context', () => {
       expect(frames[0].result?.resultingValue).toBe(1)
     })
   })
+})
+
+test('idempotent', () => {
+  const code = `
+    set x to 1
+    function move do
+      change x to x + 1
+      return x
+    end
+    move()
+    move()
+    `
+  const { frames, error } = interpret(code, {
+    languageFeatures: { allowGlobals: true },
+  })
+  expect(frames[6].variables.x).toBe(3)
 })

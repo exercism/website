@@ -2,7 +2,7 @@
   "title": "Emoji Collector",
   "description": "Turn your little blob into an emoji hoover!",
   "level": 7,
-  "idx": 3,
+  "idx": 5,
   "project_type": "maze",
   "tests_type": "state",
   "stdlib_functions": "has_key",

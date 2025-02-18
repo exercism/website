@@ -1,6 +1,6 @@
 # Protein Translation
 
-## Introduction
+Let's go deeper with the microbiology (you're getting two courses for the price of one!)
 
 RNA can be broken into three-nucleotide sequences called codons, and then translated to a protein like so:
 

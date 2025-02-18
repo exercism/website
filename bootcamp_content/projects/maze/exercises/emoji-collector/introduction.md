@@ -28,25 +28,13 @@ Once you move into the finishing square (`"🏁"`), you should use the `announce
 announce_emojis({ "🐽": 4, "🧠": 3 })
 ```
 
-### A helpful function
-
-We've also added the `has_key(dictionary, key)` function, which returns a boolean stating whether or not the key exists.
-So for the dictionary
-
-```
-set details to {"name": "Jeremy"}`
-
-has_key("name") // true
-has_key("age") // false
-```
-
 ### Summary
 
 In summary, you have the following functions available.
 
 Dictionary functions:
 
-- `has_key(dict, key)`
+- `has_key(dict, key)`: Takes a dictionary and a string, and returns whether the string is a key in the dictionary.
 
 Game functions:
 

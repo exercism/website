@@ -1,6 +1,6 @@
 # Description
 
-We're back with some more micobiology.
+We're back with some more microbiology.
 
 DNA is a long chain of other chemicals and the most important are the four nucleotides, adenine, cytosine, guanine and thymine.
 A single DNA chain can contain billions of these four nucleotides and the order in which they occur is important!
@@ -29,6 +29,14 @@ count_nucleotides("INVALID")
 
 ### Functions
 
-You have one function available:
+You have one new function available called `keys(dictionary)`.
+This takes a list as its input and returns a list of all its keys.
 
-- `keys(lists)`: This takes a list as its input and returns a list of all its keys.
+So for the dictionary:
+
+```
+set person to { "name": "Jeremy", "age": 41, "developer": true }
+
+keys(person)
+// -> ["name", "age", "developer"]
+```

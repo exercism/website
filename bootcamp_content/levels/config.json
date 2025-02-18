@@ -21,10 +21,10 @@
   },
   {
     "title": "Recap Week",
-    "description": "We go over everything we've learned so far and introduce your first major project!"
+    "description": "We recap everything we've learned so far and introduce your first major project!"
   },
   {
     "title": "Dictionaries",
-    "description": "We  look at dictionaries and counters as part of loops"
+    "description": "We look at dictionaries, break, continue and loop counters."
   }
 ]

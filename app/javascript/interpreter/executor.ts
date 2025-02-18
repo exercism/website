@@ -7,7 +7,6 @@ import {
 import { isArray, isBoolean, isNumber, isObject, isString } from './checks'
 import { Environment } from './environment'
 import {
-  FunctionCallTypeMismatchError,
   RuntimeError,
   type RuntimeErrorType,
   isRuntimeError,
@@ -25,7 +24,6 @@ import {
   LogicalExpression,
   SetElementExpression,
   UnaryExpression,
-  UpdateExpression,
   VariableLookupExpression,
   DictionaryExpression,
 } from './expression'
@@ -53,7 +51,6 @@ import type {
   EvaluationResult,
   EvaluationResultBreakStatement,
   EvaluationResultCallExpression,
-  EvaluationResultCallStatement,
   EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
   EvaluationResultContinueStatement,
@@ -63,7 +60,6 @@ import type {
   EvaluationResultFunctionLookupExpression,
   EvaluationResultGetElementExpression,
   EvaluationResultIfStatement,
-  EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
   EvaluationResultLogStatement,
   EvaluationResultRepeatStatement,
@@ -73,7 +69,7 @@ import type {
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
-import type { LanguageFeatures, SomethingWithLocation } from './interpreter'
+import type { LanguageFeatures } from './interpreter'
 import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
@@ -81,7 +77,6 @@ import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import didYouMean from 'didyoumean'
 import { extractCallExpressions, formatLiteral } from './helpers'
-import { left } from '@popperjs/core'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -167,52 +162,68 @@ export class Executor {
     throw new LogicError(message)
   }
 
+  // The Return boolean represents whether this has been successful
+  // or created an error frame.
+  private withExecutionContext(fn: Function): boolean {
+    try {
+      fn()
+    } catch (error) {
+      if (error instanceof ReturnValue) {
+        // Remove the last frame and replace it with an error frame
+        // This saves us having to pass the context down to where
+        // the error is thrown.
+        this.frames.pop()
+        this.addFrame(
+          error.location,
+          'ERROR',
+          undefined,
+          this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
+        )
+        return false
+      }
+      if (error instanceof ContinueFlowControlError) {
+        // Remove the last frame and replace it with an error frame
+        // This saves us having to pass the context down to where
+        // the error is thrown.
+        this.frames.pop()
+        this.addFrame(
+          error.location,
+          'ERROR',
+          undefined,
+          this.buildError('UnexpectedContinueOutsideOfLoop', error.location, {
+            lexeme: error.lexeme,
+          })
+        )
+        return false
+      }
+      if (error instanceof BreakFlowControlError) {
+        // Remove the last frame and replace it with an error frame
+        // This saves us having to pass the context down to where
+        // the error is thrown.
+        this.frames.pop()
+        this.addFrame(
+          error.location,
+          'ERROR',
+          undefined,
+          this.buildError('UnexpectedBreakOutsideOfLoop', error.location)
+        )
+        return false
+      }
+      throw error
+    }
+    return true
+  }
+
   public execute(statements: Statement[]): InterpretResult {
     for (const statement of statements) {
       try {
-        this.executeStatement(statement)
+        const res = this.withExecutionContext(() => {
+          this.executeStatement(statement)
+        })
+        if (!res) {
+          break
+        }
       } catch (error) {
-        if (error instanceof ReturnValue) {
-          // Remove the last frame and replace it with an error frame
-          // This saves us having to pass the context down to where
-          // the error is thrown.
-          this.frames.pop()
-          this.addFrame(
-            error.location,
-            'ERROR',
-            undefined,
-            this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
-          )
-          break
-        }
-        if (error instanceof ContinueFlowControlError) {
-          // Remove the last frame and replace it with an error frame
-          // This saves us having to pass the context down to where
-          // the error is thrown.
-          this.frames.pop()
-          this.addFrame(
-            error.location,
-            'ERROR',
-            undefined,
-            this.buildError('UnexpectedContinueOutsideOfLoop', error.location, {
-              lexeme: error.lexeme,
-            })
-          )
-          break
-        }
-        if (error instanceof BreakFlowControlError) {
-          // Remove the last frame and replace it with an error frame
-          // This saves us having to pass the context down to where
-          // the error is thrown.
-          this.frames.pop()
-          this.addFrame(
-            error.location,
-            'ERROR',
-            undefined,
-            this.buildError('UnexpectedBreakOutsideOfLoop', error.location)
-          )
-          break
-        }
         if (isRuntimeError(error)) {
           this.addFrame(
             this.location || error.location,
@@ -246,9 +257,13 @@ export class Executor {
       // TODO: Also start/end the statement management
       // Do not execute here, as this is the only expression without
       // a result that's allowed, so it needs to be called manually
-      const result = this.visitCallExpression(statement.expression)
+      let result: EvaluationResultCallExpression | undefined
+      this.withExecutionContext(() => {
+        result = this.visitCallExpression(statement.expression)
+      })
+
       return {
-        value: result.resultingValue,
+        value: result?.resultingValue,
         frames: this.frames,
         error: null,
         functionCallLog: this.functionCallLog,

@@ -43,7 +43,8 @@ It should use the `letter_values` to calculate the score.
 
 ## Functions
 
-This exercise doesn't give you any functions to use!
+You do not need any functions to solve this exercise.
+However, you might find a method that would benefit from you having the `join(str1, str2)` function, so we have included that in case you want to use it.
 
 ## Hints
 

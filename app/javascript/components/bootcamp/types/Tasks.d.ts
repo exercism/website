@@ -22,6 +22,12 @@ declare type TaskTest = {
   checks?: ExpectCheck[]
   setupFunctions: SetupFunction[]
   descriptionHtml?: string
+  check: {
+    function: string
+    expected: string
+    description: string
+    matcher?: string
+  }
 }
 
 declare type ExpectCheck = {

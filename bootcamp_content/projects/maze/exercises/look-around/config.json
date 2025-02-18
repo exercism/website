@@ -347,7 +347,7 @@
               "name": "getAddedLineCount(18)",
               "matcher": "toBeLessThanOrEqual",
               "value": 13,
-              "error_html": "You added more than 13 lines of code. (%actual%)"
+              "error_html": "You added more than %actual% lines of code."
             }
           ]
         }

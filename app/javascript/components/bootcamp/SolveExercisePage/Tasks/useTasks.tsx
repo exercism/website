@@ -46,7 +46,8 @@ export function useTasks() {
     links: { completeSolution: completeSolutionLink },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
-  const { inspectedTestResult, bonusTestSuiteResult } = useTestStore()
+  const { inspectedTestResult, bonusTestSuiteResult, testSuiteResult } =
+    useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
   // see useSetupStores.ts
@@ -64,7 +65,10 @@ export function useTasks() {
     const allBonusTestsPassed =
       bonusTestSuiteResult &&
       bonusTestSuiteResult.tests.length > 0 &&
-      bonusTestSuiteResult.status === 'pass'
+      bonusTestSuiteResult.status === 'pass' &&
+      testSuiteResult &&
+      testSuiteResult.tests.length > 0 &&
+      testSuiteResult.status === 'pass'
 
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
       isSetupStage.current = false

@@ -3,6 +3,7 @@
   "description": "Translate RNA sequences into proteins.",
   "level": 7,
   "idx": 5,
+  "blocks_project_progression": false,
   "tests_type": "io",
   "stdlib_functions": ["push", "join"],
   "tasks": [

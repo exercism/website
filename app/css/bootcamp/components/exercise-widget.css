@@ -9,9 +9,17 @@
         @apply w-[80px] h-[80px] mr-12;
     }
 
-    img.mandatory {
-        @apply w-[20px] h-[20px];
+    img.brain-buster {
+        @apply hidden;
+        @apply w-[24px] h-[24px];
         @apply absolute bottom-[12px] right-[0];
+    }
+
+    img.major-project {
+        @apply hidden;
+        @apply w-[32px] h-[32px];
+        @apply absolute bottom-[16px] right-[0];
+        @apply mr-8;
     }
 
     .title {
@@ -41,6 +49,26 @@
         @apply border-1 rounded-circle;
     }
 
+    &.brain-buster {
+        @apply bg-superLightOrange;
+        @apply border-[#fbb64e];
+
+        .brain-buster {
+            @apply block;
+        }
+    }
+    &.major-project {
+        @apply bg-bootcamp-very-light-purple;
+        @apply border-bootcamp-purple;
+
+        .major-project {
+            @apply block;
+        }
+        .brain-buster {
+            @apply hidden !important;
+        }
+    }
+
     &.available,
     &.in_progress {
         @apply shadow-base;
@@ -62,12 +90,36 @@
     }
 
     &.completed {
+        background: #ecf8ec;
+        border-color: #4bb543;
         .tag {
             background: #e7fdf6;
             border-color: #43b593;
             color: #43b593;
             background-image: url("icons/bootcamp-completed-check-circle.svg");
             background-repeat: no-repeat;
+        }
+    }
+    &.completed-bonus {
+        filter: drop-shadow(0px 0px 9px #fdd017cc);
+        border-color: #fdd017;
+        background: #fdd01722;
+        border-width: 2px;
+
+        mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/400% 100%;
+        background-repeat: no-repeat;
+        animation: shimmer 7s infinite;
+
+        .tag {
+            border: none;
+            padding: 0;
+            background-image: url("icons/gold-star.svg");
+            background-repeat: no-repeat;
+            background-size: 30px;
+            filter: drop-shadow(0px 0px 3px #fdd017ff);
+        }
+        img {
+            filter: drop-shadow(0px 0px 3px #fdd017ff);
         }
     }
     &.size-large {
@@ -82,5 +134,17 @@
         .description {
             @apply text-17 leading-140;
         }
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        mask-position: right/300% 100%;
+    }
+    20% {
+        mask-position: left;
+    }
+    100% {
+        mask-position: left;
     }
 }

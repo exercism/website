@@ -3,6 +3,7 @@
   "description": "Count the frequency of words in a sentence.",
   "level": 7,
   "idx": 3,
+  "blocks_project_progression": false,
   "tests_type": "io",
   "stdlib_functions": ["join", "push", "has_key", "to_lower_case"],
   "tasks": [

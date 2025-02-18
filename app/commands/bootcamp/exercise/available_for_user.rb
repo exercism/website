@@ -17,7 +17,9 @@ class Bootcamp::Exercise::AvailableForUser
   delegate :project, to: :exercise
 
   def previous_exercises_completed?
-    previous_exercises = project.exercises.where.not(id: exercise.id).select do |prev_ex|
+    previous_exercises = project.exercises.
+      where('bootcamp_exercises.blocks_project_progression': true).
+      where.not(id: exercise.id).select do |prev_ex|
       prev_ex.level_idx < exercise.level_idx ||
         (prev_ex.level_idx == exercise.level_idx && prev_ex.idx < exercise.idx)
     end

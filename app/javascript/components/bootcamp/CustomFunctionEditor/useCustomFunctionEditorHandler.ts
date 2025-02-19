@@ -1,12 +1,19 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
 import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import { interpret } from '@/interpreter/interpreter'
+import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import type { Frame } from '@/interpreter/frames'
+import { CustomTests } from './useTestManager'
 
-export function useCustomFunctionEditorHandler() {
+export function useCustomFunctionEditorHandler({
+  tests,
+  setActuals,
+}: {
+  tests: CustomTests
+  setActuals: React.Dispatch<React.SetStateAction<Record<string, string>>>
+}) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
 
@@ -43,7 +50,24 @@ export function useCustomFunctionEditorHandler() {
       const value = editorHandler.current.getValue()
       setLatestValueSnapshot(value)
       // value is studentCode
+
       const evaluated = interpret(value)
+      tests.forEach((test) => {
+        const [fnName, params] = test.codeRun.split(/[()]/)
+
+        const parsedParams = formatParams(params.split(','))
+        console.log('parsedParams', parsedParams)
+        const fnEvaluationResult = evaluateFunction(
+          value,
+          {},
+          fnName,
+          ...parsedParams
+        )
+        setActuals((a) => ({
+          ...a,
+          [test.codeRun]: JSON.stringify(fnEvaluationResult.value),
+        }))
+      })
 
       const { frames } = evaluated
       setFrames(frames)
@@ -73,4 +97,16 @@ export function useCustomFunctionEditorHandler() {
     editorViewRef,
     frames,
   }
+}
+
+const formatParams = (params: string[]): any[] => {
+  return params.map((param) => {
+    const trimmed = param.trim()
+    if (/^".*"$/.test(trimmed)) {
+      // If wrapped in double quotes, return as string (remove quotes)
+      return trimmed.slice(1, -1)
+    }
+    const num = Number(trimmed)
+    return isNaN(num) ? trimmed : num
+  })
 }

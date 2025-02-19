@@ -14,6 +14,8 @@ export function useTestManager(customFunction: CustomFunction) {
     testsLocalStorageValue.tests ?? []
   )
 
+  const [actuals, setActuals] = useState<Record<string, string>>({})
+
   useEffect(() => {
     setTestsLocalStorageValue({ tests })
   }, [tests])
@@ -59,6 +61,8 @@ export function useTestManager(customFunction: CustomFunction) {
   return {
     tests,
     testBeingEdited,
+    actuals,
+    setActuals,
     setTestBeingEdited,
     handleDeleteTest,
     handleUpdateTest,

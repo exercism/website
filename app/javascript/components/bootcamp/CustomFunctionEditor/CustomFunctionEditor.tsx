@@ -40,13 +40,15 @@ export default function CustomFunctionEditor({
     handleUpdateTest,
     handleCancelEditing,
     handleAddNewTest,
+    actuals,
+    setActuals,
   } = useTestManager(customFunction)
 
   const { name, setName, description, setDescription } =
     useFunctionDetailsManager(customFunction)
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
-    useCustomFunctionEditorHandler()
+    useCustomFunctionEditorHandler({ tests, setActuals })
 
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
@@ -99,6 +101,7 @@ export default function CustomFunctionEditor({
           />
           <CustomFunctionTests
             tests={tests}
+            actuals={actuals}
             testBeingEdited={testBeingEdited}
             setTestBeingEdited={setTestBeingEdited}
             handleDeleteTest={handleDeleteTest}

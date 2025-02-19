@@ -5,6 +5,7 @@ import { CustomTests } from './useTestManager'
 export function CustomFunctionTests({
   tests,
   testBeingEdited,
+  actuals,
   setTestBeingEdited,
   handleDeleteTest,
   handleUpdateTest,
@@ -13,6 +14,7 @@ export function CustomFunctionTests({
 }: {
   tests: CustomTests
   testBeingEdited: string | undefined
+  actuals: Record<string, string>
   setTestBeingEdited: React.Dispatch<React.SetStateAction<string | undefined>>
   handleDeleteTest: (uuid: string) => void
   handleUpdateTest: (
@@ -30,6 +32,7 @@ export function CustomFunctionTests({
           <CustomFunctionTest
             key={test.uuid}
             codeRun={test.codeRun}
+            actual={actuals[test.codeRun]}
             expected={test.expected}
             editMode={testBeingEdited === test.uuid}
             onEditClick={() => setTestBeingEdited(test.uuid)}

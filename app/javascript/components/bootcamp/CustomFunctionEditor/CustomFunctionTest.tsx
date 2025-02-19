@@ -1,9 +1,11 @@
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
 
 export function CustomFunctionTest({
   codeRun,
   expected,
   editMode,
+  actual,
   onEditClick,
   onSaveClick,
   onCancelClick,
@@ -12,6 +14,7 @@ export function CustomFunctionTest({
   codeRun: string
   expected: string
   editMode: boolean
+  actual: any
   onEditClick: () => void
   onSaveClick: (codeRunValue: string, expectedValue: string) => void
   onCancelClick: () => void
@@ -34,7 +37,16 @@ export function CustomFunctionTest({
   }, [codeRun, expected])
 
   return (
-    <div className="c-scenario pending bg-blue-300">
+    <div
+      className={assembleClassNames(
+        'c-scenario',
+        !actual
+          ? 'pending bg-blue-300'
+          : actual === expected
+          ? 'pass bg-green-300'
+          : 'fail bg-red-300'
+      )}
+    >
       <table className="io-test-result-info">
         <tbody>
           <tr>
@@ -65,6 +77,12 @@ export function CustomFunctionTest({
               )}
             </td>
           </tr>
+          {actual && (
+            <tr>
+              <th>Actual:</th>
+              <td>{actual}</td>
+            </tr>
+          )}
         </tbody>
       </table>
       {editMode ? (

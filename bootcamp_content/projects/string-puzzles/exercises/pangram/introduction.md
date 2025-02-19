@@ -37,3 +37,21 @@ You have two functions available:
 
 - `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
 - `keys(dictionary)`.: This takes a dictionary as its input and returns a list of all its keys.
+
+## Hints
+
+Stuck? Click to expand!
+
+<details><summary>Helper Functions</summary>
+
+There are lots of helper functions that could be useful here. For example, most languages provide:
+
+- `contains`, which tells you whether one string contains another.
+- `index_of`, which tells you where in a list/string an item is
+- `to_lower`, which turns a string into its lowercase equivalent.
+
+Starting off by adding these functions might make your life a lot easier.
+
+Maybe you've already written those functions in other exercises and you can reuse them here?
+
+</details>

@@ -2,7 +2,7 @@ import { Expression, CallExpression } from '@/interpreter/expression'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { Statement } from '@/interpreter/statement'
 
-function numberOfTimesFunctionWasCalled(
+function numFunctionCalls(
   result: InterpretResult,
   name: string,
   args: any[] | null,
@@ -29,7 +29,7 @@ function wasFunctionCalled(
   args: any[] | null,
   times?: number
 ): boolean {
-  return numberOfTimesFunctionWasCalled(result, name, args, times) >= 1
+  return numFunctionCalls(result, name, args, times) >= 1
 }
 
 function numLinesOfCode(
@@ -43,7 +43,7 @@ function numLinesOfCode(
   return lines.length - numStubLines
 }
 
-function numberOfFunctionCallsInCode(
+function numFunctionCallsInCode(
   result: InterpretResult,
   fnName: string
 ): number {
@@ -53,9 +53,9 @@ function numberOfFunctionCallsInCode(
 }
 
 export default {
-  numberOfTimesFunctionWasCalled,
+  numFunctionCalls,
   wasFunctionCalled,
-  numberOfFunctionCallsInCode,
+  numFunctionCallsInCode,
   numLinesOfCode,
 }
 

@@ -47,7 +47,7 @@
               "error_html": "You didn't add exactly 5 bricks."
             },
             {
-              "name": "numberOfFunctionCallsInCode('rectangle')",
+              "name": "numFunctionCallsInCode('rectangle')",
               "matcher": "toEqual",
               "value": 1,
               "error_html": "You are using the `rectangle` function in multiple places in your code."

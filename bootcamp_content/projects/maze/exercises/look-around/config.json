@@ -312,7 +312,7 @@
           ],
           "checks": [
             {
-              "name": "numberOfFunctionCallsInCode('look')",
+              "name": "numFunctionCallsInCode('look')",
               "value": 1,
               "error_html": "You used look more than once (%actual% times)."
             }

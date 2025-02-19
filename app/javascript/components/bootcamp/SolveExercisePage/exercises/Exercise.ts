@@ -23,13 +23,13 @@ export abstract class Exercise {
     return code
   }
 
-  public numberOfTimesFunctionWasCalled(
+  public numFunctionCalls(
     result: InterpretResult,
     name: string,
     args: any[] | null,
     times?: number
   ): number {
-    return checkers.numberOfTimesFunctionWasCalled(result, name, args, times)
+    return checkers.numFunctionCalls(result, name, args, times)
   }
 
   public wasFunctionCalled(
@@ -41,11 +41,11 @@ export abstract class Exercise {
     return checkers.wasFunctionCalled(result, name, args, times)
   }
 
-  public numberOfFunctionCallsInCode(
+  public numFunctionCallsInCode(
     result: InterpretResult,
     fnName: string
   ): number {
-    return checkers.numberOfFunctionCallsInCode(result, fnName)
+    return checkers.numFunctionCallsInCode(result, fnName)
   }
 
   public lineNumberOffset = 0

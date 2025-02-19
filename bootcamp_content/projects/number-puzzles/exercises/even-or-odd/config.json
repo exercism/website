@@ -65,6 +65,27 @@
           "image_slug": "number-puzzles/even-or-odd/0.png"
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "6 Lines of Code",
+          "function": "even_or_odd",
+          "params": [0],
+          "expected": "Even",
+
+          "check": {
+            "description": "We checked how many lines of code you added.",
+            "function": "numLinesOfCode()",
+            "matcher": "toBeLessThanOrEqual",
+            "expected": 6,
+            "error_html": "You have more than 6 lines of code."
+          }
+        }
+      ]
     }
   ]
 }

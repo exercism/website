@@ -40,6 +40,75 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "no-repeat",
+          "name": "No Repeat",
+          "description_html": "Do not use the `repeat` keyword? (You can still use `repeat_until_game_over`)",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "name": "numTimesStatementUsed('RepeatStatement')",
+              "matcher": "toBe",
+              "value": 0,
+              "error_html": "You used the `repeat` keyword."
+            }
+          ]
+        },
+        {
+          "slug": "one-shoot",
+          "name": "One Shoot",
+          "description_html": "Only have `shoot()` appear once in your code?",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
+          "checks": [
+            {
+              "name": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "name": "numFunctionCallsInCode('shoot')",
+              "value": 1,
+              "error_html": "You used the `shoot()` function more than once."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

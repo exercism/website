@@ -26,6 +26,8 @@ declare global {
   type Solution = {
     uuid: string
     status: 'completed' | 'in_progress'
+    passedBasicTests: boolean
+    passedBonusTests: boolean
   }
 
   interface Exercise {

@@ -7,7 +7,7 @@ export async function submitCode({
   code: string
   testResults: {
     status: string
-    tests: { slug: string; status: string; actual: any }[]
+    tests: { slug: string; status: string; bonus?: boolean }[]
   }
   postUrl: string
   readonlyRanges: { from: number; to: number }[]

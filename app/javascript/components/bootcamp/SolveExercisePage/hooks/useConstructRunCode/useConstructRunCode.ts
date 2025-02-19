@@ -23,6 +23,7 @@ export function useConstructRunCode({
 }) {
   const {
     setTestSuiteResult,
+    setBonusTestSuiteResult,
     setInspectedTestResult,
     inspectedTestResult,
     setHasSyntaxError,
@@ -39,7 +40,13 @@ export function useConstructRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { markTaskAsCompleted, tasks } = useTaskStore()
+  const {
+    markTaskAsCompleted,
+    tasks,
+    bonusTasks,
+    setShouldShowBonusTasks,
+    shouldShowBonusTasks,
+  } = useTaskStore()
 
   const handleCompilationError = (error, editorView) => {
     setHasSyntaxError(true)
@@ -113,13 +120,22 @@ export function useConstructRunCode({
         console.log(compError)
       }
 
+      const bonusTestResults = generateAndRunTestSuite({
+        studentCode,
+        tasks: bonusTasks ?? [],
+        config,
+      })
+
       setTestSuiteResult(testResults)
+      setBonusTestSuiteResult(bonusTestResults)
 
       markTaskAsCompleted(testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrLastTest(
         testResults,
-        inspectedTestResult
+        bonusTestResults,
+        inspectedTestResult,
+        shouldShowBonusTasks
       )
 
       if (automaticallyInspectedTest.animationTimeline) {
@@ -137,25 +153,27 @@ export function useConstructRunCode({
       // reset on successful test run
       setHasCodeBeenEdited(false)
 
+      const areBasicTestsPassing = testResults.status === 'pass'
+      const areBonusTestsPassing = bonusTestResults.status === 'pass'
+      const submissionStatus =
+        areBasicTestsPassing && areBonusTestsPassing
+          ? 'pass_bonus'
+          : testResults.status
+
+      if (submissionStatus === 'pass_bonus') {
+        setShouldShowBonusTasks(true)
+      }
+
       submitCode({
         code: studentCode,
         testResults: {
-          status: testResults.status,
-          tests: testResults.tests.map((test) => {
-            const firstFailingExpect = test.expects.find(
-              (e) => e.pass === false
-            )
-            const actual = firstFailingExpect
-              ? firstFailingExpect.testsType === 'io'
-                ? firstFailingExpect.actual
-                : firstFailingExpect.errorHtml
-              : null
-            return {
-              slug: test.slug,
-              status: test.status,
-              actual,
-            }
-          }),
+          status: submissionStatus,
+          tests: [testResults, bonusTestResults].flatMap((testResults, index) =>
+            generateSubmissionTestArray({
+              testResults,
+              isBonus: index === 1,
+            })
+          ),
         },
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
@@ -164,8 +182,31 @@ export function useConstructRunCode({
         ),
       })
     },
-    [setTestSuiteResult, tasks, inspectedTestResult]
+    [
+      setTestSuiteResult,
+      setBonusTestSuiteResult,
+      tasks,
+      inspectedTestResult,
+      shouldShowBonusTasks,
+      bonusTasks,
+    ]
   )
 
   return runCode
+}
+
+function generateSubmissionTestArray({
+  testResults,
+  isBonus = false,
+}: {
+  testResults: TestSuiteResult<NewTestResult>
+  isBonus?: boolean
+}) {
+  return testResults.tests.map((test) => {
+    return {
+      slug: test.slug,
+      status: test.status,
+      ...(isBonus && { bonus: true }),
+    }
+  })
 }

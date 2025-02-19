@@ -104,6 +104,40 @@
           "image_slug": "string-puzzles/acronym/trnt.jpg"
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks!",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "lowercase-only",
+          "name": "How about a Baron?",
+          "description_html": "Can you solve this without having a capital letter anywhere in your code?",
+          "function": "acronym",
+          "params": ["Andrew Lloyd Webber"],
+          "expected": "ALW",
+          "check": {
+            "function": "numUppercaseLettersInStrings()",
+            "matcher": "toBe",
+            "expected": 0,
+            "error_html": "You have a capital letter in your code."
+          }
+        },
+        {
+          "slug": "23-lines",
+          "name": "23 lines of code",
+          "description_html": "Can you solve it with only 23 lines of code?",
+          "function": "acronym",
+          "params": ["Andrew Lloyd Webber"],
+          "expected": "ALW",
+          "check": {
+            "function": "numLinesOfCode()",
+            "matcher": "toBeLessThanOrEqual",
+            "expected": 23,
+            "error_html": "You have more than 23 lines of code."
+          }
+        }
+      ]
     }
   ]
 }

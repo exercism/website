@@ -17,10 +17,6 @@ Some examples:
 
 Your job is to write a function called `is_leap_year` that takes a year as its input and returns a boolean (`true` or `false`) for whether the year is a leap year.
 
-## Bonus Task
-
-Can you solve this with only **one line of code** within the function?
-
 ## Take your time!
 
 Take your time on this one. Once you enter whack-a-mole you'll be in trouble! Think it through before starting hacking away!

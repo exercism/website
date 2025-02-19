@@ -3,9 +3,10 @@ class Bootcamp::Submission < ApplicationRecord
 
   serialize :test_results, JSONWithIndifferentAccess
   serialize :readonly_ranges, JSONWithIndifferentAccess
-  enum :status, { pass: 0, fail: 1 }
+  enum :status, { pass: 0, fail: 1, pass_bonus: 2 }
 
   scope :passed, -> { where(status: :pass) }
+  scope :passed_bonus, -> { where(status: :pass_bonus) }
   scope :failed, -> { where(status: :fail) }
 
   belongs_to :solution, class_name: "Bootcamp::Solution"
@@ -17,6 +18,7 @@ class Bootcamp::Submission < ApplicationRecord
 
   def status = super.to_sym
   def passed? = status == :pass
+  def passed_bonus? = status == :pass_bonus
   def test_suite = test_results[:suite].to_sym
 
   def passed_test?(slug)

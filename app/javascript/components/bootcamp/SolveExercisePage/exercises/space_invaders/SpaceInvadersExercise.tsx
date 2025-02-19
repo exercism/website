@@ -1,10 +1,17 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
-import { cloneDeep, random } from 'lodash'
+import { cloneDeep, random, result } from 'lodash'
 import { d } from '@codemirror/legacy-modes/mode/d'
 import { deepTrim } from '@/interpreter/describers/helpers'
 import { isNumber } from '@/interpreter/checks'
+import { extractCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
+import {
+  RepeatUntilGameOverStatement,
+  Statement,
+} from '@/interpreter/statement'
+import { Expression } from '@/interpreter/expression'
+import { InterpretResult } from '@/interpreter/interpreter'
 
 type GameStatus = 'running' | 'won' | 'lost'
 type AlienStatus = 'alive' | 'dead'
@@ -331,6 +338,37 @@ export default class SpaceInvadersExercise extends Exercise {
 
     executionCtx.fastForward(2500)
     executionCtx.updateState('gameOver', true)
+  }
+
+  public wasFireworksCalledInsideRepeatLoop(result: InterpretResult) {
+    const callsInsideRepeat = (statements) =>
+      statements
+        .filter((obj) => obj)
+        .map((elem: Statement) => {
+          if (elem instanceof RepeatUntilGameOverStatement) {
+            return extractCallExpressions(elem.body).filter(
+              (expr) => expr.callee.name.lexeme === 'fire_fireworks'
+            )
+          }
+          return callsInsideRepeat(elem.children())
+        })
+        .flat()
+
+    const callsOutsideRepeat = (statements) =>
+      statements
+        .filter((obj) => obj)
+        .map((elem: Statement) => {
+          if (elem instanceof RepeatUntilGameOverStatement) {
+            return []
+          }
+          return callsOutsideRepeat(elem.children())
+        })
+        .flat()
+
+    return (
+      callsInsideRepeat(result.meta.statements).length > 0 &&
+      callsOutsideRepeat(result.meta.statements).length === 0
+    )
   }
 
   public availableFunctions = [

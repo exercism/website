@@ -1,7 +1,7 @@
 import type { Animation } from '../AnimationTimeline/AnimationTimeline'
 import type { ExecutionContext, ExternalFunction } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
-import { Statement } from '@/interpreter/statement'
+import checkers from '../test-runner/generateAndRunTestSuite/checkers'
 
 export abstract class Exercise {
   public showAnimationsOnInfiniteLoops: boolean
@@ -23,41 +23,41 @@ export abstract class Exercise {
     return code
   }
 
-  public numberOfFunctionCallsInCode(
-    interpreterResult: InterpretResult,
-    fnName: string
-  ) {
-    return interpreterResult.callExpressions.filter(
-      (expr) => expr.callee.name.lexeme == fnName
-    ).length
+  public numFunctionCalls(
+    result: InterpretResult,
+    name: string,
+    args: any[] | null,
+    times?: number
+  ): number {
+    return checkers.numFunctionCalls(result, name, args, times)
   }
 
-  public wasFunctionUsed(
+  public wasFunctionCalled(
     result: InterpretResult,
     name: string,
     args: any[] | null,
     times?: number
   ): boolean {
-    let timesCalled
-    const fnCalls = result.functionCallLog
-
-    if (fnCalls[name] === undefined) {
-      timesCalled = 0
-    } else if (args !== null && args !== undefined) {
-      timesCalled = fnCalls[name][JSON.stringify(args)]
-    } else {
-      timesCalled = Object.values(fnCalls[name]).reduce((acc, count) => {
-        return acc + count
-      }, 0)
-    }
-
-    if (times === null || times === undefined) {
-      return timesCalled >= 1
-    }
-    return timesCalled === times
+    return checkers.wasFunctionCalled(result, name, args, times)
   }
 
-  public lineNumberOffset = 0
+  public numFunctionCallsInCode(
+    result: InterpretResult,
+    fnName: string
+  ): number {
+    return checkers.numFunctionCallsInCode(result, fnName)
+  }
+
+  public numTimesStatementUsed(result: InterpretResult, type: string): number {
+    return checkers.numTimesStatementUsed(result, type)
+  }
+
+  public numLinesOfCode(
+    result: InterpretResult,
+    numStubLines: number = 0
+  ): number {
+    return checkers.numLinesOfCode(result, numStubLines)
+  }
 
   public addAnimation(animation: Animation) {
     this.animations.push(animation)

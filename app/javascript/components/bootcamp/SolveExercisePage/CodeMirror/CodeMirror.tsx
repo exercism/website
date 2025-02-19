@@ -101,7 +101,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
   const { setExerciseLocalStorageData } = useContext(SolveExercisePageContext)
 
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
-  const { wasFinishLessonModalShown } = useTaskStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
@@ -115,14 +114,9 @@ export const CodeMirror = forwardRef(function _CodeMirror(
         code: value,
         storedAt: new Date().toISOString(),
         readonlyRanges: readonlyRanges,
-        wasFinishLessonModalShown,
       })
     }, 500)
-  }, [
-    setExerciseLocalStorageData,
-    readOnlyRangesStateField,
-    wasFinishLessonModalShown,
-  ])
+  }, [setExerciseLocalStorageData, readOnlyRangesStateField])
 
   let value = defaultCode
 

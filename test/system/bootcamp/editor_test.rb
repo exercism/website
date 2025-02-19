@@ -458,25 +458,25 @@ end))
     move()
   else if can_turn_right() is true do
     turn_right()
-    move()
   else do
-    turn_left()
-    turn_left()
+turn_right()
+    turn_right()
   end
 end))
         check_scenarios
 
         scrubber_val_4 = 2430
-        scrubber_val_6 = 10_118
+        scrubber_val_5 = 3848
 
+        select_scenario 5
         # interrupting animation
-        scrub_to scrubber_val_6
+        scrub_to scrubber_val_5
         select_scenario 4
         scrub_to scrubber_val_4
 
-        select_scenario 6
+        select_scenario 5
         sleep 0.5
-        assert_scrubber_value scrubber_val_6
+        assert_scrubber_value scrubber_val_5
         select_scenario 4
         sleep 0.5
         assert_scrubber_value scrubber_val_4
@@ -624,6 +624,132 @@ asdf()
       end
     end
 
+    test "doesnt see bonus tasks before completing basic tasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        assert_text "Guide person to the end of the maze"
+        assert_text "Your job is to reach the goal"
+        assert_selector ".test-button", count: 1
+        refute_selector ".test-selector-buttons.bonus"
+
+        check_scenarios
+
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+      end
+    end
+
+    test "sees bonus task after completing basic tasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+          })
+        check_scenarios
+
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+        assert_text "There is a bonus task on this exercise to complete."
+
+        refute_text "Solve the bonus tasks!"
+        assert_text "Congratulations"
+
+        click_on "Tackle bonus task"
+
+        assert_text "Solve the bonus tasks!"
+        assert_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 2
+        find(".test-selector-buttons.bonus .test-button").click
+        assert_text "Your job is to solve bonus 1"
+        assert_text "You added more than 3 lines of code."
+        assert_selector ".test-button.fail", count: 1
+
+        update_codemirror_content(%{
+        repeat 4 times do
+          move()
+        end
+        })
+        check_scenarios
+        refute_text "Solve the bonus tasks!"
+        assert_text "Congratulations"
+
+        refute_selector ".test-button.fail"
+        assert_selector ".test-button.pass", count: 2
+      end
+    end
+
+    test "autoselects failing bonus test if shouldShowBonusTasks" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%{
+move()
+move()
+move()
+move()
+          })
+
+        check_scenarios
+        assert_selector ".test-button", count: 1
+        assert_selector ".test-button.selected"
+
+        click_on "Tackle bonus task"
+
+        assert_selector ".test-button", count: 2
+
+        check_scenarios
+        assert_selector('.test-selector-buttons.bonus .test-button.selected')
+      end
+    end
+
+    test "doesnt see bonus-task-related modal text after completing all tasks at once but sees bonus scenarios immediately" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        refute_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 1
+
+        update_codemirror_content(%{
+        repeat 4 times do
+          move()
+        end
+        })
+
+        check_scenarios
+        assert_selector ".test-selector-buttons.bonus"
+        assert_selector ".test-button", count: 2
+
+        refute_text "There is a bonus task on this exercise to complete."
+        refute_text "Tackle bonus task"
+        assert_text "Tweak further"
+        click_on "Tweak further"
+
+        refute_selector ".test-button.fail"
+        assert_selector ".test-button.pass", count: 2
+      end
+    end
+
     test "spotlight behaves as it should" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :automated_solve_mini
@@ -721,13 +847,13 @@ end))
     test "changing code stops animation" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :automated_solve
+
       use_capybara_host do
         sign_in!(user)
         visit bootcamp_project_exercise_url(exercise.project, exercise)
         mark_modal_as_shown exercise.id
         change_codemirror_content(%(repeat_until_game_over do
   if can_turn_left() is true do
-    turn_left()
     move()
   else if can_move() is true do
     move()
@@ -740,6 +866,8 @@ end))
   end
 end))
         check_scenarios
+
+        select_scenario 3
 
         third_line = all(".cm-line")[2]
 

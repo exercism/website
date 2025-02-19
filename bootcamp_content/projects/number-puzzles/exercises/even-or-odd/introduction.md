@@ -12,10 +12,6 @@ To approach this problem, think about what it is that actually makes a number od
 
 Remember, that Jiki understands plus (`+`), minus (`-`), multiply (`*`), divide (`/`) and remainder (`%`). Check the [Numbers Concept](https://exercism.org/bootcamp/concepts/numbers) for a recap on how they work.
 
-## Bonus Task
-
-Can you solve this exercise with only 6 lines of code?
-
 ## Hints
 
 <details>

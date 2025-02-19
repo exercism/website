@@ -36,7 +36,7 @@
       - @project.exercises.unlocked.each do |exercise|
         = render ViewComponents::Bootcamp::ExerciseWidget.new(exercise, solution: @solutions[exercise.id], user_project: @user_project)
 
-    - if false #@project.slug == "drawing"
+    - if false # @project.slug == "drawing"
       %h2 Your Drawings
       %p Create your own drawings using code!
       .grid.grid-cols-3

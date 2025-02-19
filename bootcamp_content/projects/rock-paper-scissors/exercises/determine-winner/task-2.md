@@ -1,7 +1,7 @@
-# Task 2
+# Bonus Challenges
 
-Great, now let's consider what happens if player 1 chooses "rock':
+Great work! Want some extra practice?
 
-- If player 2 also chooses rock, we should return `"tie"`
-- If player 2 chooses "paper", then the paper smoothers the rock so player 2 wins (return `"player_2"`)
-- If player 2 chooses "scissors", then the rock blunts the scissors so player 1 wins (return `"player_1"`)
+1. Can you solve the exercise only using the `get_player_1_choice()` and `get_player_2_choice()` functions once in your program (imagine how inefficient it is to have to keep running a whole machine to get the player's choices over and over again).
+2. Can you solve the exercise with `announce_result(...)` only appearing once in your code?
+3. Can you solve the exercise using the first two bonus conditions and only 13 lines of code (not including blank lines or comments)?

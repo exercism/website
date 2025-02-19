@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import useTaskStore from '../store/taskStore/taskStore'
-import { useEffect, useMemo, useRef } from 'react'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
+import useTestStore from '../store/testStore'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 export function _Instructions({
   exerciseTitle,
@@ -12,7 +13,16 @@ export function _Instructions({
   exerciseTitle: string
   exerciseInstructions: string
 }): JSX.Element {
-  const { activeTaskIndex, tasks, areAllTasksCompleted } = useTaskStore()
+  const {
+    activeTaskIndex,
+    tasks,
+    areAllTasksCompleted,
+    bonusTasks,
+    shouldShowBonusTasks,
+  } = useTaskStore()
+  const { remainingBonusTasksCount } = useTestStore()
+
+  const { solution } = useContext(SolveExercisePageContext)
 
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
@@ -23,6 +33,11 @@ export function _Instructions({
         : null,
     [activeTaskIndex, tasks]
   )
+
+  const bonusTasksInstructions: string = useMemo(() => {
+    if (!bonusTasks) return ''
+    return bonusTasks.map((task) => task.instructionsHtml).join('')
+  }, [bonusTasks])
 
   useEffect(() => {
     if (!typewriterRef.current || !currentTask) return
@@ -62,7 +77,14 @@ export function _Instructions({
         }}
       />
 
-      {areAllTasksCompleted ? (
+      {shouldShowBonusTasks &&
+      remainingBonusTasksCount > 0 &&
+      !solution.passedBonusTests ? (
+        <>
+          <h4>Bonus Challenges</h4>
+          <div dangerouslySetInnerHTML={{ __html: bonusTasksInstructions }} />
+        </>
+      ) : areAllTasksCompleted || solution.passedBasicTests ? (
         <>
           <h4 className="mt-12">Congratulations!</h4>
           <p>You have successfully completed all the tasks!</p>

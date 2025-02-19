@@ -10,10 +10,10 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
+import { CompletedBonusTasksModal } from '../../modals/CompletedBonusTasksModal/CompletedBonusTasksModal'
 
 function _Header() {
   const { areAllTasksCompleted } = useTaskStore()
-
   const { solution, links } = useContext(SolveExercisePageContext)
 
   const {
@@ -25,6 +25,8 @@ function _Header() {
     completedLevelIdx,
     nextLevelIdx,
     hasRuntimeErrors,
+    isCompletedBonusTasksModalOpen,
+    setIsCompletedBonusTasksModalOpen,
   } = useTasks()
 
   return (
@@ -39,32 +41,35 @@ function _Header() {
         <ResetButton />
 
         {solution.status === 'in_progress' && (
-          <>
-            <button
-              onClick={handleCompleteSolution}
-              disabled={!areAllTasksCompleted || hasRuntimeErrors}
-              className={assembleClassNames(
-                'btn-primary btn-xxs',
-                areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
-              )}
-            >
-              Complete Exercise
-            </button>
-            {areAllTasksCompleted && (
-              <FinishLessonModalContextWrapper
-                value={{
-                  isOpen: isFinishModalOpen,
-                  completedLevelIdx,
-                  nextLevelIdx,
-                  setIsOpen: setIsFinishModalOpen,
-                  handleCompleteSolution,
-                  modalView,
-                  nextExerciseData,
-                }}
-              >
-                <FinishLessonModal />
-              </FinishLessonModalContextWrapper>
+          <button
+            onClick={handleCompleteSolution}
+            disabled={!areAllTasksCompleted || hasRuntimeErrors}
+            className={assembleClassNames(
+              'btn-primary btn-xxs',
+              areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
             )}
+          >
+            Complete Exercise
+          </button>
+        )}
+        {areAllTasksCompleted && (
+          <>
+            <FinishLessonModalContextWrapper
+              value={{
+                isFinishLessonModalOpen: isFinishModalOpen,
+                setIsFinishLessonModalOpen: setIsFinishModalOpen,
+                isCompletedBonusTasksModalOpen,
+                setIsCompletedBonusTasksModalOpen,
+                completedLevelIdx,
+                nextLevelIdx,
+                handleCompleteSolution,
+                modalView,
+                nextExerciseData,
+              }}
+            >
+              <FinishLessonModal />
+              <CompletedBonusTasksModal />
+            </FinishLessonModalContextWrapper>
           </>
         )}
 

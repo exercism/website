@@ -8,6 +8,7 @@ import type { TokenType } from './token'
 import { translate } from './translator'
 import type { ExternalFunction } from './executor'
 import type { Frame } from './frames'
+import { expr } from 'jquery'
 
 export type FrameContext = {
   result: any
@@ -54,17 +55,20 @@ export type EvaluationContext = {
   wrapTopLevelStatements?: boolean
 }
 
-export type EvaluateFunctionResult = {
+export type EvaluateFunctionResult = InterpretResult & {
   value: any
-  frames: Frame[]
-  error: StaticError | null
 }
 
 export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
+  meta: Meta
+}
+
+export type Meta = {
   functionCallLog: Record<string, Record<any, number>>
-  callExpressions: CallExpression[]
+  statements: Statement[]
+  sourceCode: string
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {
@@ -181,8 +185,16 @@ export class Interpreter {
       this.languageFeatures,
       this.externalFunctions
     )
-    executor.execute(this.statements)
-    return executor.evaluateSingleExpression(callingStatements[0])
+    const generalExec = executor.execute(this.statements)
+    const exprExec = executor.evaluateSingleExpression(callingStatements[0])
+
+    return {
+      ...exprExec,
+      meta: {
+        ...exprExec.meta,
+        statements: generalExec.meta.statements,
+      },
+    }
   }
 
   private error(

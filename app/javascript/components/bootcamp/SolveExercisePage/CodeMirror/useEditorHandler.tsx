@@ -25,8 +25,6 @@ export function useEditorHandler({
   const { setDefaultCode } = useEditorStore()
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
 
-  const { setWasFinishLessonModalShown } = useTaskStore()
-
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
   >(undefined)
@@ -40,22 +38,21 @@ export function useEditorHandler({
       exerciseLocalStorageData.storedAt &&
       code.storedAt &&
       // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      exerciseLocalStorageData.storedAt < code.storedAt
+      // ---
+      // code on the server must be newer by at least a minute
+      new Date(exerciseLocalStorageData.storedAt).getTime() <
+        new Date(code.storedAt).getTime() - 60000
     ) {
       setExerciseLocalStorageData({
         code: code.code,
         storedAt: code.storedAt,
         readonlyRanges: code.readonlyRanges,
-        wasFinishLessonModalShown: false,
       })
       setDefaultCode(code.code)
       setupEditor(editorViewRef.current, code)
     } else {
       // otherwise we are using the code from the storage
       setDefaultCode(exerciseLocalStorageData.code)
-      setWasFinishLessonModalShown(
-        !!exerciseLocalStorageData.wasFinishLessonModalShown
-      )
       setupEditor(editorViewRef.current, exerciseLocalStorageData)
     }
 
@@ -75,7 +72,6 @@ export function useEditorHandler({
         code: code.stub,
         storedAt: new Date().toISOString(),
         readonlyRanges: code.readonlyRanges,
-        wasFinishLessonModalShown: false,
       })
       setupEditor(editorViewRef.current, { code: '', readonlyRanges: [] })
       setupEditor(editorViewRef.current, {

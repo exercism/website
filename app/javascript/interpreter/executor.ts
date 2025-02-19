@@ -69,7 +69,7 @@ import type {
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
-import type { LanguageFeatures } from './interpreter'
+import type { LanguageFeatures, Meta } from './interpreter'
 import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
@@ -77,7 +77,7 @@ import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
-import { extractCallExpressions, formatLiteral } from './helpers'
+import { formatLiteral } from './helpers'
 import { executeBinaryExpression } from './executor/executeBinaryExpression'
 
 export type ExecutionContext = {
@@ -243,8 +243,15 @@ export class Executor {
     return {
       frames: this.frames,
       error: null,
+      meta: this.generateMeta(statements),
+    }
+  }
+
+  private generateMeta(statements): Meta {
+    return {
       functionCallLog: this.functionCallLog,
-      callExpressions: extractCallExpressions(statements),
+      statements: statements,
+      sourceCode: this.sourceCode,
     }
   }
 
@@ -268,7 +275,7 @@ export class Executor {
         value: result ? result.resultingValue : undefined,
         frames: this.frames,
         error: null,
-        functionCallLog: this.functionCallLog,
+        meta: this.generateMeta([statement]),
       }
     } catch (error) {
       if (isRuntimeError(error)) {
@@ -308,8 +315,7 @@ export class Executor {
           value: undefined,
           frames: this.frames,
           error: null,
-          functionCallLog: this.functionCallLog,
-          callExpressions: extractCallExpressions([statement]),
+          meta: this.generateMeta([statement]),
         }
       }
 

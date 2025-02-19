@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_13_132920) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
     t.integer "level_idx", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "has_bonus_tasks", default: false, null: false
     t.boolean "blocks_project_progression", default: true, null: false
     t.boolean "blocks_level_progression", default: true, null: false
     t.index ["level_idx"], name: "index_bootcamp_exercises_on_level_idx"
@@ -157,7 +158,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "passed_basic_tests", default: false
+    t.boolean "passed_bonus_tests", default: false
     t.index ["exercise_id"], name: "index_bootcamp_solutions_on_exercise_id"
+    t.index ["passed_basic_tests"], name: "index_bootcamp_solutions_on_passed_basic_tests"
+    t.index ["passed_bonus_tests"], name: "index_bootcamp_solutions_on_passed_bonus_tests"
     t.index ["user_id", "exercise_id"], name: "index_bootcamp_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_bootcamp_solutions_on_user_id"
   end

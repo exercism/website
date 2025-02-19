@@ -5,10 +5,27 @@
         .test-button {
             @apply flex-shrink-0;
         }
+
+        &.bonus {
+            &:before {
+                content: "⋮";
+                vertical-align: middle;
+                text-align: center;
+                font-size: 30px;
+                color: rgba(112, 41, 245, 0.3);
+                line-height: 40px;
+                @apply mr-2;
+            }
+
+            .test-button {
+                letter-spacing: 2px;
+            }
+        }
     }
     .test-button {
         @apply relative p-4 w-[40px] h-[40px] grid place-content-center;
         transition: background-color 0.3s ease-out;
+        @apply font-medium;
 
         @apply border-2 rounded-3;
         @apply bg-no-repeat;
@@ -30,7 +47,7 @@
             @apply text-bootcamp-success-dark;
             background-image: url("icons/bootcamp-tick-green.svg");
             background-size: 12px;
-            background-position: 23px 2px;
+            background-position: 24px 0px;
             &.selected {
                 @apply border-bootcamp-success-dark;
             }

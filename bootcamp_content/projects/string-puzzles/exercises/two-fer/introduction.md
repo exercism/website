@@ -50,7 +50,7 @@ There is one function available in this exercise
 
 - `concatenate(string_1, string_2, ...)`: This joins two or more strings together and returns the result. It has infinite possible inputs and will only use the ones you ask it to!
 
-## Bonus Tasks
+## Explore multiple Approaches
 
 This exercise has a few different ways it can be solved.
 Explore to see if you can come up with at least two approaches.

@@ -224,7 +224,7 @@
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "wasFunctionUsed('turn_around')",
+              "name": "wasFunctionCalled('turn_around')",
               "matcher": "toBeTrue",
               "error_html": "Your custom turn_around() function wasn't used."
             }

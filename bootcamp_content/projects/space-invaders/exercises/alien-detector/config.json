@@ -151,7 +151,7 @@
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
+              "name": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
@@ -181,9 +181,39 @@
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
+              "name": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "fireworks-inside-loop",
+          "description_html": "Can you solve it by putting <code>fire_fireworks()</code> <strong>within</strong> the <code>repeat_until_game_over</code> loop?",
+          "name": "Fireworks inside the loop",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "wasFireworksCalledInsideRepeatLoop()",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't use the <code>fire_fireworks()</code> function inside the <code>repeat_until_game_over</code> loop."
             }
           ]
         }

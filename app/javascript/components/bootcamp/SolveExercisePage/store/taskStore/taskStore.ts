@@ -5,11 +5,10 @@ import { handleMarkTaskAsCompleted } from './handleMarkTaskAsCompleted'
 const useTaskStore = createStoreWithMiddlewares<TaskStore>(
   (set) => ({
     tasks: null,
+    bonusTasks: null,
     numberOfTasks: 0,
     numberOfCompletedTasks: 0,
     wasFinishLessonModalShown: false,
-    areAllTasksCompleted: undefined,
-    activeTaskIndex: 0,
     setWasFinishLessonModalShown: (wasFinishLessonModalShown) => {
       set(
         { wasFinishLessonModalShown },
@@ -17,6 +16,26 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
         'exercise/setWasFinishLessonModalShown'
       )
     },
+    wasCompletedBonusTasksModalShown: false,
+    setWasCompletedBonusTasksModalShown: (wasCompletedBonusTasksModalShown) => {
+      set(
+        { wasCompletedBonusTasksModalShown },
+        false,
+        'exercise/setwasCompletedBonusTasksModalShown'
+      )
+    },
+
+    shouldShowBonusTasks: false,
+    setShouldShowBonusTasks: (shouldShowBonusTasks) => {
+      set((state) => ({
+        shouldShowBonusTasks:
+          state.bonusTasks &&
+          state.bonusTasks.length > 0 &&
+          shouldShowBonusTasks,
+      }))
+    },
+    areAllTasksCompleted: undefined,
+    activeTaskIndex: 0,
     markTaskAsCompleted: (testResults) => {
       set(
         (state) => {
@@ -35,7 +54,8 @@ const useTaskStore = createStoreWithMiddlewares<TaskStore>(
       const taskData = getInitialTasks(tasks, testResults)
       set(
         {
-          tasks: taskData.tasks as Task[],
+          tasks: taskData.tasks.filter((t) => !t.bonus) as Task[],
+          bonusTasks: taskData.tasks.filter((t) => t.bonus) as Task[],
           numberOfTasks: taskData.numberOfTasks,
           numberOfCompletedTasks: taskData.numberOfCompletedTasks,
           areAllTasksCompleted: taskData.areAllTasksCompleted,
@@ -56,6 +76,7 @@ export default useTaskStore
 
 export type TaskStore = {
   tasks: Task[] | null
+  bonusTasks: Task[] | null
   initializeTasks: (
     tasks: Omit<Task, 'status'>[] | null,
     testResults: TestSuiteResult<PreviousTestResult> | null
@@ -67,5 +88,11 @@ export type TaskStore = {
   activeTaskIndex: number | undefined
   wasFinishLessonModalShown: boolean
   setWasFinishLessonModalShown: (wasFinishLessonModalShown: boolean) => void
+  wasCompletedBonusTasksModalShown: boolean
+  setWasCompletedBonusTasksModalShown: (
+    wasCompletedBonusTasksModalShown: boolean
+  ) => void
+  shouldShowBonusTasks: boolean
+  setShouldShowBonusTasks: (shouldShowBonusTasks: boolean) => void
   setCurrentTaskIndex: (index: number) => void
 }

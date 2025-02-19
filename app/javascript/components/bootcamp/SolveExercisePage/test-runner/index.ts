@@ -1,7 +1,11 @@
 export function describe(
   suiteName: string,
   callback: (
-    test: (testName: string, testCallback: TestCallback) => void
+    test: (
+      testName: string,
+      descriptionHtml: string | undefined,
+      testCallback: TestCallback
+    ) => void
   ) => void
 ): TestSuiteResult<NewTestResult> {
   // test results are collected in one shared array
@@ -20,12 +24,17 @@ export function describe(
 }
 
 function createTestCallback(tests: NewTestResult[]) {
-  return function (testName: string, testCallback: TestCallback): void {
+  return function (
+    testName: string,
+    descriptionHtml: string | undefined,
+    testCallback: TestCallback
+  ): void {
     const testCallbackResult = testCallback()
     tests.push({
       // we need testIndex, so we can retrieve quickly the test that we are currently inspecting/working on
       testIndex: tests.length,
       name: testName,
+      descriptionHtml: descriptionHtml,
       status: testCallbackResult.expects.every((t) => t.pass) ? 'pass' : 'fail',
       ...testCallbackResult,
     })

@@ -184,6 +184,57 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "use-functions-once",
+          "name": "Use functions only once",
+          "description_html": "Can you solve the exercise only using the `get_player_1_choice()` and `get_player_2_choice()` functions once in your program (imagine how inefficient it is to have to keep running a whole machine to get the player's choices over and over again).",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "name": "numFunctionCalls('get_player_1_choice')",
+              "value": 1,
+              "error_html": "You called `get_player_1_choice()` more than once."
+            },
+            {
+              "name": "numFunctionCalls('get_player_2_choice')",
+              "value": 1,
+              "error_html": "You called `get_player_2_choice()` more than once."
+            }
+          ]
+        },
+        {
+          "slug": "use-announce-result-once",
+          "name": "Use announce_result only once",
+          "description_html": "Can you solve the exercise with `announce_result(...)` only appearing once in your code?",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "name": "numFunctionCallsInCode('announce_result')",
+              "value": 1,
+              "error_html": "You called `announce_result(...)` more than once."
+            }
+          ]
+        },
+        {
+          "slug": "use-13-lines-of-code",
+          "name": "Use 13 lines of code",
+          "description_html": "Can you solve the exercise using the first two bonus conditions and only 13 lines of code (not including blank lines or comments)?",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "name": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 13,
+              "error_html": "You used more than 13 lines of code."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

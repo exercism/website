@@ -4,9 +4,12 @@ import { CustomFunction } from './CustomFunctionEditor'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { Frame } from '@/interpreter/frames'
 
-export type CustomTests = { codeRun: string; expected: string; uuid: string }[]
+export type CustomTests = { params: string; expected: string; uuid: string }[]
 
-export type Results = Record<string, { actual: any; frames: Frame[] }>
+export type Results = Record<
+  string,
+  { actual: any; frames: Frame[]; pass: boolean }
+>
 
 export function useTestManager(customFunction: CustomFunction) {
   const [testsLocalStorageValue, setTestsLocalStorageValue] = useLocalStorage(
@@ -32,7 +35,7 @@ export function useTestManager(customFunction: CustomFunction) {
     setTests((tests) => [
       ...tests,
       {
-        codeRun: '',
+        params: '',
         expected: '',
         uuid: newUuid,
       },
@@ -46,11 +49,11 @@ export function useTestManager(customFunction: CustomFunction) {
   }, [])
 
   const handleUpdateTest = useCallback(
-    (uuid: string, newCodeRun: string, newExpected: string) => {
+    (uuid: string, newParams: string, newExpected: string) => {
       setTests((tests) =>
         tests.map((test) =>
           test.uuid === uuid
-            ? { ...test, codeRun: newCodeRun, expected: newExpected }
+            ? { ...test, params: newParams, expected: newExpected }
             : test
         )
       )

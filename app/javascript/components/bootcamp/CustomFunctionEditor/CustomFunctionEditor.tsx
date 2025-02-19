@@ -17,6 +17,7 @@ import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import { EditorView } from 'codemirror'
+import { useLogger } from '@/hooks'
 
 export type CustomFunction = {
   uuid: string
@@ -50,6 +51,8 @@ export default function CustomFunctionEditor({
     inspectedTest,
     setInspectedTest,
   } = useTestManager(customFunction)
+
+  useLogger('results', results)
 
   const { name, setName, description, setDescription } =
     useFunctionDetailsManager(customFunction)
@@ -131,7 +134,6 @@ export default function CustomFunctionEditor({
           <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
             <CustomFunctionDetails
               name={name}
-              setName={setName}
               description={description}
               setDescription={setDescription}
             />

@@ -1,15 +1,14 @@
+import { ToggleButton } from '@/components/common/ToggleButton'
 import React from 'react'
 
 const labelClassName = 'font-mono font-semibold mb-4'
 export function CustomFunctionDetails({
   name,
-  setName,
   description,
   setDescription,
 }: {
   name: string
   description: string
-  setName: React.Dispatch<React.SetStateAction<string>>
   setDescription: React.Dispatch<React.SetStateAction<string>>
 }) {
   return (
@@ -24,6 +23,11 @@ export function CustomFunctionDetails({
         readOnly
         value={name}
       />
+
+      <label className={labelClassName} htmlFor="active-toggle">
+        Active
+      </label>
+      <ToggleButton checked={false} onToggle={() => console.log('toggle')} />
 
       <label className={labelClassName} htmlFor="description">
         Description{' '}

@@ -1,11 +1,12 @@
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export function CustomFunctionTest({
-  codeRun,
+  params,
   expected,
   editMode,
   fnName,
+  passing,
   actual,
   isInspected,
   onTestClick,
@@ -14,33 +15,34 @@ export function CustomFunctionTest({
   onCancelClick,
   onDeleteClick,
 }: {
-  codeRun: string
+  params: string
   expected: string
   editMode: boolean
+  passing: boolean
   isInspected: boolean
   fnName: string
   actual: any
   onEditClick: () => void
   onTestClick: () => void
-  onSaveClick: (codeRunValue: string, expectedValue: string) => void
+  onSaveClick: (paramsValue: string, expectedValue: string) => void
   onCancelClick: () => void
   onDeleteClick: () => void
 }) {
-  const [codeRunValue, setCodeRunValue] = useState(codeRun)
+  const [paramsValue, setParamsValue] = useState(params)
   const [expectedValue, setExpectedValue] = useState(expected)
 
   const handleSaveTest = useCallback(() => {
-    onSaveClick(codeRunValue, expectedValue)
-  }, [onSaveClick, codeRunValue, expectedValue])
+    onSaveClick(paramsValue, expectedValue)
+  }, [onSaveClick, paramsValue, expectedValue])
 
   const handleCancelEditing = useCallback(() => {
-    if ([codeRun, expected].every((v) => v.length === 0)) {
+    if ([params, expected].every((v) => v.length === 0)) {
       onDeleteClick()
     }
     onCancelClick()
-    setCodeRunValue(codeRun)
+    setParamsValue(params)
     setExpectedValue(expected)
-  }, [codeRun, expected])
+  }, [params, expected])
 
   return (
     <div
@@ -49,7 +51,7 @@ export function CustomFunctionTest({
         'c-scenario',
         !actual
           ? 'pending bg-blue-300'
-          : actual === expected
+          : passing
           ? 'pass bg-green-300'
           : 'fail bg-red-300',
         isInspected && 'outline-dashed'
@@ -64,11 +66,11 @@ export function CustomFunctionTest({
               {editMode ? (
                 <input
                   type="text"
-                  value={codeRunValue}
-                  onChange={(e) => setCodeRunValue(e.target.value)}
+                  value={paramsValue}
+                  onChange={(e) => setParamsValue(e.target.value)}
                 />
               ) : (
-                codeRun
+                params
               )}
               )
             </td>

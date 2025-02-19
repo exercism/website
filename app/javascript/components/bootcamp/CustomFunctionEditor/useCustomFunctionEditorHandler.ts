@@ -4,7 +4,6 @@ import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
-import type { Frame } from '@/interpreter/frames'
 import { CustomTests, Results } from './useTestManager'
 
 export function useCustomFunctionEditorHandler({
@@ -20,8 +19,6 @@ export function useCustomFunctionEditorHandler({
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
-
-  const [frames, setFrames] = useState<Frame[]>([])
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
@@ -53,31 +50,31 @@ export function useCustomFunctionEditorHandler({
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()
       setLatestValueSnapshot(value)
-      // value is studentCode
 
       const evaluated = interpret(value)
       tests.forEach((test) => {
-        const params = test.codeRun
+        const params = test.params
+        const safe_eval = eval
+        const args = safe_eval(`[${params}]`)
 
-        const parsedParams = formatParams(params.split(','))
         const fnEvaluationResult = evaluateFunction(
           value,
           {},
           functionName,
-          ...parsedParams
+          ...args
         )
         setResults((a) => ({
           ...a,
           [test.uuid]: {
             actual: JSON.stringify(fnEvaluationResult.value),
             frames: fnEvaluationResult.frames,
+            pass: JSON.stringify(fnEvaluationResult.value) === test.expected,
           },
         }))
-        setInspectedTest(test.uuid)
       })
 
-      const { frames } = evaluated
-      setFrames(frames)
+      // autoselect the first test as inspected
+      setInspectedTest(tests[0].uuid)
 
       if (evaluated.error) {
         showError({
@@ -88,8 +85,6 @@ export function useCustomFunctionEditorHandler({
           setShouldShowInformationWidget,
           setUnderlineRange,
         })
-
-        setFrames([])
       }
     }
   }
@@ -101,18 +96,5 @@ export function useCustomFunctionEditorHandler({
     editorHandler,
     latestValueSnapshot,
     editorViewRef,
-    frames,
   }
-}
-
-const formatParams = (params: string[]): any[] => {
-  return params.map((param) => {
-    const trimmed = param.trim()
-    if (/^".*"$/.test(trimmed)) {
-      // remove " "
-      return trimmed.slice(1, -1)
-    }
-    const num = Number(trimmed)
-    return isNaN(num) ? trimmed : num
-  })
 }

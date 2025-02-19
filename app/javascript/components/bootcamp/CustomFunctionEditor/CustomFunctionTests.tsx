@@ -37,7 +37,10 @@ export function CustomFunctionTests({
         return (
           <CustomFunctionTest
             key={test.uuid}
-            codeRun={test.codeRun}
+            params={test.params}
+            passing={
+              results && results[test.uuid] ? results[test.uuid].pass : false
+            }
             fnName={fnName}
             isInspected={inspectedTest === test.uuid}
             onTestClick={() => setInspectedTest(test.uuid)}
@@ -48,8 +51,8 @@ export function CustomFunctionTests({
             editMode={testBeingEdited === test.uuid}
             onEditClick={() => setTestBeingEdited(test.uuid)}
             onDeleteClick={() => handleDeleteTest(test.uuid)}
-            onSaveClick={(newCodeRun: string, newExpected: string) =>
-              handleUpdateTest(test.uuid, newCodeRun, newExpected)
+            onSaveClick={(newParams: string, newExpected: string) =>
+              handleUpdateTest(test.uuid, newParams, newExpected)
             }
             onCancelClick={handleCancelEditing}
           />

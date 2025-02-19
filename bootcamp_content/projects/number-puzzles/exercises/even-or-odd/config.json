@@ -81,7 +81,8 @@
             "description": "We checked how many lines of code you added.",
             "function": "numLinesOfCode()",
             "matcher": "toBeLessThanOrEqual",
-            "expected": 6
+            "expected": 6,
+            "error_html": "You have more than 6 lines of code."
           }
         }
       ]

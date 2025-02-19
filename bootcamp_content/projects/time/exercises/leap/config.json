@@ -90,6 +90,7 @@
         {
           "slug": "bonus-1",
           "name": "One Line of Code",
+          "description_html": "Can you solve this with only one line of code within the function?",
           "function": "is_leap_year",
           "params": [2000],
           "expected": true,

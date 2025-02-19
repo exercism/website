@@ -64,7 +64,8 @@
           "check": {
             "function": "numLinesOfCode()",
             "matcher": "toBeLessThanOrEqual",
-            "expected": 11
+            "expected": 11,
+            "error_html": "You have more than 11 lines of code."
           }
         }
       ]

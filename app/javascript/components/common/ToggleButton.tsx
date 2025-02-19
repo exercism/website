@@ -4,12 +4,14 @@ export type ToggleButtonProps = {
   checked: boolean
   onToggle: FormEventHandler<HTMLButtonElement>
   className?: string
+  disabled?: boolean
 }
 
 export function ToggleButton({
   onToggle,
   checked,
   className = '',
+  disabled = false,
 }: ToggleButtonProps): JSX.Element {
   return (
     <button
@@ -18,7 +20,7 @@ export function ToggleButton({
       className={`c-toggle-button ${className}`}
     >
       <label className="switch">
-        <input type="checkbox" readOnly checked={checked} />
+        <input disabled={disabled} type="checkbox" readOnly checked={checked} />
         <span className="slider round" />
       </label>
     </button>

@@ -141,7 +141,7 @@ export default function CustomFunctionEditor({
           <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
             <CustomFunctionDetails
               name={name}
-              isActivated={isActivated}
+              isActivated={isActivated && areAllTestsPassing}
               setIsActivated={setIsActivated}
               areAllTestsPassing={areAllTestsPassing}
               description={description}

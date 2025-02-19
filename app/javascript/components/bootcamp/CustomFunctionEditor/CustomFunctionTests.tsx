@@ -1,12 +1,14 @@
 import React from 'react'
 import { CustomFunctionTest } from './CustomFunctionTest'
-import { CustomTests } from './useTestManager'
+import { CustomTests, Results } from './useTestManager'
 
 export function CustomFunctionTests({
   tests,
   testBeingEdited,
-  actuals,
+  results,
+  inspectedTest,
   setTestBeingEdited,
+  setInspectedTest,
   handleDeleteTest,
   handleUpdateTest,
   handleCancelEditing,
@@ -14,8 +16,10 @@ export function CustomFunctionTests({
 }: {
   tests: CustomTests
   testBeingEdited: string | undefined
-  actuals: Record<string, string>
+  inspectedTest: string
+  results: Results
   setTestBeingEdited: React.Dispatch<React.SetStateAction<string | undefined>>
+  setInspectedTest: React.Dispatch<React.SetStateAction<string>>
   handleDeleteTest: (uuid: string) => void
   handleUpdateTest: (
     uuid: string,
@@ -32,7 +36,11 @@ export function CustomFunctionTests({
           <CustomFunctionTest
             key={test.uuid}
             codeRun={test.codeRun}
-            actual={actuals[test.codeRun]}
+            isInspected={inspectedTest === test.uuid}
+            onTestClick={() => setInspectedTest(test.uuid)}
+            actual={
+              results && results[test.uuid] ? results[test.uuid].actual : null
+            }
             expected={test.expected}
             editMode={testBeingEdited === test.uuid}
             onEditClick={() => setTestBeingEdited(test.uuid)}

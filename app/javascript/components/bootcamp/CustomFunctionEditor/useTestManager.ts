@@ -2,8 +2,11 @@ import { useState, useCallback, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
 import { CustomFunction } from './CustomFunctionEditor'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { Frame } from '@/interpreter/frames'
 
 export type CustomTests = { codeRun: string; expected: string; uuid: string }[]
+
+export type Results = Record<string, { actual: any; frames: Frame[] }>
 
 export function useTestManager(customFunction: CustomFunction) {
   const [testsLocalStorageValue, setTestsLocalStorageValue] = useLocalStorage(
@@ -14,7 +17,9 @@ export function useTestManager(customFunction: CustomFunction) {
     testsLocalStorageValue.tests ?? []
   )
 
-  const [actuals, setActuals] = useState<Record<string, string>>({})
+  const [inspectedTest, setInspectedTest] = useState<string>('')
+
+  const [results, setResults] = useState<Results>({})
 
   useEffect(() => {
     setTestsLocalStorageValue({ tests })
@@ -61,8 +66,10 @@ export function useTestManager(customFunction: CustomFunction) {
   return {
     tests,
     testBeingEdited,
-    actuals,
-    setActuals,
+    results,
+    inspectedTest,
+    setInspectedTest,
+    setResults,
     setTestBeingEdited,
     handleDeleteTest,
     handleUpdateTest,

@@ -5,14 +5,16 @@ import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import type { Frame } from '@/interpreter/frames'
-import { CustomTests } from './useTestManager'
+import { CustomTests, Results } from './useTestManager'
 
 export function useCustomFunctionEditorHandler({
   tests,
-  setActuals,
+  setResults,
+  setInspectedTest,
 }: {
   tests: CustomTests
-  setActuals: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  setResults: React.Dispatch<React.SetStateAction<Results>>
+  setInspectedTest: React.Dispatch<React.SetStateAction<string>>
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
@@ -56,17 +58,20 @@ export function useCustomFunctionEditorHandler({
         const [fnName, params] = test.codeRun.split(/[()]/)
 
         const parsedParams = formatParams(params.split(','))
-        console.log('parsedParams', parsedParams)
         const fnEvaluationResult = evaluateFunction(
           value,
           {},
           fnName,
           ...parsedParams
         )
-        setActuals((a) => ({
+        setResults((a) => ({
           ...a,
-          [test.codeRun]: JSON.stringify(fnEvaluationResult.value),
+          [test.uuid]: {
+            actual: JSON.stringify(fnEvaluationResult.value),
+            frames: fnEvaluationResult.frames,
+          },
         }))
+        setInspectedTest(test.uuid)
       })
 
       const { frames } = evaluated
@@ -83,7 +88,6 @@ export function useCustomFunctionEditorHandler({
         })
 
         setFrames([])
-        // return
       }
     }
   }
@@ -103,7 +107,7 @@ const formatParams = (params: string[]): any[] => {
   return params.map((param) => {
     const trimmed = param.trim()
     if (/^".*"$/.test(trimmed)) {
-      // If wrapped in double quotes, return as string (remove quotes)
+      // remove " "
       return trimmed.slice(1, -1)
     }
     const num = Number(trimmed)

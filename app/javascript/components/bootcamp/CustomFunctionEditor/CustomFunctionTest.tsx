@@ -6,6 +6,8 @@ export function CustomFunctionTest({
   expected,
   editMode,
   actual,
+  isInspected,
+  onTestClick,
   onEditClick,
   onSaveClick,
   onCancelClick,
@@ -14,8 +16,10 @@ export function CustomFunctionTest({
   codeRun: string
   expected: string
   editMode: boolean
+  isInspected: boolean
   actual: any
   onEditClick: () => void
+  onTestClick: () => void
   onSaveClick: (codeRunValue: string, expectedValue: string) => void
   onCancelClick: () => void
   onDeleteClick: () => void
@@ -38,13 +42,15 @@ export function CustomFunctionTest({
 
   return (
     <div
+      onClick={onTestClick}
       className={assembleClassNames(
         'c-scenario',
         !actual
           ? 'pending bg-blue-300'
           : actual === expected
           ? 'pass bg-green-300'
-          : 'fail bg-red-300'
+          : 'fail bg-red-300',
+        isInspected && 'outline-dashed'
       )}
     >
       <table className="io-test-result-info">

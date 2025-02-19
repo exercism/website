@@ -20,6 +20,8 @@ export function useCustomFunctionEditorHandler({
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
 
+  const [arity, setArity] = useState<number>()
+
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
   >(undefined)
@@ -56,13 +58,15 @@ export function useCustomFunctionEditorHandler({
         const params = test.params
         const safe_eval = eval
         const args = safe_eval(`[${params}]`)
+        setArity(args.length)
 
         const fnEvaluationResult = evaluateFunction(
           value,
-          {},
+          { languageFeatures: { customFunctionDefinitionMode: true } },
           functionName,
           ...args
         )
+
         setResults((a) => ({
           ...a,
           [test.uuid]: {
@@ -96,5 +100,6 @@ export function useCustomFunctionEditorHandler({
     editorHandler,
     latestValueSnapshot,
     editorViewRef,
+    arity,
   }
 }

@@ -18,7 +18,9 @@ module ReactComponents
           tests: custom_function.tests
         },
         links: {
-          # update: Exercism::Routes.api_bootcamp_custom_function_url(custom_function),
+          update: Exercism::Routes.api_bootcamp_custom_function_url(custom_function),
+          get_custom_fns: Exercism::Routes.api_bootcamp_custom_functions_url,
+          get_custom_fns_for_interpreter: Exercism::Routes.for_interpreter_api_bootcamp_custom_functions_url
         }
       }
     end

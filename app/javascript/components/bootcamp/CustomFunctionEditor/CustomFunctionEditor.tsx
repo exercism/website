@@ -31,6 +31,8 @@ export type CustomFunctionEditorProps = {
   customFunction: CustomFunction
   links: {
     update: string
+    getCustomFns: string
+    getCustomFnsForInterpreter: string
   }
 }
 
@@ -64,7 +66,7 @@ export default function CustomFunctionEditor({
     setIsActivated,
   } = useFunctionDetailsManager(customFunction)
 
-  const { editorViewRef, handleEditorDidMount, handleRunCode } =
+  const { editorViewRef, handleEditorDidMount, handleRunCode, arity } =
     useCustomFunctionEditorHandler({
       tests,
       setResults,
@@ -91,6 +93,27 @@ export default function CustomFunctionEditor({
     setName(functionName ?? '')
   }, [])
 
+  const handlePatchChanges = useCallback(() => {
+    patchCustomFunction({
+      url: links.update,
+      name: name.replace('my#', ''),
+      fn_name: name,
+      active: isActivated && areAllTestsPassing,
+      code: editorViewRef.current?.state.doc.toString() ?? '',
+      description,
+      fn_arity: arity || 0,
+      tests,
+    })
+  }, [
+    name,
+    isActivated,
+    areAllTestsPassing,
+    editorViewRef,
+    tests,
+    description,
+    arity,
+  ])
+
   return (
     <SolveExercisePageContextWrapper
       // we only need these two values
@@ -102,7 +125,11 @@ export default function CustomFunctionEditor({
       }
     >
       <div id="bootcamp-solve-exercise-page">
-        <Header links={links} />
+        <Header
+          links={links}
+          handleSaveChanges={handlePatchChanges}
+          someTestsAreFailing={!areAllTestsPassing}
+        />
         <div className="page-body">
           <div style={{ width: LHSWidth }} className="page-body-lhs">
             <ErrorBoundary>
@@ -168,6 +195,50 @@ export default function CustomFunctionEditor({
 }
 
 function extractFunctionName(code: string): string | null {
-  const match = code.match(/function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)?/)
+  const match = code.match(/function\s+(my#[a-zA-Z_$][a-zA-Z0-9_$]*)/)
   return match ? match[1] : null
+}
+
+export async function patchCustomFunction({
+  url,
+  name,
+  active,
+  description,
+  code,
+  tests,
+  fn_name,
+  fn_arity,
+}: {
+  url: string
+  name: string
+  active: boolean
+  description: string
+  code: string
+  tests: CustomTests
+  fn_name: string
+  fn_arity: number
+}) {
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      custom_function: {
+        name,
+        active,
+        description,
+        code,
+        tests,
+        fn_name,
+        fn_arity,
+      },
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to submit code')
+  }
+
+  return response.json()
 }

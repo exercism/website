@@ -72,7 +72,7 @@ function CompletedExerciseView({
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          Back to dashboard
+          Go to dashboard
         </a>
         <a
           href={nextExerciseData.solve_url}
@@ -144,7 +144,7 @@ function CompletedAllLevelsView({
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          Back to dashboard
+          Go to dashboard
         </a>
         <a
           href={nextExerciseData.solve_url}
@@ -169,7 +169,7 @@ function CompletedEverythingView() {
 
       <div className="flex flex-col items-stretch self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-primary">
-          Back to dashboard
+          Go to dashboard
         </a>
       </div>
     </div>

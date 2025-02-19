@@ -22,7 +22,7 @@ export function CompletedExerciseView() {
 
           <div className="flex items-center gap-8 self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-secondary">
-              Back to dashboard
+              Go to dashboard
             </a>
             <a
               href={nextExerciseData.solve_url}
@@ -41,7 +41,7 @@ export function CompletedExerciseView() {
 
           <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
-              Back to dashboard
+              Go to dashboard
             </a>
           </div>
         </>

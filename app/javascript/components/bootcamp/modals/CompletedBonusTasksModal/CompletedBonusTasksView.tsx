@@ -2,10 +2,13 @@ import React, { useContext } from 'react'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'
 import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModalContextWrapper'
+import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 
 export function CompletedBonusTasksView() {
-  const { setIsCompletedBonusTasksModalOpen, handleCompleteSolution } =
-    useContext(FinishLessonModalContext)
+  const { setIsCompletedBonusTasksModalOpen } = useContext(
+    FinishLessonModalContext
+  )
+  const { links } = useContext(SolveExercisePageContext)
 
   return (
     <>
@@ -30,12 +33,9 @@ export function CompletedBonusTasksView() {
         >
           Tweak further
         </button>
-        <button
-          onClick={handleCompleteSolution}
-          className="btn-l btn-primary flex-grow"
-        >
-          Complete Exercise
-        </button>
+        <a href={links.dashboardIndex} className="btn-l btn-primary flex-grow">
+          Go To Dashboard
+        </a>
       </div>
       <p className="mt-12 text-15 leading-140 text-textColor6 text-balance">
         (If you tweak further, you can complete the exercise using the button at

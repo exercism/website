@@ -46,7 +46,7 @@ export function CompletedLevelView() {
 
           <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
-              Back to dashboard
+              Go to dashboard
             </a>
           </div>
         </>

@@ -2,9 +2,11 @@ import {
   Interpreter,
   interpret,
   evaluateFunction,
+  EvaluationContext,
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { changeLanguage } from '@/interpreter/translator'
+import { context } from 'msw'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -1012,5 +1014,99 @@ describe('context', () => {
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].result?.resultingValue).toBe(1)
     })
+  })
+})
+
+describe('custom functions', () => {
+  test('no args', () => {
+    const fnCode = `
+      function foobar do
+        return "Yes"
+      end
+    `
+    const customFunction = {
+      name: 'foobar',
+      arity: 0,
+      description: '',
+      code: fnCode,
+    }
+    const context: EvaluationContext = {
+      customFunctions: [customFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function move do
+        return foobar()
+      end`,
+      context,
+      'move'
+    )
+    expect(value).toBe('Yes')
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.resultingValue).toBe('Yes')
+  })
+
+  test('args', () => {
+    const fnCode = `
+      function foobar with param do
+        return param
+      end
+    `
+    const customFunction = {
+      name: 'foobar',
+      arity: 1,
+      description: '',
+      code: fnCode,
+    }
+    const context: EvaluationContext = {
+      customFunctions: [customFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function move do
+        return foobar("Food")
+      end`,
+      context,
+      'move'
+    )
+    expect(value).toBe('Food')
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.resultingValue).toBe('Food')
+  })
+
+  test('functions that rely on functions', () => {
+    const indexOfCode = `
+      function index_of with list do
+        return 1
+      end`
+    const indexOfFunction = {
+      name: 'index_of',
+      arity: 1,
+      description: '',
+      code: indexOfCode,
+    }
+
+    const startsWithCode = `
+      function starts_with with list, thing do
+        return index_of(list) == 1
+      end`
+    const startsWithFunction = {
+      name: 'starts_with',
+      arity: 2,
+      description: '',
+      code: startsWithCode,
+    }
+
+    const context: EvaluationContext = {
+      customFunctions: [indexOfFunction, startsWithFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function do_something do
+        return starts_with("food", "f")
+      end`,
+      context,
+      'do_something'
+    )
+    expect(value).toBe(true)
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.resultingValue).toBe(true)
   })
 })

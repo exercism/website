@@ -6,7 +6,7 @@ import { Executor } from './executor'
 import { Statement } from './statement'
 import type { TokenType } from './token'
 import { translate } from './translator'
-import type { ExternalFunction } from './executor'
+import type { CustomFunction, ExternalFunction } from './executor'
 import type { Frame } from './frames'
 
 export type FrameContext = {
@@ -43,6 +43,7 @@ export type InputLanguageFeatures = {
 
 export type EvaluationContext = {
   externalFunctions?: ExternalFunction[]
+  customFunctions?: CustomFunction[]
   languageFeatures?: InputLanguageFeatures
   state?: Record<string, any>
   wrapTopLevelStatements?: boolean
@@ -100,6 +101,7 @@ export class Interpreter {
   private state: Record<string, any> = {}
   private languageFeatures: LanguageFeatures
   private externalFunctions: ExternalFunction[] = []
+  private customFunctions: CustomFunction[] = []
   private wrapTopLevelStatements = false
 
   private statements: Statement[] = []
@@ -111,6 +113,10 @@ export class Interpreter {
     }
     this.externalFunctions = context.externalFunctions
       ? context.externalFunctions
+      : []
+
+    this.customFunctions = context.customFunctions
+      ? context.customFunctions
       : []
 
     this.languageFeatures = {
@@ -144,6 +150,7 @@ export class Interpreter {
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions,
+      this.customFunctions,
       this.state
     )
     return executor.execute(this.statements)
@@ -173,7 +180,8 @@ export class Interpreter {
     const executor = new Executor(
       this.sourceCode,
       this.languageFeatures,
-      this.externalFunctions
+      this.externalFunctions,
+      this.customFunctions
     )
     executor.execute(this.statements)
     return executor.evaluateSingleExpression(callingStatements[0])

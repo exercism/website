@@ -79,7 +79,7 @@
 
           "check": {
             "description": "We checked how many lines of code you added.",
-            "function": "getAddedLineCount(0)",
+            "function": "numLinesOfCode()",
             "matcher": "toBeLessThanOrEqual",
             "expected": 6
           }

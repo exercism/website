@@ -69,7 +69,7 @@ import type {
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
-import type { LanguageFeatures } from './interpreter'
+import type { LanguageFeatures, Meta } from './interpreter'
 import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
@@ -77,12 +77,7 @@ import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
-import {
-  extractCallExpressions,
-  extractFunctionOccurenceInCode,
-  formatLiteral,
-} from './helpers'
-import { extractCallExpressions, formatLiteral } from './helpers'
+import { formatLiteral } from './helpers'
 import { executeBinaryExpression } from './executor/executeBinaryExpression'
 
 export type ExecutionContext = {
@@ -252,16 +247,11 @@ export class Executor {
     }
   }
 
-  private generateMeta(statements) {
+  private generateMeta(statements): Meta {
     return {
-      getFunctionCallLog: () => this.functionCallLog,
-      getCallExpressions: () => extractCallExpressions(statements),
-      // fixed first arg, varying second arg
-      numTimesFunctionOccurred: extractFunctionOccurenceInCode.bind(
-        null,
-        this.sourceCode
-      ),
-      getSourceCode: () => this.sourceCode,
+      functionCallLog: this.functionCallLog,
+      statements: statements,
+      sourceCode: this.sourceCode,
     }
   }
 

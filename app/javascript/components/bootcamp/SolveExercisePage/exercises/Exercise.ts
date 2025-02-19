@@ -23,22 +23,29 @@ export abstract class Exercise {
     return code
   }
 
-  public numberOfFunctionCallsInCode(
-    interpreterResult: InterpretResult,
-    fnName: string
-  ) {
-    return interpreterResult.meta
-      .getCallExpressions()
-      .filter((expr) => expr.callee.name.lexeme == fnName).length
+  public numberOfTimesFunctionWasCalled(
+    result: InterpretResult,
+    name: string,
+    args: any[] | null,
+    times?: number
+  ): number {
+    return checkers.numberOfTimesFunctionWasCalled(result, name, args, times)
   }
 
-  public wasFunctionUsed(
+  public wasFunctionCalled(
     result: InterpretResult,
     name: string,
     args: any[] | null,
     times?: number
   ): boolean {
-    return checkers.wasFunctionUsed(result, name, args, times)
+    return checkers.wasFunctionCalled(result, name, args, times)
+  }
+
+  public numberOfFunctionCallsInCode(
+    result: InterpretResult,
+    fnName: string
+  ): number {
+    return checkers.numberOfFunctionCallsInCode(result, fnName)
   }
 
   public lineNumberOffset = 0
@@ -47,18 +54,11 @@ export abstract class Exercise {
     this.animations.push(animation)
   }
 
-  public numTimesFunctionOccurred(
+  public numLinesOfCode(
     result: InterpretResult,
-    fnName: string
+    numStubLines: number = 0
   ): number {
-    return result.meta.numTimesFunctionOccurred(fnName)
-  }
-
-  public getAddedLineCount(
-    result: InterpretResult,
-    stubLines: number = 0
-  ): number {
-    return checkers.getAddedLineCount(result, stubLines)
+    return checkers.numLinesOfCode(result, numStubLines)
   }
 
   protected createView() {

@@ -52,12 +52,12 @@
               "error_html": "The grid line from 65,5 to 65,5 is wrong or missing."
             },
             {
-              "name": "wasFunctionUsed('write')",
+              "name": "wasFunctionCalled('write')",
               "matcher": "toBeFalse",
               "error_html": "You wrote to the screen when the game is still going."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeFalse",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -208,17 +208,17 @@
               "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -253,17 +253,17 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "name": "wasFunctionCalled('write', [\"Invalid move!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the invalid move on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [200, 0, 0, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [200, 0, 0, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the red overlay with the right color."
             },
@@ -287,17 +287,17 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "name": "wasFunctionCalled('write', [\"Invalid move!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the invalid move on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [200, 0, 0, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [200, 0, 0, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -332,17 +332,17 @@
               "error_html": "We expected to see 4 black crosses during the game, then once the game was won, at least one light-grey cross and 3 purple crosses."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The x's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The x's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -428,17 +428,17 @@
               "error_html": "We expected to see 4 black crosses during the game, then once the game was one, at least one light-grey cross and 3 purple crosses."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The o's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The o's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -479,12 +479,12 @@
               "error_html": "Did you add the blocking cross?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -508,12 +508,12 @@
               "error_html": "Did you add the cross to the winning spot?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The x's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The x's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -532,12 +532,12 @@
               "error_html": "Did you add the nought to the winning spot?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The o's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The o's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -561,7 +561,7 @@
               "error_html": "Did you add the blocking cross?"
             },
             {
-              "name": "wasFunctionUsed('write')",
+              "name": "wasFunctionCalled('write')",
               "matcher": "toBeFalse",
               "error_html": "You wrote to the screen when the game is still going."
             }
@@ -625,12 +625,12 @@
               "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }

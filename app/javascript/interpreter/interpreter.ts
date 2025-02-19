@@ -64,11 +64,10 @@ export type InterpretResult = {
   meta: Meta
 }
 
-type Meta = {
-  getFunctionCallLog: () => Record<string, Record<any, number>>
-  getCallExpressions: () => CallExpression[]
-  numTimesFunctionOccurred: (fnName: string) => number
-  getSourceCode: () => string
+export type Meta = {
+  functionCallLog: Record<string, Record<any, number>>
+  statements: Statement[]
+  sourceCode: string
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {

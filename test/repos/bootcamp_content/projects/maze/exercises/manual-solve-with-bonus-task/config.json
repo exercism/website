@@ -76,7 +76,7 @@
           ],
           "checks": [
             {
-              "name": "getAddedLineCount(0)",
+              "name": "numLinesOfCode(0)",
               "matcher": "toBeLessThanOrEqual",
               "value": 3,
               "error_html": "You added more than 3 lines of code. (%actual%)"

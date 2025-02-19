@@ -27,7 +27,7 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('fill_color_hex', null)",
+              "name": "wasFunctionCalled('fill_color_hex', null)",
               "matcher": "toBeTrue",
               "error_html": "You didn't use fill_color_hex to choose a natural color for your bricks."
             },

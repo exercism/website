@@ -64,7 +64,7 @@
               "error_html": "The bottom right rectangle isn't correct."
             },
             {
-              "name": "wasFunctionUsed('rectangle', null, 55)",
+              "name": "wasFunctionCalled('rectangle', null, 55)",
               "matcher": "toBeTrue",
               "error_html": "You didn't add exactly 55 bricks."
             },

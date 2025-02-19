@@ -218,32 +218,32 @@
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "wasFunctionUsed('turn_around')",
+              "name": "wasFunctionCalled('turn_around')",
               "matcher": "toBeTrue",
               "error_html": "Your custom turn_around() function wasn't used."
             },
             {
-              "name": "wasFunctionUsed('can_turn_left')",
+              "name": "wasFunctionCalled('can_turn_left')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_turn_left() function wasn't used."
             },
             {
-              "name": "wasFunctionUsed('can_turn_right')",
+              "name": "wasFunctionCalled('can_turn_right')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_turn_right() function wasn't used."
             },
             {
-              "name": "wasFunctionUsed('can_move')",
+              "name": "wasFunctionCalled('can_move')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_move() function wasn't used."
             },
             {
-              "name": "wasFunctionUsed('turn_right')",
+              "name": "wasFunctionCalled('turn_right')",
               "matcher": "toBeTrue",
               "error_html": "The turn_right() function was never used."
             },
             {
-              "name": "wasFunctionUsed('turn_left')",
+              "name": "wasFunctionCalled('turn_left')",
               "matcher": "toBeTrue",
               "error_html": "The turn_left() function was never used."
             }
@@ -312,7 +312,7 @@
           ],
           "checks": [
             {
-              "name": "numTimesFunctionOccurred('look')",
+              "name": "numberOfFunctionCallsInCode('look')",
               "value": 1,
               "error_html": "You used look more than once (%actual% times)."
             }
@@ -344,7 +344,7 @@
           ],
           "checks": [
             {
-              "name": "getAddedLineCount(18)",
+              "name": "numLinesOfCode(18)",
               "matcher": "toBeLessThanOrEqual",
               "value": 13,
               "error_html": "You added more than %actual% lines of code."

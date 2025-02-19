@@ -1,43 +1,76 @@
+import { Expression, CallExpression } from '@/interpreter/expression'
 import { InterpretResult } from '@/interpreter/interpreter'
+import { Statement } from '@/interpreter/statement'
 
-function wasFunctionUsed(
+function numberOfTimesFunctionWasCalled(
+  result: InterpretResult,
+  name: string,
+  args: any[] | null,
+  times?: number
+): number {
+  const fnCalls = result.meta.functionCallLog
+
+  if (fnCalls[name] === undefined) {
+    return 0
+  }
+
+  if (args !== null && args !== undefined) {
+    return fnCalls[name][JSON.stringify(args)]
+  }
+
+  return Object.values(fnCalls[name]).reduce((acc, count) => {
+    return acc + count
+  }, 0)
+}
+
+function wasFunctionCalled(
   result: InterpretResult,
   name: string,
   args: any[] | null,
   times?: number
 ): boolean {
-  let timesCalled
-  const fnCalls = result.meta.getFunctionCallLog()
-
-  if (fnCalls[name] === undefined) {
-    timesCalled = 0
-  } else if (args !== null && args !== undefined) {
-    timesCalled = fnCalls[name][JSON.stringify(args)]
-  } else {
-    timesCalled = Object.values(fnCalls[name]).reduce((acc, count) => {
-      return acc + count
-    }, 0)
-  }
-
-  if (times === null || times === undefined) {
-    return timesCalled >= 1
-  }
-  return timesCalled === times
+  return numberOfTimesFunctionWasCalled(result, name, args, times) >= 1
 }
 
-function getAddedLineCount(
+function numLinesOfCode(
   result: InterpretResult,
-  stubLines: number = 0
+  numStubLines: number = 0
 ): number {
-  const lines = result.meta
-    .getSourceCode()
+  const lines = result.meta.sourceCode
     .split('\n')
     .filter((l) => l.trim() !== '' && !l.startsWith('//'))
 
-  return lines.length - stubLines
+  return lines.length - numStubLines
+}
+
+function numberOfFunctionCallsInCode(
+  result: InterpretResult,
+  fnName: string
+): number {
+  return extractCallExpressions(result.meta.statements).filter(
+    (expr) => expr.callee.name.lexeme === fnName
+  ).length
 }
 
 export default {
-  wasFunctionUsed,
-  getAddedLineCount,
+  numberOfTimesFunctionWasCalled,
+  wasFunctionCalled,
+  numberOfFunctionCallsInCode,
+  numLinesOfCode,
+}
+
+export function extractCallExpressions(
+  tree: Statement[] | Expression[]
+): CallExpression[] {
+  // Remove null and undefined then map to the subtrees and
+  // eventually to the call expressions.
+  return tree
+    .filter((obj) => obj)
+    .map((elem: Statement | Expression) => {
+      if (elem instanceof CallExpression) {
+        return [elem]
+      }
+      return extractCallExpressions(elem.children())
+    })
+    .flat()
 }

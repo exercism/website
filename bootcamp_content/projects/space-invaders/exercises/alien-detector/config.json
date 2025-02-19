@@ -151,7 +151,7 @@
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
+              "name": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
@@ -181,7 +181,7 @@
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionUsed('fire_fireworks', null)",
+              "name": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }

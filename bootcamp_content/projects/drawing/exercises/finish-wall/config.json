@@ -42,7 +42,7 @@
               "error_html": "The right brick isn't correct."
             },
             {
-              "name": "wasFunctionUsed('rectangle', null, 5)",
+              "name": "wasFunctionCalled('rectangle', null, 5)",
               "matcher": "toBeTrue",
               "error_html": "You didn't add exactly 5 bricks."
             },

@@ -94,7 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_14_131755) do
     t.text "description", null: false
     t.text "tests", size: :long, null: false
     t.string "fn_name", null: false
-    t.string "fn_arity", null: false
+    t.integer "fn_arity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"

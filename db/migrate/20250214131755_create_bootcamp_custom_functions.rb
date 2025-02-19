@@ -14,7 +14,7 @@ class CreateBootcampCustomFunctions < ActiveRecord::Migration[7.0]
       t.longtext :tests, null: false
       
       t.string :fn_name, null: false
-      t.string :fn_arity, null: false
+      t.integer :fn_arity, null: false
 
       t.timestamps
     end

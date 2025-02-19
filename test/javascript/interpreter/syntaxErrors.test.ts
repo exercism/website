@@ -746,3 +746,16 @@ describe('MissingIndexNameAfterIndexedBy', () => {
     )
   })
 })
+
+describe('UnexpectedIfInBinaryExpression', () => {
+  test('and', () => {
+    expect(() => parse(`if true and if false do`)).toThrow(
+      'UnexpectedIfInBinaryExpression'
+    )
+  })
+  test('or', () => {
+    expect(() => parse(`if true or if false do`)).toThrow(
+      'UnexpectedIfInBinaryExpression'
+    )
+  })
+})

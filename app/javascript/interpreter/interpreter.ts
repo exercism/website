@@ -29,6 +29,7 @@ export type LanguageFeatures = {
   maxRepeatUntilGameOverIterations: number
   maxTotalExecutionTime: number
   allowGlobals: boolean
+  customFunctionDefinitionMode: boolean
 }
 
 export type InputLanguageFeatures = {
@@ -39,6 +40,7 @@ export type InputLanguageFeatures = {
   maxRepeatUntilGameOverIterations?: number
   maxTotalExecutionTime?: number
   allowGlobals?: boolean
+  customFunctionDefinitionMode?: boolean
 }
 
 export type EvaluationContext = {
@@ -127,6 +129,7 @@ export class Interpreter {
       maxTotalLoopIterations: 100,
       maxTotalExecutionTime: 10 * 1000, // 10 seconds
       allowGlobals: false,
+      customFunctionDefinitionMode: false,
       ...context.languageFeatures,
     }
 

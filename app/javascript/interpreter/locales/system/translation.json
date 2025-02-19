@@ -73,6 +73,8 @@
       "CouldNotFindFunction": "CouldNotFindFunction: name: {{name}}",
       "CouldNotFindFunctionWithSuggestion": "CouldNotFindFunctionWithSuggestion: name: {{name}}, suggestion: {{suggestion}}",
       "InfiniteLoop": "InfiniteLoop",
+      "VariableCannotBeNamespaced": "VariableCannotBeNamespaced: name: {{name}}",
+      "FunctionCannotBeNamespaced": "FunctionCannotBeNamespaced: name: {{name}}",
       "MaxIterationsReached": "MaxIterationsReached: max: {{max}}",
       "InvalidBinaryExpression": "InvalidBinaryExpression",
       "InvalidExpression": "InvalidExpression",

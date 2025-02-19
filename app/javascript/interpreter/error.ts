@@ -98,6 +98,8 @@ export type RuntimeErrorType =
   | 'RepeatCountTooHigh'
   | 'NonCallableTarget'
   | 'InfiniteLoop'
+  | 'VariableCannotBeNamespaced'
+  | 'FunctionCannotBeNamespaced'
   | 'TooFewArguments'
   | 'TooManyArguments'
   | 'InvalidNumberOfArgumentsWithOptionalArguments'

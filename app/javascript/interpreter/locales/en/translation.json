@@ -73,6 +73,8 @@
       "CouldNotFindFunction": "Jiki couldn't find a function with the name `{{name}}`.",
       "CouldNotFindFunctionWithSuggestion": "Jiki couldn't find a function with the name `{{name}}`. Maybe you meant to use the `{{suggestion}}` function instead?",
       "InfiniteLoop": "Your code ran for too long and we stopped it to prevent an infinite loop.",
+      "VariableCannotBeNamespaced": "You cannot use the namespace operator (`#`) when defining a variable.",
+      "FunctionCannotBeNamespaced": "You cannot use the namespace operator (`#`) to define functions when you're not in the custom function editor",
       "MaxIterationsReached": "You hit the maximum number of iterations allowed in this exercise ({{max}}). Try and find a more efficient way to solve the exercise.",
       "InvalidBinaryExpression": "Invalid binary expression",
       "InvalidExpression": "Invalid expression",

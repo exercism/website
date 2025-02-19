@@ -1020,12 +1020,12 @@ describe('context', () => {
 describe('custom functions', () => {
   test('no args', () => {
     const fnCode = `
-      function foobar do
+      function my#foobar do
         return "Yes"
       end
     `
     const customFunction = {
-      name: 'foobar',
+      name: 'my#foobar',
       arity: 0,
       description: '',
       code: fnCode,
@@ -1035,7 +1035,7 @@ describe('custom functions', () => {
     }
     const { value, frames, error } = evaluateFunction(
       `function move do
-        return foobar()
+        return my#foobar()
       end`,
       context,
       'move'
@@ -1047,12 +1047,12 @@ describe('custom functions', () => {
 
   test('args', () => {
     const fnCode = `
-      function foobar with param do
+      function my#foobar with param do
         return param
       end
     `
     const customFunction = {
-      name: 'foobar',
+      name: 'my#foobar',
       arity: 1,
       description: '',
       code: fnCode,
@@ -1062,7 +1062,7 @@ describe('custom functions', () => {
     }
     const { value, frames, error } = evaluateFunction(
       `function move do
-        return foobar("Food")
+        return my#foobar("Food")
       end`,
       context,
       'move'
@@ -1074,22 +1074,22 @@ describe('custom functions', () => {
 
   test('functions that rely on functions', () => {
     const indexOfCode = `
-      function index_of with list do
+      function my#index_of with list do
         return 1
       end`
     const indexOfFunction = {
-      name: 'index_of',
+      name: 'my#index_of',
       arity: 1,
       description: '',
       code: indexOfCode,
     }
 
     const startsWithCode = `
-      function starts_with with list, thing do
-        return index_of(list) == 1
+      function my#starts_with with list, thing do
+        return my#index_of(list) == 1
       end`
     const startsWithFunction = {
-      name: 'starts_with',
+      name: 'my#starts_with',
       arity: 2,
       description: '',
       code: startsWithCode,
@@ -1100,7 +1100,7 @@ describe('custom functions', () => {
     }
     const { value, frames, error } = evaluateFunction(
       `function do_something do
-        return starts_with("food", "f")
+        return my#starts_with("food", "f")
       end`,
       context,
       'do_something'

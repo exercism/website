@@ -111,6 +111,7 @@ export class Executor {
   private totalLoopIterations = 0
   private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
+  private customFunctionDefinitionMode: boolean
 
   private readonly globals = new Environment()
   private environment = this.globals
@@ -165,6 +166,9 @@ export class Executor {
 
     this.maxRepeatUntilGameOverIterations =
       this.languageFeatures.maxRepeatUntilGameOverIterations
+
+    this.customFunctionDefinitionMode =
+      this.languageFeatures.customFunctionDefinitionMode
   }
 
   public updateState(name: string, value: any) {
@@ -345,6 +349,13 @@ export class Executor {
           name: statement.name.lexeme,
         })
       }
+
+      if (statement.name.lexeme.includes('#')) {
+        this.error('VariableCannotBeNamespaced', statement.name.location, {
+          name: statement.name.lexeme,
+        })
+      }
+
       let value: EvaluationResultExpression
       try {
         value = this.evaluate(statement.value)
@@ -595,6 +606,16 @@ export class Executor {
       this.environment,
       this.languageFeatures
     )
+
+    if (
+      !this.customFunctionDefinitionMode &&
+      statement.name.lexeme.includes('#')
+    ) {
+      this.error('FunctionCannotBeNamespaced', statement.name.location, {
+        name: statement.name.lexeme,
+      })
+    }
+
     this.environment.define(statement.name.lexeme, func)
   }
 

@@ -511,4 +511,38 @@ test('ListsCannotBeCompared', () => {
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
 })
 
+test('VariableCannotBeNamespaced', () => {
+  const code = `set foo#bar to 5`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], code, 'VariableCannotBeNamespaced')
+  expect(frames[0].error!.message).toBe(
+    'VariableCannotBeNamespaced: name: foo#bar'
+  )
+})
+
+describe('FunctionCannotBeNamespaced', () => {
+  test('normal mode', () => {
+    const code = `
+      function foo#bar do
+      end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foo#bar', 'FunctionCannotBeNamespaced')
+    expect(frames[0].error!.message).toBe(
+      'FunctionCannotBeNamespaced: name: foo#bar'
+    )
+  })
+  // Just sanity check that this passes if we're in custom function definition mode
+  test('custom function definition mode', () => {
+    const code = `
+      function foo#bar do
+        return true
+      end
+      foo#bar()`
+    const { frames } = interpret(code, {
+      languageFeatures: { customFunctionDefinitionMode: true },
+    })
+    expect(frames[frames.length - 1].status).toBe('SUCCESS')
+  })
+})
+
 // TOOD: Strings are immutable

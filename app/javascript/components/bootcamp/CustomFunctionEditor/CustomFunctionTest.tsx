@@ -5,6 +5,7 @@ export function CustomFunctionTest({
   codeRun,
   expected,
   editMode,
+  fnName,
   actual,
   isInspected,
   onTestClick,
@@ -17,6 +18,7 @@ export function CustomFunctionTest({
   expected: string
   editMode: boolean
   isInspected: boolean
+  fnName: string
   actual: any
   onEditClick: () => void
   onTestClick: () => void
@@ -58,6 +60,7 @@ export function CustomFunctionTest({
           <tr>
             <th>Code run:</th>
             <td>
+              {fnName}(
               {editMode ? (
                 <input
                   type="text"
@@ -66,7 +69,8 @@ export function CustomFunctionTest({
                 />
               ) : (
                 codeRun
-              )}{' '}
+              )}
+              )
             </td>
           </tr>
           <tr>

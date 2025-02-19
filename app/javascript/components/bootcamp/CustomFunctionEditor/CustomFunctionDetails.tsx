@@ -21,8 +21,8 @@ export function CustomFunctionDetails({
         className="mb-12"
         name="fn-name"
         type="text"
+        readOnly
         value={name}
-        onChange={(e) => setName(e.target.value)}
       />
 
       <label className={labelClassName} htmlFor="description">

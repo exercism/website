@@ -10,10 +10,12 @@ import { CustomTests, Results } from './useTestManager'
 export function useCustomFunctionEditorHandler({
   tests,
   setResults,
+  functionName,
   setInspectedTest,
 }: {
   tests: CustomTests
   setResults: React.Dispatch<React.SetStateAction<Results>>
+  functionName: string
   setInspectedTest: React.Dispatch<React.SetStateAction<string>>
 }) {
   const editorHandler = useRef<Handler | null>(null)
@@ -55,13 +57,13 @@ export function useCustomFunctionEditorHandler({
 
       const evaluated = interpret(value)
       tests.forEach((test) => {
-        const [fnName, params] = test.codeRun.split(/[()]/)
+        const params = test.codeRun
 
         const parsedParams = formatParams(params.split(','))
         const fnEvaluationResult = evaluateFunction(
           value,
           {},
-          fnName,
+          functionName,
           ...parsedParams
         )
         setResults((a) => ({

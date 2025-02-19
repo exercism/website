@@ -107,10 +107,15 @@ export const CodeMirror = forwardRef(function _CodeMirror(
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce((value: string, view) => {
+      if (!setExerciseLocalStorageData) {
+        return
+      }
+
       const readonlyRanges = getCodeMirrorFieldValue(
         view,
         readOnlyRangesStateField
       )
+
       setExerciseLocalStorageData({
         code: value,
         storedAt: new Date().toISOString(),

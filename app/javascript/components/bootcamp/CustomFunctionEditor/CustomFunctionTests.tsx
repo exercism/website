@@ -4,6 +4,7 @@ import { CustomTests, Results } from './useTestManager'
 
 export function CustomFunctionTests({
   tests,
+  fnName,
   testBeingEdited,
   results,
   inspectedTest,
@@ -15,6 +16,7 @@ export function CustomFunctionTests({
   handleAddNewTest,
 }: {
   tests: CustomTests
+  fnName: string
   testBeingEdited: string | undefined
   inspectedTest: string
   results: Results
@@ -36,6 +38,7 @@ export function CustomFunctionTests({
           <CustomFunctionTest
             key={test.uuid}
             codeRun={test.codeRun}
+            fnName={fnName}
             isInspected={inspectedTest === test.uuid}
             onTestClick={() => setInspectedTest(test.uuid)}
             actual={

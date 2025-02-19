@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { useCustomFunctionEditorHandler } from './useCustomFunctionEditorHandler'
@@ -16,6 +16,7 @@ import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
+import { EditorView } from 'codemirror'
 
 export type CustomFunction = {
   uuid: string
@@ -54,7 +55,12 @@ export default function CustomFunctionEditor({
     useFunctionDetailsManager(customFunction)
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
-    useCustomFunctionEditorHandler({ tests, setResults, setInspectedTest })
+    useCustomFunctionEditorHandler({
+      tests,
+      setResults,
+      setInspectedTest,
+      functionName: name,
+    })
 
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
@@ -68,6 +74,12 @@ export default function CustomFunctionEditor({
     direction: 'horizontal',
     localStorageId: 'drawing-page-lhs',
   })
+
+  const handleSetFnName = useCallback((view: EditorView) => {
+    const docText = view.state.doc.toString()
+    const functionName = extractFunctionName(docText)
+    setName(functionName ?? '')
+  }, [])
 
   return (
     <SolveExercisePageContextWrapper
@@ -89,9 +101,10 @@ export default function CustomFunctionEditor({
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
                 handleRunCode={handleRunCode}
-                onEditorChangeCallback={(view) =>
+                onEditorChangeCallback={(view) => {
+                  handleSetFnName(view)
                   updateLocalStorageValueOnDebounce(view.state.doc.toString())
-                }
+                }}
               />
             </ErrorBoundary>
 
@@ -124,6 +137,7 @@ export default function CustomFunctionEditor({
             />
             <CustomFunctionTests
               tests={tests}
+              fnName={name}
               results={results}
               inspectedTest={inspectedTest}
               setInspectedTest={setInspectedTest}
@@ -139,4 +153,9 @@ export default function CustomFunctionEditor({
       </div>
     </SolveExercisePageContextWrapper>
   )
+}
+
+function extractFunctionName(code: string): string | null {
+  const match = code.match(/function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)?/)
+  return match ? match[1] : null
 }

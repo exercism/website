@@ -71,7 +71,7 @@ import {
   type LanguageFeatures,
   type SomethingWithLocation,
 } from './interpreter'
-import type { InterpretResult } from './interpreter'
+import type { CallableCustomFunction, InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
@@ -97,12 +97,6 @@ export type ExternalFunction = {
   arity?: Arity
 }
 
-export type CustomFunction = {
-  name: string
-  arity: Arity
-  code: string
-}
-
 export class Executor {
   private frames: Frame[] = []
   private frameTime: number = 0
@@ -126,7 +120,7 @@ export class Executor {
     private readonly sourceCode: string,
     private languageFeatures: LanguageFeatures,
     private externalFunctions: ExternalFunction[],
-    customFunctions: CustomFunction[],
+    private customFunctions: CallableCustomFunction[],
     private externalState: Record<string, any> = {}
   ) {
     for (let externalFunction of externalFunctions) {
@@ -148,18 +142,8 @@ export class Executor {
       this.globals.define(externalFunction.name, callable)
     }
 
-    const nestedCustonFunctionContext = { customFunctions: customFunctions }
     for (let customFunction of customFunctions) {
-      const call = (_: ExecutionContext, args) => {
-        const res = evaluateFunction(
-          customFunction.code,
-          nestedCustonFunctionContext,
-          customFunction.name,
-          ...args
-        )
-        return res.value
-      }
-      this.globals.define(customFunction.name, { ...customFunction, call })
+      this.globals.define(customFunction.name, customFunction)
     }
 
     this.maxTotalLoopIterations = this.languageFeatures.maxTotalLoopIterations

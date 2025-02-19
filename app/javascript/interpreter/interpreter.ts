@@ -6,8 +6,13 @@ import { Executor } from './executor'
 import { Statement } from './statement'
 import type { TokenType } from './token'
 import { translate } from './translator'
-import type { CustomFunction, ExternalFunction } from './executor'
+import type {
+  CustomFunction,
+  ExecutionContext,
+  ExternalFunction,
+} from './executor'
 import type { Frame } from './frames'
+import { Arity } from './functions'
 
 export type FrameContext = {
   result: any
@@ -41,6 +46,17 @@ export type InputLanguageFeatures = {
   maxTotalExecutionTime?: number
   allowGlobals?: boolean
   customFunctionDefinitionMode?: boolean
+}
+
+export type CustomFunction = {
+  name: string
+  arity: Arity
+  code: string
+}
+export type CallableCustomFunction = {
+  name: string
+  arity: Arity
+  call: () => any
 }
 
 export type EvaluationContext = {
@@ -103,7 +119,7 @@ export class Interpreter {
   private state: Record<string, any> = {}
   private languageFeatures: LanguageFeatures
   private externalFunctions: ExternalFunction[] = []
-  private customFunctions: CustomFunction[] = []
+  private customFunctions: CallableCustomFunction[] = []
   private wrapTopLevelStatements = false
 
   private statements: Statement[] = []
@@ -117,9 +133,9 @@ export class Interpreter {
       ? context.externalFunctions
       : []
 
-    this.customFunctions = context.customFunctions
-      ? context.customFunctions
-      : []
+    this.customFunctions = this.parseCustomFunctions(
+      context.customFunctions ? context.customFunctions : []
+    )
 
     this.languageFeatures = {
       includeList: undefined,
@@ -138,6 +154,27 @@ export class Interpreter {
       this.languageFeatures,
       this.wrapTopLevelStatements
     )
+  }
+
+  private parseCustomFunctions(
+    customFunctions: CustomFunction[]
+  ): CallableCustomFunction[] {
+    // This is wildly deeply recursive so be careful!
+    if (customFunctions.length === 0) return []
+
+    const code = customFunctions.map((fn) => fn.code).join('\n')
+    const interpreter = new Interpreter(code, {
+      languageFeatures: { customFunctionDefinitionMode: true },
+    })
+    interpreter.compile()
+
+    return customFunctions.map((customFunction) => {
+      const call = (_: ExecutionContext, args) => {
+        const res = interpreter.evaluateFunction(customFunction.name, ...args)
+        return res.value
+      }
+      return { ...customFunction, call }
+    })
   }
 
   public compile() {

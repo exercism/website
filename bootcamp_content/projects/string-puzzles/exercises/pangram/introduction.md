@@ -28,8 +28,12 @@ For this exercise, a sentence is a pangram if it contains each of the 26 letters
 
 Create a function called `is_pangram` that takes a sentence as a string, and returns a boolean representing whether it is, or is not, a pangram.
 
+You can solve this exercise in multiple ways.
+Try and experiment with different approaches using both lists and dictionaries to see what you prefer.
+
 ### Functions
 
-You have one function available:
+You have two functions available:
 
 - `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
+- `keys(dictionary)`.: This takes a dictionary as its input and returns a list of all its keys.

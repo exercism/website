@@ -11,12 +11,12 @@ const customFunctions = [
     arity: 1,
     code: `
     function my#length with string do
-    set counter to 0
-    for each character in string do
-      change counter to counter + 1
-      end
-    return counter
-  end`,
+      set counter to 0
+      for each character in string do
+        change counter to counter + 1
+        end
+      return counter
+    end`,
   },
 ]
 

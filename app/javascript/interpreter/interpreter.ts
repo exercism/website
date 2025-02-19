@@ -169,10 +169,8 @@ export class Interpreter {
     interpreter.compile()
 
     return customFunctions.map((customFunction) => {
-      const call = (_: ExecutionContext, args) => {
-        const res = interpreter.evaluateFunction(customFunction.name, ...args)
-        return res.value
-      }
+      const call = (_: ExecutionContext, args) =>
+        interpreter.evaluateFunction(customFunction.name, ...args)
       return { ...customFunction, call }
     })
   }

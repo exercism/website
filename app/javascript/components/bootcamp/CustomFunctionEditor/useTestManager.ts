@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { v4 as uuid } from 'uuid'
 import { CustomFunction } from './CustomFunctionEditor'
 import { useLocalStorage } from '@uidotdev/usehooks'
@@ -23,6 +23,10 @@ export function useTestManager(customFunction: CustomFunction) {
   const [inspectedTest, setInspectedTest] = useState<string>('')
 
   const [results, setResults] = useState<Results>({})
+
+  const areAllTestsPassing = useMemo(() => {
+    return Object.values(results).every((result) => result.pass)
+  }, [results])
 
   useEffect(() => {
     setTestsLocalStorageValue({ tests })
@@ -71,6 +75,7 @@ export function useTestManager(customFunction: CustomFunction) {
     testBeingEdited,
     results,
     inspectedTest,
+    areAllTestsPassing,
     setInspectedTest,
     setResults,
     setTestBeingEdited,

@@ -6,10 +6,16 @@ export function CustomFunctionDetails({
   name,
   description,
   setDescription,
+  areAllTestsPassing,
+  isActivated,
+  setIsActivated,
 }: {
   name: string
   description: string
   setDescription: React.Dispatch<React.SetStateAction<string>>
+  areAllTestsPassing: boolean
+  isActivated: boolean
+  setIsActivated: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   return (
     <div className="flex flex-col mb-24">
@@ -17,7 +23,7 @@ export function CustomFunctionDetails({
         Function name{' '}
       </label>
       <input
-        className="mb-12"
+        className="mb-24"
         name="fn-name"
         type="text"
         readOnly
@@ -27,7 +33,11 @@ export function CustomFunctionDetails({
       <label className={labelClassName} htmlFor="active-toggle">
         Active
       </label>
-      <ToggleButton checked={false} onToggle={() => console.log('toggle')} />
+      <ToggleButton
+        className="w-fit mb-24"
+        checked={isActivated}
+        onToggle={() => setIsActivated((a) => !a)}
+      />
 
       <label className={labelClassName} htmlFor="description">
         Description{' '}

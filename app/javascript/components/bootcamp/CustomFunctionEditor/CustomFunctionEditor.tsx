@@ -50,12 +50,19 @@ export default function CustomFunctionEditor({
     setResults,
     inspectedTest,
     setInspectedTest,
+    areAllTestsPassing,
   } = useTestManager(customFunction)
 
   useLogger('results', results)
 
-  const { name, setName, description, setDescription } =
-    useFunctionDetailsManager(customFunction)
+  const {
+    name,
+    setName,
+    description,
+    setDescription,
+    isActivated,
+    setIsActivated,
+  } = useFunctionDetailsManager(customFunction)
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({
@@ -134,6 +141,9 @@ export default function CustomFunctionEditor({
           <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
             <CustomFunctionDetails
               name={name}
+              isActivated={isActivated}
+              setIsActivated={setIsActivated}
+              areAllTestsPassing={areAllTestsPassing}
               description={description}
               setDescription={setDescription}
             />

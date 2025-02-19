@@ -81,6 +81,25 @@
           "expected": true
         }
       ]
+    },
+    {
+      "name": "Bonus Task",
+      "bonus": true,
+      "description": "Can you solve this with only one line of code within the function?",
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "One Line of Code",
+          "function": "is_leap_year",
+          "params": [2000],
+          "expected": true,
+          "check": {
+            "function": "numLinesOfCode()",
+            "expected": 3,
+            "error_html": "You used more than one line of code."
+          }
+        }
+      ]
     }
   ]
 }

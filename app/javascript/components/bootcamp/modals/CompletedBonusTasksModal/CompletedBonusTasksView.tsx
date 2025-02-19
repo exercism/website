@@ -19,7 +19,7 @@ export function CompletedBonusTasksView() {
       </h2>
 
       <p className="text-18 leading-140 mb-20">
-        You've completed the bonus tasks! You can now mark this exercise as
+        You've completed the bonus tasks! You can mark this exercise as
         completed and move forward, or go back and carry on tweaking your code.
       </p>
 

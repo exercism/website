@@ -26,17 +26,6 @@ You'll also need the `set`, `change`, `if` and `repeat_until_game_over` concepts
 
 To start with, you might find it better to use `repeat` with a fixed number of times, so that your code doesn't run forever.
 
-## Bonus Task
-
-Solving this exercise is a big achievement, but you might like one more challenge.
-
-**Can you solve it with these two constraints?**
-
-- Do not use the `repeat` keyword? (You can still use `repeat_until_game_over`).
-- Only have `shoot()` appear once in your code?
-
-It's not easy, but you'll be very proud of yourself if you can piece it together.
-
 ## There's many ways to solve this!
 
 We've now entered the point of the course where there are **lots** (probably hundreds) of ways to solve this exercise. There are different tradeoffs between different approaches. Over time you'll learn "best practices" and why some ways are better than others, but for now don't get hung up on that. Your job is **just to solve the exercise**.

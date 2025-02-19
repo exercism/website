@@ -48,10 +48,8 @@ export abstract class Exercise {
     return checkers.numFunctionCallsInCode(result, fnName)
   }
 
-  public lineNumberOffset = 0
-
-  public addAnimation(animation: Animation) {
-    this.animations.push(animation)
+  public numTimesStatementUsed(result: InterpretResult, type: string): number {
+    return checkers.numTimesStatementUsed(result, type)
   }
 
   public numLinesOfCode(
@@ -59,6 +57,10 @@ export abstract class Exercise {
     numStubLines: number = 0
   ): number {
     return checkers.numLinesOfCode(result, numStubLines)
+  }
+
+  public addAnimation(animation: Animation) {
+    this.animations.push(animation)
   }
 
   protected createView() {

@@ -52,10 +52,26 @@ function numFunctionCallsInCode(
   ).length
 }
 
+function numTimesStatementUsed(result: InterpretResult, type: string): number {
+  const filterStatements = (statements) =>
+    statements
+      .filter((obj) => obj)
+      .map((elem: Statement | Expression) => {
+        if (elem.type == type) {
+          return [elem]
+        }
+        return filterStatements(elem.children())
+      })
+      .flat()
+
+  return filterStatements(result.meta.statements).length
+}
+
 export default {
   numFunctionCalls,
   wasFunctionCalled,
   numFunctionCallsInCode,
+  numTimesStatementUsed,
   numLinesOfCode,
 }
 

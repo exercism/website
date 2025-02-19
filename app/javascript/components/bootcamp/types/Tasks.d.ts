@@ -8,7 +8,7 @@ declare type Task = {
   bonus?: boolean
 }
 
-type TestsType = 'io' | 'state'
+type TestsType = 'io' | 'io/check' | 'state'
 
 declare type TaskTest = {
   name: string
@@ -25,8 +25,8 @@ declare type TaskTest = {
   check: {
     function: string
     expected: string
-    description: string
     matcher?: string
+    errorHtml?: string
   }
 }
 

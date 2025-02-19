@@ -8,6 +8,7 @@ import type { TokenType } from './token'
 import { translate } from './translator'
 import type { ExternalFunction } from './executor'
 import type { Frame } from './frames'
+import { expr } from 'jquery'
 
 export type FrameContext = {
   result: any
@@ -184,8 +185,16 @@ export class Interpreter {
       this.languageFeatures,
       this.externalFunctions
     )
-    executor.execute(this.statements)
-    return executor.evaluateSingleExpression(callingStatements[0])
+    const generalExec = executor.execute(this.statements)
+    const exprExec = executor.evaluateSingleExpression(callingStatements[0])
+
+    return {
+      ...exprExec,
+      meta: {
+        ...exprExec.meta,
+        statements: generalExec.meta.statements,
+      },
+    }
   }
 
   private error(

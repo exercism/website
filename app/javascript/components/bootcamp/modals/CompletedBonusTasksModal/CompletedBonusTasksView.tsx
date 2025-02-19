@@ -20,7 +20,7 @@ export function CompletedBonusTasksView() {
 
       <p className="text-18 leading-140 mb-20">
         You've completed the bonus tasks! You can mark this exercise as
-        completed and move forward, or go back and carry on tweaking your code.
+        completed and move forward, or carry on tweaking your code.
       </p>
 
       <div className="flex items-center gap-8 self-stretch">

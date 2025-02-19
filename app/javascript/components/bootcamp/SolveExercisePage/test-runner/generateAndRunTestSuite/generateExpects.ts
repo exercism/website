@@ -48,12 +48,14 @@ function generateExpectsForIoTests(
     const checkActual = fn.call(null, interpreterResult, ...args)
     const checkExpected = testData.check.expected
     const checkMatcher = testData.check.matcher || 'toEqual'
+
     expects.push(
       expect({
         actual: checkActual,
-        testsType: 'io',
+        testsType: 'io/check',
         name: testData.name,
         slug: testData.slug,
+        errorHtml: testData.check.errorHtml,
       })[checkMatcher as AvailableMatchers](checkExpected)
     )
   }

@@ -68,8 +68,8 @@ So for the dictionary:
 ```
 set details to { "name": "Jeremy" }`
 
-has_key("name") // true
-has_key("age") // false
+has_key(details, "name") // true
+has_key(details, "age") // false
 ```
 
 In total, you have four functions available in this exercise:

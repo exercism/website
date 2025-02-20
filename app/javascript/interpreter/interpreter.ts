@@ -1,5 +1,5 @@
 import { RuntimeError, type RuntimeErrorType, type StaticError } from './error'
-import { CallExpression, Expression } from './expression'
+import { FunctionCallExpression, Expression } from './expression'
 import { Location } from './location'
 import { Parser } from './parser'
 import { Executor } from './executor'

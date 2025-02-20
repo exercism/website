@@ -8,7 +8,7 @@ import {
 } from '@/interpreter/statement'
 import { Location } from '@/interpreter/location'
 import {
-  CallExpression,
+  FunctionCallExpression,
   ListExpression,
   LiteralExpression,
 } from '@/interpreter/expression'
@@ -92,7 +92,7 @@ describe('for each', () => {
       expect(stmts[0]).toBeInstanceOf(ForeachStatement)
       const foreachStmt = stmts[0] as ForeachStatement
       expect(foreachStmt.elementName.lexeme).toBe('elem')
-      expect(foreachStmt.iterable).toBeInstanceOf(CallExpression)
+      expect(foreachStmt.iterable).toBeInstanceOf(FunctionCallExpression)
     })
 
     test('continue', () => {

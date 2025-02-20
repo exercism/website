@@ -14,7 +14,7 @@ import {
 import {
   ListExpression,
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   FunctionLookupExpression,
   GetElementExpression,
@@ -38,7 +38,7 @@ import {
   SetVariableStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
-  CallStatement,
+  FunctionCallStatement,
   LogStatement,
   ChangeElementStatement,
   ForeachStatement,
@@ -50,7 +50,7 @@ import type {
   EvaluationResult,
   EvaluationResultBinaryExpression,
   EvaluationResultBreakStatement,
-  EvaluationResultCallExpression,
+  EvaluationResultFunctionCallExpression,
   EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
   EvaluationResultContinueStatement,
@@ -60,7 +60,6 @@ import type {
   EvaluationResultFunctionLookupExpression,
   EvaluationResultGetElementExpression,
   EvaluationResultGroupingExpression,
-  EvaluationResultIfStatement,
   EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
   EvaluationResultLogicalExpression,
@@ -71,6 +70,7 @@ import type {
   EvaluationResultSetVariableStatement,
   EvaluationResultUnaryExpression,
   EvaluationResultVariableLookupExpression,
+  EvaluationResultFunctionCallStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -79,7 +79,7 @@ import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
-import { executeCallExpression } from './executor/executeCallExpression'
+import { executeFunctionCallExpression } from './executor/executeFunctionCallExpression'
 import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
 import { formatJikiObject } from './helpers'
@@ -264,7 +264,7 @@ export class Executor {
 
   public evaluateSingleExpression(statement: Statement) {
     try {
-      if (!(statement instanceof CallStatement)) {
+      if (!(statement instanceof FunctionCallStatement)) {
         this.error('InvalidExpression', Location.unknown, {
           statement: statement,
         })
@@ -273,9 +273,9 @@ export class Executor {
       // TODO: Also start/end the statement management
       // Do not execute here, as this is the only expression without
       // a result that's allowed, so it needs to be called manually
-      let result: EvaluationResultCallExpression | undefined
+      let result: EvaluationResultFunctionCallExpression | undefined
       this.withExecutionContext(() => {
-        result = this.visitCallExpression(statement.expression)
+        result = this.visitFunctionCallExpression(statement.expression)
       })
 
       return {
@@ -365,12 +365,11 @@ export class Executor {
     this.location = null
     return result as T
   }
-
-  public visitCallStatement(statement: CallStatement): void {
-    this.executeFrame(statement, () => {
-      const result = this.visitCallExpression(
+  public visitFunctionCallStatement(statement: FunctionCallStatement): void {
+    this.executeFrame<EvaluationResultFunctionCallStatement>(statement, () => {
+      const result = this.visitFunctionCallExpression(
         statement.expression
-      ) as EvaluationResultCallExpression
+      ) as EvaluationResultFunctionCallExpression
 
       /*if (statement.expression instanceof VariableLookupExpression)
         this.error('MissingParenthesesForFunctionCall', statement.location, {
@@ -378,7 +377,7 @@ export class Executor {
         })*/
 
       return {
-        type: 'CallStatement',
+        type: 'FunctionCallStatement',
         jikiObject: result.jikiObject,
         expression: result,
       }
@@ -393,7 +392,6 @@ export class Executor {
       try {
         value = this.evaluate(statement.value)
       } catch (e) {
-        console.log(e)
         if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
           this.error('CannotStoreNullFromFunction', statement.value.location)
         } else {
@@ -879,10 +877,10 @@ export class Executor {
     })
   }
 
-  public visitCallExpression(
-    expression: CallExpression
-  ): EvaluationResultCallExpression {
-    return executeCallExpression(this, expression)
+  public visitFunctionCallExpression(
+    expression: FunctionCallExpression
+  ): EvaluationResultFunctionCallExpression {
+    return executeFunctionCallExpression(this, expression)
   }
 
   public visitLiteralExpression(
@@ -1487,7 +1485,10 @@ export class Executor {
     this.functionCallLog[name][JSON.stringify(unwrappedArgs)] += 1
   }
 
-  public addFunctionToCallStack(name: string, expression: CallExpression) {
+  public addFunctionToCallStack(
+    name: string,
+    expression: FunctionCallExpression
+  ) {
     this.functionCallStack.push(name)
 
     if (this.functionCallStack.filter((n) => n == name).length > 5) {

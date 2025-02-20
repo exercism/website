@@ -1,11 +1,11 @@
 import {
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   LiteralExpression,
 } from '@/interpreter/expression'
 import { Shape, Circle, Rectangle, Line } from './shapes'
 import { InterpretResult } from '@/interpreter/interpreter'
-import { extractCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
+import { extractFunctionCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
 
 export function checkCanvasCoverage(shapes: Shape[], requiredPercentage) {
   const gridSize = 100
@@ -82,11 +82,11 @@ export function checkUniqueColoredCircles(shapes: Shape[], count: number) {
 export function assertAllArgumentsAreVariables(
   interpreterResult: InterpretResult
 ) {
-  return extractCallExpressions(interpreterResult.meta.statements).every(
-    (expr: CallExpression) => {
-      return expr.args.every((arg: Expression) => {
-        return !(arg instanceof LiteralExpression)
-      })
-    }
-  )
+  return extractFunctionCallExpressions(
+    interpreterResult.meta.statements
+  ).every((expr: FunctionCallExpression) => {
+    return expr.args.every((arg: Expression) => {
+      return !(arg instanceof LiteralExpression)
+    })
+  })
 }

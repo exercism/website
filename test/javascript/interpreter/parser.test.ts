@@ -1,7 +1,7 @@
 import {
   ListExpression,
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   GroupingExpression,
   LiteralExpression,
   DictionaryExpression,
@@ -16,7 +16,7 @@ import {
 } from '@/interpreter/expression'
 import {
   BlockStatement,
-  CallStatement,
+  FunctionCallStatement,
   ForeachStatement,
   FunctionStatement,
   IfStatement,
@@ -55,7 +55,7 @@ describe('comments', () => {
     move()
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
   })
 })
 describe('literals', () => {
@@ -163,20 +163,20 @@ describe('call', () => {
   test('without arguments', () => {
     const stmts = parse('move()')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
-    const expStmt = stmts[0] as CallStatement
-    expect(expStmt.expression).toBeInstanceOf(CallExpression)
-    const callExpr = expStmt.expression as CallExpression
+    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
+    const expStmt = stmts[0] as FunctionCallStatement
+    expect(expStmt.expression).toBeInstanceOf(FunctionCallExpression)
+    const callExpr = expStmt.expression as FunctionCallExpression
     expect(callExpr.args).toBeEmpty()
   })
 
   test('single argument', () => {
     const stmts = parse('turn("left")')
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
-    const logStmt = stmts[0] as CallStatement
-    expect(logStmt.expression).toBeInstanceOf(CallExpression)
-    const callExpr = logStmt.expression as CallExpression
+    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
+    const logStmt = stmts[0] as FunctionCallStatement
+    expect(logStmt.expression).toBeInstanceOf(FunctionCallExpression)
+    const callExpr = logStmt.expression as FunctionCallExpression
     expect(callExpr.args).toBeArrayOfSize(1)
     expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
   })
@@ -646,10 +646,10 @@ describe('location', () => {
     test('call', () => {
       const statements = parse('move(7)')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(CallStatement)
-      const callStatement = statements[0] as CallStatement
+      expect(statements[0]).toBeInstanceOf(FunctionCallStatement)
+      const callStatement = statements[0] as FunctionCallStatement
       const expression = callStatement.expression
-      expect(expression).toBeInstanceOf(CallExpression)
+      expect(expression).toBeInstanceOf(FunctionCallExpression)
       expect(expression.location.line).toBe(1)
       expect(expression.location.relative.begin).toBe(1)
       expect(expression.location.relative.end).toBe(8)

@@ -1,5 +1,5 @@
 import { Executor } from '../executor'
-import { CallExpression } from '../expression'
+import { FunctionCallExpression } from '../expression'
 import {
   FunctionCallTypeMismatchError,
   isRuntimeError,
@@ -8,16 +8,16 @@ import {
 import { isCallable } from '../functions'
 import {
   EvaluationResult,
-  EvaluationResultCallExpression,
+  EvaluationResultFunctionCallExpression,
   EvaluationResultFunctionLookupExpression,
 } from '../evaluation-result'
 import { isNumber } from '../checks'
 import { cloneDeep } from 'lodash'
-import { wrapJSToJikiObject } from '../jikiObjects'
+import { JikiObject, wrapJSToJikiObject } from '../jikiObjects'
 
 function throwMissingFunctionError(
   executor: Executor,
-  expression: CallExpression,
+  expression: FunctionCallExpression,
   e: Error
 ) {
   if (!isRuntimeError(e)) {
@@ -44,10 +44,10 @@ function throwMissingFunctionError(
   })
 }
 
-export function executeCallExpression(
+export function executeFunctionCallExpression(
   executor: Executor,
-  expression: CallExpression
-): EvaluationResultCallExpression {
+  expression: FunctionCallExpression
+): EvaluationResultFunctionCallExpression {
   let ce
 
   // The catch here always rethrows the error.
@@ -74,7 +74,7 @@ export function executeCallExpression(
     if (minArity !== maxArity) {
       executor.error(
         'InvalidNumberOfArgumentsWithOptionalArguments',
-        expression.paren.location,
+        expression.callee.location,
         {
           name: expression.callee.name.lexeme,
           minArity,
@@ -85,14 +85,14 @@ export function executeCallExpression(
     }
 
     if (args.length < minArity) {
-      executor.error('TooFewArguments', expression.paren.location, {
+      executor.error('TooFewArguments', expression.callee.location, {
         name: expression.callee.name.lexeme,
         arity: maxArity,
         numberOfArgs: args.length,
         args,
       })
     } else {
-      executor.error('TooManyArguments', expression.paren.location, {
+      executor.error('TooManyArguments', expression.callee.location, {
         name: expression.callee.name.lexeme,
         arity: maxArity,
         numberOfArgs: args.length,
@@ -102,7 +102,7 @@ export function executeCallExpression(
   }
 
   const fnName = callee.name
-  let value: EvaluationResultCallExpression
+  let value: JikiObject
 
   try {
     // Log it's usage for testing checks
@@ -128,7 +128,7 @@ export function executeCallExpression(
   }
 
   return {
-    type: 'CallExpression',
+    type: 'FunctionCallExpression',
     jikiObject: value,
     callee,
     args,

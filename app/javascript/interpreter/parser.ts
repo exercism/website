@@ -3,7 +3,7 @@ import { type SyntaxErrorType } from './error'
 import {
   ListExpression,
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   GroupingExpression,
   LiteralExpression,
@@ -24,7 +24,7 @@ import { Scanner } from './scanner'
 import {
   BlockStatement,
   BreakStatement,
-  CallStatement,
+  FunctionCallStatement,
   ContinueStatement,
   ForeachStatement,
   FunctionParameter,
@@ -517,7 +517,7 @@ export class Parser {
   private callStatement(): Statement {
     let expression = this.expression()
     while (true) {
-      if (expression instanceof CallExpression) {
+      if (expression instanceof FunctionCallExpression) {
         break
       }
       if (expression instanceof GroupingExpression) {
@@ -536,7 +536,7 @@ export class Parser {
 
     this.consumeEndOfLine()
 
-    return new CallStatement(expression, expression.location)
+    return new FunctionCallStatement(expression, expression.location)
   }
 
   private continueStatement(): ContinueStatement {
@@ -562,7 +562,7 @@ export class Parser {
 
     if (this.match('TO')) {
       const operator = this.previous()
-      const value = this.assignment()
+      const value = this.or()
 
       if (expr instanceof GetElementExpression) {
         return new SetElementExpression(
@@ -712,7 +712,54 @@ export class Parser {
       )
     }
 
-    return this.call()
+    return this.methodCall()
+  }
+
+  private methodCall(): Expression {
+    const expr = this.functionCall()
+
+    if (this.match('DOT')) {
+      const dot = this.previous()
+      const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
+      const leftParen = this.consume(
+        'LEFT_PAREN',
+        'MissingLeftParenAfterMethodName'
+      )
+
+      const args: Expression[] = []
+
+      if (this.match('EOL')) {
+        this.error(
+          'MissingRightParenthesisAfterMethodCall',
+          methodName.location,
+          {
+            method: methodName.lexeme,
+          }
+        )
+      }
+      if (!this.check('RIGHT_PAREN')) {
+        do {
+          args.push(this.expression())
+        } while (this.match('COMMA'))
+      }
+
+      const rightParen = this.consume(
+        'RIGHT_PAREN',
+        'MissingRightParenthesisAfterFunctionCall',
+        {
+          args,
+          method: methodName.lexeme,
+        }
+      )
+      return new MethodCallExpression(
+        expr,
+        methodName,
+        args,
+        Location.between(expr, rightParen)
+      )
+    }
+
+    return expr
   }
 
   private chainedVariableAccessors(expression: Expression): Expression {
@@ -743,7 +790,7 @@ export class Parser {
     return expression
   }
 
-  private call(): Expression {
+  private functionCall(): Expression {
     let expression = this.primary()
     expression = this.chainedVariableAccessors(expression)
     return expression
@@ -771,7 +818,7 @@ export class Parser {
       } while (this.match('COMMA'))
     }
 
-    const paren = this.consume(
+    const rightParen = this.consume(
       'RIGHT_PAREN',
       'MissingRightParenthesisAfterFunctionCall',
       {
@@ -782,11 +829,10 @@ export class Parser {
             : null,
       }
     )
-    return new CallExpression(
+    return new FunctionCallExpression(
       callee,
-      paren,
       args,
-      Location.between(callee, paren)
+      Location.between(callee, rightParen)
     )
   }
 

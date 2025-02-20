@@ -105,6 +105,33 @@ describe('parse', () => {
       const fieldExpr = getStmt.field as LiteralExpression
       expect(fieldExpr.value).toBe(0)
     })
+    test('chained methods', () => {
+      const stmts = parse('log foo.bar("left").rab("tusk")["3"]')
+      console.log(stmts[0])
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(LogStatement)
+
+      const logStmt = stmts[0] as LogStatement
+
+      expect(logStmt.expression).toBeInstanceOf(GetElementExpression)
+      const getStmt = logStmt.expression as GetElementExpression
+      expect((getStmt.field as LiteralExpression).value).toBe('3')
+
+      expect(getStmt.obj).toBeInstanceOf(MethodCallExpression)
+      const callExpr = getStmt.obj as MethodCallExpression
+      expect(callExpr.object).toBeInstanceOf(MethodCallExpression)
+      expect(callExpr.method.lexeme).toBe('rab')
+      expect((callExpr.args[0] as LiteralExpression).value).toBe('tusk')
+
+      const innerCallExpr = callExpr.object as MethodCallExpression
+      expect(innerCallExpr.method.lexeme).toBe('bar')
+      expect(innerCallExpr.object).toBeInstanceOf(VariableLookupExpression)
+      expect(
+        (innerCallExpr.object as VariableLookupExpression).name.lexeme
+      ).toBe('foo')
+      expect(innerCallExpr.args).toBeArrayOfSize(1)
+      expect((innerCallExpr.args[0] as LiteralExpression).value).toBe('left')
+    })
   })
 })
 

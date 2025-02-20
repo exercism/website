@@ -759,3 +759,49 @@ describe('UnexpectedIfInBinaryExpression', () => {
     )
   })
 })
+
+describe('MissingMethodNameAfterDot', () => {
+  test('nothing', () => {
+    expect(() => parse(`log x.`)).toThrow('MissingMethodNameAfterDot')
+  })
+  test('bracket', () => {
+    expect(() => parse(`log x.(`)).toThrow('MissingMethodNameAfterDot')
+  })
+})
+describe('MissingLeftParenthesisAfterMethodCall', () => {
+  test('nothing', () => {
+    expect(() => parse(`log foo.bar`)).toThrow(
+      'MissingLeftParenthesisAfterMethodCall'
+    )
+  })
+  test('literal', () => {
+    expect(() => parse(`log foo.bar something`)).toThrow(
+      'MissingLeftParenthesisAfterMethodCall'
+    )
+  })
+  test('right bracket', () => {
+    expect(() => parse(`log foo.bar )`)).toThrow(
+      'MissingLeftParenthesisAfterMethodCall'
+    )
+  })
+})
+describe('MissingLeftParenthesisAfterMethodCall', () => {
+  test('no args', () => {
+    expect(() => parse(`log foo(`)).toThrow(
+      'MissingRightParenthesisAfterFunctionCall'
+    )
+  })
+  test('single arg', () => {
+    expect(() => parse(`log foo.bar(foo`)).toThrow(
+      'MissingRightParenthesisAfterFunctionCall'
+    )
+  })
+  test('two args', () => {
+    expect(() => parse(`log foo.bar(1, 2`)).toThrow(
+      'MissingRightParenthesisAfterFunctionCall'
+    )
+  })
+})
+
+// MissingLeftParenthesisAfterMethodCall
+// MissingRightParenthesisAfterMethodCall

@@ -87,6 +87,9 @@ export type SyntaxErrorType =
   | 'MissingLeftParenthesisAfterFunctionCall'
   | 'UnexpectedKeyword'
   | 'UnexpectedTrailingComma'
+  | 'MissingMethodNameAfterDot'
+  | 'MissingLeftParenthesisAfterMethodCall'
+  | 'MissingRightParenthesisAfterMethodCall'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

@@ -282,7 +282,7 @@ export class Parser {
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
     // and the index, while still maintaining the integrity of both sides.
-    const getExpression = this.chainedVariableAccessors(this.primary())
+    const getExpression = this.chainedVariableAccessors()
 
     if (!(getExpression instanceof GetElementExpression)) {
       this.error('GenericSyntaxError', getExpression.location)
@@ -713,138 +713,127 @@ export class Parser {
       )
     }
 
-    return this.methodCall()
+    return this.chainedVariableAccessors()
   }
 
-  private methodCall(): Expression {
-    let expr = this.functionCall()
-
-    if (!this.match('DOT')) {
-      return expr
-    }
-    const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
-
-    return this.chainedVariableAccessors(
-      expr,
-      (callee: VariableLookupExpression) => {
-        const args: Expression[] = []
-
-        if (this.match('EOL')) {
-          this.error(
-            'MissingRightParenthesisAfterMethodCall',
-            methodName.location,
-            {
-              method: methodName.lexeme,
-            }
-          )
-        }
-        if (!this.check('RIGHT_PAREN')) {
-          do {
-            args.push(this.expression())
-          } while (this.match('COMMA'))
-        }
-
-        const rightParen = this.consume(
-          'RIGHT_PAREN',
-          'MissingRightParenthesisAfterFunctionCall',
-          {
-            args,
-            method: methodName.lexeme,
-          }
-        )
-        return new MethodCallExpression(
-          expr,
-          methodName,
-          args,
-          Location.between(expr, rightParen)
-        )
-      }
-    )
-  }
-
-  private functionCall(): Expression {
+  private chainedVariableAccessors(): Expression {
     let expression = this.primary()
-    return this.chainedVariableAccessors(
-      expression,
-      (expression: Expression) => {
-        if (!(expression instanceof VariableLookupExpression)) {
-          this.error('InvalidFunctionName', expression.location, {})
-        }
 
-        // Mutate the callee to be a FunctionLookupExpression,
-        // not a VariableLookupExpression so we can properly look things up
-        // in the right scopes later on.
-        let callee = expression as VariableLookupExpression
-        callee = new FunctionLookupExpression(callee.name, callee.location)
+    while (this.check('LEFT_PAREN', 'DOT', 'LEFT_BRACKET')) {
+      // Firstly handle this if it is a function call
+      if (this.match('LEFT_PAREN')) {
+        expression = this.functionCall(expression)
+      }
 
-        const args: Expression[] = []
+      // Firstly handle this if it is a function call
+      if (this.match('DOT')) {
+        expression = this.methodCall(expression)
+      }
 
-        if (this.match('EOL')) {
-          this.error(
-            'MissingRightParenthesisAfterFunctionCall',
-            callee.location,
-            {
-              function:
-                callee instanceof FunctionLookupExpression
-                  ? callee.name.lexeme
-                  : null,
-            }
-          )
-        }
-        if (!this.check('RIGHT_PAREN')) {
-          do {
-            args.push(this.expression())
-          } while (this.match('COMMA'))
-        }
-
-        const rightParen = this.consume(
-          'RIGHT_PAREN',
-          'MissingRightParenthesisAfterFunctionCall',
-          {
-            args,
-            function:
-              callee instanceof FunctionLookupExpression
-                ? callee.name.lexeme
-                : null,
-          }
+      // Now handle an array (this might be on the result of the function call)
+      // e.g. foobar()[0]
+      if (this.match('LEFT_BRACKET')) {
+        const field = this.expression()
+        const rightBracket = this.consume(
+          'RIGHT_BRACKET',
+          'MissingRightBracketAfterFieldNameOrIndex',
+          { expression }
         )
-        return new FunctionCallExpression(
-          callee,
-          args,
-          Location.between(callee, rightParen)
+        expression = new GetElementExpression(
+          expression,
+          field,
+          Location.between(expression, rightBracket)
         )
       }
-    )
-  }
-
-  private chainedVariableAccessors(
-    expression: Expression,
-    finishCall: (
-      elem: Expression
-    ) => FunctionCallExpression | MethodCallExpression
-  ): Expression {
-    // Firstly handle this if it is a function call
-    if (this.match('LEFT_PAREN')) {
-      expression = finishCall(expression)
-    }
-
-    // Now handle an array (this might be on the result of the function call)
-    // e.g. foobar()[0]
-    while (this.match('LEFT_BRACKET')) {
-      // const leftBracket = this.previous()
-      const field = this.expression()
-      const rightBracket = this.consume(
-        'RIGHT_BRACKET',
-        'MissingRightBracketAfterFieldNameOrIndex',
-        { expression }
-      )
-      expression = new GetElementExpression(
-        expression,
-        field,
-        Location.between(expression, rightBracket)
-      )
     }
     return expression
+  }
+
+  private methodCall(expression: Expression): Expression {
+    const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
+
+    const leftParen = this.consume(
+      'LEFT_PAREN',
+      'MissingLeftParenthesisAfterMethodCall',
+      { method: methodName.lexeme }
+    )
+
+    const args: Expression[] = []
+
+    if (this.match('EOL')) {
+      this.error(
+        'MissingRightParenthesisAfterMethodCall',
+        methodName.location,
+        {
+          method: methodName.lexeme,
+        }
+      )
+    }
+    if (!this.check('RIGHT_PAREN')) {
+      do {
+        args.push(this.expression())
+      } while (this.match('COMMA'))
+    }
+
+    const rightParen = this.consume(
+      'RIGHT_PAREN',
+      'MissingRightParenthesisAfterFunctionCall',
+      {
+        args,
+        method: methodName.lexeme,
+      }
+    )
+    return new MethodCallExpression(
+      expression,
+      methodName,
+      args,
+      Location.between(expression, rightParen)
+    )
+  }
+
+  private functionCall(expression: Expression): Expression {
+    if (!(expression instanceof VariableLookupExpression)) {
+      this.error('InvalidFunctionName', expression.location, {})
+    }
+
+    // Mutate the callee to be a FunctionLookupExpression,
+    // not a VariableLookupExpression so we can properly look things up
+    // in the right scopes later on.
+    let callee = expression as VariableLookupExpression
+    callee = new FunctionLookupExpression(callee.name, callee.location)
+
+    const args: Expression[] = []
+
+    if (this.match('EOL')) {
+      this.error('MissingRightParenthesisAfterFunctionCall', callee.location, {
+        function:
+          callee instanceof FunctionLookupExpression
+            ? callee.name.lexeme
+            : null,
+      })
+    }
+    if (!this.check('RIGHT_PAREN')) {
+      do {
+        args.push(this.expression())
+      } while (this.match('COMMA'))
+    }
+
+    const rightParen = this.consume(
+      'RIGHT_PAREN',
+      'MissingRightParenthesisAfterFunctionCall',
+      {
+        args,
+        function:
+          callee instanceof FunctionLookupExpression
+            ? callee.name.lexeme
+            : null,
+      }
+    )
+    return new FunctionCallExpression(
+      callee,
+      args,
+      Location.between(callee, rightParen)
+    )
   }
 
   private primary(): Expression {
@@ -1126,9 +1115,14 @@ export class Parser {
     return false
   }
 
-  private check(tokenType: TokenType, steps = 1): boolean {
+  private check(...tokenTypes: TokenType[]): boolean {
     if (this.isAtEnd()) return false
-    return this.peek(steps).type == tokenType
+    return tokenTypes.includes(this.peek().type)
+  }
+
+  private checkAhead(steps = 1, ...tokenTypes: TokenType[]): boolean {
+    if (this.isAtEnd()) return false
+    return tokenTypes.includes(this.peek(steps).type)
   }
 
   private advance(): Token {
@@ -1248,7 +1242,7 @@ export class Parser {
 
   private nextTokenIsKeyword(): boolean {
     let counter = 1
-    while (this.check('EOL', counter)) {
+    while (this.checkAhead(counter, 'EOL')) {
       counter++
     }
     const nextActualThing = this.peek(counter)

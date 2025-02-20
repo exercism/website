@@ -69,7 +69,7 @@ describe('parse', () => {
 describe('interpret', () => {
   describe('pass by value', () => {
     test('lists', () => {
-      const { frames } = interpret(`
+      const { frames, error } = interpret(`
         set original to [1, 2, 3]
         function increment with list do
           change list[1] to list[1] + 1
@@ -79,6 +79,7 @@ describe('interpret', () => {
         increment(original)
         log original
       `)
+      console.log(error)
       // Inside the function
       const finalFunctionFrame = frames[frames.length - 3]
       expect(unwrapJikiObject(finalFunctionFrame.variables)['list']).toEqual([

@@ -1,35 +1,153 @@
+import { t } from 'xstate'
+import { isString } from './checks'
+
 type ObjectType = 'number' | 'string' | 'boolean' | 'list' | 'dictionary'
 
-export class JikiObject {
+export abstract class JikiObject {
   constructor(public readonly type: ObjectType, public readonly value: any) {}
+  public abstract clone(): JikiObject
+}
+export abstract class Primitive extends JikiObject {
+  constructor(public readonly type: ObjectType, public readonly value: any) {
+    super(type, value)
+  }
 }
 
-export class Number extends JikiObject {
+export abstract class Literal extends Primitive {
+  constructor(public readonly type: ObjectType, public readonly value: any) {
+    super(type, value)
+  }
+}
+
+export class Number extends Literal {
   constructor(value: number) {
     super('number', value)
   }
+  public clone(): JikiObject {
+    return new Number(this.value)
+  }
 }
 
-export class String extends JikiObject {
+export class String extends Literal {
   constructor(value: string) {
     super('string', value)
   }
+  public clone(): JikiObject {
+    return new String(this.value)
+  }
 }
 
-export class Boolean extends JikiObject {
+export class Boolean extends Literal {
   constructor(value: boolean) {
     super('boolean', value)
   }
+  public clone(): JikiObject {
+    return new Boolean(this.value)
+  }
 }
 
-export class List extends JikiObject {
-  constructor(value: any[]) {
+export abstract class Collection extends JikiObject {
+  constructor(public readonly type: ObjectType, public readonly value: any) {
+    super(type, value)
+  }
+}
+
+export class List extends Collection {
+  constructor(value: JikiObject[]) {
     super('list', value)
   }
+  public clone(): JikiObject {
+    return new List(this.value.map((item) => item.clone()))
+  }
 }
 
-export class Dictionary extends JikiObject {
-  constructor(value: Record<string, any>) {
+export class Dictionary extends Collection {
+  constructor(value: Map<string, JikiObject>) {
     super('dictionary', value)
   }
+  public clone(): JikiObject {
+    return new Dictionary(
+      Object.fromEntries(
+        Object.entries(this.value).map(([key, value]) => [key, value.clone()])
+      )
+    )
+  }
+}
+
+export function unwrapJikiObject(value: any): any {
+  if (value === null) {
+    return null
+  }
+  if (value === undefined) {
+    return undefined
+  }
+
+  if (value instanceof Literal) {
+    return value.value
+  }
+  if (value instanceof List) {
+    return value.value.map(unwrapJikiObject)
+  }
+  if (value instanceof Dictionary) {
+    return Object.fromEntries(
+      Object.entries(value.value).map(([key, value]) => [
+        key,
+        unwrapJikiObject(value),
+      ])
+    )
+  }
+  if (value instanceof Array) {
+    return value.map(unwrapJikiObject)
+  }
+  if (
+    typeof value === 'number' ||
+    typeof value === 'string' ||
+    typeof value === 'boolean'
+  ) {
+    return value
+  }
+  if (typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, value]) => [
+        key,
+        unwrapJikiObject(value),
+      ])
+    )
+  }
+
+  return value
+}
+
+export function wrapJSToJikiObject(value: any) {
+  if (value === null) {
+    return null
+  }
+  if (value === undefined) {
+    return undefined
+  }
+
+  if (value instanceof JikiObject) {
+    return value
+  }
+  if (isString(value)) {
+    return new String(value)
+  }
+  if (typeof value === 'number') {
+    return new Number(value)
+  }
+  if (typeof value === 'boolean') {
+    return new Boolean(value)
+  }
+  if (Array.isArray(value)) {
+    return new List(value.map(wrapJSToJikiObject))
+  }
+  console.log(value)
+  return new Dictionary(
+    Object.fromEntries(
+      Object.entries(value).map(([key, value]) => [
+        key,
+        wrapJSToJikiObject(value),
+      ])
+    )
+  )
 }

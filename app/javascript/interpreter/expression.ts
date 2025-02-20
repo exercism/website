@@ -11,7 +11,10 @@ export abstract class Expression implements SomethingWithLocation {
 }
 
 export class LiteralExpression extends Expression {
-  constructor(public value: any, public location: Location) {
+  constructor(
+    public value: number | string | boolean,
+    public location: Location
+  ) {
     super('LiteralExpression')
   }
   public children() {

@@ -2,7 +2,7 @@ export function isNumber(obj: any): obj is number {
   return typeof obj === 'number' || obj instanceof Number
 }
 
-export function isBoolean(obj: any): obj is number {
+export function isBoolean(obj: any): obj is boolean {
   return typeof obj === 'boolean' || obj instanceof Boolean
 }
 

@@ -2,6 +2,7 @@ import { parse } from '@/interpreter/parser'
 import { interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import { FunctionStatement, ReturnStatement } from '@/interpreter/statement'
+import { unwrapJikiObject } from '@/interpreter/jikiTypes'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -74,9 +75,9 @@ describe('function', () => {
         `)
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(unwrapJikiObject(frames[0].variables)).toBeEmpty()
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ x: 1 })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ x: 1 })
       })
     })
 
@@ -89,9 +90,9 @@ describe('function', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 2 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 2 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 3 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ x: 3 })
     })
 
     test('return pops loop and function', () => {
@@ -106,7 +107,7 @@ describe('function', () => {
       `)
       expect(frames).toBeArrayOfSize(4)
       expect(frames[3].status).toBe('SUCCESS')
-      expect(frames[3].variables).toMatchObject({ res: 1 })
+      expect(unwrapJikiObject(frames[3].variables)).toMatchObject({ res: 1 })
     })
   })
 })

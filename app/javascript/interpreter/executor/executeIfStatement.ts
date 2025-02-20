@@ -9,7 +9,7 @@ export function executeIfStatement(executor: Executor, statement: IfStatement) {
     () => executeCondition(executor, statement.condition)
   )
 
-  if (conditionResult.resultingValue) {
+  if (conditionResult.jikiObject.value) {
     executor.executeStatement(statement.thenBranch)
     return
   }
@@ -23,11 +23,11 @@ function executeCondition(
   condition: Expression
 ): EvaluationResultIfStatement {
   const result = executor.evaluate(condition)
-  executor.verifyBoolean(result.resultingValue, condition)
+  executor.verifyBoolean(result.jikiObject, condition)
 
   return {
     type: 'IfStatement',
     condition: result,
-    resultingValue: result.resultingValue,
+    jikiObject: result.jikiObject,
   }
 }

@@ -12,7 +12,7 @@ export function describeForeachStatement(
   const frameContext = frame.context as ForeachStatement
   const frameResult = frame.result as EvaluationResultForeachStatement
 
-  if (frameResult.iterable.resultingValue.length === 0) {
+  if (frameResult.iterable.jikiObject.length === 0) {
     return describeEmptyList(frameResult)
   } else {
     return describePopulatedList(frameContext, frameResult)
@@ -21,7 +21,7 @@ export function describeForeachStatement(
 function describeEmptyList(
   frameResult: EvaluationResultForeachStatement
 ): Description {
-  const type = isString(frameResult.iterable.resultingValue) ? 'string' : 'list'
+  const type = isString(frameResult.iterable.jikiObject) ? 'string' : 'list'
   const result = `<p>The ${type} was empty so this line did nothing.</p>`
   const steps = [
     `<li>Jiki checked the ${type}, saw it was empty, and decided not to do anything further on this line.</li>`,

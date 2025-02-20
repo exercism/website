@@ -14,7 +14,7 @@ export function describeChangeVariableStatement(
 
   const name = frameContext.name.lexeme
   const oldValue = formatLiteral(frameResult.oldValue)
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatLiteral(frameResult.jikiObject)
 
   const result = `<p>This changed the value in <code>${name}</code> to <code>${value}</code>.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)

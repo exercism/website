@@ -12,10 +12,10 @@ export function describeBinaryExpression(
   const leftSteps = describeExpression(expression.left, result.left, context)
   const rightSteps = describeExpression(expression.right, result.right, context)
 
-  const leftRes = formatLiteral(result.left.resultingValue)
+  const leftRes = formatLiteral(result.left.jikiObject)
   const op = expression.operator.lexeme
-  const rightRes = formatLiteral(result.right.resultingValue)
+  const rightRes = formatLiteral(result.right.jikiObject)
 
-  const finalStep = `<li>Jiki evaluated <code>${leftRes} ${op} ${rightRes}</code> and determined it was <code>${result.resultingValue}</code>.</li>`
+  const finalStep = `<li>Jiki evaluated <code>${leftRes} ${op} ${rightRes}</code> and determined it was <code>${result.jikiObject}</code>.</li>`
   return [...leftSteps, ...rightSteps, finalStep]
 }

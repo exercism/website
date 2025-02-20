@@ -13,11 +13,11 @@ export function describeChangeElementStatement(
   const frameContext = frame.context as ChangeElementStatement
   const frameResult = frame.result as EvaluationResultChangeElementStatement
 
-  const idx = frameResult.field.resultingValue
+  const idx = frameResult.field.jikiObject
   const ordinaledIndex = addOrdinalSuffix(idx)
 
   const oldValue = formatLiteral(frameResult.oldValue)
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatLiteral(frameResult.jikiObject)
 
   let boxStep
   let listDescription

@@ -13,7 +13,7 @@ export function describeSetVariableStatement(
   const frameResult = frame.result as EvaluationResultSetVariableStatement
 
   const name = frameContext.name.lexeme
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatLiteral(frameResult.jikiObject)
 
   const result = `<p>This created a new variable called ${codeTag(
     name,

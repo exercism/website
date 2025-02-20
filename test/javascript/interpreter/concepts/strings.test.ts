@@ -76,14 +76,14 @@ describe('strings', () => {
       const { frames } = interpret('set x to "hello there"')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 'hello there' })
+      expect(frames[0].variables['x'].value).toBe('hello there')
     })
 
     test('log', () => {
       const { frames } = interpret(`log "foobar"`)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].result?.resultingValue).toBe('foobar')
+      expect(frames[0].result?.jikiObject?.value).toBe('foobar')
     })
 
     test('iterate', () => {
@@ -94,8 +94,8 @@ describe('strings', () => {
       `)
       expect(frames).toBeArrayOfSize(4)
       expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[1].result?.resultingValue).toBe('a')
-      expect(frames[3].result?.resultingValue).toBe('b')
+      expect(frames[1].result?.jikiObject?.value).toBe('a')
+      expect(frames[3].result?.jikiObject?.value).toBe('b')
     })
 
     describe('index access', () => {
@@ -103,13 +103,13 @@ describe('strings', () => {
         const { frames } = interpret(`log "foobar"[4] `)
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].result?.resultingValue).toBe('b')
+        expect(frames[0].result?.jikiObject?.value).toBe('b')
       })
       test('expression', () => {
         const { frames } = interpret(`log "foobar"[4 + 1] `)
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].result?.resultingValue).toBe('a')
+        expect(frames[0].result?.jikiObject?.value).toBe('a')
       })
     })
   })

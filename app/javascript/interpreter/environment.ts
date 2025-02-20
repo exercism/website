@@ -69,7 +69,7 @@ export class Environment {
         // value of previous frames
         let normalizedValue
         try {
-          normalizedValue = JSON.parse(JSON.stringify(value))
+          normalizedValue = value.clone()
         } catch (e) {
           normalizedValue = undefined
         }

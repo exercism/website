@@ -13,6 +13,7 @@ import {
   LiteralExpression,
 } from '@/interpreter/expression'
 import { RuntimeError } from '@/interpreter/error'
+import { unwrapJikiObject } from '@/interpreter/jikiTypes'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -120,7 +121,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(unwrapJikiObject(frames[0].variables)).toBeEmpty()
         expect(echos).toBeEmpty()
       })
       test('once', () => {
@@ -135,9 +136,9 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ num: 1 })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ num: 1 })
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ num: 1 })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ num: 1 })
         expect(echos).toEqual(['1'])
       })
       test('multiple times', () => {
@@ -152,15 +153,15 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(6)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ num: 1 })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ num: 1 })
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ num: 1 })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ num: 1 })
         expect(frames[2].status).toBe('SUCCESS')
         expect(frames[3].status).toBe('SUCCESS')
-        expect(frames[3].variables).toMatchObject({ num: 2 })
+        expect(unwrapJikiObject(frames[3].variables)).toMatchObject({ num: 2 })
         expect(frames[4].status).toBe('SUCCESS')
         expect(frames[5].status).toBe('SUCCESS')
-        expect(frames[5].variables).toMatchObject({ num: 3 })
+        expect(unwrapJikiObject(frames[5].variables)).toMatchObject({ num: 3 })
         expect(echos).toEqual(['1', '2', '3'])
       })
     })
@@ -177,7 +178,7 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toBeEmpty()
+        expect(unwrapJikiObject(frames[0].variables)).toBeEmpty()
         expect(echos).toBeEmpty()
       })
 
@@ -193,9 +194,13 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ num: 'a' })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+          num: 'a',
+        })
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ num: 'a' })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
+          num: 'a',
+        })
         expect(echos).toEqual(['a'])
       })
 
@@ -212,15 +217,23 @@ describe('for each', () => {
         )
         expect(frames).toBeArrayOfSize(6)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ num: 'a' })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+          num: 'a',
+        })
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ num: 'a' })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
+          num: 'a',
+        })
         expect(frames[2].status).toBe('SUCCESS')
         expect(frames[3].status).toBe('SUCCESS')
-        expect(frames[3].variables).toMatchObject({ num: 'b' })
+        expect(unwrapJikiObject(frames[3].variables)).toMatchObject({
+          num: 'b',
+        })
         expect(frames[4].status).toBe('SUCCESS')
         expect(frames[5].status).toBe('SUCCESS')
-        expect(frames[5].variables).toMatchObject({ num: 'c' })
+        expect(unwrapJikiObject(frames[5].variables)).toMatchObject({
+          num: 'c',
+        })
         expect(echos).toEqual(['a', 'b', 'c'])
       })
     })
@@ -304,7 +317,9 @@ describe('for each', () => {
       )
       const lastFrame = frames[frames.length - 1]
       expect(lastFrame.status).toBe('SUCCESS')
-      expect(lastFrame.variables).toMatchObject({ foo: 'bar' })
+      expect(unwrapJikiObject(lastFrame.variables)).toMatchObject({
+        foo: 'bar',
+      })
     })
     test('iterator does not leak', () => {
       const { frames } = interpret(

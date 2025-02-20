@@ -3,6 +3,7 @@ import { interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import { FunctionStatement, ReturnStatement } from '@/interpreter/statement'
 import { last } from 'lodash'
+import { unwrapJikiObject } from '@/interpreter/jikiTypes'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -28,11 +29,15 @@ describe('function', () => {
       `)
         // Inside the function
         const finalFunctionFrame = frames[frames.length - 3]
-        expect(finalFunctionFrame.variables.list).toEqual([2, 3, 4])
+        expect(unwrapJikiObject(finalFunctionFrame.variables)['list']).toEqual([
+          2, 3, 4,
+        ])
 
         // After the function
         const lastFrame = frames[frames.length - 1]
-        expect(lastFrame.variables.original).toEqual([1, 2, 3])
+        expect(unwrapJikiObject(lastFrame.variables)['original']).toEqual([
+          1, 2, 3,
+        ])
       })
     })
   })

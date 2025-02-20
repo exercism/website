@@ -1,11 +1,12 @@
 import { Callable } from './functions'
+import * as JikiTypes from './jikiTypes'
 import { ChangeElementStatement } from './statement'
 import type { TokenType } from './token'
 
 export type EvaluationResultCallStatement = {
   type: 'CallStatement'
   expression: EvaluationResultCallExpression
-  resultingValue: any
+  jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
@@ -14,8 +15,8 @@ export type EvaluationResultChangeElementStatement = {
   obj: EvaluationResult
   field: EvaluationResult
   value: EvaluationResult
-  oldValue: any
-  resultingValue: any
+  oldValue: JikiTypes.JikiObject
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
@@ -23,20 +24,20 @@ export type EvaluationResultChangeVariableStatement = {
   type: 'ChangeVariableStatement'
   name: string
   value: EvaluationResult
-  oldValue: any
-  resultingValue: any
+  oldValue: JikiTypes.JikiObject
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
 export type EvaluationResultContinueStatement = {
   type: 'ContinueStatement'
-  resultingValue?: undefined
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
 export type EvaluationResultBreakStatement = {
   type: 'BreakStatement'
-  resultingValue?: undefined
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
@@ -46,36 +47,36 @@ export type EvaluationResultForeachStatement = {
   iterable: EvaluationResult
   index: number
   temporaryVariableName?: any
-  temporaryVariableValue?: any
-  resultingValue?: undefined
+  temporaryVariableValue?: JikiTypes.JikiObject
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
 export type EvaluationResultIfStatement = {
   type: 'IfStatement'
   condition: EvaluationResult
-  resultingValue: any
+  jikiObject: JikiTypes.Boolean
   data?: Record<string, any>
 }
 
 export type EvaluationResultLogStatement = {
   type: 'LogStatement'
   expression: EvaluationResult
-  resultingValue: any
+  jikiObject: JikiTypes.JikiObject
 }
 
 export type EvaluationResultRepeatStatement = {
   type: 'RepeatStatement'
   count: EvaluationResult
   iteration: number
-  resultingValue?: undefined
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
 export type EvaluationResultReturnStatement = {
   type: 'ReturnStatement'
   expression?: EvaluationResult
-  resultingValue?: any
+  jikiObject?: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
@@ -83,16 +84,16 @@ export type EvaluationResultSetVariableStatement = {
   type: 'SetVariableStatement'
   name: string
   value: EvaluationResultExpression
-  resultingValue: any
+  jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
 export type EvaluationResultLogicalExpression = {
   type: 'LogicalExpression'
-  resultingValue: any
   left: EvaluationResult
   right?: EvaluationResult
   shortCircuited: boolean
+  jikiObject: JikiTypes.Boolean
   data?: Record<string, any>
 }
 
@@ -101,7 +102,7 @@ export type EvaluationResultFullyEvaluatedLogicalExpression =
 
 export type EvaluationResultBinaryExpression = {
   type: 'BinaryExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.Primitive
   left: EvaluationResult
   right: EvaluationResult
   data?: Record<string, any>
@@ -109,97 +110,78 @@ export type EvaluationResultBinaryExpression = {
 
 export type EvaluationResultUnaryExpression = {
   type: 'UnaryExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.Primitive
   right: EvaluationResult
   data?: Record<string, any>
 }
 
 export type EvaluationResultGroupingExpression = {
   type: 'GroupingExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.JikiObject
   inner: EvaluationResult
   data?: Record<string, any>
 }
 
 export type EvaluationResultLiteralExpression = {
   type: 'LiteralExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.Literal
   data?: Record<string, any>
 }
 
 export type EvaluationResultVariableLookupExpression = {
   type: 'VariableLookupExpression'
   name: string
-  resultingValue: any
+  jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 export type EvaluationResultFunctionLookupExpression = {
   type: 'FunctionLookupExpression'
   name: string
   function: Callable
-  resultingValue?: any
-  data?: Record<string, any>
-}
-
-export type EvaluationResultConstantStatement = {
-  type: 'ConstantStatement'
-  resultingValue: any
-  name: string
+  jikiObject?: JikiTypes.Boolean
   data?: Record<string, any>
 }
 
 export type EvaluationResultGetElementExpression = {
   type: 'GetElementExpression'
-  resultingValue: any
-  obj: any
-  field: any
+  // Can be a string, list, or dictionary
+  obj:
+    | EvaluationResultLiteralExpression
+    | EvaluationResultListExpression
+    | EvaluationResultDictionaryExpression
+  field: EvaluationResult
   expression: string
+  jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
 export type EvaluationResultSetElementExpression = {
   type: 'SetElementExpression'
-  resultingValue: any
-  obj: any
-  field: any
+  obj: EvaluationResultListExpression | EvaluationResultDictionaryExpression
+  field: EvaluationResult
   expression: string
+  jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
 export type EvaluationResultListExpression = {
   type: 'ListExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.List
   data?: Record<string, any>
 }
 
 export type EvaluationResultDictionaryExpression = {
   type: 'DictionaryExpression'
-  resultingValue: any
-  data?: Record<string, any>
-}
-
-export type EvaluationResultTemplateTextExpression = {
-  type: 'TemplateTextExpression'
-  resultingValue: any
-  data?: Record<string, any>
-}
-
-export type EvaluationResultTemplatePlaceholderExpression = {
-  type: 'TemplatePlaceholderExpression'
-  resultingValue: any
-  data?: Record<string, any>
-}
-
-export type EvaluationResultTemplateLiteralExpression = {
-  type: 'TemplateLiteralExpression'
-  resultingValue: any
+  jikiObject: JikiTypes.Dictionary
   data?: Record<string, any>
 }
 
 export type EvaluationResultCallExpression = {
   type: 'CallExpression'
-  resultingValue: any
-  callee: EvaluationResultVariableLookupExpression
+  jikiObject: JikiTypes.JikiObject
+  callee:
+    | EvaluationResultVariableLookupExpression
+    | EvaluationResultFunctionLookupExpression
   args: EvaluationResult[]
   data?: Record<string, any>
 }
@@ -213,7 +195,6 @@ export type EvaluationResultStatement =
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
   | EvaluationResultChangeElementStatement
-  | EvaluationResultConstantStatement
   | EvaluationResultContinueStatement
   | EvaluationResultBreakStatement
   | EvaluationResultIfStatement
@@ -234,6 +215,3 @@ export type EvaluationResultExpression =
   | EvaluationResultGroupingExpression
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
-  | EvaluationResultTemplateTextExpression
-  | EvaluationResultTemplatePlaceholderExpression
-  | EvaluationResultTemplateLiteralExpression

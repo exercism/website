@@ -35,7 +35,7 @@ function describeReturnWithValue(
   const frameContext = frame.context as ReturnStatement
   const frameResult = frame.result as EvaluationResultReturnStatement
 
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatLiteral(frameResult.jikiObject)
   const result = `<p>This returned ${codeTag(
     value,
     frameContext.expression!.location

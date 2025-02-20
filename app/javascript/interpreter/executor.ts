@@ -82,9 +82,9 @@ import { describeFrame } from './frames'
 import { executeCallExpression } from './executor/executeCallExpression'
 import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
-import { formatLiteral } from './helpers'
+import { formatJikiObject } from './helpers'
 import { executeBinaryExpression } from './executor/executeBinaryExpression'
-import * as JikiTypes from './jikiTypes'
+import * as JikiTypes from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
 
 export type ExecutionContext = {
@@ -492,7 +492,7 @@ export class Executor {
 
       // Do the update
       const oldValue = dictionary.jikiObject[field.jikiObject.value]
-      dictionary.jikiObject.value[field.jikiObject.value] = value.jikiObject
+      dictionary.jikiObject.value.set(field.jikiObject.value, value.jikiObject)
 
       return {
         type: 'ChangeElementStatement',
@@ -621,15 +621,15 @@ export class Executor {
   visitDictionaryExpression(
     expression: DictionaryExpression
   ): EvaluationResultDictionaryExpression {
-    let dict: Map<string, any> = new Map()
+    let records: Map<string, any> = new Map()
 
-    for (const [key, value] of expression.elements) {
+    for (const [key, value] of expression.elements.entries()) {
       const evalRes = this.evaluate(value)
-      dict[key] = evalRes.jikiObject
+      records.set(key, evalRes.jikiObject)
     }
     return {
       type: 'DictionaryExpression',
-      jikiObject: new JikiTypes.Dictionary(dict),
+      jikiObject: new JikiTypes.Dictionary(records),
     }
   }
 
@@ -655,7 +655,7 @@ export class Executor {
       !(iterable.jikiObject instanceof JikiTypes.String)
     ) {
       this.error('ForeachNotIterable', statement.iterable.location, {
-        value: formatLiteral(iterable.jikiObject),
+        value: formatJikiObject(iterable.jikiObject),
       })
     }
 
@@ -1073,7 +1073,7 @@ export class Executor {
       expression.location
     )
 
-    const value = obj.jikiObject.value[key.jikiObject.value]
+    const value = obj.jikiObject.value.get(key.jikiObject.value)
 
     return {
       type: 'GetElementExpression',
@@ -1230,11 +1230,11 @@ export class Executor {
 
     if (value instanceof JikiTypes.List) {
       this.error('ListsCannotBeCompared', expr.location, {
-        value: formatLiteral(value),
+        value: formatJikiObject(value),
       })
     }
     this.error('IncomparableTypes', expr.location, {
-      value: formatLiteral(value),
+      value: formatJikiObject(value),
     })
   }
 
@@ -1244,7 +1244,7 @@ export class Executor {
     this.guardUncalledFunction(value, expr)
 
     this.error('OperandMustBeNumber', expr.location, {
-      value: formatLiteral(value),
+      value: formatJikiObject(value),
     })
   }
   public verifyString(value: JikiTypes.JikiObject, expr: Expression): void {
@@ -1252,14 +1252,14 @@ export class Executor {
     this.guardUncalledFunction(value, expr)
 
     this.error('OperandMustBeString', expr.location, {
-      value: formatLiteral(value),
+      value: formatJikiObject(value),
     })
   }
   public verifyBoolean(value: JikiTypes.JikiObject, expr: Expression): void {
     if (value instanceof JikiTypes.Boolean) return
 
     this.error('OperandMustBeBoolean', expr.location, {
-      value: formatLiteral(value),
+      value: formatJikiObject(value),
     })
   }
 
@@ -1389,11 +1389,13 @@ export class Executor {
     key: JikiTypes.String,
     location: Location
   ) {
-    if (Object.keys(dictionary.value).includes(key.value)) {
+    if (dictionary.value.has(key.value)) {
       return
     }
 
-    this.error('MissingKeyInDictionary', location, { key: formatLiteral(key) })
+    this.error('MissingKeyInDictionary', location, {
+      key: formatJikiObject(key),
+    })
   }
 
   private guardDefinedName(name: Token) {
@@ -1524,6 +1526,9 @@ export class Executor {
     location: Location | null,
     context: any = {}
   ): RuntimeError {
+    // Unwrap context values from jiki objects
+    context = JikiTypes.unwrapJikiObject(context)
+
     let message
     if (type == 'LogicError') {
       message = context.message

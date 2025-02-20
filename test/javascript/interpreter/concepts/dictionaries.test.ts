@@ -16,7 +16,7 @@ import {
   LogicalExpression,
 } from '@/interpreter/expression'
 import { parse } from '@/interpreter/parser'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { Dictionary, String, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -256,6 +256,7 @@ describe('execute', () => {
       const { frames } = interpret(`set movie to {"title": "Jurassic Park"}`)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
+
       expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { title: 'Jurassic Park' },
       })

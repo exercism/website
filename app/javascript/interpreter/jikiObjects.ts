@@ -66,11 +66,11 @@ export class Dictionary extends Collection {
     super('dictionary', value)
   }
   public clone(): JikiObject {
-    return new Dictionary(
-      Object.fromEntries(
-        Object.entries(this.value).map(([key, value]) => [key, value.clone()])
-      )
+    const y = new Map(
+      [...this.value.entries()].map(([key, value]) => [key, value.clone()])
     )
+
+    return new Dictionary(y)
   }
 }
 
@@ -90,7 +90,7 @@ export function unwrapJikiObject(value: any): any {
   }
   if (value instanceof Dictionary) {
     return Object.fromEntries(
-      Object.entries(value.value).map(([key, value]) => [
+      [...value.value.entries()].map(([key, value]) => [
         key,
         unwrapJikiObject(value),
       ])
@@ -141,10 +141,9 @@ export function wrapJSToJikiObject(value: any) {
   if (Array.isArray(value)) {
     return new List(value.map(wrapJSToJikiObject))
   }
-  console.log(value)
   return new Dictionary(
-    Object.fromEntries(
-      Object.entries(value).map(([key, value]) => [
+    new Map(
+      [...value.entries()].map(([key, value]) => [
         key,
         wrapJSToJikiObject(value),
       ])

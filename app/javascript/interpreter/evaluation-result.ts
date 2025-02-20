@@ -1,5 +1,5 @@
 import { Callable } from './functions'
-import * as JikiTypes from './jikiTypes'
+import * as JikiTypes from './jikiObjects'
 import { ChangeElementStatement } from './statement'
 import type { TokenType } from './token'
 

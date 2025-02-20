@@ -1,6 +1,6 @@
 import { EvaluationResultLogStatement } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { formatLiteral } from '../helpers'
+import { formatJikiObject } from '../helpers'
 import { LogStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -10,7 +10,7 @@ export function describeLogStatement(
 ): Description {
   const logStatement = frame.context as LogStatement
   const frameResult = frame.result as EvaluationResultLogStatement
-  const value = formatLiteral(frameResult.jikiObject)
+  const value = formatJikiObject(frameResult.jikiObject)
 
   const result = `<p> This logged <code>${value}</code>.</p>`
   let steps = describeExpression(

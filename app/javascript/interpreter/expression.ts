@@ -2,7 +2,7 @@ import type { Token } from './token'
 import { Location } from './location'
 import { EvaluationResultCallExpression } from './evaluation-result'
 import { SomethingWithLocation } from './interpreter'
-import { formatLiteral } from './helpers'
+import { formatJikiObject } from './helpers'
 
 export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}

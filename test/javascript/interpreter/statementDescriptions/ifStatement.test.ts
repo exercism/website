@@ -113,7 +113,7 @@ describe('chained logical expressions', () => {
         if ret_true(1) and ret_true(2) and ret_true(3) do
         end
       `)
-    const actual = describeFrame(frames[3], [])
+    const actual = describeFrame(frames[3])
     assertHTML(
       actual,
       `<p>The condition evaluated to<code>true</code>so the code block ran.</p>`,

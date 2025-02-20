@@ -12,7 +12,7 @@ import {
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
-import { formatLiteral } from './helpers'
+import { formatJikiObject } from './helpers'
 
 export abstract class Statement implements SomethingWithLocation {
   constructor(public type: String) {}

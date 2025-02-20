@@ -1,5 +1,5 @@
 import { interpret } from '@/interpreter/interpreter'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 import { changeLanguage } from '@/interpreter/translator'
 
 beforeAll(() => {

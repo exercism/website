@@ -1,7 +1,7 @@
 import { EvaluationResultChangeVariableStatement } from '../evaluation-result'
 
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { ChangeVariableStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -13,8 +13,8 @@ export function describeChangeVariableStatement(
   const frameResult = frame.result as EvaluationResultChangeVariableStatement
 
   const name = frameContext.name.lexeme
-  const oldValue = formatLiteral(frameResult.oldValue)
-  const value = formatLiteral(frameResult.jikiObject)
+  const oldValue = formatJikiObject(frameResult.oldValue)
+  const value = formatJikiObject(frameResult.value.jikiObject)
 
   const result = `<p>This changed the value in <code>${name}</code> to <code>${value}</code>.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)

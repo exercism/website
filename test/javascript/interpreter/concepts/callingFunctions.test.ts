@@ -3,7 +3,7 @@ import { interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import { FunctionStatement, ReturnStatement } from '@/interpreter/statement'
 import { last } from 'lodash'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')

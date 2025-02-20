@@ -13,7 +13,7 @@ import {
   LiteralExpression,
 } from '@/interpreter/expression'
 import { RuntimeError } from '@/interpreter/error'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')

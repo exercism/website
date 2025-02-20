@@ -1,7 +1,7 @@
 import { EvaluationResultVariableLookupExpression } from '../evaluation-result'
 import { VariableLookupExpression } from '../expression'
 import { DescriptionContext } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 
 export function describeVariableLookupExpression(
   expression: VariableLookupExpression,
@@ -9,7 +9,7 @@ export function describeVariableLookupExpression(
   context: DescriptionContext
 ) {
   const name = result.name
-  const value = formatLiteral(result.jikiObject)
+  const value = formatJikiObject(result.jikiObject)
   return [
     `<li>Jiki got the box called ${codeTag(
       name,

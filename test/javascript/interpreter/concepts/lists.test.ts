@@ -16,7 +16,7 @@ import {
   UnaryExpression,
   VariableLookupExpression,
 } from '@/interpreter/expression'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')

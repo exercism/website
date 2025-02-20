@@ -2,7 +2,7 @@ import { toSentence } from '@/utils/toSentence'
 import { EvaluationResultCallStatement } from '../evaluation-result'
 import { CallExpression } from '../expression'
 import { DescriptionContext, FrameWithResult } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { CallStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -20,7 +20,7 @@ export function describeCallStatement(
     return toSentence(
       args.map((arg, idx) =>
         codeTag(
-          formatLiteral(arg.jikiObject),
+          formatJikiObject(arg.jikiObject),
           frameContext.expression.args[idx].location
         )
       )

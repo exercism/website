@@ -6,7 +6,7 @@ import {
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression } from '../expression'
-import * as JikiTypes from '../jikiTypes'
+import * as JikiTypes from '../jikiObjects'
 
 export function executeBinaryExpression(
   executor: Executor,

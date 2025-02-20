@@ -13,7 +13,7 @@ import {
 } from '../evaluation-result'
 import { isNumber } from '../checks'
 import { cloneDeep } from 'lodash'
-import { wrapJSToJikiObject } from '../jikiTypes'
+import { wrapJSToJikiObject } from '../jikiObjects'
 
 function throwMissingFunctionError(
   executor: Executor,

@@ -2,7 +2,7 @@ import { parse } from '@/interpreter/parser'
 import { interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import { FunctionStatement, ReturnStatement } from '@/interpreter/statement'
-import { unwrapJikiObject } from '@/interpreter/jikiTypes'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')

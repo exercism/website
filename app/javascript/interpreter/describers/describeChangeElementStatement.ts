@@ -1,7 +1,7 @@
 import { EvaluationResultChangeElementStatement } from '../evaluation-result'
 import { VariableLookupExpression } from '../expression'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { formatLiteral } from '../helpers'
+import { formatJikiObject } from '../helpers'
 import { ChangeElementStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 import { addOrdinalSuffix } from './helpers'
@@ -13,11 +13,11 @@ export function describeChangeElementStatement(
   const frameContext = frame.context as ChangeElementStatement
   const frameResult = frame.result as EvaluationResultChangeElementStatement
 
-  const idx = frameResult.field.jikiObject
+  const idx = frameResult.field.jikiObject?.value
   const ordinaledIndex = addOrdinalSuffix(idx)
 
-  const oldValue = formatLiteral(frameResult.oldValue)
-  const value = formatLiteral(frameResult.jikiObject)
+  const oldValue = formatJikiObject(frameResult.oldValue)
+  const value = formatJikiObject(frameResult.value.jikiObject)
 
   let boxStep
   let listDescription

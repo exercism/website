@@ -1,7 +1,7 @@
 import React from 'react'
 import { CodeRun } from '../TestResultsView/CodeRun'
 import { generateCodeRunString } from '../utils/generateCodeRunString'
-import { formatLiteral } from '@/interpreter/helpers'
+import { formatJikiObject } from '@/interpreter/helpers'
 export function IOPreview({
   inspectedPreviewTaskTest,
 }: {
@@ -24,7 +24,7 @@ export function IOPreview({
             />
             <tr>
               <th>Expected:</th>
-              <td>{formatLiteral(inspectedPreviewTaskTest.expected)}</td>
+              <td>{formatJikiObject(inspectedPreviewTaskTest.expected)}</td>
             </tr>
           </tbody>
         </table>

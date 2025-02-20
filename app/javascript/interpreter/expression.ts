@@ -41,7 +41,7 @@ export class FunctionLookupExpression extends Expression {
 }
 export class FunctionCallExpression extends Expression {
   constructor(
-    public callee: VariableLookupExpression,
+    public callee: FunctionLookupExpression,
     public args: Expression[],
     public location: Location
   ) {
@@ -49,6 +49,19 @@ export class FunctionCallExpression extends Expression {
   }
   public children() {
     return ([this.callee] as Expression[]).concat(this.args)
+  }
+}
+export class MethodCallExpression extends Expression {
+  constructor(
+    public object: Expression,
+    public method: Token,
+    public args: Expression[],
+    public location: Location
+  ) {
+    super('MethodCallExpression')
+  }
+  public children() {
+    return ([this.object] as Expression[]).concat(this.args)
   }
 }
 

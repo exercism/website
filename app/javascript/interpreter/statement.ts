@@ -8,6 +8,7 @@ import {
   FunctionCallExpression,
   Expression,
   VariableLookupExpression,
+  MethodCallExpression,
 } from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
@@ -26,6 +27,17 @@ export class FunctionCallStatement extends Statement {
     public location: Location
   ) {
     super('FunctionCallStatement')
+  }
+  public children() {
+    return [this.expression]
+  }
+}
+export class MethodCallStatement extends Statement {
+  constructor(
+    public expression: MethodCallExpression,
+    public location: Location
+  ) {
+    super('MethodCallStatement')
   }
   public children() {
     return [this.expression]

@@ -17,6 +17,7 @@ import {
   TemplatePlaceholderExpression,
   TemplateTextExpression,
   FunctionLookupExpression,
+  MethodCallExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -716,59 +717,115 @@ export class Parser {
   }
 
   private methodCall(): Expression {
-    const expr = this.functionCall()
+    let expr = this.functionCall()
 
-    if (this.match('DOT')) {
-      const dot = this.previous()
-      const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
-      const leftParen = this.consume(
-        'LEFT_PAREN',
-        'MissingLeftParenAfterMethodName'
-      )
+    if (!this.match('DOT')) {
+      return expr
+    }
+    const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
 
-      const args: Expression[] = []
+    return this.chainedVariableAccessors(
+      expr,
+      (callee: VariableLookupExpression) => {
+        const args: Expression[] = []
 
-      if (this.match('EOL')) {
-        this.error(
-          'MissingRightParenthesisAfterMethodCall',
-          methodName.location,
+        if (this.match('EOL')) {
+          this.error(
+            'MissingRightParenthesisAfterMethodCall',
+            methodName.location,
+            {
+              method: methodName.lexeme,
+            }
+          )
+        }
+        if (!this.check('RIGHT_PAREN')) {
+          do {
+            args.push(this.expression())
+          } while (this.match('COMMA'))
+        }
+
+        const rightParen = this.consume(
+          'RIGHT_PAREN',
+          'MissingRightParenthesisAfterFunctionCall',
           {
+            args,
             method: methodName.lexeme,
           }
         )
-      }
-      if (!this.check('RIGHT_PAREN')) {
-        do {
-          args.push(this.expression())
-        } while (this.match('COMMA'))
-      }
-
-      const rightParen = this.consume(
-        'RIGHT_PAREN',
-        'MissingRightParenthesisAfterFunctionCall',
-        {
+        return new MethodCallExpression(
+          expr,
+          methodName,
           args,
-          method: methodName.lexeme,
-        }
-      )
-      return new MethodCallExpression(
-        expr,
-        methodName,
-        args,
-        Location.between(expr, rightParen)
-      )
-    }
-
-    return expr
+          Location.between(expr, rightParen)
+        )
+      }
+    )
   }
 
-  private chainedVariableAccessors(expression: Expression): Expression {
+  private functionCall(): Expression {
+    let expression = this.primary()
+    return this.chainedVariableAccessors(
+      expression,
+      (expression: Expression) => {
+        if (!(expression instanceof VariableLookupExpression)) {
+          this.error('InvalidFunctionName', expression.location, {})
+        }
+
+        // Mutate the callee to be a FunctionLookupExpression,
+        // not a VariableLookupExpression so we can properly look things up
+        // in the right scopes later on.
+        let callee = expression as VariableLookupExpression
+        callee = new FunctionLookupExpression(callee.name, callee.location)
+
+        const args: Expression[] = []
+
+        if (this.match('EOL')) {
+          this.error(
+            'MissingRightParenthesisAfterFunctionCall',
+            callee.location,
+            {
+              function:
+                callee instanceof FunctionLookupExpression
+                  ? callee.name.lexeme
+                  : null,
+            }
+          )
+        }
+        if (!this.check('RIGHT_PAREN')) {
+          do {
+            args.push(this.expression())
+          } while (this.match('COMMA'))
+        }
+
+        const rightParen = this.consume(
+          'RIGHT_PAREN',
+          'MissingRightParenthesisAfterFunctionCall',
+          {
+            args,
+            function:
+              callee instanceof FunctionLookupExpression
+                ? callee.name.lexeme
+                : null,
+          }
+        )
+        return new FunctionCallExpression(
+          callee,
+          args,
+          Location.between(callee, rightParen)
+        )
+      }
+    )
+  }
+
+  private chainedVariableAccessors(
+    expression: Expression,
+    finishCall: (
+      elem: Expression
+    ) => FunctionCallExpression | MethodCallExpression
+  ): Expression {
     // Firstly handle this if it is a function call
     if (this.match('LEFT_PAREN')) {
-      if (!(expression instanceof VariableLookupExpression)) {
-        this.error('InvalidFunctionName', expression.location, {})
-      }
-      expression = this.finishCall(expression)
+      expression = finishCall(expression)
     }
 
     // Now handle an array (this might be on the result of the function call)
@@ -788,52 +845,6 @@ export class Parser {
       )
     }
     return expression
-  }
-
-  private functionCall(): Expression {
-    let expression = this.primary()
-    expression = this.chainedVariableAccessors(expression)
-    return expression
-  }
-
-  private finishCall(callee: VariableLookupExpression): Expression {
-    // Mutate the callee to be a FunctionLookupExpression,
-    // not a VariableLookupExpression so we can properly look things up
-    // in the right scopes later on.
-    callee = new FunctionLookupExpression(callee.name, callee.location)
-
-    const args: Expression[] = []
-
-    if (this.match('EOL')) {
-      this.error('MissingRightParenthesisAfterFunctionCall', callee.location, {
-        function:
-          callee instanceof FunctionLookupExpression
-            ? callee.name.lexeme
-            : null,
-      })
-    }
-    if (!this.check('RIGHT_PAREN')) {
-      do {
-        args.push(this.expression())
-      } while (this.match('COMMA'))
-    }
-
-    const rightParen = this.consume(
-      'RIGHT_PAREN',
-      'MissingRightParenthesisAfterFunctionCall',
-      {
-        args,
-        function:
-          callee instanceof FunctionLookupExpression
-            ? callee.name.lexeme
-            : null,
-      }
-    )
-    return new FunctionCallExpression(
-      callee,
-      args,
-      Location.between(callee, rightParen)
-    )
   }
 
   private primary(): Expression {

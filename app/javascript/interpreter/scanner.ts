@@ -78,6 +78,7 @@ export class Scanner {
     ']': this.tokenizeRightBracket,
     ':': this.tokenizeColon,
     ',': this.tokenizeComma,
+    '.': this.tokenizeDot,
     '+': this.tokenizePlus,
     '-': this.tokenizeMinus,
     '*': this.tokenizeStar,
@@ -182,6 +183,9 @@ export class Scanner {
   }
   private tokenizeComma() {
     this.addToken('COMMA')
+  }
+  private tokenizeDot() {
+    this.addToken('DOT')
   }
   private tokenizePlus() {
     this.addToken('PLUS')

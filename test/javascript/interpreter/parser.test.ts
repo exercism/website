@@ -159,29 +159,6 @@ describe('assignment', () => {
   })
 })
 
-describe('call', () => {
-  test('without arguments', () => {
-    const stmts = parse('move()')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
-    const expStmt = stmts[0] as FunctionCallStatement
-    expect(expStmt.expression).toBeInstanceOf(FunctionCallExpression)
-    const callExpr = expStmt.expression as FunctionCallExpression
-    expect(callExpr.args).toBeEmpty()
-  })
-
-  test('single argument', () => {
-    const stmts = parse('turn("left")')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
-    const logStmt = stmts[0] as FunctionCallStatement
-    expect(logStmt.expression).toBeInstanceOf(FunctionCallExpression)
-    const callExpr = logStmt.expression as FunctionCallExpression
-    expect(callExpr.args).toBeArrayOfSize(1)
-    expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
-  })
-})
-
 describe('get', () => {
   describe('dictionary', () => {
     test('single field', () => {

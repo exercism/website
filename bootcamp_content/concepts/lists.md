@@ -1,4 +1,4 @@
-## Lists
+# Lists
 
 Lists are a data type that allow you to group multiple other pieces of data (strings, numbers, booleans) together.
 

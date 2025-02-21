@@ -194,5 +194,26 @@
     "title": "Lists of Lists",
     "description": "Learn how to to put lists inside of lists",
     "level": 6
+  },
+  {
+    "slug": "dictionaries",
+    "parent": "data-types",
+    "title": "Dictionaries",
+    "description": "Learn everything about dictionaries",
+    "level": 7
+  },
+  {
+    "slug": "next-and-break",
+    "parent": "flow-control",
+    "title": "Next and Break",
+    "description": "Learn about the next and break keywords",
+    "level": 7
+  },
+  {
+    "slug": "indexed-by",
+    "parent": "flow-control",
+    "title": "Indexed By",
+    "description": "Learn about keeping track of the iteration you're on with indexed by.",
+    "level": 7
   }
 ]

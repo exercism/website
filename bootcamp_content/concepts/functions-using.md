@@ -12,7 +12,7 @@ To use a function you specify its name and then two brackets - e.g. `turn_left()
 
 So if your program was this…
 
-```jsx
+```jikiscript
 move();
 turn_left();
 turn_right();

@@ -8,7 +8,7 @@ import {
   Boundary,
 } from '@floating-ui/dom'
 import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
+import setupJikiscript from '@exercism/highlightjs-jikiscript'
 import 'highlight.js/styles/default.min.css'
 import {
   addHighlight,
@@ -118,7 +118,7 @@ export class InformationWidget extends WidgetType {
   }
 
   private applyHighlighting(element: HTMLElement) {
-    hljs.registerLanguage('javascript', javascript)
+    hljs.registerLanguage('jikiscript', setupJikiscript)
     const codeBlocks = element.querySelectorAll('pre code')
     codeBlocks.forEach((block) => {
       hljs.highlightBlock(block as HTMLElement)

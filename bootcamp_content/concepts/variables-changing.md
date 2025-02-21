@@ -4,7 +4,7 @@ You can also tell Jiki to change what’s in the box. For this you use the chang
 
 When Jiki sees the change keyword, he replaces whatever was in the box with whatever you ask him to put in there. So let’s say we want to put a different name into the box, we can say to Jiki:
 
-```
+```jikiscript
 change name to "Aron"
 ```
 

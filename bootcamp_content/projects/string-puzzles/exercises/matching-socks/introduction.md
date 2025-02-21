@@ -49,7 +49,7 @@ As you work through the exercise and come across new little tasks you need to do
 
 **Remember:** You can use the log word to see if something is working as you expect, so if you wrote a function called `is_frog_green` and wanted to check it does what you expect, you could do this:
 
-```
+```jikiscript
 // Your code here
 
 // The main function that gets called.
@@ -104,7 +104,7 @@ But try and break things into little steps like these, and **for each one** get 
 
 Here's an outline of a solution you might like to use
 
-```
+```jikiscript
 function matching_socks with clean, dirty do
   // Get the clean socks
   // Get the dirty socks

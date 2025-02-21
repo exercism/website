@@ -49,7 +49,7 @@ Maybe you've already written those functions in other exercises and you can reus
 The on_guest_list function is quite similar to the easier first exercise.
 A good outline would be something like this:
 
-```
+```jikiscript
 function on_guest_list with names, person do
   // Remove the honorific from the person's name to get the surname
   // Go through each name on the list in names

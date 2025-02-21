@@ -19,6 +19,7 @@ import {
   FunctionLookupExpression,
   MethodCallExpression,
   InstantiationExpression,
+  ClassLookupExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -722,22 +723,32 @@ export class Parser {
     }
 
     const newToken = this.previous()
-    const className = this.consume(
-      'IDENTIFIER',
-      'MissingClassNameInInstantiation'
+    const expr = this.primary()
+    if (!(expr instanceof VariableLookupExpression)) {
+      this.error('InvalidFunctionName', expr.location, {})
+    }
+
+    const classNameExpression = new ClassLookupExpression(
+      expr.name,
+      expr.location
     )
-    this.guardValidClassName(className)
+
+    this.guardValidClassName(classNameExpression.name)
 
     const leftParen = this.consume(
       'LEFT_PAREN',
       'MissingLeftParenthesisInInstantiation',
-      { class: className }
+      { class: classNameExpression.name.lexeme }
     )
 
     if (this.match('EOL')) {
-      this.error('MissingRightParenthesisInInstantiation', className.location, {
-        class: className,
-      })
+      this.error(
+        'MissingRightParenthesisInInstantiation',
+        classNameExpression.location,
+        {
+          class: classNameExpression.name.lexeme,
+        }
+      )
     }
 
     const args: Expression[] = []
@@ -746,8 +757,8 @@ export class Parser {
         if (this.check('RIGHT_PAREN', 'EOL')) {
           this.error(
             'MissingRightParenthesisInInstantiation',
-            className.location,
-            { class: className }
+            classNameExpression.location,
+            { class: classNameExpression.name.lexeme }
           )
         }
         args.push(this.expression())
@@ -756,10 +767,10 @@ export class Parser {
     const rightParen = this.consume(
       'RIGHT_PAREN',
       'MissingRightParenthesisInInstantiation',
-      { class: className }
+      { class: classNameExpression.name.lexeme }
     )
     return new InstantiationExpression(
-      className,
+      classNameExpression,
       args,
       Location.between(newToken, rightParen)
     )
@@ -849,8 +860,10 @@ export class Parser {
     // Mutate the callee to be a FunctionLookupExpression,
     // not a VariableLookupExpression so we can properly look things up
     // in the right scopes later on.
-    let callee = expression as VariableLookupExpression
-    callee = new FunctionLookupExpression(callee.name, callee.location)
+    const callee = new FunctionLookupExpression(
+      expression.name,
+      expression.location
+    )
     this.guardValidVariableName(callee.name)
 
     const args: Expression[] = []
@@ -908,7 +921,7 @@ export class Parser {
       )
 
     if (this.match('IDENTIFIER')) {
-      this.guardValidVariableName(this.previous())
+      //this.guardValidVariableName(this.previous())
 
       return new VariableLookupExpression(
         this.previous(),

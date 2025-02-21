@@ -74,9 +74,9 @@
       "MissingLeftParenthesisAfterMethodCall": "MissingLeftParenthesisAfterMethodCall: method: {{method}}",
       "MissingRightParenthesisAfterMethodCall": "MissingRightParenthesisAfterMethodCall: method: {{method}}",
       "MissingClassNameInInstantiation": "MissingClassNameInInstantiation",
-      "MissingLeftParenthesisInInstantiation": "MissingLeftParenthesisInInstantiation: class: Foo",
-      "MissingRightParenthesisInInstantiation": "MissingRightParenthesisInInstantiation: class: Foo",
-      "InvalidClassNameInInstantiation": "InvalidClassNameInInstantiation: class: Foo",
+      "MissingLeftParenthesisInInstantiation": "MissingLeftParenthesisInInstantiation: class: {{class}}",
+      "MissingRightParenthesisInInstantiation": "MissingRightParenthesisInInstantiation: class: {{class}}",
+      "InvalidClassNameInInstantiation": "InvalidClassNameInInstantiation: class: {{class}}",
       "InvalidVariableName": "InvalidVariableName"
     },
     "semantic": {

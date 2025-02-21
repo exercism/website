@@ -852,9 +852,3 @@ describe('InvalidVariableName', () => {
     expect(() => parse(`log foo(Foo)`)).toThrow('InvalidVariableName')
   })
 })
-
-// MissingClassNameInInstantiation
-// MissingLeftParenthesisInInstantiation
-// MissingRightParenthesisInInstantiation
-// InvalidClassNameInInstantiation
-// InvalidVariableName

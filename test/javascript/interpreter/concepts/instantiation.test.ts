@@ -12,6 +12,7 @@ import {
   InstantiationExpression,
   UnaryExpression,
   LogicalExpression,
+  ClassLookupExpression,
 } from '@/interpreter/expression'
 import { ExecutionContext } from '@/interpreter/executor'
 
@@ -32,7 +33,8 @@ describe('parse', () => {
 
     expect(expStmt.expression).toBeInstanceOf(InstantiationExpression)
     const instantiationExpr = expStmt.expression as InstantiationExpression
-    expect(instantiationExpr.className.lexeme).toBe('Foo')
+    expect(instantiationExpr.className).toBeInstanceOf(ClassLookupExpression)
+    expect(instantiationExpr.className.name.lexeme).toBe('Foo')
     expect(instantiationExpr.args).toBeEmpty()
   })
 
@@ -44,7 +46,8 @@ describe('parse', () => {
 
     expect(expStmt.expression).toBeInstanceOf(InstantiationExpression)
     const instantiationExpr = expStmt.expression as InstantiationExpression
-    expect(instantiationExpr.className.lexeme).toBe('Foo')
+    expect(instantiationExpr.className).toBeInstanceOf(ClassLookupExpression)
+    expect(instantiationExpr.className.name.lexeme).toBe('Foo')
     expect((instantiationExpr.args[0] as LiteralExpression).value).toBe(1)
     expect((instantiationExpr.args[1] as LiteralExpression).value).toBe('foo')
   })
@@ -57,8 +60,33 @@ describe('parse', () => {
 
     expect(expStmt.expression).toBeInstanceOf(InstantiationExpression)
     const instantiationExpr = expStmt.expression as InstantiationExpression
-    expect(instantiationExpr.className.lexeme).toBe('Foo')
+    expect(instantiationExpr.className).toBeInstanceOf(ClassLookupExpression)
+    expect(instantiationExpr.className.name.lexeme).toBe('Foo')
     expect(instantiationExpr.args[0]).toBeInstanceOf(LogicalExpression)
     expect(instantiationExpr.args[1]).toBeInstanceOf(UnaryExpression)
+  })
+})
+
+describe('execute', () => {
+  test('no args', () => {
+    const Person = new Jiki.Class('Person')
+    Person.methods.set('name', {
+      name: 'name',
+      arity: 0,
+      fn: () => new Jiki.String('Jeremy'),
+    })
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `
+      set person to new Person()
+      set name to person.name()
+    `,
+      context
+    )
+
+    // Last line
+    const lastFrame = frames[frames.length - 1]
+    expect(Jiki.unwrapJikiObject(lastFrame.variables)['name']).toBe('Jeremy')
   })
 })

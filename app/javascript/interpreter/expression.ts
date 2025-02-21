@@ -39,6 +39,16 @@ export class FunctionLookupExpression extends Expression {
     return []
   }
 }
+
+export class ClassLookupExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super('ClassLookupExpression')
+  }
+  public children() {
+    return []
+  }
+}
+
 export class FunctionCallExpression extends Expression {
   constructor(
     public callee: FunctionLookupExpression,
@@ -67,14 +77,14 @@ export class MethodCallExpression extends Expression {
 
 export class InstantiationExpression extends Expression {
   constructor(
-    public className: Token,
+    public className: VariableLookupExpression,
     public args: Expression[],
     public location: Location
   ) {
     super('InstantiationExpression')
   }
   public children() {
-    return this.args
+    return ([this.className] as Expression[]).concat(this.args)
   }
 }
 

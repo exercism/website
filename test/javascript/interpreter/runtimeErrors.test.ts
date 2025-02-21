@@ -645,3 +645,6 @@ describe('OperandMustBeNumber', () => {
 })
 
 // TOOD: Strings are immutable
+
+// ClassNotFound
+// CouldNotFindMethod

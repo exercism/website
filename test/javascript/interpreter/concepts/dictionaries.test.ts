@@ -12,7 +12,7 @@ import {
   SetElementExpression,
   BinaryExpression,
   VariableLookupExpression,
-  CallExpression,
+  FunctionCallExpression,
   LogicalExpression,
 } from '@/interpreter/expression'
 import { parse } from '@/interpreter/parser'
@@ -100,9 +100,9 @@ describe('parse', () => {
       const mapExpr = logStmt.expression as DictionaryExpression
       expect(mapExpr.elements.get('bar')).toBeInstanceOf(LogicalExpression)
       const orExpr = mapExpr.elements.get('bar') as LogicalExpression
-      expect(orExpr.left).toBeInstanceOf(CallExpression)
+      expect(orExpr.left).toBeInstanceOf(FunctionCallExpression)
       expect(orExpr.right).toBeInstanceOf(LiteralExpression)
-      const callExpr = orExpr.left as CallExpression
+      const callExpr = orExpr.left as FunctionCallExpression
       expect(callExpr.callee.name.lexeme).toBe('foo')
     })
 
@@ -211,8 +211,8 @@ describe('parse', () => {
       const stmts = parse(`change scores[foo()] to 1`)
       expect(stmts).toBeArrayOfSize(1)
       const changeStmt = stmts[0] as ChangeElementStatement
-      expect(changeStmt.field).toBeInstanceOf(CallExpression)
-      const indexExpr = changeStmt.field as CallExpression
+      expect(changeStmt.field).toBeInstanceOf(FunctionCallExpression)
+      const indexExpr = changeStmt.field as FunctionCallExpression
       expect(indexExpr.callee.name.lexeme).toBe('foo')
     })
 

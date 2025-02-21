@@ -8,7 +8,7 @@ import {
 } from '@/interpreter/statement'
 import { Location } from '@/interpreter/location'
 import {
-  CallExpression,
+  FunctionCallExpression,
   ListExpression,
   LiteralExpression,
 } from '@/interpreter/expression'

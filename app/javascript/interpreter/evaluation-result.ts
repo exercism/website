@@ -3,9 +3,15 @@ import * as JikiTypes from './jikiObjects'
 import { ChangeElementStatement } from './statement'
 import type { TokenType } from './token'
 
-export type EvaluationResultCallStatement = {
-  type: 'CallStatement'
-  expression: EvaluationResultCallExpression
+export type EvaluationResultFunctionCallStatement = {
+  type: 'FunctionCallStatement'
+  expression: EvaluationResultFunctionCallExpression
+  jikiObject: JikiTypes.JikiObject
+  data?: Record<string, any>
+}
+export type EvaluationResultMethodCallStatement = {
+  type: 'MethodCallStatement'
+  expression: EvaluationResultMethodCallExpression
   jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
@@ -176,12 +182,19 @@ export type EvaluationResultDictionaryExpression = {
   data?: Record<string, any>
 }
 
-export type EvaluationResultCallExpression = {
-  type: 'CallExpression'
+export type EvaluationResultFunctionCallExpression = {
+  type: 'FunctionCallExpression'
   jikiObject: JikiTypes.JikiObject
   callee:
     | EvaluationResultVariableLookupExpression
     | EvaluationResultFunctionLookupExpression
+  args: EvaluationResult[]
+  data?: Record<string, any>
+}
+export type EvaluationResultMethodCallExpression = {
+  type: 'MethodCallExpression'
+  jikiObject: JikiTypes.JikiObject | null
+  object: EvaluationResult
   args: EvaluationResult[]
   data?: Record<string, any>
 }
@@ -198,7 +211,8 @@ export type EvaluationResultStatement =
   | EvaluationResultContinueStatement
   | EvaluationResultBreakStatement
   | EvaluationResultIfStatement
-  | EvaluationResultCallStatement
+  | EvaluationResultFunctionCallStatement
+  | EvaluationResultMethodCallStatement
   | EvaluationResultForeachStatement
   | EvaluationResultRepeatStatement
   | EvaluationResultReturnStatement
@@ -208,7 +222,7 @@ export type EvaluationResultExpression =
   | EvaluationResultListExpression
   | EvaluationResultDictionaryExpression
   | EvaluationResultVariableLookupExpression
-  | EvaluationResultCallExpression
+  | EvaluationResultFunctionCallExpression
   | EvaluationResultLogicalExpression
   | EvaluationResultBinaryExpression
   | EvaluationResultUnaryExpression

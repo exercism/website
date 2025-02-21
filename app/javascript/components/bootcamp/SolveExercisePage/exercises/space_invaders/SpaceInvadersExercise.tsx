@@ -5,7 +5,7 @@ import { cloneDeep, random, result } from 'lodash'
 import { d } from '@codemirror/legacy-modes/mode/d'
 import { deepTrim } from '@/interpreter/describers/helpers'
 import { isNumber } from '@/interpreter/checks'
-import { extractCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
+import { extractFunctionCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
 import {
   RepeatUntilGameOverStatement,
   Statement,
@@ -346,7 +346,7 @@ export default class SpaceInvadersExercise extends Exercise {
         .filter((obj) => obj)
         .map((elem: Statement) => {
           if (elem instanceof RepeatUntilGameOverStatement) {
-            return extractCallExpressions(elem.body).filter(
+            return extractFunctionCallExpressions(elem.body).filter(
               (expr) => expr.callee.name.lexeme === 'fire_fireworks'
             )
           }

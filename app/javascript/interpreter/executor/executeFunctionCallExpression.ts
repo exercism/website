@@ -1,23 +1,24 @@
 import { Executor } from '../executor'
-import { CallExpression } from '../expression'
+import { FunctionCallExpression, MethodCallExpression } from '../expression'
 import {
   FunctionCallTypeMismatchError,
   isRuntimeError,
   LogicError,
 } from '../error'
-import { isCallable } from '../functions'
+import { Arity, isCallable } from '../functions'
 import {
   EvaluationResult,
-  EvaluationResultCallExpression,
+  EvaluationResultFunctionCallExpression,
   EvaluationResultFunctionLookupExpression,
 } from '../evaluation-result'
 import { isNumber } from '../checks'
 import { cloneDeep } from 'lodash'
-import { wrapJSToJikiObject } from '../jikiObjects'
+import { JikiObject, wrapJSToJikiObject } from '../jikiObjects'
+import { Location } from '../location'
 
 function throwMissingFunctionError(
   executor: Executor,
-  expression: CallExpression,
+  expression: FunctionCallExpression,
   e: Error
 ) {
   if (!isRuntimeError(e)) {
@@ -44,10 +45,10 @@ function throwMissingFunctionError(
   })
 }
 
-export function executeCallExpression(
+export function executeFunctionCallExpression(
   executor: Executor,
-  expression: CallExpression
-): EvaluationResultCallExpression {
+  expression: FunctionCallExpression
+): EvaluationResultFunctionCallExpression {
   let ce
 
   // The catch here always rethrows the error.
@@ -66,57 +67,30 @@ export function executeCallExpression(
   for (const arg of expression.args) {
     args.push(executor.evaluate(arg))
   }
-
   const arity = callee.function.arity
-  const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
-
-  if (args.length < minArity || args.length > maxArity) {
-    if (minArity !== maxArity) {
-      executor.error(
-        'InvalidNumberOfArgumentsWithOptionalArguments',
-        expression.paren.location,
-        {
-          name: expression.callee.name.lexeme,
-          minArity,
-          maxArity,
-          numberOfArgs: args.length,
-        }
-      )
-    }
-
-    if (args.length < minArity) {
-      executor.error('TooFewArguments', expression.paren.location, {
-        name: expression.callee.name.lexeme,
-        arity: maxArity,
-        numberOfArgs: args.length,
-        args,
-      })
-    } else {
-      executor.error('TooManyArguments', expression.paren.location, {
-        name: expression.callee.name.lexeme,
-        arity: maxArity,
-        numberOfArgs: args.length,
-        args,
-      })
-    }
-  }
+  guardArityOnCallExpression(
+    executor,
+    arity,
+    args,
+    expression.location,
+    callee.name
+  )
 
   const fnName = callee.name
-  let value: EvaluationResultCallExpression
+  let value: JikiObject
+
+  executor.addFunctionToCallStack(fnName, expression)
 
   try {
     // Log it's usage for testing checks
     const argResults = args.map((arg) => cloneDeep(arg.jikiObject))
     executor.addFunctionCallToLog(fnName, argResults)
-    executor.addFunctionToCallStack(fnName, expression)
 
     value = callee.function.call(
       executor.getExecutionContext(),
-      args.map((arg) => cloneDeep(arg.jikiObject))
+      args.map((arg) => arg.jikiObject?.toArg())
     )
     value = wrapJSToJikiObject(value)
-
-    executor.popCallStack()
   } catch (e) {
     if (e instanceof FunctionCallTypeMismatchError) {
       executor.error('FunctionCallTypeMismatch', expression.location, e.context)
@@ -125,12 +99,55 @@ export function executeCallExpression(
     } else {
       throw e
     }
+  } finally {
+    executor.popCallStack()
   }
 
   return {
-    type: 'CallExpression',
+    type: 'FunctionCallExpression',
     jikiObject: value,
     callee,
     args,
+  }
+}
+
+export function guardArityOnCallExpression(
+  executor: Executor,
+  arity: Arity,
+  args: EvaluationResult[],
+  location: Location,
+  name: string
+) {
+  const [minArity, maxArity] = isNumber(arity) ? [arity, arity] : arity
+
+  if (args.length < minArity || args.length > maxArity) {
+    if (minArity !== maxArity) {
+      executor.error(
+        'InvalidNumberOfArgumentsWithOptionalArguments',
+        location,
+        {
+          name,
+          minArity,
+          maxArity,
+          numberOfArgs: args.length,
+        }
+      )
+    }
+
+    if (args.length < minArity) {
+      executor.error('TooFewArguments', location, {
+        name,
+        arity: maxArity,
+        numberOfArgs: args.length,
+        args,
+      })
+    } else {
+      executor.error('TooManyArguments', location, {
+        name,
+        arity: maxArity,
+        numberOfArgs: args.length,
+        args,
+      })
+    }
   }
 }

@@ -10,7 +10,7 @@ import type {
 import type { ExternalFunction } from './executor'
 import {
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   GroupingExpression,
   LiteralExpression,
@@ -31,7 +31,7 @@ import { describeSetVariableStatement } from './describers/describeSetVariableSt
 import { describeLogStatement } from './describers/describeLogStatement'
 import { deepTrim } from './describers/helpers'
 import { describeChangeVariableStatement } from './describers/describeChangeVariableStatement'
-import { describeCallStatement } from './describers/describeCallStatement'
+import { describeFunctionCallStatement } from './describers/describeFunctionCallStatement'
 import { describeReturnStatement } from './describers/describeReturnStatement'
 import { describeChangeElementStatement } from './describers/describeChangeElementStatement'
 import { describeForeachStatement } from './describers/describeForeachStatement'
@@ -121,8 +121,8 @@ function generateDescription(
     case 'ChangeElementStatement':
       return describeChangeElementStatement(frame, context)
 
-    case 'CallStatement':
-      return describeCallStatement(frame, context)
+    case 'FunctionCallStatement':
+      return describeFunctionCallStatement(frame, context)
     case 'ReturnStatement':
       return describeReturnStatement(frame, context)
 

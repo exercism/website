@@ -1,12 +1,12 @@
-import { EvaluationResultCallExpression } from '../evaluation-result'
-import { CallExpression } from '../expression'
+import { EvaluationResultFunctionCallExpression } from '../evaluation-result'
+import { FunctionCallExpression } from '../expression'
 import { DescriptionContext } from '../frames'
 import { codeTag, formatJikiObject } from '../helpers'
 import { describeExpression } from './describeSteps'
 
-export function describeCallExpression(
-  expression: CallExpression,
-  result: EvaluationResultCallExpression,
+export function describeFunctionCallExpression(
+  expression: FunctionCallExpression,
+  result: EvaluationResultFunctionCallExpression,
   context: DescriptionContext
 ) {
   let steps = expression.args
@@ -38,8 +38,8 @@ export function describeCallExpression(
 }
 
 function generateFunctionDescription(
-  expression: CallExpression,
-  result: EvaluationResultCallExpression,
+  expression: FunctionCallExpression,
+  result: EvaluationResultFunctionCallExpression,
   fnName: string,
   argNames: string,
   context: DescriptionContext

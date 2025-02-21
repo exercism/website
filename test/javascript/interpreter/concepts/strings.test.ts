@@ -8,7 +8,7 @@ import {
 } from '@/interpreter/statement'
 import {
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   GetElementExpression,
   ListExpression,
   LiteralExpression,

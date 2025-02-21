@@ -1,18 +1,18 @@
 import { toSentence } from '@/utils/toSentence'
-import { EvaluationResultCallStatement } from '../evaluation-result'
-import { CallExpression } from '../expression'
+import { EvaluationResultFunctionCallStatement } from '../evaluation-result'
+import { FunctionCallExpression } from '../expression'
 import { DescriptionContext, FrameWithResult } from '../frames'
 import { codeTag, formatJikiObject } from '../helpers'
-import { CallStatement } from '../statement'
+import { FunctionCallStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
-export function describeCallStatement(
+export function describeFunctionCallStatement(
   frame: FrameWithResult,
   context: DescriptionContext
 ) {
-  const frameContext = frame.context as CallStatement
-  const frameResult = frame.result as EvaluationResultCallStatement
-  const expression = frameContext.expression as CallExpression
+  const frameContext = frame.context as FunctionCallStatement
+  const frameResult = frame.result as EvaluationResultFunctionCallStatement
+  const expression = frameContext.expression as FunctionCallExpression
 
   const fnName = expression.callee.name.lexeme
 

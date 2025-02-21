@@ -1,6 +1,6 @@
 import {
   Expression,
-  CallExpression,
+  FunctionCallExpression,
   BinaryExpression,
   LiteralExpression,
 } from '@/interpreter/expression'
@@ -51,9 +51,11 @@ function numFunctionCallsInCode(
   result: InterpretResult,
   fnName: string
 ): number {
-  return extractCallExpressions(result.meta.statements).filter((expr) => {
-    return expr.callee.name.lexeme === fnName
-  }).length
+  return extractFunctionCallExpressions(result.meta.statements).filter(
+    (expr) => {
+      return expr.callee.name.lexeme === fnName
+    }
+  ).length
 }
 
 function numTimesStatementUsed(result: InterpretResult, type: string): number {
@@ -104,10 +106,10 @@ export default {
   numLinesOfCode,
 }
 
-export function extractCallExpressions(
+export function extractFunctionCallExpressions(
   tree: Statement[] | Expression[]
-): CallExpression[] {
-  return extractExpressions(tree, CallExpression)
+): FunctionCallExpression[] {
+  return extractExpressions(tree, FunctionCallExpression)
 }
 
 export function extractExpressions<T extends Expression>(

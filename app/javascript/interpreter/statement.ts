@@ -5,9 +5,10 @@ import {
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
 import {
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   VariableLookupExpression,
+  MethodCallExpression,
 } from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
@@ -20,9 +21,23 @@ export abstract class Statement implements SomethingWithLocation {
   abstract children()
 }
 
-export class CallStatement extends Statement {
-  constructor(public expression: CallExpression, public location: Location) {
-    super('CallStatement')
+export class FunctionCallStatement extends Statement {
+  constructor(
+    public expression: FunctionCallExpression,
+    public location: Location
+  ) {
+    super('FunctionCallStatement')
+  }
+  public children() {
+    return [this.expression]
+  }
+}
+export class MethodCallStatement extends Statement {
+  constructor(
+    public expression: MethodCallExpression,
+    public location: Location
+  ) {
+    super('MethodCallStatement')
   }
   public children() {
     return [this.expression]

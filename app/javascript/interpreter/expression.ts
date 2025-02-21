@@ -1,6 +1,6 @@
 import type { Token } from './token'
 import { Location } from './location'
-import { EvaluationResultCallExpression } from './evaluation-result'
+import { EvaluationResultFunctionCallExpression } from './evaluation-result'
 import { SomethingWithLocation } from './interpreter'
 import { formatJikiObject } from './helpers'
 
@@ -39,17 +39,29 @@ export class FunctionLookupExpression extends Expression {
     return []
   }
 }
-export class CallExpression extends Expression {
+export class FunctionCallExpression extends Expression {
   constructor(
-    public callee: VariableLookupExpression,
-    public paren: Token,
+    public callee: FunctionLookupExpression,
     public args: Expression[],
     public location: Location
   ) {
-    super('CallExpression')
+    super('FunctionCallExpression')
   }
   public children() {
     return ([this.callee] as Expression[]).concat(this.args)
+  }
+}
+export class MethodCallExpression extends Expression {
+  constructor(
+    public object: Expression,
+    public methodName: Token,
+    public args: Expression[],
+    public location: Location
+  ) {
+    super('MethodCallExpression')
+  }
+  public children() {
+    return ([this.object] as Expression[]).concat(this.args)
   }
 }
 

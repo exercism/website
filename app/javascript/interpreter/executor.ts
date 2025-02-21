@@ -14,7 +14,7 @@ import {
 import {
   ListExpression,
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   FunctionLookupExpression,
   GetElementExpression,
@@ -25,6 +25,7 @@ import {
   UnaryExpression,
   VariableLookupExpression,
   DictionaryExpression,
+  MethodCallExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -38,19 +39,20 @@ import {
   SetVariableStatement,
   ChangeVariableStatement,
   RepeatForeverStatement,
-  CallStatement,
+  FunctionCallStatement,
   LogStatement,
   ChangeElementStatement,
   ForeachStatement,
   BreakStatement,
   ContinueStatement,
+  MethodCallStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
   EvaluationResult,
   EvaluationResultBinaryExpression,
   EvaluationResultBreakStatement,
-  EvaluationResultCallExpression,
+  EvaluationResultFunctionCallExpression,
   EvaluationResultChangeElementStatement,
   EvaluationResultChangeVariableStatement,
   EvaluationResultContinueStatement,
@@ -60,7 +62,6 @@ import type {
   EvaluationResultFunctionLookupExpression,
   EvaluationResultGetElementExpression,
   EvaluationResultGroupingExpression,
-  EvaluationResultIfStatement,
   EvaluationResultListExpression,
   EvaluationResultLiteralExpression,
   EvaluationResultLogicalExpression,
@@ -71,6 +72,9 @@ import type {
   EvaluationResultSetVariableStatement,
   EvaluationResultUnaryExpression,
   EvaluationResultVariableLookupExpression,
+  EvaluationResultFunctionCallStatement,
+  EvaluationResultMethodCallExpression,
+  EvaluationResultMethodCallStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -79,13 +83,14 @@ import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
-import { executeCallExpression } from './executor/executeCallExpression'
+import { executeFunctionCallExpression } from './executor/executeFunctionCallExpression'
 import { executeIfStatement } from './executor/executeIfStatement'
 import didYouMean from 'didyoumean'
 import { formatJikiObject } from './helpers'
 import { executeBinaryExpression } from './executor/executeBinaryExpression'
 import * as JikiTypes from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
+import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -264,7 +269,7 @@ export class Executor {
 
   public evaluateSingleExpression(statement: Statement) {
     try {
-      if (!(statement instanceof CallStatement)) {
+      if (!(statement instanceof FunctionCallStatement)) {
         this.error('InvalidExpression', Location.unknown, {
           statement: statement,
         })
@@ -273,9 +278,9 @@ export class Executor {
       // TODO: Also start/end the statement management
       // Do not execute here, as this is the only expression without
       // a result that's allowed, so it needs to be called manually
-      let result: EvaluationResultCallExpression | undefined
+      let result: EvaluationResultFunctionCallExpression | undefined
       this.withExecutionContext(() => {
-        result = this.visitCallExpression(statement.expression)
+        result = this.visitFunctionCallExpression(statement.expression)
       })
 
       return {
@@ -365,20 +370,27 @@ export class Executor {
     this.location = null
     return result as T
   }
-
-  public visitCallStatement(statement: CallStatement): void {
-    this.executeFrame(statement, () => {
-      const result = this.visitCallExpression(
+  public visitFunctionCallStatement(statement: FunctionCallStatement): void {
+    this.executeFrame<EvaluationResultFunctionCallStatement>(statement, () => {
+      const result = this.visitFunctionCallExpression(
         statement.expression
-      ) as EvaluationResultCallExpression
-
-      /*if (statement.expression instanceof VariableLookupExpression)
-        this.error('MissingParenthesesForFunctionCall', statement.location, {
-          name: statement.expression.name.lexeme,
-        })*/
+      ) as EvaluationResultFunctionCallExpression
 
       return {
-        type: 'CallStatement',
+        type: 'FunctionCallStatement',
+        jikiObject: result.jikiObject,
+        expression: result,
+      }
+    })
+  }
+  public visitMethodCallStatement(statement: MethodCallStatement): void {
+    this.executeFrame<EvaluationResultMethodCallStatement>(statement, () => {
+      const result = this.visitMethodCallExpression(
+        statement.expression
+      ) as EvaluationResultMethodCallExpression
+
+      return {
+        type: 'MethodCallStatement',
         jikiObject: result.jikiObject,
         expression: result,
       }
@@ -393,7 +405,6 @@ export class Executor {
       try {
         value = this.evaluate(statement.value)
       } catch (e) {
-        console.log(e)
         if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
           this.error('CannotStoreNullFromFunction', statement.value.location)
         } else {
@@ -879,10 +890,15 @@ export class Executor {
     })
   }
 
-  public visitCallExpression(
-    expression: CallExpression
-  ): EvaluationResultCallExpression {
-    return executeCallExpression(this, expression)
+  public visitFunctionCallExpression(
+    expression: FunctionCallExpression
+  ): EvaluationResultFunctionCallExpression {
+    return executeFunctionCallExpression(this, expression)
+  }
+  public visitMethodCallExpression(
+    expression: MethodCallExpression
+  ): EvaluationResultMethodCallExpression {
+    return executeMethodCallExpression(this, expression)
   }
 
   public visitLiteralExpression(
@@ -1487,7 +1503,10 @@ export class Executor {
     this.functionCallLog[name][JSON.stringify(unwrappedArgs)] += 1
   }
 
-  public addFunctionToCallStack(name: string, expression: CallExpression) {
+  public addFunctionToCallStack(
+    name: string,
+    expression: FunctionCallExpression | MethodCallExpression
+  ) {
     this.functionCallStack.push(name)
 
     if (this.functionCallStack.filter((n) => n == name).length > 5) {

@@ -50,6 +50,7 @@ export type TokenType =
   | 'BACKTICK'
   | 'COLON'
   | 'COMMA'
+  | 'DOT'
   | 'LEFT_BRACE'
   | 'LEFT_BRACKET'
   | 'LEFT_PAREN'

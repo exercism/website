@@ -37,7 +37,7 @@ export function executeMethodCallExpression(
   const callableArgs = args
     .map((arg) => arg.jikiObject)
     .filter((arg) => arg !== undefined)
-    .map((arg) => arg.clone())
+    .map((arg) => arg.toArg())
 
   let value
   executor.addFunctionToCallStack(
@@ -45,11 +45,10 @@ export function executeMethodCallExpression(
     expression
   )
   try {
-    value = method.fn.apply(
-      object.jikiObject,
+    value = method.fn.apply(object.jikiObject, [
       executor.getExecutionContext(),
-      ...callableArgs
-    )
+      ...callableArgs,
+    ])
     // value = method.fn.apply(object.jikiObject, executor.getExecutionContext(), ...callableArgs)
   } finally {
     executor.popCallStack()

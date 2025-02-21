@@ -995,7 +995,7 @@ export class Parser {
         // If there's no comma, we expect either a `]` or ` `\n]`.
         // Firstly check for the newline version, and consume the
         // newline if it's there.
-        else if (this.check('EOL') && this.check('RIGHT_BRACKET', 2)) {
+        else if (this.check('EOL') && this.checkAhead(2, 'RIGHT_BRACKET')) {
           this.consumeEndOfLine()
         }
         // Finally, we expect just a right bracket. If we don't have
@@ -1007,6 +1007,7 @@ export class Parser {
               leftBracket.location
             )
           }
+
           this.error('MissingCommaInList', this.peek().location)
         }
       }
@@ -1080,7 +1081,7 @@ export class Parser {
         // If there's no comma, we expect either a `}` or ` `\n}`.
         // Firstly check for the newline version, and consume the
         // newline if it's there.
-        else if (this.check('EOL') && this.check('RIGHT_BRACE', 2)) {
+        else if (this.check('EOL') && this.checkAhead(2, 'RIGHT_BRACE')) {
           this.consumeEndOfLine()
         }
         // Finally, we expect just a right bracket. If we don't have

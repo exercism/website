@@ -88,7 +88,7 @@ export function executeFunctionCallExpression(
 
     value = callee.function.call(
       executor.getExecutionContext(),
-      args.map((arg) => arg.jikiObject?.clone())
+      args.map((arg) => arg.jikiObject?.toArg())
     )
     value = wrapJSToJikiObject(value)
   } catch (e) {

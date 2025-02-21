@@ -1,5 +1,5 @@
 import { parse } from '@/interpreter/parser'
-import { interpret } from '@/interpreter/interpreter'
+import { EvaluationContext, interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import {
   FunctionCallStatement,
@@ -14,6 +14,7 @@ import {
   GetElementExpression,
   LiteralExpression,
 } from '@/interpreter/expression'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -69,7 +70,7 @@ describe('parse', () => {
 describe('interpret', () => {
   describe('pass by value', () => {
     test('lists', () => {
-      const { frames, error } = interpret(`
+      const { frames } = interpret(`
         set original to [1, 2, 3]
         function increment with list do
           change list[1] to list[1] + 1
@@ -79,7 +80,6 @@ describe('interpret', () => {
         increment(original)
         log original
       `)
-      console.log(error)
       // Inside the function
       const finalFunctionFrame = frames[frames.length - 3]
       expect(unwrapJikiObject(finalFunctionFrame.variables)['list']).toEqual([
@@ -91,6 +91,78 @@ describe('interpret', () => {
       expect(unwrapJikiObject(lastFrame.variables)['original']).toEqual([
         1, 2, 3,
       ])
+    })
+    test('dictionaries', () => {
+      const { frames, error } = interpret(`
+        set original to {"a": 1, "b": 2, "c": 3}
+        function increment with dict do
+          change dict["a"] to dict["a"] + 1
+          change dict["b"] to dict["b"] + 1
+          change dict["c"] to dict["c"] + 1
+        end
+        increment(original)
+        log original
+      `)
+      console.log(error)
+      // Inside the function
+      const finalFunctionFrame = frames[frames.length - 3]
+      expect(
+        unwrapJikiObject(finalFunctionFrame.variables)['dict']
+      ).toMatchObject({ a: 2, b: 3, c: 4 })
+
+      // After the function
+      const lastFrame = frames[frames.length - 1]
+      expect(unwrapJikiObject(lastFrame.variables)['original']).toMatchObject({
+        a: 1,
+        b: 2,
+        c: 3,
+      })
+    })
+  })
+  describe('pass by reference', () => {
+    test('custom type', () => {
+      class MutableNumber extends Jiki.JikiObject {
+        constructor(public value: number) {
+          super('number', value)
+          this.methods.set(
+            'increment',
+            new Jiki.Method('increment', 0, this.increment)
+          )
+        }
+        public clone(): MutableNumber {
+          return new MutableNumber(this.value)
+        }
+        private increment() {
+          this.value += 1
+          return null
+        }
+      }
+
+      const context: EvaluationContext = {
+        externalFunctions: [
+          {
+            name: 'get_number',
+            func: (_, i) => new MutableNumber(i),
+            description: '',
+          },
+        ],
+      }
+      const { frames, error } = interpret(
+        `
+        function increment with number do
+          number.increment()
+        end
+        set original to get_number(5)
+        increment(original)
+        log original`,
+        context
+      )
+
+      // Last line
+      const lastFrame = frames[frames.length - 1]
+      expect(Jiki.unwrapJikiObject(lastFrame.variables)['original'].value).toBe(
+        6
+      )
     })
   })
 })

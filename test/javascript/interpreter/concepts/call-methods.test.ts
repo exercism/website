@@ -10,6 +10,7 @@ import {
   GetElementExpression,
   VariableLookupExpression,
 } from '@/interpreter/expression'
+import { ExecutionContext } from '@/interpreter/executor'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -130,7 +131,7 @@ describe('parse', () => {
 })
 
 describe('interpret', () => {
-  test('simple increment', () => {
+  test('no args', () => {
     class MutableNumber extends Jiki.Primitive {
       constructor(public value: number) {
         super('number', value)
@@ -169,6 +170,44 @@ describe('interpret', () => {
     // Last line
     const lastFrame = frames[frames.length - 1]
     expect(Jiki.unwrapJikiObject(lastFrame.variables)['number'].value).toBe(6)
+  })
+
+  test('with args', () => {
+    class MutableNumber extends Jiki.Primitive {
+      constructor(public value: number) {
+        super('number', value)
+        this.methods.set('add', new Jiki.Method('add', 2, this.add))
+      }
+      public clone(): MutableNumber {
+        return new MutableNumber(this.value)
+      }
+      private add(_: ExecutionContext, i1: Jiki.Number, i2: Jiki.Number) {
+        this.value += i1.value + i2.value
+        return null
+      }
+    }
+
+    const context: EvaluationContext = {
+      externalFunctions: [
+        {
+          name: 'get_number',
+          func: (_, i) => new MutableNumber(i),
+          description: '',
+        },
+      ],
+    }
+    const { frames, error } = interpret(
+      `
+      set number to get_number(5)
+      number.add(3, 9)
+      log number
+    `,
+      context
+    )
+
+    // Last line
+    const lastFrame = frames[frames.length - 1]
+    expect(Jiki.unwrapJikiObject(lastFrame.variables)['number'].value).toBe(17)
   })
 
   describe('pass by value', () => {

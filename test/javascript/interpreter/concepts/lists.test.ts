@@ -66,12 +66,12 @@ describe('parse', () => {
     expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
   })
 
-  test('multiple elements over lines', () => {
-    const stmts = parse(`log [
-                              1,
-                              2,
-                              3
-                             ]`)
+  test('multiple elements over lines - simple', () => {
+    const stmts = parse(`
+    log [ 1,
+    2,
+      3
+    ]`)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(LogStatement)
     const logStmt = stmts[0] as LogStatement
@@ -83,12 +83,12 @@ describe('parse', () => {
     expect((listExpr.elements[2] as LiteralExpression).value).toBe(3)
   })
 
-  test('multiple elements over lines', () => {
-    const stmts = parse(`
-    log [ 1,
-    2,
-      3
-    ]`)
+  test('multiple elements over lines - complex', () => {
+    const stmts = parse(`log [
+                              1,
+                              2,
+                              3
+                             ]`)
     expect(stmts).toBeArrayOfSize(1)
     expect(stmts[0]).toBeInstanceOf(LogStatement)
     const logStmt = stmts[0] as LogStatement

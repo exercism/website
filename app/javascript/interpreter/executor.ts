@@ -420,6 +420,7 @@ export class Executor {
           throw e
         }
       }
+      this.guardNoneJikiObject(value.jikiObject, statement.location)
 
       if (isCallable(value.jikiObject)) {
         this.error(
@@ -1329,7 +1330,8 @@ export class Executor {
   public evaluate(expression: Expression): EvaluationResultExpression {
     const method = `visit${expression.type}`
     const evaluationResult = this[method](expression)
-    this.guardNull(evaluationResult.jikiObject, expression)
+    this.guardNull(evaluationResult.jikiObject, expression.location)
+    this.guardNoneJikiObject(evaluationResult.jikiObject, expression.location)
     return evaluationResult
   }
 
@@ -1470,11 +1472,18 @@ export class Executor {
       })
     }
   }
-  private guardNull(value, guiltyExpression) {
+  private guardNull(value, location: Location) {
     if (value !== null && value !== undefined) {
       return
     }
-    this.error('ExpressionIsNull', guiltyExpression.location)
+    this.error('ExpressionIsNull', location)
+  }
+
+  private guardNoneJikiObject(value, location: Location) {
+    if (value instanceof Jiki.JikiObject) {
+      return
+    }
+    this.error('NoneJikiObjectDetected', location)
   }
 
   public addSuccessFrame(

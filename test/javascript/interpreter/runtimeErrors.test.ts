@@ -1,9 +1,9 @@
-import { RuntimeError, RuntimeErrorType } from '@/interpreter/error'
+import { RuntimeErrorType } from '@/interpreter/error'
 import { Frame } from '@/interpreter/frames'
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import { EvaluationContext, interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
-import { end } from '@popperjs/core'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -641,6 +641,23 @@ describe('OperandMustBeNumber', () => {
       'OperandMustBeNumber'
     )
     expect(frames[1].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+})
+
+describe('NoneJikiObjectDetected', () => {
+  test('with args', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addMethod('num', function (this: any, _) {
+      return 5
+    })
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `log (new Person("Jeremy")).num()`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe('NoneJikiObjectDetected')
   })
 })
 

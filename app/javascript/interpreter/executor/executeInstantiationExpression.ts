@@ -30,6 +30,7 @@ export function executeInstantiationExpression(
     args.push(evaluatedArg)
   }
   const object = jikiClass.instantiate(
+    executor.getExecutionContext(),
     args.map((arg) => (arg.jikiObject as JikiTypes.JikiObject).toArg())
   )
 

@@ -49,7 +49,6 @@ export function executeMethodCallExpression(
       executor.getExecutionContext(),
       ...callableArgs,
     ])
-    // value = method.fn.apply(object.jikiObject, executor.getExecutionContext(), ...callableArgs)
   } finally {
     executor.popCallStack()
   }

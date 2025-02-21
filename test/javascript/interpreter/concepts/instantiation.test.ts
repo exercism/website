@@ -70,18 +70,42 @@ describe('parse', () => {
 describe('execute', () => {
   test('no args', () => {
     const Person = new Jiki.Class('Person')
-    Person.methods.set('name', {
-      name: 'name',
-      arity: 0,
-      fn: () => new Jiki.String('Jeremy'),
+    Person.addConstructor(function (this: any, _: ExecutionContext) {
+      this.name = new Jiki.String('Jeremy')
+    })
+    Person.addMethod('name', function (this: any, _: ExecutionContext) {
+      return this.name
     })
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(
-      `
-      set person to new Person()
-      set name to person.name()
-    `,
+      `set person to new Person()
+      set name to person.name()`,
+      context
+    )
+
+    // Last line
+    const lastFrame = frames[frames.length - 1]
+    expect(Jiki.unwrapJikiObject(lastFrame.variables)['name']).toBe('Jeremy')
+  })
+
+  test('args', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor(function (
+      this: any,
+      _: ExecutionContext,
+      name: Jiki.String
+    ) {
+      this.name = name
+    })
+    Person.addMethod('name', function (this: any, _: ExecutionContext) {
+      return this.name
+    })
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person("Jeremy")
+      set name to person.name()`,
       context
     )
 

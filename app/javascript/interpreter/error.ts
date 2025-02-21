@@ -154,6 +154,7 @@ export type RuntimeErrorType =
   | 'ListsCannotBeCompared'
   | 'IncomparableTypes'
   | 'InvalidLiteralType'
+  | 'NoneJikiObjectDetected'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

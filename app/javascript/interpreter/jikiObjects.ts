@@ -1,4 +1,3 @@
-import { PrimaryButton } from '@/components/mentoring/representation/common/PrimaryButton'
 import { isString } from './checks'
 import { ExecutionContext } from './executor'
 import { Arity } from './functions'
@@ -36,12 +35,40 @@ export class Method {
 }
 
 export class Class {
-  constructor(
-    public readonly name: string,
-    public readonly methods: Map<string, Method> = new Map()
-  ) {}
-  public instantiate(...args): Instance {
-    return new Instance(this)
+  private initialize: ((...args: any[]) => void) | undefined
+  private readonly methods: Map<string, Method> = new Map()
+  constructor(public readonly name: string) {}
+  public instantiate(
+    executionContext: ExecutionContext,
+    args: JikiObject[]
+  ): Instance {
+    const instance = new Instance(this)
+
+    if (this.initialize !== undefined) {
+      this.initialize.apply(instance, [executionContext, ...args])
+    }
+
+    return instance
+  }
+  public addMethod(
+    name: string,
+    fn: (
+      executionContext: ExecutionContext,
+      ...args: any[]
+    ) => JikiObject | null
+  ) {
+    // Reduce the arity by 1 because the first argument is the execution context
+    // which is invisible to the user
+    const arity = fn.length - 1
+    this.methods.set(name, new Method(name, arity, fn))
+  }
+  public addConstructor(
+    fn: (executionContext: ExecutionContext, ...args: any[]) => void
+  ) {
+    this.initialize = fn
+  }
+  public getMethod(name: string): Method | undefined {
+    return this.methods.get(name)
   }
 }
 
@@ -53,7 +80,7 @@ export class Instance extends JikiObject {
     throw 'Cannot clone this!'
   }
   public getMethod(name: string): Method | undefined {
-    return this.jikiClass.methods.get(name)
+    return this.jikiClass.getMethod(name)
   }
 }
 

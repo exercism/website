@@ -40,6 +40,7 @@ import {
   RepeatForeverStatement,
   LogStatement,
   ChangeElementStatement,
+  MethodCallStatement,
 } from './statement'
 import {
   KeywordTokens,
@@ -519,7 +520,13 @@ export class Parser {
     let expression = this.expression()
     while (true) {
       if (expression instanceof FunctionCallExpression) {
-        break
+        this.consumeEndOfLine()
+        return new FunctionCallStatement(expression, expression.location)
+      }
+
+      if (expression instanceof MethodCallExpression) {
+        this.consumeEndOfLine()
+        return new MethodCallStatement(expression, expression.location)
       }
       if (expression instanceof GroupingExpression) {
         expression = expression.inner
@@ -534,10 +541,6 @@ export class Parser {
 
       this.error('PointlessStatement', expression.location)
     }
-
-    this.consumeEndOfLine()
-
-    return new FunctionCallStatement(expression, expression.location)
   }
 
   private continueStatement(): ContinueStatement {

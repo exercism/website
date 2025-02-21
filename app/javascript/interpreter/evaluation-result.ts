@@ -9,6 +9,12 @@ export type EvaluationResultFunctionCallStatement = {
   jikiObject: JikiTypes.JikiObject
   data?: Record<string, any>
 }
+export type EvaluationResultMethodCallStatement = {
+  type: 'MethodCallStatement'
+  expression: EvaluationResultMethodCallExpression
+  jikiObject: JikiTypes.JikiObject
+  data?: Record<string, any>
+}
 
 export type EvaluationResultChangeElementStatement = {
   type: 'ChangeElementStatement'
@@ -185,6 +191,13 @@ export type EvaluationResultFunctionCallExpression = {
   args: EvaluationResult[]
   data?: Record<string, any>
 }
+export type EvaluationResultMethodCallExpression = {
+  type: 'MethodCallExpression'
+  jikiObject: JikiTypes.JikiObject | null
+  object: EvaluationResult
+  args: EvaluationResult[]
+  data?: Record<string, any>
+}
 
 export type EvaluationResult =
   | EvaluationResultStatement
@@ -199,6 +212,7 @@ export type EvaluationResultStatement =
   | EvaluationResultBreakStatement
   | EvaluationResultIfStatement
   | EvaluationResultFunctionCallStatement
+  | EvaluationResultMethodCallStatement
   | EvaluationResultForeachStatement
   | EvaluationResultRepeatStatement
   | EvaluationResultReturnStatement

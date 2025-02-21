@@ -1,11 +1,28 @@
-import { t } from 'xstate'
 import { isString } from './checks'
+import { ExecutionContext } from './executor'
+import { Arity } from './functions'
 
 type ObjectType = 'number' | 'string' | 'boolean' | 'list' | 'dictionary'
 
+export class Method {
+  constructor(
+    public readonly name: string,
+    public readonly arity: Arity,
+    public readonly fn: (
+      evaluationContext: ExecutionContext,
+      ...args: JikiObject[]
+    ) => JikiObject | null
+  ) {}
+}
+
 export abstract class JikiObject {
-  constructor(public readonly type: ObjectType, public readonly value: any) {}
+  public readonly id: string
+  constructor(public readonly type: ObjectType, public readonly value: any) {
+    this.id = Math.random().toString(36).substring(7)
+  }
+
   public abstract clone(): JikiObject
+  public methods: Map<string, Method> = new Map()
 }
 export abstract class Primitive extends JikiObject {
   constructor(public readonly type: ObjectType, public readonly value: any) {

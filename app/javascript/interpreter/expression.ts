@@ -54,7 +54,7 @@ export class FunctionCallExpression extends Expression {
 export class MethodCallExpression extends Expression {
   constructor(
     public object: Expression,
-    public method: Token,
+    public methodName: Token,
     public args: Expression[],
     public location: Location
   ) {

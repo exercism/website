@@ -25,6 +25,7 @@ import {
   UnaryExpression,
   VariableLookupExpression,
   DictionaryExpression,
+  MethodCallExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -44,6 +45,7 @@ import {
   ForeachStatement,
   BreakStatement,
   ContinueStatement,
+  MethodCallStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -71,6 +73,8 @@ import type {
   EvaluationResultUnaryExpression,
   EvaluationResultVariableLookupExpression,
   EvaluationResultFunctionCallStatement,
+  EvaluationResultMethodCallExpression,
+  EvaluationResultMethodCallStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -86,6 +90,7 @@ import { formatJikiObject } from './helpers'
 import { executeBinaryExpression } from './executor/executeBinaryExpression'
 import * as JikiTypes from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
+import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -371,13 +376,21 @@ export class Executor {
         statement.expression
       ) as EvaluationResultFunctionCallExpression
 
-      /*if (statement.expression instanceof VariableLookupExpression)
-        this.error('MissingParenthesesForFunctionCall', statement.location, {
-          name: statement.expression.name.lexeme,
-        })*/
-
       return {
         type: 'FunctionCallStatement',
+        jikiObject: result.jikiObject,
+        expression: result,
+      }
+    })
+  }
+  public visitMethodCallStatement(statement: MethodCallStatement): void {
+    this.executeFrame<EvaluationResultMethodCallStatement>(statement, () => {
+      const result = this.visitMethodCallExpression(
+        statement.expression
+      ) as EvaluationResultMethodCallExpression
+
+      return {
+        type: 'MethodCallStatement',
         jikiObject: result.jikiObject,
         expression: result,
       }
@@ -881,6 +894,11 @@ export class Executor {
     expression: FunctionCallExpression
   ): EvaluationResultFunctionCallExpression {
     return executeFunctionCallExpression(this, expression)
+  }
+  public visitMethodCallExpression(
+    expression: MethodCallExpression
+  ): EvaluationResultMethodCallExpression {
+    return executeMethodCallExpression(this, expression)
   }
 
   public visitLiteralExpression(
@@ -1487,7 +1505,7 @@ export class Executor {
 
   public addFunctionToCallStack(
     name: string,
-    expression: FunctionCallExpression
+    expression: FunctionCallExpression | MethodCallExpression
   ) {
     this.functionCallStack.push(name)
 

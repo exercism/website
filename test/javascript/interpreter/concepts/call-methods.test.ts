@@ -1,21 +1,15 @@
 import { parse } from '@/interpreter/parser'
-import { interpret } from '@/interpreter/interpreter'
+import { EvaluationContext, interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
-import {
-  LogStatement,
-  MethodCallStatement,
-  MethodStatement,
-  ReturnStatement,
-} from '@/interpreter/statement'
+import { LogStatement, MethodCallStatement } from '@/interpreter/statement'
 import { last } from 'lodash'
-import { unwrapJikiObject } from '@/interpreter/jikiObjects'
+import * as Jiki from '@/interpreter/jikiObjects'
 import {
   MethodCallExpression,
   LiteralExpression,
   GetElementExpression,
   VariableLookupExpression,
 } from '@/interpreter/expression'
-import { Token } from 'marked'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -79,7 +73,7 @@ describe('parse', () => {
       expect(expStmt.expression).toBeInstanceOf(MethodCallExpression)
       const callExpr = expStmt.expression as MethodCallExpression
       expect(callExpr.object).toBeInstanceOf(GetElementExpression)
-      expect(callExpr.method.lexeme).toBe('bar')
+      expect(callExpr.methodName.lexeme).toBe('bar')
       expect(callExpr.args).toBeEmpty()
     })
     test('chained after', () => {
@@ -95,7 +89,7 @@ describe('parse', () => {
 
       expect(getStmt.obj).toBeInstanceOf(MethodCallExpression)
       const callExpr = getStmt.obj as MethodCallExpression
-      expect(callExpr.method.lexeme).toBe('bar')
+      expect(callExpr.methodName.lexeme).toBe('bar')
       expect(callExpr.object).toBeInstanceOf(VariableLookupExpression)
       expect(callExpr.args).toBeArrayOfSize(1)
       expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
@@ -120,11 +114,11 @@ describe('parse', () => {
       expect(getStmt.obj).toBeInstanceOf(MethodCallExpression)
       const callExpr = getStmt.obj as MethodCallExpression
       expect(callExpr.object).toBeInstanceOf(MethodCallExpression)
-      expect(callExpr.method.lexeme).toBe('rab')
+      expect(callExpr.methodName.lexeme).toBe('rab')
       expect((callExpr.args[0] as LiteralExpression).value).toBe('tusk')
 
       const innerCallExpr = callExpr.object as MethodCallExpression
-      expect(innerCallExpr.method.lexeme).toBe('bar')
+      expect(innerCallExpr.methodName.lexeme).toBe('bar')
       expect(innerCallExpr.object).toBeInstanceOf(VariableLookupExpression)
       expect(
         (innerCallExpr.object as VariableLookupExpression).name.lexeme
@@ -135,28 +129,86 @@ describe('parse', () => {
   })
 })
 
-describe.skip('interpret', () => {
+describe('interpret', () => {
+  test('simple increment', () => {
+    class MutableNumber extends Jiki.Primitive {
+      constructor(public value: number) {
+        super('number', value)
+        this.methods.set(
+          'increment',
+          new Jiki.Method('increment', 0, this.increment)
+        )
+      }
+      public clone(): MutableNumber {
+        return new MutableNumber(this.value)
+      }
+      private increment() {
+        this.value += 1
+        return null
+      }
+    }
+
+    const context: EvaluationContext = {
+      externalFunctions: [
+        {
+          name: 'get_number',
+          func: (_, i) => new MutableNumber(i),
+          description: '',
+        },
+      ],
+    }
+    const { frames, error } = interpret(
+      `
+      set number to get_number(5)
+      number.increment()
+      log number
+    `,
+      context
+    )
+
+    // Last line
+    const lastFrame = frames[frames.length - 1]
+    expect(Jiki.unwrapJikiObject(lastFrame.variables)['number'].value).toBe(6)
+  })
+
   describe('pass by value', () => {
     test('lists', () => {
-      const { frames } = interpret(`
+      const getObjectFunction = (_: any) => {
+        const jikiObject = new Jiki.Number(5)
+        jikiObject.methods.set(
+          'increment_all',
+          new Jiki.Method(
+            'increment_all',
+            1,
+            (_: EvaluationContext, ...args) => {
+              args[0].value += 1
+              return new Jiki.Number(3)
+            }
+          )
+        )
+        return jikiObject
+      }
+      const context: EvaluationContext = {
+        externalFunctions: [
+          {
+            name: 'get_object',
+            func: getObjectFunction,
+            description: '',
+          },
+        ],
+      }
+      const { frames, error } = interpret(
+        `
       set original to [1, 2, 3]
-      function increment with list do
-        change list[1] to list[1] + 1
-        change list[2] to list[2] + 1
-        change list[3] to list[3] + 1
-      end
-      increment(original)
+      get_object().increment_all(original)
       log original
-    `)
-      // Inside the function
-      const finalMethodFrame = frames[frames.length - 3]
-      expect(unwrapJikiObject(finalMethodFrame.variables)['list']).toEqual([
-        2, 3, 4,
-      ])
+    `,
+        context
+      )
 
-      // After the function
+      // Last line
       const lastFrame = frames[frames.length - 1]
-      expect(unwrapJikiObject(lastFrame.variables)['original']).toEqual([
+      expect(Jiki.unwrapJikiObject(lastFrame.variables)['original']).toEqual([
         1, 2, 3,
       ])
     })

@@ -72,7 +72,12 @@
       "UnexpectedTrailingComma": "UnexpectedTrailingComma",
       "MissingMethodNameAfterDot": "MissingMethodNameAfterDot",
       "MissingLeftParenthesisAfterMethodCall": "MissingLeftParenthesisAfterMethodCall: method: {{method}}",
-      "MissingRightParenthesisAfterMethodCall": "MissingRightParenthesisAfterMethodCall: method: {{method}}"
+      "MissingRightParenthesisAfterMethodCall": "MissingRightParenthesisAfterMethodCall: method: {{method}}",
+      "MissingClassNameInInstantiation": "MissingClassNameInInstantiation",
+      "MissingLeftParenthesisInInstantiation": "MissingLeftParenthesisInInstantiation: class: Foo",
+      "MissingRightParenthesisInInstantiation": "MissingRightParenthesisInInstantiation: class: Foo",
+      "InvalidClassNameInInstantiation": "InvalidClassNameInInstantiation: class: Foo",
+      "InvalidVariableName": "InvalidVariableName"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

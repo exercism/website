@@ -90,6 +90,11 @@ export type SyntaxErrorType =
   | 'MissingMethodNameAfterDot'
   | 'MissingLeftParenthesisAfterMethodCall'
   | 'MissingRightParenthesisAfterMethodCall'
+  | 'MissingClassNameInInstantiation'
+  | 'MissingLeftParenthesisInInstantiation'
+  | 'MissingRightParenthesisInInstantiation'
+  | 'InvalidClassNameInInstantiation'
+  | 'InvalidVariableName'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

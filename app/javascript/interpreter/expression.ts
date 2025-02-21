@@ -65,6 +65,19 @@ export class MethodCallExpression extends Expression {
   }
 }
 
+export class InstantiationExpression extends Expression {
+  constructor(
+    public className: Token,
+    public args: Expression[],
+    public location: Location
+  ) {
+    super('InstantiationExpression')
+  }
+  public children() {
+    return this.args
+  }
+}
+
 export class ListExpression extends Expression {
   constructor(public elements: Expression[], public location: Location) {
     super('ListExpression')

@@ -803,5 +803,58 @@ describe('MissingLeftParenthesisAfterMethodCall', () => {
   })
 })
 
-// MissingLeftParenthesisAfterMethodCall
-// MissingRightParenthesisAfterMethodCall
+describe('MissingClassNameInInstantiation', () => {
+  test('naked', () => {
+    expect(() => parse(`log new `)).toThrow('MissingClassNameInInstantiation')
+  })
+  test('with args', () => {
+    expect(() => parse(`log new (`)).toThrow('MissingClassNameInInstantiation')
+  })
+})
+
+test('MissingLeftParenthesisInInstantiation', () => {
+  expect(() => parse(`log new Foo`)).toThrow(
+    'MissingLeftParenthesisInInstantiation: class: Foo'
+  )
+})
+
+describe('MissingRightParenthesisInInstantiation', () => {
+  test('naked', () => {
+    expect(() => parse(`log new Foo(`)).toThrow(
+      'MissingRightParenthesisInInstantiation: class: Foo'
+    )
+  })
+  test('with args', () => {
+    expect(() => parse(`log new Foo(1,2`)).toThrow(
+      'MissingRightParenthesisInInstantiation: class: Foo'
+    )
+  })
+  test('with args and trailing comma', () => {
+    expect(() => parse(`log new Foo(1,2,`)).toThrow(
+      'MissingRightParenthesisInInstantiation: class: Foo'
+    )
+  })
+})
+test('InvalidClassNameInInstantiation', () => {
+  expect(() => parse(`log new foo()`)).toThrow(
+    'InvalidClassNameInInstantiation'
+  )
+})
+
+describe('InvalidVariableName', () => {
+  test('setting', () => {
+    expect(() => parse(`set Foo to true`)).toThrow('InvalidVariableName')
+  })
+  test('change', () => {
+    expect(() => parse(`change Foo to true`)).toThrow('InvalidVariableName')
+  })
+  test('use', () => {
+    expect(() => parse(`log foo(Foo)`)).toThrow('InvalidVariableName')
+  })
+})
+
+// MissingClassNameInInstantiation
+// MissingLeftParenthesisInInstantiation
+// MissingRightParenthesisInInstantiation
+// InvalidClassNameInInstantiation
+// InvalidVariableName

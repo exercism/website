@@ -71,7 +71,12 @@
       "UnexpectedTrailingComma": "Jiki didn't expect a comma here.",
       "MissingMethodNameAfterDot": "Did you forget to add a method name after the dot?",
       "MissingLeftParenthesisAfterMethodCall": "Did you forget the start parenthesis when trying to call the `{{method}}` method?",
-      "MissingRightParenthesisAfterMethodCall": "Did you forget the end parenthesis when trying to call the `{{method}}` method?"
+      "MissingRightParenthesisAfterMethodCall": "Did you forget the end parenthesis when trying to call the `{{method}}` method?",
+      "MissingClassNameInInstantiation": "Did you forget to add a class name after the `new` keyword?",
+      "MissingLeftParenthesisInInstantiation": "Did you forget the start parenthesis when trying to instantiate a new object?",
+      "MissingRightParenthesisInInstantiation": "Did you forget the end parenthesis when trying to instantiate a new object?",
+      "InvalidClassNameInInstantiation": "Jiki couldn't work out which class you refering to here. Class names must start with a capital letter.",
+      "InvalidVariableName": "Variable names must start with a lowercase letter."
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

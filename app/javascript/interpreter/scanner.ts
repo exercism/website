@@ -54,6 +54,7 @@ export class Scanner {
     is: 'EQUALITY',
     log: 'LOG',
     next: 'NEXT',
+    new: 'NEW',
     null: 'NULL',
     not: 'NOT',
     or: 'OR',

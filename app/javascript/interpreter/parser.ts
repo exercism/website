@@ -18,6 +18,7 @@ import {
   TemplateTextExpression,
   FunctionLookupExpression,
   MethodCallExpression,
+  InstantiationExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -42,16 +43,10 @@ import {
   ChangeElementStatement,
   MethodCallStatement,
 } from './statement'
-import {
-  KeywordTokens,
-  StatementKeywordTokens,
-  type Token,
-  type TokenType,
-} from './token'
+import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
-import { formatJikiObject } from './helpers'
 import { unwrapJikiObject } from './jikiObjects'
 
 export class Parser {
@@ -230,6 +225,7 @@ export class Parser {
   private setVariableStatement(): Statement {
     const setToken = this.previous()
     const name = this.identifier()
+    this.guardValidVariableName(name)
 
     // Guard mistaken equals sign for assignment
     this.guardEqualsSignForAssignment(this.peek())
@@ -258,6 +254,7 @@ export class Parser {
     }
 
     const name = this.identifier()
+    this.guardValidVariableName(name)
 
     // Guard mistaken equals sign for assignment
     this.guardEqualsSignForAssignment(this.peek())
@@ -716,7 +713,56 @@ export class Parser {
       )
     }
 
-    return this.chainedVariableAccessors()
+    return this.instantiation()
+  }
+
+  private instantiation() {
+    if (!this.match('NEW')) {
+      return this.chainedVariableAccessors()
+    }
+
+    const newToken = this.previous()
+    const className = this.consume(
+      'IDENTIFIER',
+      'MissingClassNameInInstantiation'
+    )
+    this.guardValidClassName(className)
+
+    const leftParen = this.consume(
+      'LEFT_PAREN',
+      'MissingLeftParenthesisInInstantiation',
+      { class: className }
+    )
+
+    if (this.match('EOL')) {
+      this.error('MissingRightParenthesisInInstantiation', className.location, {
+        class: className,
+      })
+    }
+
+    const args: Expression[] = []
+    if (!this.check('RIGHT_PAREN')) {
+      do {
+        if (this.check('RIGHT_PAREN', 'EOL')) {
+          this.error(
+            'MissingRightParenthesisInInstantiation',
+            className.location,
+            { class: className }
+          )
+        }
+        args.push(this.expression())
+      } while (this.match('COMMA'))
+    }
+    const rightParen = this.consume(
+      'RIGHT_PAREN',
+      'MissingRightParenthesisInInstantiation',
+      { class: className }
+    )
+    return new InstantiationExpression(
+      className,
+      args,
+      Location.between(newToken, rightParen)
+    )
   }
 
   private chainedVariableAccessors(): Expression {
@@ -754,6 +800,7 @@ export class Parser {
 
   private methodCall(expression: Expression): Expression {
     const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
+    this.guardValidVariableName(methodName)
 
     const leftParen = this.consume(
       'LEFT_PAREN',
@@ -804,6 +851,7 @@ export class Parser {
     // in the right scopes later on.
     let callee = expression as VariableLookupExpression
     callee = new FunctionLookupExpression(callee.name, callee.location)
+    this.guardValidVariableName(callee.name)
 
     const args: Expression[] = []
 
@@ -859,11 +907,14 @@ export class Parser {
         this.previous().location
       )
 
-    if (this.match('IDENTIFIER'))
+    if (this.match('IDENTIFIER')) {
+      this.guardValidVariableName(this.previous())
+
       return new VariableLookupExpression(
         this.previous(),
         this.previous().location
       )
+    }
 
     if (this.match('BACKTICK')) return this.templateLiteral()
 
@@ -1204,6 +1255,20 @@ export class Parser {
       type,
       context
     )
+  }
+
+  private guardValidClassName(name: Token) {
+    if (!name.lexeme.match(/^[A-Z]/)) {
+      this.error('InvalidClassNameInInstantiation', name.location, {
+        name: name.lexeme,
+      })
+    }
+  }
+
+  private guardValidVariableName(name: Token) {
+    if (!name.lexeme.match(/^[a-z]/)) {
+      this.error('InvalidVariableName', name.location, { name: name.lexeme })
+    }
   }
 
   private guardTrailingComma(

@@ -1,6 +1,6 @@
 import { EvaluationResultReturnStatement } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { ReturnStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -35,7 +35,7 @@ function describeReturnWithValue(
   const frameContext = frame.context as ReturnStatement
   const frameResult = frame.result as EvaluationResultReturnStatement
 
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatJikiObject(frameResult.jikiObject)
   const result = `<p>This returned ${codeTag(
     value,
     frameContext.expression!.location

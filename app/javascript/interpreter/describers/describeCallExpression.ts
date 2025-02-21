@@ -1,7 +1,7 @@
 import { EvaluationResultCallExpression } from '../evaluation-result'
 import { CallExpression } from '../expression'
 import { DescriptionContext } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { describeExpression } from './describeSteps'
 
 export function describeCallExpression(
@@ -14,7 +14,7 @@ export function describeCallExpression(
     .flat()
 
   const argNames = ((args) => {
-    return args.map((arg) => formatLiteral(arg.resultingValue)).join(', ')
+    return args.map((arg) => formatJikiObject(arg.jikiObject)).join(', ')
   })(result.args)
 
   const fnName = result.callee.name
@@ -48,20 +48,20 @@ function generateFunctionDescription(
     ? context.functionDescriptions[fnName] || ''
     : ''
   const argsValues = result.args.map((arg) =>
-    codeTag(formatLiteral(arg.resultingValue), expression.location)
+    codeTag(formatJikiObject(arg.jikiObject), expression.location)
   )
   let fnDesc = descriptionTemplate.replace(
     /\${arg(\d+)}/g,
     (_, index) => argsValues[index - 1].toString() || ''
   )
 
-  if (result.resultingValue !== null && result.resultingValue !== undefined) {
+  if (result.jikiObject !== null && result.jikiObject !== undefined) {
     if (fnDesc) {
       fnDesc = `, which ${fnDesc}. It `
     } else {
       fnDesc = `, which `
     }
-    const value = formatLiteral(result.resultingValue)
+    const value = formatJikiObject(result.jikiObject)
     fnDesc += `returned ${codeTag(value, expression.location)}`
   } else if (fnDesc) {
     fnDesc = `, which ${fnDesc}`

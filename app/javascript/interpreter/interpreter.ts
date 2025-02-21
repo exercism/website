@@ -9,6 +9,8 @@ import { translate } from './translator'
 import type { ExternalFunction } from './executor'
 import type { Frame } from './frames'
 import { expr } from 'jquery'
+import { formatJikiObject } from './helpers'
+import { unwrapJikiObject } from './jikiObjects'
 
 export type FrameContext = {
   result: any
@@ -202,6 +204,8 @@ export class Interpreter {
     location: Location | null,
     context: any = {}
   ): never {
+    // Unwrap context values from jiki objects
+    context = unwrapJikiObject(context)
     throw new RuntimeError(
       translate(`error.runtime.${type}`, context),
       location,

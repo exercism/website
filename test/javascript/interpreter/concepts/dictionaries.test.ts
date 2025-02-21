@@ -16,6 +16,7 @@ import {
   LogicalExpression,
 } from '@/interpreter/expression'
 import { parse } from '@/interpreter/parser'
+import { Dictionary, String, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -248,14 +249,15 @@ describe('execute', () => {
       const { frames } = interpret(`set movie to {}`)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ movie: {} })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ movie: {} })
     })
 
     test('single element', () => {
       const { frames } = interpret(`set movie to {"title": "Jurassic Park"}`)
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { title: 'Jurassic Park' },
       })
     })
@@ -264,16 +266,16 @@ describe('execute', () => {
   describe('get', () => {
     test('single field', () => {
       const { frames } = interpret(`
-                set movie to {"title": "The Matrix"}
-                set title to movie["title"]
-              `)
+        set movie to {"title": "The Matrix"}
+        set title to movie["title"]
+      `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { title: 'The Matrix' },
       })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
         movie: { title: 'The Matrix' },
         title: 'The Matrix',
       })
@@ -286,11 +288,11 @@ describe('execute', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { director: { name: 'Peter Jackson' } },
       })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
         movie: { director: { name: 'Peter Jackson' } },
         name: 'Peter Jackson',
       })
@@ -305,11 +307,11 @@ describe('execute', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { title: 'The Matrix' },
       })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
         movie: { title: 'Gladiator' },
       })
     })
@@ -321,11 +323,11 @@ describe('execute', () => {
         `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { director: { name: 'Peter Jackson' } },
       })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
         movie: { director: { name: 'James Cameron' } },
       })
     })
@@ -337,11 +339,11 @@ describe('execute', () => {
         `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
         movie: { director: { name: 'Peter Jackson' } },
       })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
         movie: { director: { name: 'Peter Jackson', skill: 10 } },
       })
     })

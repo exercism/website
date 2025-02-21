@@ -145,6 +145,7 @@ export type RuntimeErrorType =
   | 'MaxTotalExecutionTimeReached'
   | 'ListsCannotBeCompared'
   | 'IncomparableTypes'
+  | 'InvalidLiteralType'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

@@ -8,13 +8,15 @@ import {
 } from './expression'
 import { Location } from './location'
 import { Statement } from './statement'
+import { unwrapJikiObject } from './jikiObjects'
 
-export function formatLiteral(value?: any): string {
+export function formatJikiObject(value?: any): string {
   if (value === undefined) {
     return ''
   }
 
-  return JSON.stringify(value, null, 1).replace(/\n\s*/g, ' ')
+  const unwrapped = unwrapJikiObject(value)
+  return JSON.stringify(unwrapped, null, 1).replace(/\n\s*/g, ' ')
 }
 
 export function codeTag(code: string, location: Location): string {

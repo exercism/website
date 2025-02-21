@@ -10,8 +10,7 @@ import { Statement } from '@/interpreter/statement'
 function numFunctionCalls(
   result: InterpretResult,
   name: string,
-  args: any[] | null,
-  times?: number
+  args: any[] | null
 ): number {
   const fnCalls = result.meta.functionCallLog
 
@@ -53,7 +52,6 @@ function numFunctionCallsInCode(
   fnName: string
 ): number {
   return extractCallExpressions(result.meta.statements).filter((expr) => {
-    console.log(expr)
     return expr.callee.name.lexeme === fnName
   }).length
 }
@@ -90,12 +88,10 @@ function numDirectStringComparisons(result: InterpretResult): number {
 
 function numUppercaseLettersInStrings(result: InterpretResult): number {
   const literals = extractExpressions(result.meta.statements, LiteralExpression)
-  const x = literals.filter(
+  return literals.filter(
     (expr) =>
       typeof expr.value === 'string' && expr.value !== expr.value.toLowerCase()
-  )
-  console.log(x)
-  return x.length
+  ).length
 }
 
 export default {

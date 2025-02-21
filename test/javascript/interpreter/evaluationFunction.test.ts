@@ -1,4 +1,5 @@
 import { evaluateFunction, Interpreter } from '@/interpreter/interpreter'
+import { unwrapJikiObject } from '@/interpreter/jikiObjects'
 import { changeLanguage } from '@/interpreter/translator'
 
 beforeAll(() => {
@@ -144,7 +145,7 @@ describe('evaluateFunction', () => {
     )
     expect(value).toBe(1)
     expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe(1)
+    expect(unwrapJikiObject(frames[0].result?.jikiObject)).toBe(1)
   })
 
   test('with arguments', () => {

@@ -49,6 +49,8 @@ import {
 import { translate } from './translator'
 import { isTypo } from './helpers/isTypo'
 import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
+import { formatJikiObject } from './helpers'
+import { unwrapJikiObject } from './jikiObjects'
 
 export class Parser {
   private readonly scanner: Scanner
@@ -1138,6 +1140,9 @@ export class Parser {
     location: Location,
     context?: any
   ): never {
+    // Unwrap context values from jiki objects
+    context = unwrapJikiObject(context)
+
     throw new SyntaxError(
       translate(`error.syntax.${type}`, context),
       location,

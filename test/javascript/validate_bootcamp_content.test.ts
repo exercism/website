@@ -58,6 +58,7 @@ function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
       return testIOChecker(testData, result)
     }
     const { error, value, frames } = result
+    // console.log(error, value, frames)
 
     if (value != testData.expected) {
       // console.log(error, value, frames)

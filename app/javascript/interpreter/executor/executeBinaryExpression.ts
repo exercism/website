@@ -1,15 +1,17 @@
 import { isArray, isNumber } from 'lodash'
 import {
   EvaluationResult,
+  EvaluationResultBinaryExpression,
   EvaluationResultExpression,
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression } from '../expression'
+import * as JikiTypes from '../jikiObjects'
 
 export function executeBinaryExpression(
   executor: Executor,
   expression: BinaryExpression
-): EvaluationResult {
+): EvaluationResultBinaryExpression {
   const leftResult = executor.evaluate(expression.left)
   const rightResult = executor.evaluate(expression.right)
 
@@ -18,12 +20,7 @@ export function executeBinaryExpression(
     type: 'BinaryExpression',
     left: leftResult,
     right: rightResult,
-    resultingValue: handleExpression(
-      executor,
-      expression,
-      leftResult,
-      rightResult
-    ),
+    jikiObject: handleExpression(executor, expression, leftResult, rightResult),
   }
   return result
 }
@@ -74,7 +71,9 @@ function handle_inequality(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  return leftResult.resultingValue !== rightResult.resultingValue
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value !== rightResult.jikiObject.value
+  )
 }
 
 function handle_equality(
@@ -83,7 +82,9 @@ function handle_equality(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  return leftResult.resultingValue === rightResult.resultingValue
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value === rightResult.jikiObject.value
+  )
 }
 
 function handle_greater(
@@ -92,9 +93,11 @@ function handle_greater(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  return leftResult.resultingValue > rightResult.resultingValue
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value > rightResult.jikiObject.value
+  )
 }
 
 function handle_greater_equal(
@@ -103,9 +106,11 @@ function handle_greater_equal(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  return leftResult.resultingValue >= rightResult.resultingValue
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value >= rightResult.jikiObject.value
+  )
 }
 
 function handle_less(
@@ -114,9 +119,11 @@ function handle_less(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  return leftResult.resultingValue < rightResult.resultingValue
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value < rightResult.jikiObject.value
+  )
 }
 
 function handle_less_equal(
@@ -125,9 +132,11 @@ function handle_less_equal(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  return leftResult.resultingValue <= rightResult.resultingValue
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  return new JikiTypes.Boolean(
+    leftResult.jikiObject.value <= rightResult.jikiObject.value
+  )
 }
 
 function handle_minus(
@@ -136,10 +145,10 @@ function handle_minus(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  const minusValue = leftResult.resultingValue - rightResult.resultingValue
-  return Math.round(minusValue * 100) / 100
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  const minusValue = leftResult.jikiObject.value - rightResult.jikiObject.value
+  return new JikiTypes.Number(Math.round(minusValue * 100) / 100)
 }
 
 function handle_plus(
@@ -148,10 +157,10 @@ function handle_plus(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  const plusValue = leftResult.resultingValue + rightResult.resultingValue
-  return Math.round(plusValue * 100) / 100
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  const plusValue = leftResult.jikiObject.value + rightResult.jikiObject.value
+  return new JikiTypes.Number(Math.round(plusValue * 100) / 100)
 }
 
 function handle_slash(
@@ -160,10 +169,10 @@ function handle_slash(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  const slashValue = leftResult.resultingValue / rightResult.resultingValue
-  return Math.round(slashValue * 100) / 100
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  const slashValue = leftResult.jikiObject.value / rightResult.jikiObject.value
+  return new JikiTypes.Number(Math.round(slashValue * 100) / 100)
 }
 
 function handle_star(
@@ -172,10 +181,10 @@ function handle_star(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  const starValue = leftResult.resultingValue * rightResult.resultingValue
-  return Math.round(starValue * 100) / 100
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  const starValue = leftResult.jikiObject.value * rightResult.jikiObject.value
+  return new JikiTypes.Number(Math.round(starValue * 100) / 100)
 }
 
 function handle_percent(
@@ -184,9 +193,11 @@ function handle_percent(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  executor.verifyNumber(leftResult.resultingValue, expression.left)
-  executor.verifyNumber(rightResult.resultingValue, expression.right)
-  return leftResult.resultingValue % rightResult.resultingValue
+  executor.verifyNumber(leftResult.jikiObject, expression.left)
+  executor.verifyNumber(rightResult.jikiObject, expression.right)
+  return new JikiTypes.Number(
+    leftResult.jikiObject.value % rightResult.jikiObject.value
+  )
 }
 
 function guardLists(
@@ -196,8 +207,8 @@ function guardLists(
   rightResult: EvaluationResultExpression
 ) {
   if (
-    isArray(leftResult.resultingValue) &&
-    isArray(rightResult.resultingValue)
+    leftResult.jikiObject instanceof JikiTypes.List &&
+    rightResult.jikiObject instanceof JikiTypes.List
   ) {
     executor.error('ListsCannotBeCompared', expression.location)
   }

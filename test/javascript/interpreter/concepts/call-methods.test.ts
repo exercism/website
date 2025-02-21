@@ -21,28 +21,6 @@ afterAll(() => {
 })
 
 describe('parse', () => {
-  describe.skip('statement', () => {
-    test('without arguments', () => {
-      const stmts = parse('foo.bar()')
-      expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(MethodCallStatement)
-      const expStmt = stmts[0] as MethodCallStatement
-      expect(expStmt.expression).toBeInstanceOf(MethodCallExpression)
-      const callExpr = expStmt.expression as MethodCallExpression
-      expect(callExpr.args).toBeEmpty()
-    })
-
-    test.skip('single argument', () => {
-      const stmts = parse('foo.bar("left")')
-      expect(stmts).toBeArrayOfSize(1)
-      expect(stmts[0]).toBeInstanceOf(MethodCallStatement)
-      const logStmt = stmts[0] as MethodCallStatement
-      expect(logStmt.expression).toBeInstanceOf(MethodCallExpression)
-      const callExpr = logStmt.expression as MethodCallExpression
-      expect(callExpr.args).toBeArrayOfSize(1)
-      expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
-    })
-  })
   describe('expression', () => {
     test('without arguments', () => {
       const stmts = parse('log foo.bar()')
@@ -181,87 +159,6 @@ describe('execute', () => {
     const lastFrame = frames[frames.length - 1]
     expect(Jiki.unwrapJikiObject(lastFrame.variables)['name']).toBe('r')
   })
-})
-/*
-describe('interpret', () => {
-  test('no args', () => {
-    class MutableNumber extends Jiki.Primitive {
-      constructor(public value: number) {
-        super('number', value)
-        this.methods.set(
-          'increment',
-          new Jiki.Method('increment', 0, this.increment)
-        )
-      }
-      public clone(): MutableNumber {
-        return new MutableNumber(this.value)
-      }
-      private increment() {
-        this.value += 1
-        return null
-      }
-    }
-
-    const context: EvaluationContext = {
-      externalFunctions: [
-        {
-          name: 'get_number',
-          func: (_, i) => new MutableNumber(i),
-          description: '',
-        },
-      ],
-    }
-    const { frames, error } = interpret(
-      `
-      set number to get_number(5)
-      number.increment()
-      log number
-    `,
-      context
-    )
-
-    // Last line
-    const lastFrame = frames[frames.length - 1]
-    expect(Jiki.unwrapJikiObject(lastFrame.variables)['number'].value).toBe(6)
-  })
-
-  test('with args', () => {
-    class MutableNumber extends Jiki.Primitive {
-      constructor(public value: number) {
-        super('number', value)
-        this.methods.set('add', new Jiki.Method('add', 2, this.add))
-      }
-      public clone(): MutableNumber {
-        return new MutableNumber(this.value)
-      }
-      private add(_: ExecutionContext, i1: Jiki.Number, i2: Jiki.Number) {
-        this.value += i1.value + i2.value
-        return null
-      }
-    }
-
-    const context: EvaluationContext = {
-      externalFunctions: [
-        {
-          name: 'get_number',
-          func: (_, i) => new MutableNumber(i),
-          description: '',
-        },
-      ],
-    }
-    const { frames, error } = interpret(
-      `
-      set number to get_number(5)
-      number.add(3, 9)
-      log number
-    `,
-      context
-    )
-
-    // Last line
-    const lastFrame = frames[frames.length - 1]
-    expect(Jiki.unwrapJikiObject(lastFrame.variables)['number'].value).toBe(17)
-  })
 
   describe('pass by value', () => {
     test('lists', () => {
@@ -306,4 +203,3 @@ describe('interpret', () => {
     })
   })
 })
-*/

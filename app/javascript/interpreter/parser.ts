@@ -723,7 +723,14 @@ export class Parser {
     }
 
     const newToken = this.previous()
-    const expr = this.primary()
+    let expr
+    try {
+      expr = this.primary()
+    } catch (e) {
+      if (e instanceof SyntaxError && e.type == 'MissingExpression') {
+        this.error('MissingClassNameInInstantiation', newToken.location)
+      }
+    }
     if (!(expr instanceof VariableLookupExpression)) {
       this.error('InvalidFunctionName', expr.location, {})
     }

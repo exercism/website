@@ -79,7 +79,6 @@ describe('parse', () => {
     })
     test('chained after', () => {
       const stmts = parse('log foo.bar("left")[0]')
-      console.log(stmts[0])
       expect(stmts).toBeArrayOfSize(1)
       expect(stmts[0]).toBeInstanceOf(LogStatement)
 
@@ -102,7 +101,6 @@ describe('parse', () => {
     })
     test('chained methods', () => {
       const stmts = parse('log foo.bar("left").rab("tusk")["3"]')
-      console.log(stmts[0])
       expect(stmts).toBeArrayOfSize(1)
       expect(stmts[0]).toBeInstanceOf(LogStatement)
 

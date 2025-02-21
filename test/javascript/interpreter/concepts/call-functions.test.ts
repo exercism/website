@@ -103,7 +103,6 @@ describe('interpret', () => {
         increment(original)
         log original
       `)
-      console.log(error)
       // Inside the function
       const finalFunctionFrame = frames[frames.length - 3]
       expect(
@@ -122,12 +121,16 @@ describe('interpret', () => {
   describe('pass by reference', () => {
     test('custom type', () => {
       class MutableNumber extends Jiki.JikiObject {
+        public methods: Map<string, Jiki.Method> = new Map()
         constructor(public value: number) {
-          super('number', value)
+          super('number')
           this.methods.set(
             'increment',
             new Jiki.Method('increment', 0, this.increment)
           )
+        }
+        public getMethod(name: string): Jiki.Method | undefined {
+          return this.methods.get(name)
         }
         public clone(): MutableNumber {
           return new MutableNumber(this.value)

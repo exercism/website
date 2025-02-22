@@ -665,3 +665,6 @@ describe('NoneJikiObjectDetected', () => {
 
 // ClassNotFound
 // CouldNotFindMethod
+// AccessorUsedOnNonInstance
+// CouldNotFindGetter
+//CouldNotFindSetter

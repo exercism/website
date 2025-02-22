@@ -46,7 +46,7 @@ export class MethodCallStatement extends Statement {
 
 export class ChangeElementStatement extends Statement {
   constructor(
-    public obj: Expression,
+    public object: Expression,
     public field: Expression,
     public value: Expression,
     public location: Location
@@ -54,7 +54,21 @@ export class ChangeElementStatement extends Statement {
     super('ChangeElementStatement')
   }
   public children() {
-    return [this.obj, this.field, this.value]
+    return [this.object, this.field, this.value]
+  }
+}
+
+export class ChangePropertyStatement extends Statement {
+  constructor(
+    public object: Expression,
+    public property: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('ChangePropertyStatement')
+  }
+  public children() {
+    return [this.object, this.property, this.value]
   }
 }
 

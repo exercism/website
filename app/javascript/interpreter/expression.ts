@@ -75,6 +75,19 @@ export class MethodCallExpression extends Expression {
   }
 }
 
+export class AccessorExpression extends Expression {
+  constructor(
+    public object: Expression,
+    public property: Token,
+    public location: Location
+  ) {
+    super('AccessorExpression')
+  }
+  public children() {
+    return [this.object]
+  }
+}
+
 export class InstantiationExpression extends Expression {
   constructor(
     public className: VariableLookupExpression,

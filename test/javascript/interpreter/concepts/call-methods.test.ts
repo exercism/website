@@ -29,6 +29,7 @@ describe('parse', () => {
       const expStmt = stmts[0] as LogStatement
       expect(expStmt.expression).toBeInstanceOf(MethodCallExpression)
       const callExpr = expStmt.expression as MethodCallExpression
+      expect(callExpr.methodName.lexeme).toBe('bar')
       expect(callExpr.args).toBeEmpty()
     })
 
@@ -41,6 +42,7 @@ describe('parse', () => {
       const callExpr = logStmt.expression as MethodCallExpression
       expect(callExpr.object).toBeInstanceOf(VariableLookupExpression)
       expect(callExpr.args).toBeArrayOfSize(1)
+      expect(callExpr.methodName.lexeme).toBe('bar')
       expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
     })
 
@@ -110,14 +112,14 @@ describe('execute', () => {
   test('no args', () => {
     const Person = new Jiki.Class('Person')
     Person.addConstructor(function (
-      this: any,
+      this: Jiki.Instance,
       _: ExecutionContext,
-      name: string
+      name: Jiki.String
     ) {
-      this.name = name
+      this.fields.set('name', name)
     })
     Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.name
+      return this.fields.get('name')
     })
 
     const context: EvaluationContext = { classes: [Person] }

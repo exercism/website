@@ -90,6 +90,11 @@ export type SyntaxErrorType =
   | 'MissingMethodNameAfterDot'
   | 'MissingLeftParenthesisAfterMethodCall'
   | 'MissingRightParenthesisAfterMethodCall'
+  | 'MissingClassNameInInstantiation'
+  | 'MissingLeftParenthesisInInstantiation'
+  | 'MissingRightParenthesisInInstantiation'
+  | 'InvalidClassNameInInstantiation'
+  | 'InvalidVariableName'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -149,6 +154,7 @@ export type RuntimeErrorType =
   | 'ListsCannotBeCompared'
   | 'IncomparableTypes'
   | 'InvalidLiteralType'
+  | 'NoneJikiObjectDetected'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

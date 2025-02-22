@@ -14,7 +14,7 @@ export function executeMethodCallExpression(
   const object = executor.evaluate(expression.object)
   const methodName = expression.methodName.lexeme
 
-  const method = object.jikiObject.methods.get(methodName)
+  const method = object.jikiObject.getMethod(methodName)
   if (method === undefined) {
     executor.error('CouldNotFindMethod', expression.location, {
       name: methodName,
@@ -49,7 +49,6 @@ export function executeMethodCallExpression(
       executor.getExecutionContext(),
       ...callableArgs,
     ])
-    // value = method.fn.apply(object.jikiObject, executor.getExecutionContext(), ...callableArgs)
   } finally {
     executor.popCallStack()
   }

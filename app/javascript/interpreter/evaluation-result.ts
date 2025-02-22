@@ -198,6 +198,20 @@ export type EvaluationResultMethodCallExpression = {
   args: EvaluationResult[]
   data?: Record<string, any>
 }
+export type EvaluationResultClassLookupExpression = {
+  type: 'ClassLookupExpression'
+  name: string
+  class: JikiTypes.Class
+  jikiObject: JikiTypes.Boolean
+  data?: Record<string, any>
+}
+export type EvaluationResultInstantiationExpression = {
+  type: 'InstantiationExpression'
+  jikiObject: JikiTypes.Instance
+  className: EvaluationResultClassLookupExpression
+  args: EvaluationResult[]
+  data?: Record<string, any>
+}
 
 export type EvaluationResult =
   | EvaluationResultStatement
@@ -222,6 +236,7 @@ export type EvaluationResultExpression =
   | EvaluationResultListExpression
   | EvaluationResultDictionaryExpression
   | EvaluationResultVariableLookupExpression
+  | EvaluationResultClassLookupExpression
   | EvaluationResultFunctionCallExpression
   | EvaluationResultLogicalExpression
   | EvaluationResultBinaryExpression
@@ -229,3 +244,4 @@ export type EvaluationResultExpression =
   | EvaluationResultGroupingExpression
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
+  | EvaluationResultInstantiationExpression

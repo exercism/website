@@ -27,6 +27,7 @@ const OtherKeywordTokens = [
   'EACH',
   'IN',
   'NULL',
+  'NEW',
   'OR',
   'TO',
   'TIMES',

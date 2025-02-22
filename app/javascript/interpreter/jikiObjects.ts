@@ -1,49 +1,18 @@
-import { PrimaryButton } from '@/components/mentoring/representation/common/PrimaryButton'
 import { isString } from './checks'
 import { ExecutionContext } from './executor'
 import { Arity } from './functions'
 
-type ObjectType = 'number' | 'string' | 'boolean' | 'list' | 'dictionary'
-
-// This seems to be required sadly.
-// If you change it, check an example method in call-methods.test.ts
-// to see if that then complains.
-type MethodArgs1 = [ExecutionContext, JikiObject]
-type MethodArgs2 = [ExecutionContext, JikiObject, JikiObject]
-type MethodArgs3 = [ExecutionContext, JikiObject, JikiObject, JikiObject]
-type MethodArgs4 = [
-  ExecutionContext,
-  JikiObject,
-  JikiObject,
-  JikiObject,
-  JikiObject
-]
-type MethodArgs5 = [
-  ExecutionContext,
-  JikiObject,
-  JikiObject,
-  JikiObject,
-  JikiObject,
-  JikiObject
-]
-type MethodArgs =
-  | MethodArgs1
-  | MethodArgs2
-  | MethodArgs3
-  | MethodArgs4
-  | MethodArgs5
-
-export class Method {
-  constructor(
-    public readonly name: string,
-    public readonly arity: Arity,
-    public readonly fn: (...MethodArgs) => JikiObject | null
-  ) {}
-}
+type ObjectType =
+  | 'number'
+  | 'string'
+  | 'boolean'
+  | 'list'
+  | 'dictionary'
+  | 'instance'
 
 export abstract class JikiObject {
   public readonly id: string
-  constructor(public readonly type: ObjectType, public readonly value: any) {
+  constructor(public readonly type: ObjectType) {
     this.id = Math.random().toString(36).substring(7)
   }
   public toArg(): this {
@@ -51,14 +20,82 @@ export abstract class JikiObject {
   }
 
   public abstract clone(): JikiObject
-  public methods: Map<string, Method> = new Map()
+  public abstract getMethod(name: string): Method | undefined
 }
-export abstract class Primitive extends JikiObject {
-  constructor(public readonly type: ObjectType, public readonly value: any) {
-    super(type, value)
+
+export class Method {
+  constructor(
+    public readonly name: string,
+    public readonly arity: Arity,
+    public readonly fn: (
+      executionContext: ExecutionContext,
+      ...args
+    ) => JikiObject | null
+  ) {}
+}
+
+export class Class {
+  private initialize: ((...args: any[]) => void) | undefined
+  private readonly methods: Map<string, Method> = new Map()
+  constructor(public readonly name: string) {}
+  public instantiate(
+    executionContext: ExecutionContext,
+    args: JikiObject[]
+  ): Instance {
+    const instance = new Instance(this)
+
+    if (this.initialize !== undefined) {
+      this.initialize.apply(instance, [executionContext, ...args])
+    }
+
+    return instance
   }
+  public addMethod(
+    name: string,
+    fn: (
+      executionContext: ExecutionContext,
+      ...args: any[]
+    ) => JikiObject | null
+  ) {
+    // Reduce the arity by 1 because the first argument is the execution context
+    // which is invisible to the user
+    const arity = fn.length - 1
+    this.methods.set(name, new Method(name, arity, fn))
+  }
+  public addConstructor(
+    fn: (executionContext: ExecutionContext, ...args: any[]) => void
+  ) {
+    this.initialize = fn
+  }
+  public getMethod(name: string): Method | undefined {
+    return this.methods.get(name)
+  }
+}
+
+export class Instance extends JikiObject {
+  constructor(private jikiClass: Class) {
+    super('instance')
+  }
+  public clone(): Instance {
+    throw 'Cannot clone this!'
+  }
+  public getMethod(name: string): Method | undefined {
+    return this.jikiClass.getMethod(name)
+  }
+}
+
+export abstract class Primitive extends JikiObject {
+  public methods: Map<string, Method> = new Map()
+
+  constructor(public readonly type: ObjectType, public readonly value: any) {
+    super(type)
+  }
+
   public toArg<T extends this>(): T {
     return this.clone() as T
+  }
+  public getMethod(name: string): Method | undefined {
+    return this.methods.get(name)
   }
 }
 

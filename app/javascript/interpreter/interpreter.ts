@@ -10,7 +10,7 @@ import type { ExternalFunction } from './executor'
 import type { Frame } from './frames'
 import { expr } from 'jquery'
 import { formatJikiObject } from './helpers'
-import { unwrapJikiObject } from './jikiObjects'
+import * as Jiki from './jikiObjects'
 
 export type FrameContext = {
   result: any
@@ -52,6 +52,7 @@ export type InputLanguageFeatures = {
 
 export type EvaluationContext = {
   externalFunctions?: ExternalFunction[]
+  classes?: Jiki.Class[]
   languageFeatures?: InputLanguageFeatures
   state?: Record<string, any>
   wrapTopLevelStatements?: boolean
@@ -112,6 +113,7 @@ export class Interpreter {
   private state: Record<string, any> = {}
   private languageFeatures: LanguageFeatures
   private externalFunctions: ExternalFunction[] = []
+  private classes: Jiki.Class[] = []
   private wrapTopLevelStatements = false
 
   private statements: Statement[] = []
@@ -124,6 +126,8 @@ export class Interpreter {
     this.externalFunctions = context.externalFunctions
       ? context.externalFunctions
       : []
+
+    this.classes = context.classes ? context.classes : []
 
     this.languageFeatures = {
       includeList: undefined,
@@ -156,6 +160,7 @@ export class Interpreter {
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions,
+      this.classes,
       this.state
     )
     return executor.execute(this.statements)
@@ -185,7 +190,8 @@ export class Interpreter {
     const executor = new Executor(
       this.sourceCode,
       this.languageFeatures,
-      this.externalFunctions
+      this.externalFunctions,
+      this.classes
     )
     const generalExec = executor.execute(this.statements)
     const exprExec = executor.evaluateSingleExpression(callingStatements[0])
@@ -205,7 +211,7 @@ export class Interpreter {
     context: any = {}
   ): never {
     // Unwrap context values from jiki objects
-    context = unwrapJikiObject(context)
+    context = Jiki.unwrapJikiObject(context)
     throw new RuntimeError(
       translate(`error.runtime.${type}`, context),
       location,

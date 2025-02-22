@@ -769,23 +769,6 @@ describe('MissingMethodNameAfterDot', () => {
   })
 })
 describe('MissingLeftParenthesisAfterMethodCall', () => {
-  test('nothing', () => {
-    expect(() => parse(`log foo.bar`)).toThrow(
-      'MissingLeftParenthesisAfterMethodCall'
-    )
-  })
-  test('literal', () => {
-    expect(() => parse(`log foo.bar something`)).toThrow(
-      'MissingLeftParenthesisAfterMethodCall'
-    )
-  })
-  test('right bracket', () => {
-    expect(() => parse(`log foo.bar )`)).toThrow(
-      'MissingLeftParenthesisAfterMethodCall'
-    )
-  })
-})
-describe('MissingLeftParenthesisAfterMethodCall', () => {
   test('no args', () => {
     expect(() => parse(`log foo(`)).toThrow(
       'MissingRightParenthesisAfterFunctionCall'
@@ -852,3 +835,15 @@ describe('InvalidVariableName', () => {
   //   expect(() => parse(`log foo(Foo)`)).toThrow('InvalidVariableName')
   // })
 })
+
+test('literal', () => {
+  expect(() => parse(`log foo.bar something`)).toThrow(
+    'MissingLeftParenthesisAfterMethodCall'
+  )
+})
+test('right bracket', () => {
+  expect(() => parse(`log foo.bar )`)).toThrow(
+    'MissingLeftParenthesisAfterMethodCall'
+  )
+})
+// MissingToAfterChangeKeyword

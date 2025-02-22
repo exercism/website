@@ -28,6 +28,7 @@ import {
   MethodCallExpression,
   InstantiationExpression,
   ClassLookupExpression,
+  AccessorExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -48,6 +49,7 @@ import {
   BreakStatement,
   ContinueStatement,
   MethodCallStatement,
+  ChangePropertyStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -79,6 +81,9 @@ import type {
   EvaluationResultMethodCallStatement,
   EvaluationResultInstantiationExpression,
   EvaluationResultClassLookupExpression,
+  EvaluationResultAccessorExpression,
+  EvaluationResultGetterExpression,
+  EvaluationResultChangePropertyStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -96,6 +101,10 @@ import * as Jiki from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
+import {
+  executeAccessorExpression,
+  executeGetterExpression,
+} from './executor/executeGetterExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -486,7 +495,7 @@ export class Executor {
   }
 
   public visitChangeElementStatement(statement: ChangeElementStatement): void {
-    const obj = this.evaluate(statement.obj)
+    const obj = this.evaluate(statement.object)
     if (obj.jikiObject instanceof Jiki.List) {
       return this.visitChangeListElementStatement(
         statement,
@@ -499,7 +508,40 @@ export class Executor {
         obj as EvaluationResultDictionaryExpression
       )
     }
-    this.error('InvalidChangeElementTarget', statement.obj.location)
+    this.error('InvalidChangeElementTarget', statement.object.location)
+  }
+  public visitChangePropertyStatement(
+    statement: ChangePropertyStatement
+  ): void {
+    const object = this.evaluate(statement.object)
+
+    this.executeFrame<EvaluationResultChangePropertyStatement>(
+      statement,
+      () => {
+        const value = this.evaluate(statement.value)
+
+        const setter = object.jikiObject.getSetter(statement.property.lexeme)
+        if (!setter) {
+          this.error('CouldNotFindSetter', statement.property.location, {
+            name: statement.property.lexeme,
+          })
+        }
+
+        // Do the update
+        const oldValue = object.jikiObject.fields[statement.property.lexeme]
+        setter.apply(object.jikiObject, [
+          this.getExecutionContext(),
+          value.jikiObject,
+        ])
+
+        return {
+          type: 'ChangePropertyStatement',
+          object,
+          oldValue,
+          value,
+        }
+      }
+    )
   }
 
   public visitChangeDictionaryElementStatement(
@@ -517,7 +559,7 @@ export class Executor {
 
       return {
         type: 'ChangeElementStatement',
-        obj: dictionary,
+        object: dictionary,
         field,
         value,
         oldValue,
@@ -570,7 +612,7 @@ export class Executor {
 
       return {
         type: 'ChangeElementStatement',
-        obj: list,
+        object: list,
         field: index,
         value,
         oldValue,
@@ -911,6 +953,11 @@ export class Executor {
     expression: InstantiationExpression
   ): EvaluationResultInstantiationExpression {
     return executeInstantiationExpression(this, expression)
+  }
+  public visitAccessorExpression(
+    expression: AccessorExpression
+  ): EvaluationResultGetterExpression {
+    return executeGetterExpression(this, expression)
   }
 
   public visitLiteralExpression(

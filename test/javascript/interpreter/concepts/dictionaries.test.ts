@@ -189,8 +189,8 @@ describe('parse', () => {
       expect(stmts[0]).toBeInstanceOf(ChangeElementStatement)
 
       const changeStmt = stmts[0] as ChangeElementStatement
-      expect(changeStmt.obj).toBeInstanceOf(VariableLookupExpression)
-      const lookupExpr = changeStmt.obj as VariableLookupExpression
+      expect(changeStmt.object).toBeInstanceOf(VariableLookupExpression)
+      const lookupExpr = changeStmt.object as VariableLookupExpression
       expect(lookupExpr.name.lexeme).toBe('scores')
 
       expect(changeStmt.field).toBeInstanceOf(LiteralExpression)

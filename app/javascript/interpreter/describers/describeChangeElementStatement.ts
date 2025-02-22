@@ -22,8 +22,8 @@ export function describeChangeElementStatement(
   let boxStep
   let listDescription
 
-  if (frameContext.obj.type == 'VariableLookupExpression') {
-    const variableName = (frameContext.obj as VariableLookupExpression).name
+  if (frameContext.object.type == 'VariableLookupExpression') {
+    const variableName = (frameContext.object as VariableLookupExpression).name
       .lexeme
     ;(boxStep = `<li>Jiki found the <code>${variableName}</code> box.</li>`),
       (listDescription = `the <code>${variableName}</code> list`)

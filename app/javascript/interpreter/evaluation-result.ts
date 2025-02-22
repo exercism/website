@@ -18,11 +18,19 @@ export type EvaluationResultMethodCallStatement = {
 
 export type EvaluationResultChangeElementStatement = {
   type: 'ChangeElementStatement'
-  obj: EvaluationResult
+  object: EvaluationResult
   field: EvaluationResult
   value: EvaluationResult
   oldValue: JikiTypes.JikiObject
   jikiObject?: undefined
+  data?: Record<string, any>
+}
+export type EvaluationResultChangePropertyStatement = {
+  type: 'ChangePropertyStatement'
+  object: EvaluationResult
+  value: EvaluationResult
+  jikiObject?: undefined
+  oldValue?: JikiTypes.JikiObject
   data?: Record<string, any>
 }
 
@@ -212,6 +220,12 @@ export type EvaluationResultInstantiationExpression = {
   args: EvaluationResult[]
   data?: Record<string, any>
 }
+export type EvaluationResultGetterExpression = {
+  type: 'GetterExpression'
+  jikiObject: JikiTypes.JikiObject
+  object: EvaluationResult
+  data?: Record<string, any>
+}
 
 export type EvaluationResult =
   | EvaluationResultStatement
@@ -230,6 +244,7 @@ export type EvaluationResultStatement =
   | EvaluationResultForeachStatement
   | EvaluationResultRepeatStatement
   | EvaluationResultReturnStatement
+  | EvaluationResultChangePropertyStatement
 
 export type EvaluationResultExpression =
   | EvaluationResultLiteralExpression
@@ -245,3 +260,4 @@ export type EvaluationResultExpression =
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
   | EvaluationResultInstantiationExpression
+  | EvaluationResultAccessorExpression

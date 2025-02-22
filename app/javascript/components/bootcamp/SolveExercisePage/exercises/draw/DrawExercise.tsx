@@ -189,8 +189,8 @@ export default class DrawExercise extends Exercise {
   public setStrokeWidth(_: ExecutionContext, width: Jiki.Number) {
     this.strokeWidth = width.value
   }
-  public changeStrokeWidth(_: ExecutionContext, width: Jiki.Number) {
-    this.strokeWidth = width.value
+  public changeStrokeWidth(_: ExecutionContext, width: number) {
+    this.strokeWidth = width
   }
   public fillColorHex(_: ExecutionContext, color: Jiki.String) {
     this.fillColor = { type: 'hex', color: color.value }

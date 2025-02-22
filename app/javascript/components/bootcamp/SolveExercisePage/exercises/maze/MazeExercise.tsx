@@ -295,19 +295,19 @@ export default class MazeExercise extends Exercise {
     return this.emojiMode ? '🧱' : 'wall'
   }
 
-  public canMoveToSquare(square: string) {
+  public canMoveToSquare(square: string): Jiki.Boolean {
     if (square === 'wall' || square === 'fire') {
-      return false
+      return Jiki.False
     }
-    return true
+    return Jiki.True
   }
-  public canTurnLeft(_: ExecutionContext) {
+  public canTurnLeft(_: ExecutionContext): Jiki.Boolean {
     return this.canMoveToSquare(this.lookLeft())
   }
-  public canTurnRight(_: ExecutionContext) {
+  public canTurnRight(_: ExecutionContext): Jiki.Boolean {
     return this.canMoveToSquare(this.lookRight())
   }
-  public canMove(_: ExecutionContext) {
+  public canMove(_: ExecutionContext): Jiki.Boolean {
     return this.canMoveToSquare(this.lookAhead())
   }
 

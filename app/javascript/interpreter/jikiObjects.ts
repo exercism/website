@@ -189,6 +189,8 @@ export class Boolean extends Literal {
     return new Boolean(this.value)
   }
 }
+export const True = new Boolean(true)
+export const False = new Boolean(false)
 
 export class List extends Primitive {
   constructor(value: JikiObject[]) {

@@ -90,7 +90,6 @@ export function executeFunctionCallExpression(
       executor.getExecutionContext(),
       args.map((arg) => arg.jikiObject?.toArg())
     )
-    value = wrapJSToJikiObject(value)
   } catch (e) {
     if (e instanceof FunctionCallTypeMismatchError) {
       executor.error('FunctionCallTypeMismatch', expression.location, e.context)

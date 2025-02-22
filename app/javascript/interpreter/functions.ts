@@ -3,12 +3,13 @@ import { LanguageFeatures } from './interpreter'
 import { FunctionStatement } from './statement'
 import type { ExecutionContext, Executor } from './executor'
 import { Location } from './location'
+import { JikiObject } from './jikiObjects'
 
 export type Arity = number | [min: number, max: number]
 
 export interface Callable {
   arity: Arity
-  call(context: ExecutionContext, args: any[]): any
+  call(context: ExecutionContext, args: any[]): JikiObject | void
 }
 
 export class ReturnValue extends Error {

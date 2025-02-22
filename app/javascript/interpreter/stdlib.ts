@@ -103,7 +103,7 @@ function concat(
 function numberToString(_: ExecutionContext, num: Jiki.Number): Jiki.String {
   verifyType(num, Jiki.Number, 'number', 1)
 
-  return new Jiki.String(num.toString())
+  return new Jiki.String(num.value.toString())
 }
 
 function toUpperCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
@@ -133,7 +133,9 @@ function keys(_: ExecutionContext, dict: Jiki.Dictionary): Jiki.List {
   verifyType(dict, Jiki.Dictionary, 'dictionary', 1)
 
   return new Jiki.List(
-    Object.keys(dict.value).map((key) => new Jiki.String(key))
+    Array.from(dict.value.keys() as IterableIterator<string>).map(
+      (key: string) => new Jiki.String(key)
+    )
   )
 }
 

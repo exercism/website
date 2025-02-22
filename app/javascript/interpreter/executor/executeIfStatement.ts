@@ -1,6 +1,6 @@
 import { EvaluationResultIfStatement } from '../evaluation-result'
 import { Executor } from '../executor'
-import { Expression } from '../expression'
+import { Expression, FunctionCallExpression } from '../expression'
 import { IfStatement } from '../statement'
 
 export function executeIfStatement(executor: Executor, statement: IfStatement) {

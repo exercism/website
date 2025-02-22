@@ -17,7 +17,7 @@ const location = new Location(0, new Span(0, 0), new Span(0, 0))
 const getNameFunction = {
   name: 'get_name',
   func: (_interpreter: any) => {
-    return 'Jeremy'
+    return new Jiki.String('Jeremy')
   },
   description: '',
 }

@@ -15,8 +15,7 @@ export function formatJikiObject(value?: any): string {
     return ''
   }
 
-  const unwrapped = unwrapJikiObject(value)
-  return JSON.stringify(unwrapped, null, 1).replace(/\n\s*/g, ' ')
+  return value.toString()
 }
 
 export function codeTag(code: string, location: Location): string {

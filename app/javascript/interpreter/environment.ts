@@ -4,6 +4,7 @@ import type { Token } from './token'
 import didYouMean from 'didyoumean'
 import { translate } from './translator'
 import { isString } from './checks'
+import { cloneDeep } from 'lodash'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()
@@ -69,7 +70,7 @@ export class Environment {
         // value of previous frames
         let normalizedValue
         try {
-          normalizedValue = value.clone()
+          normalizedValue = cloneDeep(value)
         } catch (e) {
           normalizedValue = undefined
         }

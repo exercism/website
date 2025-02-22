@@ -15,12 +15,10 @@ export abstract class JikiObject {
   constructor(public readonly type: ObjectType) {
     this.id = Math.random().toString(36).substring(7)
   }
-  public toArg(): this {
-    return this
-  }
 
-  public abstract clone(): JikiObject
+  public abstract toArg()
   public abstract getMethod(name: string): Method | undefined
+  public abstract toString(): string
 }
 
 export class Method {
@@ -128,8 +126,11 @@ export class Instance extends JikiObject {
   constructor(private jikiClass: Class) {
     super('instance')
   }
-  public clone(): Instance {
-    throw 'Cannot clone this!'
+  public toArg(): Instance {
+    return this
+  }
+  public toString() {
+    return `Instance of ${this.jikiClass.name}`
   }
   public getMethod(name: string): Method | undefined {
     return this.jikiClass.getMethod(name)
@@ -149,11 +150,11 @@ export abstract class Primitive extends JikiObject {
     super(type)
   }
 
-  public toArg<T extends this>(): T {
-    return this.clone() as T
-  }
   public getMethod(name: string): Method | undefined {
     return this.methods.get(name)
+  }
+  public toString() {
+    return JSON.stringify(this.value)
   }
 }
 
@@ -167,7 +168,7 @@ export class Number extends Literal {
   constructor(value: number) {
     super('number', value)
   }
-  public clone(): JikiObject {
+  public toArg(): Number {
     return new Number(this.value)
   }
 }
@@ -176,7 +177,7 @@ export class String extends Literal {
   constructor(value: string) {
     super('string', value)
   }
-  public clone(): JikiObject {
+  public toArg(): String {
     return new String(this.value)
   }
 }
@@ -185,7 +186,7 @@ export class Boolean extends Literal {
   constructor(value: boolean) {
     super('boolean', value)
   }
-  public clone(): JikiObject {
+  public toArg(): Boolean {
     return new Boolean(this.value)
   }
 }
@@ -196,8 +197,11 @@ export class List extends Primitive {
   constructor(value: JikiObject[]) {
     super('list', value)
   }
-  public clone(): JikiObject {
-    return new List(this.value.map((item) => item.clone()))
+  public toArg(): List {
+    return new List(this.value.map((item) => item.toArg()))
+  }
+  public toString() {
+    return `[ ${this.value.map((item) => item.toString()).join(', ')} ]`
   }
 }
 
@@ -205,12 +209,21 @@ export class Dictionary extends Primitive {
   constructor(value: Map<string, JikiObject>) {
     super('dictionary', value)
   }
-  public clone(): JikiObject {
+  public toArg(): Dictionary {
     return new Dictionary(
       new Map(
-        [...this.value.entries()].map(([key, value]) => [key, value.clone()])
+        [...this.value.entries()].map(([key, value]) => [key, value.toArg()])
       )
     )
+  }
+  public toString() {
+    const strified = new Dictionary(
+      new Map(
+        [...this.value.entries()].map(([key, value]) => [key, value.toString()])
+      )
+    )
+
+    return JSON.stringify(strified, null, 1).replace(/\n\s*/g, ' ')
   }
 }
 

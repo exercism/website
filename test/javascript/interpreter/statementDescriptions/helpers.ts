@@ -1,6 +1,7 @@
 import { DescriptionContext } from '@/interpreter/frames'
 import { Location } from '@/interpreter/location'
 import { Span } from '@/interpreter/location'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 export const assertHTML = (actual, result, steps) => {
   const tidy = (text) =>
@@ -29,14 +30,14 @@ export const location = new Location(0, new Span(0, 0), new Span(0, 0))
 export const getNameFunction = {
   name: 'get_name',
   func: (_interpreter: any) => {
-    return 'Jeremy'
+    return new Jiki.String('Jeremy')
   },
   description: 'always returns the string Jeremy',
 }
 export const getNameWithArgsFunction = {
   name: 'get_name',
   func: (_: any, _2: any) => {
-    return 'Jeremy'
+    return new Jiki.String('Jeremy')
   },
   description: 'always returns the string Jeremy',
 }
@@ -44,14 +45,14 @@ export const getNameWithArgsFunction = {
 export const getTrueFunction = {
   name: 'get_true',
   func: (_interpreter: any) => {
-    return true
+    return Jiki.True
   },
   description: '',
 }
 export const getFalseFunction = {
   name: 'get_false',
   func: (_interpreter: any) => {
-    return false
+    return Jiki.False
   },
   description: '',
 }

@@ -11,9 +11,9 @@ type ObjectType =
   | 'instance'
 
 export abstract class JikiObject {
-  public readonly id: string
+  public readonly objectId: string
   constructor(public readonly type: ObjectType) {
-    this.id = Math.random().toString(36).substring(7)
+    this.objectId = Math.random().toString(36).substring(7)
   }
 
   public abstract toArg()
@@ -95,28 +95,33 @@ export class Class {
   }
   public addGetter(
     name: string,
-    fn?: (executionContext: ExecutionContext) => JikiObject | undefined
+    fn?: (
+      this: Instance,
+      executionContext: ExecutionContext
+    ) => JikiObject | undefined
   ) {
     if (fn === undefined) {
       fn = function (this: Instance, _: ExecutionContext) {
         console.log('getter', name, this.fields, this.fields.get(name))
         return this.fields.get(name)
       }
-
-      this.getters.set(name, fn)
     }
+    this.getters.set(name, fn)
   }
   public addSetter(
     name: string,
-    fn?: (executionContext: ExecutionContext, value: JikiObject) => void
+    fn?: (
+      this: Instance,
+      executionContext: ExecutionContext,
+      value: JikiObject
+    ) => void
   ) {
     if (fn === undefined) {
       fn = function (this: Instance, x: ExecutionContext, value: JikiObject) {
         this.fields.set(name, value)
       }
-
-      this.setters.set(name, fn)
     }
+    this.setters.set(name, fn)
   }
 }
 

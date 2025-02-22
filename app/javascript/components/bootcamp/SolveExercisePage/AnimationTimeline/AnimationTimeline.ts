@@ -48,6 +48,7 @@ export class AnimationTimeline {
   }
 
   public populateTimeline(animations: Animation[]) {
+    console.log(animations)
     animations.forEach((animation: Animation) => {
       // console.log(animation.offset)
       this.animationTimeline.add(

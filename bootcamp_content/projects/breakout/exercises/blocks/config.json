@@ -1,0 +1,42 @@
+{
+  "title": "Blocks",
+  "description": "Add the breakout blocks",
+  "project_type": "breakout",
+  "level": 8,
+  "idx": 1,
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 20
+  },
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Add the blocks",
+      "tests": [
+        {
+          "slug": "add-blocks",
+          "name": "Add the blocks",
+          "description_html": "Add the blocks to the scene in accordance with the list",
+          "setup_functions": [
+            [
+              "setupBlocks",
+              [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "name": "getFalse()",
+              "matcher": "toBeTrue",
+              "error_html": "The ball seems to go too far to the left."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { Exercise } from '../Exercise'
 import { aToR, rToA } from './utils'
 import * as Shapes from './shapes'
+import * as Jiki from '@/interpreter/jikiObjects'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { InterpretResult } from '@/interpreter/interpreter'
 import {
@@ -182,39 +183,62 @@ export default class DrawExercise extends Exercise {
   public assertAllArgumentsAreVariables(interpreterResult: InterpretResult) {
     return assertAllArgumentsAreVariables(interpreterResult)
   }
-
-  public strokeColorHex(_: ExecutionContext, color: string) {
-    this.strokeColor = { type: 'hex', color }
+  public strokeColorHex(_: ExecutionContext, color: Jiki.String) {
+    this.strokeColor = { type: 'hex', color: color.value }
   }
-  public setStrokeWidth(_: ExecutionContext, width: number) {
-    this.strokeWidth = width
+  public setStrokeWidth(_: ExecutionContext, width: Jiki.Number) {
+    this.strokeWidth = width.value
   }
-  public changeStrokeWidth(_: ExecutionContext, width: number) {
-    this.strokeWidth = width
+  public changeStrokeWidth(_: ExecutionContext, width: Jiki.Number) {
+    this.strokeWidth = width.value
   }
-  public fillColorHex(_: ExecutionContext, color: string) {
-    this.fillColor = { type: 'hex', color: color }
+  public fillColorHex(_: ExecutionContext, color: Jiki.String) {
+    this.fillColor = { type: 'hex', color: color.value }
   }
-  public fillColorRGB(_: ExecutionContext, red, green, blue) {
-    this.fillColor = { type: 'rgb', color: [red, green, blue] }
+  public fillColorRGB(
+    _: ExecutionContext,
+    red: Jiki.Number,
+    green: Jiki.Number,
+    blue: Jiki.Number
+  ) {
+    this.fillColor = {
+      type: 'rgb',
+      color: [red.value, green.value, blue.value],
+    }
   }
-  public fillColorRGBA(_: ExecutionContext, red, green, blue, alpha) {
-    this.fillColor = { type: 'rgba', color: [red, green, blue, alpha] }
+  public fillColorRGBA(
+    _: ExecutionContext,
+    red: Jiki.Number,
+    green: Jiki.Number,
+    blue: Jiki.Number,
+    alpha: Jiki.Number
+  ) {
+    this.fillColor = {
+      type: 'rgba',
+      color: [red.value, green.value, blue.value, alpha.value],
+    }
   }
-  public fillColorHSL(_: ExecutionContext, h, s, l) {
-    this.fillColor = { type: 'hsl', color: [h, s, l] }
+  public fillColorHSL(
+    _: ExecutionContext,
+    h: Jiki.Number,
+    s: Jiki.Number,
+    l: Jiki.Number
+  ) {
+    this.fillColor = { type: 'hsl', color: [h.value, s.value, l.value] }
   }
-
   public rectangle(
     executionCtx: ExecutionContext,
-    x: number,
-    y: number,
-    width: number,
-    height: number
+    x: Jiki.Number,
+    y: Jiki.Number,
+    width: Jiki.Number,
+    height: Jiki.Number
   ): void {
-    const [absX, absY, absWidth, absHeight] = [x, y, width, height].map((val) =>
-      rToA(val)
-    )
+    const [absX, absY, absWidth, absHeight] = [
+      x.value,
+      y.value,
+      width.value,
+      height.value,
+    ].map((val) => rToA(val))
 
     const elem = Shapes.rect(
       absX,
@@ -228,10 +252,10 @@ export default class DrawExercise extends Exercise {
     this.canvas.appendChild(elem)
 
     const rect = new Rectangle(
-      x,
-      y,
-      width,
-      height,
+      x.value,
+      y.value,
+      width.value,
+      height.value,
       this.strokeColor,
       this.fillColor,
       elem
@@ -243,14 +267,17 @@ export default class DrawExercise extends Exercise {
   }
   public line(
     executionCtx: ExecutionContext,
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number
+    x1: Jiki.Number,
+    y1: Jiki.Number,
+    x2: Jiki.Number,
+    y2: Jiki.Number
   ): void {
-    const [absX1, absY1, absX2, absY2] = [x1, y1, x2, y2].map((val) =>
-      rToA(val)
-    )
+    const [absX1, absY1, absX2, absY2] = [
+      x1.value,
+      y1.value,
+      x2.value,
+      y2.value,
+    ].map((val) => rToA(val))
 
     const elem = Shapes.line(
       absX1,
@@ -264,10 +291,10 @@ export default class DrawExercise extends Exercise {
     this.canvas.appendChild(elem)
 
     const line = new Line(
-      x1,
-      y1,
-      x2,
-      y2,
+      x1.value,
+      y1.value,
+      x2.value,
+      y2.value,
       this.strokeColor,
       this.fillColor,
       elem
@@ -279,11 +306,13 @@ export default class DrawExercise extends Exercise {
 
   public circle(
     executionCtx: ExecutionContext,
-    x: number,
-    y: number,
-    radius: number
+    x: Jiki.Number,
+    y: Jiki.Number,
+    radius: Jiki.Number
   ): void {
-    const [absX, absY, absRadius] = [x, y, radius].map((val) => rToA(val))
+    const [absX, absY, absRadius] = [x.value, y.value, radius.value].map(
+      (val) => rToA(val)
+    )
 
     const elem = Shapes.circle(
       absX,
@@ -296,9 +325,9 @@ export default class DrawExercise extends Exercise {
     this.canvas.appendChild(elem)
 
     const circle = new Circle(
-      x,
-      y,
-      radius,
+      x.value,
+      y.value,
+      radius.value,
       this.strokeColor,
       this.fillColor,
       elem
@@ -311,12 +340,17 @@ export default class DrawExercise extends Exercise {
 
   public ellipse(
     executionCtx: ExecutionContext,
-    x: number,
-    y: number,
-    rx: number,
-    ry: number
+    x: Jiki.Number,
+    y: Jiki.Number,
+    rx: Jiki.Number,
+    ry: Jiki.Number
   ): void {
-    const [absX, absY, absRx, absRy] = [x, y, rx, ry].map((val) => rToA(val))
+    const [absX, absY, absRx, absRy] = [
+      x.value,
+      y.value,
+      rx.value,
+      ry.value,
+    ].map((val) => rToA(val))
 
     const elem = Shapes.ellipse(
       absX,
@@ -330,10 +364,10 @@ export default class DrawExercise extends Exercise {
     this.canvas.appendChild(elem)
 
     const ellipse = new Ellipse(
-      x,
-      y,
-      rx,
-      ry,
+      x.value,
+      y.value,
+      rx.value,
+      ry.value,
       this.strokeColor,
       this.fillColor,
       elem
@@ -346,20 +380,20 @@ export default class DrawExercise extends Exercise {
 
   public triangle(
     executionCtx: ExecutionContext,
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
-    x3: number,
-    y3: number
+    x1: Jiki.Number,
+    y1: Jiki.Number,
+    x2: Jiki.Number,
+    y2: Jiki.Number,
+    x3: Jiki.Number,
+    y3: Jiki.Number
   ): Triangle {
     const [absX1, absY1, absX2, absY2, absX3, absY3] = [
-      x1,
-      y1,
-      x2,
-      y2,
-      x3,
-      y3,
+      x1.value,
+      y1.value,
+      x2.value,
+      y2.value,
+      x3.value,
+      y3.value,
     ].map((val) => rToA(val))
 
     const elem = Shapes.triangle(
@@ -376,12 +410,12 @@ export default class DrawExercise extends Exercise {
     this.canvas.appendChild(elem)
 
     const triangle = new Triangle(
-      x1,
-      y1,
-      x2,
-      y2,
-      x3,
-      y3,
+      x1.value,
+      y1.value,
+      x2.value,
+      y2.value,
+      x3.value,
+      y3.value,
       this.strokeColor,
       this.fillColor,
       elem
@@ -390,52 +424,6 @@ export default class DrawExercise extends Exercise {
     this.visibleShapes.push(triangle)
     this.animateElementIntoView(executionCtx, elem)
     // return triangle
-  }
-
-  public move(
-    executionCtx: ExecutionContext,
-    id: string,
-    xTarget: number,
-    yTarget: number,
-    concurrent: boolean = false
-  ) {
-    const duration = 500
-    // this.addAnimation(executionCtx, {
-    //   targets: id,
-    //   duration,
-    //   transformations: {
-    //     top: xTarget,
-    //     left: yTarget,
-    //   },
-    //   offset: executionCtx.time,
-    // });
-
-    // if (!concurrent) {
-    //   executionCtx.time += duration;
-    // }
-  }
-
-  public polygon(x: number, y: number, radius: number, sides: number): void {
-    // center the polygon
-    ;[x, y] = [x, y].map((val) => val - radius)
-
-    const [absX, absY, absRadius] = [x, y, radius].map((val) => rToA(val))
-
-    const polygon = Shapes.polygon(absX, absY, absRadius, sides)
-    const duration = 15
-
-    // this.addAnimation(executionCtx, {
-    //   targets: `#polygon${elementSerial}`,
-    //   duration,
-    //   transformations: {
-    //     top: y,
-    //     left: x,
-    //     opacity: 1,
-    //   },
-    //   offset: executionCtx.time,
-    // });
-
-    // executionCtx.time += duration;
   }
 
   protected animateElementIntoView(
@@ -482,8 +470,10 @@ export default class DrawExercise extends Exercise {
   public availableFunctions = [
     {
       name: 'random_number',
-      func: (_: any, min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min
+      func: (_: any, min: Jiki.Number, max: Jiki.Number): Jiki.Number => {
+        return new Jiki.Number(
+          Math.floor(Math.random() * (max.value - min.value + 1)) + min.value
+        )
       },
       description: 'generated a random number between ${arg1} and ${arg2}',
     },
@@ -513,19 +503,9 @@ export default class DrawExercise extends Exercise {
         'drew an ellipse with its center at (${arg1}, ${arg2}), a radial width of ${arg3}, and a radial height of ${arg4}',
     },
     {
-      name: 'polygon',
-      func: this.polygon.bind(this),
-      description: 'drew a polygon at the specified position',
-    },
-    {
       name: 'clear',
       func: this.clear.bind(this),
       description: 'cleared the canvas',
-    },
-    {
-      name: 'move',
-      func: this.move.bind(this),
-      description: 'moved an element to the specified position',
     },
     {
       name: 'fill_color_hex',

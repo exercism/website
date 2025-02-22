@@ -1,5 +1,6 @@
 import { interpret } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
+import { Primitive } from '@/interpreter/jikiObjects'
 
 describe('execution context', () => {
   describe('externalFunctions', () => {
@@ -9,8 +10,8 @@ describe('execution context', () => {
         externalFunctions: [
           {
             name: 'echo',
-            func: (_: ExecutionContext, value: any) => {
-              echos.push(value.toString())
+            func: (_: ExecutionContext, value: Primitive) => {
+              echos.push(value.value.toString())
             },
             description: 'Sample function',
           },

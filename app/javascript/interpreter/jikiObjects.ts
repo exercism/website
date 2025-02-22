@@ -204,11 +204,11 @@ export class Dictionary extends Primitive {
     super('dictionary', value)
   }
   public clone(): JikiObject {
-    const y = new Map(
-      [...this.value.entries()].map(([key, value]) => [key, value.clone()])
+    return new Dictionary(
+      new Map(
+        [...this.value.entries()].map(([key, value]) => [key, value.clone()])
+      )
     )
-
-    return new Dictionary(y)
   }
 }
 

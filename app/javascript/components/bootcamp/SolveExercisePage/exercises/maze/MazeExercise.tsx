@@ -5,6 +5,7 @@ import cloneDeep from 'lodash.clonedeep'
 import { isString } from '@/interpreter/checks'
 import { randomEmoji } from '../../test-runner/generateAndRunTestSuite/genericSetupFunctions'
 import { isEqual } from 'lodash'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 type Cell = 0 | 1 | 2 | 3 | 4 | 5 | 6 | string
 export default class MazeExercise extends Exercise {
@@ -225,19 +226,6 @@ export default class MazeExercise extends Exercise {
     })
   }
 
-  private gameOverLoss(executionCtx: ExecutionContext) {
-    executionCtx.updateState('gameOver', true)
-
-    this.addAnimation({
-      targets: this.characterSelector,
-      duration: 200,
-      transformations: {
-        backgroundColor: `#f00`,
-      },
-      offset: executionCtx.getCurrentTime(),
-    })
-  }
-
   private animateRotate(executionCtx: ExecutionContext) {
     this.addAnimation({
       targets: this.characterSelector,
@@ -299,7 +287,7 @@ export default class MazeExercise extends Exercise {
     this.animateRotate(executionCtx)
   }
 
-  private describePosition(x: number, y: number) {
+  private describePosition(x: number, y: number): string {
     if (x >= 0 && x < this.gridSize && y >= 0 && y < this.gridSize) {
       return this.describeSquare(this.mazeLayout[y][x])
     }
@@ -371,26 +359,26 @@ export default class MazeExercise extends Exercise {
     return this.describePosition(x, y)
   }
 
-  private look(executionCtx: ExecutionContext, direction: string) {
-    if (direction === 'left') {
-      return this.lookLeft()
-    }
-    if (direction === 'right') {
-      return this.lookRight()
-    }
-    if (direction === 'ahead') {
-      return this.lookAhead()
-    }
-    if (direction === 'down') {
-      return this.describePosition(
+  private look(executionCtx: ExecutionContext, direction: Jiki.String) {
+    let value: string
+    if (direction.value === 'left') {
+      value = this.lookLeft()
+    } else if (direction.value === 'right') {
+      value = this.lookRight()
+    } else if (direction.value === 'ahead') {
+      value = this.lookAhead()
+    } else if (direction.value === 'down') {
+      value = this.describePosition(
         this.characterPosition.x,
         this.characterPosition.y
       )
     } else {
-      executionCtx.logicError(
+      return executionCtx.logicError(
         `You asked the blob to look in a direction it doesn't know about. It can only look \"left\", \"right\", or \"ahead\". You asked it to look \"${direction}\".`
       )
+      return
     }
+    return new Jiki.String(value)
   }
 
   public getInitialMaze(_: ExecutionContext) {
@@ -412,6 +400,9 @@ export default class MazeExercise extends Exercise {
       if (cell === 4) return 'fire'
       if (cell === 5) return 'poop'
     }
+    if (cell == 6) {
+      return 'emoji'
+    } // This should never happen!
     return cell
   }
   public setupDirection(_: ExecutionContext, direction: string) {
@@ -424,8 +415,8 @@ export default class MazeExercise extends Exercise {
     this.character.style.left = `${this.characterPosition.x * this.squareSize}%`
     this.character.style.top = `${this.characterPosition.y * this.squareSize}%`
   }
-  public announceEmojis(_: ExecutionContext, emojis) {
-    this.collectedEmojis = emojis
+  public announceEmojis(_: ExecutionContext, emojis: Jiki.Dictionary) {
+    this.collectedEmojis = Jiki.unwrapJikiObject(emojis)
   }
 
   public availableFunctions = [

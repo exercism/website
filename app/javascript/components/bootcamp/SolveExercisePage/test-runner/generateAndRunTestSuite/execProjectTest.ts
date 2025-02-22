@@ -30,6 +30,7 @@ export function execProjectTest(
 
   const context = {
     externalFunctions,
+    classes: exercise.availableClasses || [],
     languageFeatures: options.config.interpreterOptions,
   }
 

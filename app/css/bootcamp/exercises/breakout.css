@@ -1,0 +1,9 @@
+.exercise-breakout {
+    .block {
+        @apply absolute;
+        @apply bg-[lightblue];
+        @apply border-[1px] border-[green];
+        width: 10%;
+        height: 5%;
+    }
+}

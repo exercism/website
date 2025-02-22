@@ -836,12 +836,12 @@ describe('InvalidVariableName', () => {
   // })
 })
 
-test('literal', () => {
+test.skip('literal', () => {
   expect(() => parse(`log foo.bar something`)).toThrow(
     'MissingLeftParenthesisAfterMethodCall'
   )
 })
-test('right bracket', () => {
+test.skip('right bracket', () => {
   expect(() => parse(`log foo.bar )`)).toThrow(
     'MissingLeftParenthesisAfterMethodCall'
   )

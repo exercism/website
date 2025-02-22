@@ -168,7 +168,7 @@ export class Executor {
       // TODO: We need to consider default params here
       const arity = externalFunction.arity || [func.length - 1, func.length - 1]
       const call = (context: ExecutionContext, args: any[]) =>
-        func(context, ...args.map((arg) => Jiki.unwrapJikiObject(arg)))
+        func(context, ...args)
 
       const callable = {
         arity: arity,

@@ -145,7 +145,7 @@ describe('interpret', () => {
         externalFunctions: [
           {
             name: 'get_number',
-            func: (_, i) => new MutableNumber(i),
+            func: (_, i: Jiki.Number) => new MutableNumber(i.value),
             description: '',
           },
         ],

@@ -22,7 +22,7 @@ Remember to set the color before you draw using it.
 
 ### Hints
 
-To make things a little easier, nearly all the numbers you need to use are divisible by 5 (e.g. 5, 10, 15, etc). The only exception is the width of the raindrops.
+To make things a little easier, nearly all the numbers you need to use are divisible by 5 (e.g. 5, 10, 15, etc). The only exception is the `radius_x` of the raindrops, which is `3`.
 
 You should only use ellipses in the raindrops. If you use them for the sun or clouds, things won't work.
 

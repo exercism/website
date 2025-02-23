@@ -17,7 +17,6 @@ export abstract class JikiObject {
   }
 
   public abstract toArg()
-  public abstract getMethod(name: string): Method | undefined
   public abstract toString(): string
 }
 
@@ -43,9 +42,9 @@ export type Setter = (
 export class Class {
   private initialize: ((...args: any[]) => void) | undefined
   constructor(public readonly name: string) {}
-  private readonly methods: Map<string, Method> = new Map()
-  private readonly getters: Map<string, Getter> = new Map()
-  private readonly setters: Map<string, Setter> = new Map()
+  private readonly methods: Record<string, Method> = {}
+  private readonly getters: Record<string, Getter> = {}
+  private readonly setters: Record<string, Setter> = {}
 
   public instantiate(
     executionContext: ExecutionContext,
@@ -78,20 +77,20 @@ export class Class {
     // Reduce the arity by 1 because the first argument is the execution context
     // which is invisible to the user
     const arity = fn.length - 1
-    this.methods.set(name, new Method(name, arity, fn))
+    this.methods[name] = new Method(name, arity, fn)
   }
   public getMethod(name: string): Method | undefined {
-    return this.methods.get(name)
+    return this.methods[name]
   }
 
   //
   // Getters and Setters
   //
   public getGetter(name: string): Getter | undefined {
-    return this.getters.get(name)
+    return this.getters[name]
   }
   public getSetter(name: string): Setter | undefined {
-    return this.setters.get(name)
+    return this.setters[name]
   }
   public addGetter(
     name: string,
@@ -102,10 +101,10 @@ export class Class {
   ) {
     if (fn === undefined) {
       fn = function (this: Instance, _: ExecutionContext) {
-        return this.fields.get(name)
+        return this.fields[name]
       }
     }
-    this.getters.set(name, fn)
+    this.getters[name] = fn
   }
   public addSetter(
     name: string,
@@ -117,15 +116,15 @@ export class Class {
   ) {
     if (fn === undefined) {
       fn = function (this: Instance, x: ExecutionContext, value: JikiObject) {
-        this.fields.set(name, value)
+        this.fields[name] = value
       }
     }
-    this.setters.set(name, fn)
+    this.setters[name] = fn
   }
 }
 
 export class Instance extends JikiObject {
-  protected fields = new Map<string, JikiObject>()
+  protected fields: Record<string, JikiObject> = {}
 
   constructor(private jikiClass: Class) {
     super('instance')
@@ -146,26 +145,21 @@ export class Instance extends JikiObject {
     return this.jikiClass.getSetter(name)
   }
   public getField(name: string): JikiObject | undefined {
-    return this.fields.get(name)
+    return this.fields[name]
   }
   public getUnwrappedField(name: string): any {
-    return unwrapJikiObject(this.fields.get(name))
+    return unwrapJikiObject(this.fields[name])
   }
   public setField(name: string, value: JikiObject): void {
-    this.fields.set(name, value)
+    this.fields[name] = value
   }
 }
 
 export abstract class Primitive extends JikiObject {
-  public methods: Map<string, Method> = new Map()
-
   constructor(public readonly type: ObjectType, public readonly value: any) {
     super(type)
   }
 
-  public getMethod(name: string): Method | undefined {
-    return this.methods.get(name)
-  }
   public toString() {
     return JSON.stringify(this.value)
   }

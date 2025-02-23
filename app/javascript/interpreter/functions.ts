@@ -23,16 +23,17 @@ export function isCallable(obj: any): obj is Callable {
 }
 
 export class UserDefinedFunction implements Callable {
+  public readonly arity: Arity
   constructor(
     private declaration: FunctionStatement,
     private closure: Environment,
     private languageFeatures: LanguageFeatures
-  ) {}
-
-  arity: Arity = [
-    this.declaration.parameters.filter((p) => p.defaultValue === null).length,
-    this.declaration.parameters.length,
-  ]
+  ) {
+    this.arity = [
+      this.declaration.parameters.filter((p) => p.defaultValue === null).length,
+      this.declaration.parameters.length,
+    ]
+  }
 
   call(executor: ExecutionContext, args: any[]): any {
     let environment

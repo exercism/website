@@ -1,4 +1,12 @@
 .exercise-breakout {
+    .ball {
+        @apply absolute;
+        @apply bg-[red];
+        @apply rounded-circle;
+        width: 5%;
+        height: 5%;
+        transform: translate(-50%, -50%);
+    }
     .block {
         @apply absolute;
         @apply bg-[lightblue];

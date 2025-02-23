@@ -109,16 +109,15 @@ export class ListExpression extends Expression {
     return this.elements
   }
 }
-
 export class DictionaryExpression extends Expression {
   constructor(
-    public elements: Map<string, Expression>,
+    public elements: Record<string, Expression>,
     public location: Location
   ) {
     super('DictionaryExpression')
   }
   public children() {
-    return Array.from(this.elements.values())
+    return Object.values(this.elements)
   }
 }
 

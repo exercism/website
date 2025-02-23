@@ -146,6 +146,8 @@ export class Executor {
   private readonly globals = new Environment()
   private environment = this.globals
 
+  private externalFunctionDescriptions: Record<string, string> = {}
+
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
   private statementStartingVariablesLog: Record<string, any> = {}
@@ -176,6 +178,12 @@ export class Executor {
       }
 
       this.globals.define(externalFunction.name, callable)
+    }
+    this.externalFunctionDescriptions = {
+      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
+        acc[fn.name] = fn.description
+        return acc
+      }, {}),
     }
 
     for (let jikiClass of classes) {
@@ -1564,21 +1572,17 @@ export class Executor {
       status,
       result,
       error,
-      priorVariables: this.statementStartingVariablesLog,
-      variables: this.environment.variables(),
-      functions: this.environment.functions(),
       time: this.frameTime,
       description: '',
       context: context,
     }
-    const descriptionContext = {
-      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
-        acc[fn.name] = fn.description
-        return acc
-      }, {}),
+    if (process.env.NODE_ENV == 'test') {
+      frame.variables = this.environment.variables()
     }
 
-    frame.description = describeFrame(frame, descriptionContext)
+    frame.description = describeFrame(frame, {
+      functionDescriptions: this.externalFunctionDescriptions,
+    })
 
     this.frames.push(frame)
 

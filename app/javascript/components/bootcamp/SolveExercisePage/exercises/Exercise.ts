@@ -77,6 +77,17 @@ export abstract class Exercise {
     return this.view
   }
 
+  public animateIntoView(targets: string, offset: number) {
+    this.addAnimation({
+      targets,
+      duration: 1,
+      transformations: {
+        opacity: 1,
+      },
+      offset,
+    })
+  }
+
   protected fireFireworks(_: ExecutionContext, startTime: number) {
     const fireworks = document.createElement('div')
     fireworks.classList.add('fireworks')

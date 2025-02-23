@@ -5,6 +5,7 @@ import didYouMean from 'didyoumean'
 import { translate } from './translator'
 import { isString } from './checks'
 import { cloneDeep } from 'lodash'
+import { Class, JikiObject } from './jikiObjects'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()
@@ -63,6 +64,7 @@ export class Environment {
     while (current != null) {
       for (const [key, value] of this.values) {
         if (key in vars) continue
+        if (value instanceof Class) continue
         if (isCallable(value)) continue
 
         // The stringify/parse combination makes the value unique,
@@ -90,6 +92,7 @@ export class Environment {
     while (current != null) {
       for (const [key, value] of this.values) {
         if (key in functions) continue
+        if (value instanceof Class) continue
         if (!isCallable(value)) continue
 
         functions[key] = value

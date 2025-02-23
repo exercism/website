@@ -133,6 +133,7 @@
       "IndexOutOfBoundsInChange": "IndexOutOfBoundsInChange: index: {{index}}, length: {{length}}, dataType: {{dataType}}",
       "MaxTotalExecutionTimeReached": "MaxTotalExecutionTimeReached",
       "ListsCannotBeCompared": "ListsCannotBeCompared",
+      "ObjectsCannotBeCompared": "ObjectsCannotBeCompared",
       "NoneJikiObjectDetected": "NoneJikiObjectDetected"
     },
     "disabledLanguageFeature": {

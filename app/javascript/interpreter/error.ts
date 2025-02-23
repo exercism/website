@@ -152,6 +152,7 @@ export type RuntimeErrorType =
   | 'IndexOutOfBoundsInChange'
   | 'MaxTotalExecutionTimeReached'
   | 'ListsCannotBeCompared'
+  | 'ObjectsCannotBeCompared'
   | 'IncomparableTypes'
   | 'InvalidLiteralType'
   | 'NoneJikiObjectDetected'

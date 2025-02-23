@@ -102,7 +102,6 @@ export class Class {
   ) {
     if (fn === undefined) {
       fn = function (this: Instance, _: ExecutionContext) {
-        console.log('getter', name, this.fields, this.fields.get(name))
         return this.fields.get(name)
       }
     }
@@ -145,6 +144,15 @@ export class Instance extends JikiObject {
   }
   public getSetter(name: string): Setter | undefined {
     return this.jikiClass.getSetter(name)
+  }
+  public getField(name: string): JikiObject | undefined {
+    return this.fields.get(name)
+  }
+  public getUnwrappedField(name: string): any {
+    return unwrapJikiObject(this.fields.get(name))
+  }
+  public setField(name: string, value: JikiObject): void {
+    this.fields.set(name, value)
   }
 }
 
@@ -222,13 +230,11 @@ export class Dictionary extends Primitive {
     )
   }
   public toString() {
-    const strified = new Dictionary(
-      new Map(
-        [...this.value.entries()].map(([key, value]) => [key, value.toString()])
-      )
+    const stringified = Object.fromEntries(
+      [...this.value.entries()].map(([key, value]) => [key, value.toString()])
     )
 
-    return JSON.stringify(strified, null, 1).replace(/\n\s*/g, ' ')
+    return JSON.stringify(stringified, null, 1).replace(/\n\s*/g, ' ')
   }
 }
 

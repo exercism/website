@@ -596,6 +596,17 @@ test('ListsCannotBeCompared', () => {
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
 })
 
+test('ObjectsCannotBeCompared', () => {
+  const context = { classes: [new Jiki.Class('Thing')] }
+  const code = `
+  set thing to new Thing()
+  log thing == 5
+  `
+  const { frames } = interpret(code, context)
+  expectFrameToBeError(frames[1], `log thing == 5`, 'ObjectsCannotBeCompared')
+  expect(frames[1].error!.message).toBe('ObjectsCannotBeCompared')
+})
+
 test('MissingKeyInDictionary', () => {
   const code = `log {}["a"]`
   const { frames } = interpret(code)

@@ -26,6 +26,8 @@ export function useScrubber({
   frames: Frame[]
   hasCodeBeenEdited: boolean
 }) {
+  // if there is an animation timeline, we use time as value
+  // if there is no animation timeline, we use frame index as value
   const [value, setValue] = useState(0)
   const {
     setHighlightedLine,
@@ -66,6 +68,10 @@ export function useScrubber({
     if (frames.some((frame) => frame.status === 'ERROR')) {
       const newValue = frames.findIndex((frame) => frame.status === 'ERROR')
       const error = frames[newValue].error
+      if (animationTimeline) {
+        animationTimeline.seek(frames[newValue].time)
+      }
+      setValue(newValue)
       showError({
         error: error as StaticError,
         setHighlightedLine,
@@ -75,10 +81,6 @@ export function useScrubber({
         setUnderlineRange,
         editorView,
       })
-      if (animationTimeline) {
-        animationTimeline.seek(frames[newValue].time)
-      }
-      setValue(frames[newValue].time)
     }
   }, [frames, animationTimeline])
 
@@ -115,7 +117,12 @@ export function useScrubber({
         }
       }
     }
-  }, [value, animationTimeline?.currentFrameIndex, inspectedTestResult])
+  }, [
+    value,
+    animationTimeline?.currentFrameIndex,
+    animationTimeline?.currentFrame,
+    inspectedTestResult,
+  ])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
@@ -361,8 +368,8 @@ export function useScrubber({
   )
 
   /*
-   when holding a key down, store it in a set and escape invoking frame-stepping handlers.
-   let user browse scrubber freely
+   when holding a key down, store it in a Set and escape invoking frame-stepping handlers.
+   let user browse the scrubber freely
    */
   const [heldKeys, setHeldKeys] = useState(new Set<string>())
   const handleOnKeyUp = useCallback(

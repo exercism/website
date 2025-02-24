@@ -73,6 +73,7 @@ export function useScrubber({
         setInformationWidgetData,
         setShouldShowInformationWidget,
         setUnderlineRange,
+        editorView,
       })
       if (animationTimeline) {
         animationTimeline.seek(frames[newValue].time)
@@ -109,6 +110,7 @@ export function useScrubber({
             setInformationWidgetData,
             setShouldShowInformationWidget,
             setUnderlineRange,
+            editorView,
           })
         }
       }

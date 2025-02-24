@@ -1,3 +1,4 @@
+import { LogicError } from '../error'
 import {
   EvaluationResult,
   EvaluationResultGetterExpression,
@@ -25,7 +26,14 @@ export function executeGetterExpression(
     })
   }
 
-  const value = getter.apply(object.jikiObject, executor.getExecutionContext())
+  let value
+  try {
+    value = getter.apply(object.jikiObject, executor.getExecutionContext())
+  } catch (e: unknown) {
+    if (e instanceof LogicError) {
+      executor.error('LogicError', expression.location, { message: e.message })
+    }
+  }
 
   return {
     type: 'GetterExpression',

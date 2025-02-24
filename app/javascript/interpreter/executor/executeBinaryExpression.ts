@@ -209,7 +209,7 @@ function guardLists(
   rightResult: EvaluationResultExpression
 ) {
   if (
-    leftResult.jikiObject instanceof JikiTypes.List ||
+    leftResult.jikiObject instanceof JikiTypes.List &&
     rightResult.jikiObject instanceof JikiTypes.List
   ) {
     executor.error('ListsCannotBeCompared', expression.location)

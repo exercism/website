@@ -87,6 +87,16 @@ export abstract class Exercise {
       offset,
     })
   }
+  public animateOutOfView(targets: string, offset: number) {
+    this.addAnimation({
+      targets,
+      duration: 1,
+      transformations: {
+        opacity: 0,
+      },
+      offset,
+    })
+  }
 
   protected fireFireworks(_: ExecutionContext, startTime: number) {
     const fireworks = document.createElement('div')

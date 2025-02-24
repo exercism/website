@@ -537,10 +537,16 @@ export class Executor {
 
         // Do the update
         const oldValue = object.jikiObject.fields[statement.property.lexeme]
-        setter.apply(object.jikiObject, [
-          this.getExecutionContext(),
-          value.jikiObject,
-        ])
+        try {
+          setter.apply(object.jikiObject, [
+            this.getExecutionContext(),
+            value.jikiObject,
+          ])
+        } catch (e: unknown) {
+          if (e instanceof LogicError) {
+            this.error('LogicError', statement.location, { message: e.message })
+          }
+        }
 
         return {
           type: 'ChangePropertyStatement',

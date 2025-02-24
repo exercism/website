@@ -225,7 +225,10 @@ export class Dictionary extends Primitive {
   }
   public toString() {
     const stringified = Object.fromEntries(
-      [...this.value.entries()].map(([key, value]) => [key, value.toString()])
+      [...this.value.entries()].map(([key, value]) => [
+        key,
+        unwrapJikiObject(value),
+      ])
     )
 
     return JSON.stringify(stringified, null, 1).replace(/\n\s*/g, ' ')
@@ -245,6 +248,9 @@ export function unwrapJikiObject(value: any): any {
   }
   if (value instanceof List) {
     return value.value.map(unwrapJikiObject)
+  }
+  if (value instanceof Instance) {
+    return 'Instance'
   }
   if (value instanceof Dictionary) {
     return Object.fromEntries(

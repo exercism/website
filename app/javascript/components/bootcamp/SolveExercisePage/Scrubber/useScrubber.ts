@@ -7,7 +7,6 @@ import type { Frame } from '@/interpreter/frames'
 import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
-import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
@@ -288,7 +287,8 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
-      scrollToHighlightedLine()
+      const targetFrame = animationTimeline.frameAtTime(targetTime)
+      scrollToLine(editorView, targetFrame.line)
     },
     [value]
   )
@@ -327,7 +327,8 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
-      scrollToHighlightedLine()
+      const targetFrame = animationTimeline.frameAtTime(targetTime)
+      scrollToLine(editorView, targetFrame.line)
     },
     [value]
   )
@@ -337,7 +338,8 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seekFirstFrame()
-        scrollToHighlightedLine()
+        const firstFrame = animationTimeline.getFrames()[0]
+        scrollToLine(editorView, firstFrame.line)
       }
     },
     []
@@ -348,7 +350,9 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seekEndOfTimeline()
-        scrollToHighlightedLine()
+        const frames = animationTimeline.getFrames()
+        const lastFrame = frames[frames.length - 1]
+        scrollToLine(editorView, lastFrame.line)
       }
     },
     []

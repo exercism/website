@@ -23,7 +23,6 @@ export function TestResultInfo({
       <StateTestResultView isPassing={firstExpect.pass} errorHtml={errorHtml} />
     )
   } else {
-    console.log(firstExpect)
     return (
       <>
         <table className="io-test-result-info">

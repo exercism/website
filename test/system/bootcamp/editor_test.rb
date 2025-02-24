@@ -301,6 +301,24 @@ end))
       end
     end
 
+    test "selects last bonus scenario if has any and everything is passing" do
+      user = create(:user, bootcamp_attendee: true)
+      exercise = create :bootcamp_exercise, :manual_solve_with_bonus_task
+      use_capybara_host do
+        sign_in!(user)
+        visit bootcamp_project_exercise_url(exercise.project, exercise)
+
+        change_codemirror_content(%(
+          repeat 4 times do
+          move()
+end))
+        check_scenarios
+        assert_selector('.test-selector-buttons.bonus .test-button.selected')
+        refute_selector('.test-selector-buttons:not(.bonus) .test-button.selected')
+        refute_selector ".test-button.fail"
+      end
+    end
+
     test "shows info-widget with error on erronous code" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :even_or_odd

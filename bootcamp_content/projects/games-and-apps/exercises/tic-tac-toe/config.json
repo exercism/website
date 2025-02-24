@@ -8,6 +8,9 @@
   "blocks_project_progression": false,
   "tests_type": "state",
   "stdlib_functions": ["push", "concatenate"],
+  "interpreter_options": {
+    "timePerFrame": 0.01
+  },
   "tasks": [
     {
       "name": "Draw the x and the o",

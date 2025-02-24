@@ -81,7 +81,6 @@ import type {
   EvaluationResultMethodCallStatement,
   EvaluationResultInstantiationExpression,
   EvaluationResultClassLookupExpression,
-  EvaluationResultAccessorExpression,
   EvaluationResultGetterExpression,
   EvaluationResultChangePropertyStatement,
 } from './evaluation-result'
@@ -139,6 +138,7 @@ export class Executor {
   private frameTime: number = 0
   private location: Location | null = null
   private time: number = 0
+  private timePerFrame: number
   private totalLoopIterations = 0
   private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
@@ -190,6 +190,7 @@ export class Executor {
       this.globals.define(jikiClass.name, jikiClass)
     }
 
+    this.timePerFrame = this.languageFeatures.timePerFrame
     this.maxTotalLoopIterations = this.languageFeatures.maxTotalLoopIterations
 
     this.maxRepeatUntilGameOverIterations =
@@ -1592,7 +1593,7 @@ export class Executor {
 
     this.frames.push(frame)
 
-    this.time += 0.01
+    this.time += this.timePerFrame
   }
 
   public normalizeFrames() {

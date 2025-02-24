@@ -44,6 +44,7 @@ export function execProjectTest(
 
   let evaluated
   if (testData.function) {
+    console.log(testData.params)
     evaluated = evaluateFunction(
       options.studentCode,
       context,

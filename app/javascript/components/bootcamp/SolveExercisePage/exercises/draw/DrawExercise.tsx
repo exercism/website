@@ -30,7 +30,7 @@ import {
 
 export default class DrawExercise extends Exercise {
   private canvas: HTMLDivElement
-  private shapes: Shape[] = []
+  protected shapes: Shape[] = []
   private visibleShapes: Shape[] = []
 
   protected strokeColor: Color = { type: 'hex', color: '#333333' }

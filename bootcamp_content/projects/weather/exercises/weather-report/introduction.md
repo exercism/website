@@ -1,18 +1,18 @@
 # Weather Report
 
-You're now able to take a description of the weather and turn it into a weather symbol, like you'd find on your weather app.
+You're now able to take a description of the weather and turn it into a weather symbol, just like you'd find on your favourite weather app.
 
-In this exercise, we're taking that one step further and building out a weather display, show four different weather symbols at once.
+In this exercise, we're taking that one step further and building out a fuller weather display, show four different weather symbols at once.
 
-Here's an example:
+Here's an example of what you're aiming for:
 <img src="https://assets.exercism.org/bootcamp/graphics/weather-report-completed.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
 ## The four symbols
 
-To achieve this, you need to show the weather symbols four times.
+To achieve this, you need to draw the weather symbols four times, at different scales and different starting positions.
 
 The top symbol should be scaled down to 50% of what you did previously.
-It's sky should start at left: 25, top: 4, and be 50 wide and high.
+It's sky should have a left of 25, a top of 4, and be 50 wide and high.
 
 The other three should all be scaled down to 30%.
 The sky in all of them should start with a top of 66, and have widths and heights of 30.
@@ -21,13 +21,13 @@ The sky in all of them should start with a top of 66, and have widths and height
 - The second should have a left of 35
 - The third should have a left of 69.
 
-All the remaining shapes should be scaled and positioned relative to their original sizes and positions.
+All the remaining shapes should be scaled and positioned in accordance to their original sizes and positions in relation to the sky.
 
-We've provided some roughly positioned boxes to help you find your way, but rely on the coordinates above as the truth, not the position of the boxes.
+We've provided some roughly positioned boxes to help you find your way, but rely on the coordinates above as the truth, not the position of those boxes!
 
 ### The data
 
-We now call the `draw_weather` function with some data from the Meteorological Office.
+To use your app, we'll now call the `draw_weather` function with some data from the Meteorological Office.
 
 It is formatted as follows:
 
@@ -43,6 +43,10 @@ It is formatted as follows:
   }
 }
 ```
+
+You need to update your function to use this data as its input and draw the four boxes accordingly.
+
+We've provide your previous code to get you started!
 
 ## Reminders
 

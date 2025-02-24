@@ -64,6 +64,7 @@ export function useConstructRunCode({
       setInformationWidgetData,
       setShouldShowInformationWidget,
       setUnderlineRange,
+      editorView,
     })
 
     setTestSuiteResult(null)

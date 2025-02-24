@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useCallback } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
-import { scrollToHighlightedLine } from './scrollToHighlightedLine'
+import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { scrollToLine } from '../CodeMirror/scrollToLine'
 
 export function InformationWidgetToggleButton({
   disabled,
@@ -15,13 +16,15 @@ export function InformationWidgetToggleButton({
     setHighlightedLine,
   } = useEditorStore()
   const { inspectedTestResult } = useTestStore()
+  const { editorView } = useContext(SolveExercisePageContext)
+  const { highlightedLine } = useEditorStore()
   const handleToggleShouldShowInformationWidget = useCallback(() => {
     toggleShouldShowInformationWidget()
 
-    // if previeous state is off - which means we are about to turn it on
+    // if previous toggle state is `off` - which means we are about to turn it `on`...
     // scroll to the highlighted line
     if (!shouldShowInformationWidget) {
-      scrollToHighlightedLine()
+      scrollToLine(editorView, highlightedLine)
     }
 
     if (!inspectedTestResult) return
@@ -37,7 +40,7 @@ export function InformationWidgetToggleButton({
         setHighlightedLine(0)
       }
     }
-  }, [shouldShowInformationWidget, inspectedTestResult])
+  }, [shouldShowInformationWidget, inspectedTestResult, highlightedLine])
   return (
     <label data-ci="information-widget-toggle" className="switch">
       <input

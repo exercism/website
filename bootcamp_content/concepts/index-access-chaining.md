@@ -8,7 +8,7 @@ So far you've learnt that you can use the index syntax to get specific elements 
 You can also chain accessors together.
 You can do the exact same log as above and extract the `"r"` with this one liner:
 
-```
+```jikiscript
 ["DJ", "Jeremy", "Bethany"][2][3]
 ```
 

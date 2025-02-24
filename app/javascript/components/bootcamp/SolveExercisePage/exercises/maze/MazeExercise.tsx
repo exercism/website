@@ -20,11 +20,11 @@ Square.addConstructor(function (
   is_wall: Jiki.Boolean,
   contents: Jiki.String
 ) {
-  this.fields.set('is_start', is_start)
-  this.fields.set('is_finish', is_finish)
-  this.fields.set('is_wall', is_wall)
-  this.fields.set('in_maze', in_maze)
-  this.fields.set('contents', contents)
+  this.fields['is_start'] = is_start
+  this.fields['is_finish'] = is_finish
+  this.fields['is_wall'] = is_wall
+  this.fields['in_maze'] = in_maze
+  this.fields['contents'] = contents
 })
 Square.addGetter('is_start')
 Square.addGetter('is_finish')

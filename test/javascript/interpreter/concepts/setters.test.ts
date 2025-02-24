@@ -54,7 +54,7 @@ test('execute', () => {
     _: ExecutionContext,
     name: string
   ) {
-    this.fields.set('name', name)
+    this.fields['name'] = name
   })
   Person.addGetter('name')
   Person.addSetter('name')

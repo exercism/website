@@ -1,6 +1,8 @@
-# Boundaried Ball
+# Breakout
 
-Welcome to Breakout!
+Welcome to the second part of Breakout.
+
+In this part
 
 This was one of my favourite games a kid, and I'm very excited to make it with you here!
 

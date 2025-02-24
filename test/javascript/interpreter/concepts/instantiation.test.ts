@@ -71,10 +71,10 @@ describe('execute', () => {
   test('no args', () => {
     const Person = new Jiki.Class('Person')
     Person.addConstructor(function (this: any, _: ExecutionContext) {
-      this.fields.set('name', new Jiki.String('Jeremy'))
+      this.fields['name'] = new Jiki.String('Jeremy')
     })
     Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.fields.get('name')
+      return this.fields['name']
     })
 
     const context: EvaluationContext = { classes: [Person] }
@@ -96,10 +96,10 @@ describe('execute', () => {
       _: ExecutionContext,
       name: Jiki.String
     ) {
-      this.fields.set('name', name)
+      this.fields['name'] = name
     })
     Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.fields.get('name')
+      return this.fields['name']
     })
 
     const context: EvaluationContext = { classes: [Person] }

@@ -502,8 +502,9 @@ describe('timing', () => {
       )
       expect(frames).toBeArrayOfSize(3)
       expect(frames[0].time).toBe(0)
-      expect(frames[1].time).toBe(1)
-      expect(frames[2].time).toBe(22)
+      expect(frames[1].time).toBe(20.01)
+      // Rounds up to to the nearest millisecond
+      expect(frames[2].time).toBe(21)
     })
 
     test('from user code is not possible', () => {

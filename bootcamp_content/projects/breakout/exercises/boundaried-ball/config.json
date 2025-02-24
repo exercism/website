@@ -6,7 +6,7 @@
   "idx": 2,
   "tests_type": "state",
   "interpreter_options": {
-    "repeat_delay": 1,
+    "repeat_delay": 10,
     "max_total_loop_iterations": 500,
     "max_repeat_until_game_over_iterations": 500
   },

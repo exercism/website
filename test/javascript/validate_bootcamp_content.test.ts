@@ -122,6 +122,7 @@ function testState(
 
     const context = {
       externalFunctions: externalFunctions,
+      classes: exercise.availableClasses,
       languageFeatures: config.interpreterOptions,
     }
     let evaluated
@@ -133,6 +134,7 @@ function testState(
         ...testData.params
       )
     } else {
+      console.log(context)
       evaluated = interpret(exampleScript, context)
     }
 

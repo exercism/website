@@ -8,7 +8,8 @@
   "blocks_project_progression": false,
   "tests_type": "state",
   "interpreter_options": {
-    "repeat_delay": 30
+    "repeat_delay": 50,
+    "max_total_execution_time": 30000
   },
   "readonly_ranges": [],
   "tasks": [

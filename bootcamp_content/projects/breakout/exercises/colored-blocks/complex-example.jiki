@@ -39,11 +39,51 @@ function handle_collision with ball, blocks do
       change block.smashed to true
       return
     end
+    if ball_bottom == block.top do
+      change ball.y_velocity to -1
+      change block.smashed to true
+      return
+    end
   end
+
+  check_left_block(ball, blocks, ball_right, ball.cy)
+  check_right_block(ball, blocks, ball_left, ball.cy)
 end
 
 function ball_hozizontally_aligned_to_block with block, ball_cx  do
   return ball_cx >= block.left and ball_cx <= block.left + 14
+end
+
+function ball_vertically_aligned_to_block with block, ball_cy  do
+  return ball_cy <= block.top + 7 and ball_cy >= block.top
+end
+
+function check_left_block with ball, blocks, ball_right, ball_cy do
+  set block to blocks[1]
+  if not ball_vertically_aligned_to_block(block, ball_cy) do
+    return
+  end
+  
+  if ball_right != block.left do
+    return
+  end
+
+  change block.smashed to true
+  change ball.x_velocity to -1
+end
+
+function check_right_block with ball, blocks, ball_left, ball_cy do
+  set block to blocks[5]
+  if not ball_vertically_aligned_to_block(block, ball_cy) do
+    return
+  end
+  
+  if ball_left != block.left + 14 do
+    return
+  end
+
+  change block.smashed to true
+  change ball.x_velocity to 1
 end
 
 repeat 520 times do

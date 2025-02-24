@@ -40,4 +40,7 @@
     .hljs-variableName {
         color: #7a009f;
     }
+    .hljs-className {
+        color: "#00008B";
+    }
 }

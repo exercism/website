@@ -59,5 +59,9 @@ export const colorScheme = createTheme({
       tag: t.variableName,
       color: '#7A009F',
     },
+    {
+      tag: t.className,
+      color: '#00008B',
+    },
   ],
 })

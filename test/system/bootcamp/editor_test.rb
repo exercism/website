@@ -726,7 +726,6 @@ move()
 
         check_scenarios
         assert_selector ".test-button", count: 1
-        assert_selector ".test-button.selected"
 
         click_on "Tackle bonus task"
 

@@ -95,15 +95,15 @@ export abstract class Exercise {
   public animateOutOfView(
     executionContext: ExecutionContext,
     targets: string,
-    offset: number = 0
+    options = { duration: 0, offset: 0 }
   ) {
     this.addAnimation({
       targets,
-      duration: 1,
+      duration: options.duration,
       transformations: {
         opacity: 0,
       },
-      offset: executionContext.getCurrentTime() + offset,
+      offset: executionContext.getCurrentTime() + options.offset,
     })
     executionContext.fastForward(1)
   }

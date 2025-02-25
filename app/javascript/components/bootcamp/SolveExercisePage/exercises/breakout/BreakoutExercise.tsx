@@ -6,7 +6,11 @@ import { offset } from '@popperjs/core'
 import { InterpretResult } from '@/interpreter/interpreter'
 
 type BallInstance = Jiki.Instance & {}
-type BlockInstance = Jiki.Instance & {}
+type BlockInstance = Jiki.Instance & {
+  top: Jiki.Number
+  left: Jiki.Number
+  smashed: Jiki.Boolean
+}
 export default class BreakoutExercise extends Exercise {
   private Ball = (() => {
     const createBall = (executionCtx: ExecutionContext, ball: BallInstance) => {
@@ -18,8 +22,8 @@ export default class BreakoutExercise extends Exercise {
       div.style.opacity = '0'
       this.container.appendChild(div)
       this.animateIntoView(
-        `#${this.view.id} #ball-${ball.objectId}`,
-        executionCtx.getCurrentTime()
+        executionCtx,
+        `#${this.view.id} #ball-${ball.objectId}`
       )
     }
 
@@ -82,6 +86,8 @@ export default class BreakoutExercise extends Exercise {
       executionCtx: ExecutionContext,
       block: BlockInstance
     ) => {
+      this.blocks.push(block)
+
       const div = document.createElement('div')
       div.classList.add('block')
       div.id = `block-${block.objectId}`
@@ -101,7 +107,8 @@ export default class BreakoutExercise extends Exercise {
     ) => {
       this.animateOutOfView(
         executionCtx,
-        `#${this.view.id} #block-${block.objectId}`
+        `#${this.view.id} #block-${block.objectId}`,
+        { duration: 150, offset: 0 }
       )
     }
 
@@ -115,7 +122,7 @@ export default class BreakoutExercise extends Exercise {
       this.fields['left'] = left
       this.fields['top'] = top
       this.fields['smashed'] = new Jiki.Boolean(false)
-      createBlock(executionCtx, this)
+      createBlock(executionCtx, this as BlockInstance)
     })
     Block.addGetter('top')
     Block.addGetter('left')
@@ -148,10 +155,17 @@ export default class BreakoutExercise extends Exercise {
     this.view.appendChild(this.container)
 
     this.ballPositions = []
+    this.blocks = []
   }
 
   public getState() {
-    return {}
+    return {
+      numBlocks: this.blocks.length,
+      numSmashedBlocks: this.blocks.filter(
+        (block: BlockInstance) => block.fields['smashed'].value
+      ).length,
+      numBallPositions: this.ballPositions.length,
+    }
   }
 
   public getFalse() {
@@ -172,6 +186,13 @@ export default class BreakoutExercise extends Exercise {
   }
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {
+    if (
+      this.blocks.every((block: BlockInstance) => block.fields['smashed'].value)
+    ) {
+      executionCtx.logicError(
+        "You shouldn't move the ball when there were no blocks remaining."
+      )
+    }
     const cx = ball.getUnwrappedField('cx')
     const cy = ball.getUnwrappedField('cy')
     const x_velocity = ball.getUnwrappedField('x_velocity')

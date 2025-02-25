@@ -46,8 +46,20 @@ function ball_hozizontally_aligned_to_block with block, ball_cx  do
   return ball_cx >= block.left and ball_cx <= block.left + 14
 end
 
-repeat 520 times do
+function all_blocks_smashed with blocks do
+  for each block in blocks do
+    if not block.smashed do
+      return false
+    end
+  end
+  return true
+end
+
+repeat_forever do
   move_ball(ball)
   change_direction(ball)
   handle_collision(ball, blocks)
+  if all_blocks_smashed(blocks) do
+    break
+  end
 end

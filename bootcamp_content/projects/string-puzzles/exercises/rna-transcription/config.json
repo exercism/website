@@ -98,6 +98,7 @@
           "expected": "UGCACCAGAAUU",
           "check": {
             "function": "numLinesOfCode()",
+            "matcher": "toBeLessThanOrEqual",
             "expected": 18,
             "error_html": "Your code is longer than 18 lines."
           }

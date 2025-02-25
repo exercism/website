@@ -5,10 +5,9 @@ import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModal
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 
 export function CompletedBonusTasksView() {
-  const { setIsCompletedBonusTasksModalOpen } = useContext(
-    FinishLessonModalContext
-  )
-  const { links } = useContext(SolveExercisePageContext)
+  const { setIsCompletedBonusTasksModalOpen, handleCompleteSolution } =
+    useContext(FinishLessonModalContext)
+  const { links, solution } = useContext(SolveExercisePageContext)
 
   return (
     <>
@@ -33,9 +32,12 @@ export function CompletedBonusTasksView() {
         >
           Tweak further
         </button>
-        <a href={links.dashboardIndex} className="btn-l btn-primary flex-grow">
-          Go To Dashboard
-        </a>
+        <button
+          onClick={handleCompleteSolution}
+          className="btn-l btn-primary flex-grow"
+        >
+          {solution.status === 'completed' ? 'Continue' : 'Complete Exercise'}
+        </button>
       </div>
       <p className="mt-12 text-15 leading-140 text-textColor6 text-balance">
         (If you tweak further, you can complete the exercise using the button at

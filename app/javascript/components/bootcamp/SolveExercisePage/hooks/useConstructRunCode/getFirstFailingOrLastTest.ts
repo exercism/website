@@ -42,5 +42,5 @@ export function getFirstFailingOrLastTest(
     return firstFailingBonusTest
 
   // if everything passes, return the last test
-  return testResults.tests[testResults.tests.length - 1]
+  return allTests[allTests.length - 1]
 }

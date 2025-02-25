@@ -187,6 +187,7 @@ export default class BreakoutExercise extends Exercise {
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {
     if (
+      this.blocks.length > 0 &&
       this.blocks.every((block: BlockInstance) => block.fields['smashed'].value)
     ) {
       executionCtx.logicError(

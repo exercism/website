@@ -3,7 +3,7 @@
   "description": "Use objects to draw and animate the house as night arrives",
   "project_type": "house",
   "level": 8,
-  "idx": 1,
+  "idx": 3,
   "concepts": [],
   "tests_type": "state",
   "interpreter_options": {

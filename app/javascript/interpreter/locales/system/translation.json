@@ -110,6 +110,7 @@
       "RepeatCountTooHigh": "RepeatCountTooHigh: count: {{count}}, max: {{max}}",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
+      "WrongNumberOfArgumentsInConstructor": "WrongNumberOfArgumentsInConstructor: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction: name: {{name}}",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",

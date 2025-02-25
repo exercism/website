@@ -29,22 +29,14 @@ We've provided some roughly positioned boxes to help you find your way, but rely
 
 To use your app, we'll now call the `draw_weather` function with some data from the Meteorological Office.
 
-It is formatted as follows:
+Your job is to show the weather on the 25th Feb 2025.
+The weather at 06.30 should go into the main square, and the 07:00, 07:30 and 08:00 weather should go into the smaller boxes to show what's coming next.
 
-```jikiscript
-{
-  "weather": {
-    "now": "snowboarding-time",
-    "next": [
-      {"time": "07:00", "description": "sunny"},
-      {"time": "08:00", "description": "dull"},
-      {"time": "09:00", "description": "hopeful"}
-    ]
-  }
-}
-```
+You need to explore the data to work out how to extract the bits you need.
+Use the log keyword to see what data gets input into the function.
+You might like to use an online JSON Formatter to make it easier to read!
 
-You need to update your function to use this data as its input and draw the four boxes accordingly.
+You need to update your `draw_weather` function to use this data as its input and draw the four boxes accordingly.
 
 We've provide your previous code to get you started!
 
@@ -71,22 +63,22 @@ The rules of what should be drawn:
 
 The original drawing were are:
 
-- The sun should be either:
+- The sun:
   - `circle(50, 50, 25)` or
   - `circle(75, 30, 15)`
-- The cloud should be:
+- The cloud:
   - `rectangle(25, 50, 50, 10)`
   - `circle(25, 50, 10)`
   - `circle(40, 40, 15)`
   - `circle(55, 40, 20)`
   - `circle(75, 50, 10)`
-- The rain should be:
+- The rain:
   - `ellipse(30, 70, 3, 5)`
   - `ellipse(50, 70, 3, 5)`
   - `ellipse(70, 70, 3, 5)`
   - `ellipse(40, 80, 3, 5)`
   - `ellipse(60, 80, 3, 5)`
-- The snow should be:
+- The snow:
   - `circle(30, 70, 5)`
   - `circle(50, 70, 5)`
   - `circle(70, 70, 5)`

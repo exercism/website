@@ -3,13 +3,13 @@
   "description": "Add and smash some blocks!",
   "project_type": "breakout",
   "level": 8,
-  "idx": 3,
+  "idx": 4,
   "tests_type": "state",
   "interpreter_options": {
     "timePerFrame": 0.01,
     "repeat_delay": 10,
-    "max_total_loop_iterations": 500,
-    "max_repeat_until_game_over_iterations": 500,
+    "max_total_loop_iterations": 2000,
+    "max_repeat_until_game_over_iterations": 600,
     "max_total_execution_time": 30000
   },
   "stdlib_functions": ["push"],

@@ -118,6 +118,7 @@ export type RuntimeErrorType =
   | 'TooFewArguments'
   | 'TooManyArguments'
   | 'InvalidNumberOfArgumentsWithOptionalArguments'
+  | 'WrongNumberOfArgumentsInConstructor'
   | 'InvalidUnaryOperator'
   | 'InvalidBinaryExpression'
   | 'LogicError'

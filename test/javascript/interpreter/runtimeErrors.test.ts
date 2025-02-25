@@ -686,10 +686,7 @@ describe('NoneJikiObjectDetected', () => {
     })
 
     const context: EvaluationContext = { classes: [Person] }
-    const { frames, error } = interpret(
-      `log (new Person("Jeremy")).num()`,
-      context
-    )
+    const { frames, error } = interpret(`log (new Person()).num()`, context)
 
     expect(frames[0].error!.message).toBe('NoneJikiObjectDetected')
   })
@@ -721,9 +718,62 @@ test('CouldNotFindSetter', () => {
   expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
 })
 
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
+describe('WrongNumberOfArgumentsInConstructor', () => {
+  test('Some when none expect', () => {
+    const Person = new Jiki.Class('Person')
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person("foo")`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 0, numberOfArgs: 1'
+    )
+  })
+  test('None when Some expect', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(`set person to new Person()`, context)
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 0'
+    )
+  })
+  test('More than expected', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person(1,2,3)`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 3'
+    )
+  })
+})
 // TOOD: Strings are immutable
 
 // ClassNotFound
 // CouldNotFindMethod
 // AccessorUsedOnNonInstance
-// WrongNumberOfArguments
+// WrongNumberOfArgumentsInConstructor

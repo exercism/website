@@ -134,7 +134,6 @@ function testState(
         ...testData.params
       )
     } else {
-      console.log(context)
       evaluated = interpret(exampleScript, context)
     }
 

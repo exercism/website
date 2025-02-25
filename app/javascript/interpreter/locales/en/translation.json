@@ -98,6 +98,7 @@
       "TooFewArguments": "Did you forget an input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "TooManyArguments": "Did you add an extra input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "InvalidNumberOfArgumentsWithOptionalArguments": "Expected at least {{minArity}} inputs but got {{numberOfArgs}}.",
+      "WrongNumberOfArgumentsInConstructor": "You provided the wrong number of inputs into this constructor. It expected {{arity}} but you gave it {{numberOfArgs}}.",
       "InvalidUnaryOperator": "Invalid unary operator",
       "LogicError": "{{message}}",
       "MissingKeyInDictionary": "Jiki couldn't find a key called `{{key}}` in the dictionary.",

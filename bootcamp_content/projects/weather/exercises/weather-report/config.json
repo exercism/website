@@ -2,7 +2,7 @@
   "title": "Weather Report",
   "description": "Turn descriptions into drawing elements",
   "level": 8,
-  "idx": 3,
+  "idx": 1,
   "project_type": "weather",
   "tests_type": "state",
   "interpreter_options": {
@@ -19,13 +19,24 @@
           "function": "draw_weather",
           "params": [
             {
-              "weather": {
-                "now": "snowboarding-time",
-                "next": [
-                  { "time": "07:00", "description": "sunny" },
-                  { "time": "08:00", "description": "dull" },
-                  { "time": "09:00", "description": "hopeful" }
-                ]
+              "meteorological": {
+                "2025": {
+                  "02": {
+                    "25": {
+                      "weather": {
+                        "summary": [
+                          {
+                            "time": "06:30",
+                            "description": "snowboarding-time"
+                          },
+                          { "time": "07:00", "description": "sunny" },
+                          { "time": "08:00", "description": "dull" },
+                          { "time": "09:00", "description": "hopeful" }
+                        ]
+                      }
+                    }
+                  }
+                }
               }
             }
           ],
@@ -182,13 +193,24 @@
           "function": "draw_weather",
           "params": [
             {
-              "weather": {
-                "now": "miserable",
-                "next": [
-                  { "time": "07:00", "description": "miserable" },
-                  { "time": "08:00", "description": "dull" },
-                  { "time": "09:00", "description": "rainbow-territory" }
-                ]
+              "meteorological": {
+                "2025": {
+                  "02": {
+                    "25": {
+                      "weather": {
+                        "summary": [
+                          { "time": "06:30", "description": "miserable" },
+                          { "time": "07:00", "description": "miserable" },
+                          { "time": "08:00", "description": "dull" },
+                          {
+                            "time": "09:00",
+                            "description": "rainbow-territory"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
               }
             }
           ],

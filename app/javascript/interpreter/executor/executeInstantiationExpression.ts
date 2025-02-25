@@ -22,9 +22,9 @@ export function executeInstantiationExpression(
   const jikiClass = className.class
 
   if (expression.args.length !== jikiClass.arity) {
-    executor.error('WrongNumberOfArguments', expression.location, {
-      expected: jikiClass.arity,
-      got: expression.args.length,
+    executor.error('WrongNumberOfArgumentsInConstructor', expression.location, {
+      arity: jikiClass.arity,
+      numberOfArgs: expression.args.length,
     })
   }
   const args: EvaluationResultExpression[] = []

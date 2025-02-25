@@ -39,6 +39,11 @@ function handle_collision with ball, blocks do
       change block.smashed to true
       return
     end
+    if ball_bottom == block.top do
+      change ball.y_velocity to -1
+      change block.smashed to true
+      return
+    end
   end
 end
 

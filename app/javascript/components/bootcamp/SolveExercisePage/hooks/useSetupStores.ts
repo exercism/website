@@ -16,11 +16,11 @@ export function useSetupStores({
   const { setFlatPreviewTaskTests } = useTestStore()
 
   useLayoutEffect(() => {
+    initializeTasks(exercise.tasks, null)
+
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
     setWasFinishLessonModalShown(solution.passedBasicTests)
     setShouldShowBonusTasks(solution.passedBasicTests)
-
-    initializeTasks(exercise.tasks, null)
     setFlatPreviewTaskTests(
       exercise.tasks.flatMap((task) => {
         // we don't show bonus tasks in the preview.

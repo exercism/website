@@ -48,6 +48,9 @@ export function useCustomFunctionEditorHandler({
   } = useEditorStore()
 
   const handleRunCode = () => {
+    if (!tests || tests.length === 0) {
+      return
+    }
     setHasCodeBeenEdited(false)
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()

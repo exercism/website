@@ -1,14 +1,9 @@
 // Sky variables
 set sky_color to "#add8e6"
-
-set sky_h to 232
-set sky_s to 100
-set sky_l to 50
-
 set sky_left to 0
 set sky_top to 0
 set sky_width to 100
-set sky_height to 100
+set sky_height to 20
 
 // Grass variables
 set grass_color to "#3cb372"
@@ -27,11 +22,10 @@ set house_height to 40
 // Roof variables
 set roof_color to "#8b4513"
 set roof_overhang to 4
-set roof_height to 20
 set roof_left to house_left - roof_overhang
 set roof_right to house_left + house_width + roof_overhang
 set roof_peak_x to house_left + house_width / 2
-set roof_peak_y to house_top - roof_height
+set roof_peak_y to house_top - 20
 set roof_base_y to house_top
 
 // Left window variables
@@ -58,40 +52,34 @@ set knob_center_x to 55
 set knob_center_y to 81
 set knob_radius to 1
 
-repeat 100 times do
-  
-  change sky_l to sky_l - 1
+// The sky
+fill_color_hex(sky_color)
+rectangle(sky_left, sky_top, sky_width, sky_height)
 
-  // The sky
-  fill_color_hsl(sky_h, sky_s, sky_l)
-  rectangle(sky_left, sky_top, sky_width, sky_height)
+// The grass
+fill_color_hex(grass_color)
+rectangle(grass_left, grass_top, grass_width, grass_height)
 
-  // The grass
-  fill_color_hex(grass_color)
-  rectangle(grass_left, grass_top, grass_width, grass_height)
+// The frame of the house
+fill_color_hex(house_color)
+rectangle(house_left, house_top, house_width, house_height)
 
-  // The frame of the house
-  fill_color_hex(house_color)
-  rectangle(house_left, house_top, house_width, house_height)
+// The roof
+fill_color_hex(roof_color)
+triangle(roof_left, roof_base_y, roof_peak_x, roof_peak_y, roof_right, roof_base_y)
 
-  // The roof
-  fill_color_hex(roof_color)
-  triangle(roof_left, roof_base_y, roof_peak_x, roof_peak_y, roof_right, roof_base_y)
+// The left window
+fill_color_hex(window_color)
+rectangle(window1_left, window1_top, window_width, window_height)
 
-  // The left window
-  fill_color_hex(window_color)
-  rectangle(window1_left, window1_top, window_width, window_height)
+// The second window
+fill_color_hex(window_color)
+rectangle(window2_left, window2_top, window_width, window_height)
 
-  // The second window
-  fill_color_hex(window_color)
-  rectangle(window2_left, window2_top, window_width, window_height)
+// The door
+fill_color_hex(door_color)
+rectangle(door_left, door_top, door_width, door_height)
 
-  // The door
-  fill_color_hex(door_color)
-  rectangle(door_left, door_top, door_width, door_height)
-
-  // The door knob
-  fill_color_hex(knob_color)
-  circle(knob_center_x, knob_center_y, knob_radius)
-
-end
+// The door knob
+fill_color_hex(knob_color)
+circle(knob_center_x, knob_center_y, knob_radius)

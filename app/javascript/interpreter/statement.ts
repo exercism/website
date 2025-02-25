@@ -68,7 +68,7 @@ export class ChangePropertyStatement extends Statement {
     super('ChangePropertyStatement')
   }
   public children() {
-    return [this.object, this.property, this.value]
+    return [this.object, this.value]
   }
 }
 

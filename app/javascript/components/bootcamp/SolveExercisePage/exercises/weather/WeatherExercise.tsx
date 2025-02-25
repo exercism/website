@@ -46,75 +46,10 @@ export default class WeatherExercise extends DrawExercise {
     }
   }
 
-  public doEnd(_) {
-    console.log(
-      this.shapes
-        .map((shape) => {
-          if (shape instanceof Circle) {
-            return (
-              'getCircleAt(' +
-              shape.cx +
-              ', ' +
-              shape.cy +
-              ', ' +
-              shape.radius +
-              ')'
-            )
-          }
-          if (shape instanceof Rectangle) {
-            return (
-              'getRectangleAt(' +
-              shape.x +
-              ', ' +
-              shape.y +
-              ', ' +
-              shape.width +
-              ', ' +
-              shape.height +
-              ')'
-            )
-          }
-          if (shape instanceof Triangle) {
-            return (
-              'getTriangleAt(' +
-              shape.x1 +
-              ', ' +
-              shape.y1 +
-              ', ' +
-              shape.x2 +
-              ', ' +
-              shape.y2 +
-              ', ' +
-              shape.x3 +
-              ', ' +
-              shape.y3 +
-              ')'
-            )
-          }
-          if (shape instanceof Ellipse) {
-            return (
-              'getEllipseAt(' +
-              shape.x +
-              ', ' +
-              shape.y +
-              ', ' +
-              shape.rx +
-              ', ' +
-              shape.ry +
-              ')'
-            )
-          }
-          return ''
-        })
-        .join('\n')
-    )
-  }
-
   // TODO: How do I get just the ones I want out of DrawExercise
   // (circle, fillColorHex, fillColorRGB, fillColorHSL)
   // and then add the new ones to this?
   public availableFunctions = [
-    { name: 'doEnd', func: this.doEnd.bind(this), description: '' },
     {
       name: 'clear',
       func: this.clear.bind(this),

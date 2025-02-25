@@ -45,6 +45,7 @@ export class Class {
   private readonly methods: Record<string, Method> = {}
   private readonly getters: Record<string, Getter> = {}
   private readonly setters: Record<string, Setter> = {}
+  public arity: Arity = 0
 
   public instantiate(
     executionContext: ExecutionContext,
@@ -62,6 +63,7 @@ export class Class {
     fn: (executionContext: ExecutionContext, ...args: any[]) => void
   ) {
     this.initialize = fn
+    this.arity = fn.length - 1
   }
 
   //

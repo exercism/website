@@ -57,6 +57,16 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: keys,
     description: 'retrieved the keys of the dictionary',
   },
+  min: {
+    name: 'min',
+    func: min,
+    description: 'returned the minimum of two numbers',
+  },
+  max: {
+    name: 'max',
+    func: max,
+    description: 'returned the maximum of two numbers',
+  },
 }
 
 function join(
@@ -137,6 +147,28 @@ function keys(_: ExecutionContext, dict: Jiki.Dictionary): Jiki.List {
       (key: string) => new Jiki.String(key)
     )
   )
+}
+
+function min(
+  _: ExecutionContext,
+  num1: Jiki.Number,
+  num2: Jiki.Number
+): Jiki.Number {
+  verifyType(num1, Jiki.Number, 'number', 1)
+  verifyType(num2, Jiki.Number, 'number', 2)
+
+  return new Jiki.Number(Math.min(num1.value, num2.value))
+}
+
+function max(
+  _: ExecutionContext,
+  num1: Jiki.Number,
+  num2: Jiki.Number
+): Jiki.Number {
+  verifyType(num1, Jiki.Number, 'number', 1)
+  verifyType(num2, Jiki.Number, 'number', 2)
+
+  return new Jiki.Number(Math.max(num1.value, num2.value))
 }
 
 function verifyType(

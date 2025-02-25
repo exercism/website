@@ -78,24 +78,25 @@ export abstract class Exercise {
   }
 
   public animateIntoView(
-    executionContext: ExecutionContext,
+    executionCtx: ExecutionContext,
     targets: string,
-    offset: number = 0
+    options = { duration: 1, offset: 0 }
   ) {
     this.addAnimation({
       targets,
-      duration: 1,
+      duration: options.duration,
       transformations: {
         opacity: 1,
       },
-      offset: executionContext.getCurrentTime() + offset,
+      offset: executionCtx.getCurrentTime() + options.offset,
     })
-    executionContext.fastForward(1)
+    executionCtx.fastForward(1)
   }
+
   public animateOutOfView(
-    executionContext: ExecutionContext,
+    executionCtx: ExecutionContext,
     targets: string,
-    options = { duration: 0, offset: 0 }
+    options = { duration: 1, offset: 0 }
   ) {
     this.addAnimation({
       targets,
@@ -103,9 +104,9 @@ export abstract class Exercise {
       transformations: {
         opacity: 0,
       },
-      offset: executionContext.getCurrentTime() + options.offset,
+      offset: executionCtx.getCurrentTime() + options.offset,
     })
-    executionContext.fastForward(1)
+    executionCtx.fastForward(1)
   }
 
   protected fireFireworks(_: ExecutionContext, startTime: number) {

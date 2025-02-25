@@ -262,7 +262,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(rect)
     this.visibleShapes.push(rect)
-    this.animateElementIntoView(executionCtx, elem)
+    this.animateShapeIntoView(executionCtx, elem)
     // return rect
   }
   public line(
@@ -301,7 +301,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(line)
     this.visibleShapes.push(line)
-    this.animateElementIntoView(executionCtx, elem)
+    this.animateShapeIntoView(executionCtx, elem)
   }
 
   public circle(
@@ -334,7 +334,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(circle)
     this.visibleShapes.push(circle)
-    this.animateElementIntoView(executionCtx, elem)
+    this.animateShapeIntoView(executionCtx, elem)
     // return circle
   }
 
@@ -374,7 +374,7 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(ellipse)
     this.visibleShapes.push(ellipse)
-    this.animateElementIntoView(executionCtx, elem)
+    this.animateShapeIntoView(executionCtx, elem)
     // return ellipse
   }
 
@@ -422,24 +422,21 @@ export default class DrawExercise extends Exercise {
     )
     this.shapes.push(triangle)
     this.visibleShapes.push(triangle)
-    this.animateElementIntoView(executionCtx, elem)
+    this.animateShapeIntoView(executionCtx, elem)
     // return triangle
   }
 
-  protected animateElementIntoView(
+  protected animateShapeIntoView(
     executionCtx: ExecutionContext,
     elem: SVGElement
   ) {
-    const duration = 1
-    this.addAnimation({
-      targets: `#${this.view.id} #${elem.id}`,
-      duration,
-      transformations: {
-        opacity: 1,
-      },
-      offset: executionCtx.getCurrentTime(),
-    })
-    executionCtx.fastForward(duration)
+    this.animateIntoView(executionCtx, `#${this.view.id} #${elem.id}`)
+  }
+  protected animateShapeOutOfView(
+    executionCtx: ExecutionContext,
+    elem: SVGElement
+  ) {
+    this.animateOutOfView(executionCtx, `#${this.view.id} #${elem.id}`)
   }
 
   public clear(executionCtx: ExecutionContext) {

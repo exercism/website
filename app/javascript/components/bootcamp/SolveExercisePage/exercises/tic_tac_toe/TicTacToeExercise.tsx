@@ -28,11 +28,11 @@ export default class TicTacToeExercise extends DrawExercise {
     this.resultElem.innerHTML = text
     this.animateResult(executionCtx)
   }
-  protected animateElementIntoView(
+  protected animateShapeIntoView(
     executionCtx: ExecutionContext,
     elem: SVGElement
   ) {
-    super.animateElementIntoView(executionCtx, elem)
+    super.animateShapeIntoView(executionCtx, elem)
     executionCtx.fastForward(50)
   }
 

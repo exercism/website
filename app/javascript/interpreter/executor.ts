@@ -528,6 +528,9 @@ export class Executor {
       () => {
         const value = this.evaluate(statement.value)
 
+        if (!(object.jikiObject instanceof Jiki.Instance)) {
+          this.error('AccessorUsedOnNonInstance', statement.object.location)
+        }
         const setter = object.jikiObject.getSetter(statement.property.lexeme)
         if (!setter) {
           this.error('CouldNotFindSetter', statement.property.location, {

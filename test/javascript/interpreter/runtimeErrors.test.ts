@@ -726,3 +726,4 @@ test('CouldNotFindSetter', () => {
 // ClassNotFound
 // CouldNotFindMethod
 // AccessorUsedOnNonInstance
+// WrongNumberOfArguments

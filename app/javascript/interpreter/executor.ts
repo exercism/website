@@ -662,6 +662,7 @@ export class Executor {
       this.environment,
       this.languageFeatures
     )
+    this.guardDefinedName(statement.name)
     this.environment.define(statement.name.lexeme, func)
   }
 

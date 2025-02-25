@@ -88,13 +88,35 @@ describe('UnexpectedUncalledFunction', () => {
   })
 })
 describe('FunctionAlreadyDeclared', () => {
-  test('basic', () => {
+  test('variable name', () => {
     const code = 'set get_name to 5'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'FunctionAlreadyDeclared')
     expect(frames[0].error!.message).toBe(
       'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('external function', () => {
+    const code = `function get_name do
+    end`
+    const context = { externalFunctions: [getNameFunction] }
+    const { frames } = interpret(code, context)
+    expectFrameToBeError(frames[0], 'get_name', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('internal function', () => {
+    const code = `
+    function foobar do
+    end
+    function foobar do
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foobar', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: foobar'
     )
   })
 })

@@ -9,7 +9,7 @@
   "tests_type": "state",
   "stdlib_functions": ["push", "concatenate"],
   "interpreter_options": {
-    "timePerFrame": 0.01
+    "time_per_frame": 0.1
   },
   "tasks": [
     {

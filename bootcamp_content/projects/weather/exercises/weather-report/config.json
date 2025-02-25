@@ -5,6 +5,9 @@
   "idx": 3,
   "project_type": "weather",
   "tests_type": "state",
+  "interpreter_options": {
+    "time_per_frame": 0.01
+  },
   "tasks": [
     {
       "name": "Draw the scene",

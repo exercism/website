@@ -439,6 +439,7 @@ export default class DrawExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
+    executionCtx.fastForward(1)
   }
 
   public clear(executionCtx: ExecutionContext) {

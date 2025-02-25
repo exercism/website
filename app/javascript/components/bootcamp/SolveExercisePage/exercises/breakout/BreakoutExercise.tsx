@@ -91,8 +91,8 @@ export default class BreakoutExercise extends Exercise {
       this.container.appendChild(div)
 
       this.animateIntoView(
-        `#${this.view.id} #block-${block.objectId}`,
-        executionCtx.getCurrentTime()
+        executionCtx,
+        `#${this.view.id} #block-${block.objectId}`
       )
     }
     const hideBlock = (
@@ -100,8 +100,8 @@ export default class BreakoutExercise extends Exercise {
       block: Jiki.JikiObject
     ) => {
       this.animateOutOfView(
-        `#${this.view.id} #block-${block.objectId}`,
-        executionCtx.getCurrentTime()
+        executionCtx,
+        `#${this.view.id} #block-${block.objectId}`
       )
     }
 

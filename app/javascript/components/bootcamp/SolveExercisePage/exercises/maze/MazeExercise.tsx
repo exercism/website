@@ -310,6 +310,7 @@ export default class MazeExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
+    executionCtx.fastForward(1)
   }
 
   private gameOverWin(executionCtx: ExecutionContext) {

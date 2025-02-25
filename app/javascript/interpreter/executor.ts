@@ -135,7 +135,6 @@ class BreakFlowControlError extends Error {
 
 export class Executor {
   private frames: Frame[] = []
-  private frameTime: number = 0
   private location: Location | null = null
   private time: number = 0
   private timePerFrame: number

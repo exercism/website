@@ -8,7 +8,7 @@
   "blocks_project_progression": false,
   "tests_type": "state",
   "interpreter_options": {
-    "timePerFrame": 0.01,
+    "time_per_frame": 0.01,
     "repeat_delay": 50,
     "max_total_execution_time": 30000
   },

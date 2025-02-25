@@ -7,9 +7,9 @@ Previously, when you used `look(direction)` you would get a emoji back represent
 That was a little odd as some of the emojis had meaning (e.g. `"⭐"` or `"🏁"`) whereas others were available for you to pick up.
 
 To make things clearer, we've now changed the way `look` works.
-Rather than returning a string back, it now returns a **Square** object.
+Rather than returning a string back, it now returns an object that is an instance of the `Square` class.
 
-The **Square** has a few properties you can use:
+The object has a few properties you can use:
 
 - `is_start`: A boolean representing whether this is the start square.
 - `is_finish`: A boolean representing whether this is the finishing square.

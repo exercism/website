@@ -11,6 +11,7 @@ import {
 } from '@/interpreter/statement'
 import { InterpretResult } from '@/interpreter/interpreter'
 import * as Jiki from '@/interpreter/jikiObjects'
+import { exec } from 'child_process'
 
 type GameStatus = 'running' | 'won' | 'lost'
 type AlienStatus = 'alive' | 'dead'
@@ -132,6 +133,7 @@ export default class SpaceInvadersExercise extends Exercise {
       transformations: { opacity: 0 },
       offset: deathTime,
     })
+    executionCtx.fastForward(1)
     this.respawnAlien(executionCtx, alien)
   }
 

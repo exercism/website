@@ -134,7 +134,9 @@
       "MaxTotalExecutionTimeReached": "MaxTotalExecutionTimeReached",
       "ListsCannotBeCompared": "ListsCannotBeCompared",
       "ObjectsCannotBeCompared": "ObjectsCannotBeCompared",
-      "NoneJikiObjectDetected": "NoneJikiObjectDetected"
+      "NoneJikiObjectDetected": "NoneJikiObjectDetected",
+      "CouldNotFindGetter": "CouldNotFindGetter: name: {{name}}",
+      "CouldNotFindSetter": "CouldNotFindSetter: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

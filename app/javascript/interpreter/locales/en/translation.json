@@ -132,7 +132,9 @@
       "MaxTotalExecutionTimeReached": "Your code took too long to run and we stopped it here to prevent it crashing your browser.",
       "ListsCannotBeCompared": "You can't compare lists directly to each other in JikiScript. Different languages handle this very differently, and Jiki's decided to opt out of the confusion. If you need to compare lists, we'll provide you with a specific function in the instructions.",
       "ObjectsCannotBeCompared": "You can't use an object in a comparsion. Did you mean to check an object's property or call one of its methods?",
-      "NoneJikiObjectDetected": "Something's gone a bit wrong with the code behind this exercise. Please post your code and this error message on Discord or the forum. Sorry!"
+      "NoneJikiObjectDetected": "Something's gone a bit wrong with the code behind this exercise. Please post your code and this error message on Discord or the forum. Sorry!",
+      "CouldNotFindGetter": "This object doesn't have a property called `{{name}}` that you can read.",
+      "CouldNotFindSetter": "This object doesn't have a property called `{{name}}` that you can change."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

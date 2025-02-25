@@ -156,6 +156,8 @@ export type RuntimeErrorType =
   | 'IncomparableTypes'
   | 'InvalidLiteralType'
   | 'NoneJikiObjectDetected'
+  | 'CouldNotFindGetter'
+  | 'CouldNotFindSetter'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

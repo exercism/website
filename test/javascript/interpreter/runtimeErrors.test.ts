@@ -658,6 +658,7 @@ describe('OperandMustBeNumber', () => {
 describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
+    // @ts-ignore
     Person.addMethod('num', function (this: any, _) {
       return 5
     })
@@ -672,10 +673,34 @@ describe('NoneJikiObjectDetected', () => {
   })
 })
 
+test('CouldNotFindGetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      log person.foo`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindGetter: name: foo')
+})
+
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
 // TOOD: Strings are immutable
 
 // ClassNotFound
 // CouldNotFindMethod
 // AccessorUsedOnNonInstance
-// CouldNotFindGetter
-//CouldNotFindSetter

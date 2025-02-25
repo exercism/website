@@ -858,7 +858,11 @@ export class Parser {
     this.guardValidVariableName(methodName)
 
     if (!this.check('LEFT_PAREN')) {
-      return new AccessorExpression(expression, methodName, expression.location)
+      return new AccessorExpression(
+        expression,
+        methodName,
+        Location.between(expression, methodName)
+      )
     }
 
     const leftParen = this.consume(

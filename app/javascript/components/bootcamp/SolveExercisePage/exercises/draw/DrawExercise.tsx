@@ -439,7 +439,7 @@ export default class DrawExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
-    executionCtx.fastForward(1)
+    executionCtx.fastForward(duration)
   }
 
   public clear(executionCtx: ExecutionContext) {
@@ -454,6 +454,7 @@ export default class DrawExercise extends Exercise {
         offset: executionCtx.getCurrentTime(),
       })
     })
+    executionCtx.fastForward(duration)
 
     this.visibleShapes = []
   }

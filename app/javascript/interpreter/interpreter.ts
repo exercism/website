@@ -134,7 +134,7 @@ export class Interpreter {
     this.languageFeatures = {
       includeList: undefined,
       excludeList: undefined,
-      timePerFrame: 1,
+      timePerFrame: 0.01,
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 100,

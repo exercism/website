@@ -119,6 +119,11 @@ export function useTasks() {
         setIsFinishModalOpen(true)
       }
 
+      // since completed bonus tasks modal is not part of the finish lesson modal views, we must close it if it is open
+      if (isCompletedBonusTasksModalOpen) {
+        setIsCompletedBonusTasksModalOpen(false)
+      }
+
       if (completedData.completed_level_idx) {
         setModalView('completedLevel')
         setCompletedLevelIdx(completedData.completed_level_idx)
@@ -128,7 +133,12 @@ export function useTasks() {
     } catch (e) {
       console.error('Error completing solution: ', e)
     }
-  }, [completeSolutionLink, nextExerciseData, isFinishModalOpen])
+  }, [
+    completeSolutionLink,
+    nextExerciseData,
+    isFinishModalOpen,
+    isCompletedBonusTasksModalOpen,
+  ])
 
   return {
     modalView,

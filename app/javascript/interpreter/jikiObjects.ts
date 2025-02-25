@@ -135,7 +135,7 @@ export class Instance extends JikiObject {
     return this
   }
   public toString() {
-    return `Instance of ${this.jikiClass.name}`
+    return `(an instance of ${this.jikiClass.name})`
   }
   public getMethod(name: string): Method | undefined {
     return this.jikiClass.getMethod(name)
@@ -210,6 +210,9 @@ export class List extends Primitive {
     return new List(this.value.map((item) => item.toArg()))
   }
   public toString() {
+    if (this.value.length === 0) {
+      return '[]'
+    }
     return `[ ${this.value.map((item) => item.toString()).join(', ')} ]`
   }
 }
@@ -226,6 +229,9 @@ export class Dictionary extends Primitive {
     )
   }
   public toString() {
+    if (this.value.size === 0) {
+      return '{}'
+    }
     const stringified = Object.fromEntries(
       [...this.value.entries()].map(([key, value]) => [
         key,
@@ -248,11 +254,11 @@ export function unwrapJikiObject(value: any): any {
   if (value instanceof Literal) {
     return value.value
   }
-  if (value instanceof List) {
-    return value.value.map(unwrapJikiObject)
-  }
   if (value instanceof Instance) {
     return 'Instance'
+  }
+  if (value instanceof List) {
+    return value.value.map(unwrapJikiObject)
   }
   if (value instanceof Dictionary) {
     return Object.fromEntries(

@@ -76,7 +76,8 @@
       "MissingLeftParenthesisInInstantiation": "Did you forget the start parenthesis when trying to instantiate a new object?",
       "MissingRightParenthesisInInstantiation": "Did you forget the end parenthesis when trying to instantiate a new object?",
       "InvalidClassNameInInstantiation": "Jiki couldn't work out which class you refering to here. Class names must start with a capital letter.",
-      "InvalidVariableName": "Variable names must start with a lowercase letter."
+      "InvalidVariableName": "Variable names must start with a lowercase letter.",
+      "MissingSecondElementNameAfterForeach": "Did you forget to add a second variable name after the comma?"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",
@@ -135,7 +136,12 @@
       "ObjectsCannotBeCompared": "You can't use an object in a comparsion. Did you mean to check an object's property or call one of its methods?",
       "NoneJikiObjectDetected": "Something's gone a bit wrong with the code behind this exercise. Please post your code and this error message on Discord or the forum. Sorry!",
       "CouldNotFindGetter": "This object doesn't have a property called `{{name}}` that you can read.",
-      "CouldNotFindSetter": "This object doesn't have a property called `{{name}}` that you can change."
+      "CouldNotFindSetter": "This object doesn't have a property called `{{name}}` that you can change.",
+      "ClassNotFound": "Jiki couldn't find this blueprint on the shelves!",
+      "CouldNotFindMethod": "Jiki couldn't find a method with this name.",
+      "AccessorUsedOnNonInstance": "You can only use dot notation on objects, not on lists, dictionaries, etc.",
+      "UnexpectedForeachSecondElementName": "When you iterate through a {{type}}, you should only specify one variable name.",
+      "MissingForeachSecondElementName": "When you iterate through a dictionary, you need to specify two variable names - one of the key and one for the value."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

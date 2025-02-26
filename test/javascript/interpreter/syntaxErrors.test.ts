@@ -846,4 +846,10 @@ test.skip('right bracket', () => {
     'MissingLeftParenthesisAfterMethodCall'
   )
 })
+
+test('MissingSecondElementNameAfterForeach', () => {
+  expect(() => parse(`for each key, in {} do`)).toThrow(
+    'MissingSecondElementNameAfterForeach'
+  )
+})
 // MissingToAfterChangeKeyword

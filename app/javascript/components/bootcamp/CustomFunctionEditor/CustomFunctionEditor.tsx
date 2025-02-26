@@ -59,8 +59,6 @@ export default function CustomFunctionEditor({
     areAllTestsPassing,
   } = useTestManager(customFunction)
 
-  useLogger('results', results)
-
   const {
     name,
     setName,

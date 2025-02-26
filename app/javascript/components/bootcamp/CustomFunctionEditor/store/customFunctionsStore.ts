@@ -1,4 +1,5 @@
-import { createStoreWithMiddlewares } from '../../SolveExercisePage/store/utils'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 export type CustomFunctionMetadata = {
   slug: string
@@ -8,8 +9,8 @@ export type CustomFunctionMetadata = {
 
 export type CustomFunctionForInterpreter = {
   code: string
-  fn_arity: number
-  fn_name: string
+  arity: number
+  name: string
   slug: string
 }
 
@@ -25,37 +26,40 @@ type CustomFunctionsStore = {
   removeCustomFunctionsForInterpreter: (slug: string) => void
 }
 
-const useCustomFunctionStore = createStoreWithMiddlewares<CustomFunctionsStore>(
-  (set) => ({
-    customFunctionMetadataCollection: [],
-    setCustomFunctionMetadataCollection: (customFunctionMetadataCollection) => {
-      set({ customFunctionMetadataCollection })
-    },
-    customFunctionsForInterpreter: [],
-    addCustomFunctionsForInterpreter: (customFunctionsForInterpreter) => {
-      set((state) => {
-        const customFnsForInterpreter = [
-          ...state.customFunctionsForInterpreter,
-          customFunctionsForInterpreter,
-        ]
-        return {
-          customFunctionsForInterpreter: customFnsForInterpreter,
-        }
-      })
-    },
-    removeCustomFunctionsForInterpreter: (slug) => {
-      set((state) => {
-        const customFnsForInterpreter =
-          state.customFunctionsForInterpreter.filter((fn) => fn.slug !== slug)
-        console.log('inside remover', customFnsForInterpreter)
+const useCustomFunctionStore = create<CustomFunctionsStore>()(
+  persist(
+    (set) => ({
+      customFunctionMetadataCollection: [],
+      setCustomFunctionMetadataCollection: (
+        customFunctionMetadataCollection
+      ) => {
+        set({ customFunctionMetadataCollection })
+      },
+      customFunctionsForInterpreter: [],
+      addCustomFunctionsForInterpreter: (customFunctionsForInterpreter) => {
+        set((state) => {
+          const customFnsForInterpreter = [
+            ...state.customFunctionsForInterpreter,
+            customFunctionsForInterpreter,
+          ]
+          return {
+            customFunctionsForInterpreter: customFnsForInterpreter,
+          }
+        })
+      },
+      removeCustomFunctionsForInterpreter: (slug) => {
+        set((state) => {
+          const customFnsForInterpreter =
+            state.customFunctionsForInterpreter.filter((fn) => fn.slug !== slug)
 
-        return {
-          customFunctionsForInterpreter: customFnsForInterpreter,
-        }
-      })
-    },
-  }),
-  'CustomFunctionsStore'
+          return {
+            customFunctionsForInterpreter: customFnsForInterpreter,
+          }
+        })
+      },
+    }),
+    { name: 'custom-functions-store' }
+  )
 )
 
 export default useCustomFunctionStore

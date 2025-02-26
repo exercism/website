@@ -62,7 +62,10 @@ export function SettingsButton() {
         </div>
       )}
 
-      <ManageCustomFunctionsModal isOpen={isManagerModalOpen} />
+      <ManageCustomFunctionsModal
+        isOpen={isManagerModalOpen}
+        setIsOpen={setIsManagerModalOpen}
+      />
     </>
   )
 }

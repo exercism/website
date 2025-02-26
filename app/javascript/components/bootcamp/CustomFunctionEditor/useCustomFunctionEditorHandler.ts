@@ -5,6 +5,7 @@ import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import { CustomTests, Results } from './useTestManager'
+import useCustomFunctionStore from './store/customFunctionsStore'
 
 export function useCustomFunctionEditorHandler({
   tests,
@@ -47,6 +48,8 @@ export function useCustomFunctionEditorHandler({
     setHasCodeBeenEdited,
   } = useEditorStore()
 
+  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+
   // TODO: clean up errors on handle run code
   const handleRunCode = () => {
     if (!tests || tests.length === 0) {
@@ -66,10 +69,21 @@ export function useCustomFunctionEditorHandler({
 
         const fnEvaluationResult = evaluateFunction(
           value,
-          { languageFeatures: { customFunctionDefinitionMode: true } },
+          {
+            languageFeatures: { customFunctionDefinitionMode: true },
+            customFunctions: customFunctionsForInterpreter.map((cfn) => {
+              return {
+                name: cfn.name,
+                arity: cfn.arity,
+                code: cfn.code,
+              }
+            }),
+          },
           functionName,
           ...args
         )
+
+        console.log('fn eval result', fnEvaluationResult)
 
         setResults((a) => ({
           ...a,
@@ -80,6 +94,8 @@ export function useCustomFunctionEditorHandler({
           },
         }))
       })
+
+      console.log('tests', tests)
 
       // autoselect the first test as inspected
       setInspectedTest(tests[0].uuid)

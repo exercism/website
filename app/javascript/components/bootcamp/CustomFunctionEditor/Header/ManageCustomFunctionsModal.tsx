@@ -12,7 +12,7 @@ import {
 
 Modal.setAppElement('body')
 
-export function ManageCustomFunctionsModal({ isOpen }) {
+export function ManageCustomFunctionsModal({ isOpen, setIsOpen }) {
   const {
     customFunctionMetadataCollection,
     customFunctionsForInterpreter,
@@ -51,9 +51,12 @@ export function ManageCustomFunctionsModal({ isOpen }) {
       )
 
       const [firstFn] = data.custom_functions
-      addCustomFunctionsForInterpreter({ ...firstFn, slug })
-
-      console.log('DATA', data)
+      addCustomFunctionsForInterpreter({
+        arity: firstFn.fn_arity,
+        code: firstFn.code,
+        name: firstFn.fn_name,
+        slug,
+      })
     },
     []
   )
@@ -98,7 +101,12 @@ export function ManageCustomFunctionsModal({ isOpen }) {
         ) : (
           <div>There are no custom functions yet.</div>
         )}
-        <button className="btn-secondary btn-m">Close</button>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="btn-secondary btn-m"
+        >
+          Close
+        </button>
       </div>
     </Modal>
   )
@@ -130,7 +138,13 @@ function CustomFunctionMetadata({
 export async function getCustomFunctionsForInterpreter(
   url: string,
   slug: string
-): Promise<{ custom_functions: CustomFunctionForInterpreter[] }> {
+): Promise<{
+  custom_functions: {
+    code: string
+    fn_arity: number
+    fn_name: string
+  }[]
+}> {
   // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
   const response = await fetch(url + '?uuids=' + slug, {
     method: 'GET',

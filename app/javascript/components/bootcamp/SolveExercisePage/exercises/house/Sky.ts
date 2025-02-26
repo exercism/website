@@ -60,6 +60,12 @@ function fn(this: any) {
       executionCtx: ExecutionContext,
       brightness: Jiki.Number
     ) {
+      if (!(brightness instanceof Jiki.Number)) {
+        executionCtx.logicError('Ooops! Brightness must be a number.')
+      }
+      if (brightness.value < 0 || brightness.value > 100) {
+        executionCtx.logicError('Brightness must be between 0 and 100')
+      }
       this.fields['brightness'] = brightness
       changeSkyBrightness(executionCtx, this)
     }
@@ -72,6 +78,12 @@ function fn(this: any) {
       executionCtx: ExecutionContext,
       hue: Jiki.Number
     ) {
+      if (!(hue instanceof Jiki.Number)) {
+        executionCtx.logicError('Ooops! Hue must be a number.')
+      }
+      if (hue.value < 0) {
+        executionCtx.logicError("Hue can't go below 0!")
+      }
       if (hue.value > 310) {
         executionCtx.logicError("The sky can't go more red than 310!")
       }

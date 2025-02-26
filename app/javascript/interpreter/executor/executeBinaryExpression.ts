@@ -16,6 +16,8 @@ export function executeBinaryExpression(
   const rightResult = executor.evaluate(expression.right)
 
   guardLists(executor, expression, leftResult, rightResult)
+  guardObjects(executor, expression, leftResult, rightResult)
+
   const result: EvaluationResult = {
     type: 'BinaryExpression',
     left: leftResult,
@@ -211,5 +213,19 @@ function guardLists(
     rightResult.jikiObject instanceof JikiTypes.List
   ) {
     executor.error('ListsCannotBeCompared', expression.location)
+  }
+}
+
+function guardObjects(
+  executor: Executor,
+  expression: BinaryExpression,
+  leftResult: EvaluationResultExpression,
+  rightResult: EvaluationResultExpression
+) {
+  if (
+    leftResult.jikiObject instanceof JikiTypes.Instance ||
+    rightResult.jikiObject instanceof JikiTypes.Instance
+  ) {
+    executor.error('ObjectsCannotBeCompared', expression.location)
   }
 }

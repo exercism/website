@@ -132,8 +132,11 @@ describe('interpret', () => {
         public getMethod(name: string): Jiki.Method | undefined {
           return this.methods.get(name)
         }
-        public clone(): MutableNumber {
-          return new MutableNumber(this.value)
+        public toArg(): MutableNumber {
+          return this
+        }
+        public toString() {
+          return this.value.toString()
         }
         private increment() {
           this.value += 1
@@ -145,7 +148,7 @@ describe('interpret', () => {
         externalFunctions: [
           {
             name: 'get_number',
-            func: (_, i) => new MutableNumber(i),
+            func: (_, i: Jiki.Number) => new MutableNumber(i.value),
             description: '',
           },
         ],

@@ -17,7 +17,7 @@ const location = new Location(0, new Span(0, 0), new Span(0, 0))
 const getNameFunction = {
   name: 'get_name',
   func: (_interpreter: any) => {
-    return 'Jeremy'
+    return new Jiki.String('Jeremy')
   },
   description: '',
 }
@@ -88,13 +88,35 @@ describe('UnexpectedUncalledFunction', () => {
   })
 })
 describe('FunctionAlreadyDeclared', () => {
-  test('basic', () => {
+  test('variable name', () => {
     const code = 'set get_name to 5'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'FunctionAlreadyDeclared')
     expect(frames[0].error!.message).toBe(
       'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('external function', () => {
+    const code = `function get_name do
+    end`
+    const context = { externalFunctions: [getNameFunction] }
+    const { frames } = interpret(code, context)
+    expectFrameToBeError(frames[0], 'get_name', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('internal function', () => {
+    const code = `
+    function foobar do
+    end
+    function foobar do
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foobar', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: foobar'
     )
   })
 })
@@ -596,6 +618,17 @@ test('ListsCannotBeCompared', () => {
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
 })
 
+test('ObjectsCannotBeCompared', () => {
+  const context = { classes: [new Jiki.Class('Thing')] }
+  const code = `
+  set thing to new Thing()
+  log thing == 5
+  `
+  const { frames } = interpret(code, context)
+  expectFrameToBeError(frames[1], `log thing == 5`, 'ObjectsCannotBeCompared')
+  expect(frames[1].error!.message).toBe('ObjectsCannotBeCompared')
+})
+
 test('MissingKeyInDictionary', () => {
   const code = `log {}["a"]`
   const { frames } = interpret(code)
@@ -647,21 +680,100 @@ describe('OperandMustBeNumber', () => {
 describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
+    // @ts-ignore
     Person.addMethod('num', function (this: any, _) {
       return 5
     })
 
     const context: EvaluationContext = { classes: [Person] }
-    const { frames, error } = interpret(
-      `log (new Person("Jeremy")).num()`,
-      context
-    )
+    const { frames, error } = interpret(`log (new Person()).num()`, context)
 
     expect(frames[0].error!.message).toBe('NoneJikiObjectDetected')
   })
 })
 
+test('CouldNotFindGetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      log person.foo`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindGetter: name: foo')
+})
+
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
+describe('WrongNumberOfArgumentsInConstructor', () => {
+  test('Some when none expect', () => {
+    const Person = new Jiki.Class('Person')
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person("foo")`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 0, numberOfArgs: 1'
+    )
+  })
+  test('None when Some expect', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(`set person to new Person()`, context)
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 0'
+    )
+  })
+  test('More than expected', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person(1,2,3)`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 3'
+    )
+  })
+})
 // TOOD: Strings are immutable
 
 // ClassNotFound
 // CouldNotFindMethod
+// AccessorUsedOnNonInstance
+// WrongNumberOfArgumentsInConstructor

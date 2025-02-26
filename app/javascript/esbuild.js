@@ -27,7 +27,7 @@ function build() {
       watch: process.argv.includes('--watch'),
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
-      target: browserslistToEsbuild(),
+      target: 'es2022',
       define: {
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',

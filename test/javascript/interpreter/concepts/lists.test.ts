@@ -7,6 +7,7 @@ import {
   SetVariableStatement,
 } from '@/interpreter/statement'
 import {
+  AccessorExpression,
   BinaryExpression,
   FunctionCallExpression,
   GetElementExpression,
@@ -201,8 +202,8 @@ describe('parse', () => {
       expect(stmts[0]).toBeInstanceOf(ChangeElementStatement)
 
       const changeStmt = stmts[0] as ChangeElementStatement
-      expect(changeStmt.obj).toBeInstanceOf(VariableLookupExpression)
-      const lookupExpr = changeStmt.obj as VariableLookupExpression
+      expect(changeStmt.object).toBeInstanceOf(VariableLookupExpression)
+      const lookupExpr = changeStmt.object as VariableLookupExpression
       expect(lookupExpr.name.lexeme).toBe('scores')
 
       expect(changeStmt.field).toBeInstanceOf(LiteralExpression)
@@ -226,6 +227,22 @@ describe('parse', () => {
       expect(changeStmt.field).toBeInstanceOf(FunctionCallExpression)
       const indexExpr = changeStmt.field as FunctionCallExpression
       expect(indexExpr.callee.name.lexeme).toBe('foo')
+    })
+    test('with chained method', () => {
+      const stmts = parse('change foo.bar[0] to true')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(ChangeElementStatement)
+
+      const changeStmt = stmts[0] as ChangeElementStatement
+
+      expect(changeStmt.object).toBeInstanceOf(AccessorExpression)
+      const accessorExpr = changeStmt.object as AccessorExpression
+      expect(accessorExpr.property.lexeme).toBe('bar')
+      expect(accessorExpr.object).toBeInstanceOf(VariableLookupExpression)
+
+      expect(changeStmt.field).toBeInstanceOf(LiteralExpression)
+      const fieldExpr = changeStmt.field as LiteralExpression
+      expect(fieldExpr.value).toBe(0)
     })
   })
 

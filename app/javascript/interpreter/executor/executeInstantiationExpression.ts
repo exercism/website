@@ -21,6 +21,12 @@ export function executeInstantiationExpression(
   ) as EvaluationResultClassLookupExpression
   const jikiClass = className.class
 
+  if (expression.args.length !== jikiClass.arity) {
+    executor.error('WrongNumberOfArgumentsInConstructor', expression.location, {
+      arity: jikiClass.arity,
+      numberOfArgs: expression.args.length,
+    })
+  }
   const args: EvaluationResultExpression[] = []
   for (const arg of expression.args) {
     const evaluatedArg = executor.evaluate(arg)

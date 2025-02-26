@@ -28,6 +28,7 @@ import {
   MethodCallExpression,
   InstantiationExpression,
   ClassLookupExpression,
+  AccessorExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -48,6 +49,7 @@ import {
   BreakStatement,
   ContinueStatement,
   MethodCallStatement,
+  ChangePropertyStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -79,6 +81,8 @@ import type {
   EvaluationResultMethodCallStatement,
   EvaluationResultInstantiationExpression,
   EvaluationResultClassLookupExpression,
+  EvaluationResultGetterExpression,
+  EvaluationResultChangePropertyStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -96,6 +100,10 @@ import * as Jiki from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
+import {
+  executeAccessorExpression,
+  executeGetterExpression,
+} from './executor/executeGetterExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -127,15 +135,17 @@ class BreakFlowControlError extends Error {
 
 export class Executor {
   private frames: Frame[] = []
-  private frameTime: number = 0
   private location: Location | null = null
   private time: number = 0
+  private timePerFrame: number
   private totalLoopIterations = 0
   private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
 
   private readonly globals = new Environment()
   private environment = this.globals
+
+  private externalFunctionDescriptions: Record<string, string> = {}
 
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
@@ -159,7 +169,7 @@ export class Executor {
       // TODO: We need to consider default params here
       const arity = externalFunction.arity || [func.length - 1, func.length - 1]
       const call = (context: ExecutionContext, args: any[]) =>
-        func(context, ...args.map((arg) => Jiki.unwrapJikiObject(arg)))
+        func(context, ...args)
 
       const callable = {
         arity: arity,
@@ -168,11 +178,18 @@ export class Executor {
 
       this.globals.define(externalFunction.name, callable)
     }
+    this.externalFunctionDescriptions = {
+      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
+        acc[fn.name] = fn.description
+        return acc
+      }, {}),
+    }
 
     for (let jikiClass of classes) {
       this.globals.define(jikiClass.name, jikiClass)
     }
 
+    this.timePerFrame = this.languageFeatures.timePerFrame
     this.maxTotalLoopIterations = this.languageFeatures.maxTotalLoopIterations
 
     this.maxRepeatUntilGameOverIterations =
@@ -264,7 +281,7 @@ export class Executor {
     }
 
     return {
-      frames: this.frames,
+      frames: this.normalizeFrames(),
       error: null,
       meta: this.generateMeta(statements),
     }
@@ -296,7 +313,7 @@ export class Executor {
 
       return {
         value: result ? Jiki.unwrapJikiObject(result.jikiObject) : undefined,
-        frames: this.frames,
+        frames: this.normalizeFrames(),
         error: null,
         meta: this.generateMeta([statement]),
       }
@@ -336,7 +353,7 @@ export class Executor {
         }
         return {
           value: undefined,
-          frames: this.frames,
+          frames: this.normalizeFrames(),
           error: null,
           meta: this.generateMeta([statement]),
         }
@@ -486,7 +503,7 @@ export class Executor {
   }
 
   public visitChangeElementStatement(statement: ChangeElementStatement): void {
-    const obj = this.evaluate(statement.obj)
+    const obj = this.evaluate(statement.object)
     if (obj.jikiObject instanceof Jiki.List) {
       return this.visitChangeListElementStatement(
         statement,
@@ -499,7 +516,49 @@ export class Executor {
         obj as EvaluationResultDictionaryExpression
       )
     }
-    this.error('InvalidChangeElementTarget', statement.obj.location)
+    this.error('InvalidChangeElementTarget', statement.object.location)
+  }
+  public visitChangePropertyStatement(
+    statement: ChangePropertyStatement
+  ): void {
+    const object = this.evaluate(statement.object)
+
+    this.executeFrame<EvaluationResultChangePropertyStatement>(
+      statement,
+      () => {
+        const value = this.evaluate(statement.value)
+
+        if (!(object.jikiObject instanceof Jiki.Instance)) {
+          this.error('AccessorUsedOnNonInstance', statement.object.location)
+        }
+        const setter = object.jikiObject.getSetter(statement.property.lexeme)
+        if (!setter) {
+          this.error('CouldNotFindSetter', statement.property.location, {
+            name: statement.property.lexeme,
+          })
+        }
+
+        // Do the update
+        const oldValue = object.jikiObject.fields[statement.property.lexeme]
+        try {
+          setter.apply(object.jikiObject, [
+            this.getExecutionContext(),
+            value.jikiObject,
+          ])
+        } catch (e: unknown) {
+          if (e instanceof LogicError) {
+            this.error('LogicError', statement.location, { message: e.message })
+          }
+        }
+
+        return {
+          type: 'ChangePropertyStatement',
+          object,
+          oldValue,
+          value,
+        }
+      }
+    )
   }
 
   public visitChangeDictionaryElementStatement(
@@ -517,7 +576,7 @@ export class Executor {
 
       return {
         type: 'ChangeElementStatement',
-        obj: dictionary,
+        object: dictionary,
         field,
         value,
         oldValue,
@@ -570,7 +629,7 @@ export class Executor {
 
       return {
         type: 'ChangeElementStatement',
-        obj: list,
+        object: list,
         field: index,
         value,
         oldValue,
@@ -605,6 +664,7 @@ export class Executor {
       this.environment,
       this.languageFeatures
     )
+    this.guardDefinedName(statement.name)
     this.environment.define(statement.name.lexeme, func)
   }
 
@@ -911,6 +971,11 @@ export class Executor {
     expression: InstantiationExpression
   ): EvaluationResultInstantiationExpression {
     return executeInstantiationExpression(this, expression)
+  }
+  public visitAccessorExpression(
+    expression: AccessorExpression
+  ): EvaluationResultGetterExpression {
+    return executeGetterExpression(this, expression)
   }
 
   public visitLiteralExpression(
@@ -1517,26 +1582,30 @@ export class Executor {
       status,
       result,
       error,
-      priorVariables: this.statementStartingVariablesLog,
-      variables: this.environment.variables(),
-      functions: this.environment.functions(),
-      time: this.frameTime,
+      time: this.time,
       description: '',
       context: context,
     }
-    const descriptionContext = {
-      functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
-        acc[fn.name] = fn.description
-        return acc
-      }, {}),
+    if (process.env.NODE_ENV == 'test') {
+      frame.variables = this.environment.variables()
     }
 
-    frame.description = describeFrame(frame, descriptionContext)
+    frame.description = describeFrame(frame, {
+      functionDescriptions: this.externalFunctionDescriptions,
+    })
 
     this.frames.push(frame)
 
-    this.time++
-    this.frameTime = this.time
+    this.time += this.timePerFrame
+  }
+
+  public normalizeFrames() {
+    if (this.frames.length == 0) {
+      return []
+    }
+    const time = this.frames[this.frames.length - 1].time
+    this.frames[this.frames.length - 1].time = Math.ceil(time)
+    return this.frames
   }
 
   public addFunctionCallToLog(name: string, args: any[]) {

@@ -122,6 +122,7 @@ function testState(
 
     const context = {
       externalFunctions: externalFunctions,
+      classes: exercise.availableClasses,
       languageFeatures: config.interpreterOptions,
     }
     let evaluated

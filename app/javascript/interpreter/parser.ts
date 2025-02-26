@@ -20,6 +20,7 @@ import {
   MethodCallExpression,
   InstantiationExpression,
   ClassLookupExpression,
+  AccessorExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -43,6 +44,7 @@ import {
   LogStatement,
   ChangeElementStatement,
   MethodCallStatement,
+  ChangePropertyStatement,
 } from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
@@ -250,8 +252,8 @@ export class Parser {
 
     // If we have a left bracket, we're changing an element in a list
     // not a variable, so move to that function instead
-    if (this.peek(2).type == 'LEFT_BRACKET') {
-      return this.changeListElementStatement(changeToken)
+    if (this.checkAhead(2, 'LEFT_BRACKET', 'DOT')) {
+      return this.changeMemberStatement(changeToken)
     }
 
     const name = this.identifier()
@@ -274,19 +276,28 @@ export class Parser {
     )
   }
 
-  private changeListElementStatement(
+  private changeMemberStatement(
     changeToken: Token
-  ): ChangeElementStatement {
+  ): ChangeElementStatement | ChangePropertyStatement {
     // Convert the statement
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
     // and the index, while still maintaining the integrity of both sides.
     const getExpression = this.chainedVariableAccessors()
 
-    if (!(getExpression instanceof GetElementExpression)) {
+    if (getExpression instanceof GetElementExpression) {
+      return this.changeElementStatement(changeToken, getExpression)
+    } else if (getExpression instanceof AccessorExpression) {
+      return this.changePropertyStatement(changeToken, getExpression)
+    } else {
       this.error('GenericSyntaxError', getExpression.location)
     }
+  }
 
+  private changeElementStatement(
+    changeToken: Token,
+    getExpression: GetElementExpression
+  ): ChangeElementStatement {
     const list = getExpression.obj
     const index = getExpression.field
 
@@ -303,6 +314,30 @@ export class Parser {
     return new ChangeElementStatement(
       list,
       index,
+      value,
+      Location.between(changeToken, value)
+    )
+  }
+
+  private changePropertyStatement(
+    changeToken: Token,
+    getExpression: AccessorExpression
+  ): ChangePropertyStatement {
+    const object = getExpression.object
+    const property = getExpression.property
+    this.guardValidVariableName(property)
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterChangeKeyword')
+
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new ChangePropertyStatement(
+      object,
+      property,
       value,
       Location.between(changeToken, value)
     )
@@ -816,9 +851,19 @@ export class Parser {
     return expression
   }
 
-  private methodCall(expression: Expression): Expression {
+  private methodCall(
+    expression: Expression
+  ): MethodCallExpression | AccessorExpression {
     const methodName = this.consume('IDENTIFIER', 'MissingMethodNameAfterDot')
     this.guardValidVariableName(methodName)
+
+    if (!this.check('LEFT_PAREN')) {
+      return new AccessorExpression(
+        expression,
+        methodName,
+        Location.between(expression, methodName)
+      )
+    }
 
     const leftParen = this.consume(
       'LEFT_PAREN',

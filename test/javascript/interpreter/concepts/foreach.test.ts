@@ -13,7 +13,7 @@ import {
   LiteralExpression,
 } from '@/interpreter/expression'
 import { RuntimeError } from '@/interpreter/error'
-import { unwrapJikiObject } from '@/interpreter/jikiObjects'
+import { Primitive, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -28,8 +28,8 @@ const generateEchosContext = (echos) => {
     externalFunctions: [
       {
         name: 'echo',
-        func: (_: any, n: any) => {
-          echos.push(n.toString())
+        func: (_: any, n: Primitive) => {
+          echos.push(n.value.toString())
         },
         description: '',
       },

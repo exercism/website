@@ -28,6 +28,13 @@ export default class TicTacToeExercise extends DrawExercise {
     this.resultElem.innerHTML = text
     this.animateResult(executionCtx)
   }
+  protected animateShapeIntoView(
+    executionCtx: ExecutionContext,
+    elem: SVGElement
+  ) {
+    super.animateShapeIntoView(executionCtx, elem)
+    executionCtx.fastForward(50)
+  }
 
   private animateResult(executionCtx: ExecutionContext) {
     this.addAnimation({
@@ -40,6 +47,7 @@ export default class TicTacToeExercise extends DrawExercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
+    executionCtx.fastForward(1)
   }
 
   public availableFunctions = [

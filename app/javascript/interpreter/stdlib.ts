@@ -1,6 +1,7 @@
 import { isArray } from './checks'
 import { FunctionCallTypeMismatchError } from './error'
 import { ExecutionContext, ExternalFunction } from './executor'
+import * as Jiki from './jikiObjects'
 
 export function filteredStdLibFunctions(required: string[]) {
   // Choose the functions that are available to the student from config.stdlibFunctions
@@ -56,81 +57,132 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: keys,
     description: 'retrieved the keys of the dictionary',
   },
+  min: {
+    name: 'min',
+    func: min,
+    description: 'returned the minimum of two numbers',
+  },
+  max: {
+    name: 'max',
+    func: max,
+    description: 'returned the maximum of two numbers',
+  },
 }
 
-function join(_: ExecutionContext, str1: string, str2: string) {
-  verifyType(str1, 'string', 1)
-  verifyType(str2, 'string', 2)
+function join(
+  _: ExecutionContext,
+  str1: Jiki.String,
+  str2: Jiki.String
+): Jiki.String {
+  verifyType(str1, Jiki.String, 'string', 1)
+  verifyType(str2, Jiki.String, 'string', 2)
 
-  return `${str1}${str2}`
+  return new Jiki.String(`${str1.value}${str2.value}`)
 }
 
-function concatenate(_: ExecutionContext, ...strings) {
-  strings.forEach((str, idx) => verifyType(str, 'string', idx + 1))
-  return strings.join('')
+function concatenate(
+  _: ExecutionContext,
+  ...strings: Jiki.String[]
+): Jiki.String {
+  strings.forEach((str, idx) => verifyType(str, Jiki.String, 'string', idx + 1))
+  return new Jiki.String(strings.map((str) => str.value).join(''))
 }
 
-function push(_: ExecutionContext, list: any[], element: any) {
-  verifyType(list, 'list', 1)
+function push(
+  _: ExecutionContext,
+  list: Jiki.List,
+  element: Jiki.JikiObject
+): Jiki.List {
+  verifyType(list, Jiki.List, 'list', 1)
 
-  list.push(element)
+  list.value.push(element)
   return list
 }
 
-function concat(_: ExecutionContext, list1: any[], list2: any[]) {
-  verifyType(list1, 'list', 1)
-  verifyType(list2, 'list', 2)
+function concat(
+  _: ExecutionContext,
+  list1: Jiki.List,
+  list2: Jiki.List
+): Jiki.List {
+  verifyType(list1, Jiki.List, 'list', 1)
+  verifyType(list2, Jiki.List, 'list', 2)
 
-  return list1.concat(list2)
+  return new Jiki.List(list1.value.concat(list2.value))
 }
 
-function numberToString(_: ExecutionContext, num: number) {
-  verifyType(num, 'number', 1)
+function numberToString(_: ExecutionContext, num: Jiki.Number): Jiki.String {
+  verifyType(num, Jiki.Number, 'number', 1)
 
-  return num.toString()
+  return new Jiki.String(num.value.toString())
 }
 
-function toUpperCase(_: ExecutionContext, str: string) {
-  verifyType(str, 'string', 1)
+function toUpperCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
+  verifyType(str, Jiki.String, 'string', 1)
 
-  return str.toUpperCase()
+  return new Jiki.String(str.value.toUpperCase())
 }
 
-function toLowerCase(_: ExecutionContext, str: string) {
-  verifyType(str, 'string', 1)
+function toLowerCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
+  verifyType(str, Jiki.String, 'string', 1)
 
-  return str.toLowerCase()
+  return new Jiki.String(str.value.toLowerCase())
 }
 
-function hasKey(_: ExecutionContext, obj: Record<string, any>, key: string) {
-  verifyType(obj, 'object', 1)
-  verifyType(key, 'string', 2)
+function hasKey(
+  _: ExecutionContext,
+  dict: Jiki.Dictionary,
+  key: Jiki.String
+): Jiki.Boolean {
+  verifyType(dict, Jiki.Dictionary, 'dictionary', 1)
+  verifyType(key, Jiki.String, 'string', 2)
 
-  return obj.hasOwnProperty(key)
+  return new Jiki.Boolean(dict.value.has(key.value))
 }
 
-function keys(_: ExecutionContext, obj: Record<string, any>) {
-  verifyType(obj, 'object', 1)
+function keys(_: ExecutionContext, dict: Jiki.Dictionary): Jiki.List {
+  verifyType(dict, Jiki.Dictionary, 'dictionary', 1)
 
-  return Object.keys(obj)
+  return new Jiki.List(
+    Array.from(dict.value.keys() as IterableIterator<string>).map(
+      (key: string) => new Jiki.String(key)
+    )
+  )
+}
+
+function min(
+  _: ExecutionContext,
+  num1: Jiki.Number,
+  num2: Jiki.Number
+): Jiki.Number {
+  verifyType(num1, Jiki.Number, 'number', 1)
+  verifyType(num2, Jiki.Number, 'number', 2)
+
+  return new Jiki.Number(Math.min(num1.value, num2.value))
+}
+
+function max(
+  _: ExecutionContext,
+  num1: Jiki.Number,
+  num2: Jiki.Number
+): Jiki.Number {
+  verifyType(num1, Jiki.Number, 'number', 1)
+  verifyType(num2, Jiki.Number, 'number', 2)
+
+  return new Jiki.Number(Math.max(num1.value, num2.value))
 }
 
 function verifyType(
   arg: any,
-  targetType: 'string' | 'number' | 'list' | 'object',
+  targetClass: any,
+  targetType: string,
   argIdx: number
 ) {
-  let argType
-  if (isArray(arg)) {
-    argType = 'list'
-  } else {
-    argType = typeof arg
+  if (arg instanceof targetClass) {
+    return true
   }
-  if (argType !== targetType) {
-    throw new FunctionCallTypeMismatchError({
-      argIdx,
-      expectedType: targetType,
-      actualType: typeof arg,
-    })
-  }
+  throw new FunctionCallTypeMismatchError({
+    argIdx,
+    expectedType: targetType,
+    actualType: typeof arg,
+  })
 }

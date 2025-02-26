@@ -1,48 +1,117 @@
 {
   "title": "Sleepy House",
-  "description": "Animate colors to make the house enter nighttime!",
-  "project_type": "draw",
-  "level": 6,
-  "idx": 1,
+  "description": "Use objects to draw and animate the house as night arrives",
+  "project_type": "house",
+  "level": 8,
+  "idx": 3,
   "concepts": [],
   "tests_type": "state",
+  "interpreter_options": {
+    "time_per_frame": 0.01,
+    "repeat_delay": 30,
+    "max_total_loop_iterations": 300
+  },
+  "stdlib_functions": ["min"],
   "tasks": [
     {
-      "name": "Animate the scene",
+      "name": "Correctly arrange the house",
       "tests": [
         {
-          "slug": "animate-hoouse",
-          "name": "Animate the scene.",
+          "slug": "draw-the-house",
+          "name": "Draw the house.",
           "checks": [
             {
               "name": "getRectangleAt(20,50,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The frame of the house is not correct - you shouldn't need to move this in this exercise."
+              "error_html": "The frame of the house is not correct."
             },
             {
               "name": "getTriangleAt(16,50, 50,30, 84,50)",
               "matcher": "toBeDefined",
-              "error_html": "The roof of the house is not at the correct position - you shouldn't need to move this in this exercise."
+              "error_html": "The roof of the house is not at the correct position."
             },
             {
               "name": "getRectangleAt(30,55,12,13)",
               "matcher": "toBeDefined",
-              "error_html": "The left window frame isn't positioned correctly - you shouldn't need to move this in this exercise."
+              "error_html": "The left window frame isn't positioned correctly"
             },
             {
               "name": "getRectangleAt(58,55,12,13)",
               "matcher": "toBeDefined",
-              "error_html": "The right window frame isn't positioned correctly - you shouldn't need to move this in this exercise."
+              "error_html": "The right window frame isn't positioned correctly"
             },
             {
               "name": "getRectangleAt(43,72,14,18)",
               "matcher": "toBeDefined",
-              "error_html": "The door frame isn't positioned correctly - you shouldn't need to move this in this exercise."
+              "error_html": "The door frame isn't positioned correctly"
             },
             {
               "name": "getCircleAt(55,81,1)",
               "matcher": "toBeDefined",
-              "error_html": "The door knob isn't positiioned correctly - you shouldn't need to move this in this exercise."
+              "error_html": "The door knob isn't positiioned correctly"
+            },
+            {
+              "name": "checkSunSet()",
+              "matcher": "toBeTrue",
+              "error_html": "The sun didn't seem to reach -4,90."
+            },
+            {
+              "name": "checkLightsOn()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights didn't seem to come on."
+            },
+            {
+              "name": "checkSunBeforeLights()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights came on before the sun set."
+            },
+            {
+              "name": "checkLightsBeforeBrightness()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights came on after the brightness was reduced."
+            },
+            {
+              "name": "skyReachedHue192()",
+              "matcher": "toBeTrue",
+              "error_html": "The sky didn't seem to change hue correctly."
+            },
+            {
+              "name": "skyReachedHue310()",
+              "matcher": "toBeTrue",
+              "error_html": "The sky didn't seem to reach hue 310."
+            },
+            {
+              "name": "elementsReachedBrightness80()",
+              "matcher": "toBeTrue",
+              "error_html": "The house, sky and ground, didn't all seem to reduce in brightness correctly."
+            },
+            {
+              "name": "elementsReachedBrightness20()",
+              "matcher": "toBeTrue",
+              "error_html": "The house, sky and ground, didn't all seem to reduce to brightness 20."
+            },
+            {
+              "name": "elementsReachedBrightness19()",
+              "matcher": "toBeTrue",
+              "error_html": "At least one of the house, sky and ground reduced brightness by too much!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-task",
+          "name": "Use 20 lines or fewer",
+          "checks": [
+            {
+              "name": "numLinesOfCode(0)",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 20,
+              "error_html": "There are more than 20 lines of code."
             }
           ]
         }

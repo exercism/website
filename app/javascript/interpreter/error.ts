@@ -118,6 +118,7 @@ export type RuntimeErrorType =
   | 'TooFewArguments'
   | 'TooManyArguments'
   | 'InvalidNumberOfArgumentsWithOptionalArguments'
+  | 'WrongNumberOfArgumentsInConstructor'
   | 'InvalidUnaryOperator'
   | 'InvalidBinaryExpression'
   | 'LogicError'
@@ -152,9 +153,12 @@ export type RuntimeErrorType =
   | 'IndexOutOfBoundsInChange'
   | 'MaxTotalExecutionTimeReached'
   | 'ListsCannotBeCompared'
+  | 'ObjectsCannotBeCompared'
   | 'IncomparableTypes'
   | 'InvalidLiteralType'
   | 'NoneJikiObjectDetected'
+  | 'CouldNotFindGetter'
+  | 'CouldNotFindSetter'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

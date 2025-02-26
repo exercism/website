@@ -110,6 +110,7 @@
       "RepeatCountTooHigh": "RepeatCountTooHigh: count: {{count}}, max: {{max}}",
       "TooManyArguments": "TooManyArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "TooFewArguments": "TooFewArguments: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
+      "WrongNumberOfArgumentsInConstructor": "WrongNumberOfArgumentsInConstructor: arity: {{arity}}, numberOfArgs: {{numberOfArgs}}",
       "UnexpectedUncalledFunction": "UnexpectedUncalledFunction: name: {{name}}",
       "FunctionAlreadyDeclared": "FunctionAlreadyDeclared: name: {{name}}",
       "UnexpectedChangeOfFunction": "UnexpectedChangeOfFunction: name: {{name}}",
@@ -133,7 +134,10 @@
       "IndexOutOfBoundsInChange": "IndexOutOfBoundsInChange: index: {{index}}, length: {{length}}, dataType: {{dataType}}",
       "MaxTotalExecutionTimeReached": "MaxTotalExecutionTimeReached",
       "ListsCannotBeCompared": "ListsCannotBeCompared",
-      "NoneJikiObjectDetected": "NoneJikiObjectDetected"
+      "ObjectsCannotBeCompared": "ObjectsCannotBeCompared",
+      "NoneJikiObjectDetected": "NoneJikiObjectDetected",
+      "CouldNotFindGetter": "CouldNotFindGetter: name: {{name}}",
+      "CouldNotFindSetter": "CouldNotFindSetter: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

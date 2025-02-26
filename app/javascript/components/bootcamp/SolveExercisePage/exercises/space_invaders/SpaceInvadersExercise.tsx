@@ -1,8 +1,7 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
-import { cloneDeep, random, result } from 'lodash'
-import { d } from '@codemirror/legacy-modes/mode/d'
+import { cloneDeep } from 'lodash'
 import { deepTrim } from '@/interpreter/describers/helpers'
 import { isNumber } from '@/interpreter/checks'
 import { extractFunctionCallExpressions } from '../../test-runner/generateAndRunTestSuite/checkers'
@@ -10,8 +9,9 @@ import {
   RepeatUntilGameOverStatement,
   Statement,
 } from '@/interpreter/statement'
-import { Expression } from '@/interpreter/expression'
 import { InterpretResult } from '@/interpreter/interpreter'
+import * as Jiki from '@/interpreter/jikiObjects'
+import { exec } from 'child_process'
 
 type GameStatus = 'running' | 'won' | 'lost'
 type AlienStatus = 'alive' | 'dead'
@@ -133,6 +133,7 @@ export default class SpaceInvadersExercise extends Exercise {
       transformations: { opacity: 0 },
       offset: deathTime,
     })
+    executionCtx.fastForward(1)
     this.respawnAlien(executionCtx, alien)
   }
 
@@ -204,14 +205,16 @@ export default class SpaceInvadersExercise extends Exercise {
     }
   }
 
-  public isAlienAbove(executionCtx: ExecutionContext): boolean {
-    return this.aliens.some((row) => {
-      const alien = row[this.laserPosition]
-      if (alien === null) {
-        return false
-      }
-      return alien.isAlive(executionCtx.getCurrentTime())
-    })
+  public isAlienAbove(executionCtx: ExecutionContext): Jiki.Boolean {
+    return new Jiki.Boolean(
+      this.aliens.some((row) => {
+        const alien = row[this.laserPosition]
+        if (alien === null) {
+          return false
+        }
+        return alien.isAlive(executionCtx.getCurrentTime())
+      })
+    )
   }
 
   public shoot(executionCtx: ExecutionContext) {
@@ -303,26 +306,32 @@ export default class SpaceInvadersExercise extends Exercise {
     this.moveLaser(executionCtx)
   }
 
-  public getStartingAliensInRow(executionCtx: ExecutionContext, row: number) {
-    if (!isNumber(row)) {
+  public getStartingAliensInRow(
+    executionCtx: ExecutionContext,
+    row: Jiki.Number
+  ): Jiki.List {
+    if (!isNumber(row.value)) {
       executionCtx.logicError(
         'Oh no, the row input you provided is not a number.'
       )
     }
 
-    if (row < 1 || row > this.startingAliens.length) {
+    if (row.value < 1 || row.value > this.startingAliens.length) {
       executionCtx.logicError(
         deepTrim(`
           Oh no, you tried to access a row of aliens that doesn't exist.
-          You asked for row ${row}, but there are only ${this.startingAliens.length} rows of aliens.
+          You asked for row ${row.value}, but there are only ${this.startingAliens.length} rows of aliens.
         `)
       )
     }
 
-    return this.startingAliens
-      .slice()
-      .reverse()
-      [row - 1].map((alien) => alien !== null)
+    return new Jiki.List(
+      this.startingAliens
+        .slice()
+        .reverse()
+        [row.value - 1].map((alien) => alien !== null)
+        .map((alive) => new Jiki.Boolean(alive))
+    )
   }
 
   fireFireworks(executionCtx: ExecutionContext) {

@@ -5,6 +5,10 @@
   "idx": 1,
   "tests_type": "io",
   "stdlib_functions": ["push"],
+  "interpreter_options": {
+    "max_total_loop_iterations": 10000,
+    "max_repeat_until_game_over_iterations": 10000
+  },
   "tasks": [
     {
       "name": "Standard Tasks",

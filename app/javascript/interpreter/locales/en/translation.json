@@ -98,6 +98,7 @@
       "TooFewArguments": "Did you forget an input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "TooManyArguments": "Did you add an extra input? This function expects to be called with {{arity}} inputs but you called it with {{numberOfArgs}}.",
       "InvalidNumberOfArgumentsWithOptionalArguments": "Expected at least {{minArity}} inputs but got {{numberOfArgs}}.",
+      "WrongNumberOfArgumentsInConstructor": "You provided the wrong number of inputs into this constructor. It expected {{arity}} but you gave it {{numberOfArgs}}.",
       "InvalidUnaryOperator": "Invalid unary operator",
       "LogicError": "{{message}}",
       "MissingKeyInDictionary": "Jiki couldn't find a key called `{{key}}` in the dictionary.",
@@ -131,7 +132,10 @@
       "IndexOutOfBoundsInChange": "Jiki tried to change the element {{index}} in the {{dataType}}, but it only has {{length}} elements.",
       "MaxTotalExecutionTimeReached": "Your code took too long to run and we stopped it here to prevent it crashing your browser.",
       "ListsCannotBeCompared": "You can't compare lists directly to each other in JikiScript. Different languages handle this very differently, and Jiki's decided to opt out of the confusion. If you need to compare lists, we'll provide you with a specific function in the instructions.",
-      "NoneJikiObjectDetected": "Something's gone a bit wrong with the code behind this exercise. Please post your code and this error message on Discord or the forum. Sorry!"
+      "ObjectsCannotBeCompared": "You can't use an object in a comparsion. Did you mean to check an object's property or call one of its methods?",
+      "NoneJikiObjectDetected": "Something's gone a bit wrong with the code behind this exercise. Please post your code and this error message on Discord or the forum. Sorry!",
+      "CouldNotFindGetter": "This object doesn't have a property called `{{name}}` that you can read.",
+      "CouldNotFindSetter": "This object doesn't have a property called `{{name}}` that you can change."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

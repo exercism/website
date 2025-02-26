@@ -77,6 +77,38 @@ export abstract class Exercise {
     return this.view
   }
 
+  public animateIntoView(
+    executionCtx: ExecutionContext,
+    targets: string,
+    options = { duration: 1, offset: 0 }
+  ) {
+    this.addAnimation({
+      targets,
+      duration: options.duration,
+      transformations: {
+        opacity: 1,
+      },
+      offset: executionCtx.getCurrentTime() + options.offset,
+    })
+    executionCtx.fastForward(1)
+  }
+
+  public animateOutOfView(
+    executionCtx: ExecutionContext,
+    targets: string,
+    options = { duration: 1, offset: 0 }
+  ) {
+    this.addAnimation({
+      targets,
+      duration: options.duration,
+      transformations: {
+        opacity: 0,
+      },
+      offset: executionCtx.getCurrentTime() + options.offset,
+    })
+    executionCtx.fastForward(1)
+  }
+
   protected fireFireworks(_: ExecutionContext, startTime: number) {
     const fireworks = document.createElement('div')
     fireworks.classList.add('fireworks')

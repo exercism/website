@@ -5,7 +5,7 @@ import {
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { changeLanguage } from '@/interpreter/translator'
-import { unwrapJikiObject } from '@/interpreter/jikiObjects'
+import { Number, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -481,8 +481,8 @@ describe('timing', () => {
     test('from non-user code', () => {
       const advanceTimeFunction = (
         { fastForward }: ExecutionContext,
-        n: number
-      ) => fastForward(n)
+        n: Number
+      ) => fastForward(n.value)
       const context = {
         externalFunctions: [
           {
@@ -502,8 +502,9 @@ describe('timing', () => {
       )
       expect(frames).toBeArrayOfSize(3)
       expect(frames[0].time).toBe(0)
-      expect(frames[1].time).toBe(1)
-      expect(frames[2].time).toBe(22)
+      expect(frames[1].time).toBe(20.01)
+      // Rounds up to to the nearest millisecond
+      expect(frames[2].time).toBe(21)
     })
 
     test('from user code is not possible', () => {

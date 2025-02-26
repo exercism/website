@@ -1,3 +1,4 @@
+import { LogicError } from '../error'
 import {
   EvaluationResult,
   EvaluationResultMethodCallExpression,
@@ -49,6 +50,10 @@ export function executeMethodCallExpression(
       executor.getExecutionContext(),
       ...callableArgs,
     ])
+  } catch (e: unknown) {
+    if (e instanceof LogicError) {
+      executor.error('LogicError', expression.location, { message: e.message })
+    }
   } finally {
     executor.popCallStack()
   }

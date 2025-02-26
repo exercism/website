@@ -26,5 +26,9 @@
   {
     "title": "Dictionaries",
     "description": "We look at dictionaries, break, continue and loop counters."
+  },
+  {
+    "title": "Objects",
+    "description": "We explore the first step into Object-Oriented Programming: objects"
   }
 ]

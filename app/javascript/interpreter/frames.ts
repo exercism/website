@@ -36,6 +36,9 @@ import { describeReturnStatement } from './describers/describeReturnStatement'
 import { describeChangeElementStatement } from './describers/describeChangeElementStatement'
 import { describeForeachStatement } from './describers/describeForeachStatement'
 import { describeRepeatStatement } from './describers/describeRepeatStatement'
+import { describeBreakStatement } from './describers/describeBreakStatement'
+import { describeNextStatement } from './describers/describeNextStatement'
+import { describeChangePropertyStatement } from './describers/describeChangePropertyStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -132,6 +135,12 @@ function generateDescription(
       return describeForeachStatement(frame, context)
     case 'RepeatStatement':
       return describeRepeatStatement(frame, context)
+    case 'BreakStatement':
+      return describeBreakStatement(frame, context)
+    case 'NextStatement':
+      return describeNextStatement(frame, context)
+    case 'ChangePropertyStatement':
+      return describeChangePropertyStatement(frame, context)
   }
   return null
 }

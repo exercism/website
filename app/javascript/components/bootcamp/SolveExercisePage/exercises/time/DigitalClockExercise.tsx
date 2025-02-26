@@ -1,17 +1,12 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
+import * as Jiki from '@/interpreter/jikiObjects'
 
-class Alien {
-  public constructor(
-    public elem: HTMLElement,
-    row: number,
-    col: number,
-    type: number
-  ) {}
-}
 export default class DigitalClockExercise extends Exercise {
   private displayedTime?: String
+  private hours: number
+  private minutes: number
 
   public constructor() {
     super('digital-clock')
@@ -61,13 +56,12 @@ export default class DigitalClockExercise extends Exercise {
   public getState() {
     return { displayedTime: this.displayedTime }
   }
-
   public setTime(_: ExecutionContext, hours: number, minutes: number) {
     this.hours = hours
     this.minutes = minutes
   }
 
-  public didDisplayCurrentTime(executionCtx: ExecutionContext) {
+  public didDisplayCurrentTime(_: ExecutionContext) {
     if (this.displayedTime === undefined) {
       return false
     }
@@ -82,33 +76,31 @@ export default class DigitalClockExercise extends Exercise {
 
     return this.displayedTime == `${normalisedHours}:${this.minutes}${ampm}`
   }
-
-  public currentTimeHour(_: ExecutionContext): number {
-    return this.hours
+  public currentTimeHour(_: ExecutionContext): Jiki.Number {
+    return new Jiki.Number(this.hours)
   }
-  public currentTimeMinute(_: ExecutionContext): number {
-    return this.minutes
+  public currentTimeMinute(_: ExecutionContext): Jiki.Number {
+    return new Jiki.Number(this.minutes)
   }
-
   public displayTime(
-    executionCtx: ExecutionContext,
-    hours: string,
-    mins: string,
-    ampm: string
+    _: ExecutionContext,
+    hours: Jiki.String,
+    mins: Jiki.String,
+    ampm: Jiki.String
   ) {
-    this.displayedTime = `${hours}:${mins}${ampm}`
+    this.displayedTime = `${hours.value}:${mins.value}${ampm.value}`
 
-    const [h1, h2] = String(hours).padStart(2, '0').split('')
-    const [m1, m2] = String(mins).padStart(2, '0').split('')
+    const [h1, h2] = String(hours.value).padStart(2, '0').split('')
+    const [m1, m2] = String(mins.value).padStart(2, '0').split('')
 
     this.h1Elem.innerText = h1
     this.h2Elem.innerText = h2
     this.m1Elem.innerText = m1
     this.m2Elem.innerText = m2
 
-    if (ampm === 'am' || ampm === 'pm') {
-      this.meridiem.innerText = ampm
-      this.meridiem.classList.add(ampm)
+    if (ampm.value === 'am' || ampm.value === 'pm') {
+      this.meridiem.innerText = ampm.value
+      this.meridiem.classList.add(ampm.value)
     }
   }
 

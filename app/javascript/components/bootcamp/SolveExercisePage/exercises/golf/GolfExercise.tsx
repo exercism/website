@@ -1,5 +1,6 @@
 import type { ExecutionContext } from '@/interpreter/executor'
 import DrawExercise from '../draw'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 export default class GolfExercise extends DrawExercise {
   constructor() {
@@ -12,8 +13,8 @@ export default class GolfExercise extends DrawExercise {
   setShotLength(_: ExecutionContext, length: number) {
     this.shotLength = length
   }
-  getShotLength(_: ExecutionContext): number {
-    return this.shotLength
+  getShotLength(_: ExecutionContext): Jiki.Number {
+    return new Jiki.Number(this.shotLength)
   }
   fireFireworks(executionCtx: ExecutionContext) {
     super.fireFireworks(executionCtx, executionCtx.getCurrentTime())

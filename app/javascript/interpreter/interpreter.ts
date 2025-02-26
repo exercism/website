@@ -33,6 +33,7 @@ export type Toggle = 'ON' | 'OFF'
 export type LanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
+  timePerFrame: number
   repeatDelay: number
   maxTotalLoopIterations: number
   maxRepeatUntilGameOverIterations: number
@@ -43,6 +44,7 @@ export type LanguageFeatures = {
 export type InputLanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
+  timePerFrame?: number
   repeatDelay?: number
   maxTotalLoopIterations?: number
   maxRepeatUntilGameOverIterations?: number
@@ -132,6 +134,7 @@ export class Interpreter {
     this.languageFeatures = {
       includeList: undefined,
       excludeList: undefined,
+      timePerFrame: 0.01,
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 100,

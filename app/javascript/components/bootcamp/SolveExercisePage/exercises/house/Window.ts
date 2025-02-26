@@ -60,6 +60,13 @@ function fn(this: any) {
       executionCtx: ExecutionContext,
       lights: Jiki.Boolean
     ) {
+      if (!(lights instanceof Jiki.Boolean)) {
+        executionCtx.logicError('Ooops! Lights must be a boolean.')
+      }
+      if (lights && lights.value == this.getUnwrappedField('lights')) {
+        executionCtx.logicError('Ooops! The lights are turned already on.')
+      }
+
       this.fields['lights'] = lights
       drawWindow(executionCtx, this)
       rememberLightsToggle(executionCtx, this)

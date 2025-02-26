@@ -15,12 +15,12 @@
   "stdlib_functions": ["push"],
   "tasks": [
     {
-      "name": "Add 8 blocks",
+      "name": "Add 5 blocks",
       "tests": [
         {
           "slug": "add-blocks",
-          "name": "Add 5 blocks",
-          "description_html": "Add 5 blocks to the game area.",
+          "name": "Add and smash 5 blocks",
+          "description_html": "Add 5 blocks to the game area, then smash them!",
           "checks": [
             {
               "name": "numBlocks",

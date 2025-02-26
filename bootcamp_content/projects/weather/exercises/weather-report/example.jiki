@@ -1,9 +1,17 @@
 function draw_weather with data do
   set today to data["meteorological"]["2025"]["02"]["25"]["weather"]["summary"]
-  draw_scene(today[1]["description"], 0.50, 25, 4)
-  draw_scene(today[2]["description"], 0.30, 1, 66)
-  draw_scene(today[3]["description"], 0.30, 35, 66)
-  draw_scene(today[4]["description"], 0.30, 69, 66)
+  draw_scene(desc_at_time(today, "06:00"), 0.50, 25, 4)
+  draw_scene(desc_at_time(today, "07:00"), 0.30, 1, 66)
+  draw_scene(desc_at_time(today, "08:00"), 0.30, 35, 66)
+  draw_scene(desc_at_time(today, "09:00"), 0.30, 69, 66)
+end
+
+function desc_at_time with today, time do
+  for each entry in today do
+    if entry["time"] == time do
+      return entry["description"]
+    end
+  end
 end
 
 function draw_scene with description, scale, x_offset, y_offset do

@@ -27,10 +27,13 @@ We've provided some roughly positioned boxes to help you find your way, but rely
 
 ### The data
 
-To use your app, we'll now call the `draw_weather` function with some data from the Meteorological Office.
+To use your app, we'll now call the `draw_weather` function with some data from a Meteorological Office.
 
-Your job is to show the weather on the 25th Feb 2025.
-The weather at 06.30 should go into the main square, and the 07:00, 07:30 and 08:00 weather should go into the smaller boxes to show what's coming next.
+The two scenarios contain two snapshots of data for different places.
+They have slightly different granularities of data due to the monitoring equipment in different locations.
+
+Your job is to show the weather on the 25th Feb 2025 in both scenarios.
+The weather at 06.00 should go into the main square, and the 07:00, 08:00 and 09:00 weather should go into the smaller boxes to show what's coming next.
 
 You need to explore the data to work out how to extract the bits you need.
 Use the log keyword to see what data gets input into the function.

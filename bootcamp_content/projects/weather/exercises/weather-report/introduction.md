@@ -43,6 +43,13 @@ You need to update your `draw_weather` function to use this data as its input an
 
 We've provide your previous code to get you started!
 
+A couple of notes:
+
+1. Your old cloud rectangle might have worked previously with slightly different numbers to the ones below. You might want to double check things.
+2. Once you come up with a solid strategy, this exercise isn't as hard as it might feel. Take your time thinking it through carefully before you get started!
+
+Good luck!
+
 ## Reminders
 
 The functions used here are:

@@ -14,6 +14,7 @@
 }
 
 body.namespace-bootcamp.controller-exercises.action-edit,
+body.namespace-bootcamp.controller-custom_functions.action-edit,
 body.namespace-bootcamp.controller-drawings.action-edit {
     .c-site-header {
         display: none;

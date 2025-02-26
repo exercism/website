@@ -78,7 +78,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
-    onEditorChangeCallback?: () => void
+    onEditorChangeCallback?: (view: EditorView) => void
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -107,10 +107,15 @@ export const CodeMirror = forwardRef(function _CodeMirror(
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce((value: string, view) => {
+      if (!setExerciseLocalStorageData) {
+        return
+      }
+
       const readonlyRanges = getCodeMirrorFieldValue(
         view,
         readOnlyRangesStateField
       )
+
       setExerciseLocalStorageData({
         code: value,
         storedAt: new Date().toISOString(),
@@ -217,7 +222,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             },
             () => {
               if (onEditorChangeCallback) {
-                onEditorChangeCallback()
+                onEditorChangeCallback(view)
               }
             }
           ),

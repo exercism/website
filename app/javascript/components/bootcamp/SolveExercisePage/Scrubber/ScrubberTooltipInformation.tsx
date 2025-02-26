@@ -1,5 +1,6 @@
 import React from 'react'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 export function TooltipInformation({
   hasCodeBeenEdited,
   notEnoughFrames,
@@ -24,10 +25,22 @@ export function TooltipInformation({
   }
 }
 
-function StaticTooltip({ text }: { text: string }) {
+export function StaticTooltip({
+  text,
+  className,
+  style,
+}: {
+  text: string
+  className?: string
+  style?: React.CSSProperties | undefined
+}) {
   return (
     <div
-      className="absolute left-1/2 -top-10 py-4 px-8 -translate-x-1/2 -translate-y-[100%] hidden group-hover:block bg-gray-800 text-[#fafaff] text-sm rounded shadow-lg"
+      style={style}
+      className={assembleClassNames(
+        'absolute left-1/2 -top-10 py-4 px-8 -translate-x-1/2 -translate-y-[100%] hidden group-hover:block bg-gray-800 text-[#fafaff] text-sm rounded shadow-lg',
+        className
+      )}
       role="tooltip"
     >
       {text}

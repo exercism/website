@@ -1,0 +1,10 @@
+#bootcamp-custom-function-editor-page {
+    .settings-dialog {
+        @apply bg-backgroundColorA;
+        @apply flex flex-col shadow-lg;
+        @apply py-24 px-32 text-left;
+        @apply rounded-6;
+        @apply z-dropdown;
+        @apply absolute right-0 top-48;
+    }
+}

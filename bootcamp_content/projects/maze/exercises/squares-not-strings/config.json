@@ -1,8 +1,8 @@
 {
-  "title": "Squares",
+  "title": "Squares not Strings",
   "description": "Switch to using squares not strings",
-  "level": 7,
-  "idx": 6,
+  "level": 8,
+  "idx": 2,
   "project_type": "maze",
   "tests_type": "state",
   "stdlib_functions": "has_key",

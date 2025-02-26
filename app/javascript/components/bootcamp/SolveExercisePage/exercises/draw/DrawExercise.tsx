@@ -61,6 +61,7 @@ export default class DrawExercise extends Exercise {
       padding: '4px',
       borderRadius: '4px',
       fontSize: '12px',
+      zIndex: '99999',
       pointerEvents: 'none',
       display: 'none',
     })

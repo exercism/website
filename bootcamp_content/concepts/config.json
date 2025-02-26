@@ -231,7 +231,7 @@
     "level": 8
   },
   {
-    "slug": "objects-instatiation",
+    "slug": "objects-instantiation",
     "parent": "objects",
     "title": "Creating Objects",
     "description": "Learn how to use the new keyword to create objects",

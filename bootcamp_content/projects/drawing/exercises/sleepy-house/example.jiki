@@ -16,7 +16,7 @@ change left_window.lights to true
 change right_window.lights to true
 
 repeat 80 times indexed by index do
-  change sky.hue to min(sky.hue + (index * 2), 310)
+  change sky.hue to min(sky.hue + 2, 310)
   for each part in [ground, sky, roof, frame, door] do
     change part.brightness to 100 - index
   end

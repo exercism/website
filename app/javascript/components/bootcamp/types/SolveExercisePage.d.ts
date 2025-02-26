@@ -12,6 +12,10 @@ declare global {
       projectsIndex: string
       dashboardIndex: string
       bootcampLevelUrl: string
+      getCustomFns: string
+      getCustomFnsForInterpreter: string
+      updateCustomFns?: string
+      customFnsDashboard?: string
     }
   }
 

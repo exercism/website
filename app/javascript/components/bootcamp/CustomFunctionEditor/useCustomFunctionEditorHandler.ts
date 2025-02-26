@@ -61,6 +61,15 @@ export function useCustomFunctionEditorHandler({
       setLatestValueSnapshot(value)
 
       const evaluated = interpret(value)
+
+      const customFunctions = customFunctionsForInterpreter.map((cfn) => {
+        return {
+          name: cfn.name,
+          arity: cfn.arity,
+          code: cfn.code,
+        }
+      })
+
       tests.forEach((test) => {
         const params = test.params
         const safe_eval = eval
@@ -71,13 +80,7 @@ export function useCustomFunctionEditorHandler({
           value,
           {
             languageFeatures: { customFunctionDefinitionMode: true },
-            customFunctions: customFunctionsForInterpreter.map((cfn) => {
-              return {
-                name: cfn.name,
-                arity: cfn.arity,
-                code: cfn.code,
-              }
-            }),
+            customFunctions,
           },
           functionName,
           ...args

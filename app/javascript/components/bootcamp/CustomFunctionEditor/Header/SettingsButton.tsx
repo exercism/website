@@ -2,10 +2,7 @@ import GraphicalIcon from '@/components/common/GraphicalIcon'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useCallback, useContext, useState } from 'react'
 import { ManageCustomFunctionsModal } from './ManageCustomFunctionsModal'
-import {
-  SolveExercisePageContext,
-  CustomFunctionLinks,
-} from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 import useCustomFunctionStore, {
   CustomFunctionMetadata,
 } from '../store/customFunctionsStore'
@@ -21,9 +18,7 @@ export function SettingsButton() {
     setIsDialogOpen((isOpen) => !isOpen)
   }, [])
 
-  const { links } = useContext(SolveExercisePageContext) as {
-    links: CustomFunctionLinks
-  }
+  const { links } = useContext(SolveExercisePageContext)
 
   const setManagerModalOpen = useCallback(() => {
     setIsManagerModalOpen(true)
@@ -63,6 +58,7 @@ export function SettingsButton() {
       )}
 
       <ManageCustomFunctionsModal
+        isFetching={isFetchingCustomFns}
         isOpen={isManagerModalOpen}
         setIsOpen={setIsManagerModalOpen}
       />

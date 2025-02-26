@@ -1,18 +1,21 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import Modal from 'react-modal'
 import useCustomFunctionStore, {
-  CustomFunctionForInterpreter,
   CustomFunctionMetadata,
 } from '../store/customFunctionsStore'
-import { useLogger } from '@/hooks'
-import {
-  CustomFunctionLinks,
-  SolveExercisePageContext,
-} from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 
 Modal.setAppElement('body')
 
-export function ManageCustomFunctionsModal({ isOpen, setIsOpen }) {
+export function ManageCustomFunctionsModal({
+  isOpen,
+  isFetching,
+  setIsOpen,
+}: {
+  isOpen: boolean
+  isFetching: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}) {
   const {
     customFunctionMetadataCollection,
     customFunctionsForInterpreter,
@@ -20,12 +23,7 @@ export function ManageCustomFunctionsModal({ isOpen, setIsOpen }) {
     removeCustomFunctionsForInterpreter,
   } = useCustomFunctionStore()
 
-  const { links } = useContext(SolveExercisePageContext) as {
-    links: CustomFunctionLinks
-  }
-
-  useLogger('custom md', customFunctionMetadataCollection)
-  useLogger('custom fn for interpreter', customFunctionsForInterpreter)
+  const { links } = useContext(SolveExercisePageContext)
 
   const hasMetadata = useMemo(
     () => customFunctionMetadataCollection.length > 0,
@@ -75,6 +73,7 @@ export function ManageCustomFunctionsModal({ isOpen, setIsOpen }) {
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
       <div className="flex flex-col gap-8">
+        {isFetching && <div>Loading custom function metadata...</div>}
         {hasMetadata ? (
           customFunctionMetadataCollection.map((customFnMetadata) => {
             return (

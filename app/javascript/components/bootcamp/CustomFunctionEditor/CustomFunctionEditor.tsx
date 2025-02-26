@@ -14,7 +14,6 @@ import { CustomFunctionDetails } from './CustomFunctionDetails'
 import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
-  CustomFunctionLinks,
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import { EditorView } from 'codemirror'
@@ -34,9 +33,10 @@ export type CustomFunction = {
 export type CustomFunctionEditorProps = {
   customFunction: CustomFunction
   links: {
-    update: string
+    updateCustomFns: string
     getCustomFns: string
     getCustomFnsForInterpreter: string
+    customFnsDashboard: string
   }
 }
 
@@ -97,7 +97,7 @@ export default function CustomFunctionEditor({
 
   const handlePatchChanges = useCallback(() => {
     patchCustomFunction({
-      url: links.update,
+      url: links.updateCustomFns,
       name: name.replace('my#', ''),
       fn_name: name,
       active: isActivated && areAllTestsPassing,
@@ -135,7 +135,6 @@ export default function CustomFunctionEditor({
     >
       <div id="bootcamp-custom-function-editor-page">
         <Header
-          links={links}
           handleSaveChanges={handlePatchChanges}
           someTestsAreFailing={!areAllTestsPassing}
         />

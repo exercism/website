@@ -60,8 +60,8 @@ export type EvaluationResultForeachStatement = {
   elementName: string
   iterable: EvaluationResult
   index: number
-  temporaryVariableName?: any
   temporaryVariableValue?: JikiTypes.JikiObject
+  secondTemporaryVariableValue?: JikiTypes.JikiObject
   jikiObject?: undefined
   data?: Record<string, any>
 }

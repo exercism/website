@@ -777,3 +777,6 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
 // CouldNotFindMethod
 // AccessorUsedOnNonInstance
 // WrongNumberOfArgumentsInConstructor
+// MissingSecondElementNameAfterForeach
+// UnexpectedForeachSecondElementName
+// MissingForeachSecondElementName

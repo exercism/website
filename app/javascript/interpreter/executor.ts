@@ -731,16 +731,43 @@ export class Executor {
 
   visitForeachStatement(statement: ForeachStatement): void {
     const iterable = this.evaluate(statement.iterable)
-    if (
-      !(iterable.jikiObject instanceof Jiki.List) &&
-      !(iterable.jikiObject instanceof Jiki.String)
-    ) {
+    if (iterable.jikiObject instanceof Jiki.List) {
+      if (statement.secondElementName) {
+        this.error(
+          'UnexpectedForeachSecondElementName',
+          statement.secondElementName.location,
+          {
+            type: 'list',
+          }
+        )
+      }
+    } else if (iterable.jikiObject instanceof Jiki.String) {
+      if (statement.secondElementName) {
+        this.error(
+          'UnexpectedForeachSecondElementName',
+          statement.secondElementName.location,
+          {
+            type: 'string',
+          }
+        )
+      }
+    } else if (iterable.jikiObject instanceof Jiki.Dictionary) {
+      if (!statement.secondElementName) {
+        this.error(
+          'MissingForeachSecondElementName',
+          statement.iterable.location
+        )
+      }
+    } else {
       this.error('ForeachNotIterable', statement.iterable.location, {
         value: formatJikiObject(iterable.jikiObject),
       })
     }
 
     this.guardDefinedName(statement.elementName)
+    if (statement.secondElementName) {
+      this.guardDefinedName(statement.secondElementName)
+    }
 
     const counterVariableName =
       this.retrieveCounterVariableNameForLoop(statement)
@@ -759,11 +786,27 @@ export class Executor {
     this.executeLoop(() => {
       let index = 0
       for (let temporaryVariableValue of iterable.jikiObject.value) {
-        // Wrap newly created string
-        if (iterable.jikiObject instanceof Jiki.String) {
+        index += 1
+
+        // If we're in a dictionary, then we'll have two variables.
+        let secondTemporaryVariableName: string | undefined
+        let secondTemporaryVariableValue: Jiki.JikiObject | undefined
+        if (statement.secondElementName) {
+          ;[temporaryVariableValue, secondTemporaryVariableValue] =
+            temporaryVariableValue
+          secondTemporaryVariableName = statement.secondElementName.lexeme
+          this.environment.define(
+            secondTemporaryVariableName,
+            secondTemporaryVariableValue
+          )
+        }
+
+        // Handle the normal path
+        // Because we're using keys that can be strings here,
+        // guard in case we need to wrap them as Jiki strings!
+        if (typeof temporaryVariableValue == 'string') {
           temporaryVariableValue = new Jiki.String(temporaryVariableValue)
         }
-        index += 1
         const temporaryVariableName = statement.elementName.lexeme
         this.environment.define(temporaryVariableName, temporaryVariableValue)
 
@@ -773,8 +816,8 @@ export class Executor {
             elementName: statement.elementName.lexeme,
             index,
             iterable,
-            temporaryVariableName,
             temporaryVariableValue,
+            secondTemporaryVariableValue,
           }
         })
 

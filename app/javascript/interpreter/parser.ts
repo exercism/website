@@ -486,6 +486,14 @@ export class Parser {
       'IDENTIFIER',
       'MissingElementNameAfterForeach'
     )
+    let secondElementName: Token | undefined
+    if (this.match('COMMA')) {
+      secondElementName = this.consume(
+        'IDENTIFIER',
+        'MissingSecondElementNameAfterForeach'
+      )
+    }
+
     this.consume('IN', 'MissingOfAfterElementNameInForeach', {
       elementName,
     })
@@ -499,6 +507,7 @@ export class Parser {
 
     return new ForeachStatement(
       elementName,
+      secondElementName,
       iterable,
       counter,
       statements,

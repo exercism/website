@@ -38,13 +38,31 @@ function describePopulatedList(
   frameContext: ForeachStatement,
   frameResult: EvaluationResultForeachStatement
 ): Description {
-  const name = frameResult.temporaryVariableName
-  const value = formatJikiObject(frameResult.temporaryVariableValue)
+  const name = frameContext.elementName.lexeme
+  const value = frameResult.temporaryVariableValue
   const ordinaledIndex = addOrdinalSuffix(frameResult.index)
-  const result = `<p>This line started the ${ordinaledIndex} iteration with the ${codeTag(
+
+  console.log(frameContext.secondElementName)
+  console.log(frameResult.temporaryVariableValue)
+
+  let result = `<p>This line started the ${ordinaledIndex} iteration with the ${codeTag(
     name,
     frameContext.elementName.location
-  )} variable set to ${codeTag(value, frameContext.iterable.location)}.</p>`
+  )} variable set to ${codeTag(value, frameContext.iterable.location)}`
+
+  if (
+    frameContext.secondElementName &&
+    frameResult.secondTemporaryVariableValue
+  ) {
+    result += ` and the ${codeTag(
+      frameContext.secondElementName.lexeme,
+      frameContext.secondElementName.location
+    )} variable set to ${codeTag(
+      frameResult.secondTemporaryVariableValue,
+      frameContext.iterable.location
+    )}`
+  }
+  result += `.</p>`
   const steps = [
     `<li>Jiki created a new box called ${codeTag(
       name,
@@ -55,6 +73,22 @@ function describePopulatedList(
       frameContext.iterable.location
     )} in the box, and put it on the shelf, ready to use in the code block.</li>`,
   ]
+
+  if (
+    frameContext.secondElementName &&
+    frameResult.secondTemporaryVariableValue
+  ) {
+    steps.push(
+      `<li>Jiki created a new box called ${codeTag(
+        frameContext.secondElementName.lexeme,
+        frameContext.secondElementName.location
+      )}.</li>`,
+      `<li>Jiki put ${codeTag(
+        frameResult.secondTemporaryVariableValue,
+        frameContext.iterable.location
+      )} in the box, and put it on the shelf, ready to use in the code block.</li>`
+    )
+  }
   return {
     result,
     steps,

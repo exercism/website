@@ -26,11 +26,21 @@
                       "weather": {
                         "summary": [
                           {
-                            "time": "06:30",
+                            "time": "05:30",
+                            "description": "hopeful"
+                          },
+                          {
+                            "time": "06:00",
                             "description": "snowboarding-time"
                           },
+                          {
+                            "time": "06:30",
+                            "description": "dull"
+                          },
                           { "time": "07:00", "description": "sunny" },
+                          { "time": "07:30", "description": "sunny" },
                           { "time": "08:00", "description": "dull" },
+                          { "time": "07:30", "description": "sunny" },
                           { "time": "09:00", "description": "hopeful" }
                         ]
                       }
@@ -199,7 +209,7 @@
                     "25": {
                       "weather": {
                         "summary": [
-                          { "time": "06:30", "description": "miserable" },
+                          { "time": "06:00", "description": "miserable" },
                           { "time": "07:00", "description": "miserable" },
                           { "time": "08:00", "description": "dull" },
                           {

@@ -12,7 +12,9 @@ You have a few Classes (blueprints) to use.
 They abstract away some of the information about drawing.
 For example, the color or the position of the sky is preset, it's not something you choose.
 
-All of the Classes' constructors expect you to provide a "z index". This is how far off the screen, towards you, the objects sit. Something with a lower z-index sits towards the back, and something with a higher z-index sits towards the front.
+All of the Classes' constructors expect you to provide a "z index". This is how far off the screen, towards you, the objects sit.
+Something with a lower z-index sits towards the back, and something with a higher z-index sits towards the front.
+You can use a range of numbers, but keeping your values low (0-100) is sensible.
 
 These are the constructors of the classes you have:
 

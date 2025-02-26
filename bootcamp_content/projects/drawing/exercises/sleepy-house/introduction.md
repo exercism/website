@@ -20,7 +20,7 @@ These are the constructors of the classes you have:
 - `Frame`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
 - `Window`: The constructor expects `left, top, width, height, z_index`. It has a `lights` property that can be set to `true` or `false`. It has a brightness property you can update.
 - `Door`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
-- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and update.
+- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and update, and a brightness property you can update.
 - `Ground`: The constructor expects `height, z_index`. It has a brightness property you can update.
 - `Sun`: The constructor expects `cx, cy, radius, z_index`. It has `cx` and `cy` properties that can be read and changed.
 

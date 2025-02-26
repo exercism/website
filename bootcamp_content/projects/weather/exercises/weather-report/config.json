@@ -77,7 +77,7 @@
             {
               "name": "getRectangleAt(42.5, 81, 15, 3)",
               "matcher": "toBeDefined",
-              "error_html": "The bottom middle cloud) isn't correct."
+              "error_html": "The bottom middle cloud isn't correct."
             },
             {
               "name": "getCircleAt(42.5, 81, 3)",

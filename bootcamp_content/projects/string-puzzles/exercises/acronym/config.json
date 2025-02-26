@@ -124,17 +124,17 @@
           }
         },
         {
-          "slug": "23-lines",
-          "name": "23 lines of code",
-          "description_html": "Can you solve it with only 23 lines of code?",
+          "slug": "22-lines",
+          "name": "22 lines of code",
+          "description_html": "Can you solve it with only 22 lines of code?",
           "function": "acronym",
           "params": ["Andrew Lloyd Webber"],
           "expected": "ALW",
           "check": {
             "function": "numLinesOfCode()",
             "matcher": "toBeLessThanOrEqual",
-            "expected": 23,
-            "error_html": "You have more than 23 lines of code."
+            "expected": 22,
+            "error_html": "You have more than 22 lines of code."
           }
         }
       ]

@@ -1,6 +1,5 @@
 function is_letter with letter do
-  set upper_letter to to_upper_case(letter)
-  for each alpha_letter in "abcdefghijklmnopqrstuvwxyz" do
+  for each alpha_letter in to_upper_case("abcdefghijklmnopqrstuvwxyz") do
     if upper_letter == to_upper_case(alpha_letter) do
       return true
     end

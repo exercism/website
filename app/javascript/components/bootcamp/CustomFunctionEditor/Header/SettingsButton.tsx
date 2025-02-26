@@ -1,12 +1,42 @@
 import GraphicalIcon from '@/components/common/GraphicalIcon'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
+import { ManageCustomFunctionsModal } from './ManageCustomFunctionsModal'
+import {
+  SolveExercisePageContext,
+  CustomFunctionLinks,
+} from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import useCustomFunctionStore, {
+  CustomFunctionMetadata,
+} from '../store/customFunctionsStore'
 
 export function SettingsButton() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isManagerModalOpen, setIsManagerModalOpen] = useState(false)
+  const [isFetchingCustomFns, setIsFetchingCustomFns] = useState(false)
+
+  const { setCustomFunctionMetadataCollection } = useCustomFunctionStore()
 
   const toggleIsDialogOpen = useCallback(() => {
-    setIsDialogOpen((dopen) => !dopen)
+    setIsDialogOpen((isOpen) => !isOpen)
+  }, [])
+
+  const { links } = useContext(SolveExercisePageContext) as {
+    links: CustomFunctionLinks
+  }
+
+  const setManagerModalOpen = useCallback(() => {
+    setIsManagerModalOpen(true)
+    setIsDialogOpen(false)
+    handleGetFunctions()
+  }, [])
+
+  const handleGetFunctions = useCallback(async () => {
+    setIsFetchingCustomFns(true)
+    const data = await getCustomFunctions(links.getCustomFns)
+
+    setCustomFunctionMetadataCollection(data.custom_functions)
+    setIsFetchingCustomFns(false)
   }, [])
   return (
     <>
@@ -26,9 +56,31 @@ export function SettingsButton() {
           aria-label="Additional settings for bootcamp editor"
           className="settings-dialog"
         >
-          <button className="btn-s btn-default">Manage custom functions</button>
+          <button onClick={setManagerModalOpen} className="btn-s btn-default">
+            Manage custom functions
+          </button>
         </div>
       )}
+
+      <ManageCustomFunctionsModal isOpen={isManagerModalOpen} />
     </>
   )
+}
+
+export async function getCustomFunctions(
+  url: string
+): Promise<{ custom_functions: CustomFunctionMetadata[] }> {
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: null,
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to submit code')
+  }
+
+  return response.json()
 }

@@ -14,6 +14,7 @@ import { CustomFunctionDetails } from './CustomFunctionDetails'
 import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
+  CustomFunctionLinks,
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import { EditorView } from 'codemirror'
@@ -130,6 +131,7 @@ export default function CustomFunctionEditor({
         {
           editorView: editorViewRef.current,
           isSpotlightActive: false,
+          links,
         } as SolveExercisePageContextValues
       }
     >

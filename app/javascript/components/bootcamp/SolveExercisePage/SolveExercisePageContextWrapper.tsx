@@ -15,10 +15,17 @@ export type ExerciseLocalStorageData = {
     | undefined
 }
 
+export type CustomFunctionLinks = {
+  update: string
+  getCustomFns: string
+  getCustomFnsForInterpreter: string
+}
+
 export type SolveExercisePageContextValues = Pick<
   SolveExercisePageProps,
-  'links' | 'solution' | 'exercise' | 'code'
+  'solution' | 'exercise' | 'code'
 > & {
+  links: SolveExercisePageProps['links'] | CustomFunctionLinks
   resetEditorToStub: () => void
   editorView: EditorView | null
   isSpotlightActive: boolean

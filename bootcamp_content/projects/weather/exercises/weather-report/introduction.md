@@ -27,10 +27,10 @@ We've provided some roughly positioned boxes to help you find your way, but rely
 
 ### The data
 
-To use your app, we'll now call the `draw_weather` function with some data from two Meteorological Offices.
+To use your app, we'll now call the `draw_weather` function with some data from a Meteorological Office.
 
-The two scenarios contain two snapshots of data.
-The format is very similar the same, but the data is sligtly different.
+The two scenarios contain two snapshots of data for different places.
+They have slightly different granularities of data due to the monitoring equipment in different locations.
 
 Your job is to show the weather on the 25th Feb 2025 in both scenarios.
 The weather at 06.00 should go into the main square, and the 07:00, 08:00 and 09:00 weather should go into the smaller boxes to show what's coming next.

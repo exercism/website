@@ -771,12 +771,64 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
     )
   })
 })
-// TOOD: Strings are immutable
 
-// ClassNotFound
-// CouldNotFindMethod
-// AccessorUsedOnNonInstance
-// WrongNumberOfArgumentsInConstructor
-// MissingSecondElementNameAfterForeach
-// UnexpectedForeachSecondElementName
-// MissingForeachSecondElementName
+test('ClassNotFound', () => {
+  const { frames, error } = interpret(`set person to new Person(1,2,3)`)
+  expect(frames[0].error!.message).toBe('ClassNotFound')
+})
+
+test('CouldNotFindMethod', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+    person.foobar()`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindMethod')
+})
+
+describe('AccessorUsedOnNonInstance', () => {
+  test('List', () => {
+    const { frames } = interpret(`log [].foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+  test('Dict', () => {
+    const { frames } = interpret(`log {}.foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+  test('String', () => {
+    const { frames } = interpret(`log "".foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+})
+
+describe('UnexpectedForeachSecondElementName', () => {
+  test('List', () => {
+    const { frames } = interpret(`
+      for each foo, bar in [] do
+      end`)
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedForeachSecondElementName: type: list'
+    )
+  })
+  test('String', () => {
+    const { frames } = interpret(`
+      for each foo, bar in "" do
+      end`)
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedForeachSecondElementName: type: string'
+    )
+  })
+})
+
+test('MissingForeachSecondElementName', () => {
+  const { frames } = interpret(`
+    for each foo in {} do
+    end`)
+  expect(frames[0].error!.message).toBe('MissingForeachSecondElementName')
+})
+
+// TOOD: Strings are immutable

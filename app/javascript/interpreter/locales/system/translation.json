@@ -77,7 +77,8 @@
       "MissingLeftParenthesisInInstantiation": "MissingLeftParenthesisInInstantiation: class: {{class}}",
       "MissingRightParenthesisInInstantiation": "MissingRightParenthesisInInstantiation: class: {{class}}",
       "InvalidClassNameInInstantiation": "InvalidClassNameInInstantiation: class: {{class}}",
-      "InvalidVariableName": "InvalidVariableName"
+      "InvalidVariableName": "InvalidVariableName",
+      "MissingSecondElementNameAfterForeach": "MissingSecondElementNameAfterForeach"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",
@@ -137,7 +138,12 @@
       "ObjectsCannotBeCompared": "ObjectsCannotBeCompared",
       "NoneJikiObjectDetected": "NoneJikiObjectDetected",
       "CouldNotFindGetter": "CouldNotFindGetter: name: {{name}}",
-      "CouldNotFindSetter": "CouldNotFindSetter: name: {{name}}"
+      "CouldNotFindSetter": "CouldNotFindSetter: name: {{name}}",
+      "ClassNotFound": "ClassNotFound",
+      "CouldNotFindMethod": "CouldNotFindMethod",
+      "AccessorUsedOnNonInstance": "AccessorUsedOnNonInstance",
+      "UnexpectedForeachSecondElementName": "UnexpectedForeachSecondElementName: type: {{type}}",
+      "MissingForeachSecondElementName": "MissingForeachSecondElementName"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

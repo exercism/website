@@ -95,6 +95,7 @@ export type SyntaxErrorType =
   | 'MissingRightParenthesisInInstantiation'
   | 'InvalidClassNameInInstantiation'
   | 'InvalidVariableName'
+  | 'MissingSecondElementNameAfterForeach'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'
@@ -159,6 +160,12 @@ export type RuntimeErrorType =
   | 'NoneJikiObjectDetected'
   | 'CouldNotFindGetter'
   | 'CouldNotFindSetter'
+  | 'ClassNotFound'
+  | 'CouldNotFindMethod'
+  | 'AccessorUsedOnNonInstance'
+  | 'WrongNumberOfArgumentsInConstructor'
+  | 'UnexpectedForeachSecondElementName'
+  | 'MissingForeachSecondElementName'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

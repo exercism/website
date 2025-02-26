@@ -86,14 +86,8 @@ import type {
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
-import {
-  evaluateFunction,
-  type LanguageFeatures,
-  type SomethingWithLocation,
-} from './interpreter'
 import type { CallableCustomFunction, InterpretResult } from './interpreter'
 import type { LanguageFeatures, Meta } from './interpreter'
-import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
@@ -326,6 +320,7 @@ export class Executor {
 
       return {
         value: result ? Jiki.unwrapJikiObject(result.jikiObject) : undefined,
+        jikiObject: result?.jikiObject,
         frames: this.normalizeFrames(),
         error: null,
         meta: this.generateMeta([statement]),

@@ -79,6 +79,7 @@ export type EvaluationContext = {
 
 export type EvaluateFunctionResult = InterpretResult & {
   value: any
+  jikiObject?: Jiki.JikiObject
 }
 
 export type InterpretResult = {
@@ -185,8 +186,23 @@ export class Interpreter {
     interpreter.compile()
 
     return customFunctions.map((customFunction) => {
-      const call = (_: ExecutionContext, args) =>
-        interpreter.evaluateFunction(customFunction.name, ...args)
+      const call = (_: ExecutionContext, args) => {
+        const nakedArgs = args.map((arg) => {
+          // TODO: Need to check for lists etc too
+          if (arg instanceof Jiki.Instance) {
+            this.error(
+              'UnexpectedObjectArgumentForCustomFunction',
+              Location.unknown
+            )
+          }
+          return Jiki.unwrapJikiObject(arg)
+        })
+        const res = interpreter.evaluateFunction(
+          customFunction.name,
+          ...nakedArgs
+        )
+        return res.jikiObject
+      }
       return { ...customFunction, call }
     })
   }

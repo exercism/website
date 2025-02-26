@@ -192,7 +192,7 @@ export type EvaluationResultDictionaryExpression = {
 
 export type EvaluationResultFunctionCallExpression = {
   type: 'FunctionCallExpression'
-  jikiObject: JikiTypes.JikiObject
+  jikiObject: JikiTypes.JikiObject | void
   callee:
     | EvaluationResultVariableLookupExpression
     | EvaluationResultFunctionLookupExpression

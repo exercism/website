@@ -866,3 +866,31 @@ test('MissingForeachSecondElementName', () => {
 })
 
 // TOOD: Strings are immutable
+
+// UnexpectedObjectArgumentForCustomFunction
+
+test('UnexpectedObjectArgumentForCustomFunction', () => {
+  const customFunction = {
+    name: 'my#foobar',
+    arity: 1,
+    description: '',
+    code: '',
+  }
+  const Person = new Jiki.Class('Person')
+  const context: EvaluationContext = {
+    customFunctions: [customFunction],
+    classes: [Person],
+  }
+
+  const { frames, error } = interpret(
+    `
+    set person to new Person()
+    my#foobar(person)
+  `,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe(
+    'UnexpectedObjectArgumentForCustomFunction'
+  )
+})

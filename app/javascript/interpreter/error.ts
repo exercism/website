@@ -168,6 +168,7 @@ export type RuntimeErrorType =
   | 'WrongNumberOfArgumentsInConstructor'
   | 'UnexpectedForeachSecondElementName'
   | 'MissingForeachSecondElementName'
+  | 'UnexpectedObjectArgumentForCustomFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

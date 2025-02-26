@@ -849,10 +849,10 @@ describe('custom functions', () => {
     )
     expect(value).toBe('Yes')
     expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe('Yes')
+    expect(frames[0].result?.jikiObject.value).toBe('Yes')
   })
 
-  test('args', () => {
+  test('args123', () => {
     const fnCode = `
       function my#foobar with param do
         return param
@@ -876,7 +876,7 @@ describe('custom functions', () => {
     )
     expect(value).toBe('Food')
     expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe('Food')
+    expect(frames[0].result?.jikiObject.value).toBe('Food')
   })
 
   test('functions that rely on functions', () => {
@@ -914,7 +914,7 @@ describe('custom functions', () => {
     )
     expect(value).toBe(true)
     expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe(true)
+    expect(frames[0].result?.jikiObject.value).toBe(true)
   })
 })
 test('idempotent', () => {

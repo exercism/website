@@ -145,7 +145,8 @@
       "CouldNotFindMethod": "CouldNotFindMethod",
       "AccessorUsedOnNonInstance": "AccessorUsedOnNonInstance",
       "UnexpectedForeachSecondElementName": "UnexpectedForeachSecondElementName: type: {{type}}",
-      "MissingForeachSecondElementName": "MissingForeachSecondElementName"
+      "MissingForeachSecondElementName": "MissingForeachSecondElementName",
+      "UnexpectedObjectArgumentForCustomFunction": "UnexpectedObjectArgumentForCustomFunction"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

@@ -16,12 +16,12 @@ All of the Classes' constructors expect you to provide a "z index". This is how 
 
 These are the constructors of the classes you have:
 
-- `Roof`. The constructor expects`x_center, top, width, height, z_index`. It has a brightness property you can write to.
-- `Frame`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can write to
-- `Window`: The constructor expects `left, top, width, height, z_index`. It has a `lights` property that can be set to `true` or `false`. It has a brightness property you can write to
-- `Door`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can write to
-- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and write to.
-- `Ground`: The constructor expects `height, z_index, z_index`. It has a brightness property you can write to.
+- `Roof`. The constructor expects`x_center, top, width, height, z_index`. It has a brightness property you can update.
+- `Frame`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
+- `Window`: The constructor expects `left, top, width, height, z_index`. It has a `lights` property that can be set to `true` or `false`. It has a brightness property you can update.
+- `Door`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
+- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and update.
+- `Ground`: The constructor expects `height, z_index`. It has a brightness property you can update.
 - `Sun`: The constructor expects `cx, cy, radius, z_index`. It has `cx` and `cy` properties that can be read and changed.
 
 ## Instructions

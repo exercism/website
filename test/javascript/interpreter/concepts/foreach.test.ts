@@ -382,4 +382,15 @@ describe('for each', () => {
       expect(lastFrame.error?.message).toMatch(/VariableNotDeclared: name: idx/)
     })
   })
+  test('dict in a list', () => {
+    const { frames } = interpret(`
+    for each forecast in ["a", "b"] do
+      for each time, offset in {"foo": 5, "bar": 6} do
+      end
+    end
+    `)
+    const lastFrame = frames[frames.length - 1]
+    console.log(lastFrame)
+    expect(lastFrame.status).toBe('SUCCESS')
+  })
 })

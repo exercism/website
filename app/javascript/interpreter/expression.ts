@@ -111,7 +111,7 @@ export class ListExpression extends Expression {
 }
 export class DictionaryExpression extends Expression {
   constructor(
-    public elements: Record<string, Expression>,
+    public elements: Map<string, Expression>,
     public location: Location
   ) {
     super('DictionaryExpression')

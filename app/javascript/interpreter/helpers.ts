@@ -15,7 +15,11 @@ export function formatJikiObject(value?: any): string {
     return ''
   }
 
-  return value.toString()
+  if (value instanceof JikiObject) {
+    return value.toString()
+  }
+
+  return JSON.stringify(value)
 }
 
 export function codeTag(code: string | JikiObject, location: Location): string {

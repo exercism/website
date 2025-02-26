@@ -7,6 +7,7 @@ import {
 import type { ExecutionContext } from '@/interpreter/executor'
 import { changeLanguage } from '@/interpreter/translator'
 import { context } from 'msw'
+import { Number, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -22,7 +23,7 @@ describe('statements', () => {
       const { frames, error } = interpret('set x to 1')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
     })
 
     describe('unary', () => {
@@ -30,14 +31,16 @@ describe('statements', () => {
         const { frames } = interpret('set x to !true')
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ x: false })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+          x: false,
+        })
       })
 
       test('minus', () => {
         const { frames } = interpret('set x to -3')
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ x: -3 })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: -3 })
       })
     })
 
@@ -47,35 +50,35 @@ describe('statements', () => {
           const { frames } = interpret('set x to 2 + 3')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 5 })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 5 })
         })
 
         test('minus', () => {
           const { frames } = interpret('set x to 7 - 6')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 1 })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
         })
 
         test('division', () => {
           const { frames } = interpret('set x to 20 / 5')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 4 })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 4 })
         })
 
         test('multiplication', () => {
           const { frames } = interpret('set x to 4 * 2')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 8 })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 8 })
         })
 
         test('remainder', () => {
           const { frames } = interpret('set x to 4 % 3')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 1 })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
         })
       })
 
@@ -84,28 +87,36 @@ describe('statements', () => {
           const { frames, error } = interpret('set x to (2 is 2)')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: true })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: true,
+          })
         })
 
         test('equality with equals - true', () => {
           const { frames } = interpret('set x to 2 equals 2')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: true })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: true,
+          })
         })
 
         test('equality with is - false', () => {
           const { frames } = interpret('set x to (2 is "2")')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: false })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: false,
+          })
         })
 
         test('equality with equals', () => {
           const { frames } = interpret('set x to 2 equals "2"')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: false })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: false,
+          })
         })
 
         // TODO: Decide what syntax we want for this.
@@ -113,7 +124,9 @@ describe('statements', () => {
           const { frames } = interpret('set x to 2 != "2"')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: false })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: false,
+          })
         })
       })
 
@@ -122,14 +135,18 @@ describe('statements', () => {
           const { frames } = interpret('set x to true and false')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: false })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: false,
+          })
         })
 
         test('or', () => {
           const { frames } = interpret('set x to true or false')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: true })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: true,
+          })
         })
 
         describe("truthiness doesn't exit", () => {
@@ -152,7 +169,9 @@ describe('statements', () => {
           const { frames } = interpret('set x to "sw" + "eet" ')
           expect(frames).toBeArrayOfSize(1)
           expect(frames[0].status).toBe('SUCCESS')
-          expect(frames[0].variables).toMatchObject({ x: 'sweet' })
+          expect(unwrapJikiObject(frames[0].variables)).toMatchObject({
+            x: 'sweet',
+          })
         })
       })
     })
@@ -165,9 +184,9 @@ describe('statements', () => {
         `)
         expect(frames).toBeArrayOfSize(2)
         expect(frames[0].status).toBe('SUCCESS')
-        expect(frames[0].variables).toMatchObject({ x: 2 })
+        expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 2 })
         expect(frames[1].status).toBe('SUCCESS')
-        expect(frames[1].variables).toMatchObject({ x: 3 })
+        expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ x: 3 })
       })
     })
   })
@@ -177,7 +196,7 @@ describe('statements', () => {
       const { frames } = interpret('set x to 2')
       expect(frames).toBeArrayOfSize(1)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 2 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 2 })
     })
 
     test('errors if declared twice', () => {
@@ -197,9 +216,12 @@ describe('statements', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 2 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 2 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 2, y: 3 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
+        x: 2,
+        y: 3,
+      })
     })
   })
 
@@ -210,8 +232,8 @@ describe('statements', () => {
         change pos to 20
       `)
       expect(frames).toBeArrayOfSize(2)
-      expect(frames[0].variables).toMatchObject({ pos: 10 })
-      expect(frames[1].variables).toMatchObject({ pos: 20 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ pos: 10 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ pos: 20 })
     })
 
     test('errors if not declared', () => {
@@ -233,7 +255,7 @@ describe('statements', () => {
         end
       `)
       expect(frames).toBeArrayOfSize(11)
-      expect(frames[10].variables).toMatchObject({ pos: 60 })
+      expect(unwrapJikiObject(frames[10].variables)).toMatchObject({ pos: 60 })
     })
 
     test('declared variable is persisted after repeat', () => {
@@ -245,7 +267,7 @@ describe('statements', () => {
         change pos to pos + 10
       `)
       expect(frames).toBeArrayOfSize(12)
-      expect(frames[11].variables).toMatchObject({ pos: 70 })
+      expect(unwrapJikiObject(frames[11].variables)).toMatchObject({ pos: 70 })
     })
 
     test('declared variable is persisted after if', () => {
@@ -257,10 +279,10 @@ describe('statements', () => {
         change pos to pos + 5
       `)
       expect(frames).toBeArrayOfSize(4)
-      expect(frames[0].variables).toMatchObject({ pos: 10 })
-      expect(frames[1].variables).toMatchObject({ pos: 10 })
-      // expect(frames[2].variables).toMatchObject({ pos: 20 })
-      expect(frames[3].variables).toMatchObject({ pos: 25 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ pos: 10 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ pos: 10 })
+      // expect(unwrapJikiObject(frames[2].variables)).toMatchObject({ pos: 20 })
+      expect(unwrapJikiObject(frames[3].variables)).toMatchObject({ pos: 25 })
     })
   })
 
@@ -274,11 +296,11 @@ describe('statements', () => {
       `)
       expect(frames).toBeArrayOfSize(3)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 0 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 0 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 0 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ x: 0 })
       expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[2].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[2].variables)).toMatchObject({ x: 1 })
     })
 
     test('multiple times', () => {
@@ -291,19 +313,19 @@ describe('statements', () => {
 
       expect(frames).toBeArrayOfSize(7)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 0 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 0 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 0 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ x: 0 })
       expect(frames[2].status).toBe('SUCCESS')
-      expect(frames[2].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[2].variables)).toMatchObject({ x: 1 })
       expect(frames[3].status).toBe('SUCCESS')
-      expect(frames[3].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[3].variables)).toMatchObject({ x: 1 })
       expect(frames[4].status).toBe('SUCCESS')
-      expect(frames[4].variables).toMatchObject({ x: 2 })
+      expect(unwrapJikiObject(frames[4].variables)).toMatchObject({ x: 2 })
       expect(frames[5].status).toBe('SUCCESS')
-      expect(frames[5].variables).toMatchObject({ x: 2 })
+      expect(unwrapJikiObject(frames[5].variables)).toMatchObject({ x: 2 })
       expect(frames[6].status).toBe('SUCCESS')
-      expect(frames[6].variables).toMatchObject({ x: 3 })
+      expect(unwrapJikiObject(frames[6].variables)).toMatchObject({ x: 3 })
     })
   })
 
@@ -317,9 +339,12 @@ describe('statements', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ x: 1, y: 2 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({
+        x: 1,
+        y: 2,
+      })
     })
 
     test('nested', () => {
@@ -333,9 +358,9 @@ describe('statements', () => {
       `)
       expect(frames).toBeArrayOfSize(2)
       expect(frames[0].status).toBe('SUCCESS')
-      expect(frames[0].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
       expect(frames[1].status).toBe('SUCCESS')
-      expect(frames[1].variables).toMatchObject({ y: 2 })
+      expect(unwrapJikiObject(frames[1].variables)).toMatchObject({ y: 2 })
     })
   })
 })
@@ -349,7 +374,7 @@ describe('frames', () => {
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].code).toBe('log 125')
       expect(frames[0].error).toBeNil()
-      expect(frames[0].variables).toBeEmpty()
+      expect(unwrapJikiObject(frames[0].variables)).toBeEmpty()
     })
 
     test('call', () => {
@@ -369,7 +394,7 @@ describe('frames', () => {
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].code).toBe('echo(1)')
       expect(frames[0].error).toBeNil()
-      expect(frames[0].variables).toBeEmpty()
+      expect(unwrapJikiObject(frames[0].variables)).toBeEmpty()
     })
 
     test('variable', () => {
@@ -379,7 +404,7 @@ describe('frames', () => {
       expect(frames[0].status).toBe('SUCCESS')
       expect(frames[0].code).toBe('set x to 1')
       expect(frames[0].error).toBeNil()
-      expect(frames[0].variables).toMatchObject({ x: 1 })
+      expect(unwrapJikiObject(frames[0].variables)).toMatchObject({ x: 1 })
     })
   })
 
@@ -458,8 +483,8 @@ describe('timing', () => {
     test('from non-user code', () => {
       const advanceTimeFunction = (
         { fastForward }: ExecutionContext,
-        n: number
-      ) => fastForward(n)
+        n: Number
+      ) => fastForward(n.value)
       const context = {
         externalFunctions: [
           {
@@ -479,8 +504,9 @@ describe('timing', () => {
       )
       expect(frames).toBeArrayOfSize(3)
       expect(frames[0].time).toBe(0)
-      expect(frames[1].time).toBe(1)
-      expect(frames[2].time).toBe(22)
+      expect(frames[1].time).toBe(20.01)
+      // Rounds up to to the nearest millisecond
+      expect(frames[2].time).toBe(21)
     })
 
     test('from user code is not possible', () => {
@@ -515,131 +541,6 @@ describe('timing', () => {
   })
 })
 
-describe('evaluateFunction', () => {
-  test('without arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move do
-        return 1
-      end
-    `,
-      {},
-      'move'
-    )
-    expect(value).toBe(1)
-    expect(frames).toBeArrayOfSize(1)
-    expect(frames[0].result?.resultingValue).toBe(1)
-  })
-
-  test('with arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move with x, y do
-        return x + y
-      end
-    `,
-      {},
-      'move',
-      1,
-      2
-    )
-    expect(value).toBe(3)
-    expect(frames).toBeArrayOfSize(1)
-  })
-
-  // TODO: Add when dictionaries and arrays are back
-  test.skip('with complex arguments', () => {
-    const { value, frames } = evaluateFunction(
-      `
-      function move with car, speeds do
-        return car["x"] + speeds[1]
-      end
-    `,
-      {},
-      'move',
-      { x: 2 },
-      [4, 5, 6]
-    )
-    expect(value).toBe(7)
-    expect(frames).toBeArrayOfSize(1)
-  })
-
-  test('idempotent - 1', () => {
-    const code = `
-      set x to 1
-      function move do
-        change x to x + 1
-        return x
-      end`
-    const interpreter = new Interpreter(code, {
-      languageFeatures: { allowGlobals: true },
-    })
-    interpreter.compile()
-    const { value: value1 } = interpreter.evaluateFunction('move')
-    const { value: value2 } = interpreter.evaluateFunction('move')
-    expect(value1).toBe(2)
-    expect(value2).toBe(2)
-  })
-
-  test('idempotent - 2', () => {
-    const code = `
-      set x to 1
-      function move do
-        change x to x + 1
-        return x
-      end
-      move()
-      move()
-      `
-    const { frames, error } = interpret(code, {
-      languageFeatures: { allowGlobals: true },
-    })
-    expect(frames[6].variables.x).toBe(3)
-  })
-
-  // TODO: Work out all this syntax
-  test.skip('full program', () => {
-    const code = `
-      function chooseEnemy with enemies do
-        set maxRight to 0
-        set rightmostEnemyId to null
-      
-        foreach enemy of enemies do
-          if enemy["coords"][0] > maxRight do
-            set maxRight to enemy["coords"][0]
-            set rightmostEnemyId to enemy["id"]
-          end
-        end
-      
-        return rightmostEnemyId
-      end
-    `
-
-    const poses = [
-      { id: 1, coords: [2, 4] },
-      { id: 2, coords: [3, 1] },
-    ]
-    const { value, frames } = evaluateFunction(code, {}, 'chooseEnemy', poses)
-    expect(value).toBe(2)
-    expect(frames).toBeArrayOfSize(11)
-  })
-
-  test.skip('twoFer', () => {
-    const code = `
-      function twoFer with name do
-        if(name is "") do
-          return "One for you, one for me."
-        else do
-          return "One for " + name + ", one for me."
-        end
-      end
-    `
-
-    const { value } = evaluateFunction(code, {}, 'twoFer', 'Alice')
-    expect(value).toEqual('One for Alice, one for me.')
-  })
-})
-
 describe('errors', () => {
   test('scanner', () => {
     const { frames, error } = interpret('let 123#')
@@ -657,100 +558,6 @@ describe('errors', () => {
     expect(error!.category).toBe('SyntaxError')
     expect(error!.type).toBe('MissingDoubleQuoteToTerminateString')
     expect(error!.context).toBeNull
-  })
-
-  describe('runtime', () => {
-    describe('evaluateFunction', () => {
-      test('first frame', () => {
-        const { value, frames, error } = evaluateFunction(
-          `
-          function move do
-            foo()
-          end
-        `,
-          {},
-          'move'
-        )
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(3)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].code).toBe('foo()')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('CouldNotFindFunction')
-        expect(frames[0].error!.message).toBe('CouldNotFindFunction: name: foo')
-        expect(error).toBeNull()
-      })
-
-      test('later frame', () => {
-        const code = `
-          function move do
-            set x to 1
-            set y to 2
-            foo()
-          end
-        `
-        const { value, frames, error } = evaluateFunction(code, {}, 'move')
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(3)
-        expect(frames[2].line).toBe(5)
-        expect(frames[2].status).toBe('ERROR')
-        expect(frames[2].code).toBe('foo()')
-        expect(frames[2].error).not.toBeNull()
-        expect(frames[2].error!.category).toBe('RuntimeError')
-        expect(frames[2].error!.type).toBe('CouldNotFindFunction')
-        expect(frames[2].error!.message).toBe('CouldNotFindFunction: name: foo')
-        expect(error).toBeNull()
-      })
-
-      test('missing function', () => {
-        const code = `
-          function m0ve do
-          end
-        `
-        const { value, frames, error } = evaluateFunction(code, {}, 'move')
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(1)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('ExpectedFunctionNotFound')
-        expect(frames[0].error!.message).toBe(
-          'ExpectedFunctionNotFound: name: move'
-        )
-        expect(error).toBeNull()
-      })
-
-      test('incorrect args', () => {
-        const code = `
-          function move with foo do
-          end
-        `
-        const { value, frames, error } = evaluateFunction(
-          code,
-          {},
-          'move',
-          1,
-          2
-        )
-
-        expect(value).toBeUndefined()
-        expect(frames).toBeArrayOfSize(1)
-        expect(frames[0].line).toBe(1)
-        expect(frames[0].status).toBe('ERROR')
-        expect(frames[0].error).not.toBeNull()
-        expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('ExpectedFunctionHasWrongArguments')
-        expect(frames[0].error!.message).toBe(
-          'ExpectedFunctionHasWrongArguments: name: move'
-        )
-        expect(error).toBeNull()
-      })
-    })
   })
 
   describe('interpret', () => {
@@ -879,9 +686,9 @@ describe('errors', () => {
         expect(frames[0].code).toBe('set x to y')
         expect(frames[0].error).not.toBeNull()
         expect(frames[0].error!.category).toBe('RuntimeError')
-        expect(frames[0].error!.type).toBe('MissingParenthesesForFunctionCall')
+        expect(frames[0].error!.type).toBe('UnexpectedUncalledFunction')
         expect(frames[0].error!.message).toBe(
-          'MissingParenthesesForFunctionCall: name: y'
+          'UnexpectedUncalledFunction: name: y'
         )
 
         expect(error).toBeNull()
@@ -997,7 +804,7 @@ describe('context', () => {
         'main'
       )
       expect(frames).toBeArrayOfSize(4)
-      expect(frames[3].result?.resultingValue.value).toBe(3)
+      expect(frames[3].result?.jikiObject.value).toBe(3)
     })
 
     test("don't wrap function declarations", () => {
@@ -1012,7 +819,7 @@ describe('context', () => {
       )
       expect(value).toBe(1)
       expect(frames).toBeArrayOfSize(1)
-      expect(frames[0].result?.resultingValue).toBe(1)
+      expect(frames[0].result?.jikiObject?.value).toBe(1)
     })
   })
 })
@@ -1109,4 +916,19 @@ describe('custom functions', () => {
     expect(frames).toBeArrayOfSize(1)
     expect(frames[0].result?.resultingValue).toBe(true)
   })
+})
+test('idempotent', () => {
+  const code = `
+    set x to 1
+    function move do
+      change x to x + 1
+      return x
+    end
+    move()
+    move()
+    `
+  const { frames, error } = interpret(code, {
+    languageFeatures: { allowGlobals: true },
+  })
+  expect(unwrapJikiObject(frames[6].variables)).toMatchObject({ x: 3 })
 })

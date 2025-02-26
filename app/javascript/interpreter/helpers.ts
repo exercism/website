@@ -2,39 +2,37 @@ import { toSentence } from '@/utils/toSentence'
 import { isArray } from './checks'
 import {
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   GroupingExpression,
 } from './expression'
 import { Location } from './location'
 import { Statement } from './statement'
+import { JikiObject, unwrapJikiObject } from './jikiObjects'
 
-export function formatLiteral(value?: any): string {
+export function formatJikiObject(value?: any): string {
   if (value === undefined) {
     return ''
   }
 
-  return JSON.stringify(value, null, 1).replace(/\n\s*/g, ' ')
+  if (value instanceof JikiObject) {
+    return value.toString()
+  }
+
+  return JSON.stringify(value)
 }
 
-export function codeTag(code: string, location: Location): string {
+export function codeTag(code: string | JikiObject, location: Location): string {
+  // console.log(code)
+
+  let parsedCode: string
+  if (code instanceof JikiObject) {
+    parsedCode = code.toString()
+  } else {
+    parsedCode = code
+  }
+
   const from = location.absolute.begin
   const to = location.absolute.end
-  return `<code data-hl-from="${from}" data-hl-to="${to}">${code}</code>`
-}
-
-export function extractCallExpressions(
-  tree: Statement[] | Expression[]
-): CallExpression[] {
-  // Remove null and undefined then map to the subtrees and
-  // eventually to the call expressions.
-  return tree
-    .filter((obj) => obj)
-    .map((elem: Statement | Expression) => {
-      if (elem instanceof CallExpression) {
-        return [elem]
-      }
-      return extractCallExpressions(elem.children())
-    })
-    .flat()
+  return `<code data-hl-from="${from}" data-hl-to="${to}">${parsedCode}</code>`
 }

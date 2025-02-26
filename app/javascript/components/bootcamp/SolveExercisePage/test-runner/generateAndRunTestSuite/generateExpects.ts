@@ -1,6 +1,7 @@
 import { expect } from '../expect'
 import type { Exercise } from '../../exercises/Exercise'
 import { InterpretResult } from '@/interpreter/interpreter'
+import checkers from './checkers'
 
 export function generateExpects(
   testsType: 'io' | 'state',
@@ -11,24 +12,55 @@ export function generateExpects(
   if (testsType == 'state') {
     return generateExpectsForStateTests(exercise!, interpreterResult, testData)
   } else {
-    return generateExpectsForIoTests(testData, actual)
+    return generateExpectsForIoTests(testData, interpreterResult, actual)
   }
 }
 
 // These are normal function in/out tests. We always know the actual value at this point
 // (as it's returned from the function) so we can just compare it to the check value.
-function generateExpectsForIoTests(testData: TaskTest, actual: any) {
-  const matcher = testData.matcher || 'toEqual'
-
-  return [
-    // for now let's always include a label
+function generateExpectsForIoTests(
+  testData: TaskTest,
+  interpreterResult: InterpretResult,
+  actual: any
+) {
+  let expects = [
     expect({
       actual,
       testsType: 'io',
       name: testData.name,
       slug: testData.slug,
-    })[matcher as AvailableMatchers](testData.expected),
+    })[(testData.matcher || 'toEqual') as AvailableMatchers](testData.expected),
   ]
+
+  if (testData.check) {
+    const check = testData.check.function
+    // If it's a function call, we split out any params and then call the function
+    // on the exercise with those params passed in.
+    const fnName = check.slice(0, check.indexOf('('))
+    const argsString = check.slice(check.indexOf('(') + 1, -1)
+
+    // We eval the args to turn numbers into numbers, strings into strings, etc.
+    const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
+    const args = safe_eval(`[${argsString}]`)
+
+    // And then we get the function and call it.
+    const fn = checkers[fnName]
+    const checkActual = fn.call(null, interpreterResult, ...args)
+    const checkExpected = testData.check.expected
+    const checkMatcher = testData.check.matcher || 'toEqual'
+
+    expects.push(
+      expect({
+        actual: checkActual,
+        testsType: 'io/check',
+        name: testData.name,
+        slug: testData.slug,
+        errorHtml: testData.check.errorHtml,
+      })[checkMatcher as AvailableMatchers](checkExpected)
+    )
+  }
+
+  return expects
 }
 
 // These are the state tests, where we're comparing mutiple different variables or functions
@@ -60,7 +92,6 @@ function generateExpectsForStateTests(
 
       // And then we get the function and call it.
       const fn = exercise[fnName]
-      console.log(fnName, args)
       actual = fn.bind(exercise).call(exercise, interpreterResult, ...args)
     }
 

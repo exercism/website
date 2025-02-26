@@ -112,13 +112,24 @@ The resulting situation should be something like this:
 
 <img src="https://assets.exercism.org/bootcamp/graphics/tic-tac-toe-won.png" style="width: 100%; max-width:300px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
+### Incomplete Games
+
+Some scenarios have incomplete games, where there's not yet a winner and the game is not yet a draw.
+In those situations you should not show the results screen.
+Leave the game in the state where another move could be made.
+
+### Play the game in order.
+
+The scenarios expect you to play the game out in order.
+Make each move on the board, then deal with the final state at the end.
+
 ## Functions Available
 
 You have a few functions available:
 
 ### List functions
 
-- `push(list, elem)`: Adds an element to an array and returns a new array.
+- `push(list, elem)`: Adds an element to an list and returns a new list.
 - `concatenate(str1, str2, ...)`: Concatenates 2 or more strings together and returns the new string.
 
 ### Drawing functions

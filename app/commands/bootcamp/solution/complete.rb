@@ -4,6 +4,8 @@ class Bootcamp::Solution::Complete
   initialize_with :solution
 
   def call
+    return if solution.completed?
+
     # It's essential that both of these lines are called
     # inline to ensure next exercise selection is correct
     solution.update!(completed_at: Time.current)

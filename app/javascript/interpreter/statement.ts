@@ -5,14 +5,15 @@ import {
   EvaluationResultSetVariableStatement,
 } from './evaluation-result'
 import {
-  CallExpression,
+  FunctionCallExpression,
   Expression,
   VariableLookupExpression,
+  MethodCallExpression,
 } from './expression'
 import { SomethingWithLocation } from './interpreter'
 import { Location } from './location'
 import type { Token } from './token'
-import { formatLiteral } from './helpers'
+import { formatJikiObject } from './helpers'
 
 export abstract class Statement implements SomethingWithLocation {
   constructor(public type: String) {}
@@ -20,26 +21,54 @@ export abstract class Statement implements SomethingWithLocation {
   abstract children()
 }
 
-export class CallStatement extends Statement {
-  constructor(public expression: CallExpression, public location: Location) {
-    super('CallStatement')
+export class FunctionCallStatement extends Statement {
+  constructor(
+    public expression: FunctionCallExpression,
+    public location: Location
+  ) {
+    super('FunctionCallStatement')
+  }
+  public children() {
+    return [this.expression]
+  }
+}
+export class MethodCallStatement extends Statement {
+  constructor(
+    public expression: MethodCallExpression,
+    public location: Location
+  ) {
+    super('MethodCallStatement')
   }
   public children() {
     return [this.expression]
   }
 }
 
-export class ChangeListElementStatement extends Statement {
+export class ChangeElementStatement extends Statement {
   constructor(
-    public list: Expression,
-    public index: Expression,
+    public object: Expression,
+    public field: Expression,
     public value: Expression,
     public location: Location
   ) {
-    super('ChangeListElementStatement')
+    super('ChangeElementStatement')
   }
   public children() {
-    return [this.list, this.index, this.value]
+    return [this.object, this.field, this.value]
+  }
+}
+
+export class ChangePropertyStatement extends Statement {
+  constructor(
+    public object: Expression,
+    public property: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('ChangePropertyStatement')
+  }
+  public children() {
+    return [this.object, this.value]
   }
 }
 
@@ -56,10 +85,30 @@ export class ChangeVariableStatement extends Statement {
   }
 }
 
+export class BreakStatement extends Statement {
+  constructor(public keyword: Token, public location: Location) {
+    super('BreakStatement')
+  }
+  public children() {
+    return []
+  }
+}
+
+export class ContinueStatement extends Statement {
+  constructor(public keyword: Token, public location: Location) {
+    super('ContinueStatement')
+  }
+  public children() {
+    return []
+  }
+}
+
 export class ForeachStatement extends Statement {
   constructor(
     public elementName: Token,
+    public secondElementName?: Token,
     public iterable: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -96,6 +145,7 @@ export class RepeatStatement extends Statement {
   constructor(
     public keyword: Token,
     public count: Expression,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -109,6 +159,7 @@ export class RepeatStatement extends Statement {
 export class RepeatForeverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {
@@ -122,6 +173,7 @@ export class RepeatForeverStatement extends Statement {
 export class RepeatUntilGameOverStatement extends Statement {
   constructor(
     public keyword: Token,
+    public counter: Token | null,
     public body: Statement[],
     public location: Location
   ) {

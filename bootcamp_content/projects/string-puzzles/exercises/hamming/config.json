@@ -49,6 +49,26 @@
           "expected": 9
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "hamming-11-lines",
+          "description_html": "Solve the Hamming distance in 11 lines of code.",
+          "name": "11 lines of code",
+          "function": "hamming_distance",
+          "params": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "expected": 9,
+          "check": {
+            "function": "numLinesOfCode()",
+            "matcher": "toBeLessThanOrEqual",
+            "expected": 11,
+            "error_html": "You have more than 11 lines of code."
+          }
+        }
+      ]
     }
   ]
 }

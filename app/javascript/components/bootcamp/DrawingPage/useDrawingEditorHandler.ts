@@ -77,6 +77,7 @@ export function useDrawingEditorHandler() {
           setInformationWidgetData,
           setShouldShowInformationWidget,
           setUnderlineRange,
+          editorView: editorViewRef.current,
         })
 
         setAnimationTimeline(null)

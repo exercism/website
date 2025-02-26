@@ -3,9 +3,14 @@
   "description": "Build out the core logic of the game",
   "project_type": "tic-tac-toe",
   "level": 6,
-  "idx": 1,
+  "idx": 7,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
   "tests_type": "state",
   "stdlib_functions": ["push", "concatenate"],
+  "interpreter_options": {
+    "time_per_frame": 0.1
+  },
   "tasks": [
     {
       "name": "Draw the x and the o",
@@ -50,12 +55,12 @@
               "error_html": "The grid line from 65,5 to 65,5 is wrong or missing."
             },
             {
-              "name": "wasFunctionUsed('write')",
+              "name": "wasFunctionCalled('write')",
               "matcher": "toBeFalse",
               "error_html": "You wrote to the screen when the game is still going."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeFalse",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -67,7 +72,7 @@
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 90,10 to 70,30 is wrong or missing."
+              "error_html": "The cross line from 70,30 to 90,10 is wrong or missing."
             },
             {
               "name": "getLineAt(40,40,60,60)",
@@ -92,7 +97,7 @@
             {
               "name": "getRectangleAt(0,0,100,100)",
               "matcher": "toBeUndefined",
-              "error_html": "You didn't draw the purple overlay correctly."
+              "error_html": "You drew a results screen but the game hasn't ended."
             }
           ]
         },
@@ -148,12 +153,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 60,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 60,60 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -163,12 +168,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 90,30 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 90,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -178,12 +183,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,80,10)",
@@ -193,12 +198,12 @@
             {
               "name": "getLineAt(40,70,60,90)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,70 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,70 to 60,90 is missing or wrong."
             },
             {
               "name": "getLineAt(40,90,60,70)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,90 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,90 to 60,70 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",
@@ -206,17 +211,17 @@
               "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -251,17 +256,17 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "name": "wasFunctionCalled('write', [\"Invalid move!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the invalid move on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [200, 0, 0, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [200, 0, 0, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the red overlay with the right color."
             },
@@ -285,17 +290,17 @@
           ],
           "checks": [
             {
-              "name": "wasFunctionUsed('write', [\"Invalid move!\"])",
+              "name": "wasFunctionCalled('write', [\"Invalid move!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the invalid move on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [200, 0, 0, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [200, 0, 0, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -330,17 +335,17 @@
               "error_html": "We expected to see 4 black crosses during the game, then once the game was won, at least one light-grey cross and 3 purple crosses."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The x's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The x's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -378,12 +383,12 @@
             {
               "name": "getLineAt(40,10,60,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,10 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,10 to 60,30 is missing or wrong."
             },
             {
               "name": "getLineAt(40,30,60,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,30 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,30 to 60,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,20,10)",
@@ -393,12 +398,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,50,10)",
@@ -408,12 +413,12 @@
             {
               "name": "getLineAt(70,40,90,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,40 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,40 to 90,60 is missing or wrong."
             },
             {
               "name": "getLineAt(70,60,90,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,60 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,60 to 90,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -426,17 +431,17 @@
               "error_html": "We expected to see 4 black crosses during the game, then once the game was one, at least one light-grey cross and 3 purple crosses."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The o's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The o's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             },
             {
-              "name": "wasFunctionUsed('fill_color_rgba', [96, 79, 205, 0.85])",
+              "name": "wasFunctionCalled('fill_color_rgba', [96, 79, 205, 0.85])",
               "matcher": "toBeTrue",
               "error_html": "You didn't draw the purple overlay with the right color."
             },
@@ -477,12 +482,12 @@
               "error_html": "Did you add the blocking cross?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -506,12 +511,12 @@
               "error_html": "Did you add the cross to the winning spot?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The x's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The x's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -530,12 +535,12 @@
               "error_html": "Did you add the nought to the winning spot?"
             },
             {
-              "name": "wasFunctionUsed('write', [\"The o's won!\"])",
+              "name": "wasFunctionCalled('write', [\"The o's won!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }
@@ -559,7 +564,7 @@
               "error_html": "Did you add the blocking cross?"
             },
             {
-              "name": "wasFunctionUsed('write')",
+              "name": "wasFunctionCalled('write')",
               "matcher": "toBeFalse",
               "error_html": "You wrote to the screen when the game is still going."
             }
@@ -580,12 +585,12 @@
             {
               "name": "getLineAt(40,40,60,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,40 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,40 to 60,60 is missing or wrong."
             },
             {
               "name": "getLineAt(40,60,60,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 40,60 to 40,60 is missing or wrong."
+              "error_html": "The cross line from 40,60 to 60,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(50,20,10)",
@@ -595,12 +600,12 @@
             {
               "name": "getLineAt(70,10,90,30)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,10 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,10 to 90,30 is missing or wrong."
             },
             {
               "name": "getLineAt(70,30,90,10)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 70,30 to 70,90 is missing or wrong."
+              "error_html": "The cross line from 70,30 to 90,10 is missing or wrong."
             },
             {
               "name": "getCircleAt(20,80,10)",
@@ -610,12 +615,12 @@
             {
               "name": "getLineAt(10,40,30,60)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,40 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,40 to 30,60 is missing or wrong."
             },
             {
               "name": "getLineAt(10,60,30,40)",
               "matcher": "toBeDefined",
-              "error_html": "The cross line from 10,60 to 10,30 is missing or wrong."
+              "error_html": "The cross line from 10,60 to 30,40 is missing or wrong."
             },
             {
               "name": "getCircleAt(80,50,10)",
@@ -623,12 +628,12 @@
               "error_html": "The nought at 80,50 is missing or wrong."
             },
             {
-              "name": "wasFunctionUsed('write', [\"The game was a draw!\"])",
+              "name": "wasFunctionCalled('write', [\"The game was a draw!\"])",
               "matcher": "toBeTrue",
               "error_html": "You didn't write the result on the screen correctly."
             },
             {
-              "name": "wasFunctionUsed('write', null, 1)",
+              "name": "wasFunctionCalled('write', null, 1)",
               "matcher": "toBeTrue",
               "error_html": "You wrote to the screen multiple times."
             }

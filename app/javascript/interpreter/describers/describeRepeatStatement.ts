@@ -4,7 +4,7 @@ import {
   EvaluationResultRepeatStatement,
 } from '../evaluation-result'
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { ForeachStatement, RepeatStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 import { addOrdinalSuffix } from './helpers'
@@ -17,7 +17,7 @@ export function describeRepeatStatement(
   const frameResult = frame.result as EvaluationResultRepeatStatement
 
   let res
-  if (frameResult.count.resultingValue == 0) {
+  if (frameResult.count.jikiObject?.value == 0) {
     res = describeNoRepeats(frameContext, frameResult)
   } else {
     res = describeRepeat(frameContext, frameResult)
@@ -35,12 +35,12 @@ function describeNoRepeats(
   frameResult: EvaluationResultRepeatStatement
 ): Description {
   const result = `<p>The repeat block was asked to run ${codeTag(
-    frameResult.count.resultingValue,
+    frameResult.count.jikiObject?.value,
     frameContext.count.location
   )} times so this line did nothing.</p>`
   const steps = [
     `<li>Jiki saw that the loop should be run ${codeTag(
-      frameResult.count.resultingValue,
+      formatJikiObject(frameResult.count.jikiObject),
       frameContext.count.location
     )} times and so decided not to do anything further on this line.</li>`,
   ]
@@ -57,7 +57,9 @@ function describeRepeat(
     `<li>Jiki increased his internal counter for this loop to <code>${
       frameResult.iteration
     }</code>, checked ${codeTag(
-      `${frameResult.iteration} &le; ${frameResult.count.resultingValue}`,
+      `${frameResult.iteration} &le; ${formatJikiObject(
+        frameResult.count.jikiObject
+      )}`,
       frameContext.count.location
     )}, and decided to run the code block.</li>`,
   ]

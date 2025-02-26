@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { compile } from '@/interpreter/interpreter'
+import { CompilationError, compile } from '@/interpreter/interpreter'
 import useTestStore from '../../store/testStore'
 import useEditorStore from '../../store/editorStore'
 import useTaskStore from '../../store/taskStore/taskStore'
@@ -23,6 +23,7 @@ export function useConstructRunCode({
 }) {
   const {
     setTestSuiteResult,
+    setBonusTestSuiteResult,
     setInspectedTestResult,
     inspectedTestResult,
     setHasSyntaxError,
@@ -39,7 +40,36 @@ export function useConstructRunCode({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { markTaskAsCompleted, tasks } = useTaskStore()
+  const {
+    markTaskAsCompleted,
+    tasks,
+    bonusTasks,
+    setShouldShowBonusTasks,
+    shouldShowBonusTasks,
+  } = useTaskStore()
+
+  const handleCompilationError = (error, editorView) => {
+    setHasSyntaxError(true)
+    if (!error.location) {
+      return
+    }
+    if (editorView) {
+      scrollToLine(editorView, error.location.line)
+    }
+
+    showError({
+      error,
+      setHighlightedLine,
+      setHighlightedLineColor,
+      setInformationWidgetData,
+      setShouldShowInformationWidget,
+      setUnderlineRange,
+      editorView,
+    })
+
+    setTestSuiteResult(null)
+    setInspectedTestResult(null)
+  }
 
   /**
    * This function is used to run the code in the editor
@@ -64,45 +94,49 @@ export function useConstructRunCode({
         languageFeatures: config.interpreterOptions,
       })
 
-      const error = compiled.error
+      const error = compiled.error as CompilationError
 
       if (error) {
-        setHasSyntaxError(true)
-        if (!error.location) {
-          return
-        }
-        if (editorView) {
-          scrollToLine(editorView, error.location.line)
-        }
-
-        showError({
-          error,
-          setHighlightedLine,
-          setHighlightedLineColor,
-          setInformationWidgetData,
-          setShouldShowInformationWidget,
-          setUnderlineRange,
-        })
-
-        setTestSuiteResult(null)
-        setInspectedTestResult(null)
-
+        handleCompilationError(error, editorView)
         return
       }
 
-      const testResults = generateAndRunTestSuite({
+      let testResults
+      try {
+        testResults = generateAndRunTestSuite({
+          studentCode,
+          tasks,
+          config,
+        })
+      } catch (error) {
+        console.log(error)
+        const compError = error as CompilationError
+        if (
+          compError.hasOwnProperty('type') &&
+          compError.type == 'CompilationError'
+        ) {
+          handleCompilationError(compError.error, editorView)
+          return
+        }
+        console.log(compError)
+      }
+
+      const bonusTestResults = generateAndRunTestSuite({
         studentCode,
-        tasks,
+        tasks: bonusTasks ?? [],
         config,
       })
 
       setTestSuiteResult(testResults)
+      setBonusTestSuiteResult(bonusTestResults)
 
       markTaskAsCompleted(testResults)
 
       const automaticallyInspectedTest = getFirstFailingOrLastTest(
         testResults,
-        inspectedTestResult
+        bonusTestResults,
+        inspectedTestResult,
+        shouldShowBonusTasks
       )
 
       if (automaticallyInspectedTest.animationTimeline) {
@@ -120,25 +154,27 @@ export function useConstructRunCode({
       // reset on successful test run
       setHasCodeBeenEdited(false)
 
+      const areBasicTestsPassing = testResults.status === 'pass'
+      const areBonusTestsPassing = bonusTestResults.status === 'pass'
+      const submissionStatus =
+        areBasicTestsPassing && areBonusTestsPassing
+          ? 'pass_bonus'
+          : testResults.status
+
+      if (submissionStatus === 'pass_bonus') {
+        setShouldShowBonusTasks(true)
+      }
+
       submitCode({
         code: studentCode,
         testResults: {
-          status: testResults.status,
-          tests: testResults.tests.map((test) => {
-            const firstFailingExpect = test.expects.find(
-              (e) => e.pass === false
-            )
-            const actual = firstFailingExpect
-              ? firstFailingExpect.testsType === 'io'
-                ? firstFailingExpect.actual
-                : firstFailingExpect.errorHtml
-              : null
-            return {
-              slug: test.slug,
-              status: test.status,
-              actual,
-            }
-          }),
+          status: submissionStatus,
+          tests: [testResults, bonusTestResults].flatMap((testResults, index) =>
+            generateSubmissionTestArray({
+              testResults,
+              isBonus: index === 1,
+            })
+          ),
         },
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
@@ -147,8 +183,31 @@ export function useConstructRunCode({
         ),
       })
     },
-    [setTestSuiteResult, tasks, inspectedTestResult]
+    [
+      setTestSuiteResult,
+      setBonusTestSuiteResult,
+      tasks,
+      inspectedTestResult,
+      shouldShowBonusTasks,
+      bonusTasks,
+    ]
   )
 
   return runCode
+}
+
+function generateSubmissionTestArray({
+  testResults,
+  isBonus = false,
+}: {
+  testResults: TestSuiteResult<NewTestResult>
+  isBonus?: boolean
+}) {
+  return testResults.tests.map((test) => {
+    return {
+      slug: test.slug,
+      status: test.status,
+      ...(isBonus && { bonus: true }),
+    }
+  })
 }

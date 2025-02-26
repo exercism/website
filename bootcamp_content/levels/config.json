@@ -21,6 +21,14 @@
   },
   {
     "title": "Recap Week",
-    "description": "We go over everything we've learned so far and introduce your first major project!"
+    "description": "We recap everything we've learned so far and introduce your first major project!"
+  },
+  {
+    "title": "Dictionaries",
+    "description": "We look at dictionaries, break, continue and loop counters."
+  },
+  {
+    "title": "Objects",
+    "description": "We explore the first step into Object-Oriented Programming: objects"
   }
 ]

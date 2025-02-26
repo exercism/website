@@ -41,13 +41,3 @@ It should take a DNA string as it's input, and should return a string representi
 For this exercise, you have one function available:
 
 - `join(str1, str2)`: This takes two strings and outputs them joined together.
-
-## Bonus Tasks
-
-Great work on solving the exercise.
-Let's see if we can push you a little harder!
-Try these three tasks:
-
-1. Only have `join` appear once in your code.
-2. Do not directly check whether the nucleotide is equal to a specific letter (i.e. no `nucleotide == "G"`)
-3. With both the other bonus tasks still honoured, get it down to 18 lines of code.

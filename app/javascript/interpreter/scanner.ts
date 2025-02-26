@@ -37,7 +37,10 @@ export class Scanner {
 
   private static readonly keywords: Record<string, TokenType> = {
     and: 'AND',
+    break: 'BREAK',
+    by: 'BY',
     change: 'CHANGE',
+    continue: 'CONTINUE',
     do: 'DO',
     else: 'ELSE',
     end: 'END',
@@ -47,8 +50,11 @@ export class Scanner {
     function: 'FUNCTION',
     if: 'IF',
     in: 'IN',
+    indexed: 'INDEXED',
     is: 'EQUALITY',
     log: 'LOG',
+    next: 'NEXT',
+    new: 'NEW',
     null: 'NULL',
     not: 'NOT',
     or: 'OR',
@@ -73,6 +79,7 @@ export class Scanner {
     ']': this.tokenizeRightBracket,
     ':': this.tokenizeColon,
     ',': this.tokenizeComma,
+    '.': this.tokenizeDot,
     '+': this.tokenizePlus,
     '-': this.tokenizeMinus,
     '*': this.tokenizeStar,
@@ -177,6 +184,9 @@ export class Scanner {
   }
   private tokenizeComma() {
     this.addToken('COMMA')
+  }
+  private tokenizeDot() {
+    this.addToken('DOT')
   }
   private tokenizePlus() {
     this.addToken('PLUS')

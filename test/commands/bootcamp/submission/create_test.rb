@@ -47,4 +47,31 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
 
     assert_equal :pass, submission.status
   end
+
+  test "updates the solution's passed_basic_tests" do
+    solution = create :bootcamp_solution
+    Bootcamp::Submission::Create.(
+      solution, "",
+      {
+        status: "pass", tests: []
+      },
+      []
+    )
+
+    assert solution.reload.passed_basic_tests
+  end
+
+  test "updates the solution's passed_bonus_tests" do
+    solution = create :bootcamp_solution
+    Bootcamp::Submission::Create.(
+      solution, "",
+      {
+        status: "pass_bonus", tests: []
+      },
+      []
+    )
+
+    assert solution.reload.passed_basic_tests
+    assert solution.reload.passed_bonus_tests
+  end
 end

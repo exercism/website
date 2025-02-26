@@ -1,5 +1,5 @@
 import { RuntimeError, type RuntimeErrorType, type StaticError } from './error'
-import { CallExpression, Expression } from './expression'
+import { Expression } from './expression'
 import { Location } from './location'
 import { Parser } from './parser'
 import { Executor } from './executor'
@@ -13,6 +13,7 @@ import type {
 } from './executor'
 import type { Frame } from './frames'
 import { Arity } from './functions'
+import * as Jiki from './jikiObjects'
 
 export type FrameContext = {
   result: any
@@ -24,11 +25,18 @@ export interface SomethingWithLocation {
   location: Location
 }
 
+export type CompilationError = {
+  type: 'CompilationError'
+  error: StaticError
+  frames: Frame[]
+}
+
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
+  timePerFrame: number
   repeatDelay: number
   maxTotalLoopIterations: number
   maxRepeatUntilGameOverIterations: number
@@ -40,6 +48,7 @@ export type LanguageFeatures = {
 export type InputLanguageFeatures = {
   includeList?: TokenType[]
   excludeList?: TokenType[]
+  timePerFrame?: number
   repeatDelay?: number
   maxTotalLoopIterations?: number
   maxRepeatUntilGameOverIterations?: number
@@ -62,22 +71,26 @@ export type CallableCustomFunction = {
 export type EvaluationContext = {
   externalFunctions?: ExternalFunction[]
   customFunctions?: CustomFunction[]
+  classes?: Jiki.Class[]
   languageFeatures?: InputLanguageFeatures
   state?: Record<string, any>
   wrapTopLevelStatements?: boolean
 }
 
-export type EvaluateFunctionResult = {
+export type EvaluateFunctionResult = InterpretResult & {
   value: any
-  frames: Frame[]
-  error: StaticError | null
 }
 
 export type InterpretResult = {
   frames: Frame[]
   error: StaticError | null
+  meta: Meta
+}
+
+export type Meta = {
   functionCallLog: Record<string, Record<any, number>>
-  callExpressions: CallExpression[]
+  statements: Statement[]
+  sourceCode: string
 }
 
 export function compile(sourceCode: string, context: EvaluationContext = {}) {
@@ -120,6 +133,7 @@ export class Interpreter {
   private languageFeatures: LanguageFeatures
   private externalFunctions: ExternalFunction[] = []
   private customFunctions: CallableCustomFunction[] = []
+  private classes: Jiki.Class[] = []
   private wrapTopLevelStatements = false
 
   private statements: Statement[] = []
@@ -136,10 +150,12 @@ export class Interpreter {
     this.customFunctions = this.parseCustomFunctions(
       context.customFunctions ? context.customFunctions : []
     )
+    this.classes = context.classes ? context.classes : []
 
     this.languageFeatures = {
       includeList: undefined,
       excludeList: undefined,
+      timePerFrame: 0.01,
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 100,
@@ -179,7 +195,7 @@ export class Interpreter {
     try {
       this.statements = this.parser.parse(this.sourceCode)
     } catch (error: unknown) {
-      throw { frames: [], error: error }
+      throw { type: 'CompilationError', frames: [], error: error }
     }
   }
 
@@ -189,6 +205,7 @@ export class Interpreter {
       this.languageFeatures,
       this.externalFunctions,
       this.customFunctions,
+      this.classes,
       this.state
     )
     return executor.execute(this.statements)
@@ -219,10 +236,19 @@ export class Interpreter {
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions,
-      this.customFunctions
+      this.customFunctions,
+      this.classes
     )
-    executor.execute(this.statements)
-    return executor.evaluateSingleExpression(callingStatements[0])
+    const generalExec = executor.execute(this.statements)
+    const exprExec = executor.evaluateSingleExpression(callingStatements[0])
+
+    return {
+      ...exprExec,
+      meta: {
+        ...exprExec.meta,
+        statements: generalExec.meta.statements,
+      },
+    }
   }
 
   private error(
@@ -230,6 +256,8 @@ export class Interpreter {
     location: Location | null,
     context: any = {}
   ): never {
+    // Unwrap context values from jiki objects
+    context = Jiki.unwrapJikiObject(context)
     throw new RuntimeError(
       translate(`error.runtime.${type}`, context),
       location,

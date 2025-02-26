@@ -58,6 +58,52 @@
           "expected": "UGCACCAGAAUU"
         }
       ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "join",
+          "description_html": "Only have `join` appear once in your code.",
+          "name": "Only join once",
+          "function": "dna_to_rna",
+          "params": ["ACGTGGTCTTAA"],
+          "expected": "UGCACCAGAAUU",
+          "check": {
+            "function": "numFunctionCallsInCode('join')",
+            "expected": 1,
+            "error_html": "`join` appears more than once in your code."
+          }
+        },
+        {
+          "slug": "rna-no-direct-check",
+          "description_html": "Do not directly check whether the nucleotide is equal to a specific letter (i.e. no `nucleotide == \"G\"`)",
+          "name": "No direct checks",
+          "function": "dna_to_rna",
+          "params": ["ACGTGGTCTTAA"],
+          "expected": "UGCACCAGAAUU",
+          "check": {
+            "function": "numDirectStringComparisons()",
+            "expected": 0,
+            "error_html": "You directly checked whether the nucleotide is equal to a specific letter."
+          }
+        },
+        {
+          "slug": "rna-short-code",
+          "description_html": "With both the other bonus tasks still honoured, get it down to 18 lines of code.",
+          "name": "Short code",
+          "function": "dna_to_rna",
+          "params": ["ACGTGGTCTTAA"],
+          "expected": "UGCACCAGAAUU",
+          "check": {
+            "function": "numLinesOfCode()",
+            "matcher": "toBeLessThanOrEqual",
+            "expected": 18,
+            "error_html": "Your code is longer than 18 lines."
+          }
+        }
+      ]
     }
   ]
 }

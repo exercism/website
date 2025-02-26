@@ -7,7 +7,6 @@ import type { Frame } from '@/interpreter/frames'
 import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
-import { scrollToHighlightedLine } from './scrollToHighlightedLine'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
@@ -27,6 +26,8 @@ export function useScrubber({
   frames: Frame[]
   hasCodeBeenEdited: boolean
 }) {
+  // if there is an animation timeline, we use time as value
+  // if there is no animation timeline, we use frame index as value
   const [value, setValue] = useState(0)
   const {
     setHighlightedLine,
@@ -67,6 +68,10 @@ export function useScrubber({
     if (frames.some((frame) => frame.status === 'ERROR')) {
       const newValue = frames.findIndex((frame) => frame.status === 'ERROR')
       const error = frames[newValue].error
+      if (animationTimeline) {
+        animationTimeline.seek(frames[newValue].time)
+      }
+      setValue(newValue)
       showError({
         error: error as StaticError,
         setHighlightedLine,
@@ -74,11 +79,8 @@ export function useScrubber({
         setInformationWidgetData,
         setShouldShowInformationWidget,
         setUnderlineRange,
+        editorView,
       })
-      if (animationTimeline) {
-        animationTimeline.seek(frames[newValue].time)
-      }
-      setValue(frames[newValue].time)
     }
   }, [frames, animationTimeline])
 
@@ -110,11 +112,17 @@ export function useScrubber({
             setInformationWidgetData,
             setShouldShowInformationWidget,
             setUnderlineRange,
+            editorView,
           })
         }
       }
     }
-  }, [value, animationTimeline?.currentFrameIndex, inspectedTestResult])
+  }, [
+    value,
+    animationTimeline?.currentFrameIndex,
+    animationTimeline?.currentFrame,
+    inspectedTestResult,
+  ])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
@@ -288,7 +296,8 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
-      scrollToHighlightedLine()
+      const targetFrame = animationTimeline.frameAtTime(targetTime)
+      scrollToLine(editorView, targetFrame.line)
     },
     [value]
   )
@@ -327,7 +336,8 @@ export function useScrubber({
           animationTimeline.seek(animatedTime)
         },
       })
-      scrollToHighlightedLine()
+      const targetFrame = animationTimeline.frameAtTime(targetTime)
+      scrollToLine(editorView, targetFrame.line)
     },
     [value]
   )
@@ -337,7 +347,8 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seekFirstFrame()
-        scrollToHighlightedLine()
+        const firstFrame = animationTimeline.getFrames()[0]
+        scrollToLine(editorView, firstFrame.line)
       }
     },
     []
@@ -348,15 +359,17 @@ export function useScrubber({
       if (animationTimeline) {
         animationTimeline.pause()
         animationTimeline.seekEndOfTimeline()
-        scrollToHighlightedLine()
+        const frames = animationTimeline.getFrames()
+        const lastFrame = frames[frames.length - 1]
+        scrollToLine(editorView, lastFrame.line)
       }
     },
     []
   )
 
   /*
-   when holding a key down, store it in a set and escape invoking frame-stepping handlers.
-   let user browse scrubber freely
+   when holding a key down, store it in a Set and escape invoking frame-stepping handlers.
+   let user browse the scrubber freely
    */
   const [heldKeys, setHeldKeys] = useState(new Set<string>())
   const handleOnKeyUp = useCallback(

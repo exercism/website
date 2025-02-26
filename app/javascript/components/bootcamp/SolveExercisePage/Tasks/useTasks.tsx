@@ -17,15 +17,16 @@ export type FinishLessonModalView =
   | 'initial'
   | 'completedExercise'
   | 'completedLevel'
+  | 'completedAllLevels'
+  | 'completedEverything'
 
 export function useTasks() {
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
+  const [isCompletedBonusTasksModalOpen, setIsCompletedBonusTasksModalOpen] =
+    useState(false)
+
   const [nextExerciseData, setNextExerciseData] = useState<NextExercise | null>(
     null
-  )
-
-  const { exerciseLocalStorageData, setExerciseLocalStorageData } = useContext(
-    SolveExercisePageContext
   )
 
   const [nextLevelIdx, setNextLevelIdx] = useState<number | null>(null)
@@ -38,14 +39,16 @@ export function useTasks() {
     areAllTasksCompleted,
     wasFinishLessonModalShown,
     setWasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
+    setWasCompletedBonusTasksModalShown,
   } = useTaskStore()
   const {
     solution,
     links: { completeSolution: completeSolutionLink },
-    exercise: { id: exerciseId },
   } = useContext(SolveExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
-  const { inspectedTestResult } = useTestStore()
+  const { inspectedTestResult, bonusTestSuiteResult, testSuiteResult } =
+    useTestStore()
 
   // Setup stage means stores are being set up - so we are in the initialising state in the lifecycle of the app
   // see useSetupStores.ts
@@ -60,14 +63,15 @@ export function useTasks() {
 
   useEffect(() => {
     // Don't show FinishLessonModal on page-revisit
+    const allBonusTestsPassed =
+      bonusTestSuiteResult &&
+      bonusTestSuiteResult.tests.length > 0 &&
+      bonusTestSuiteResult.status === 'pass' &&
+      testSuiteResult &&
+      testSuiteResult.tests.length > 0 &&
+      testSuiteResult.status === 'pass'
+
     if (isSetupStage.current && areAllTasksCompleted !== undefined) {
-      // if the solution is marked as `completed` on mount, the modal was once shown in the past
-      if (
-        solution.status === 'completed' ||
-        exerciseLocalStorageData.wasFinishLessonModalShown
-      ) {
-        setWasFinishLessonModalShown(true)
-      }
       isSetupStage.current = false
     } else {
       const shouldShowModal = areAllTasksCompleted && !wasFinishLessonModalShown
@@ -79,18 +83,31 @@ export function useTasks() {
         setIsFinishModalOpen(true)
         launchConfetti()
         setWasFinishLessonModalShown(true)
-        setExerciseLocalStorageData({
-          ...exerciseLocalStorageData,
-          wasFinishLessonModalShown: true,
-        })
+
+        // if student completes bonus tests and normal tests in one go, we mark bonus completion modal as shown
+        if (bonusTestSuiteResult?.status === 'pass') {
+          setWasCompletedBonusTasksModalShown(true)
+        }
+      }
+      if (
+        wasFinishLessonModalShown &&
+        isTimelineReady &&
+        !wasCompletedBonusTasksModalShown &&
+        allBonusTestsPassed
+      ) {
+        setIsCompletedBonusTasksModalOpen(true)
+        launchConfetti()
+        setWasCompletedBonusTasksModalShown(true)
       }
     }
   }, [
     areAllTasksCompleted,
     wasFinishLessonModalShown,
+    wasCompletedBonusTasksModalShown,
     isTimelineComplete,
     inspectedTestResult,
     solution.status,
+    bonusTestSuiteResult,
   ])
 
   const handleCompleteSolution = useCallback(async () => {
@@ -102,16 +119,26 @@ export function useTasks() {
         setIsFinishModalOpen(true)
       }
 
+      // since completed bonus tasks modal is not part of the finish lesson modal views, we must close it if it is open
+      if (isCompletedBonusTasksModalOpen) {
+        setIsCompletedBonusTasksModalOpen(false)
+      }
+
       if (completedData.completed_level_idx) {
         setModalView('completedLevel')
         setCompletedLevelIdx(completedData.completed_level_idx)
-        return
+      } else {
+        setModalView('completedExercise')
       }
-      setModalView('completedExercise')
     } catch (e) {
       console.error('Error completing solution: ', e)
     }
-  }, [completeSolutionLink, nextExerciseData, isFinishModalOpen])
+  }, [
+    completeSolutionLink,
+    nextExerciseData,
+    isFinishModalOpen,
+    isCompletedBonusTasksModalOpen,
+  ])
 
   return {
     modalView,
@@ -122,5 +149,7 @@ export function useTasks() {
     nextLevelIdx,
     completedLevelIdx,
     hasRuntimeErrors,
+    isCompletedBonusTasksModalOpen,
+    setIsCompletedBonusTasksModalOpen,
   }
 }

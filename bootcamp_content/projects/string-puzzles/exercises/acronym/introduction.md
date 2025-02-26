@@ -1,4 +1,4 @@
-# Two Fer
+# Acronym
 
 This is another classic Exercism exercise where your job is to convert a phase into its acronym.
 
@@ -53,10 +53,3 @@ How could you use something you learnt in Level 5 to do it a better way?
 `"a"` is not the same as `"A"`. You don't really care about whether a letter is lowercase or uppercase when working out what the acronym is, but you do need to consider case a lot during the exercise.
 
 </details>
-
-## Bonus Tasks
-
-Congratulations on solving it! Ready for an extra challenge?
-
-1. Can you solve this without having a capital letter anywhere in your code?
-2. Can you solve it with only 23 lines of code?

@@ -1,0 +1,106 @@
+{
+  "title": "Pangram",
+  "description": "Determine if a sentence is a pangram",
+  "level": 7,
+  "idx": 2,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "stdlib_functions": ["join", "keys"],
+  "tasks": [
+    {
+      "name": "Basic cases",
+      "tests": [
+        {
+          "slug": "pangram-empty-sentence",
+          "description_html": "An empty sentence is not a pangram.",
+          "name": "Empty sentence",
+          "function": "is_pangram",
+          "params": [""],
+          "expected": false
+        },
+        {
+          "slug": "pangram-perfect-lowercase",
+          "description_html": "A perfect lowercase alphabet is a pangram.",
+          "name": "Perfect lowercase",
+          "function": "is_pangram",
+          "params": ["abcdefghijklmnopqrstuvwxyz"],
+          "expected": true
+        },
+        {
+          "slug": "pangram-only-lowercase",
+          "description_html": "A sentence with only lowercase letters covering all letters is a pangram.",
+          "name": "Only lowercase",
+          "function": "is_pangram",
+          "params": ["the quick brown fox jumps over the lazy dog"],
+          "expected": true
+        },
+        {
+          "slug": "pangram-missing-x",
+          "description_html": "A sentence missing the letter 'x' is not a pangram.",
+          "name": "Missing letter 'x'",
+          "function": "is_pangram",
+          "params": [
+            "a quick movement of the enemy will jeopardize five gunboats"
+          ],
+          "expected": false
+        },
+        {
+          "slug": "pangram-missing-h",
+          "description_html": "A sentence missing the letter 'h' is not a pangram.",
+          "name": "Missing letter 'h'",
+          "function": "is_pangram",
+          "params": ["five boxing wizards jump quickly at it"],
+          "expected": false
+        },
+        {
+          "slug": "pangram-missing-a-m",
+          "description_html": "A string with 'a' to 'm' in lowercase and uppercase is not a pangram.",
+          "name": "Missing letters beyond a-m",
+          "function": "is_pangram",
+          "params": ["abcdefghijklm ABCDEFGHIJKLM"],
+          "expected": false
+        },
+        {
+          "slug": "pangram-with-underscores",
+          "description_html": "A pangram sentence with underscores.",
+          "name": "With underscores",
+          "function": "is_pangram",
+          "params": ["the_quick_brown_fox_jumps_over_the_lazy_dog"],
+          "expected": true
+        },
+        {
+          "slug": "pangram-with-numbers",
+          "description_html": "A pangram sentence with numbers included.",
+          "name": "With numbers",
+          "function": "is_pangram",
+          "params": ["the 1 quick brown fox jumps over the 2 lazy dogs"],
+          "expected": true
+        },
+        {
+          "slug": "pangram-numbers-replacing-letters",
+          "description_html": "A sentence where letters are replaced by numbers is not a pangram.",
+          "name": "Numbers replacing letters",
+          "function": "is_pangram",
+          "params": ["7h3 qu1ck brown fox jumps ov3r 7h3 lazy dog"],
+          "expected": false
+        },
+        {
+          "slug": "pangram-mixed-case-punctuation",
+          "description_html": "A pangram with mixed case and punctuation.",
+          "name": "Mixed case and punctuation",
+          "function": "is_pangram",
+          "params": ["Five quacking Zephyrs jolt my wax bed."],
+          "expected": true
+        },
+        {
+          "slug": "pangram-case-insensitive",
+          "description_html": "A case-insensitive sentence without all letters is not a pangram.",
+          "name": "Case insensitive missing letters",
+          "function": "is_pangram",
+          "params": ["the quick brown fox jumps over with lazy FX"],
+          "expected": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+function draw_weather with data do
+  set today to data["meteorological"]["2025"]["02"]["25"]["weather"]["summary"]
+  draw_scene(desc_at_time(today, "06:00"), 0.50, 25, 4)
+  draw_scene(desc_at_time(today, "07:00"), 0.30, 1, 66)
+  draw_scene(desc_at_time(today, "08:00"), 0.30, 35, 66)
+  draw_scene(desc_at_time(today, "09:00"), 0.30, 69, 66)
+end
+
+function desc_at_time with today, time do
+  for each entry in today do
+    if entry["time"] == time do
+      return entry["description"]
+    end
+  end
+end
+
+function draw_scene with description, scale, x_offset, y_offset do
+  draw_sky(scale, x_offset, y_offset)
+  
+  if description == "sunny" do
+    draw_sun("large", scale, x_offset, y_offset)
+    return
+  end
+
+  set elements to description_to_elements(description)
+  for each element in elements do
+    if element == "cloud" do
+      draw_cloud(scale, x_offset, y_offset)
+    else if element == "sun" do
+      draw_sun("small", scale, x_offset, y_offset)
+    else if element == "rain" do
+      draw_rain(scale, x_offset, y_offset)
+    else if element == "snow" do
+      draw_snow(scale, x_offset, y_offset)
+    end
+  end
+end
+
+function draw_sky with scale, x_offset, y_offset do
+  fill_color_hex("#ADD8E6") 
+  scaled_rectangle(0, 0, 100, 100, scale, x_offset, y_offset)
+end
+
+function draw_sun with size, scale, x_offset, y_offset do
+  fill_color_hex("#ffed06")
+  if size is "large" do
+    scaled_circle(50,50,25, scale, x_offset, y_offset)
+  else do
+    scaled_circle(75, 30, 15, scale, x_offset, y_offset)
+  end
+end
+
+function scaled_rectangle with x, y, w, h, scale, x_offset, y_offset do
+  rectangle(x_offset + (x * scale), y_offset + y * scale, w * scale, h * scale)
+end
+
+function scaled_circle with cx, cy, r, scale, x_offset, y_offset do
+  circle(x_offset + cx * scale, y_offset + cy * scale, r * scale)
+end
+
+function scaled_ellipse with cx, cy, rx, ry, scale, x_offset, y_offset do
+  ellipse(x_offset + cx * scale, y_offset + cy * scale, rx * scale, ry * scale)
+end
+
+function draw_cloud with scale, x_offset, y_offset do
+  fill_color_hex("#FFFFFF")
+  scaled_rectangle(25, 50, 50, 10, scale, x_offset, y_offset)
+  scaled_circle(25, 50, 10, scale, x_offset, y_offset) 
+  scaled_circle(40, 40, 15, scale, x_offset, y_offset) 
+  scaled_circle(55, 40, 20, scale, x_offset, y_offset)
+  scaled_circle(75, 50, 10, scale, x_offset, y_offset) 
+end
+
+function draw_rain with scale, x_offset, y_offset do
+  fill_color_hex("#56AEFF")
+  scaled_ellipse(30, 70, 3, 5, scale, x_offset, y_offset) 
+  scaled_ellipse(50, 70, 3, 5, scale, x_offset, y_offset)
+  scaled_ellipse(70, 70, 3, 5, scale, x_offset, y_offset) 
+  scaled_ellipse(40, 80, 3, 5, scale, x_offset, y_offset) 
+  scaled_ellipse(60, 80, 3, 5, scale, x_offset, y_offset)
+end
+
+function draw_snow with scale, x_offset, y_offset do
+  fill_color_hex("#56AEFF")
+  scaled_circle(30, 70, 5, scale, x_offset, y_offset) 
+  scaled_circle(50, 70, 5, scale, x_offset, y_offset)
+  scaled_circle(70, 70, 5, scale, x_offset, y_offset) 
+  scaled_circle(40, 80, 5, scale, x_offset, y_offset) 
+  scaled_circle(60, 80, 5, scale, x_offset, y_offset)
+end
+
+//
+//
+// Your code from the part-1
+//
+//
+function description_to_elements with description do
+  if description == "sunny" do
+    return ["sun"]
+  else if description == "dull" do
+    return ["cloud"]
+  else if description == "miserable" do
+    return ["cloud", "rain"]
+  else if description == "hopeful" do
+    return ["sun", "cloud"]
+  else if description == "rainbow-territory" do
+    return ["sun", "cloud", "rain"]
+  else if description == "exciting" do
+    return ["cloud", "snow"]
+  else if description == "snowboarding-time" do
+    return ["sun", "cloud", "snow"]
+  end
+end

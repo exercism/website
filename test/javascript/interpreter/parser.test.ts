@@ -1,13 +1,13 @@
 import {
   ListExpression,
   BinaryExpression,
-  CallExpression,
+  FunctionCallExpression,
   GroupingExpression,
   LiteralExpression,
   DictionaryExpression,
   VariableLookupExpression,
-  GetExpression,
-  SetExpression,
+  GetElementExpression,
+  SetElementExpression,
   UnaryExpression,
   TemplateLiteralExpression,
   TemplatePlaceholderExpression,
@@ -16,7 +16,7 @@ import {
 } from '@/interpreter/expression'
 import {
   BlockStatement,
-  CallStatement,
+  FunctionCallStatement,
   ForeachStatement,
   FunctionStatement,
   IfStatement,
@@ -55,7 +55,7 @@ describe('comments', () => {
     move()
     `)
     expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
+    expect(stmts[0]).toBeInstanceOf(FunctionCallStatement)
   })
 })
 describe('literals', () => {
@@ -159,29 +159,6 @@ describe('assignment', () => {
   })
 })
 
-describe('call', () => {
-  test('without arguments', () => {
-    const stmts = parse('move()')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
-    const expStmt = stmts[0] as CallStatement
-    expect(expStmt.expression).toBeInstanceOf(CallExpression)
-    const callExpr = expStmt.expression as CallExpression
-    expect(callExpr.args).toBeEmpty()
-  })
-
-  test('single argument', () => {
-    const stmts = parse('turn("left")')
-    expect(stmts).toBeArrayOfSize(1)
-    expect(stmts[0]).toBeInstanceOf(CallStatement)
-    const logStmt = stmts[0] as CallStatement
-    expect(logStmt.expression).toBeInstanceOf(CallExpression)
-    const callExpr = logStmt.expression as CallExpression
-    expect(callExpr.args).toBeArrayOfSize(1)
-    expect(callExpr.args[0]).toBeInstanceOf(LiteralExpression)
-  })
-})
-
 describe('get', () => {
   describe('dictionary', () => {
     test('single field', () => {
@@ -193,8 +170,8 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.value as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+      const getExpr = varStmtWithGet.value as GetElementExpression
       expect((getExpr.field as LiteralExpression).value).toBe('title')
       expect(getExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((getExpr.obj as VariableLookupExpression).name.lexeme).toBe(
@@ -211,11 +188,11 @@ describe('get', () => {
       expect(stmts[0]).toBeInstanceOf(SetVariableStatement)
       expect(stmts[1]).toBeInstanceOf(SetVariableStatement)
       const varStmtWithGet = stmts[1] as SetVariableStatement
-      expect(varStmtWithGet.value).toBeInstanceOf(GetExpression)
-      const getExpr = varStmtWithGet.value as GetExpression
+      expect(varStmtWithGet.value).toBeInstanceOf(GetElementExpression)
+      const getExpr = varStmtWithGet.value as GetElementExpression
       expect(getExpr.field.literal).toBe('name')
-      expect(getExpr.obj).toBeInstanceOf(GetExpression)
-      const nestedGetExpr = getExpr.obj as GetExpression
+      expect(getExpr.obj).toBeInstanceOf(GetElementExpression)
+      const nestedGetExpr = getExpr.obj as GetElementExpression
       expect(nestedGetExpr.field.literal).toBe('director')
       expect(nestedGetExpr.obj).toBeInstanceOf(VariableLookupExpression)
       expect((nestedGetExpr.obj as VariableLookupExpression).name.lexeme).toBe(
@@ -646,10 +623,10 @@ describe('location', () => {
     test('call', () => {
       const statements = parse('move(7)')
       expect(statements).toBeArrayOfSize(1)
-      expect(statements[0]).toBeInstanceOf(CallStatement)
-      const callStatement = statements[0] as CallStatement
+      expect(statements[0]).toBeInstanceOf(FunctionCallStatement)
+      const callStatement = statements[0] as FunctionCallStatement
       const expression = callStatement.expression
-      expect(expression).toBeInstanceOf(CallExpression)
+      expect(expression).toBeInstanceOf(FunctionCallExpression)
       expect(expression.location.line).toBe(1)
       expect(expression.location.relative.begin).toBe(1)
       expect(expression.location.relative.end).toBe(8)

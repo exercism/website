@@ -194,5 +194,61 @@
     "title": "Lists of Lists",
     "description": "Learn how to to put lists inside of lists",
     "level": 6
+  },
+  {
+    "slug": "dictionaries",
+    "parent": "data-types",
+    "title": "Dictionaries",
+    "description": "Learn everything about dictionaries",
+    "level": 7
+  },
+  {
+    "slug": "next-and-break",
+    "parent": "flow-control",
+    "title": "Next and Break",
+    "description": "Learn about the next and break keywords",
+    "level": 7
+  },
+  {
+    "slug": "indexed-by",
+    "parent": "flow-control",
+    "title": "Indexed By",
+    "description": "Learn about keeping track of the iteration you're on with indexed by.",
+    "level": 7
+  },
+  {
+    "slug": "objects",
+    "apex": true,
+    "title": "Objects",
+    "description": "Learn about objects - the building block of object-oriented programming.",
+    "level": 8
+  },
+  {
+    "slug": "objects-introduction",
+    "parent": "objects",
+    "title": "Introduction to Objects",
+    "description": "Grasp what objects are and why you would use them.",
+    "level": 8
+  },
+  {
+    "slug": "objects-instantiation",
+    "parent": "objects",
+    "title": "Creating Objects",
+    "description": "Learn how to use the new keyword to create objects",
+    "level": 8
+  },
+  {
+    "slug": "objects-properties",
+    "parent": "objects",
+    "title": "Object Properties",
+    "description": "Learn how to read and write properties from objects.",
+    "level": 8
+  },
+  {
+    "slug": "objects-in-functions",
+    "parent": "objects",
+    "title": "Using objects in functions",
+    "description": "Learn how we pass references to objects into functions.",
+    "level": 8
   }
 ]

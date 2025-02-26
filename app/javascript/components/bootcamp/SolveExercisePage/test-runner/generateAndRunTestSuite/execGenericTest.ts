@@ -50,7 +50,12 @@ export function execGenericTest(
 
   const { value: actual, frames } = evaluated
 
-  const codeRun = generateCodeRunString(testData.function, parsedParams)
+  let codeRun
+  if (testData.check?.description) {
+    codeRun = testData.check.description
+  } else {
+    codeRun = generateCodeRunString(testData.function, parsedParams)
+  }
 
   const expects = generateExpects(
     options.config.testsType,

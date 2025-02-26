@@ -5,9 +5,10 @@ declare type Task = {
   projectType?: string
   testsType: TestsType
   tests: TaskTest[]
+  bonus?: boolean
 }
 
-type TestsType = 'io' | 'state'
+type TestsType = 'io' | 'io/check' | 'state'
 
 declare type TaskTest = {
   name: string
@@ -21,6 +22,12 @@ declare type TaskTest = {
   checks?: ExpectCheck[]
   setupFunctions: SetupFunction[]
   descriptionHtml?: string
+  check: {
+    function: string
+    expected: string
+    matcher?: string
+    errorHtml?: string
+  }
 }
 
 declare type ExpectCheck = {

@@ -17,7 +17,8 @@ body.namespace-bootcamp.controller-dashboard.action-index {
     }
     .level-content {
         p,
-        ul {
+        ul,
+        ol {
             @apply text-20 leading-150;
             @apply mb-8;
         }
@@ -39,6 +40,10 @@ body.namespace-bootcamp.controller-dashboard.action-index {
     }
     ul {
         @apply list-disc;
+        @apply ml-24;
+    }
+    ol {
+        @apply list-decimal;
         @apply ml-24;
     }
     .tag {

@@ -54,10 +54,3 @@ Some points of clarity:
 ## Hints
 
 You might find it easier to think about the fireworks last and just get the alien tracking and shooting sorted first.
-
-## Bonus Task
-
-If you've got everything working? **Congratulations!! 🎉**
-
-It's possible to solve the exercise much more easily with `fire_fireworks()` function at the very end of the program.
-Can you solve it by putting `fire_fireworks()` **within** the `repeat_until_game_over` loop?

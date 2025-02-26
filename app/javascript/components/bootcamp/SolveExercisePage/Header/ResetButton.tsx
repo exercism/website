@@ -11,13 +11,14 @@ export function ResetButton() {
     useState(false)
   const { resetEditorToStub, exercise } = useContext(SolveExercisePageContext)
   const { setTestSuiteResult, setInspectedTestResult } = useTestStore()
-  const { initializeTasks } = useTaskStore()
+  const { initializeTasks, setShouldShowBonusTasks } = useTaskStore()
 
   const handleResetExercise = useCallback(() => {
     resetEditorToStub()
     setShouldOpenConfirmationModal(false)
     setTestSuiteResult(null)
     setInspectedTestResult(null)
+    setShouldShowBonusTasks(false)
     initializeTasks(exercise.tasks, null)
   }, [resetEditorToStub, setShouldOpenConfirmationModal])
 

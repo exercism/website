@@ -1,9 +1,9 @@
-import { RuntimeError, RuntimeErrorType } from '@/interpreter/error'
+import { RuntimeErrorType } from '@/interpreter/error'
 import { Frame } from '@/interpreter/frames'
-import { interpret } from '@/interpreter/interpreter'
+import { EvaluationContext, interpret } from '@/interpreter/interpreter'
 import { Location, Span } from '@/interpreter/location'
 import { changeLanguage } from '@/interpreter/translator'
-import { end } from '@popperjs/core'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
   changeLanguage('system')
@@ -17,7 +17,7 @@ const location = new Location(0, new Span(0, 0), new Span(0, 0))
 const getNameFunction = {
   name: 'get_name',
   func: (_interpreter: any) => {
-    return 'Jeremy'
+    return new Jiki.String('Jeremy')
   },
   description: '',
 }
@@ -40,24 +40,83 @@ describe('UnexpectedUncalledFunction', () => {
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
   })
   test('in a equation with a -', () => {
     const code = 'log get_name - 1'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'UnexpectedUncalledFunction')
-    expect(frames[0].error!.message).toBe('UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: get_name'
+    )
+  })
+  test('in other function', () => {
+    const code = `
+        function move with x do
+          return 1
+        end
+
+        log move(move)
+      `
+    const { error, frames } = interpret(code)
+    expectFrameToBeError(
+      frames[0],
+      `log move(move)`,
+      'UnexpectedUncalledFunction'
+    )
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
+  })
+
+  test('with left parenthesis', () => {
+    const code = `
+        function move do
+          return 1
+        end
+
+        log move
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], `log move`, 'UnexpectedUncalledFunction')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedUncalledFunction: name: move'
+    )
   })
 })
 describe('FunctionAlreadyDeclared', () => {
-  test('basic', () => {
+  test('variable name', () => {
     const code = 'set get_name to 5'
     const context = { externalFunctions: [getNameFunction] }
     const { frames } = interpret(code, context)
     expectFrameToBeError(frames[0], code, 'FunctionAlreadyDeclared')
     expect(frames[0].error!.message).toBe(
       'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('external function', () => {
+    const code = `function get_name do
+    end`
+    const context = { externalFunctions: [getNameFunction] }
+    const { frames } = interpret(code, context)
+    expectFrameToBeError(frames[0], 'get_name', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: get_name'
+    )
+  })
+  test('internal function', () => {
+    const code = `
+    function foobar do
+    end
+    function foobar do
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foobar', 'FunctionAlreadyDeclared')
+    expect(frames[0].error!.message).toBe(
+      'FunctionAlreadyDeclared: name: foobar'
     )
   })
 })
@@ -84,6 +143,56 @@ describe('UnexpectedReturnOutsideOfFunction', () => {
     const { frames } = interpret(code)
     expectFrameToBeError(frames[0], code, 'UnexpectedReturnOutsideOfFunction')
     expect(frames[0].error!.message).toBe('UnexpectedReturnOutsideOfFunction')
+  })
+})
+describe('UnexpectedContinueOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'continue'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      continue
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'continue',
+      'UnexpectedContinueOutsideOfLoop'
+    )
+    expect(frames[1].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: continue'
+    )
+  })
+  test('next keyword', () => {
+    const code = `next`
+    const { error, frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'next', 'UnexpectedContinueOutsideOfLoop')
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedContinueOutsideOfLoop: lexeme: next'
+    )
+  })
+})
+describe('UnexpectedBreakOutsideOfLoop', () => {
+  test('top level', () => {
+    const code = 'break'
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[0].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
+  })
+  test('in statement', () => {
+    const code = `
+    if true do
+      break
+    end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'break', 'UnexpectedBreakOutsideOfLoop')
+    expect(frames[1].error!.message).toBe('UnexpectedBreakOutsideOfLoop')
   })
 })
 describe('VariableAlreadyDeclared', () => {
@@ -490,18 +599,16 @@ describe('IndexOutOfBoundsInChange', () => {
   })
 })
 
-test('InvalidChangeElementTarget', () => {
-  const code = `
-    set str to "foo"
-    change str[1] to "a"
-    `
-  const { frames } = interpret(code)
-  expectFrameToBeError(
-    frames[1],
-    `change str[1] to "a"`,
-    'InvalidChangeElementTarget'
-  )
-  expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+describe('InvalidChangeElementTarget', () => {
+  test('string', () => {
+    const code = `
+      set str to "foo"
+      change str[1] to "a"
+      `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], `str`, 'InvalidChangeElementTarget')
+    expect(frames[1].error!.message).toBe('InvalidChangeElementTarget')
+  })
 })
 
 test('ListsCannotBeCompared', () => {
@@ -543,6 +650,219 @@ describe('FunctionCannotBeNamespaced', () => {
     })
     expect(frames[frames.length - 1].status).toBe('SUCCESS')
   })
+})
+
+test('ObjectsCannotBeCompared', () => {
+  const context = { classes: [new Jiki.Class('Thing')] }
+  const code = `
+  set thing to new Thing()
+  log thing == 5
+  `
+  const { frames } = interpret(code, context)
+  expectFrameToBeError(frames[1], `log thing == 5`, 'ObjectsCannotBeCompared')
+  expect(frames[1].error!.message).toBe('ObjectsCannotBeCompared')
+})
+
+test('MissingKeyInDictionary', () => {
+  const code = `log {}["a"]`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], code, 'MissingKeyInDictionary')
+  expect(frames[0].error!.message).toBe('MissingKeyInDictionary: key: "a"')
+})
+
+describe('OperandMustBeString', () => {
+  test('dictionary get', () => {
+    const code = `log {}[1]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeString')
+    expect(frames[0].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+
+  test('dictionary change', () => {
+    const code = `
+      set foo to {}
+      change foo[1] to 1
+    `
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[1], 'change foo[1] to 1', 'OperandMustBeString')
+    expect(frames[1].error!.message).toBe('OperandMustBeString: value: 1')
+  })
+})
+
+describe('OperandMustBeNumber', () => {
+  test('list get', () => {
+    const code = `log [1]["a"]`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], code, 'OperandMustBeNumber')
+    expect(frames[0].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+  test('list change', () => {
+    const code = `
+      set foo to ["b"]
+      change foo["a"] to 1
+    `
+    const { frames } = interpret(code)
+    expectFrameToBeError(
+      frames[1],
+      'change foo["a"] to 1',
+      'OperandMustBeNumber'
+    )
+    expect(frames[1].error!.message).toBe('OperandMustBeNumber: value: "a"')
+  })
+})
+
+describe('NoneJikiObjectDetected', () => {
+  test('with args', () => {
+    const Person = new Jiki.Class('Person')
+    // @ts-ignore
+    Person.addMethod('num', function (this: any, _) {
+      return 5
+    })
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(`log (new Person()).num()`, context)
+
+    expect(frames[0].error!.message).toBe('NoneJikiObjectDetected')
+  })
+})
+
+test('CouldNotFindGetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      log person.foo`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindGetter: name: foo')
+})
+
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
+test('CouldNotFindSetter', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+      change person.foo to 5`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindSetter: name: foo')
+})
+
+describe('WrongNumberOfArgumentsInConstructor', () => {
+  test('Some when none expect', () => {
+    const Person = new Jiki.Class('Person')
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person("foo")`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 0, numberOfArgs: 1'
+    )
+  })
+  test('None when Some expect', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(`set person to new Person()`, context)
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 0'
+    )
+  })
+  test('More than expected', () => {
+    const Person = new Jiki.Class('Person')
+    Person.addConstructor((ex, something) => {})
+
+    const context: EvaluationContext = { classes: [Person] }
+    const { frames, error } = interpret(
+      `set person to new Person(1,2,3)`,
+      context
+    )
+
+    expect(frames[0].error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 3'
+    )
+  })
+})
+
+test('ClassNotFound', () => {
+  const { frames, error } = interpret(`set person to new Person(1,2,3)`)
+  expect(frames[0].error!.message).toBe('ClassNotFound')
+})
+
+test('CouldNotFindMethod', () => {
+  const Person = new Jiki.Class('Person')
+
+  const context: EvaluationContext = { classes: [Person] }
+  const { frames, error } = interpret(
+    `set person to new Person()
+    person.foobar()`,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe('CouldNotFindMethod')
+})
+
+describe('AccessorUsedOnNonInstance', () => {
+  test('List', () => {
+    const { frames } = interpret(`log [].foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+  test('Dict', () => {
+    const { frames } = interpret(`log {}.foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+  test('String', () => {
+    const { frames } = interpret(`log "".foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
+})
+
+describe('UnexpectedForeachSecondElementName', () => {
+  test('List', () => {
+    const { frames } = interpret(`
+      for each foo, bar in [] do
+      end`)
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedForeachSecondElementName: type: list'
+    )
+  })
+  test('String', () => {
+    const { frames } = interpret(`
+      for each foo, bar in "" do
+      end`)
+    expect(frames[0].error!.message).toBe(
+      'UnexpectedForeachSecondElementName: type: string'
+    )
+  })
+})
+
+test('MissingForeachSecondElementName', () => {
+  const { frames } = interpret(`
+    for each foo in {} do
+    end`)
+  expect(frames[0].error!.message).toBe('MissingForeachSecondElementName')
 })
 
 // TOOD: Strings are immutable

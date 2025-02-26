@@ -5,12 +5,13 @@ import {
   assertHTML,
   contextToDescriptionContext,
 } from './helpers'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 import { getTrueFunction, getFalseFunction } from './helpers'
 
 const argyFunction = {
   name: 'argy_fn',
-  func: (_, _1, _2) => 'Jeremy',
+  func: (_, _1, _2) => new Jiki.String('Jeremy'),
   description: 'start ${arg1} and ${arg2} end',
 }
 
@@ -302,7 +303,7 @@ describe('logical expression', () => {
         'log get_true() and (false or get_false() != true)',
         context
       )
-      const actual = describeFrame(frames[0], [])
+      const actual = describeFrame(frames[0])
       assertHTML(actual, `<p>This logged <code>true</code>.</p>`, [
         `<li>Jiki used the <code>get_true()</code> function, which returned <code>true</code>.</li>`,
         `<li>Jiki saw the left side of the<code>or</code>was<code>false</code>and so decided to evaluate the right side.</li>`,

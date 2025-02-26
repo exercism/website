@@ -59,6 +59,7 @@ projects = %w[
   number-puzzles
   string-puzzles
   games-and-apps
+  breakout
 ]
 
 projects.each do |project_slug|
@@ -81,15 +82,25 @@ projects.each do |project_slug|
       e.description = ""
       e.level_idx = exercise_config[:level]
     end
-    exercise.update!(
-      idx: exercise_config[:idx],
-      title: exercise_config[:title],
-      description: exercise_config[:description],
-      level_idx: exercise_config[:level],
-      concepts: (exercise_config[:concepts] || []).map do |slug|
-                  Bootcamp::Concept.find_by!(slug:)
-                end
-    )
+
+    has_bonus_tasks = false
+    exercise_config[:tasks].each do |task|
+      has_bonus_tasks = true if task[:bonus]
+    end
+
+    has_bonus_tasks =
+      exercise.update!(
+        idx: exercise_config[:idx],
+        title: exercise_config[:title],
+        blocks_level_progression: exercise_config.fetch(:blocks_level_progression, true),
+        blocks_project_progression: exercise_config.fetch(:blocks_project_progression, true),
+        description: exercise_config[:description],
+        level_idx: exercise_config[:level],
+        has_bonus_tasks: exercise_config[:tasks].any? { |t| t[:bonus] },
+        concepts: (exercise_config[:concepts] || []).map do |slug|
+                    Bootcamp::Concept.find_by!(slug:)
+                  end
+      )
   end
 end
 

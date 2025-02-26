@@ -14,8 +14,11 @@ module ViewComponents
 
     private
     def status
-      user_project&.exercise_status(exercise, solution) ||
-        (::Bootcamp::Exercise::AvailableForUser.(exercise, current_user) ? :available : :locked)
+      s = user_project&.exercise_status(exercise, solution) ||
+          (::Bootcamp::Exercise::AvailableForUser.(exercise, current_user) ? :available : :locked)
+
+      s = 'completed-bonus' if s == :completed && (solution.passed_bonus_tests? || !exercise.has_bonus_tasks?)
+      s
     end
 
     memoize

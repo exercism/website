@@ -19,6 +19,13 @@ export function describeError(error: StaticError) {
     errorHeading = 'Jiki hit a problem running your code.'
   }
 
+  const renderer = new marked.Renderer()
+
+  renderer.code = (code) => {
+    return `<pre><code class="language-jikiscript hljs">${code.text}</code></pre>`
+  }
+  marked.setOptions({ renderer })
+
   let output = `<h2>${errorHeading}</h2>`
   output += `<div class="content">${marked.parse(error.message)}`
   output += `</div>`

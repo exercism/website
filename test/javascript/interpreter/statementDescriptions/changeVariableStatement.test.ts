@@ -7,7 +7,7 @@ test('literal', () => {
     set my_name to ""
     change my_name to "Jeremy"
     `)
-  const actual = describeFrame(frames[1], [])
+  const actual = describeFrame(frames[1])
   assertHTML(
     actual,
     `<p>This changed the value in <code>my_name</code> to <code>"Jeremy"</code>.</p>`,
@@ -28,7 +28,7 @@ test('function', () => {
     `,
     context
   )
-  const actual = describeFrame(frames[1], [])
+  const actual = describeFrame(frames[1])
   assertHTML(
     actual,
     `<p>This changed the value in <code>my_name</code> to <code>"Jeremy"</code>.</p>`,

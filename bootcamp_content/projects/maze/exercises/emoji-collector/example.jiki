@@ -1,0 +1,75 @@
+function contains with haystack, needle do
+  for each thread in haystack do
+    if needle == thread do
+      return true
+    end
+  end
+  return false
+end
+
+//--------------
+//--------------
+//--------------
+
+function check_direction with direction do
+  set space to look(direction)
+  return space != "🔥" and space != "🧱" and space != "💩"
+end
+
+function can_turn_left do
+  return check_direction("left")
+end
+function can_turn_right do
+  return check_direction("right")
+end
+function can_move do
+  return check_direction("ahead")
+end
+
+function turn_around do
+  turn_right()
+  turn_right()
+end
+
+function turn_if_needed do
+  if can_turn_left() do
+    turn_left()
+  else if can_move() do
+    return
+  else if can_turn_right() do
+    turn_right()
+  else do
+    turn_around()
+  end
+end
+
+function pick_up_emoji with emojis do
+set reserved to ["⭐", "🏁", "⬜"]
+  set emoji to look("down")
+  if contains(reserved, emoji) do
+    return emojis
+  end
+  
+  if not has_key(emojis, emoji) do
+    change emojis[emoji] to 0
+  end
+  
+  change emojis[emoji] to emojis[emoji] + 1
+  remove_emoji()
+  
+  return emojis
+end
+
+//--------------
+//--------------
+//--------------
+
+set emojis to {}
+
+repeat_until_game_over do
+  turn_if_needed()
+  move()
+  change emojis to pick_up_emoji(emojis)
+end
+
+announce_emojis(emojis)

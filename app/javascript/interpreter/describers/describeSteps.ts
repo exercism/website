@@ -4,15 +4,19 @@ import {
   GroupingExpression,
   BinaryExpression,
   LogicalExpression,
-  CallExpression,
+  FunctionCallExpression,
   VariableLookupExpression,
+  InstantiationExpression,
+  AccessorExpression,
 } from '../expression'
 import { describeLogicalExpression } from './describeLogicalExpression'
 import { DescriptionContext } from '../frames'
 import { describeBinaryExpression } from './describeBinaryExpression'
-import { describeCallExpression } from './describeCallExpression'
+import { describeFunctionCallExpression } from './describeFunctionCallExpression'
 import { describeGroupingExpression } from './describeGroupingExpression'
 import { describeVariableLookupExpression } from './describeVariableLookupExpression'
+import { describeInstantiationExpression } from './describeInstantiationExpression'
+import { describeGetterExpression } from './describeGetterExpression'
 
 export function describeExpression(
   expression: Expression,
@@ -28,11 +32,21 @@ export function describeExpression(
   if (expression instanceof GroupingExpression) {
     return describeGroupingExpression(expression, result, context)
   }
-  if (expression instanceof CallExpression) {
-    return describeCallExpression(expression, result, context)
+  if (expression instanceof FunctionCallExpression) {
+    return describeFunctionCallExpression(expression, result, context)
   }
   if (expression instanceof VariableLookupExpression) {
     return describeVariableLookupExpression(expression, result, context)
+  }
+  if (expression instanceof InstantiationExpression) {
+    return describeInstantiationExpression(expression, result, context)
+  }
+  if (expression instanceof AccessorExpression) {
+    if (result.type == 'GetterExpression') {
+      return describeGetterExpression(expression, result, context)
+    } else {
+      //return describeSetterExpression(expression, result, context)
+    }
   }
 
   return []

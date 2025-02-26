@@ -49,3 +49,9 @@ We take the first letter out of the string on the first iteration.
 And can then use it whenever we need to in that iteration.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/foreach-strings-2.png" class="diagram"/>
+
+### Dictionaries
+
+Dictionaries work similarly, but for each loops over the key value **pairs**, so you need to specify two variable names - one for the key and one for the value.
+
+<img src="https://assets.exercism.org/bootcamp/diagrams/foreach-dictionaries.png" class="diagram"/>

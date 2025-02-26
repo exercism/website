@@ -22,7 +22,7 @@ class Bootcamp::Solution::CompleteTest < ActiveSupport::TestCase
       project = create :bootcamp_project
       user_project = create(:bootcamp_user_project, user:, project:)
       exercise = create(:bootcamp_exercise, project:)
-      solution = create :bootcamp_solution, exercise:, user:, completed_at: Time.current
+      solution = create(:bootcamp_solution, exercise:, user:)
 
       Bootcamp::UserProject::UpdateStatus.expects(:call).with(user_project)
       Bootcamp::Solution::Complete.(solution)

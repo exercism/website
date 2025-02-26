@@ -1,8 +1,8 @@
 import type { Token } from './token'
 import { Location } from './location'
-import { EvaluationResultCallExpression } from './evaluation-result'
+import { EvaluationResultFunctionCallExpression } from './evaluation-result'
 import { SomethingWithLocation } from './interpreter'
-import { formatLiteral } from './helpers'
+import { formatJikiObject } from './helpers'
 
 export abstract class Expression implements SomethingWithLocation {
   constructor(public type: String) {}
@@ -11,7 +11,10 @@ export abstract class Expression implements SomethingWithLocation {
 }
 
 export class LiteralExpression extends Expression {
-  constructor(public value: any, public location: Location) {
+  constructor(
+    public value: number | string | boolean,
+    public location: Location
+  ) {
     super('LiteralExpression')
   }
   public children() {
@@ -36,17 +39,65 @@ export class FunctionLookupExpression extends Expression {
     return []
   }
 }
-export class CallExpression extends Expression {
+
+export class ClassLookupExpression extends Expression {
+  constructor(public name: Token, public location: Location) {
+    super('ClassLookupExpression')
+  }
+  public children() {
+    return []
+  }
+}
+
+export class FunctionCallExpression extends Expression {
   constructor(
-    public callee: VariableLookupExpression,
-    public paren: Token,
+    public callee: FunctionLookupExpression,
     public args: Expression[],
     public location: Location
   ) {
-    super('CallExpression')
+    super('FunctionCallExpression')
   }
   public children() {
     return ([this.callee] as Expression[]).concat(this.args)
+  }
+}
+export class MethodCallExpression extends Expression {
+  constructor(
+    public object: Expression,
+    public methodName: Token,
+    public args: Expression[],
+    public location: Location
+  ) {
+    super('MethodCallExpression')
+  }
+  public children() {
+    return ([this.object] as Expression[]).concat(this.args)
+  }
+}
+
+export class AccessorExpression extends Expression {
+  constructor(
+    public object: Expression,
+    public property: Token,
+    public location: Location
+  ) {
+    super('AccessorExpression')
+  }
+  public children() {
+    return [this.object]
+  }
+}
+
+export class InstantiationExpression extends Expression {
+  constructor(
+    public className: VariableLookupExpression,
+    public args: Expression[],
+    public location: Location
+  ) {
+    super('InstantiationExpression')
+  }
+  public children() {
+    return ([this.className] as Expression[]).concat(this.args)
   }
 }
 
@@ -58,7 +109,6 @@ export class ListExpression extends Expression {
     return this.elements
   }
 }
-
 export class DictionaryExpression extends Expression {
   constructor(
     public elements: Map<string, Expression>,
@@ -67,7 +117,7 @@ export class DictionaryExpression extends Expression {
     super('DictionaryExpression')
   }
   public children() {
-    return Array.from(this.elements.values())
+    return Object.values(this.elements)
   }
 }
 
@@ -161,27 +211,27 @@ export class UpdateExpression extends Expression {
   }
 }
 
-export class GetExpression extends Expression {
+export class GetElementExpression extends Expression {
   constructor(
     public obj: Expression,
     public field: Expression,
     public location: Location
   ) {
-    super('GetExpression')
+    super('GetElementExpression')
   }
   public children() {
     return [this.obj, this.field]
   }
 }
 
-export class SetExpression extends Expression {
+export class SetElementExpression extends Expression {
   constructor(
     public obj: Expression,
     public field: Token,
     public value: Expression,
     public location: Location
   ) {
-    super('SetExpression')
+    super('SetElementExpression')
   }
   public children() {
     return [this.obj, this.value]

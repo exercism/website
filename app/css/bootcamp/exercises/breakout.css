@@ -1,0 +1,25 @@
+.exercise-breakout {
+    .container {
+        @apply relative;
+        @apply w-fill h-fill;
+        background: rgb(21, 18, 24);
+        overflow: hidden;
+    }
+
+    .ball {
+        @apply absolute;
+        @apply bg-[#fafafa];
+        @apply rounded-circle;
+        width: 6%;
+        height: 6%;
+        transform: translate(-50%, -50%);
+    }
+    .block {
+        @apply absolute;
+        background: rgb(70, 109, 233);
+        border: 3px solid rgb(59, 89, 182);
+        @apply rounded-3;
+        width: 16%;
+        height: 7%;
+    }
+}

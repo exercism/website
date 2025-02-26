@@ -54,10 +54,6 @@ body.namespace-bootcamp.controller-concepts.action-show {
                 background-size: 43px 43px;
                 background-color: #fffff6;
             }
-            .hljs {
-                padding: 0;
-                background: transparent;
-            }
         }
     }
     .rhs {

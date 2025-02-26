@@ -3,7 +3,7 @@ import { diffChars, diffWords, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
 import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
-import { formatLiteral } from '@/interpreter/helpers'
+import { formatJikiObject } from '@/interpreter/helpers'
 
 export type ProcessedExpect = {
   diff: Change[]
@@ -128,7 +128,7 @@ export function getDiffOfExpectedAndActual(
   actual: any
 ): Change[] {
   if (passed) {
-    return diffChars(formatLiteral(expected), formatLiteral(actual))
+    return diffChars(formatJikiObject(expected), formatJikiObject(actual))
   }
 
   if (actual === null || actual === undefined) {
@@ -137,7 +137,7 @@ export function getDiffOfExpectedAndActual(
         added: false,
         count: 1,
         removed: true,
-        value: formatLiteral(expected),
+        value: formatJikiObject(expected),
       },
       {
         added: true,
@@ -149,10 +149,10 @@ export function getDiffOfExpectedAndActual(
   }
 
   if (typeof expected == 'string' && typeof actual == 'string') {
-    return diffChars(formatLiteral(expected), formatLiteral(actual))
+    return diffChars(formatJikiObject(expected), formatJikiObject(actual))
   }
   if (typeof expected == 'boolean' && typeof actual == 'boolean') {
-    return diffWords(formatLiteral(expected), formatLiteral(actual))
+    return diffWords(formatJikiObject(expected), formatJikiObject(actual))
   }
 
   return [
@@ -160,13 +160,13 @@ export function getDiffOfExpectedAndActual(
       added: false,
       count: 1,
       removed: true,
-      value: formatLiteral(expected),
+      value: formatJikiObject(expected),
     },
     {
       added: true,
       count: 1,
       removed: false,
-      value: formatLiteral(actual),
+      value: formatJikiObject(actual),
     },
   ]
 }

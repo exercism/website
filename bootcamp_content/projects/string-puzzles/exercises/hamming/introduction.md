@@ -1,4 +1,4 @@
-# Two Fer
+# Hammming
 
 This is a classic Exercism exercise and one of a couple about molecular biology (what Katrina - Exercism's co-founder's degree was in!)
 
@@ -30,9 +30,3 @@ Create a function called `hamming_distance` that has two inputs: the two DNA str
 It should return a number as the distance.
 
 Both DNA strands will always be the same length.
-
-## Bonus Task
-
-Congratulations on getting it working!
-
-Can you solve it in 11 lines of code?

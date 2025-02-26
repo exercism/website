@@ -1,7 +1,7 @@
 import { EvaluationResultSetVariableStatement } from '../evaluation-result'
 
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
-import { codeTag, formatLiteral } from '../helpers'
+import { codeTag, formatJikiObject } from '../helpers'
 import { SetVariableStatement } from '../statement'
 import { describeExpression } from './describeSteps'
 
@@ -13,7 +13,7 @@ export function describeSetVariableStatement(
   const frameResult = frame.result as EvaluationResultSetVariableStatement
 
   const name = frameContext.name.lexeme
-  const value = formatLiteral(frameResult.resultingValue)
+  const value = formatJikiObject(frameResult.jikiObject)
 
   const result = `<p>This created a new variable called ${codeTag(
     name,

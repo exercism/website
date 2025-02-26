@@ -4,7 +4,8 @@
   "project_type": "draw",
   "level": 4,
   "idx": 9,
-  "concepts": [],
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
   "tests_type": "state",
   "readonly_ranges": [],
   "exercise_functions": ["rectangle", "fill_color_hex"],
@@ -63,12 +64,12 @@
               "error_html": "The bottom right rectangle isn't correct."
             },
             {
-              "name": "wasFunctionUsed('rectangle', null, 55)",
+              "name": "wasFunctionCalled('rectangle', null, 55)",
               "matcher": "toBeTrue",
               "error_html": "You didn't add exactly 55 bricks."
             },
             {
-              "name": "numberOfFunctionCallsInCode('rectangle')",
+              "name": "numFunctionCallsInCode('rectangle')",
               "matcher": "toEqual",
               "value": 1,
               "error_html": "You are using the `rectangle` function in multiple places in your code."

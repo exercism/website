@@ -1,6 +1,7 @@
 import React from 'react'
 import { Exercise } from '../Exercise'
 import { ExecutionContext } from '@/interpreter/executor'
+import * as Jiki from '@/interpreter/jikiObjects'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'player_1' | 'player_2' | 'tie'
@@ -62,23 +63,28 @@ export default class RockPaperScissorsExercise extends Exercise {
     return 'player_2'
   }
 
-  public getPlayer1Choice(_: ExecutionContext): Choice | undefined {
-    return this.player1Choice
+  public getPlayer1Choice(_: ExecutionContext): Jiki.String {
+    return new Jiki.String(this.player1Choice!)
   }
 
-  public getPlayer2Choice(_: ExecutionContext): Choice | undefined {
-    return this.player2Choice
+  public getPlayer2Choice(_: ExecutionContext): Jiki.String {
+    return new Jiki.String(this.player2Choice!)
   }
 
-  public announceResult(executionCtx: ExecutionContext, result: Result) {
-    if (result !== 'player_1' && result !== 'player_2' && result !== 'tie') {
+  public announceResult(executionCtx: ExecutionContext, result: Jiki.String) {
+    const resultStr = result.value
+    if (
+      resultStr !== 'player_1' &&
+      resultStr !== 'player_2' &&
+      resultStr !== 'tie'
+    ) {
       executionCtx.logicError(
         'Oh no! You announced an invalid result. There\'s chaos in the playing hall! Please announce either "player_1", "player_2" or "tie".'
       )
     }
 
-    this.result = result
-    if (result !== this.expectedResult) {
+    this.result = resultStr
+    if (resultStr !== this.expectedResult) {
       // TODO: Change logic error to be paramatized and sanitize the strings in the interpreter.
       executionCtx.logicError(
         `Oh no! You announced the wrong result. There's chaos in the playing hall!\n\nYou should have announced \`"${this.expectedResult}"\` but you announced \`"${result}"\`.`

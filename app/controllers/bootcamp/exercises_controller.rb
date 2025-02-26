@@ -1,9 +1,10 @@
 class Bootcamp::ExercisesController < Bootcamp::BaseController
-  before_action :use_project
+  before_action :use_project, only: %i[show edit]
   before_action :use_exercise, only: %i[show edit]
 
   def index
-    @exercises = Bootcamp::Exercise.all
+    @projects = Bootcamp::Project.all.index_with { |p| p.exercises.unlocked }
+    @solutions = current_user.bootcamp_solutions.where(exercise: @exercises).index_by(&:exercise_id)
   end
 
   def show

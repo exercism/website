@@ -30,11 +30,13 @@ module ReactComponents
         },
         solution: {
           uuid: solution.uuid,
-          status: solution.status
+          status: solution.status,
+          passed_basic_tests: solution.passed_basic_tests?,
+          passed_bonus_tests: solution.passed_bonus_tests?
         },
         test_results: submission&.test_results,
         code: {
-          stub: exercise.stub,
+          stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user),
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

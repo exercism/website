@@ -1,4 +1,5 @@
-#bootcamp-solve-exercise-page {
+#bootcamp-solve-exercise-page,
+#bootcamp-custom-function-editor-page {
     @apply flex flex-col w-full h-screen;
 
     .page-header {

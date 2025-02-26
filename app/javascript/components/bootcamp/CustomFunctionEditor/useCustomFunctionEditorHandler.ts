@@ -47,6 +47,7 @@ export function useCustomFunctionEditorHandler({
     setHasCodeBeenEdited,
   } = useEditorStore()
 
+  // TODO: clean up errors on handle run code
   const handleRunCode = () => {
     if (!tests || tests.length === 0) {
       return

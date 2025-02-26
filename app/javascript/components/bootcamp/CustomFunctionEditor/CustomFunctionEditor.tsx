@@ -18,6 +18,9 @@ import SolveExercisePageContextWrapper, {
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import { EditorView } from 'codemirror'
 import { useLogger } from '@/hooks'
+import useEditorStore from '../SolveExercisePage/store/editorStore'
+import { CheckCodeButton } from './CheckCodeButton'
+import { flushSync } from 'react-dom'
 
 export type CustomFunction = {
   uuid: string
@@ -114,6 +117,12 @@ export default function CustomFunctionEditor({
     arity,
   ])
 
+  const { cleanUpEditorStore } = useEditorStore()
+  const handleCheckCode = useCallback(() => {
+    flushSync(cleanUpEditorStore)
+    handleRunCode()
+  }, [])
+
   return (
     <SolveExercisePageContextWrapper
       // we only need these two values
@@ -124,7 +133,7 @@ export default function CustomFunctionEditor({
         } as SolveExercisePageContextValues
       }
     >
-      <div id="bootcamp-solve-exercise-page">
+      <div id="bootcamp-custom-function-editor-page">
         <Header
           links={links}
           handleSaveChanges={handlePatchChanges}
@@ -154,12 +163,7 @@ export default function CustomFunctionEditor({
                     : []
                 }
               />
-              <button
-                onClick={handleRunCode}
-                className="scenarios-button flex btn-primary btn-s"
-              >
-                Check code
-              </button>
+              <CheckCodeButton handleRunCode={handleCheckCode} />
             </div>
           </div>
 

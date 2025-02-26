@@ -51,6 +51,9 @@ function fn(this: any) {
       executionCtx: ExecutionContext,
       cx: Jiki.Number
     ) {
+      if (!(cx instanceof Jiki.Number)) {
+        executionCtx.logicError('Ooops! Cx must be a number.')
+      }
       this.fields['cx'] = cx
 
       drawSun(executionCtx, this)
@@ -63,6 +66,9 @@ function fn(this: any) {
       executionCtx: ExecutionContext,
       cy: Jiki.Number
     ) {
+      if (!(cy instanceof Jiki.Number)) {
+        executionCtx.logicError('Ooops! Cy must be a number.')
+      }
       this.fields['cy'] = cy
 
       drawSun(executionCtx, this)

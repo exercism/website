@@ -100,10 +100,7 @@ import * as Jiki from './jikiObjects'
 import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
-import {
-  executeAccessorExpression,
-  executeGetterExpression,
-} from './executor/executeGetterExpression'
+import { executeGetterExpression } from './executor/executeGetterExpression'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -788,6 +785,8 @@ export class Executor {
       for (let temporaryVariableValue of iterable.jikiObject.value) {
         index += 1
 
+        const temporaryVariableNames: string[] = []
+
         // If we're in a dictionary, then we'll have two variables.
         let secondTemporaryVariableName: string | undefined
         let secondTemporaryVariableValue: Jiki.JikiObject | undefined
@@ -795,6 +794,7 @@ export class Executor {
           ;[temporaryVariableValue, secondTemporaryVariableValue] =
             temporaryVariableValue
           secondTemporaryVariableName = statement.secondElementName.lexeme
+          temporaryVariableNames.push(secondTemporaryVariableName)
           this.environment.define(
             secondTemporaryVariableName,
             secondTemporaryVariableValue
@@ -808,6 +808,7 @@ export class Executor {
           temporaryVariableValue = new Jiki.String(temporaryVariableValue)
         }
         const temporaryVariableName = statement.elementName.lexeme
+        temporaryVariableNames.push(temporaryVariableName)
         this.environment.define(temporaryVariableName, temporaryVariableValue)
 
         this.executeFrame<EvaluationResultForeachStatement>(statement, () => {
@@ -824,7 +825,7 @@ export class Executor {
         this.executeLoopIteration(
           statement.body,
           index,
-          temporaryVariableName,
+          temporaryVariableNames,
           counterVariableName
         )
       }
@@ -850,7 +851,7 @@ export class Executor {
   private executeLoopIteration(
     body: Statement[],
     iteration: number,
-    temporaryVariableName: string | null,
+    temporaryVariableNames: string[],
     counterVariableName: string | null
   ): void {
     if (counterVariableName) {
@@ -870,9 +871,9 @@ export class Executor {
         throw e
       }
     } finally {
-      if (temporaryVariableName) {
-        this.environment.undefine(temporaryVariableName)
-      }
+      temporaryVariableNames.forEach((name) => {
+        this.environment.undefine(name)
+      })
       if (counterVariableName) {
         this.environment.undefine(counterVariableName)
       }
@@ -935,7 +936,7 @@ export class Executor {
         this.executeLoopIteration(
           statement.body,
           iteration,
-          null,
+          [],
           counterVariableName
         )
 
@@ -965,7 +966,7 @@ export class Executor {
         this.executeLoopIteration(
           statement.body,
           iteration,
-          null,
+          [],
           counterVariableName
         )
 
@@ -990,7 +991,7 @@ export class Executor {
         this.executeLoopIteration(
           statement.body,
           iteration,
-          null,
+          [],
           counterVariableName
         )
 

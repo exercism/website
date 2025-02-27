@@ -25,7 +25,7 @@ The ball should also bounce in the opposite direction.
 
 Once you've hit the final block, you should no longer move the ball (and should just stop running code altogether).
 
-For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saved you a lot of coding!)
+For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saves you a lot of coding!)
 
 ### Functions
 

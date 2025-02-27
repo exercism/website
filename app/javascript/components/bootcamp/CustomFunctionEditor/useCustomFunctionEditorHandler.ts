@@ -61,6 +61,18 @@ export function useCustomFunctionEditorHandler({
       setLatestValueSnapshot(value)
 
       const evaluated = interpret(value)
+      if (evaluated.error) {
+        showError({
+          error: evaluated.error,
+          editorView: editorViewRef.current,
+          setHighlightedLine,
+          setHighlightedLineColor,
+          setInformationWidgetData,
+          setShouldShowInformationWidget,
+          setUnderlineRange,
+        })
+        return
+      }
 
       const customFunctions = customFunctionsForInterpreter.map((cfn) => {
         return {
@@ -100,18 +112,6 @@ export function useCustomFunctionEditorHandler({
 
       // autoselect the first test as inspected
       setInspectedTest(tests[0].uuid)
-
-      if (evaluated.error) {
-        showError({
-          error: evaluated.error,
-          editorView: editorViewRef.current,
-          setHighlightedLine,
-          setHighlightedLineColor,
-          setInformationWidgetData,
-          setShouldShowInformationWidget,
-          setUnderlineRange,
-        })
-      }
     }
   }
 

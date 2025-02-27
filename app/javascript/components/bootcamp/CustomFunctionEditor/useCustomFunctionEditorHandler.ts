@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
 import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import {
+  CustomFunction,
+  evaluateFunction,
+  interpret,
+} from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import { CustomTests, Results } from './useTestManager'
@@ -27,10 +31,12 @@ export function useCustomFunctionEditorHandler({
     string | undefined
   >(undefined)
 
+  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
     // run code on mount
-    handleRunCode(tests)
+    handleRunCode(tests, customFunctionsForInterpreter)
   }
 
   const getStudentCode = () => {
@@ -48,14 +54,17 @@ export function useCustomFunctionEditorHandler({
     setHasCodeBeenEdited,
   } = useEditorStore()
 
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
-
   // TODO: clean up errors on handle run code
-  const handleRunCode = (tests: CustomTests) => {
+  const handleRunCode = (
+    tests: CustomTests,
+    customFunctions: CustomFunction[] = []
+  ) => {
     if (!tests || tests.length === 0) {
       return
     }
+
     setHasCodeBeenEdited(false)
+
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()
       setLatestValueSnapshot(value)
@@ -74,14 +83,6 @@ export function useCustomFunctionEditorHandler({
         return
       }
 
-      const customFunctions = customFunctionsForInterpreter.map((cfn) => {
-        return {
-          name: cfn.name,
-          arity: cfn.arity,
-          code: cfn.code,
-        }
-      })
-
       tests.forEach((test) => {
         const params = test.params
         const safe_eval = eval
@@ -97,8 +98,6 @@ export function useCustomFunctionEditorHandler({
           functionName,
           ...args
         )
-
-        console.log('fn eval result', fnEvaluationResult)
 
         setResults((a) => ({
           ...a,

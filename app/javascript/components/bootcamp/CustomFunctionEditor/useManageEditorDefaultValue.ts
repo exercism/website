@@ -7,7 +7,7 @@ import { debounce } from 'lodash'
 export function useManageEditorDefaultValue(customFunction: CustomFunction) {
   const [editorLocalStorageValue, setEditorLocalStorageValue] = useLocalStorage(
     `custom-fn-editor-${customFunction.uuid}`,
-    { code: customFunction.code }
+    { code: customFunction.code || 'function my#' }
   )
 
   const { setDefaultCode } = useEditorStore()

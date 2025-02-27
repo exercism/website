@@ -17,10 +17,11 @@ import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
 import { EditorView } from 'codemirror'
-import { useLogger } from '@/hooks'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { CheckCodeButton } from './CheckCodeButton'
 import { flushSync } from 'react-dom'
+import useCustomFunctionStore from './store/customFunctionsStore'
+import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/extensions/readonly-function-my'
 
 export type CustomFunction = {
   uuid: string
@@ -86,7 +87,7 @@ export default function CustomFunctionEditor({
   } = useResizablePanels({
     initialSize: 800,
     direction: 'horizontal',
-    localStorageId: 'drawing-page-lhs',
+    localStorageId: 'solve-exercise-page-lhs',
   })
 
   const handleSetFnName = useCallback((view: EditorView) => {
@@ -115,16 +116,16 @@ export default function CustomFunctionEditor({
     description,
     arity,
   ])
+  const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
-    handleRunCode(tests)
-  }, [tests])
+    handleRunCode(tests, customFunctionsForInterpreter)
+  }, [tests, customFunctionsForInterpreter])
 
   return (
     <SolveExercisePageContextWrapper
-      // we only need these two values
       value={
         {
           editorView: editorViewRef.current,
@@ -145,11 +146,14 @@ export default function CustomFunctionEditor({
                 style={{ height: `100%` }}
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
-                handleRunCode={() => handleRunCode(tests)}
+                handleRunCode={() =>
+                  handleRunCode(tests, customFunctionsForInterpreter)
+                }
                 onEditorChangeCallback={(view) => {
                   handleSetFnName(view)
                   updateLocalStorageValueOnDebounce(view.state.doc.toString())
                 }}
+                extensions={[ReadonlyFunctionMyExtension]}
               />
             </ErrorBoundary>
 

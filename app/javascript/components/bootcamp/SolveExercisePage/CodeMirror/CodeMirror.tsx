@@ -7,7 +7,7 @@ import React, {
   useContext,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
-import { EditorState, Compartment } from '@codemirror/state'
+import { EditorState, Compartment, Extension } from '@codemirror/state'
 import { minimalSetup } from 'codemirror'
 import { indentWithTab } from '@codemirror/commands'
 import {
@@ -74,11 +74,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     handleRunCode,
     style,
     onEditorChangeCallback,
+    extensions = [],
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
     onEditorChangeCallback?: (view: EditorView) => void
+    extensions?: Extension[]
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -223,6 +225,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.cursorTooltip(),
           Ext.highlightedCodeBlock(),
           Ext.initReadOnlyRangesExtension(),
+          ...extensions,
         ],
       }),
       parent: textarea,

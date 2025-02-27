@@ -67,16 +67,7 @@ export class Environment {
         if (value instanceof Class) continue
         if (isCallable(value)) continue
 
-        // The stringify/parse combination makes the value unique,
-        // which means that subsequent updates won't influence the
-        // value of previous frames
-        let normalizedValue
-        try {
-          normalizedValue = cloneDeep(value)
-        } catch (e) {
-          normalizedValue = undefined
-        }
-        vars[key] = normalizedValue
+        vars[key] = value
       }
 
       current = current.enclosing

@@ -21,7 +21,7 @@ export type EvaluationResultChangeElementStatement = {
   object: EvaluationResult
   field: EvaluationResult
   value: EvaluationResult
-  oldValue: JikiTypes.JikiObject
+  oldValue: any
   jikiObject?: undefined
   data?: Record<string, any>
 }

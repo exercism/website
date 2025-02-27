@@ -47,7 +47,6 @@
     "abortcontroller-polyfill": "^1.7.3",
     "ace-builds": "^1.4.12",
     "actioncable": "^5.2.4-3",
-    "animejs": "^3.2.2",
     "@juliangarnierorg/anime-beta": "^4.0.0-rc.4",
     "autoprefixer": "latest",
     "browserslist-to-esbuild": "^1.1.1",

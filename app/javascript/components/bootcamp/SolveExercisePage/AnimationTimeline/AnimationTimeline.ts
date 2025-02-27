@@ -1,21 +1,28 @@
 import { type Frame } from '@/interpreter/frames'
 import { createTimeline, stagger } from '@juliangarnierorg/anime-beta'
-import type { DefaultsParams } from '@juliangarnierorg/anime-beta'
+import type {
+  DefaultsParams,
+  Timeline,
+  AnimationParams,
+  TargetSelector,
+  TargetsParam,
+} from '@juliangarnierorg/anime-beta'
 import type { AnimeCSSProperties } from './types'
 
-export type Animation = anime.AnimeAnimParams & {
+export type Animation = AnimationParams & {
+  targets: TargetsParam
   offset: string | number | undefined
   transformations: AnimeCSSProperties
 }
 
 export class AnimationTimeline {
-  private animationTimeline: AnimeTimelineInstance
+  private animationTimeline: Timeline
   private currentIndex: number = 0
   public currentFrame?: Frame
   public previousFrame?: Frame | null
   public nextFrame?: Frame | null
   public progress: number = 0
-  private updateCallbacks: ((anim: AnimeInstance) => void)[] = []
+  private updateCallbacks: ((anim: Timeline) => void)[] = []
 
   constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
     this.animationTimeline = createTimeline({
@@ -24,7 +31,7 @@ export class AnimationTimeline {
         ...initialOptions,
       },
       autoplay: false,
-      onUpdate: (anim: AnimeInstance) => {
+      onUpdate: (anim: Timeline) => {
         this.updateScrubber(anim)
         this.updateCallbacks.forEach((cb) => cb(anim))
       },
@@ -37,7 +44,7 @@ export class AnimationTimeline {
     this.animationTimeline = null
   }
 
-  public onUpdate(callback: (anim: AnimeInstance) => void) {
+  public onUpdate(callback: (anim: Timeline) => void) {
     this.updateCallbacks.push(callback)
 
     if (this.animationTimeline) {
@@ -46,16 +53,17 @@ export class AnimationTimeline {
     }
   }
 
-  public removeUpdateCallback(callback: (anim: AnimeInstance) => void) {
+  public removeUpdateCallback(callback: (anim: Timeline) => void) {
     this.updateCallbacks = this.updateCallbacks.filter((cb) => cb !== callback)
   }
 
   public populateTimeline(animations: Animation[]) {
     animations.forEach((animation: Animation) => {
+      const { targets, offset, transformations, ...rest } = animation
       this.animationTimeline.add(
-        animation.targets,
-        { ...animation, ...animation.transformations },
-        animation.offset
+        targets,
+        { ...rest, ...transformations },
+        offset
       )
     })
 
@@ -91,7 +99,7 @@ export class AnimationTimeline {
     return this.animationTimeline.duration
   }
 
-  private updateScrubber(anim: AnimeInstance) {
+  private updateScrubber(anim: Timeline) {
     if (!anim) return
     this.progress = anim.currentTime
 

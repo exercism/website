@@ -276,7 +276,7 @@ export class Executor {
     }
 
     return {
-      frames: this.normalizeFrames(),
+      frames: this.frames,
       error: null,
       meta: this.generateMeta(statements),
     }
@@ -308,7 +308,7 @@ export class Executor {
 
       return {
         value: result ? Jiki.unwrapJikiObject(result.jikiObject) : undefined,
-        frames: this.normalizeFrames(),
+        frames: this.frames,
         error: null,
         meta: this.generateMeta([statement]),
       }
@@ -348,7 +348,7 @@ export class Executor {
         }
         return {
           value: undefined,
-          frames: this.normalizeFrames(),
+          frames: this.frames,
           error: null,
           meta: this.generateMeta([statement]),
         }
@@ -1639,15 +1639,6 @@ export class Executor {
     this.frames.push(frame)
 
     this.time += this.timePerFrame
-  }
-
-  public normalizeFrames() {
-    if (this.frames.length == 0) {
-      return []
-    }
-    const time = this.frames[this.frames.length - 1].time
-    this.frames[this.frames.length - 1].time = Math.ceil(time)
-    return this.frames
   }
 
   public addFunctionCallToLog(name: string, args: any[]) {

@@ -1,6 +1,10 @@
 import React, { useContext } from 'react'
 import { useState } from 'react'
-import { calculateMaxInputValue, useScrubber } from './useScrubber'
+import {
+  calculateMaxInputValue,
+  TIME_TO_TIMELINE_SCALE_FACTOR,
+  useScrubber,
+} from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'
@@ -22,7 +26,7 @@ function Scrubber({
   const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const {
-    value,
+    timelineValue,
     handleChange,
     handleOnMouseUp,
     handleOnKeyUp,
@@ -78,7 +82,7 @@ function Scrubber({
         ref={rangeRef}
         max={calculateMaxInputValue(animationTimeline, frames)}
         onInput={updateInputBackground}
-        value={value}
+        value={timelineValue}
         onMouseDown={(event) =>
           handleMouseDown(event, animationTimeline, frames)
         }

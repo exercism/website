@@ -18,13 +18,13 @@ You can use a range of numbers, but keeping your values low (0-100) is sensible.
 
 These are the constructors of the classes you have:
 
-- `Roof`. The constructor expects`x_center, top, width, height, z_index`. It has a brightness property you can update.
-- `Frame`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
-- `Window`: The constructor expects `left, top, width, height, z_index`. It has a `lights` property that can be set to `true` or `false`. It has a brightness property you can update.
-- `Door`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can update.
-- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and update, and a brightness property you can update.
-- `Ground`: The constructor expects `height, z_index`. It has a brightness property you can update.
-- `Sun`: The constructor expects `cx, cy, radius, z_index`. It has `cx` and `cy` properties that can be read and changed.
+- `Roof`. The constructor expects`x_center, top, width, height, z_index`. It has a brightness property you can change, but not read.
+- `Frame`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can change, but not read
+- `Window`: The constructor expects `left, top, width, height, z_index`. It has a `lights` property that can be set to `true` or `false`. It has a brightness property you can change, but not read.
+- `Door`: The constructor expects `left, top, width, height, z_index`. It has a brightness property you can change, but not read.
+- `Sky`: The constructor expects `z_index`. It has a `hue` property that you can read and change, and a brightness property you can change, but not read.
+- `Ground`: The constructor expects `height, z_index`. It has a brightness property you can change, but not read.
+- `Sun`: The constructor expects `cx, cy, radius, z_index`. It has `cx` and `cy` properties that can be read and change.
 
 ## Instructions
 

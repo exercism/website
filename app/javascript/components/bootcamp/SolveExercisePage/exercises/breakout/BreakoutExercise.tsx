@@ -30,13 +30,14 @@ export default class BreakoutExercise extends Exercise {
     }
 
     const Ball = new Jiki.Class('Ball')
+    Ball['default_radius'] = 3
     Ball.addConstructor(function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext
     ) {
       this.fields['cx'] = new Jiki.Number(50)
-      this.fields['cy'] = new Jiki.Number(97)
-      this.fields['radius'] = new Jiki.Number(3)
+      this.fields['cy'] = new Jiki.Number(100 - Ball['default_radius'])
+      this.fields['radius'] = new Jiki.Number(Ball['default_radius'])
       this.fields['y_velocity'] = new Jiki.Number(-1)
       this.fields['x_velocity'] = new Jiki.Number(-1)
       createBall(executionCtx, this)
@@ -119,6 +120,7 @@ export default class BreakoutExercise extends Exercise {
     }
 
     const Block = new Jiki.Class('Block')
+    Block['default_height'] = 7
     Block.addConstructor(function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
@@ -128,7 +130,7 @@ export default class BreakoutExercise extends Exercise {
       this.fields['left'] = left
       this.fields['top'] = top
       this.fields['width'] = new Jiki.Number(16)
-      this.fields['height'] = new Jiki.Number(7)
+      this.fields['height'] = new Jiki.Number(Block['default_height'])
       this.fields['smashed'] = new Jiki.Boolean(false)
       createBlock(executionCtx, this as BlockInstance)
     })
@@ -169,13 +171,22 @@ export default class BreakoutExercise extends Exercise {
   }
 
   public getState() {
+    console.log(this.ballPositions.length)
     return {
       numBlocks: this.blocks.length,
-      numSmashedBlocks: this.blocks.filter(
-        (block: BlockInstance) => block.fields['smashed'].value
+      numSmashedBlocks: this.blocks.filter((block: BlockInstance) =>
+        block.getUnwrappedField('smashed')
       ).length,
       numBallPositions: this.ballPositions.length,
     }
+  }
+
+  public setDefaultBallRadius(_, radius: number) {
+    this.Ball['default_radius'] = radius
+  }
+
+  public setDefaultBlockHeight(_, height: number) {
+    this.Block['default_height'] = height
   }
 
   public getFalse() {
@@ -198,7 +209,9 @@ export default class BreakoutExercise extends Exercise {
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {
     if (
       this.blocks.length > 0 &&
-      this.blocks.every((block: BlockInstance) => block.fields['smashed'].value)
+      this.blocks.every((block: BlockInstance) =>
+        block.getUnwrappedField('smashed')
+      )
     ) {
       executionCtx.logicError(
         "You shouldn't move the ball when there were no blocks remaining."
@@ -208,6 +221,7 @@ export default class BreakoutExercise extends Exercise {
     const cy = ball.getUnwrappedField('cy')
     const x_velocity = ball.getUnwrappedField('x_velocity')
     const y_velocity = ball.getUnwrappedField('y_velocity')
+    const radius = ball.getUnwrappedField('radius')
 
     const newCx = cx + x_velocity
     const newCy = cy + y_velocity
@@ -217,20 +231,20 @@ export default class BreakoutExercise extends Exercise {
 
     this.ballPositions.push([newCx, newCy])
 
-    if (newCx - 3 < 0) {
+    if (newCx - radius < 0) {
       executionCtx.logicError(
         'Oh no! The ball moved off the left of the screen'
       )
     }
-    if (newCx + 3 > 100) {
+    if (newCx + radius > 100) {
       executionCtx.logicError(
         'Oh no! The ball moved off the right of the screen'
       )
     }
-    if (newCy - 3 < 0) {
+    if (newCy - radius < 0) {
       executionCtx.logicError('Oh no! The ball moved off the top of the screen')
     }
-    if (newCy + 3 > 100) {
+    if (newCy + radius > 100) {
       executionCtx.logicError(
         'Oh no! The ball moved off the bottom of the screen'
       )

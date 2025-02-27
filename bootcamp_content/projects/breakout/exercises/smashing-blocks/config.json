@@ -9,7 +9,7 @@
     "timePerFrame": 0.01,
     "repeat_delay": 10,
     "max_total_loop_iterations": 2000,
-    "max_repeat_until_game_over_iterations": 600,
+    "max_repeat_until_game_over_iterations": 300,
     "max_total_execution_time": 30000
   },
   "stdlib_functions": ["push"],
@@ -35,6 +35,38 @@
             {
               "name": "numBallPositions",
               "value": 504,
+              "error_html": "You moved the ball more times than you needed to!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Different dimensions",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "different-dimensions",
+          "name": "Changing dimensions.",
+          "description_html": "Check your code still works if the dimensions change!",
+          "setup_functions": [
+            ["setDefaultBallRadius", [4]],
+            ["setDefaultBlockHeight", [10]]
+          ],
+          "checks": [
+            {
+              "name": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "name": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "name": "numBallPositions",
+              "value": 459,
               "error_html": "You moved the ball more times than you needed to!"
             }
           ]

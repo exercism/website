@@ -7,7 +7,7 @@ We've added a new Class called `Block`.
 When you create an instance of it, you specify it's left and top position using `new Block(left, top)`.
 
 As soon as you create the block, it will draw on screen.
-All blocks are `16` wide and `7` high.
+All blocks are `16` wide.
 
 The block has a `top`, `left`, `width` and `height` properties which you can read. It also has a `smashed` property you can read and write (see below).
 
@@ -25,10 +25,7 @@ The ball should also bounce in the opposite direction.
 
 Once you've hit the final block, you should no longer move the ball (and should just stop running code altogether).
 
-A couple of notes:
-
-- For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saved you a lot of coding!)
-- As a reminder, the ball has a radius of `3` (a diameter of `6`).
+For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saves you a lot of coding!)
 
 ### Functions
 

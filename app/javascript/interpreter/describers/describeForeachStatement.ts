@@ -42,8 +42,8 @@ function describePopulatedList(
   const value = frameResult.temporaryVariableValue
   const ordinaledIndex = addOrdinalSuffix(frameResult.index)
 
-  console.log(frameContext.secondElementName)
-  console.log(frameResult.temporaryVariableValue)
+  // console.log(frameContext.secondElementName)
+  // console.log(frameResult.temporaryVariableValue)
 
   let result = `<p>This line started the ${ordinaledIndex} iteration with the ${codeTag(
     name,

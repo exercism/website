@@ -17,6 +17,8 @@ declare global {
       updateCustomFns?: string
       customFnsDashboard?: string
     }
+    availableCustomFunctions: any
+    activeCustomFunctions: any
   }
 
   type Code = {

@@ -49,7 +49,6 @@ export class AnimationTimeline {
 
   public populateTimeline(animations: Animation[]) {
     animations.forEach((animation: Animation) => {
-      // console.log(animation.offset)
       this.animationTimeline.add(
         { ...animation, ...animation.transformations },
         animation.offset

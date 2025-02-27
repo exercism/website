@@ -158,7 +158,7 @@ export class Instance extends JikiObject {
 }
 
 export abstract class Primitive extends JikiObject {
-  constructor(public readonly type: ObjectType, public readonly value: any) {
+  constructor(type: ObjectType, public readonly value: any) {
     super(type)
   }
 
@@ -168,7 +168,7 @@ export abstract class Primitive extends JikiObject {
 }
 
 export abstract class Literal extends Primitive {
-  constructor(public readonly type: ObjectType, public readonly value: any) {
+  constructor(type: ObjectType, value: any) {
     super(type, value)
   }
 }

@@ -146,7 +146,6 @@ export class Executor {
 
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
-  private statementStartingVariablesLog: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
 
@@ -158,7 +157,6 @@ export class Executor {
     private externalState: Record<string, any> = {}
   ) {
     for (let externalFunction of externalFunctions) {
-      externalFunction = cloneDeep(externalFunction)
       const func = externalFunction.func
 
       // The first value passed to the function is the interpreter
@@ -464,7 +462,7 @@ export class Executor {
       statement,
       () => {
         // Ensure the variable exists
-        this.lookupVariable(statement.name)
+        const variable = this.lookupVariable(statement.name)
 
         if (isCallable(this.environment.get(statement.name))) {
           this.error('UnexpectedChangeOfFunction', statement.name.location, {
@@ -484,10 +482,8 @@ export class Executor {
         }
 
         // Update the underlying value
+        const oldValue = Jiki.unwrapJikiObject(variable.value)
         this.environment.updateVariable(statement.name, value.jikiObject)
-
-        const oldValue =
-          this.statementStartingVariablesLog[statement.name.lexeme]
 
         return {
           type: 'ChangeVariableStatement',
@@ -568,7 +564,9 @@ export class Executor {
       const value = this.evaluate(statement.value)
 
       // Do the update
-      const oldValue = dictionary.jikiObject[field.jikiObject.value]
+      const oldValue = Jiki.unwrapJikiObject(
+        dictionary.jikiObject[field.jikiObject.value]
+      )
       dictionary.jikiObject.value.set(field.jikiObject.value, value.jikiObject)
 
       return {
@@ -621,7 +619,9 @@ export class Executor {
       const value = this.evaluate(statement.value)
 
       // Do the update
-      const oldValue = list.jikiObject.value[index.jikiObject.value - 1]
+      const oldValue = Jiki.unwrapJikiObject(
+        list.jikiObject.value[index.jikiObject.value - 1]
+      )
       list.jikiObject.value[index.jikiObject.value - 1] = value.jikiObject
 
       return {
@@ -1429,9 +1429,6 @@ export class Executor {
       this.error('MaxTotalExecutionTimeReached', location)
     }
 
-    // Store a clone of the values so that any changes do not affect this
-    this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
-
     const method = `visit${statement.type}`
     this[method](statement)
   }
@@ -1627,16 +1624,17 @@ export class Executor {
       result,
       error,
       time: this.time,
-      description: '',
+      description: () => undefined,
       context: context,
     }
     if (process.env.NODE_ENV == 'test') {
-      frame.variables = this.environment.variables()
+      frame.variables = cloneDeep(this.environment.variables())
     }
 
-    frame.description = describeFrame(frame, {
-      functionDescriptions: this.externalFunctionDescriptions,
-    })
+    frame.description = () =>
+      describeFrame(frame, {
+        functionDescriptions: this.externalFunctionDescriptions,
+      })
 
     this.frames.push(frame)
 

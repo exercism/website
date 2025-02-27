@@ -13,7 +13,11 @@ import {
 } from '../evaluation-result'
 import { isNumber } from '../checks'
 import { cloneDeep } from 'lodash'
-import { JikiObject, wrapJSToJikiObject } from '../jikiObjects'
+import {
+  JikiObject,
+  unwrapJikiObject,
+  wrapJSToJikiObject,
+} from '../jikiObjects'
 import { Location } from '../location'
 
 function throwMissingFunctionError(
@@ -83,7 +87,7 @@ export function executeFunctionCallExpression(
 
   try {
     // Log it's usage for testing checks
-    const argResults = args.map((arg) => cloneDeep(arg.jikiObject))
+    const argResults = args.map((arg) => unwrapJikiObject(arg.jikiObject))
     executor.addFunctionCallToLog(fnName, argResults)
 
     value = callee.function.call(

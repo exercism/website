@@ -27,3 +27,9 @@ A couple of notes:
 
 - For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saved you a lot of coding!)
 - As a reminder, the ball has a radius of `3` (a diameter of `6`).
+
+### Functions
+
+You have one function available:
+
+- `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)

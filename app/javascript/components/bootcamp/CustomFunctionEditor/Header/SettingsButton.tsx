@@ -1,38 +1,20 @@
+import React, { useCallback, useState } from 'react'
 import GraphicalIcon from '@/components/common/GraphicalIcon'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import React, { useCallback, useContext, useState } from 'react'
 import { ManageCustomFunctionsModal } from './ManageCustomFunctionsModal'
-import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
-import useCustomFunctionStore, {
-  CustomFunctionMetadata,
-} from '../store/customFunctionsStore'
 
 export function SettingsButton() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isManagerModalOpen, setIsManagerModalOpen] = useState(false)
-  const [isFetchingCustomFns, setIsFetchingCustomFns] = useState(false)
-
-  const { setCustomFunctionMetadataCollection } = useCustomFunctionStore()
 
   const toggleIsDialogOpen = useCallback(() => {
     setIsDialogOpen((isOpen) => !isOpen)
   }, [])
 
-  const { links } = useContext(SolveExercisePageContext)
-
   const setManagerModalOpen = useCallback(() => {
     setIsManagerModalOpen(true)
-    setIsDialogOpen(false)
-    handleGetFunctions()
   }, [])
 
-  const handleGetFunctions = useCallback(async () => {
-    setIsFetchingCustomFns(true)
-    const data = await getCustomFunctions(links.getCustomFns)
-
-    setCustomFunctionMetadataCollection(data.custom_functions)
-    setIsFetchingCustomFns(false)
-  }, [])
   return (
     <>
       <button
@@ -58,28 +40,9 @@ export function SettingsButton() {
       )}
 
       <ManageCustomFunctionsModal
-        isFetching={isFetchingCustomFns}
         isOpen={isManagerModalOpen}
         setIsOpen={setIsManagerModalOpen}
       />
     </>
   )
-}
-
-export async function getCustomFunctions(
-  url: string
-): Promise<{ custom_functions: CustomFunctionMetadata[] }> {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: null,
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to submit code')
-  }
-
-  return response.json()
 }

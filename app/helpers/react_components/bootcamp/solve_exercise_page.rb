@@ -67,7 +67,7 @@ module ReactComponents
     def active_custom_functions
       return [] unless submission
 
-      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission.custom_functions.map(&:name))
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission.custom_functions)
     end
 
     def readonly_ranges

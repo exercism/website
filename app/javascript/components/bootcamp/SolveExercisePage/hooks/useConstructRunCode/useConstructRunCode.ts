@@ -96,7 +96,7 @@ export function useConstructRunCode({
       const compiled = compile(studentCode, {
         languageFeatures: config.interpreterOptions,
         customFunctions: customFunctionsForInterpreter.map((cfn) => {
-          return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+          return { name: cfn.fnName, arity: cfn.arity, code: cfn.code }
         }),
       })
 
@@ -108,18 +108,20 @@ export function useConstructRunCode({
       }
 
       let testResults
+
+      const customFns = customFunctionsForInterpreter.map((cfn) => {
+        return {
+          name: cfn.fnName,
+          arity: cfn.arity,
+          code: cfn.code,
+        }
+      })
       try {
         testResults = generateAndRunTestSuite({
           studentCode,
           tasks,
           config,
-          customFunctions: customFunctionsForInterpreter.map((cfn) => {
-            return {
-              name: cfn.name,
-              arity: cfn.arity,
-              code: cfn.code,
-            }
-          }),
+          customFunctions: customFns,
         })
       } catch (error) {
         console.log(error)
@@ -138,13 +140,7 @@ export function useConstructRunCode({
         studentCode,
         tasks: bonusTasks ?? [],
         config,
-        customFunctions: customFunctionsForInterpreter.map((cfn) => {
-          return {
-            name: cfn.name,
-            arity: cfn.arity,
-            code: cfn.code,
-          }
-        }),
+        customFunctions: customFns,
       })
 
       setTestSuiteResult(testResults)
@@ -196,6 +192,7 @@ export function useConstructRunCode({
             })
           ),
         },
+        customFunctions: customFunctionsForInterpreter.map((cfn) => cfn.name),
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
           editorView,

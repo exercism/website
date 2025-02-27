@@ -9,11 +9,9 @@ Modal.setAppElement('body')
 
 export function ManageCustomFunctionsModal({
   isOpen,
-  isFetching,
   setIsOpen,
 }: {
   isOpen: boolean
-  isFetching: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const {
@@ -31,10 +29,10 @@ export function ManageCustomFunctionsModal({
   )
 
   const getIsFunctionImported = useCallback(
-    (uuid: string) => {
+    (name: string) => {
       return (
         customFunctionsForInterpreter.findIndex(
-          (customFn) => customFn.uuid === uuid
+          (customFn) => customFn.name === name
         ) > -1
       )
     },
@@ -42,18 +40,18 @@ export function ManageCustomFunctionsModal({
   )
 
   const handleGetCustomFunctionForInterpreter = useCallback(
-    async (uuid: string) => {
+    async (name: string) => {
       const data = await getCustomFunctionsForInterpreter(
         links.getCustomFnsForInterpreter,
-        uuid
+        name
       )
 
       const [firstFn] = data.custom_functions
       addCustomFunctionsForInterpreter({
         arity: firstFn.fn_arity,
         code: firstFn.code,
-        name: firstFn.fn_name,
-        uuid,
+        name: firstFn.name,
+        fnName: firstFn.fn_name,
       })
     },
     []
@@ -73,23 +71,22 @@ export function ManageCustomFunctionsModal({
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
       <div className="flex flex-col gap-8">
-        {isFetching && <div>Loading custom function metadata...</div>}
         {hasMetadata ? (
           customFunctionMetadataCollection.map((customFnMetadata) => {
             return (
               <CustomFunctionMetadata
-                key={customFnMetadata.uuid}
+                key={customFnMetadata.name}
                 onClick={() =>
-                  getIsFunctionImported(customFnMetadata.uuid)
+                  getIsFunctionImported(customFnMetadata.name)
                     ? handleRemoveCustomFunctionForInterpreter(
-                        customFnMetadata.uuid
+                        customFnMetadata.name
                       )
                     : handleGetCustomFunctionForInterpreter(
-                        customFnMetadata.uuid
+                        customFnMetadata.name
                       )
                 }
                 buttonLabel={
-                  getIsFunctionImported(customFnMetadata.uuid)
+                  getIsFunctionImported(customFnMetadata.name)
                     ? 'remove'
                     : 'import'
                 }
@@ -126,7 +123,6 @@ function CustomFunctionMetadata({
         <strong>{customFnMetadata.name}</strong>
       </div>
       <div>{customFnMetadata.description}</div>
-      <div>{customFnMetadata.uuid}</div>
       <button className="btn btn-primary" onClick={onClick}>
         <code>{buttonLabel}</code>
       </button>
@@ -136,16 +132,17 @@ function CustomFunctionMetadata({
 
 export async function getCustomFunctionsForInterpreter(
   url: string,
-  uuid: string
+  name: string
 ): Promise<{
   custom_functions: {
     code: string
     fn_arity: number
     fn_name: string
+    name: string
   }[]
 }> {
   // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
-  const response = await fetch(url + '?uuids=' + uuid, {
+  const response = await fetch(url + '?name=' + name, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

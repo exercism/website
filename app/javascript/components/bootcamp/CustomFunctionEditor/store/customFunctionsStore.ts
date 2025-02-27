@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type CustomFunctionMetadata = {
-  uuid: string
   name: string
   description: string
 }
@@ -11,7 +10,7 @@ export type CustomFunctionForInterpreter = {
   code: string
   arity: number
   name: string
-  uuid: string
+  fnName: string
 }
 
 type CustomFunctionsStore = {
@@ -20,10 +19,13 @@ type CustomFunctionsStore = {
     customFunctionMetadataCollection: CustomFunctionMetadata[]
   ) => void
   customFunctionsForInterpreter: CustomFunctionForInterpreter[]
+  setCustomFunctionsForInterpreter: (
+    customFunctionsForInterpreter: CustomFunctionForInterpreter[]
+  ) => void
   addCustomFunctionsForInterpreter: (
     customFunctionsForInterpreter: CustomFunctionForInterpreter
   ) => void
-  removeCustomFunctionsForInterpreter: (uuid: string) => void
+  removeCustomFunctionsForInterpreter: (name: string) => void
 }
 
 const useCustomFunctionStore = create<CustomFunctionsStore>()(
@@ -34,6 +36,9 @@ const useCustomFunctionStore = create<CustomFunctionsStore>()(
         customFunctionMetadataCollection
       ) => {
         set({ customFunctionMetadataCollection })
+      },
+      setCustomFunctionsForInterpreter: (customFunctionsForInterpreter) => {
+        set({ customFunctionsForInterpreter })
       },
       customFunctionsForInterpreter: [],
       addCustomFunctionsForInterpreter: (customFunctionsForInterpreter) => {
@@ -47,10 +52,10 @@ const useCustomFunctionStore = create<CustomFunctionsStore>()(
           }
         })
       },
-      removeCustomFunctionsForInterpreter: (uuid) => {
+      removeCustomFunctionsForInterpreter: (name) => {
         set((state) => {
           const customFnsForInterpreter =
-            state.customFunctionsForInterpreter.filter((fn) => fn.uuid !== uuid)
+            state.customFunctionsForInterpreter.filter((fn) => fn.name !== name)
 
           return {
             customFunctionsForInterpreter: customFnsForInterpreter,

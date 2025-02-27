@@ -19,6 +19,8 @@ export default class BreakoutExercise extends Exercise {
       div.id = `ball-${ball.objectId}`
       div.style.left = `${ball.getUnwrappedField('cx')}%`
       div.style.top = `${ball.getUnwrappedField('cy')}%`
+      div.style.width = `${ball.getUnwrappedField('radius') * 2}%`
+      div.style.height = `${ball.getUnwrappedField('radius') * 2}%`
       div.style.opacity = '0'
       this.container.appendChild(div)
       this.animateIntoView(
@@ -34,12 +36,14 @@ export default class BreakoutExercise extends Exercise {
     ) {
       this.fields['cx'] = new Jiki.Number(50)
       this.fields['cy'] = new Jiki.Number(97)
+      this.fields['radius'] = new Jiki.Number(3)
       this.fields['y_velocity'] = new Jiki.Number(-1)
       this.fields['x_velocity'] = new Jiki.Number(-1)
       createBall(executionCtx, this)
     })
     Ball.addGetter('cx')
     Ball.addGetter('cy')
+    Ball.addGetter('radius')
     Ball.addGetter('x_velocity')
     Ball.addGetter('y_velocity')
 
@@ -93,6 +97,8 @@ export default class BreakoutExercise extends Exercise {
       div.id = `block-${block.objectId}`
       div.style.left = `${block.getUnwrappedField('left')}%`
       div.style.top = `${block.getUnwrappedField('top')}%`
+      div.style.width = `${block.getUnwrappedField('width')}%`
+      div.style.height = `${block.getUnwrappedField('height')}%`
       div.style.opacity = '0'
       this.container.appendChild(div)
 
@@ -121,11 +127,15 @@ export default class BreakoutExercise extends Exercise {
     ) {
       this.fields['left'] = left
       this.fields['top'] = top
+      this.fields['width'] = new Jiki.Number(16)
+      this.fields['height'] = new Jiki.Number(7)
       this.fields['smashed'] = new Jiki.Boolean(false)
       createBlock(executionCtx, this as BlockInstance)
     })
     Block.addGetter('top')
     Block.addGetter('left')
+    Block.addGetter('width')
+    Block.addGetter('height')
     Block.addGetter('smashed')
     Block.addSetter(
       'smashed',

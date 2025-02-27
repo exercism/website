@@ -9,6 +9,8 @@ When you create an instance of it, you specify it's left and top position using 
 As soon as you create the block, it will draw on screen.
 All blocks are `16` wide and `7` high.
 
+The block has a `top`, `left`, `width` and `height` properties which you can read. It also has a `smashed` property you can read and write (see below).
+
 ## Instructions
 
 You have two tasks.

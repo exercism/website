@@ -19,8 +19,8 @@ We've create a `Ball` class (blueprint) for you.
 - It has a constructor that takes no inputs.
 - You need to create an instance of the ball (an object).
 - That instance will have an internal `cx` and `cy`, specifying the center of the ball, which you can read but not change.
-- It will also have an `x_velocity` and `y_velocity`, which you can read **and** change.
-- It will have a radius of `3` (a diameter of `6`).
+- It will have a property called `radius` that you can read.
+- It will have an `x_velocity` and `y_velocity`, which you can read **and** change.
 - When you create the instance, the ball will be drawn on screen.
 
 You also have a function called `move_ball(ball)`, which takes an instance of a ball as its input, and moves it in in accordance with the `x_velocity` and `y_velocity`

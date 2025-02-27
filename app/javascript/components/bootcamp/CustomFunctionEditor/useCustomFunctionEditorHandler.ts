@@ -30,7 +30,7 @@ export function useCustomFunctionEditorHandler({
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
     // run code on mount
-    handleRunCode()
+    handleRunCode(tests)
   }
 
   const getStudentCode = () => {
@@ -51,7 +51,7 @@ export function useCustomFunctionEditorHandler({
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
   // TODO: clean up errors on handle run code
-  const handleRunCode = () => {
+  const handleRunCode = (tests: CustomTests) => {
     if (!tests || tests.length === 0) {
       return
     }
@@ -98,14 +98,13 @@ export function useCustomFunctionEditorHandler({
         }))
       })
 
-      console.log('tests', tests)
-
       // autoselect the first test as inspected
       setInspectedTest(tests[0].uuid)
 
       if (evaluated.error) {
         showError({
           error: evaluated.error,
+          editorView: editorViewRef.current,
           setHighlightedLine,
           setHighlightedLineColor,
           setInformationWidgetData,

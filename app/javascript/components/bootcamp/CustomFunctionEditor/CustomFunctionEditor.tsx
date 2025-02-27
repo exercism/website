@@ -119,8 +119,8 @@ export default function CustomFunctionEditor({
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
-    handleRunCode()
-  }, [])
+    handleRunCode(tests)
+  }, [tests])
 
   return (
     <SolveExercisePageContextWrapper
@@ -145,7 +145,7 @@ export default function CustomFunctionEditor({
                 style={{ height: `100%` }}
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
-                handleRunCode={handleRunCode}
+                handleRunCode={() => handleRunCode(tests)}
                 onEditorChangeCallback={(view) => {
                   handleSetFnName(view)
                   updateLocalStorageValueOnDebounce(view.state.doc.toString())

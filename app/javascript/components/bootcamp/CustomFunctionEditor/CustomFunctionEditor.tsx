@@ -22,6 +22,7 @@ import { CheckCodeButton } from './CheckCodeButton'
 import { flushSync } from 'react-dom'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/extensions/readonly-function-my'
+import { useSetupCustomFunctionStore } from './useSetupCustomFunctionsStore'
 
 export type CustomFunction = {
   uuid: string
@@ -34,6 +35,8 @@ export type CustomFunction = {
 
 export type CustomFunctionEditorProps = {
   customFunction: CustomFunction
+  dependsOn: ActiveCustomFunction[]
+  availableCustomFunctions: AvailableCustomFunction[]
   links: {
     updateCustomFns: string
     getCustomFns: string
@@ -45,6 +48,8 @@ export type CustomFunctionEditorProps = {
 export default function CustomFunctionEditor({
   customFunction,
   links,
+  dependsOn,
+  availableCustomFunctions,
 }: CustomFunctionEditorProps) {
   const {
     tests,
@@ -80,6 +85,8 @@ export default function CustomFunctionEditor({
 
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
+
+  useSetupCustomFunctionStore({ dependsOn, availableCustomFunctions })
 
   const {
     primarySize: LHSWidth,

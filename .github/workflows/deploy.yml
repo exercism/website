@@ -52,6 +52,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef
         with:

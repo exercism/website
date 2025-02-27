@@ -9,11 +9,12 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
   end
 
   def for_interpreter
-    @custom_functions = current_user.bootcamp_custom_functions.where(uuid: params[:uuids].split(','))
+    @custom_functions = current_user.bootcamp_custom_functions.where(name: params[:name].split(','))
 
     render json: {
       custom_functions: @custom_functions.map do |cf|
         {
+          name: cf.name,
           fn_name: cf.fn_name,
           fn_arity: cf.fn_arity,
           code: cf.code

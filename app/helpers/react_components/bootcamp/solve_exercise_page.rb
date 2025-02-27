@@ -59,14 +59,15 @@ module ReactComponents
 
     private
     def available_custom_functions
-      current_user.bootcamp_custom_functions.active.select(:uuid, :name, :fn_name, :fn_arity, :code)
+      current_user.bootcamp_custom_functions.active.map do |custom_function|
+        SerializeBootcampCustomFunctionSummary.(custom_function)
+      end
     end
 
     def active_custom_functions
       return [] unless submission
 
-      current_user.bootcamp_custom_functions.where(name: submission.custom_functions.map(&:name)).
-        select(:uuid, :name, :fn_name, :fn_arity, :code)
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission.custom_functions.map(&:name))
     end
 
     def readonly_ranges

@@ -7,7 +7,6 @@ class SerializeBootcampCustomFunctionSummary
     return unless custom_function
 
     {
-      uuid: custom_function.uuid,
       name: custom_function.name,
       description: custom_function.description
     }

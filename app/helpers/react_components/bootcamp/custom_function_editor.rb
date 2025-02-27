@@ -11,6 +11,7 @@ module ReactComponents
     def data
       {
         custom_function: SerializeBootcampCustomFunction.(custom_function),
+        available_custom_functions:,
         depends_on:,
         links: {
           custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
@@ -21,9 +22,15 @@ module ReactComponents
       }
     end
 
+    private
+    def available_custom_functions
+      current_user.bootcamp_custom_functions.active.map do |custom_function|
+        SerializeBootcampCustomFunctionSummary.(custom_function)
+      end
+    end
+
     def depends_on
-      current_user.bootcamp_custom_functions.where(name: custom_function.depends_on.map(&:name)).
-        select(:uuid, :name, :fn_name, :fn_arity, :code)
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function.depends_on.map(&:name))
     end
   end
 end

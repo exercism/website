@@ -13,8 +13,8 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_response :ok
     expected = {
       custom_functions: [
-        SerializeBootcampCustomFunction.(function_1),
-        SerializeBootcampCustomFunction.(function_2)
+        SerializeBootcampCustomFunctionSummary.(function_1),
+        SerializeBootcampCustomFunctionSummary.(function_2)
       ]
     }
     assert_json_response(expected)
@@ -31,7 +31,7 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_response :ok
     expected = {
       custom_functions: [
-        SerializeBootcampCustomFunction.(active_function)
+        SerializeBootcampCustomFunctionSummary.(active_function)
       ]
     }
     assert_json_response(expected)
@@ -89,6 +89,7 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     active = !function.active # Toggle it for the tst
     fn_name = "fooooooob"
     fn_arity = 15
+    depends_on = %w[foo bar]
 
     setup_user(user)
     patch api_bootcamp_custom_function_url(
@@ -100,7 +101,8 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
         tests:,
         active:,
         fn_name:,
-        fn_arity:
+        fn_arity:,
+        depends_on:
       }
     ), headers: @headers
 
@@ -115,5 +117,6 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_equal active, function.active
     assert_equal fn_name, function.fn_name
     assert_equal fn_arity, function.fn_arity
+    assert_equal depends_on, function.depends_on
   end
 end

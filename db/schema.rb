@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_27_131846) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
     t.integer "fn_arity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "depends_on", null: false
     t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"
     t.index ["uuid"], name: "index_bootcamp_custom_functions_on_uuid", unique: true
   end
@@ -193,6 +194,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_16_225715) do
     t.text "test_results", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "custom_functions", null: false
     t.index ["solution_id"], name: "index_bootcamp_submissions_on_solution_id"
   end
 

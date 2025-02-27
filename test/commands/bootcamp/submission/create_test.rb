@@ -12,13 +12,15 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
       ]
     }
     readonly_ranges = [{ from: '0', to: '4' }, { from: '6', to: '11' }]
+    custom_functions = %w[foobar barfoo]
 
-    submission = Bootcamp::Submission::Create.(solution, code, test_results, readonly_ranges)
+    submission = Bootcamp::Submission::Create.(solution, code, test_results, readonly_ranges, custom_functions)
 
     assert_equal solution, submission.solution
     assert_equal code, submission.code
     assert_equal test_results, submission.test_results
     assert_equal readonly_ranges, submission.readonly_ranges
+    assert_equal custom_functions, submission.custom_functions
 
     # Updates solution
     assert_equal code, solution.reload.code
@@ -30,7 +32,7 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
       {
         status: "fail", tests: []
       },
-      []
+      [], []
     )
 
     assert_equal :fail, submission.status
@@ -42,7 +44,7 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
       {
         status: "pass", tests: []
       },
-      []
+      [], []
     )
 
     assert_equal :pass, submission.status
@@ -55,7 +57,7 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
       {
         status: "pass", tests: []
       },
-      []
+      [], []
     )
 
     assert solution.reload.passed_basic_tests
@@ -68,7 +70,7 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
       {
         status: "pass_bonus", tests: []
       },
-      []
+      [], []
     )
 
     assert solution.reload.passed_basic_tests

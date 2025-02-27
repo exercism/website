@@ -4,7 +4,7 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
     @custom_functions = @custom_functions.active if params[:filter] == "active"
 
     render json: {
-      custom_functions: @custom_functions.map { |cf| SerializeBootcampCustomFunction.(cf) }
+      custom_functions: @custom_functions.map { |cf| SerializeBootcampCustomFunctionSummary.(cf) }
     }
   end
 
@@ -31,7 +31,8 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
       :code,
       :tests,
       :fn_name,
-      :fn_arity
+      :fn_arity,
+      :depends_on
     )
     @custom_function.update(data)
 

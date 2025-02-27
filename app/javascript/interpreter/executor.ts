@@ -157,7 +157,6 @@ export class Executor {
     private externalState: Record<string, any> = {}
   ) {
     for (let externalFunction of externalFunctions) {
-      externalFunction = cloneDeep(externalFunction)
       const func = externalFunction.func
 
       // The first value passed to the function is the interpreter

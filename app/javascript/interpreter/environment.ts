@@ -1,11 +1,7 @@
 import { type Callable, isCallable } from './functions'
-import { RuntimeError } from './error'
 import type { Token } from './token'
-import didYouMean from 'didyoumean'
-import { translate } from './translator'
 import { isString } from './checks'
-import { cloneDeep } from 'lodash'
-import { Class, JikiObject } from './jikiObjects'
+import { Class } from './jikiObjects'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()

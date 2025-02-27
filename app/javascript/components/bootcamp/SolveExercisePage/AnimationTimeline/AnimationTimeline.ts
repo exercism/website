@@ -1,5 +1,6 @@
 import { type Frame } from '@/interpreter/frames'
-import anime, { type AnimeInstance, type AnimeTimelineInstance } from 'animejs'
+import { createTimeline, stagger } from '@juliangarnierorg/anime-beta'
+import type { DefaultsParams } from '@juliangarnierorg/anime-beta'
 import type { AnimeCSSProperties } from './types'
 
 export type Animation = anime.AnimeAnimParams & {
@@ -16,12 +17,14 @@ export class AnimationTimeline {
   public progress: number = 0
   private updateCallbacks: ((anim: AnimeInstance) => void)[] = []
 
-  constructor(initialOptions: anime.AnimeParams, private frames: Frame[] = []) {
-    this.animationTimeline = anime.timeline({
-      easing: 'linear',
+  constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
+    this.animationTimeline = createTimeline({
+      defaults: {
+        ease: 'linear',
+        ...initialOptions,
+      },
       autoplay: false,
-      ...initialOptions,
-      update: (anim: AnimeInstance) => {
+      onUpdate: (anim: AnimeInstance) => {
         this.updateScrubber(anim)
         this.updateCallbacks.forEach((cb) => cb(anim))
       },
@@ -50,6 +53,7 @@ export class AnimationTimeline {
   public populateTimeline(animations: Animation[]) {
     animations.forEach((animation: Animation) => {
       this.animationTimeline.add(
+        animation.targets,
         { ...animation, ...animation.transformations },
         animation.offset
       )

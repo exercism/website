@@ -1856,6 +1856,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@juliangarnierorg/anime-beta@^4.0.0-rc.4":
+  version "4.0.0-rc.5"
+  resolved "https://npm.pkg.github.com/download/@juliangarnierorg/anime-beta/4.0.0-rc.5/e671ff02ff96848f9fc35e7f89265ff32a3eff1a#e671ff02ff96848f9fc35e7f89265ff32a3eff1a"
+  integrity sha512-FW90LkRbmn5BFdr7KeVEWUn9KmRktvJAhALMrg+Bmc5IUmS2H363w8p7COh0AT84hqUPKkjpGacP2QVjlE8RJA==
+
 "@lezer/common@^1.0.0", "@lezer/common@^1.0.2", "@lezer/common@^1.1.0", "@lezer/common@^1.2.0", "@lezer/common@^1.2.1":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@lezer/common/-/common-1.2.3.tgz#138fcddab157d83da557554851017c6c1e5667fd"

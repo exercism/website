@@ -31,7 +31,7 @@ export function execGenericTest(
 
   const context = {
     externalFunctions: filteredStdLibFunctions(options.config.stdlibFunctions),
-    customFunctions,
+    customFunctions: options.customFunctions,
     languageFeatures: options.config.interpreterOptions,
   }
 

@@ -14,6 +14,7 @@ import { readOnlyRangesStateField } from '../../CodeMirror/extensions/read-only-
 import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
+import useCustomFunctionStore from '@/components/bootcamp/CustomFunctionEditor/store/customFunctionsStore'
 
 export function useConstructRunCode({
   links,
@@ -71,6 +72,8 @@ export function useConstructRunCode({
     setInspectedTestResult(null)
   }
 
+  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+
   /**
    * This function is used to run the code in the editor
    */
@@ -92,6 +95,9 @@ export function useConstructRunCode({
       // @ts-ignore
       const compiled = compile(studentCode, {
         languageFeatures: config.interpreterOptions,
+        customFunctions: customFunctionsForInterpreter.map((cfn) => {
+          return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+        }),
       })
 
       const error = compiled.error as CompilationError
@@ -107,6 +113,13 @@ export function useConstructRunCode({
           studentCode,
           tasks,
           config,
+          customFunctions: customFunctionsForInterpreter.map((cfn) => {
+            return {
+              name: cfn.name,
+              arity: cfn.arity,
+              code: cfn.code,
+            }
+          }),
         })
       } catch (error) {
         console.log(error)
@@ -125,6 +138,13 @@ export function useConstructRunCode({
         studentCode,
         tasks: bonusTasks ?? [],
         config,
+        customFunctions: customFunctionsForInterpreter.map((cfn) => {
+          return {
+            name: cfn.name,
+            arity: cfn.arity,
+            code: cfn.code,
+          }
+        }),
       })
 
       setTestSuiteResult(testResults)
@@ -190,6 +210,7 @@ export function useConstructRunCode({
       inspectedTestResult,
       shouldShowBonusTasks,
       bonusTasks,
+      customFunctionsForInterpreter,
     ]
   )
 

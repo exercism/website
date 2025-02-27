@@ -1,4 +1,5 @@
-#bootcamp-custom-function-editor-page {
+#bootcamp-custom-function-editor-page,
+#bootcamp-solve-exercise-page {
     .settings-dialog {
         @apply bg-backgroundColorA;
         @apply flex flex-col shadow-lg;

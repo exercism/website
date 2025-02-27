@@ -48,7 +48,10 @@ module ReactComponents
           complete_solution: Exercism::Routes.complete_api_bootcamp_solution_url(solution.uuid, only_path: true),
           projects_index: Exercism::Routes.bootcamp_projects_url(only_path: true),
           dashboard_index: Exercism::Routes.bootcamp_dashboard_url(only_path: true),
-          bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx")
+          bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx"),
+          custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
+          get_custom_fns: Exercism::Routes.api_bootcamp_custom_functions_url,
+          get_custom_fns_for_interpreter: Exercism::Routes.for_interpreter_api_bootcamp_custom_functions_url
         }
       }
     end

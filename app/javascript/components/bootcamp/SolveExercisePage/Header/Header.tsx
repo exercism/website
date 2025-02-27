@@ -11,6 +11,7 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
 import { CompletedBonusTasksModal } from '../../modals/CompletedBonusTasksModal/CompletedBonusTasksModal'
+import { SettingsButton } from '../../CustomFunctionEditor/Header/SettingsButton'
 
 function _Header() {
   const { areAllTasksCompleted } = useTaskStore()
@@ -79,6 +80,8 @@ function _Header() {
         >
           Back to Dashboard
         </a>
+
+        <SettingsButton />
       </div>
     </div>
   )

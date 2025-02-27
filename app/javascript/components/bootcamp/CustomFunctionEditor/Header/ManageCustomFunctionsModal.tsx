@@ -34,7 +34,7 @@ export function ManageCustomFunctionsModal({
     (uuid: string) => {
       return (
         customFunctionsForInterpreter.findIndex(
-          (customFn) => customFn.slug === uuid
+          (customFn) => customFn.uuid === uuid
         ) > -1
       )
     },
@@ -42,10 +42,10 @@ export function ManageCustomFunctionsModal({
   )
 
   const handleGetCustomFunctionForInterpreter = useCallback(
-    async (slug: string) => {
+    async (uuid: string) => {
       const data = await getCustomFunctionsForInterpreter(
         links.getCustomFnsForInterpreter,
-        slug
+        uuid
       )
 
       const [firstFn] = data.custom_functions
@@ -53,7 +53,7 @@ export function ManageCustomFunctionsModal({
         arity: firstFn.fn_arity,
         code: firstFn.code,
         name: firstFn.fn_name,
-        slug,
+        uuid,
       })
     },
     []
@@ -78,18 +78,18 @@ export function ManageCustomFunctionsModal({
           customFunctionMetadataCollection.map((customFnMetadata) => {
             return (
               <CustomFunctionMetadata
-                key={customFnMetadata.slug}
+                key={customFnMetadata.uuid}
                 onClick={() =>
-                  getIsFunctionImported(customFnMetadata.slug)
+                  getIsFunctionImported(customFnMetadata.uuid)
                     ? handleRemoveCustomFunctionForInterpreter(
-                        customFnMetadata.slug
+                        customFnMetadata.uuid
                       )
                     : handleGetCustomFunctionForInterpreter(
-                        customFnMetadata.slug
+                        customFnMetadata.uuid
                       )
                 }
                 buttonLabel={
-                  getIsFunctionImported(customFnMetadata.slug)
+                  getIsFunctionImported(customFnMetadata.uuid)
                     ? 'remove'
                     : 'import'
                 }
@@ -126,7 +126,7 @@ function CustomFunctionMetadata({
         <strong>{customFnMetadata.name}</strong>
       </div>
       <div>{customFnMetadata.description}</div>
-      <div>{customFnMetadata.slug}</div>
+      <div>{customFnMetadata.uuid}</div>
       <button className="btn btn-primary" onClick={onClick}>
         <code>{buttonLabel}</code>
       </button>
@@ -136,7 +136,7 @@ function CustomFunctionMetadata({
 
 export async function getCustomFunctionsForInterpreter(
   url: string,
-  slug: string
+  uuid: string
 ): Promise<{
   custom_functions: {
     code: string
@@ -145,7 +145,7 @@ export async function getCustomFunctionsForInterpreter(
   }[]
 }> {
   // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
-  const response = await fetch(url + '?uuids=' + slug, {
+  const response = await fetch(url + '?uuids=' + uuid, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ export function useFunctionDetailsManager(customFunction: CustomFunction) {
       description: customFunction.description,
     })
   const [name, setName] = useState(detailsLocalStorageValue.name)
-  const [isActivated, setIsActivated] = useState<boolean>(false)
+  const [isActivated, setIsActivated] = useState<boolean>(customFunction.active)
   const [description, setDescription] = useState(
     detailsLocalStorageValue.description
   )

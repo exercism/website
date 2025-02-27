@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type CustomFunctionMetadata = {
-  slug: string
+  uuid: string
   name: string
   description: string
 }
@@ -11,7 +11,7 @@ export type CustomFunctionForInterpreter = {
   code: string
   arity: number
   name: string
-  slug: string
+  uuid: string
 }
 
 type CustomFunctionsStore = {
@@ -23,7 +23,7 @@ type CustomFunctionsStore = {
   addCustomFunctionsForInterpreter: (
     customFunctionsForInterpreter: CustomFunctionForInterpreter
   ) => void
-  removeCustomFunctionsForInterpreter: (slug: string) => void
+  removeCustomFunctionsForInterpreter: (uuid: string) => void
 }
 
 const useCustomFunctionStore = create<CustomFunctionsStore>()(
@@ -47,10 +47,10 @@ const useCustomFunctionStore = create<CustomFunctionsStore>()(
           }
         })
       },
-      removeCustomFunctionsForInterpreter: (slug) => {
+      removeCustomFunctionsForInterpreter: (uuid) => {
         set((state) => {
           const customFnsForInterpreter =
-            state.customFunctionsForInterpreter.filter((fn) => fn.slug !== slug)
+            state.customFunctionsForInterpreter.filter((fn) => fn.uuid !== uuid)
 
           return {
             customFunctionsForInterpreter: customFnsForInterpreter,

@@ -26,6 +26,7 @@ import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/ext
 export type CustomFunction = {
   uuid: string
   name: string
+  active: boolean
   description: string
   code: string
   tests: CustomTests

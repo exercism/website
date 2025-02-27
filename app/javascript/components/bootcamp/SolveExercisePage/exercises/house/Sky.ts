@@ -1,8 +1,9 @@
 import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { storeShape, changeBrightness } from './Component'
+import HouseExercise from './HouseExercise'
 
-function fn(this: any) {
+function fn(this: HouseExercise) {
   const drawSky = (executionCtx: ExecutionContext, sky: Jiki.Instance) => {
     this.fillColorHSL(
       executionCtx,
@@ -58,10 +59,10 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      brightness: Jiki.Number
+      brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Brightness must be a number.')
+        return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
         executionCtx.logicError('Brightness must be between 0 and 100')
@@ -76,10 +77,10 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      hue: Jiki.Number
+      hue: Jiki.JikiObject
     ) {
       if (!(hue instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Hue must be a number.')
+        return executionCtx.logicError('Ooops! Hue must be a number.')
       }
       if (hue.value < 0) {
         executionCtx.logicError("Hue can't go below 0!")

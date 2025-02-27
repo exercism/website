@@ -1,8 +1,9 @@
 import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { storeShape, changeBrightness } from './Component'
+import HouseExercise from './HouseExercise'
 
-function fn(this: any) {
+function fn(this: HouseExercise) {
   const drawDoor = (executionCtx: ExecutionContext, door: Jiki.Instance) => {
     this.fillColorHex(executionCtx, new Jiki.String('#A0512D'))
     this.rectangle(
@@ -19,17 +20,19 @@ function fn(this: any) {
       executionCtx,
       //@ts-ignore
       new Jiki.Number(
-        door.getField('left').value + door.getField('width').value - 2
+        door.getUnwrappedField('left') + door.getUnwrappedField('width') - 2
       ),
       //@ts-ignore
       new Jiki.Number(
-        door.getField('top').value + door.getField('height').value / 2
+        door.getUnwrappedField('top') + door.getUnwrappedField('height') / 2
       ),
       new Jiki.Number(1)
     )
     const knobShape = this.shapes[this.shapes.length - 1]
     knobShape.element.style.filter = 'brightness(100%)'
-    knobShape.element.style.zIndex = door.getField('z_index').value.toString()
+    knobShape.element.style.zIndex = door
+      .getUnwrappedField('z_index')
+      .toString()
     door['knobShape'] = knobShape
   }
 
@@ -72,13 +75,13 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      brightness: Jiki.Number
+      brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Brightness must be a number.')
+        return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
-        executionCtx.logicError('Brightness must be between 0 and 100')
+        return executionCtx.logicError('Brightness must be between 0 and 100')
       }
       this.fields['brightness'] = brightness
       changeDoorBrightness(executionCtx, this)

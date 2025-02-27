@@ -87,7 +87,9 @@ export function useEditorHandler({
 
       setLatestValueSnapshot(value)
       try {
+        //const time = performance.now()
         runCode(value, editorViewRef.current)
+        //console.log('Duration', performance.now() - time)
       } catch (e: unknown) {
         if (
           process.env.NODE_ENV === 'development' ||

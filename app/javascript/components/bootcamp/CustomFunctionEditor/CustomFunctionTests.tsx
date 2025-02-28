@@ -1,36 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { CustomFunctionTest } from './CustomFunctionTest'
-import { CustomTests, Results } from './useTestManager'
+import { CustomFunctionEditorStoreContext } from './CustomFunctionEditor'
 
-export function CustomFunctionTests({
-  tests,
-  fnName,
-  testBeingEdited,
-  results,
-  inspectedTest,
-  setTestBeingEdited,
-  setInspectedTest,
-  handleDeleteTest,
-  handleUpdateTest,
-  handleCancelEditing,
-  handleAddNewTest,
-}: {
-  tests: CustomTests
-  fnName: string
-  testBeingEdited: string | undefined
-  inspectedTest: string
-  results: Results
-  setTestBeingEdited: React.Dispatch<React.SetStateAction<string | undefined>>
-  setInspectedTest: React.Dispatch<React.SetStateAction<string>>
-  handleDeleteTest: (uuid: string) => void
-  handleUpdateTest: (
-    uuid: string,
-    newCodeRun: string,
-    newExpected: string
-  ) => void
-  handleCancelEditing: () => void
-  handleAddNewTest: () => void
-}) {
+export function CustomFunctionTests() {
+  const { customFunctionEditorStore } = useContext(
+    CustomFunctionEditorStoreContext
+  )
+
+  const {
+    customFunctionDisplayName,
+    results,
+    tests,
+    testBeingEdited,
+    inspectedTest,
+    setTestBeingEdited,
+    setInspectedTest,
+    handleDeleteTest,
+    handleUpdateTest,
+    handleCancelEditing,
+    handleAddNewTest,
+  } = customFunctionEditorStore()
+
   return (
     <div className="flex flex-col gap-8 max-h-[50%] overflow-auto">
       {tests?.map((test, idx) => {
@@ -42,7 +32,7 @@ export function CustomFunctionTests({
             passing={
               results && results[test.uuid] ? results[test.uuid].pass : false
             }
-            fnName={fnName}
+            fnName={customFunctionDisplayName}
             isInspected={inspectedTest === test.uuid}
             onTestClick={() => setInspectedTest(test.uuid)}
             actual={
@@ -59,7 +49,7 @@ export function CustomFunctionTests({
           />
         )
       })}
-      <button onClick={handleAddNewTest} className="btn btn-primary">
+      <button onClick={handleAddNewTest} className="btn btn-primary shrink-0">
         Add new test
       </button>
     </div>

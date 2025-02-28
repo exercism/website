@@ -27,7 +27,7 @@ export function describeError(error: StaticError) {
   marked.setOptions({ renderer })
 
   let output = `<h2>${errorHeading}</h2>`
-  output += `<div class="content">${marked.parse(error.message)}`
+  output += `<div class="content">${marked.parse(error.message ?? '')}`
   output += `</div>`
   return output
 }

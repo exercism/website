@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { createContext, useCallback, useEffect, useMemo } from 'react'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { useCustomFunctionEditorHandler } from './useCustomFunctionEditorHandler'
@@ -7,26 +7,29 @@ import {
   useResizablePanels,
 } from '../SolveExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
-import { CustomTests, useTestManager } from './useTestManager'
+import { CustomTests } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
-import { useFunctionDetailsManager } from './useFunctionDetailsManager'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
 import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
 } from '../SolveExercisePage/SolveExercisePageContextWrapper'
-import { EditorView } from 'codemirror'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { CheckCodeButton } from './CheckCodeButton'
 import { flushSync } from 'react-dom'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/extensions/readonly-function-my'
 import { useSetupCustomFunctionStore } from './useSetupCustomFunctionsStore'
+import {
+  createCustomFunctionEditorStore,
+  CustomFunctionEditorStore,
+} from './store/customFunctionEditorStore'
 
 export type CustomFunction = {
   uuid: string
   name: string
+  fnName: string
   active: boolean
   description: string
   code: string
@@ -45,43 +48,23 @@ export type CustomFunctionEditorProps = {
   }
 }
 
+export const CustomFunctionEditorStoreContext = createContext<{
+  customFunctionEditorStore: CustomFunctionEditorStore
+}>({ customFunctionEditorStore: {} as CustomFunctionEditorStore })
+
 export default function CustomFunctionEditor({
   customFunction,
   links,
   dependsOn,
   availableCustomFunctions,
 }: CustomFunctionEditorProps) {
-  const {
-    tests,
-    testBeingEdited,
-    setTestBeingEdited,
-    handleDeleteTest,
-    handleUpdateTest,
-    handleCancelEditing,
-    handleAddNewTest,
-    results,
-    setResults,
-    inspectedTest,
-    setInspectedTest,
-    areAllTestsPassing,
-  } = useTestManager(customFunction)
+  const customFunctionEditorStore = useMemo(
+    () => createCustomFunctionEditorStore(customFunction.uuid),
+    [customFunction.uuid]
+  )
 
-  const {
-    name,
-    setName,
-    description,
-    setDescription,
-    isActivated,
-    setIsActivated,
-  } = useFunctionDetailsManager(customFunction)
-
-  const { editorViewRef, handleEditorDidMount, handleRunCode, arity } =
-    useCustomFunctionEditorHandler({
-      tests,
-      setResults,
-      setInspectedTest,
-      functionName: name,
-    })
+  const { editorViewRef, handleEditorDidMount, handleRunCode } =
+    useCustomFunctionEditorHandler({ customFunctionEditorStore })
 
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
@@ -102,35 +85,20 @@ export default function CustomFunctionEditor({
     localStorageId: 'solve-exercise-page-lhs',
   })
 
-  const handleSetFnName = useCallback((view: EditorView) => {
-    const docText = view.state.doc.toString()
-    const functionName = extractFunctionName(docText)
-    setName(functionName ?? '')
+  const {
+    handleSetCustomFunctionName,
+    handlePatchCustomFunction,
+    tests,
+    areAllTestsPassing,
+    inspectedFrames,
+    initializeStore,
+  } = customFunctionEditorStore()
+
+  useEffect(() => {
+    initializeStore(customFunction)
   }, [])
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
-  const handlePatchChanges = useCallback(() => {
-    patchCustomFunction({
-      url: links.updateCustomFns,
-      name: name.replace('my#', ''),
-      fn_name: name,
-      active: isActivated && areAllTestsPassing,
-      code: editorViewRef.current?.state.doc.toString() ?? '',
-      description,
-      fn_arity: arity || 0,
-      tests,
-      dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
-    })
-  }, [
-    name,
-    isActivated,
-    areAllTestsPassing,
-    editorViewRef,
-    tests,
-    description,
-    arity,
-    customFunctionsForInterpreter,
-  ])
 
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
@@ -148,121 +116,53 @@ export default function CustomFunctionEditor({
         } as SolveExercisePageContextValues
       }
     >
-      <div id="bootcamp-custom-function-editor-page">
-        <Header
-          handleSaveChanges={handlePatchChanges}
-          someTestsAreFailing={!areAllTestsPassing}
-        />
-        <div className="page-body">
-          <div style={{ width: LHSWidth }} className="page-body-lhs">
-            <ErrorBoundary>
-              <CodeMirror
-                style={{ height: `100%` }}
-                ref={editorViewRef}
-                editorDidMount={handleEditorDidMount}
-                handleRunCode={() =>
-                  handleRunCode(tests, customFunctionsForInterpreter)
-                }
-                onEditorChangeCallback={(view) => {
-                  handleSetFnName(view)
-                  updateLocalStorageValueOnDebounce(view.state.doc.toString())
-                }}
-                extensions={[ReadonlyFunctionMyExtension]}
-              />
-            </ErrorBoundary>
+      <CustomFunctionEditorStoreContext.Provider
+        value={{ customFunctionEditorStore }}
+      >
+        <div id="bootcamp-custom-function-editor-page">
+          <Header
+            handleSaveChanges={() =>
+              handlePatchCustomFunction({
+                code: editorViewRef.current?.state.doc.toString() ?? '',
+                dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
+                url: links.updateCustomFns,
+              })
+            }
+            someTestsAreFailing={!areAllTestsPassing}
+          />
+          <div className="page-body">
+            <div style={{ width: LHSWidth }} className="page-body-lhs">
+              <ErrorBoundary>
+                <CodeMirror
+                  style={{ height: `100%` }}
+                  ref={editorViewRef}
+                  editorDidMount={handleEditorDidMount}
+                  handleRunCode={() =>
+                    handleRunCode(tests, customFunctionsForInterpreter)
+                  }
+                  onEditorChangeCallback={(view) => {
+                    handleSetCustomFunctionName(view)
+                    updateLocalStorageValueOnDebounce(view.state.doc.toString())
+                  }}
+                  extensions={[ReadonlyFunctionMyExtension]}
+                />
+              </ErrorBoundary>
 
-            <div className="page-lhs-bottom">
-              <Scrubber
-                animationTimeline={null}
-                frames={
-                  results && results[inspectedTest]
-                    ? results[inspectedTest].frames
-                    : []
-                }
-              />
-              <CheckCodeButton handleRunCode={handleCheckCode} />
+              <div className="page-lhs-bottom">
+                <Scrubber animationTimeline={null} frames={inspectedFrames} />
+                <CheckCodeButton handleRunCode={handleCheckCode} />
+              </div>
+            </div>
+
+            <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+            {/* RHS */}
+            <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
+              <CustomFunctionDetails />
+              <CustomFunctionTests />
             </div>
           </div>
-
-          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-          {/* RHS */}
-          <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
-            <CustomFunctionDetails
-              name={name}
-              isActivated={isActivated && areAllTestsPassing}
-              setIsActivated={setIsActivated}
-              areAllTestsPassing={areAllTestsPassing}
-              description={description}
-              setDescription={setDescription}
-            />
-            <CustomFunctionTests
-              tests={tests}
-              fnName={name}
-              results={results}
-              inspectedTest={inspectedTest}
-              setInspectedTest={setInspectedTest}
-              testBeingEdited={testBeingEdited}
-              setTestBeingEdited={setTestBeingEdited}
-              handleDeleteTest={handleDeleteTest}
-              handleUpdateTest={handleUpdateTest}
-              handleCancelEditing={handleCancelEditing}
-              handleAddNewTest={handleAddNewTest}
-            />
-          </div>
         </div>
-      </div>
+      </CustomFunctionEditorStoreContext.Provider>
     </SolveExercisePageContextWrapper>
   )
-}
-
-function extractFunctionName(code: string): string | null {
-  const match = code.match(/function\s+(my#[a-zA-Z_$][a-zA-Z0-9_$]*)/)
-  return match ? match[1] : null
-}
-
-export async function patchCustomFunction({
-  url,
-  name,
-  active,
-  description,
-  code,
-  tests,
-  fn_name,
-  fn_arity,
-  dependsOn,
-}: {
-  url: string
-  name: string
-  active: boolean
-  description: string
-  code: string
-  tests: CustomTests
-  fn_name: string
-  fn_arity: number
-  dependsOn: string[]
-}) {
-  const response = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      custom_function: {
-        name,
-        active,
-        description,
-        code,
-        tests,
-        fn_name,
-        fn_arity,
-        depends_on: dependsOn,
-      },
-    }),
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to submit code')
-  }
-
-  return response.json()
 }

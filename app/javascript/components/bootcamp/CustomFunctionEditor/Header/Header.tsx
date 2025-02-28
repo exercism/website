@@ -31,7 +31,7 @@ function _Header({
           disabled={someTestsAreFailing}
           onClick={handleSaveChanges}
         >
-          Save
+          Save changes
         </button>
 
         <a

@@ -1,23 +1,23 @@
 import { ToggleButton } from '@/components/common/ToggleButton'
-import React from 'react'
+import React, { useContext } from 'react'
 import { StaticTooltip } from '../SolveExercisePage/Scrubber/ScrubberTooltipInformation'
+import { CustomFunctionEditorStoreContext } from './CustomFunctionEditor'
 
 const labelClassName = 'font-mono font-semibold mb-4'
-export function CustomFunctionDetails({
-  name,
-  description,
-  setDescription,
-  areAllTestsPassing,
-  isActivated,
-  setIsActivated,
-}: {
-  name: string
-  description: string
-  setDescription: React.Dispatch<React.SetStateAction<string>>
-  areAllTestsPassing: boolean
-  isActivated: boolean
-  setIsActivated: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+export function CustomFunctionDetails() {
+  const { customFunctionEditorStore } = useContext(
+    CustomFunctionEditorStoreContext
+  )
+
+  const {
+    customFunctionDisplayName,
+    customFunctionDescription,
+    setCustomFunctionDescription,
+    isActivated,
+    toggleIsActivated,
+    areAllTestsPassing,
+  } = customFunctionEditorStore()
+
   return (
     <div className="flex flex-col mb-24">
       <label className={labelClassName} htmlFor="fn-name">
@@ -28,7 +28,7 @@ export function CustomFunctionDetails({
         name="fn-name"
         type="text"
         readOnly
-        value={name}
+        value={customFunctionDisplayName}
       />
 
       <label
@@ -40,7 +40,7 @@ export function CustomFunctionDetails({
           className="w-fit mb-24"
           disabled={!areAllTestsPassing}
           checked={isActivated}
-          onToggle={() => setIsActivated((a) => !a)}
+          onToggle={toggleIsActivated}
         />
         {!areAllTestsPassing && (
           <StaticTooltip
@@ -55,8 +55,8 @@ export function CustomFunctionDetails({
       </label>
       <textarea
         name="description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={customFunctionDescription}
+        onChange={(e) => setCustomFunctionDescription(e.target.value)}
         id=""
       ></textarea>
     </div>

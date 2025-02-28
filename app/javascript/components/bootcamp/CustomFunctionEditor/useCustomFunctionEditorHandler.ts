@@ -8,30 +8,32 @@ import {
 } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
-import { CustomTests, Results } from './useTestManager'
+import { CustomTests } from './useTestManager'
 import useCustomFunctionStore from './store/customFunctionsStore'
+import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
 
 export function useCustomFunctionEditorHandler({
-  tests,
-  setResults,
-  functionName,
-  setInspectedTest,
+  customFunctionEditorStore,
 }: {
-  tests: CustomTests
-  setResults: React.Dispatch<React.SetStateAction<Results>>
-  functionName: string
-  setInspectedTest: React.Dispatch<React.SetStateAction<string>>
+  customFunctionEditorStore: CustomFunctionEditorStore
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
-
-  const [arity, setArity] = useState<number>()
 
   const [latestValueSnapshot, setLatestValueSnapshot] = useState<
     string | undefined
   >(undefined)
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
+
+  const {
+    customFunctionArity: arity,
+    setCustomFunctionArity: setArity,
+    tests,
+    customFunctionName: functionName,
+    setResults,
+    setInspectedTest,
+  } = customFunctionEditorStore()
 
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
@@ -83,6 +85,7 @@ export function useCustomFunctionEditorHandler({
         return
       }
 
+      const results = {}
       tests.forEach((test) => {
         const params = test.params
         const safe_eval = eval
@@ -99,15 +102,16 @@ export function useCustomFunctionEditorHandler({
           ...args
         )
 
-        setResults((a) => ({
-          ...a,
-          [test.uuid]: {
-            actual: JSON.stringify(fnEvaluationResult.value),
-            frames: fnEvaluationResult.frames,
-            pass: JSON.stringify(fnEvaluationResult.value) === test.expected,
-          },
-        }))
+        const result = {
+          actual: JSON.stringify(fnEvaluationResult.value),
+          frames: fnEvaluationResult.frames,
+          pass: JSON.stringify(fnEvaluationResult.value) === test.expected,
+        }
+
+        results[test.uuid] = result
       })
+
+      setResults(results)
 
       // autoselect the first test as inspected
       setInspectedTest(tests[0].uuid)

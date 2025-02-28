@@ -171,7 +171,6 @@ export default class BreakoutExercise extends Exercise {
   }
 
   public getState() {
-    console.log(this.ballPositions.length)
     return {
       numBlocks: this.blocks.length,
       numSmashedBlocks: this.blocks.filter((block: BlockInstance) =>

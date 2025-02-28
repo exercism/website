@@ -32,10 +32,11 @@ export function CustomFunctionTests({
   handleAddNewTest: () => void
 }) {
   return (
-    <div className="flex flex-col gap-8">
-      {tests?.map((test) => {
+    <div className="flex flex-col gap-8 max-h-[50%] overflow-auto">
+      {tests?.map((test, idx) => {
         return (
           <CustomFunctionTest
+            testTitle={`Test ${idx + 1}`}
             key={test.uuid}
             params={test.params}
             passing={

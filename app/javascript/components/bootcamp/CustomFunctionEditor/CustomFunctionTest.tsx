@@ -9,6 +9,7 @@ export function CustomFunctionTest({
   passing,
   actual,
   isInspected,
+  testTitle,
   onTestClick,
   onEditClick,
   onSaveClick,
@@ -22,6 +23,7 @@ export function CustomFunctionTest({
   isInspected: boolean
   fnName: string
   actual: any
+  testTitle: string
   onEditClick: () => void
   onTestClick: () => void
   onSaveClick: (paramsValue: string, expectedValue: string) => void
@@ -48,7 +50,7 @@ export function CustomFunctionTest({
     <div
       onClick={onTestClick}
       className={assembleClassNames(
-        'c-scenario',
+        'c-scenario h-[150px] shrink-0 flex flex-col',
         !actual
           ? 'pending bg-blue-300'
           : passing
@@ -57,6 +59,22 @@ export function CustomFunctionTest({
         isInspected && 'outline-dashed'
       )}
     >
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold text-18">{testTitle}</h3>
+        <div className="flex items-center gap-8">
+          {editMode ? (
+            <>
+              <button onClick={handleSaveTest}>save</button>
+              <button onClick={handleCancelEditing}>cancel</button>
+            </>
+          ) : (
+            <>
+              <button onClick={onEditClick}>edit</button>
+              <button onClick={onDeleteClick}>delete</button>
+            </>
+          )}
+        </div>
+      </div>
       <table className="io-test-result-info">
         <tbody>
           <tr>
@@ -92,18 +110,19 @@ export function CustomFunctionTest({
           {actual && (
             <tr>
               <th>Actual:</th>
-              <td>{actual}</td>
+              <td>{formatActual(actual)}</td>
             </tr>
           )}
         </tbody>
       </table>
-      {editMode ? (
-        <button onClick={handleCancelEditing}>cancel</button>
-      ) : (
-        <button onClick={onEditClick}>edit</button>
-      )}
-      <button onClick={handleSaveTest}>save</button>
-      <button onClick={onDeleteClick}>delete</button>
     </div>
   )
+}
+
+function formatActual(actual: string | null | undefined) {
+  if (actual === null || actual === undefined) {
+    return "[Your function didn't return anything]"
+  }
+
+  return actual
 }

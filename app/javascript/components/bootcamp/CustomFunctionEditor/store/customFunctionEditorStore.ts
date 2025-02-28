@@ -113,6 +113,16 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
         tests: [],
         inspectedTest: '',
         setInspectedTest: (uuid: string) => {
+          const { testBeingEdited } = get()
+
+          if (testBeingEdited) {
+            toast(
+              'You are editing a test. Save that first before inspecting a test result.'
+            )
+
+            return
+          }
+
           set((state) => {
             const results = state.results
             const inspectedFrames = results[uuid] ? results[uuid].frames : []

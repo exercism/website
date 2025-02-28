@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import toast from 'react-hot-toast'
 
 export function CustomFunctionTest({
   params,
@@ -36,6 +37,10 @@ export function CustomFunctionTest({
   const [expectedValue, setExpectedValue] = useState(expected)
 
   const handleSaveTest = useCallback(() => {
+    if ([paramsValue, expectedValue].some((v) => v.length === 0)) {
+      toast.error("You can't save it with empty values.")
+      return
+    }
     onSaveClick(paramsValue, expectedValue)
   }, [onSaveClick, paramsValue, expectedValue])
 
@@ -144,13 +149,41 @@ function ExpandedView({
         <div className="flex items-center gap-8">
           {editMode ? (
             <>
-              <button onClick={handleSaveTest}>save</button>
-              <button onClick={handleCancelEditing}>cancel</button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleSaveTest()
+                }}
+              >
+                save
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleCancelEditing()
+                }}
+              >
+                cancel
+              </button>
             </>
           ) : (
             <>
-              <button onClick={onEditClick}>edit</button>
-              <button onClick={onDeleteClick}>delete</button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onEditClick()
+                }}
+              >
+                edit
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onDeleteClick()
+                }}
+              >
+                delete
+              </button>
             </>
           )}
         </div>

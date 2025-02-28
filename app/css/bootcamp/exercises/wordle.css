@@ -23,7 +23,7 @@
     .letter {
         height: 100%;
         font-size: 70cqh;
-        background-color: #d3d3d3;
+        background-color: rgb(211, 211, 211);
         border: 1px solid #ccc;
         display: flex;
         justify-content: center;
@@ -35,17 +35,17 @@
     }
 
     .letter[data-state="correct"] {
-        background-color: #6aaa64;
+        background-color: rgb(106, 170, 100);
         color: white;
     }
 
     .letter[data-state="present"] {
-        background-color: #c9b458;
+        background-color: rgb(201, 180, 88);
         color: white;
     }
 
     .letter[data-state="absent"] {
-        background-color: #787c7e;
+        background-color: rgb(120, 124, 126);
         color: white;
     }
 }

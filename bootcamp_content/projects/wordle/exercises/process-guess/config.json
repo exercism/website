@@ -1,0 +1,31 @@
+{
+  "title": "Process Guess",
+  "description": "Turn a guess into squares",
+  "project_type": "wordle",
+  "level": 5,
+  "idx": 1,
+  "tests_type": "state",
+  "stdlib_functions": ["push"],
+  "available_functions": [],
+  "tasks": [
+    {
+      "name": "Deal with various guesses",
+      "tests": [
+        {
+          "slug": "all-correct",
+          "name": "Deal with a fully correct guess",
+          "setup_functions": [["drawGuesses", [["hello"]]]],
+          "function": "process_guess",
+          "params": ["hello", "hello"],
+          "checks": [
+            {
+              "name": "statesForRow(0)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

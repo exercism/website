@@ -27,7 +27,6 @@ function Scrubber({
     handleOnMouseUp,
     handleOnKeyUp,
     handleOnKeyDown,
-    handleMouseDown,
     updateInputBackground,
     rangeRef,
     handleGoToNextFrame,
@@ -79,9 +78,6 @@ function Scrubber({
         max={calculateMaxInputValue(animationTimeline, frames)}
         onInput={updateInputBackground}
         value={timelineValue}
-        onMouseDown={(event) =>
-          handleMouseDown(event, animationTimeline, frames)
-        }
         onChange={(event) => {
           handleChange(event, animationTimeline, frames)
           updateInputBackground()

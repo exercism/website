@@ -103,7 +103,7 @@ export function useScrubber({
       case 'SUCCESS': {
         setHighlightedLineColor(INFO_HIGHLIGHT_COLOR)
         setInformationWidgetData({
-          html: currentFrame.description() || '',
+          html: currentFrame.description,
           line: currentFrame.line,
           status: 'SUCCESS',
         })
@@ -163,23 +163,6 @@ export function useScrubber({
     [setTimelineValue, setInformationWidgetData]
   )
 
-  const handleMouseDown = useCallback(
-    (
-      event:
-        | React.ChangeEvent<HTMLInputElement>
-        | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
-      // TODO: What does this do??
-      if (informationWidgetData.line !== 0) return
-
-      handleChange(event, animationTimeline, frames)
-    },
-    [handleChange, informationWidgetData.line]
-  )
-
-  // TODO: Delete this?
   const handleOnMouseUp = useCallback(
     (
       animationTimeline: AnimationTimeline | undefined | null,
@@ -387,7 +370,6 @@ export function useScrubber({
   return {
     timelineValue,
     handleChange,
-    handleMouseDown,
     handleOnMouseUp,
     handleOnKeyUp,
     handleOnKeyDown,

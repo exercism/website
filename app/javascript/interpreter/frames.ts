@@ -50,9 +50,10 @@ export type Frame = {
   priorVariables: Record<string, any>
   variables: Record<string, any>
   time: number
+  timelineTime: number
   result?: EvaluationResult
   data?: Record<string, any>
-  description: () => string | undefined
+  description: string
   context?: Statement | Expression
 }
 export type FrameWithResult = Frame & { result: EvaluationResult }

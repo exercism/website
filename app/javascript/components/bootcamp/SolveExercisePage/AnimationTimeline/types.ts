@@ -29,4 +29,5 @@ export type AnimeCSSProperties = {
   left?: string | number
   perspective?: string | number
   boxShadow?: string
+  filter?: string
 }

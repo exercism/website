@@ -22,12 +22,11 @@ function Scrubber({
   const { isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const {
-    value,
+    timelineValue,
     handleChange,
     handleOnMouseUp,
     handleOnKeyUp,
     handleOnKeyDown,
-    handleMouseDown,
     updateInputBackground,
     rangeRef,
     handleGoToNextFrame,
@@ -78,10 +77,7 @@ function Scrubber({
         ref={rangeRef}
         max={calculateMaxInputValue(animationTimeline, frames)}
         onInput={updateInputBackground}
-        value={value}
-        onMouseDown={(event) =>
-          handleMouseDown(event, animationTimeline, frames)
-        }
+        value={timelineValue}
         onChange={(event) => {
           handleChange(event, animationTimeline, frames)
           updateInputBackground()

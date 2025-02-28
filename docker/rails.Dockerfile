@@ -4,6 +4,7 @@ ARG GEOIP_ACCOUNT_ID
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
 ARG BUNDLER_VERSION
+ARG NPM_TOKEN
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
@@ -39,7 +40,7 @@ RUN bundle install && \
     make -C "${grpc_path}" clean && \
     rm -rf "${grpc_path}/libs" "${grpc_path}/objs"
 
-RUN echo -e "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+RUN echo -e "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > .npmrc
 
 # Only package.json and yarn.lock changes require a new yarn install
 COPY package.json yarn.lock ./

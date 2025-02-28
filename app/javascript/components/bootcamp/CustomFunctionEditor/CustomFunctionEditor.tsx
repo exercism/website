@@ -86,7 +86,11 @@ export default function CustomFunctionEditor({
   const { updateLocalStorageValueOnDebounce } =
     useManageEditorDefaultValue(customFunction)
 
-  useSetupCustomFunctionStore({ dependsOn, availableCustomFunctions })
+  useSetupCustomFunctionStore({
+    dependsOn,
+    availableCustomFunctions,
+    customFunction,
+  })
 
   const {
     primarySize: LHSWidth,
@@ -104,6 +108,7 @@ export default function CustomFunctionEditor({
     setName(functionName ?? '')
   }, [])
 
+  const { customFunctionsForInterpreter } = useCustomFunctionStore()
   const handlePatchChanges = useCallback(() => {
     patchCustomFunction({
       url: links.updateCustomFns,
@@ -114,6 +119,7 @@ export default function CustomFunctionEditor({
       description,
       fn_arity: arity || 0,
       tests,
+      dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
     })
   }, [
     name,
@@ -123,8 +129,8 @@ export default function CustomFunctionEditor({
     tests,
     description,
     arity,
+    customFunctionsForInterpreter,
   ])
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
@@ -223,6 +229,7 @@ export async function patchCustomFunction({
   tests,
   fn_name,
   fn_arity,
+  dependsOn,
 }: {
   url: string
   name: string
@@ -232,6 +239,7 @@ export async function patchCustomFunction({
   tests: CustomTests
   fn_name: string
   fn_arity: number
+  dependsOn: string[]
 }) {
   const response = await fetch(url, {
     method: 'PATCH',
@@ -247,6 +255,7 @@ export async function patchCustomFunction({
         tests,
         fn_name,
         fn_arity,
+        depends_on: dependsOn,
       },
     }),
   })

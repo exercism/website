@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import useCustomFunctionStore from './store/customFunctionsStore'
+import { CustomFunction } from './CustomFunctionEditor'
 
 export function useSetupCustomFunctionStore({
   dependsOn,
   availableCustomFunctions,
+  customFunction,
 }: {
   dependsOn: ActiveCustomFunction[]
   availableCustomFunctions: AvailableCustomFunction[]
+  customFunction: CustomFunction
 }) {
   const {
     setCustomFunctionMetadataCollection,
@@ -14,7 +17,9 @@ export function useSetupCustomFunctionStore({
   } = useCustomFunctionStore()
 
   useEffect(() => {
-    setCustomFunctionMetadataCollection(availableCustomFunctions)
+    setCustomFunctionMetadataCollection(
+      availableCustomFunctions.filter((cfn) => cfn.name !== customFunction.name)
+    )
     setCustomFunctionsForInterpreter(
       dependsOn.map((acf) => {
         return { ...acf, arity: acf.fnArity }

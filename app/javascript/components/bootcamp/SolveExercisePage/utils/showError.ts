@@ -14,6 +14,7 @@ export function showError({
   setShouldShowInformationWidget,
   error,
   editorView,
+  context,
 }: {
   error: StaticError
   setUnderlineRange: (range: { from: number; to: number }) => void
@@ -22,6 +23,7 @@ export function showError({
   setInformationWidgetData: (data: InformationWidgetData) => void
   setShouldShowInformationWidget: (shouldShow: boolean) => void
   editorView: EditorView | null
+  context?: string
 }) {
   if (!error.location) {
     console.error('Error location is missing')
@@ -36,7 +38,7 @@ export function showError({
   setHighlightedLine(error.location.line)
   setHighlightedLineColor(ERROR_HIGHLIGHT_COLOR)
   setInformationWidgetData({
-    html: describeError(error),
+    html: describeError(error, context),
     line: error.location.line,
     status: 'ERROR',
   })

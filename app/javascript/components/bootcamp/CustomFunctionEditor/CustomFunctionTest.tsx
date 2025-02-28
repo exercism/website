@@ -6,6 +6,7 @@ export function CustomFunctionTest({
   params,
   expected,
   editMode,
+  name,
   fnName,
   passing,
   hasResult,
@@ -24,6 +25,7 @@ export function CustomFunctionTest({
   passing: boolean
   hasResult: boolean
   isInspected: boolean
+  name: string
   fnName: string
   actual: any
   testTitle: string
@@ -37,8 +39,8 @@ export function CustomFunctionTest({
   const [expectedValue, setExpectedValue] = useState(expected)
 
   const handleSaveTest = useCallback(() => {
-    if ([paramsValue, expectedValue].some((v) => v.length === 0)) {
-      toast.error("You can't save it with empty values.")
+    if (expectedValue.length === 0) {
+      toast.error('You need to provide an expected value before saving')
       return
     }
     onSaveClick(paramsValue, expectedValue)
@@ -58,7 +60,7 @@ export function CustomFunctionTest({
       onClick={onTestClick}
       className={assembleClassNames(
         'c-scenario flex flex-col',
-        !actual
+        !hasResult
           ? 'pending bg-blue-300'
           : passing
           ? 'pass bg-green-300'
@@ -193,17 +195,20 @@ function ExpandedView({
           <tr>
             <th>Code run:</th>
             <td>
-              {fnName}(
-              {editMode ? (
-                <input
-                  type="text"
-                  value={paramsValue}
-                  onChange={(e) => setParamsValue(e.target.value)}
-                />
-              ) : (
-                params
-              )}
-              )
+              <div className="c-faux-input">
+                {fnName}(
+                {editMode ? (
+                  <input
+                    type="text"
+                    value={paramsValue}
+                    className="!px-6 !flex-grow-0"
+                    onChange={(e) => setParamsValue(e.target.value)}
+                  />
+                ) : (
+                  params
+                )}
+                )
+              </div>
             </td>
           </tr>
           <tr>

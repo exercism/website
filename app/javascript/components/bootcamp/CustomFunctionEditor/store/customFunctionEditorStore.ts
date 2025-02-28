@@ -29,6 +29,7 @@ export type CustomFunctionEditorStoreState = {
   handleCancelEditing: () => void
   results: Results
   setResults: (results: Results) => void
+  clearResults: () => void
   areAllTestsPassing: boolean
   customFunctionName: string
   customFunctionDisplayName: string
@@ -113,7 +114,10 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
         tests: [],
         inspectedTest: '',
         setInspectedTest: (uuid: string) => {
-          const { testBeingEdited } = get()
+          const { testBeingEdited, inspectedTest } = get()
+          if (inspectedTest === uuid) {
+            return
+          }
 
           if (testBeingEdited) {
             toast(
@@ -201,7 +205,11 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           const areAllTestsPassing = Object.values(results).every(
             (result) => result.pass
           )
-          set({ results, areAllTestsPassing })
+          const isActivated = areAllTestsPassing ? get().isActivated : false
+          set({ results, areAllTestsPassing, isActivated })
+        },
+        clearResults: () => {
+          set({ results: {}, areAllTestsPassing: false, isActivated: false })
         },
         areAllTestsPassing: false,
 

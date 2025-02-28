@@ -90,8 +90,10 @@ export default function CustomFunctionEditor({
     handleSetCustomFunctionName,
     handlePatchCustomFunction,
     tests,
+    clearResults,
     areAllTestsPassing,
     inspectedFrames,
+    inspectedTest,
     initializeStore,
   } = customFunctionEditorStore()
 
@@ -106,6 +108,10 @@ export default function CustomFunctionEditor({
     flushSync(cleanUpEditorStore)
     handleRunCode(tests, customFunctionsForInterpreter)
   }, [tests, customFunctionsForInterpreter])
+
+  const inspectedTestIdx = tests.findIndex(
+    (test) => test.uuid === inspectedTest
+  )
 
   return (
     <SolveExercisePageContextWrapper
@@ -143,6 +149,9 @@ export default function CustomFunctionEditor({
                   }
                   onEditorChangeCallback={(view) => {
                     handleSetCustomFunctionName(view)
+                    if (areAllTestsPassing) {
+                      clearResults()
+                    }
                     updateLocalStorageValueOnDebounce(view.state.doc.toString())
                   }}
                   extensions={[ReadonlyFunctionMyExtension]}
@@ -150,7 +159,11 @@ export default function CustomFunctionEditor({
               </ErrorBoundary>
 
               <div className="page-lhs-bottom">
-                <Scrubber animationTimeline={null} frames={inspectedFrames} />
+                <Scrubber
+                  animationTimeline={null}
+                  frames={inspectedFrames}
+                  context={`Test ${inspectedTestIdx + 1}`}
+                />
                 <CheckCodeButton handleRunCode={handleCheckCode} />
               </div>
             </div>

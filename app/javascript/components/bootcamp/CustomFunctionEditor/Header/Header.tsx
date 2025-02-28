@@ -4,6 +4,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { SettingsButton } from './SettingsButton'
+import { ActiveToggleButton } from './ActiveToggleButton'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 
 export type StudentCodeGetter = () => string | undefined
@@ -26,6 +27,8 @@ function _Header({
       </div>
 
       <div className="flex items-center gap-8">
+        <SettingsButton />
+        <ActiveToggleButton />
         <button
           className="btn-primary btn-xxs"
           disabled={someTestsAreFailing}
@@ -40,7 +43,6 @@ function _Header({
         >
           Back to my stdlib
         </a>
-        <SettingsButton />
       </div>
     </div>
   )

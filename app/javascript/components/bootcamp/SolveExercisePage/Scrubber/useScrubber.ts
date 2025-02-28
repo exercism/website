@@ -25,11 +25,13 @@ export function useScrubber({
   animationTimeline,
   frames,
   hasCodeBeenEdited,
+  context,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
   hasCodeBeenEdited: boolean
+  context?: string
 }) {
   // if there is an animation timeline, we use time as value
   // if there is no animation timeline, we use frame index as value
@@ -119,6 +121,7 @@ export function useScrubber({
           setShouldShowInformationWidget,
           setUnderlineRange,
           editorView,
+          context,
         })
       }
     }
@@ -304,6 +307,8 @@ export function useScrubber({
     frames: Frame[],
     timelineTime: number
   ): Frame | undefined => {
+    if (!frames.length) return undefined
+
     // If we're past the last frame, return the last frame
     if (timelineTime > frames[frames.length - 1].timelineTime) {
       return frames[frames.length - 1]
@@ -315,6 +320,8 @@ export function useScrubber({
     frames: Frame[],
     timelineTime: number
   ): number | undefined => {
+    if (!frames.length) return undefined
+
     const id = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
     return id == -1 ? undefined : id
   }
@@ -391,5 +398,5 @@ export function calculateMaxInputValue(
     ? Math.ceil(
         animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
       )
-    : frames[frames.length - 1].timelineTime
+    : frames[frames.length - 1]?.timelineTime || 0
 }

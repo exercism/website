@@ -1,10 +1,6 @@
 import React, { useContext } from 'react'
 import { useState } from 'react'
-import {
-  calculateMaxInputValue,
-  TIME_TO_TIMELINE_SCALE_FACTOR,
-  useScrubber,
-} from './useScrubber'
+import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'

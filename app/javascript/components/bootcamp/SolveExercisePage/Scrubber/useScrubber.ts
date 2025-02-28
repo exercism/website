@@ -12,8 +12,6 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 
-const FRAME_DURATION = 0.1
-
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
 // timeline and everything else to always be integers.
@@ -79,7 +77,7 @@ export function useScrubber({
         } else {
           setIsTimelineComplete(false)
         }
-      }, 1 / 60) // Don't update more than 60 times a second (framerate)
+      }, 16) // Don't update more than 60 times a second (framerate)
     })
   }, [animationTimeline])
 
@@ -341,7 +339,7 @@ export function useScrubber({
     frames: Frame[]
   ) => {
     const isLastFrame = frames.indexOf(newFrame) == frames.length - 1
-    let newTime = newFrame.timelineTime
+    let newTimelineTime = newFrame.timelineTime
 
     // Update to the new frame time.
     if (animationTimeline) {
@@ -350,7 +348,8 @@ export function useScrubber({
 
       // If we're dealing with the last frame, seek to the end
       if (isLastFrame) {
-        newTime = animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
+        newTimelineTime =
+          animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
         animationTimeline.seekEndOfTimeline()
       } else {
         animationTimeline.seek(
@@ -361,7 +360,7 @@ export function useScrubber({
     // Finally, set the new time. Note, this potentially gets
     // changed in the aimationTimeline block above, so don't do it
     // early and guard/return.
-    setTimelineValue(newTime)
+    setTimelineValue(newTimelineTime)
   }
 
   const rangeRef = useRef<HTMLInputElement>(null)

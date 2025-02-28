@@ -1,11 +1,7 @@
 import { type Callable, isCallable } from './functions'
-import { RuntimeError } from './error'
 import type { Token } from './token'
-import didYouMean from 'didyoumean'
-import { translate } from './translator'
 import { isString } from './checks'
-import { cloneDeep } from 'lodash'
-import { Class, JikiObject } from './jikiObjects'
+import { Class } from './jikiObjects'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()
@@ -67,16 +63,7 @@ export class Environment {
         if (value instanceof Class) continue
         if (isCallable(value)) continue
 
-        // The stringify/parse combination makes the value unique,
-        // which means that subsequent updates won't influence the
-        // value of previous frames
-        let normalizedValue
-        try {
-          normalizedValue = cloneDeep(value)
-        } catch (e) {
-          normalizedValue = undefined
-        }
-        vars[key] = normalizedValue
+        vars[key] = value
       }
 
       current = current.enclosing

@@ -21,6 +21,10 @@ export function InformationWidgetToggleButton({
   const handleToggleShouldShowInformationWidget = useCallback(() => {
     toggleShouldShowInformationWidget()
 
+    // If we've not yet set the line (e.g. if we're playing the
+    // initial animation), don't scroll to the line.
+    if (highlightedLine == 0) return
+
     // if previous toggle state is `off` - which means we are about to turn it `on`...
     // scroll to the highlighted line
     if (!shouldShowInformationWidget) {

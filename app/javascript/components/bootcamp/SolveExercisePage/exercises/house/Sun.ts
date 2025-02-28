@@ -1,7 +1,9 @@
 import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
+import HouseExercise from './HouseExercise'
+import { storeShape } from './Component'
 
-function fn(this: any) {
+function fn(this: HouseExercise) {
   const drawSun = (executionCtx: ExecutionContext, sun: Jiki.Instance) => {
     if (sun['shape']) {
       this.animateShapeOutOfView(executionCtx, sun['shape'].element)
@@ -14,10 +16,7 @@ function fn(this: any) {
       sun.getField('cy') as Jiki.Number,
       sun.getField('radius') as Jiki.Number
     )
-    const shape = this.shapes[this.shapes.length - 1]
-    shape.element.style.zIndex = sun.getField('z_index').value.toString()
-
-    sun['shape'] = shape
+    storeShape(this, sun)
 
     this.events.push(
       `sun:position:${sun.getUnwrappedField('cx')},${sun.getUnwrappedField(
@@ -49,10 +48,10 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      cx: Jiki.Number
+      cx: Jiki.JikiObject
     ) {
       if (!(cx instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Cx must be a number.')
+        return executionCtx.logicError('Ooops! Cx must be a number.')
       }
       this.fields['cx'] = cx
 
@@ -64,10 +63,10 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      cy: Jiki.Number
+      cy: Jiki.JikiObject
     ) {
       if (!(cy instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Cy must be a number.')
+        return executionCtx.logicError('Ooops! Cy must be a number.')
       }
       this.fields['cy'] = cy
 

@@ -1,8 +1,9 @@
 import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { storeShape, changeBrightness } from './Component'
+import HouseExercise from './HouseExercise'
 
-function fn(this: any) {
+function fn(this: HouseExercise) {
   const drawRoof = (executionCtx: ExecutionContext, roof: Jiki.Instance) => {
     this.fillColorHex(executionCtx, new Jiki.String('#8b4513'))
     this.triangle(
@@ -50,13 +51,13 @@ function fn(this: any) {
     function (
       this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      brightness: Jiki.Number
+      brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Brightness must be a number.')
+        return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
-        executionCtx.logicError('Brightness must be between 0 and 100')
+        return executionCtx.logicError('Brightness must be between 0 and 100')
       }
       this.fields['brightness'] = brightness
       changeRoofBrightness(executionCtx, this)

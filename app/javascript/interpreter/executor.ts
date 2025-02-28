@@ -147,7 +147,6 @@ export class Executor {
 
   // This tracks variables for each statement, so we can output
   // the changes in the frame descriptions
-  private statementStartingVariablesLog: Record<string, any> = {}
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
 
@@ -160,7 +159,6 @@ export class Executor {
     private externalState: Record<string, any> = {}
   ) {
     for (let externalFunction of externalFunctions) {
-      externalFunction = cloneDeep(externalFunction)
       const func = externalFunction.func
 
       // The first value passed to the function is the interpreter
@@ -288,7 +286,7 @@ export class Executor {
     }
 
     return {
-      frames: this.normalizeFrames(),
+      frames: this.frames,
       error: null,
       meta: this.generateMeta(statements),
     }
@@ -321,7 +319,7 @@ export class Executor {
       return {
         value: result ? Jiki.unwrapJikiObject(result.jikiObject) : undefined,
         jikiObject: result?.jikiObject,
-        frames: this.normalizeFrames(),
+        frames: this.frames,
         error: null,
         meta: this.generateMeta([statement]),
       }
@@ -361,7 +359,7 @@ export class Executor {
         }
         return {
           value: undefined,
-          frames: this.normalizeFrames(),
+          frames: this.frames,
           error: null,
           meta: this.generateMeta([statement]),
         }
@@ -481,7 +479,7 @@ export class Executor {
       statement,
       () => {
         // Ensure the variable exists
-        this.lookupVariable(statement.name)
+        const variable = this.lookupVariable(statement.name)
 
         if (isCallable(this.environment.get(statement.name))) {
           this.error('UnexpectedChangeOfFunction', statement.name.location, {
@@ -501,10 +499,8 @@ export class Executor {
         }
 
         // Update the underlying value
+        const oldValue = Jiki.unwrapJikiObject(variable.value)
         this.environment.updateVariable(statement.name, value.jikiObject)
-
-        const oldValue =
-          this.statementStartingVariablesLog[statement.name.lexeme]
 
         return {
           type: 'ChangeVariableStatement',
@@ -585,7 +581,9 @@ export class Executor {
       const value = this.evaluate(statement.value)
 
       // Do the update
-      const oldValue = dictionary.jikiObject[field.jikiObject.value]
+      const oldValue = Jiki.unwrapJikiObject(
+        dictionary.jikiObject[field.jikiObject.value]
+      )
       dictionary.jikiObject.value.set(field.jikiObject.value, value.jikiObject)
 
       return {
@@ -638,7 +636,9 @@ export class Executor {
       const value = this.evaluate(statement.value)
 
       // Do the update
-      const oldValue = list.jikiObject.value[index.jikiObject.value - 1]
+      const oldValue = Jiki.unwrapJikiObject(
+        list.jikiObject.value[index.jikiObject.value - 1]
+      )
       list.jikiObject.value[index.jikiObject.value - 1] = value.jikiObject
 
       return {
@@ -1456,9 +1456,6 @@ export class Executor {
       this.error('MaxTotalExecutionTimeReached', location)
     }
 
-    // Store a clone of the values so that any changes do not affect this
-    this.statementStartingVariablesLog = cloneDeep(this.environment.variables())
-
     const method = `visit${statement.type}`
     this[method](statement)
   }
@@ -1654,29 +1651,20 @@ export class Executor {
       result,
       error,
       time: this.time,
+      // Multiple the time by 100 and floor it to get an integer
+      timelineTime: Math.round(this.time * 100),
       description: '',
       context: context,
     }
     if (process.env.NODE_ENV == 'test') {
-      frame.variables = this.environment.variables()
+      frame.variables = cloneDeep(this.environment.variables())
     }
-
-    frame.description = describeFrame(frame, {
+    ;(frame.description = describeFrame(frame, {
       functionDescriptions: this.externalFunctionDescriptions,
-    })
-
-    this.frames.push(frame)
+    })),
+      this.frames.push(frame)
 
     this.time += this.timePerFrame
-  }
-
-  public normalizeFrames() {
-    if (this.frames.length == 0) {
-      return []
-    }
-    const time = this.frames[this.frames.length - 1].time
-    this.frames[this.frames.length - 1].time = Math.ceil(time)
-    return this.frames
   }
 
   public addFunctionCallToLog(name: string, args: any[]) {

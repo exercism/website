@@ -2,7 +2,7 @@ import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { changeBrightness, storeShape } from './Component'
 
-function fn(this: any) {
+function fn(this: HouseExercise) {
   const drawWindow = (
     executionCtx: ExecutionContext,
     window: Jiki.Instance

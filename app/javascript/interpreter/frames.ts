@@ -49,8 +49,8 @@ export type Frame = {
   error?: RuntimeError
   priorVariables: Record<string, any>
   variables: Record<string, any>
-  functions: Record<string, Callable>
   time: number
+  timelineTime: number
   result?: EvaluationResult
   data?: Record<string, any>
   description: string

@@ -390,7 +390,6 @@ describe('for each', () => {
     end
     `)
     const lastFrame = frames[frames.length - 1]
-    console.log(lastFrame)
     expect(lastFrame.status).toBe('SUCCESS')
   })
 })

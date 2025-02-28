@@ -51,3 +51,5 @@ dump.rdb
 
 # Ignore vendored local databases
 /vendor/*mmdb
+
+.npmrc

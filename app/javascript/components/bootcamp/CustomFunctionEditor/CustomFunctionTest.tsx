@@ -50,7 +50,7 @@ export function CustomFunctionTest({
     <div
       onClick={onTestClick}
       className={assembleClassNames(
-        'c-scenario h-[150px] shrink-0 flex flex-col',
+        'c-scenario flex flex-col',
         !actual
           ? 'pending bg-blue-300'
           : passing
@@ -59,6 +59,77 @@ export function CustomFunctionTest({
         isInspected && 'outline-dashed'
       )}
     >
+      {isInspected ? (
+        <ExpandedView
+          params={params}
+          paramsValue={paramsValue}
+          setParamsValue={setParamsValue}
+          expected={expected}
+          expectedValue={expectedValue}
+          setExpectedValue={setExpectedValue}
+          editMode={editMode}
+          fnName={fnName}
+          actual={actual}
+          testTitle={testTitle}
+          onEditClick={onEditClick}
+          onDeleteClick={onDeleteClick}
+          handleSaveTest={handleSaveTest}
+          handleCancelEditing={handleCancelEditing}
+        />
+      ) : (
+        <CollapsedView testTitle={testTitle} isPassing={passing} />
+      )}
+    </div>
+  )
+}
+
+function CollapsedView({
+  testTitle,
+  isPassing,
+}: {
+  testTitle: string
+  isPassing: boolean
+}) {
+  return (
+    <div>
+      {testTitle} - {isPassing ? 'Passing' : 'Failing'}
+    </div>
+  )
+}
+
+function ExpandedView({
+  params,
+  paramsValue,
+  setParamsValue,
+  expected,
+  expectedValue,
+  setExpectedValue,
+  editMode,
+  fnName,
+  actual,
+  testTitle,
+  onEditClick,
+  onDeleteClick,
+  handleSaveTest,
+  handleCancelEditing,
+}: {
+  params: string
+  paramsValue: string
+  setParamsValue: React.Dispatch<React.SetStateAction<string>>
+  expectedValue: string
+  setExpectedValue: React.Dispatch<React.SetStateAction<string>>
+  expected: string
+  editMode: boolean
+  fnName: string
+  actual: any
+  testTitle: string
+  onEditClick: () => void
+  onDeleteClick: () => void
+  handleSaveTest: () => void
+  handleCancelEditing: () => void
+}) {
+  return (
+    <>
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-18">{testTitle}</h3>
         <div className="flex items-center gap-8">
@@ -115,7 +186,7 @@ export function CustomFunctionTest({
           )}
         </tbody>
       </table>
-    </div>
+    </>
   )
 }
 

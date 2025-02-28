@@ -59,7 +59,7 @@ export function CustomFunctionTests({
           />
         )
       })}
-      <button onClick={handleAddNewTest} className="btn btn-primary">
+      <button onClick={handleAddNewTest} className="btn btn-primary shrink-0">
         Add new test
       </button>
     </div>

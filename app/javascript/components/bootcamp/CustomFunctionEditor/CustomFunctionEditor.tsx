@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { createContext, useCallback } from 'react'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { useCustomFunctionEditorHandler } from './useCustomFunctionEditorHandler'
@@ -44,6 +44,8 @@ export type CustomFunctionEditorProps = {
     customFnsDashboard: string
   }
 }
+
+const CustomFunctionUuidContext = createContext<{ uuid: string }>({ uuid: '' })
 
 export default function CustomFunctionEditor({
   customFunction,
@@ -148,69 +150,71 @@ export default function CustomFunctionEditor({
         } as SolveExercisePageContextValues
       }
     >
-      <div id="bootcamp-custom-function-editor-page">
-        <Header
-          handleSaveChanges={handlePatchChanges}
-          someTestsAreFailing={!areAllTestsPassing}
-        />
-        <div className="page-body">
-          <div style={{ width: LHSWidth }} className="page-body-lhs">
-            <ErrorBoundary>
-              <CodeMirror
-                style={{ height: `100%` }}
-                ref={editorViewRef}
-                editorDidMount={handleEditorDidMount}
-                handleRunCode={() =>
-                  handleRunCode(tests, customFunctionsForInterpreter)
-                }
-                onEditorChangeCallback={(view) => {
-                  handleSetFnName(view)
-                  updateLocalStorageValueOnDebounce(view.state.doc.toString())
-                }}
-                extensions={[ReadonlyFunctionMyExtension]}
-              />
-            </ErrorBoundary>
+      <CustomFunctionUuidContext.Provider value={{ uuid: customFunction.uuid }}>
+        <div id="bootcamp-custom-function-editor-page">
+          <Header
+            handleSaveChanges={handlePatchChanges}
+            someTestsAreFailing={!areAllTestsPassing}
+          />
+          <div className="page-body">
+            <div style={{ width: LHSWidth }} className="page-body-lhs">
+              <ErrorBoundary>
+                <CodeMirror
+                  style={{ height: `100%` }}
+                  ref={editorViewRef}
+                  editorDidMount={handleEditorDidMount}
+                  handleRunCode={() =>
+                    handleRunCode(tests, customFunctionsForInterpreter)
+                  }
+                  onEditorChangeCallback={(view) => {
+                    handleSetFnName(view)
+                    updateLocalStorageValueOnDebounce(view.state.doc.toString())
+                  }}
+                  extensions={[ReadonlyFunctionMyExtension]}
+                />
+              </ErrorBoundary>
 
-            <div className="page-lhs-bottom">
-              <Scrubber
-                animationTimeline={null}
-                frames={
-                  results && results[inspectedTest]
-                    ? results[inspectedTest].frames
-                    : []
-                }
+              <div className="page-lhs-bottom">
+                <Scrubber
+                  animationTimeline={null}
+                  frames={
+                    results && results[inspectedTest]
+                      ? results[inspectedTest].frames
+                      : []
+                  }
+                />
+                <CheckCodeButton handleRunCode={handleCheckCode} />
+              </div>
+            </div>
+
+            <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+            {/* RHS */}
+            <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
+              <CustomFunctionDetails
+                name={name}
+                isActivated={isActivated && areAllTestsPassing}
+                setIsActivated={setIsActivated}
+                areAllTestsPassing={areAllTestsPassing}
+                description={description}
+                setDescription={setDescription}
               />
-              <CheckCodeButton handleRunCode={handleCheckCode} />
+              <CustomFunctionTests
+                tests={tests}
+                fnName={name}
+                results={results}
+                inspectedTest={inspectedTest}
+                setInspectedTest={setInspectedTest}
+                testBeingEdited={testBeingEdited}
+                setTestBeingEdited={setTestBeingEdited}
+                handleDeleteTest={handleDeleteTest}
+                handleUpdateTest={handleUpdateTest}
+                handleCancelEditing={handleCancelEditing}
+                handleAddNewTest={handleAddNewTest}
+              />
             </div>
           </div>
-
-          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-          {/* RHS */}
-          <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
-            <CustomFunctionDetails
-              name={name}
-              isActivated={isActivated && areAllTestsPassing}
-              setIsActivated={setIsActivated}
-              areAllTestsPassing={areAllTestsPassing}
-              description={description}
-              setDescription={setDescription}
-            />
-            <CustomFunctionTests
-              tests={tests}
-              fnName={name}
-              results={results}
-              inspectedTest={inspectedTest}
-              setInspectedTest={setInspectedTest}
-              testBeingEdited={testBeingEdited}
-              setTestBeingEdited={setTestBeingEdited}
-              handleDeleteTest={handleDeleteTest}
-              handleUpdateTest={handleUpdateTest}
-              handleCancelEditing={handleCancelEditing}
-              handleAddNewTest={handleAddNewTest}
-            />
-          </div>
         </div>
-      </div>
+      </CustomFunctionUuidContext.Provider>
     </SolveExercisePageContextWrapper>
   )
 }

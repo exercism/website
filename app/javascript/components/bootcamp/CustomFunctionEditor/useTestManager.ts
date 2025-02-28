@@ -45,6 +45,8 @@ export function useTestManager(customFunction: CustomFunction) {
       },
     ])
 
+    setInspectedTest(newUuid)
+
     setTestBeingEdited(newUuid)
   }, [])
 

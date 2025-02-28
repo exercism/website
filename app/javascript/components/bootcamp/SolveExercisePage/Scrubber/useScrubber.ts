@@ -269,9 +269,10 @@ export function useScrubber({
     animationTimeline: AnimationTimeline | undefined | null,
     frames: Frame[]
   ) => {
-    setHeldKeys((prev) => new Set(prev).add(event.key))
+    // setHeldKeys((prev) => new Set(prev).add(event.key))
     // if user is holding a key, don't invoke frame-stepping handlers
-    if (usingHoldingKey()) return
+    // console.log(userHoldingKey())
+    // if (userHoldingKey()) return
 
     /* 
       preventing default is necessary to avoid jarring UI jumps: 
@@ -332,7 +333,7 @@ export function useScrubber({
     return id == -1 ? undefined : id
   }
 
-  const usingHoldingKey = () => heldKeys.size > 0
+  const userHoldingKey = () => heldKeys.size > 0
 
   const moveToNewFrame = (
     animationTimeline: AnimationTimeline | undefined | null,

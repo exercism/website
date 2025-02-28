@@ -87,6 +87,7 @@ jobs:
             --build-arg GEOIP_ACCOUNT_ID=$GEOIP_ACCOUNT_ID \
             --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) \
             --build-arg BUNDLER_VERSION=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock) \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             .
           docker push $IMAGE_NAME
 

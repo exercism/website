@@ -23,6 +23,8 @@ export class AnimationTimeline {
   public nextFrame?: Frame | null
   public progress: number = 0
   private updateCallbacks: ((anim: Timeline) => void)[] = []
+  private playCallbacks: ((anim: Timeline) => void)[] = []
+  private stopCallbacks: ((anim: Timeline) => void)[] = []
 
   constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
     this.animationTimeline = createTimeline({
@@ -34,6 +36,15 @@ export class AnimationTimeline {
       onUpdate: (anim: Timeline) => {
         this.updateScrubber(anim)
         this.updateCallbacks.forEach((cb) => cb(anim))
+      },
+      onBegin: (anim: Timeline) => {
+        this.playCallbacks.forEach((cb) => cb(anim))
+      },
+      onComplete: (anim: Timeline) => {
+        this.stopCallbacks.forEach((cb) => cb(anim))
+      },
+      onPause: (anim: Timeline) => {
+        this.stopCallbacks.forEach((cb) => cb(anim))
       },
     })
   }
@@ -51,6 +62,12 @@ export class AnimationTimeline {
       callback(this.animationTimeline)
       setTimeout(() => this.updateScrubber(this.animationTimeline), 1)
     }
+  }
+  public onPlay(callback: (anim: Timeline) => void) {
+    this.playCallbacks.push(callback)
+  }
+  public onStop(callback: (anim: Timeline) => void) {
+    this.stopCallbacks.push(callback)
   }
 
   public removeUpdateCallback(callback: (anim: Timeline) => void) {

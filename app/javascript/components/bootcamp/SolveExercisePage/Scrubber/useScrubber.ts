@@ -14,10 +14,12 @@ import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 
 const FRAME_DURATION = 0.1
 
-// We have two different metrics we use:
-// 1. The time of the frame. This can be as little as 0.01ms
-// 2. The scrubber - which is integer-based.
-// We use this constant to convert between the two.
+// Everything is scaled by 100. This allows for us to set
+// frame times in microseconds (e.g. 0.01 ms) but allows the
+// timeline and everything else to always be integers.
+// We call this value "timeline time". The scrubber uses it as
+// its scale, and the frames have a timelineTime property that
+// is the time * 100, rounded (to avoid very painful floating point errors)
 export const TIME_TO_TIMELINE_SCALE_FACTOR = 100
 
 export function useScrubber({
@@ -34,6 +36,7 @@ export function useScrubber({
   // if there is an animation timeline, we use time as value
   // if there is no animation timeline, we use frame index as value
   const [timelineValue, setTimelineValue] = useState(0)
+  const [annotationsEnabled, setAnnotationsEnabled] = useState(true)
   const {
     setHighlightedLine,
     setHighlightedLineColor,
@@ -52,20 +55,32 @@ export function useScrubber({
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
-    if (animationTimeline) {
-      animationTimeline.onUpdate((anime) => {
-        setTimeout(() => {
-          setTimelineValue(anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR)
-          if (anime.completed) {
-            setIsTimelineComplete(true)
-          } else {
-            setIsTimelineComplete(false)
-          }
-        }, FRAME_DURATION)
-      })
-    } else {
-      setTimelineValue(0)
+    if (!animationTimeline) {
+      return
     }
+
+    // Don't show line hightlights or the flashes
+    // of active lines while the code is playing.
+    animationTimeline.onPlay(() => {
+      setAnnotationsEnabled(false)
+    })
+    animationTimeline.onStop(() => {
+      setAnnotationsEnabled(true)
+    })
+
+    animationTimeline.onUpdate((anime) => {
+      setTimeout(() => {
+        // Always uses integers!
+        setTimelineValue(
+          Math.round(anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR)
+        )
+        if (anime.completed) {
+          setIsTimelineComplete(true)
+        } else {
+          setIsTimelineComplete(false)
+        }
+      }, 1 / 60) // Don't update more than 60 times a second (framerate)
+    })
   }, [animationTimeline])
 
   // only check for error frame once when frames change, let users navigate freely
@@ -78,12 +93,11 @@ export function useScrubber({
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    const currentFrame = frameAtTime(
-      timelineValue / TIME_TO_TIMELINE_SCALE_FACTOR
-    )
+    const currentFrame = frameAtTimelineTime(frames, timelineValue)
 
     cleanUpEditor(editorView)
     if (!currentFrame) return
+    if (!annotationsEnabled) return
 
     setHighlightedLine(currentFrame.line)
     scrollToLine(editorView, currentFrame.line)
@@ -111,7 +125,7 @@ export function useScrubber({
         })
       }
     }
-  }, [timelineValue])
+  }, [timelineValue, annotationsEnabled, frames])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
@@ -129,18 +143,9 @@ export function useScrubber({
     }
   }, [hasCodeBeenEdited, animationTimeline])
 
+  // TODO: Remove this?
   const handleScrubToCurrentTime = useCallback(
-    (animationTimeline: AnimationTimeline | undefined | null) => {
-      if (!animationTimeline) return
-
-      const frame = frameAtTime(animationTimeline.timeline.currentTime)
-      if (!frame) return
-
-      moveToNewFrame(animationTimeline, frame, frames)
-      const time = animationTimeline.timeline.currentTime
-      setTimelineValue(time * TIME_TO_TIMELINE_SCALE_FACTOR)
-      animationTimeline.seek(time)
-    },
+    (animationTimeline: AnimationTimeline | undefined | null) => {},
     [setTimelineValue]
   )
 
@@ -152,10 +157,8 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      const newTime =
-        Number((event.target as HTMLInputElement).value) /
-        TIME_TO_TIMELINE_SCALE_FACTOR
-      const newFrame = frameAtTime(newTime)
+      const timelineTime = Number((event.target as HTMLInputElement).value)
+      const newFrame = frameAtTimelineTime(frames, timelineTime)
       if (newFrame === undefined) return
 
       moveToNewFrame(animationTimeline, newFrame, frames)
@@ -193,14 +196,16 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      const timeValue = timelineValue / TIME_TO_TIMELINE_SCALE_FACTOR
-      const currentFrameIdx = frames.findIndex(
-        (frame) => frame.time >= timeValue
-      )
+      let currentFrameIdx = frameIdxAtTimelineTime(frames, timelineValue)
+
+      // If there's no frame for this, then it's the last frame
+      if (currentFrameIdx === undefined) {
+        currentFrameIdx = frames.length - 1
+      }
       if (currentFrameIdx == 0) return
 
-      const nextFrame = frames[currentFrameIdx - 1]
-      moveToNewFrame(animationTimeline, nextFrame, frames)
+      const prevFrame = frames[currentFrameIdx - 1]
+      moveToNewFrame(animationTimeline, prevFrame, frames)
     },
     [timelineValue]
   )
@@ -210,10 +215,9 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      const timeValue = timelineValue / TIME_TO_TIMELINE_SCALE_FACTOR
-      const currentFrameIdx = frames.findIndex(
-        (frame) => frame.time >= timeValue
-      )
+      const currentFrameIdx =
+        timelineValue > 0 ? frameIdxAtTimelineTime(frames, timelineValue) : 0
+      if (currentFrameIdx === undefined) return
       if (currentFrameIdx >= frames.length - 1) return
 
       moveToNewFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
@@ -251,7 +255,6 @@ export function useScrubber({
       event: React.KeyboardEvent<HTMLInputElement>,
       animationTimeline: AnimationTimeline | undefined | null
     ) => {
-      if (!animationTimeline) return
       setHeldKeys((prev) => {
         const newSet = new Set(prev)
         newSet.delete(event.key)
@@ -266,11 +269,9 @@ export function useScrubber({
     animationTimeline: AnimationTimeline | undefined | null,
     frames: Frame[]
   ) => {
-    if (!animationTimeline) return
-
     setHeldKeys((prev) => new Set(prev).add(event.key))
     // if user is holding a key, don't invoke frame-stepping handlers
-    if (heldKeys.has(event.key)) return
+    if (usingHoldingKey()) return
 
     /* 
       preventing default is necessary to avoid jarring UI jumps: 
@@ -297,12 +298,14 @@ export function useScrubber({
         break
 
       case ' ':
-        if (animationTimeline.paused) {
-          animationTimeline.play()
-          setIsPlaying(true)
-        } else {
-          animationTimeline.pause()
-          setIsPlaying(false)
+        if (animationTimeline) {
+          if (animationTimeline.paused) {
+            animationTimeline.play()
+            setIsPlaying(true)
+          } else {
+            animationTimeline.pause()
+            setIsPlaying(false)
+          }
         }
         break
       default:
@@ -310,30 +313,54 @@ export function useScrubber({
     }
   }
 
-  const frameAtTime = (time: number): Frame | undefined => {
-    return frames.find((frame) => frame.time >= time)
+  const frameAtTimelineTime = (
+    frames: Frame[],
+    timelineTime: number
+  ): Frame | undefined => {
+    // If we're past the last frame, return the last frame
+    if (timelineTime > frames[frames.length - 1].timelineTime) {
+      return frames[frames.length - 1]
+    }
+    return frames.find((frame) => frame.timelineTime >= timelineTime)
   }
+
+  const frameIdxAtTimelineTime = (
+    frames: Frame[],
+    timelineTime: number
+  ): number | undefined => {
+    const id = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
+    return id == -1 ? undefined : id
+  }
+
+  const usingHoldingKey = () => heldKeys.size > 0
 
   const moveToNewFrame = (
     animationTimeline: AnimationTimeline | undefined | null,
     newFrame: Frame,
     frames: Frame[]
   ) => {
-    const newTime = newFrame.time
+    const isLastFrame = frames.indexOf(newFrame) == frames.length - 1
+    let newTime = newFrame.timelineTime
 
     // Update to the new frame time.
-    setTimelineValue(newTime * TIME_TO_TIMELINE_SCALE_FACTOR)
-
     if (animationTimeline) {
       animationTimeline.pause()
       setShouldAutoplayAnimation(false)
 
-      if (newTime == frames[frames.length - 1].time) {
+      // If we're dealing with the last frame, seek to the end
+      if (isLastFrame) {
+        newTime = animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
         animationTimeline.seekEndOfTimeline()
       } else {
-        animationTimeline.seek(newTime)
+        animationTimeline.seek(
+          newFrame.timelineTime / TIME_TO_TIMELINE_SCALE_FACTOR
+        )
       }
     }
+    // Finally, set the new time. Note, this potentially gets
+    // changed in the aimationTimeline block above, so don't do it
+    // early and guard/return.
+    setTimelineValue(newTime)
   }
 
   const rangeRef = useRef<HTMLInputElement>(null)
@@ -376,9 +403,9 @@ export function calculateMaxInputValue(
   animationTimeline: AnimationTimeline | undefined | null,
   frames: Frame[]
 ) {
-  return (
-    (animationTimeline
-      ? animationTimeline.timeline.duration
-      : frames[frames.length - 1].time) * TIME_TO_TIMELINE_SCALE_FACTOR
-  )
+  return animationTimeline
+    ? Math.ceil(
+        animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
+      )
+    : frames[frames.length - 1].timelineTime
 }

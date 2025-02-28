@@ -57,6 +57,10 @@ export function useScrubber({
     }
 
     animationTimeline.onUpdate((anime) => {
+      // We only want to use this callback if the animation is playing
+      // Not if we're scrubbing through it. Otherwise we end up running
+      // setTimelineValue multiple times in multiple places.
+      if (anime.paused) return
       setTimeout(() => {
         // Always uses integers!
         setTimelineValue(
@@ -154,7 +158,7 @@ export function useScrubber({
       const newFrame = frameAtTimelineTime(frames, timelineTime)
       if (newFrame === undefined) return
 
-      moveToNewFrame(animationTimeline, newFrame, frames)
+      moveToNewFrame(animationTimeline, newFrame, frames, timelineTime)
     },
     [setTimelineValue, setInformationWidgetData]
   )
@@ -180,7 +184,12 @@ export function useScrubber({
     (
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
-    ) => {},
+    ) => {
+      const newFrame = frameAtTimelineTime(frames, timelineValue)
+      if (newFrame === undefined) return
+
+      moveToNewFrame(animationTimeline, newFrame, frames)
+    },
     [setTimelineValue, timelineValue]
   )
 
@@ -211,13 +220,7 @@ export function useScrubber({
       const currentFrameIdx =
         timelineValue > 0 ? frameIdxAtTimelineTime(frames, timelineValue) : 0
 
-      console.log(currentFrameIdx)
       if (currentFrameIdx === undefined) return
-      console.log(
-        frames[currentFrameIdx - 1],
-        frames[currentFrameIdx],
-        frames[currentFrameIdx + 1]
-      )
       if (currentFrameIdx >= frames.length - 1) return
 
       moveToNewFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
@@ -333,15 +336,14 @@ export function useScrubber({
     return id == -1 ? undefined : id
   }
 
-  const userHoldingKey = () => heldKeys.size > 0
-
   const moveToNewFrame = (
     animationTimeline: AnimationTimeline | undefined | null,
     newFrame: Frame,
-    frames: Frame[]
+    frames: Frame[],
+    newTimelineTime?: number
   ) => {
     const isLastFrame = frames.indexOf(newFrame) == frames.length - 1
-    let newTimelineTime = newFrame.timelineTime
+    newTimelineTime = newTimelineTime || newFrame.timelineTime
 
     // Update to the new frame time.
     if (animationTimeline) {
@@ -354,9 +356,7 @@ export function useScrubber({
           animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
         animationTimeline.seekEndOfTimeline()
       } else {
-        animationTimeline.seek(
-          newFrame.timelineTime / TIME_TO_TIMELINE_SCALE_FACTOR
-        )
+        animationTimeline.seek(newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR)
       }
     }
     // Finally, set the new time. Note, this potentially gets

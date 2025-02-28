@@ -95,7 +95,6 @@ export default function CustomFunctionEditor({
   } = customFunctionEditorStore()
 
   useEffect(() => {
-    console.log('customFunction', customFunction)
     initializeStore(customFunction)
   }, [])
 

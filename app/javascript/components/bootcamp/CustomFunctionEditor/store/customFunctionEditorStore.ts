@@ -172,7 +172,6 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
 
         results: {},
         setResults: (results: Results) => {
-          console.log('results', results)
           const areAllTestsPassing = Object.values(results).every(
             (result) => result.pass
           )

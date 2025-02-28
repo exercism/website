@@ -7,6 +7,7 @@ export function CustomFunctionTest({
   editMode,
   fnName,
   passing,
+  hasResult,
   actual,
   isInspected,
   testTitle,
@@ -20,6 +21,7 @@ export function CustomFunctionTest({
   expected: string
   editMode: boolean
   passing: boolean
+  hasResult: boolean
   isInspected: boolean
   fnName: string
   actual: any
@@ -77,7 +79,11 @@ export function CustomFunctionTest({
           handleCancelEditing={handleCancelEditing}
         />
       ) : (
-        <CollapsedView testTitle={testTitle} isPassing={passing} />
+        <CollapsedView
+          resultsIsMissing={!hasResult}
+          testTitle={testTitle}
+          isPassing={passing}
+        />
       )}
     </div>
   )
@@ -86,13 +92,16 @@ export function CustomFunctionTest({
 function CollapsedView({
   testTitle,
   isPassing,
+  resultsIsMissing,
 }: {
   testTitle: string
   isPassing: boolean
+  resultsIsMissing: boolean
 }) {
   return (
     <div>
-      {testTitle} - {isPassing ? 'Passing' : 'Failing'}
+      {testTitle} -{' '}
+      {resultsIsMissing ? 'No result yet' : isPassing ? 'Passing' : 'Failing'}
     </div>
   )
 }

@@ -25,6 +25,7 @@ import {
   createCustomFunctionEditorStore,
   CustomFunctionEditorStore,
 } from './store/customFunctionEditorStore'
+import { Toaster } from 'react-hot-toast'
 
 export type CustomFunction = {
   uuid: string
@@ -162,6 +163,7 @@ export default function CustomFunctionEditor({
             </div>
           </div>
         </div>
+        <Toaster />
       </CustomFunctionEditorStoreContext.Provider>
     </SolveExercisePageContextWrapper>
   )

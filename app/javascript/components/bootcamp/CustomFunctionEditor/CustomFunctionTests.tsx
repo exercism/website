@@ -32,6 +32,7 @@ export function CustomFunctionTests() {
             passing={
               results && results[test.uuid] ? results[test.uuid].pass : false
             }
+            hasResult={!!results[test.uuid]}
             fnName={customFunctionDisplayName}
             isInspected={inspectedTest === test.uuid}
             onTestClick={() => setInspectedTest(test.uuid)}

@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { Frame } from '@/interpreter/frames'
 import { EditorView } from 'codemirror'
 import { CustomFunction } from '../CustomFunctionEditor'
+import toast from 'react-hot-toast'
 
 export type CustomTests = { params: string; expected: string; uuid: string }[]
 export type Results = Record<
@@ -16,7 +17,7 @@ export type CustomFunctionEditorStoreState = {
   inspectedTest: string
   setInspectedTest: (uuid: string) => void
   inspectedFrames: Frame[]
-  testBeingEdited: string
+  testBeingEdited: string | undefined
   setTestBeingEdited: (testBeingEdited: string) => void
   handleAddNewTest: () => void
   handleDeleteTest: (uuid: string) => void
@@ -66,6 +67,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             isActivated: customFunction.active,
             customFunctionDescription: customFunction.description,
             tests: customFunction.tests,
+            testBeingEdited: undefined,
           })
         },
         customFunctionName: '',
@@ -123,6 +125,18 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           set({ testBeingEdited })
         },
         handleAddNewTest: () => {
+          const { testBeingEdited, tests } = get()
+
+          if (testBeingEdited) {
+            if (!tests[testBeingEdited]) {
+              toast(
+                'You already have an unsaved empty test. Finish that first, then you can add a new test.'
+              )
+
+              return
+            }
+          }
+
           const newUuid = uuid()
           set((state) => {
             const newTests = [
@@ -142,12 +156,14 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           })
         },
         handleDeleteTest: (uuid: string) => {
-          set((state) => {
-            const newTests = state.tests.filter((t) => t.uuid !== uuid)
-            return {
-              tests: newTests,
-            }
-          })
+          if (window.confirm('Are you sure you want to delete this test?')) {
+            set((state) => {
+              const newTests = state.tests.filter((t) => t.uuid !== uuid)
+              return {
+                tests: newTests,
+              }
+            })
+          }
         },
         handleUpdateTest: (
           uuid: string,
@@ -256,8 +272,11 @@ export async function patchCustomFunction({
   })
 
   if (!response.ok) {
+    toast.error('Failed to save changes')
     throw new Error('Failed to submit code')
   }
+
+  toast.success('Saved changes successfully!')
 
   return response.json()
 }

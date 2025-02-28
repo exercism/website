@@ -23,7 +23,7 @@ export function CustomFunctionTests() {
   } = customFunctionEditorStore()
 
   return (
-    <div className="flex flex-col gap-8 max-h-[50%] overflow-auto">
+    <div className="flex flex-col gap-8">
       {tests?.map((test, idx) => {
         return (
           <CustomFunctionTest
@@ -52,9 +52,11 @@ export function CustomFunctionTests() {
           />
         )
       })}
-      <button onClick={handleAddNewTest} className="btn btn-primary shrink-0">
-        Add new test
-      </button>
+      {!testBeingEdited && (
+        <button onClick={handleAddNewTest} className="btn btn-primary shrink-0">
+          Add new test
+        </button>
+      )}
     </div>
   )
 }

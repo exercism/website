@@ -8,7 +8,7 @@ export function CheckCodeButton({
   return (
     <button
       onClick={handleRunCode}
-      className="scenarios-button flex btn-primary btn-s"
+      className="scenarios-button flex btn-primary btn-xs"
     >
       Check code
     </button>

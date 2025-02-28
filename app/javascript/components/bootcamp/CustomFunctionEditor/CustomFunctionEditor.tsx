@@ -158,19 +158,24 @@ export default function CustomFunctionEditor({
                 />
               </ErrorBoundary>
 
-              <div className="page-lhs-bottom">
-                <Scrubber
-                  animationTimeline={null}
-                  frames={inspectedFrames}
-                  context={`Test ${inspectedTestIdx + 1}`}
-                />
+              <div className="page-lhs-bottom flex items-center gap-8 bg-white">
                 <CheckCodeButton handleRunCode={handleCheckCode} />
+                <div className="flex-grow">
+                  <Scrubber
+                    animationTimeline={null}
+                    frames={inspectedFrames}
+                    context={`Test ${inspectedTestIdx + 1}`}
+                  />
+                </div>
               </div>
             </div>
 
             <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
             {/* RHS */}
-            <div className="page-body-rhs p-8" style={{ width: RHSWidth }}>
+            <div
+              className="page-body-rhs py-16 px-16"
+              style={{ width: RHSWidth }}
+            >
               <CustomFunctionDetails />
               <CustomFunctionTests />
             </div>

@@ -56,18 +56,7 @@ export function CustomFunctionTest({
   }, [params, expected])
 
   return (
-    <div
-      onClick={onTestClick}
-      className={assembleClassNames(
-        'c-scenario flex flex-col',
-        !hasResult
-          ? 'pending bg-blue-300'
-          : passing
-          ? 'pass bg-green-300'
-          : 'fail bg-red-300',
-        isInspected && 'outline-dashed'
-      )}
-    >
+    <div onClick={onTestClick}>
       {isInspected ? (
         <ExpandedView
           params={params}
@@ -80,6 +69,8 @@ export function CustomFunctionTest({
           fnName={fnName}
           actual={actual}
           testTitle={testTitle}
+          hasResult={hasResult}
+          passing={passing}
           onEditClick={onEditClick}
           onDeleteClick={onDeleteClick}
           handleSaveTest={handleSaveTest}
@@ -87,9 +78,9 @@ export function CustomFunctionTest({
         />
       ) : (
         <CollapsedView
-          resultsIsMissing={!hasResult}
+          hasResult={hasResult}
           testTitle={testTitle}
-          isPassing={passing}
+          passing={passing}
         />
       )}
     </div>
@@ -98,17 +89,21 @@ export function CustomFunctionTest({
 
 function CollapsedView({
   testTitle,
-  isPassing,
-  resultsIsMissing,
+  passing,
+  hasResult,
 }: {
   testTitle: string
-  isPassing: boolean
-  resultsIsMissing: boolean
+  passing: boolean
+  hasResult: boolean
 }) {
+  const className = assembleClassNames(
+    'collapsed',
+    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+  )
   return (
-    <div>
-      {testTitle} -{' '}
-      {resultsIsMissing ? 'No result yet' : isPassing ? 'Passing' : 'Failing'}
+    <div className={className}>
+      <h3 className="font-semibold text-16">{testTitle}</h3>
+      {/* {!hasResult ? 'No result yet' : passing ? 'Passing' : 'Failing'} */}
     </div>
   )
 }
@@ -124,6 +119,8 @@ function ExpandedView({
   fnName,
   actual,
   testTitle,
+  hasResult,
+  passing,
   onEditClick,
   onDeleteClick,
   handleSaveTest,
@@ -139,100 +136,121 @@ function ExpandedView({
   fnName: string
   actual: any
   testTitle: string
+  hasResult: boolean
+  passing: boolean
   onEditClick: () => void
   onDeleteClick: () => void
   handleSaveTest: () => void
   handleCancelEditing: () => void
 }) {
+  const className = assembleClassNames(
+    'c-scenario',
+    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+  )
   return (
     <>
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-18">{testTitle}</h3>
-        <div className="flex items-center gap-8">
-          {editMode ? (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleSaveTest()
-                }}
-              >
-                save
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleCancelEditing()
-                }}
-              >
-                cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onEditClick()
-                }}
-              >
-                edit
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onDeleteClick()
-                }}
-              >
-                delete
-              </button>
-            </>
-          )}
+      <div className={className}>
+        <div className="scenario-lhs">
+          <div className="scenario-lhs-conten">
+            <div className="header">
+              <h3 className="font-semibold text-16 mr-auto">{testTitle}</h3>
+              <div className="flex items-center gap-8">
+                {editMode ? (
+                  <></>
+                ) : (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onEditClick()
+                      }}
+                    >
+                      edit
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onDeleteClick()
+                      }}
+                    >
+                      delete
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <table
+              className={`io-test-result-info ${editMode ? 'edit-mode' : ''}`}
+            >
+              <tbody>
+                <tr>
+                  <th>Code run:</th>
+                  <td className="editable">
+                    <div className={editMode ? 'c-faux-input' : ''}>
+                      {fnName}(
+                      {editMode ? (
+                        <input
+                          type="text"
+                          value={paramsValue}
+                          className="!px-6 !flex-grow-0"
+                          onChange={(e) => setParamsValue(e.target.value)}
+                        />
+                      ) : (
+                        params
+                      )}
+                      )
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Expected:</th>
+                  <td className="editable">
+                    {editMode ? (
+                      <input
+                        type="text"
+                        value={expectedValue}
+                        onChange={(e) => setExpectedValue(e.target.value)}
+                      />
+                    ) : (
+                      expected
+                    )}
+                  </td>
+                </tr>
+                {actual && (
+                  <tr>
+                    <th>Actual:</th>
+                    <td>{formatActual(actual)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <table className="io-test-result-info">
-        <tbody>
-          <tr>
-            <th>Code run:</th>
-            <td>
-              <div className="c-faux-input">
-                {fnName}(
-                {editMode ? (
-                  <input
-                    type="text"
-                    value={paramsValue}
-                    className="!px-6 !flex-grow-0"
-                    onChange={(e) => setParamsValue(e.target.value)}
-                  />
-                ) : (
-                  params
-                )}
-                )
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Expected:</th>
-            <td>
-              {editMode ? (
-                <input
-                  type="text"
-                  value={expectedValue}
-                  onChange={(e) => setExpectedValue(e.target.value)}
-                />
-              ) : (
-                expected
-              )}
-            </td>
-          </tr>
-          {actual && (
-            <tr>
-              <th>Actual:</th>
-              <td>{formatActual(actual)}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+
+      {editMode && (
+        <div className="flex gap-8 mt-8">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleSaveTest()
+            }}
+            className="btn btn-primary flex-grow"
+          >
+            save
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleCancelEditing()
+            }}
+            className="btn btn-secondary w-1-3"
+          >
+            cancel
+          </button>
+        </div>
+      )}
     </>
   )
 }

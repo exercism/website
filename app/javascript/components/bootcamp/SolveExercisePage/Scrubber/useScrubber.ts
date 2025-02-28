@@ -34,7 +34,6 @@ export function useScrubber({
   // if there is an animation timeline, we use time as value
   // if there is no animation timeline, we use frame index as value
   const [timelineValue, setTimelineValue] = useState(0)
-  const [annotationsEnabled, setAnnotationsEnabled] = useState(true)
   const {
     setHighlightedLine,
     setHighlightedLineColor,
@@ -56,15 +55,6 @@ export function useScrubber({
     if (!animationTimeline) {
       return
     }
-
-    // Don't show line hightlights or the flashes
-    // of active lines while the code is playing.
-    animationTimeline.onPlay(() => {
-      setAnnotationsEnabled(false)
-    })
-    animationTimeline.onStop(() => {
-      setAnnotationsEnabled(true)
-    })
 
     animationTimeline.onUpdate((anime) => {
       setTimeout(() => {
@@ -94,8 +84,13 @@ export function useScrubber({
     const currentFrame = frameAtTimelineTime(frames, timelineValue)
 
     cleanUpEditor(editorView)
+
+    // If for some reason we don't have a frame here, return
+    // (although I don't see how this is possible).
     if (!currentFrame) return
-    if (!annotationsEnabled) return
+
+    // If the animation is running, don't show annotations
+    if (animationTimeline && !animationTimeline.paused) return
 
     setHighlightedLine(currentFrame.line)
     scrollToLine(editorView, currentFrame.line)
@@ -123,7 +118,7 @@ export function useScrubber({
         })
       }
     }
-  }, [timelineValue, annotationsEnabled, frames])
+  }, [timelineValue, frames])
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
@@ -215,7 +210,14 @@ export function useScrubber({
     ) => {
       const currentFrameIdx =
         timelineValue > 0 ? frameIdxAtTimelineTime(frames, timelineValue) : 0
+
+      console.log(currentFrameIdx)
       if (currentFrameIdx === undefined) return
+      console.log(
+        frames[currentFrameIdx - 1],
+        frames[currentFrameIdx],
+        frames[currentFrameIdx + 1]
+      )
       if (currentFrameIdx >= frames.length - 1) return
 
       moveToNewFrame(animationTimeline, frames[currentFrameIdx + 1], frames)

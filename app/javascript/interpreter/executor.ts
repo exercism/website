@@ -1625,7 +1625,7 @@ export class Executor {
       error,
       time: this.time,
       // Multiple the time by 100 and floor it to get an integer
-      timelineTime: Math.floor(this.time * 100),
+      timelineTime: Math.round(this.time * 100),
       description: () => undefined,
       context: context,
     }

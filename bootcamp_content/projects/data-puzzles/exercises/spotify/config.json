@@ -1,0 +1,31 @@
+{
+  "title": "Spotify Data",
+  "description": "Parse data back from Spotify",
+  "level": 5,
+  "idx": 1,
+  "tests_type": "state",
+  "project_type": "data",
+  "stdlib_functions": [
+    "concatenate",
+    "string_to_number",
+    "number_to_string",
+    "join",
+    "push"
+  ],
+  "tasks": [
+    {
+      "name": "Format the response",
+      "tests": [
+        {
+          "slug": "iHiD",
+          "name": "iHiD's favourites",
+          "description_html": "Get the data back from Spotify",
+          "function": "parse_response",
+          "params": ["iHiD"],
+          "expected": "iHiD's most listened to artists are: Counting Crows, Rage Against The Machine, Damien Rice, Eminem, and Bastille!",
+          "checks": []
+        }
+      ]
+    }
+  ]
+}

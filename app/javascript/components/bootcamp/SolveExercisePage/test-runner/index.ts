@@ -30,6 +30,7 @@ function createTestCallback(tests: NewTestResult[]) {
     testCallback: TestCallback
   ): void {
     const testCallbackResult = testCallback()
+    console.log(testCallbackResult)
     tests.push({
       // we need testIndex, so we can retrieve quickly the test that we are currently inspecting/working on
       testIndex: tests.length,

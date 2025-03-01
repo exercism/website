@@ -60,6 +60,7 @@ projects = %w[
   string-puzzles
   games-and-apps
   breakout
+  data-puzzles
 ]
 
 projects.each do |project_slug|

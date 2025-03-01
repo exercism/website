@@ -36,7 +36,7 @@ export function useSetupStores({
     setCustomFunctionMetadataCollection(availableCustomFunctions)
     setCustomFunctionsForInterpreter(
       activeCustomFunctions.map((acf) => {
-        return { ...acf, arity: acf.fnArity }
+        return { ...acf, arity: acf.arity }
       })
     )
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)

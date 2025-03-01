@@ -30,7 +30,7 @@ module ReactComponents
     end
 
     def depends_on
-      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function.depends_on.map(&:name))
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function.depends_on)
     end
   end
 end

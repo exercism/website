@@ -6,11 +6,7 @@ import { Executor } from './executor'
 import { Statement } from './statement'
 import type { TokenType } from './token'
 import { translate } from './translator'
-import type {
-  CustomFunction,
-  ExecutionContext,
-  ExternalFunction,
-} from './executor'
+import type { ExecutionContext, ExternalFunction } from './executor'
 import type { Frame } from './frames'
 import { Arity } from './functions'
 import * as Jiki from './jikiObjects'

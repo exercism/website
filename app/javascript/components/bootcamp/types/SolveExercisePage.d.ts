@@ -23,13 +23,14 @@ declare global {
 
   type AvailableCustomFunction = {
     name: string
+    fnName: string
     description: string
   }
 
   type ActiveCustomFunction = {
     name: string
     fnName: string
-    fnArity: number
+    arity: number
     code: string
     id: null
   }

@@ -1,15 +1,9 @@
 import { create } from 'zustand'
+import { CustomFunction as CustomFunctionForInterpreter } from '@/interpreter/interpreter'
 
 export type CustomFunctionMetadata = {
   name: string
   description: string
-}
-
-export type CustomFunctionForInterpreter = {
-  code: string
-  arity: number
-  name: string
-  fnName: string
 }
 
 type CustomFunctionsStore = {

@@ -30,9 +30,9 @@ import { Toaster } from 'react-hot-toast'
 export type CustomFunction = {
   uuid: string
   name: string
-  fnName: string
   active: boolean
   description: string
+  predefined: boolean
   code: string
   tests: CustomTests
 }

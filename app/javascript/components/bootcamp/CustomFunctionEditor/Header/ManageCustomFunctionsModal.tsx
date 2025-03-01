@@ -4,15 +4,18 @@ import useCustomFunctionStore, {
   CustomFunctionMetadata,
 } from '../store/customFunctionsStore'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { GraphicalIcon } from '@/components/common'
 
 Modal.setAppElement('body')
 
 export function ManageCustomFunctionsModal({
   isOpen,
   setIsOpen,
+  onChange,
 }: {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onChange?: () => void
 }) {
   const {
     customFunctionMetadataCollection,
@@ -41,6 +44,7 @@ export function ManageCustomFunctionsModal({
 
   const handleGetCustomFunctionForInterpreter = useCallback(
     async (name: string) => {
+      console.log(name)
       const data = await getCustomFunctionsForInterpreter(
         links.getCustomFnsForInterpreter,
         name
@@ -48,17 +52,22 @@ export function ManageCustomFunctionsModal({
 
       const [firstFn] = data.custom_functions
       addCustomFunctionsForInterpreter({
-        arity: firstFn.fn_arity,
-        code: firstFn.code,
         name: firstFn.name,
-        fnName: firstFn.fn_name,
+        arity: firstFn.arity,
+        code: firstFn.code,
       })
+      if (onChange) {
+        onChange()
+      }
     },
     []
   )
   const handleRemoveCustomFunctionForInterpreter = useCallback(
     async (uuid: string) => {
       removeCustomFunctionsForInterpreter(uuid)
+      if (onChange) {
+        onChange()
+      }
     },
     []
   )
@@ -67,28 +76,31 @@ export function ManageCustomFunctionsModal({
     // @ts-ignore
     <Modal
       isOpen={isOpen}
-      className="solve-exercise-page-react-modal-content flex flex-col items-center justify-center text-center max-w-[540px]"
+      className="solve-exercise-page-react-modal-content custom-function-selector flex flex-col w-fill max-w-[540px]"
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
-      <div className="flex flex-col gap-8">
+      <h2 className="text-h3">Import Custom Functions</h2>
+      <p className="text-p-large mb-12">
+        Select the custom functions you want to make available to use in your
+        code.
+      </p>
+      <div className="flex flex-col gap-8 mb-12 overflow-y-auto mr-[-32px] pr-32">
         {hasMetadata ? (
           customFunctionMetadataCollection.map((customFnMetadata) => {
             return (
               <CustomFunctionMetadata
                 key={customFnMetadata.name}
-                onClick={() =>
-                  getIsFunctionImported(customFnMetadata.name)
+                onClick={() => {
+                  return getIsFunctionImported(customFnMetadata.name)
                     ? handleRemoveCustomFunctionForInterpreter(
                         customFnMetadata.name
                       )
                     : handleGetCustomFunctionForInterpreter(
                         customFnMetadata.name
                       )
-                }
-                buttonLabel={
-                  getIsFunctionImported(customFnMetadata.name)
-                    ? 'remove'
-                    : 'import'
+                }}
+                buttonClass={
+                  getIsFunctionImported(customFnMetadata.name) ? 'selected' : ''
                 }
                 customFnMetadata={customFnMetadata}
               />
@@ -97,13 +109,10 @@ export function ManageCustomFunctionsModal({
         ) : (
           <div>There are no custom functions yet.</div>
         )}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="btn-secondary btn-m"
-        >
-          Close
-        </button>
       </div>
+      <button onClick={() => setIsOpen(false)} className="btn-default btn-m">
+        Save & Close
+      </button>
     </Modal>
   )
 }
@@ -111,22 +120,21 @@ export function ManageCustomFunctionsModal({
 function CustomFunctionMetadata({
   customFnMetadata,
   onClick,
-  buttonLabel,
+  buttonClass,
 }: {
   customFnMetadata: CustomFunctionMetadata
   onClick: () => void
-  buttonLabel: string
+  buttonClass: string
 }) {
   return (
-    <div className="border border-1 border-textColor6 rounded-5 text-left p-4">
+    <button className={`row ${buttonClass}`} onClick={onClick}>
+      <div className="circle"></div>
+      <GraphicalIcon icon="completed-check-circle" width={24} height={24} />
       <div>
-        <strong>{customFnMetadata.name}</strong>
+        <h3 className="text-h6 mb-2">{customFnMetadata.name}</h3>
+        <p className="text-p-base">{customFnMetadata.description}</p>
       </div>
-      <div>{customFnMetadata.description}</div>
-      <button className="btn btn-primary" onClick={onClick}>
-        <code>{buttonLabel}</code>
-      </button>
-    </div>
+    </button>
   )
 }
 
@@ -136,13 +144,12 @@ export async function getCustomFunctionsForInterpreter(
 ): Promise<{
   custom_functions: {
     code: string
-    fn_arity: number
-    fn_name: string
+    arity: number
     name: string
   }[]
 }> {
   // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
-  const response = await fetch(url + '?name=' + name, {
+  const response = await fetch(url + '?name=' + encodeURIComponent(name), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

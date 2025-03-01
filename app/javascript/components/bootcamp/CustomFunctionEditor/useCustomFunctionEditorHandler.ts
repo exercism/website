@@ -32,6 +32,7 @@ export function useCustomFunctionEditorHandler({
     tests,
     customFunctionName: functionName,
     setResults,
+    clearInspectedTest,
     setInspectedTest,
   } = customFunctionEditorStore()
 
@@ -68,10 +69,14 @@ export function useCustomFunctionEditorHandler({
     setHasCodeBeenEdited(false)
 
     if (editorHandler.current) {
+      const context = {
+        languageFeatures: { customFunctionDefinitionMode: true },
+        customFunctions,
+      }
       const value = editorHandler.current.getValue()
       setLatestValueSnapshot(value)
 
-      const evaluated = interpret(value)
+      const evaluated = interpret(value, context)
       if (evaluated.error) {
         showError({
           error: evaluated.error,
@@ -87,19 +92,16 @@ export function useCustomFunctionEditorHandler({
 
       const results = {}
       tests.forEach((test) => {
-        const params = test.params
+        const args = test.args
         const safe_eval = eval
-        const args = safe_eval(`[${params}]`)
-        setArity(args.length)
+        const safeArgs = safe_eval(`[${args}]`)
+        setArity(safeArgs.length)
 
         const fnEvaluationResult = evaluateFunction(
           value,
-          {
-            languageFeatures: { customFunctionDefinitionMode: true },
-            customFunctions,
-          },
+          context,
           functionName,
-          ...args
+          ...safeArgs
         )
 
         const result = {
@@ -113,7 +115,10 @@ export function useCustomFunctionEditorHandler({
 
       setResults(results)
 
-      // autoselect the first test as inspected
+      // Clear the selected test
+      // then set the new one.
+      clearInspectedTest()
+      // Autoselect the first test as inspected
       setInspectedTest(tests[0].uuid)
     }
   }

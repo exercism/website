@@ -6,7 +6,7 @@
 @import "../bootcamp/variables";
 
 @import "../bootcamp/components/solve-exercise-page";
-@import "../bootcamp/components/settings-dialog";
+@import "../bootcamp/components/custom-function-selector";
 @import "../bootcamp/components/rhs-list";
 @import "../bootcamp/components/breadcrumbs";
 @import "../bootcamp/components/completed-bar";

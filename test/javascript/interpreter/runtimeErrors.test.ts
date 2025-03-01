@@ -894,3 +894,25 @@ test('UnexpectedObjectArgumentForCustomFunction', () => {
     'UnexpectedObjectArgumentForCustomFunction'
   )
 })
+
+test('who knows', () => {
+  const context = {
+    languageFeatures: { customFunctionDefinitionMode: true },
+    customFunctions: [],
+  }
+  const { frames } = interpret(
+    `
+    function my#starts_with with string, prefix do
+      if string == "" do
+        return true
+      end
+
+      if my#length(prefix) > my#length(string) do
+        return false
+      end
+    end
+    my#starts_with("foo", "f")`,
+    context
+  )
+  expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: my#length')
+})

@@ -22,7 +22,7 @@ export function useSetupCustomFunctionStore({
     )
     setCustomFunctionsForInterpreter(
       dependsOn.map((acf) => {
-        return { ...acf, arity: acf.fnArity }
+        return { ...acf, arity: acf.arity }
       })
     )
   }, [])

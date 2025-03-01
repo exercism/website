@@ -4,7 +4,7 @@ import { CustomFunction } from './CustomFunctionEditor'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { Frame } from '@/interpreter/frames'
 
-export type CustomTests = { params: string; expected: string; uuid: string }[]
+export type CustomTests = { args: string; expected: string; uuid: string }[]
 
 export type Results = Record<
   string,
@@ -39,7 +39,7 @@ export function useTestManager(customFunction: CustomFunction) {
     setTests((tests) => [
       ...tests,
       {
-        params: '',
+        args: '',
         expected: '',
         uuid: newUuid,
       },
@@ -59,7 +59,7 @@ export function useTestManager(customFunction: CustomFunction) {
       setTests((tests) =>
         tests.map((test) =>
           test.uuid === uuid
-            ? { ...test, params: newParams, expected: newExpected }
+            ? { ...test, args: newParams, expected: newExpected }
             : test
         )
       )

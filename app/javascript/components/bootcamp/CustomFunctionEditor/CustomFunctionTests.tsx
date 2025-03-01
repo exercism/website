@@ -9,7 +9,6 @@ export function CustomFunctionTests() {
 
   const {
     customFunctionName,
-    customFunctionDisplayName,
     results,
     tests,
     testBeingEdited,
@@ -29,13 +28,12 @@ export function CustomFunctionTests() {
           <CustomFunctionTest
             testTitle={`Test ${idx + 1}`}
             key={test.uuid}
-            params={test.params}
+            args={test.args}
             passing={
               results && results[test.uuid] ? results[test.uuid].pass : false
             }
             hasResult={!!results[test.uuid]}
-            name={customFunctionDisplayName}
-            fnName={customFunctionName}
+            name={customFunctionName}
             isInspected={inspectedTest === test.uuid}
             onTestClick={() => setInspectedTest(test.uuid)}
             actual={
@@ -45,8 +43,8 @@ export function CustomFunctionTests() {
             editMode={testBeingEdited === test.uuid}
             onEditClick={() => setTestBeingEdited(test.uuid)}
             onDeleteClick={() => handleDeleteTest(test.uuid)}
-            onSaveClick={(newParams: string, newExpected: string) =>
-              handleUpdateTest(test.uuid, newParams, newExpected)
+            onSaveClick={(newArgs: string, newExpected: string) =>
+              handleUpdateTest(test.uuid, newArgs, newExpected)
             }
             onCancelClick={handleCancelEditing}
           />

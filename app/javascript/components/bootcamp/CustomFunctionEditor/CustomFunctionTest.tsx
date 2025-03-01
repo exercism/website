@@ -3,11 +3,10 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
 
 export function CustomFunctionTest({
-  params,
+  args,
   expected,
   editMode,
   name,
-  fnName,
   passing,
   hasResult,
   actual,
@@ -19,23 +18,22 @@ export function CustomFunctionTest({
   onCancelClick,
   onDeleteClick,
 }: {
-  params: string
+  args: string
   expected: string
   editMode: boolean
   passing: boolean
   hasResult: boolean
   isInspected: boolean
   name: string
-  fnName: string
   actual: any
   testTitle: string
   onEditClick: () => void
   onTestClick: () => void
-  onSaveClick: (paramsValue: string, expectedValue: string) => void
+  onSaveClick: (argsValue: string, expectedValue: string) => void
   onCancelClick: () => void
   onDeleteClick: () => void
 }) {
-  const [paramsValue, setParamsValue] = useState(params)
+  const [argsValue, setArgsValue] = useState(args)
   const [expectedValue, setExpectedValue] = useState(expected)
 
   const handleSaveTest = useCallback(() => {
@@ -43,30 +41,30 @@ export function CustomFunctionTest({
       toast.error('You need to provide an expected value before saving')
       return
     }
-    onSaveClick(paramsValue, expectedValue)
-  }, [onSaveClick, paramsValue, expectedValue])
+    onSaveClick(argsValue, expectedValue)
+  }, [onSaveClick, argsValue, expectedValue])
 
   const handleCancelEditing = useCallback(() => {
-    if ([params, expected].every((v) => v.length === 0)) {
+    if ([args, expected].every((v) => v.length === 0)) {
       onDeleteClick()
     }
     onCancelClick()
-    setParamsValue(params)
+    setArgsValue(args)
     setExpectedValue(expected)
-  }, [params, expected])
+  }, [args, expected])
 
   return (
     <div onClick={onTestClick}>
       {isInspected ? (
         <ExpandedView
-          params={params}
-          paramsValue={paramsValue}
-          setParamsValue={setParamsValue}
+          args={args}
+          argsValue={argsValue}
+          setArgsValue={setArgsValue}
           expected={expected}
           expectedValue={expectedValue}
           setExpectedValue={setExpectedValue}
           editMode={editMode}
-          fnName={fnName}
+          name={name}
           actual={actual}
           testTitle={testTitle}
           hasResult={hasResult}
@@ -109,14 +107,14 @@ function CollapsedView({
 }
 
 function ExpandedView({
-  params,
-  paramsValue,
-  setParamsValue,
+  args: args,
+  argsValue: argsValue,
+  setArgsValue: setArgsValue,
   expected,
   expectedValue,
   setExpectedValue,
   editMode,
-  fnName,
+  name,
   actual,
   testTitle,
   hasResult,
@@ -126,14 +124,14 @@ function ExpandedView({
   handleSaveTest,
   handleCancelEditing,
 }: {
-  params: string
-  paramsValue: string
-  setParamsValue: React.Dispatch<React.SetStateAction<string>>
+  args: string
+  argsValue: string
+  setArgsValue: React.Dispatch<React.SetStateAction<string>>
   expectedValue: string
   setExpectedValue: React.Dispatch<React.SetStateAction<string>>
   expected: string
   editMode: boolean
-  fnName: string
+  name: string
   actual: any
   testTitle: string
   hasResult: boolean
@@ -188,16 +186,16 @@ function ExpandedView({
                   <th>Code run:</th>
                   <td className="editable">
                     <div className={editMode ? 'c-faux-input' : ''}>
-                      {fnName}(
+                      {name}(
                       {editMode ? (
                         <input
                           type="text"
-                          value={paramsValue}
+                          value={argsValue}
                           className="!px-6 !flex-grow-0"
-                          onChange={(e) => setParamsValue(e.target.value)}
+                          onChange={(e) => setArgsValue(e.target.value)}
                         />
                       ) : (
-                        params
+                        args
                       )}
                       )
                     </div>
@@ -256,7 +254,7 @@ function ExpandedView({
 }
 
 function formatActual(actual: string | null | undefined) {
-  if (actual === null || actual === undefined) {
+  if (actual === 'null') {
     return "[Your function didn't return anything]"
   }
 

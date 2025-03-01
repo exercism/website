@@ -6,7 +6,7 @@ class Bootcamp::CustomFunction::BuildRecursiveList
   def call
     rec_names = build_name_tree([], names)
     user.bootcamp_custom_functions.active.where(name: rec_names).
-      select(:name, :fn_name, :fn_arity, :code)
+      select(:name, :arity, :code)
   end
 
   private

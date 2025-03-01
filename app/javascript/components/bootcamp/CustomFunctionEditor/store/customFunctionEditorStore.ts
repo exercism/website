@@ -6,7 +6,7 @@ import { EditorView } from 'codemirror'
 import { CustomFunction } from '../CustomFunctionEditor'
 import toast from 'react-hot-toast'
 
-export type CustomTests = { params: string; expected: string; uuid: string }[]
+export type CustomTests = { args: string; expected: string; uuid: string }[]
 export type Results = Record<
   string,
   { actual: any; frames: Frame[]; pass: boolean }
@@ -15,6 +15,7 @@ export type CustomFunctionEditorStoreState = {
   initializeStore: (customFunction: CustomFunction) => void
   tests: CustomTests
   inspectedTest: string
+  clearInspectedTest: () => void
   setInspectedTest: (uuid: string) => void
   inspectedFrames: Frame[]
   testBeingEdited: string | undefined
@@ -32,7 +33,7 @@ export type CustomFunctionEditorStoreState = {
   clearResults: () => void
   areAllTestsPassing: boolean
   customFunctionName: string
-  customFunctionDisplayName: string
+  isPredefined: boolean
   setCustomFunctionName: (customFunctionName: string) => void
   customFunctionDescription: string
   setCustomFunctionDescription: (customFunctionDescription: string) => void
@@ -63,8 +64,8 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
       (set, get) => ({
         initializeStore: (customFunction) => {
           set({
-            customFunctionName: customFunction.fnName,
-            customFunctionDisplayName: customFunction.name,
+            customFunctionName: customFunction.name,
+            isPredefined: customFunction.predefined,
             isActivated: customFunction.active,
             customFunctionDescription: customFunction.description,
             tests: customFunction.tests,
@@ -72,12 +73,10 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           })
         },
         customFunctionName: '',
-        customFunctionDisplayName: '',
+        isPredefined: false,
         setCustomFunctionName: (customFunctionName) => {
-          const displayName = customFunctionName.replace('my#', '')
           set({
             customFunctionName,
-            customFunctionDisplayName: displayName,
           })
         },
         customFunctionArity: 0,
@@ -88,11 +87,8 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           const docText = view.state.doc.toString()
           const functionName = extractFunctionName(docText) ?? ''
 
-          const displayName = functionName.replace('my#', '')
-
           set({
             customFunctionName: functionName,
-            customFunctionDisplayName: displayName,
           })
         },
 
@@ -113,6 +109,11 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
         },
         tests: [],
         inspectedTest: '',
+        clearInspectedTest: () => {
+          set(() => {
+            return { inspectedTest: '', inspectedFrames: [] }
+          })
+        },
         setInspectedTest: (uuid: string) => {
           const { testBeingEdited, inspectedTest } = get()
           if (inspectedTest === uuid) {
@@ -187,7 +188,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           set((state) => {
             const newTests = state.tests.map((test) =>
               test.uuid === uuid
-                ? { ...test, params: newParams, expected: newExpected }
+                ? { ...test, args: newParams, expected: newExpected }
                 : test
             )
             return {
@@ -226,12 +227,11 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
 
           patchCustomFunction({
             url,
-            name: state.customFunctionName.replace('my#', ''),
-            fn_name: state.customFunctionName,
+            name: state.customFunctionName,
             active: state.isActivated && state.areAllTestsPassing,
             code,
             description: state.customFunctionDescription,
-            fn_arity: state.customFunctionArity,
+            arity: state.customFunctionArity,
             tests: state.tests,
             dependsOn,
           })
@@ -256,8 +256,7 @@ export async function patchCustomFunction({
   description,
   code,
   tests,
-  fn_name,
-  fn_arity,
+  arity,
   dependsOn,
 }: {
   url: string
@@ -266,8 +265,7 @@ export async function patchCustomFunction({
   description: string
   code: string
   tests: CustomTests
-  fn_name: string
-  fn_arity: number
+  arity: number
   dependsOn: string[]
 }) {
   const response = await fetch(url, {
@@ -282,8 +280,7 @@ export async function patchCustomFunction({
         description,
         code,
         tests,
-        fn_name,
-        fn_arity,
+        arity,
         depends_on: dependsOn,
       },
     }),

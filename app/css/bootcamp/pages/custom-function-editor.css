@@ -4,6 +4,10 @@
     }
     .page-body-rhs {
         @apply overflow-auto;
+        input,
+        textarea {
+            @apply text-15;
+        }
     }
     .collapsed {
         @apply p-12 border-2 rounded-5;

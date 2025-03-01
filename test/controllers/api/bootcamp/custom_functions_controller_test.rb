@@ -52,13 +52,13 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     expected = {
       custom_functions: [
         {
-          fn_name: function_1.fn_name,
-          fn_arity: function_1.fn_arity,
+          name: function_1.name,
+          arity: function_1.arity,
           code: function_1.code
         },
         {
-          fn_name: function_2.fn_name,
-          fn_arity: function_2.fn_arity,
+          name: function_2.name,
+          arity: function_2.arity,
           code: function_2.code
         }
       ]
@@ -82,13 +82,12 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
   test "update: updates and 200s" do
     user = create :user
     function = create(:bootcamp_custom_function, user:)
-    name = "New title"
     description = "Some new description"
     code = "Some new code"
     tests = [{ input: "input", output: "output" }]
     active = !function.active # Toggle it for the tst
-    fn_name = "fooooooob"
-    fn_arity = 15
+    name = "fooooooob"
+    arity = 15
     depends_on = %w[foo bar]
 
     setup_user(user)
@@ -100,8 +99,7 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
         code:,
         tests:,
         active:,
-        fn_name:,
-        fn_arity:,
+        arity:,
         depends_on:
       }
     ), headers: @headers
@@ -115,8 +113,7 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_equal code, function.code
     assert_equal tests, function.tests
     assert_equal active, function.active
-    assert_equal fn_name, function.fn_name
-    assert_equal fn_arity, function.fn_arity
+    assert_equal arity, function.arity
     assert_equal depends_on, function.depends_on
   end
 end

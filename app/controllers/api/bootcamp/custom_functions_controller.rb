@@ -15,8 +15,7 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
       custom_functions: @custom_functions.map do |cf|
         {
           name: cf.name,
-          fn_name: cf.fn_name,
-          fn_arity: cf.fn_arity,
+          arity: cf.arity,
           code: cf.code
         }
       end
@@ -31,8 +30,7 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
       :description,
       :code,
       :tests,
-      :fn_name,
-      :fn_arity,
+      :arity,
       :depends_on
     )
     @custom_function.update(data)

@@ -18,41 +18,57 @@
           "description_html": "Today is a simple pasta salad",
           "name": "Empty fridge",
           "function": "shopping_list",
-          "params": [[], ["peas", "tomatoes", "garlic", "basil", "olives"]],
-          "expected": ["peas", "tomatoes", "garlic", "basil", "olives"]
+          "args": [[], ["peas", "tomatoes", "garlic", "basil", "olives"]],
+          "checks": [
+            {
+              "value": ["peas", "tomatoes", "garlic", "basil", "olives"]
+            }
+          ]
         },
         {
           "slug": "you-have-everything",
           "description_html": "Today we're going mexican",
           "name": "You have everything",
           "function": "shopping_list",
-          "params": [
+          "args": [
             ["salsa", "guac", "chillis", "spring greens", "cilantro"],
             ["salsa", "guac", "chillis", "spring greens", "cilantro"]
           ],
-          "expected": []
+          "checks": [
+            {
+              "value": []
+            }
+          ]
         },
         {
           "slug": "one-thing",
           "description_html": "A fresh Japanese Miso soup",
           "name": "One thing",
           "function": "shopping_list",
-          "params": [
+          "args": [
             ["miso", "seaweed", "spring onions"],
             ["tofu", "miso", "seaweed", "spring onions"]
           ],
-          "expected": ["tofu"]
+          "checks": [
+            {
+              "value": ["tofu"]
+            }
+          ]
         },
         {
           "slug": "few-things",
           "description_html": "It's falafel wrap day!",
           "name": "A few things",
           "function": "shopping_list",
-          "params": [
+          "args": [
             ["chilis", "pickles", "tahini"],
             ["chilis", "cucumber", "pickles", "tahini", "hummus"]
           ],
-          "expected": ["cucumber", "hummus"]
+          "checks": [
+            {
+              "value": ["cucumber", "hummus"]
+            }
+          ]
         }
       ]
     }

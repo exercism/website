@@ -24,52 +24,52 @@
           ],
           "checks": [
             {
-              "name": "getRectangleAt(0, 0, 20, 10)",
+              "function": "getRectangleAt(0, 0, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The top left rectangle isn't correct."
             },
             {
-              "name": "getRectangleAt(80, 0, 20, 10)",
+              "function": "getRectangleAt(80, 0, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The top right rectangle isn't correct."
             },
             {
-              "name": "getRectangleAt(-10, 10, 20, 10)",
+              "function": "getRectangleAt(-10, 10, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The first rectangle on the second row isn't correct."
             },
             {
-              "name": "getRectangleAt(90, 10, 20, 10)",
+              "function": "getRectangleAt(90, 10, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The last rectangle on the second row isn't correct."
             },
             {
-              "name": "getRectangleAt(40, 20, 20, 10)",
+              "function": "getRectangleAt(40, 20, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The middle rectangles on the third row isn't correct."
             },
             {
-              "name": "getRectangleAt(30, 30, 20, 10)",
+              "function": "getRectangleAt(30, 30, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "One of the middle rectangles on the fourth row isn't correct."
             },
             {
-              "name": "getRectangleAt(-10, 90, 20, 10)",
+              "function": "getRectangleAt(-10, 90, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The bottom left rectangle isn't correct."
             },
             {
-              "name": "getRectangleAt(90, 90, 20, 10)",
+              "function": "getRectangleAt(90, 90, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The bottom right rectangle isn't correct."
             },
             {
-              "name": "wasFunctionCalled('rectangle', null, 55)",
+              "function": "wasFunctionCalled('rectangle', null, 55)",
               "matcher": "toBeTrue",
               "error_html": "You didn't add exactly 55 bricks."
             },
             {
-              "name": "numFunctionCallsInCode('rectangle')",
+              "function": "numFunctionCallsInCode('rectangle')",
               "matcher": "toEqual",
               "value": 1,
               "error_html": "You are using the `rectangle` function in multiple places in your code."

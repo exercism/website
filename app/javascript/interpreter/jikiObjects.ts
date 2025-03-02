@@ -313,12 +313,14 @@ export function wrapJSToJikiObject(value: any) {
   if (Array.isArray(value)) {
     return new List(value.map(wrapJSToJikiObject))
   }
-  return new Dictionary(
-    new Map(
-      [...value.entries()].map(([key, value]) => [
-        key,
-        wrapJSToJikiObject(value),
-      ])
+  if (typeof value === 'object') {
+    return new Dictionary(
+      new Map(
+        Object.entries(value).map(([key, value]) => [
+          key,
+          wrapJSToJikiObject(value),
+        ])
+      )
     )
-  )
+  }
 }

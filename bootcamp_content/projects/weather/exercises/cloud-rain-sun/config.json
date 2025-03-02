@@ -25,62 +25,62 @@
           ],
           "checks": [
             {
-              "name": "getCircleAt(75, 30, 15)",
+              "function": "getCircleAt(75, 30, 15)",
               "matcher": "toBeDefined",
               "error_html": "The sun isn't correct."
             },
             {
-              "name": "getRectangleAt(25, undefined, 50, undefined)",
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
               "matcher": "toBeDefined",
               "error_html": "The base of the cloud isn't correct."
             },
             {
-              "name": "getCircleAt(25, 50, 10)",
+              "function": "getCircleAt(25, 50, 10)",
               "matcher": "toBeDefined",
               "error_html": "The fluffy bits of the cloud aren't correct."
             },
             {
-              "name": "getCircleAt(40, 40, 15)",
+              "function": "getCircleAt(40, 40, 15)",
               "matcher": "toBeDefined",
               "error_html": "The fluffy bits of the cloud aren't correct."
             },
             {
-              "name": "getCircleAt(55, 40, 20)",
+              "function": "getCircleAt(55, 40, 20)",
               "matcher": "toBeDefined",
               "error_html": "The fluffy bits of the cloud aren't correct."
             },
             {
-              "name": "getCircleAt(75, 50, 10)",
+              "function": "getCircleAt(75, 50, 10)",
               "matcher": "toBeDefined",
               "error_html": "The fluffy bits of the cloud aren't correct."
             },
             {
-              "name": "getCircleAt(75, 50, 10)",
+              "function": "getCircleAt(75, 50, 10)",
               "matcher": "toBeDefined",
               "error_html": "The fluffy bits of the cloud aren't correct."
             },
             {
-              "name": "getEllipseAt(30, 70, 3, 5)",
+              "function": "getEllipseAt(30, 70, 3, 5)",
               "matcher": "toBeDefined",
               "error_html": "The first rain drop isn't correct"
             },
             {
-              "name": "getEllipseAt(50, 70, 3, 5)",
+              "function": "getEllipseAt(50, 70, 3, 5)",
               "matcher": "toBeDefined",
               "error_html": "The second rain drop isn't correct"
             },
             {
-              "name": "getEllipseAt(70, 70, 3, 5)",
+              "function": "getEllipseAt(70, 70, 3, 5)",
               "matcher": "toBeDefined",
               "error_html": "The third rain drop isn't correct"
             },
             {
-              "name": "getEllipseAt(40, 80, 3, 5)",
+              "function": "getEllipseAt(40, 80, 3, 5)",
               "matcher": "toBeDefined",
               "error_html": "The fourth rain drop isn't correct"
             },
             {
-              "name": "getEllipseAt(60, 80, 3, 5)",
+              "function": "getEllipseAt(60, 80, 3, 5)",
               "matcher": "toBeDefined",
               "error_html": "The fifth rain drop isn't correct"
             }

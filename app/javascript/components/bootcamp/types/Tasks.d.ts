@@ -8,33 +8,42 @@ declare type Task = {
   bonus?: boolean
 }
 
-type TestsType = 'io' | 'io/check' | 'state'
+type TestsType = 'io' | 'state'
 
 declare type TaskTest = {
   name: string
   slug: string
   data: any
-  function: string
-  params: string[]
   imageSlug?: string
-  matcher?: string
-  expected?: string
+  function: string
+  args?: any[]
+  type?: TestsType
   checks?: ExpectCheck[]
   setupFunctions: SetupFunction[]
   descriptionHtml?: string
-  check: {
-    function: string
-    expected: string
-    matcher?: string
-    errorHtml?: string
-  }
 }
 
-declare type ExpectCheck = {
-  name: string
+declare type ExpectCheck =
+  | ExpectCheckProperty
+  | ExpectCheckFunction
+  | ExpectCheckReturn
+declare type ExpectCheckProperty = {
+  property: string
   value?: any
-  label?: string
-  note?: string
+  matcher?: AvailableMatchers
+  errorHtml?: string
+  codeRun?: string
+}
+declare type ExpectCheckFunction = {
+  function: string
+  args?: any[]
+  value?: any
+  matcher?: AvailableMatchers
+  errorHtml?: string
+  codeRun?: string
+}
+declare type ExpectCheckReturn = {
+  value: any
   matcher?: AvailableMatchers
   errorHtml?: string
 }

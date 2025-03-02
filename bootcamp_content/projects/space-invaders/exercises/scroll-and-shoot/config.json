@@ -32,7 +32,7 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
@@ -64,13 +64,13 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "numTimesStatementUsed('RepeatStatement')",
+              "function": "numTimesStatementUsed('RepeatStatement')",
               "matcher": "toBe",
               "value": 0,
               "error_html": "You used the `repeat` keyword."
@@ -96,13 +96,13 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "numFunctionCallsInCode('shoot')",
+              "function": "numFunctionCallsInCode('shoot')",
               "value": 1,
               "error_html": "You used the `shoot()` function more than once."
             }

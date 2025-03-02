@@ -21,28 +21,28 @@
           "description_html": "Add the ball and make it bounce around the game area.",
           "checks": [
             {
-              "name": "numFunctionCalls('move_ball')",
+              "function": "numFunctionCalls('move_ball')",
               "value": 376,
               "matcher": "toBe",
               "error_html": "We expected the ball to move twice around the game area and land back in the same starting place."
             },
             {
-              "name": "didBallAppearAt(3, 50)",
+              "function": "didBallAppearAt(3, 50)",
               "matcher": "toBeTrue",
               "error_html": "The ball didn't seem to touch middle of the left hand side"
             },
             {
-              "name": "didBallAppearAt(97, 50)",
+              "function": "didBallAppearAt(97, 50)",
               "matcher": "toBeTrue",
               "error_html": "The ball didn't seem to touch middle of the right hand side"
             },
             {
-              "name": "didBallAppearAt(50, 3)",
+              "function": "didBallAppearAt(50, 3)",
               "matcher": "toBeTrue",
               "error_html": "The ball didn't seem to touch the top middle"
             },
             {
-              "name": "didBallAppearAt(50, 97)",
+              "function": "didBallAppearAt(50, 97)",
               "matcher": "toBeTrue",
               "error_html": "The ball didn't seem to touch bottom middle"
             }

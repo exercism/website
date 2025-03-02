@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react'
 import useTaskStore from '../store/taskStore/taskStore'
 import useTestStore from '../store/testStore'
-import { parseParams } from '../test-runner/generateAndRunTestSuite/parseParams'
+import { parseArgs } from '../test-runner/generateAndRunTestSuite/parseArgs'
 
 export function useSetupStores({
   exercise,
@@ -28,7 +28,7 @@ export function useSetupStores({
 
         return task.tests.map((test) => {
           if (!test.params) return test
-          test.params = parseParams(test.params)
+          test.params = parseArgs(test.params)
           return test
         })
       })

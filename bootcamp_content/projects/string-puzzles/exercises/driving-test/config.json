@@ -15,40 +15,60 @@
           "description_html": "They did everything right - wow!",
           "name": "The perfect student!",
           "function": "did_they_pass",
-          "params": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
-          "expected": true
+          "args": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "dangerous",
           "description_html": "We can't let this one on the road!",
           "name": "Danger to society",
           "function": "did_they_pass",
-          "params": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌✅"],
-          "expected": false
+          "args": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "one-big-mistake",
           "description_html": "One big mistake is all it takes to fail!",
           "name": "One big mistake.",
           "function": "did_they_pass",
-          "params": ["✅✅✅✅✅✅✅✅✅💥✅✅✅✅✅✅✅✅✅✅"],
-          "expected": false
+          "args": ["✅✅✅✅✅✅✅✅✅💥✅✅✅✅✅✅✅✅✅✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "scraped-through",
           "description_html": "They cut it close but they passed!",
           "name": "Scraped through.",
           "function": "did_they_pass",
-          "params": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️✅✅"],
-          "expected": true
+          "args": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️✅✅"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "one-mistake-too-many",
           "description_html": "All those little errors added up.",
           "name": "One mistake too many!",
           "function": "did_they_pass",
-          "params": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️❌️✅"],
-          "expected": false
+          "args": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️❌️✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         }
       ]
     }

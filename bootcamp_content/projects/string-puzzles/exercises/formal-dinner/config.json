@@ -14,35 +14,51 @@
           "description_html": "No-one's allowed in",
           "name": "Empty register",
           "function": "on_guest_list",
-          "params": [[], "Mr Pitt"],
-          "expected": false
+          "args": [[], "Mr Pitt"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "name-missing",
           "description_html": "The name's not on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
-          "params": [["Brian May", "Albert Einstein", "James Watt"], "Mr Pitt"],
-          "expected": false
+          "args": [["Brian May", "Albert Einstein", "James Watt"], "Mr Pitt"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "name-present",
           "description_html": "The name's on the list",
           "name": "Brad's allowed in",
           "function": "on_guest_list",
-          "params": [["Brian May", "Brad Pitt", "Albert Einstein"], "Mr Pitt"],
-          "expected": true
+          "args": [["Brian May", "Brad Pitt", "Albert Einstein"], "Mr Pitt"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "different-honorific",
           "description_html": "Handle a different honourific",
           "name": "Knight of the realm",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             ["Arthur Conan Doyle", "Bradley Cooper", "Albert Einstein"],
             "Lord Doyle"
           ],
-          "expected": true
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "bond-allowed",
@@ -50,11 +66,15 @@
           "name": "Mr Bond, I presume",
           "function": "on_guest_list",
 
-          "params": [
+          "args": [
             ["James Bond"],
             "setup.join(setup.randomHonorific(), \" Bond\")"
           ],
-          "expected": true
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "bond-not-allowed",
@@ -62,11 +82,15 @@
           "name": "Hmmm.. Mr Bond, I presume",
           "function": "on_guest_list",
 
-          "params": [
+          "args": [
             ["Jason Bourne"],
             "setup.join(setup.randomHonorific(), \" Bond\")"
           ],
-          "expected": false
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         }
       ]
     },
@@ -79,7 +103,7 @@
           "description_html": "Baron Lloyd Webber has two words in his surname!",
           "name": "How about a Baron?",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             [
               "Brian May",
               "Brad Pitt",
@@ -88,7 +112,11 @@
             ],
             "Baron Lloyd Webber"
           ],
-          "expected": true
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "bonus": true,
@@ -96,11 +124,15 @@
           "description_html": "A differ Webber doesn't count",
           "name": "Is Mark the Baron?",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             ["Brian May", "Brad Pitt", "Albert Einstein", "Mark Webber"],
             "Baron Lloyd Webber"
           ],
-          "expected": false
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         }
       ]
     }

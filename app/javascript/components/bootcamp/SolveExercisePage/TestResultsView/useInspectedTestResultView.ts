@@ -7,12 +7,11 @@ import { formatJikiObject } from '@/interpreter/helpers'
 
 export type ProcessedExpect = {
   diff: Change[]
-  testsType: TestsType
+  type: TestsType
   actual: any
   pass: boolean
-  label?: string
+  codeRun?: string
   errorHtml?: string
-  note?: string
   expected?: any
 }
 
@@ -79,10 +78,10 @@ function getfirstFailingExpect(
   if (!result) return null
   for (const expect of result.expects) {
     if (expect.pass === false) {
-      if (expect.testsType === 'state') {
+      if (result.type === 'state') {
         return {
           errorHtml: expect.errorHtml,
-          testsType: expect.testsType,
+          type: result.type,
           actual: expect.actual,
           pass: expect.pass,
           diff: [],
@@ -92,6 +91,7 @@ function getfirstFailingExpect(
       const { expected, actual } = expect
       return {
         ...expect,
+        type: result.type,
         diff: getDiffOfExpectedAndActual(false, expected, actual),
       }
     }
@@ -102,11 +102,11 @@ function getfirstFailingExpect(
 function processExpects(result: NewTestResult | null): ProcessedExpects {
   if (!result) return []
   return result.expects.map((expect) => {
-    if (expect.testsType === 'state') {
+    if (result.type === 'state') {
       // state expect
       return {
         errorHtml: expect.errorHtml,
-        testsType: 'state',
+        type: 'state',
         actual: expect.actual,
         pass: expect.pass,
         diff: [],
@@ -117,6 +117,7 @@ function processExpects(result: NewTestResult | null): ProcessedExpects {
     const { expected, actual } = expect
     return {
       ...expect,
+      type: result.type,
       diff: getDiffOfExpectedAndActual(expect.pass, expected, actual),
     }
   })

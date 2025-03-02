@@ -13,42 +13,55 @@
           "description_html": "No-one's allowed in",
           "name": "Empty register",
           "function": "on_guest_list",
-          "params": [[], "Brad"],
-          "expected": false
+          "args": [[], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "name-missing",
           "description_html": "The name's but on the list",
           "name": "Brad's turned away",
           "function": "on_guest_list",
-          "params": [["Brian May", "Bryn Harrison", "Albert Einstein"], "Brad"],
-          "expected": false
+          "args": [["Brian May", "Bryn Harrison", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "name-present",
           "description_html": "The name's on the list",
           "name": "Brad's allowed in",
           "function": "on_guest_list",
-          "params": [["Brian May", "Brad Pitt", "Albert Einstein"], "Brad"],
-          "expected": true
+          "args": [["Brian May", "Brad Pitt", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "similar-name",
           "description_html": "The name isn't on the list",
           "name": "Close, not nope",
           "function": "on_guest_list",
-          "params": [
-            ["Brian May", "Bradley Cooper", "Albert Einstein"],
-            "Brad"
-          ],
-          "expected": false
+          "args": [["Brian May", "Bradley Cooper", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "double-barrelled",
           "description_html": "The name's on the list, but it's hyphenated",
           "name": "A dutchman",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             [
               "Brian May",
               "Brad Pitt",
@@ -57,7 +70,11 @@
             ],
             "Derk-Jan"
           ],
-          "expected": true
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         }
       ]
     },
@@ -69,22 +86,30 @@
           "description_html": "Some people only have one name",
           "name": "Cher's in town",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             ["Cher", "Brian May", "Brad Pitt", "Albert Einstein"],
             "Cher"
           ],
-          "expected": true
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "cheryl",
           "description_html": "Are Cheryl Crow and Cher friends?",
           "name": "Getting tough now",
           "function": "on_guest_list",
-          "params": [
+          "args": [
             ["Cher", "Brian May", "Brad Pitt", "Albert Einstein"],
             "Cheryl"
           ],
-          "expected": false
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         }
       ]
     }

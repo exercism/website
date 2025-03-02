@@ -22,8 +22,9 @@ export function useMountViewOrImage({
       return
     }
     const Project = projectsCache.get(config.projectType)
+    let exercise: Exercise | null = null
     if (Project) {
-      const exercise: Exercise = new Project()
+      exercise = new Project()
 
       const setupFns = taskTest.setupFunctions || []
 
@@ -39,19 +40,19 @@ export function useMountViewOrImage({
           ;(exercise[functionName] as Function)(null, ...params)
         }
       })
-      if (exercise && exercise.getView()) {
-        const view = exercise.getView()
+    }
+    if (exercise && exercise.getView()) {
+      const view = exercise.getView()
 
-        if (viewContainerRef.current.children.length > 0) {
-          const oldView = viewContainerRef.current.children[0] as HTMLElement
-          document.body.appendChild(oldView)
-          oldView.style.display = 'none'
-        }
-
-        viewContainerRef.current.innerHTML = ''
-        viewContainerRef.current.appendChild(view)
-        view.style.display = 'block'
+      if (viewContainerRef.current.children.length > 0) {
+        const oldView = viewContainerRef.current.children[0] as HTMLElement
+        document.body.appendChild(oldView)
+        oldView.style.display = 'none'
       }
+
+      viewContainerRef.current.innerHTML = ''
+      viewContainerRef.current.appendChild(view)
+      view.style.display = 'block'
     } else {
       let img
       if (viewContainerRef.current.children.length > 0) {

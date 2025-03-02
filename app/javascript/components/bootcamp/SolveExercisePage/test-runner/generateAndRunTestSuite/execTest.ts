@@ -55,7 +55,7 @@ export function execTest(
     slug: testData.slug,
     codeRun,
     frames,
-    type: testData.type || (exercise ? 'state' : 'io'),
+    type: options.config.testsType || (exercise ? 'state' : 'io'),
     animationTimeline,
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),

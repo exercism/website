@@ -2,5 +2,5 @@
   "slug": "data-puzzles",
   "title": "Data Puzzles",
   "description": "An assortment of puzzles to do with data manipulation",
-  "exercises": ["llm-response", "spotify"]
+  "exercises": ["time-lookup", "llm-response", "spotify"]
 }

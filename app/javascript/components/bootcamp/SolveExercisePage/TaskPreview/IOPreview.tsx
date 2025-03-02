@@ -7,6 +7,7 @@ export function IOPreview({
 }: {
   inspectedPreviewTaskTest: TaskTest
 }) {
+  const expected = inspectedPreviewTaskTest.checks?.[0].value
   return (
     <div className="scenario-lhs">
       <div className="scenario-lhs-content">
@@ -19,12 +20,12 @@ export function IOPreview({
             <CodeRun
               codeRun={generateCodeRunString(
                 inspectedPreviewTaskTest.function,
-                inspectedPreviewTaskTest.params
+                inspectedPreviewTaskTest.args || []
               )}
             />
             <tr>
               <th>Expected:</th>
-              <td>{formatJikiObject(inspectedPreviewTaskTest.expected)}</td>
+              <td>{formatJikiObject(expected)}</td>
             </tr>
           </tbody>
         </table>

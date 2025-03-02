@@ -7,7 +7,7 @@ import { InterpretResult } from '@/interpreter/interpreter'
 
 export default class DataExercise extends Exercise {
   public constructor() {
-    super('data')
+    super()
   }
 
   public getState() {
@@ -25,6 +25,12 @@ export default class DataExercise extends Exercise {
     if (!(params instanceof Jiki.Dictionary))
       return executionCtx.logicError('Params must be a dictionary')
 
+    if (url.value == 'https://myllm.com/api/v2/qanda') {
+      return this.llmRequest(executionCtx, params)
+    }
+    if (url.value == 'https://timeapi.io/api/time/current/city') {
+      return this.timeRequest(executionCtx, params)
+    }
     if (url.value.startsWith('https://api.spotify.com/v1/users/')) {
       return this.spotifyUserRequest(executionCtx, url.value)
     }
@@ -32,6 +38,149 @@ export default class DataExercise extends Exercise {
       return this.spotifyArtistRequest(executionCtx, url.value)
     } else {
       return Jiki.wrapJSToJikiObject({ error: 'Unknown URL' })
+    }
+  }
+
+  private timeRequest(
+    executionCtx: ExecutionContext,
+    params: Jiki.Dictionary
+  ): Jiki.Dictionary {
+    const city = params.value.get('city')
+    if (!city) {
+      executionCtx.logicError('Please specify a city')
+    }
+    if (city.value == 'Amsterdam') {
+      return Jiki.wrapJSToJikiObject({
+        year: 2025,
+        month: 3,
+        day: 3,
+        hour: 0,
+        minute: 28,
+        seconds: 27,
+        milliSeconds: 342,
+        dateTime: '2025-03-03T00:28:27.3427549',
+        date: '03/03/2025',
+        time: '00:28',
+        timeZone: 'Amsterdam',
+        dayOfWeek: 'Monday',
+        dstActive: false,
+      })
+    } else if (city.value == 'Amsterdam') {
+      return Jiki.wrapJSToJikiObject({
+        year: 2025,
+        month: 3,
+        day: 3,
+        hour: 8,
+        minute: 39,
+        seconds: 6,
+        milliSeconds: 766,
+        dateTime: '2025-03-03T08:39:06.7669212',
+        date: '03/03/2025',
+        time: '08:39',
+        city: 'Asia/Tokyo',
+        dayOfWeek: 'Monday',
+        dstActive: false,
+      })
+    } else if (city.value == 'Tokyo') {
+      return Jiki.wrapJSToJikiObject({
+        year: 2025,
+        month: 3,
+        day: 3,
+        hour: 8,
+        minute: 39,
+        seconds: 6,
+        milliSeconds: 766,
+        dateTime: '2025-03-03T08:39:06.7669212',
+        date: '03/03/2025',
+        time: '08:39',
+        city: 'Asia/Tokyo',
+        dayOfWeek: 'Monday',
+        dstActive: false,
+      })
+    } else if (city.value == 'Lima') {
+      return Jiki.wrapJSToJikiObject({
+        year: 2025,
+        month: 3,
+        day: 2,
+        hour: 18,
+        minute: 39,
+        seconds: 51,
+        milliSeconds: 160,
+        dateTime: '2025-03-02T18:39:51.1605098',
+        date: '03/02/2025',
+        time: '18:39',
+        city: 'Lima',
+        dayOfWeek: 'Sunday',
+        dstActive: false,
+      })
+    } else {
+      return Jiki.wrapJSToJikiObject({ error: 'Could not determine the time.' })
+    }
+  }
+
+  private llmRequest(
+    executionCtx: ExecutionContext,
+    params: Jiki.Dictionary
+  ): Jiki.Dictionary {
+    const question = params.value.get('question')
+    if (!question) {
+      executionCtx.logicError('Please specify a question')
+    }
+
+    if (question.value == "Who won the 1966 Football Men's World Cup?") {
+      return Jiki.wrapJSToJikiObject({
+        response: {
+          question: "Who won the 1966 Football Men's World Cup?",
+          answers: [{ text: 'England', certainty: '1' }],
+        },
+        meta: {
+          time: '500ms',
+        },
+      })
+    } else if (
+      question.value == "What's the best cacao percentage in chocolate?"
+    ) {
+      return Jiki.wrapJSToJikiObject({
+        response: {
+          question: "What's the best cacao percentage in chocolate?",
+          answers: [
+            {
+              text: 'Everyone loves a sugar free 100% experience',
+              certainty: '0.64',
+            },
+            {
+              text: 'The deep sensations of 82% are the best',
+              certainty: '0.78',
+            },
+            { text: 'The sweet spot is 70%', certainty: '0.77' },
+            {
+              text: 'If you have a sweet tooth, 60% is for you',
+              certainty: '0.52',
+            },
+          ],
+        },
+        meta: {
+          time: '123ms',
+        },
+      })
+    } else if (question.value == "What's the best website to learn to code?") {
+      return Jiki.wrapJSToJikiObject({
+        response: {
+          question: "What's the best website to learn to code?",
+          answers: [
+            { text: 'Codecademy is the best', certainty: '0.04' },
+            { text: 'FreeCodeCamp is the best', certainty: '0.78' },
+            { text: 'Khan Academy is the best', certainty: '0.77' },
+            { text: 'Exercism is the best', certainty: '0.99' },
+            { text: 'Coursera is the best', certainty: '0.52' },
+          ],
+        },
+        meta: {
+          time: '1264ms',
+        },
+      })
+    } else {
+      return Jiki.wrapJSToJikiObject({ error: 'Could not determine answer' })
     }
   }
 

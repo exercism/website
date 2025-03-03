@@ -17,6 +17,8 @@ There is one change, and that's the addition of a new method `remove_emoji()`. P
 Under the hood, that used the square's method.
 Now you should use the method directly.
 
+If you've not covered methods yet, all you need to know for now is that rather than writing `remove_emoji(square)`, you write `square.remove_emoji()`!
+
 ## Instructions
 
 Your job is to upgrade your code to deal without having the built-in `look` function.

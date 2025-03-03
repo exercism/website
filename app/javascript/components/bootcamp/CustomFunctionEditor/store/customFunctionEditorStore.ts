@@ -157,7 +157,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             const newTests = [
               ...state.tests,
               {
-                params: '',
+                args: '',
                 expected: '',
                 uuid: newUuid,
               },

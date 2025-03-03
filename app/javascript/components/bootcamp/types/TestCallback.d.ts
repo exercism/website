@@ -6,6 +6,7 @@ declare global {
     codeRun: string
     frames: Frame[]
     animationTimeline: TAnimationTimeline | null
+    type: TestsType
     view?: HTMLElement
     imageSlug?: string
   }

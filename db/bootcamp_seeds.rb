@@ -61,6 +61,7 @@ projects = %w[
   games-and-apps
   breakout
   wordle
+  data-puzzles
 ]
 
 projects.each do |project_slug|

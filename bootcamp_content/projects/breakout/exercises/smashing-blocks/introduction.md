@@ -27,6 +27,13 @@ Once you've hit the final block, you should no longer move the ball (and should 
 
 For this exercise (if completed properly), the ball will only ever hit the bottom of the block (which saves you a lot of coding!)
 
+The resulting game should look like this:
+
+<details><summary>Click to expand</summary>
+
+<img src="https://assets.exercism.org/bootcamp/graphics/breakout-smashing-blocks.gif" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
+</details>
+
 ### Functions
 
 You have one function available:

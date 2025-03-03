@@ -5,7 +5,7 @@
   "idx": 2,
   "project_type": "maze",
   "tests_type": "state",
-  "stdlib_functions": "has_key",
+  "stdlib_functions": ["has_key"],
   "exercise_functions": [
     "move",
     "turn_left",
@@ -49,12 +49,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 6],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "collectedEmojis",
+              "property": "collectedEmojis",
               "value": { "💎": 3 },
               "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"💎\": 3}</code>"
             }
@@ -88,12 +88,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [8, 2],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "collectedEmojis",
+              "property": "collectedEmojis",
               "value": { "🤡": 2, "🥰": 1 },
               "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"🤡\": 2, \"🥰\": 1 }</code>"
             }
@@ -127,12 +127,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 8],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "collectedEmojis",
+              "property": "collectedEmojis",
               "value": { "🐈": 1, "🐶": 2 },
               "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"🐈\": 1, \"🐶\": 2 }</code>"
             }
@@ -166,12 +166,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 0],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "collectedEmojis",
+              "property": "collectedEmojis",
               "value": { "🩷": 3, "🎀": 1, "👑": 2 },
               "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{ \"🩷\": 3, \"🎀\": 1, \"👑\": 2 }</code>"
             }
@@ -205,12 +205,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 1],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "randomEmojisAllCollected()",
+              "function": "randomEmojisAllCollected",
               "matcher": "toBeTrue",
               "error_html": "You didn't report the collected emojis correctly."
             }

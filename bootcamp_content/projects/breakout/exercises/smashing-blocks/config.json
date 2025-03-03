@@ -23,17 +23,17 @@
           "description_html": "Add 5 blocks to the game area, then smash them!",
           "checks": [
             {
-              "name": "numBlocks",
+              "property": "numBlocks",
               "value": 5,
               "error_html": "You didn't create exactly 5 blocks."
             },
             {
-              "name": "numSmashedBlocks",
+              "property": "numSmashedBlocks",
               "value": 5,
               "error_html": "You didn't smash all the blocks"
             },
             {
-              "name": "numBallPositions",
+              "property": "numBallPositions",
               "value": 504,
               "error_html": "You moved the ball more times than you needed to!"
             }
@@ -55,17 +55,17 @@
           ],
           "checks": [
             {
-              "name": "numBlocks",
+              "property": "numBlocks",
               "value": 5,
               "error_html": "You didn't create exactly 5 blocks."
             },
             {
-              "name": "numSmashedBlocks",
+              "property": "numSmashedBlocks",
               "value": 5,
               "error_html": "You didn't smash all the blocks"
             },
             {
-              "name": "numBallPositions",
+              "property": "numBallPositions",
               "value": 459,
               "error_html": "You moved the ball more times than you needed to!"
             }

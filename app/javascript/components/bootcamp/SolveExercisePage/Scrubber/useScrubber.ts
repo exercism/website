@@ -304,6 +304,8 @@ export function useScrubber({
     frames: Frame[],
     timelineTime: number
   ): Frame | undefined => {
+    if (!frames.length) return undefined
+
     // If we're past the last frame, return the last frame
     if (timelineTime > frames[frames.length - 1].timelineTime) {
       return frames[frames.length - 1]
@@ -315,6 +317,8 @@ export function useScrubber({
     frames: Frame[],
     timelineTime: number
   ): number | undefined => {
+    if (!frames.length) return undefined
+
     const id = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
     return id == -1 ? undefined : id
   }
@@ -391,5 +395,5 @@ export function calculateMaxInputValue(
     ? Math.ceil(
         animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
       )
-    : frames[frames.length - 1].timelineTime
+    : frames[frames.length - 1]?.timelineTime || 0
 }

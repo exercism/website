@@ -18,8 +18,12 @@
           "type": "io",
           "name": "Number 1",
           "function": "positive_negative_or_zero",
-          "params": [1],
-          "expected": "Positive",
+          "args": [1],
+          "checks": [
+            {
+              "value": "Positive"
+            }
+          ],
           "image_slug": "number-puzzles/positive-negative-or-zero/1.png"
         },
         {
@@ -27,8 +31,12 @@
           "type": "io",
           "name": "Number 20",
           "function": "positive_negative_or_zero",
-          "params": [20],
-          "expected": "Positive",
+          "args": [20],
+          "checks": [
+            {
+              "value": "Positive"
+            }
+          ],
           "image_slug": "number-puzzles/positive-negative-or-zero/20.png"
         }
       ]
@@ -41,8 +49,12 @@
           "type": "io",
           "name": "Number -1",
           "function": "positive_negative_or_zero",
-          "params": [-1],
-          "expected": "Negative",
+          "args": [-1],
+          "checks": [
+            {
+              "value": "Negative"
+            }
+          ],
           "image_slug": "number-puzzles/positive-negative-or-zero/-1.png"
         },
         {
@@ -50,8 +62,12 @@
           "type": "io",
           "name": "Number -20",
           "function": "positive_negative_or_zero",
-          "params": [-20],
-          "expected": "Negative",
+          "args": [-20],
+          "checks": [
+            {
+              "value": "Negative"
+            }
+          ],
           "image_slug": "number-puzzles/positive-negative-or-zero/-20.png"
         }
       ]
@@ -64,8 +80,12 @@
           "type": "io",
           "name": "Number 0",
           "function": "positive_negative_or_zero",
-          "params": [0],
-          "expected": "Zero",
+          "args": [0],
+          "checks": [
+            {
+              "value": "Zero"
+            }
+          ],
           "image_slug": "number-puzzles/positive-negative-or-zero/0.png"
         }
       ]

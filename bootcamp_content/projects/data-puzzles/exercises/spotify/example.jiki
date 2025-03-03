@@ -1,0 +1,50 @@
+function length with list do
+  set counter to 0
+  for each x in list do
+    change counter to counter + 1
+  end
+  return counter
+end
+function to_sentence with list do
+  set num_artists to length(list)
+  set res to ""
+  for each word in list indexed by idx do
+    change res to concatenate(res, word)
+    if(idx < num_artists -1 ) do
+      change res to concatenate(res, ", ")
+    else if idx == num_artists - 1 do
+      change res to concatenate(res, ", and ")
+    end
+  end
+  return res
+end
+  
+function has_key with dict, key do
+  for each k,v in dict do
+    if k == key do
+      return true
+    end
+  end
+  return false
+end
+
+
+function favorite_artists with username do
+  set url to concatenate("https://api.spotify.com/v1/users/", username)
+  set user_resp to fetch(url, {})
+  if has_key(user_resp, "error") do
+    return concatenate("Error: ", user_resp["error"])
+  end
+  set artist_urls to []
+  for each item in user_resp["items"] do
+    change artist_urls to push(artist_urls, item["urls"]["spotify_api"])
+  end
+  
+  set artist_names to []
+  for each artist_url in artist_urls do
+    change artist_names to push(artist_names, fetch(artist_url, {})["name"])
+  end
+
+  set res to concatenate(username, "'s most listened to artists are: ")
+  return concatenate(res, to_sentence(artist_names), "!")
+end

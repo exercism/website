@@ -13,40 +13,60 @@
           "description_html": "Empty strands have a Hamming distance of 0.",
           "name": "Empty strands",
           "function": "hamming_distance",
-          "params": ["", ""],
-          "expected": 0
+          "args": ["", ""],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
         },
         {
           "slug": "hamming-single-letter-identical",
           "description_html": "Single-letter identical strands have a Hamming distance of 0.",
           "name": "Single letter identical strands",
           "function": "hamming_distance",
-          "params": ["A", "A"],
-          "expected": 0
+          "args": ["A", "A"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
         },
         {
           "slug": "hamming-long-identical-strands",
           "description_html": "Long identical strands have a Hamming distance of 0.",
           "name": "Long identical strands",
           "function": "hamming_distance",
-          "params": ["GGACTGAAATCTG", "GGACTGAAATCTG"],
-          "expected": 0
+          "args": ["GGACTGAAATCTG", "GGACTGAAATCTG"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
         },
         {
           "slug": "hamming-single-letter-different",
           "description_html": "Single-letter different strands have a Hamming distance of 1.",
           "name": "Single letter different strands",
           "function": "hamming_distance",
-          "params": ["G", "T"],
-          "expected": 1
+          "args": ["G", "T"],
+          "checks": [
+            {
+              "value": 1
+            }
+          ]
         },
         {
           "slug": "hamming-long-different-strands",
           "description_html": "Long strands with differences have a calculated Hamming distance.",
           "name": "Long different strands",
           "function": "hamming_distance",
-          "params": ["GGACGGATTCTG", "AGGACGGATTCT"],
-          "expected": 9
+          "args": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "checks": [
+            {
+              "value": 9
+            }
+          ]
         }
       ]
     },
@@ -59,12 +79,20 @@
           "description_html": "Solve the Hamming distance in 11 lines of code.",
           "name": "11 lines of code",
           "function": "hamming_distance",
-          "params": ["GGACGGATTCTG", "AGGACGGATTCT"],
-          "expected": 9,
+          "args": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "checks": [
+            {
+              "value": 9
+            }
+          ],
           "check": {
             "function": "numLinesOfCode()",
             "matcher": "toBeLessThanOrEqual",
-            "expected": 11,
+            "checks": [
+              {
+                "value": 11
+              }
+            ],
             "error_html": "You have more than 11 lines of code."
           }
         }

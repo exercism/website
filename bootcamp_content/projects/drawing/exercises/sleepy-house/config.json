@@ -21,77 +21,77 @@
           "name": "Draw the house.",
           "checks": [
             {
-              "name": "getRectangleAt(20,50,60,40)",
+              "function": "getRectangleAt(20,50,60,40)",
               "matcher": "toBeDefined",
               "error_html": "The frame of the house is not correct."
             },
             {
-              "name": "getTriangleAt(16,50, 50,30, 84,50)",
+              "function": "getTriangleAt(16,50, 50,30, 84,50)",
               "matcher": "toBeDefined",
               "error_html": "The roof of the house is not at the correct position."
             },
             {
-              "name": "getRectangleAt(30,55,12,13)",
+              "function": "getRectangleAt(30,55,12,13)",
               "matcher": "toBeDefined",
               "error_html": "The left window frame isn't positioned correctly"
             },
             {
-              "name": "getRectangleAt(58,55,12,13)",
+              "function": "getRectangleAt(58,55,12,13)",
               "matcher": "toBeDefined",
               "error_html": "The right window frame isn't positioned correctly"
             },
             {
-              "name": "getRectangleAt(43,72,14,18)",
+              "function": "getRectangleAt(43,72,14,18)",
               "matcher": "toBeDefined",
               "error_html": "The door frame isn't positioned correctly"
             },
             {
-              "name": "getCircleAt(55,81,1)",
+              "function": "getCircleAt(55,81,1)",
               "matcher": "toBeDefined",
               "error_html": "The door knob isn't positiioned correctly"
             },
             {
-              "name": "checkSunSet()",
+              "function": "checkSunSet()",
               "matcher": "toBeTrue",
               "error_html": "The sun didn't seem to reach -4,90."
             },
             {
-              "name": "checkLightsOn()",
+              "function": "checkLightsOn()",
               "matcher": "toBeTrue",
               "error_html": "The window lights didn't seem to come on."
             },
             {
-              "name": "checkSunBeforeLights()",
+              "function": "checkSunBeforeLights()",
               "matcher": "toBeTrue",
               "error_html": "The window lights came on before the sun set."
             },
             {
-              "name": "checkLightsBeforeBrightness()",
+              "function": "checkLightsBeforeBrightness()",
               "matcher": "toBeTrue",
               "error_html": "The window lights came on after the brightness was reduced."
             },
             {
-              "name": "skyReachedHue192()",
+              "function": "skyReachedHue192()",
               "matcher": "toBeTrue",
               "error_html": "The sky didn't seem to change hue correctly."
             },
             {
-              "name": "skyReachedHue310()",
+              "function": "skyReachedHue310()",
               "matcher": "toBeTrue",
               "error_html": "The sky didn't seem to reach hue 310."
             },
             {
-              "name": "elementsReachedBrightness80()",
+              "function": "elementsReachedBrightness80()",
               "matcher": "toBeTrue",
               "error_html": "The house, sky and ground, didn't all seem to reduce in brightness correctly."
             },
             {
-              "name": "elementsReachedBrightness20()",
+              "function": "elementsReachedBrightness20()",
               "matcher": "toBeTrue",
               "error_html": "The house, sky and ground, didn't all seem to reduce to brightness 20."
             },
             {
-              "name": "elementsReachedBrightness19()",
+              "function": "elementsReachedBrightness19()",
               "matcher": "toBeTrue",
               "error_html": "At least one of the house, sky and ground reduced brightness by too much!"
             }
@@ -108,7 +108,7 @@
           "name": "Use 20 lines or fewer",
           "checks": [
             {
-              "name": "numLinesOfCode(0)",
+              "function": "numLinesOfCode(0)",
               "matcher": "toBeLessThanOrEqual",
               "value": 20,
               "error_html": "There are more than 20 lines of code."

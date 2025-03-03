@@ -45,7 +45,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 6],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -81,12 +81,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [8, 5],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "direction",
+              "property": "direction",
               "value": "right",
               "error_html": "You seem to have done an extra unnecessary turn at the end."
             }
@@ -122,7 +122,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 5],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -153,7 +153,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [8, 2],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -189,7 +189,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 7],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -220,7 +220,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 8],
               "error_html": "You didn't reach the end of the maze."
             }

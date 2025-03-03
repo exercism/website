@@ -10,6 +10,7 @@ import type { ExecutionContext, ExternalFunction } from './executor'
 import type { Frame } from './frames'
 import { Arity } from './functions'
 import * as Jiki from './jikiObjects'
+import { StdlibFunctions } from './stdlib'
 
 export type FrameContext = {
   result: any
@@ -178,6 +179,7 @@ export class Interpreter {
     const code = customFunctions.map((fn) => fn.code).join('\n')
     const interpreter = new Interpreter(code, {
       languageFeatures: { customFunctionDefinitionMode: true },
+      externalFunctions: Object.values(StdlibFunctions),
     })
     interpreter.compile()
 

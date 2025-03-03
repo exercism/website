@@ -10,7 +10,7 @@ export function filteredStdLibFunctions(required: string[]) {
     .map(([_, v]) => v)
 }
 
-const StdlibFunctions: Record<string, ExternalFunction> = {
+export const StdlibFunctions: Record<string, ExternalFunction> = {
   join: {
     name: 'join',
     func: join,

@@ -32,7 +32,7 @@ A couple more important notes:
 
 ## Custom Functions
 
-There are lots of ways to solve this, but you maybe find it helpful to include your `my#length` and `my#contains` custom functions.
+There are lots of ways to solve this, but you maybe find it helpful to include your [`my#length`](/bootcamp/custom_functions/length/edit) and [`my#contains`](/bootcamp/custom_functions/contains/edit) custom functions.
 
 ## Functions
 

@@ -69,9 +69,7 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         [["he", 1, false], "he"] => true,
         [["he", 1, false], 1] => true,
         [["he", 1, false], false] => true,
-        [["he", 1, false], "foo"] => false,
-        ["", ""] => true,
-        [[], []] => false
+        [["he", 1, false], "foo"] => false
       }
     },
     to_sentence: {
@@ -86,6 +84,16 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         [["the"], false] => "the",
         [[], true] => "",
         [[], false] => ""
+      }
+    },
+    has_key: {
+      description: "Determines whether a dictionary has a specific key, and returns the result as a boolean.",
+      params: %w[dict key],
+      tests: {
+        [{ "name": "Jeremy" }, "name"] => true,
+        [{ "name": "Jeremy", "age": 41 }, "age"] => true,
+        [{ "name": "Jeremy" }, "age"] => false,
+        [{ "name": "Jeremy", "age": 41 }, "hobbies"] => false
       }
     }
   }.freeze

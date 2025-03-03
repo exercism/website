@@ -24,16 +24,16 @@ We've given you your emoji-collector code as your starting point, and left the s
 
 Once you've got things green, take a look for opportunities to tidy your code now the underlying data has changed.
 
+## Custom Functions
+
+This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+
 ### Recap
 
 Special emojis. Avoid these:
 
 - `"🔥"` (Careful!)
 - `"💩"` (Ewww)
-
-Dictionary functions:
-
-- `has_key(dict, key)`: Takes a dictionary and a string, and returns whether the string is a key in the dictionary.
 
 Game functions:
 

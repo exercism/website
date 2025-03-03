@@ -29,7 +29,7 @@ A couple of notes:
 
 ## Custom Functions
 
-This function will probably benefit from your `my#contains` custom function!
+This function will probably benefit from your [`my#contains`](/bootcamp/custom_functions/contains/edit) custom function!
 
 ## Functions
 

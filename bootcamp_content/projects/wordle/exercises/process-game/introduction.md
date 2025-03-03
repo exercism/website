@@ -49,7 +49,7 @@ color_top_row(1, ["present", "present", "present", "present", "present"])
 
 ## Custom Functions
 
-This exercise might benefit from your [`my#contains`]("/bootcamp/custom_functions/contains") custom function!
+This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions/contains) custom function!
 
 ## Functions
 

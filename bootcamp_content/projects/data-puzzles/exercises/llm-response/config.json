@@ -1,8 +1,8 @@
 {
   "title": "LLM Response",
   "description": "Parse the response from an LLM",
-  "level": 5,
-  "idx": 1,
+  "level": 7,
+  "idx": 9,
   "tests_type": "io",
   "project_type": "data",
   "stdlib_functions": [

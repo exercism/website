@@ -1,8 +1,8 @@
 {
   "title": "Spotify Data",
   "description": "Parse data back from Spotify",
-  "level": 5,
-  "idx": 1,
+  "level": 7,
+  "idx": 8,
   "tests_type": "io",
   "project_type": "data",
   "stdlib_functions": ["concatenate", "push"],

@@ -1,8 +1,8 @@
 {
   "title": "Sieve of Eratosthenes",
   "description": "Find all prime numbers up to a given limit using the Sieve of Eratosthenes.",
-  "level": 4,
-  "idx": 4,
+  "level": 7,
+  "idx": 10,
   "tests_type": "io",
   "stdlib_functions": ["push"],
   "interpreter_options": {

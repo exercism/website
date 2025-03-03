@@ -7,7 +7,7 @@ class Bootcamp::CustomFunction < ApplicationRecord
 
   before_create do
     self.uuid = SecureRandom.compact_uuid unless uuid.present?
-    self.name = "my#custom_function_#{user.bootcamp_custom_functions.count + 1}" unless name.present?
+    self.name = "my#func_#{SecureRandom.hex(3)}" unless name.present?
     self.arity = 0 unless arity.present?
     self.code = "function #{name} do\n\n\nend" unless code.present?
     self.description = "" unless self.description.present?

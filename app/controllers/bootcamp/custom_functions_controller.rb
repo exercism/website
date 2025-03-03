@@ -5,7 +5,7 @@ class Bootcamp::CustomFunctionsController < Bootcamp::BaseController
 
   def create
     @custom_function = current_user.bootcamp_custom_functions.create!
-    redirect_to [:edit, @custom_function.short_name]
+    redirect_to edit_bootcamp_custom_function_path(@custom_function.short_name)
   end
 
   def edit

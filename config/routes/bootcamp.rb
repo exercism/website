@@ -8,6 +8,7 @@ namespace :bootcamp do
   end
   resources "exercises", param: :slug, only: %i[index]
   resources "drawings", param: :uuid, only: %i[create edit]
+  resources "custom_functions", param: :short_name, only: %i[create index edit]
 
   namespace :admin do
     resource :settings, only: [:show] do

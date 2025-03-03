@@ -1,0 +1,83 @@
+.namespace-bootcamp.controller-custom_functions.action-edit {
+    #scrubber {
+        @apply border-t-0;
+    }
+    .page-body-rhs {
+        @apply overflow-auto;
+        input,
+        textarea {
+            @apply text-15;
+        }
+    }
+    .collapsed {
+        @apply p-12 border-2 rounded-5;
+        @apply cursor-pointer;
+
+        &.pending {
+            @apply border-blue-300;
+            @apply bg-blue-100;
+        }
+        &.pass {
+            @apply border-bootcamp-success-dark;
+            @apply bg-bootcamp-success-light;
+        }
+        &.fail {
+            @apply border-bootcamp-fail-dark;
+            @apply bg-bootcamp-fail-light;
+        }
+    }
+    .c-scenario {
+        @apply flex flex-col;
+        .header {
+            @apply flex items-center py-8 px-12 border-b-1;
+        }
+
+        .scenario-lhs,
+        .scenario-lhs-content,
+        .io-test-result-info {
+            @apply !w-fill;
+            @apply !border-r-0;
+        }
+
+        .io-test-result-info {
+            td > div {
+            }
+            &.edit-mode {
+                td.editable {
+                    @apply !bg-transparent;
+                    @apply !p-[1px];
+                    & > input,
+                    .c-faux-input {
+                        @apply py-[4px] px-[7px];
+                        @apply border-2 border-bootcamp-purple;
+                        @apply bg-white;
+                        @apply rounded-5;
+                        @apply !w-fill;
+                        @apply !text-[15px];
+                    }
+                }
+            }
+        }
+
+        &.inspected {
+            .c-scenario {
+                @apply outline-dashed;
+            }
+        }
+        &.pending {
+            .header {
+                @apply border-blue-300;
+            }
+        }
+        &.pass {
+            .header {
+                @apply border-bootcamp-success-dark;
+            }
+        }
+        &.fail {
+            .header {
+                @apply border-bootcamp-fail-dark;
+            }
+        }
+    }
+}

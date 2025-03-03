@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { Instructions } from './Instructions/Instructions'
@@ -21,6 +21,8 @@ export default function SolveExercisePage({
   code,
   links,
   solution,
+  activeCustomFunctions,
+  availableCustomFunctions,
 }: SolveExercisePageProps): JSX.Element {
   const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
     useTaskStore()
@@ -33,6 +35,11 @@ export default function SolveExercisePage({
       readonlyRanges: code.readonlyRanges,
     }
   )
+
+  useEffect(() => {
+    console.log('available functions', availableCustomFunctions)
+    console.log('active functions', activeCustomFunctions)
+  }, [])
 
   const [exerciseLocalStorageData, setExerciseLocalStorageData] =
     useLocalStorage<{
@@ -57,7 +64,14 @@ export default function SolveExercisePage({
     setExerciseLocalStorageData,
   })
 
-  useSetupStores({ exercise, code, solution })
+  useSetupStores({
+    exercise,
+    code,
+    solution,
+    availableCustomFunctions,
+    activeCustomFunctions,
+  })
+
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,

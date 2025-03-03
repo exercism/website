@@ -12,9 +12,11 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 function Scrubber({
   animationTimeline,
   frames,
+  context,
 }: {
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
+  context?: string
 }) {
   const [_, setIsPlaying] = useState(false)
 
@@ -36,6 +38,7 @@ function Scrubber({
     animationTimeline,
     frames,
     hasCodeBeenEdited,
+    context,
   })
 
   return (

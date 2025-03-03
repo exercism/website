@@ -42,17 +42,34 @@ module ReactComponents
           readonly_ranges:,
           default_readonly_ranges: exercise.readonly_ranges
         },
+        available_custom_functions:,
+        active_custom_functions:,
         links: {
           post_submission: Exercism::Routes.api_bootcamp_solution_submissions_url(solution_uuid: solution.uuid, only_path: true),
           complete_solution: Exercism::Routes.complete_api_bootcamp_solution_url(solution.uuid, only_path: true),
           projects_index: Exercism::Routes.bootcamp_projects_url(only_path: true),
           dashboard_index: Exercism::Routes.bootcamp_dashboard_url(only_path: true),
-          bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx")
+          bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx"),
+          custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
+          get_custom_fns: Exercism::Routes.api_bootcamp_custom_functions_url,
+          get_custom_fns_for_interpreter: Exercism::Routes.for_interpreter_api_bootcamp_custom_functions_url
         }
       }
     end
 
     private
+    def available_custom_functions
+      current_user.bootcamp_custom_functions.active.map do |custom_function|
+        SerializeBootcampCustomFunctionSummary.(custom_function)
+      end
+    end
+
+    def active_custom_functions
+      return [] unless submission
+
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission.custom_functions)
+    end
+
     def readonly_ranges
       return submission.readonly_ranges if submission
 

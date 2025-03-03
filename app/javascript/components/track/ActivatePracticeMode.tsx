@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ActivatePracticeModeModal } from '../dropdowns/track-menu/ActivatePracticeModeModal'
-import { useLogger } from '@/hooks'
 
 export default function ActivatePracticeMode({
   endpoint,

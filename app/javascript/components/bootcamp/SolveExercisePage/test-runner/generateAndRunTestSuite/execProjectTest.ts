@@ -32,6 +32,7 @@ export function execProjectTest(
     externalFunctions,
     classes: exercise.availableClasses || [],
     languageFeatures: options.config.interpreterOptions,
+    customFunctions: options.customFunctions,
   }
 
   ;(testData.setupFunctions || []).forEach((functionData) => {

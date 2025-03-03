@@ -26,7 +26,7 @@ export function ResetButton() {
     <>
       <button
         onClick={() => setShouldOpenConfirmationModal(true)}
-        className={assembleClassNames('btn-secondary btn-xxs ml-8')}
+        className={assembleClassNames('btn-default btn-xxs')}
       >
         Reset
       </button>

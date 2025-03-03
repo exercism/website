@@ -5,6 +5,21 @@ import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 import { generateCodeRunString } from '../../utils/generateCodeRunString'
 import { parseParams } from './parseParams'
 
+const customFunctions = [
+  {
+    name: 'my#length',
+    arity: 1,
+    code: `
+    function my#length with string do
+      set counter to 0
+      for each character in string do
+        change counter to counter + 1
+        end
+      return counter
+    end`,
+  },
+]
+
 /**
  This is of type TestCallback
  */
@@ -16,6 +31,7 @@ export function execGenericTest(
 
   const context = {
     externalFunctions: filteredStdLibFunctions(options.config.stdlibFunctions),
+    customFunctions: options.customFunctions,
     languageFeatures: options.config.interpreterOptions,
   }
 

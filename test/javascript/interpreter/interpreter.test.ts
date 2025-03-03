@@ -2,9 +2,11 @@ import {
   Interpreter,
   interpret,
   evaluateFunction,
+  EvaluationContext,
 } from '@/interpreter/interpreter'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { changeLanguage } from '@/interpreter/translator'
+import { context } from 'msw'
 import { Number, unwrapJikiObject } from '@/interpreter/jikiObjects'
 
 beforeAll(() => {
@@ -824,6 +826,99 @@ describe('context', () => {
   })
 })
 
+describe('custom functions', () => {
+  test('no args', () => {
+    const fnCode = `
+      function my#foobar do
+        return "Yes"
+      end
+    `
+    const customFunction = {
+      name: 'my#foobar',
+      arity: 0,
+      description: '',
+      code: fnCode,
+    }
+    const context: EvaluationContext = {
+      customFunctions: [customFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function move do
+        return my#foobar()
+      end`,
+      context,
+      'move'
+    )
+    expect(value).toBe('Yes')
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.jikiObject.value).toBe('Yes')
+  })
+
+  test('args123', () => {
+    const fnCode = `
+      function my#foobar with param do
+        return param
+      end
+    `
+    const customFunction = {
+      name: 'my#foobar',
+      arity: 1,
+      description: '',
+      code: fnCode,
+    }
+    const context: EvaluationContext = {
+      customFunctions: [customFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function move do
+        return my#foobar("Food")
+      end`,
+      context,
+      'move'
+    )
+    expect(value).toBe('Food')
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.jikiObject.value).toBe('Food')
+  })
+
+  test('functions that rely on functions', () => {
+    const indexOfCode = `
+      function my#index_of with list do
+        return 1
+      end`
+    const indexOfFunction = {
+      name: 'my#index_of',
+      arity: 1,
+      description: '',
+      code: indexOfCode,
+    }
+
+    const startsWithCode = `
+      function my#starts_with with list, thing do
+        return my#index_of(list) == 1
+      end`
+    const startsWithFunction = {
+      name: 'my#starts_with',
+      arity: 2,
+      description: '',
+      code: startsWithCode,
+    }
+
+    const context: EvaluationContext = {
+      customFunctions: [indexOfFunction, startsWithFunction],
+    }
+    const { value, frames, error } = evaluateFunction(
+      `function do_something do
+        return my#starts_with("food", "f")
+      end`,
+      context,
+      'do_something'
+    )
+    expect(value).toBe(true)
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].result?.jikiObject.value).toBe(true)
+  })
+})
 test('idempotent', () => {
   const code = `
     set x to 1

@@ -3,12 +3,17 @@ import { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader'
 import '@hotwired/turbo-rails'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
+import { CustomFunctionEditorProps } from '../components/bootcamp/CustomFunctionEditor/CustomFunctionEditor'
 
 const SolveExercisePage = lazy(
   () => import('../components/bootcamp/SolveExercisePage/SolveExercisePage')
 )
 const DrawingPage = lazy(
   () => import('../components/bootcamp/DrawingPage/DrawingPage')
+)
+const CustomFunctionEditor = lazy(
+  () =>
+    import('../components/bootcamp/CustomFunctionEditor/CustomFunctionEditor')
 )
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
@@ -36,6 +41,15 @@ const mappings = {
   'bootcamp-drawing-page': (data: DrawingPageProps): JSX.Element => (
     <Suspense>
       <DrawingPage {...camelizeKeysAs<DrawingPageProps>(data)} />
+    </Suspense>
+  ),
+  'bootcamp-custom-function-editor': (
+    data: CustomFunctionEditorProps
+  ): JSX.Element => (
+    <Suspense>
+      <CustomFunctionEditor
+        {...camelizeKeysAs<CustomFunctionEditorProps>(data)}
+      />
     </Suspense>
   ),
   'settings-bootcamp-affiliate-coupon-form': (data: any) => (

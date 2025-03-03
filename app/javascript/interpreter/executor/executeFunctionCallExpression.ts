@@ -81,7 +81,7 @@ export function executeFunctionCallExpression(
   )
 
   const fnName = callee.name
-  let value: JikiObject
+  let value: JikiObject | void
 
   executor.addFunctionToCallStack(fnName, expression)
 

@@ -1,15 +1,14 @@
 import { RuntimeError, type RuntimeErrorType, type StaticError } from './error'
-import { FunctionCallExpression, Expression } from './expression'
+import { Expression } from './expression'
 import { Location } from './location'
 import { Parser } from './parser'
 import { Executor } from './executor'
 import { Statement } from './statement'
 import type { TokenType } from './token'
 import { translate } from './translator'
-import type { ExternalFunction } from './executor'
+import type { ExecutionContext, ExternalFunction } from './executor'
 import type { Frame } from './frames'
-import { expr } from 'jquery'
-import { formatJikiObject } from './helpers'
+import { Arity } from './functions'
 import * as Jiki from './jikiObjects'
 
 export type FrameContext = {
@@ -39,6 +38,7 @@ export type LanguageFeatures = {
   maxRepeatUntilGameOverIterations: number
   maxTotalExecutionTime: number
   allowGlobals: boolean
+  customFunctionDefinitionMode: boolean
 }
 
 export type InputLanguageFeatures = {
@@ -50,10 +50,23 @@ export type InputLanguageFeatures = {
   maxRepeatUntilGameOverIterations?: number
   maxTotalExecutionTime?: number
   allowGlobals?: boolean
+  customFunctionDefinitionMode?: boolean
+}
+
+export type CustomFunction = {
+  name: string
+  arity: Arity
+  code: string
+}
+export type CallableCustomFunction = {
+  name: string
+  arity: Arity
+  call: () => any
 }
 
 export type EvaluationContext = {
   externalFunctions?: ExternalFunction[]
+  customFunctions?: CustomFunction[]
   classes?: Jiki.Class[]
   languageFeatures?: InputLanguageFeatures
   state?: Record<string, any>
@@ -62,6 +75,7 @@ export type EvaluationContext = {
 
 export type EvaluateFunctionResult = InterpretResult & {
   value: any
+  jikiObject?: Jiki.JikiObject
 }
 
 export type InterpretResult = {
@@ -115,6 +129,7 @@ export class Interpreter {
   private state: Record<string, any> = {}
   private languageFeatures: LanguageFeatures
   private externalFunctions: ExternalFunction[] = []
+  private customFunctions: CallableCustomFunction[] = []
   private classes: Jiki.Class[] = []
   private wrapTopLevelStatements = false
 
@@ -129,6 +144,9 @@ export class Interpreter {
       ? context.externalFunctions
       : []
 
+    this.customFunctions = this.parseCustomFunctions(
+      context.customFunctions ? context.customFunctions : []
+    )
     this.classes = context.classes ? context.classes : []
 
     this.languageFeatures = {
@@ -140,6 +158,7 @@ export class Interpreter {
       maxTotalLoopIterations: 100,
       maxTotalExecutionTime: 10 * 1000, // 10 seconds
       allowGlobals: false,
+      customFunctionDefinitionMode: false,
       ...context.languageFeatures,
     }
 
@@ -148,6 +167,40 @@ export class Interpreter {
       this.languageFeatures,
       this.wrapTopLevelStatements
     )
+  }
+
+  private parseCustomFunctions(
+    customFunctions: CustomFunction[]
+  ): CallableCustomFunction[] {
+    // This is wildly deeply recursive so be careful!
+    if (customFunctions.length === 0) return []
+
+    const code = customFunctions.map((fn) => fn.code).join('\n')
+    const interpreter = new Interpreter(code, {
+      languageFeatures: { customFunctionDefinitionMode: true },
+    })
+    interpreter.compile()
+
+    return customFunctions.map((customFunction) => {
+      const call = (_: ExecutionContext, args) => {
+        const nakedArgs = args.map((arg) => {
+          // TODO: Need to check for lists etc too
+          if (arg instanceof Jiki.Instance) {
+            this.error(
+              'UnexpectedObjectArgumentForCustomFunction',
+              Location.unknown
+            )
+          }
+          return Jiki.unwrapJikiObject(arg)
+        })
+        const res = interpreter.evaluateFunction(
+          customFunction.name,
+          ...nakedArgs
+        )
+        return res.jikiObject
+      }
+      return { ...customFunction, call }
+    })
   }
 
   public compile() {
@@ -163,6 +216,7 @@ export class Interpreter {
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions,
+      this.customFunctions,
       this.classes,
       this.state
     )
@@ -194,6 +248,7 @@ export class Interpreter {
       this.sourceCode,
       this.languageFeatures,
       this.externalFunctions,
+      this.customFunctions,
       this.classes
     )
     const generalExec = executor.execute(this.statements)

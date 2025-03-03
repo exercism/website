@@ -14,7 +14,7 @@ export type ExerciseLocalStorageData = {
     | undefined
 }
 
-type SolveExercisePageContextValues = Pick<
+export type SolveExercisePageContextValues = Pick<
   SolveExercisePageProps,
   'links' | 'solution' | 'exercise' | 'code'
 > & {

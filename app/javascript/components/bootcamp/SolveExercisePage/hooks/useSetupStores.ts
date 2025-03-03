@@ -27,8 +27,8 @@ export function useSetupStores({
         if (task.bonus) return []
 
         return task.tests.map((test) => {
-          if (!test.params) return test
-          test.params = parseArgs(test.params)
+          if (!test.args) return test
+          test.args = parseArgs(test.args)
           return test
         })
       })

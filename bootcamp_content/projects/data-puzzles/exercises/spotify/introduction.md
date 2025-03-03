@@ -1,24 +1,37 @@
 # LLM Response
 
-In this exercise, we're taking a sample response from an LLM (like ChatGPT) and getting the data out that we need.
-We call this process "parsing" (e.g. "I'll parse this data to get the sentence I need out")
+In this exercise, we're taking a look at someone's top tracks via the Spotify API.
 
-Imagine you're building a website where someone has asked the question: "What's the best percentage cocao in chocolate?"
-You've used the LLM's API and got a response back.
-You now want to transform that response into a sentence such as:
+This API is a bit different in two key ways.
+
+Firstly, when we look up a user's favourite tracks, rather than just getting the names back, we get a series of other URLs. We need to carry out subsequent API requests to get more information.
+
+Secondly, the URL you use varies based on the data you use.
+The base URL for the endpoint you want is `"https://api.spotify.com/v1/users/"`. But you then need to add the username of the person you're looking for on the end. So if you want to find our fred's favourite tunes, you'd use the endpoint `https://api.spotify.com/v1/users/fred`.
+
+For this exercise, the parameters should always be an empty dictionary.
+
+## Instructions
+
+Create a function called `favorite_artists`.
+It expects someone's username as an input.
+
+Use the API explained above to retrieve the person's favourite artists, then combine them into a sentence like:
 
 ```jikiscript
-"The answer to 'What's the best percentage cocao in chocolate?' is 'The deep sensations of 82% are the best' (78% certainty in 0.123s)."
+"Fred's most listened to artists are: Glee, NSYNC, Beethoven, and Limp Bizkit!"
 ```
 
-### Instructions
+If there is an error from the API, you should return that error as a string, prefixed with `"Error: "`.
 
-Create a function called `parse_response` that takes one input - the data from the LLM.
-Explore the data using `log` then work out how to transform it into the correct format.
-Then return that string.
+## Custom Functions
 
-A couple of notes:
+This would be a good time to use your `my#to_sentence` and `my#has_key` custom functions!
 
-- You will receive multiple possible responses. Choose the one that the LLM has the highest certainty about.
-- `0.78` as a decimal is the same as `78%` as a percentage.
-- `123ms` is the same as `0.123s` (there are 1000 miliseconds in a second).
+## Functions
+
+You have three functions avaible:
+
+- `fetch(url, params)`: Fetches data from an API.
+- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
+- `push(list, elem)`. Returns a new list with the element added to the original list.

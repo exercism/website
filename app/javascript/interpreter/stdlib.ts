@@ -121,10 +121,21 @@ function numberToString(_: ExecutionContext, num: Jiki.Number): Jiki.String {
   return new Jiki.String(num.value.toString())
 }
 
-function stringToNumber(_: ExecutionContext, str: Jiki.String): Jiki.Number {
+function stringToNumber(
+  executionCtx: ExecutionContext,
+  str: Jiki.String
+): Jiki.Number {
   verifyType(str, Jiki.String, 'string', 1)
 
-  return new Jiki.Number(Number(str.value))
+  const num = Number(str.value)
+  if (isNaN(num)) {
+    executionCtx.logicError(
+      `Could not convert the string to a number. Does <code>${JSON.stringify(
+        str.value
+      )}</code> look like a valid number?`
+    )
+  }
+  return new Jiki.Number(num)
 }
 
 function toUpperCase(_: ExecutionContext, str: Jiki.String): Jiki.String {

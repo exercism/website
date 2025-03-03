@@ -201,6 +201,8 @@ export default class DataExercise extends Exercise {
     if (username === null)
       return Jiki.wrapJSToJikiObject({ error: 'Could not parse URL' })
 
+    console.log(username)
+
     let artists: string[] | undefined
     switch (username) {
       case 'iHiD':
@@ -210,6 +212,14 @@ export default class DataExercise extends Exercise {
           '14r9dR01KeBLFfylVSKCZQ',
           '7dGJo4pcD2V6oG8kP0tJRR',
           '7EQ0qTo7fWT7DPxmxtSYEc',
+        ]
+        break
+      case 'fred':
+        artists = [
+          '3TVXtAsR1Inumwj472S9r4',
+          '8G9QnLx9NcXJF7cbZcHeqV',
+          'A2qGv8w9Ne6wN6fYuaEz4n',
+          '3YQKmKGau1PzlVlkL1iodx',
         ]
         break
       default:
@@ -255,6 +265,18 @@ export default class DataExercise extends Exercise {
         break
       case '7EQ0qTo7fWT7DPxmxtSYEc':
         name = 'Bastille'
+        break
+      case '3TVXtAsR1Inumwj472S9r4':
+        name = 'Glee'
+        break
+      case '8G9QnLx9NcXJF7cbZcHeqV':
+        name = 'NSYNC'
+        break
+      case 'A2qGv8w9Ne6wN6fYuaEz4n':
+        name = 'Beethoven'
+        break
+      case '3YQKmKGau1PzlVlkL1iodx':
+        name = 'Limp Bizkit'
         break
     }
     if (name === undefined) {

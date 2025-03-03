@@ -3,27 +3,48 @@
   "description": "Parse data back from Spotify",
   "level": 5,
   "idx": 1,
-  "tests_type": "state",
+  "tests_type": "io",
   "project_type": "data",
-  "stdlib_functions": [
-    "concatenate",
-    "string_to_number",
-    "number_to_string",
-    "join",
-    "push"
-  ],
+  "stdlib_functions": ["concatenate", "push"],
   "tasks": [
     {
       "name": "Format the response",
       "tests": [
         {
+          "slug": "Fred",
+          "name": "Fred's favourites",
+          "description_html": "Get the data back from Spotify",
+          "function": "favorite_artists",
+          "args": ["fred"],
+          "checks": [
+            {
+              "value": "fred's most listened to artists are: Glee, NSYNC, Beethoven, and Limp Bizkit!"
+            }
+          ]
+        },
+        {
           "slug": "iHiD",
           "name": "iHiD's favourites",
           "description_html": "Get the data back from Spotify",
-          "function": "parse_response",
-          "params": ["iHiD"],
-          "expected": "iHiD's most listened to artists are: Counting Crows, Rage Against The Machine, Damien Rice, Eminem, and Bastille!",
-          "checks": []
+          "function": "favorite_artists",
+          "args": ["iHiD"],
+          "checks": [
+            {
+              "value": "iHiD's most listened to artists are: Counting Crows, Rage Against The Machine, Damien Rice, Eminem, and Bastille!"
+            }
+          ]
+        },
+        {
+          "slug": "griffin",
+          "name": "griffin is hiding",
+          "description_html": "Hand an error",
+          "function": "favorite_artists",
+          "args": ["griffin"],
+          "checks": [
+            {
+              "value": "Error: Unknown user"
+            }
+          ]
         }
       ]
     }

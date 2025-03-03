@@ -17,7 +17,7 @@ export function CustomFunctionsButton({ onChange }: { onChange?: () => void }) {
           alt="Custom Functions"
           className="filter-purple w-[12px] h-[12px]"
         />
-        <span>Functions</span>
+        <span>Library</span>
       </button>
 
       <ManageCustomFunctionsModal

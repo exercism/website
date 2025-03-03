@@ -1,14 +1,47 @@
-%h1 Custom Functions
+#page-bootcamp-custom-functions
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'bootcamp-custom-functions'
+          .span Your Functions
 
-- short_names = @custom_functions.map(&:short_name)
-%ul
-  - @custom_functions.each do |custom_function|
-    %li= link_to custom_function.name, edit_bootcamp_custom_function_path(custom_function.short_name)
+    .lg-container.details
+      %h1.font-semibold Library
+      %p.mb-6
+        This is your library of functions.
+        Create and reuse functions throughout your code by creating them here then importing them in the exercises.
 
-  - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.each do |name, data|
-    - next if short_names.include?(name.to_s)
-    %li
-      = link_to name, edit_bootcamp_custom_function_path(short_name: name)
-      = data[:description]
+  .lg-container
+    - short_names = @custom_functions.map(&:short_name)
+    %h2 Active Functions
+    %p.text-p-large.mb-12 These functions are available for use in your exercises.
+    .functions
+      - @custom_functions.each do |fn|
+        - next unless fn.active?
 
-= button_to 'New Custom Function', bootcamp_custom_functions_path
+        = link_to edit_bootcamp_custom_function_path(fn.short_name) do
+          %h3= fn.name
+          %p= fn.description
+
+    %hr.border-borderColor5.mb-32
+
+    %h2 Inactive Functions
+    %p.text-p-large.mb-12 These are functions that are disabled. Get the tests passing to activate them.
+    .functions
+      - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.each do |name, data|
+        - next if short_names.include?(name.to_s)
+        = link_to edit_bootcamp_custom_function_path(short_name: name) do
+          .font-semibold.text-18.mb-2= name
+          .text-18.leading-150= data[:description]
+
+      - @custom_functions.each do |fn|
+        - next if fn.active?
+
+        = link_to edit_bootcamp_custom_function_path(fn.short_name) do
+          %h3= fn.name
+          %p= fn.description
+
+      = button_to bootcamp_custom_functions_path do
+        %h3 New Function
+        %p Create a new function for whatever reusable code you feel is appropriate!

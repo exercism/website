@@ -13,7 +13,7 @@
           "slug": "paper-vs-paper",
           "name": "Paper vs Paper",
           "function": "who_wins",
-          "params": ["paper", "paper"],
+          "args": ["paper", "paper"],
           "expected": "tie",
           "image_slug": "rock-paper-scissors/paper-paper.png"
         },
@@ -21,7 +21,7 @@
           "slug": "paper-vs-rock",
           "name": "Paper vs Rock",
           "function": "who_wins",
-          "params": ["paper", "rock"],
+          "args": ["paper", "rock"],
           "expected": "player_1",
           "image_slug": "rock-paper-scissors/paper-rock.png"
         },
@@ -29,7 +29,7 @@
           "slug": "paper-vs-scissors",
           "name": "Paper vs Scissors",
           "function": "who_wins",
-          "params": ["paper", "scissors"],
+          "args": ["paper", "scissors"],
           "expected": "player_2",
           "image_slug": "rock-paper-scissors/paper-scissors.png"
         }
@@ -42,7 +42,7 @@
           "slug": "rock-vs-paper",
           "name": "Rock vs Paper",
           "function": "who_wins",
-          "params": ["rock", "paper"],
+          "args": ["rock", "paper"],
           "expected": "player_2",
           "image_slug": "rock-paper-scissors/rock-paper.png"
         },
@@ -50,7 +50,7 @@
           "slug": "rock-vs-rock",
           "name": "Rock vs Rock",
           "function": "who_wins",
-          "params": ["rock", "rock"],
+          "args": ["rock", "rock"],
           "expected": "tie",
           "image_slug": "rock-paper-scissors/rock-rock.png"
         },
@@ -58,7 +58,7 @@
           "slug": "rock-vs-scissors",
           "name": "Rock vs Scissors",
           "function": "who_wins",
-          "params": ["rock", "scissors"],
+          "args": ["rock", "scissors"],
           "expected": "player_1",
           "image_slug": "rock-paper-scissors/rock-scissors.png"
         }
@@ -71,7 +71,7 @@
           "slug": "scissors-vs-paper",
           "name": "Scissors vs Paper",
           "function": "who_wins",
-          "params": ["scissors", "paper"],
+          "args": ["scissors", "paper"],
           "expected": "player_1",
           "image_slug": "rock-paper-scissors/scissors-paper.png"
         },
@@ -79,7 +79,7 @@
           "slug": "scissors-vs-rock",
           "name": "Scissors vs Rock",
           "function": "who_wins",
-          "params": ["scissors", "rock"],
+          "args": ["scissors", "rock"],
           "expected": "player_2",
           "image_slug": "rock-paper-scissors/scissors-rock.png"
         },
@@ -87,7 +87,7 @@
           "slug": "scissors-vs-scissors",
           "name": "Scissors vs Scissors",
           "function": "who_wins",
-          "params": ["scissors", "scissors"],
+          "args": ["scissors", "scissors"],
           "expected": "tie",
           "image_slug": "rock-paper-scissors/scissors-scissors.png"
         }

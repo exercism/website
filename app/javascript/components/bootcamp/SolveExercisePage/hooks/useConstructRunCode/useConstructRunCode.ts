@@ -96,7 +96,7 @@ export function useConstructRunCode({
       const compiled = compile(studentCode, {
         languageFeatures: config.interpreterOptions,
         customFunctions: customFunctionsForInterpreter.map((cfn) => {
-          return { name: cfn.fnName, arity: cfn.arity, code: cfn.code }
+          return { name: cfn.name, arity: cfn.arity, code: cfn.code }
         }),
       })
 
@@ -111,7 +111,7 @@ export function useConstructRunCode({
 
       const customFns = customFunctionsForInterpreter.map((cfn) => {
         return {
-          name: cfn.fnName,
+          name: cfn.name,
           arity: cfn.arity,
           code: cfn.code,
         }

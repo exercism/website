@@ -1,7 +1,14 @@
 %h1 Custom Functions
 
+- short_names = @custom_functions.map(&:short_name)
 %ul
   - @custom_functions.each do |custom_function|
-    %li= link_to custom_function.name, [:edit, custom_function]
+    %li= link_to custom_function.name, edit_bootcamp_custom_function_path(custom_function.short_name)
+
+  - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.each do |name, data|
+    - next if short_names.include?(name.to_s)
+    %li
+      = link_to name, edit_bootcamp_custom_function_path(short_name: name)
+      = data[:description]
 
 = button_to 'New Custom Function', bootcamp_custom_functions_path

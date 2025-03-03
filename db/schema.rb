@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_01_151137) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_03_015104) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_01_151137) do
     t.datetime "updated_at", null: false
     t.text "depends_on", null: false
     t.boolean "predefined", default: false, null: false
+    t.index ["user_id", "name"], name: "index_bootcamp_custom_functions_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"
     t.index ["uuid"], name: "index_bootcamp_custom_functions_on_uuid", unique: true
   end

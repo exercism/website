@@ -16,4 +16,5 @@ class Bootcamp::CustomFunction < ApplicationRecord
   end
 
   def to_param = uuid
+  def short_name = name.gsub(/^my#/, "")
 end

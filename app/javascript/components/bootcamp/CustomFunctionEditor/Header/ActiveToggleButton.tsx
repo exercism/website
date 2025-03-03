@@ -4,7 +4,6 @@ import { StaticTooltip } from '../../SolveExercisePage/Scrubber/ScrubberTooltipI
 import { CustomFunctionEditorStoreContext } from '../CustomFunctionEditor'
 
 export function ActiveToggleButton() {
-  const labelClassName = 'font-mono font-semibold mb-4'
   const { customFunctionEditorStore } = useContext(
     CustomFunctionEditorStoreContext
   )

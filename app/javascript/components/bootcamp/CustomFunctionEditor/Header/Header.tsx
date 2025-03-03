@@ -20,7 +20,7 @@ function _Header({
   const { customFunctionEditorStore } = useContext(
     CustomFunctionEditorStoreContext
   )
-  const clearResults = customFunctionEditorStore().clearResults
+  const { clearResults } = customFunctionEditorStore()
 
   const { links } = useContext(SolveExercisePageContext)
   return (
@@ -39,11 +39,7 @@ function _Header({
             clearResults()
           }}
         />
-        <button
-          className="btn-primary btn-xxs"
-          disabled={someTestsAreFailing}
-          onClick={handleSaveChanges}
-        >
+        <button className="btn-primary btn-xxs" onClick={handleSaveChanges}>
           Publish
         </button>
 

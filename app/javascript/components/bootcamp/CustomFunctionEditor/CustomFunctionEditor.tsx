@@ -149,6 +149,8 @@ export default function CustomFunctionEditor({
                   }
                   onEditorChangeCallback={(view) => {
                     handleSetCustomFunctionName(view)
+                    const { areAllTestsPassing } =
+                      customFunctionEditorStore.getState()
                     if (areAllTestsPassing) {
                       clearResults()
                     }

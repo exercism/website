@@ -206,7 +206,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           const areAllTestsPassing = Object.values(results).every(
             (result) => result.pass
           )
-          const isActivated = areAllTestsPassing ? get().isActivated : false
+          const isActivated = areAllTestsPassing
           set({ results, areAllTestsPassing, isActivated })
         },
         clearResults: () => {

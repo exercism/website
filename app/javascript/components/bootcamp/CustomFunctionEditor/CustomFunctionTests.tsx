@@ -29,6 +29,7 @@ export function CustomFunctionTests() {
             testTitle={`Test ${idx + 1}`}
             key={test.uuid}
             args={test.args}
+            readonly={test.readonly}
             passing={
               results && results[test.uuid] ? results[test.uuid].pass : false
             }

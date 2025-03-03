@@ -6,7 +6,12 @@ import { EditorView } from 'codemirror'
 import { CustomFunction } from '../CustomFunctionEditor'
 import toast from 'react-hot-toast'
 
-export type CustomTests = { args: string; expected: string; uuid: string }[]
+export type CustomTests = {
+  args: string
+  expected: string
+  uuid: string
+  readonly?: boolean
+}[]
 export type Results = Record<
   string,
   { actual: any; frames: Frame[]; pass: boolean }
@@ -72,7 +77,6 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             customFunctionDescription: customFunction.description,
             tests: customFunction.tests,
             testBeingEdited: undefined,
-            hasUnsavedChanges: true,
           })
         },
         customFunctionName: '',

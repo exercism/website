@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
+import { GraphicalIcon } from '@/components/common'
 
 export function CustomFunctionTest({
   args,
@@ -12,6 +13,7 @@ export function CustomFunctionTest({
   actual,
   isInspected,
   testTitle,
+  readonly,
   onTestClick,
   onEditClick,
   onSaveClick,
@@ -27,6 +29,7 @@ export function CustomFunctionTest({
   name: string
   actual: any
   testTitle: string
+  readonly: boolean | undefined
   onEditClick: () => void
   onTestClick: () => void
   onSaveClick: (argsValue: string, expectedValue: string) => void
@@ -58,6 +61,7 @@ export function CustomFunctionTest({
       {isInspected ? (
         <ExpandedView
           args={args}
+          readonly={readonly}
           argsValue={argsValue}
           setArgsValue={setArgsValue}
           expected={expected}
@@ -79,6 +83,7 @@ export function CustomFunctionTest({
           hasResult={hasResult}
           testTitle={testTitle}
           passing={passing}
+          readonly={readonly}
         />
       )}
     </div>
@@ -89,18 +94,34 @@ function CollapsedView({
   testTitle,
   passing,
   hasResult,
+  readonly,
 }: {
   testTitle: string
   passing: boolean
   hasResult: boolean
+  readonly: boolean | undefined
 }) {
   const className = assembleClassNames(
     'collapsed',
     !hasResult ? 'pending' : passing ? 'pass' : 'fail'
   )
   return (
-    <div className={className}>
+    <div
+      className={assembleClassNames(
+        className,
+        readonly && 'flex items-center justify-between'
+      )}
+    >
       <h3 className="font-semibold text-16">{testTitle}</h3>
+      {readonly && (
+        <GraphicalIcon
+          icon="readonly-lock"
+          category="bootcamp"
+          width={20}
+          height={20}
+        />
+      )}
+
       {/* {!hasResult ? 'No result yet' : passing ? 'Passing' : 'Failing'} */}
     </div>
   )
@@ -119,6 +140,7 @@ function ExpandedView({
   testTitle,
   hasResult,
   passing,
+  readonly,
   onEditClick,
   onDeleteClick,
   handleSaveTest,
@@ -136,6 +158,7 @@ function ExpandedView({
   testTitle: string
   hasResult: boolean
   passing: boolean
+  readonly: boolean | undefined
   onEditClick: () => void
   onDeleteClick: () => void
   handleSaveTest: () => void
@@ -153,28 +176,12 @@ function ExpandedView({
             <div className="header">
               <h3 className="font-semibold text-16 mr-auto">{testTitle}</h3>
               <div className="flex items-center gap-8">
-                {editMode ? (
-                  <></>
-                ) : (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onEditClick()
-                      }}
-                    >
-                      edit
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onDeleteClick()
-                      }}
-                    >
-                      delete
-                    </button>
-                  </>
-                )}
+                <TestTopRHS
+                  editMode={editMode}
+                  onDeleteClick={onDeleteClick}
+                  onEditClick={onEditClick}
+                  readonly={readonly}
+                />
               </div>
             </div>
 
@@ -259,4 +266,50 @@ function formatActual(actual: string | null | undefined) {
   }
 
   return actual
+}
+
+function TestTopRHS({
+  editMode,
+  onEditClick,
+  onDeleteClick,
+  readonly,
+}: {
+  editMode: boolean
+  readonly: boolean | undefined
+  onEditClick: () => void
+  onDeleteClick: () => void
+}) {
+  if (readonly) {
+    return (
+      <GraphicalIcon
+        icon="readonly-lock"
+        category="bootcamp"
+        width={20}
+        height={20}
+      />
+    )
+  }
+
+  if (editMode) return null
+
+  return (
+    <>
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          onEditClick()
+        }}
+      >
+        edit
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          onDeleteClick()
+        }}
+      >
+        delete
+      </button>
+    </>
+  )
 }

@@ -15,6 +15,7 @@ class Bootcamp::Submission < ApplicationRecord
   before_create do
     self.uuid = SecureRandom.uuid
     self.status = test_results[:status]
+    self.custom_functions = [] unless custom_functions.present?
   end
 
   def status = super.to_sym

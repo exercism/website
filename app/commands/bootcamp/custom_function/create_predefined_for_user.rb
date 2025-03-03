@@ -69,7 +69,7 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         [["he", 1, false], "he"] => true,
         [["he", 1, false], 1] => true,
         [["he", 1, false], false] => true,
-        [["he", 1, false], "foo"] => true,
+        [["he", 1, false], "foo"] => false,
         ["", ""] => true,
         [[], []] => false
       }

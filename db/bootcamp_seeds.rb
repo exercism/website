@@ -32,7 +32,8 @@ end
 
 # Two pass - as the second needs all concepts created
 Bootcamp::Concept.destroy_all
-JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
+concepts_config = JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true)
+concepts_config.each do |details|
   Bootcamp::Concept.find_or_create_by!(slug: details[:slug]) do |c|
     c.title = ""
     c.description = ""
@@ -40,7 +41,7 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symb
     c.level_idx = details[:level]
   end
 end
-JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details| # rubocop:disable Style/CombinableLoops
+concepts_config.each do |details| # rubocop:disable Style/CombinableLoops
   concept = Bootcamp::Concept.find_by!(slug: details[:slug])
   concept.update!(
     parent: details[:parent] ? Bootcamp::Concept.find_by!(slug: details[:parent]) : nil,
@@ -99,11 +100,6 @@ projects.each do |project_slug|
       e.title = ""
       e.description = ""
       e.level_idx = exercise_config[:level]
-    end
-
-    has_bonus_tasks = false
-    (exercise_config[:tasks] || []).each do |task|
-      has_bonus_tasks = true if task[:bonus]
     end
 
     exercise.update!(

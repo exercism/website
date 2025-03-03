@@ -6,11 +6,12 @@
             @apply border-1 border-borderColor5;
             @apply rounded-8 py-12 px-16;
             @apply text-left;
-            @apply flex items-center;
+            @apply flex items-start;
             .circle,
             img {
                 @apply mr-16;
                 @apply w-[24px] h-[24px];
+                @apply flex-shrink-0 mt-4;
             }
             .circle {
                 @apply rounded-circle border-1 border-borderColor5;

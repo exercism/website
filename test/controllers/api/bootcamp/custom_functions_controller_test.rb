@@ -1,10 +1,11 @@
 require_relative '../base_test_case'
 
 class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
-  test "index: gets user's functions" do
+  test "index: gets user's functions ordered by name" do
     user = create :user
-    function_1 = create(:bootcamp_custom_function, user:)
-    function_2 = create(:bootcamp_custom_function, user:)
+    function_1 = create(:bootcamp_custom_function, user:, name: "yaz")
+    function_2 = create(:bootcamp_custom_function, user:, name: "abc")
+    function_3 = create(:bootcamp_custom_function, user:, name: "det")
     create(:bootcamp_custom_function)
 
     setup_user(user)
@@ -13,8 +14,9 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_response :ok
     expected = {
       custom_functions: [
-        SerializeBootcampCustomFunctionSummary.(function_1),
-        SerializeBootcampCustomFunctionSummary.(function_2)
+        SerializeBootcampCustomFunctionSummary.(function_2),
+        SerializeBootcampCustomFunctionSummary.(function_3),
+        SerializeBootcampCustomFunctionSummary.(function_1)
       ]
     }
     assert_json_response(expected)
@@ -37,7 +39,7 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_json_response(expected)
   end
 
-  test "for_interpreter: gets functions by uuids" do
+  test "for_interpreter: gets functions by names" do
     user = create :user
     function_1 = create(:bootcamp_custom_function, user:)
     function_2 = create(:bootcamp_custom_function, user:)
@@ -45,8 +47,8 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     create(:bootcamp_custom_function)
 
     setup_user(user)
-    uuids = [function_1, function_2, other_user_function].map(&:uuid).join(',')
-    get for_interpreter_api_bootcamp_custom_functions_url(uuids:), headers: @headers
+    name = [function_1, function_2, other_user_function].map(&:name).join(',')
+    get for_interpreter_api_bootcamp_custom_functions_url(name:), headers: @headers
 
     assert_response :ok
     expected = {

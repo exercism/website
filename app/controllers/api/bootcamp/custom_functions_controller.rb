@@ -1,6 +1,6 @@
 class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
   def index
-    @custom_functions = current_user.bootcamp_custom_functions
+    @custom_functions = current_user.bootcamp_custom_functions.order('name')
     @custom_functions = @custom_functions.active if params[:filter] == "active"
 
     render json: {

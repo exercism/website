@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { CustomFunctionEditorStoreContext } from './CustomFunctionEditor'
 import { GraphicalIcon } from '@/components/common'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 const labelClassName = 'text-16 font-semibold mb-8'
 export function CustomFunctionDetails() {
@@ -10,6 +11,7 @@ export function CustomFunctionDetails() {
 
   const {
     customFunctionName,
+    isPredefined,
     customFunctionDescription,
     setCustomFunctionDescription,
   } = customFunctionEditorStore()
@@ -30,7 +32,7 @@ export function CustomFunctionDetails() {
         <GraphicalIcon
           icon="readonly-lock"
           category="bootcamp"
-          className="absolute right-[12px] top-[15px]"
+          className="absolute right-[12px] top-[15px] opacity-[0.6]"
           width={20}
           height={20}
         />
@@ -38,13 +40,32 @@ export function CustomFunctionDetails() {
       <label className={labelClassName} htmlFor="description">
         Description
       </label>
-      <textarea
-        name="description"
-        className="mb-16"
-        value={customFunctionDescription}
-        onChange={(e) => setCustomFunctionDescription(e.target.value)}
-        id=""
-      ></textarea>
+      <div className="relative">
+        <textarea
+          name="description"
+          className={assembleClassNames(
+            'mb-16 w-fill',
+            isPredefined && '!bg-[#eee]'
+          )}
+          value={customFunctionDescription}
+          onChange={(e) => {
+            if (isPredefined) {
+              return
+            }
+            setCustomFunctionDescription(e.target.value)
+          }}
+          id=""
+        ></textarea>
+        {isPredefined && (
+          <GraphicalIcon
+            icon="readonly-lock"
+            category="bootcamp"
+            className="absolute right-[12px] top-[15px] opacity-[0.6]"
+            width={20}
+            height={20}
+          />
+        )}
+      </div>
 
       <label className={labelClassName} htmlFor="fn-name">
         Tests

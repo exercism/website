@@ -26,6 +26,8 @@ import {
   CustomFunctionEditorStore,
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
+import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
+import { useLogger } from '../common/hooks/useLogger'
 
 export type CustomFunction = {
   uuid: string
@@ -64,6 +66,8 @@ export default function CustomFunctionEditor({
     [customFunction.uuid]
   )
 
+  useLogger('cusomt function', customFunction)
+
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({ customFunctionEditorStore })
 
@@ -91,15 +95,19 @@ export default function CustomFunctionEditor({
     handlePatchCustomFunction,
     tests,
     clearResults,
-    areAllTestsPassing,
+    setHasUnsavedChanges,
     inspectedFrames,
     inspectedTest,
     initializeStore,
+    hasUnsavedChanges,
   } = customFunctionEditorStore()
 
   useEffect(() => {
     initializeStore(customFunction)
+    setTimeout(() => setHasUnsavedChanges(false), 100)
   }, [])
+
+  useWarnOnUnsavedChanges(hasUnsavedChanges)
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
@@ -112,6 +120,18 @@ export default function CustomFunctionEditor({
   const inspectedTestIdx = tests.findIndex(
     (test) => test.uuid === inspectedTest
   )
+
+  const readOnlyDocumentFragment = useMemo(() => {
+    const { code, predefined } = customFunction
+
+    const fullName = new RegExp(/function my#\w+/)
+    const fnStub = new RegExp(/function my#/)
+
+    const match = code.match(predefined ? fullName : fnStub)
+    const readonlyBit = match ? match[0] : null
+
+    return ReadonlyFunctionMyExtension(readonlyBit?.length || 0)
+  }, [customFunction])
 
   return (
     <SolveExercisePageContextWrapper
@@ -135,7 +155,6 @@ export default function CustomFunctionEditor({
                 url: links.updateCustomFns,
               })
             }
-            someTestsAreFailing={!areAllTestsPassing}
           />
           <div className="page-body">
             <div style={{ width: LHSWidth }} className="page-body-lhs">
@@ -148,13 +167,16 @@ export default function CustomFunctionEditor({
                     handleRunCode(tests, customFunctionsForInterpreter)
                   }
                   onEditorChangeCallback={(view) => {
+                    setHasUnsavedChanges(true)
                     handleSetCustomFunctionName(view)
+                    const { areAllTestsPassing } =
+                      customFunctionEditorStore.getState()
                     if (areAllTestsPassing) {
                       clearResults()
                     }
                     updateLocalStorageValueOnDebounce(view.state.doc.toString())
                   }}
-                  extensions={[ReadonlyFunctionMyExtension]}
+                  extensions={[readOnlyDocumentFragment]}
                 />
               </ErrorBoundary>
 

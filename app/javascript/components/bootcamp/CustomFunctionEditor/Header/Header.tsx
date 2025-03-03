@@ -10,17 +10,11 @@ import { CustomFunctionEditorStoreContext } from '../CustomFunctionEditor'
 
 export type StudentCodeGetter = () => string | undefined
 
-function _Header({
-  handleSaveChanges,
-  someTestsAreFailing,
-}: {
-  handleSaveChanges: () => void
-  someTestsAreFailing: boolean
-}) {
+function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
   const { customFunctionEditorStore } = useContext(
     CustomFunctionEditorStoreContext
   )
-  const clearResults = customFunctionEditorStore().clearResults
+  const { clearResults } = customFunctionEditorStore()
 
   const { links } = useContext(SolveExercisePageContext)
   return (
@@ -39,19 +33,15 @@ function _Header({
             clearResults()
           }}
         />
-        <button
-          className="btn-primary btn-xxs"
-          disabled={someTestsAreFailing}
-          onClick={handleSaveChanges}
-        >
-          Publish
+        <button className="btn-primary btn-xxs" onClick={handleSaveChanges}>
+          Save Changes
         </button>
 
         <a
           href={links.customFnsDashboard}
           className={assembleClassNames('btn-secondary btn-xxs')}
         >
-          Back to my stdlib
+          Close
         </a>
       </div>
     </div>

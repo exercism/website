@@ -5,6 +5,7 @@ export type ToggleButtonProps = {
   onToggle: FormEventHandler<HTMLButtonElement>
   className?: string
   disabled?: boolean
+  style?: React.CSSProperties
 }
 
 export function ToggleButton({
@@ -12,9 +13,11 @@ export function ToggleButton({
   checked,
   className = '',
   disabled = false,
+  style,
 }: ToggleButtonProps): JSX.Element {
   return (
     <button
+      style={style}
       type="button"
       onChange={onToggle}
       className={`c-toggle-button ${className}`}

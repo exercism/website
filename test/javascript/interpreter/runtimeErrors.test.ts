@@ -618,6 +618,40 @@ test('ListsCannotBeCompared', () => {
   expect(frames[0].error!.message).toBe('ListsCannotBeCompared')
 })
 
+test('VariableCannotBeNamespaced', () => {
+  const code = `set foo#bar to 5`
+  const { frames } = interpret(code)
+  expectFrameToBeError(frames[0], code, 'VariableCannotBeNamespaced')
+  expect(frames[0].error!.message).toBe(
+    'VariableCannotBeNamespaced: name: foo#bar'
+  )
+})
+
+describe('FunctionCannotBeNamespaced', () => {
+  test('normal mode', () => {
+    const code = `
+      function foo#bar do
+      end`
+    const { frames } = interpret(code)
+    expectFrameToBeError(frames[0], 'foo#bar', 'FunctionCannotBeNamespaced')
+    expect(frames[0].error!.message).toBe(
+      'FunctionCannotBeNamespaced: name: foo#bar'
+    )
+  })
+  // Just sanity check that this passes if we're in custom function definition mode
+  test('custom function definition mode', () => {
+    const code = `
+      function foo#bar do
+        return true
+      end
+      foo#bar()`
+    const { frames } = interpret(code, {
+      languageFeatures: { customFunctionDefinitionMode: true },
+    })
+    expect(frames[frames.length - 1].status).toBe('SUCCESS')
+  })
+})
+
 test('ObjectsCannotBeCompared', () => {
   const context = { classes: [new Jiki.Class('Thing')] }
   const code = `
@@ -832,3 +866,53 @@ test('MissingForeachSecondElementName', () => {
 })
 
 // TOOD: Strings are immutable
+
+// UnexpectedObjectArgumentForCustomFunction
+
+test('UnexpectedObjectArgumentForCustomFunction', () => {
+  const customFunction = {
+    name: 'my#foobar',
+    arity: 1,
+    description: '',
+    code: '',
+  }
+  const Person = new Jiki.Class('Person')
+  const context: EvaluationContext = {
+    customFunctions: [customFunction],
+    classes: [Person],
+  }
+
+  const { frames, error } = interpret(
+    `
+    set person to new Person()
+    my#foobar(person)
+  `,
+    context
+  )
+
+  expect(frames[1].error!.message).toBe(
+    'UnexpectedObjectArgumentForCustomFunction'
+  )
+})
+
+test('who knows', () => {
+  const context = {
+    languageFeatures: { customFunctionDefinitionMode: true },
+    customFunctions: [],
+  }
+  const { frames } = interpret(
+    `
+    function my#starts_with with string, prefix do
+      if string == "" do
+        return true
+      end
+
+      if my#length(prefix) > my#length(string) do
+        return false
+      end
+    end
+    my#starts_with("foo", "f")`,
+    context
+  )
+  expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: my#length')
+})

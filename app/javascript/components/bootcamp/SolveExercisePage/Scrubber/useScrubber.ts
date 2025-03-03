@@ -25,11 +25,13 @@ export function useScrubber({
   animationTimeline,
   frames,
   hasCodeBeenEdited,
+  context,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
   animationTimeline: AnimationTimeline | undefined | null
   frames: Frame[]
   hasCodeBeenEdited: boolean
+  context?: string
 }) {
   // if there is an animation timeline, we use time as value
   // if there is no animation timeline, we use frame index as value
@@ -119,6 +121,7 @@ export function useScrubber({
           setShouldShowInformationWidget,
           setUnderlineRange,
           editorView,
+          context,
         })
       }
     }

@@ -1,4 +1,4 @@
-import { isString } from './checks'
+import { isArray, isString } from './checks'
 import { ExecutionContext } from './executor'
 import { Arity } from './functions'
 
@@ -268,7 +268,7 @@ export function unwrapJikiObject(value: any): any {
       ])
     )
   }
-  if (value instanceof Array) {
+  if (isArray(value)) {
     return value.map(unwrapJikiObject)
   }
   if (

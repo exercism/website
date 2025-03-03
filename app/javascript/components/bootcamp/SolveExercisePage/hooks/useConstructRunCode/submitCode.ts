@@ -3,6 +3,7 @@ export async function submitCode({
   testResults,
   postUrl,
   readonlyRanges,
+  customFunctions,
 }: {
   code: string
   testResults: {
@@ -11,6 +12,7 @@ export async function submitCode({
   }
   postUrl: string
   readonlyRanges: { from: number; to: number }[]
+  customFunctions: string[]
 }) {
   const response = await fetch(postUrl, {
     method: 'POST',
@@ -22,6 +24,7 @@ export async function submitCode({
         code,
         test_results: testResults,
         readonly_ranges: readonlyRanges,
+        custom_functions: customFunctions,
       },
     }),
   })

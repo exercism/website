@@ -377,7 +377,7 @@ export class Scanner {
   }
 
   private tokenizeIdentifier(): void {
-    while (this.isAlphaNumeric(this.peek())) this.advance()
+    while (this.isAllowableInIdentifier(this.peek())) this.advance()
 
     const keywordType = this.tokenForLexeme(this.lexeme())
     if (keywordType) return this.addToken(keywordType)
@@ -413,8 +413,8 @@ export class Scanner {
     return c >= '0' && c <= '9'
   }
 
-  private isAlphaNumeric(c: string): boolean {
-    return this.isAlpha(c) || this.isDigit(c)
+  private isAllowableInIdentifier(c: string): boolean {
+    return this.isAlpha(c) || this.isDigit(c) || c == '#'
   }
 
   private isAtEnd(): boolean {

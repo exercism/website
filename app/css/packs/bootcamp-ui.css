@@ -6,6 +6,7 @@
 @import "../bootcamp/variables";
 
 @import "../bootcamp/components/solve-exercise-page";
+@import "../bootcamp/components/custom-function-selector";
 @import "../bootcamp/components/rhs-list";
 @import "../bootcamp/components/breadcrumbs";
 @import "../bootcamp/components/completed-bar";
@@ -33,6 +34,8 @@
 @import "../bootcamp/pages/levels";
 @import "../bootcamp/pages/level";
 @import "../bootcamp/pages/faqs";
+@import "../bootcamp/pages/custom-functions";
+@import "../bootcamp/pages/custom-function-editor";
 
 @import "../bootcamp/pages/admin/base";
 @import "../bootcamp/pages/admin/exercises";

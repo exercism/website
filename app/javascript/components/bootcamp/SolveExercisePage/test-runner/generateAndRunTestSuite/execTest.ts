@@ -23,6 +23,7 @@ export function execTest(
     externalFunctions: buildExternalFunctions(options, exercise),
     classes: exercise?.availableClasses || [],
     languageFeatures: options.config.interpreterOptions,
+    customFunctions: options.customFunctions,
   }
 
   const args = testData.args ? parseArgs(testData.args) : []

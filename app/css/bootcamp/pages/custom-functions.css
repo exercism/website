@@ -1,0 +1,49 @@
+body.namespace-bootcamp.controller-custom_functions.action-index {
+    @apply bg-grad-basic;
+}
+#page-bootcamp-custom-functions {
+    header {
+        @apply pb-16;
+        h1 {
+            @apply text-[39px] leading-140;
+            @apply font-bold;
+        }
+        p {
+            @apply text-20 leading-140;
+            @apply max-w-[850px];
+        }
+    }
+    .nav {
+        @apply flex flex-row items-center gap-10;
+        @apply mb-12;
+        a {
+            @apply font-semibold text-16 text-[blue];
+        }
+    }
+
+    h2 {
+        @apply text-20 leading-150 font-semibold;
+    }
+    .functions {
+        @apply mb-32;
+
+        @apply grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+
+        a,
+        button {
+            @apply text-left;
+            @apply block border-1 border-borderColor5;
+            @apply py-12 px-16 rounded-5;
+            @apply shadow-base bg-white;
+            @apply flex flex-col items-start gap-2;
+            @apply overflow-hidden;
+
+            h3 {
+                @apply text-18 leading-150 font-semibold;
+            }
+            p {
+                @apply text-16 leading-150;
+            }
+        }
+    }
+}

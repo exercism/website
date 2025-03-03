@@ -1,7 +1,7 @@
 class Bootcamp::Submission::Create
   include Mandate
 
-  initialize_with :solution, :code, :test_results, :readonly_ranges
+  initialize_with :solution, :code, :test_results, :readonly_ranges, :custom_functions
 
   def call
     create_submission.tap do |submission|
@@ -15,7 +15,8 @@ class Bootcamp::Submission::Create
       solution:,
       code:,
       test_results: test_results.to_h,
-      readonly_ranges: readonly_ranges || []
+      readonly_ranges: readonly_ranges || [],
+      custom_functions: custom_functions || []
     )
   end
 

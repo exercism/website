@@ -1,4 +1,5 @@
-#bootcamp-solve-exercise-page {
+#bootcamp-solve-exercise-page,
+#bootcamp-custom-function-editor-page {
     .editor-wrapper {
         overflow: hidden;
         @apply h-[60%] flex-grow-0;

@@ -86,8 +86,8 @@ import type {
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
+import type { CallableCustomFunction, InterpretResult } from './interpreter'
 import type { LanguageFeatures, Meta } from './interpreter'
-import type { InterpretResult } from './interpreter'
 
 import type { Frame, FrameExecutionStatus } from './frames'
 import { describeFrame } from './frames'
@@ -138,6 +138,7 @@ export class Executor {
   private totalLoopIterations = 0
   private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
+  private customFunctionDefinitionMode: boolean
 
   private readonly globals = new Environment()
   private environment = this.globals
@@ -153,6 +154,7 @@ export class Executor {
     private readonly sourceCode: string,
     private languageFeatures: LanguageFeatures,
     private externalFunctions: ExternalFunction[],
+    private customFunctions: CallableCustomFunction[],
     private classes: Jiki.Class[],
     private externalState: Record<string, any> = {}
   ) {
@@ -173,6 +175,11 @@ export class Executor {
 
       this.globals.define(externalFunction.name, callable)
     }
+
+    for (let customFunction of customFunctions) {
+      this.globals.define(customFunction.name, customFunction)
+    }
+
     this.externalFunctionDescriptions = {
       functionDescriptions: this.externalFunctions.reduce((acc, fn) => {
         acc[fn.name] = fn.description
@@ -189,6 +196,9 @@ export class Executor {
 
     this.maxRepeatUntilGameOverIterations =
       this.languageFeatures.maxRepeatUntilGameOverIterations
+
+    this.customFunctionDefinitionMode =
+      this.languageFeatures.customFunctionDefinitionMode
   }
 
   public updateState(name: string, value: any) {
@@ -308,6 +318,7 @@ export class Executor {
 
       return {
         value: result ? Jiki.unwrapJikiObject(result.jikiObject) : undefined,
+        jikiObject: result?.jikiObject,
         frames: this.frames,
         error: null,
         meta: this.generateMeta([statement]),
@@ -421,6 +432,12 @@ export class Executor {
   public visitSetVariableStatement(statement: SetVariableStatement): void {
     this.executeFrame<EvaluationResultSetVariableStatement>(statement, () => {
       this.guardDefinedName(statement.name)
+
+      if (statement.name.lexeme.includes('#')) {
+        this.error('VariableCannotBeNamespaced', statement.name.location, {
+          name: statement.name.lexeme,
+        })
+      }
 
       let value: EvaluationResultExpression
       try {
@@ -661,6 +678,16 @@ export class Executor {
       this.environment,
       this.languageFeatures
     )
+
+    if (
+      !this.customFunctionDefinitionMode &&
+      statement.name.lexeme.includes('#')
+    ) {
+      this.error('FunctionCannotBeNamespaced', statement.name.location, {
+        name: statement.name.lexeme,
+      })
+    }
+
     this.guardDefinedName(statement.name)
     this.environment.define(statement.name.lexeme, func)
   }

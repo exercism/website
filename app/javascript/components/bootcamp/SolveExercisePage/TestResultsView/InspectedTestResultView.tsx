@@ -9,7 +9,6 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
-import { useLogger } from '@/hooks'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()

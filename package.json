@@ -107,6 +107,7 @@
     "react-error-boundary": "^3.1.0",
     "react-fast-compare": "^3.2.0",
     "react-google-recaptcha": "^2.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-image-crop": "^8.6.9",
     "react-modal": "^3.16.1",
     "react-popper": "^2.3.0",

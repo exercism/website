@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20250216225715) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_03_015104) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -81,7 +81,26 @@ ActiveRecord::Schema[7.0].define(version: 20250216225715) do
     t.text "content_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid"
     t.index ["parent_id"], name: "fk_rails_a7c513f5e1"
+  end
+
+  create_table "bootcamp_custom_functions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "user_id", null: false
+    t.boolean "active", default: false, null: false
+    t.text "code", null: false
+    t.text "description", null: false
+    t.text "tests", size: :long, null: false
+    t.string "name", null: false
+    t.integer "arity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "depends_on", null: false
+    t.boolean "predefined", default: false, null: false
+    t.index ["user_id", "name"], name: "index_bootcamp_custom_functions_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"
+    t.index ["uuid"], name: "index_bootcamp_custom_functions_on_uuid", unique: true
   end
 
   create_table "bootcamp_drawings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -176,6 +195,7 @@ ActiveRecord::Schema[7.0].define(version: 20250216225715) do
     t.text "test_results", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "custom_functions", null: false
     t.index ["solution_id"], name: "index_bootcamp_submissions_on_solution_id"
   end
 
@@ -1780,6 +1800,7 @@ ActiveRecord::Schema[7.0].define(version: 20250216225715) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "bootcamp_concepts", "bootcamp_concepts", column: "parent_id"
+  add_foreign_key "bootcamp_custom_functions", "users"
   add_foreign_key "bootcamp_drawings", "users"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"

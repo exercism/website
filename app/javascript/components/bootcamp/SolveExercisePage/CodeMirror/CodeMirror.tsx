@@ -7,7 +7,7 @@ import React, {
   useContext,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
-import { EditorState, Compartment } from '@codemirror/state'
+import { EditorState, Compartment, Extension } from '@codemirror/state'
 import { minimalSetup } from 'codemirror'
 import { indentWithTab } from '@codemirror/commands'
 import {
@@ -74,11 +74,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     handleRunCode,
     style,
     onEditorChangeCallback,
+    extensions = [],
   }: {
     editorDidMount: (handler: Handler) => void
     handleRunCode: () => void
     style?: React.CSSProperties
-    onEditorChangeCallback?: () => void
+    onEditorChangeCallback?: (view: EditorView) => void
+    extensions?: Extension[]
   },
   ref: ForwardedRef<EditorView | null>
 ) {
@@ -106,10 +108,15 @@ export const CodeMirror = forwardRef(function _CodeMirror(
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
     return debounce((value: string, view) => {
+      if (!setExerciseLocalStorageData) {
+        return
+      }
+
       const readonlyRanges = getCodeMirrorFieldValue(
         view,
         readOnlyRangesStateField
       )
+
       setExerciseLocalStorageData({
         code: value,
         storedAt: new Date().toISOString(),
@@ -211,13 +218,14 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             },
             () => {
               if (onEditorChangeCallback) {
-                onEditorChangeCallback()
+                onEditorChangeCallback(view)
               }
             }
           ),
           Ext.cursorTooltip(),
           Ext.highlightedCodeBlock(),
           Ext.initReadOnlyRangesExtension(),
+          ...extensions,
         ],
       }),
       parent: textarea,

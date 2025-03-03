@@ -116,6 +116,8 @@ export type RuntimeErrorType =
   | 'RepeatCountTooHigh'
   | 'NonCallableTarget'
   | 'InfiniteLoop'
+  | 'VariableCannotBeNamespaced'
+  | 'FunctionCannotBeNamespaced'
   | 'TooFewArguments'
   | 'TooManyArguments'
   | 'InvalidNumberOfArgumentsWithOptionalArguments'
@@ -166,6 +168,7 @@ export type RuntimeErrorType =
   | 'WrongNumberOfArgumentsInConstructor'
   | 'UnexpectedForeachSecondElementName'
   | 'MissingForeachSecondElementName'
+  | 'UnexpectedObjectArgumentForCustomFunction'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

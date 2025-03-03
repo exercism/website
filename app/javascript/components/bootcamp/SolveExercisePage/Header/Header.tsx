@@ -11,6 +11,7 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
 import { CompletedBonusTasksModal } from '../../modals/CompletedBonusTasksModal/CompletedBonusTasksModal'
+import { CustomFunctionsButton } from '../../CustomFunctionEditor/Header/CustomFunctionsButton'
 
 function _Header() {
   const { areAllTasksCompleted } = useTaskStore()
@@ -38,6 +39,7 @@ function _Header() {
         </div>
       </div>
       <div className="ml-auto flex items-center gap-8">
+        <CustomFunctionsButton />
         <ResetButton />
 
         {solution.status === 'in_progress' && (

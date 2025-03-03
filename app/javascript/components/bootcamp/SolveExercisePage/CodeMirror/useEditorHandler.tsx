@@ -6,7 +6,6 @@ import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOn
 import useEditorStore from '../store/editorStore'
 import useErrorStore from '../store/errorStore'
 import { ExerciseLocalStorageData } from '../SolveExercisePageContextWrapper'
-import useTaskStore from '../store/taskStore/taskStore'
 
 export function useEditorHandler({
   links,

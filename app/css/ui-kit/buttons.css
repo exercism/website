@@ -189,6 +189,14 @@
             height: 14px;
             width: 14px;
         }
+        & > .c-icon {
+            &:first-child {
+                @apply mr-6;
+            }
+            &:last-child {
+                @apply ml-6;
+            }
+        }
         & > .kb-shortcut {
             @apply text-13;
         }

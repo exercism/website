@@ -8,6 +8,7 @@
     "raindrops",
     "collatz-conjecture",
     "triangle",
-    "isbn-verifier"
+    "isbn-verifier",
+    "sieve"
   ]
 }

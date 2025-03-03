@@ -7,6 +7,7 @@
     "even-or-odd",
     "raindrops",
     "collatz-conjecture",
-    "triangle"
+    "triangle",
+    "isbn-verifier"
   ]
 }

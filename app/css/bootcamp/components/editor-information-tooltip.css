@@ -1,5 +1,7 @@
 .information-tooltip {
     max-width: 450px;
+    max-height: 600px;
+    @apply overflow-auto;
     transition: opacity 0.3s;
     @apply z-tooltip;
     /* pointer-events: none; */

@@ -1,0 +1,64 @@
+{
+  "title": "Lookup Time",
+  "description": "Look up the time",
+  "level": 7,
+  "idx": 7,
+  "tests_type": "io",
+  "project_type": "data",
+  "stdlib_functions": ["concatenate"],
+  "tasks": [
+    {
+      "name": "Get the time",
+      "tests": [
+        {
+          "slug": "amsterdam",
+          "name": "Amsterdam",
+          "description_html": "Return the time in Amsterdam.",
+          "function": "get_time",
+          "args": ["Amsterdam"],
+          "checks": [
+            {
+              "value": "The time on this Monday in Amsterdam is 00:28"
+            }
+          ]
+        },
+        {
+          "slug": "tokyo",
+          "name": "Tokyo",
+          "description_html": "Return the time in Tokyo.",
+          "function": "get_time",
+          "args": ["Tokyo"],
+          "checks": [
+            {
+              "value": "The time on this Monday in Tokyo is 08:39"
+            }
+          ]
+        },
+        {
+          "slug": "lima",
+          "name": "Lima",
+          "description_html": "Return the time in Lima.",
+          "function": "get_time",
+          "args": ["Lima"],
+          "checks": [
+            {
+              "value": "The time on this Sunday in Lima is 18:39"
+            }
+          ]
+        },
+        {
+          "slug": "error",
+          "name": "Handle Error",
+          "description_html": "Handle an error correctly",
+          "function": "get_time",
+          "args": ["London"],
+          "checks": [
+            {
+              "value": "Could not determine the time."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

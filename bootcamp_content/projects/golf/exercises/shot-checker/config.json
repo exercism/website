@@ -30,27 +30,27 @@
           ],
           "checks": [
             {
-              "name": "getCircleAt(29, 75, 3)",
+              "function": "getCircleAt(29, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
-              "name": "getCircleAt(30, 75, 3)",
+              "function": "getCircleAt(30, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(53, 75, 3)",
+              "function": "getCircleAt(53, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(54, 75, 3)",
+              "function": "getCircleAt(54, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeFalse",
               "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
@@ -71,32 +71,32 @@
           ],
           "checks": [
             {
-              "name": "getCircleAt(29, 75, 3)",
+              "function": "getCircleAt(29, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
-              "name": "getCircleAt(30, 75, 3)",
+              "function": "getCircleAt(30, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(100, 75, 3)",
+              "function": "getCircleAt(100, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(101, 75, 3)",
+              "function": "getCircleAt(101, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the right."
             },
             {
-              "name": "getCircleAt(100, 76, 3)",
+              "function": "getCircleAt(100, 76, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball tried to sink into the ground beyond the hole."
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeFalse",
               "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
             }
@@ -117,37 +117,37 @@
           ],
           "checks": [
             {
-              "name": "getCircleAt(29, 75, 3)",
+              "function": "getCircleAt(29, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
-              "name": "getCircleAt(30, 75, 3)",
+              "function": "getCircleAt(30, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(86, 75, 3)",
+              "function": "getCircleAt(86, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
-              "name": "getCircleAt(86, 83, 3)",
+              "function": "getCircleAt(86, 83, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(86, 84, 3)",
+              "function": "getCircleAt(86, 84, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(86, 85, 3)",
+              "function": "getCircleAt(86, 85, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to sink into the grass too far!"
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire."
             }
@@ -168,37 +168,37 @@
           ],
           "checks": [
             {
-              "name": "getCircleAt(29, 75, 3)",
+              "function": "getCircleAt(29, 75, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to go too far to the left."
             },
             {
-              "name": "getCircleAt(30, 75, 3)",
+              "function": "getCircleAt(30, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to start in the right place."
             },
             {
-              "name": "getCircleAt(93, 75, 3)",
+              "function": "getCircleAt(93, 75, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
-              "name": "getCircleAt(93, 83, 3)",
+              "function": "getCircleAt(93, 83, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(93, 84, 3)",
+              "function": "getCircleAt(93, 84, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "name": "getCircleAt(93, 85, 3)",
+              "function": "getCircleAt(93, 85, 3)",
               "matcher": "toBeUndefined",
               "error_html": "The ball seems to sink into the grass too far!"
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire."
             }

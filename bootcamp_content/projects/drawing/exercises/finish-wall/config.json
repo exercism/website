@@ -27,27 +27,27 @@
           ],
           "checks": [
             {
-              "name": "getRectangleAt(0, 0, 20, 10)",
+              "function": "getRectangleAt(0, 0, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The left brick isn't correct."
             },
             {
-              "name": "getRectangleAt(40, 0, 20, 10)",
+              "function": "getRectangleAt(40, 0, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The middle brick isn't correct."
             },
             {
-              "name": "getRectangleAt(80, 0, 20, 10)",
+              "function": "getRectangleAt(80, 0, 20, 10)",
               "matcher": "toBeDefined",
               "error_html": "The right brick isn't correct."
             },
             {
-              "name": "wasFunctionCalled('rectangle', null, 5)",
+              "function": "wasFunctionCalled('rectangle', null, 5)",
               "matcher": "toBeTrue",
               "error_html": "You didn't add exactly 5 bricks."
             },
             {
-              "name": "numFunctionCallsInCode('rectangle')",
+              "function": "numFunctionCallsInCode('rectangle')",
               "matcher": "toEqual",
               "value": 1,
               "error_html": "You are using the `rectangle` function in multiple places in your code."

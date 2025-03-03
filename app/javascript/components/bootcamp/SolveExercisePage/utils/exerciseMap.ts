@@ -9,6 +9,7 @@ import TicTacToeExercise from '../exercises/tic_tac_toe/TicTacToeExercise'
 import BreakoutExercise from '../exercises/breakout/BreakoutExercise'
 import WeatherExercise from '../exercises/weather/WeatherExercise'
 import HouseExercise from '../exercises/house/HouseExercise'
+import DataExercise from '../exercises/data/DataExercise'
 
 import { Exercise } from '../exercises/Exercise'
 
@@ -26,6 +27,7 @@ projectsCache.set('tic-tac-toe', TicTacToeExercise)
 projectsCache.set('breakout', BreakoutExercise)
 projectsCache.set('weather', WeatherExercise)
 projectsCache.set('house', HouseExercise)
+projectsCache.set('data', DataExercise)
 
 export default projectsCache
 

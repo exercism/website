@@ -37,6 +37,11 @@ const StdlibFunctions: Record<string, ExternalFunction> = {
     func: numberToString,
     description: 'converted the number to a string',
   },
+  string_to_number: {
+    name: 'string_to_number',
+    func: stringToNumber,
+    description: 'converted the string to a number',
+  },
   to_upper_case: {
     name: 'to_upper_case',
     func: toUpperCase,
@@ -116,6 +121,23 @@ function numberToString(_: ExecutionContext, num: Jiki.Number): Jiki.String {
   return new Jiki.String(num.value.toString())
 }
 
+function stringToNumber(
+  executionCtx: ExecutionContext,
+  str: Jiki.String
+): Jiki.Number {
+  verifyType(str, Jiki.String, 'string', 1)
+
+  const num = Number(str.value)
+  if (isNaN(num)) {
+    executionCtx.logicError(
+      `Could not convert the string to a number. Does <code>${JSON.stringify(
+        str.value
+      )}</code> look like a valid number?`
+    )
+  }
+  return new Jiki.Number(num)
+}
+
 function toUpperCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
   verifyType(str, Jiki.String, 'string', 1)
 
@@ -183,6 +205,6 @@ function verifyType(
   throw new FunctionCallTypeMismatchError({
     argIdx,
     expectedType: targetType,
-    actualType: typeof arg,
+    value: arg,
   })
 }

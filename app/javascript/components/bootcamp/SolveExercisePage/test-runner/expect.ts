@@ -3,26 +3,21 @@ import isEqual from 'lodash.isequal'
 
 export function expect({
   actual,
-  name,
-  slug,
   errorHtml,
-  note,
-  testsType,
+  codeRun,
+  matcher,
 }: {
   actual: any
-  name?: string
   slug?: string
   errorHtml?: string
-  note?: string
-  testsType: TestsType
+  codeRun?: string
+  matcher: AvailableMatchers
 }): Record<AvailableMatchers, (expected?: any) => MatcherResult> {
   const returnObject: Omit<MatcherResult, 'pass' | 'expected'> = {
     actual,
-    slug: slug ?? '',
-    name: name ?? '',
     errorHtml,
-    note,
-    testsType,
+    codeRun,
+    matcher,
   }
   return {
     toBeDefined() {

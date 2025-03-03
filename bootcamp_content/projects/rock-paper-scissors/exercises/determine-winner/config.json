@@ -20,12 +20,12 @@
           "setup_functions": [["setChoices", ["paper", "paper"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "tie",
               "error_html": "Paper vs Paper should be a tie but it was a {value}"
             }
@@ -39,12 +39,12 @@
           "setup_functions": [["setChoices", ["paper", "rock"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_1",
               "error_html": "Paper vs Rock should be a win for player 1 but it was a {value}"
             }
@@ -58,12 +58,12 @@
           "setup_functions": [["setChoices", ["paper", "scissors"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_2",
               "error_html": "Paper vs Scissors should be a win for player 2 but it was a {value}"
             }
@@ -77,12 +77,12 @@
           "setup_functions": [["setChoices", ["rock", "paper"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_2",
               "error_html": "Rock vs Paper should be a win for player 2 but it was a {value}"
             }
@@ -96,12 +96,12 @@
           "setup_functions": [["setChoices", ["rock", "rock"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "tie",
               "error_html": "Rock vs Rock should be a tie but it was a {value}"
             }
@@ -115,12 +115,12 @@
           "setup_functions": [["setChoices", ["rock", "scissors"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_1",
               "error_html": "Rock vs Scissors should be a win for player 1 but it was a {value}"
             }
@@ -134,12 +134,12 @@
           "setup_functions": [["setChoices", ["scissors", "paper"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_1",
               "error_html": "Scissors vs Paper should be a win for player 1 but it was a {value}"
             }
@@ -153,12 +153,12 @@
           "setup_functions": [["setChoices", ["scissors", "rock"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "player_2",
               "error_html": "Scissors vs Rock should be a win for player 2 but it was a {value}"
             }
@@ -172,12 +172,12 @@
           "setup_functions": [["setChoices", ["scissors", "scissors"]]],
           "checks": [
             {
-              "name": "result",
+              "property": "result",
               "matcher": "toBeDefined",
               "error_html": "You didn't announce a result!"
             },
             {
-              "name": "result",
+              "property": "result",
               "value": "tie",
               "error_html": "Scissors vs Scissors should be a tie but it was a {value}"
             }
@@ -196,12 +196,12 @@
           "setup_functions": [["setChoices", ["scissors", "scissors"]]],
           "checks": [
             {
-              "name": "numFunctionCalls('get_player_1_choice')",
+              "function": "numFunctionCalls('get_player_1_choice')",
               "value": 1,
               "error_html": "You called `get_player_1_choice()` more than once."
             },
             {
-              "name": "numFunctionCalls('get_player_2_choice')",
+              "function": "numFunctionCalls('get_player_2_choice')",
               "value": 1,
               "error_html": "You called `get_player_2_choice()` more than once."
             }
@@ -214,7 +214,7 @@
           "setup_functions": [["setChoices", ["scissors", "scissors"]]],
           "checks": [
             {
-              "name": "numFunctionCallsInCode('announce_result')",
+              "function": "numFunctionCallsInCode('announce_result')",
               "value": 1,
               "error_html": "You called `announce_result(...)` more than once."
             }
@@ -227,7 +227,7 @@
           "setup_functions": [["setChoices", ["scissors", "scissors"]]],
           "checks": [
             {
-              "name": "numLinesOfCode()",
+              "function": "numLinesOfCode()",
               "matcher": "toBeLessThanOrEqual",
               "value": 13,
               "error_html": "You used more than 13 lines of code."

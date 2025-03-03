@@ -17,12 +17,12 @@
           "setup_functions": [["setTime", [6, 35]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "6:35am",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 6:35am"
@@ -36,12 +36,12 @@
           "setup_functions": [["setTime", [11, 4]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "11:4am",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 11:04am"
@@ -55,12 +55,12 @@
           "setup_functions": [["setTime", [12, 19]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "12:19pm",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 12:19pm"
@@ -74,12 +74,12 @@
           "setup_functions": [["setTime", [23, 32]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "11:32pm",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 11:32pm"
@@ -93,12 +93,12 @@
           "setup_functions": [["setTime", [0, 0]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "12:0am",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 12:00am"
@@ -112,12 +112,12 @@
           "setup_functions": [["setTime", [12, 0]]],
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "value": "12:0pm",
               "matcher": "toEqual",
               "error_html": "The clock didn't display 12:00pm"
@@ -130,12 +130,12 @@
           "description_html": "Display the current time",
           "checks": [
             {
-              "name": "displayedTime",
+              "property": "displayedTime",
               "matcher": "toBeDefined",
               "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
             },
             {
-              "name": "didDisplayCurrentTime()",
+              "function": "didDisplayCurrentTime()",
               "matcher": "toBeTrue",
               "error_html": "The clock didn't display the current time"
             }

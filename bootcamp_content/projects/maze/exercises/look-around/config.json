@@ -39,7 +39,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 6],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -75,12 +75,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [8, 5],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "direction",
+              "property": "direction",
               "value": "right",
               "error_html": "You seem to have done an extra unnecessary turn at the end."
             }
@@ -116,7 +116,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 5],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -147,7 +147,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [8, 2],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -183,7 +183,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 7],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -214,37 +214,37 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 8],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "wasFunctionCalled('turn_around')",
+              "function": "wasFunctionCalled('turn_around')",
               "matcher": "toBeTrue",
               "error_html": "Your custom turn_around() function wasn't used."
             },
             {
-              "name": "wasFunctionCalled('can_turn_left')",
+              "function": "wasFunctionCalled('can_turn_left')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_turn_left() function wasn't used."
             },
             {
-              "name": "wasFunctionCalled('can_turn_right')",
+              "function": "wasFunctionCalled('can_turn_right')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_turn_right() function wasn't used."
             },
             {
-              "name": "wasFunctionCalled('can_move')",
+              "function": "wasFunctionCalled('can_move')",
               "matcher": "toBeTrue",
               "error_html": "Your custom can_move() function wasn't used."
             },
             {
-              "name": "wasFunctionCalled('turn_right')",
+              "function": "wasFunctionCalled('turn_right')",
               "matcher": "toBeTrue",
               "error_html": "The turn_right() function was never used."
             },
             {
-              "name": "wasFunctionCalled('turn_left')",
+              "function": "wasFunctionCalled('turn_left')",
               "matcher": "toBeTrue",
               "error_html": "The turn_left() function was never used."
             }
@@ -275,7 +275,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 0],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -313,7 +313,7 @@
           ],
           "checks": [
             {
-              "name": "numFunctionCallsInCode('look')",
+              "function": "numFunctionCallsInCode('look')",
               "value": 1,
               "error_html": "You used look more than once (%actual% times)."
             }
@@ -345,7 +345,7 @@
           ],
           "checks": [
             {
-              "name": "numLinesOfCode(18)",
+              "function": "numLinesOfCode(18)",
               "matcher": "toBeLessThanOrEqual",
               "value": 13,
               "error_html": "You added more than %actual% lines of code."

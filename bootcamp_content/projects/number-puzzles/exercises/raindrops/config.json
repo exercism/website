@@ -18,8 +18,12 @@
           "description_html": "If 3 is input, return \"Pling\"",
           "name": "Number 3",
           "function": "raindrops",
-          "params": [3],
-          "expected": "Pling",
+          "args": [3],
+          "checks": [
+            {
+              "value": "Pling"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/3.jpg"
         },
         {
@@ -28,8 +32,12 @@
           "type": "io",
           "name": "Number 27",
           "function": "raindrops",
-          "params": [27],
-          "expected": "Pling",
+          "args": [27],
+          "checks": [
+            {
+              "value": "Pling"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/27.jpg"
         }
       ]
@@ -42,8 +50,12 @@
           "description_html": "If 5 is input, return \"Plang\"",
           "name": "Number 5",
           "function": "raindrops",
-          "params": [5],
-          "expected": "Plang",
+          "args": [5],
+          "checks": [
+            {
+              "value": "Plang"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/5.jpg"
         },
         {
@@ -51,8 +63,12 @@
           "description_html": "If 3125 is input, return \"Plang\"",
           "name": "Number 3125",
           "function": "raindrops",
-          "params": [3125],
-          "expected": "Plang",
+          "args": [3125],
+          "checks": [
+            {
+              "value": "Plang"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/3125.jpg"
         },
         {
@@ -60,8 +76,12 @@
           "description_html": "If 15 is input, return \"PlingPlang\"",
           "name": "Number 15",
           "function": "raindrops",
-          "params": [15],
-          "expected": "PlingPlang",
+          "args": [15],
+          "checks": [
+            {
+              "value": "PlingPlang"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/15.jpg"
         }
       ]
@@ -74,8 +94,12 @@
           "description_html": "If 7 is input, return \"Plong\"",
           "name": "Number 7",
           "function": "raindrops",
-          "params": [7],
-          "expected": "Plong",
+          "args": [7],
+          "checks": [
+            {
+              "value": "Plong"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/7.jpg"
         },
         {
@@ -83,8 +107,12 @@
           "description_html": "If 21 is input, return \"PlingPlong\"",
           "name": "Number 21",
           "function": "raindrops",
-          "params": [21],
-          "expected": "PlingPlong",
+          "args": [21],
+          "checks": [
+            {
+              "value": "PlingPlong"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/21.jpg"
         },
         {
@@ -92,8 +120,12 @@
           "description_html": "If 35 is input, return \"PlangPlong\"",
           "name": "Number 35",
           "function": "raindrops",
-          "params": [35],
-          "expected": "PlangPlong",
+          "args": [35],
+          "checks": [
+            {
+              "value": "PlangPlong"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/35.jpg"
         },
         {
@@ -101,8 +133,12 @@
           "description_html": "If 105 is input, return \"PlingPlangPlong\"",
           "name": "Number 105",
           "function": "raindrops",
-          "params": [105],
-          "expected": "PlingPlangPlong",
+          "args": [105],
+          "checks": [
+            {
+              "value": "PlingPlangPlong"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/105.jpg"
         }
       ]
@@ -115,8 +151,12 @@
           "description_html": "If 8 is input, return 8",
           "name": "Number 8",
           "function": "raindrops",
-          "params": [8],
-          "expected": "8",
+          "args": [8],
+          "checks": [
+            {
+              "value": "8"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/8.jpg"
         },
         {
@@ -124,8 +164,12 @@
           "description_html": "If 52 is input, return 52",
           "name": "Number 52",
           "function": "raindrops",
-          "params": [52],
-          "expected": "52",
+          "args": [52],
+          "checks": [
+            {
+              "value": "52"
+            }
+          ],
           "image_slug": "number-puzzles/raindrops/52.jpg"
         }
       ]

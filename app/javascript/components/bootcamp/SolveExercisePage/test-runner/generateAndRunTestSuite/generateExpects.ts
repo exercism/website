@@ -2,113 +2,79 @@ import { expect } from '../expect'
 import type { Exercise } from '../../exercises/Exercise'
 import { InterpretResult } from '@/interpreter/interpreter'
 import checkers from './checkers'
+import { generateCodeRunString } from '../../utils/generateCodeRunString'
 
 export function generateExpects(
-  testsType: 'io' | 'state',
   interpreterResult: InterpretResult,
   testData: TaskTest,
-  { exercise, actual }: { exercise?: Exercise; actual?: any }
-) {
-  if (testsType == 'state') {
-    return generateExpectsForStateTests(exercise!, interpreterResult, testData)
-  } else {
-    return generateExpectsForIoTests(testData, interpreterResult, actual)
-  }
-}
-
-// These are normal function in/out tests. We always know the actual value at this point
-// (as it's returned from the function) so we can just compare it to the check value.
-function generateExpectsForIoTests(
-  testData: TaskTest,
-  interpreterResult: InterpretResult,
-  actual: any
-) {
-  let expects = [
-    expect({
-      actual,
-      testsType: 'io',
-      name: testData.name,
-      slug: testData.slug,
-    })[(testData.matcher || 'toEqual') as AvailableMatchers](testData.expected),
-  ]
-
-  if (testData.check) {
-    const check = testData.check.function
-    // If it's a function call, we split out any params and then call the function
-    // on the exercise with those params passed in.
-    const fnName = check.slice(0, check.indexOf('('))
-    const argsString = check.slice(check.indexOf('(') + 1, -1)
-
-    // We eval the args to turn numbers into numbers, strings into strings, etc.
-    const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
-    const args = safe_eval(`[${argsString}]`)
-
-    // And then we get the function and call it.
-    const fn = checkers[fnName]
-    const checkActual = fn.call(null, interpreterResult, ...args)
-    const checkExpected = testData.check.expected
-    const checkMatcher = testData.check.matcher || 'toEqual'
-
-    expects.push(
-      expect({
-        actual: checkActual,
-        testsType: 'io/check',
-        name: testData.name,
-        slug: testData.slug,
-        errorHtml: testData.check.errorHtml,
-      })[checkMatcher as AvailableMatchers](checkExpected)
-    )
-  }
-
-  return expects
-}
-
-// These are the state tests, where we're comparing mutiple different variables or functions
-// on the resulting exercise.
-function generateExpectsForStateTests(
-  exercise: Exercise,
-  interpreterResult: InterpretResult,
-  testData: TaskTest
+  actual: any,
+  exercise?: Exercise
 ) {
   // We only need to do this once, so do it outside the loop.
-  const state = exercise.getState()
+  const state = exercise ? exercise.getState() : {}
 
-  return testData.checks!.map((check) => {
+  return (testData.checks || []).map((check: ExpectCheck) => {
     const matcher = check.matcher || 'toEqual'
 
     // Check can either be a reference to the final state or a function call.
     // We pivot on that to determine the actual value
-    let actual
+    let checkActual
+    let codeRun
+    const checkType = check.hasOwnProperty('function')
+      ? 'function'
+      : check.hasOwnProperty('property')
+      ? 'property'
+      : 'return'
 
     // If it's a function call, we split out any params and then call the function
     // on the exercise with those params passed in.
-    if (check.name.includes('(') && check.name.endsWith(')')) {
-      const fnName = check.name.slice(0, check.name.indexOf('('))
-      const argsString = check.name.slice(check.name.indexOf('(') + 1, -1)
+    if (checkType == 'function') {
+      check = check as ExpectCheckFunction
 
-      // We eval the args to turn numbers into numbers, strings into strings, etc.
-      const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
-      const args = safe_eval(`[${argsString}]`)
+      let fnName
+      let args
+      if (check.function.includes('(') && check.function.endsWith(')')) {
+        fnName = check.function.slice(0, check.function.indexOf('('))
+        const argsString = check.function.slice(
+          check.function.indexOf('(') + 1,
+          -1
+        )
 
-      // And then we get the function and call it.
-      const fn = exercise[fnName]
-      actual = fn.bind(exercise).call(exercise, interpreterResult, ...args)
+        // We eval the args to turn numbers into numbers, strings into strings, etc.
+        const safe_eval = eval // https://esbuild.github.io/content-types/#direct-eval
+        args = safe_eval(`[${argsString}]`)
+      } else {
+        fnName = check.function
+        args = check.args || []
+      }
+
+      // And then we get the function from either exercise or checkers and call it.
+      const fn = exercise ? exercise[fnName].bind(exercise) : checkers[fnName]
+
+      checkActual = fn.call(exercise, interpreterResult, ...args)
+      codeRun = check.codeRun ? check.codeRun : undefined
     }
-
     // Our normal state is much easier! We just check the state object that
     // we've retrieved above via getState() for the variable in question.
-    else {
-      actual = state[check.name]
+    else if (checkType == 'property') {
+      check = check as ExpectCheckProperty
+      checkActual = state[check.property]
+      codeRun = check.codeRun ? check.codeRun : undefined
     }
 
-    const errorHtml = check.errorHtml?.replaceAll('%actual%', actual) || ''
+    // And the return state is easiest of all!
+    else {
+      checkActual = actual
+    }
+
+    const errorHtml = check.errorHtml?.replaceAll('%actual%', checkActual) || ''
 
     return expect({
       ...check,
-      testsType: 'state',
-      actual,
+      actual: checkActual,
+      codeRun,
       errorHtml,
-      name: check.label ?? check.name,
+      matcher, // Useful for logging and the actual tests
     })[matcher as AvailableMatchers](check.value)
   })
 }

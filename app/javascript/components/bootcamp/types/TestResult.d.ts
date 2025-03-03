@@ -27,6 +27,6 @@ declare type PreviousTestResult = {
   actual: string | null
   expected: string | undefined | null
   codeRun: string
-  testsType: TestsType
+  type: TestsType
   errorHtml?: string
 }

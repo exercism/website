@@ -13,32 +13,48 @@
           "description_html": "Return true if a person is on the guest list",
           "name": "Person is on a single person list",
           "function": "on_guest_list",
-          "params": [["Jeremy"], "Jeremy"],
-          "expected": true
+          "args": [["Jeremy"], "Jeremy"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "name-single-list-false",
           "description_html": "Return false if a person is not on the guest list",
           "name": "Person is not on a single person list",
           "function": "on_guest_list",
-          "params": [["Nicole"], "Jeremy"],
-          "expected": false
+          "args": [["Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         },
         {
           "slug": "name-list-true",
           "description_html": "Return true if a person is on a larger guest list",
           "name": "Person is on a larger list",
           "function": "on_guest_list",
-          "params": [["Aron", "Jeremy", "Nicole"], "Jeremy"],
-          "expected": true
+          "args": [["Aron", "Jeremy", "Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
         },
         {
           "slug": "name-list-false",
           "description_html": "Return false if a person is not on a larger guest list",
           "name": "Person is not on a larger list",
           "function": "on_guest_list",
-          "params": [["Aron", "Frank", "Nicole"], "Jeremy"],
-          "expected": false
+          "args": [["Aron", "Frank", "Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
         }
       ]
     }

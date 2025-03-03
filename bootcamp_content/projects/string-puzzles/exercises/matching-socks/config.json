@@ -21,47 +21,67 @@
           "description_html": "Both baskets are empty",
           "name": "Empty baskets",
           "function": "matching_socks",
-          "params": [[], []],
-          "expected": []
+          "args": [[], []],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
         },
         {
           "slug": "nothing-clean",
           "description_html": "There's nothing clean",
           "name": "Nothing clean",
           "function": "matching_socks",
-          "params": [[], ["sweater"]],
-          "expected": []
+          "args": [[], ["sweater"]],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
         },
         {
           "slug": "nothing-dirty",
           "description_html": "There's nothing dirty",
           "name": "Nothing dirty",
           "function": "matching_socks",
-          "params": [["left spotty sock"], []],
-          "expected": []
+          "args": [["left spotty sock"], []],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
         },
         {
           "slug": "no-socks",
           "description_html": "There are no socks anywhere",
           "name": "No socks",
           "function": "matching_socks",
-          "params": [["blue sweater"], ["green trousers"]],
-          "expected": []
+          "args": [["blue sweater"], ["green trousers"]],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
         },
         {
           "slug": "one-in-each",
           "description_html": "There's a matching sock in each",
           "name": "One in each",
           "function": "matching_socks",
-          "params": [["left red sock"], ["right red sock"]],
-          "expected": ["red socks"]
+          "args": [["left red sock"], ["right red sock"]],
+          "checks": [
+            {
+              "value": ["red socks"]
+            }
+          ]
         },
         {
           "slug": "a-big-mix",
           "description_html": "A mix of clothes",
           "name": "A big mix!",
           "function": "matching_socks",
-          "params": [
+          "args": [
             [
               "left red sock",
               "right green sock",
@@ -76,15 +96,19 @@
               "right spotty sock"
             ]
           ],
-          "expected": ["red socks", "blue socks", "spotty socks"],
-          "matcher": "toIncludeSameMembers"
+          "checks": [
+            {
+              "value": ["red socks", "blue socks", "spotty socks"],
+              "matcher": "toIncludeSameMembers"
+            }
+          ]
         },
         {
           "slug": "some-added-pain",
           "description_html": "A few oddities snuck in",
           "name": "Odds and ends",
           "function": "matching_socks",
-          "params": [
+          "args": [
             [
               "left red sock",
               "right pink sock",
@@ -106,8 +130,12 @@
               "left green sock"
             ]
           ],
-          "expected": ["red socks", "blue socks", "spotty socks"],
-          "matcher": "toIncludeSameMembers"
+          "checks": [
+            {
+              "value": ["red socks", "blue socks", "spotty socks"],
+              "matcher": "toIncludeSameMembers"
+            }
+          ]
         }
       ]
     }

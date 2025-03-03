@@ -20,27 +20,27 @@
           "description_html": "Animate the sun and the sky to make it look like the sun is setting.",
           "checks": [
             {
-              "name": "getCircleAt(50, 11, 5.2)",
+              "function": "getCircleAt(50, 11, 5.2)",
               "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the beginning."
             },
             {
-              "name": "getCircleAt(50, 20, 7)",
+              "function": "getCircleAt(50, 20, 7)",
               "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the middle."
             },
             {
-              "name": "getCircleAt(50, 109, 24.8)",
+              "function": "getCircleAt(50, 109, 24.8)",
               "matcher": "toBeDefined",
               "error_html": "The sun seems wrong near the end."
             },
             {
-              "name": "checkUniqueColoredRectangles(10)",
+              "function": "checkUniqueColoredRectangles(10)",
               "matcher": "toBeTrue",
               "error_html": "The sky doesn't seem to be changing color"
             },
             {
-              "name": "checkUniqueColoredCircles(10)",
+              "function": "checkUniqueColoredCircles(10)",
               "matcher": "toBeTrue",
               "error_html": "The sun doesn't seem to be changing color"
             }

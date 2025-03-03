@@ -5,13 +5,17 @@ import {
 } from '@/interpreter/interpreter'
 import fs from 'fs'
 import path from 'path'
-import exerciseMap from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
+import exerciseMap, {
+  Project,
+} from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exercise'
-import { parseParams } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/parseParams'
+import { parseArgs } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/parseArgs'
 import { Camelized, camelizeKeys } from 'humps'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
 import checkers from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/checkers'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
+import { execTest } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
+import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -38,7 +42,7 @@ function testIo(project, exerciseSlug, config, task, testData, exampleScript) {
       languageFeatures: config.interpreterOptions,
     }
 
-    const parsedParams = parseParams(testData.params)
+    const parsedParams = parseArgs(testData.params)
 
     let result: EvaluateFunctionResult
     try {
@@ -180,22 +184,29 @@ describe('Exercise Tests', () => {
     const exercises = getSubdirectories(projectDir)
     exercises.forEach((exercise) => {
       const exerciseDir = path.join(projectDir, exercise)
-      const config = camelizeKeysAs<Camelized<any>>(getConfig(exerciseDir))
+      const config = camelizeKeysAs<any>(getConfig(exerciseDir))
       const exampleScript = getExampleScript(exerciseDir)
 
-      if (config.testsType == 'io') {
-        config.tasks.forEach((task) => {
-          task.tests.forEach((testData) => {
-            testIo(project, exercise, config, task, testData, exampleScript)
-          })
-        })
-      } else {
-        config.tasks.forEach((task) => {
-          task.tests.forEach((testData) => {
-            testState(project, exercise, config, task, testData, exampleScript)
-          })
-        })
+      let projectClass: Project | undefined
+      if (config.projectType) {
+        projectClass = exerciseMap.get(config.projectType)
       }
+      const options = {
+        studentCode: exampleScript,
+        tasks: [],
+        config: config,
+      }
+
+      config.tasks.forEach((task) => {
+        task.tests.forEach((testData) => {
+          test(`${project} - ${exercise} - ${task.name} - ${testData.name}`, () => {
+            const res = execTest(testData, options, projectClass)
+            res.expects.forEach((exp) => {
+              expect(exp.actual)[exp.matcher](exp.expected)
+            })
+          })
+        })
+      })
     })
   })
 })

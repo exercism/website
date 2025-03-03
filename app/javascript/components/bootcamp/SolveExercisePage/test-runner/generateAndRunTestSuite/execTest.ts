@@ -18,7 +18,6 @@ export function execTest(
 ): ReturnType<TestCallback> {
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
-  console.log(options.customFunctions)
 
   const context = {
     externalFunctions: buildExternalFunctions(options, exercise),

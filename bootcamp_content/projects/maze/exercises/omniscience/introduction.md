@@ -61,8 +61,7 @@ Pick up the rest!
 
 ### Custom Functions
 
-Previously, you had the `has_key` function to use.
-Now you should replace that with your own Custom Function [`my#has_key`]("/bootcamp/custom_functions/has_key")
+This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
 
 ### Functions
 

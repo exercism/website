@@ -28,13 +28,11 @@ Once you move into the finishing square (`"🏁"`), you should use the `announce
 announce_emojis({ "🐽": 4, "🧠": 3 })
 ```
 
+## Custom Functions
+
+This would be a good time to use (or make!) your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+
 ### Summary
-
-In summary, you have the following functions available.
-
-Dictionary functions:
-
-- `has_key(dict, key)`: Takes a dictionary and a string, and returns whether the string is a key in the dictionary.
 
 Game functions:
 

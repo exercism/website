@@ -24,7 +24,7 @@ You should turn that response into a string formatted like: `"The time on this S
 
 ## Custom Functions
 
-Try using your `my#has_key` function in this exercise.
+Try using your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) function in this exercise.
 If you've not activated it yet, now's a great time to go and do that!
 
 ## Functions

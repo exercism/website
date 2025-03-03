@@ -11,6 +11,7 @@ import { showError } from '../SolveExercisePage/utils/showError'
 import { CustomTests } from './useTestManager'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
+import { StdlibFunctions } from '@/interpreter/stdlib'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,
@@ -72,6 +73,7 @@ export function useCustomFunctionEditorHandler({
       const context = {
         languageFeatures: { customFunctionDefinitionMode: true },
         customFunctions,
+        externalFunctions: Object.values(StdlibFunctions),
       }
       const value = editorHandler.current.getValue()
       setLatestValueSnapshot(value)

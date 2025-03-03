@@ -44,7 +44,6 @@ export function ManageCustomFunctionsModal({
 
   const handleGetCustomFunctionForInterpreter = useCallback(
     async (name: string) => {
-      console.log(name)
       const data = await getCustomFunctionsForInterpreter(
         links.getCustomFnsForInterpreter,
         name

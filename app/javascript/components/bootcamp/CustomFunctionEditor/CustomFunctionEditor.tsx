@@ -27,7 +27,6 @@ import {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
-import { useLogger } from '../common/hooks/useLogger'
 
 export type CustomFunction = {
   uuid: string
@@ -65,8 +64,6 @@ export default function CustomFunctionEditor({
     () => createCustomFunctionEditorStore(customFunction.uuid),
     [customFunction.uuid]
   )
-
-  useLogger('cusomt function', customFunction)
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({ customFunctionEditorStore })

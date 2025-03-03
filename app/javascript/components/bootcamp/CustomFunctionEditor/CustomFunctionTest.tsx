@@ -119,6 +119,7 @@ function CollapsedView({
           category="bootcamp"
           width={20}
           height={20}
+          className=" opacity-[0.6]"
         />
       )}
 
@@ -286,6 +287,7 @@ function TestTopRHS({
         category="bootcamp"
         width={20}
         height={20}
+        className="opacity-[0.6]"
       />
     )
   }

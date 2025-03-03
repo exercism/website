@@ -32,7 +32,7 @@ export function CustomFunctionDetails() {
         <GraphicalIcon
           icon="readonly-lock"
           category="bootcamp"
-          className="absolute right-[12px] top-[15px]"
+          className="absolute right-[12px] top-[15px] opacity-[0.6]"
           width={20}
           height={20}
         />
@@ -60,7 +60,7 @@ export function CustomFunctionDetails() {
           <GraphicalIcon
             icon="readonly-lock"
             category="bootcamp"
-            className="absolute right-[12px] top-[15px]"
+            className="absolute right-[12px] top-[15px] opacity-[0.6]"
             width={20}
             height={20}
           />

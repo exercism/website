@@ -34,14 +34,14 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
           }}
         />
         <button className="btn-primary btn-xxs" onClick={handleSaveChanges}>
-          Publish
+          Save Changes
         </button>
 
         <a
           href={links.customFnsDashboard}
           className={assembleClassNames('btn-secondary btn-xxs')}
         >
-          Back to my stdlib
+          Close
         </a>
       </div>
     </div>

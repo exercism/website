@@ -121,6 +121,18 @@ export default function CustomFunctionEditor({
     (test) => test.uuid === inspectedTest
   )
 
+  const readOnlyDocumentFragment = useMemo(() => {
+    const { code, predefined } = customFunction
+
+    const fullName = new RegExp(/function my#\w+/)
+    const fnStub = new RegExp(/function my#/)
+
+    const match = code.match(predefined ? fullName : fnStub)
+    const readonlyBit = match ? match[0] : null
+
+    return ReadonlyFunctionMyExtension(readonlyBit?.length || 0)
+  }, [customFunction])
+
   return (
     <SolveExercisePageContextWrapper
       value={
@@ -164,7 +176,7 @@ export default function CustomFunctionEditor({
                     }
                     updateLocalStorageValueOnDebounce(view.state.doc.toString())
                   }}
-                  extensions={[ReadonlyFunctionMyExtension]}
+                  extensions={[readOnlyDocumentFragment]}
                 />
               </ErrorBoundary>
 

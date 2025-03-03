@@ -26,6 +26,7 @@ import {
   CustomFunctionEditorStore,
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
+import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
 
 export type CustomFunction = {
   uuid: string
@@ -91,15 +92,18 @@ export default function CustomFunctionEditor({
     handlePatchCustomFunction,
     tests,
     clearResults,
-    areAllTestsPassing,
+    setHasUnsavedChanges,
     inspectedFrames,
     inspectedTest,
     initializeStore,
+    hasUnsavedChanges,
   } = customFunctionEditorStore()
 
   useEffect(() => {
     initializeStore(customFunction)
   }, [])
+
+  useWarnOnUnsavedChanges(hasUnsavedChanges)
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
@@ -135,7 +139,6 @@ export default function CustomFunctionEditor({
                 url: links.updateCustomFns,
               })
             }
-            someTestsAreFailing={!areAllTestsPassing}
           />
           <div className="page-body">
             <div style={{ width: LHSWidth }} className="page-body-lhs">
@@ -148,6 +151,7 @@ export default function CustomFunctionEditor({
                     handleRunCode(tests, customFunctionsForInterpreter)
                   }
                   onEditorChangeCallback={(view) => {
+                    setHasUnsavedChanges(true)
                     handleSetCustomFunctionName(view)
                     const { areAllTestsPassing } =
                       customFunctionEditorStore.getState()

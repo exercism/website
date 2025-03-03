@@ -39,6 +39,8 @@ export type CustomFunctionEditorStoreState = {
   setCustomFunctionDescription: (customFunctionDescription: string) => void
   isActivated: boolean
   setIsActivated: (isActivated: boolean) => void
+  hasUnsavedChanges: boolean
+  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void
   toggleIsActivated: () => void
   handleSetCustomFunctionName: (view: EditorView) => void
   customFunctionArity: number
@@ -70,6 +72,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             customFunctionDescription: customFunction.description,
             tests: customFunction.tests,
             testBeingEdited: undefined,
+            hasUnsavedChanges: true,
           })
         },
         customFunctionName: '',
@@ -77,11 +80,12 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
         setCustomFunctionName: (customFunctionName) => {
           set({
             customFunctionName,
+            hasUnsavedChanges: true,
           })
         },
         customFunctionArity: 0,
         setCustomFunctionArity: (customFunctionArity) => {
-          set({ customFunctionArity })
+          set({ customFunctionArity, hasUnsavedChanges: true })
         },
         handleSetCustomFunctionName: (view: EditorView) => {
           const docText = view.state.doc.toString()
@@ -89,21 +93,27 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
 
           set({
             customFunctionName: functionName,
+            hasUnsavedChanges: true,
           })
         },
 
         customFunctionDescription: '',
         setCustomFunctionDescription: (customFunctionDescription) => {
-          set({ customFunctionDescription })
+          set({ customFunctionDescription, hasUnsavedChanges: true })
         },
         isActivated: false,
         setIsActivated: (isActivated) => {
-          set({ isActivated })
+          set({ isActivated, hasUnsavedChanges: true })
+        },
+        hasUnsavedChanges: false,
+        setHasUnsavedChanges: (hasUnsavedChanges) => {
+          set({ hasUnsavedChanges })
         },
         toggleIsActivated: () => {
           set((state) => {
             return {
               isActivated: !state.isActivated,
+              hasUnsavedChanges: true,
             }
           })
         },
@@ -167,6 +177,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
               tests: newTests,
               inspectedTest: newUuid,
               testBeingEdited: newUuid,
+              hasUnsavedChanges: true,
             }
           })
         },
@@ -176,6 +187,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
               const newTests = state.tests.filter((t) => t.uuid !== uuid)
               return {
                 tests: newTests,
+                hasUnsavedChanges: true,
               }
             })
           }
@@ -194,6 +206,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             return {
               testBeingEdited: undefined,
               tests: newTests,
+              hasUnsavedChanges: true,
             }
           })
         },
@@ -207,13 +220,17 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             (result) => result.pass
           )
           const isActivated = areAllTestsPassing
-          set({ results, areAllTestsPassing, isActivated })
+          set({
+            results,
+            areAllTestsPassing,
+            isActivated,
+            hasUnsavedChanges: true,
+          })
         },
         clearResults: () => {
           set({ results: {}, areAllTestsPassing: false, isActivated: false })
         },
         areAllTestsPassing: false,
-
         handlePatchCustomFunction: ({
           url,
           dependsOn,
@@ -235,6 +252,8 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
             tests: state.tests,
             dependsOn,
           })
+
+          set({ hasUnsavedChanges: false })
         },
       }),
       {

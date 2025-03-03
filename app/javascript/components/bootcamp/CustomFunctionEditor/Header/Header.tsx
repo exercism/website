@@ -10,13 +10,7 @@ import { CustomFunctionEditorStoreContext } from '../CustomFunctionEditor'
 
 export type StudentCodeGetter = () => string | undefined
 
-function _Header({
-  handleSaveChanges,
-  someTestsAreFailing,
-}: {
-  handleSaveChanges: () => void
-  someTestsAreFailing: boolean
-}) {
+function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
   const { customFunctionEditorStore } = useContext(
     CustomFunctionEditorStoreContext
   )

@@ -22,22 +22,22 @@
           "description_html": "Animate the ball - make a rainbow!",
           "checks": [
             {
-              "name": "getCircleAt(5, 5, 10)",
+              "function": "getCircleAt(5, 5, 10)",
               "matcher": "toBeDefined",
               "error_html": "The first circle is not right."
             },
             {
-              "name": "getCircleAt(7, 6, 10)",
+              "function": "getCircleAt(7, 6, 10)",
               "matcher": "toBeDefined",
               "error_html": "The second circle is not right."
             },
             {
-              "name": "checkCanvasCoverage(80)",
+              "function": "checkCanvasCoverage(80)",
               "matcher": "toBeTrue",
               "error_html": "Less than 80% of the canvas is painted."
             },
             {
-              "name": "checkUniqueColoredCircles(255)",
+              "function": "checkUniqueColoredCircles(255)",
               "matcher": "toBeTrue",
               "error_html": "There are not 255 different colored circles."
             }

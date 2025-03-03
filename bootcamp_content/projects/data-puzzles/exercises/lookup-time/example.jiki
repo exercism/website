@@ -1,0 +1,17 @@
+function has_key with dict, key do
+  for each k,v in dict do
+    if k == key do
+      return true
+    end
+  end
+  return false
+end
+
+function get_time with city do
+  set data to fetch("https://timeapi.io/api/time/current/city", { "city": city })
+  if has_key(data, "error") do
+    return data["error"]
+  end
+  
+  return concatenate("The time on this ", data["dayOfWeek"], " in ", city, " is ", data["time"])
+end

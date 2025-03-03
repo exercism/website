@@ -210,7 +210,7 @@ export class LogicError extends Error {}
 type FunctionCallTypeMismatchErrorContext = {
   argIdx: number
   expectedType: string
-  actualType: string
+  value: string
 }
 export class FunctionCallTypeMismatchError {
   constructor(public context: FunctionCallTypeMismatchErrorContext) {}

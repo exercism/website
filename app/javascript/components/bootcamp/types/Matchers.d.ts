@@ -10,12 +10,10 @@ declare type AvailableMatchers =
   | 'toIncludeSameMembers'
 
 interface MatcherResult {
-  testsType: TestsType
   actual: any
-  name: string
-  slug: string
   pass: boolean
+  codeRun?: string
   errorHtml?: string
-  note?: string
   expected?: any
+  matcher: AvailableMatchers
 }

@@ -17,87 +17,87 @@
           "description_html": "Fix all the TODO comments to make the penguin symmetrical.",
           "checks": [
             {
-              "name": "getRectangleAt(0, 0, 100, 100)",
+              "function": "getRectangleAt(0, 0, 100, 100)",
               "matcher": "toBeDefined",
               "error_html": "The sky has gone wrong."
             },
             {
-              "name": "getRectangleAt(0, 70, 100, 30)",
+              "function": "getRectangleAt(0, 70, 100, 30)",
               "matcher": "toBeDefined",
               "error_html": "The ground has gone wrong."
             },
             {
-              "name": "getEllipseAt(28, 55, 10, 25)",
+              "function": "getEllipseAt(28, 55, 10, 25)",
               "matcher": "toBeDefined",
               "error_html": "The left wing doesn't seem right."
             },
             {
-              "name": "getEllipseAt(72, 55, 10, 25)",
+              "function": "getEllipseAt(72, 55, 10, 25)",
               "matcher": "toBeDefined",
               "error_html": "The right wing doesn't seem right."
             },
             {
-              "name": "getEllipseAt(50, 53, 25, 40)",
+              "function": "getEllipseAt(50, 53, 25, 40)",
               "matcher": "toBeDefined",
               "error_html": "The outer body has gone wrong."
             },
             {
-              "name": "getEllipseAt(50, 50, 21, 39)",
+              "function": "getEllipseAt(50, 50, 21, 39)",
               "matcher": "toBeDefined",
               "error_html": "The inner body has gone wrong."
             },
             {
-              "name": "getCircleAt(50, 31, 23)",
+              "function": "getCircleAt(50, 31, 23)",
               "matcher": "toBeDefined",
               "error_html": "The head has gone wrong."
             },
             {
-              "name": "getEllipseAt(41, 32, 11, 14)",
+              "function": "getEllipseAt(41, 32, 11, 14)",
               "matcher": "toBeDefined",
               "error_html": "The left side of the face doesn't look right."
             },
             {
-              "name": "getEllipseAt(59, 32, 11, 14)",
+              "function": "getEllipseAt(59, 32, 11, 14)",
               "matcher": "toBeDefined",
               "error_html": "The right side of the face doesn't look right."
             },
             {
-              "name": "getEllipseAt(50, 40, 16, 11)",
+              "function": "getEllipseAt(50, 40, 16, 11)",
               "matcher": "toBeDefined",
               "error_html": "The lower part of the face doesn't look right."
             },
             {
-              "name": "getCircleAt(42, 33, 3)",
+              "function": "getCircleAt(42, 33, 3)",
               "matcher": "toBeDefined",
               "error_html": "The left eye seems off."
             },
             {
-              "name": "getCircleAt(43, 34, 1)",
+              "function": "getCircleAt(43, 34, 1)",
               "matcher": "toBeDefined",
               "error_html": "The left iris seems off."
             },
             {
-              "name": "getCircleAt(58, 33, 3)",
+              "function": "getCircleAt(58, 33, 3)",
               "matcher": "toBeDefined",
               "error_html": "The right eye seems off."
             },
             {
-              "name": "getCircleAt(57, 34, 1)",
+              "function": "getCircleAt(57, 34, 1)",
               "matcher": "toBeDefined",
               "error_html": "The right iris seems off."
             },
             {
-              "name": "getEllipseAt(40, 93, 7, 4)",
+              "function": "getEllipseAt(40, 93, 7, 4)",
               "matcher": "toBeDefined",
               "error_html": "The left foot's gone astray."
             },
             {
-              "name": "getEllipseAt(60, 93, 7, 4)",
+              "function": "getEllipseAt(60, 93, 7, 4)",
               "matcher": "toBeDefined",
               "error_html": "The right foot's not right."
             },
             {
-              "name": "getTriangleAt(46, 38, 54, 38, 50, 47)",
+              "function": "getTriangleAt(46, 38, 54, 38, 50, 47)",
               "matcher": "toBeDefined",
               "error_html": "The nose isn't right."
             }

@@ -20,17 +20,17 @@
           "description_html": "Paint 100 beautiful rectangles",
           "checks": [
             {
-              "name": "getRectangleAt(1, 0, undefined, 100)",
+              "function": "getRectangleAt(1, 0, undefined, 100)",
               "matcher": "toBeDefined",
               "error_html": "The first rectangle is missing"
             },
             {
-              "name": "getRectangleAt(99, 0, undefined, 100)",
+              "function": "getRectangleAt(99, 0, undefined, 100)",
               "matcher": "toBeDefined",
               "error_html": "The last rectangle is missing"
             },
             {
-              "name": "checkUniqueColoredRectangles(100)",
+              "function": "checkUniqueColoredRectangles(100)",
               "matcher": "toBeTrue",
               "error_html": "There are not 100 different colored rectangles."
             }

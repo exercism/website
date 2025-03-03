@@ -1,0 +1,6 @@
+{
+  "slug": "wordle",
+  "title": "Wordle",
+  "description": "Recreate the classic Wordle game",
+  "exercises": ["process-guess"]
+}

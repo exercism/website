@@ -8,6 +8,8 @@ import { Executor } from '../executor'
 import { BinaryExpression } from '../expression'
 import * as JikiTypes from '../jikiObjects'
 
+const DP_MULTIPLE = 100000
+
 export function executeBinaryExpression(
   executor: Executor,
   expression: BinaryExpression
@@ -150,7 +152,9 @@ function handle_minus(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const minusValue = leftResult.jikiObject.value - rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(minusValue * 100) / 100)
+  return new JikiTypes.Number(
+    Math.round(minusValue * DP_MULTIPLE) / DP_MULTIPLE
+  )
 }
 
 function handle_plus(
@@ -162,7 +166,7 @@ function handle_plus(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const plusValue = leftResult.jikiObject.value + rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(plusValue * 100) / 100)
+  return new JikiTypes.Number(Math.round(plusValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_slash(
@@ -174,7 +178,9 @@ function handle_slash(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const slashValue = leftResult.jikiObject.value / rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(slashValue * 100) / 100)
+  return new JikiTypes.Number(
+    Math.round(slashValue * DP_MULTIPLE) / DP_MULTIPLE
+  )
 }
 
 function handle_star(
@@ -186,7 +192,7 @@ function handle_star(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const starValue = leftResult.jikiObject.value * rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(starValue * 100) / 100)
+  return new JikiTypes.Number(Math.round(starValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_percent(

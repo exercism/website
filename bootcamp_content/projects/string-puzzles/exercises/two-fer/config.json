@@ -14,8 +14,12 @@
           "description_html": "No name is given so return 'One for you, one for me.'",
           "name": "No name given",
           "function": "two_fer",
-          "params": [""],
-          "expected": "One for you, one for me.",
+          "args": [""],
+          "checks": [
+            {
+              "value": "One for you, one for me."
+            }
+          ],
           "image_slug": "string-puzzles/two-fer/no-name.jpg"
         },
         {
@@ -23,8 +27,12 @@
           "description_html": "Her name is 'Alice' so return 'One for Alice, one for me.'",
           "name": "Name given as Alice",
           "function": "two_fer",
-          "params": ["Alice"],
-          "expected": "One for Alice, one for me.",
+          "args": ["Alice"],
+          "checks": [
+            {
+              "value": "One for Alice, one for me."
+            }
+          ],
           "image_slug": "string-puzzles/two-fer/alice.jpg"
         },
         {
@@ -32,9 +40,13 @@
           "description_html": "His name is 'Tom' so return 'One for Tom, one for me.'",
           "name": "Name given as Tom",
           "function": "two_fer",
-          "params": ["Tom"],
-          "expected": "One for Tom, one for me.",
-          "image_slug": "string-puzzles/two-fer/tom.jpg"
+          "args": ["Tom"],
+          "image_slug": "string-puzzles/two-fer/tom.jpg",
+          "checks": [
+            {
+              "value": "One for Tom, one for me."
+            }
+          ]
         }
       ]
     }

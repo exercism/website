@@ -1,0 +1,14 @@
+
+change_fill_color("#aa95aa")
+rect(13,28,13,50)
+change_fill_color("#33ff33")
+change_pen_color("#33ff33")
+circle(4,5,8)
+circle(17,5,8)
+circle(10,10,10)
+circle(19,19,8)
+circle(4,16,8)
+
+change_pen_color("#885588")
+change_fill_color("#885588")
+circle(15.5,40,3.8)

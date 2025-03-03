@@ -14,8 +14,10 @@ export abstract class Exercise {
   protected view!: HTMLElement
   protected container!: HTMLElement
 
-  public constructor(private slug: String) {
-    this.createView()
+  public constructor(private slug?: String) {
+    if (slug) {
+      this.createView()
+    }
     this.showAnimationsOnInfiniteLoops = true
   }
 

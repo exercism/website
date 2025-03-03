@@ -17,7 +17,7 @@
           "description_html": "Add the sun to its spikes.",
           "checks": [
             {
-              "name": "getCircleAt(50, 50, 25)",
+              "function": "getCircleAt(50, 50, 25)",
               "matcher": "toBeDefined",
               "error_html": "The sun isn't correct."
             }

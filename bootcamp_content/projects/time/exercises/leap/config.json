@@ -14,7 +14,7 @@
           "name": "Year 2015",
           "function": "is_leap_year",
           "params": [2015],
-          "expected": false
+          "checks": [{ "expected": false }]
         },
         {
           "slug": "year-1970",
@@ -22,7 +22,7 @@
           "name": "Year 1970",
           "function": "is_leap_year",
           "params": [1970],
-          "expected": false
+          "checks": [{ "expected": false }]
         },
         {
           "slug": "year-2100",
@@ -30,7 +30,7 @@
           "name": "Year 2100",
           "function": "is_leap_year",
           "params": [2100],
-          "expected": false
+          "checks": [{ "expected": false }]
         },
         {
           "slug": "year-1900",
@@ -38,7 +38,7 @@
           "name": "Year 1900",
           "function": "is_leap_year",
           "params": [1900],
-          "expected": false
+          "checks": [{ "expected": false }]
         },
         {
           "slug": "year-1800",
@@ -46,7 +46,7 @@
           "name": "Year 1800",
           "function": "is_leap_year",
           "params": [1800],
-          "expected": false
+          "checks": [{ "expected": false }]
         },
         {
           "slug": "year-2000",
@@ -54,7 +54,7 @@
           "name": "Year 2000",
           "function": "is_leap_year",
           "params": [2000],
-          "expected": true
+          "checks": [{ "expected": true }]
         },
         {
           "slug": "year-2400",
@@ -62,7 +62,7 @@
           "name": "Year 2400",
           "function": "is_leap_year",
           "params": [2400],
-          "expected": true
+          "checks": [{ "expected": true }]
         },
         {
           "slug": "year-1996",
@@ -70,7 +70,7 @@
           "name": "Year 1996",
           "function": "is_leap_year",
           "params": [1996],
-          "expected": true
+          "checks": [{ "expected": true }]
         },
         {
           "slug": "year-1960",
@@ -78,7 +78,7 @@
           "name": "Year 1960",
           "function": "is_leap_year",
           "params": [1960],
-          "expected": true
+          "checks": [{ "expected": true }]
         }
       ]
     },
@@ -93,7 +93,7 @@
           "description_html": "Can you solve this with only one line of code within the function?",
           "function": "is_leap_year",
           "params": [2000],
-          "expected": true,
+          "checks": [{ "expected": true }],
           "check": {
             "function": "numLinesOfCode()",
             "expected": 3,

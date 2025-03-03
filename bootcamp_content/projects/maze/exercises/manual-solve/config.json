@@ -35,12 +35,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [6, 6],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "getGameResult()",
+              "function": "getGameResult()",
               "value": "win",
               "error_html": "You didn't reach the end of the maze."
             }

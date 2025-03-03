@@ -41,7 +41,7 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down the alien."
@@ -66,7 +66,7 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
@@ -91,7 +91,7 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
@@ -116,7 +116,7 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
@@ -146,13 +146,13 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
@@ -176,13 +176,13 @@
           ],
           "checks": [
             {
-              "name": "gameStatus",
+              "property": "gameStatus",
               "value": "won",
               "matcher": "toEqual",
               "error_html": "You didn't shoot down all the aliens."
             },
             {
-              "name": "wasFunctionCalled('fire_fireworks', null)",
+              "function": "wasFunctionCalled('fire_fireworks', null)",
               "matcher": "toBeTrue",
               "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
             }
@@ -212,7 +212,7 @@
           ],
           "checks": [
             {
-              "name": "wasFireworksCalledInsideRepeatLoop()",
+              "function": "wasFireworksCalledInsideRepeatLoop()",
               "matcher": "toBeTrue",
               "error_html": "You didn't use the <code>fire_fireworks()</code> function inside the <code>repeat_until_game_over</code> loop."
             }

@@ -14,6 +14,7 @@ declare global {
       bootcampLevelUrl: string
       updateCustomFns?: string
       customFnsDashboard?: string
+      deleteCustomFn?: string
     }
     customFunctions: CustomFunctionsFromServer
   }

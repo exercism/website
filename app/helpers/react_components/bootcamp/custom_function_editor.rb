@@ -14,7 +14,8 @@ module ReactComponents
         custom_functions:,
         links: {
           custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
-          update_custom_fns: Exercism::Routes.api_bootcamp_custom_function_url(custom_function)
+          update_custom_fns: Exercism::Routes.api_bootcamp_custom_function_url(custom_function),
+          delete_custom_fn: "Add link here"
         }
       }
     end

@@ -16,7 +16,6 @@
 
     .cm-idle-marker {
         opacity: 0;
-        transition: opacity 50ms;
         @apply bg-textColor6;
 
         &:hover {

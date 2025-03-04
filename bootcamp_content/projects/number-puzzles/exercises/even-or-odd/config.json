@@ -98,20 +98,16 @@
           "checks": [
             {
               "value": "Even"
+            },
+            {
+              "description": "We checked how many lines of code you added.",
+              "code_run": "We checked how many lines you used.",
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 6,
+              "error_html": "You have more than 6 lines of code."
             }
-          ],
-
-          "check": {
-            "description": "We checked how many lines of code you added.",
-            "function": "numLinesOfCode()",
-            "matcher": "toBeLessThanOrEqual",
-            "checks": [
-              {
-                "value": 6
-              }
-            ],
-            "error_html": "You have more than 6 lines of code."
-          }
+          ]
         }
       ]
     }

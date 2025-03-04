@@ -94,11 +94,14 @@
           "function": "dna_to_rna",
           "args": ["ACGTGGTCTTAA"],
           "value": "UGCACCAGAAUU",
-          "check": {
-            "function": "numFunctionCallsInCode('join')",
-            "value": 1,
-            "error_html": "`join` appears more than once in your code."
-          }
+          "check": [
+            {
+              "function": "numFunctionCallsInCode('join')",
+              "value": 1,
+              "code_run": "We checked how many times joined appeared in your code",
+              "error_html": "`join` appears more than once in your code."
+            }
+          ]
         },
         {
           "slug": "rna-no-direct-check",
@@ -107,11 +110,14 @@
           "function": "dna_to_rna",
           "args": ["ACGTGGTCTTAA"],
           "value": "UGCACCAGAAUU",
-          "check": {
-            "function": "numDirectStringComparisons()",
-            "value": 0,
-            "error_html": "You directly checked whether the nucleotide is equal to a specific letter."
-          }
+          "checks": [
+            {
+              "function": "numDirectStringComparisons()",
+              "value": 0,
+              "code_run": "We checked how many times the nucleotide wsa compared to a specific letter.",
+              "error_html": "You directly checked whether the nucleotide is equal to a specific letter."
+            }
+          ]
         },
         {
           "slug": "rna-short-code",
@@ -120,12 +126,15 @@
           "function": "dna_to_rna",
           "args": ["ACGTGGTCTTAA"],
           "value": "UGCACCAGAAUU",
-          "check": {
-            "function": "numLinesOfCode()",
-            "matcher": "toBeLessThanOrEqual",
-            "value": 18,
-            "error_html": "Your code is longer than 18 lines."
-          }
+          "checks": [
+            {
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 18,
+              "code_run": "We checked how many lines you used.",
+              "error_html": "Your code is longer than 18 lines."
+            }
+          ]
         }
       ]
     }

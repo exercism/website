@@ -83,18 +83,15 @@
           "checks": [
             {
               "value": 9
+            },
+            {
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 11,
+              "code_run": "We checked how many lines you used.",
+              "error_html": "You have more than 11 lines of code."
             }
-          ],
-          "check": {
-            "function": "numLinesOfCode()",
-            "matcher": "toBeLessThanOrEqual",
-            "checks": [
-              {
-                "value": 11
-              }
-            ],
-            "error_html": "You have more than 11 lines of code."
-          }
+          ]
         }
       ]
     }

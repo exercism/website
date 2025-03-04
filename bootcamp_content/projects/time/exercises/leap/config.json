@@ -93,12 +93,15 @@
           "description_html": "Can you solve this with only one line of code within the function?",
           "function": "is_leap_year",
           "args": [2000],
-          "checks": [{ "value": true }],
-          "check": {
-            "function": "numLinesOfCode()",
-            "expected": 3,
-            "error_html": "You used more than one line of code."
-          }
+          "checks": [
+            { "value": true },
+            {
+              "function": "numLinesOfCode()",
+              "value": 3,
+              "code_run": "We checked how many lines you used.",
+              "error_html": "You used more than one line of code."
+            }
+          ]
         }
       ]
     }

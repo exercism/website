@@ -103,7 +103,7 @@ export function useCustomFunctionEditorHandler({
           safeArgs = safe_eval(`[${args}]`)
         } catch (e) {
           setSyntaxErrorInTest({
-            message: `<div><div class="mb-6">Oh no! Jiki couldn't understand this code:</div>
+            message: `<div><div class="mb-6 font-semibold leading-140">Oh no! Jiki couldn't understand this code:</div>
                 <pre class="bg-white"><code class="lang-jikiscript hljs">${args}</code></pre>
               </div>`,
             testUuid: test.uuid,
@@ -126,7 +126,7 @@ export function useCustomFunctionEditorHandler({
           expected = safe_eval(`[${test.expected}]`)[0]
         } catch (e) {
           setSyntaxErrorInTest({
-            message: `<div><div class="mb-6">Oh no! Jiki couldn't understand your expected value:</div>
+            message: `<div><div class="mb-6 font-semibold leading-140">Oh no! Jiki couldn't understand your expected value:</div>
                 <pre class="bg-white"><code class="lang-jikiscript hljs">${test.expected}</code></pre>
               </div>`,
             testUuid: test.uuid,

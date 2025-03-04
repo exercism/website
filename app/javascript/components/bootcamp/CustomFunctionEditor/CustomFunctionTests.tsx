@@ -19,6 +19,7 @@ export function CustomFunctionTests() {
     handleUpdateTest,
     handleCancelEditing,
     handleAddNewTest,
+    syntaxErrorInTest,
   } = customFunctionEditorStore()
 
   return (
@@ -30,6 +31,11 @@ export function CustomFunctionTests() {
             key={test.uuid}
             args={test.args}
             readonly={test.readonly}
+            syntaxError={
+              syntaxErrorInTest?.testUuid === test.uuid
+                ? syntaxErrorInTest.message
+                : null
+            }
             passing={
               results && results[test.uuid] ? results[test.uuid].pass : false
             }

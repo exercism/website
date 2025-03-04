@@ -14,6 +14,7 @@ export function CustomFunctionTest({
   isInspected,
   testTitle,
   readonly,
+  syntaxError,
   onTestClick,
   onEditClick,
   onSaveClick,
@@ -30,6 +31,7 @@ export function CustomFunctionTest({
   actual: any
   testTitle: string
   readonly: boolean | undefined
+  syntaxError: string | null
   onEditClick: () => void
   onTestClick: () => void
   onSaveClick: (argsValue: string, expectedValue: string) => void
@@ -62,6 +64,7 @@ export function CustomFunctionTest({
         <ExpandedView
           args={args}
           readonly={readonly}
+          syntaxError={syntaxError}
           argsValue={argsValue}
           setArgsValue={setArgsValue}
           expected={expected}
@@ -84,6 +87,7 @@ export function CustomFunctionTest({
           testTitle={testTitle}
           passing={passing}
           readonly={readonly}
+          syntaxError={syntaxError}
         />
       )}
     </div>
@@ -95,15 +99,17 @@ function CollapsedView({
   passing,
   hasResult,
   readonly,
+  syntaxError,
 }: {
   testTitle: string
   passing: boolean
   hasResult: boolean
   readonly: boolean | undefined
+  syntaxError: string | null
 }) {
   const className = assembleClassNames(
     'collapsed',
-    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+    getTestStatus(syntaxError, hasResult, passing)
   )
   return (
     <div
@@ -129,9 +135,9 @@ function CollapsedView({
 }
 
 function ExpandedView({
-  args: args,
-  argsValue: argsValue,
-  setArgsValue: setArgsValue,
+  args,
+  argsValue,
+  setArgsValue,
   expected,
   expectedValue,
   setExpectedValue,
@@ -142,6 +148,7 @@ function ExpandedView({
   hasResult,
   passing,
   readonly,
+  syntaxError,
   onEditClick,
   onDeleteClick,
   handleSaveTest,
@@ -160,6 +167,7 @@ function ExpandedView({
   hasResult: boolean
   passing: boolean
   readonly: boolean | undefined
+  syntaxError: string | null
   onEditClick: () => void
   onDeleteClick: () => void
   handleSaveTest: () => void
@@ -167,7 +175,7 @@ function ExpandedView({
 }) {
   const className = assembleClassNames(
     'c-scenario',
-    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+    getTestStatus(syntaxError, hasResult, passing)
   )
   return (
     <>
@@ -185,6 +193,7 @@ function ExpandedView({
                 />
               </div>
             </div>
+            <SyntaxError syntaxError={syntaxError} />
 
             <table
               className={`io-test-result-info ${editMode ? 'edit-mode' : ''}`}
@@ -314,4 +323,25 @@ function TestTopRHS({
       </button>
     </>
   )
+}
+
+function SyntaxError({ syntaxError }: { syntaxError: string | null }) {
+  if (!syntaxError) return
+
+  return (
+    <div
+      className="font-bold text-danger p-12 text-14 bg-backgroundColorB"
+      dangerouslySetInnerHTML={{ __html: syntaxError }}
+    />
+  )
+}
+
+function getTestStatus(
+  syntaxError: string | null,
+  hasResult: boolean,
+  passing: boolean
+): 'fail' | 'pending' | 'pass' {
+  if (syntaxError) return 'fail'
+  if (!hasResult) return 'pending'
+  return passing ? 'pass' : 'fail'
 }

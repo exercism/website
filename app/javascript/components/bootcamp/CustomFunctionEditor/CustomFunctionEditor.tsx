@@ -27,6 +27,7 @@ import {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
+import { useLogger } from '@/hooks'
 
 export type CustomFunction = {
   uuid: string
@@ -97,7 +98,10 @@ export default function CustomFunctionEditor({
     inspectedTest,
     initializeStore,
     hasUnsavedChanges,
+    clearSyntaxErrorInTest,
   } = customFunctionEditorStore()
+
+  useLogger('inspectedTest', inspectedTest)
 
   useEffect(() => {
     initializeStore(customFunction)
@@ -111,6 +115,7 @@ export default function CustomFunctionEditor({
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
+    flushSync(clearSyntaxErrorInTest)
     handleRunCode(tests, customFunctionsForInterpreter)
   }, [tests, customFunctionsForInterpreter])
 

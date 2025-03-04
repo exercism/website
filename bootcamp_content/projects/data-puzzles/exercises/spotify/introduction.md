@@ -26,7 +26,7 @@ If there is an error from the API, you should return that error as a string, pre
 
 ## Custom Functions
 
-This would be a good time to use your `my#to_sentence` and [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom functions!
+This would be a good time to use your [`my#to_sentence`](/bootcamp/custom_functions/to_sentence/edit) and [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom functions!
 
 ## Functions
 

@@ -330,7 +330,7 @@ function SyntaxError({ syntaxError }: { syntaxError: string | null }) {
 
   return (
     <div
-      className="font-bold text-danger p-12 text-14 bg-backgroundColorB"
+      className="font-semibold p-12 text-bootcamp-fail-dark text-16 border-b-1 border-bootcamp-fail-dark"
       dangerouslySetInnerHTML={{ __html: syntaxError }}
     />
   )

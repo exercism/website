@@ -109,7 +109,7 @@
         {
           "slug": "two-guesses",
           "name": "Nailed it in two",
-          "description_html": "Deal with a first correct guess.",
+          "description_html": "Deal with two guesses.",
           "setup_functions": [["drawGuesses", [["hallo", "hello"]]]],
           "function": "process_game",
           "args": ["hello", ["hallo", "hello"]],
@@ -129,7 +129,7 @@
         {
           "slug": "three-guesses",
           "name": "Got there in three",
-          "description_html": "Deal with a first correct guess.",
+          "description_html": "Deal with three guesses.",
           "setup_functions": [["drawGuesses", [["hulol", "hallo", "hello"]]]],
           "function": "process_game",
           "args": ["hello", ["hulal", "hallo", "hello"]],

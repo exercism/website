@@ -7,7 +7,7 @@ const breakpointEffect = StateEffect.define<{ pos: number; on: boolean }>({
   },
 })
 
-const breakpointState = StateField.define<RangeSet<GutterMarker>>({
+export const breakpointState = StateField.define<RangeSet<GutterMarker>>({
   create() {
     return RangeSet.empty
   },

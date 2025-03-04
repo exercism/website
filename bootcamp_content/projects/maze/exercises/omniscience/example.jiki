@@ -8,10 +8,10 @@ function has_key with dict, key do
 end
 
 function calculate_starting_position with maze do
-  for each row in maze indexed by row do
-    for each cell in row indexed by col do
+  for each row in maze indexed by row_idx do
+    for each cell in row indexed by col_idx do
       if cell.is_start do
-        return {"row": row, "col": col}
+        return {"row": row_idx, "col": col_idx}
       end
     end
   end

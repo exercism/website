@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 
 export function CustomFunctionTest({
   args,
@@ -326,10 +327,15 @@ function TestTopRHS({
 }
 
 function SyntaxError({ syntaxError }: { syntaxError: string | null }) {
-  if (!syntaxError) return
+  const ref = useHighlighting<HTMLDivElement>(syntaxError || '')
+
+  if (!syntaxError) {
+    return null
+  }
 
   return (
     <div
+      ref={ref}
       className="font-semibold p-12 text-bootcamp-fail-dark text-16 border-b-1 border-bootcamp-fail-dark"
       dangerouslySetInnerHTML={{ __html: syntaxError }}
     />

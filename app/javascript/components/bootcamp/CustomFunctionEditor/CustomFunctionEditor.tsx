@@ -101,8 +101,6 @@ export default function CustomFunctionEditor({
     clearSyntaxErrorInTest,
   } = customFunctionEditorStore()
 
-  useLogger('inspectedTest', inspectedTest)
-
   useEffect(() => {
     initializeStore(customFunction)
     setTimeout(() => setHasUnsavedChanges(false), 100)

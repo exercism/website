@@ -104,7 +104,7 @@ export function useCustomFunctionEditorHandler({
         } catch (e) {
           setSyntaxErrorInTest({
             message: `<div><div class="mb-6">Oh no! Jiki couldn't understand this code:</div>
-                <pre class="bg-white"><code class="hljs lang-jikiscript">${args}</code></pre>
+                <pre class="bg-white"><code class="lang-jikiscript hljs">${args}</code></pre>
               </div>`,
             testUuid: test.uuid,
           })
@@ -127,7 +127,7 @@ export function useCustomFunctionEditorHandler({
         } catch (e) {
           setSyntaxErrorInTest({
             message: `<div><div class="mb-6">Oh no! Jiki couldn't understand your expected value:</div>
-                <pre class="bg-white"><code>${test.expected}</code></pre>
+                <pre class="bg-white"><code class="lang-jikiscript hljs">${test.expected}</code></pre>
               </div>`,
             testUuid: test.uuid,
           })

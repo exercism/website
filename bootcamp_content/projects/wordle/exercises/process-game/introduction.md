@@ -28,7 +28,7 @@ You should work out the state of each letter then call the `color_top_row(states
 For example, if the word was correct, you would call:
 
 ```jikiscript
-color_row(1, ["present", "present", "present", "present", "present"])
+color_top_row(["present", "present", "present", "present", "present"])
 ```
 
 ### Process Game
@@ -44,7 +44,7 @@ You should work out the state of each row then call the `color_row(row, states)`
 For example, if the word was in the first row was correct, you would call:
 
 ```jikiscript
-color_top_row(1, ["present", "present", "present", "present", "present"])
+color_row(1, ["present", "present", "present", "present", "present"])
 ```
 
 ## Custom Functions

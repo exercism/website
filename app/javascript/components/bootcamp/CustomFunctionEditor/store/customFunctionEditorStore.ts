@@ -19,6 +19,12 @@ export type Results = Record<
 export type CustomFunctionEditorStoreState = {
   initializeStore: (customFunction: CustomFunction) => void
   tests: CustomTests
+  syntaxErrorInTest: { message: string; testUuid: string } | null
+  setSyntaxErrorInTest: (syntaxErrorInTest: {
+    message: string
+    testUuid: string
+  }) => void
+  clearSyntaxErrorInTest: () => void
   inspectedTest: string
   clearInspectedTest: () => void
   setInspectedTest: (uuid: string) => void
@@ -80,6 +86,17 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
           })
         },
         customFunctionName: '',
+        syntaxErrorInTest: null,
+        setSyntaxErrorInTest: (syntaxErrorInTest) => {
+          set({
+            syntaxErrorInTest,
+            inspectedTest: syntaxErrorInTest.testUuid,
+            isActivated: false,
+          })
+        },
+        clearSyntaxErrorInTest: () => {
+          set({ syntaxErrorInTest: null })
+        },
         isPredefined: false,
         setCustomFunctionName: (customFunctionName) => {
           set({

@@ -35,6 +35,7 @@ export function useCustomFunctionEditorHandler({
     setResults,
     clearInspectedTest,
     setInspectedTest,
+    setSyntaxErrorInTest,
   } = customFunctionEditorStore()
 
   const handleEditorDidMount = (handler: Handler) => {
@@ -93,10 +94,23 @@ export function useCustomFunctionEditorHandler({
       }
 
       const results = {}
-      tests.forEach((test) => {
+      let errorOccurred: boolean = false
+      for (const test of tests) {
         const args = test.args
         const safe_eval = eval
-        const safeArgs = safe_eval(`[${args}]`)
+        let safeArgs
+        try {
+          safeArgs = safe_eval(`[${args}]`)
+        } catch (e) {
+          setSyntaxErrorInTest({
+            message: `<div><div class="mb-6 font-semibold leading-140">Oh no! Jiki couldn't understand this code:</div>
+                <pre class="bg-white"><code class="lang-jikiscript hljs">${args}</code></pre>
+              </div>`,
+            testUuid: test.uuid,
+          })
+          errorOccurred = true
+          break
+        }
         setArity(safeArgs.length)
 
         const fnEvaluationResult = evaluateFunction(
@@ -106,14 +120,35 @@ export function useCustomFunctionEditorHandler({
           ...safeArgs
         )
 
+        let expected
+
+        try {
+          expected = safe_eval(`[${test.expected}]`)[0]
+        } catch (e) {
+          setSyntaxErrorInTest({
+            message: `<div><div class="mb-6 font-semibold leading-140">Oh no! Jiki couldn't understand your expected value:</div>
+                <pre class="bg-white"><code class="lang-jikiscript hljs">${test.expected}</code></pre>
+              </div>`,
+            testUuid: test.uuid,
+          })
+          errorOccurred = true
+          break
+        }
+
         const result = {
           actual: JSON.stringify(fnEvaluationResult.value),
           frames: fnEvaluationResult.frames,
-          pass: JSON.stringify(fnEvaluationResult.value) === test.expected,
+          pass:
+            JSON.stringify(fnEvaluationResult.value) ===
+            JSON.stringify(expected),
         }
 
         results[test.uuid] = result
-      })
+      }
+
+      if (errorOccurred) {
+        return
+      }
 
       setResults(results)
 

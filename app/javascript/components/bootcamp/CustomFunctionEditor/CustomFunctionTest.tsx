@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 
 export function CustomFunctionTest({
   args,
@@ -14,6 +15,7 @@ export function CustomFunctionTest({
   isInspected,
   testTitle,
   readonly,
+  syntaxError,
   onTestClick,
   onEditClick,
   onSaveClick,
@@ -30,6 +32,7 @@ export function CustomFunctionTest({
   actual: any
   testTitle: string
   readonly: boolean | undefined
+  syntaxError: string | null
   onEditClick: () => void
   onTestClick: () => void
   onSaveClick: (argsValue: string, expectedValue: string) => void
@@ -62,6 +65,7 @@ export function CustomFunctionTest({
         <ExpandedView
           args={args}
           readonly={readonly}
+          syntaxError={syntaxError}
           argsValue={argsValue}
           setArgsValue={setArgsValue}
           expected={expected}
@@ -84,6 +88,7 @@ export function CustomFunctionTest({
           testTitle={testTitle}
           passing={passing}
           readonly={readonly}
+          syntaxError={syntaxError}
         />
       )}
     </div>
@@ -95,15 +100,17 @@ function CollapsedView({
   passing,
   hasResult,
   readonly,
+  syntaxError,
 }: {
   testTitle: string
   passing: boolean
   hasResult: boolean
   readonly: boolean | undefined
+  syntaxError: string | null
 }) {
   const className = assembleClassNames(
     'collapsed',
-    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+    getTestStatus(syntaxError, hasResult, passing)
   )
   return (
     <div
@@ -129,9 +136,9 @@ function CollapsedView({
 }
 
 function ExpandedView({
-  args: args,
-  argsValue: argsValue,
-  setArgsValue: setArgsValue,
+  args,
+  argsValue,
+  setArgsValue,
   expected,
   expectedValue,
   setExpectedValue,
@@ -142,6 +149,7 @@ function ExpandedView({
   hasResult,
   passing,
   readonly,
+  syntaxError,
   onEditClick,
   onDeleteClick,
   handleSaveTest,
@@ -160,6 +168,7 @@ function ExpandedView({
   hasResult: boolean
   passing: boolean
   readonly: boolean | undefined
+  syntaxError: string | null
   onEditClick: () => void
   onDeleteClick: () => void
   handleSaveTest: () => void
@@ -167,7 +176,7 @@ function ExpandedView({
 }) {
   const className = assembleClassNames(
     'c-scenario',
-    !hasResult ? 'pending' : passing ? 'pass' : 'fail'
+    getTestStatus(syntaxError, hasResult, passing)
   )
   return (
     <>
@@ -185,6 +194,7 @@ function ExpandedView({
                 />
               </div>
             </div>
+            <SyntaxError syntaxError={syntaxError} />
 
             <table
               className={`io-test-result-info ${editMode ? 'edit-mode' : ''}`}
@@ -314,4 +324,30 @@ function TestTopRHS({
       </button>
     </>
   )
+}
+
+function SyntaxError({ syntaxError }: { syntaxError: string | null }) {
+  const ref = useHighlighting<HTMLDivElement>(syntaxError || '')
+
+  if (!syntaxError) {
+    return null
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="p-12 text-bootcamp-fail-dark text-16 border-b-1 border-bootcamp-fail-dark"
+      dangerouslySetInnerHTML={{ __html: syntaxError }}
+    />
+  )
+}
+
+function getTestStatus(
+  syntaxError: string | null,
+  hasResult: boolean,
+  passing: boolean
+): 'fail' | 'pending' | 'pass' {
+  if (syntaxError) return 'fail'
+  if (!hasResult) return 'pending'
+  return passing ? 'pass' : 'fail'
 }

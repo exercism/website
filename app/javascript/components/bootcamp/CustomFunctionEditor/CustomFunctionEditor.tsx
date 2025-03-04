@@ -97,6 +97,7 @@ export default function CustomFunctionEditor({
     inspectedTest,
     initializeStore,
     hasUnsavedChanges,
+    clearSyntaxErrorInTest,
   } = customFunctionEditorStore()
 
   useEffect(() => {
@@ -111,6 +112,7 @@ export default function CustomFunctionEditor({
   const { cleanUpEditorStore } = useEditorStore()
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
+    flushSync(clearSyntaxErrorInTest)
     handleRunCode(tests, customFunctionsForInterpreter)
   }, [tests, customFunctionsForInterpreter])
 

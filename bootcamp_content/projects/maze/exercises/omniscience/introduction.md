@@ -67,7 +67,7 @@ This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/
 
 ### Functions
 
-You have following ame functions:
+You have following game functions:
 
 - `move()`
 - `turn_left()`

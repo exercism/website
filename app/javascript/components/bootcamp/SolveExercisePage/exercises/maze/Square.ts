@@ -26,7 +26,6 @@ function fn(this: MazeExercise) {
     const emojiSelector = `#${this.view.id} .cell-${square.getUnwrappedField(
       'row'
     )}-${square.getUnwrappedField('col')} .emoji`
-    console.log(emojiSelector)
     this.addAnimation({
       targets: emojiSelector,
       duration: 1,

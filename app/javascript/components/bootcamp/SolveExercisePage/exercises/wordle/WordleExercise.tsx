@@ -80,7 +80,6 @@ export default class WordleExercise extends Exercise {
     return row
   }
   public statesForRow(_: InterpretResult, rowIdx: number) {
-    console.log(this.states[rowIdx])
     return this.states[rowIdx]
   }
 
@@ -105,7 +104,6 @@ export default class WordleExercise extends Exercise {
       if (!backgroundColor) {
         return executionCtx.logicError('Invalid state')
       }
-      console.log(backgroundColor)
       const letter = letters[idx] as HTMLElement
       this.addAnimation({
         targets: `#${letter.id}`,

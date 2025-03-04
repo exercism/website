@@ -19,7 +19,6 @@ export default class DataExercise extends Exercise {
     url: Jiki.String,
     params: Jiki.Dictionary
   ): Jiki.Dictionary {
-    console.log(url)
     if (!(url instanceof Jiki.String))
       return executionCtx.logicError('URL must be a string')
     if (!(params instanceof Jiki.Dictionary))
@@ -201,8 +200,6 @@ export default class DataExercise extends Exercise {
     if (username === null)
       return Jiki.wrapJSToJikiObject({ error: 'Could not parse URL' })
 
-    console.log(username)
-
     let artists: string[] | undefined
     switch (username) {
       case 'iHiD':
@@ -247,7 +244,6 @@ export default class DataExercise extends Exercise {
     const artistId = match[1]
     if (artistId === null)
       return Jiki.wrapJSToJikiObject({ error: 'Could not parse URL' })
-    console.log(artistId)
 
     let name: string | undefined
     switch (artistId) {

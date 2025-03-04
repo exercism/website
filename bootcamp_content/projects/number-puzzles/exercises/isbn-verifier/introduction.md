@@ -36,6 +36,7 @@ There are lots of ways to solve this, but you maybe find it helpful to include y
 
 ## Functions
 
-You have one function available to you:
+You have two functions available to you:
 
 - `string_to_number(str)`: Takes a string and returns it converted to a number. The string must only contain digits.
+- `push(list, element)`: This adds an element to a list, then returns the new list.

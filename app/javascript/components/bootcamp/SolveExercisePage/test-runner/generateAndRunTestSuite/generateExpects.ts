@@ -68,6 +68,9 @@ export function generateExpects(
     }
 
     const errorHtml = check.errorHtml?.replaceAll('%actual%', checkActual) || ''
+    if (check.value == undefined) {
+      check.value = "THIS SHOULDN'T BE UNDEFINED"
+    }
 
     return expect({
       ...check,

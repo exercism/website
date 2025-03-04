@@ -14,6 +14,7 @@
   ],
   "interpreter_options": {
     "max_repeat_until_game_over_iterations": 50,
+    "max_total_loop_iterations": 20000,
     "max_total_execution_time": 30000,
     "time_per_frame": 0.01
   },

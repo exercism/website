@@ -16,6 +16,7 @@ declare global {
       getCustomFnsForInterpreter: string
       updateCustomFns?: string
       customFnsDashboard?: string
+      deleteCustomFn?: string
     }
     availableCustomFunctions: AvailableCustomFunction[]
     activeCustomFunctions: ActiveCustomFunction[]

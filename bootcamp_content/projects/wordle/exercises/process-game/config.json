@@ -152,13 +152,13 @@
           ]
         },
         {
-          "slug": "oh-dear",
-          "name": "Oh dear",
-          "description_html": "No luck this time!",
+          "slug": "phew",
+          "name": "Phew!",
+          "description_html": "Phew! That was close!",
           "setup_functions": [
             [
               "drawGuesses",
-              [["jumpy", "trend", "jumbo", "block", "crisp", "gowfy"]]
+              [["jumpy", "trend", "jumbo", "crisp", "gowfy", "block"]]
             ]
           ],
           "function": "process_game",

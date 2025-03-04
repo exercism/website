@@ -9,7 +9,7 @@ It's **really** important to take it step by step.
 ### How it works
 
 When you start the exercise you can use the new `get_initial_maze()` function to get all of the squares arranged in a list of lists.
-Each list is a row (so `squares[0]` is the first row, and `squares[0][0]` is the top-left square).
+Each list is a row (so `squares[1]` is the first row, and `squares[1][1]` is the top-left square).
 
 Each square is an Instance of the Square, exactly the same as in the "Squares Not Strings" exercise.
 

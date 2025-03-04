@@ -34,7 +34,7 @@ Some notes:
 - Remember to stick to the original algorithm you were given.
 - The easiest starting point is probably to implement your own `look` function.
 - You always start on the starting square
-- You always start looking into the maze.
+- You always start looking into the maze (i.e. into a square that's not a wall or off the board). If there are multiple options, prioritise by downward, leftward, rightward, upward.
 - Take this one step at a time. Start by positioning your character correctly, then get their initial direction right, then solve each scenario one-by-one!
 
 ## Recap

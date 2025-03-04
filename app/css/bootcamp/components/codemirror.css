@@ -1,5 +1,29 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page {
+    .cm-idle-marker,
+    .cm-breakpoint-marker {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+    }
+
+    .cm-breakpoint-marker {
+        @apply bg-bootcamp-fail-text;
+    }
+
+    .cm-idle-marker {
+        opacity: 0;
+        transition: opacity 50ms;
+        @apply bg-textColor6;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
     .editor-wrapper {
         overflow: hidden;
         @apply h-[60%] flex-grow-0;

@@ -41,24 +41,45 @@ function toggleBreakpoint(view: EditorView, pos: number) {
 const breakpointMarker = new (class extends GutterMarker {
   toDOM() {
     const dot = document.createElement('div')
-    Object.assign(dot.style, {
-      width: '12px',
-      height: '12px',
-      borderRadius: '50%',
-      background: 'red',
-      display: 'grid',
-      placeContent: 'center',
-    })
+    Object.assign(dot.style, {})
+    dot.classList.add('cm-breakpoint-marker')
+    dot.title = 'Remove breakpoint'
 
     return dot
   }
 })()
 
+class IdleMarker extends GutterMarker {
+  toDOM() {
+    const dot = document.createElement('div')
+    dot.classList.add('cm-idle-marker')
+    dot.title = 'Add breakpoint'
+    return dot
+  }
+}
+
+const idleMarker = new IdleMarker()
 export const breakpointGutter = [
   breakpointState,
   gutter({
     class: 'cm-breakpoint-gutter',
-    markers: (v) => v.state.field(breakpointState),
+    markers: (view) => {
+      const breakpoints = view.state.field(breakpointState)
+      const markers: any[] = []
+
+      for (let i = 1; i <= view.state.doc.lines; i++) {
+        const pos = view.state.doc.line(i).from
+        let hasBreakpoint = false
+
+        breakpoints.between(pos, pos, (from) => {
+          if (from === pos) hasBreakpoint = true
+        })
+
+        markers.push((hasBreakpoint ? breakpointMarker : idleMarker).range(pos))
+      }
+
+      return RangeSet.of(markers)
+    },
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
       mousedown(view, line) {

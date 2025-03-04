@@ -78,9 +78,9 @@ export function ManageCustomFunctionsModal({
       className="solve-exercise-page-react-modal-content custom-function-selector flex flex-col w-fill max-w-[540px]"
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
-      <h2 className="text-h3">Import Custom Functions</h2>
+      <h2 className="text-h3">Import Library Functions</h2>
       <p className="text-p-large mb-12">
-        Select the custom functions you want to make available to use in your
+        Select the library functions you want to make available to use in your
         code.
       </p>
       <div className="flex flex-col gap-8 mb-12 overflow-y-auto mr-[-32px] pr-32">
@@ -106,7 +106,7 @@ export function ManageCustomFunctionsModal({
             )
           })
         ) : (
-          <div>There are no custom functions yet.</div>
+          <div>There are no library functions yet.</div>
         )}
       </div>
       <button onClick={() => setIsOpen(false)} className="btn-default btn-m">

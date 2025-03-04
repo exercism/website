@@ -15,9 +15,11 @@ const breakpointState = StateField.define<RangeSet<GutterMarker>>({
     set = set.map(transaction.changes)
     for (let e of transaction.effects) {
       if (e.is(breakpointEffect)) {
-        if (e.value.on)
+        if (e.value.on) {
           set = set.update({ add: [breakpointMarker.range(e.value.pos)] })
-        else set = set.update({ filter: (from) => from != e.value.pos })
+        } else {
+          set = set.update({ filter: (from) => from != e.value.pos })
+        }
       }
     }
     return set
@@ -39,9 +41,11 @@ function toggleBreakpoint(view: EditorView, pos: number) {
 const breakpointMarker = new (class extends GutterMarker {
   toDOM() {
     const dot = document.createElement('div')
-    dot.innerHTML = '•'
     Object.assign(dot.style, {
-      fontSize: '20px',
+      width: '12px',
+      height: '12px',
+      borderRadius: '50%',
+      background: 'red',
       display: 'grid',
       placeContent: 'center',
     })
@@ -65,9 +69,8 @@ export const breakpointGutter = [
   }),
   EditorView.baseTheme({
     '.cm-breakpoint-gutter .cm-gutterElement': {
-      color: 'red',
-      paddingLeft: '5px',
-      cursor: 'pointer',
+      display: 'grid',
+      placeContent: 'center',
     },
   }),
 ]

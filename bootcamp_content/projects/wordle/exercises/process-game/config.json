@@ -130,7 +130,7 @@
           "slug": "three-guesses",
           "name": "Got there in three",
           "description_html": "Deal with three guesses.",
-          "setup_functions": [["drawGuesses", [["hulol", "hallo", "hello"]]]],
+          "setup_functions": [["drawGuesses", [["hulal", "hallo", "hello"]]]],
           "function": "process_game",
           "args": ["hello", ["hulal", "hallo", "hello"]],
           "checks": [

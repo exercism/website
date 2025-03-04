@@ -100,6 +100,11 @@ export default class WordleExercise extends Exercise {
       if (!(color instanceof Jiki.String)) {
         return executionCtx.logicError('Color must be a string')
       }
+      if (idx > 4) {
+        return executionCtx.logicError(
+          'There are only 5 letters so there should only be 5 states for each guess.'
+        )
+      }
       const backgroundColor: string = this.STATE_COLORS[color.value]
       if (!backgroundColor) {
         return executionCtx.logicError('Invalid state')

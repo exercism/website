@@ -225,6 +225,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.cursorTooltip(),
           Ext.highlightedCodeBlock(),
           Ext.initReadOnlyRangesExtension(),
+          Ext.breakpointGutter,
           ...extensions,
         ],
       }),

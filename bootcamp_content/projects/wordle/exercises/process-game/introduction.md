@@ -55,4 +55,4 @@ This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions
 
 You have one function available:
 
-- `push(list, element)`: This adds an element to a list, then returns the new list.
+- `push(list, element)`: This adds an element to a list, then returns the new list. It does not change the original list.

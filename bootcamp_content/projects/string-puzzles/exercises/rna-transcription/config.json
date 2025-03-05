@@ -94,7 +94,7 @@
           "function": "dna_to_rna",
           "args": ["ACGTGGTCTTAA"],
           "value": "UGCACCAGAAUU",
-          "check": [
+          "checks": [
             {
               "function": "numFunctionCallsInCode('join')",
               "value": 1,

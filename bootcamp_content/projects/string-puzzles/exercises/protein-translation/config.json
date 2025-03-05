@@ -146,7 +146,11 @@
           "name": "Stop codon at end",
           "function": "translate_rna",
           "args": ["UGGUAG"],
-          "value": ["Tryptophan"]
+          "checks": [
+            {
+              "value": ["Tryptophan"]
+            }
+          ]
         },
         {
           "slug": "stop-codon-in-middle",
@@ -154,7 +158,11 @@
           "name": "Stop codon in middle",
           "function": "translate_rna",
           "args": ["UGGUAGUGG"],
-          "value": ["Tryptophan"]
+          "checks": [
+            {
+              "value": ["Tryptophan"]
+            }
+          ]
         }
       ]
     }

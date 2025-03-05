@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
@@ -8,15 +8,13 @@ import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
-import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
-import { t } from 'xstate'
 
 function Scrubber({
   animationTimeline,
   frames,
   context,
 }: {
-  animationTimeline: AnimationTimeline | undefined | null
+  animationTimeline: AnimationTimeline
   frames: Frame[]
   context?: string
 }) {
@@ -56,24 +54,20 @@ function Scrubber({
       tabIndex={-1}
       className="relative group"
     >
-      {animationTimeline && (
-        <PlayButton
-          disabled={shouldScrubberBeDisabled(
-            hasCodeBeenEdited,
-            animationTimeline,
-            frames,
-            isSpotlightActive
-          )}
-          onClick={() => {
-            animationTimeline?.play(() => setShouldShowInformationWidget(false))
-          }}
-        />
-      )}
+      <PlayButton
+        disabled={shouldScrubberBeDisabled(
+          hasCodeBeenEdited,
+          frames,
+          isSpotlightActive
+        )}
+        onClick={() => {
+          animationTimeline.play(() => setShouldShowInformationWidget(false))
+        }}
+      />
       <input
         data-ci="scrubber-range-input"
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
-          animationTimeline,
           frames,
           isSpotlightActive
         )}
@@ -82,7 +76,7 @@ function Scrubber({
         onKeyDown={(event) => handleOnKeyDown(event, animationTimeline, frames)}
         min={0}
         ref={rangeRef}
-        max={calculateMaxInputValue(animationTimeline, frames)}
+        max={calculateMaxInputValue(animationTimeline)}
         onInput={updateInputBackground}
         value={timelineValue}
         onChange={(event) => {
@@ -96,7 +90,6 @@ function Scrubber({
         onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
-          animationTimeline,
           frames,
           isSpotlightActive
         )}
@@ -240,15 +233,10 @@ function nextBreakpointExists(
 
 function shouldScrubberBeDisabled(
   hasCodeBeenEdited: boolean,
-  animationTimeline: AnimationTimeline | undefined | null,
   frames: Frame[],
   isSpotlightActive: boolean
 ) {
   // if the code has been edited, the scrubber should be disabled
   // if there is no animation timeline and there is only one frame, the scrubber should be disabled
-  return (
-    hasCodeBeenEdited ||
-    (!animationTimeline && frames.length === 1) ||
-    isSpotlightActive
-  )
+  return hasCodeBeenEdited || frames.length === 1 || isSpotlightActive
 }

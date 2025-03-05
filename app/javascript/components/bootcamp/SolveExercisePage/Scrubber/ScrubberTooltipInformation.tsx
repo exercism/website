@@ -8,7 +8,7 @@ export function TooltipInformation({
 }: {
   hasCodeBeenEdited: boolean
   notEnoughFrames: boolean
-  animationTimeline: AnimationTimeline | undefined | null
+  animationTimeline: AnimationTimeline
 }) {
   // editing code removes frames anyway, so this has to be higher precedence
   if (hasCodeBeenEdited) {

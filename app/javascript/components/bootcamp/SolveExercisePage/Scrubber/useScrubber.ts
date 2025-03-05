@@ -30,7 +30,7 @@ export function useScrubber({
   context,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
-  animationTimeline: AnimationTimeline | undefined | null
+  animationTimeline: AnimationTimeline
   frames: Frame[]
   hasCodeBeenEdited: boolean
   context?: string
@@ -55,10 +55,6 @@ export function useScrubber({
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
-    if (!animationTimeline) {
-      return
-    }
-
     animationTimeline.onUpdate((anime) => {
       // We only want to use this callback if the animation is playing
       // Not if we're scrubbing through it. Otherwise we end up running
@@ -129,9 +125,6 @@ export function useScrubber({
     // (although I don't see how this is possible).
     if (!currentFrame) return
 
-    // If the animation is running, don't show annotations
-    if (animationTimeline && !animationTimeline.paused) return
-
     setHighlightedLine(currentFrame.line)
     scrollToLine(editorView, currentFrame.line)
 
@@ -170,17 +163,13 @@ export function useScrubber({
 
   useEffect(() => {
     if (hasCodeBeenEdited) {
-      if (animationTimeline) {
-        setShouldAutoplayAnimation(false)
-        animationTimeline?.pause()
-      }
+      setShouldAutoplayAnimation(false)
+      animationTimeline.pause()
     }
   }, [hasCodeBeenEdited, animationTimeline])
 
   const handleScrubToCurrentTime = useCallback(
-    (animationTimeline: AnimationTimeline | undefined | null) => {
-      if (!animationTimeline) return
-
+    (animationTimeline: AnimationTimeline) => {
       const timelineTime = animationTimeline.timeline.currentTime
       const frame = frameNearestTimelineTime(frames, timelineTime)
       if (frame === undefined) return
@@ -195,7 +184,7 @@ export function useScrubber({
       event:
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      animationTimeline: AnimationTimeline | undefined | null,
+      animationTimeline: AnimationTimeline,
       frames: Frame[]
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
@@ -210,10 +199,7 @@ export function useScrubber({
   )
 
   const handleOnMouseUp = useCallback(
-    (
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
+    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       const newFrame = frameNearestTimelineTime(frames, timelineValue)
       if (newFrame === undefined) return
 
@@ -225,7 +211,7 @@ export function useScrubber({
   const handleGoToBreakpoint = useCallback(
     (
       direction: 1 | -1,
-      animationTimeline: AnimationTimeline | undefined | null,
+      animationTimeline: AnimationTimeline,
       frames: Frame[]
     ) => {
       const breakpoints = getBreakpointLines(editorView)
@@ -270,20 +256,17 @@ export function useScrubber({
   }
 
   const handleGoToPreviousBreakpoint = (
-    animationTimeline: AnimationTimeline | undefined | null,
+    animationTimeline: AnimationTimeline,
     frames: Frame[]
   ) => handleGoToBreakpoint(-1, animationTimeline, frames)
 
   const handleGoToNextBreakpoint = (
-    animationTimeline: AnimationTimeline | undefined | null,
+    animationTimeline: AnimationTimeline,
     frames: Frame[]
   ) => handleGoToBreakpoint(1, animationTimeline, frames)
 
   const handleGoToPreviousFrame = useCallback(
-    (
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
+    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
 
       // If there's no frame for this, then it's the last frame
@@ -299,10 +282,7 @@ export function useScrubber({
   )
 
   const handleGoToNextFrame = useCallback(
-    (
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
+    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       const currentFrameIdx =
         timelineValue > 0
           ? frameIdxNearestTimelineTime(frames, timelineValue)
@@ -317,20 +297,14 @@ export function useScrubber({
   )
 
   const handleGoToFirstFrame = useCallback(
-    (
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
+    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       moveToFrame(animationTimeline, frames[0], frames)
     },
     []
   )
 
   const handleGoToEndOfTimeline = useCallback(
-    (
-      animationTimeline: AnimationTimeline | undefined | null,
-      frames: Frame[]
-    ) => {
+    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       moveToFrame(animationTimeline, frames[frames.length - 1], frames)
     },
     []
@@ -344,7 +318,7 @@ export function useScrubber({
   const handleOnKeyUp = useCallback(
     (
       event: React.KeyboardEvent<HTMLInputElement>,
-      animationTimeline: AnimationTimeline | undefined | null
+      animationTimeline: AnimationTimeline
     ) => {
       setHeldKeys((prev) => {
         const newSet = new Set(prev)
@@ -357,7 +331,7 @@ export function useScrubber({
 
   const handleOnKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>,
-    animationTimeline: AnimationTimeline | undefined | null,
+    animationTimeline: AnimationTimeline,
     frames: Frame[]
   ) => {
     // setHeldKeys((prev) => new Set(prev).add(event.key))
@@ -390,14 +364,12 @@ export function useScrubber({
         break
 
       case ' ':
-        if (animationTimeline) {
-          if (animationTimeline.paused) {
-            animationTimeline.play()
-            setIsPlaying(true)
-          } else {
-            animationTimeline.pause()
-            setIsPlaying(false)
-          }
+        if (animationTimeline.paused) {
+          animationTimeline.play()
+          setIsPlaying(true)
+        } else {
+          animationTimeline.pause()
+          setIsPlaying(false)
         }
         break
       default:
@@ -440,7 +412,7 @@ export function useScrubber({
   }
 
   const moveToFrame = (
-    animationTimeline: AnimationTimeline | undefined | null,
+    animationTimeline: AnimationTimeline,
     newFrame: Frame,
     frames: Frame[],
     newTimelineTime?: number,
@@ -450,7 +422,7 @@ export function useScrubber({
     newTimelineTime = newTimelineTime || newFrame.timelineTime
 
     // Update to the new frame time.
-    if (animationTimeline && pause) {
+    if (pause) {
       animationTimeline.pause()
       setShouldAutoplayAnimation(false)
 
@@ -506,13 +478,8 @@ export function useScrubber({
   }
 }
 
-export function calculateMaxInputValue(
-  animationTimeline: AnimationTimeline | undefined | null,
-  frames: Frame[]
-) {
-  return animationTimeline
-    ? Math.round(
-        animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
-      )
-    : frames[frames.length - 1]?.timelineTime || 0
+export function calculateMaxInputValue(animationTimeline: AnimationTimeline) {
+  return Math.round(
+    animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
+  )
 }

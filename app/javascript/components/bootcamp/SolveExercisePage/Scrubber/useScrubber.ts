@@ -125,6 +125,9 @@ export function useScrubber({
     // (although I don't see how this is possible).
     if (!currentFrame) return
 
+    // Don't show lines while the animation is playing.
+    if (!animationTimeline.paused) return
+
     setHighlightedLine(currentFrame.line)
     scrollToLine(editorView, currentFrame.line)
 

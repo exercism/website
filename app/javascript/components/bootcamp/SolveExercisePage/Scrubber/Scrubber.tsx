@@ -101,7 +101,6 @@ function Scrubber({
         onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
-          animationTimeline,
           frames,
           isSpotlightActive
         )}

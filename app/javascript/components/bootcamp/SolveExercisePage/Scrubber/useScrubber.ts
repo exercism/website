@@ -102,7 +102,7 @@ export function useScrubber({
   ) => {
     const breakpoints = getBreakpointLines(editorView)
     let nextBreakpointFrame: Frame | undefined
-    const nextBreakpoint = breakpoints.forEach((line) => {
+    breakpoints.forEach((line) => {
       if (nextBreakpointFrame) return
       const frame = frames.find(
         (frame) =>
@@ -226,36 +226,23 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      const { selectedBreakpointIndex, setSelectedBreakpointIndex } =
-        useEditorStore.getState()
       const breakpoints = getBreakpointLines(editorView)
 
+      if (breakpoints.length === 0) return
+
       let currentFrameIdx = frameIdxAtTimelineTime(frames, timelineValue)
-
-      const maxBreakpointIndex = breakpoints.length
-      const newBreakpointIndex =
-        (selectedBreakpointIndex + direction + maxBreakpointIndex) %
-        maxBreakpointIndex
-
-      const targetLine = breakpoints[newBreakpointIndex]
-
-      if (currentFrameIdx === undefined) {
-        currentFrameIdx = frames.length - 1
-      }
-      if (currentFrameIdx === 0) return
+      if (currentFrameIdx === undefined) return
 
       const newFrameIndex = findFrameIndex(
         frames,
         currentFrameIdx,
-        targetLine,
+        breakpoints,
         direction
       )
 
-      if (newFrameIndex === null) return
+      if (newFrameIndex === null || newFrameIndex === -1) return
 
-      setSelectedBreakpointIndex(newBreakpointIndex)
-      const newFrame = frames[newFrameIndex]
-      moveToNewFrame(animationTimeline, newFrame, frames)
+      moveToNewFrame(animationTimeline, frames[newFrameIndex], frames)
     },
     [timelineValue]
   )
@@ -263,17 +250,19 @@ export function useScrubber({
   function findFrameIndex(
     frames: Frame[],
     currentIndex: number,
-    targetLine: number,
+    breakpoints: number[],
     direction: 1 | -1
   ): number | null {
     if (direction === -1) {
+      // finds backwards the closest frame that has one of the lines in the breakpoints array
       return frames
         .slice(0, currentIndex)
-        .findLastIndex((frame) => frame.line === targetLine)
+        .findLastIndex((frame) => breakpoints.includes(frame.line))
     } else {
+      // finds forwards the closest frame that has one of the lines in the breakpoints array
       const nextIndex = frames
         .slice(currentIndex + 1)
-        .findIndex((frame) => frame.line === targetLine)
+        .findIndex((frame) => breakpoints.includes(frame.line))
       return nextIndex !== -1 ? nextIndex + currentIndex + 1 : null
     }
   }

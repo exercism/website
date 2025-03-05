@@ -60,41 +60,6 @@ class IdleMarker extends GutterMarker {
 const idleMarker = new IdleMarker()
 
 export const breakpointGutter = [
-  lineNumbers({
-    domEventHandlers: {
-      mousedown(view, line) {
-        toggleBreakpoint(view, line.from)
-        return true
-      },
-      mouseenter(view, line) {
-        console.log('line', line)
-
-        const lineNumber = view.state.doc.lineAt(line.from).number
-        console.log('linenumber', lineNumber)
-        const breakpointMarkerElement = view.dom.querySelector(
-          `.cm-breakpoint-gutter .cm-gutterElement:nth-child(${lineNumber}) .cm-idle-marker`
-        )
-
-        if (breakpointMarkerElement) {
-          breakpointMarkerElement.classList.add('hovered-idle-marker')
-          return true
-        }
-        return false
-      },
-      mouseleave(view, line) {
-        const lineNumber = view.state.doc.lineAt(line.from).number
-        const breakpointMarkerElement = view.dom.querySelector(
-          `.cm-breakpoint-gutter .cm-gutterElement:nth-child(${lineNumber}) .cm-idle-marker`
-        )
-
-        if (breakpointMarkerElement) {
-          breakpointMarkerElement.classList.remove('hovered-idle-marker')
-          return true
-        }
-        return false
-      },
-    },
-  }),
   breakpointState,
   gutter({
     class: 'cm-breakpoint-gutter',
@@ -120,6 +85,45 @@ export const breakpointGutter = [
       mousedown(view, line) {
         toggleBreakpoint(view, line.from)
         return true
+      },
+    },
+  }),
+  lineNumbers({
+    domEventHandlers: {
+      mousedown(view, line) {
+        toggleBreakpoint(view, line.from)
+        return true
+      },
+      mousemove(view, line) {
+        const lineNumber = view.state.doc.lineAt(line.from).number
+        document.querySelectorAll('.hovered-idle-marker').forEach((el) => {
+          el.classList.remove('hovered-idle-marker')
+        })
+
+        const breakpointMarkerElement = view.dom.querySelector(
+          `.cm-breakpoint-gutter .cm-gutterElement:nth-child(${
+            lineNumber + 1
+          }) .cm-idle-marker`
+        )
+
+        if (breakpointMarkerElement) {
+          breakpointMarkerElement.classList.add('hovered-idle-marker')
+          return true
+        }
+        return false
+      },
+      mouseleave(view) {
+        const breakpointMarkerElement = view.dom.querySelectorAll(
+          `.cm-breakpoint-gutter .cm-gutterElement .cm-idle-marker`
+        )
+
+        if (breakpointMarkerElement) {
+          breakpointMarkerElement.forEach((el) =>
+            el.classList.remove('hovered-idle-marker')
+          )
+          return true
+        }
+        return false
       },
     },
   }),

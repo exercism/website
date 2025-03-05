@@ -18,7 +18,7 @@
         opacity: 0;
         @apply bg-textColor6;
 
-        &:hover {
+        &.hovered-idle-marker {
             opacity: 1;
         }
     }
@@ -85,12 +85,6 @@
         }
         .cm-gutterElement {
             @apply pl-2 pr-8;
-
-            &:hover {
-                .cm-idle-marker {
-                    opacity: 1;
-                }
-            }
         }
     }
     .cm-content {

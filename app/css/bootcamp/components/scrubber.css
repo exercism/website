@@ -12,6 +12,7 @@
         border: 1px solid;
         @apply border-jiki-purple;
         box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.12) inset;
+        min-width: 30px;
 
         &::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -54,13 +55,20 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
+        gap: 4px;
     }
 
     .frame-stepper-buttons button {
         @apply border-1 border-indigo-300 rounded-5;
     }
     .breakpoint-stepper-buttons button {
-        @apply border-1 border-danger rounded-5;
+        @apply bg-orange rounded-circle;
+        @apply grid place-items-center w-[24px] h-[24px];
+        img {
+            @apply filter-white w-[18px] h-[18px];
+        }
+        &:disabled {
+            opacity: 0.5;
+        }
     }
 }

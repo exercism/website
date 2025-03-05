@@ -9,6 +9,7 @@ import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
+import { t } from 'xstate'
 
 function Scrubber({
   animationTimeline,
@@ -90,9 +91,9 @@ function Scrubber({
         }}
         onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
       />
-      <BreakpointStepperButtons
-        onNext={() => handleGoToNextBreakpoint(animationTimeline, frames)}
-        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
+      <FrameStepperButtons
+        onNext={() => handleGoToNextFrame(animationTimeline, frames)}
+        onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           animationTimeline,
@@ -100,9 +101,11 @@ function Scrubber({
           isSpotlightActive
         )}
       />
-      <FrameStepperButtons
-        onNext={() => handleGoToNextFrame(animationTimeline, frames)}
-        onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
+      <BreakpointStepperButtons
+        timelineTime={timelineValue}
+        frames={frames}
+        onNext={() => handleGoToNextBreakpoint(animationTimeline, frames)}
+        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           animationTimeline,
@@ -169,10 +172,14 @@ function FrameStepperButtons({
 }
 
 function BreakpointStepperButtons({
+  timelineTime,
+  frames,
   onNext,
   onPrev,
   disabled,
 }: {
+  timelineTime: number
+  frames: Frame[]
   onNext: () => void
   onPrev: () => void
   disabled: boolean
@@ -180,20 +187,55 @@ function BreakpointStepperButtons({
   const { breakpoints } = useEditorStore()
   if (breakpoints.length == 0) return null
 
+  const isPrevBreakpoint = prevBreakpointExists(
+    timelineTime,
+    frames,
+    breakpoints
+  )
+  const isNextBreakpoint = nextBreakpointExists(
+    timelineTime,
+    frames,
+    breakpoints
+  )
+
   return (
     <div data-ci="frame-stepper-buttons" className="breakpoint-stepper-buttons">
-      <button disabled={disabled} onClick={onPrev}>
+      <button disabled={disabled || !isPrevBreakpoint} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"
           alt="Previous"
           className="rotate-180"
         />
       </button>
-      <button disabled={disabled} onClick={onNext}>
+      <button disabled={disabled || !isNextBreakpoint} onClick={onNext}>
         <Icon icon="bootcamp-chevron-right" alt="Next" />
       </button>
     </div>
   )
+}
+
+function prevBreakpointExists(
+  timelineTime: number,
+  frames: Frame[],
+  breakpoints: number[]
+) {
+  return breakpoints.some((breakpoint) => {
+    return frames.some((frame) => {
+      return frame.line === breakpoint && frame.timelineTime < timelineTime
+    })
+  })
+}
+
+function nextBreakpointExists(
+  timelineTime: number,
+  frames: Frame[],
+  breakpoints: number[]
+) {
+  return breakpoints.some((breakpoint) => {
+    return frames.some((frame) => {
+      return frame.line === breakpoint && frame.timelineTime > timelineTime
+    })
+  })
 }
 
 function shouldScrubberBeDisabled(

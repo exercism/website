@@ -230,7 +230,7 @@ export function useScrubber({
 
       if (breakpoints.length === 0) return
 
-      let currentFrameIdx = frameIdxAtTimelineTime(frames, timelineValue)
+      let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
       if (currentFrameIdx === undefined) return
 
       const newFrameIndex = findFrameIndex(
@@ -242,7 +242,7 @@ export function useScrubber({
 
       if (newFrameIndex === null || newFrameIndex === -1) return
 
-      moveToNewFrame(animationTimeline, frames[newFrameIndex], frames)
+      moveToFrame(animationTimeline, frames[newFrameIndex], frames)
     },
     [timelineValue]
   )

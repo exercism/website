@@ -11,6 +11,8 @@ import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
+import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
+import { useLogger } from '@/hooks'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -50,6 +52,8 @@ export function useScrubber({
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
 
+  useLogger('frames', frames)
+
   const { inspectedTestResult } = useTestStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
@@ -65,9 +69,20 @@ export function useScrubber({
       if (anime.paused) return
       setTimeout(() => {
         // Always uses integers!
-        setTimelineValue(
-          Math.round(anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR)
+        const newTimelineValue = Math.round(
+          anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
         )
+
+        setTimelineValue(newTimelineValue)
+
+        const currentFrame = frameAtTimelineTime(frames, newTimelineValue)
+
+        const breakpoints = getBreakpointLines(editorView)
+        if (currentFrame?.line && breakpoints.includes(currentFrame.line)) {
+          anime.pause()
+          setShouldShowInformationWidget(true)
+        }
+
         if (anime.completed) {
           setIsTimelineComplete(true)
         } else {
@@ -179,6 +194,74 @@ export function useScrubber({
     },
     [setTimelineValue, timelineValue]
   )
+
+  const handleGoToBreakpoint = useCallback(
+    (
+      direction: 1 | -1,
+      animationTimeline: AnimationTimeline | undefined | null,
+      frames: Frame[]
+    ) => {
+      const { selectedBreakpointIndex, setSelectedBreakpointIndex } =
+        useEditorStore.getState()
+      const breakpoints = getBreakpointLines(editorView)
+
+      let currentFrameIdx = frameIdxAtTimelineTime(frames, timelineValue)
+
+      const maxBreakpointIndex = breakpoints.length
+      const newBreakpointIndex =
+        (selectedBreakpointIndex + direction + maxBreakpointIndex) %
+        maxBreakpointIndex
+
+      const targetLine = breakpoints[newBreakpointIndex]
+
+      if (currentFrameIdx === undefined) {
+        currentFrameIdx = frames.length - 1
+      }
+      if (currentFrameIdx === 0) return
+
+      const newFrameIndex = findFrameIndex(
+        frames,
+        currentFrameIdx,
+        targetLine,
+        direction
+      )
+
+      if (newFrameIndex === null) return
+
+      setSelectedBreakpointIndex(newBreakpointIndex)
+      const newFrame = frames[newFrameIndex]
+      moveToNewFrame(animationTimeline, newFrame, frames)
+    },
+    [timelineValue]
+  )
+
+  function findFrameIndex(
+    frames: Frame[],
+    currentIndex: number,
+    targetLine: number,
+    direction: 1 | -1
+  ): number | null {
+    if (direction === -1) {
+      return frames
+        .slice(0, currentIndex)
+        .findLastIndex((frame) => frame.line === targetLine)
+    } else {
+      const nextIndex = frames
+        .slice(currentIndex + 1)
+        .findIndex((frame) => frame.line === targetLine)
+      return nextIndex !== -1 ? nextIndex + currentIndex + 1 : null
+    }
+  }
+
+  const handleGoToPreviousBreakpoint = (
+    animationTimeline: AnimationTimeline | undefined | null,
+    frames: Frame[]
+  ) => handleGoToBreakpoint(-1, animationTimeline, frames)
+
+  const handleGoToNextBreakpoint = (
+    animationTimeline: AnimationTimeline | undefined | null,
+    frames: Frame[]
+  ) => handleGoToBreakpoint(1, animationTimeline, frames)
 
   const handleGoToPreviousFrame = useCallback(
     (
@@ -398,6 +481,8 @@ export function useScrubber({
     handleGoToPreviousFrame,
     handleGoToEndOfTimeline,
     handleGoToFirstFrame,
+    handleGoToNextBreakpoint,
+    handleGoToPreviousBreakpoint,
     rangeRef,
     updateInputBackground,
     handleScrubToCurrentTime,

@@ -33,6 +33,8 @@ function Scrubber({
     rangeRef,
     handleGoToNextFrame,
     handleGoToPreviousFrame,
+    handleGoToNextBreakpoint,
+    handleGoToPreviousBreakpoint,
   } = useScrubber({
     setIsPlaying,
     animationTimeline,
@@ -86,6 +88,16 @@ function Scrubber({
           updateInputBackground()
         }}
         onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
+      />
+      <BreakpointStepperButtons
+        onNext={() => handleGoToNextBreakpoint(animationTimeline, frames)}
+        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
+        disabled={shouldScrubberBeDisabled(
+          hasCodeBeenEdited,
+          animationTimeline,
+          frames,
+          isSpotlightActive
+        )}
       />
       <FrameStepperButtons
         onNext={() => handleGoToNextFrame(animationTimeline, frames)}
@@ -141,6 +153,31 @@ function FrameStepperButtons({
 }) {
   return (
     <div data-ci="frame-stepper-buttons" className="frame-stepper-buttons">
+      <button disabled={disabled} onClick={onPrev}>
+        <Icon
+          icon="bootcamp-chevron-right"
+          alt="Previous"
+          className="rotate-180"
+        />
+      </button>
+      <button disabled={disabled} onClick={onNext}>
+        <Icon icon="bootcamp-chevron-right" alt="Next" />
+      </button>
+    </div>
+  )
+}
+
+function BreakpointStepperButtons({
+  onNext,
+  onPrev,
+  disabled,
+}: {
+  onNext: () => void
+  onPrev: () => void
+  disabled: boolean
+}) {
+  return (
+    <div data-ci="frame-stepper-buttons" className="breakpoint-stepper-buttons">
       <button disabled={disabled} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"

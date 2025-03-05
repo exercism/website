@@ -39,6 +39,7 @@
     }
 
     .frame-stepper-buttons,
+    .breakpoint-stepper-buttons,
     .play-button {
         img {
             width: 24px;
@@ -48,14 +49,18 @@
         }
     }
 
-    .frame-stepper-buttons {
+    .frame-stepper-buttons,
+    .breakpoint-stepper-buttons {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 8px;
+    }
 
-        button {
-            @apply border-1 border-indigo-300 rounded-5;
-        }
+    .frame-stepper-buttons button {
+        @apply border-1 border-indigo-300 rounded-5;
+    }
+    .breakpoint-stepper-buttons button {
+        @apply border-1 border-danger rounded-5;
     }
 }

@@ -12,6 +12,8 @@ type EditorStore = {
   toggleShouldAutoRunCode: () => void
   readonly: boolean
   setReadonly: (readonly: boolean) => void
+  selectedBreakpointIndex: number
+  setSelectedBreakpointIndex: (idx: number) => void
   hasCodeBeenEdited: boolean
   setHasCodeBeenEdited: (hasBeenEdited: boolean) => void
   shouldShowInformationWidget: boolean
@@ -65,12 +67,18 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     },
     toggleShouldShowInformationWidget: () => {
       set(
-        (state) => ({
-          shouldShowInformationWidget: !state.shouldShowInformationWidget,
-        }),
+        (state) => {
+          return {
+            shouldShowInformationWidget: !state.shouldShowInformationWidget,
+          }
+        },
         false,
         'editor/toggleShouldShowInformationWidget'
       )
+    },
+    selectedBreakpointIndex: -1,
+    setSelectedBreakpointIndex: (selectedBreakpointIndex) => {
+      set({ selectedBreakpointIndex })
     },
     informationWidgetData: { html: '', line: 0, status: 'SUCCESS' },
     setInformationWidgetData: (

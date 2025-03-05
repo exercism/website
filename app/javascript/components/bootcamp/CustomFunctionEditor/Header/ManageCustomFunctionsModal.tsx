@@ -49,12 +49,7 @@ export function ManageCustomFunctionsModal({
         name
       )
 
-      const [firstFn] = data.custom_functions
-      addCustomFunctionsForInterpreter({
-        name: firstFn.name,
-        arity: firstFn.arity,
-        code: firstFn.code,
-      })
+      addCustomFunctionsForInterpreter(data.custom_functions)
       if (onChange) {
         onChange()
       }

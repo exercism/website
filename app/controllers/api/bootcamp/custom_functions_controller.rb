@@ -9,7 +9,7 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
   end
 
   def for_interpreter
-    @custom_functions = current_user.bootcamp_custom_functions.where(name: params[:name].split(','))
+    @custom_functions = Bootcamp::CustomFunction::BuildRecursiveList.(current_user, params[:name].split(','))
 
     render json: {
       custom_functions: @custom_functions.map do |cf|

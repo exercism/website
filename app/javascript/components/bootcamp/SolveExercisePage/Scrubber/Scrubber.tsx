@@ -1,6 +1,10 @@
 import React, { useContext } from 'react'
 import { useState } from 'react'
-import { calculateMaxInputValue, useScrubber } from './useScrubber'
+import {
+  calculateMaxInputValue,
+  calculateMinInputValue,
+  useScrubber,
+} from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
 import { InformationWidgetToggleButton } from './InformationWidgetToggleButton'
 import { Icon } from '@/components/common'
@@ -74,9 +78,9 @@ function Scrubber({
         type="range"
         onKeyUp={(event) => handleOnKeyUp(event, animationTimeline)}
         onKeyDown={(event) => handleOnKeyDown(event, animationTimeline, frames)}
-        min={0}
-        ref={rangeRef}
+        min={calculateMinInputValue(frames)}
         max={calculateMaxInputValue(animationTimeline)}
+        ref={rangeRef}
         onInput={updateInputBackground}
         value={timelineValue}
         onChange={(event) => {
@@ -86,6 +90,8 @@ function Scrubber({
         onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
       />
       <FrameStepperButtons
+        timelineTime={timelineValue}
+        frames={frames}
         onNext={() => handleGoToNextFrame(animationTimeline, frames)}
         onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
@@ -139,24 +145,30 @@ function PlayButton({
 }
 
 function FrameStepperButtons({
+  timelineTime,
+  frames,
   onNext,
   onPrev,
   disabled,
 }: {
+  timelineTime: number
+  frames: Frame[]
   onNext: () => void
   onPrev: () => void
   disabled: boolean
 }) {
+  const isPrevFrame = prevFrameExists(timelineTime, frames)
+  const isNextFrame = nextFrameExists(timelineTime, frames)
   return (
     <div data-ci="frame-stepper-buttons" className="frame-stepper-buttons">
-      <button disabled={disabled} onClick={onPrev}>
+      <button disabled={disabled || !isPrevFrame} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"
           alt="Previous"
           className="rotate-180"
         />
       </button>
-      <button disabled={disabled} onClick={onNext}>
+      <button disabled={disabled || !isNextFrame} onClick={onNext}>
         <Icon icon="bootcamp-chevron-right" alt="Next" />
       </button>
     </div>
@@ -206,6 +218,14 @@ function BreakpointStepperButtons({
   )
 }
 
+function prevFrameExists(timelineTime: number, frames: Frame[]) {
+  return frames.some((frame) => frame.timelineTime < timelineTime)
+}
+
+function nextFrameExists(timelineTime: number, frames: Frame[]) {
+  return frames.some((frame) => frame.timelineTime > timelineTime)
+}
+
 function prevBreakpointExists(
   timelineTime: number,
   frames: Frame[],
@@ -236,6 +256,6 @@ function shouldScrubberBeDisabled(
   isSpotlightActive: boolean
 ) {
   // if the code has been edited, the scrubber should be disabled
-  // if there is no animation timeline and there is only one frame, the scrubber should be disabled
-  return hasCodeBeenEdited || frames.length === 1 || isSpotlightActive
+  // if there is no animation timeline and there are zero or one frames, the scrubber should be disabled
+  return hasCodeBeenEdited || isSpotlightActive || frames.length < 2
 }

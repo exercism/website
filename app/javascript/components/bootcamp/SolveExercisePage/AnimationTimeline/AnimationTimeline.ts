@@ -103,9 +103,10 @@ export class AnimationTimeline {
       */
 
     const animationDurationAfterAnimations = this.animationTimeline.duration
+    const lastFrame = this.frames[this.frames.length - 1]
     this.animationTimeline.duration = Math.max(
       animationDurationAfterAnimations,
-      this.frames[this.frames.length - 1].time
+      lastFrame ? lastFrame.time : 0
     )
     return this
   }

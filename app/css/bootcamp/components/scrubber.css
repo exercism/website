@@ -37,6 +37,14 @@
             border-radius: 20px;
             cursor: pointer;
         }
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    .play-button {
+        &:disabled {
+            opacity: 0.5;
+        }
     }
 
     .frame-stepper-buttons,
@@ -67,6 +75,11 @@
         img {
             @apply filter-white w-[18px] h-[18px];
         }
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    .frame-stepper-buttons button {
         &:disabled {
             opacity: 0.5;
         }

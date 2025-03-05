@@ -35,9 +35,10 @@ export function useScrubber({
   hasCodeBeenEdited: boolean
   context?: string
 }) {
-  // if there is an animation timeline, we use time as value
-  // if there is no animation timeline, we use frame index as value
-  const [timelineValue, setTimelineValue] = useState(0)
+  // We start this at -1. That guarantees that something always
+  // happens, even if the timeline is one frame long as so has
+  // a duration of 0, because there is a transform from -1 to 0.
+  const [timelineValue, setTimelineValue] = useState(-1)
   const {
     setHighlightedLine,
     setHighlightedLineColor,
@@ -60,6 +61,7 @@ export function useScrubber({
       // Not if we're scrubbing through it. Otherwise we end up running
       // setTimelineValue multiple times in multiple places.
       if (anime.paused) return
+
       setTimeout(() => {
         // Always uses integers!
         let newTimelineValue = Math.round(
@@ -71,6 +73,7 @@ export function useScrubber({
           timelineValue,
           newTimelineValue
         )
+
         if (nextBreakpointFrame) {
           newTimelineValue = nextBreakpointFrame.timelineTime
 
@@ -192,7 +195,6 @@ export function useScrubber({
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
       const newFrame = frameNearestTimelineTime(frames, timelineTime)
-      console.log(timelineTime, newFrame)
 
       if (newFrame === undefined) return
 
@@ -438,6 +440,7 @@ export function useScrubber({
         animationTimeline.seek(newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR)
       }
     }
+
     // Finally, set the new time. Note, this potentially gets
     // changed in the aimationTimeline block above, so don't do it
     // early and guard/return.
@@ -479,6 +482,14 @@ export function useScrubber({
     updateInputBackground,
     handleScrubToCurrentTime,
   }
+}
+
+export function calculateMinInputValue(frames: Frame[]) {
+  // If there is only one frame, then the time will be 0,
+  // and the scrubber will disabled. But it still needs a range
+  // to look correct, so we just give it a range backwards, so
+  // that 0 is at the end.
+  return frames.length < 2 ? -1 : 0
 }
 
 export function calculateMaxInputValue(animationTimeline: AnimationTimeline) {

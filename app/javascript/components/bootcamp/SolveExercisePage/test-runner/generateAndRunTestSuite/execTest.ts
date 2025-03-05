@@ -117,7 +117,7 @@ function buildAnimationTimeline(
   const lastFrame: Frame | undefined = frames.at(-1)
 
   // If we have a healthy animation
-  if (exercise && exercise.animations && exercise.animations.length >= 0) {
+  if (exercise && exercise.animations && exercise.animations.length > 0) {
     animations = exercise.animations
   }
   // Else if we have a successful non-animation exercise, we create

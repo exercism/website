@@ -44,7 +44,7 @@ You should work out the state of each row then call the `color_row(row, states)`
 For example, if the word was in the first row was correct, you would call:
 
 ```jikiscript
-color_row(1, ["present", "present", "present", "present", "present"])
+color_row(1, ["correct", "correct", "correct", "correct", "correct"])
 ```
 
 ## Custom Functions

@@ -1,9 +1,17 @@
-# Weather
+# Wordle
 
 ## Overview
 
-In this project, we'll build a fully fledged weather application, showing forecasts for the coming hours and days.
+Welcome to Wordle, the classic Lockdown game!
 
-In Part 1, we'll start off by building some images to use, then crafting the various pieces of logic needed to make the app work.
+The game works like this:
 
-In Part 2 of the course, you'll build the whole thing from scratch using JavaScript, HTML and CSS.
+- There is a correct secret word.
+- You have 6 guesses to get it right.
+- For each guess:
+  - If a letter is correct, it goes green
+  - If a letter is present in the word but in the wrong place, it goes yellow.
+  - If a letter is missing, it goes grey.
+
+In Part 1, we'll implement the game logic.
+In Part 2, we'll make it from scratch!

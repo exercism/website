@@ -42,7 +42,6 @@ export function useScrubber({
     setHighlightedLine,
     setHighlightedLineColor,
     setInformationWidgetData,
-    informationWidgetData,
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
@@ -201,6 +200,7 @@ export function useScrubber({
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
       const newFrame = frameNearestTimelineTime(frames, timelineTime)
+      console.log(timelineTime, newFrame)
 
       if (newFrame === undefined) return
 
@@ -511,7 +511,7 @@ export function calculateMaxInputValue(
   frames: Frame[]
 ) {
   return animationTimeline
-    ? Math.ceil(
+    ? Math.round(
         animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
       )
     : frames[frames.length - 1]?.timelineTime || 0

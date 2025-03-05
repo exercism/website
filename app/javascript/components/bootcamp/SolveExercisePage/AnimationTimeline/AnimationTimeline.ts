@@ -9,11 +9,13 @@ import type {
 } from '@juliangarnierorg/anime-beta'
 import type { AnimeCSSProperties } from './types'
 
-export type Animation = AnimationParams & {
-  targets: TargetsParam
-  offset: string | number | undefined
-  transformations: AnimeCSSProperties
-}
+export type Animation =
+  | AnimationParams
+  | {
+      targets: TargetsParam
+      offset: string | number | undefined
+      transformations: AnimeCSSProperties
+    }
 
 export class AnimationTimeline {
   private animationTimeline: Timeline

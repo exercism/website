@@ -83,6 +83,10 @@
                 @apply bg-bootcamp-fail-light;
             }
 
+            span.added-part,
+            span.removed-part {
+                @apply whitespace-pre;
+            }
             span.added-part {
                 @apply bg-bootcamp-success-light;
                 @apply border-b-1 border-bootcamp-success-dark;

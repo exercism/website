@@ -4,7 +4,6 @@ export function processTasks(
   state: TaskStore,
   testResults: TestSuiteResult<NewTestResult | PreviousTestResult>
 ) {
-  console.log(testResults)
   const passingTests = new Set(
     testResults.tests
       .filter((test) => test.status === 'pass')

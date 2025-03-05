@@ -170,7 +170,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.colorScheme,
           minimalSetup,
           Ext.breakpointGutter,
-          // lineNumbers(),
           highlightActiveLineGutter(),
           dropCursor(),
           moveCursorByPasteLength,

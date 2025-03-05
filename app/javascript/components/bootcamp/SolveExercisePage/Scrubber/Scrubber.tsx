@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useState } from 'react'
 import { calculateMaxInputValue, useScrubber } from './useScrubber'
 import useEditorStore from '@/components/bootcamp/SolveExercisePage/store/editorStore'
@@ -8,6 +8,7 @@ import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
+import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
 
 function Scrubber({
   animationTimeline,
@@ -176,6 +177,15 @@ function BreakpointStepperButtons({
   onPrev: () => void
   disabled: boolean
 }) {
+  const { editorView } = useContext(SolveExercisePageContext)
+
+  const hasNoBreakpoints = useMemo(() => {
+    const breakpoints = getBreakpointLines(editorView)
+    return breakpoints.length === 0
+  }, [editorView])
+
+  if (hasNoBreakpoints) return null
+
   return (
     <div data-ci="frame-stepper-buttons" className="breakpoint-stepper-buttons">
       <button disabled={disabled} onClick={onPrev}>

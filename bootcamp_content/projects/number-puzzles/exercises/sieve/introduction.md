@@ -111,3 +111,9 @@ You've examined all the numbers and found that 2, 3, 5, and 7 are still unmarked
 ## Instructions
 
 Create a function called `sieve` that takes a number as its input, and returns a list of all the prime numbers less than or equal to that number.
+
+## Functions
+
+You have one function available:
+
+- `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)

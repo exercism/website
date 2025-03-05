@@ -135,20 +135,5 @@ export const breakpointGutter = [
     '.cm-lineNumbers .cm-gutterElement': {
       cursor: 'pointer',
     },
-    '.cm-breakpoint-marker': {
-      width: '8px',
-      height: '8px',
-      backgroundColor: 'red',
-      borderRadius: '50%',
-      margin: 'auto',
-    },
-    '.cm-idle-marker': {
-      width: '8px',
-      height: '8px',
-      backgroundColor: 'transparent',
-      border: '1px solid gray',
-      borderRadius: '50%',
-      margin: 'auto',
-    },
   }),
 ]

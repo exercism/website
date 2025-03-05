@@ -44,7 +44,7 @@ You should work out the state of each row then call the `color_row(row, states)`
 For example, if the word was in the first row was correct, you would call:
 
 ```jikiscript
-color_row(1, ["present", "present", "present", "present", "present"])
+color_row(1, ["correct", "correct", "correct", "correct", "correct"])
 ```
 
 ## Custom Functions
@@ -55,4 +55,4 @@ This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions
 
 You have one function available:
 
-- `push(list, element)`: This adds an element to a list, then returns the new list.
+- `push(list, element)`: This adds an element to a list, then returns the new list. It does not change the original list.

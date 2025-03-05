@@ -13,7 +13,10 @@ export function generateExpects(
   // We only need to do this once, so do it outside the loop.
   const state = exercise ? exercise.getState() : {}
 
-  return (testData.checks || []).map((check: ExpectCheck) => {
+  if (testData.checks === undefined) {
+    throw 'No checks on this test!'
+  }
+  return testData.checks.map((check: ExpectCheck) => {
     const matcher = check.matcher || 'toEqual'
 
     // Check can either be a reference to the final state or a function call.

@@ -52,8 +52,6 @@ export function useScrubber({
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
 
-  useLogger('frames', frames)
-
   const { inspectedTestResult } = useTestStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
@@ -97,22 +95,19 @@ export function useScrubber({
   }, [animationTimeline])
 
   const breakpointFrameInTimelineTimeRange = (
-    startTimelineTime,
-    endTimelineTime
+    startTimelineTime: number,
+    endTimelineTime: number
   ) => {
     const breakpoints = getBreakpointLines(editorView)
     let nextBreakpointFrame: Frame | undefined
     breakpoints.forEach((line) => {
       if (nextBreakpointFrame) return
-      const frame = frames.find(
+      nextBreakpointFrame = frames.find(
         (frame) =>
           frame.timelineTime > startTimelineTime &&
           frame.timelineTime <= endTimelineTime &&
           frame.line === line
       )
-      if (frame) {
-        nextBreakpointFrame = frame
-      }
     })
     return nextBreakpointFrame
   }
@@ -183,9 +178,16 @@ export function useScrubber({
     }
   }, [hasCodeBeenEdited, animationTimeline])
 
-  // TODO: Remove this?
   const handleScrubToCurrentTime = useCallback(
-    (animationTimeline: AnimationTimeline | undefined | null) => {},
+    (animationTimeline: AnimationTimeline | undefined | null) => {
+      if (!animationTimeline) return
+
+      const timelineTime = animationTimeline.timeline.currentTime
+      const frame = frameNearestTimelineTime(frames, timelineTime)
+      if (frame === undefined) return
+
+      moveToFrame(animationTimeline, frame, frames, timelineTime, false)
+    },
     [setTimelineValue]
   )
 
@@ -441,13 +443,14 @@ export function useScrubber({
     animationTimeline: AnimationTimeline | undefined | null,
     newFrame: Frame,
     frames: Frame[],
-    newTimelineTime?: number
+    newTimelineTime?: number,
+    pause: boolean = true
   ) => {
     const isLastFrame = frames.indexOf(newFrame) == frames.length - 1
     newTimelineTime = newTimelineTime || newFrame.timelineTime
 
     // Update to the new frame time.
-    if (animationTimeline) {
+    if (animationTimeline && pause) {
       animationTimeline.pause()
       setShouldAutoplayAnimation(false)
 

@@ -1,7 +1,10 @@
 import { StateField, StateEffect, RangeSet } from '@codemirror/state'
 import { EditorView, gutter, GutterMarker, lineNumbers } from '@codemirror/view'
 
-const breakpointEffect = StateEffect.define<{ pos: number; on: boolean }>({
+export const breakpointEffect = StateEffect.define<{
+  pos: number
+  on: boolean
+}>({
   map: (val, mapping) => {
     return { pos: mapping.mapPos(val.pos), on: val.on }
   },

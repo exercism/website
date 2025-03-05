@@ -1,26 +1,40 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page {
+    .cm-breakpoint-gutter .cm-gutterElement {
+        @apply flex;
+    }
     .cm-idle-marker,
     .cm-breakpoint-marker {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
+        width: 20px;
+        cursor: pointer;
         display: grid;
         place-content: center;
-        cursor: pointer;
+
+        &:after {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            content: "";
+        }
     }
 
     .cm-breakpoint-marker {
-        @apply bg-bootcamp-fail-text;
+        &:after {
+            @apply bg-orange;
+        }
     }
 
     .cm-idle-marker {
-        opacity: 0;
-        @apply bg-textColor6;
+        &:after {
+            opacity: 0;
+            @apply bg-orange;
+        }
 
         &:hover,
         &.hovered-idle-marker {
-            opacity: 1;
+            &:after {
+                opacity: 0.7;
+            }
         }
     }
 
@@ -44,7 +58,6 @@
         .cm-lineNumbers .cm-gutterElement,
         .cm-icon-container-gutter .cm-gutterElement {
             @apply grid items-center;
-            /* @apply p-0; */
         }
 
         .cm-icon-container-gutter .cm-gutterElement {
@@ -84,10 +97,13 @@
         .cm-foldGutter span {
             display: none;
         }
+    }
+    .cm-lineNumbers {
         .cm-gutterElement {
             @apply pl-2 pr-8;
         }
     }
+
     .cm-content {
         outline: none !important;
     }

@@ -177,14 +177,8 @@ function BreakpointStepperButtons({
   onPrev: () => void
   disabled: boolean
 }) {
-  const { editorView } = useContext(SolveExercisePageContext)
-
-  const hasNoBreakpoints = useMemo(() => {
-    const breakpoints = getBreakpointLines(editorView)
-    return breakpoints.length === 0
-  }, [editorView])
-
-  if (hasNoBreakpoints) return null
+  const { breakpoints } = useEditorStore()
+  if (breakpoints.length == 0) return null
 
   return (
     <div data-ci="frame-stepper-buttons" className="breakpoint-stepper-buttons">

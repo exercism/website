@@ -18,6 +18,7 @@
         opacity: 0;
         @apply bg-textColor6;
 
+        &:hover,
         &.hovered-idle-marker {
             opacity: 1;
         }

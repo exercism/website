@@ -69,19 +69,23 @@ export function useScrubber({
       if (anime.paused) return
       setTimeout(() => {
         // Always uses integers!
-        const newTimelineValue = Math.round(
+        let newTimelineValue = Math.round(
           anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
         )
 
-        setTimelineValue(newTimelineValue)
+        // Check if we have a breakpoint and if we do, jump to that, not the new value.
+        const nextBreakpointFrame = breakpointFrameInTimelineTimeRange(
+          timelineValue,
+          newTimelineValue
+        )
+        if (nextBreakpointFrame) {
+          newTimelineValue = nextBreakpointFrame.timelineTime
 
-        const currentFrame = frameAtTimelineTime(frames, newTimelineValue)
-
-        const breakpoints = getBreakpointLines(editorView)
-        if (currentFrame?.line && breakpoints.includes(currentFrame.line)) {
           anime.pause()
           setShouldShowInformationWidget(true)
         }
+
+        setTimelineValue(newTimelineValue)
 
         if (anime.completed) {
           setIsTimelineComplete(true)
@@ -91,6 +95,27 @@ export function useScrubber({
       }, 16) // Don't update more than 60 times a second (framerate)
     })
   }, [animationTimeline])
+
+  const breakpointFrameInTimelineTimeRange = (
+    startTimelineTime,
+    endTimelineTime
+  ) => {
+    const breakpoints = getBreakpointLines(editorView)
+    let nextBreakpointFrame: Frame | undefined
+    const nextBreakpoint = breakpoints.forEach((line) => {
+      if (nextBreakpointFrame) return
+      const frame = frames.find(
+        (frame) =>
+          frame.timelineTime > startTimelineTime &&
+          frame.timelineTime <= endTimelineTime &&
+          frame.line === line
+      )
+      if (frame) {
+        nextBreakpointFrame = frame
+      }
+    })
+    return nextBreakpointFrame
+  }
 
   // only check for error frame once when frames change, let users navigate freely
   useEffect(() => {

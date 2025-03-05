@@ -85,6 +85,12 @@
         }
         .cm-gutterElement {
             @apply pl-2 pr-8;
+
+            &:hover {
+                .cm-idle-marker {
+                    opacity: 1;
+                }
+            }
         }
     }
     .cm-content {

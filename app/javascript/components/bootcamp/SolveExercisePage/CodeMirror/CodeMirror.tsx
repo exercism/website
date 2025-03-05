@@ -40,7 +40,6 @@ import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnly
 import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
 import useErrorStore from '../store/errorStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
-import useTaskStore from '../store/taskStore/taskStore'
 
 export const readonlyCompartment = new Compartment()
 
@@ -171,7 +170,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.colorScheme,
           minimalSetup,
           Ext.breakpointGutter,
-          lineNumbers(),
+          // lineNumbers(),
           highlightActiveLineGutter(),
           dropCursor(),
           moveCursorByPasteLength,

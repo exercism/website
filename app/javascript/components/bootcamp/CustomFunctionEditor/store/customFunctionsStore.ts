@@ -16,7 +16,7 @@ type CustomFunctionsStore = {
     customFunctionsForInterpreter: CustomFunctionForInterpreter[]
   ) => void
   addCustomFunctionsForInterpreter: (
-    customFunctionsForInterpreter: CustomFunctionForInterpreter
+    customFunctionsForInterpreter: CustomFunctionForInterpreter[]
   ) => void
   removeCustomFunctionsForInterpreter: (name: string) => void
 }
@@ -34,7 +34,7 @@ const useCustomFunctionStore = create<CustomFunctionsStore>((set) => ({
     set((state) => {
       const customFnsForInterpreter = [
         ...state.customFunctionsForInterpreter,
-        customFunctionsForInterpreter,
+        ...customFunctionsForInterpreter,
       ]
       return {
         customFunctionsForInterpreter: customFnsForInterpreter,

@@ -41,8 +41,8 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
 
   test "for_interpreter: gets functions by names" do
     user = create :user
-    function_1 = create(:bootcamp_custom_function, user:)
-    function_2 = create(:bootcamp_custom_function, user:)
+    function_1 = create(:bootcamp_custom_function, user:, active: true)
+    function_2 = create(:bootcamp_custom_function, user:, active: true)
     other_user_function = create(:bootcamp_custom_function)
     create(:bootcamp_custom_function)
 

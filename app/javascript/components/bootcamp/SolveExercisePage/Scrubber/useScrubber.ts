@@ -81,13 +81,13 @@ export function useScrubber({
   useEffect(() => {
     if (frames.some((frame) => frame.status === 'ERROR')) {
       const errorFrame = frames.find((frame) => frame.status === 'ERROR')!
-      moveToNewFrame(animationTimeline, errorFrame, frames)
+      moveToFrame(animationTimeline, errorFrame, frames)
     }
   }, [frames])
 
   // this effect is responsible for updating the highlighted line and information widget based on currentFrame
   useEffect(() => {
-    const currentFrame = frameAtTimelineTime(frames, timelineValue)
+    const currentFrame = frameNearestTimelineTime(frames, timelineValue)
 
     cleanUpEditor(editorView)
 
@@ -158,10 +158,11 @@ export function useScrubber({
       frames: Frame[]
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
-      const newFrame = frameAtTimelineTime(frames, timelineTime)
+      const newFrame = frameNearestTimelineTime(frames, timelineTime)
+
       if (newFrame === undefined) return
 
-      moveToNewFrame(animationTimeline, newFrame, frames, timelineTime)
+      moveToFrame(animationTimeline, newFrame, frames, timelineTime)
     },
     [setTimelineValue, setInformationWidgetData]
   )
@@ -171,10 +172,10 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      const newFrame = frameAtTimelineTime(frames, timelineValue)
+      const newFrame = frameNearestTimelineTime(frames, timelineValue)
       if (newFrame === undefined) return
 
-      moveToNewFrame(animationTimeline, newFrame, frames)
+      moveToFrame(animationTimeline, newFrame, frames)
     },
     [setTimelineValue, timelineValue]
   )
@@ -184,7 +185,7 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      let currentFrameIdx = frameIdxAtTimelineTime(frames, timelineValue)
+      let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
 
       // If there's no frame for this, then it's the last frame
       if (currentFrameIdx === undefined) {
@@ -193,7 +194,7 @@ export function useScrubber({
       if (currentFrameIdx == 0) return
 
       const prevFrame = frames[currentFrameIdx - 1]
-      moveToNewFrame(animationTimeline, prevFrame, frames)
+      moveToFrame(animationTimeline, prevFrame, frames)
     },
     [timelineValue]
   )
@@ -204,12 +205,14 @@ export function useScrubber({
       frames: Frame[]
     ) => {
       const currentFrameIdx =
-        timelineValue > 0 ? frameIdxAtTimelineTime(frames, timelineValue) : 0
+        timelineValue > 0
+          ? frameIdxNearestTimelineTime(frames, timelineValue)
+          : 0
 
       if (currentFrameIdx === undefined) return
       if (currentFrameIdx >= frames.length - 1) return
 
-      moveToNewFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
+      moveToFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
     },
     [timelineValue]
   )
@@ -219,7 +222,7 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      moveToNewFrame(animationTimeline, frames[0], frames)
+      moveToFrame(animationTimeline, frames[0], frames)
     },
     []
   )
@@ -229,7 +232,7 @@ export function useScrubber({
       animationTimeline: AnimationTimeline | undefined | null,
       frames: Frame[]
     ) => {
-      moveToNewFrame(animationTimeline, frames[frames.length - 1], frames)
+      moveToFrame(animationTimeline, frames[frames.length - 1], frames)
     },
     []
   )
@@ -303,7 +306,7 @@ export function useScrubber({
     }
   }
 
-  const frameAtTimelineTime = (
+  const frameNearestTimelineTime = (
     frames: Frame[],
     timelineTime: number
   ): Frame | undefined => {
@@ -313,20 +316,31 @@ export function useScrubber({
     if (timelineTime > frames[frames.length - 1].timelineTime) {
       return frames[frames.length - 1]
     }
-    return frames.find((frame) => frame.timelineTime >= timelineTime)
+
+    const idx = frameIdxNearestTimelineTime(frames, timelineTime)
+    if (idx === undefined) return undefined
+
+    return frames[idx]
   }
 
-  const frameIdxAtTimelineTime = (
+  const frameIdxNearestTimelineTime = (
     frames: Frame[],
     timelineTime: number
   ): number | undefined => {
     if (!frames.length) return undefined
 
-    const id = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
-    return id == -1 ? undefined : id
+    const idx = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
+    if (idx == -1) return undefined
+    if (idx == 0) return idx
+
+    // Return the id of whichever of the previous frame and this frame is closest
+    return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
+      Math.abs(frames[idx].timelineTime - timelineTime)
+      ? idx - 1
+      : idx
   }
 
-  const moveToNewFrame = (
+  const moveToFrame = (
     animationTimeline: AnimationTimeline | undefined | null,
     newFrame: Frame,
     frames: Frame[],

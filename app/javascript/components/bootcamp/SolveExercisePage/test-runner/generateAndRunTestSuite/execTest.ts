@@ -41,6 +41,18 @@ export function execTest(
   }
 
   const { value: actual, frames } = evaluated
+
+  /*if(frames[0].timelineTime !== 0) {
+    frames.unshift({
+      timelineTime: 0,
+      time: 0,
+      line: 0,
+      code: "",
+      status: 'BOOKEND',
+      description: ""
+    })
+  }*/
+
   const codeRun = generateCodeRunString(testData.function, args)
 
   let animationTimeline: AnimationTimeline | null = null

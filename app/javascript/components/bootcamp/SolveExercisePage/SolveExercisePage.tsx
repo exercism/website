@@ -36,11 +36,6 @@ export default function SolveExercisePage({
     }
   )
 
-  useEffect(() => {
-    console.log('available functions', availableCustomFunctions)
-    console.log('active functions', activeCustomFunctions)
-  }, [])
-
   const [exerciseLocalStorageData, setExerciseLocalStorageData] =
     useLocalStorage<{
       code: string

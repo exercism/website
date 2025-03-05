@@ -89,7 +89,6 @@ function getfirstFailingExpect(
       }
       // io expect
       const { expected, actual } = expect
-      console.log('HERE!', expected, actual)
       return {
         ...expect,
         type: result.type,

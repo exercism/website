@@ -92,6 +92,12 @@ export default class WordleExercise extends Exercise {
     rowIdx: Jiki.Number,
     states: Jiki.List
   ) {
+    if (!(rowIdx instanceof Jiki.Number)) {
+      return executionCtx.logicError('Row must be a number')
+    }
+    if (rowIdx.value < 1 || rowIdx.value > 6) {
+      return executionCtx.logicError('Row must be between 1 and 6')
+    }
     const row = this.guessRows[rowIdx.value - 1]
     this.states[rowIdx.value - 1] = Jiki.unwrapJikiObject(states) as state[]
 

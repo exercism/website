@@ -16,6 +16,7 @@
     display: inline-block;
     width: var(--switch-width);
     height: var(--switch-height);
+    flex-shrink: 0;
 }
 
 /* Hide default HTML checkbox */

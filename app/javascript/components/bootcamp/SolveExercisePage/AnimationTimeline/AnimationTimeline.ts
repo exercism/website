@@ -9,11 +9,13 @@ import type {
 } from '@juliangarnierorg/anime-beta'
 import type { AnimeCSSProperties } from './types'
 
-export type Animation = AnimationParams & {
-  targets: TargetsParam
-  offset: string | number | undefined
-  transformations: AnimeCSSProperties
-}
+export type Animation =
+  | AnimationParams
+  | {
+      targets: TargetsParam
+      offset: string | number | undefined
+      transformations: AnimeCSSProperties
+    }
 
 export class AnimationTimeline {
   private animationTimeline: Timeline
@@ -25,6 +27,7 @@ export class AnimationTimeline {
   private updateCallbacks: ((anim: Timeline) => void)[] = []
   private playCallbacks: ((anim: Timeline) => void)[] = []
   private stopCallbacks: ((anim: Timeline) => void)[] = []
+  public hasPlayedOrScrubbed = false
 
   constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
     this.animationTimeline = createTimeline({
@@ -101,9 +104,10 @@ export class AnimationTimeline {
       */
 
     const animationDurationAfterAnimations = this.animationTimeline.duration
+    const lastFrame = this.frames[this.frames.length - 1]
     this.animationTimeline.duration = Math.max(
       animationDurationAfterAnimations,
-      this.frames[this.frames.length - 1].time
+      lastFrame ? lastFrame.time : 0
     )
     return this
   }

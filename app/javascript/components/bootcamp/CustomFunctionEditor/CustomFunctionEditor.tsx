@@ -98,6 +98,7 @@ export default function CustomFunctionEditor({
     initializeStore,
     hasUnsavedChanges,
     clearSyntaxErrorInTest,
+    results,
   } = customFunctionEditorStore()
 
   useEffect(() => {
@@ -182,11 +183,17 @@ export default function CustomFunctionEditor({
               <div className="page-lhs-bottom flex items-center gap-8 bg-white">
                 <CheckCodeButton handleRunCode={handleCheckCode} />
                 <div className="flex-grow">
-                  <Scrubber
-                    animationTimeline={null}
-                    frames={inspectedFrames}
-                    context={`Test ${inspectedTestIdx + 1}`}
-                  />
+                  {results &&
+                    results[inspectedTest] &&
+                    results[inspectedTest].animationTimeline && (
+                      <Scrubber
+                        animationTimeline={
+                          results[inspectedTest].animationTimeline
+                        }
+                        frames={inspectedFrames}
+                        context={`Test ${inspectedTestIdx + 1}`}
+                      />
+                    )}
                 </div>
               </div>
             </div>

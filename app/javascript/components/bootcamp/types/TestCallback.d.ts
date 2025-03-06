@@ -5,7 +5,7 @@ declare global {
     expects: MatcherResult[]
     codeRun: string
     frames: Frame[]
-    animationTimeline: TAnimationTimeline | null
+    animationTimeline: TAnimationTimeline
     type: TestsType
     view?: HTMLElement
     imageSlug?: string

@@ -15,6 +15,7 @@ import { scrollToLine } from '../../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
 import useCustomFunctionStore from '@/components/bootcamp/CustomFunctionEditor/store/customFunctionsStore'
+import { useScrubber } from '../../Scrubber/useScrubber'
 
 export function useConstructRunCode({
   links,

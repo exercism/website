@@ -27,6 +27,7 @@ export class AnimationTimeline {
   private updateCallbacks: ((anim: Timeline) => void)[] = []
   private playCallbacks: ((anim: Timeline) => void)[] = []
   private stopCallbacks: ((anim: Timeline) => void)[] = []
+  public hasPlayedOrScrubbed = false
 
   constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
     this.animationTimeline = createTimeline({

@@ -50,27 +50,49 @@ export function useScrubber({
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
 
+  // This steps through each breakpoint and finds each frame that
+  // is in the range. It then compares it to whatever it's found
+  // so far (nextBreakpointFrame) and if its earlier, it uses it.
   const getBreakpointFrameInTimelineTimeRange = useCallback(
     (startTimelineTime: number, endTimelineTime: number) => {
       const breakpoints = getBreakpointLines(editorView)
       let nextBreakpointFrame: Frame | undefined
       breakpoints.forEach((line) => {
-        if (nextBreakpointFrame) return
-        nextBreakpointFrame = frames.find(
+        // Frames are always ordered by time, so the first one
+        // we come across is the earliest. So we can use `find` here.
+        const frame = frames.find(
           (frame) =>
             frame.timelineTime > startTimelineTime &&
             frame.timelineTime <= endTimelineTime &&
             frame.line === line
         )
+
+        if (!frame) return
+        if (
+          !nextBreakpointFrame ||
+          frame.timelineTime < nextBreakpointFrame.timelineTime
+        ) {
+          nextBreakpointFrame = frame
+        }
       })
       return nextBreakpointFrame
     },
     [editorView]
   )
 
-  // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
+  // This effect is responsible for handling what happens when an animation
+  // is playing. It updates the underlying state to match the progress of the animation.
+  // It also guards against hitting breakpoints and pauses the animation if so.
   useEffect(() => {
     animationTimeline.onUpdate((anime) => {
+      // Firstly, let's record that we've done *something* here.
+      // This helps us not reset to the initial state accidently later.
+      // onUpdate calls when the animation starts before anything has
+      // happened, so we guard against progres being 0.
+      if (anime.progress > 0) {
+        animationTimeline.hasPlayedOrScrubbed = true
+      }
+
       // We only want to use this callback if the animation is playing
       // Not if we're scrubbing through it. Otherwise we end up running
       // setTimelineValue multiple times in multiple places.
@@ -82,21 +104,35 @@ export function useScrubber({
           anime.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
         )
 
-        // Check if we have a breakpoint and if we do, jump to that, not the new value.
+        // Check if we have a breakpoint.
+        // If we do, we want to stop the animation here.
+        // Firstly we want to see if we've got a breakpoint in between where we
+        // were and where we are. A lot of frames might execute between two moments
+        // on the animation timeline (esp as this runs only a few times per second)
+        // so we need to check all of the in between frames.
         const nextBreakpointFrame = getBreakpointFrameInTimelineTimeRange(
           timelineValue,
           newTimelineValue
         )
 
         if (nextBreakpointFrame) {
+          // Because we might be not quite aligned, we set the newTimelineValue
+          // to be the breakpoints time, not the animation time. This is our
+          // point of true.
           newTimelineValue = nextBreakpointFrame.timelineTime
 
+          // We stop the animation here and show the information widget.
+          // We presume someone always wants to see that if they've set a breakpoint.
           anime.pause()
           setShouldShowInformationWidget(true)
         }
 
+        // Now we either have the animation time, or the breakpoint time.
+        // Regardless, we start our daisy chain of actions by setting the timeline value.
         setTimelineValue(newTimelineValue)
 
+        // And finally we set whether we've got to the end or not,
+        // which again sets of a daisy chain of effects when we reach the end!
         if (anime.completed) {
           setIsTimelineComplete(true)
         } else {
@@ -106,15 +142,45 @@ export function useScrubber({
     })
   }, [animationTimeline, getBreakpointFrameInTimelineTimeRange])
 
-  // only check for error frame once when frames change, let users navigate freely
+  // The frames change when the code is run. So this is our big reset moment
+  // effectively.
+  //
+  // If there's an error frame, we don't want to play everything out
+  // and immediately want to give the user the information they need.
+  // - If we have a breakpoint, we want to jump there
+  // - Otherwise we want to jump to the error frame
+  //
   useEffect(() => {
-    if (frames.some((frame) => frame.status === 'ERROR')) {
-      const errorFrame = frames.find((frame) => frame.status === 'ERROR')!
-      moveToFrame(animationTimeline, errorFrame, frames)
+    // We only want to run this if the user is at the beginning of the timeline
+    // and hasn't yet scrubbed somewhere. If they've moved away from the first
+    // frame then we want to just get out of here.
+    if (animationTimeline.hasPlayedOrScrubbed) {
+      return
     }
+    // In this effect, we only care about error frames. Find the first
+    // or get out of here.
+    const errorFrame = frames.find((frame) => frame.status === 'ERROR')!
+    if (!errorFrame) {
+      return
+    }
+
+    // If we have a breakpoint frame, we want to jump there.
+    const breakpointFrame = getBreakpointFrameInTimelineTimeRange(
+      0,
+      errorFrame.timelineTime
+    )
+    if (breakpointFrame) {
+      moveToFrame(animationTimeline, breakpointFrame, frames)
+      return
+    }
+
+    // Otherwise we proceed straight to our error frame.
+    moveToFrame(animationTimeline, errorFrame, frames)
   }, [frames])
 
-  // this effect is responsible for updating the highlighted line and information widget based on currentFrame
+  // This effect is responsible for updating the highlighted line and
+  // information widget based on currentFrame. It runs every time the timelineValue
+  // changes, which happens on any type of navigation or animation.
   useEffect(() => {
     const currentFrame = frameNearestTimelineTime(frames, timelineValue)
 
@@ -156,13 +222,19 @@ export function useScrubber({
     }
   }, [timelineValue, frames])
 
-  // when user switches between test results, scrub to animation timeline's persisted currentTime
+  // When user switches between test results, scrub to the last viewed
+  // time of that test's animation timeline.
   useEffect(() => {
-    if (animationTimeline) {
-      handleScrubToCurrentTime(animationTimeline)
-    }
+    const timelineTime =
+      animationTimeline.timeline.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
+    const frame = frameNearestTimelineTime(frames, timelineTime)
+    if (frame === undefined) return
+
+    moveToFrame(animationTimeline, frame, frames, timelineTime, false)
   }, [animationTimeline])
 
+  // When the code is edited, pause the animation and stop autoplaying
+  // for other tests.
   useEffect(() => {
     if (hasCodeBeenEdited) {
       setShouldAutoplayAnimation(false)
@@ -170,18 +242,9 @@ export function useScrubber({
     }
   }, [hasCodeBeenEdited, animationTimeline])
 
-  const handleScrubToCurrentTime = useCallback(
-    (animationTimeline: AnimationTimeline) => {
-      const timelineTime =
-        animationTimeline.timeline.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
-      const frame = frameNearestTimelineTime(frames, timelineTime)
-      if (frame === undefined) return
-
-      moveToFrame(animationTimeline, frame, frames, timelineTime, false)
-    },
-    [setTimelineValue]
-  )
-
+  // When the scrubber is dragged, we want to stop the animation timeline from
+  // playing and take manual control of it. So we get the time from the scrubber,
+  // get the nearest fraem to it, and then manually move to that
   const handleChange = useCallback(
     (
       event:
@@ -197,9 +260,13 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, newFrame, frames, timelineTime)
     },
-    [setTimelineValue]
+    []
   )
 
+  // When we're sliding along the scrubber, we can sort of sit in between two
+  // frames, and that's fine. It allows the user to watch the animation back.
+  // But when they let go of the mouse we need to lock onto a frame. So this
+  // does that. It grabs the nearest frame to the current scrub and moves to it.
   const handleOnMouseUp = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       const newFrame = frameNearestTimelineTime(frames, timelineValue)
@@ -207,7 +274,7 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, newFrame, frames)
     },
-    [setTimelineValue, timelineValue]
+    [timelineValue]
   )
 
   const handleGoToBreakpoint = useCallback(
@@ -479,7 +546,6 @@ export function useScrubber({
     handleGoToPreviousBreakpoint,
     rangeRef,
     updateInputBackground,
-    handleScrubToCurrentTime,
   }
 }
 

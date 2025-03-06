@@ -77,7 +77,7 @@
               ]
             ],
             ["setupDirection", ["down"]],
-            ["setupPosition", [0, 1]]
+            ["setupPosition", [0, 0]]
           ],
           "checks": [
             {

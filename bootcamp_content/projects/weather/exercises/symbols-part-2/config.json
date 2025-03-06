@@ -3,7 +3,7 @@
   "description": "Turn descriptions into drawing elements",
   "level": 6,
   "idx": 2,
-  "project_type": "weather",
+  "project_type": "draw",
   "tests_type": "state",
   "tasks": [
     {

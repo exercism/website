@@ -1,3 +1,3 @@
 # Task 1
 
-Parse the response from the LLM
+Go investigate some Spotify profiles.

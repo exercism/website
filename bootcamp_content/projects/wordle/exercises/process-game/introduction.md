@@ -28,7 +28,7 @@ You should work out the state of each letter then call the `color_top_row(states
 For example, if the word was correct, you would call:
 
 ```jikiscript
-color_top_row(["present", "present", "present", "present", "present"])
+color_top_row(["correct", "correct", "correct", "correct", "correct"])
 ```
 
 ### Process Game

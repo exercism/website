@@ -7,12 +7,10 @@ import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
-import useTestStore from '../store/testStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
-import { useLogger } from '@/hooks'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -52,8 +50,23 @@ export function useScrubber({
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
 
-  const { inspectedTestResult } = useTestStore()
-  const { inspectedTest } = customFunctionEditorStore()
+  const getBreakpointFrameInTimelineTimeRange = useCallback(
+    (startTimelineTime: number, endTimelineTime: number) => {
+      const breakpoints = getBreakpointLines(editorView)
+      let nextBreakpointFrame: Frame | undefined
+      breakpoints.forEach((line) => {
+        if (nextBreakpointFrame) return
+        nextBreakpointFrame = frames.find(
+          (frame) =>
+            frame.timelineTime > startTimelineTime &&
+            frame.timelineTime <= endTimelineTime &&
+            frame.line === line
+        )
+      })
+      return nextBreakpointFrame
+    },
+    [editorView]
+  )
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -70,7 +83,7 @@ export function useScrubber({
         )
 
         // Check if we have a breakpoint and if we do, jump to that, not the new value.
-        const nextBreakpointFrame = breakpointFrameInTimelineTimeRange(
+        const nextBreakpointFrame = getBreakpointFrameInTimelineTimeRange(
           timelineValue,
           newTimelineValue
         )
@@ -91,25 +104,7 @@ export function useScrubber({
         }
       }, 16) // Don't update more than 60 times a second (framerate)
     })
-  }, [animationTimeline])
-
-  const breakpointFrameInTimelineTimeRange = (
-    startTimelineTime: number,
-    endTimelineTime: number
-  ) => {
-    const breakpoints = getBreakpointLines(editorView)
-    let nextBreakpointFrame: Frame | undefined
-    breakpoints.forEach((line) => {
-      if (nextBreakpointFrame) return
-      nextBreakpointFrame = frames.find(
-        (frame) =>
-          frame.timelineTime > startTimelineTime &&
-          frame.timelineTime <= endTimelineTime &&
-          frame.line === line
-      )
-    })
-    return nextBreakpointFrame
-  }
+  }, [animationTimeline, getBreakpointFrameInTimelineTimeRange])
 
   // only check for error frame once when frames change, let users navigate freely
   useEffect(() => {
@@ -163,14 +158,10 @@ export function useScrubber({
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
-    if (inspectedTestResult) {
-      handleScrubToCurrentTime(inspectedTestResult.animationTimeline)
+    if (animationTimeline) {
+      handleScrubToCurrentTime(animationTimeline)
     }
-  }, [inspectedTestResult])
-
-  useEffect(() => {
-    handleGoToFirstFrame(animationTimeline, frames)
-  }, [inspectedTest])
+  }, [animationTimeline])
 
   useEffect(() => {
     if (hasCodeBeenEdited) {
@@ -181,7 +172,8 @@ export function useScrubber({
 
   const handleScrubToCurrentTime = useCallback(
     (animationTimeline: AnimationTimeline) => {
-      const timelineTime = animationTimeline.timeline.currentTime
+      const timelineTime =
+        animationTimeline.timeline.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
       const frame = frameNearestTimelineTime(frames, timelineTime)
       if (frame === undefined) return
 
@@ -205,7 +197,7 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, newFrame, frames, timelineTime)
     },
-    [setTimelineValue, setInformationWidgetData]
+    [setTimelineValue]
   )
 
   const handleOnMouseUp = useCallback(
@@ -242,7 +234,7 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, frames[newFrameIndex], frames)
     },
-    [timelineValue]
+    [timelineValue, editorView]
   )
 
   function findFrameIndex(
@@ -455,7 +447,7 @@ export function useScrubber({
   }
 
   const rangeRef = useRef<HTMLInputElement>(null)
-  const updateInputBackground = () => {
+  const updateInputBackground = useCallback(() => {
     const input = rangeRef.current
     if (!input) return
 
@@ -467,11 +459,11 @@ export function useScrubber({
     // 7128F5 - jiki purple
     const backgroundStyle = `linear-gradient(to right, #7128F5 ${percentage}%, #fff ${percentage}%)`
     input.style.background = backgroundStyle
-  }
+  }, [])
 
   useEffect(() => {
     updateInputBackground()
-  }, [timelineValue, inspectedTestResult])
+  }, [timelineValue, animationTimeline])
 
   return {
     timelineValue,

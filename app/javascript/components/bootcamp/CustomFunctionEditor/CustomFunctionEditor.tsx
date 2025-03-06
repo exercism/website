@@ -27,8 +27,6 @@ import {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
-import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
-import useTestStore from '../SolveExercisePage/store/testStore'
 
 export type CustomFunction = {
   uuid: string
@@ -93,7 +91,6 @@ export default function CustomFunctionEditor({
     handleSetCustomFunctionName,
     handlePatchCustomFunction,
     tests,
-    results,
     clearResults,
     setHasUnsavedChanges,
     inspectedFrames,
@@ -101,6 +98,7 @@ export default function CustomFunctionEditor({
     initializeStore,
     hasUnsavedChanges,
     clearSyntaxErrorInTest,
+    results,
   } = customFunctionEditorStore()
 
   useEffect(() => {
@@ -122,10 +120,6 @@ export default function CustomFunctionEditor({
   const inspectedTestIdx = tests.findIndex(
     (test) => test.uuid === inspectedTest
   )
-
-  const animationTimeline = useMemo(() => {
-    return buildAnimationTimeline(undefined, inspectedFrames)
-  }, [results, inspectedTest, inspectedFrames])
 
   const readOnlyDocumentFragment = useMemo(() => {
     const { code, predefined } = customFunction
@@ -189,11 +183,17 @@ export default function CustomFunctionEditor({
               <div className="page-lhs-bottom flex items-center gap-8 bg-white">
                 <CheckCodeButton handleRunCode={handleCheckCode} />
                 <div className="flex-grow">
-                  <Scrubber
-                    animationTimeline={animationTimeline}
-                    frames={inspectedFrames}
-                    context={`Test ${inspectedTestIdx + 1}`}
-                  />
+                  {results &&
+                    results[inspectedTest] &&
+                    results[inspectedTest].animationTimeline && (
+                      <Scrubber
+                        animationTimeline={
+                          results[inspectedTest].animationTimeline
+                        }
+                        frames={inspectedFrames}
+                        context={`Test ${inspectedTestIdx + 1}`}
+                      />
+                    )}
                 </div>
               </div>
             </div>

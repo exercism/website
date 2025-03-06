@@ -136,9 +136,15 @@ export function useCustomFunctionEditorHandler({
           break
         }
 
+        const animationTimeline = buildAnimationTimeline(
+          undefined,
+          fnEvaluationResult.frames
+        )
+
         const result = {
           actual: JSON.stringify(fnEvaluationResult.value),
           frames: fnEvaluationResult.frames,
+          animationTimeline,
           pass:
             JSON.stringify(fnEvaluationResult.value) ===
             JSON.stringify(expected),

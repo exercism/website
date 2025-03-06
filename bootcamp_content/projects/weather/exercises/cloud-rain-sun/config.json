@@ -2,7 +2,7 @@
   "idx": 6,
   "title": "Clouds, Rain, and Sun",
   "description": "Make a compound image for clouds, rain and sun",
-  "project_type": "draw",
+  "project_type": "weather",
   "level": 1,
   "concepts": [],
   "tests_type": "state",

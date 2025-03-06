@@ -16,7 +16,6 @@ import {
   dropCursor,
   rectangularSelection,
   crosshairCursor,
-  lineNumbers,
   highlightActiveLineGutter,
 } from '@codemirror/view'
 import {
@@ -40,7 +39,8 @@ import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnly
 import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
 import useErrorStore from '../store/errorStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
-import useTaskStore from '../store/taskStore/taskStore'
+import { getBreakpointLines } from './getBreakpointLines'
+import { breakpointEffect } from './extensions/breakpoint'
 
 export const readonlyCompartment = new Compartment()
 
@@ -60,6 +60,20 @@ function onEditorChange(...cb: Array<(update: ViewUpdate) => void>) {
   })
 }
 
+function onBreakpointChange(...cb: Array<(update: ViewUpdate) => void>) {
+  return EditorView.updateListener.of((update) => {
+    const changed = update.transactions.some((transaction) => {
+      for (let e of transaction.effects) {
+        if (e.is(breakpointEffect)) {
+          return true
+        }
+      }
+    })
+    if (changed) {
+      cb.forEach((fn) => fn(update))
+    }
+  })
+}
 function onEditorFocus(...cb: Array<(update: ViewUpdate) => void>) {
   return EditorView.updateListener.of((update) => {
     if (update.view.hasFocus) {
@@ -98,6 +112,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     highlightedLine,
     informationWidgetData,
     setInformationWidgetData,
+    setBreakpoints,
   } = useEditorStore()
 
   const { setExerciseLocalStorageData } = useContext(SolveExercisePageContext)
@@ -170,7 +185,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.readOnlyRangeDecoration(),
           Ext.colorScheme,
           minimalSetup,
-          lineNumbers(),
+          Ext.breakpointGutter,
           highlightActiveLineGutter(),
           dropCursor(),
           moveCursorByPasteLength,
@@ -195,6 +210,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.lineInformationExtension(),
           Ext.multiHighlightLine({ from: 0, to: 0 }),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
+          onBreakpointChange(() => setBreakpoints(getBreakpointLines(view))),
           onEditorChange(
             () =>
               setInformationWidgetData({
@@ -210,6 +226,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             () => setShouldShowInformationWidget(false),
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
+            () => setBreakpoints(getBreakpointLines(view)),
             () => {
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {

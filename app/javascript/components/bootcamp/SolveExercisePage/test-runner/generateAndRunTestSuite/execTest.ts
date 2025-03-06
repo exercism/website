@@ -6,7 +6,11 @@ import { generateCodeRunString } from '../../utils/generateCodeRunString'
 import { parseArgs } from './parseArgs'
 import { type Project } from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
 import type { Exercise } from '../../exercises/Exercise'
-import { AnimationTimeline } from '../../AnimationTimeline/AnimationTimeline'
+import {
+  Animation,
+  AnimationTimeline,
+} from '../../AnimationTimeline/AnimationTimeline'
+import { Frame } from '@/interpreter/frames'
 
 /**
  This is of type TestCallback
@@ -55,11 +59,7 @@ export function execTest(
 
   const codeRun = generateCodeRunString(testData.function, args)
 
-  let animationTimeline: AnimationTimeline | null = null
-  if (exercise) {
-    const { animations } = exercise
-    animationTimeline = buildAnimationTimeline(exercise, frames, animations)
-  }
+  const animationTimeline = buildAnimationTimeline(exercise, frames)
 
   const expects = generateExpects(evaluated, testData, actual, exercise)
 
@@ -109,25 +109,45 @@ const runSetupFunctions = (
     }
   })
 }
-function buildAnimationTimeline(exercise, frames, animations) {
-  if (!animations || animations.length == 0) {
-    return null
+function buildAnimationTimeline(
+  exercise: Exercise | undefined,
+  frames: Frame[]
+) {
+  let animations: Animation[] = []
+  const lastFrame: Frame | undefined = frames.at(-1)
+
+  // If we have a healthy animation
+  if (exercise && exercise.animations && exercise.animations.length > 0) {
+    animations = exercise.animations
+  }
+  // Else if we have a successful non-animation exercise, we create
+  // one long animation that lasts for the duration of the frames.
+  else if (lastFrame && lastFrame.status === 'SUCCESS') {
+    animations = [
+      {
+        targets: `body`,
+        duration: lastFrame.time,
+        transformations: {
+          propProgress: '100%',
+        },
+        offset: 0,
+      },
+    ]
   }
 
-  let animationsForTimeline = animations
-
-  // If we've got an infinite loop, then don't add the millions of animations
-  // to the timeline if we know it hurts on that exercise.
-  const lastFrame = frames.at(-1)
+  // Finally, as an extra guard, if we've got an infinite loop, then don't
+  // add the millions  of animations to the timeline if we know it hurts
+  // on that exercise.
   if (
-    !exercise.showAnimationsOnInfiniteLoops &&
+    lastFrame &&
     lastFrame.status === 'ERROR' &&
-    (lastFrame.error.type == 'MaxIterationsReached' ||
-      lastFrame.error.type == 'InfiniteRecursion')
+    (lastFrame.error?.type == 'MaxIterationsReached' ||
+      lastFrame.error?.type == 'InfiniteRecursion') &&
+    !exercise?.showAnimationsOnInfiniteLoops
   ) {
-    animationsForTimeline = []
+    // No-op
+    animations = []
   }
-  return new AnimationTimeline({}, frames).populateTimeline(
-    animationsForTimeline
-  )
+
+  return new AnimationTimeline({}, frames).populateTimeline(animations)
 }

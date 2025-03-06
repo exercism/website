@@ -103,7 +103,7 @@ export function handleSetInspectedTestResult({
   if (testResult.frames.length === 1) {
     const frame = testResult.frames[0]
     setInformationWidgetData({
-      html: frame.description,
+      html: frame.description(),
       line: frame.line,
       status: 'SUCCESS',
     })

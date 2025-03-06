@@ -290,7 +290,7 @@ export function useScrubber({
       let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
       if (currentFrameIdx === undefined) return
 
-      const newFrameIndex = findFrameIndex(
+      const newFrameIndex = findBreakpointFrameIndex(
         frames,
         currentFrameIdx,
         breakpoints,
@@ -304,7 +304,7 @@ export function useScrubber({
     [timelineValue, editorView]
   )
 
-  function findFrameIndex(
+  function findBreakpointFrameIndex(
     frames: Frame[],
     currentIndex: number,
     breakpoints: number[],
@@ -469,8 +469,13 @@ export function useScrubber({
   ): number | undefined => {
     if (!frames.length) return undefined
 
-    const idx = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
-    if (idx == -1) return undefined
+    let idx = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
+
+    // If there's no frame after the timeline time, return the last frame
+    if (idx == -1) return frames.length - 1
+
+    // If the frame is the first frame, just return it, because we don't need
+    // to check for whether a previous frame is closer.
     if (idx == 0) return idx
 
     // Return the id of whichever of the previous frame and this frame is closest

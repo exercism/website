@@ -1653,16 +1653,18 @@ export class Executor {
       time: this.time,
       // Multiple the time by 100 and floor it to get an integer
       timelineTime: Math.round(this.time * 100),
-      description: '',
+      description: () => '',
       context: context,
     }
     if (process.env.NODE_ENV == 'test') {
       frame.variables = cloneDeep(this.environment.variables())
     }
-    ;(frame.description = describeFrame(frame, {
-      functionDescriptions: this.externalFunctionDescriptions,
-    })),
-      this.frames.push(frame)
+    frame.description = () => {
+      return describeFrame(frame, {
+        functionDescriptions: this.externalFunctionDescriptions,
+      })
+    }
+    this.frames.push(frame)
 
     this.time += this.timePerFrame
   }

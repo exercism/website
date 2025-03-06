@@ -12,6 +12,7 @@ import { CustomTests } from './useTestManager'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
+import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,
@@ -135,9 +136,16 @@ export function useCustomFunctionEditorHandler({
           break
         }
 
+        const animationTimeline = buildAnimationTimeline(
+          undefined,
+          fnEvaluationResult.frames
+        )
+        animationTimeline.play()
+
         const result = {
           actual: JSON.stringify(fnEvaluationResult.value),
           frames: fnEvaluationResult.frames,
+          animationTimeline,
           pass:
             JSON.stringify(fnEvaluationResult.value) ===
             JSON.stringify(expected),

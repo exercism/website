@@ -94,22 +94,19 @@ export function useConstructRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
-      // @ts-ignore
-      const compiled = compile(studentCode, {
-        languageFeatures: config.interpreterOptions,
-        customFunctions: Object.values(customFunctionsForInterpreter).map(
-          (cfn) => {
-            return { name: cfn.name, arity: cfn.arity, code: cfn.code }
-          }
-        ),
-      })
+      // const compiled = compile(studentCode, {
+      //   languageFeatures: config.interpreterOptions,
+      //   customFunctions: customFunctionsForInterpreter.map((cfn) => {
+      //     return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+      //   }),
+      // })
 
-      const error = compiled.error as CompilationError
+      // const error = compiled.error as CompilationError
 
-      if (error) {
-        handleCompilationError(error, editorView)
-        return
-      }
+      // if (error) {
+      //   handleCompilationError(error, editorView)
+      //   return
+      // }
 
       let testResults
 

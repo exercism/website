@@ -48,8 +48,8 @@ export type Frame = {
   code: string
   status: FrameExecutionStatus
   error?: RuntimeError
-  priorVariables: Record<string, any>
-  variables: Record<string, any>
+  // priorVariables: Record<string, any>
+  variables?: Record<string, any>
   time: number
   timelineTime: number
   result?: EvaluationResult

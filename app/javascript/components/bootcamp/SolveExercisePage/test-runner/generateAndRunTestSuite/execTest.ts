@@ -15,6 +15,7 @@ import {
   AnimationTimeline,
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
+import { execJS } from '../../../../execJS'
 
 /**
  This is of type TestCallback
@@ -36,7 +37,8 @@ export function execTest(
 
   const args = testData.args ? parseArgs(testData.args) : []
 
-  let evaluated
+  let evaluated = execJS(options.studentCode)
+  /*let evaluated
   if (testData.function) {
     evaluated = evaluateFunction(
       options.studentCode,
@@ -52,7 +54,7 @@ export function execTest(
     )
   } else {
     evaluated = interpret(options.studentCode, context)
-  }
+  }*/
 
   const { value: actual, frames } = evaluated
 

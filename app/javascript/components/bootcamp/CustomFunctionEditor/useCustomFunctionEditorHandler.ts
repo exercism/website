@@ -12,6 +12,7 @@ import { CustomTests } from './useTestManager'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
+import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,

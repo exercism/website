@@ -109,7 +109,7 @@ const runSetupFunctions = (
     }
   })
 }
-function buildAnimationTimeline(
+export function buildAnimationTimeline(
   exercise: Exercise | undefined,
   frames: Frame[]
 ) {

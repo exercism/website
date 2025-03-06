@@ -27,6 +27,8 @@ import {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
+import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
+import useTestStore from '../SolveExercisePage/store/testStore'
 
 export type CustomFunction = {
   uuid: string
@@ -91,6 +93,7 @@ export default function CustomFunctionEditor({
     handleSetCustomFunctionName,
     handlePatchCustomFunction,
     tests,
+    results,
     clearResults,
     setHasUnsavedChanges,
     inspectedFrames,
@@ -119,6 +122,10 @@ export default function CustomFunctionEditor({
   const inspectedTestIdx = tests.findIndex(
     (test) => test.uuid === inspectedTest
   )
+
+  const animationTimeline = useMemo(() => {
+    return buildAnimationTimeline(undefined, inspectedFrames)
+  }, [results, inspectedTest, inspectedFrames])
 
   const readOnlyDocumentFragment = useMemo(() => {
     const { code, predefined } = customFunction
@@ -183,7 +190,7 @@ export default function CustomFunctionEditor({
                 <CheckCodeButton handleRunCode={handleCheckCode} />
                 <div className="flex-grow">
                   <Scrubber
-                    animationTimeline={null}
+                    animationTimeline={animationTimeline}
                     frames={inspectedFrames}
                     context={`Test ${inspectedTestIdx + 1}`}
                   />

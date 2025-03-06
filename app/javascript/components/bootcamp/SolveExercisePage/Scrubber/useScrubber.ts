@@ -53,6 +53,7 @@ export function useScrubber({
     useAnimationTimelineStore()
 
   const { inspectedTestResult } = useTestStore()
+  const { inspectedTest } = customFunctionEditorStore()
 
   // this effect is responsible for updating the scrubber value based on the current time of animationTimeline
   useEffect(() => {
@@ -162,10 +163,14 @@ export function useScrubber({
 
   // when user switches between test results, scrub to animation timeline's persisted currentTime
   useEffect(() => {
-    if (inspectedTestResult && inspectedTestResult.animationTimeline) {
+    if (inspectedTestResult) {
       handleScrubToCurrentTime(inspectedTestResult.animationTimeline)
     }
   }, [inspectedTestResult])
+
+  useEffect(() => {
+    handleGoToFirstFrame(animationTimeline, frames)
+  }, [inspectedTest])
 
   useEffect(() => {
     if (hasCodeBeenEdited) {
@@ -430,7 +435,9 @@ export function useScrubber({
     if (pause) {
       animationTimeline.pause()
       setShouldAutoplayAnimation(false)
+    }
 
+    if (animationTimeline.paused) {
       // If we're dealing with the last frame, seek to the end
       if (isLastFrame) {
         newTimelineTime =

@@ -78,7 +78,6 @@ export default function PronounsForm({
           <input
             type="text"
             value={pronounParts[0] || ''}
-            required
             pattern="^[^\s]{0,255}$"
             title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. They"
@@ -88,7 +87,6 @@ export default function PronounsForm({
           <input
             type="text"
             value={pronounParts[1] || ''}
-            required
             pattern="^[^\s]{0,255}$"
             title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. them"
@@ -98,7 +96,6 @@ export default function PronounsForm({
           <input
             type="text"
             value={pronounParts[2] || ''}
-            required
             pattern="^[^\s]{0,255}$"
             title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. their"

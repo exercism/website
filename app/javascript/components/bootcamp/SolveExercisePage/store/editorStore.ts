@@ -31,8 +31,6 @@ type EditorStore = {
   readonlyRanges: Array<{ from: number; to: number }>
   setReadonlyRanges: (ranges: Array<{ from: number; to: number }>) => void
   cleanUpEditorStore: () => void
-  breakpoints: number[]
-  setBreakpoints: (breakpoints: number[]) => void
 }
 
 const useEditorStore = createStoreWithMiddlewares<EditorStore>(
@@ -67,11 +65,9 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     },
     toggleShouldShowInformationWidget: () => {
       set(
-        (state) => {
-          return {
-            shouldShowInformationWidget: !state.shouldShowInformationWidget,
-          }
-        },
+        (state) => ({
+          shouldShowInformationWidget: !state.shouldShowInformationWidget,
+        }),
         false,
         'editor/toggleShouldShowInformationWidget'
       )
@@ -115,10 +111,6 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     readonlyRanges: [],
     setReadonlyRanges: (readonlyRanges) => {
       set({ readonlyRanges }, false, 'exercise/setReadonlyRanges')
-    },
-    breakpoints: [],
-    setBreakpoints: (breakpoints: number[]) => {
-      set({ breakpoints })
     },
     cleanUpEditorStore: () => {
       set(

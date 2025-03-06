@@ -1,18 +1,10 @@
 import React from 'react'
 import DrawExercise from '../draw'
-import { ExecutionContext } from '@/interpreter/executor'
+import { Circle, Rectangle, Triangle, Ellipse } from '../draw/shapes'
 
 export default class WeatherExercise extends DrawExercise {
   public constructor() {
     super('weather')
-  }
-
-  public animateShapeIntoView(
-    executionCtx: ExecutionContext,
-    shape: SVGElement
-  ) {
-    super.animateShapeIntoView(executionCtx, shape)
-    executionCtx.fastForward(50)
   }
 
   public showReportBackground() {

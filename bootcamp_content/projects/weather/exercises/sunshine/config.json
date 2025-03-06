@@ -2,7 +2,7 @@
   "idx": 2,
   "title": "Sunshine",
   "description": "Add the sun to its spikes",
-  "project_type": "weather",
+  "project_type": "draw",
   "level": 1,
   "concepts": [],
   "tests_type": "state",

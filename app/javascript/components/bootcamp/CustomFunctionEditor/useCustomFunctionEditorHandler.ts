@@ -140,6 +140,7 @@ export function useCustomFunctionEditorHandler({
           undefined,
           fnEvaluationResult.frames
         )
+        animationTimeline.play()
 
         const result = {
           actual: JSON.stringify(fnEvaluationResult.value),

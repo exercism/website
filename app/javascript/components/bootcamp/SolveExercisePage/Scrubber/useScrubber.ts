@@ -151,6 +151,7 @@ export function useScrubber({
   // - Otherwise we want to jump to the error frame
   //
   useEffect(() => {
+    console.log('HERE')
     // We only want to run this if the user is at the beginning of the timeline
     // and hasn't yet scrubbed somewhere. If they've moved away from the first
     // frame then we want to just get out of here.
@@ -288,7 +289,7 @@ export function useScrubber({
       let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
       if (currentFrameIdx === undefined) return
 
-      const newFrameIdx = findFrameIdx(
+      const newFrameIdx = findBreakpointFrameIdx(
         frames,
         currentFrameIdx,
         breakpoints,
@@ -302,7 +303,7 @@ export function useScrubber({
     [timelineValue, breakpoints]
   )
 
-  function findFrameIdx(
+  function findBreakpointFrameIdx(
     frames: Frame[],
     currentIndex: number,
     breakpoints: number[],
@@ -483,11 +484,11 @@ export function useScrubber({
         frame.timelineTime >= timelineTime && !foldedLines.includes(frame.line)
     )
 
+    // If there's no frame after the timeline time, return the last frame
+    if (idx == -1) return frames.length - 1
+
     // If we have the first frame, then there's no need to check previous ones
     if (idx == 0) return idx
-
-    // If we couldn't find a frame after the time, then we're looking at the final frame
-    if (idx == -1) idx = frames.length - 1
 
     // Get the previous frame to compare with
     const prevFrameIdx = findPrevFrameIdx(idx)

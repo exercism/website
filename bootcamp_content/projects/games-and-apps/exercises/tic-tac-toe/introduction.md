@@ -1,7 +1,5 @@
 # Tic Tac Toe
 
-## Introduction
-
 Welcome to Tic Tac Toe - your **first major project.**
 
 This exercise brings together everything you've learnt so far: variables, functions, conditionals, looping, and different data types.

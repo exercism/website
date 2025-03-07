@@ -13,6 +13,7 @@ import useCustomFunctionStore from './store/customFunctionsStore'
 import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
+import { framesSucceeded } from '@/interpreter/frames'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,
@@ -140,7 +141,16 @@ export function useCustomFunctionEditorHandler({
           undefined,
           fnEvaluationResult.frames
         )
-        animationTimeline.play()
+
+        // Don't play out the animation if there are errors
+        // The scrubber will automatically handle jumping to
+        // the first error.
+        //
+        // Note: If you ever change this, check your new code with
+        // a runtime error on the first line.
+        if (framesSucceeded(fnEvaluationResult.frames)) {
+          animationTimeline.play()
+        }
 
         const result = {
           actual: JSON.stringify(fnEvaluationResult.value),

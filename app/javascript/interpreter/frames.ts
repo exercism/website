@@ -73,6 +73,13 @@ function isFrameWithResult(frame: Frame): frame is FrameWithResult {
 
 const defaultMessage = `<p>There is no information available for this line. Show us your code in Discord and we'll improve this!</p>`
 
+export function framesSucceeded(frames: Frame[]): boolean {
+  return frames.every((frame) => frame.status === 'SUCCESS')
+}
+export function framesErrored(frames: Frame[]): boolean {
+  return !framesSucceeded(frames)
+}
+
 export function describeFrame(
   frame: Frame,
   context?: DescriptionContext

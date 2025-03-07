@@ -609,10 +609,7 @@ const findConsecutiveNonFoldedFrameIndex = (
 ): number | undefined => {
   const foldedRanges = getFoldedRanges(editorView)
 
-  console.log('START IDX', startIdx)
   if (!foldedRanges || startIdx === undefined) return startIdx
-
-  console.log('we are inside', startIdx)
 
   let idx = startIdx
   if (direction === 'previous') {
@@ -626,8 +623,6 @@ const findConsecutiveNonFoldedFrameIndex = (
       idx++
     }
   }
-
-  console.log('end index', idx)
 
   return idx >= 0 && idx < frames.length ? idx : undefined
 }

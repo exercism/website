@@ -56,7 +56,11 @@
             @apply border-r-0;
 
             .cm-foldGutter {
+                .cm-gutterElement {
+                    width: 12px;
+                }
                 span {
+                    width: 12px;
                     display: block;
                 }
             }
@@ -147,7 +151,7 @@
         @apply relative;
         outline: 1.5px solid var(--highlighted-line-border-color);
         border-radius: 2px;
-        @apply mx-[2px];
+        /* @apply mx-[2px]; */
         padding-left: 4px !important;
     }
 }

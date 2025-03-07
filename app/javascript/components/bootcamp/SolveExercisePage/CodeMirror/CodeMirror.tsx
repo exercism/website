@@ -22,7 +22,6 @@ import {
   indentOnInput,
   bracketMatching,
   foldKeymap,
-  foldState,
 } from '@codemirror/language'
 import { defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { searchKeymap } from '@codemirror/search'
@@ -42,6 +41,8 @@ import useErrorStore from '../store/errorStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { getBreakpointLines } from './getBreakpointLines'
 import { breakpointEffect } from './extensions/breakpoint'
+import { foldEffect } from '@codemirror/language'
+import { getFoldedLines } from './getFoldedLines'
 
 export const readonlyCompartment = new Compartment()
 
@@ -62,10 +63,17 @@ function onEditorChange(...cb: Array<(update: ViewUpdate) => void>) {
 }
 
 function onBreakpointChange(...cb: Array<(update: ViewUpdate) => void>) {
+  return onViewChange(breakpointEffect, ...cb)
+}
+function onFoldChange(...cb: Array<(update: ViewUpdate) => void>) {
+  return onViewChange(foldEffect, ...cb)
+}
+
+function onViewChange(effectType, ...cb: Array<(update: ViewUpdate) => void>) {
   return EditorView.updateListener.of((update) => {
     const changed = update.transactions.some((transaction) => {
       for (let e of transaction.effects) {
-        if (e.is(breakpointEffect)) {
+        if (e.is(effectType)) {
           return true
         }
       }
@@ -75,6 +83,7 @@ function onBreakpointChange(...cb: Array<(update: ViewUpdate) => void>) {
     }
   })
 }
+
 function onEditorFocus(...cb: Array<(update: ViewUpdate) => void>) {
   return EditorView.updateListener.of((update) => {
     if (update.view.hasFocus) {
@@ -114,6 +123,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     informationWidgetData,
     setInformationWidgetData,
     setBreakpoints,
+    setFoldedLines,
   } = useEditorStore()
 
   const { setExerciseLocalStorageData } = useContext(SolveExercisePageContext)
@@ -213,6 +223,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.multiHighlightLine({ from: 0, to: 0 }),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
           onBreakpointChange(() => setBreakpoints(getBreakpointLines(view))),
+          onFoldChange(() => setFoldedLines(getFoldedLines(view))),
           onEditorChange(
             () =>
               setInformationWidgetData({
@@ -229,6 +240,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
             () => setBreakpoints(getBreakpointLines(view)),
+            () => setFoldedLines(getFoldedRanges(view)),
             () => {
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {

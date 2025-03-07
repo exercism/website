@@ -10,9 +10,6 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
-import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
-import { getFoldedRanges } from '../CodeMirror/getFoldedRanges'
-import { EditorView } from '@codemirror/view'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -40,6 +37,8 @@ export function useScrubber({
   // a duration of 0, because there is a transform from -1 to 0.
   const [timelineValue, setTimelineValue] = useState(-1)
   const {
+    breakpoints,
+    foldedLines,
     setHighlightedLine,
     setHighlightedLineColor,
     setInformationWidgetData,
@@ -57,7 +56,6 @@ export function useScrubber({
   // so far (nextBreakpointFrame) and if its earlier, it uses it.
   const getBreakpointFrameInTimelineTimeRange = useCallback(
     (startTimelineTime: number, endTimelineTime: number) => {
-      const breakpoints = getBreakpointLines(editorView)
       let nextBreakpointFrame: Frame | undefined
       breakpoints.forEach((line) => {
         // Frames are always ordered by time, so the first one
@@ -79,7 +77,7 @@ export function useScrubber({
       })
       return nextBreakpointFrame
     },
-    [editorView]
+    [breakpoints]
   )
 
   // This effect is responsible for handling what happens when an animation
@@ -285,28 +283,26 @@ export function useScrubber({
       animationTimeline: AnimationTimeline,
       frames: Frame[]
     ) => {
-      const breakpoints = getBreakpointLines(editorView)
-
       if (breakpoints.length === 0) return
 
       let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
       if (currentFrameIdx === undefined) return
 
-      const newFrameIndex = findFrameIndex(
+      const newFrameIdx = findFrameIdx(
         frames,
         currentFrameIdx,
         breakpoints,
         direction
       )
 
-      if (newFrameIndex === null || newFrameIndex === -1) return
+      if (newFrameIdx === null || newFrameIdx === -1) return
 
-      moveToFrame(animationTimeline, frames[newFrameIndex], frames)
+      moveToFrame(animationTimeline, frames[newFrameIdx], frames)
     },
-    [timelineValue, editorView]
+    [timelineValue, breakpoints]
   )
 
-  function findFrameIndex(
+  function findFrameIdx(
     frames: Frame[],
     currentIndex: number,
     breakpoints: number[],
@@ -340,49 +336,37 @@ export function useScrubber({
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
       let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
 
-      // If there's no frame for this, then it's the last frame
-      if (currentFrameIdx === undefined) {
-        currentFrameIdx = frames.length - 1
+      // If there's no frame for this, then we've got no-where to go
+      // And if we're at the start (or before!) there's also nothing to do
+      if (currentFrameIdx === undefined || currentFrameIdx < 1) {
+        return
       }
 
-      let previousFrameIdx = findConsecutiveNonFoldedFrameIndex(
-        frames,
-        currentFrameIdx,
-        'previous',
-        editorView
-      )
+      const prevFrameIdx = findPrevFrameIdx(currentFrameIdx)
 
-      // Same here
-      if (previousFrameIdx === undefined) {
-        previousFrameIdx = frames.length - 1
+      // If we have no previous frame, then there's nothing to do
+      if (prevFrameIdx === undefined) {
+        return
       }
 
-      if (previousFrameIdx === -1 || currentFrameIdx === 0) return
-
-      const prevFrame = frames[previousFrameIdx]
-      moveToFrame(animationTimeline, prevFrame, frames)
+      moveToFrame(animationTimeline, frames[prevFrameIdx], frames)
     },
     [timelineValue]
   )
 
   const handleGoToNextFrame = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      const currentFrameIdx =
-        timelineValue > 0
-          ? frameIdxNearestTimelineTime(frames, timelineValue)
-          : 0
+      const currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
 
-      const nextFrameIndex = findConsecutiveNonFoldedFrameIndex(
-        frames,
-        currentFrameIdx,
-        'next',
-        editorView
-      )
+      // If there's no current frame, something has gone very
+      // wrong, so let's just do nothing!
+      if (currentFrameIdx === undefined) return
 
-      if (nextFrameIndex === undefined) return
-      if (nextFrameIndex >= frames.length) return
+      const nextFrame = findNextFrame(currentFrameIdx)
 
-      moveToFrame(animationTimeline, frames[nextFrameIndex], frames)
+      if (nextFrame === undefined) return
+
+      moveToFrame(animationTimeline, nextFrame, frames)
     },
     [timelineValue]
   )
@@ -491,31 +475,31 @@ export function useScrubber({
   ): number | undefined => {
     if (!frames.length) return undefined
 
-    const idx = frames.findIndex(
+    // If we've not started playing yet, return the first frame
+    if (timelineValue < 0) return 0
+
+    let idx = frames.findIndex(
       (frame) =>
-        frame.timelineTime >= timelineTime &&
-        !isLineFolded(frame.line, editorView)
+        frame.timelineTime >= timelineTime && !foldedLines.includes(frame.line)
     )
 
-    if (idx == -1) return undefined
+    // If we have the first frame, then there's no need to check previous ones
     if (idx == 0) return idx
 
-    const previousValidIdx = findConsecutiveNonFoldedFrameIndex(
-      frames,
-      idx,
-      'previous',
-      editorView
-    )
+    // If we couldn't find a frame after the time, then we're looking at the final frame
+    if (idx == -1) idx = frames.length - 1
 
-    if (!previousValidIdx || previousValidIdx < 0) return idx
+    // Get the previous frame to compare with
+    const prevFrameIdx = findPrevFrameIdx(idx)
+
+    // If there's no previous frame, then we're happy with what we've got
+    if (!prevFrameIdx) return idx
 
     // Return the id of whichever of the previous frame and this frame is closest
-    const finalIndex =
-      Math.abs(frames[idx - 1].timelineTime - timelineTime) <
+    return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
       Math.abs(frames[idx].timelineTime - timelineTime)
-        ? previousValidIdx
-        : idx
-    return finalIndex
+      ? prevFrameIdx
+      : idx
   }
 
   const moveToFrame = (
@@ -566,6 +550,32 @@ export function useScrubber({
     input.style.background = backgroundStyle
   }, [])
 
+  const findNextFrame = useCallback(
+    (currentIdx: number): Frame | undefined => {
+      // Go through all the frames from the next one to the length
+      // of the frames, and return the first one that isn't folded.
+      for (let idx = currentIdx + 1; idx < frames.length; idx++) {
+        const frame = frames[idx]
+        if (!foldedLines.includes(frame.line)) return frame
+      }
+      return undefined
+    },
+    [frames, foldedLines]
+  )
+
+  const findPrevFrameIdx = useCallback(
+    (currentIdx: number): number | undefined => {
+      // Go through all the frames from the previous one to the first
+      // of the frames, and return the first one that isn't folded.
+      for (let idx = currentIdx - 1; idx >= 0; idx--) {
+        const frame = frames[idx]
+        if (!foldedLines.includes(frame.line)) return idx
+      }
+      return undefined
+    },
+    [frames, foldedLines]
+  )
+
   useEffect(() => {
     updateInputBackground()
   }, [timelineValue, animationTimeline])
@@ -599,37 +609,4 @@ export function calculateMaxInputValue(animationTimeline: AnimationTimeline) {
   return Math.round(
     animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
   )
-}
-
-const findConsecutiveNonFoldedFrameIndex = (
-  frames: Frame[],
-  startIdx: number | undefined,
-  direction: 'previous' | 'next',
-  editorView: any
-): number | undefined => {
-  const foldedRanges = getFoldedRanges(editorView)
-
-  if (!foldedRanges || startIdx === undefined) return startIdx
-
-  let idx = startIdx
-  if (direction === 'previous') {
-    idx--
-    while (idx >= 0 && isLineFolded(frames[idx].line, editorView)) {
-      idx--
-    }
-  } else {
-    idx++
-    while (idx < frames.length && isLineFolded(frames[idx].line, editorView)) {
-      idx++
-    }
-  }
-
-  return idx >= 0 && idx < frames.length ? idx : undefined
-}
-
-function isLineFolded(line: number, editorView: EditorView | null): boolean {
-  if (!editorView) return false
-  const foldedRanges = getFoldedRanges(editorView)
-  if (!foldedRanges) return false
-  return foldedRanges.some((range) => line >= range.from && line <= range.to)
 }

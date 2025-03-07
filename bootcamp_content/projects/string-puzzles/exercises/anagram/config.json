@@ -1,0 +1,93 @@
+{
+  "title": "Anagram",
+  "description": "Find all anagrams of a given word from a list of candidates.",
+  "level": 9,
+  "idx": 2,
+  "tests_type": "io",
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Find Anagrams",
+      "tests": [
+        {
+          "name": "No matches",
+          "slug": "anagram-no-matches",
+          "description_html": "If no anagrams exist in the candidates, return an empty list.",
+          "function": "find_anagrams",
+          "args": ["diaper", ["hello", "world", "zombies", "pants"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Detects two anagrams",
+          "slug": "anagram-detects-two",
+          "description_html": "Find two anagrams from a list of candidates.",
+          "function": "find_anagrams",
+          "args": ["master", ["stream", "pigeon", "maters"]],
+          "checks": [{ "value": ["stream", "maters"] }]
+        },
+        {
+          "name": "Does not detect anagram subsets",
+          "slug": "anagram-no-subsets",
+          "description_html": "An anagram must use all letters exactly once.",
+          "function": "find_anagrams",
+          "args": ["good", ["dog", "goody"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Detects anagram",
+          "slug": "anagram-detects-one",
+          "description_html": "Find a single anagram from a list.",
+          "function": "find_anagrams",
+          "args": ["listen", ["enlists", "google", "inlets", "banana"]],
+          "checks": [{ "value": ["inlets"] }]
+        },
+        {
+          "name": "Detects multiple anagrams with different case",
+          "slug": "anagram-different-case",
+          "description_html": "Anagrams should be detected regardless of case.",
+          "function": "find_anagrams",
+          "args": ["nose", ["Eons", "ONES"]],
+          "checks": [{ "value": ["Eons", "ONES"] }]
+        },
+        {
+          "name": "Detects anagrams case-insensitively",
+          "slug": "anagram-case-insensitive",
+          "description_html": "Case should not affect anagram detection.",
+          "function": "find_anagrams",
+          "args": ["Orchestra", ["cashregister", "Carthorse", "radishes"]],
+          "checks": [{ "value": ["Carthorse"] }]
+        },
+        {
+          "name": "Words are not anagrams of themselves (case-insensitive)",
+          "slug": "anagram-not-itself",
+          "description_html": "A word should not be considered an anagram of itself.",
+          "function": "find_anagrams",
+          "args": ["BANANA", ["BANANA", "Banana", "banana"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Words other than themselves can be anagrams",
+          "slug": "anagram-other-than-itself",
+          "description_html": "A word should detect valid anagrams from the list excluding itself.",
+          "function": "find_anagrams",
+          "args": ["LISTEN", ["Listen", "Silent", "LISTEN"]],
+          "checks": [{ "value": ["Silent"] }]
+        }
+      ]
+    },
+    {
+      "name": "Bonus scenarios",
+      "bonus": true,
+      "tests": [
+        {
+          "name": "Handles case of Greek letters",
+          "slug": "anagram-greek-letters",
+          "description_html": "Greek letters should be handled correctly as anagrams.",
+          "function": "find_anagrams",
+          "args": ["ΑΒΓ", ["ΒΓΑ", "ΒΓΔ", "γβα", "αβγ"]],
+          "checks": [{ "value": ["ΒΓΑ", "γβα"] }]
+        }
+      ]
+    }
+  ]
+}

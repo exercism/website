@@ -54,8 +54,15 @@
         .cm-gutters {
             background: white;
             @apply border-r-0;
+
+            .cm-foldGutter {
+                span {
+                    display: block;
+                }
+            }
         }
         .cm-lineNumbers .cm-gutterElement,
+        .cm-foldGutter,
         .cm-icon-container-gutter .cm-gutterElement {
             @apply grid items-center;
         }

@@ -11,6 +11,8 @@ import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
 import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
+import { getFoldedRanges } from '../CodeMirror/getFoldedRanges'
+import { EditorView } from '@codemirror/view'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -342,9 +344,22 @@ export function useScrubber({
       if (currentFrameIdx === undefined) {
         currentFrameIdx = frames.length - 1
       }
-      if (currentFrameIdx == 0) return
 
-      const prevFrame = frames[currentFrameIdx - 1]
+      let previousFrameIdx = findConsecutiveNonFoldedFrameIndex(
+        frames,
+        currentFrameIdx,
+        'previous',
+        editorView
+      )
+
+      // Same here
+      if (previousFrameIdx === undefined) {
+        previousFrameIdx = frames.length - 1
+      }
+
+      if (previousFrameIdx === -1 || currentFrameIdx === 0) return
+
+      const prevFrame = frames[previousFrameIdx]
       moveToFrame(animationTimeline, prevFrame, frames)
     },
     [timelineValue]
@@ -357,10 +372,17 @@ export function useScrubber({
           ? frameIdxNearestTimelineTime(frames, timelineValue)
           : 0
 
-      if (currentFrameIdx === undefined) return
-      if (currentFrameIdx >= frames.length - 1) return
+      const nextFrameIndex = findConsecutiveNonFoldedFrameIndex(
+        frames,
+        currentFrameIdx,
+        'next',
+        editorView
+      )
 
-      moveToFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
+      if (nextFrameIndex === undefined) return
+      if (nextFrameIndex >= frames.length) return
+
+      moveToFrame(animationTimeline, frames[nextFrameIndex], frames)
     },
     [timelineValue]
   )
@@ -469,15 +491,31 @@ export function useScrubber({
   ): number | undefined => {
     if (!frames.length) return undefined
 
-    const idx = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
+    const idx = frames.findIndex(
+      (frame) =>
+        frame.timelineTime >= timelineTime &&
+        !isLineFolded(frame.line, editorView)
+    )
+
     if (idx == -1) return undefined
     if (idx == 0) return idx
 
+    const previousValidIdx = findConsecutiveNonFoldedFrameIndex(
+      frames,
+      idx,
+      'previous',
+      editorView
+    )
+
+    if (!previousValidIdx || previousValidIdx < 0) return idx
+
     // Return the id of whichever of the previous frame and this frame is closest
-    return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
+    const finalIndex =
+      Math.abs(frames[idx - 1].timelineTime - timelineTime) <
       Math.abs(frames[idx].timelineTime - timelineTime)
-      ? idx - 1
-      : idx
+        ? previousValidIdx
+        : idx
+    return finalIndex
   }
 
   const moveToFrame = (
@@ -561,4 +599,42 @@ export function calculateMaxInputValue(animationTimeline: AnimationTimeline) {
   return Math.round(
     animationTimeline.timeline.duration * TIME_TO_TIMELINE_SCALE_FACTOR
   )
+}
+
+const findConsecutiveNonFoldedFrameIndex = (
+  frames: Frame[],
+  startIdx: number | undefined,
+  direction: 'previous' | 'next',
+  editorView: any
+): number | undefined => {
+  const foldedRanges = getFoldedRanges(editorView)
+
+  console.log('START IDX', startIdx)
+  if (!foldedRanges || startIdx === undefined) return startIdx
+
+  console.log('we are inside', startIdx)
+
+  let idx = startIdx
+  if (direction === 'previous') {
+    idx--
+    while (idx >= 0 && isLineFolded(frames[idx].line, editorView)) {
+      idx--
+    }
+  } else {
+    idx++
+    while (idx < frames.length && isLineFolded(frames[idx].line, editorView)) {
+      idx++
+    }
+  }
+
+  console.log('end index', idx)
+
+  return idx >= 0 && idx < frames.length ? idx : undefined
+}
+
+function isLineFolded(line: number, editorView: EditorView | null): boolean {
+  if (!editorView) return false
+  const foldedRanges = getFoldedRanges(editorView)
+  if (!foldedRanges) return false
+  return foldedRanges.some((range) => line >= range.from && line <= range.to)
 }

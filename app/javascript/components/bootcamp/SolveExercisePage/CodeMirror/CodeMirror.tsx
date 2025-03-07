@@ -229,7 +229,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
             () => setBreakpoints(getBreakpointLines(view)),
-            () => console.log(view.state.field(foldState)),
             () => {
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {

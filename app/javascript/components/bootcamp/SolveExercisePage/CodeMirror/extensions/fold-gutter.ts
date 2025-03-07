@@ -6,33 +6,31 @@ import {
 } from '@codemirror/language'
 
 const isFunctionNode = (node: any) => {
-  return node.firstChild === 'FunctionDeclaration'
+  return node.name === 'FunctionDefinition'
 }
 
 const functionFolding = foldService.of((state, lineStart, lineEnd) => {
   const tree = syntaxTree(state)
-  const treeResolve = tree.resolve(lineStart)
+  const treeResolve = tree.resolve(lineEnd)
   let node: typeof treeResolve | null = treeResolve
 
-  // console.log('line start', lineStart, state.doc.lineAt(lineStart).number)
   while (node) {
-    const currentLine = state.doc.lineAt(lineStart).number
-    // console.log('node at line', currentLine, node)
     if (isFunctionNode(node)) {
-      // const functionStartLine = state.doc.lineAt(node.from).number
-      const currentLine = state.doc.lineAt(lineStart).number
-      // console.log('currentLine', currentLine)
-      // console.log('function start line', functionStartLine, currentLine)
+      const functionStartLine = state.doc.lineAt(node.from)
+      const functionEndLine = state.doc.lineAt(node.to)
+      const currentLine = state.doc.lineAt(lineEnd)
 
-      // // Only add the fold marker on the function's starting line
-      // if (functionStartLine === currentLine) {
-      //   console.log('fn node line', functionStartLine)
-      //   console.log('node.from', node.from, node.to)
+      const firstLineEndPos = functionStartLine.to
+      // -3 is the length of "end" which we want to keep
+      const functionEndPos = node.to - 3
 
-      //   let headerEnd = node.lastChild?.from
+      if (functionStartLine.number === functionEndLine.number) {
+        return null
+      }
 
-      return { from: node.from, to: node.to }
-      // }
+      if (currentLine.number === functionStartLine.number) {
+        return { from: firstLineEndPos, to: functionEndPos }
+      }
     }
     node = node.parent
   }

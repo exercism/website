@@ -54,16 +54,6 @@
         .cm-gutters {
             background: white;
             @apply border-r-0;
-
-            .cm-foldGutter {
-                .cm-gutterElement {
-                    width: 12px;
-                }
-                span {
-                    width: 12px;
-                    display: block;
-                }
-            }
         }
         .cm-lineNumbers .cm-gutterElement,
         .cm-foldGutter,
@@ -82,8 +72,28 @@
                 @apply opacity-[0.4];
             }
         }
+
+        .cm-foldGutter {
+            .cm-gutterElement {
+                @apply grid place-items-center w-[16px];
+            }
+            span {
+                @apply block px-2 text-20 leading-100 mb-[4px];
+                color: rgba(0, 128, 255, 0.7);
+                &:hover {
+                    color: rgba(0, 128, 255, 1);
+                }
+            }
+        }
+        .cm-foldPlaceholder {
+            @apply px-6 mx-10;
+            @apply border-1 border-[#0080FF];
+            @apply text-[#0080FF];
+            background: rgba(0, 128, 255, 0.05);
+            @apply text-16;
+        }
         .cm-line {
-            padding: 2px 2px 2px 6px;
+            padding: 2px 2px 2px 4px;
         }
         .cm-lockedLine,
         .cm-lockedGutter {
@@ -105,7 +115,7 @@
         .cm-scroller {
             font-family: "Source Code Pro", "Courier New", Courier, monospace;
         }
-        .cm-foldGutter span {
+        .cm-foldGutter .cm-foldGutter span {
             display: none;
         }
     }
@@ -151,7 +161,7 @@
         @apply relative;
         outline: 1.5px solid var(--highlighted-line-border-color);
         border-radius: 2px;
-        /* @apply mx-[2px]; */
+        @apply mx-[2px];
         padding-left: 4px !important;
     }
 }

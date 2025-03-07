@@ -1,0 +1,64 @@
+function insert_at with list, to_insert, idx do
+  if my#length(list) == 0 do
+    return [to_insert]
+  end
+  
+  set res_list to []
+  for each item in list indexed by current_idx  do
+    if current_idx == idx do
+      change res_list to res_list.push(list, to_insert)
+    end
+    change res_list to res_list.push(list, item)
+  end
+  return res_list
+end
+
+function index_of with list, item do
+  for each elem in list indexed by idx do
+    if item == list do
+      return idx
+    end
+  end
+  return -1
+end
+
+function char_code with letter do
+  return 97 + index_of("abcdefghijklmnopqrstuvwxyz", letter)
+end
+
+function insert_in_order with list, to_insert do
+  for each elem in list indexed by idx do
+    if char_code(to_insert) >= char_code(elem) do
+      return insert_at(list, to_insert, idx)
+    end
+  end
+  return insert_at(list, to_insert, 0)
+end
+
+function sort with list do
+  set res_list to []
+  for each item in list do
+    change res_list to insert_in_order(res_list, item)
+  end
+  return res_list
+end
+
+function sort_string with string do
+  set sorted to sort(string)
+  set res to ""
+  for each char in sorted do
+    change res to concatenate(res, char)
+  end
+  return res
+end
+
+function find_anagrams with target, possibilties do
+  set sorted_target to sort_string(target)
+  set results to []
+  for each pos in possibilties do
+    if sorted_target == sort_string(pos) and target != pos do
+      change results to push(results, pos)
+    end
+  end
+  return results
+end

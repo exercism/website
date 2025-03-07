@@ -19,6 +19,7 @@
     "scrabble-score",
     "word-count",
     "protein-translation",
-    "pangram"
+    "pangram",
+    "anagram"
   ]
 }

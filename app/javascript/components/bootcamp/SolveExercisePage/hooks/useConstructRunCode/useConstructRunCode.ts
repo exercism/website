@@ -16,6 +16,7 @@ import { cleanUpEditor } from '../../CodeMirror/extensions/clean-up-editor'
 import useAnimationTimelineStore from '../../store/animationTimelineStore'
 import useCustomFunctionStore from '@/components/bootcamp/CustomFunctionEditor/store/customFunctionsStore'
 import { useScrubber } from '../../Scrubber/useScrubber'
+import { framesErrored, framesSucceeded } from '@/interpreter/frames'
 
 export function useConstructRunCode({
   links,
@@ -156,7 +157,13 @@ export function useConstructRunCode({
         shouldShowBonusTasks
       )
 
-      if (automaticallyInspectedTest.animationTimeline) {
+      // Don't play out the animation if there are errors
+      // The scrubber will automatically handle jumping to
+      // the first error.
+      //
+      // Note: If you ever change this, check your new code with
+      // a runtime error on the first line.
+      if (framesSucceeded(automaticallyInspectedTest.frames)) {
         // means it should autoplay animation on scenario change
         setShouldAutoplayAnimation(true)
         automaticallyInspectedTest.animationTimeline.play()

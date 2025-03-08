@@ -60,6 +60,11 @@ export const colorScheme = createTheme({
       color: '#7A009F',
     },
     {
+      tag: t.function(t.variableName),
+      color: 'rgb(151, 0, 216)',
+      borderBottom: '0.5px solid rgba(151, 0, 216, 0.4)',
+    },
+    {
       tag: t.className,
       color: '#00008B',
     },

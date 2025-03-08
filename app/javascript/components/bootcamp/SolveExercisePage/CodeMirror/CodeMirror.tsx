@@ -43,6 +43,7 @@ import { getBreakpointLines } from './getBreakpointLines'
 import { breakpointEffect } from './extensions/breakpoint'
 import { foldEffect } from '@codemirror/language'
 import { getFoldedLines } from './getFoldedLines'
+import { unfoldableFunctionsField } from './unfoldableFunctionNames'
 
 export const readonlyCompartment = new Compartment()
 
@@ -197,6 +198,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.colorScheme,
           minimalSetup,
           Ext.breakpointGutter,
+          unfoldableFunctionsField,
           Ext.foldGutter,
           highlightActiveLineGutter(),
           dropCursor(),
@@ -240,7 +242,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             () => setHasCodeBeenEdited(true),
             () => setUnderlineRange(undefined),
             () => setBreakpoints(getBreakpointLines(view)),
-            () => setFoldedLines(getFoldedRanges(view)),
+            () => setFoldedLines(getFoldedLines(view)),
             () => {
               const { shouldAutoRunCode } = useEditorStore.getState()
               if (shouldAutoRunCode) {

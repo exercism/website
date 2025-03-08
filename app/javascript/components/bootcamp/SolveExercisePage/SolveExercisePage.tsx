@@ -15,6 +15,7 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 import { ResultsPanel } from './ResultsPanel'
 import useTestStore from './store/testStore'
 import useTaskStore from './store/taskStore/taskStore'
+import { generateUnfoldableFunctioNames as generateUnfoldableFunctionNames } from './store/taskStore/generateUnfoldableFunctionNames'
 
 export default function SolveExercisePage({
   exercise,
@@ -57,6 +58,7 @@ export default function SolveExercisePage({
     code,
     exerciseLocalStorageData,
     setExerciseLocalStorageData,
+    unfoldableFunctionNames: generateUnfoldableFunctionNames(),
   })
 
   useSetupStores({

@@ -40,6 +40,10 @@
     .hljs-variableName {
         color: #7a009f;
     }
+    .hljs-functionName {
+        color: rgb(151, 0, 216);
+        border-bottom: 0.5px solid rgba(151, 0, 216, 0.4);
+    }
     .hljs-className {
         color: "#00008B";
     }

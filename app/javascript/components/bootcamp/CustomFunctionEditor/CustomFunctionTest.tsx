@@ -221,7 +221,7 @@ function ExpandedView({
                 </tr>
                 <tr>
                   <th>Expected:</th>
-                  <td className="editable">
+                  <td className="editable whitespace-pre">
                     {editMode ? (
                       <input
                         type="text"
@@ -236,7 +236,7 @@ function ExpandedView({
                 {actual && (
                   <tr>
                     <th>Actual:</th>
-                    <td>{formatActual(actual)}</td>
+                    <td className="whitespace-pre">{formatActual(actual)}</td>
                   </tr>
                 )}
               </tbody>

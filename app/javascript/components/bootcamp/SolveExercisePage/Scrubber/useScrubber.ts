@@ -151,7 +151,6 @@ export function useScrubber({
   // - Otherwise we want to jump to the error frame
   //
   useEffect(() => {
-    console.log('HERE')
     // We only want to run this if the user is at the beginning of the timeline
     // and hasn't yet scrubbed somewhere. If they've moved away from the first
     // frame then we want to just get out of here.

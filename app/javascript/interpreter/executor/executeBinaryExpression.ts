@@ -6,7 +6,7 @@ import {
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression } from '../expression'
-import * as JikiTypes from '../jikiObjects'
+import * as Jiki from '../jikiObjects'
 
 const DP_MULTIPLE = 100000
 
@@ -75,7 +75,7 @@ function handle_inequality(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value !== rightResult.jikiObject.value
   )
 }
@@ -86,7 +86,7 @@ function handle_equality(
   leftResult: EvaluationResultExpression,
   rightResult: EvaluationResultExpression
 ): any {
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value === rightResult.jikiObject.value
   )
 }
@@ -99,7 +99,7 @@ function handle_greater(
 ): any {
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value > rightResult.jikiObject.value
   )
 }
@@ -112,7 +112,7 @@ function handle_greater_equal(
 ): any {
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value >= rightResult.jikiObject.value
   )
 }
@@ -125,7 +125,7 @@ function handle_less(
 ): any {
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value < rightResult.jikiObject.value
   )
 }
@@ -138,7 +138,7 @@ function handle_less_equal(
 ): any {
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
-  return new JikiTypes.Boolean(
+  return Jiki.Boolean.fetch(
     leftResult.jikiObject.value <= rightResult.jikiObject.value
   )
 }
@@ -152,9 +152,7 @@ function handle_minus(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const minusValue = leftResult.jikiObject.value - rightResult.jikiObject.value
-  return new JikiTypes.Number(
-    Math.round(minusValue * DP_MULTIPLE) / DP_MULTIPLE
-  )
+  return Jiki.Number.fetch(Math.round(minusValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_plus(
@@ -166,7 +164,7 @@ function handle_plus(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const plusValue = leftResult.jikiObject.value + rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(plusValue * DP_MULTIPLE) / DP_MULTIPLE)
+  return Jiki.Number.fetch(Math.round(plusValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_slash(
@@ -178,9 +176,7 @@ function handle_slash(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const slashValue = leftResult.jikiObject.value / rightResult.jikiObject.value
-  return new JikiTypes.Number(
-    Math.round(slashValue * DP_MULTIPLE) / DP_MULTIPLE
-  )
+  return Jiki.Number.fetch(Math.round(slashValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_star(
@@ -192,7 +188,7 @@ function handle_star(
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
   const starValue = leftResult.jikiObject.value * rightResult.jikiObject.value
-  return new JikiTypes.Number(Math.round(starValue * DP_MULTIPLE) / DP_MULTIPLE)
+  return Jiki.Number.fetch(Math.round(starValue * DP_MULTIPLE) / DP_MULTIPLE)
 }
 
 function handle_percent(
@@ -203,7 +199,7 @@ function handle_percent(
 ): any {
   executor.verifyNumber(leftResult.jikiObject, expression.left)
   executor.verifyNumber(rightResult.jikiObject, expression.right)
-  return new JikiTypes.Number(
+  return Jiki.Number.fetch(
     leftResult.jikiObject.value % rightResult.jikiObject.value
   )
 }
@@ -215,8 +211,8 @@ function guardLists(
   rightResult: EvaluationResultExpression
 ) {
   if (
-    leftResult.jikiObject instanceof JikiTypes.List &&
-    rightResult.jikiObject instanceof JikiTypes.List
+    leftResult.jikiObject instanceof Jiki.List &&
+    rightResult.jikiObject instanceof Jiki.List
   ) {
     executor.error('ListsCannotBeCompared', expression.location)
   }
@@ -229,8 +225,8 @@ function guardObjects(
   rightResult: EvaluationResultExpression
 ) {
   if (
-    leftResult.jikiObject instanceof JikiTypes.Instance ||
-    rightResult.jikiObject instanceof JikiTypes.Instance
+    leftResult.jikiObject instanceof Jiki.Instance ||
+    rightResult.jikiObject instanceof Jiki.Instance
   ) {
     executor.error('ObjectsCannotBeCompared', expression.location)
   }

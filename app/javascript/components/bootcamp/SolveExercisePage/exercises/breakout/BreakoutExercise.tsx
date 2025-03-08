@@ -35,11 +35,11 @@ export default class BreakoutExercise extends Exercise {
       this: Jiki.Instance,
       executionCtx: ExecutionContext
     ) {
-      this.fields['cx'] = new Jiki.Number(50)
-      this.fields['cy'] = new Jiki.Number(100 - Ball['default_radius'])
-      this.fields['radius'] = new Jiki.Number(Ball['default_radius'])
-      this.fields['y_velocity'] = new Jiki.Number(-1)
-      this.fields['x_velocity'] = new Jiki.Number(-1)
+      this.fields['cx'] = Jiki.Number.fetch(50)
+      this.fields['cy'] = Jiki.Number.fetch(100 - Ball['default_radius'])
+      this.fields['radius'] = Jiki.Number.fetch(Ball['default_radius'])
+      this.fields['y_velocity'] = Jiki.Number.fetch(-1)
+      this.fields['x_velocity'] = Jiki.Number.fetch(-1)
       createBall(executionCtx, this)
     })
     Ball.addGetter('cx')
@@ -129,9 +129,9 @@ export default class BreakoutExercise extends Exercise {
     ) {
       this.fields['left'] = left
       this.fields['top'] = top
-      this.fields['width'] = new Jiki.Number(16)
-      this.fields['height'] = new Jiki.Number(Block['default_height'])
-      this.fields['smashed'] = new Jiki.Boolean(false)
+      this.fields['width'] = Jiki.Number.fetch(16)
+      this.fields['height'] = Jiki.Number.fetch(Block['default_height'])
+      this.fields['smashed'] = Jiki.Boolean.fetch(false)
       createBlock(executionCtx, this as BlockInstance)
     })
     Block.addGetter('top')
@@ -225,8 +225,8 @@ export default class BreakoutExercise extends Exercise {
     const newCx = cx + x_velocity
     const newCy = cy + y_velocity
 
-    ball.setField('cx', new Jiki.Number(newCx))
-    ball.setField('cy', new Jiki.Number(newCy))
+    ball.setField('cx', Jiki.Number.fetch(newCx))
+    ball.setField('cy', Jiki.Number.fetch(newCy))
 
     this.ballPositions.push([newCx, newCy])
 

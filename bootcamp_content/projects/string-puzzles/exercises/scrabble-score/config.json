@@ -5,7 +5,7 @@
   "idx": 4,
   "blocks_project_progression": false,
   "tests_type": "io",
-  "stdlib_functions": ["join"],
+  "stdlib_functions": ["join", "concatenate"],
   "tasks": [
     {
       "name": "The letter_values function",

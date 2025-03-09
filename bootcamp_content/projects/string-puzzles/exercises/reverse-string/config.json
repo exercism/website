@@ -4,7 +4,7 @@
   "level": 5,
   "idx": 7,
   "tests_type": "io",
-  "stdlib_functions": ["join"],
+  "stdlib_functions": ["join", "concatenate"],
   "tasks": [
     {
       "name": "Reverse Strings",

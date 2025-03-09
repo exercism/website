@@ -4,7 +4,7 @@
   "level": 6,
   "idx": 5,
   "tests_type": "io",
-  "stdlib_functions": ["join"],
+  "stdlib_functions": ["join", "concatenate"],
   "tasks": [
     {
       "name": "Standard Tasks",

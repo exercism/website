@@ -374,6 +374,10 @@ export function useScrubber({
     )
     if (breakpointFrame) {
       moveToFrame(animationTimeline, breakpointFrame)
+
+      // We also want to turn on the info widget if
+      // we're jumping to a breakpoint.
+      setShouldShowInformationWidget(true)
       return
     }
 

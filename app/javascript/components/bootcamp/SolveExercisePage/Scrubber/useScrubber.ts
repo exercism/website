@@ -252,11 +252,6 @@ export function useScrubber({
     }
   }, [shouldShowInformationWidget])
 
-  const getTimelineValue = useCallback(() => {
-    console.log(performance.now(), timelineValue)
-    return timelineValue
-  }, [timelineValue])
-
   // This effect ensures there's an actual frame when the user pauses the
   // timeline (via any means). The other effects check the timeline syncs
   // at each step that's played, but they don't guarantee that a pause
@@ -443,7 +438,7 @@ export function useScrubber({
     const frame = findFrameNearestTimelineTime(timelineTime)
     if (frame === undefined) return
 
-    // moveToFrame(animationTimeline, frame, timelineTime, false)
+    moveToFrame(animationTimeline, frame, timelineTime, false)
   }, [animationTimeline])
 
   // When the code is edited, pause the animation and stop autoplaying

@@ -13,6 +13,7 @@ export abstract class Exercise {
 
   protected view!: HTMLElement
   protected container!: HTMLElement
+  public static hasView = true
 
   public constructor(private slug?: String) {
     if (slug) {

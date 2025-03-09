@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { useState } from 'react'
 import {
   calculateMaxInputValue,
@@ -39,6 +39,7 @@ function Scrubber({
     handleGoToPreviousFrame,
     handleGoToNextBreakpoint,
     handleGoToPreviousBreakpoint,
+    findFrameNearestTimelineTime,
   } = useScrubber({
     setIsPlaying,
     animationTimeline,
@@ -46,6 +47,11 @@ function Scrubber({
     hasCodeBeenEdited,
     context,
   })
+
+  const currentFrame = useMemo(
+    () => findFrameNearestTimelineTime(timelineValue),
+    [timelineValue]
+  )
 
   return (
     <div
@@ -105,7 +111,7 @@ function Scrubber({
         )}
       />
       <BreakpointStepperButtons
-        timelineTime={timelineValue}
+        currentFrame={currentFrame}
         frames={frames}
         onNext={() => handleGoToNextBreakpoint(animationTimeline)}
         onPrev={() => handleGoToPreviousBreakpoint(animationTimeline)}
@@ -218,28 +224,30 @@ function FrameStepperButtons({
 }
 
 function BreakpointStepperButtons({
-  timelineTime,
+  currentFrame,
   frames,
   onNext,
   onPrev,
   disabled,
 }: {
-  timelineTime: number
+  currentFrame: Frame | undefined
   frames: Frame[]
   onNext: () => void
   onPrev: () => void
   disabled: boolean
 }) {
+  if (!currentFrame) return null
+
   const { breakpoints } = useEditorStore()
   if (breakpoints.length == 0) return null
 
   const isPrevBreakpoint = prevBreakpointExists(
-    timelineTime,
+    currentFrame,
     frames,
     breakpoints
   )
   const isNextBreakpoint = nextBreakpointExists(
-    timelineTime,
+    currentFrame.timelineTime,
     frames,
     breakpoints
   )
@@ -269,13 +277,16 @@ function nextFrameExists(timelineTime: number, frames: Frame[]) {
 }
 
 function prevBreakpointExists(
-  timelineTime: number,
+  currentFrame: Frame,
   frames: Frame[],
   breakpoints: number[]
 ) {
   return breakpoints.some((breakpoint) => {
     return frames.some((frame) => {
-      return frame.line === breakpoint && frame.timelineTime < timelineTime
+      return (
+        frame.line === breakpoint &&
+        frame.timelineTime < currentFrame.timelineTime
+      )
     })
   })
 }

@@ -21,7 +21,7 @@
     "@exercism/active-background": "^0.6.2",
     "@exercism/codemirror-lang-arturo": "^0.1.6",
     "@exercism/codemirror-lang-gleam": "^2.0.1",
-    "@exercism/codemirror-lang-jikiscript": "0.0.14",
+    "@exercism/codemirror-lang-jikiscript": "0.0.15",
     "@exercism/codemirror-lang-uiua": "^0.0.4",
     "@exercism/codemirror-lang-wren": "https://github.com/exercism/codemirror-lang-wren",
     "@exercism/highlightjs-arturo": "^0.0.2",

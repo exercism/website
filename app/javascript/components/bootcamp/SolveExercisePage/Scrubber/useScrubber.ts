@@ -265,6 +265,10 @@ export function useScrubber({
       // If we're actually now playing, then don't do anything here.
       if (!animationTimeline.paused) return
 
+      // If we've not played, we're not propery pausing, so don't
+      // override whatever over effect is driving this.
+      if (timelineValue == -1) return
+
       // If we're already locked onto a frame, then leave
       if (frames.some((frame) => frame.timelineTime === timelineValue)) return
 
@@ -337,7 +341,7 @@ export function useScrubber({
         } else {
           setIsTimelineComplete(false)
         }
-      }, 116) // Don't update more than 60 times a second (framerate)
+      }, 16) // Don't update more than 60 times a second (framerate)
     })
   }, [animationTimeline, frames, findBreakpointFrameBetweenTimes])
 

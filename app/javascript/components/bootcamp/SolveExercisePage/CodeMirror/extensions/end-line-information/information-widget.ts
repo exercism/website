@@ -94,7 +94,7 @@ export class InformationWidget extends WidgetType {
 
     const errorHeader = this.tooltip.querySelector('.error h2')
     if (errorHeader) {
-      errorHeader.appendChild(closeButton)
+      errorHeader.prepend(closeButton)
     }
 
     this.applyHighlighting(this.tooltip)

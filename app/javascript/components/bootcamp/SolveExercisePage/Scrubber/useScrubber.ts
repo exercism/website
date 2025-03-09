@@ -134,15 +134,14 @@ export function useScrubber({
   // check for folding as we don't jump to a breakpoint that's
   // folded.
   const findPrevBreakpointFrame = useCallback(
-    (currentIndex: number): Frame | undefined => {
-      return frames
+    (currentIndex: number): Frame | undefined =>
+      frames
         .slice(0, currentIndex)
         .findLast(
           (frame) =>
             breakpoints.includes(frame.line) &&
             !foldedLines.includes(frame.line)
-        )
-    },
+        ),
     [breakpoints, foldedLines, frames]
   )
   const findNextBreakpointFrame = useCallback(

@@ -252,6 +252,30 @@ export function useScrubber({
     }
   }, [shouldShowInformationWidget])
 
+  // This effect ensures there's an actual frame when the user pauses the
+  // timeline (via any means). The other effects check the timeline syncs
+  // at each step that's played, but they don't guarantee that a pause
+  // at a weird halfway point will sync up. This guards that.
+  useEffect(() => {
+    // We use a set timeout as we want to ensure this is actually paused
+    // not just in a pause/unpause cycle, which we often use to clear
+    // state just before we start playing. 10ms is enough and not noticable
+    // to the user.
+    setTimeout(() => {
+      // If we're actually now playing, then don't do anything here.
+      if (!animationTimeline.paused) return
+
+      // If we're already locked onto a frame, then leave
+      if (frames.some((frame) => frame.timelineTime === timelineValue)) return
+
+      // Otherwise jump to the nearest actual frame.
+      moveToFrame(
+        animationTimeline,
+        findFrameNearestTimelineTime(timelineValue) || frames[0]
+      )
+    }, 10)
+  }, [animationTimeline.paused])
+
   // This effect is responsible for handling what happens when an animation
   // is playing. It updates the underlying state to match the progress of the animation.
   // It also guards against hitting breakpoints and pauses the animation if so.

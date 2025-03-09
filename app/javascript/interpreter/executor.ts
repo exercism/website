@@ -1659,11 +1659,9 @@ export class Executor {
     if (process.env.NODE_ENV == 'test') {
       frame.variables = cloneDeep(this.environment.variables())
     }
-    frame.description = () => {
-      return describeFrame(frame, {
-        functionDescriptions: this.externalFunctionDescriptions,
-      })
-    }
+    frame.description = describeFrame(frame, {
+      functionDescriptions: this.externalFunctionDescriptions,
+    })
     this.frames.push(frame)
 
     this.time += this.timePerFrame

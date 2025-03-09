@@ -408,7 +408,7 @@ export function useScrubber({
       case 'SUCCESS': {
         setHighlightedLineColor(INFO_HIGHLIGHT_COLOR)
         setInformationWidgetData({
-          html: currentFrame.description(),
+          html: currentFrame.description,
           line: currentFrame.line,
           status: 'SUCCESS',
         })

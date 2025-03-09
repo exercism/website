@@ -53,7 +53,7 @@ export type Frame = {
   timelineTime: number
   result?: EvaluationResult
   data?: Record<string, any>
-  description: () => string
+  description: string
   context?: Statement | Expression
 }
 export type FrameWithResult = Frame & { result: EvaluationResult }

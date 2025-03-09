@@ -1653,7 +1653,7 @@ export class Executor {
       time: this.time,
       // Multiple the time by 100 and floor it to get an integer
       timelineTime: Math.round(this.time * 100),
-      description: () => '',
+      description: '',
       context: context,
     }
     if (process.env.NODE_ENV == 'test') {

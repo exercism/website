@@ -82,7 +82,7 @@ function join(
   verifyType(str1, Jiki.String, 'string', 1)
   verifyType(str2, Jiki.String, 'string', 2)
 
-  return new Jiki.String(`${str1.value}${str2.value}`)
+  return Jiki.String.fetch(`${str1.value}${str2.value}`)
 }
 
 function concatenate(
@@ -90,7 +90,7 @@ function concatenate(
   ...strings: Jiki.String[]
 ): Jiki.String {
   strings.forEach((str, idx) => verifyType(str, Jiki.String, 'string', idx + 1))
-  return new Jiki.String(strings.map((str) => str.value).join(''))
+  return Jiki.String.fetch(strings.map((str) => str.value).join(''))
 }
 
 function push(
@@ -118,7 +118,7 @@ function concat(
 function numberToString(_: ExecutionContext, num: Jiki.Number): Jiki.String {
   verifyType(num, Jiki.Number, 'number', 1)
 
-  return new Jiki.String(num.value.toString())
+  return Jiki.String.fetch(num.value.toString())
 }
 
 function stringToNumber(
@@ -135,19 +135,19 @@ function stringToNumber(
       )}</code> look like a valid number?`
     )
   }
-  return new Jiki.Number(num)
+  return Jiki.Number.fetch(num)
 }
 
 function toUpperCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
   verifyType(str, Jiki.String, 'string', 1)
 
-  return new Jiki.String(str.value.toUpperCase())
+  return Jiki.String.fetch(str.value.toUpperCase())
 }
 
 function toLowerCase(_: ExecutionContext, str: Jiki.String): Jiki.String {
   verifyType(str, Jiki.String, 'string', 1)
 
-  return new Jiki.String(str.value.toLowerCase())
+  return Jiki.String.fetch(str.value.toLowerCase())
 }
 
 function hasKey(
@@ -158,7 +158,7 @@ function hasKey(
   verifyType(dict, Jiki.Dictionary, 'dictionary', 1)
   verifyType(key, Jiki.String, 'string', 2)
 
-  return new Jiki.Boolean(dict.value.has(key.value))
+  return Jiki.Boolean.fetch(dict.value.has(key.value))
 }
 
 function keys(_: ExecutionContext, dict: Jiki.Dictionary): Jiki.List {
@@ -166,7 +166,7 @@ function keys(_: ExecutionContext, dict: Jiki.Dictionary): Jiki.List {
 
   return new Jiki.List(
     Array.from(dict.value.keys() as IterableIterator<string>).map(
-      (key: string) => new Jiki.String(key)
+      (key: string) => Jiki.String.fetch(key)
     )
   )
 }
@@ -179,7 +179,7 @@ function min(
   verifyType(num1, Jiki.Number, 'number', 1)
   verifyType(num2, Jiki.Number, 'number', 2)
 
-  return new Jiki.Number(Math.min(num1.value, num2.value))
+  return Jiki.Number.fetch(Math.min(num1.value, num2.value))
 }
 
 function max(
@@ -190,7 +190,7 @@ function max(
   verifyType(num1, Jiki.Number, 'number', 1)
   verifyType(num2, Jiki.Number, 'number', 2)
 
-  return new Jiki.Number(Math.max(num1.value, num2.value))
+  return Jiki.Number.fetch(Math.max(num1.value, num2.value))
 }
 
 function verifyType(

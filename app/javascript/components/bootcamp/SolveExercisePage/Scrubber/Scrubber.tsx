@@ -58,14 +58,18 @@ function Scrubber({
       tabIndex={-1}
       className="relative group"
     >
-      <PlayButton
+      <PlayPauseButton
+        animationTimeline={animationTimeline}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
         )}
-        onClick={() => {
+        onPlay={() => {
           animationTimeline.play(() => setShouldShowInformationWidget(false))
+        }}
+        onPause={() => {
+          animationTimeline.pause()
         }}
       />
       <input
@@ -84,7 +88,7 @@ function Scrubber({
         onInput={updateInputBackground}
         value={timelineValue}
         onChange={(event) => {
-          handleChange(event, animationTimeline, frames)
+          handleChange(event, animationTimeline)
           updateInputBackground()
         }}
         onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
@@ -103,8 +107,8 @@ function Scrubber({
       <BreakpointStepperButtons
         timelineTime={timelineValue}
         frames={frames}
-        onNext={() => handleGoToNextBreakpoint(animationTimeline, frames)}
-        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
+        onNext={() => handleGoToNextBreakpoint(animationTimeline)}
+        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline)}
         disabled={shouldScrubberBeDisabled(
           hasCodeBeenEdited,
           frames,
@@ -125,6 +129,26 @@ function Scrubber({
 
 export default Scrubber
 
+function PlayPauseButton({
+  animationTimeline,
+  disabled,
+  onPlay,
+  onPause,
+}: {
+  animationTimeline: AnimationTimeline
+  disabled: boolean
+  onPlay: () => void
+  onPause: () => void
+}) {
+  if (!animationTimeline.showPlayButton) return <></>
+
+  return animationTimeline.paused ? (
+    <PlayButton disabled={disabled} onClick={onPlay} />
+  ) : (
+    <PauseButton disabled={disabled} onClick={onPause} />
+  )
+}
+
 function PlayButton({
   disabled,
   onClick,
@@ -136,10 +160,28 @@ function PlayButton({
     <button
       data-ci="play-button"
       disabled={disabled}
-      className="play-button"
+      className="play-pause-button"
       onClick={onClick}
     >
       <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
+    </button>
+  )
+}
+function PauseButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      data-ci="pause-button"
+      disabled={disabled}
+      className="play-pause-button"
+      onClick={onClick}
+    >
+      <Icon icon="bootcamp-pause" alt="Pause" width={32} height={32} />
     </button>
   )
 }

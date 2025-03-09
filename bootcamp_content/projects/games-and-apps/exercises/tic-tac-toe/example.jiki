@@ -1,19 +1,17 @@
-function calculate_next_move with board, turn do
-  set move to calculate_next_move_win(board, turn)
+function calculate_next_move with board, turn, permutations do
+  set move to calculate_next_move_win(board, turn, permutations)
   if move != false do
     return move
   end
   
-  change move to calculate_next_move_block(board, turn)
+  change move to calculate_next_move_block(board, turn, permutations)
   if move != false do
     return move
     end
   return calculate_next_move_valid(board)
 end
 
-function calculate_next_move_win with board, turn do
-  set permutations to build_permutations()
-
+function calculate_next_move_win with board, turn, permutations do
   for each row in [1,2,3] do
     for each col in [1,2,3] do
       if board[row][col] == "" do
@@ -30,9 +28,9 @@ function calculate_next_move_win with board, turn do
   return false
 end
 
-function calculate_next_move_block with board, turn do
+function calculate_next_move_block with board, turn, permutations do
   change turn to switch_turn(turn)
-  return calculate_next_move_win(board, turn)
+  return calculate_next_move_win(board, turn, permutations)
 end
 
 function calculate_next_move_valid with board do
@@ -46,16 +44,6 @@ function calculate_next_move_valid with board do
 end
 
 function build_permutations do
-  set permutations to []
-  change permutations to push(permutations, [[1,1],[1,2],[1,3]])
-  change permutations to push(permutations, [[2,1],[2,2],[2,3]])
-  change permutations to push(permutations, [[3,1],[3,2],[3,3]])
-  change permutations to push(permutations, [[1,1],[2,1],[3,1]])
-  change permutations to push(permutations, [[1,2],[2,2],[3,2]])
-  change permutations to push(permutations, [[1,3],[2,3],[3,3]])  
-  change permutations to push(permutations, [[1,1],[2,2],[3,3]])
-  change permutations to push(permutations, [[1,3],[2,2],[3,1]])
-  return permutations
 end
 
 function draw_grid do
@@ -152,7 +140,16 @@ function run_game with moves do
   log moves
   
   set board to [["","",""], ["","",""], ["","",""]]
-  set permutations to build_permutations()
+  set permutations to [
+    [[1,1],[1,2],[1,3]],
+    [[2,1],[2,2],[2,3]],
+    [[3,1],[3,2],[3,3]],
+    [[1,1],[2,1],[3,1]],
+    [[1,2],[2,2],[3,2]],
+    [[1,3],[2,3],[3,3]],
+    [[1,1],[2,2],[3,3]],
+    [[1,3],[2,2],[3,1]]
+  ]
   draw_grid()
 
   set turn to "x"
@@ -165,7 +162,7 @@ function run_game with moves do
     change turn to switch_turn(turn)
   
     if(move == "?") do
-      change move to calculate_next_move(board, turn)
+      change move to calculate_next_move(board, turn, permutations)
     end
   
     change row to move[1]

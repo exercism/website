@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, useRef, useContext } from 'react'
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useContext,
+  useMemo,
+} from 'react'
 
 import useEditorStore from '../store/editorStore'
 import type { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
@@ -10,7 +17,6 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
-import { getBreakpointLines } from '../CodeMirror/getBreakpointLines'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -38,47 +44,241 @@ export function useScrubber({
   // a duration of 0, because there is a transform from -1 to 0.
   const [timelineValue, setTimelineValue] = useState(-1)
   const {
+    breakpoints,
+    foldedLines,
     setHighlightedLine,
     setHighlightedLineColor,
     setInformationWidgetData,
+    shouldShowInformationWidget,
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
 
   const { editorView } = useContext(SolveExercisePageContext)
 
-  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
-    useAnimationTimelineStore()
+  const {
+    isTimelineComplete,
+    setIsTimelineComplete,
+    setShouldAutoplayAnimation,
+  } = useAnimationTimelineStore()
 
-  // This steps through each breakpoint and finds each frame that
-  // is in the range. It then compares it to whatever it's found
-  // so far (nextBreakpointFrame) and if its earlier, it uses it.
-  const getBreakpointFrameInTimelineTimeRange = useCallback(
-    (startTimelineTime: number, endTimelineTime: number) => {
-      const breakpoints = getBreakpointLines(editorView)
-      let nextBreakpointFrame: Frame | undefined
-      breakpoints.forEach((line) => {
-        // Frames are always ordered by time, so the first one
-        // we come across is the earliest. So we can use `find` here.
-        const frame = frames.find(
-          (frame) =>
-            frame.timelineTime > startTimelineTime &&
-            frame.timelineTime <= endTimelineTime &&
-            frame.line === line
-        )
+  const lastFrame = useMemo(() => frames[frames.length - 1], [frames])
 
-        if (!frame) return
-        if (
-          !nextBreakpointFrame ||
-          frame.timelineTime < nextBreakpointFrame.timelineTime
-        ) {
-          nextBreakpointFrame = frame
-        }
-      })
-      return nextBreakpointFrame
+  // We start with a series of finder functions. These are used to find
+  // the prev/next/current frame with consideration to things like folding
+  // and breakpoints.
+
+  // This simply finds the previous frame with respect to folding
+  const findPrevFrameIdx = useCallback(
+    (currentIdx: number): number | undefined => {
+      // Go through all the frames from the previous one to the first
+      // of the frames, and return the first one that isn't folded.
+      for (let idx = currentIdx - 1; idx >= 0; idx--) {
+        const frame = frames[idx]
+        if (!foldedLines.includes(frame.line)) return idx
+      }
+      return undefined
     },
-    [editorView]
+    [frames, foldedLines]
   )
+
+  // And this one finds the next frame with respect to folding
+  const findNextFrame = useCallback(
+    (currentIdx: number): Frame | undefined => {
+      // Go through all the frames from the next one to the length
+      // of the frames, and return the first one that isn't folded.
+      for (let idx = currentIdx + 1; idx < frames.length; idx++) {
+        const frame = frames[idx]
+        if (!foldedLines.includes(frame.line)) return frame
+      }
+      return undefined
+    },
+    [frames, foldedLines]
+  )
+
+  // This one is the key frame that finds the frame nearest to the current
+  // time. It's used throughout, especially for aligning with the scrubber.
+  const findFrameIdxNearestTimelineTime = useCallback(
+    (timelineTime: number): number | undefined => {
+      if (!frames.length) return undefined
+
+      // If we've not started playing yet, return the first frame
+      if (timelineTime < 0) return 0
+
+      let idx = frames.findIndex((frame) => {
+        return (
+          frame.timelineTime >= timelineTime &&
+          !foldedLines.includes(frame.line)
+        )
+      })
+
+      // If there's no frame after the timeline time, return the last frame
+      if (idx == -1) return frames.length - 1
+
+      // If we have the first frame, then there's no need to check previous ones
+      if (idx == 0) return idx
+
+      // Get the previous frame to compare with
+      const prevFrameIdx = findPrevFrameIdx(idx)
+
+      // If there's no previous frame, then we're happy with what we've got
+      if (!prevFrameIdx) return idx
+
+      // Return the id of whichever of the previous frame and this frame is closest
+      return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
+        Math.abs(frames[idx].timelineTime - timelineTime)
+        ? prevFrameIdx
+        : idx
+    },
+    [frames, findPrevFrameIdx, foldedLines]
+  )
+
+  // Similarly we have checkers for breakpoints. These also
+  // check for folding as we don't jump to a breakpoint that's
+  // folded.
+  const findPrevBreakpointFrame = useCallback(
+    (currentIndex: number): Frame | undefined =>
+      frames
+        .slice(0, currentIndex)
+        .findLast(
+          (frame) =>
+            breakpoints.includes(frame.line) &&
+            !foldedLines.includes(frame.line)
+        ),
+    [breakpoints, foldedLines, frames]
+  )
+  const findNextBreakpointFrame = useCallback(
+    (currentIndex: number): Frame | undefined =>
+      frames
+        .slice(currentIndex + 1)
+        .find(
+          (frame) =>
+            breakpoints.includes(frame.line) &&
+            !foldedLines.includes(frame.line)
+        ),
+    [breakpoints, foldedLines, frames]
+  )
+  const findBreakpointFrameBetweenTimes = useCallback(
+    (startTimelineTime: number, endTimelineTime: number): Frame | undefined =>
+      frames.find(
+        (frame) =>
+          frame.timelineTime > startTimelineTime &&
+          frame.timelineTime < endTimelineTime &&
+          breakpoints.includes(frame.line) &&
+          !foldedLines.includes(frame.line)
+      ),
+    [frames, breakpoints, foldedLines]
+  )
+
+  const findFrameNearestTimelineTime = useCallback(
+    (timelineTime: number): Frame | undefined => {
+      if (!frames.length) return undefined
+
+      // If we're past the last frame, return the last frame
+      if (timelineTime > lastFrame.timelineTime) return lastFrame
+
+      const idx = findFrameIdxNearestTimelineTime(timelineTime)
+      if (idx === undefined) return undefined
+
+      return frames[idx]
+    },
+    [frames, findFrameIdxNearestTimelineTime, lastFrame]
+  )
+
+  const moveToFrame = useCallback(
+    (
+      animationTimeline: AnimationTimeline,
+      newFrame: Frame,
+      newTimelineTime?: number,
+      pause: boolean = true
+    ) => {
+      const isLastFrame = newFrame.timelineTime == lastFrame.timelineTime
+      newTimelineTime = newTimelineTime || newFrame.timelineTime
+
+      // Update to the new frame time.
+      if (pause) {
+        animationTimeline.pause()
+        setShouldAutoplayAnimation(false)
+      }
+
+      if (animationTimeline.paused) {
+        // If we're dealing with the last frame, seek to the end
+        if (isLastFrame) {
+          newTimelineTime =
+            animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
+          animationTimeline.seekEndOfTimeline()
+        } else {
+          animationTimeline.seek(
+            newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR
+          )
+        }
+      }
+
+      // Finally, set the new time. Note, this potentially gets
+      // changed in the aimationTimeline block above, so don't do it
+      // early and guard/return.
+      setTimelineValue(newTimelineTime)
+    },
+    [frames, lastFrame]
+  )
+
+  const rangeRef = useRef<HTMLInputElement>(null)
+  const updateInputBackground = useCallback(() => {
+    const input = rangeRef.current
+    if (!input) return
+
+    const value = parseFloat(input.value)
+    const min = parseFloat(input.min)
+    const max = parseFloat(input.max)
+
+    const percentage = ((value - min) / (max - min)) * 100
+    // 7128F5 - jiki purple
+    const backgroundStyle = `linear-gradient(to right, #7128F5 ${percentage}%, #fff ${percentage}%)`
+    input.style.background = backgroundStyle
+  }, [rangeRef.current])
+
+  // Whenever the information widget is shown, we want to pause the animation
+  // and scroll to the relevant line. This effect means when the information
+  // toggle button is pressed the animation will stop and scroll to the right
+  // place. We don't scroll to the line while the animation is playing as it's
+  // really annoying when you're trying to debug.
+  useEffect(() => {
+    if (shouldShowInformationWidget) {
+      animationTimeline.pause()
+      const frame = findFrameNearestTimelineTime(timelineValue)
+      if (frame == undefined) return
+
+      scrollToLine(editorView, frame.line)
+    }
+  }, [shouldShowInformationWidget])
+
+  // This effect ensures there's an actual frame when the user pauses the
+  // timeline (via any means). The other effects check the timeline syncs
+  // at each step that's played, but they don't guarantee that a pause
+  // at a weird halfway point will sync up. This guards that.
+  useEffect(() => {
+    // We use a set timeout as we want to ensure this is actually paused
+    // not just in a pause/unpause cycle, which we often use to clear
+    // state just before we start playing. 10ms is enough and not noticable
+    // to the user.
+    setTimeout(() => {
+      // If we're actually now playing, then don't do anything here.
+      if (!animationTimeline.paused) return
+
+      // If we've not played, we're not propery pausing, so don't
+      // override whatever over effect is driving this.
+      if (timelineValue == -1) return
+
+      // If we're already locked onto a frame, then leave
+      if (frames.some((frame) => frame.timelineTime === timelineValue)) return
+
+      // Otherwise jump to the nearest actual frame.
+      moveToFrame(
+        animationTimeline,
+        findFrameNearestTimelineTime(timelineValue) || frames[0]
+      )
+    }, 10)
+  }, [animationTimeline.paused])
 
   // This effect is responsible for handling what happens when an animation
   // is playing. It updates the underlying state to match the progress of the animation.
@@ -92,6 +292,9 @@ export function useScrubber({
       if (anime.progress > 0) {
         animationTimeline.hasPlayedOrScrubbed = true
       }
+
+      // Memoize this so it's still the same in the setTimeout
+      const animeCompleted = anime.completed
 
       // We only want to use this callback if the animation is playing
       // Not if we're scrubbing through it. Otherwise we end up running
@@ -110,7 +313,7 @@ export function useScrubber({
         // were and where we are. A lot of frames might execute between two moments
         // on the animation timeline (esp as this runs only a few times per second)
         // so we need to check all of the in between frames.
-        const nextBreakpointFrame = getBreakpointFrameInTimelineTimeRange(
+        const nextBreakpointFrame = findBreakpointFrameBetweenTimes(
           timelineValue,
           newTimelineValue
         )
@@ -133,14 +336,14 @@ export function useScrubber({
 
         // And finally we set whether we've got to the end or not,
         // which again sets of a daisy chain of effects when we reach the end!
-        if (anime.completed) {
+        if (animeCompleted) {
           setIsTimelineComplete(true)
         } else {
           setIsTimelineComplete(false)
         }
       }, 16) // Don't update more than 60 times a second (framerate)
     })
-  }, [animationTimeline, getBreakpointFrameInTimelineTimeRange])
+  }, [animationTimeline, frames, findBreakpointFrameBetweenTimes])
 
   // The frames change when the code is run. So this is our big reset moment
   // effectively.
@@ -165,24 +368,28 @@ export function useScrubber({
     }
 
     // If we have a breakpoint frame, we want to jump there.
-    const breakpointFrame = getBreakpointFrameInTimelineTimeRange(
+    const breakpointFrame = findBreakpointFrameBetweenTimes(
       0,
       errorFrame.timelineTime
     )
     if (breakpointFrame) {
-      moveToFrame(animationTimeline, breakpointFrame, frames)
+      moveToFrame(animationTimeline, breakpointFrame)
+
+      // We also want to turn on the info widget if
+      // we're jumping to a breakpoint.
+      setShouldShowInformationWidget(true)
       return
     }
 
     // Otherwise we proceed straight to our error frame.
-    moveToFrame(animationTimeline, errorFrame, frames)
-  }, [frames])
+    moveToFrame(animationTimeline, errorFrame)
+  }, [frames, findBreakpointFrameBetweenTimes])
 
   // This effect is responsible for updating the highlighted line and
   // information widget based on currentFrame. It runs every time the timelineValue
   // changes, which happens on any type of navigation or animation.
   useEffect(() => {
-    const currentFrame = frameNearestTimelineTime(frames, timelineValue)
+    const currentFrame = findFrameNearestTimelineTime(timelineValue)
 
     cleanUpEditor(editorView)
 
@@ -194,13 +401,18 @@ export function useScrubber({
     if (!animationTimeline.paused) return
 
     setHighlightedLine(currentFrame.line)
-    scrollToLine(editorView, currentFrame.line)
+
+    // We don't want to scroll to the line unless the tooltip
+    // is showing - it's really annoying otherwise!
+    if (shouldShowInformationWidget) {
+      scrollToLine(editorView, currentFrame.line)
+    }
 
     switch (currentFrame.status) {
       case 'SUCCESS': {
         setHighlightedLineColor(INFO_HIGHLIGHT_COLOR)
         setInformationWidgetData({
-          html: currentFrame.description(),
+          html: currentFrame.description,
           line: currentFrame.line,
           status: 'SUCCESS',
         })
@@ -227,10 +439,10 @@ export function useScrubber({
   useEffect(() => {
     const timelineTime =
       animationTimeline.timeline.currentTime * TIME_TO_TIMELINE_SCALE_FACTOR
-    const frame = frameNearestTimelineTime(frames, timelineTime)
+    const frame = findFrameNearestTimelineTime(timelineTime)
     if (frame === undefined) return
 
-    moveToFrame(animationTimeline, frame, frames, timelineTime, false)
+    moveToFrame(animationTimeline, frame, timelineTime, false)
   }, [animationTimeline])
 
   // When the code is edited, pause the animation and stop autoplaying
@@ -250,15 +462,15 @@ export function useScrubber({
       event:
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      animationTimeline: AnimationTimeline,
-      frames: Frame[]
+      animationTimeline: AnimationTimeline
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
-      const newFrame = frameNearestTimelineTime(frames, timelineTime)
+      const newFrame = findFrameNearestTimelineTime(timelineTime)
 
       if (newFrame === undefined) return
 
-      moveToFrame(animationTimeline, newFrame, frames, timelineTime)
+      moveToFrame(animationTimeline, newFrame, timelineTime)
+      setShouldShowInformationWidget(true)
     },
     []
   )
@@ -269,114 +481,106 @@ export function useScrubber({
   // does that. It grabs the nearest frame to the current scrub and moves to it.
   const handleOnMouseUp = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      const newFrame = frameNearestTimelineTime(frames, timelineValue)
+      const newFrame = findFrameNearestTimelineTime(timelineValue)
       if (newFrame === undefined) return
 
-      moveToFrame(animationTimeline, newFrame, frames)
+      moveToFrame(animationTimeline, newFrame)
     },
-    [timelineValue]
+    [timelineValue, findFrameNearestTimelineTime, moveToFrame]
   )
 
   const handleGoToBreakpoint = useCallback(
-    (
-      direction: 1 | -1,
-      animationTimeline: AnimationTimeline,
-      frames: Frame[]
-    ) => {
-      const breakpoints = getBreakpointLines(editorView)
-
+    (direction: 'previous' | 'next', animationTimeline: AnimationTimeline) => {
       if (breakpoints.length === 0) return
 
-      let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
+      let currentFrameIdx = findFrameIdxNearestTimelineTime(timelineValue)
       if (currentFrameIdx === undefined) return
 
-      const newFrameIndex = findBreakpointFrameIndex(
-        frames,
-        currentFrameIdx,
-        breakpoints,
-        direction
-      )
+      let newFrame =
+        direction == 'previous'
+          ? findPrevBreakpointFrame(currentFrameIdx)
+          : findNextBreakpointFrame(currentFrameIdx)
 
-      if (newFrameIndex === null || newFrameIndex === -1) return
+      if (newFrame == undefined) return
 
-      moveToFrame(animationTimeline, frames[newFrameIndex], frames)
+      moveToFrame(animationTimeline, newFrame)
+      setShouldShowInformationWidget(true)
     },
-    [timelineValue, editorView]
+    [
+      breakpoints,
+      findFrameIdxNearestTimelineTime,
+      findPrevBreakpointFrame,
+      findNextBreakpointFrame,
+      moveToFrame,
+    ]
   )
 
-  function findBreakpointFrameIndex(
-    frames: Frame[],
-    currentIndex: number,
-    breakpoints: number[],
-    direction: 1 | -1
-  ): number | null {
-    if (direction === -1) {
-      // finds backwards the closest frame that has one of the lines in the breakpoints array
-      return frames
-        .slice(0, currentIndex)
-        .findLastIndex((frame) => breakpoints.includes(frame.line))
-    } else {
-      // finds forwards the closest frame that has one of the lines in the breakpoints array
-      const nextIndex = frames
-        .slice(currentIndex + 1)
-        .findIndex((frame) => breakpoints.includes(frame.line))
-      return nextIndex !== -1 ? nextIndex + currentIndex + 1 : null
-    }
-  }
+  const handleGoToPreviousBreakpoint = (animationTimeline: AnimationTimeline) =>
+    handleGoToBreakpoint('previous', animationTimeline)
 
-  const handleGoToPreviousBreakpoint = (
-    animationTimeline: AnimationTimeline,
-    frames: Frame[]
-  ) => handleGoToBreakpoint(-1, animationTimeline, frames)
-
-  const handleGoToNextBreakpoint = (
-    animationTimeline: AnimationTimeline,
-    frames: Frame[]
-  ) => handleGoToBreakpoint(1, animationTimeline, frames)
+  const handleGoToNextBreakpoint = (animationTimeline: AnimationTimeline) =>
+    handleGoToBreakpoint('next', animationTimeline)
 
   const handleGoToPreviousFrame = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      let currentFrameIdx = frameIdxNearestTimelineTime(frames, timelineValue)
+      let currentFrameIdx = findFrameIdxNearestTimelineTime(timelineValue)
 
-      // If there's no frame for this, then it's the last frame
-      if (currentFrameIdx === undefined) {
-        currentFrameIdx = frames.length - 1
+      // If there's no frame for this, then we've got no-where to go
+      // And if we're at the start (or before!) there's also nothing to do
+      if (currentFrameIdx === undefined || currentFrameIdx < 1) {
+        return
       }
-      if (currentFrameIdx == 0) return
 
-      const prevFrame = frames[currentFrameIdx - 1]
-      moveToFrame(animationTimeline, prevFrame, frames)
+      const prevFrameIdx = findPrevFrameIdx(currentFrameIdx)
+
+      // If we have no previous frame, then there's nothing to do
+      if (prevFrameIdx === undefined) {
+        return
+      }
+
+      moveToFrame(animationTimeline, frames[prevFrameIdx])
+      setShouldShowInformationWidget(true)
     },
-    [timelineValue]
+    [
+      timelineValue,
+      findFrameIdxNearestTimelineTime,
+      findPrevFrameIdx,
+      moveToFrame,
+    ]
   )
 
   const handleGoToNextFrame = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      const currentFrameIdx =
-        timelineValue > 0
-          ? frameIdxNearestTimelineTime(frames, timelineValue)
-          : 0
+      const currentFrameIdx = findFrameIdxNearestTimelineTime(timelineValue)
 
+      // If there's no current frame, something has gone very
+      // wrong, so let's just do nothing!
       if (currentFrameIdx === undefined) return
-      if (currentFrameIdx >= frames.length - 1) return
 
-      moveToFrame(animationTimeline, frames[currentFrameIdx + 1], frames)
+      const nextFrame = findNextFrame(currentFrameIdx)
+
+      if (nextFrame === undefined) return
+
+      moveToFrame(animationTimeline, nextFrame)
+      setShouldShowInformationWidget(true)
     },
-    [timelineValue]
+    [timelineValue, findFrameIdxNearestTimelineTime, findNextFrame, moveToFrame]
   )
 
   const handleGoToFirstFrame = useCallback(
-    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      moveToFrame(animationTimeline, frames[0], frames)
+    (animationTimeline: AnimationTimeline) => {
+      moveToFrame(animationTimeline, frames[0])
+      setShouldShowInformationWidget(true)
     },
-    []
+    [frames]
   )
 
   const handleGoToEndOfTimeline = useCallback(
-    (animationTimeline: AnimationTimeline, frames: Frame[]) => {
-      moveToFrame(animationTimeline, frames[frames.length - 1], frames)
+    (animationTimeline: AnimationTimeline) => {
+      moveToFrame(animationTimeline, lastFrame)
+      setShouldShowInformationWidget(true)
     },
-    []
+    [lastFrame]
   )
 
   /*
@@ -425,11 +629,11 @@ export function useScrubber({
         break
 
       case 'ArrowDown':
-        handleGoToFirstFrame(animationTimeline, frames)
+        handleGoToFirstFrame(animationTimeline)
         break
 
       case 'ArrowUp':
-        handleGoToEndOfTimeline(animationTimeline, frames)
+        handleGoToEndOfTimeline(animationTimeline)
         break
 
       case ' ':
@@ -445,93 +649,6 @@ export function useScrubber({
         return
     }
   }
-
-  const frameNearestTimelineTime = (
-    frames: Frame[],
-    timelineTime: number
-  ): Frame | undefined => {
-    if (!frames.length) return undefined
-
-    // If we're past the last frame, return the last frame
-    if (timelineTime > frames[frames.length - 1].timelineTime) {
-      return frames[frames.length - 1]
-    }
-
-    const idx = frameIdxNearestTimelineTime(frames, timelineTime)
-    if (idx === undefined) return undefined
-
-    return frames[idx]
-  }
-
-  const frameIdxNearestTimelineTime = (
-    frames: Frame[],
-    timelineTime: number
-  ): number | undefined => {
-    if (!frames.length) return undefined
-
-    let idx = frames.findIndex((frame) => frame.timelineTime >= timelineTime)
-
-    // If there's no frame after the timeline time, return the last frame
-    if (idx == -1) return frames.length - 1
-
-    // If the frame is the first frame, just return it, because we don't need
-    // to check for whether a previous frame is closer.
-    if (idx == 0) return idx
-
-    // Return the id of whichever of the previous frame and this frame is closest
-    return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
-      Math.abs(frames[idx].timelineTime - timelineTime)
-      ? idx - 1
-      : idx
-  }
-
-  const moveToFrame = (
-    animationTimeline: AnimationTimeline,
-    newFrame: Frame,
-    frames: Frame[],
-    newTimelineTime?: number,
-    pause: boolean = true
-  ) => {
-    const isLastFrame = frames.indexOf(newFrame) == frames.length - 1
-    newTimelineTime = newTimelineTime || newFrame.timelineTime
-
-    // Update to the new frame time.
-    if (pause) {
-      animationTimeline.pause()
-      setShouldAutoplayAnimation(false)
-    }
-
-    if (animationTimeline.paused) {
-      // If we're dealing with the last frame, seek to the end
-      if (isLastFrame) {
-        newTimelineTime =
-          animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
-        animationTimeline.seekEndOfTimeline()
-      } else {
-        animationTimeline.seek(newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR)
-      }
-    }
-
-    // Finally, set the new time. Note, this potentially gets
-    // changed in the aimationTimeline block above, so don't do it
-    // early and guard/return.
-    setTimelineValue(newTimelineTime)
-  }
-
-  const rangeRef = useRef<HTMLInputElement>(null)
-  const updateInputBackground = useCallback(() => {
-    const input = rangeRef.current
-    if (!input) return
-
-    const value = parseFloat(input.value)
-    const min = parseFloat(input.min)
-    const max = parseFloat(input.max)
-
-    const percentage = ((value - min) / (max - min)) * 100
-    // 7128F5 - jiki purple
-    const backgroundStyle = `linear-gradient(to right, #7128F5 ${percentage}%, #fff ${percentage}%)`
-    input.style.background = backgroundStyle
-  }, [])
 
   useEffect(() => {
     updateInputBackground()

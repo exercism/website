@@ -258,6 +258,7 @@ export default class BreakoutExercise extends Exercise {
       },
       offset: executionCtx.getCurrentTime(),
     })
+    executionCtx.fastForward(1)
   }
 
   // Setup Functions

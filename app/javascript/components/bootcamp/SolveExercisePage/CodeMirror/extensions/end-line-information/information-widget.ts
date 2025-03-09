@@ -57,13 +57,16 @@ export class InformationWidget extends WidgetType {
   private createTooltip() {
     this.tooltip = document.createElement('div')
     this.tooltip.classList.add('information-tooltip')
+    const content = document.createElement('div')
+    content.classList.add('content')
+    content.innerHTML = this.tooltipHtml
+    this.tooltip.appendChild(content)
 
     if (this.status === 'ERROR') {
       this.tooltip.classList.add('error')
     } else {
       this.tooltip.classList.add('description')
     }
-    this.tooltip.innerHTML = this.tooltipHtml
     document.body.appendChild(this.tooltip)
 
     const closeButton = document.createElement('button')
@@ -91,7 +94,7 @@ export class InformationWidget extends WidgetType {
 
     const errorHeader = this.tooltip.querySelector('.error h2')
     if (errorHeader) {
-      errorHeader.appendChild(closeButton)
+      errorHeader.prepend(closeButton)
     }
 
     this.applyHighlighting(this.tooltip)

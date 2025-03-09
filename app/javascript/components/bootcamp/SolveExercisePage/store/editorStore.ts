@@ -33,6 +33,8 @@ type EditorStore = {
   cleanUpEditorStore: () => void
   breakpoints: number[]
   setBreakpoints: (breakpoints: number[]) => void
+  foldedLines: number[]
+  setFoldedLines: (lines: number[]) => void
 }
 
 const useEditorStore = createStoreWithMiddlewares<EditorStore>(
@@ -119,6 +121,10 @@ const useEditorStore = createStoreWithMiddlewares<EditorStore>(
     breakpoints: [],
     setBreakpoints: (breakpoints: number[]) => {
       set({ breakpoints })
+    },
+    foldedLines: [],
+    setFoldedLines: (foldedLines: number[]) => {
+      set({ foldedLines })
     },
     cleanUpEditorStore: () => {
       set(

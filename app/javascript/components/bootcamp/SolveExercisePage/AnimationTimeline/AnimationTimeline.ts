@@ -28,6 +28,7 @@ export class AnimationTimeline {
   private playCallbacks: ((anim: Timeline) => void)[] = []
   private stopCallbacks: ((anim: Timeline) => void)[] = []
   public hasPlayedOrScrubbed = false
+  public showPlayButton = true
 
   constructor(initialOptions: DefaultsParams, private frames: Frame[] = []) {
     this.animationTimeline = createTimeline({
@@ -77,7 +78,8 @@ export class AnimationTimeline {
     this.updateCallbacks = this.updateCallbacks.filter((cb) => cb !== callback)
   }
 
-  public populateTimeline(animations: Animation[]) {
+  public populateTimeline(animations: Animation[], placeholder: boolean): this {
+    this.showPlayButton = !placeholder
     animations.forEach((animation: Animation) => {
       const { targets, offset, transformations, ...rest } = animation
       this.animationTimeline.add(
@@ -193,15 +195,18 @@ export class AnimationTimeline {
   }
 
   public play(cb?: () => void) {
-    // we need to seek 0 to make sure currentFrame is the first before we start playing animation.
-    // it would rewind it anyway, but the currentFrame would be the last visited frame for a moment.
-    this.animationTimeline.seek(0)
+    // If we're at the end of the animation and hit play
+    // then we want to restart it.
+    if (this.completed) {
+      this.animationTimeline.seek(0)
+    }
     if (cb) cb()
     this.animationTimeline.play()
   }
 
-  public pause() {
+  public pause(cb?: () => void) {
     this.animationTimeline.pause()
+    if (cb) cb()
   }
 
   public get paused(): boolean {

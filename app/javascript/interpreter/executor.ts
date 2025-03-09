@@ -1656,11 +1656,9 @@ export class Executor {
     if (process.env.NODE_ENV == 'test') {
       frame.variables = Jiki.unwrapJikiObject(this.environment.variables())
     }
-    frame.description = () => {
-      return describeFrame(frame as Frame, {
-        functionDescriptions: this.externalFunctionDescriptions,
-      })
-    }
+    frame.description = describeFrame(frame as Frame, {
+      functionDescriptions: this.externalFunctionDescriptions,
+    })
     this.frames.push(frame as Frame)
 
     this.time += this.timePerFrame

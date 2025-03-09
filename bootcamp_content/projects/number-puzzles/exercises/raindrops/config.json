@@ -8,7 +8,7 @@
     { "from": 1, "to": 3 },
     { "from": 5, "to": 5 }
   ],
-  "stdlib_functions": ["join", "concatenate", "number_to_string"],
+  "stdlib_functions": ["concatenate", "number_to_string"],
   "tasks": [
     {
       "name": "Plings",

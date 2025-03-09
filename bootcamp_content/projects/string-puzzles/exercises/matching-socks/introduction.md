@@ -28,7 +28,7 @@ The descriptions follow these rules:
 
 You have the following functions available:
 
-- `join(str1, str2)`: This takes two strings and returns them joined together.
+- `concatenate(str1, str2)`: This takes two strings and returns them joined together.
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
 - `concat(list1, list2)`: This takes two lists, joins them together into one list, then returns the result. (e.g. `concat(["a"], ["b"]) → ["a", "b"]`)
 

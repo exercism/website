@@ -5,12 +5,7 @@
   "idx": 9,
   "tests_type": "io",
   "project_type": "data",
-  "stdlib_functions": [
-    "concatenate",
-    "string_to_number",
-    "number_to_string",
-    "join"
-  ],
+  "stdlib_functions": ["concatenate", "string_to_number", "number_to_string"],
   "tasks": [
     {
       "name": "Format the response",

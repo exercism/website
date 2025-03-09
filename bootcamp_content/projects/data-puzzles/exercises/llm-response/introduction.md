@@ -35,7 +35,6 @@ This function will probably benefit from your [`my#contains`](/bootcamp/custom_f
 
 You have a few functions you can use
 
-- `join(str1, str2)` Takes 2 strings and return them combined into one.
 - `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
 - `string_to_number(str)`: Takes a string and returns it converted to a number. The string must only contain digits.
 - `number_to_string(num)`: Takes a number and returns it converted to a string.

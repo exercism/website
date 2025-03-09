@@ -25,7 +25,7 @@ For this task, you can presume that honorifics will always be one word.
 
 You have one function available:
 
-- `join(str1, str2)`: This takes two strings and returns them joined together.
+- `concatenate(str1, str2)`: This takes two strings and returns them joined together.
 
 ## Hints
 

@@ -82,5 +82,5 @@ In total, you have four functions available in this exercise:
 
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
 - `has_key(dict, key)`: Takes a dictionary and a string, and returns whether the string is a key in the dictionary.
-- `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
+- `concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.
 - `to_lower_case(string)`: Returns a lower case version of the string.

@@ -2,6 +2,7 @@ import React from 'react'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { Exercise } from '../Exercise'
 import * as Jiki from '@/interpreter/jikiObjects'
+import { genericSetupFunctions } from '../../test-runner/generateAndRunTestSuite/genericSetupFunctions'
 
 export default class DataExercise extends Exercise {
   public static hasView = false
@@ -35,9 +36,72 @@ export default class DataExercise extends Exercise {
     }
     if (url.value.startsWith('https://api.spotify.com/v1/artists/')) {
       return this.spotifyArtistRequest(executionCtx, url.value)
+    }
+    if (url.value.startsWith('https://api.school.com/')) {
+      return this.gradesRequest(executionCtx, url.value)
     } else {
       return Jiki.wrapJSToJikiObject({ error: 'Unknown URL' })
     }
+  }
+
+  private gradesRequest(
+    executionCtx: ExecutionContext,
+    url: string
+  ): Jiki.Dictionary {
+    if (url == 'https://api.school.com/v4/grades/2025/class-6') {
+      return Jiki.wrapJSToJikiObject({
+        data: {
+          teacher: 'miss joseph',
+          grades: ['A', 'A', 'A', 'A', 'A', 'A'],
+        },
+      })
+    } else if (url == 'https://api.school.com/v3/grades/2024/class-7') {
+      return Jiki.wrapJSToJikiObject({
+        data: {
+          teacher: 'mr omar',
+          grades: 'BBBBBBBBBBBB',
+        },
+      })
+    } else if (url == 'https://api.school.com/v3/grades/2024/class-2') {
+      return Jiki.wrapJSToJikiObject({
+        data: {
+          teacher: 'dr li',
+          grades: 'BBDEAACADEDFFA',
+        },
+      })
+    } else if (url == 'https://api.school.com/v4/grades/2025/class-9') {
+      return Jiki.wrapJSToJikiObject({
+        data: {
+          teacher: 'mrs bankole',
+          grades: [
+            'D',
+            'D',
+            'D',
+            'F',
+            'F',
+            'F',
+            'E',
+            'E',
+            'A',
+            'B',
+            'C',
+            'A',
+            'A',
+            'C',
+            'D',
+          ],
+        },
+      })
+    } else if (url == 'https://api.school.com/v3/grades/2024/class-3') {
+      return Jiki.wrapJSToJikiObject({
+        data: {
+          teacher: `${genericSetupFunctions.randomHonorific()} perez espinosa`,
+          grades: 'DABAAECD',
+        },
+      })
+    }
+    executionCtx.logicError('Data not found')
+    return Jiki.wrapJSToJikiObject({ error: 'Data not found.' })
   }
 
   private timeRequest(

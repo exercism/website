@@ -4,7 +4,7 @@
   "level": 5,
   "idx": 6,
   "tests_type": "io",
-  "stdlib_functions": ["join", "concatenate"],
+  "stdlib_functions": ["concatenate"],
   "tasks": [
     {
       "name": "Single nucleotide transcription",
@@ -88,18 +88,18 @@
       "bonus": true,
       "tests": [
         {
-          "slug": "join",
-          "description_html": "Only have `join` appear once in your code.",
-          "name": "Only join once",
+          "slug": "concatenate",
+          "description_html": "Only have `concatenate` appear once in your code.",
+          "name": "Only concatenate once",
           "function": "dna_to_rna",
           "args": ["ACGTGGTCTTAA"],
           "value": "UGCACCAGAAUU",
           "checks": [
             {
-              "function": "numFunctionCallsInCode('join')",
+              "function": "numFunctionCallsInCode('concatenate')",
               "value": 1,
-              "code_run": "We checked how many times joined appeared in your code",
-              "error_html": "`join` appears more than once in your code."
+              "code_run": "We checked how many times concatenateed appeared in your code",
+              "error_html": "`concatenate` appears more than once in your code."
             }
           ]
         },

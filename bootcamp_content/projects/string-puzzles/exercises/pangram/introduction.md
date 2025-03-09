@@ -35,7 +35,7 @@ Try and experiment with different approaches using both lists and dictionaries t
 
 You have two functions available:
 
-- `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
+- `concatenate(str1, str2)`: This takes two strings and returns them joined together.
 - `keys(dictionary)`.: This takes a dictionary as its input and returns a list of all its keys.
 
 ## Hints

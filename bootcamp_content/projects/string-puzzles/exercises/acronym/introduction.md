@@ -24,7 +24,7 @@ Some examples:
 
 For this exercise, you have two functions available:
 
-- `join(str1, str2)`: This takes two strings and outputs them joined together.
+- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
 - `to_upper_case(str)`: This takes a string and returns its uppercase equivalent (e.g. it turns `"frog"` into `"FROG"`).
 
 ### A little tricky?

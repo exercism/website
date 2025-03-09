@@ -23,11 +23,11 @@ function to_lower with sentence do
   set upper_idx to 0
   for each letter in sentence do
     if contains(lower, letter) do
-      change output to join(output, letter)
+      change output to concatenate(output, letter)
     else do
       change upper_idx to index_of(upper, letter)
       if upper_idx != -1 do
-        change output to join(output, lower[upper_idx])
+        change output to concatenate(output, lower[upper_idx])
       end
     end
   end

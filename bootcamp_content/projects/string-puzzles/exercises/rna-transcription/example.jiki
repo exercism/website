@@ -14,7 +14,7 @@ end
 function dna_to_rna with dna do
   set rna to ""
   for each letter in dna do
-    change rna to join(rna, transform_strand(letter))
+    change rna to concatenate(rna, transform_strand(letter))
   end
   return rna
 end

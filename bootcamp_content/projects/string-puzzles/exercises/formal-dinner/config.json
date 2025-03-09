@@ -4,7 +4,7 @@
   "level": 6,
   "idx": 5,
   "tests_type": "io",
-  "stdlib_functions": ["join", "concatenate"],
+  "stdlib_functions": ["concatenate"],
   "tasks": [
     {
       "name": "Standard Tasks",
@@ -68,7 +68,7 @@
 
           "args": [
             ["James Bond"],
-            "setup.join(setup.randomHonorific(), \" Bond\")"
+            "setup.concatenate(setup.randomHonorific(), \" Bond\")"
           ],
           "checks": [
             {
@@ -84,7 +84,7 @@
 
           "args": [
             ["Jason Bourne"],
-            "setup.join(setup.randomHonorific(), \" Bond\")"
+            "setup.concatenate(setup.randomHonorific(), \" Bond\")"
           ],
           "checks": [
             {

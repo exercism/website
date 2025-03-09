@@ -15,7 +15,7 @@ function acronym with sentence do
     if letter == " " or letter == "-" do
       change was_space to true
     else if was_space and is_letter(letter) do
-      change output to join(output, letter)
+      change output to concatenate(output, letter)
       change was_space to false
     end
   end

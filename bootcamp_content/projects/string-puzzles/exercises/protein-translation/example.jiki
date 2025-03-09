@@ -33,7 +33,7 @@ function rna_to_codons with rna do
   set codon to ""
   
   for each letter in rna indexed by counter do
-    change codon to join(codon, letter)
+    change codon to concatenate(codon, letter)
   
     if counter % 3 == 0 and codon != "" do
       change codons to push(codons, codon)

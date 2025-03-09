@@ -13,8 +13,12 @@ import DataExercise from '../exercises/data/DataExercise'
 
 import { Exercise } from '../exercises/Exercise'
 
-export type Project = new (...args: any[]) => Exercise
-const projectsCache = new Map<any, any>()
+export interface ExerciseConstructor {
+  new (...args: any[]): Exercise
+  hasView: boolean
+}
+export type Project = ExerciseConstructor
+const projectsCache = new Map<string, Project>()
 
 projectsCache.set('draw', DrawExercise)
 projectsCache.set('maze', MazeExercise)

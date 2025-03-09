@@ -2,10 +2,10 @@ import React from 'react'
 import type { ExecutionContext } from '@/interpreter/executor'
 import { Exercise } from '../Exercise'
 import * as Jiki from '@/interpreter/jikiObjects'
-import { offset } from '@popperjs/core'
-import { InterpretResult } from '@/interpreter/interpreter'
 
 export default class DataExercise extends Exercise {
+  public static hasView = false
+
   public constructor() {
     super()
   }

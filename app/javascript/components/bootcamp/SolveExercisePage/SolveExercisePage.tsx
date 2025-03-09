@@ -16,6 +16,8 @@ import { ResultsPanel } from './ResultsPanel'
 import useTestStore from './store/testStore'
 import useTaskStore from './store/taskStore/taskStore'
 import { generateUnfoldableFunctioNames as generateUnfoldableFunctionNames } from './store/taskStore/generateUnfoldableFunctionNames'
+import exerciseMap from './utils/exerciseMap'
+import { Project } from './utils/exerciseMap'
 
 export default function SolveExercisePage({
   exercise,
@@ -92,18 +94,26 @@ export default function SolveExercisePage({
 
   const { testSuiteResult, bonusTestSuiteResult } = useTestStore()
 
+  const project: Project | undefined = exerciseMap.get(
+    exercise.config.projectType
+  )
+
   /* spotlight is active if 
    - testSuiteResult is passing and basic testResult modal wasn't shown before
    - bonus tests are unlocked, bonusTestSuiteResult is passing and bonus modal wasn't shown before 
   */
   const isSpotlightActive = useMemo(() => {
+    if (!project?.hasView) return false
+
     const basicTestsArePassing = testSuiteResult?.status === 'pass'
     const bonusExists = !!bonusTestSuiteResult
     const bonusHasTests = bonusExists && bonusTestSuiteResult.tests.length > 0
     const bonusTestsArePassing =
       bonusHasTests && bonusTestSuiteResult?.status === 'pass'
+
     const isActiveForBasicTasks =
       basicTestsArePassing && !wasFinishLessonModalShown
+
     const isActiveForBonusTasks =
       basicTestsArePassing &&
       bonusTestsArePassing &&
@@ -111,6 +121,7 @@ export default function SolveExercisePage({
 
     return isActiveForBasicTasks || isActiveForBonusTasks
   }, [
+    exercise,
     wasFinishLessonModalShown,
     testSuiteResult?.status,
     wasCompletedBonusTasksModalShown,

@@ -56,11 +56,8 @@ export function useScrubber({
 
   const { editorView } = useContext(SolveExercisePageContext)
 
-  const {
-    isTimelineComplete,
-    setIsTimelineComplete,
-    setShouldAutoplayAnimation,
-  } = useAnimationTimelineStore()
+  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
+    useAnimationTimelineStore()
 
   const lastFrame = useMemo(() => frames[frames.length - 1], [frames])
 
@@ -293,9 +290,6 @@ export function useScrubber({
         animationTimeline.hasPlayedOrScrubbed = true
       }
 
-      // Memoize this so it's still the same in the setTimeout
-      const animeCompleted = anime.completed
-
       // We only want to use this callback if the animation is playing
       // Not if we're scrubbing through it. Otherwise we end up running
       // setTimelineValue multiple times in multiple places.
@@ -336,7 +330,7 @@ export function useScrubber({
 
         // And finally we set whether we've got to the end or not,
         // which again sets of a daisy chain of effects when we reach the end!
-        if (animeCompleted) {
+        if (anime.completed) {
           setIsTimelineComplete(true)
         } else {
           setIsTimelineComplete(false)

@@ -46,7 +46,6 @@ function Scrubber({
     hasCodeBeenEdited,
     context,
   })
-  const { shouldShowInformationWidget } = useEditorStore()
 
   return (
     <div
@@ -59,21 +58,23 @@ function Scrubber({
       tabIndex={-1}
       className="relative group"
     >
-      <PlayButton
+      <PlayPauseButton
+        animationTimeline={animationTimeline}
         disabled={shouldScrubberBeDisabled(
-          true,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
         )}
-        onClick={() => {
+        onPlay={() => {
           animationTimeline.play(() => setShouldShowInformationWidget(false))
+        }}
+        onPause={() => {
+          animationTimeline.pause()
         }}
       />
       <input
         data-ci="scrubber-range-input"
         disabled={shouldScrubberBeDisabled(
-          shouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -87,7 +88,7 @@ function Scrubber({
         onInput={updateInputBackground}
         value={timelineValue}
         onChange={(event) => {
-          handleChange(event, animationTimeline, frames)
+          handleChange(event, animationTimeline)
           updateInputBackground()
         }}
         onMouseUp={() => handleOnMouseUp(animationTimeline, frames)}
@@ -98,7 +99,6 @@ function Scrubber({
         onNext={() => handleGoToNextFrame(animationTimeline, frames)}
         onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
-          shouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -130,6 +130,26 @@ function Scrubber({
 
 export default Scrubber
 
+function PlayPauseButton({
+  animationTimeline,
+  disabled,
+  onPlay,
+  onPause,
+}: {
+  animationTimeline: AnimationTimeline
+  disabled: boolean
+  onPlay: () => void
+  onPause: () => void
+}) {
+  if (!animationTimeline.showPlayButton) return <></>
+
+  return animationTimeline.paused ? (
+    <PlayButton disabled={disabled} onClick={onPlay} />
+  ) : (
+    <PauseButton disabled={disabled} onClick={onPause} />
+  )
+}
+
 function PlayButton({
   disabled,
   onClick,
@@ -141,10 +161,28 @@ function PlayButton({
     <button
       data-ci="play-button"
       disabled={disabled}
-      className="play-button"
+      className="play-pause-button"
       onClick={onClick}
     >
       <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
+    </button>
+  )
+}
+function PauseButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      data-ci="pause-button"
+      disabled={disabled}
+      className="play-pause-button"
+      onClick={onClick}
+    >
+      <Icon icon="bootcamp-pause" alt="Pause" width={32} height={32} />
     </button>
   )
 }
@@ -256,17 +294,11 @@ function nextBreakpointExists(
 }
 
 function shouldScrubberBeDisabled(
-  shouldShowInformationWidget: boolean,
   hasCodeBeenEdited: boolean,
   frames: Frame[],
   isSpotlightActive: boolean
 ) {
   // if the code has been edited, the scrubber should be disabled
   // if there is no animation timeline and there are zero or one frames, the scrubber should be disabled
-  return !(
-    shouldShowInformationWidget &&
-    !hasCodeBeenEdited &&
-    !isSpotlightActive &&
-    frames.length > 1
-  )
+  return hasCodeBeenEdited || isSpotlightActive || frames.length < 2
 }

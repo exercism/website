@@ -430,8 +430,7 @@ export function useScrubber({
       event:
         | React.ChangeEvent<HTMLInputElement>
         | React.MouseEvent<HTMLInputElement, MouseEvent>,
-      animationTimeline: AnimationTimeline,
-      frames: Frame[]
+      animationTimeline: AnimationTimeline
     ) => {
       const timelineTime = Number((event.target as HTMLInputElement).value)
       const newFrame = findFrameNearestTimelineTime(timelineTime)
@@ -439,6 +438,7 @@ export function useScrubber({
       if (newFrame === undefined) return
 
       moveToFrame(animationTimeline, newFrame, timelineTime)
+      setShouldShowInformationWidget(true)
     },
     []
   )
@@ -472,6 +472,7 @@ export function useScrubber({
       if (newFrame == undefined) return
 
       moveToFrame(animationTimeline, newFrame)
+      setShouldShowInformationWidget(true)
     },
     [
       breakpoints,
@@ -506,6 +507,7 @@ export function useScrubber({
       }
 
       moveToFrame(animationTimeline, frames[prevFrameIdx])
+      setShouldShowInformationWidget(true)
     },
     [
       timelineValue,
@@ -528,6 +530,7 @@ export function useScrubber({
       if (nextFrame === undefined) return
 
       moveToFrame(animationTimeline, nextFrame)
+      setShouldShowInformationWidget(true)
     },
     [timelineValue, findFrameIdxNearestTimelineTime, findNextFrame, moveToFrame]
   )
@@ -535,6 +538,7 @@ export function useScrubber({
   const handleGoToFirstFrame = useCallback(
     (animationTimeline: AnimationTimeline) => {
       moveToFrame(animationTimeline, frames[0])
+      setShouldShowInformationWidget(true)
     },
     [frames]
   )
@@ -542,6 +546,7 @@ export function useScrubber({
   const handleGoToEndOfTimeline = useCallback(
     (animationTimeline: AnimationTimeline) => {
       moveToFrame(animationTimeline, lastFrame)
+      setShouldShowInformationWidget(true)
     },
     [lastFrame]
   )

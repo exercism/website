@@ -159,9 +159,13 @@
 
     .cm-highlightedLine {
         @apply relative;
+        background: var(--highlighted-line-background-color);
         outline: 1.5px solid var(--highlighted-line-border-color);
         border-radius: 2px;
         @apply mx-[2px];
         padding-left: 2px !important;
+        &.cm-activeLine {
+            background-color: #d6ecfa80;
+        }
     }
 }

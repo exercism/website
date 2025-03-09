@@ -46,6 +46,7 @@ function Scrubber({
     hasCodeBeenEdited,
     context,
   })
+  const { shouldShowInformationWidget } = useEditorStore()
 
   return (
     <div
@@ -60,6 +61,7 @@ function Scrubber({
     >
       <PlayButton
         disabled={shouldScrubberBeDisabled(
+          true,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -71,6 +73,7 @@ function Scrubber({
       <input
         data-ci="scrubber-range-input"
         disabled={shouldScrubberBeDisabled(
+          shouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -95,6 +98,7 @@ function Scrubber({
         onNext={() => handleGoToNextFrame(animationTimeline, frames)}
         onPrev={() => handleGoToPreviousFrame(animationTimeline, frames)}
         disabled={shouldScrubberBeDisabled(
+          shouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -103,9 +107,10 @@ function Scrubber({
       <BreakpointStepperButtons
         timelineTime={timelineValue}
         frames={frames}
-        onNext={() => handleGoToNextBreakpoint(animationTimeline, frames)}
-        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline, frames)}
+        onNext={() => handleGoToNextBreakpoint(animationTimeline)}
+        onPrev={() => handleGoToPreviousBreakpoint(animationTimeline)}
         disabled={shouldScrubberBeDisabled(
+          !setShouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive
@@ -251,11 +256,17 @@ function nextBreakpointExists(
 }
 
 function shouldScrubberBeDisabled(
+  shouldShowInformationWidget: boolean,
   hasCodeBeenEdited: boolean,
   frames: Frame[],
   isSpotlightActive: boolean
 ) {
   // if the code has been edited, the scrubber should be disabled
   // if there is no animation timeline and there are zero or one frames, the scrubber should be disabled
-  return hasCodeBeenEdited || isSpotlightActive || frames.length < 2
+  return !(
+    shouldShowInformationWidget &&
+    !hasCodeBeenEdited &&
+    !isSpotlightActive &&
+    frames.length > 1
+  )
 }

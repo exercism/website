@@ -61,8 +61,8 @@ export const colorScheme = createTheme({
     },
     {
       tag: t.function(t.variableName),
-      color: 'rgb(151, 0, 216)',
-      borderBottom: '0.5px solid rgba(151, 0, 216, 0.4)',
+      color: 'rgb(184, 0, 255)',
+      borderBottom: '0.5px solid rgba(184, 0, 255, 0.6)',
     },
     {
       tag: t.className,

@@ -13,7 +13,7 @@ import {
 } from '@codemirror/state'
 import { showInfoWidgetField } from './end-line-information/line-information'
 
-export const INFO_HIGHLIGHT_COLOR = '#EFEDFF88'
+export const INFO_HIGHLIGHT_COLOR = '#f9f9ff'
 export const ERROR_HIGHLIGHT_COLOR = '#fecaca88'
 
 export const changeLineEffect = StateEffect.define<number>()
@@ -61,7 +61,6 @@ function stripe(color: string) {
   return Decoration.line({
     attributes: {
       class: 'cm-highlightedLine',
-      style: `background-color: ${color}`,
     },
   })
 }
@@ -104,16 +103,24 @@ const showStripes = ViewPlugin.fromClass(
 function updateHighlightedLineBorder() {
   return EditorView.updateListener.of((update) => {
     if (update.state.field(showInfoWidgetField)) {
-      let highlightColor = update.state.field(highlightColorField)
+      const highlightColor = update.state.field(highlightColorField)
 
-      highlightColor =
-        highlightColor === INFO_HIGHLIGHT_COLOR ? '#0000ff77' : '#ff000077'
+      const borderColor =
+        highlightColor === INFO_HIGHLIGHT_COLOR ? '#3b82f6' : '#ff000077'
 
       update.view.dom.style.setProperty(
-        '--highlighted-line-border-color',
+        '--highlighted-line-background-color',
         highlightColor
       )
+      update.view.dom.style.setProperty(
+        '--highlighted-line-border-color',
+        borderColor
+      )
     } else {
+      update.view.dom.style.setProperty(
+        '--highlighted-line-background-color',
+        'transparent'
+      )
       update.view.dom.style.setProperty(
         '--highlighted-line-border-color',
         'transparent'

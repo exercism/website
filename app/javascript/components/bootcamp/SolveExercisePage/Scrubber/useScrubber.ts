@@ -49,56 +49,24 @@ export function useScrubber({
     setHighlightedLine,
     setHighlightedLineColor,
     setInformationWidgetData,
+    shouldShowInformationWidget,
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
 
   const { editorView } = useContext(SolveExercisePageContext)
 
-  const { setIsTimelineComplete, setShouldAutoplayAnimation } =
-    useAnimationTimelineStore()
+  const {
+    isTimelineComplete,
+    setIsTimelineComplete,
+    setShouldAutoplayAnimation,
+  } = useAnimationTimelineStore()
 
   const lastFrame = useMemo(() => frames[frames.length - 1], [frames])
 
   // We start with a series of finder functions. These are used to find
   // the prev/next/current frame with consideration to things like folding
   // and breakpoints.
-
-  // This one is the key frame that finds the frame nearest to the current
-  // time. It's used throughout, especially for aligning with the scrubber.
-  const findFrameIdxNearestTimelineTime = useCallback(
-    (timelineTime: number): number | undefined => {
-      if (!frames.length) return undefined
-
-      // If we've not started playing yet, return the first frame
-      if (timelineTime < 0) return 0
-
-      let idx = frames.findIndex(
-        (frame) =>
-          frame.timelineTime >= timelineTime &&
-          !foldedLines.includes(frame.line)
-      )
-
-      // If there's no frame after the timeline time, return the last frame
-      if (idx == -1) return frames.length - 1
-
-      // If we have the first frame, then there's no need to check previous ones
-      if (idx == 0) return idx
-
-      // Get the previous frame to compare with
-      const prevFrameIdx = findPrevFrameIdx(idx)
-
-      // If there's no previous frame, then we're happy with what we've got
-      if (!prevFrameIdx) return idx
-
-      // Return the id of whichever of the previous frame and this frame is closest
-      return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
-        Math.abs(frames[idx].timelineTime - timelineTime)
-        ? prevFrameIdx
-        : idx
-    },
-    [frames, foldedLines]
-  )
 
   // This simply finds the previous frame with respect to folding
   const findPrevFrameIdx = useCallback(
@@ -126,6 +94,43 @@ export function useScrubber({
       return undefined
     },
     [frames, foldedLines]
+  )
+
+  // This one is the key frame that finds the frame nearest to the current
+  // time. It's used throughout, especially for aligning with the scrubber.
+  const findFrameIdxNearestTimelineTime = useCallback(
+    (timelineTime: number): number | undefined => {
+      if (!frames.length) return undefined
+
+      // If we've not started playing yet, return the first frame
+      if (timelineTime < 0) return 0
+
+      let idx = frames.findIndex((frame) => {
+        return (
+          frame.timelineTime >= timelineTime &&
+          !foldedLines.includes(frame.line)
+        )
+      })
+
+      // If there's no frame after the timeline time, return the last frame
+      if (idx == -1) return frames.length - 1
+
+      // If we have the first frame, then there's no need to check previous ones
+      if (idx == 0) return idx
+
+      // Get the previous frame to compare with
+      const prevFrameIdx = findPrevFrameIdx(idx)
+
+      // If there's no previous frame, then we're happy with what we've got
+      if (!prevFrameIdx) return idx
+
+      // Return the id of whichever of the previous frame and this frame is closest
+      return Math.abs(frames[idx - 1].timelineTime - timelineTime) <
+        Math.abs(frames[idx].timelineTime - timelineTime)
+        ? prevFrameIdx
+        : idx
+    },
+    [frames, findPrevFrameIdx, foldedLines]
   )
 
   // Similarly we have checkers for breakpoints. These also
@@ -162,8 +167,90 @@ export function useScrubber({
           breakpoints.includes(frame.line) &&
           !foldedLines.includes(frame.line)
       ),
-    [frames]
+    [frames, breakpoints, foldedLines]
   )
+
+  const findFrameNearestTimelineTime = useCallback(
+    (timelineTime: number): Frame | undefined => {
+      if (!frames.length) return undefined
+
+      // If we're past the last frame, return the last frame
+      if (timelineTime > lastFrame.timelineTime) return lastFrame
+
+      const idx = findFrameIdxNearestTimelineTime(timelineTime)
+      if (idx === undefined) return undefined
+
+      return frames[idx]
+    },
+    [frames, findFrameIdxNearestTimelineTime, lastFrame]
+  )
+
+  const moveToFrame = useCallback(
+    (
+      animationTimeline: AnimationTimeline,
+      newFrame: Frame,
+      newTimelineTime?: number,
+      pause: boolean = true
+    ) => {
+      const isLastFrame = newFrame.timelineTime == lastFrame.timelineTime
+      newTimelineTime = newTimelineTime || newFrame.timelineTime
+
+      // Update to the new frame time.
+      if (pause) {
+        animationTimeline.pause()
+        setShouldAutoplayAnimation(false)
+      }
+
+      if (animationTimeline.paused) {
+        // If we're dealing with the last frame, seek to the end
+        if (isLastFrame) {
+          newTimelineTime =
+            animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
+          animationTimeline.seekEndOfTimeline()
+        } else {
+          animationTimeline.seek(
+            newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR
+          )
+        }
+      }
+
+      // Finally, set the new time. Note, this potentially gets
+      // changed in the aimationTimeline block above, so don't do it
+      // early and guard/return.
+      setTimelineValue(newTimelineTime)
+    },
+    [frames, lastFrame]
+  )
+
+  const rangeRef = useRef<HTMLInputElement>(null)
+  const updateInputBackground = useCallback(() => {
+    const input = rangeRef.current
+    if (!input) return
+
+    const value = parseFloat(input.value)
+    const min = parseFloat(input.min)
+    const max = parseFloat(input.max)
+
+    const percentage = ((value - min) / (max - min)) * 100
+    // 7128F5 - jiki purple
+    const backgroundStyle = `linear-gradient(to right, #7128F5 ${percentage}%, #fff ${percentage}%)`
+    input.style.background = backgroundStyle
+  }, [rangeRef.current])
+
+  // Whenever the information widget is shown, we want to pause the animation
+  // and scroll to the relevant line. This effect means when the information
+  // toggle button is pressed the animation will stop and scroll to the right
+  // place. We don't scroll to the line while the animation is playing as it's
+  // really annoying when you're trying to debug.
+  useEffect(() => {
+    if (shouldShowInformationWidget) {
+      animationTimeline.pause()
+      const frame = findFrameNearestTimelineTime(timelineValue)
+      if (frame == undefined) return
+
+      scrollToLine(editorView, frame.line)
+    }
+  }, [shouldShowInformationWidget])
 
   // This effect is responsible for handling what happens when an animation
   // is playing. It updates the underlying state to match the progress of the animation.
@@ -177,6 +264,9 @@ export function useScrubber({
       if (anime.progress > 0) {
         animationTimeline.hasPlayedOrScrubbed = true
       }
+
+      // Memoize this so it's still the same in the setTimeout
+      const animeCompleted = anime.completed
 
       // We only want to use this callback if the animation is playing
       // Not if we're scrubbing through it. Otherwise we end up running
@@ -218,12 +308,12 @@ export function useScrubber({
 
         // And finally we set whether we've got to the end or not,
         // which again sets of a daisy chain of effects when we reach the end!
-        if (anime.completed) {
+        if (animeCompleted) {
           setIsTimelineComplete(true)
         } else {
           setIsTimelineComplete(false)
         }
-      }, 16) // Don't update more than 60 times a second (framerate)
+      }, 116) // Don't update more than 60 times a second (framerate)
     })
   }, [animationTimeline, frames, findBreakpointFrameBetweenTimes])
 
@@ -279,7 +369,12 @@ export function useScrubber({
     if (!animationTimeline.paused) return
 
     setHighlightedLine(currentFrame.line)
-    scrollToLine(editorView, currentFrame.line)
+
+    // We don't want to scroll to the line unless the tooltip
+    // is showing - it's really annoying otherwise!
+    if (shouldShowInformationWidget) {
+      scrollToLine(editorView, currentFrame.line)
+    }
 
     switch (currentFrame.status) {
       case 'SUCCESS': {
@@ -359,15 +454,11 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, newFrame)
     },
-    [timelineValue]
+    [timelineValue, findFrameNearestTimelineTime, moveToFrame]
   )
 
   const handleGoToBreakpoint = useCallback(
-    (
-      direction: 'previous' | 'next',
-      frames: Frame[],
-      animationTimeline: AnimationTimeline
-    ) => {
+    (direction: 'previous' | 'next', animationTimeline: AnimationTimeline) => {
       if (breakpoints.length === 0) return
 
       let currentFrameIdx = findFrameIdxNearestTimelineTime(timelineValue)
@@ -382,18 +473,20 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, newFrame)
     },
-    [timelineValue, breakpoints, lastFrame]
+    [
+      breakpoints,
+      findFrameIdxNearestTimelineTime,
+      findPrevBreakpointFrame,
+      findNextBreakpointFrame,
+      moveToFrame,
+    ]
   )
 
-  const handleGoToPreviousBreakpoint = (
-    animationTimeline: AnimationTimeline,
-    frames: Frame[]
-  ) => handleGoToBreakpoint('previous', frames, animationTimeline)
+  const handleGoToPreviousBreakpoint = (animationTimeline: AnimationTimeline) =>
+    handleGoToBreakpoint('previous', animationTimeline)
 
-  const handleGoToNextBreakpoint = (
-    animationTimeline: AnimationTimeline,
-    frames: Frame[]
-  ) => handleGoToBreakpoint('next', frames, animationTimeline)
+  const handleGoToNextBreakpoint = (animationTimeline: AnimationTimeline) =>
+    handleGoToBreakpoint('next', animationTimeline)
 
   const handleGoToPreviousFrame = useCallback(
     (animationTimeline: AnimationTimeline, frames: Frame[]) => {
@@ -414,7 +507,12 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, frames[prevFrameIdx])
     },
-    [timelineValue]
+    [
+      timelineValue,
+      findFrameIdxNearestTimelineTime,
+      findPrevFrameIdx,
+      moveToFrame,
+    ]
   )
 
   const handleGoToNextFrame = useCallback(
@@ -431,7 +529,7 @@ export function useScrubber({
 
       moveToFrame(animationTimeline, nextFrame)
     },
-    [timelineValue]
+    [timelineValue, findFrameIdxNearestTimelineTime, findNextFrame, moveToFrame]
   )
 
   const handleGoToFirstFrame = useCallback(
@@ -514,73 +612,6 @@ export function useScrubber({
         return
     }
   }
-
-  const findFrameNearestTimelineTime = useCallback(
-    (timelineTime: number): Frame | undefined => {
-      if (!frames.length) return undefined
-
-      // If we're past the last frame, return the last frame
-      if (timelineTime > lastFrame.timelineTime) return lastFrame
-
-      const idx = findFrameIdxNearestTimelineTime(timelineTime)
-      if (idx === undefined) return undefined
-
-      return frames[idx]
-    },
-    [frames]
-  )
-
-  const moveToFrame = useCallback(
-    (
-      animationTimeline: AnimationTimeline,
-      newFrame: Frame,
-      newTimelineTime?: number,
-      pause: boolean = true
-    ) => {
-      const isLastFrame = newFrame.timelineTime == lastFrame.timelineTime
-      newTimelineTime = newTimelineTime || newFrame.timelineTime
-
-      // Update to the new frame time.
-      if (pause) {
-        animationTimeline.pause()
-        setShouldAutoplayAnimation(false)
-      }
-
-      if (animationTimeline.paused) {
-        // If we're dealing with the last frame, seek to the end
-        if (isLastFrame) {
-          newTimelineTime =
-            animationTimeline?.duration * TIME_TO_TIMELINE_SCALE_FACTOR
-          animationTimeline.seekEndOfTimeline()
-        } else {
-          animationTimeline.seek(
-            newTimelineTime / TIME_TO_TIMELINE_SCALE_FACTOR
-          )
-        }
-      }
-
-      // Finally, set the new time. Note, this potentially gets
-      // changed in the aimationTimeline block above, so don't do it
-      // early and guard/return.
-      setTimelineValue(newTimelineTime)
-    },
-    [frames, lastFrame]
-  )
-
-  const rangeRef = useRef<HTMLInputElement>(null)
-  const updateInputBackground = useCallback(() => {
-    const input = rangeRef.current
-    if (!input) return
-
-    const value = parseFloat(input.value)
-    const min = parseFloat(input.min)
-    const max = parseFloat(input.max)
-
-    const percentage = ((value - min) / (max - min)) * 100
-    // 7128F5 - jiki purple
-    const backgroundStyle = `linear-gradient(to right, #7128F5 ${percentage}%, #fff ${percentage}%)`
-    input.style.background = backgroundStyle
-  }, [])
 
   useEffect(() => {
     updateInputBackground()

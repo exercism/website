@@ -7,7 +7,12 @@ import React, {
   useContext,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
-import { EditorState, Compartment, Extension } from '@codemirror/state'
+import {
+  EditorState,
+  Compartment,
+  Extension,
+  StateEffectType,
+} from '@codemirror/state'
 import { minimalSetup } from 'codemirror'
 import { indentWithTab } from '@codemirror/commands'
 import {
@@ -22,6 +27,7 @@ import {
   indentOnInput,
   bracketMatching,
   foldKeymap,
+  unfoldEffect,
 } from '@codemirror/language'
 import { defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { searchKeymap } from '@codemirror/search'
@@ -64,30 +70,23 @@ function onEditorChange(...cb: Array<(update: ViewUpdate) => void>) {
 }
 
 function onBreakpointChange(...cb: Array<(update: ViewUpdate) => void>) {
-  return onViewChange(breakpointEffect, ...cb)
+  return onViewChange([breakpointEffect], ...cb)
 }
 function onFoldChange(...cb: Array<(update: ViewUpdate) => void>) {
-  return onViewChange(foldEffect, ...cb)
+  return onViewChange([foldEffect, unfoldEffect], ...cb)
 }
 
-function onViewChange(effectType, ...cb: Array<(update: ViewUpdate) => void>) {
+function onViewChange(
+  effectTypes: StateEffectType<any>[],
+  ...cb: Array<(update: ViewUpdate) => void>
+) {
   return EditorView.updateListener.of((update) => {
-    const changed = update.transactions.some((transaction) => {
-      for (let e of transaction.effects) {
-        if (e.is(effectType)) {
-          return true
-        }
-      }
-    })
+    const changed = update.transactions.some((transaction) =>
+      transaction.effects.some((effect) =>
+        effectTypes.some((effectType) => effect.is(effectType))
+      )
+    )
     if (changed) {
-      cb.forEach((fn) => fn(update))
-    }
-  })
-}
-
-function onEditorFocus(...cb: Array<(update: ViewUpdate) => void>) {
-  return EditorView.updateListener.of((update) => {
-    if (update.view.hasFocus) {
       cb.forEach((fn) => fn(update))
     }
   })

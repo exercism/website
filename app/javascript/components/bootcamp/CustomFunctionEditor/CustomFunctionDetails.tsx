@@ -45,7 +45,7 @@ export function CustomFunctionDetails() {
           name="description"
           className={assembleClassNames(
             'mb-16 w-fill',
-            isPredefined && '!bg-[#eee]'
+            isPredefined && '!bg-[#eee] pr-40'
           )}
           value={customFunctionDescription}
           onChange={(e) => {

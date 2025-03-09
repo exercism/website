@@ -5,6 +5,7 @@ import { EditorView } from 'codemirror'
 import { CustomFunction } from '../CustomFunctionEditor'
 import toast from 'react-hot-toast'
 import { AnimationTimeline } from '../../SolveExercisePage/AnimationTimeline/AnimationTimeline'
+import { updateUnfoldableFunctions } from '../../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
 
 export type CustomTests = {
   args: string
@@ -114,6 +115,7 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
     handleSetCustomFunctionName: (view: EditorView) => {
       const docText = view.state.doc.toString()
       const functionName = extractFunctionName(docText) ?? ''
+      updateUnfoldableFunctions(view, [functionName])
 
       set({
         customFunctionName: functionName,

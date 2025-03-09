@@ -49,10 +49,10 @@
 
     .frame-stepper-buttons,
     .breakpoint-stepper-buttons,
-    .play-button {
+    .play-pause-button {
         img {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             filter: invert(27%) sepia(88%) saturate(6980%) hue-rotate(260deg)
                 brightness(95%) contrast(102%);
         }

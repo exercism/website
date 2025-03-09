@@ -14,6 +14,7 @@ import { CustomFunctionEditorStore } from './store/customFunctionEditorStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
+import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,
@@ -42,6 +43,7 @@ export function useCustomFunctionEditorHandler({
 
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
+
     // run code on mount
     handleRunCode(tests, customFunctionsForInterpreter)
   }

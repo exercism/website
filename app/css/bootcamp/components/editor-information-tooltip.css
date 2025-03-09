@@ -1,12 +1,19 @@
 .information-tooltip {
     max-width: 450px;
-    max-height: 600px;
-    @apply overflow-auto;
+    max-height: 80vh;
     transition: opacity 0.3s;
     @apply z-tooltip;
     /* pointer-events: none; */
     @apply text-16 leading-150;
-    @apply absolute rounded-8 opacity-0;
+    @apply absolute rounded-8 opacity-0 flex;
+
+    /* Needed to stop scroll bar from killing the border */
+    @apply py-2 pr-2;
+
+    .content {
+        @apply py-16 px-20;
+        @apply overflow-auto;
+    }
 
     code {
         overflow-wrap: break-word;
@@ -49,7 +56,6 @@
     }
 
     &.description {
-        @apply py-16 px-20;
         @apply bg-white text-primary-blue border-2 border-blue-500;
 
         filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));

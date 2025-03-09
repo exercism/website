@@ -1429,10 +1429,10 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
-"@exercism/codemirror-lang-jikiscript@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-jikiscript/-/codemirror-lang-jikiscript-0.0.10.tgz#a22ad917a2a923c1f3e98efaee3ab69680962ee6"
-  integrity sha512-07ezGMjNfFvB8GAsp241Mh6YotUZoLSA/GlLN7ANW7R5i8he4OW3RnqCtOhw4HguKur/FbjBrSPM/A54gdC5kg==
+"@exercism/codemirror-lang-jikiscript@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-jikiscript/-/codemirror-lang-jikiscript-0.0.14.tgz#ab7ef82d261016726129076e6450bdc969f9ba41"
+  integrity sha512-gPD0I71vlrQyHXuuVoC+rcqF8FUPo2LkbQkUiSBIMA/uA21NvPZgMXShbEP7Dw4+lq9ZG5nO1nldt+rYs+xupA==
   dependencies:
     "@codemirror/language" "^6.10.1"
     "@lezer/highlight" "^1.2.0"
@@ -1467,10 +1467,10 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"
   integrity sha512-LiCFDhXCr3iIEGESHEsSCpCI7qNa2suHcrBWeOYSEtEwCXc+IQpEh5i4K8qPcOMJB9ckVOgLgbSNML8TyvPCVg==
 
-"@exercism/highlightjs-jikiscript@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-jikiscript/-/highlightjs-jikiscript-0.0.1.tgz#c5958c21cae4ce10520ace540115e248d2348094"
-  integrity sha512-seb9UnqQc3/V0qFZLXnVAwJDGgMl1lKSkR/ahYSHroq5/BgbJs9TBeTDwJFjSs9pcf85cL2M9qvdp6SinzrqjQ==
+"@exercism/highlightjs-jikiscript@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-jikiscript/-/highlightjs-jikiscript-0.0.2.tgz#4d3a9a0c56ecc86d534cfad5a7a2de30e481f500"
+  integrity sha512-p/xoAeD60IGPz/Wv0sY3I9yLebLWdkPrvb+VzL43bdTSjKOZsX9xkYboD7MUpqgyqQOb/yMnilbBLLkRZtiM/Q==
 
 "@exercism/highlightjs-uiua@^0.0.4":
   version "0.0.4"

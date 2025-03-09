@@ -114,6 +114,7 @@ export function buildAnimationTimeline(
   frames: Frame[]
 ) {
   let animations: Animation[] = []
+  let placeholder = false
   const lastFrame: Frame | undefined = frames.at(-1)
 
   // If we have a healthy animation
@@ -123,6 +124,7 @@ export function buildAnimationTimeline(
   // Else if we have a successful non-animation exercise, we create
   // one long animation that lasts for the duration of the frames.
   else if (lastFrame && lastFrame.status === 'SUCCESS') {
+    placeholder = true
     animations = [
       {
         targets: `body`,
@@ -147,7 +149,11 @@ export function buildAnimationTimeline(
   ) {
     // No-op
     animations = []
+    placeholder = true
   }
 
-  return new AnimationTimeline({}, frames).populateTimeline(animations)
+  return new AnimationTimeline({}, frames).populateTimeline(
+    animations,
+    placeholder
+  )
 }

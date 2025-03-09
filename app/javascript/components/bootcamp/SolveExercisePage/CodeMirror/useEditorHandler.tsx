@@ -6,6 +6,7 @@ import { updateReadOnlyRangesEffect } from './extensions/read-only-ranges/readOn
 import useEditorStore from '../store/editorStore'
 import useErrorStore from '../store/errorStore'
 import { ExerciseLocalStorageData } from '../SolveExercisePageContextWrapper'
+import { updateUnfoldableFunctions } from './unfoldableFunctionNames'
 
 export function useEditorHandler({
   links,
@@ -13,11 +14,13 @@ export function useEditorHandler({
   exercise,
   exerciseLocalStorageData,
   setExerciseLocalStorageData,
+  unfoldableFunctionNames,
 }: Pick<SolveExercisePageProps, 'links' | 'code' | 'exercise'> & {
   exerciseLocalStorageData: ExerciseLocalStorageData
   setExerciseLocalStorageData: Dispatch<
     SetStateAction<ExerciseLocalStorageData>
   >
+  unfoldableFunctionNames: string[]
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
@@ -48,11 +51,15 @@ export function useEditorHandler({
         readonlyRanges: code.readonlyRanges,
       })
       setDefaultCode(code.code)
-      setupEditor(editorViewRef.current, code)
+      setupEditor(editorViewRef.current, unfoldableFunctionNames, code)
     } else {
       // otherwise we are using the code from the storage
       setDefaultCode(exerciseLocalStorageData.code)
-      setupEditor(editorViewRef.current, exerciseLocalStorageData)
+      setupEditor(
+        editorViewRef.current,
+        unfoldableFunctionNames,
+        exerciseLocalStorageData
+      )
     }
 
     if (code.storedAt) {
@@ -72,8 +79,11 @@ export function useEditorHandler({
         storedAt: new Date().toISOString(),
         readonlyRanges: code.readonlyRanges,
       })
-      setupEditor(editorViewRef.current, { code: '', readonlyRanges: [] })
-      setupEditor(editorViewRef.current, {
+      setupEditor(editorViewRef.current, unfoldableFunctionNames, {
+        code: '',
+        readonlyRanges: [],
+      })
+      setupEditor(editorViewRef.current, unfoldableFunctionNames, {
         code: code.stub,
         readonlyRanges: code.defaultReadonlyRanges,
       })
@@ -121,12 +131,17 @@ export function useEditorHandler({
 
 function setupEditor(
   editorView: EditorView | null,
+  unfoldableFunctionNames: string[],
   {
     readonlyRanges,
     code,
   }: { readonlyRanges?: { from: number; to: number }[]; code: string }
 ) {
   if (!editorView) return
+
+  // This needs to happen before the code is added.
+  updateUnfoldableFunctions(editorView, unfoldableFunctionNames)
+
   if (code) {
     editorView.dispatch({
       changes: {

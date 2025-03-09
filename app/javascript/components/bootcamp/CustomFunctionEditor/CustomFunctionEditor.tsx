@@ -169,6 +169,7 @@ export default function CustomFunctionEditor({
                   onEditorChangeCallback={(view) => {
                     setHasUnsavedChanges(true)
                     handleSetCustomFunctionName(view)
+
                     const { areAllTestsPassing } =
                       customFunctionEditorStore.getState()
                     if (areAllTestsPassing) {

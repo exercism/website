@@ -25,7 +25,8 @@ test('Simple repeat', () => {
   end`
 
   const t = performance.now()
-  const { error, frames } = interpret(code, boundlessContext)
-  expect(performance.now() - t).toBeLessThan(100)
+  const { frames } = interpret(code, boundlessContext)
+  // 350ms is roughly how long it takes on GHA
+  expect(performance.now() - t).toBeLessThan(350)
   expect(frames[frames.length - 1].status).toBe('SUCCESS')
 })

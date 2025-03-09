@@ -110,7 +110,6 @@ function Scrubber({
         onNext={() => handleGoToNextBreakpoint(animationTimeline)}
         onPrev={() => handleGoToPreviousBreakpoint(animationTimeline)}
         disabled={shouldScrubberBeDisabled(
-          !setShouldShowInformationWidget,
           hasCodeBeenEdited,
           frames,
           isSpotlightActive

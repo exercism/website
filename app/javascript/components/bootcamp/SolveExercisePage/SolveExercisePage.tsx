@@ -94,8 +94,9 @@ export default function SolveExercisePage({
 
   const { testSuiteResult, bonusTestSuiteResult } = useTestStore()
 
-  const project: Project | undefined = exerciseMap.get(
-    exercise.config.projectType
+  const project: Project | undefined = useMemo(
+    () => exerciseMap.get(exercise.config.projectType),
+    [exercise]
   )
 
   /* spotlight is active if 
@@ -121,7 +122,7 @@ export default function SolveExercisePage({
 
     return isActiveForBasicTasks || isActiveForBonusTasks
   }, [
-    exercise,
+    project,
     wasFinishLessonModalShown,
     testSuiteResult?.status,
     wasCompletedBonusTasksModalShown,

@@ -51,7 +51,6 @@ declare global {
   }
 
   interface Exercise {
-    hasView(): unknown
     part: number
     title: string
     slug: string

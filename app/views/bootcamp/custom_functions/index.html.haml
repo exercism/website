@@ -29,10 +29,10 @@
     %h2 Inactive Functions
     %p.text-p-large.mb-12 These are functions that are disabled. Get the tests passing to activate them.
     .functions
-      - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.each do |name, data|
+      - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.to_a.sort_by(&:first).each do |name, data|
         - next if short_names.include?(name.to_s)
         = link_to edit_bootcamp_custom_function_path(short_name: name) do
-          .font-semibold.text-18.mb-2= name
+          .font-semibold.text-18.mb-2 my##{name}
           .text-18.leading-150= data[:description]
 
       - @custom_functions.each do |fn|

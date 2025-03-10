@@ -5,7 +5,7 @@ import {
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { MethodCallExpression } from '../expression'
-import { JikiObject } from '../jikiObjects'
+import * as Jiki from '../jikiObjects'
 import { guardArityOnCallExpression } from './executeFunctionCallExpression'
 
 export function executeMethodCallExpression(
@@ -14,6 +14,10 @@ export function executeMethodCallExpression(
 ): EvaluationResultMethodCallExpression {
   const object = executor.evaluate(expression.object)
   const methodName = expression.methodName.lexeme
+
+  if (!(object.jikiObject instanceof Jiki.Instance)) {
+    executor.error('AccessorUsedOnNonInstance', expression.location)
+  }
 
   const method = object.jikiObject.getMethod(methodName)
   if (method === undefined) {

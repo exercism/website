@@ -13,27 +13,37 @@ Pleased with your finding, you spend the rest of the day generating hundreds of 
 
 ## Instructions
 
-Given a target word and one or more candidate words, your task is to find the candidates that are anagrams of the target.
+Create a function that called `find_anagrams(word, possibilities)` that takes a target word (a string) and a list of possible acronyms, and returns which of the posssibiles are actually anagrams of the target.
 
-An anagram is a rearrangement of letters to form a new word: for example `"owns"` is an anagram of `"snow"`.
-A word is _not_ its own anagram: for example, `"stop"` is not an anagram of `"stop"`.
+Some notes:
 
-The target word and candidate words are made up of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).
-Lowercase and uppercase characters are equivalent: for example, `"PoTS"` is an anagram of `"sTOp"`, but `"StoP"` is not an anagram of `"sTOp"`.
-The words you need to find should be taken from the candidate words, using the same letter case.
-
-Create a function called `find_anagrams` that takes two inputs:
-
-1. A target word, as a string
-2. Potential anagrams, as a list of strings.
-
-It should return the anagrams as a list, in the same order the words were given.
+- An anagram is a rearrangement of letters to form a new word: for example `"owns"` is an anagram of `"snow"`.
+- A word is _not_ its own anagram: for example, `"stop"` is not an anagram of `"stop"`.
+- The target word and possible words are made up of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).
+- When determining if something is an acronym, lowercase and uppercase characters are equivalent. For example, `"PoTS"` is an anagram of `"sTOp"`, but `"StoP"` is not an anagram of `"sTOp"`.
+- You should return the anagrams with the same casing as they are specified in the possibilities list. For example, if `"sTOp"` is in the possibilities list, you should return it cased as `"sTOp"`, not `"stop"`, even if the target word is `"pots"`.
+- You should return the anagrams in alphabetcial order. Capital letters are considered to come before lowercase letters.
 
 For example:
 
-```
+```jikiscript
 find_anagrams("stone", ["stone", "tones", "banana", "tons", "notes", "Seton"])
 
 // Should return...
-// ["tones", "notes", "Seton"]
+// ["Seton", "notes", "tones"]
 ```
+
+## Custom Functions
+
+This exercise will benefit from you using your custom functions. The following in particular might be useful:
+
+- [`my#sort_string`](/bootcamp/custom_functions/sort_string/edit)
+- [`my#to_lowercase`](/bootcamp/custom_functions/to_lowercase/edit) or [`my#to_uppercase`](/bootcamp/custom_functions/to_uppercase/edit)
+- [`my#index_of`](/bootcamp/custom_functions/index_of/edit)
+
+## Functions
+
+You have two built-in functions avaible:
+
+- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
+- `push(list, elem)`. Returns a new list with the element added to the original list.

@@ -1,6 +1,6 @@
 class Bootcamp::CustomFunctionsController < Bootcamp::BaseController
   def index
-    @custom_functions = current_user.bootcamp_custom_functions
+    @custom_functions = current_user.bootcamp_custom_functions.order(:name)
   end
 
   def create

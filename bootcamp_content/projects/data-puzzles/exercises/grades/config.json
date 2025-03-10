@@ -15,7 +15,7 @@
           "name": "build the url correctly",
           "description_html": "Start by building the URL correctly",
           "function": "build_url",
-          "args": ["class 6 of 2025"],
+          "args": ["Class 6 of 2025"],
           "checks": [
             {
               "value": "https://api.school.com/v4/grades/2025/class-6"
@@ -32,7 +32,7 @@
           "name": "All A's",
           "description_html": "A nice easy starting point with all A's!",
           "function": "grades_to_pattern",
-          "args": ["class 6 of 2025"],
+          "args": ["Class 6 of 2025"],
           "checks": [
             {
               "value": { "teacher": "Joseph", "grades": "AAAAAA" }
@@ -44,7 +44,7 @@
           "name": "All B's",
           "description_html": "All B's but as one string.",
           "function": "grades_to_pattern",
-          "args": ["class 7 of 2024"],
+          "args": ["Class 7 of 2024"],
           "checks": [
             {
               "value": { "teacher": "Omar", "grades": "BBBBBBBBBBBB" }
@@ -61,7 +61,7 @@
           "name": "Grades to sort",
           "description_html": "Some grades to sort.",
           "function": "grades_to_pattern",
-          "args": ["class 2 of 2024"],
+          "args": ["Class 2 of 2024"],
           "checks": [
             {
               "value": { "teacher": "Li", "grades": "AAAABBCDDDEEFF" }
@@ -73,7 +73,7 @@
           "name": "More grades to sort",
           "description_html": "Some more grades to sort.",
           "function": "grades_to_pattern",
-          "args": ["class 9 of 2025"],
+          "args": ["Class 9 of 2025"],
           "checks": [
             {
               "value": { "teacher": "Bankole", "grades": "AAABCCDDDDEEFFF" }
@@ -91,7 +91,7 @@
           "name": "A more complex name",
           "description_html": "A nice easy starting point with all A's!",
           "function": "grades_to_pattern",
-          "args": ["class 3 of 2024"],
+          "args": ["Class 3 of 2024"],
           "checks": [
             {
               "value": { "teacher": "Perez Espinosa", "grades": "AAABCDDE" }

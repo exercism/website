@@ -4,7 +4,7 @@
   "level": 9,
   "idx": 2,
   "tests_type": "io",
-  "stdlib_functions": ["push"],
+  "stdlib_functions": ["push", "concatenate"],
   "tasks": [
     {
       "name": "Find Anagrams",
@@ -23,7 +23,7 @@
           "description_html": "Find two anagrams from a list of candidates.",
           "function": "find_anagrams",
           "args": ["master", ["stream", "pigeon", "maters"]],
-          "checks": [{ "value": ["stream", "maters"] }]
+          "checks": [{ "value": ["maters", "stream"] }]
         },
         {
           "name": "Does not detect anagram subsets",
@@ -72,20 +72,17 @@
           "function": "find_anagrams",
           "args": ["LISTEN", ["Listen", "Silent", "LISTEN"]],
           "checks": [{ "value": ["Silent"] }]
-        }
-      ]
-    },
-    {
-      "name": "Bonus scenarios",
-      "bonus": true,
-      "tests": [
+        },
         {
-          "name": "Handles case of Greek letters",
-          "slug": "anagram-greek-letters",
-          "description_html": "Greek letters should be handled correctly as anagrams.",
+          "name": "Example in the instructions",
+          "slug": "example-instructions",
+          "description_html": "A final check of the example in the instructions.",
           "function": "find_anagrams",
-          "args": ["ΑΒΓ", ["ΒΓΑ", "ΒΓΔ", "γβα", "αβγ"]],
-          "checks": [{ "value": ["ΒΓΑ", "γβα"] }]
+          "args": [
+            "stone",
+            ["stone", "tones", "banana", "tons", "notes", "Seton"]
+          ],
+          "checks": [{ "value": ["Seton", "notes", "tones"] }]
         }
       ]
     }

@@ -1,37 +1,64 @@
-`my#split`
-`my#sort_string` (which probably uses `my#char_code`)
-`my#capitalize` (which will probably use `my#to_uppercase`)
-`my#join`
+# Grades
 
-# LLM Response
+Your trying to understand more intuitively how different classes are doing in their exams, and how different teachers are performing. You want to put together a nice chart that shows all the grades color coded, but when you get the data out of the database, you see that the grades are organised by the student's name, which makes seeing patterns harder. You've decided to sort the grades so you can put them in order and color-code them more nicely.
 
-In this exercise, we're taking a look at someone's top tracks via the Spotify API.
+<img src="https://assets.exercism.org/bootcamp/graphics/grades.png" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
-This API is a bit different in two key ways.
+In this exercise, you want to get the grades from the API, sort them, and return them along with the teacher's name.
 
-Firstly, when we look up a user's favourite tracks, rather than just getting the names back, we get a series of other URLs. We need to carry out subsequent API requests to get more information.
-
-Secondly, the URL you use varies based on the data you use.
-The base URL for the endpoint you want is `"https://api.spotify.com/v1/users/"`. But you then need to add the username of the person you're looking for on the end. So if you want to find our fred's favourite tunes, you'd use the endpoint `https://api.spotify.com/v1/users/fred`.
-
-For this exercise, the parameters should always be an empty dictionary.
+The exercise relies heavily on your building your own custom functions. I recommend starting by implementing all the functions I suggest in the section below, then thinking how you can use them to solve the exercise!
 
 ## Instructions
 
-Create a function called `favorite_artists`.
-It expects someone's username as an input.
+### Build the URL
 
-Use the API explained above to retrieve the person's favourite artists, then combine them into a sentence like:
+The first part of the exercise is to turn the information you have into a URL.
+For this, you need to create a `build_url(description)` function, that takes a description string, and turns it into a URL.
 
-```jikiscript
-"Fred's most listened to artists are: Glee, NSYNC, Beethoven, and Limp Bizkit!"
+The string is always formatted with a class number and a year, like this: `Class 3 of 2024`.
+
+The API you're using to retrieve the grades is formatted like this:
+
+```
+https://api.school.com/v4/grades/2025/class-6
 ```
 
-If there is an error from the API, you should return that error as a string, prefixed with `"Error: "`.
+You need to build the URL, inserting the correct year and class number.
+
+You also need to set the API version.
+For all results in 2024, the API used version 3 (`v3`), but in 2025, the school updated to `v4`.
+The main change that affects you in this API update is that the grades you get back in `v3` were structured a string, but in `v4`, they're structured as a list of strings.
+
+### Extract the data
+
+The next step is to get the correct data out and format it correctly.
+Create a function called `grades_to_pattern(description)`.
+It will take one input - the same description as `build_url`.
+
+To get the data you can use `fetch(url, params)` with the URL you created and an empty dictionary for the parameters.
+
+You need to return a dictionary with the teacher's name, and the grades:
+
+```
+{"teacher":"Joseph","grades":"AAAAAA"}
+```
+
+Note that the teachers's name should just be their surname, with the initial letter(s) capitalized.
+
+### Sort the data
+
+Finally, you should sort the grades so that we can create our pretty charts.
+Update your `grades_to_pattern` function so that the grades are in alphabetical order.
+Grades will always be capital letters from A-Z.
 
 ## Custom Functions
 
-This would be a good time to use your [`my#to_sentence`](/bootcamp/custom_functions/to_sentence/edit) and [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom functions!
+This exercise is solved most easily if you have a good library of functions read. Here are some you my like to prepare before getting too stuck in to the details here:
+
+- [`my#split`](/bootcamp/custom_functions/split/edit)
+- [`my#sort_string`](/bootcamp/custom_functions/sort_string/edit)
+- [`my#capitalize`](/bootcamp/custom_functions/capitalize/edit) (which will probably use [`my#to_uppercase`](/bootcamp/custom_functions/to_uppercase/edit))
+- [`my#join`](/bootcamp/custom_functions/join/edit)
 
 ## Functions
 

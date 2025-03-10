@@ -1,10 +1,4 @@
-import {
-  StateField,
-  StateEffect,
-  Transaction,
-  StateEffectType,
-} from '@codemirror/state'
-import { foldEffect, unfoldEffect } from '@codemirror/language'
+import { StateField, StateEffect, Transaction } from '@codemirror/state'
 import { EditorView } from 'codemirror'
 
 // Define an Effect to Update the List

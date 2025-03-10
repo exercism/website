@@ -10,7 +10,6 @@ import { Header } from './Header/Header'
 import { CustomTests } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
-import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
@@ -66,10 +65,10 @@ export default function CustomFunctionEditor({
   )
 
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
-    useCustomFunctionEditorHandler({ customFunctionEditorStore })
-
-  const { updateLocalStorageValueOnDebounce } =
-    useManageEditorDefaultValue(customFunction)
+    useCustomFunctionEditorHandler({
+      customFunctionEditorStore,
+      customFunction,
+    })
 
   useSetupCustomFunctionStore({
     dependsOn,
@@ -110,7 +109,12 @@ export default function CustomFunctionEditor({
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
-  const { cleanUpEditorStore } = useEditorStore()
+  const { cleanUpEditorStore, setDefaultCode } = useEditorStore()
+
+  useEffect(() => {
+    setDefaultCode(customFunction.code)
+  }, [])
+
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
     flushSync(clearSyntaxErrorInTest)
@@ -175,7 +179,6 @@ export default function CustomFunctionEditor({
                     if (areAllTestsPassing) {
                       clearResults()
                     }
-                    updateLocalStorageValueOnDebounce(view.state.doc.toString())
                   }}
                   extensions={[readOnlyDocumentFragment]}
                 />

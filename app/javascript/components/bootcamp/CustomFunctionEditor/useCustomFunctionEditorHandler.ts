@@ -1,11 +1,7 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
 import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import {
-  CustomFunction,
-  evaluateFunction,
-  interpret,
-} from '@/interpreter/interpreter'
+import { evaluateFunction, interpret } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
 import { CustomTests } from './useTestManager'
@@ -15,11 +11,15 @@ import { StdlibFunctions } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
 import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
+import { CustomFunction } from './CustomFunctionEditor'
+import { CustomFunction as CustomFunctionForInterpreter } from '@/interpreter/interpreter'
 
 export function useCustomFunctionEditorHandler({
   customFunctionEditorStore,
+  customFunction,
 }: {
   customFunctionEditorStore: CustomFunctionEditorStore
+  customFunction: CustomFunction
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
@@ -44,7 +44,7 @@ export function useCustomFunctionEditorHandler({
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
 
-    // run code on mount
+    setupCustomFunctionEditor(editorViewRef.current, customFunction)
     handleRunCode(tests, customFunctionsForInterpreter)
   }
 
@@ -66,7 +66,7 @@ export function useCustomFunctionEditorHandler({
   // TODO: clean up errors on handle run code
   const handleRunCode = (
     tests: CustomTests,
-    customFunctions: CustomFunction[] = []
+    customFunction: CustomFunctionForInterpreter[] = []
   ) => {
     if (!tests || tests.length === 0) {
       return
@@ -77,7 +77,7 @@ export function useCustomFunctionEditorHandler({
     if (editorHandler.current) {
       const context = {
         languageFeatures: { customFunctionDefinitionMode: true },
-        customFunctions,
+        customFunction,
         externalFunctions: Object.values(StdlibFunctions),
       }
       const value = editorHandler.current.getValue()
@@ -188,5 +188,25 @@ export function useCustomFunctionEditorHandler({
     latestValueSnapshot,
     editorViewRef,
     arity,
+  }
+}
+
+function setupCustomFunctionEditor(
+  editorView: EditorView | null,
+  customFunction: CustomFunction
+) {
+  if (!editorView) return
+  updateUnfoldableFunctions(editorView, [customFunction.name])
+
+  const { code } = customFunction
+
+  if (code) {
+    editorView.dispatch({
+      changes: {
+        from: 0,
+        to: editorView.state.doc.length,
+        insert: code,
+      },
+    })
   }
 }

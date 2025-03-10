@@ -1,5 +1,7 @@
 # Wordle
 
+Most efficient path...
+
 Welcome to Wordle, the classic Lockdown game!
 
 The game works like this:

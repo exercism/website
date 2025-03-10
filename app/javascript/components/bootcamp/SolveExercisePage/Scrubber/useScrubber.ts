@@ -197,7 +197,6 @@ export function useScrubber({
       // Update to the new frame time.
       if (pause) {
         // throw new Error("H4")
-        console.log('H6')
         animationTimeline.pause()
         setShouldAutoplayAnimation(false)
       }
@@ -245,7 +244,6 @@ export function useScrubber({
   // really annoying when you're trying to debug.
   useEffect(() => {
     if (shouldShowInformationWidget) {
-      console.log('H1')
       animationTimeline.pause()
       const frame = findFrameNearestTimelineTime(timelineValue)
       if (frame == undefined) return
@@ -271,23 +269,21 @@ export function useScrubber({
       // override whatever over effect is driving this.
       if (timelineValue == -1) return
 
-      // If we're already locked onto a frame, then leave
-      if (frames.some((frame) => frame.timelineTime === timelineValue)) return
+      const newTimelineValue = Math.round(
+        animationTimeline.progress * TIME_TO_TIMELINE_SCALE_FACTOR
+      )
 
-      console.log(animationTimeline.progress)
-      console.log(timelineValue)
+      // If we're already locked onto a frame, then leave
+      if (frames.some((frame) => frame.timelineTime === newTimelineValue))
+        return
+
       // Otherwise jump to the nearest actual frame.
       moveToFrame(
         animationTimeline,
-        findFrameNearestTimelineTime(timelineValue) || frames[0]
+        findFrameNearestTimelineTime(newTimelineValue) || frames[0]
       )
-    }, 100)
-  }, [
-    animationTimeline.paused,
-    timelineValue,
-    findFrameNearestTimelineTime,
-    moveToFrame,
-  ])
+    }, 10)
+  }, [animationTimeline.paused, findFrameNearestTimelineTime, moveToFrame])
 
   // This effect is responsible for handling what happens when an animation
   // is playing. It updates the underlying state to match the progress of the animation.
@@ -333,7 +329,6 @@ export function useScrubber({
           // We stop the animation here and show the information widget.
           // We presume someone always wants to see that if they've set a breakpoint.
 
-          console.log('H2')
           anime.pause()
           setShouldShowInformationWidget(true)
         }
@@ -459,7 +454,6 @@ export function useScrubber({
     if (hasCodeBeenEdited) {
       setShouldAutoplayAnimation(false)
 
-      console.log('H3')
       animationTimeline.pause()
     }
   }, [hasCodeBeenEdited, animationTimeline])

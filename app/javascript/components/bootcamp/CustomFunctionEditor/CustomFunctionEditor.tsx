@@ -115,8 +115,9 @@ export default function CustomFunctionEditor({
     handleRunCode()
   }, [])
 
-  const inspectedTestIdx = tests.findIndex(
-    (test) => test.uuid === inspectedTest
+  const inspectedTestIdx = useMemo(
+    () => tests.findIndex((test) => test.uuid === inspectedTest),
+    [inspectedTest, tests]
   )
 
   const readOnlyDocumentFragment = useMemo(() => {

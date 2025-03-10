@@ -33,6 +33,13 @@ export function CustomFunctionDetails() {
           height={20}
         />
       </div>
+
+      {customFunctionName.length === 0 && (
+        <p className="pb-12 mb-16 font-semibold text-bootcamp-fail-dark text-16 border-b-1 border-bootcamp-fail-dark">
+          Function name cannot be empty!
+        </p>
+      )}
+
       <label className={labelClassName} htmlFor="description">
         Description
       </label>

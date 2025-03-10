@@ -18,7 +18,16 @@ const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
       const functionEndLine = state.doc.lineAt(node.to)
       const fnName = getFunctionIdentifier(node, state)
 
-      if (fnName && unFoldables && unFoldables.includes(fnName)) return null
+      if (fnName) {
+        // if it is a custom function with no name, we don't want to make it foldable
+        if (state.sliceDoc(fnName.from, fnName.to + 1) === 'my#') {
+          return null
+        }
+
+        if (unFoldables && unFoldables.includes(fnName.name)) {
+          return null
+        }
+      }
 
       const firstLineEndPos = functionStartLine.to
       // -3 is the length of "end" which we want to keep
@@ -41,7 +50,11 @@ const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
 const getFunctionIdentifier = (node: SyntaxNode, state: EditorState) => {
   const identifierNode = node.getChild('FunctionName')
   if (identifierNode) {
-    return state.doc.sliceString(identifierNode.from, identifierNode.to)
+    return {
+      name: state.doc.sliceString(identifierNode.from, identifierNode.to),
+      from: identifierNode.from,
+      to: identifierNode.to,
+    }
   }
   return null
 }

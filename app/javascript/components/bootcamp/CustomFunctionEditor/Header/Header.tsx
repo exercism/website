@@ -11,7 +11,7 @@ import customFunctionEditorStore from '../store/customFunctionEditorStore'
 export type StudentCodeGetter = () => string | undefined
 
 function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
-  const { clearResults } = customFunctionEditorStore()
+  const { clearResults, customFunctionName } = customFunctionEditorStore()
 
   const { links } = useContext(SolveExercisePageContext)
   return (
@@ -30,7 +30,11 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
             clearResults()
           }}
         />
-        <button className="btn-primary btn-xxs" onClick={handleSaveChanges}>
+        <button
+          disabled={customFunctionName.length === 0}
+          className="btn-primary btn-xxs"
+          onClick={handleSaveChanges}
+        >
           Save Changes
         </button>
 

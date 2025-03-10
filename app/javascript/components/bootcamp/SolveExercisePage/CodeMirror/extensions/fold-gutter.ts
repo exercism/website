@@ -1,12 +1,8 @@
-import {
-  foldState,
-  foldGutter,
-  syntaxTree,
-  foldService,
-} from '@codemirror/language'
+import { foldGutter, syntaxTree, foldService } from '@codemirror/language'
 import { EditorState } from '@codemirror/state'
 import { SyntaxNode } from '@lezer/common'
 import { unfoldableFunctionsField } from '../unfoldableFunctionNames'
+import { isEqual } from 'lodash'
 
 const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
   const tree = syntaxTree(state)
@@ -14,14 +10,14 @@ const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
   let node: typeof treeResolve | null = treeResolve
 
   const unFoldables = state.field(unfoldableFunctionsField, false)
+  const currentLine = state.doc.lineAt(lineEnd)
 
   while (node) {
     if (isFunctionNode(node)) {
       const functionStartLine = state.doc.lineAt(node.from)
       const functionEndLine = state.doc.lineAt(node.to)
-      const currentLine = state.doc.lineAt(lineEnd)
-
       const fnName = getFunctionIdentifier(node, state)
+
       if (fnName && unFoldables && unFoldables.includes(fnName)) return null
 
       const firstLineEndPos = functionStartLine.to
@@ -57,7 +53,19 @@ const isFunctionNode = (node: any) => {
 export const foldGutterExtension = [
   functionFolding,
   foldGutter({
-    foldingChanged: () => true,
+    foldingChanged: (update) => {
+      // if this returns true, it triggers a recomputation of the fold markers
+      const startUnfoldable = update.startState.field(
+        unfoldableFunctionsField,
+        false
+      )
+      const currentUnfoldable = update.state.field(
+        unfoldableFunctionsField,
+        false
+      )
+
+      return !isEqual(startUnfoldable, currentUnfoldable)
+    },
     markerDOM: (open) => {
       const marker = document.createElement('span')
       marker.textContent = open ? '▾' : '▸'

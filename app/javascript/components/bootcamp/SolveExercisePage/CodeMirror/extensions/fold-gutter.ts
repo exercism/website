@@ -13,6 +13,8 @@ const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
   const treeResolve = tree.resolve(lineEnd)
   let node: typeof treeResolve | null = treeResolve
 
+  const unFoldables = state.field(unfoldableFunctionsField, false)
+
   while (node) {
     if (isFunctionNode(node)) {
       const functionStartLine = state.doc.lineAt(node.from)
@@ -20,7 +22,6 @@ const functionFolding = foldService.of((state, _lineStart, lineEnd) => {
       const currentLine = state.doc.lineAt(lineEnd)
 
       const fnName = getFunctionIdentifier(node, state)
-      const unFoldables = state.field(unfoldableFunctionsField, false)
       if (fnName && unFoldables && unFoldables.includes(fnName)) return null
 
       const firstLineEndPos = functionStartLine.to
@@ -55,8 +56,8 @@ const isFunctionNode = (node: any) => {
 
 export const foldGutterExtension = [
   functionFolding,
-  foldState,
   foldGutter({
+    foldingChanged: () => true,
     markerDOM: (open) => {
       const marker = document.createElement('span')
       marker.textContent = open ? '▾' : '▸'

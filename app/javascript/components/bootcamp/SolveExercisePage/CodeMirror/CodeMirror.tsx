@@ -49,6 +49,7 @@ import { getBreakpointLines } from './getBreakpointLines'
 import { breakpointEffect } from './extensions/breakpoint'
 import { foldEffect } from '@codemirror/language'
 import { getFoldedLines } from './getFoldedLines'
+import { unfoldableFunctionsField } from './unfoldableFunctionNames'
 
 export const readonlyCompartment = new Compartment()
 
@@ -191,12 +192,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
       state: EditorState.create({
         doc: value,
         extensions: [
+          Ext.breakpointGutter,
+          Ext.foldGutter,
           Ext.underlineExtension(),
           Ext.readOnlyRangeDecoration(),
           Ext.colorScheme,
           minimalSetup,
-          Ext.breakpointGutter,
-          Ext.foldGutter,
+          unfoldableFunctionsField,
           highlightActiveLineGutter(),
           dropCursor(),
           moveCursorByPasteLength,

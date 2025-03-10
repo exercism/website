@@ -59,9 +59,9 @@ the: 2
 
 Create a function called `count_words` that takes a sentence as its input, and returns a dictionary with keys as words, and their values as the frequency at which they appear.
 
-### Custom Functions
+### Library Functions
 
-This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) library function!
 
 It should return a boolean stating whether or not the key exists in a dictionary.
 

@@ -47,9 +47,9 @@ For example, if the word was in the first row was correct, you would call:
 color_row(1, ["correct", "correct", "correct", "correct", "correct"])
 ```
 
-## Custom Functions
+## Library Functions
 
-This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions/contains) custom function!
+This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions/contains) library function!
 
 ## Functions
 

@@ -27,9 +27,9 @@ A couple of notes:
 - `0.78` as a decimal is the same as `78%` as a percentage.
 - `123ms` is the same as `0.123s` (there are 1000 miliseconds in a second).
 
-## Custom Functions
+## Library Functions
 
-This function will probably benefit from your [`my#contains`](/bootcamp/custom_functions/contains/edit) custom function!
+This function will probably benefit from your [`my#contains`](/bootcamp/custom_functions/contains/edit) library function!
 
 ## Functions
 

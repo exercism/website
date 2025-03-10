@@ -24,7 +24,7 @@ module ReactComponents
 
     private
     def available_custom_functions
-      current_user.bootcamp_custom_functions.active.map do |custom_function|
+      current_user.bootcamp_custom_functions.active.order(:name).map do |custom_function|
         SerializeBootcampCustomFunctionSummary.(custom_function)
       end
     end

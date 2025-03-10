@@ -6,7 +6,7 @@ Your trying to understand more intuitively how different classes are doing in th
 
 In this exercise, you want to get the grades from the API, sort them, and return them along with the teacher's name.
 
-The exercise relies heavily on your building your own custom functions. I recommend starting by implementing all the functions I suggest in the section below, then thinking how you can use them to solve the exercise!
+The exercise relies heavily on your building your own library functions. I recommend starting by implementing all the functions I suggest in the section below, then thinking how you can use them to solve the exercise!
 
 ## Instructions
 
@@ -51,7 +51,7 @@ Finally, you should sort the grades so that we can create our pretty charts.
 Update your `grades_to_pattern` function so that the grades are in alphabetical order.
 Grades will always be capital letters from A-Z.
 
-## Custom Functions
+## Library Functions
 
 This exercise is solved most easily if you have a good library of functions read. Here are some you my like to prepare before getting too stuck in to the details here:
 

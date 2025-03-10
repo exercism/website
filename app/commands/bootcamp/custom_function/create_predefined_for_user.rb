@@ -39,20 +39,20 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Check if a string starts with a given prefix.",
       params: %w[string prefix],
       tests: {
-        %w[hello hello] => true,
-        %w[hello he] => true,
-        %w[hello h] => true,
+        %w[rubber rubber] => true,
+        %w[rubber rub] => true,
+        %w[rubber r] => true,
         ["", ""] => true,
-        %w[hello bye] => false,
-        ["hello", "hello there"] => false
+        %w[rubber duck] => false,
+        ["rubber", "rubber duck"] => false
       }
     },
     length: {
       description: "Returns the length of a string or list.",
       params: ["measurable"],
       tests: {
-        ["hello"] => 5,
-        [["he", 1, false]] => 3,
+        ["duck"] => 4,
+        [["duck", 1, false]] => 3,
         [""] => 0,
         [[]] => 0
       }
@@ -61,15 +61,16 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Returns a boolean informing you of whether a list contains an element, or a string contains a character.",
       params: %w[haystack needle],
       tests: {
-        %w[hello h] => true,
-        %w[hello o] => true,
-        %w[hello a] => false,
-        ["hello world", " "] => true,
-        ["hello world", "w"] => true,
-        [["he", 1, false], "he"] => true,
-        [["he", 1, false], 1] => true,
-        [["he", 1, false], false] => true,
-        [["he", 1, false], "foo"] => false
+        %w[rubber r] => true,
+        %w[rubber b] => true,
+        %w[rubber a] => false,
+        ["rubber duck", " "] => true,
+        ["rubber duck", "d"] => true,
+        ["rubber duck", "a"] => false,
+        [["rd", 1, false], "rd"] => true,
+        [["rd", 1, false], 1] => true,
+        [["rd", 1, false], false] => true,
+        [["rd", 1, false], "foo"] => false
       }
     },
     to_sentence: {
@@ -100,9 +101,9 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Splits a string based on a delimiter.",
       params: %w[string delimiter],
       tests: {
-        ["Jeremy Walker", " "] => %w[Jeremy Walker],
-        ["Jeremy", " "] => ["Jeremy"],
-        %w[Jeremy r] => %w[Je emy]
+        ["Rubber Duck", " "] => %w[Rubber Duck],
+        ["Rubber", " "] => ["Rubber"],
+        %w[Rubber e] => %w[Rubb r]
       }
     },
     sort_string: {
@@ -120,10 +121,10 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Joins the strings in a list together, inserting a delimeter between them.",
       params: %w[things delimeter],
       tests: {
-        [%w[Jeremy Walker], " "] => "Jeremy Walker",
-        [%w[Jer my], "e"] => "Jeremy",
-        [%w[Jer emy], ""] => "Jeremy",
-        [["Jeremy"], "anything"] => "Jeremy",
+        [%w[Rubber Duck], " "] => "Rubber Duck",
+        [%w[Rub er], "b"] => "Rubber",
+        [%w[Rub ber], ""] => "Rubber",
+        [["Rubber"], "duck"] => "Rubber",
         [[], ""] => ""
       }
     },
@@ -131,8 +132,8 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Capitalizes the first letter of a string.",
       params: %w[string],
       tests: {
-        ["jeremy"] => "Jeremy",
-        ["jeremy walker"] => "Jeremy walker",
+        ["rubber"] => "Rubber",
+        ["rubber duck"] => "Rubber duck",
         [""] => ""
       }
     },
@@ -140,17 +141,19 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Find the index of an item in a list or string. If the item is missing, return -1.",
       params: %w[list target],
       tests: {
-        [%w[Jeremy Walker], "Jeremy"] => 1,
-        [%w[Jeremy Walker], "Walker"] => 2,
-        [%w[Jeremy Walker], "Jiki"] => -1
+        [%w[Rubber Duck], "Rubber"] => 1,
+        [%w[Rubber Duck], "Duck"] => 2,
+        [%w[Rubber Duck], "Jiki"] => -1
       }
     },
     to_uppercase: {
       description: "Converts a string to uppercase.",
       params: %w[string],
       tests: {
-        ["Jeremy"] => "JEREMY",
-        ["Jeremy Walker"] => "JEREMY WALKER",
+        ["rubber"] => "RUBBER",
+        ["Rubber"] => "RUBBER",
+        ["RUBBER"] => "RUBBER",
+        ["Rubber Duck"] => "RUBBER DUCK",
         [""] => ""
       }
     },
@@ -158,9 +161,21 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       description: "Converts a string to lowercase.",
       params: %w[string],
       tests: {
-        ["Jeremy"] => "jeremy",
-        ["JeReMy WaLkEr"] => "jeremy walker",
+        ["rubber"] => "rubber",
+        ["Rubber"] => "rubber",
+        ["RUBBER"] => "rubber",
+        ["Rubber Duck"] => "rubber duck",
         [""] => ""
+      }
+    },
+    to_unique: {
+      description: "Returns a list with all the duplicates removed.",
+      params: %w[list],
+      tests: {
+        [%w[rubber duck rubber]] => %w[rubber duck],
+        [%w[duck rubber rubber duck duck rubber]] => %w[duck rubber],
+        [["rubber"]] => ["rubber"],
+        [[]] => []
       }
     }
   }.freeze

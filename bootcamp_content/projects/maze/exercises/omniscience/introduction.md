@@ -61,9 +61,9 @@ Special emojis. Avoid these:
 
 Pick up the rest!
 
-### Custom Functions
+### Library Functions
 
-This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) library function!
 
 ### Functions
 

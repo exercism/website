@@ -33,9 +33,9 @@ find_anagrams("stone", ["stone", "tones", "banana", "tons", "notes", "Seton"])
 // ["Seton", "notes", "tones"]
 ```
 
-## Custom Functions
+## Library Functions
 
-This exercise will benefit from you using your custom functions. The following in particular might be useful:
+This exercise will benefit from you using your library functions. The following in particular might be useful:
 
 - [`my#sort_string`](/bootcamp/custom_functions/sort_string/edit)
 - [`my#to_lowercase`](/bootcamp/custom_functions/to_lowercase/edit) or [`my#to_uppercase`](/bootcamp/custom_functions/to_uppercase/edit)

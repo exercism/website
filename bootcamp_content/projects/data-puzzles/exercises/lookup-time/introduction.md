@@ -22,7 +22,7 @@ The params for `fetch` should have one key `city` set to the string that's passe
 
 You should turn that response into a string formatted like: `"The time on this Sunday in Amsterdam is 00:28"`
 
-## Custom Functions
+## Library Functions
 
 Try using your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) function in this exercise.
 If you've not activated it yet, now's a great time to go and do that!

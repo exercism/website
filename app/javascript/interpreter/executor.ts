@@ -717,6 +717,7 @@ export class Executor {
   visitListExpression(expression: ListExpression): EvaluationResult {
     return {
       type: 'ListExpression',
+      // set something to [5, "hello", 3]
       jikiObject: new Jiki.List(
         expression.elements.map((element) => this.evaluate(element).jikiObject)
       ),

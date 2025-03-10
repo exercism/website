@@ -74,11 +74,11 @@ export type CustomFunctionEditorStoreState = {
 }
 
 export type CustomFunctionEditorStore = ReturnType<
-  typeof createCustomFunctionEditorStore
+  typeof customFunctionEditorStore
 >
 
-export function createCustomFunctionEditorStore(customFnUuid: string) {
-  return create<CustomFunctionEditorStoreState>((set, get) => ({
+const customFunctionEditorStore = create<CustomFunctionEditorStoreState>(
+  (set, get) => ({
     initializeStore: (customFunction) => {
       set({
         customFunctionName: customFunction.name,
@@ -281,8 +281,8 @@ export function createCustomFunctionEditorStore(customFnUuid: string) {
 
       set({ hasUnsavedChanges: false })
     },
-  }))
-}
+  })
+)
 
 function extractFunctionName(code: string): string | null {
   const match = code.match(/function\s+(my#[a-zA-Z_$][a-zA-Z0-9_$]*)/)
@@ -335,3 +335,5 @@ export async function patchCustomFunction({
 
   return response.json()
 }
+
+export default customFunctionEditorStore

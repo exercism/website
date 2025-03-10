@@ -1,12 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { CustomFunctionTest } from './CustomFunctionTest'
-import { CustomFunctionEditorStoreContext } from './CustomFunctionEditor'
+import customFunctionEditorStore from './store/customFunctionEditorStore'
 
 export function CustomFunctionTests() {
-  const { customFunctionEditorStore } = useContext(
-    CustomFunctionEditorStoreContext
-  )
-
   const {
     customFunctionName,
     results,

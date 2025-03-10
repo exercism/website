@@ -1,14 +1,10 @@
-import React, { useContext } from 'react'
-import { CustomFunctionEditorStoreContext } from './CustomFunctionEditor'
+import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import customFunctionEditorStore from './store/customFunctionEditorStore'
 
 const labelClassName = 'text-16 font-semibold mb-8'
 export function CustomFunctionDetails() {
-  const { customFunctionEditorStore } = useContext(
-    CustomFunctionEditorStoreContext
-  )
-
   const {
     customFunctionName,
     isPredefined,

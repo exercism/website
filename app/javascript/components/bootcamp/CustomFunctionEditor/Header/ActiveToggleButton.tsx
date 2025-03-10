@@ -1,12 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { ToggleButton } from '@/components/common/ToggleButton'
 import { StaticTooltip } from '../../SolveExercisePage/Scrubber/ScrubberTooltipInformation'
-import { CustomFunctionEditorStoreContext } from '../CustomFunctionEditor'
+import customFunctionEditorStore from '../store/customFunctionEditorStore'
 
 export function ActiveToggleButton() {
-  const { customFunctionEditorStore } = useContext(
-    CustomFunctionEditorStoreContext
-  )
   const { isActivated, toggleIsActivated, areAllTestsPassing } =
     customFunctionEditorStore()
 

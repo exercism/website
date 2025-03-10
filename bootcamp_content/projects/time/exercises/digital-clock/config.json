@@ -2,7 +2,6 @@
   "title": "Digital Clock",
   "description": "Display the time on a digital clock",
   "project_type": "digital-clock",
-  "available_functions": [],
   "level": 3,
   "idx": 1,
   "tests_type": "state",

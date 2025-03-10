@@ -15,7 +15,7 @@
           "slug": "all-correct",
           "name": "All correct",
           "description_html": "Deal with a fully correct guess",
-          "setup_functions": [["drawGuesses", [["hello"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["hello"]]]],
           "function": "process_first_guess",
           "args": ["hello", "hello"],
           "checks": [
@@ -30,7 +30,7 @@
           "slug": "absent",
           "name": "Some absent",
           "description_html": "Handle when some letters are wrong.",
-          "setup_functions": [["drawGuesses", [["hallu"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["hallu"]]]],
           "function": "process_first_guess",
           "args": ["hello", "hallu"],
           "checks": [
@@ -45,7 +45,7 @@
           "slug": "present",
           "name": "Some present",
           "description_html": "Deal with a letters in the wrong place",
-          "setup_functions": [["drawGuesses", [["hlelo"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["hlelo"]]]],
           "function": "process_first_guess",
           "args": ["hello", "hlelo"],
           "checks": [
@@ -60,7 +60,7 @@
           "slug": "complex",
           "name": "Complex",
           "description_html": "Deal with a more complex scenario",
-          "setup_functions": [["drawGuesses", [["ehola"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["ehola"]]]],
           "function": "process_first_guess",
           "args": ["hello", "ehola"],
           "checks": [
@@ -75,7 +75,7 @@
           "slug": "different-word",
           "name": "A different word",
           "description_html": "And finally a different word!",
-          "setup_functions": [["drawGuesses", [["beaks"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["beaks"]]]],
           "function": "process_first_guess",
           "args": ["break", "beaks"],
           "checks": [
@@ -95,7 +95,7 @@
           "slug": "hole-in-one",
           "name": "All correct",
           "description_html": "Deal with a first correct guess.",
-          "setup_functions": [["drawGuesses", [["hello"]]]],
+          "setup_functions": [["setupView"], ["drawGuesses", [["hello"]]]],
           "function": "process_game",
           "args": ["hello", ["hello"]],
           "checks": [
@@ -110,7 +110,10 @@
           "slug": "two-guesses",
           "name": "Nailed it in two",
           "description_html": "Deal with two guesses.",
-          "setup_functions": [["drawGuesses", [["hallo", "hello"]]]],
+          "setup_functions": [
+            ["setupView"],
+            ["drawGuesses", [["hallo", "hello"]]]
+          ],
           "function": "process_game",
           "args": ["hello", ["hallo", "hello"]],
           "checks": [
@@ -130,7 +133,10 @@
           "slug": "three-guesses",
           "name": "Got there in three",
           "description_html": "Deal with three guesses.",
-          "setup_functions": [["drawGuesses", [["hulal", "hallo", "hello"]]]],
+          "setup_functions": [
+            ["setupView"],
+            ["drawGuesses", [["hulal", "hallo", "hello"]]]
+          ],
           "function": "process_game",
           "args": ["hello", ["hulal", "hallo", "hello"]],
           "checks": [
@@ -156,6 +162,7 @@
           "name": "Phew!",
           "description_html": "Phew! That was close!",
           "setup_functions": [
+            ["setupView"],
             [
               "drawGuesses",
               [["jumpy", "trend", "jumbo", "crisp", "gowfy", "block"]]

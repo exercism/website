@@ -17,6 +17,7 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
+import useTestStore from '../store/testStore'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -54,6 +55,7 @@ export function useScrubber({
     setUnderlineRange,
   } = useEditorStore()
 
+  const { inspectedTestResult } = useTestStore()
   const { editorView } = useContext(SolveExercisePageContext)
 
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
@@ -194,6 +196,8 @@ export function useScrubber({
 
       // Update to the new frame time.
       if (pause) {
+        // throw new Error("H4")
+        console.log('H6')
         animationTimeline.pause()
         setShouldAutoplayAnimation(false)
       }
@@ -241,6 +245,7 @@ export function useScrubber({
   // really annoying when you're trying to debug.
   useEffect(() => {
     if (shouldShowInformationWidget) {
+      console.log('H1')
       animationTimeline.pause()
       const frame = findFrameNearestTimelineTime(timelineValue)
       if (frame == undefined) return
@@ -269,13 +274,20 @@ export function useScrubber({
       // If we're already locked onto a frame, then leave
       if (frames.some((frame) => frame.timelineTime === timelineValue)) return
 
+      console.log(animationTimeline.progress)
+      console.log(timelineValue)
       // Otherwise jump to the nearest actual frame.
       moveToFrame(
         animationTimeline,
         findFrameNearestTimelineTime(timelineValue) || frames[0]
       )
-    }, 10)
-  }, [animationTimeline.paused])
+    }, 100)
+  }, [
+    animationTimeline.paused,
+    timelineValue,
+    findFrameNearestTimelineTime,
+    moveToFrame,
+  ])
 
   // This effect is responsible for handling what happens when an animation
   // is playing. It updates the underlying state to match the progress of the animation.
@@ -320,6 +332,8 @@ export function useScrubber({
 
           // We stop the animation here and show the information widget.
           // We presume someone always wants to see that if they've set a breakpoint.
+
+          console.log('H2')
           anime.pause()
           setShouldShowInformationWidget(true)
         }
@@ -444,6 +458,8 @@ export function useScrubber({
   useEffect(() => {
     if (hasCodeBeenEdited) {
       setShouldAutoplayAnimation(false)
+
+      console.log('H3')
       animationTimeline.pause()
     }
   }, [hasCodeBeenEdited, animationTimeline])

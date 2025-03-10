@@ -54,7 +54,6 @@ export const foldGutterExtension = [
   functionFolding,
   foldGutter({
     foldingChanged: (update) => {
-      // if this returns true, it triggers a recomputation of the fold markers
       const startUnfoldable = update.startState.field(
         unfoldableFunctionsField,
         false
@@ -64,6 +63,7 @@ export const foldGutterExtension = [
         false
       )
 
+      // if this returns true, it triggers a recomputation of the fold markers
       return !isEqual(startUnfoldable, currentUnfoldable)
     },
     markerDOM: (open) => {

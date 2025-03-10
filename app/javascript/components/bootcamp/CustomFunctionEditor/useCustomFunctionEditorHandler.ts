@@ -1,23 +1,25 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
 import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import {
+  evaluateFunction,
+  EvaluationContext,
+  interpret,
+} from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
-import { CustomTests } from './useTestManager'
-import useCustomFunctionStore from './store/customFunctionsStore'
 import { StdlibFunctions } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
 import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
 import { CustomFunction } from './CustomFunctionEditor'
-import { CustomFunction as CustomFunctionForInterpreter } from '@/interpreter/interpreter'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
+import customFunctionsStore from './store/customFunctionsStore'
 
 export function useCustomFunctionEditorHandler({
-  customFunction,
+  customFunctionDataFromServer,
 }: {
-  customFunction: CustomFunction
+  customFunctionDataFromServer: CustomFunction
 }) {
   const editorHandler = useRef<Handler | null>(null)
   const editorViewRef = useRef<EditorView | null>(null)
@@ -26,12 +28,9 @@ export function useCustomFunctionEditorHandler({
     string | undefined
   >(undefined)
 
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
-
   const {
     customFunctionArity: arity,
     setCustomFunctionArity: setArity,
-    tests,
     setResults,
     clearInspectedTest,
     setInspectedTest,
@@ -41,8 +40,11 @@ export function useCustomFunctionEditorHandler({
   const handleEditorDidMount = (handler: Handler) => {
     editorHandler.current = handler
 
-    setupCustomFunctionEditor(editorViewRef.current, customFunction)
-    handleRunCode(tests, customFunctionsForInterpreter)
+    setupCustomFunctionEditor(
+      editorViewRef.current,
+      customFunctionDataFromServer
+    )
+    handleRunCode()
   }
 
   const getStudentCode = () => {
@@ -60,23 +62,23 @@ export function useCustomFunctionEditorHandler({
     setHasCodeBeenEdited,
   } = useEditorStore()
 
-  // TODO: clean up errors on handle run code
-  const handleRunCode = (
-    tests: CustomTests,
-    customFunction: CustomFunctionForInterpreter[] = []
-  ) => {
+  const handleRunCode = () => {
+    const { tests, customFunctionName: functionName } =
+      customFunctionEditorStore.getState()
+
     if (!tests || tests.length === 0) {
       return
     }
 
-    const functionName = customFunctionEditorStore.getState().customFunctionName
+    const customFunctions =
+      customFunctionsStore.getState().customFunctionsForInterpreter
 
     setHasCodeBeenEdited(false)
 
     if (editorHandler.current) {
-      const context = {
+      const context: EvaluationContext = {
         languageFeatures: { customFunctionDefinitionMode: true },
-        customFunction,
+        customFunctions,
         externalFunctions: Object.values(StdlibFunctions),
       }
       const value = editorHandler.current.getValue()

@@ -25,7 +25,6 @@ import customFunctionEditorStore, {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
-import { useLogger } from '../common/hooks/useLogger'
 
 export type CustomFunction = {
   uuid: string
@@ -61,7 +60,7 @@ export default function CustomFunctionEditor({
 }: CustomFunctionEditorProps) {
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({
-      customFunction,
+      customFunctionDataFromServer: customFunction,
     })
 
   useSetupCustomFunctionStore({
@@ -95,8 +94,6 @@ export default function CustomFunctionEditor({
     customFunctionName,
   } = customFunctionEditorStore()
 
-  useLogger('customFunctionName', customFunctionName)
-
   useEffect(() => {
     initializeStore(customFunction)
     setTimeout(() => setHasUnsavedChanges(false), 100)
@@ -115,8 +112,8 @@ export default function CustomFunctionEditor({
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
     flushSync(clearSyntaxErrorInTest)
-    handleRunCode(tests, customFunctionsForInterpreter)
-  }, [tests, customFunctionsForInterpreter])
+    handleRunCode()
+  }, [])
 
   const inspectedTestIdx = tests.findIndex(
     (test) => test.uuid === inspectedTest
@@ -161,9 +158,7 @@ export default function CustomFunctionEditor({
                 style={{ height: `100%` }}
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
-                handleRunCode={() =>
-                  handleRunCode(tests, customFunctionsForInterpreter)
-                }
+                handleRunCode={() => handleRunCode()}
                 onEditorChangeCallback={(view) => {
                   setHasUnsavedChanges(true)
                   handleSetCustomFunctionName(view)

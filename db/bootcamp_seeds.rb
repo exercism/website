@@ -53,6 +53,7 @@ projects = %w[
   maze
   weather
   golf
+  library
   space-invaders
   time
   rock-paper-scissors

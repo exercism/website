@@ -192,6 +192,37 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         ["0"] => 48,
         ["9"] => 57
       }
+    },
+    is_alpha: {
+      description: "Returns true if a string contains only letters, false otherwise.",
+      params: %w[string],
+      tests: {
+        ["Rubber"] => true,
+        ["Duck"] => true,
+        ["Rubber Duck"] => false,
+        ["123"] => false
+      }
+    },
+    is_numeric: {
+      description: "Returns true if a string contains only numbers, false otherwise.",
+      params: %w[string],
+      tests: {
+        ["123"] => true,
+        ["456"] => true,
+        ["123 456"] => false,
+        ["Rubber Duck"] => false
+      }
+    },
+    is_alphanumeric: {
+      description: "Returns true if a string contains only letters and numbers, false otherwise.",
+      params: %w[string],
+      tests: {
+        ["Rubber"] => true,
+        ["42"] => true,
+        ["RubberDuck42"] => true,
+        ["Rubber Duck"] => false,
+        ["123 456"] => false
+      }
     }
   }.freeze
 end

@@ -1,0 +1,55 @@
+function contains with haystack, needle do
+  for each element in haystack do
+    if element == needle do
+      return true
+    end
+  end
+  return false
+end
+
+function is_alpha with string do
+  for each char in string do
+    if not contains("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm", char) do
+      return false
+    end
+  end
+  return true
+end
+
+function is_numeric with string do
+  for each char in string do
+    if not contains("0123456789", char) do
+      return false
+    end
+  end
+  return true
+end
+
+function is_alphanumeric with string do
+  for each char in string do
+    if is_alpha(char) do
+       next
+    end
+    if is_numeric(char) do
+       next
+    end
+    return false
+  end
+  return true
+end
+
+function what_am_i with string do
+  set alpha to is_alpha(string)
+  set numeric to is_numeric(string)
+  set alphanumeric to is_alphanumeric(string)
+
+  if alpha do
+    return "Alpha"
+  else if numeric do
+    return "Numeric"
+  else if alphanumeric do
+    return "Alphanumeric"
+  else do
+    return "Unknown"
+  end
+end

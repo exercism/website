@@ -1,0 +1,6 @@
+{
+  "slug": "library",
+  "title": "Library Functions",
+  "description": "Exercises centered around your library functions",
+  "exercises": ["length", "contains", "alphanumeric"]
+}

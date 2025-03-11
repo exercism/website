@@ -1,0 +1,6 @@
+function how_long with measurable do
+  set len to my#length(measurable)
+
+  // Finish off the function here
+
+end

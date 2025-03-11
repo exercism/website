@@ -1,0 +1,3 @@
+function contains with haystack, needle do
+  return my#contains(haystack, needle)
+end

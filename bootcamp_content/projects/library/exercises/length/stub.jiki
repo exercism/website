@@ -1,0 +1,3 @@
+function length with something do
+  return my#length(something)
+end

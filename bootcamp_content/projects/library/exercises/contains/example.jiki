@@ -1,0 +1,8 @@
+function contains with haystack, needle do
+  for each element in haystack do
+    if element == needle do
+      return true
+    end
+  end
+  return false
+end

@@ -1,0 +1,7 @@
+function length with something do
+  set counter to 0
+  for each thing in measurable do
+    change counter to counter + 1
+  end
+  return counter
+end

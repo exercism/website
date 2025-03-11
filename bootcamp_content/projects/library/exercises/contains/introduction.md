@@ -7,7 +7,7 @@ Your job is to:
 
 1. Write the library function
 2. Import it (using the dependencies button)
-3. See if it works!
+3. Finish the exercise.
 
 Note that you might need to refresh this page in between writing your library function and importing it!
 
@@ -22,6 +22,16 @@ The contains function takes two inputs:
 
 You can look for a letter in a string (e.g. `"Rubber Duck"` contains a `"D"`), or you can look for an item in a list (e.g. `["Dog", "Duck", "Chicken"]` contains `"Duck"`).
 
-You'll be using this custom function in a lot of the exercises that follo!
+If you've completed the Guest List exercise, you might recognise this pattern.
+In fact you might be able to copy, paste and refine your Guest List code to make this library function!
 
-Go [write that function](/bootcamp/custom_functions/contains/edit), then come back here, refresh the page, add it to your dependencies, then hit Check Scenarios to see if it works.
+You'll be using this function in a lot of the exercises that follow!
+
+## Instructions
+
+Once you've got the function working and imported, you need to finish the exercise.
+
+The scenarios expect you to return one of two strings. Either:
+
+- `"It's there! 🙂"`
+- `"It's not there 😔"`

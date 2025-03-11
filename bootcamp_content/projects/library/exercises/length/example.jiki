@@ -1,7 +1,7 @@
-function length with something do
+function how_long with something do
   set counter to 0
-  for each thing in measurable do
+  for each thing in something do
     change counter to counter + 1
   end
-  return counter
+  return concatenate("The length is ", number_to_string(counter), ".")
 end

@@ -2,9 +2,13 @@
   "title": "Length",
   "description": "Build a library function to check the length of a string or list.",
   "level": 5,
-  "idx": 2,
+  "idx": 3,
   "tests_type": "io",
-  "readonly_ranges": [{ "from": 1, "to": 3 }],
+  "readonly_ranges": [
+    { "from": 1, "to": 2 },
+    { "from": 6, "to": 6 }
+  ],
+  "stdlib_functions": ["concatenate", "number_to_string"],
   "tasks": [
     {
       "name": "Strings",
@@ -13,11 +17,11 @@
           "slug": "duck",
           "name": "Rubber Duck",
           "description_html": "How long is a Rubber Duck",
-          "function": "length",
+          "function": "how_long",
           "args": ["Rubber Duck"],
           "checks": [
             {
-              "value": 11
+              "value": "The length is 11."
             }
           ]
         },
@@ -25,11 +29,11 @@
           "slug": "empty-string",
           "name": "Empty String",
           "description_html": "How long is an empty string",
-          "function": "length",
+          "function": "how_long",
           "args": [""],
           "checks": [
             {
-              "value": 0
+              "value": "The length is 0."
             }
           ]
         },
@@ -37,11 +41,11 @@
           "slug": "unicode",
           "name": "Unicode",
           "description_html": "How long is a string with unicode characters",
-          "function": "length",
+          "function": "how_long",
           "args": ["🦆🦆🦆"],
           "checks": [
             {
-              "value": 3
+              "value": "The length is 3."
             }
           ]
         },
@@ -49,11 +53,11 @@
           "slug": "list",
           "name": "List",
           "description_html": "How long is a list",
-          "function": "length",
+          "function": "how_long",
           "args": [["Wizard", "Hard", "Bowler"]],
           "checks": [
             {
-              "value": 3
+              "value": "The length is 3."
             }
           ]
         },
@@ -61,11 +65,11 @@
           "slug": "empty-list",
           "name": "Empty List",
           "description_html": "How long is an empty list",
-          "function": "length",
+          "function": "how_long",
           "args": [[]],
           "checks": [
             {
-              "value": 0
+              "value": "The length is 0."
             }
           ]
         }

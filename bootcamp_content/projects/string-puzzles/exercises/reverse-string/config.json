@@ -2,7 +2,7 @@
   "title": "Reverse String",
   "description": "Reverse the given string while preserving Unicode characters correctly.",
   "level": 5,
-  "idx": 7,
+  "idx": 9,
   "tests_type": "io",
   "stdlib_functions": ["concatenate"],
   "tasks": [

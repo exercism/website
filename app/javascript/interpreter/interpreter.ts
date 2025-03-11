@@ -176,6 +176,13 @@ export class Interpreter {
     // This is wildly deeply recursive so be careful!
     if (customFunctions.length === 0) return []
 
+    customFunctions = customFunctions.reduce((acc, fn) => {
+      if (!acc.some((existingFn) => existingFn.name === fn.name)) {
+        acc.push(fn)
+      }
+      return acc
+    }, [] as CustomFunction[])
+
     const code = customFunctions.map((fn) => fn.code).join('\n')
     const interpreter = new Interpreter(code, {
       languageFeatures: { customFunctionDefinitionMode: true },
@@ -199,6 +206,7 @@ export class Interpreter {
           customFunction.name,
           ...nakedArgs
         )
+        console.log(res)
         return res.jikiObject
       }
       return { ...customFunction, call }

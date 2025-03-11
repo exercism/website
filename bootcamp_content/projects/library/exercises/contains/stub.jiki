@@ -1,3 +1,6 @@
-function contains with haystack, needle do
-  return my#contains(haystack, needle)
+function is_it_there with haystack, needle do
+  set present to my#contains(haystack, needle)
+
+  // Finish off the function here
+
 end

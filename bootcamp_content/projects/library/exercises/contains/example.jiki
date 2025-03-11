@@ -6,3 +6,13 @@ function contains with haystack, needle do
   end
   return false
 end
+
+function is_it_there with haystack, needle do
+  set present to contains(haystack, needle)
+  
+  if present do
+    return "It's there! 🙂"
+  else do
+    return "It's not there 😔"
+  end
+end

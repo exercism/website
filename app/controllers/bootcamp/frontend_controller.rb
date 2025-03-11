@@ -1,3 +1,3 @@
-class Bootcamp::FrontendController < ApplicationController
+class Bootcamp::FrontendController < Bootcamp::BaseController
   def index; end
 end

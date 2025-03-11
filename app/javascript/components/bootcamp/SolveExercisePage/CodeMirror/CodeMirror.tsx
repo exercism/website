@@ -192,13 +192,13 @@ export const CodeMirror = forwardRef(function _CodeMirror(
       state: EditorState.create({
         doc: value,
         extensions: [
+          Ext.breakpointGutter,
+          Ext.foldGutter,
           Ext.underlineExtension(),
           Ext.readOnlyRangeDecoration(),
           Ext.colorScheme,
           minimalSetup,
-          Ext.breakpointGutter,
           unfoldableFunctionsField,
-          Ext.foldGutter,
           highlightActiveLineGutter(),
           dropCursor(),
           moveCursorByPasteLength,

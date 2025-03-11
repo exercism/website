@@ -6,15 +6,12 @@ import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { CustomFunctionsButton } from './CustomFunctionsButton'
 import { ActiveToggleButton } from './ActiveToggleButton'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
-import { CustomFunctionEditorStoreContext } from '../CustomFunctionEditor'
+import customFunctionEditorStore from '../store/customFunctionEditorStore'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
-  const { customFunctionEditorStore } = useContext(
-    CustomFunctionEditorStoreContext
-  )
-  const { clearResults } = customFunctionEditorStore()
+  const { clearResults, customFunctionName } = customFunctionEditorStore()
 
   const { links } = useContext(SolveExercisePageContext)
   return (
@@ -33,7 +30,11 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
             clearResults()
           }}
         />
-        <button className="btn-primary btn-xxs" onClick={handleSaveChanges}>
+        <button
+          disabled={customFunctionName.length === 0}
+          className="btn-primary btn-xxs"
+          onClick={handleSaveChanges}
+        >
           Save Changes
         </button>
 

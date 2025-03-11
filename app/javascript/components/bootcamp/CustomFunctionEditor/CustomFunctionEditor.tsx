@@ -10,7 +10,6 @@ import { Header } from './Header/Header'
 import { CustomTests } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
-import { useManageEditorDefaultValue } from './useManageEditorDefaultValue'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import SolveExercisePageContextWrapper, {
   SolveExercisePageContextValues,
@@ -21,8 +20,7 @@ import { flushSync } from 'react-dom'
 import useCustomFunctionStore from './store/customFunctionsStore'
 import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/extensions/readonly-function-my'
 import { useSetupCustomFunctionStore } from './useSetupCustomFunctionsStore'
-import {
-  createCustomFunctionEditorStore,
+import customFunctionEditorStore, {
   CustomFunctionEditorStore,
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
@@ -60,16 +58,10 @@ export default function CustomFunctionEditor({
   dependsOn,
   availableCustomFunctions,
 }: CustomFunctionEditorProps) {
-  const customFunctionEditorStore = useMemo(
-    () => createCustomFunctionEditorStore(customFunction.uuid),
-    [customFunction.uuid]
-  )
-
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
-    useCustomFunctionEditorHandler({ customFunctionEditorStore })
-
-  const { updateLocalStorageValueOnDebounce } =
-    useManageEditorDefaultValue(customFunction)
+    useCustomFunctionEditorHandler({
+      customFunctionDataFromServer: customFunction,
+    })
 
   useSetupCustomFunctionStore({
     dependsOn,
@@ -99,6 +91,7 @@ export default function CustomFunctionEditor({
     hasUnsavedChanges,
     clearSyntaxErrorInTest,
     results,
+    customFunctionName,
   } = customFunctionEditorStore()
 
   useEffect(() => {
@@ -110,15 +103,21 @@ export default function CustomFunctionEditor({
 
   const { customFunctionsForInterpreter } = useCustomFunctionStore()
 
-  const { cleanUpEditorStore } = useEditorStore()
+  const { cleanUpEditorStore, setDefaultCode } = useEditorStore()
+
+  useEffect(() => {
+    setDefaultCode(customFunction.code)
+  }, [])
+
   const handleCheckCode = useCallback(() => {
     flushSync(cleanUpEditorStore)
     flushSync(clearSyntaxErrorInTest)
-    handleRunCode(tests, customFunctionsForInterpreter)
-  }, [tests, customFunctionsForInterpreter])
+    handleRunCode()
+  }, [])
 
-  const inspectedTestIdx = tests.findIndex(
-    (test) => test.uuid === inspectedTest
+  const inspectedTestIdx = useMemo(
+    () => tests.findIndex((test) => test.uuid === inspectedTest),
+    [inspectedTest, tests]
   )
 
   const readOnlyDocumentFragment = useMemo(() => {
@@ -143,75 +142,68 @@ export default function CustomFunctionEditor({
         } as SolveExercisePageContextValues
       }
     >
-      <CustomFunctionEditorStoreContext.Provider
-        value={{ customFunctionEditorStore }}
-      >
-        <div id="bootcamp-custom-function-editor-page">
-          <Header
-            handleSaveChanges={() =>
-              handlePatchCustomFunction({
-                code: editorViewRef.current?.state.doc.toString() ?? '',
-                dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
-                url: links.updateCustomFns,
-              })
-            }
-          />
-          <div className="page-body">
-            <div style={{ width: LHSWidth }} className="page-body-lhs">
-              <ErrorBoundary>
-                <CodeMirror
-                  style={{ height: `100%` }}
-                  ref={editorViewRef}
-                  editorDidMount={handleEditorDidMount}
-                  handleRunCode={() =>
-                    handleRunCode(tests, customFunctionsForInterpreter)
+      <div id="bootcamp-custom-function-editor-page">
+        <Header
+          handleSaveChanges={() =>
+            handlePatchCustomFunction({
+              code: editorViewRef.current?.state.doc.toString() ?? '',
+              dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
+              url: links.updateCustomFns,
+            })
+          }
+        />
+        <div className="page-body">
+          <div style={{ width: LHSWidth }} className="page-body-lhs">
+            <ErrorBoundary>
+              <CodeMirror
+                style={{ height: `100%` }}
+                ref={editorViewRef}
+                editorDidMount={handleEditorDidMount}
+                handleRunCode={() => handleRunCode()}
+                onEditorChangeCallback={(view) => {
+                  setHasUnsavedChanges(true)
+                  handleSetCustomFunctionName(view)
+
+                  const { areAllTestsPassing } =
+                    customFunctionEditorStore.getState()
+                  if (areAllTestsPassing) {
+                    clearResults()
                   }
-                  onEditorChangeCallback={(view) => {
-                    setHasUnsavedChanges(true)
-                    handleSetCustomFunctionName(view)
+                }}
+                extensions={[readOnlyDocumentFragment]}
+              />
+            </ErrorBoundary>
 
-                    const { areAllTestsPassing } =
-                      customFunctionEditorStore.getState()
-                    if (areAllTestsPassing) {
-                      clearResults()
-                    }
-                    updateLocalStorageValueOnDebounce(view.state.doc.toString())
-                  }}
-                  extensions={[readOnlyDocumentFragment]}
-                />
-              </ErrorBoundary>
-
-              <div className="page-lhs-bottom flex items-center gap-8 bg-white">
-                <CheckCodeButton handleRunCode={handleCheckCode} />
-                <div className="flex-grow">
-                  {results &&
-                    results[inspectedTest] &&
-                    results[inspectedTest].animationTimeline && (
-                      <Scrubber
-                        animationTimeline={
-                          results[inspectedTest].animationTimeline
-                        }
-                        frames={inspectedFrames}
-                        context={`Test ${inspectedTestIdx + 1}`}
-                      />
-                    )}
-                </div>
+            <div className="page-lhs-bottom flex items-center gap-8 bg-white">
+              <CheckCodeButton handleRunCode={handleCheckCode} />
+              <div className="flex-grow">
+                {results &&
+                  results[inspectedTest] &&
+                  results[inspectedTest].animationTimeline && (
+                    <Scrubber
+                      animationTimeline={
+                        results[inspectedTest].animationTimeline
+                      }
+                      frames={inspectedFrames}
+                      context={`Test ${inspectedTestIdx + 1}`}
+                    />
+                  )}
               </div>
             </div>
+          </div>
 
-            <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-            {/* RHS */}
-            <div
-              className="page-body-rhs py-16 px-16"
-              style={{ width: RHSWidth }}
-            >
-              <CustomFunctionDetails />
-              <CustomFunctionTests />
-            </div>
+          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+          {/* RHS */}
+          <div
+            className="page-body-rhs py-16 px-16"
+            style={{ width: RHSWidth }}
+          >
+            <CustomFunctionDetails />
+            <CustomFunctionTests />
           </div>
         </div>
-        <Toaster />
-      </CustomFunctionEditorStoreContext.Provider>
+      </div>
+      <Toaster />
     </SolveExercisePageContextWrapper>
   )
 }

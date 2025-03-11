@@ -22,7 +22,7 @@
           "slug": "anagram-detects-two",
           "description_html": "Find two anagrams from a list of candidates.",
           "function": "find_anagrams",
-          "args": ["master", ["stream", "pigeon", "maters"]],
+          "args": ["master", ["maters", "stream", "pigeon"]],
           "checks": [{ "value": ["maters", "stream"] }]
         },
         {
@@ -72,11 +72,17 @@
           "function": "find_anagrams",
           "args": ["LISTEN", ["Listen", "Silent", "LISTEN"]],
           "checks": [{ "value": ["Silent"] }]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tests",
+      "bonus": true,
+      "tests": [
         {
-          "name": "Example in the instructions",
-          "slug": "example-instructions",
-          "description_html": "A final check of the example in the instructions.",
+          "name": "Sorting",
+          "slug": "sorting",
+          "description_html": "Can you sort the anagrams in alphabetical order?",
           "function": "find_anagrams",
           "args": [
             "stone",

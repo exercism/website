@@ -118,8 +118,8 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
       }
     },
     join: {
-      description: "Joins the strings in a list together, inserting a delimeter between them.",
-      params: %w[things delimeter],
+      description: "Joins the strings in a list together, inserting a delimiter between them.",
+      params: %w[things delimiter],
       tests: {
         [%w[Rubber Duck], " "] => "Rubber Duck",
         [%w[Rub er], "b"] => "Rubber",
@@ -176,6 +176,21 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         [%w[duck rubber rubber duck duck rubber]] => %w[duck rubber],
         [["rubber"]] => ["rubber"],
         [[]] => []
+      }
+    },
+    char_code: {
+      description: "Return the character code of a latin letter, number or full-stop. Use the tests to work out the values.",
+      params: %w[char],
+      tests: {
+        ["A"] => 65,
+        ["J"] => 74,
+        ["Z"] => 90,
+        ["a"] => 97,
+        ["j"] => 106,
+        ["z"] => 122,
+        [" "] => 32,
+        ["0"] => 48,
+        ["9"] => 57
       }
     }
   }.freeze

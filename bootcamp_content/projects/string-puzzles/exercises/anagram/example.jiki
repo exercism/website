@@ -94,7 +94,7 @@ function char_code with letter do
 end
 
 function insert_in_order with list, to_insert do
-  for each elem in list indexed by idx do
+  for each elem in  indexed by idx do
     if char_code(to_insert[1]) >= char_code(elem[1]) do
       return insert_at(list, to_insert, idx + 1)
     end

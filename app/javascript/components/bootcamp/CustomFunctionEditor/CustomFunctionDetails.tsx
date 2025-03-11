@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
@@ -12,14 +12,28 @@ export function CustomFunctionDetails() {
     setCustomFunctionDescription,
   } = customFunctionEditorStore()
 
+  const functionNameEmpty = useMemo(
+    () => customFunctionName.length === 0,
+    [customFunctionName]
+  )
+
   return (
     <div className="flex flex-col">
       <label className={labelClassName} htmlFor="fn-name">
         Function name
+        {functionNameEmpty && (
+          <span className="text-bootcamp-fail-dark ml-4 inline-block">
+            - cannot be empty
+          </span>
+        )}
       </label>
       <div className="relative">
         <input
-          className="mb-16 !bg-[#eee] w-fill"
+          className={`mb-16 !bg-[#eee] w-fill ${
+            functionNameEmpty
+              ? '!border-bootcamp-fail-dark !bg-bootcamp-fail-light'
+              : ''
+          }`}
           name="fn-name"
           type="text"
           readOnly
@@ -33,12 +47,6 @@ export function CustomFunctionDetails() {
           height={20}
         />
       </div>
-
-      {customFunctionName.length === 0 && (
-        <p className="pb-12 mb-16 font-semibold text-bootcamp-fail-dark text-16 border-b-1 border-bootcamp-fail-dark">
-          Function name cannot be empty!
-        </p>
-      )}
 
       <label className={labelClassName} htmlFor="description">
         Description

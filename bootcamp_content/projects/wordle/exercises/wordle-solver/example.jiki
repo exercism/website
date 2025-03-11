@@ -7,7 +7,6 @@ function contains with haystack, needle do
   return false
 end
 
-
 //------
 
 function letter_ok_in_guess with letter, knowledge, letter_knowledge do
@@ -64,16 +63,14 @@ function setup_knowledge do
   return knowledge
 end
 
-function process_game do
-  set game to new WordleGame()
-  game.draw_board()
-  set knowledge to setup_knowledge()
-  repeat 6 times indexed by idx do
-    change knowledge to process_guess(game, knowledge, idx, choose_word(knowledge))
-    if knowledge["won"] do
-      break
+
+function has_won with states do  
+  for each item in states do
+    if item != "correct" do
+      return false
     end
   end
+  return true
 end
 
 function process_guess with game, knowledge, row, guess do
@@ -85,7 +82,7 @@ function process_guess with game, knowledge, row, guess do
       change states to push(states, "correct")
     else if contains(game.target_word, letter) do
       change knowledge["present"] to unique(push(knowledge["present"], letter))
-      change knowledge["squares"][idx]["not"] to letter
+      change knowledge["squares"][idx]["not"] to push(knowledge["squares"][idx]["not"], letter)
       change states to push(states, "present")
     else do
       change knowledge["absent"] to unique(push(knowledge["absent"], letter))
@@ -97,11 +94,14 @@ function process_guess with game, knowledge, row, guess do
   return knowledge
 end
 
-function has_won with states do  
-  for each item in states do
-    if item != "correct" do
-      return false
+function process_game do
+  set game to new WordleGame()
+  game.draw_board()
+  set knowledge to setup_knowledge()
+  repeat 6 times indexed by idx do
+    change knowledge to process_guess(game, knowledge, idx, choose_word(knowledge))
+    if knowledge["won"] do
+      break
     end
   end
-  return true
 end

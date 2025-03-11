@@ -90,7 +90,7 @@ function index_of with list, item do
 end
 
 function char_code with letter do
-  return 97 + index_of("abcdefghijklmnopqrstuvwxyz", to_lowercase(letter))
+  return 97 + index_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", letter)
 end
 
 function insert_in_order with list, to_insert do

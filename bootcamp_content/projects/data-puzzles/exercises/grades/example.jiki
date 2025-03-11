@@ -56,7 +56,7 @@ function to_uppercase with sentence do
   set upper to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   set lower_idx to 0
   for each letter in sentence do
-    if my#contains(upper, letter) do
+    if contains(upper, letter) do
       change output to concatenate(output, letter)
     else do
       change lower_idx to index_of(lower, letter)
@@ -107,9 +107,26 @@ function flatten with thing do
   return res
 end
 
+function length with measurable do
+  set counter to 0
+  for each thing in measurable do
+    change counter to counter + 1
+  end
+  return counter
+end
+
+function contains with haystack, needle do
+  for each element in haystack do
+    if element == needle do
+      return true
+    end
+  end
+  return false
+end
+
 function join with list, joiner do
   set res to ""
-  set len to my#length(list)
+  set len to length(list)
   for each elem in list indexed by idx do
     change res to concatenate(res, elem)
     if(idx < len) do

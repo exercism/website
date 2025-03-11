@@ -33,7 +33,7 @@ export default class WordleExercise extends Exercise {
     this.targetWord = word
   }
 
-  public setupView() {
+  public setupView(_: ExecutionContext) {
     this.container = document.createElement('div')
     this.container.classList.add('container')
     this.view.appendChild(this.container)
@@ -51,14 +51,18 @@ export default class WordleExercise extends Exercise {
     })
   }
 
-  public drawGuesses(executionCtx: ExecutionContext, guesses: string[]) {
+  public drawGuesses(_: ExecutionContext, guesses: string[]) {
     guesses.forEach((guess, idx) => {
-      this.drawGuess(executionCtx, idx, guess)
+      this.drawGuess(null, idx, guess)
     })
   }
 
   // Updates the board with the guess
-  public drawGuess(executionCtx: ExecutionContext, idx: number, guess: string) {
+  public drawGuess(
+    executionCtx: ExecutionContext | null,
+    idx: number,
+    guess: string
+  ) {
     const row = this.guessRows[idx]
     const letters = row.getElementsByClassName('letter')
 
@@ -74,10 +78,10 @@ export default class WordleExercise extends Exercise {
         transformations: {
           color: 'rgba(255,255,255,1)',
         },
-        offset: executionCtx.getCurrentTime(),
+        offset: executionCtx?.getCurrentTime() || 0,
       })
     })
-    executionCtx.fastForward(1)
+    executionCtx?.fastForward(1)
   }
 
   private createGuessRow() {

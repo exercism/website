@@ -808,9 +808,10 @@ export class Executor {
     }
 
     this.executeLoop(() => {
-      let index = 0
+      let iteration = 0
       for (let temporaryVariableValue of iterable.jikiObject.value) {
-        index += 1
+        iteration += 1
+        this.guardInfiniteLoop(statement.location)
 
         const temporaryVariableNames: string[] = []
 
@@ -842,7 +843,7 @@ export class Executor {
           return {
             type: 'ForeachStatement',
             elementName: statement.elementName.lexeme,
-            index,
+            index: iteration,
             iterable,
             temporaryVariableValue,
             secondTemporaryVariableValue,
@@ -851,7 +852,7 @@ export class Executor {
 
         this.executeLoopIteration(
           statement.body,
-          index,
+          iteration,
           temporaryVariableNames,
           counterVariableName
         )

@@ -155,8 +155,8 @@ export class Interpreter {
       excludeList: undefined,
       timePerFrame: 0.01,
       repeatDelay: 0,
-      maxRepeatUntilGameOverIterations: 1000,
-      maxTotalLoopIterations: 1000,
+      maxRepeatUntilGameOverIterations: 100,
+      maxTotalLoopIterations: 10000,
       maxTotalExecutionTime: 10 * 1000, // 10 seconds
       allowGlobals: false,
       customFunctionDefinitionMode: false,

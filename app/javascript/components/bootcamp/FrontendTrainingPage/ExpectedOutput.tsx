@@ -16,12 +16,13 @@ export const ExpectedOutput = forwardRef<HTMLIFrameElement>((props, ref) => {
 })
 
 const html = `
-<div class="asdf"></div>
+<div class="asdf">Hello world!</div>
 `
 
 const css = `
 .asdf {
-  background-color: red;
-  width: 100px;
-  height: 100px;
-}`
+  color: red;
+  font-weight: bold;
+  font-size: 24px;
+}
+  `

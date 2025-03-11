@@ -12,6 +12,8 @@ import { Prec } from '@codemirror/state'
 import { ActualOutput } from './ActualOutput'
 import { ExpectedOutput } from './ExpectedOutput'
 import { updateIFrame } from './updateIFrame'
+import { toPixelData } from 'html-to-image'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function FrontendTrainingPage() {
   const {
@@ -83,8 +85,16 @@ export default function FrontendTrainingPage() {
         <div className="flex flex-col gap-12">
           <button
             onClick={async () => {
-              // const result = await compareIframes(actualIFrameRef, expectedIFrameRef)
-              // console.log('comparing', result)
+              // const isEqual = await compareIframes(actualIFrameRef, expectedIFrameRef)
+              const percentage = await getIframesMatchPercentage(
+                actualIFrameRef,
+                expectedIFrameRef
+              )
+              if (percentage === 100) {
+                toast.success(`MATCHING! ${percentage}%`)
+              } else {
+                toast.error(`NOT MATCHING! ${percentage}%`)
+              }
             }}
             className="btn-xxs btn-primary"
           >
@@ -101,6 +111,61 @@ export default function FrontendTrainingPage() {
           />
         </div>
       </div>
+      <Toaster />
     </div>
   )
+}
+
+export async function captureIframeContent(
+  iframeRef: React.RefObject<HTMLIFrameElement>
+): Promise<Uint8ClampedArray | null> {
+  if (!iframeRef.current) return null
+
+  const iframe = iframeRef.current
+  const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document
+  if (!iframeDoc || !iframeDoc.body) return null
+
+  try {
+    return await toPixelData(iframeDoc.body)
+  } catch (error) {
+    console.error('Error capturing iframe content:', error)
+    return null
+  }
+}
+
+export async function getIframesMatchPercentage(
+  actualIFrameRef: React.RefObject<HTMLIFrameElement>,
+  expectedIFrameRef: React.RefObject<HTMLIFrameElement>
+): Promise<number> {
+  const actualPixels = await captureIframeContent(actualIFrameRef)
+  const expectedPixels = await captureIframeContent(expectedIFrameRef)
+
+  if (!actualPixels || !expectedPixels) return 0
+
+  if (actualPixels.length !== expectedPixels.length) return 0
+
+  let differentPixels = 0
+  const totalPixels = actualPixels.length / 4
+
+  for (let i = 0; i < actualPixels.length; i += 4) {
+    const rDiff = Math.abs(actualPixels[i] - expectedPixels[i])
+    const gDiff = Math.abs(actualPixels[i + 1] - expectedPixels[i + 1])
+    const bDiff = Math.abs(actualPixels[i + 2] - expectedPixels[i + 2])
+    const aDiff = Math.abs(actualPixels[i + 3] - expectedPixels[i + 3])
+
+    const threshold = 10
+    if (
+      rDiff > threshold ||
+      gDiff > threshold ||
+      bDiff > threshold ||
+      aDiff > threshold
+    ) {
+      differentPixels++
+    }
+  }
+
+  console.log('differentPixels', differentPixels)
+
+  const matchPercentage = ((1 - differentPixels / totalPixels) * 100).toFixed(2)
+  return parseFloat(matchPercentage)
 }

@@ -27,6 +27,7 @@ import {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
+import { DeleteFunctionButton } from './DeleteFunctionButton'
 
 export type CustomFunction = {
   uuid: string
@@ -47,6 +48,7 @@ export type CustomFunctionEditorProps = {
     getCustomFns: string
     getCustomFnsForInterpreter: string
     customFnsDashboard: string
+    deleteCustomFn: string
   }
 }
 

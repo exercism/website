@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Resizer,
   useResizablePanels,
@@ -6,6 +6,12 @@ import {
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { useHtmlEditorHandler } from './useHtmlEditorHandler'
 import { Instructions } from '../SolveExercisePage/Instructions/Instructions'
+import { html } from '@codemirror/lang-html'
+import { basicLight } from 'cm6-theme-basic-light'
+import { Prec } from '@codemirror/state'
+import { ActualOutput } from './ActualOutput'
+import { ExpectedOutput } from './ExpectedOutput'
+import { updateIFrame } from './updateIFrame'
 
 export default function FrontendTrainingPage() {
   const {
@@ -18,6 +24,9 @@ export default function FrontendTrainingPage() {
     direction: 'vertical',
     localStorageId: 'frontend-training-page-lhs-height',
   })
+
+  const actualIFrameRef = useRef<HTMLIFrameElement>(null)
+  const expectedIFrameRef = useRef<HTMLIFrameElement>(null)
 
   const {
     primarySize: LHSWidth,
@@ -45,6 +54,12 @@ export default function FrontendTrainingPage() {
           <CodeMirror
             style={{ height: `${TopHeight}px` }}
             editorDidMount={handleHtmlEditorDidMount}
+            extensions={[Prec.highest([html(), basicLight])]}
+            onEditorChangeCallback={(view) => {
+              const html = view.state.doc.toString()
+              const css = cssEditorViewRef.current?.state.doc.toString() || ''
+              updateIFrame(actualIFrameRef, html, css)
+            }}
             handleRunCode={() => {}}
             ref={htmlEditorViewRef}
           />
@@ -55,24 +70,31 @@ export default function FrontendTrainingPage() {
           <CodeMirror
             style={{ height: `${BottomHeight}px` }}
             editorDidMount={handleCssEditorDidMount}
+            onEditorChangeCallback={(view) => {
+              const css = view.state.doc.toString()
+              const html = htmlEditorViewRef.current?.state.doc.toString() || ''
+              updateIFrame(actualIFrameRef, html, css)
+            }}
             handleRunCode={() => {}}
             ref={cssEditorViewRef}
           />
         </div>
 
         <div className="flex flex-col gap-12">
-          <div className="p-24">
-            <h3 className="mb-12 font-mono font-semibold">Expected: </h3>
-            <div className="bg-gray-400 rounded-12 w-[350px] h-[350px]"></div>
-          </div>
-
-          <div className="p-24">
-            <h3 className="mb-12 font-mono font-semibold">Actual: </h3>
-            <div className="bg-gray-400 rounded-12 w-[350px] h-[350px]"></div>
-          </div>
+          <button
+            onClick={async () => {
+              // const result = await compareIframes(actualIFrameRef, expectedIFrameRef)
+              // console.log('comparing', result)
+            }}
+            className="btn-xxs btn-primary"
+          >
+            Compare
+          </button>
+          <ActualOutput ref={actualIFrameRef} />
+          <ExpectedOutput ref={expectedIFrameRef} />
         </div>
         <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-        <div className="page-body-rhs">
+        <div className="page-body-rhs" style={{ width: RHSWidth }}>
           <Instructions
             exerciseTitle="Css world!"
             exerciseInstructions="<div>Follow these instructions</div>"

@@ -16,12 +16,7 @@
  * This process will also produce errors if the source code is invalid, for example
  * if we see an unterminated string, or a number with multiple decimal points.
  */
-import {
-  DisabledLanguageFeatureError,
-  type DisabledLanguageFeatureErrorType,
-  SyntaxError,
-  SyntaxErrorType,
-} from './error'
+import { SyntaxError, SyntaxErrorType } from './error'
 import type { Token, TokenType } from './token'
 import { Location } from './location'
 import { translate } from './translator'

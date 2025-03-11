@@ -1,68 +1,19 @@
 import { SyntaxError } from './error'
 import { type SyntaxErrorType } from './error'
-import {
-  ListExpression,
-  BinaryExpression,
-  FunctionCallExpression,
-  Expression,
-  GroupingExpression,
-  LiteralExpression,
-  LogicalExpression,
-  DictionaryExpression,
-  UnaryExpression,
-  VariableLookupExpression,
-  GetElementExpression,
-  SetElementExpression,
-  TemplateLiteralExpression,
-  TemplatePlaceholderExpression,
-  TemplateTextExpression,
-  FunctionLookupExpression,
-  MethodCallExpression,
-  InstantiationExpression,
-  ClassLookupExpression,
-  AccessorExpression,
-} from './expression'
-import type { LanguageFeatures } from './interpreter'
+import { ValueExpression } from './expression'
 import { Location } from './location'
 import { Scanner } from './scanner'
-import {
-  BlockStatement,
-  BreakStatement,
-  FunctionCallStatement,
-  ContinueStatement,
-  ForeachStatement,
-  FunctionParameter,
-  FunctionStatement,
-  IfStatement,
-  RepeatStatement,
-  RepeatUntilGameOverStatement,
-  ReturnStatement,
-  Statement,
-  SetVariableStatement,
-  ChangeVariableStatement,
-  RepeatForeverStatement,
-  LogStatement,
-  ChangeElementStatement,
-  MethodCallStatement,
-  ChangePropertyStatement,
-} from './statement'
+import { Statement, SelectorStatement, PropertyStatement } from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
-import { isTypo } from './helpers/isTypo'
-import { errorForMissingDoAfterParameters } from './helpers/complexErrors'
-import { unwrapJikiObject } from './jikiObjects'
 
 export class Parser {
   private readonly scanner: Scanner
   private current: number = 0
   private tokens: Token[] = []
 
-  constructor(
-    private functionNames: string[] = [],
-    languageFeatures: LanguageFeatures,
-    private shouldWrapTopLevelStatements: boolean
-  ) {
-    this.scanner = new Scanner(languageFeatures)
+  constructor() {
+    this.scanner = new Scanner()
   }
 
   public parse(sourceCode: string): Statement[] {
@@ -77,34 +28,6 @@ export class Parser {
       }
     }
 
-    if (this.shouldWrapTopLevelStatements)
-      return this.wrapTopLevelStatements(statements)
-
-    return statements
-  }
-
-  wrapTopLevelStatements(statements: Statement[]): Statement[] {
-    const functionStmt = new FunctionStatement(
-      {
-        type: 'IDENTIFIER',
-        lexeme: 'main',
-        literal: null,
-        location: Location.unknown,
-      },
-      [],
-      [],
-      Location.unknown
-    )
-
-    for (let i = statements.length - 1; i >= 0; i--) {
-      // Don't wrap top-level function statements
-      if (statements[i] instanceof FunctionStatement) continue
-
-      functionStmt.body.unshift(statements[i])
-      statements.splice(i, 1)
-    }
-
-    statements.push(functionStmt)
     return statements
   }
 

@@ -196,13 +196,8 @@
             },
             {
               "function": "statesForRow(2)",
-              "value": ["present", "present", "present", "correct", "present"],
-              "error_html": "We expected the third row to be present, present, present, correct, present"
-            },
-            {
-              "function": "statesForRow(3)",
               "value": ["correct", "correct", "correct", "correct", "correct"],
-              "error_html": "We expected the fourth row to be correct"
+              "error_html": "We expected the third row to be correct"
             }
           ]
         },

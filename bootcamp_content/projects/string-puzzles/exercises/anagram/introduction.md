@@ -22,7 +22,7 @@ Some notes:
 - The target word and possible words are made up of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).
 - When determining if something is an acronym, lowercase and uppercase characters are equivalent. For example, `"PoTS"` is an anagram of `"sTOp"`, but `"StoP"` is not an anagram of `"sTOp"`.
 - You should return the anagrams with the same casing as they are specified in the possibilities list. For example, if `"sTOp"` is in the possibilities list, you should return it cased as `"sTOp"`, not `"stop"`, even if the target word is `"pots"`.
-- You should return the anagrams in alphabetcial order. Capital letters are considered to come before lowercase letters.
+- You should return the anagrams in alphabetical order. Capital letters are considered to come before lowercase letters.
 
 For example:
 

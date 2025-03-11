@@ -8,6 +8,11 @@ import { CustomFunctionEditorProps } from '../components/bootcamp/CustomFunction
 const SolveExercisePage = lazy(
   () => import('../components/bootcamp/SolveExercisePage/SolveExercisePage')
 )
+
+const FrontendTrainingPage = lazy(
+  () =>
+    import('../components/bootcamp/FrontendTrainingPage/FrontendTrainingPage')
+)
 const DrawingPage = lazy(
   () => import('../components/bootcamp/DrawingPage/DrawingPage')
 )
@@ -35,6 +40,12 @@ const mappings = {
   ): JSX.Element => (
     <Suspense>
       <SolveExercisePage {...camelizeKeysAs<SolveExercisePageProps>(data)} />
+    </Suspense>
+  ),
+
+  'bootcamp-frontend-training-page': (data: any): JSX.Element => (
+    <Suspense>
+      <FrontendTrainingPage />
     </Suspense>
   ),
 

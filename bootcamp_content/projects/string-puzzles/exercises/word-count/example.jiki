@@ -26,7 +26,7 @@ function extract_words with sentence do
       change words to add_word(words, word)
       change word to ""
     else do
-      change word to join(word, letter)
+      change word to concatenate(word, letter)
     end
   end
   return add_word(words, word)

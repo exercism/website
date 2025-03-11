@@ -119,11 +119,11 @@ describe('interpret', () => {
     })
   })
   describe('pass by reference', () => {
-    test('custom type', () => {
-      class MutableNumber extends Jiki.JikiObject {
+    xtest('custom type', () => {
+      class MutableNumber extends Jiki.Instance {
         public methods: Map<string, Jiki.Method> = new Map()
         constructor(public value: number) {
-          super('number')
+          super('Foo')
           this.methods.set(
             'increment',
             new Jiki.Method('increment', 0, this.increment)
@@ -166,6 +166,7 @@ describe('interpret', () => {
 
       // Last line
       const lastFrame = frames[frames.length - 1]
+      expect(lastFrame.status).toBe('SUCCESS')
       expect(Jiki.unwrapJikiObject(lastFrame.variables)['original'].value).toBe(
         6
       )

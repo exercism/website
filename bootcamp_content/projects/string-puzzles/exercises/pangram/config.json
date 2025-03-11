@@ -5,7 +5,7 @@
   "idx": 2,
   "blocks_project_progression": false,
   "tests_type": "io",
-  "stdlib_functions": ["join", "concatenate", "keys"],
+  "stdlib_functions": ["concatenate", "keys"],
   "tasks": [
     {
       "name": "Basic cases",

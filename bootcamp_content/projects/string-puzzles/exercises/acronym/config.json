@@ -6,7 +6,7 @@
   "blocks_level_progression": false,
   "blocks_project_progression": false,
   "tests_type": "io",
-  "stdlib_functions": ["join", "concatenate", "to_upper_case"],
+  "stdlib_functions": ["concatenate", "to_upper_case"],
   "tasks": [
     {
       "name": "Basic acronyms",
@@ -137,7 +137,9 @@
           "name": "A scenario that changes every time",
           "image_slug": "string-puzzles/acronym/trnt.jpg",
           "function": "acronym",
-          "args": ["setup.join(\"Hello \", setup.randomEmoji(), \"World\")"],
+          "args": [
+            "setup.concatenate(\"Hello \", setup.randomEmoji(), \"World\")"
+          ],
           "checks": [
             {
               "value": "HW"

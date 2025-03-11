@@ -2,7 +2,7 @@
   "title": "Omniscience",
   "description": "Navigate the maze without any help!",
   "level": 9,
-  "idx": 1,
+  "idx": 4,
   "project_type": "maze",
   "tests_type": "state",
   "exercise_functions": [

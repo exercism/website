@@ -7,7 +7,7 @@ export function randomEmoji() {
 const randomItem = (list) => list[Math.floor(Math.random() * list.length)]
 
 export const genericSetupFunctions = {
-  join: (...args: any[]) => args.join(''),
+  concatenate: (...args: any[]) => args.join(''),
   randomEmoji: randomEmoji,
   randomHonorific: () => randomItem(honorifics),
 }

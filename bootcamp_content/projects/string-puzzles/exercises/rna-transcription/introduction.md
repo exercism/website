@@ -40,4 +40,4 @@ It should take a DNA string as it's input, and should return a string representi
 
 For this exercise, you have one function available:
 
-- `join(str1, str2)`: This takes two strings and outputs them joined together.
+- `concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.

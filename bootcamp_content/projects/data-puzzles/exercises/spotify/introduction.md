@@ -24,9 +24,9 @@ Use the API explained above to retrieve the person's favourite artists, then com
 
 If there is an error from the API, you should return that error as a string, prefixed with `"Error: "`.
 
-## Custom Functions
+## Library Functions
 
-This would be a good time to use your [`my#to_sentence`](/bootcamp/custom_functions/to_sentence/edit) and [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom functions!
+This would be a good time to use your [`my#to_sentence`](/bootcamp/custom_functions/to_sentence/edit) and [`my#has_key`](/bootcamp/custom_functions/has_key/edit) library functions!
 
 ## Functions
 

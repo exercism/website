@@ -30,9 +30,9 @@ A couple more important notes:
 - ISBNs may be written with or without hyphens.
 - Any other characters make the ISBN invalid.
 
-## Custom Functions
+## Library Functions
 
-There are lots of ways to solve this, but you maybe find it helpful to include your [`my#length`](/bootcamp/custom_functions/length/edit) and [`my#contains`](/bootcamp/custom_functions/contains/edit) custom functions.
+There are lots of ways to solve this, but you maybe find it helpful to include your [`my#length`](/bootcamp/custom_functions/length/edit) and [`my#contains`](/bootcamp/custom_functions/contains/edit) library functions.
 
 ## Functions
 

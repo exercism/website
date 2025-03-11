@@ -12,7 +12,7 @@ function remove_honorific with name do
   set res to ""
   for each letter in name do
     if adding do
-      change res to join(res, letter)
+      change res to concatenate(res, letter)
     end
     if letter == " " do
       change adding to true

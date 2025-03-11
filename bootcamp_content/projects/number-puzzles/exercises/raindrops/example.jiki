@@ -4,13 +4,13 @@ function raindrops with number do
   set result to ""
 
   if number % 3 == 0 do
-    change result to join(result, "Pling")
+    change result to concatenate(result, "Pling")
   end
   if number % 5 == 0 do
-    change result to join(result, "Plang")
+    change result to concatenate(result, "Plang")
   end
   if number % 7 == 0 do
-    change result to join(result, "Plong")
+    change result to concatenate(result, "Plong")
   end
 
   if result == "" do

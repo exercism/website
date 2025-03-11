@@ -20,7 +20,7 @@ You need to create a function called `raindrops` that takes the number as an inp
 
 To solve this, you need two functions:
 
-- `join(string1, string2)` takes two strings as inputs and returns them joined into one string.
+- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
 - `number_to_string(number)` takes a number as an input and returns it magically changed into a string.
 
 ### Examples

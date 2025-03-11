@@ -14,7 +14,7 @@ function extract_number with string do
     if not contains(numbers, letter) do
       break
     end
-    change res to join(res, letter)
+    change res to concatenate(res, letter)
   end
   return string_to_number(res)
 end

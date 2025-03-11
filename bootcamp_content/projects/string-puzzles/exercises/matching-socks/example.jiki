@@ -45,7 +45,7 @@ function strip_prefix with description, num_letters do
   set res to ""
   set counter to num_letters + 1
   repeat length(description) - num_letters times do
-    change res to join(res, description[counter])
+    change res to concatenate(res, description[counter])
     change counter to counter + 1
   end
   return res
@@ -61,9 +61,9 @@ end
 
 function switch_left_right with description do
   if starts_with(description, "left ") do
-    return join("right ", remove_left_right(description))
+    return concatenate("right ", remove_left_right(description))
   else if starts_with(description, "right ") do
-    return join("left ", remove_left_right(description))
+    return concatenate("left ", remove_left_right(description))
   end
   return description
 end
@@ -99,7 +99,7 @@ function matching_socks with clean, dirty do
 
     for each sock2 in socks do
       if other_sock == sock2 do
-        change matching_socks to push_if_missing(matching_socks, join(remove_left_right(other_sock), "s"))
+        change matching_socks to push_if_missing(matching_socks, concatenate(remove_left_right(other_sock), "s"))
       end
     end
   end

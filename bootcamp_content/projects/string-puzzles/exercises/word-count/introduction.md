@@ -59,9 +59,9 @@ the: 2
 
 Create a function called `count_words` that takes a sentence as its input, and returns a dictionary with keys as words, and their values as the frequency at which they appear.
 
-### Custom Functions
+### Library Functions
 
-This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+This exercise will probably need your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) library function!
 
 It should return a boolean stating whether or not the key exists in a dictionary.
 
@@ -82,5 +82,5 @@ In total, you have four functions available in this exercise:
 
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
 - `has_key(dict, key)`: Takes a dictionary and a string, and returns whether the string is a key in the dictionary.
-- `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
+- `concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.
 - `to_lower_case(string)`: Returns a lower case version of the string.

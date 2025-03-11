@@ -28,9 +28,9 @@ Once you move into the finishing square (`"🏁"`), you should use the `announce
 announce_emojis({ "🐽": 4, "🧠": 3 })
 ```
 
-## Custom Functions
+## Library Functions
 
-This would be a good time to use (or make!) your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) custom function!
+This would be a good time to use (or make!) your [`my#has_key`](/bootcamp/custom_functions/has_key/edit) library function!
 
 ### Summary
 

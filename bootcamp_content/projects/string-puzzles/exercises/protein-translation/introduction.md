@@ -49,4 +49,4 @@ For example, if we ran the code `translate_rna("AUGUUUUCUUAAAUG")`, we'd expect 
 You have two functions available:
 
 - `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
-- `join(string1, string2)`: This takes two strings as inputs and returns a new string with them joined together.
+- `concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.

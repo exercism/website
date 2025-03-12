@@ -275,3 +275,56 @@ export class FunctionStatement extends Statement {
     return this.body
   }
 }
+
+// OOP Shizzle
+export class ClassStatement extends Statement {
+  constructor(
+    public name: Token,
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('ClassStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+
+export class ConstructorStatement extends Statement {
+  constructor(
+    public parameters: FunctionParameter[],
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('ConstructorStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+export class MethodStatement extends Statement {
+  constructor(
+    public accessModifier: Token,
+    public name: Token,
+    public parameters: FunctionParameter[],
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('MethodStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+export class PropertyStatement extends Statement {
+  constructor(
+    public accessModifier: Token,
+    public name: Token,
+    public location: Location
+  ) {
+    super('PropertyStatement')
+  }
+  public children() {
+    return []
+  }
+}

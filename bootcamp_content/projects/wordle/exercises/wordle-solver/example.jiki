@@ -1,3 +1,12 @@
+function has_key with dict, key do
+  for each keys, values in dict do
+    if key == keys do
+      return true
+    end
+  end
+  return false
+end
+
 function contains with haystack, needle do
   for each thing in haystack do
     if needle == thing do
@@ -73,12 +82,36 @@ function has_won with states do
   return true
 end
 
+function should_be_present with present_letters, target_word, letter do
+  if not has_key(present_letters, letter) do
+    return true
+  end
+
+  set actual to 0
+  for each char in target_word do
+    if char == letter do
+      change actual to actual + 1
+    end
+  end
+
+  return actual > present_letters[letter]
+end
+
+function add_present_letter with present_letters, letter do
+  if not has_key(present_letters, letter) do
+    change present_letters[letter] to 0
+  end
+  change present_letters[letter] to present_letters[letter] + 1
+  return present_letters
+end
+
 function process_guess with game, knowledge, row, guess do
   set states to []
-  log guess
+  set present_letters to {}
   for each letter in guess indexed by idx do
     if game.target_word[idx] == letter do
       change knowledge["squares"][idx]["actual"] to letter
+      change present_letters to add_present_letter(present_letters, letter)
       change states to push(states, "correct")
     else if contains(game.target_word, letter) do
       change knowledge["present"] to unique(push(knowledge["present"], letter))
@@ -89,6 +122,20 @@ function process_guess with game, knowledge, row, guess do
       change states to push(states, "absent")
     end
   end
+
+  for each letter in guess indexed by idx do
+    if states[idx] != "present" do
+      next
+    end
+
+    if not should_be_present(present_letters, game.target_word, letter) do
+      change states[idx] to "absent"
+      next
+    end
+
+    change present_letters to add_present_letter(present_letters, letter)
+  end
+  
   change knowledge["won"] to has_won(states)
   game.add_word(row, guess, states)
   return knowledge

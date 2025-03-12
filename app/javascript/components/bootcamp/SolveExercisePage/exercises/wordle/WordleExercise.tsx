@@ -157,6 +157,7 @@ export default class WordleExercise extends Exercise {
     'these',
     'other',
     'words',
+    'colly',
     'could',
     'write',
     'first',
@@ -209,6 +210,7 @@ export default class WordleExercise extends Exercise {
     'white',
     'given',
     'means',
+    'tonic',
     'music',
     'miles',
     'thing',
@@ -249,7 +251,6 @@ export default class WordleExercise extends Exercise {
     'class',
     'woman',
     'women',
-    'witch',
     'queen',
     'horse',
     'shows',
@@ -325,6 +326,17 @@ export default class WordleExercise extends Exercise {
     'grass',
     'scale',
     'cells',
+    'clamp',
+    'swabs',
+    'wussy',
+    'swift',
+    'swine',
+    'swiss',
+    'swigs',
+    'swims',
+    'twice',
+
+    'magic',
   ])
   private getCommonWords = (_: ExecutionContext) => this.commonWords
 
@@ -948,7 +960,7 @@ export default class WordleExercise extends Exercise {
     "acted",
     "goats",
     "arise",
-    "witch",
+
     "loves",
     "queer",
     "dwell",
@@ -1401,7 +1413,6 @@ export default class WordleExercise extends Exercise {
     "motel",
     "ivory",
     "necks",
-    "clamp",
     "barge",
     "blues",
     "alien",

@@ -2,7 +2,7 @@
 
 In this Library Function Exercise, your task is to create three functions all around checking whether is string contains letters and/or numbers.
 
-As normal in these exercises, your job is:
+As normal in these exercises, your job is to:
 
 1. Write the library functions
 2. Import them (using the dependencies button)

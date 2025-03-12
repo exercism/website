@@ -17,7 +17,6 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { SolveExercisePageContext } from '../SolveExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
-import useTestStore from '../store/testStore'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -55,8 +54,7 @@ export function useScrubber({
     setUnderlineRange,
   } = useEditorStore()
 
-  const { inspectedTestResult } = useTestStore()
-  const { editorView } = useContext(SolveExercisePageContext)
+  const { editorView, isSpotlightActive } = useContext(SolveExercisePageContext)
 
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()
@@ -320,7 +318,7 @@ export function useScrubber({
           newTimelineValue
         )
 
-        if (nextBreakpointFrame) {
+        if (nextBreakpointFrame && !isSpotlightActive) {
           // Because we might be not quite aligned, we set the newTimelineValue
           // to be the breakpoints time, not the animation time. This is our
           // point of true.
@@ -346,7 +344,12 @@ export function useScrubber({
         }
       }, 16) // Don't update more than 60 times a second (framerate)
     })
-  }, [animationTimeline, frames, findBreakpointFrameBetweenTimes])
+  }, [
+    animationTimeline,
+    frames,
+    findBreakpointFrameBetweenTimes,
+    isSpotlightActive,
+  ])
 
   // The frames change when the code is run. So this is our big reset moment
   // effectively.

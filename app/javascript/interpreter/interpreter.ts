@@ -28,6 +28,12 @@ export type CompilationError = {
   frames: Frame[]
 }
 
+export class CustomFunctionError extends Error {
+  constructor(message: string) {
+    super(message)
+  }
+}
+
 export type Toggle = 'ON' | 'OFF'
 
 export type LanguageFeatures = {
@@ -207,6 +213,12 @@ export class Interpreter {
           ...nakedArgs
         )
         console.log(res)
+        if (res.error) {
+          throw new CustomFunctionError(res.error.message)
+        } else if (res.frames.at(-1)?.error) {
+          throw new CustomFunctionError(res.frames.at(-1)!.error!.message)
+        }
+
         return res.jikiObject
       }
       return { ...customFunction, call }

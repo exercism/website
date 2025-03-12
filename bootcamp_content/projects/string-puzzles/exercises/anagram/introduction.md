@@ -20,7 +20,7 @@ Some notes:
 - An anagram is a rearrangement of letters to form a new word: for example `"owns"` is an anagram of `"snow"`.
 - A word is _not_ its own anagram: for example, `"stop"` is not an anagram of `"stop"`.
 - The target word and possible words are made up of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).
-- When determining if something is an acronym, lowercase and uppercase characters are equivalent. For example, `"PoTS"` is an anagram of `"sTOp"`, but `"StoP"` is not an anagram of `"sTOp"`.
+- When determining if something is an anagram, lowercase and uppercase characters are equivalent. For example, `"PoTS"` is an anagram of `"sTOp"`, but `"StoP"` is not an anagram of `"sTOp"`.
 - You should return the anagrams with the same casing as they are specified in the possibilities list. For example, if `"sTOp"` is in the possibilities list, you should return it cased as `"sTOp"`, not `"stop"`, even if the target word is `"pots"`.
 
 For example:

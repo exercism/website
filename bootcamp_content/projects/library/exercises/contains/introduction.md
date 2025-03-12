@@ -2,8 +2,7 @@
 
 Welcome to the second Library Function Exercise.
 
-In this exercise, we're doing exactly the same as the previous Length exercise.
-Your job is to:
+In this exercise, we're following the same process as in the previous "Length" exercise:
 
 1. Write the library function
 2. Import it (using the dependencies button)

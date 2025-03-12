@@ -138,13 +138,13 @@
           "slug": "present-1",
           "name": "Some letters present",
           "description_html": "A tough one with some letters present.",
-          "setup_functions": [["setTargetWord", ["witch"]]],
+          "setup_functions": [["setTargetWord", ["twice"]]],
           "function": "process_game",
           "checks": [
             {
               "function": "statesForRow(0)",
-              "value": ["correct", "present", "present", "correct", "correct"],
-              "error_html": "We expected the first row to have two correct and three present."
+              "value": ["present", "absent", "correct", "correct", "absent"],
+              "error_html": "We expected the first row to be present, absent, correct, correct, absent."
             },
             {
               "function": "statesForRow(1)",
@@ -181,23 +181,28 @@
           "slug": "present-3",
           "name": "A more normal journey",
           "description_html": "This feels like Wordle now",
-          "setup_functions": [["setTargetWord", ["heart"]]],
+          "setup_functions": [["setTargetWord", ["magic"]]],
           "function": "process_game",
           "checks": [
             {
               "function": "statesForRow(0)",
-              "value": ["absent", "present", "absent", "absent", "present"],
-              "error_html": "We expected the first row to be absent, present, absent, absent, present"
+              "value": ["absent", "absent", "present", "present", "absent"],
+              "error_html": "We expected the first row to be absent, absent, present, present, absent."
             },
             {
               "function": "statesForRow(1)",
-              "value": ["absent", "present", "present", "present", "present"],
-              "error_html": "We expected the second row to be absent, present, present, present, present"
+              "value": ["absent", "absent", "absent", "correct", "correct"],
+              "error_html": "We expected the second row to be absent, absent, absent, correct, correct"
             },
             {
               "function": "statesForRow(2)",
+              "value": ["correct", "absent", "absent", "correct", "correct"],
+              "error_html": "We expected the third row to be correct, absent, absent, correct, correct"
+            },
+            {
+              "function": "statesForRow(3)",
               "value": ["correct", "correct", "correct", "correct", "correct"],
-              "error_html": "We expected the third row to be correct"
+              "error_html": "We expected the fourth row to be correct"
             }
           ]
         },
@@ -232,6 +237,80 @@
               "function": "statesForRow(4)",
               "value": ["correct", "correct", "correct", "correct", "correct"],
               "error_html": "We expected the fifth row to be correct"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "Only one yellow",
+          "description_html": "If there are multiple present letters for only one actual letter, only one should be yellow.",
+          "setup_functions": [["setTargetWord", ["clamp"]]],
+          "function": "process_game",
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["absent", "absent", "absent", "present", "absent"],
+              "error_html": "We expected only the fourth letter of the first row to be present."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "absent", "present", "absent", "absent"],
+              "error_html": "We expected the second row to be correct, absent, present, present, absent (This is the tricky one!)"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the third row to be correct, correct, correct, absent, absent"
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected the fourth row to correct"
+            }
+          ]
+        },
+        {
+          "slug": "bonus-2",
+          "name": "Swiss Cheese",
+          "description_html": "The swiss in this shows why it's important!",
+          "setup_functions": [["setTargetWord", ["swims"]]],
+          "function": "process_game",
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["present", "absent", "correct", "absent", "absent"],
+              "error_html": "We expected only the first row to be present, absent, correct, absent, absent."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the second row to be correct, correct, correct, absent, absent"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the third row to be correct, correct, correct, absent, absent."
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["correct", "correct", "correct", "absent", "correct"],
+              "error_html": "We expected the fourth row to be correct, correct, correct, absent, correct (this is the tricky one!)"
+            },
+            {
+              "function": "statesForRow(4)",
+              "value": ["correct", "correct", "correct", "absent", "correct"],
+              "error_html": "We expected the fifth row to be correct, correct, correct, absent, correct."
+            },
+            {
+              "function": "statesForRow(5)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected the six row to be correct."
             }
           ]
         }

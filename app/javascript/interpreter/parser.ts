@@ -45,6 +45,10 @@ import {
   ChangeElementStatement,
   MethodCallStatement,
   ChangePropertyStatement,
+  ClassStatement,
+  ConstructorStatement,
+  MethodStatement,
+  PropertyStatement,
 } from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
@@ -110,12 +114,118 @@ export class Parser {
 
   private declarationStatement(): Statement {
     if (this.match('FUNCTION')) return this.functionStatement()
+    if (this.match('CLASS')) return this.classStatement()
 
     return this.statement()
   }
 
+  private classStatement(): Statement {
+    const name = this.consume('IDENTIFIER', 'MissingClassName')
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'class', name })
+    this.consumeEndOfLine()
+
+    const body: Statement[] = []
+
+    while (!this.check('END') && !this.isAtEnd()) {
+      const stmt = this.classBodyStatement()
+      body.push(stmt)
+    }
+
+    this.consume('END', 'MissingEndAfterBlock', { type: 'class' })
+    this.consumeEndOfLine()
+
+    return new ClassStatement(
+      name,
+      body,
+      Location.between(name, this.previous())
+    )
+  }
+
+  private classBodyStatement(): Statement {
+    if (this.match('CONSTRUCTOR')) return this.constructorStatement()
+    if (this.check('PUBLIC', 'PRIVATE')) {
+      if (this.checkAhead(2, 'PROPERTY')) return this.propertyStatement()
+      if (this.checkAhead(2, 'METHOD')) return this.methodStatement()
+      this.error('UnexpectedTokenAfterAccessModifier', this.peek().location, {
+        accessModifier: this.peek().lexeme,
+      })
+    }
+
+    this.error('MissingStatement', this.peek().location)
+  }
+
+  private propertyStatement(): Statement {
+    // We know we have an access modifier to even get here.
+    this.match('PUBLIC', 'PRIVATE')
+    const accessModifer = this.previous()
+    this.consume('PROPERTY', 'UnexpectedTokenAfterAccessModifier', {
+      accessModifier: accessModifer.lexeme,
+    })
+
+    const name = this.consume('IDENTIFIER', 'MissingPropertyName')
+    this.consumeEndOfLine()
+
+    return new PropertyStatement(
+      accessModifer,
+      name,
+      Location.between(accessModifer, this.previous())
+    )
+  }
+
+  private constructorStatement(): Statement {
+    const constructorToken = this.previous()
+    const params = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('constructor')
+    return new ConstructorStatement(
+      params,
+      body,
+      Location.between(constructorToken, this.previous())
+    )
+  }
+
+  private methodStatement(): Statement {
+    // We know we have an access modifier to even get here.
+    this.match('PUBLIC', 'PRIVATE')
+    const accessModifer = this.previous()
+    this.consume('METHOD', 'UnexpectedTokenAfterAccessModifier', {
+      accessModifier: accessModifer.lexeme,
+    })
+
+    const name = this.consume('IDENTIFIER', 'MissingMethodName')
+    const parameters = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'method', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('method')
+    return new MethodStatement(
+      accessModifer,
+      name,
+      parameters,
+      body,
+      Location.between(accessModifer, this.previous())
+    )
+  }
+
   private functionStatement(): Statement {
     const name = this.consume('IDENTIFIER', 'MissingFunctionName')
+    const parameters = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('function')
+    this.functionNames.push(name.lexeme)
+    return new FunctionStatement(
+      name,
+      parameters,
+      body,
+      Location.between(name, this.previous())
+    )
+  }
+
+  private functionParameters(): FunctionParameter[] {
     const parameters: FunctionParameter[] = []
     if (this.match('WITH')) {
       do {
@@ -162,17 +272,7 @@ export class Parser {
       )
       this.error(errorType, this.peek().location, context)
     }
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
-    this.consumeEndOfLine()
-
-    const body = this.block('function')
-    this.functionNames.push(name.lexeme)
-    return new FunctionStatement(
-      name,
-      parameters,
-      body,
-      Location.between(name, this.previous())
-    )
+    return parameters
   }
 
   private statement(): Statement {

@@ -853,3 +853,8 @@ test('MissingSecondElementNameAfterForeach', () => {
   )
 })
 // MissingToAfterChangeKeyword
+// MissingClassName
+// MissingStatement
+// UnexpectedTokenAfterAccessModifier
+// MissingMethodName
+// MissingPropertyName

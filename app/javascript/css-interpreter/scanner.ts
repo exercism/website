@@ -34,8 +34,6 @@ export class Scanner {
   }
 
   private readonly tokenizers: Record<string, Function> = {
-    '.': this.tokenizeDot,
-    '#': this.tokenizeHash,
     '{': this.tokenizeLeftBrace,
     '}': this.tokenizeRightBrace,
     '(': this.tokenizeLeftParanthesis,
@@ -77,7 +75,7 @@ export class Scanner {
     } else {
       if (this.isDigit(c)) {
         this.tokenizeNumber()
-      } else if (this.isAlpha(c)) {
+      } else if (this.isAlpha(c) || '.#'.includes(c)) {
         this.tokenizeIdentifier()
       } else {
         this.error('UnknownCharacter', {
@@ -122,12 +120,6 @@ export class Scanner {
   }
   private tokenizeComma() {
     this.addToken('COMMA')
-  }
-  private tokenizeDot() {
-    this.addToken('DOT')
-  }
-  private tokenizeHash() {
-    this.addToken('HASH')
   }
   private tokenizeSemicolon() {
     this.addToken('SEMICOLON')
@@ -277,7 +269,8 @@ export class Scanner {
   }
 
   private isAllowableInIdentifier(c: string): boolean {
-    return this.isAlpha(c) || this.isDigit(c) || c == '#'
+    console.log(c, '.#'.includes(c))
+    return this.isAlpha(c) || this.isDigit(c) || '.#'.includes(c)
   }
 
   private isAtEnd(): boolean {

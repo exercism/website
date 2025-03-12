@@ -23,9 +23,89 @@ describe('selectors', () => {
       expect(stmts[0]).toBeInstanceOf(SelectorStatement)
       const selectorStmt = stmts[0] as SelectorStatement
       expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
-        'div, span',
+        'div',
+        'span',
       ])
       expect(selectorStmt.body).toBeEmpty()
     })
+  })
+  describe('class', () => {
+    test('single', () => {
+      const stmts = parse('.btn {}')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+      const selectorStmt = stmts[0] as SelectorStatement
+      expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+        '.btn',
+      ])
+      expect(selectorStmt.body).toBeEmpty()
+    })
+    test('mixed', () => {
+      const stmts = parse('.btn, .heading {}')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+      const selectorStmt = stmts[0] as SelectorStatement
+      expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+        '.btn',
+        '.heading',
+      ])
+      expect(selectorStmt.body).toBeEmpty()
+    })
+  })
+  describe('id', () => {
+    test('single', () => {
+      const stmts = parse('#btn {}')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+      const selectorStmt = stmts[0] as SelectorStatement
+      expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+        '#btn',
+      ])
+      expect(selectorStmt.body).toBeEmpty()
+    })
+    test('mixed', () => {
+      const stmts = parse('#btn, .heading {}')
+      expect(stmts).toBeArrayOfSize(1)
+      expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+      const selectorStmt = stmts[0] as SelectorStatement
+      expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+        '#btn',
+        '#heading',
+      ])
+      expect(selectorStmt.body).toBeEmpty()
+    })
+  })
+  test('chained', () => {
+    const stmts = parse('.btn .heading {}')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+    const selectorStmt = stmts[0] as SelectorStatement
+    expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+      '.btn',
+      '.heading',
+    ])
+    expect(selectorStmt.body).toBeEmpty()
+  })
+  test('descendents', () => {
+    const stmts = parse('.btn > .heading {}')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+    const selectorStmt = stmts[0] as SelectorStatement
+    expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+      '.btn',
+      '.heading',
+    ])
+    expect(selectorStmt.body).toBeEmpty()
+  })
+  test('next to', () => {
+    const stmts = parse('.btn + .heading {}')
+    expect(stmts).toBeArrayOfSize(1)
+    expect(stmts[0]).toBeInstanceOf(SelectorStatement)
+    const selectorStmt = stmts[0] as SelectorStatement
+    expect(selectorStmt.selectors.map((s) => s.lexeme)).toIncludeSameMembers([
+      '.btn',
+      '.heading',
+    ])
+    expect(selectorStmt.body).toBeEmpty()
   })
 })

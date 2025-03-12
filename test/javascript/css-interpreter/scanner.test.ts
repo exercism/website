@@ -3,8 +3,6 @@ import { type TokenType } from '@/css-interpreter/token'
 
 describe('single-character', () => {
   test.each([
-    ['.', 'DOT'],
-    ['#', 'HASH'],
     ['{', 'LEFT_BRACE'],
     ['}', 'RIGHT_BRACE'],
     ['(', 'LEFT_PAREN'],
@@ -76,6 +74,18 @@ describe('identifier', () => {
     const tokens = scan('_name')
     expect(tokens[0].type).toBe('IDENTIFIER')
     expect(tokens[0].lexeme).toBe('_name')
+    expect(tokens[0].literal).toBeNull
+  })
+  test('start with dot', () => {
+    const tokens = scan('.name')
+    expect(tokens[0].type).toBe('IDENTIFIER')
+    expect(tokens[0].lexeme).toBe('.name')
+    expect(tokens[0].literal).toBeNull
+  })
+  test('start with hash', () => {
+    const tokens = scan('#name')
+    expect(tokens[0].type).toBe('IDENTIFIER')
+    expect(tokens[0].lexeme).toBe('#name')
     expect(tokens[0].literal).toBeNull
   })
 })

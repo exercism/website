@@ -13,8 +13,8 @@ export function ActualOutput() {
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const [curtainWidth, setCurtainWidth] = useState(0)
-  const [opacity, setOpacity] = useState(0)
+  const [curtainWidth, setCurtainWidth] = useState(350)
+  const [curtainOpacity, setCurtainOpacity] = useState(1)
   const [diffMode, setDiffMode] = useState(false)
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -28,26 +28,33 @@ export function ActualOutput() {
   }
 
   const handleOnMouseEnter = useCallback(() => {
-    setOpacity(1)
-  }, [])
+    if (diffMode) return
+    setCurtainOpacity(0.6)
+  }, [diffMode])
 
   const handleOnMouseLeave = useCallback(() => {
     const curtain = { width: curtainWidth }
     animate(curtain, {
       width: 350,
       duration: 250,
-      ease: 'inExpo',
+      ease: 'outQuint',
       onUpdate: () => {
         setCurtainWidth(curtain.width)
       },
     })
-    setOpacity(0)
+    if (diffMode) return
+    setCurtainOpacity(1)
   }, [curtainWidth])
+
+  const toggleDiffMode = useCallback((diffState: boolean) => {
+    setDiffMode(!diffState)
+    diffState ? setCurtainOpacity(1) : setCurtainOpacity(0.3)
+  }, [])
 
   return (
     <div className="p-12">
       <button
-        onClick={() => setDiffMode((d) => !d)}
+        onClick={() => toggleDiffMode(diffMode)}
         className={assembleClassNames(
           'p-2 mb-4 border-1 border-borderColor1 rounded-3',
           diffMode ? 'bg-textColor6 text-white' : 'bg-white text-textColor1'
@@ -59,15 +66,16 @@ export function ActualOutput() {
       <div
         ref={containerRef}
         className="border border-textColor1 border-1 rounded-12 w-[350px] h-[350px] relative overflow-hidden"
+        style={{ isolation: 'isolate' }}
       >
         <iframe
           className="absolute top-0 left-0 h-full w-full"
           ref={actualIFrameRef}
-          src=""
-          frameBorder="0"
           style={{
             zIndex: 30,
+            opacity: 1,
             mixBlendMode: diffMode ? 'difference' : 'normal',
+            clipPath: `inset(0 ${width - curtainWidth}px 0 0)`,
           }}
         />
 
@@ -75,17 +83,15 @@ export function ActualOutput() {
           className="absolute top-0 left-0 h-full w-full"
           ref={expectedReferenceIFrameRef}
           style={{
-            opacity: diffMode ? 1 : opacity,
+            opacity: 1,
             zIndex: 10,
-            mixBlendMode: diffMode ? 'difference' : 'normal',
-            transition: 'opacity 150ms',
           }}
         />
 
         <div
           className="absolute top-0 left-0 h-full"
           style={{
-            boxShadow: `2px 0 0 ${curtainWidth}px rgba(255, 255, 255, 0.9)`,
+            boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
             zIndex: 20,
           }}
         />

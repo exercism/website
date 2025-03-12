@@ -1,5 +1,5 @@
 import React from 'react'
-import { FrontendTrainingPageContext } from './FrontendTrainingPage'
+import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
 export function ExpectedOutput() {
   const context = React.useContext(FrontendTrainingPageContext)
 

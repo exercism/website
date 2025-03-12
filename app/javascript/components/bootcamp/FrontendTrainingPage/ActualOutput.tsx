@@ -1,10 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import { animate } from '@juliangarnierorg/anime-beta'
 import { useFrontendTrainingPageStore } from './store/frontendTrainingPageStore'
+import { useLogger } from '../common/hooks/useLogger'
 
-const width = 350
+const WIDTH = 350
 
 export function ActualOutput() {
   const context = React.useContext(FrontendTrainingPageContext)
@@ -19,15 +19,15 @@ export function ActualOutput() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [curtainWidth, setCurtainWidth] = useState(350)
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return
 
     const { left } = containerRef.current.getBoundingClientRect()
     const mouseX = e.clientX - left
 
-    const newWidth = Math.max(0, Math.min(mouseX, width))
+    const newWidth = Math.max(0, Math.min(mouseX, WIDTH))
     setCurtainWidth(newWidth)
-  }
+  }, [])
 
   const handleOnMouseEnter = useCallback(() => {
     if (diffMode) return
@@ -37,7 +37,7 @@ export function ActualOutput() {
   const handleOnMouseLeave = useCallback(() => {
     const curtain = { width: curtainWidth }
     animate(curtain, {
-      width: 350,
+      width: WIDTH,
       duration: 250,
       ease: 'outQuint',
       onUpdate: () => {
@@ -46,7 +46,7 @@ export function ActualOutput() {
     })
     if (diffMode) return
     setCurtainOpacity(1)
-  }, [curtainWidth])
+  }, [curtainWidth, diffMode])
 
   return (
     <div className="p-12">
@@ -54,7 +54,7 @@ export function ActualOutput() {
       <div
         ref={containerRef}
         className="border border-textColor1 border-1 rounded-12 w-[350px] h-[350px] relative overflow-hidden"
-        style={{ isolation: 'isolate' }}
+        // style={{ isolation: 'isolate' }}
       >
         {/* student's code's output */}
         <iframe
@@ -62,9 +62,10 @@ export function ActualOutput() {
           ref={actualIFrameRef}
           style={{
             zIndex: 30,
-            opacity: 1,
+            opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
-            clipPath: `inset(0 ${width - curtainWidth}px 0 0)`,
+            filter: diffMode ? 'invert(1) hue-rotate(90deg)' : 'none',
+            clipPath: `inset(0 ${WIDTH - curtainWidth}px 0 0)`,
           }}
         />
 

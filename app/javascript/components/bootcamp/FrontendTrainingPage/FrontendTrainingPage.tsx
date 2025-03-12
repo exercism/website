@@ -4,7 +4,7 @@ import {
   useResizablePanels,
 } from '../SolveExercisePage/hooks/useResize'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import { useHtmlEditorHandler } from './useHtmlEditorHandler'
+import { useEditorHandler } from './useEditorHandler'
 import { Instructions } from '../SolveExercisePage/Instructions/Instructions'
 import { html } from '@codemirror/lang-html'
 import { basicLight } from 'cm6-theme-basic-light'
@@ -14,7 +14,7 @@ import { ExpectedOutput } from './ExpectedOutput'
 import { updateIFrame } from './utils/updateIFrame'
 import toast, { Toaster } from 'react-hot-toast'
 import { getIframesMatchPercentage } from './utils/getIframesMatchPercentage'
-import { generateExpectedImageCanvas } from './utils/generateExpectedImageCanvas'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 type FrontendTrainingPageContextType = {
   actualIFrameRef: React.RefObject<HTMLIFrameElement>
@@ -55,19 +55,22 @@ export default function FrontendTrainingPage() {
     localStorageId: 'solve-exercise-page-lhs',
   })
 
+  const [editorCode, setEditorCode] = useLocalStorage('frontend-editor-code', {
+    htmlEditorContent: '',
+    cssEditorContent: '',
+  })
   const {
     editorViewRef: htmlEditorViewRef,
     handleEditorDidMount: handleHtmlEditorDidMount,
-  } = useHtmlEditorHandler()
+  } = useEditorHandler(editorCode.htmlEditorContent)
   const {
     editorViewRef: cssEditorViewRef,
     handleEditorDidMount: handleCssEditorDidMount,
-  } = useHtmlEditorHandler()
+  } = useEditorHandler(editorCode.cssEditorContent)
 
   useEffect(() => {
     updateIFrame(expectedIFrameRef, EXPECTED_HTML, EXPECTED_CSS)
     updateIFrame(expectedReferenceIFrameRef, EXPECTED_HTML, EXPECTED_CSS)
-    // generateExpectedImageCanvas(expectedIFrameRef, expectedCanvasContainerRef)
   }, [])
 
   return (
@@ -90,6 +93,10 @@ export default function FrontendTrainingPage() {
               onEditorChangeCallback={(view) => {
                 const html = view.state.doc.toString()
                 const css = cssEditorViewRef.current?.state.doc.toString() || ''
+                setEditorCode({
+                  htmlEditorContent: html,
+                  cssEditorContent: css,
+                })
                 updateIFrame(actualIFrameRef, html, css)
               }}
               handleRunCode={() => {}}
@@ -107,6 +114,10 @@ export default function FrontendTrainingPage() {
                 const html =
                   htmlEditorViewRef.current?.state.doc.toString() || ''
                 updateIFrame(actualIFrameRef, html, css)
+                setEditorCode({
+                  htmlEditorContent: html,
+                  cssEditorContent: css,
+                })
               }}
               handleRunCode={() => {}}
               ref={cssEditorViewRef}

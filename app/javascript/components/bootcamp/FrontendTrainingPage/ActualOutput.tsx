@@ -1,8 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FrontendTrainingPageContext } from './FrontendTrainingPage'
-import { useLogger } from '@/hooks'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import anime from 'animejs'
+import { animate } from '@juliangarnierorg/anime-beta'
 
 const width = 350
 
@@ -33,28 +32,17 @@ export function ActualOutput() {
   }, [])
 
   const handleOnMouseLeave = useCallback(() => {
-    const start = curtainWidth
-    const end = 350
-    const duration = 150
-    const startTime = performance.now()
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const newWidth = start + (end - start) * progress
-
-      setCurtainWidth(newWidth)
-
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      }
-    }
-
-    requestAnimationFrame(animate)
+    const curtain = { width: curtainWidth }
+    animate(curtain, {
+      width: 350,
+      duration: 250,
+      ease: 'inExpo',
+      onUpdate: () => {
+        setCurtainWidth(curtain.width)
+      },
+    })
     setOpacity(0)
   }, [curtainWidth])
-
-  useLogger('curtainwidth', curtainWidth)
 
   return (
     <div className="p-12">
@@ -79,6 +67,7 @@ export function ActualOutput() {
           frameBorder="0"
           style={{
             zIndex: 30,
+            mixBlendMode: diffMode ? 'difference' : 'normal',
           }}
         />
 
@@ -96,7 +85,6 @@ export function ActualOutput() {
         <div
           className="absolute top-0 left-0 h-full"
           style={{
-            // background: "rgba(255, 255, 255, 0.1)",
             boxShadow: `2px 0 0 ${curtainWidth}px rgba(255, 255, 255, 0.9)`,
             zIndex: 20,
           }}

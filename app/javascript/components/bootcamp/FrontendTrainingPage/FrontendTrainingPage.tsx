@@ -69,8 +69,9 @@ export default function FrontendTrainingPage() {
   } = useEditorHandler(editorCode.cssEditorContent)
 
   useEffect(() => {
-    updateIFrame(expectedIFrameRef, EXPECTED_HTML, EXPECTED_CSS)
-    updateIFrame(expectedReferenceIFrameRef, EXPECTED_HTML, EXPECTED_CSS)
+    const { html, css } = accentDetection
+    updateIFrame(expectedIFrameRef, html, css)
+    updateIFrame(expectedReferenceIFrameRef, html, css)
   }, [])
 
   return (
@@ -127,7 +128,6 @@ export default function FrontendTrainingPage() {
           <div className="flex flex-col gap-12">
             <button
               onClick={async () => {
-                // const isEqual = await compareIframes(actualIFrameRef, expectedIFrameRef)
                 const percentage = await getIframesMatchPercentage(
                   actualIFrameRef,
                   expectedIFrameRef
@@ -159,14 +159,40 @@ export default function FrontendTrainingPage() {
   )
 }
 
-const EXPECTED_HTML = `
-<div id="asdf">Hello world!</div>
-`
-
-const EXPECTED_CSS = `
-#asdf {
-  color: red;
-  font-weight: bold;
-  font-size: 24px;
+const helloWorld = {
+  html: `
+  <div id="asdf">Hello world!</div>
+  `,
+  css: `
+  #asdf {
+    color: red;
+    font-weight: bold;
+    font-size: 24px;
+  }
+    `,
 }
-  `
+
+const accentDetection = {
+  html: `
+  <div>Építészeti kiállítás</div>
+  `,
+  css: `
+
+  body{
+  margin: 0;
+  height: 350px;
+  overflow: hidden;
+  }
+   div {
+    color: #242325;
+    background-color: #DC965A;
+    font-family: "Trebuchet MS";
+    font-weight: semi-bold;
+    font-size: 24px;
+    padding: 8px 4px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+  }
+    `,
+}

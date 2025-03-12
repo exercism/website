@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { CustomFunctionsButton } from './CustomFunctionsButton'
 import { ActiveToggleButton } from './ActiveToggleButton'

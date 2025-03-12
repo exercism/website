@@ -19,6 +19,7 @@ import {
   wrapJSToJikiObject,
 } from '../jikiObjects'
 import { Location } from '../location'
+import { CustomFunctionError } from '../interpreter'
 
 function throwMissingFunctionError(
   executor: Executor,
@@ -95,6 +96,11 @@ export function executeFunctionCallExpression(
       args.map((arg) => arg.jikiObject?.toArg())
     )
   } catch (e) {
+    if (e instanceof CustomFunctionError) {
+      executor.error('CustomFunctionError', expression.location, {
+        message: e.message,
+      })
+    }
     if (e instanceof FunctionCallTypeMismatchError) {
       executor.error('FunctionCallTypeMismatch', expression.location, e.context)
     } else if (e instanceof LogicError) {

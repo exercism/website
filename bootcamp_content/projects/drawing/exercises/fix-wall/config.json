@@ -3,7 +3,7 @@
   "description": "Add some rectangles to fix the wall",
   "project_type": "draw",
   "level": 1,
-  "idx": 1,
+  "idx": 3,
   "concepts": [],
   "tests_type": "state",
   "readonly_ranges": [],

@@ -162,7 +162,7 @@ export class Interpreter {
       timePerFrame: 0.01,
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
-      maxTotalLoopIterations: 100,
+      maxTotalLoopIterations: 10000,
       maxTotalExecutionTime: 10 * 1000, // 10 seconds
       allowGlobals: false,
       customFunctionDefinitionMode: false,

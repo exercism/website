@@ -244,15 +244,15 @@ describe('VariableNotAccessibleInFunction', () => {
 describe('MaxIterationsReached', () => {
   describe('nested loop', () => {
     test('default value', () => {
-      const code = `repeat 11 times do
-                      repeat 11 times do
+      const code = `repeat 110 times do
+                      repeat 110 times do
                       end
                     end`
 
       const { frames } = interpret(code)
       const frame = frames[frames.length - 1]
       expectFrameToBeError(frame, 'repeat', 'MaxIterationsReached')
-      expect(frame.error!.message).toBe(`MaxIterationsReached: max: 100`)
+      expect(frame.error!.message).toBe(`MaxIterationsReached: max: 10000`)
     })
     test('custom value', () => {
       const code = `repeat 5 times do
@@ -333,7 +333,7 @@ test('InfiniteRecursion', () => {
 
 describe('RepeatCountTooHigh', () => {
   test('default', () => {
-    const max = 100
+    const max = 10000
     const { frames } = interpret(`
       repeat ${max + 1} times do
       end
@@ -341,7 +341,7 @@ describe('RepeatCountTooHigh', () => {
 
     expectFrameToBeError(frames[0], `${max + 1}`, 'RepeatCountTooHigh')
     expect(frames[0].error!.message).toBe(
-      `RepeatCountTooHigh: count: 101, max: ${max}`
+      `RepeatCountTooHigh: count: 10001, max: ${max}`
     )
   })
 })
@@ -916,3 +916,5 @@ test('who knows', () => {
   )
   expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: my#length')
 })
+
+//ClassAlreadyDefined

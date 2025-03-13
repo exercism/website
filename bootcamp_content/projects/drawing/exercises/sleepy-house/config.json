@@ -9,7 +9,7 @@
   "interpreter_options": {
     "time_per_frame": 0.01,
     "repeat_delay": 30,
-    "max_total_loop_iterations": 300
+    "max_total_loop_iterations": 3000
   },
   "stdlib_functions": ["min"],
   "tasks": [

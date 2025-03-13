@@ -21,6 +21,7 @@ import {
   InstantiationExpression,
   ClassLookupExpression,
   AccessorExpression,
+  ThisExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -49,6 +50,7 @@ import {
   ConstructorStatement,
   MethodStatement,
   PropertyStatement,
+  SetPropertyStatement,
 } from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
@@ -326,6 +328,10 @@ export class Parser {
   }
 
   private setVariableStatement(): Statement {
+    if (this.check('THIS')) {
+      return this.setPropertyStatement()
+    }
+
     const setToken = this.previous()
     const name = this.identifier()
     this.guardValidVariableName(name)
@@ -348,14 +354,16 @@ export class Parser {
   }
 
   private changeVariableStatement(): Statement {
-    const changeToken = this.previous()
-
     // If we have a left bracket, we're changing an element in a list
     // not a variable, so move to that function instead
     if (this.checkAhead(2, 'LEFT_BRACKET', 'DOT')) {
-      return this.changeMemberStatement(changeToken)
+      return this.changeMemberStatement()
+    }
+    if (this.check('THIS')) {
+      return this.changeThisPropertyStatement()
     }
 
+    const changeToken = this.previous()
     const name = this.identifier()
     this.guardValidVariableName(name)
 
@@ -376,9 +384,60 @@ export class Parser {
     )
   }
 
-  private changeMemberStatement(
-    changeToken: Token
-  ): ChangeElementStatement | ChangePropertyStatement {
+  private setPropertyStatement(): Statement {
+    const setToken = this.previous()
+    this.advance() // Consume the "this" token
+    this.consume('DOT', 'MissingDotAfterThis')
+    const name = this.identifier()
+    this.guardValidVariableName(name)
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: name.lexeme,
+    })
+
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new SetPropertyStatement(
+      name,
+      value,
+      Location.between(setToken, value)
+    )
+  }
+
+  private changeThisPropertyStatement(): Statement {
+    const changeToken = this.previous()
+    this.advance() // Consume the "this" token
+    this.consume('DOT', 'MissingDotAfterThis')
+
+    const name = this.identifier()
+    this.guardValidVariableName(name)
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: name.lexeme,
+    })
+
+    const initializer = this.expression()
+    this.consumeEndOfLine()
+
+    return new ChangeThisPropertyStatement(
+      name,
+      initializer,
+      Location.between(changeToken, initializer)
+    )
+  }
+
+  private changeMemberStatement():
+    | ChangeElementStatement
+    | ChangePropertyStatement {
+    const changeToken = this.previous()
+
     // Convert the statement
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
@@ -1072,14 +1131,18 @@ export class Parser {
     if (this.match('TRUE'))
       return new LiteralExpression(true, this.previous().location)
 
-    if (this.match('NULL'))
-      return new LiteralExpression(null, this.previous().location)
+    // if (this.match('NULL'))
+    //   return new LiteralExpression(null, this.previous().location)
 
     if (this.match('NUMBER', 'STRING'))
       return new LiteralExpression(
         this.previous().literal,
         this.previous().location
       )
+
+    if (this.match('THIS')) {
+      return new ThisExpression(this.previous().location)
+    }
 
     if (this.match('IDENTIFIER')) {
       //this.guardValidVariableName(this.previous())

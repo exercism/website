@@ -84,6 +84,18 @@ export class ChangeVariableStatement extends Statement {
     return [this.value]
   }
 }
+export class ChangeObjectPropertyStatement extends Statement {
+  constructor(
+    public name: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('ChangeObjectPropertyStatement')
+  }
+  public children() {
+    return [this.value]
+  }
+}
 
 export class BreakStatement extends Statement {
   constructor(public keyword: Token, public location: Location) {
@@ -204,6 +216,19 @@ export class SetVariableStatement extends Statement {
     public location: Location
   ) {
     super('SetVariableStatement')
+  }
+  public children() {
+    return [this.value]
+  }
+}
+
+export class SetPropertyStatement extends Statement {
+  constructor(
+    public property: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('SetThisPropertyStatement')
   }
   public children() {
     return [this.value]

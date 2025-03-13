@@ -21,6 +21,7 @@ const StatementKeywordTokens = [
   'REPEAT_UNTIL_GAME_OVER',
   'RETURN',
   'SET',
+  'THIS',
   // 'WHILE'
 ] as const
 

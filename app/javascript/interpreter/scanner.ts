@@ -72,6 +72,7 @@ export class Scanner {
     to: 'TO',
     true: 'TRUE',
     times: 'TIMES',
+    this: 'THIS',
     // while: 'WHILE',
     with: 'WITH',
   }

@@ -92,9 +92,19 @@ export class InformationWidget extends WidgetType {
       })
     })
 
-    const errorHeader = this.tooltip.querySelector('.error h2')
-    if (errorHeader) {
-      errorHeader.prepend(closeButton)
+    const header = (this.tooltip.querySelector('.error h2') ||
+      this.tooltip.querySelector('h3')) as HTMLHeadingElement
+
+    if (header) {
+      header.prepend(closeButton)
+
+      if (header.tagName === 'H3') {
+        Object.assign(header.style, {
+          display: 'flex',
+          flexDirection: 'row-reverse',
+          justifyContent: 'space-between',
+        })
+      }
     }
 
     this.applyHighlighting(this.tooltip)
@@ -105,6 +115,9 @@ export class InformationWidget extends WidgetType {
   private hideTooltip() {
     if (this.tooltip) {
       this.tooltip.style.opacity = '0'
+      // this prevents the tooltip from blocking mouse interaction with elements covered by an invisible tooltip
+      // on any tooltip change a new tooltip is created with correct zIndex, so this is safe
+      this.tooltip.style.zIndex = '-1'
     }
   }
 

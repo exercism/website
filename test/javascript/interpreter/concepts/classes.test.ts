@@ -2,12 +2,14 @@ import { parse } from '@/interpreter/parser'
 import { EvaluationContext, interpret } from '@/interpreter/interpreter'
 import { changeLanguage } from '@/interpreter/translator'
 import {
+  ChangePropertyStatement,
   ClassStatement,
   ConstructorStatement,
   LogStatement,
   MethodCallStatement,
   MethodStatement,
   PropertyStatement,
+  SetPropertyStatement as SetPropertyStatement,
 } from '@/interpreter/statement'
 import { last } from 'lodash'
 import * as Jiki from '@/interpreter/jikiObjects'
@@ -71,6 +73,56 @@ describe('parse', () => {
         constructorStatement.parameters.map((p) => p.name.lexeme)
       ).toIncludeSameMembers(['arg1', 'arg2'])
       expect(constructorStatement.body).toBeEmpty()
+    })
+
+    test('with this.setter', () => {
+      const stmts = parse(`
+        class Foobar do
+          constructor do
+            set this.foo to 10
+          end
+        end
+      `)
+      expect((stmts[0] as ClassStatement).body[0]).toBeInstanceOf(
+        ConstructorStatement
+      )
+      const constructorStatement = (stmts[0] as ClassStatement)
+        .body[0] as ConstructorStatement
+      expect(constructorStatement.parameters).toBeEmpty()
+      expect(constructorStatement.body).toBeArrayOfSize(1)
+      expect(constructorStatement.body[0]).toBeInstanceOf(SetPropertyStatement)
+      const setPropertyStatement = constructorStatement
+        .body[0] as SetPropertyStatement
+      expect(setPropertyStatement.property.lexeme).toBe('foo')
+      expect(setPropertyStatement.value).toBeInstanceOf(LiteralExpression)
+      expect((setPropertyStatement.value as LiteralExpression).value).toBe(10)
+    })
+    test('with this.changer', () => {
+      const stmts = parse(`
+        class Foobar do
+          constructor do
+            set this.foo to 10
+            change this.foo to 15
+          end
+        end
+      `)
+      expect((stmts[0] as ClassStatement).body[0]).toBeInstanceOf(
+        ConstructorStatement
+      )
+      const constructorStatement = (stmts[0] as ClassStatement)
+        .body[0] as ConstructorStatement
+      expect(constructorStatement.parameters).toBeEmpty()
+      expect(constructorStatement.body).toBeArrayOfSize(2)
+      expect(constructorStatement.body[1]).toBeInstanceOf(
+        ChangePropertyStatement
+      )
+      const changePropertyStatement = constructorStatement
+        .body[1] as ChangePropertyStatement
+      expect(changePropertyStatement.property.lexeme).toBe('foo')
+      expect(changePropertyStatement.value).toBeInstanceOf(LiteralExpression)
+      expect((changePropertyStatement.value as LiteralExpression).value).toBe(
+        15
+      )
     })
   })
   describe('method statement', () => {
@@ -175,6 +227,59 @@ describe('parse', () => {
         .body[0] as PropertyStatement
       expect(propertyStatement.accessModifier.lexeme).toBe('private')
       expect(propertyStatement.name.lexeme).toBe('foobar')
+    })
+  })
+})
+
+describe('execute', () => {
+  test('class instatiation', () => {
+    const { error, frames } = interpret(`
+      class Foobar do
+      end
+      set foo to new Foobar()
+    `)
+    console.log(frames[0])
+    expect(error).toBeNull()
+    expect(frames).toBeArrayOfSize(1)
+    expect(frames[0].status).toBe('SUCCESS')
+    expect(frames[0].variables.foo).toBeInstanceOf(Jiki.Instance)
+  })
+
+  describe('constructor', () => {
+    describe('naked - does nothing', () => {
+      test('class instatiation', () => {
+        const { error, frames } = interpret(`
+          class Foobar do
+            constructor do
+            end
+          end
+          set foo to new Foobar()
+        `)
+        console.log(frames[0])
+        expect(error).toBeNull()
+        expect(frames).toBeArrayOfSize(1)
+        expect(frames[0].status).toBe('SUCCESS')
+        expect(frames[0].variables.foo).toBeInstanceOf(Jiki.Instance)
+      })
+    })
+    describe('naked - sets property', () => {
+      test('class instatiation', () => {
+        const { error, frames } = interpret(`
+          class Foobar do
+            public property baz
+            constructor do
+              set this.baz to 10
+            end
+          end
+          set foo to new Foobar()
+          set outer_baz to foo.baz
+        `)
+        console.log(frames[1])
+        expect(error).toBeNull()
+        expect(frames).toBeArrayOfSize(2)
+        expect(frames.at(-1).status).toBe('SUCCESS')
+        expect(frames.at(-1).variables.foo).toBeInstanceOf(Jiki.Instance)
+      })
     })
   })
 })

@@ -1,6 +1,10 @@
 import { Environment } from './environment'
 import { LanguageFeatures } from './interpreter'
-import { FunctionStatement } from './statement'
+import {
+  ConstructorStatement,
+  FunctionStatement,
+  MethodStatement,
+} from './statement'
 import type { ExecutionContext, Executor } from './executor'
 import { Location } from './location'
 import { JikiObject } from './jikiObjects'
@@ -22,12 +26,13 @@ export function isCallable(obj: any): obj is Callable {
   return obj instanceof Object && 'arity' in obj && 'call' in obj
 }
 
-export class UserDefinedFunction implements Callable {
+export class UserDefinedCallable implements Callable {
   public readonly arity: Arity
   constructor(
-    private declaration: FunctionStatement,
-    private closure: Environment,
-    private languageFeatures: LanguageFeatures
+    private declaration:
+      | FunctionStatement
+      | ConstructorStatement
+      | MethodStatement
   ) {
     this.arity = [
       this.declaration.parameters.filter((p) => p.defaultValue === null).length,
@@ -36,12 +41,7 @@ export class UserDefinedFunction implements Callable {
   }
 
   call(executor: ExecutionContext, args: any[]): any {
-    let environment
-    if (this.languageFeatures.allowGlobals) {
-      environment = new Environment(this.closure)
-    } else {
-      environment = new Environment()
-    }
+    const environment = new Environment()
 
     for (let i = 0; i < this.declaration.parameters.length; i++) {
       const arg =

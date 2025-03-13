@@ -1,7 +1,7 @@
 import {
   Arity,
   ReturnValue,
-  UserDefinedFunction,
+  UserDefinedCallable,
   isCallable,
 } from './functions'
 import { Environment } from './environment'
@@ -50,6 +50,8 @@ import {
   ContinueStatement,
   MethodCallStatement,
   ChangePropertyStatement,
+  ClassStatement,
+  SetPropertyStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -101,6 +103,7 @@ import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
 import { executeGetterExpression } from './executor/executeGetterExpression'
+import { executeClassStatement } from './executor/executeClassStatement.test'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -110,6 +113,8 @@ export type ExecutionContext = {
   executeBlock: Function
   updateState: Function
   logicError: Function
+  withThis: Function
+  currentThis: () => Jiki.Instance | undefined
 }
 
 export type ExternalFunction = {
@@ -150,6 +155,7 @@ export class Executor {
   // the changes in the frame descriptions
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
+  private thisValues: Jiki.Instance[] = []
 
   constructor(
     private readonly sourceCode: string,
@@ -389,6 +395,7 @@ export class Executor {
     this.location = null
     return result as T
   }
+
   public visitFunctionCallStatement(statement: FunctionCallStatement): void {
     this.executeFrame<EvaluationResultFunctionCallStatement>(statement, () => {
       const result = this.visitFunctionCallExpression(
@@ -455,6 +462,41 @@ export class Executor {
         name: statement.name.lexeme,
         value: value,
         jikiObject: value.jikiObject,
+      }
+    })
+  }
+
+  public visitSetPropertyStatement(statement: SetPropertyStatement): void {
+    this.executeFrame<EvaluationResultSetPropertyStatement>(statement, () => {
+      const currentThis = this.currentThis()
+      if (!currentThis) {
+        this.error('AccessorUsedOnNonInstance', statement.thisKeyword.location)
+      }
+
+      if (isCallable(this.environment.get(statement.property))) {
+        this.error('UnexpectedChangeOfMethod', statement.property.location, {
+          name: statement.property.lexeme,
+        })
+      }
+
+      let value: EvaluationResultExpression
+      try {
+        value = this.evaluate(statement.value)
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error('CannotStoreNullFromFunction', statement.value.location)
+        } else {
+          throw e
+        }
+      }
+
+      // Update the underlying value
+      currentThis.setField(statement.property.lexeme, value)
+
+      return {
+        type: 'SetPropertyStatement',
+        property: statement.property.lexeme,
+        value: value,
       }
     })
   }
@@ -659,12 +701,12 @@ export class Executor {
     this.executeBlock(statement.statements, this.environment)
   }
 
+  public visitClassStatement(statement: ClassStatement): void {
+    executeClassStatement(this, statement)
+  }
+
   public visitFunctionStatement(statement: FunctionStatement): void {
-    const func = new UserDefinedFunction(
-      statement,
-      this.environment,
-      this.languageFeatures
-    )
+    const func = new UserDefinedCallable(statement)
 
     if (
       !this.customFunctionDefinitionMode &&
@@ -797,7 +839,7 @@ export class Executor {
     this.executeLoop(() => {
       let iteration = 0
       for (let temporaryVariableValue of iterable.jikiObject.value) {
-        iteration += 1
+        iteration++
         this.guardInfiniteLoop(statement.location)
 
         const temporaryVariableNames: string[] = []
@@ -1584,6 +1626,12 @@ export class Executor {
     }
   }
 
+  public guardDefinedClass(name: Token) {
+    if (this.globals.inScope(name)) {
+      this.error('ClassAlreadyDefined', name.location, { name: name.lexeme })
+    }
+  }
+
   private guardInfiniteLoop(loc: Location) {
     this.totalLoopIterations++
 
@@ -1679,6 +1727,10 @@ export class Executor {
     this.functionCallStack.pop()
   }
 
+  public addClass(klass: Jiki.Class) {
+    this.globals.define(klass.name, klass)
+  }
+
   public getExecutionContext(): ExecutionContext {
     return {
       state: this.externalState,
@@ -1690,8 +1742,20 @@ export class Executor {
       evaluate: this.evaluate.bind(this),
       updateState: this.updateState.bind(this),
       logicError: this.logicError.bind(this),
+      withThis: this.withThis.bind(this),
+      currentThis: this.currentThis.bind(this),
     }
   }
+
+  private withThis(newThis, fn) {
+    try {
+      this.thisValues.push(newThis)
+      return fn()
+    } finally {
+      this.thisValues.pop()
+    }
+  }
+  public currentThis = () => this.thisValues.at(-1)
 
   public error(
     type: RuntimeErrorType,

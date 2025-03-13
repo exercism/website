@@ -918,3 +918,5 @@ test('who knows', () => {
 })
 
 //ClassAlreadyDefined
+//AccessorUsedOnNonInstance
+//UnexpectedChangeOfMethod

@@ -1,7 +1,11 @@
 import { isArray, isString } from './checks'
 import { ExecutionContext } from './executor'
-import { Arity } from './functions'
+import { Arity, UserDefinedCallable } from './functions'
 
+type RawConstructor = (
+  executionContext: ExecutionContext,
+  ...args: any[]
+) => void
 type ObjectType =
   | 'number'
   | 'string'
@@ -40,7 +44,7 @@ export type Setter = (
 ) => void
 
 export class Class {
-  private initialize: ((...args: any[]) => void) | undefined
+  private initialize: RawConstructor | UserDefinedCallable | undefined
   constructor(public readonly name: string) {}
   private readonly methods: Record<string, Method> = {}
   private readonly getters: Record<string, Getter> = {}
@@ -53,17 +57,24 @@ export class Class {
   ): Instance {
     const instance = new Instance(this)
 
-    if (this.initialize !== undefined) {
-      this.initialize.apply(instance, [executionContext, ...args])
+    const initializer = this.initialize
+    if (initializer instanceof UserDefinedCallable) {
+      executionContext.withThis(instance, () => {
+        initializer.call(executionContext, args)
+      })
+    } else if (initializer !== undefined) {
+      initializer.apply(instance, [executionContext, ...args])
     }
 
     return instance
   }
-  public addConstructor(
-    fn: (executionContext: ExecutionContext, ...args: any[]) => void
-  ) {
+  public addConstructor(fn: RawConstructor | UserDefinedCallable) {
     this.initialize = fn
-    this.arity = fn.length - 1
+    if (fn instanceof UserDefinedCallable) {
+      this.arity = fn.arity
+    } else {
+      this.arity = fn.length - 1
+    }
   }
 
   //

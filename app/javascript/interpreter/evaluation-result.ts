@@ -98,7 +98,15 @@ export type EvaluationResultSetVariableStatement = {
   type: 'SetVariableStatement'
   name: string
   value: EvaluationResultExpression
-  jikiObject: JikiTypes.JikiObject
+  jikiObject?: undefined
+  data?: Record<string, any>
+}
+
+export type EvaluationResultSetPropertyStatement = {
+  type: 'SetPropertyStatement'
+  property: EvaluationResult
+  value: EvaluationResult
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 

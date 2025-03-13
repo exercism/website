@@ -193,7 +193,7 @@ export class Interpreter {
     const interpreter = new Interpreter(code, {
       languageFeatures: {
         customFunctionDefinitionMode: true,
-        maxTotalLoopIterations: 200,
+        maxTotalLoopIterations: 2000,
       },
       externalFunctions: Object.values(StdlibFunctions),
     })

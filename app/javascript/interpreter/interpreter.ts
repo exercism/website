@@ -163,7 +163,7 @@ export class Interpreter {
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 10000,
-      maxTotalExecutionTime: 10 * 1000, // 10 seconds
+      maxTotalExecutionTime: 10000, // 10 seconds
       allowGlobals: false,
       customFunctionDefinitionMode: false,
       ...context.languageFeatures,
@@ -191,7 +191,10 @@ export class Interpreter {
 
     const code = customFunctions.map((fn) => fn.code).join('\n')
     const interpreter = new Interpreter(code, {
-      languageFeatures: { customFunctionDefinitionMode: true },
+      languageFeatures: {
+        customFunctionDefinitionMode: true,
+        maxTotalLoopIterations: 200,
+      },
       externalFunctions: Object.values(StdlibFunctions),
     })
     interpreter.compile()
@@ -212,7 +215,6 @@ export class Interpreter {
           customFunction.name,
           ...nakedArgs
         )
-        console.log(res)
         if (res.error) {
           throw new CustomFunctionError(res.error.message)
         } else if (res.frames.at(-1)?.error) {

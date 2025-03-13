@@ -163,7 +163,7 @@ export class Interpreter {
       repeatDelay: 0,
       maxRepeatUntilGameOverIterations: 100,
       maxTotalLoopIterations: 10000,
-      maxTotalExecutionTime: 10 * 10000, // 10 seconds
+      maxTotalExecutionTime: 10000, // 10 seconds
       allowGlobals: false,
       customFunctionDefinitionMode: false,
       ...context.languageFeatures,

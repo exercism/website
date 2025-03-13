@@ -261,7 +261,7 @@
             {
               "function": "statesForRow(1)",
               "value": ["correct", "absent", "present", "absent", "absent"],
-              "error_html": "We expected the second row to be correct, absent, present, present, absent (This is the tricky one!)"
+              "error_html": "We expected the second row to be correct, absent, present, absent, absent (This is the tricky one!)"
             },
             {
               "function": "statesForRow(2)",

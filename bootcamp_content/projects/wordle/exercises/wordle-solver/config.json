@@ -8,7 +8,7 @@
   "stdlib_functions": ["push"],
   "exercise_functions": ["common_words"],
   "interpreter_options": {
-    "max_total_loop_iterations": 10000
+    "max_total_loop_iterations": 5000
   },
   "tasks": [
     {

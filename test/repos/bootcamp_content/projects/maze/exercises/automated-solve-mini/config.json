@@ -44,7 +44,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [4, 6],
               "error_html": "You didn't reach the end of the maze."
             }
@@ -76,7 +76,7 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 4],
               "error_html": "You didn't reach the end of the maze."
             }

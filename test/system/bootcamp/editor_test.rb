@@ -194,7 +194,7 @@ end))
       end
     end
 
-    test "shows modal on io test when after reiterating exercise correctly" do
+    test "shows modal on io test after reiterating exercise correctly" do
       user = create(:user, bootcamp_attendee: true)
       exercise = create :bootcamp_exercise, :even_or_odd
 
@@ -206,7 +206,7 @@ end))
   return "Even"
 end))
 
-        find("[data-ci='check-scenarios-button']").click
+        check_scenarios
         assert_selector(".c-scenario.fail")
         refute_selector(".c-scenario.pass")
 
@@ -376,8 +376,7 @@ end))
 end))
         check_scenarios
 
-        find("[data-ci=information-widget-toggle]").click
-
+        scrub_to 0
         assert_text "This created a new variable called this and set its value to 5."
         assert_selector ".information-tooltip.description"
       end
@@ -397,6 +396,7 @@ turn_right()
 
         toggle_information_tooltip
         assert_selector ".information-tooltip.description"
+        scrub_to(40_000)
         assert_text "Jiki used the turn_right() function"
         scrub_to(0)
         assert_text "Jiki used the move() function"
@@ -417,7 +417,7 @@ turn_right()
 
         check_scenarios
 
-        toggle_information_tooltip
+        scrub_to(0)
         assert_selector ".information-tooltip.description"
         assert_text "This created a new variable called this and set its value to 5."
         scrub_to(1)
@@ -449,7 +449,7 @@ turn_right()
 end))
         check_scenarios
 
-        scrubber_val_6 = 10_118
+        scrubber_val_6 = 20_002
 
         # interrupting animation
         scrub_to scrubber_val_6
@@ -483,8 +483,8 @@ turn_right()
 end))
         check_scenarios
 
-        scrubber_val_4 = 2430
-        scrubber_val_5 = 3848
+        scrubber_val_4 = 20_004
+        scrubber_val_5 = 40_005
 
         select_scenario 5
         # interrupting animation
@@ -638,7 +638,7 @@ asdf()
         refute_selector(".c-scenario.pending")
         refute_selector(".test-button.pass")
         refute_selector(".c-scenario.pass")
-        assert_text "Your code has an error in it."
+        assert_text "Jiki hit a problem running your code."
       end
     end
 
@@ -794,7 +794,7 @@ end))
         # view is spotlighted
         assert_css("#view-container.spotlight")
         # buttons are disabled
-        assert_selector("[data-ci=play-button][disabled]")
+        assert_selector("[data-ci=pause-button][disabled]")
         assert_selector("[data-ci=scrubber-range-input][disabled]")
         assert_selector("[data-ci=frame-stepper-buttons] button[disabled]", count: 2)
 
@@ -885,6 +885,7 @@ end))
         check_scenarios
 
         select_scenario 3
+        find("[data-ci=play-button]").click
 
         third_line = all(".cm-line")[2]
 

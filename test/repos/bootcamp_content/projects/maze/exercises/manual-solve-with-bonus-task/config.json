@@ -35,12 +35,12 @@
           ],
           "checks": [
             {
-              "name": "position",
+              "property": "position",
               "value": [0, 4],
               "error_html": "You didn't reach the end of the maze."
             },
             {
-              "name": "getGameResult()",
+              "function": "getGameResult()",
               "value": "win",
               "error_html": "You didn't reach the end of the maze."
             }
@@ -76,7 +76,7 @@
           ],
           "checks": [
             {
-              "name": "numLinesOfCode(0)",
+              "function": "numLinesOfCode(0)",
               "matcher": "toBeLessThanOrEqual",
               "value": 3,
               "error_html": "You added more than 3 lines of code. (%actual%)"

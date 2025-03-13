@@ -14,8 +14,12 @@
           "type": "io",
           "name": "Number 14",
           "function": "even_or_odd",
-          "params": [14],
-          "expected": "Even",
+          "args": [14],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
           "image_slug": "number-puzzles/even-or-odd/14.png"
         },
         {
@@ -23,8 +27,12 @@
           "type": "io",
           "name": "Number 28",
           "function": "even_or_odd",
-          "params": [28],
-          "expected": "Even",
+          "args": [28],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
           "image_slug": "number-puzzles/even-or-odd/28.png"
         }
       ]
@@ -37,8 +45,12 @@
           "type": "io",
           "name": "Number -1",
           "function": "even_or_odd",
-          "params": [-1],
-          "expected": "Odd",
+          "args": [-1],
+          "checks": [
+            {
+              "value": "Odd"
+            }
+          ],
           "image_slug": "number-puzzles/even-or-odd/-1.png"
         },
         {
@@ -46,8 +58,12 @@
           "type": "io",
           "name": "Number 17",
           "function": "even_or_odd",
-          "params": [17],
-          "expected": "Odd",
+          "args": [17],
+          "checks": [
+            {
+              "value": "Odd"
+            }
+          ],
           "image_slug": "number-puzzles/even-or-odd/17.png"
         }
       ]
@@ -60,8 +76,12 @@
           "type": "io",
           "name": "Number 0",
           "function": "even_or_odd",
-          "params": [0],
-          "expected": "Even",
+          "args": [0],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
           "image_slug": "number-puzzles/even-or-odd/0.png"
         }
       ]

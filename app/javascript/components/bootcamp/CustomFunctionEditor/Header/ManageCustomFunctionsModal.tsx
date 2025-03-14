@@ -45,7 +45,6 @@ export function ManageCustomFunctionsModal({
   )
   const handleDeactivateCustomFunction = useCallback(
     (name: string) => {
-      console.log('handling deactivating', name)
       deactivateCustomFunction(name)
       if (onChange) {
         onChange()

@@ -38,8 +38,7 @@ export type CustomFunction = {
 
 export type CustomFunctionEditorProps = {
   customFunction: CustomFunction
-  dependsOn: string[]
-  availableCustomFunctions: AvailableCustomFunction[]
+  customFunctions: CustomFunctionsFromServer
   links: {
     updateCustomFns: string
     getCustomFns: string
@@ -54,9 +53,8 @@ export const CustomFunctionEditorStoreContext = createContext<{
 
 export default function CustomFunctionEditor({
   customFunction,
+  customFunctions,
   links,
-  dependsOn,
-  availableCustomFunctions,
 }: CustomFunctionEditorProps) {
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({
@@ -64,9 +62,8 @@ export default function CustomFunctionEditor({
     })
 
   useSetupCustomFunctionStore({
-    dependsOn,
-    availableCustomFunctions,
     customFunction,
+    customFunctions,
   })
 
   const {
@@ -91,7 +88,6 @@ export default function CustomFunctionEditor({
     hasUnsavedChanges,
     clearSyntaxErrorInTest,
     results,
-    customFunctionName,
   } = customFunctionEditorStore()
 
   useEffect(() => {

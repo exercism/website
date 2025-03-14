@@ -19,9 +19,9 @@ export function ManageCustomFunctionsModal({
 }) {
   const {
     customFunctionMetadataCollection,
-    customFunctionsForInterpreter,
-    addCustomFunctionsForInterpreter,
-    removeCustomFunctionsForInterpreter,
+    getIsFunctionActivated,
+    activateCustomFunction,
+    deactivateCustomFunction,
   } = useCustomFunctionStore()
 
   const { links } = useContext(SolveExercisePageContext)
@@ -31,39 +31,24 @@ export function ManageCustomFunctionsModal({
     [customFunctionMetadataCollection]
   )
 
-  const getIsFunctionImported = useCallback(
-    (name: string) => {
-      return (
-        customFunctionsForInterpreter.findIndex(
-          (customFn) => customFn.name === name
-        ) > -1
-      )
-    },
-    [customFunctionsForInterpreter]
-  )
-
-  const handleGetCustomFunctionForInterpreter = useCallback(
+  const handleActivateCustomFunction = useCallback(
     async (name: string) => {
-      const data = await getCustomFunctionsForInterpreter(
-        links.getCustomFnsForInterpreter,
-        name
-      )
-
-      addCustomFunctionsForInterpreter(data.custom_functions)
+      activateCustomFunction(name, links.getCustomFnsForInterpreter)
       if (onChange) {
         onChange()
       }
     },
-    []
+    [links, onChange]
   )
-  const handleRemoveCustomFunctionForInterpreter = useCallback(
-    async (uuid: string) => {
-      removeCustomFunctionsForInterpreter(uuid)
+  const handleDeactivateCustomFunction = useCallback(
+    (name: string) => {
+      console.log('handling deactivating', name)
+      deactivateCustomFunction(name)
       if (onChange) {
         onChange()
       }
     },
-    []
+    [onChange]
   )
 
   return (
@@ -85,16 +70,14 @@ export function ManageCustomFunctionsModal({
               <CustomFunctionMetadata
                 key={customFnMetadata.name}
                 onClick={() => {
-                  return getIsFunctionImported(customFnMetadata.name)
-                    ? handleRemoveCustomFunctionForInterpreter(
-                        customFnMetadata.name
-                      )
-                    : handleGetCustomFunctionForInterpreter(
-                        customFnMetadata.name
-                      )
+                  return getIsFunctionActivated(customFnMetadata.name)
+                    ? handleDeactivateCustomFunction(customFnMetadata.name)
+                    : handleActivateCustomFunction(customFnMetadata.name)
                 }}
                 buttonClass={
-                  getIsFunctionImported(customFnMetadata.name) ? 'selected' : ''
+                  getIsFunctionActivated(customFnMetadata.name)
+                    ? 'selected'
+                    : ''
                 }
                 customFnMetadata={customFnMetadata}
               />

@@ -147,7 +147,9 @@ export default function CustomFunctionEditor({
           handleSaveChanges={() =>
             handlePatchCustomFunction({
               code: editorViewRef.current?.state.doc.toString() ?? '',
-              dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
+              dependsOn: Object.values(customFunctionsForInterpreter).map(
+                (cfn) => cfn.name
+              ),
               url: links.updateCustomFns,
             })
           }

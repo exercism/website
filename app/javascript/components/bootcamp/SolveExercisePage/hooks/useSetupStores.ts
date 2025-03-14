@@ -27,18 +27,22 @@ export function useSetupStores({
 
   const {
     setCustomFunctionMetadataCollection,
-    setCustomFunctionsForInterpreter,
+    populateCustomFunctionsForInterpreter,
+    setActivatedCustomFunctions,
   } = useCustomFunctionStore()
 
   useLayoutEffect(() => {
     initializeTasks(exercise.tasks, null)
 
     setCustomFunctionMetadataCollection(availableCustomFunctions)
-    setCustomFunctionsForInterpreter(
+    populateCustomFunctionsForInterpreter(
       activeCustomFunctions.map((acf) => {
         return { ...acf, arity: acf.arity }
       })
     )
+
+    // TODO replace this with an actual list of activated functions
+    setActivatedCustomFunctions(activeCustomFunctions.map((acf) => [acf.name]))
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
     setWasFinishLessonModalShown(solution.passedBasicTests)
     setShouldShowBonusTasks(solution.passedBasicTests)

@@ -13,14 +13,14 @@ export function useSetupCustomFunctionStore({
 }) {
   const {
     setCustomFunctionMetadataCollection,
-    setCustomFunctionsForInterpreter,
+    populateCustomFunctionsForInterpreter,
   } = useCustomFunctionStore()
 
   useEffect(() => {
     setCustomFunctionMetadataCollection(
       availableCustomFunctions.filter((cfn) => cfn.name !== customFunction.name)
     )
-    setCustomFunctionsForInterpreter(
+    populateCustomFunctionsForInterpreter(
       dependsOn.map((acf) => {
         return { ...acf, arity: acf.arity }
       })

@@ -19,6 +19,8 @@ export type TokenType =
   | 'SEMICOLON'
   | 'LEFT_PAREN'
   | 'RIGHT_PAREN'
+  | 'PLUS'
+  | 'GREATER_THAN'
 
   // Literals
   | 'IDENTIFIER'
@@ -33,6 +35,5 @@ export type TokenType =
 export type Token = {
   type: TokenType
   lexeme: string
-  literal: any
   location: Location
 }

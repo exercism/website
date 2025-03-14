@@ -1,57 +1,25 @@
-import { type Callable } from './functions'
 import { RuntimeError } from './error'
 
 export type FrameExecutionStatus = 'SUCCESS' | 'ERROR'
-import type {
-  EvaluationResult,
-  EvaluationResultChangeVariableStatement,
-  EvaluationResultIfStatement,
-} from './evaluation-result'
-import type { ExternalFunction } from './executor'
-import {
-  BinaryExpression,
-  FunctionCallExpression,
-  Expression,
-  GroupingExpression,
-  LiteralExpression,
-  LogicalExpression,
-  VariableLookupExpression,
-} from './expression'
-import {
-  IfStatement,
-  SetVariableStatement,
-  Statement,
-  ChangeVariableStatement,
-  ReturnStatement,
-  LogStatement,
-} from './statement'
-import { describeIfStatement } from './describers/describeIfStatement'
-import { marked } from 'marked'
-import { describeSetVariableStatement } from './describers/describeSetVariableStatement'
-import { describeLogStatement } from './describers/describeLogStatement'
-import { deepTrim } from './describers/helpers'
-import { describeChangeVariableStatement } from './describers/describeChangeVariableStatement'
-import { describeFunctionCallStatement } from './describers/describeFunctionCallStatement'
-import { describeReturnStatement } from './describers/describeReturnStatement'
-import { describeChangeElementStatement } from './describers/describeChangeElementStatement'
-import { describeForeachStatement } from './describers/describeForeachStatement'
-import { describeRepeatStatement } from './describers/describeRepeatStatement'
-import { describeBreakStatement } from './describers/describeBreakStatement'
-import { describeNextStatement } from './describers/describeNextStatement'
-import { describeChangePropertyStatement } from './describers/describeChangePropertyStatement'
+import type { EvaluationResult } from './evaluation-result'
+
+import { Statement } from './statement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
+export type Animation = {
+  selector: string
+  property: string
+  value: string | number | boolean
+}
 export type Frame = {
   line: number
   code: string
   status: FrameExecutionStatus
   error?: RuntimeError
-  priorVariables: Record<string, any>
-  variables: Record<string, any>
   time: number
   timelineTime: number
-  result?: EvaluationResult
+  animations: Animation[]
   data?: Record<string, any>
   description: string
   context?: Statement | Expression
@@ -84,6 +52,8 @@ export function describeFrame(
   frame: Frame,
   context?: DescriptionContext
 ): string {
+  return ''
+
   if (!isFrameWithResult(frame)) {
     return defaultMessage
   }

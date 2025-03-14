@@ -4,7 +4,12 @@ import { type SyntaxErrorType } from './error'
 import { ValueExpression } from './expression'
 import { Location } from './location'
 import { Scanner } from './scanner'
-import { Statement, SelectorStatement, PropertyStatement } from './statement'
+import {
+  Statement,
+  SelectorStatement,
+  PropertyStatement,
+  Selector,
+} from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
 
@@ -27,7 +32,6 @@ export class Parser {
       if (statement) {
         statements.push(statement)
       }
-      while (this.match('EOL')) {}
     }
 
     return statements
@@ -36,9 +40,10 @@ export class Parser {
   private statement(): Statement {
     const type: 'selector' | 'property' | null = null
     let peekDistance = 1
-    while (!this.isAtEnd()) {
+    while (true) {
       const tokenType = this.peek(peekDistance).type
-      console.log(tokenType)
+      if (tokenType == 'EOF') break
+
       if (tokenType == 'LEFT_BRACE') {
         return this.selectorStatement()
       }
@@ -47,19 +52,32 @@ export class Parser {
       }
       peekDistance++
     }
-    console.log(this.peek())
     this.error('UknownStatementType', this.peek().location)
   }
 
   private selectorStatement(): SelectorStatement {
-    const selectors: Token[] = []
+    const selectors: Selector[] = []
+    const firstToken = this.peek()
+    let lastToken = firstToken
     while (!this.match('LEFT_BRACE') && !this.isAtEnd()) {
-      const identifier = this.consume('IDENTIFIER', 'MissingSelector')
-      selectors.push(identifier)
+      const selectorTokens: Token[] = []
+      selectorTokens.push(this.consume('IDENTIFIER', 'MissingSelector'))
+      while (this.match('PLUS', 'GREATER_THAN', 'IDENTIFIER')) {
+        lastToken = this.previous()
+        selectorTokens.push(lastToken)
+      }
+      selectors.push(
+        new Selector(
+          selectorTokens.map((t) => t.lexeme).join(' '),
+          Location.between(
+            selectorTokens[0],
+            selectorTokens[selectorTokens.length - 1]
+          )
+        )
+      )
 
       if (this.check('COMMA')) {
         this.consume('COMMA', 'MissingCommaAfterSelector')
-        this.match('EOL')
         continue
       }
       if (this.check('LEFT_BRACE')) {
@@ -79,7 +97,7 @@ export class Parser {
     return new SelectorStatement(
       selectors,
       body,
-      Location.between(selectors[0], selectors[selectors.length - 1])
+      Location.between(firstToken, lastToken)
     )
   }
 
@@ -87,6 +105,10 @@ export class Parser {
     const property = this.consume('IDENTIFIER', 'MissingProperty')
     this.consume('COLON', 'MissingColonAfterProperty')
     const value = this.expression()
+    console.log(value)
+    if (!(this.peek().type == 'RIGHT_BRACE')) {
+      this.consume('SEMICOLON', 'MissingSemicolonAfterValue')
+    }
     return new PropertyStatement(
       property,
       value,
@@ -120,7 +142,7 @@ export class Parser {
   }
   private expression(): ValueExpression {
     const tokens: Token[] = []
-    while (!(this.peek().type == 'SEMICOLON') && !this.isAtEnd()) {
+    while (!this.check('SEMICOLON', 'RIGHT_BRACE') && !this.isAtEnd()) {
       tokens.push(this.advance())
     }
     const value = tokens.map((t) => t.lexeme).join('')
@@ -163,27 +185,6 @@ export class Parser {
     if (this.check(tokenType)) return this.advance()
 
     this.error(type, this.peek().location, context)
-  }
-
-  private consumeDo(type): void {
-    const next = this.peek()
-
-    // The DO will work, the EOL will fail.
-    // Both of these can be handled normally.
-    if (next.type == 'EOL' || next.type == 'DO') {
-      this.consume('DO', 'MissingDoToStartBlock', { type })
-      return
-    }
-
-    if ([')', '}', ']'].includes(next.lexeme)) {
-      this.error('UnexpectedClosingBracket', this.peek().location, {
-        lexeme: next.lexeme,
-      })
-    } else {
-      this.error('UnexpectedToken', this.peek().location, {
-        lexeme: next.lexeme,
-      })
-    }
   }
 
   private error(

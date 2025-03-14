@@ -108,26 +108,23 @@ describe('number', () => {
 
 test('multiple lines', () => {
   const tokens = scan('move()\nturn("left")\nmove()')
-  expect(tokens).toBeArrayOfSize(14)
+  expect(tokens).toBeArrayOfSize(11)
   expect(tokens[0].type).toBe('IDENTIFIER')
   expect(tokens[1].type).toBe('LEFT_PAREN')
   expect(tokens[2].type).toBe('RIGHT_PAREN')
-  expect(tokens[3].type).toBe('EOL')
-  expect(tokens[4].type).toBe('IDENTIFIER')
-  expect(tokens[5].type).toBe('LEFT_PAREN')
-  expect(tokens[6].type).toBe('STRING')
-  expect(tokens[7].type).toBe('RIGHT_PAREN')
-  expect(tokens[8].type).toBe('EOL')
-  expect(tokens[9].type).toBe('IDENTIFIER')
-  expect(tokens[10].type).toBe('LEFT_PAREN')
-  expect(tokens[11].type).toBe('RIGHT_PAREN')
-  expect(tokens[12].type).toBe('EOL')
-  expect(tokens[13].type).toBe('EOF')
+  expect(tokens[3].type).toBe('IDENTIFIER')
+  expect(tokens[4].type).toBe('LEFT_PAREN')
+  expect(tokens[5].type).toBe('STRING')
+  expect(tokens[6].type).toBe('RIGHT_PAREN')
+  expect(tokens[7].type).toBe('IDENTIFIER')
+  expect(tokens[8].type).toBe('LEFT_PAREN')
+  expect(tokens[9].type).toBe('RIGHT_PAREN')
+  expect(tokens[10].type).toBe('EOF')
 })
 
 test('location', () => {
   const tokens = scan('move()\nturn("left")')
-  expect(tokens).toBeArrayOfSize(10)
+  expect(tokens).toBeArrayOfSize(8)
 
   expect(tokens[0].location.line).toBe(1)
   expect(tokens[0].location.relative.begin).toBe(1)
@@ -147,35 +144,29 @@ test('location', () => {
   expect(tokens[2].location.absolute.begin).toBe(6)
   expect(tokens[2].location.absolute.end).toBe(7)
 
-  expect(tokens[3].location.line).toBe(1)
-  expect(tokens[3].location.relative.begin).toBe(7)
-  expect(tokens[3].location.relative.end).toBe(8)
-  expect(tokens[3].location.absolute.begin).toBe(7)
-  expect(tokens[3].location.absolute.end).toBe(8)
+  expect(tokens[3].location.line).toBe(2)
+  expect(tokens[3].location.relative.begin).toBe(1)
+  expect(tokens[3].location.relative.end).toBe(5)
+  expect(tokens[3].location.absolute.begin).toBe(8)
+  expect(tokens[3].location.absolute.end).toBe(12)
 
   expect(tokens[4].location.line).toBe(2)
-  expect(tokens[4].location.relative.begin).toBe(1)
-  expect(tokens[4].location.relative.end).toBe(5)
-  expect(tokens[4].location.absolute.begin).toBe(8)
-  expect(tokens[4].location.absolute.end).toBe(12)
+  expect(tokens[4].location.relative.begin).toBe(5)
+  expect(tokens[4].location.relative.end).toBe(6)
+  expect(tokens[4].location.absolute.begin).toBe(12)
+  expect(tokens[4].location.absolute.end).toBe(13)
 
   expect(tokens[5].location.line).toBe(2)
-  expect(tokens[5].location.relative.begin).toBe(5)
-  expect(tokens[5].location.relative.end).toBe(6)
-  expect(tokens[5].location.absolute.begin).toBe(12)
-  expect(tokens[5].location.absolute.end).toBe(13)
+  expect(tokens[5].location.relative.begin).toBe(6)
+  expect(tokens[5].location.relative.end).toBe(12)
+  expect(tokens[5].location.absolute.begin).toBe(13)
+  expect(tokens[5].location.absolute.end).toBe(19)
 
   expect(tokens[6].location.line).toBe(2)
-  expect(tokens[6].location.relative.begin).toBe(6)
-  expect(tokens[6].location.relative.end).toBe(12)
-  expect(tokens[6].location.absolute.begin).toBe(13)
-  expect(tokens[6].location.absolute.end).toBe(19)
-
-  expect(tokens[7].location.line).toBe(2)
-  expect(tokens[7].location.relative.begin).toBe(12)
-  expect(tokens[7].location.relative.end).toBe(13)
-  expect(tokens[7].location.absolute.begin).toBe(19)
-  expect(tokens[7].location.absolute.end).toBe(20)
+  expect(tokens[6].location.relative.begin).toBe(12)
+  expect(tokens[6].location.relative.end).toBe(13)
+  expect(tokens[6].location.absolute.begin).toBe(19)
+  expect(tokens[6].location.absolute.end).toBe(20)
 })
 
 describe('error', () => {
@@ -222,84 +213,10 @@ describe('white space', () => {
 
     test('between statements', () => {
       const tokens = scan('1\n\n2\n')
-      expect(tokens).toHaveLength(5)
+      expect(tokens).toHaveLength(3)
       expect(tokens[0].type).toBe('NUMBER')
-      expect(tokens[1].type).toBe('EOL')
-      expect(tokens[2].type).toBe('NUMBER')
-      expect(tokens[3].type).toBe('EOL')
-      expect(tokens[4].type).toBe('EOF')
-    })
-  })
-})
-
-describe('synthetic', () => {
-  describe('EOL', () => {
-    describe('not added', () => {
-      test('empty line', () => {
-        const tokens = scan('')
-        expect(tokens).toBeArrayOfSize(1)
-        expect(tokens[0].type).toBe('EOF')
-      })
-
-      test('before first statement', () => {
-        const tokens = scan('\n1\n')
-        expect(tokens).toHaveLength(3)
-        expect(tokens[0].type).toBe('NUMBER')
-        expect(tokens[1].type).toBe('EOL')
-        expect(tokens[2].type).toBe('EOF')
-      })
-
-      test('between statements', () => {
-        const tokens = scan('1\n\n2\n')
-        expect(tokens).toHaveLength(5)
-        expect(tokens[0].type).toBe('NUMBER')
-        expect(tokens[1].type).toBe('EOL')
-        expect(tokens[2].type).toBe('NUMBER')
-        expect(tokens[3].type).toBe('EOL')
-        expect(tokens[4].type).toBe('EOF')
-      })
-    })
-
-    describe('added', () => {
-      describe('single statement', () => {
-        test('ending with newline', () => {
-          const tokens = scan('1\n')
-          expect(tokens).toBeArrayOfSize(3)
-          expect(tokens[0].type).toBe('NUMBER')
-          expect(tokens[1].type).toBe('EOL')
-          expect(tokens[2].type).toBe('EOF')
-        })
-
-        test('not ending with newline', () => {
-          const tokens = scan('1')
-          expect(tokens).toBeArrayOfSize(3)
-          expect(tokens[0].type).toBe('NUMBER')
-          expect(tokens[1].type).toBe('EOL')
-          expect(tokens[2].type).toBe('EOF')
-        })
-      })
-
-      describe('multiple statements', () => {
-        test('ending with newline', () => {
-          const tokens = scan('1\n2\n')
-          expect(tokens).toBeArrayOfSize(5)
-          expect(tokens[0].type).toBe('NUMBER')
-          expect(tokens[1].type).toBe('EOL')
-          expect(tokens[2].type).toBe('NUMBER')
-          expect(tokens[3].type).toBe('EOL')
-          expect(tokens[4].type).toBe('EOF')
-        })
-
-        test('last statement not ending with newline', () => {
-          const tokens = scan('1\n2')
-          expect(tokens).toBeArrayOfSize(5)
-          expect(tokens[0].type).toBe('NUMBER')
-          expect(tokens[1].type).toBe('EOL')
-          expect(tokens[2].type).toBe('NUMBER')
-          expect(tokens[3].type).toBe('EOL')
-          expect(tokens[4].type).toBe('EOF')
-        })
-      })
+      expect(tokens[1].type).toBe('NUMBER')
+      expect(tokens[2].type).toBe('EOF')
     })
   })
 })

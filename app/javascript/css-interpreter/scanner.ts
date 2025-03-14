@@ -42,6 +42,8 @@ export class Scanner {
     ',': this.tokenizeComma,
     '"': this.tokenizeString,
     ';': this.tokenizeSemicolon,
+    '+': this.tokenizePlus,
+    '>': this.tokenizeGreaterThan,
     ' ': this.tokenizeWhitespace,
     '\t': this.tokenizeWhitespace,
     '\r': this.tokenizeWhitespace,
@@ -56,9 +58,6 @@ export class Scanner {
       this.start = this.current
       this.scanToken()
     }
-
-    // Add synthetic EOL token to simplify parsing
-    if (this.shouldAddEOLToken()) this.addSyntheticToken('EOL', '\n')
 
     // Add synthetic EOF token to simplify parsing
     this.addSyntheticToken('EOF', '\0')
@@ -124,6 +123,12 @@ export class Scanner {
   private tokenizeSemicolon() {
     this.addToken('SEMICOLON')
   }
+  private tokenizePlus() {
+    this.addToken('PLUS')
+  }
+  private tokenizeGreaterThan() {
+    this.addToken('GREATER_THAN')
+  }
 
   /*
    * We don't tokenize whitespace, but we do need to match on it
@@ -137,8 +142,6 @@ export class Scanner {
    * and resets the line offset to the next character.
    */
   private tokenizeNewline() {
-    if (this.shouldAddEOLToken()) this.addToken('EOL')
-
     this.line++
     this.lineOffset = this.current
   }
@@ -269,7 +272,6 @@ export class Scanner {
   }
 
   private isAllowableInIdentifier(c: string): boolean {
-    console.log(c, '.#'.includes(c))
     return this.isAlpha(c) || this.isDigit(c) || '.#'.includes(c)
   }
 
@@ -282,13 +284,6 @@ export class Scanner {
     if (next == '\n') return false
     if (next == '\0') return false
     return true
-  }
-
-  private shouldAddEOLToken(): boolean {
-    return (
-      this.previouslyAddedToken() != null &&
-      this.previouslyAddedToken() != 'EOL'
-    )
   }
 
   private advance(): string {

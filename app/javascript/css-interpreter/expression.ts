@@ -11,7 +11,7 @@ export class ValueExpression extends Expression {
     public value: number | string | boolean,
     public location: Location
   ) {
-    super('LiteralExpression')
+    super('ValueExpression')
   }
   public children() {
     return []

@@ -7,9 +7,13 @@ export abstract class Statement {
   abstract location: Location
 }
 
+export class Selector {
+  constructor(public literal: string, public location: Location) {}
+}
+
 export class SelectorStatement extends Statement {
   constructor(
-    public selectors: Token[],
+    public selectors: Selector[],
     public body: Statement[],
     public location: Location
   ) {

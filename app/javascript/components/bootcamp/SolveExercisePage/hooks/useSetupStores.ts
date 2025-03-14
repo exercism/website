@@ -7,15 +7,10 @@ import useCustomFunctionStore from '../../CustomFunctionEditor/store/customFunct
 export function useSetupStores({
   exercise,
   solution,
-  activeCustomFunctions,
-  availableCustomFunctions,
+  customFunctions,
 }: Pick<
   SolveExercisePageProps,
-  | 'exercise'
-  | 'code'
-  | 'solution'
-  | 'activeCustomFunctions'
-  | 'availableCustomFunctions'
+  'exercise' | 'code' | 'solution' | 'customFunctions'
 >) {
   const {
     initializeTasks,
@@ -25,20 +20,13 @@ export function useSetupStores({
   } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
-  const {
-    setCustomFunctionMetadataCollection,
-    setCustomFunctionsForInterpreter,
-  } = useCustomFunctionStore()
+  const { initializeCustomFunctions } = useCustomFunctionStore()
 
   useLayoutEffect(() => {
     initializeTasks(exercise.tasks, null)
 
-    setCustomFunctionMetadataCollection(availableCustomFunctions)
-    setCustomFunctionsForInterpreter(
-      activeCustomFunctions.map((acf) => {
-        return { ...acf, arity: acf.arity }
-      })
-    )
+    initializeCustomFunctions(customFunctions)
+
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
     setWasFinishLessonModalShown(solution.passedBasicTests)
     setShouldShowBonusTasks(solution.passedBasicTests)

@@ -1,12 +1,15 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import Modal from 'react-modal'
-import useCustomFunctionStore, {
-  CustomFunctionMetadata,
-} from '../store/customFunctionsStore'
+import useCustomFunctionStore from '../store/customFunctionsStore'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common'
 
 Modal.setAppElement('body')
+
+type CustomFunctionMetadata = {
+  name: string
+  description: string
+}
 
 export function ManageCustomFunctionsModal({
   isOpen,
@@ -18,52 +21,36 @@ export function ManageCustomFunctionsModal({
   onChange?: () => void
 }) {
   const {
-    customFunctionMetadataCollection,
-    customFunctionsForInterpreter,
-    addCustomFunctionsForInterpreter,
-    removeCustomFunctionsForInterpreter,
+    availableCustomFunctions,
+    getIsFunctionActivated,
+    activateCustomFunction,
+    deactivateCustomFunction,
   } = useCustomFunctionStore()
 
   const { links } = useContext(SolveExercisePageContext)
 
   const hasMetadata = useMemo(
-    () => customFunctionMetadataCollection.length > 0,
-    [customFunctionMetadataCollection]
+    () => Object.keys(availableCustomFunctions).length > 0,
+    [availableCustomFunctions]
   )
 
-  const getIsFunctionImported = useCallback(
-    (name: string) => {
-      return (
-        customFunctionsForInterpreter.findIndex(
-          (customFn) => customFn.name === name
-        ) > -1
-      )
-    },
-    [customFunctionsForInterpreter]
-  )
-
-  const handleGetCustomFunctionForInterpreter = useCallback(
+  const handleActivateCustomFunction = useCallback(
     async (name: string) => {
-      const data = await getCustomFunctionsForInterpreter(
-        links.getCustomFnsForInterpreter,
-        name
-      )
-
-      addCustomFunctionsForInterpreter(data.custom_functions)
+      activateCustomFunction(name)
       if (onChange) {
         onChange()
       }
     },
-    []
+    [links, onChange]
   )
-  const handleRemoveCustomFunctionForInterpreter = useCallback(
-    async (uuid: string) => {
-      removeCustomFunctionsForInterpreter(uuid)
+  const handleDeactivateCustomFunction = useCallback(
+    (name: string) => {
+      deactivateCustomFunction(name)
       if (onChange) {
         onChange()
       }
     },
-    []
+    [onChange]
   )
 
   return (
@@ -80,21 +67,19 @@ export function ManageCustomFunctionsModal({
       </p>
       <div className="flex flex-col gap-8 mb-12 overflow-y-auto mr-[-32px] pr-32">
         {hasMetadata ? (
-          customFunctionMetadataCollection.map((customFnMetadata) => {
+          Object.values(availableCustomFunctions).map((customFnMetadata) => {
             return (
               <CustomFunctionMetadata
                 key={customFnMetadata.name}
                 onClick={() => {
-                  return getIsFunctionImported(customFnMetadata.name)
-                    ? handleRemoveCustomFunctionForInterpreter(
-                        customFnMetadata.name
-                      )
-                    : handleGetCustomFunctionForInterpreter(
-                        customFnMetadata.name
-                      )
+                  return getIsFunctionActivated(customFnMetadata.name)
+                    ? handleDeactivateCustomFunction(customFnMetadata.name)
+                    : handleActivateCustomFunction(customFnMetadata.name)
                 }}
                 buttonClass={
-                  getIsFunctionImported(customFnMetadata.name) ? 'selected' : ''
+                  getIsFunctionActivated(customFnMetadata.name)
+                    ? 'selected'
+                    : ''
                 }
                 customFnMetadata={customFnMetadata}
               />
@@ -130,30 +115,4 @@ function CustomFunctionMetadata({
       </div>
     </button>
   )
-}
-
-export async function getCustomFunctionsForInterpreter(
-  url: string,
-  name: string
-): Promise<{
-  custom_functions: {
-    code: string
-    arity: number
-    name: string
-  }[]
-}> {
-  // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
-  const response = await fetch(url + '?name=' + encodeURIComponent(name), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: null,
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to submit code')
-  }
-
-  return response.json()
 }

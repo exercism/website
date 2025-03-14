@@ -78,7 +78,7 @@ export function useCustomFunctionEditorHandler({
     if (editorHandler.current) {
       const context: EvaluationContext = {
         languageFeatures: { customFunctionDefinitionMode: true },
-        customFunctions,
+        customFunctions: Object.values(customFunctions),
         externalFunctions: Object.values(StdlibFunctions),
       }
       const value = editorHandler.current.getValue()

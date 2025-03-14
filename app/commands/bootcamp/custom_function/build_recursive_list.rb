@@ -1,12 +1,20 @@
 class Bootcamp::CustomFunction::BuildRecursiveList
   include Mandate
 
-  initialize_with :user, :names
+  initialize_with :user, :selected
 
   def call
-    rec_names = build_name_tree([], names)
-    user.bootcamp_custom_functions.active.where(name: rec_names).
-      select(:name, :arity, :code)
+    active_fns = user.bootcamp_custom_functions.active.order(:name).to_a
+    for_interpreter = active_fns.map do |fn|
+      fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description).merge(
+        dependencies: build_name_tree([], [fn.name]).reject { |n| n == fn.name }.sort
+      )
+    end
+
+    {
+      selected:,
+      for_interpreter:
+    }
   end
 
   private

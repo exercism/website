@@ -38,12 +38,9 @@ export type CustomFunction = {
 
 export type CustomFunctionEditorProps = {
   customFunction: CustomFunction
-  dependsOn: ActiveCustomFunction[]
-  availableCustomFunctions: AvailableCustomFunction[]
+  customFunctions: CustomFunctionsFromServer
   links: {
     updateCustomFns: string
-    getCustomFns: string
-    getCustomFnsForInterpreter: string
     customFnsDashboard: string
   }
 }
@@ -54,9 +51,8 @@ export const CustomFunctionEditorStoreContext = createContext<{
 
 export default function CustomFunctionEditor({
   customFunction,
+  customFunctions,
   links,
-  dependsOn,
-  availableCustomFunctions,
 }: CustomFunctionEditorProps) {
   const { editorViewRef, handleEditorDidMount, handleRunCode } =
     useCustomFunctionEditorHandler({
@@ -64,9 +60,8 @@ export default function CustomFunctionEditor({
     })
 
   useSetupCustomFunctionStore({
-    dependsOn,
-    availableCustomFunctions,
     customFunction,
+    customFunctions,
   })
 
   const {
@@ -91,7 +86,6 @@ export default function CustomFunctionEditor({
     hasUnsavedChanges,
     clearSyntaxErrorInTest,
     results,
-    customFunctionName,
   } = customFunctionEditorStore()
 
   useEffect(() => {
@@ -101,7 +95,7 @@ export default function CustomFunctionEditor({
 
   useWarnOnUnsavedChanges(hasUnsavedChanges)
 
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+  const { getSelectedCustomFunctions } = useCustomFunctionStore()
 
   const { cleanUpEditorStore, setDefaultCode } = useEditorStore()
 
@@ -147,7 +141,7 @@ export default function CustomFunctionEditor({
           handleSaveChanges={() =>
             handlePatchCustomFunction({
               code: editorViewRef.current?.state.doc.toString() ?? '',
-              dependsOn: customFunctionsForInterpreter.map((cfn) => cfn.name),
+              dependsOn: getSelectedCustomFunctions(),
               url: links.updateCustomFns,
             })
           }

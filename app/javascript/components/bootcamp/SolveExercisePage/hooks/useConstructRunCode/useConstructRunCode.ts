@@ -73,7 +73,8 @@ export function useConstructRunCode({
     setInspectedTestResult(null)
   }
 
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+  const { customFunctionsForInterpreter, getSelectedCustomFunctions } =
+    useCustomFunctionStore()
 
   /**
    * This function is used to run the code in the editor
@@ -96,9 +97,11 @@ export function useConstructRunCode({
       // @ts-ignore
       const compiled = compile(studentCode, {
         languageFeatures: config.interpreterOptions,
-        customFunctions: customFunctionsForInterpreter.map((cfn) => {
-          return { name: cfn.name, arity: cfn.arity, code: cfn.code }
-        }),
+        customFunctions: Object.values(customFunctionsForInterpreter).map(
+          (cfn) => {
+            return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+          }
+        ),
       })
 
       const error = compiled.error as CompilationError
@@ -110,13 +113,15 @@ export function useConstructRunCode({
 
       let testResults
 
-      const customFns = customFunctionsForInterpreter.map((cfn) => {
-        return {
-          name: cfn.name,
-          arity: cfn.arity,
-          code: cfn.code,
+      const customFns = Object.values(customFunctionsForInterpreter).map(
+        (cfn) => {
+          return {
+            name: cfn.name,
+            arity: cfn.arity,
+            code: cfn.code,
+          }
         }
-      })
+      )
       try {
         testResults = generateAndRunTestSuite({
           studentCode,
@@ -199,7 +204,7 @@ export function useConstructRunCode({
             })
           ),
         },
-        customFunctions: customFunctionsForInterpreter.map((cfn) => cfn.name),
+        customFunctions: getSelectedCustomFunctions(),
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
           editorView,

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { Instructions } from './Instructions/Instructions'
@@ -24,8 +24,7 @@ export default function SolveExercisePage({
   code,
   links,
   solution,
-  activeCustomFunctions,
-  availableCustomFunctions,
+  customFunctions,
 }: SolveExercisePageProps): JSX.Element {
   const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
     useTaskStore()
@@ -67,8 +66,7 @@ export default function SolveExercisePage({
     exercise,
     code,
     solution,
-    availableCustomFunctions,
-    activeCustomFunctions,
+    customFunctions,
   })
 
   const {

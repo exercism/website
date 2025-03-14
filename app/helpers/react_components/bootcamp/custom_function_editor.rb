@@ -11,25 +11,16 @@ module ReactComponents
     def data
       {
         custom_function: SerializeBootcampCustomFunction.(custom_function),
-        available_custom_functions:,
-        depends_on:,
+        custom_functions:,
         links: {
           custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
-          update_custom_fns: Exercism::Routes.api_bootcamp_custom_function_url(custom_function),
-          get_custom_fns: Exercism::Routes.api_bootcamp_custom_functions_url,
-          get_custom_fns_for_interpreter: Exercism::Routes.for_interpreter_api_bootcamp_custom_functions_url
+          update_custom_fns: Exercism::Routes.api_bootcamp_custom_function_url(custom_function)
         }
       }
     end
 
     private
-    def available_custom_functions
-      current_user.bootcamp_custom_functions.active.order(:name).map do |custom_function|
-        SerializeBootcampCustomFunctionSummary.(custom_function)
-      end
-    end
-
-    def depends_on
+    def custom_functions
       ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function.depends_on)
     end
   end

@@ -12,27 +12,23 @@ declare global {
       projectsIndex: string
       dashboardIndex: string
       bootcampLevelUrl: string
-      getCustomFns: string
-      getCustomFnsForInterpreter: string
       updateCustomFns?: string
       customFnsDashboard?: string
     }
-    availableCustomFunctions: AvailableCustomFunction[]
-    activeCustomFunctions: ActiveCustomFunction[]
+    customFunctions: CustomFunctionsFromServer
   }
 
-  type AvailableCustomFunction = {
-    name: string
-    fnName: string
-    description: string
+  type CustomFunctionsFromServer = {
+    selected: string[]
+    forInterpreter: CustomFunctionForInterpreter[]
   }
 
-  type ActiveCustomFunction = {
+  type CustomFunctionForInterpreter = {
     name: string
-    fnName: string
     arity: number
     code: string
-    id: null
+    description: string
+    dependencies: string[]
   }
 
   type Code = {

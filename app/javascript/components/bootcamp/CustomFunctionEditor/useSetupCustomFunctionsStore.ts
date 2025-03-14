@@ -3,27 +3,25 @@ import useCustomFunctionStore from './store/customFunctionsStore'
 import { CustomFunction } from './CustomFunctionEditor'
 
 export function useSetupCustomFunctionStore({
-  dependsOn,
-  availableCustomFunctions,
   customFunction,
+  customFunctions,
 }: {
-  dependsOn: ActiveCustomFunction[]
-  availableCustomFunctions: AvailableCustomFunction[]
   customFunction: CustomFunction
+  customFunctions: CustomFunctionsFromServer
 }) {
-  const {
-    setCustomFunctionMetadataCollection,
-    setCustomFunctionsForInterpreter,
-  } = useCustomFunctionStore()
+  const { initializeCustomFunctions } = useCustomFunctionStore()
 
   useEffect(() => {
-    setCustomFunctionMetadataCollection(
-      availableCustomFunctions.filter((cfn) => cfn.name !== customFunction.name)
+    // We don't want to include the custom function we're editing in the list of custom functions
+    const customFunctionsButThisOne = customFunctions.forInterpreter.filter(
+      (fn) => fn.name !== customFunction.name
     )
-    setCustomFunctionsForInterpreter(
-      dependsOn.map((acf) => {
-        return { ...acf, arity: acf.arity }
-      })
-    )
+
+    const reviewedCustomFunctions = {
+      ...customFunctions,
+      forInterpreter: customFunctionsButThisOne,
+    }
+
+    initializeCustomFunctions(reviewedCustomFunctions)
   }, [])
 }

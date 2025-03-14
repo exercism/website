@@ -46,6 +46,7 @@ export type LanguageFeatures = {
   maxTotalExecutionTime: number
   allowGlobals: boolean
   customFunctionDefinitionMode: boolean
+  addSuccessFrames: boolean
 }
 
 export type InputLanguageFeatures = {
@@ -58,6 +59,7 @@ export type InputLanguageFeatures = {
   maxTotalExecutionTime?: number
   allowGlobals?: boolean
   customFunctionDefinitionMode?: boolean
+  addSuccessFrames?: boolean
 }
 
 export type CustomFunction = {
@@ -166,6 +168,7 @@ export class Interpreter {
       maxTotalExecutionTime: 10000, // 10 seconds
       allowGlobals: false,
       customFunctionDefinitionMode: false,
+      addSuccessFrames: true,
       ...context.languageFeatures,
     }
 
@@ -193,7 +196,8 @@ export class Interpreter {
     const interpreter = new Interpreter(code, {
       languageFeatures: {
         customFunctionDefinitionMode: true,
-        maxTotalLoopIterations: 2000,
+        maxTotalLoopIterations: 100000,
+        addSuccessFrames: false,
       },
       externalFunctions: Object.values(StdlibFunctions),
     })

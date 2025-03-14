@@ -6,15 +6,16 @@ class Bootcamp::CustomFunction::BuildRecursiveList
   def call
     active_fns = user.bootcamp_custom_functions.active
 
-    available = active_fns.pluck(:name).map do |name|
+    available = active_fns.pluck(:name).sort.map do |name|
       {
         name:,
-        dependencies: build_name_tree([], [name]).reject { |n| n == name },
+        dependencies: build_name_tree([], [name]).reject { |n| n == name }.sort,
         selected: selected.include?(name)
       }
     end
 
-    for_interpreter = active_fns.select(:name, :arity, :code).map(&:attributes)
+    for_interpreter = active_fns.sort_by(&:name).
+      map { |fn| fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description) }
 
     {
       available:,

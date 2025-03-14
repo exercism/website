@@ -13,9 +13,9 @@
       "name": "Draw the scene",
       "tests": [
         {
-          "slug": "fill-holes",
-          "name": "Fill the holes",
-          "description_html": "Build a wall of 55 bricks",
+          "slug": "finish-wall",
+          "name": "Finish off the wall",
+          "description_html": "Add a top layer to the wall!",
           "setup_functions": [
             ["changeStrokeWidth", [0.4]],
             ["strokeColorHex", ["#7f3732"]],

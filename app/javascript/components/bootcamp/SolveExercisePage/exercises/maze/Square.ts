@@ -39,23 +39,38 @@ function fn(this: MazeExercise) {
 
   const Square = new Jiki.Class('Square')
   Square.addConstructor(function (
-    this: Jiki.Instance,
     executionContext: ExecutionContext,
-    row: Jiki.Number,
-    col: Jiki.Number,
-    in_maze: Jiki.Boolean,
-    is_start: Jiki.Boolean,
-    is_finish: Jiki.Boolean,
-    is_wall: Jiki.Boolean,
-    contents: Jiki.String
+    object: Jiki.Instance,
+    row: Jiki.JikiObject,
+    col: Jiki.JikiObject,
+    in_maze: Jiki.JikiObject,
+    is_start: Jiki.JikiObject,
+    is_finish: Jiki.JikiObject,
+    is_wall: Jiki.JikiObject,
+    contents: Jiki.JikiObject
   ) {
-    this.fields['row'] = row
-    this.fields['col'] = col
-    this.fields['is_start'] = is_start
-    this.fields['is_finish'] = is_finish
-    this.fields['is_wall'] = is_wall
-    this.fields['in_maze'] = in_maze
-    this.fields['contents'] = contents
+    if (!(row instanceof Jiki.Number))
+      executionContext.logicError('row must be a Jiki.Number')
+    if (!(col instanceof Jiki.Number))
+      executionContext.logicError('col must be a Jiki.Number')
+    if (!(in_maze instanceof Jiki.Boolean))
+      executionContext.logicError('in_maze must be a Jiki.Boolean')
+    if (!(is_start instanceof Jiki.Boolean))
+      executionContext.logicError('is_start must be a Jiki.Boolean')
+    if (!(is_finish instanceof Jiki.Boolean))
+      executionContext.logicError('is_finish must be a Jiki.Boolean')
+    if (!(is_wall instanceof Jiki.Boolean))
+      executionContext.logicError('is_wall must be a Jiki.Boolean')
+    if (!(contents instanceof Jiki.String))
+      executionContext.logicError('contents must be a Jiki.String')
+
+    object.setField('row', row)
+    object.setField('col', col)
+    object.setField('is_start', is_start)
+    object.setField('is_finish', is_finish)
+    object.setField('is_wall', is_wall)
+    object.setField('in_maze', in_maze)
+    object.setField('contents', contents)
   })
   Square.addGetter('is_start')
   Square.addGetter('is_finish')
@@ -64,9 +79,8 @@ function fn(this: MazeExercise) {
   Square.addGetter('contents')
   Square.addMethod(
     'remove_emoji',
-    function (this: Jiki.Instance, executionCtx: ExecutionContext) {
-      removeEmoji(executionCtx, this as SquareInstance)
-      return null
+    function (executionCtx: ExecutionContext, object: Jiki.Instance) {
+      removeEmoji(executionCtx, object as SquareInstance)
     }
   )
 

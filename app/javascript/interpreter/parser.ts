@@ -245,11 +245,8 @@ export class Parser {
 
         // If we have some keyword other than "DO", it's probably
         // someone using a reserved keyword by accident
-        if (this.nextTokenIsKeyword() && !this.check('DO')) {
-          this.error('UnexpectedKeyword', this.peek().location, {
-            lexeme: this.peek().lexeme,
-          })
-        }
+        if (!this.check('DO')) this.guardUnexpectedKeyword()
+
         const parameterName = this.consume(
           'IDENTIFIER',
           'MissingParameterName',
@@ -313,6 +310,7 @@ export class Parser {
           name: nameLexeme,
         })
       } else {
+        this.guardUnexpectedKeyword()
         throw e
       }
     }
@@ -333,6 +331,7 @@ export class Parser {
     }
 
     const setToken = this.previous()
+
     const name = this.identifier()
     this.guardValidVariableName(name)
 
@@ -1508,6 +1507,13 @@ export class Parser {
     }
   }
 
+  private guardUnexpectedKeyword() {
+    const token = this.nextTokenIsKeyword()
+    if (!token) return
+
+    this.error('UnexpectedKeyword', token.location, { lexeme: token.lexeme })
+  }
+
   private guardTrailingComma(
     token: 'COMMA' | 'RIGHT_BRACKET' | 'RIGHT_BRACE',
     location: Location
@@ -1546,14 +1552,15 @@ export class Parser {
     return this.peek().type == 'EOL' || this.isAtEnd()
   }
 
-  private nextTokenIsKeyword(): boolean {
+  private nextTokenIsKeyword(): Token | false {
     let counter = 1
     while (this.checkAhead(counter, 'EOL')) {
       counter++
     }
-    const nextActualThing = this.peek(counter)
+    const token = this.peek(counter)
 
-    return KeywordTokens.includes(nextActualThing.type)
+    if (KeywordTokens.includes(token.type)) return token
+    return false
   }
 
   private peek(n = 1): Token {

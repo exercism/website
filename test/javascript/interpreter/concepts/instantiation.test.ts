@@ -70,12 +70,18 @@ describe('parse', () => {
 describe('execute', () => {
   test('no args', () => {
     const Person = new Jiki.Class('Person')
-    Person.addConstructor(function (this: any, _: ExecutionContext) {
-      this.fields['name'] = new Jiki.String('Jeremy')
+    Person.addConstructor(function (
+      _: ExecutionContext,
+      object: Jiki.Instance
+    ) {
+      object.setField('name', new Jiki.String('Jeremy'))
     })
-    Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.fields['name']
-    })
+    Person.addMethod(
+      'name',
+      function (_: ExecutionContext, object: Jiki.Instance) {
+        return object.getField('name')
+      }
+    )
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(
@@ -92,15 +98,18 @@ describe('execute', () => {
   test('args', () => {
     const Person = new Jiki.Class('Person')
     Person.addConstructor(function (
-      this: any,
       _: ExecutionContext,
-      name: Jiki.String
+      object: Jiki.Instance,
+      name: Jiki.JikiObject
     ) {
-      this.fields['name'] = name
+      object.setField('name', name)
     })
-    Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.fields['name']
-    })
+    Person.addMethod(
+      'name',
+      function (_: ExecutionContext, object: Jiki.Instance) {
+        return object.getField('name')
+      }
+    )
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(

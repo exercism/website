@@ -30,17 +30,19 @@ function fn(this: any) {
 
   const Ground = new Jiki.Class('Ground')
   Ground.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    height: Jiki.Number,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    height: Jiki.JikiObject,
+    z_index: Jiki.JikiObject
   ) {
-    if (height == undefined || z_index == undefined) {
-      executionCtx.logicError('Ground constructor requires height and z_index')
+    if (!(height instanceof Jiki.Number) || !(z_index instanceof Jiki.Number)) {
+      executionCtx.logicError(
+        'Ground constructor requires height and z_index to be numbers'
+      )
     }
-    this.fields['height'] = height
-    this.fields['z_index'] = z_index
-    drawGround(executionCtx, this)
+    object.setField('height', height)
+    object.setField('z_index', z_index)
+    drawGround(executionCtx, object)
   })
   Ground.addSetter(
     'brightness',

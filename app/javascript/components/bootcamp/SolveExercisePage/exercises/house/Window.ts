@@ -38,20 +38,36 @@ function fn(this: HouseExercise) {
 
   const Window = new Jiki.Class('Window')
   Window.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    left: Jiki.Number,
-    top: Jiki.Number,
-    width: Jiki.Number,
-    height: Jiki.Number,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    left: Jiki.JikiObject,
+    top: Jiki.JikiObject,
+    width: Jiki.JikiObject,
+    height: Jiki.JikiObject,
+    z_index: Jiki.JikiObject
   ) {
-    this.fields['left'] = left
-    this.fields['top'] = top
-    this.fields['width'] = width
-    this.fields['height'] = height
-    this.fields['z_index'] = z_index
-    drawWindow(executionCtx, this)
+    if (!(left instanceof Jiki.Number)) {
+      return executionCtx.logicError('Left must be a number.')
+    }
+    if (!(top instanceof Jiki.Number)) {
+      return executionCtx.logicError('Top must be a number.')
+    }
+    if (!(width instanceof Jiki.Number)) {
+      return executionCtx.logicError('Width must be a number.')
+    }
+    if (!(height instanceof Jiki.Number)) {
+      return executionCtx.logicError('Height must be a number.')
+    }
+    if (!(z_index instanceof Jiki.Number)) {
+      return executionCtx.logicError('Z-index must be a number.')
+    }
+
+    object.setField('left', left)
+    object.setField('top', top)
+    object.setField('width', width)
+    object.setField('height', height)
+    object.setField('z_index', z_index)
+    drawWindow(executionCtx, object)
   })
   Window.addSetter(
     'lights',

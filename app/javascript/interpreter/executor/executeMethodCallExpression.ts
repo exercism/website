@@ -5,7 +5,7 @@ import {
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { MethodCallExpression } from '../expression'
-import { Callable } from '../functions'
+import { Callable, UserDefinedMethod } from '../functions'
 import * as Jiki from '../jikiObjects'
 import { guardArityOnCallExpression } from './executeFunctionCallExpression'
 
@@ -45,22 +45,19 @@ export function executeMethodCallExpression(
     .filter((arg) => arg !== undefined)
     .map((arg) => arg.toArg())
 
-  let value
+  let jikiObject
   try {
     executor.addFunctionToCallStack(methodName, expression)
-    value = executor.withThis(object.jikiObject, () => {
-      if (typeof method.fn == 'function') {
-        return (method.fn as Jiki.MethodFunction).call(
+    jikiObject = executor.withThis(object.jikiObject, () => {
+      if (method.fn instanceof UserDefinedMethod) {
+        return method.fn.call(executor.getExecutionContext(), callableArgs)
+      } else {
+        return method.fn.call(
           undefined,
           executor.getExecutionContext(),
           object.jikiObject as Jiki.Instance,
           ...callableArgs
         )
-      } else {
-        return (method.fn as Callable).call(executor.getExecutionContext(), [
-          object.jikiObject,
-          ...callableArgs,
-        ])
       }
     })
   } catch (e: unknown) {
@@ -74,7 +71,7 @@ export function executeMethodCallExpression(
 
   return {
     type: 'MethodCallExpression',
-    jikiObject: value,
+    jikiObject,
     object: object,
     args,
   }

@@ -10,7 +10,7 @@ import {
   PropertyStatement,
   SetPropertyStatement,
 } from '../statement'
-import { UserDefinedCallable } from '../functions'
+import { UserDefinedFunction, UserDefinedMethod } from '../functions'
 import { Environment } from '../environment'
 import stat from '@/components/impact/stat'
 
@@ -46,7 +46,7 @@ function executeConstructorStatement(
   klass: Jiki.Class,
   stmt: ConstructorStatement
 ) {
-  const fn = new UserDefinedCallable(stmt)
+  const fn = new UserDefinedMethod(stmt)
   klass.addConstructor(fn)
 }
 
@@ -55,7 +55,7 @@ function executeMethodStatement(
   klass: Jiki.Class,
   stmt: MethodStatement
 ) {
-  const fn = new UserDefinedCallable(stmt)
+  const fn = new UserDefinedMethod(stmt)
   klass.addMethod(stmt.name.lexeme, fn)
 }
 

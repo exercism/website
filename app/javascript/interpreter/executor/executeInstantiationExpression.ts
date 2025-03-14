@@ -1,12 +1,9 @@
-import { isArray, isNumber } from 'lodash'
+import { isNumber } from 'lodash'
 
 import {
-  EvaluationResult,
-  EvaluationResultBinaryExpression,
   EvaluationResultClassLookupExpression,
   EvaluationResultExpression,
   EvaluationResultInstantiationExpression,
-  EvaluationResultVariableLookupExpression,
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression, InstantiationExpression } from '../expression'

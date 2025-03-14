@@ -228,7 +228,7 @@ export class SetPropertyStatement extends Statement {
     public value: Expression,
     public location: Location
   ) {
-    super('SetThisPropertyStatement')
+    super('SetPropertyStatement')
   }
   public children() {
     return [this.value]

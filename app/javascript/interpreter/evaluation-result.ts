@@ -268,4 +268,3 @@ export type EvaluationResultExpression =
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
   | EvaluationResultInstantiationExpression
-  | EvaluationResultAccessorExpression

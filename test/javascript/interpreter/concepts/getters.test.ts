@@ -122,6 +122,7 @@ test('execute', () => {
   ) {
     this.fields['name'] = name
   })
+  Person.addProperty('name')
   Person.addGetter('name')
 
   const context: EvaluationContext = { classes: [Person] }

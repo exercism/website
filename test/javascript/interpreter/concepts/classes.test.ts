@@ -238,7 +238,6 @@ describe('execute', () => {
       end
       set foo to new Foobar()
     `)
-    console.log(frames[0])
     expect(error).toBeNull()
     expect(frames).toBeArrayOfSize(1)
     expect(frames[0].status).toBe('SUCCESS')
@@ -255,7 +254,6 @@ describe('execute', () => {
           end
           set foo to new Foobar()
         `)
-        console.log(frames[0])
         expect(error).toBeNull()
         expect(frames).toBeArrayOfSize(1)
         expect(frames[0].status).toBe('SUCCESS')
@@ -267,6 +265,7 @@ describe('execute', () => {
         const { error, frames } = interpret(`
           class Foobar do
             public property baz
+
             constructor do
               set this.baz to 10
             end
@@ -274,11 +273,13 @@ describe('execute', () => {
           set foo to new Foobar()
           set outer_baz to foo.baz
         `)
-        console.log(frames[1])
+        console.log(frames)
         expect(error).toBeNull()
-        expect(frames).toBeArrayOfSize(2)
+        expect(frames).toBeArrayOfSize(3)
         expect(frames.at(-1).status).toBe('SUCCESS')
-        expect(frames.at(-1).variables.foo).toBeInstanceOf(Jiki.Instance)
+        expect(
+          Jiki.unwrapJikiObject(frames.at(-1).variables['outer_baz'])
+        ).toBe(10)
       })
     })
   })

@@ -6,6 +6,7 @@ import * as Jiki from '../jikiObjects'
 import {
   ClassStatement,
   ConstructorStatement,
+  PropertyStatement,
   SetPropertyStatement,
 } from '../statement'
 import { UserDefinedCallable } from '../functions'
@@ -29,12 +30,13 @@ export function executeClassStatement(
   executor.addClass(klass)
 
   statement.body.forEach((stmt) => {
-    if (statement.type == 'ConstructorStatement') {
+    if (stmt.type == 'ConstructorStatement') {
       executeConstructorStatement(executor, klass, stmt as ConstructorStatement)
-    } else if (statement.type == 'MethodStatement') {
+    } else if (stmt.type == 'MethodStatement') {
       executeMethodStatement(executor, klass, stmt)
-    } else if (statement.type == 'PropertyStatement') {
-      executePropertyStatement(executor, klass, stmt)
+    } else if (stmt.type == 'PropertyStatement') {
+      console.log('here...')
+      executePropertyStatement(executor, klass, stmt as PropertyStatement)
     }
   })
 }
@@ -44,10 +46,20 @@ function executeConstructorStatement(
   klass: Jiki.Class,
   stmt: ConstructorStatement
 ) {
-  new Environment()
   const fn = new UserDefinedCallable(stmt)
   klass.addConstructor(fn)
 }
+
+function executePropertyStatement(
+  executor: Executor,
+  klass: Jiki.Class,
+  stmt: PropertyStatement
+): void {
+  klass.addProperty(stmt.name.lexeme)
+  klass.addGetter(stmt.name.lexeme)
+  klass.addSetter(stmt.name.lexeme)
+}
+
 /*
 
 export function executeGetPropertyExpression(executor: Executor, statement: GetThisPropertyExpression) {

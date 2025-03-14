@@ -1,7 +1,7 @@
 import {
   Arity,
   ReturnValue,
-  UserDefinedCallable,
+  UserDefinedFunction,
   isCallable,
 } from './functions'
 import { Environment } from './environment'
@@ -731,7 +731,7 @@ export class Executor {
   }
 
   public visitFunctionStatement(statement: FunctionStatement): void {
-    const func = new UserDefinedCallable(statement)
+    const func = new UserDefinedFunction(statement)
 
     if (
       !this.customFunctionDefinitionMode &&

@@ -729,6 +729,17 @@ describe('UnexpectedKeyword', () => {
       parse(`function can_fit_in with queue, next, time do`)
     ).toThrow('UnexpectedKeyword: lexeme: next')
   })
+
+  test('set', () => {
+    expect(() => parse(`set class to 5`)).toThrow(
+      'UnexpectedKeyword: lexeme: class'
+    )
+  })
+  test('set', () => {
+    expect(() => parse(`change class to 5`)).toThrow(
+      'UnexpectedKeyword: lexeme: class'
+    )
+  })
 })
 
 describe('MissingByAfterIndexed', () => {

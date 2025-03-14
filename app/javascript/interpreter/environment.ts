@@ -1,4 +1,4 @@
-import { type Callable, isCallable } from './functions'
+import { type Callable, isCallable, UserDefinedFunction } from './functions'
 import type { Token } from './token'
 import { isString } from './checks'
 import * as Jiki from './jikiObjects'
@@ -23,7 +23,10 @@ export class Environment {
     return false
   }
 
-  public define(name: string, value: Jiki.JikiObject): void {
+  public define(
+    name: string,
+    value: Jiki.JikiObject | UserDefinedFunction
+  ): void {
     this.values.set(name, value)
   }
 

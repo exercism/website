@@ -1,19 +1,18 @@
 import { Environment } from './environment'
-import { LanguageFeatures } from './interpreter'
 import {
   ConstructorStatement,
   FunctionStatement,
   MethodStatement,
 } from './statement'
-import type { ExecutionContext, Executor } from './executor'
+import type { ExecutionContext } from './executor'
 import { Location } from './location'
-import { JikiObject } from './jikiObjects'
+import * as Jiki from './jikiObjects'
 
 export type Arity = number | [min: number, max: number]
 
 export interface Callable {
   arity: Arity
-  call(context: ExecutionContext, args: any[]): JikiObject | void
+  call(context: ExecutionContext, args: any[]): Jiki.JikiObject | void
 }
 
 export class ReturnValue extends Error {
@@ -26,8 +25,9 @@ export function isCallable(obj: any): obj is Callable {
   return obj instanceof Object && 'arity' in obj && 'call' in obj
 }
 
-export class UserDefinedCallable implements Callable {
+class UserDefinedCallable implements Callable {
   public readonly arity: Arity
+
   constructor(
     private declaration:
       | FunctionStatement
@@ -40,7 +40,7 @@ export class UserDefinedCallable implements Callable {
     ]
   }
 
-  call(executor: ExecutionContext, args: any[]): any {
+  public call(executor: ExecutionContext, args: Jiki.JikiObject[]): any {
     const environment = new Environment()
 
     for (let i = 0; i < this.declaration.parameters.length; i++) {
@@ -63,5 +63,17 @@ export class UserDefinedCallable implements Callable {
     }
 
     return null
+  }
+}
+
+export class UserDefinedMethod extends UserDefinedCallable {
+  constructor(declaration: ConstructorStatement | MethodStatement) {
+    super(declaration)
+  }
+}
+
+export class UserDefinedFunction extends UserDefinedCallable {
+  constructor(declaration: FunctionStatement) {
+    super(declaration)
   }
 }

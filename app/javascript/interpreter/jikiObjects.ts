@@ -1,7 +1,7 @@
 import { isArray, isString } from './checks'
 import { EvaluationResult } from './evaluation-result'
 import { ExecutionContext } from './executor'
-import { Arity, Callable, UserDefinedCallable } from './functions'
+import { Arity, UserDefinedMethod } from './functions'
 
 type ObjectType =
   | 'number'
@@ -13,14 +13,15 @@ type ObjectType =
 
 type RawConstructor = (
   executionContext: ExecutionContext,
+  object: Instance,
   ...args: JikiObject[]
 ) => void
-export type MethodFunction = (
+
+export type RawMethod = (
   executionContext: ExecutionContext,
   object: Instance,
   ...args: JikiObject[]
-) => Returnable
-type Returnable = { jikiObject: JikiObject } | void
+) => JikiObject | void
 
 export abstract class JikiObject {
   public readonly objectId: string
@@ -36,14 +37,14 @@ export class Method {
   constructor(
     public readonly name: string,
     public readonly arity: Arity,
-    public readonly fn: Callable | MethodFunction
+    public readonly fn: UserDefinedMethod | RawMethod
   ) {}
 }
 
 export type Getter = (
   executionContext: ExecutionContext,
   object: Instance
-) => Returnable
+) => JikiObject
 
 export type Setter = (
   executionContext: ExecutionContext,
@@ -52,7 +53,7 @@ export type Setter = (
 ) => void
 
 export class Class {
-  private initialize: RawConstructor | UserDefinedCallable | undefined
+  private initialize: RawConstructor | UserDefinedMethod | undefined
   constructor(public readonly name: string) {}
   private readonly properties: string[] = []
   private readonly methods: Record<string, Method> = {}
@@ -67,29 +68,29 @@ export class Class {
     const instance = new Instance(this)
 
     const initializer = this.initialize
-    if (initializer instanceof UserDefinedCallable) {
+    if (initializer instanceof UserDefinedMethod) {
       executionContext.withThis(instance, () => {
         initializer.call(executionContext, args)
       })
     } else if (initializer !== undefined) {
-      initializer.apply(instance, [executionContext, ...args])
+      initializer.apply(undefined, [executionContext, instance, ...args])
     }
 
     return instance
   }
-  public addConstructor(fn: RawConstructor | UserDefinedCallable) {
+  public addConstructor(fn: RawConstructor | UserDefinedMethod) {
     this.initialize = fn
-    if (fn instanceof UserDefinedCallable) {
+    if (fn instanceof UserDefinedMethod) {
       this.arity = fn.arity
     } else {
-      this.arity = fn.length - 1
+      this.arity = fn.length - 2
     }
   }
 
   //
   // Methods
   //
-  public addMethod(name: string, fn: Callable | MethodFunction) {
+  public addMethod(name: string, fn: UserDefinedMethod | RawMethod) {
     // Reduce the arity by 2 because the first argument is the execution context
     // and the second is the object, both of which are invisible to the user
     let arity: Arity | undefined
@@ -118,13 +119,11 @@ export class Class {
   }
   public addGetter(
     name: string,
-    fn?: (_: ExecutionContext, object: Instance) => Returnable
+    fn?: (_: ExecutionContext, object: Instance) => JikiObject
   ) {
     if (fn === undefined) {
       fn = function (_: ExecutionContext, object: Instance) {
-        return {
-          jikiObject: object.getField(name),
-        }
+        return object.getField(name)
       }
     }
     this.getters[name] = fn

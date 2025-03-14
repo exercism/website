@@ -44,7 +44,7 @@
       "MissingWithBeforeParameters": "Did you forget the `with` keyword before your parameters?",
       "MissingStringAsKey": "Dictionary keys should always be strings. Did you forget your quotes?",
       "MissingToAfterVariableNameToInitializeValue": "Did you forget to add the `to` after `{{name}}`?",
-      "MissingVariableName": "Expect variable name.",
+      "MissingVariableName": "Jiki expected a variable name here.",
       "MissingTimesInRepeat": "Did you forget to write `times` after the number of times you want to repeat?",
       "DuplicateParameterName": "Did you accidently use the name `{{parameter}}` twice in your function parameters.",
       "MissingWhileBeforeDoWhileCondition": "Expected 'while' to start 'while' condition",

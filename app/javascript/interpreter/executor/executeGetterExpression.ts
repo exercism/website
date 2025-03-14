@@ -41,7 +41,7 @@ export function executeGetterExpression(
 
   return {
     type: 'GetterExpression',
-    jikiObject: value.jikiObject,
+    jikiObject: value,
     object,
   }
 }

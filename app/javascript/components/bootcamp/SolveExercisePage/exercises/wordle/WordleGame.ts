@@ -5,14 +5,11 @@ import WordleExercise from './WordleExercise'
 function fn(this: WordleExercise) {
   const exercise = this
   const WordleGame = new Jiki.Class('WordleGame')
-  WordleGame.addConstructor(function (
-    this: Jiki.Instance,
-    executionCtx: ExecutionContext
-  ) {})
+
   WordleGame.addGetter(
     'target_word',
     function (executionCtx: ExecutionContext, object: Jiki.Instance) {
-      return { jikiObject: new Jiki.String(exercise.targetWord) }
+      return new Jiki.String(exercise.targetWord)
     }
   )
   WordleGame.addMethod(

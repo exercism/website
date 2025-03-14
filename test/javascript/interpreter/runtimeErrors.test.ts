@@ -715,7 +715,7 @@ describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
     // @ts-ignore
-    Person.addMethod('num', function (this: any, _) {
+    Person.addMethod('num', function (_ex, _in) {
       return 5
     })
 
@@ -781,7 +781,7 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
   })
   test('None when Some expect', () => {
     const Person = new Jiki.Class('Person')
-    Person.addConstructor((ex, something) => {})
+    Person.addConstructor((ex, object, something) => {})
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(`set person to new Person()`, context)
@@ -792,7 +792,7 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
   })
   test('More than expected', () => {
     const Person = new Jiki.Class('Person')
-    Person.addConstructor((ex, something) => {})
+    Person.addConstructor((ex, object, something) => {})
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(

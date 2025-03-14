@@ -283,4 +283,30 @@ describe('execute', () => {
       })
     })
   })
+  describe('method', () => {
+    test('naked', () => {
+      const { error, frames } = interpret(`
+        class Foobar do
+          public property baz
+
+          constructor do
+            set this.baz to 10
+          end
+
+          public method do_it do
+            return this.baz
+          end
+        end
+        set foo to new Foobar()
+        set outer_baz to foo.do_it()
+      `)
+      console.log(frames)
+      expect(error).toBeNull()
+      expect(frames).toBeArrayOfSize(3)
+      expect(frames.at(-1).status).toBe('SUCCESS')
+      expect(Jiki.unwrapJikiObject(frames.at(-1).variables['outer_baz'])).toBe(
+        10
+      )
+    })
+  })
 })

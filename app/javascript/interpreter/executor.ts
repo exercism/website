@@ -139,6 +139,7 @@ export class Executor {
   private maxTotalLoopIterations = 0
   private maxRepeatUntilGameOverIterations = 0
   private customFunctionDefinitionMode: boolean
+  private addSuccessFrames: boolean
 
   private readonly globals = new Environment()
   private environment = this.globals
@@ -199,6 +200,8 @@ export class Executor {
 
     this.customFunctionDefinitionMode =
       this.languageFeatures.customFunctionDefinitionMode
+
+    this.addSuccessFrames = this.languageFeatures.addSuccessFrames
   }
 
   public updateState(name: string, value: any) {
@@ -220,10 +223,8 @@ export class Executor {
         // This saves us having to pass the context down to where
         // the error is thrown.
         this.frames.pop()
-        this.addFrame(
+        this.addErrorFrame(
           error.location,
-          'ERROR',
-          undefined,
           this.buildError('UnexpectedReturnOutsideOfFunction', error.location)
         )
         return false
@@ -233,10 +234,8 @@ export class Executor {
         // This saves us having to pass the context down to where
         // the error is thrown.
         this.frames.pop()
-        this.addFrame(
+        this.addErrorFrame(
           error.location,
-          'ERROR',
-          undefined,
           this.buildError('UnexpectedContinueOutsideOfLoop', error.location, {
             lexeme: error.lexeme,
           })
@@ -248,10 +247,8 @@ export class Executor {
         // This saves us having to pass the context down to where
         // the error is thrown.
         this.frames.pop()
-        this.addFrame(
+        this.addErrorFrame(
           error.location,
-          'ERROR',
-          undefined,
           this.buildError('UnexpectedBreakOutsideOfLoop', error.location)
         )
         return false
@@ -272,12 +269,7 @@ export class Executor {
         }
       } catch (error) {
         if (isRuntimeError(error)) {
-          this.addFrame(
-            this.location || error.location,
-            'ERROR',
-            undefined,
-            error
-          )
+          this.addErrorFrame(this.location || error.location, error)
           break
         }
 
@@ -336,7 +328,7 @@ export class Executor {
             { name: error.context.name }
           )
 
-          this.addFrame(newError.location, 'ERROR', undefined, newError)
+          this.addErrorFrame(newError.location, newError)
         } else if (
           error.location?.line === 1 &&
           (error.type === 'TooFewArguments' ||
@@ -348,14 +340,9 @@ export class Executor {
             { name: error.context.name }
           )
 
-          this.addFrame(newError.location, 'ERROR', undefined, newError)
+          this.addErrorFrame(newError.location, newError)
         } else {
-          this.addFrame(
-            this.location || error.location,
-            'ERROR',
-            undefined,
-            error
-          )
+          this.addErrorFrame(this.location || error.location, error)
         }
         return {
           value: undefined,
@@ -1625,10 +1612,12 @@ export class Executor {
     result: EvaluationResult,
     context?: Statement | Expression
   ): void {
+    if (!this.addSuccessFrames) return
+
     this.addFrame(location, 'SUCCESS', result, undefined, context)
   }
 
-  public addErrorFrme(
+  public addErrorFrame(
     location: Location | null,
     error: RuntimeError,
     context?: Statement | Expression

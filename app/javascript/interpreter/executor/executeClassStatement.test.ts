@@ -6,6 +6,7 @@ import * as Jiki from '../jikiObjects'
 import {
   ClassStatement,
   ConstructorStatement,
+  MethodStatement,
   PropertyStatement,
   SetPropertyStatement,
 } from '../statement'
@@ -33,9 +34,8 @@ export function executeClassStatement(
     if (stmt.type == 'ConstructorStatement') {
       executeConstructorStatement(executor, klass, stmt as ConstructorStatement)
     } else if (stmt.type == 'MethodStatement') {
-      executeMethodStatement(executor, klass, stmt)
+      executeMethodStatement(executor, klass, stmt as MethodStatement)
     } else if (stmt.type == 'PropertyStatement') {
-      console.log('here...')
       executePropertyStatement(executor, klass, stmt as PropertyStatement)
     }
   })
@@ -48,6 +48,15 @@ function executeConstructorStatement(
 ) {
   const fn = new UserDefinedCallable(stmt)
   klass.addConstructor(fn)
+}
+
+function executeMethodStatement(
+  executor: Executor,
+  klass: Jiki.Class,
+  stmt: MethodStatement
+) {
+  const fn = new UserDefinedCallable(stmt)
+  klass.addMethod(stmt.name.lexeme, fn)
 }
 
 function executePropertyStatement(

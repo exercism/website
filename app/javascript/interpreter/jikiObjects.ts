@@ -1,12 +1,8 @@
 import { isArray, isString } from './checks'
 import { EvaluationResult } from './evaluation-result'
 import { ExecutionContext } from './executor'
-import { Arity, UserDefinedCallable } from './functions'
+import { Arity, Callable, UserDefinedCallable } from './functions'
 
-type RawConstructor = (
-  executionContext: ExecutionContext,
-  ...args: any[]
-) => void
 type ObjectType =
   | 'number'
   | 'string'
@@ -15,6 +11,15 @@ type ObjectType =
   | 'dictionary'
   | 'instance'
 
+type RawConstructor = (
+  executionContext: ExecutionContext,
+  ...args: JikiObject[]
+) => void
+export type MethodFunction = (
+  executionContext: ExecutionContext,
+  object: Instance,
+  ...args: JikiObject[]
+) => Returnable
 type Returnable = { jikiObject: JikiObject } | void
 
 export abstract class JikiObject {
@@ -31,21 +36,18 @@ export class Method {
   constructor(
     public readonly name: string,
     public readonly arity: Arity,
-    public readonly fn: (
-      executionContext: ExecutionContext,
-      ...args
-    ) => Returnable
+    public readonly fn: Callable | MethodFunction
   ) {}
 }
 
 export type Getter = (
-  object: Instance,
-  executionContext: ExecutionContext
+  executionContext: ExecutionContext,
+  object: Instance
 ) => Returnable
 
 export type Setter = (
-  object: Instance,
   executionContext: ExecutionContext,
+  object: Instance,
   value: JikiObject
 ) => void
 
@@ -87,13 +89,15 @@ export class Class {
   //
   // Methods
   //
-  public addMethod(
-    name: string,
-    fn: (executionContext: ExecutionContext, ...args: any[]) => Returnable
-  ) {
-    // Reduce the arity by 1 because the first argument is the execution context
-    // which is invisible to the user
-    const arity = fn.length - 1
+  public addMethod(name: string, fn: Callable | MethodFunction) {
+    // Reduce the arity by 2 because the first argument is the execution context
+    // and the second is the object, both of which are invisible to the user
+    let arity: Arity | undefined
+    if (typeof fn == 'function') {
+      arity = fn.length - 2
+    } else {
+      arity = fn.arity
+    }
     this.methods[name] = new Method(name, arity, fn)
   }
   public getMethod(name: string): Method | undefined {
@@ -114,10 +118,10 @@ export class Class {
   }
   public addGetter(
     name: string,
-    fn?: (object: Instance, _: ExecutionContext) => Returnable
+    fn?: (_: ExecutionContext, object: Instance) => Returnable
   ) {
     if (fn === undefined) {
-      fn = function (object: Instance, _: ExecutionContext) {
+      fn = function (_: ExecutionContext, object: Instance) {
         return {
           jikiObject: object.getField(name),
         }
@@ -127,10 +131,10 @@ export class Class {
   }
   public addSetter(
     name: string,
-    fn?: (object: Instance, _: ExecutionContext, value: JikiObject) => void
+    fn?: (_: ExecutionContext, object: Instance, value: JikiObject) => void
   ) {
     if (fn === undefined) {
-      fn = function (object: Instance, _: ExecutionContext, value: JikiObject) {
+      fn = function (_: ExecutionContext, object: Instance, value: JikiObject) {
         object.setField(name, value)
       }
     }

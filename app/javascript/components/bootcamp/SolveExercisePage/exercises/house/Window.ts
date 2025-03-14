@@ -56,20 +56,20 @@ function fn(this: HouseExercise) {
   Window.addSetter(
     'lights',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      lights: Jiki.Boolean
+      object: Jiki.Instance,
+      lights: Jiki.JikiObject
     ) {
       if (!(lights instanceof Jiki.Boolean)) {
-        executionCtx.logicError('Ooops! Lights must be a boolean.')
+        return executionCtx.logicError('Ooops! Lights must be a boolean.')
       }
-      if (lights && lights.value == this.getUnwrappedField('lights')) {
+      if (lights && lights.value == object.getUnwrappedField('lights')) {
         executionCtx.logicError('Ooops! The lights are turned already on.')
       }
 
-      this.fields['lights'] = lights
-      drawWindow(executionCtx, this)
-      rememberLightsToggle(executionCtx, this)
+      object.setField('lights', lights)
+      drawWindow(executionCtx, object)
+      rememberLightsToggle(executionCtx, object)
     }
   )
   return Window

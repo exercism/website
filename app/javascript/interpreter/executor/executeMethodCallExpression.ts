@@ -5,6 +5,7 @@ import {
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { MethodCallExpression } from '../expression'
+import { Callable } from '../functions'
 import * as Jiki from '../jikiObjects'
 import { guardArityOnCallExpression } from './executeFunctionCallExpression'
 
@@ -16,7 +17,7 @@ export function executeMethodCallExpression(
   const methodName = expression.methodName.lexeme
 
   if (!(object.jikiObject instanceof Jiki.Instance)) {
-    executor.error('AccessorUsedOnNonInstance', expression.location)
+    return executor.error('AccessorUsedOnNonInstance', expression.location)
   }
 
   const method = object.jikiObject.getMethod(methodName)
@@ -39,25 +40,34 @@ export function executeMethodCallExpression(
     methodName
   )
 
-  const callableArgs = args
+  const callableArgs: Jiki.JikiObject[] = args
     .map((arg) => arg.jikiObject)
     .filter((arg) => arg !== undefined)
     .map((arg) => arg.toArg())
 
   let value
-  executor.addFunctionToCallStack(
-    `${object.jikiObject.id}.${methodName}`,
-    expression
-  )
   try {
-    value = method.fn.apply(object.jikiObject, [
-      executor.getExecutionContext(),
-      ...callableArgs,
-    ])
+    executor.addFunctionToCallStack(methodName, expression)
+    value = executor.withThis(object.jikiObject, () => {
+      if (typeof method.fn == 'function') {
+        return (method.fn as Jiki.MethodFunction).call(
+          undefined,
+          executor.getExecutionContext(),
+          object.jikiObject as Jiki.Instance,
+          ...callableArgs
+        )
+      } else {
+        return (method.fn as Callable).call(executor.getExecutionContext(), [
+          object.jikiObject,
+          ...callableArgs,
+        ])
+      }
+    })
   } catch (e: unknown) {
     if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
     }
+    throw e
   } finally {
     executor.popCallStack()
   }

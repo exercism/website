@@ -29,6 +29,7 @@ import {
   InstantiationExpression,
   ClassLookupExpression,
   AccessorExpression,
+  ThisExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -85,6 +86,7 @@ import type {
   EvaluationResultClassLookupExpression,
   EvaluationResultGetterExpression,
   EvaluationResultChangePropertyStatement,
+  EvaluationResultThisExpression,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -589,14 +591,15 @@ export class Executor {
         const oldValue = object.jikiObject.getField(statement.property.lexeme)
         try {
           setter.apply(undefined, [
-            object.jikiObject,
             this.getExecutionContext(),
+            object.jikiObject,
             value.jikiObject as Jiki.JikiObject,
           ])
         } catch (e: unknown) {
           if (e instanceof LogicError) {
             this.error('LogicError', statement.location, { message: e.message })
           }
+          throw e
         }
 
         return {
@@ -1086,6 +1089,20 @@ export class Executor {
     expression: AccessorExpression
   ): EvaluationResultGetterExpression {
     return executeGetterExpression(this, expression)
+  }
+
+  public visitThisExpression(
+    expression: ThisExpression
+  ): EvaluationResultThisExpression {
+    const currentThis = this.currentThis()
+    if (!currentThis) {
+      this.error('AccessorUsedOnNonInstance', expression.thisKeyword.location)
+    }
+
+    return {
+      type: 'ThisExpression',
+      jikiObject: currentThis,
+    }
   }
 
   public visitLiteralExpression(
@@ -1756,7 +1773,7 @@ export class Executor {
     }
   }
 
-  private withThis(newThis, fn) {
+  public withThis(newThis: Jiki.Instance, fn) {
     try {
       this.thisValues.push(newThis)
       return fn()

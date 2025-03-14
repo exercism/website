@@ -46,31 +46,31 @@ function fn(this: HouseExercise) {
   Sun.addSetter(
     'cx',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       cx: Jiki.JikiObject
     ) {
       if (!(cx instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Cx must be a number.')
       }
-      this.fields['cx'] = cx
+      object.setField('cx', cx)
 
-      drawSun(executionCtx, this)
+      drawSun(executionCtx, object)
     }
   )
   Sun.addSetter(
     'cy',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       cy: Jiki.JikiObject
     ) {
       if (!(cy instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Cy must be a number.')
       }
-      this.fields['cy'] = cy
+      object.setField('cy', cy)
 
-      drawSun(executionCtx, this)
+      drawSun(executionCtx, object)
     }
   )
   return Sun

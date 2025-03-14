@@ -73,18 +73,18 @@ function fn(this: HouseExercise) {
   Door.addSetter(
     'brightness',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
-        return executionCtx.logicError('Brightness must be between 0 and 100')
+        executionCtx.logicError('Brightness must be between 0 and 100')
       }
-      this.fields['brightness'] = brightness
-      changeDoorBrightness(executionCtx, this)
+      object.setField('brightness', brightness)
+      changeDoorBrightness(executionCtx, object)
     }
   )
   return Door

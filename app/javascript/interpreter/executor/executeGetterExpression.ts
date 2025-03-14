@@ -32,7 +32,6 @@ export function executeGetterExpression(
       object.jikiObject as Jiki.Instance,
       executor.getExecutionContext(),
     ])
-    console.log('valueres', value)
   } catch (e: unknown) {
     if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })

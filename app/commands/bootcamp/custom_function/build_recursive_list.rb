@@ -5,13 +5,6 @@ class Bootcamp::CustomFunction::BuildRecursiveList
 
   def call
     active_fns = user.bootcamp_custom_functions.active.order(:name).to_a
-    available = active_fns.map(&:name).map do |name|
-      {
-        name:,
-        selected: selected.include?(name)
-      }
-    end
-
     for_interpreter = active_fns.map do |fn|
       fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description).merge(
         dependencies: build_name_tree([], [fn.name]).reject { |n| n == fn.name }.sort
@@ -19,7 +12,7 @@ class Bootcamp::CustomFunction::BuildRecursiveList
     end
 
     {
-      available:,
+      selected:,
       for_interpreter:
     }
   end

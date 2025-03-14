@@ -8,13 +8,7 @@ class Bootcamp::CustomFunction::BuildRecursiveListTest < ActiveSupport::TestCase
 
     actual = Bootcamp::CustomFunction::BuildRecursiveList.(user, [fn_1.name])
     expected = {
-      available: [{
-        name: fn_1.name,
-        selected: true
-      }, {
-        name: fn_2.name,
-        selected: false
-      }].sort_by { |fn| fn[:name] },
+      selected: [fn_1.name],
       for_interpreter: [
         { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description, dependencies: [] },
         { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description, dependencies: [] }
@@ -35,19 +29,7 @@ class Bootcamp::CustomFunction::BuildRecursiveListTest < ActiveSupport::TestCase
 
     actual = Bootcamp::CustomFunction::BuildRecursiveList.(user, [fn_1.name, fn_4.name])
     expected = {
-      available: [{
-        name: fn_1.name,
-        selected: true
-      }, {
-        name: fn_2.name,
-        selected: false
-      }, {
-        name: fn_3.name,
-        selected: false
-      }, {
-        name: fn_4.name,
-        selected: true
-      }].sort_by { |fn| fn[:name] },
+      selected: [fn_1.name, fn_4.name],
       for_interpreter: [
         { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description, dependencies: [] },
         { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description, dependencies: [] },

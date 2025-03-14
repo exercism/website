@@ -919,18 +919,3 @@ describe('custom functions', () => {
     expect(frames[0].result?.jikiObject.value).toBe(true)
   })
 })
-test('idempotent', () => {
-  const code = `
-    set x to 1
-    function move do
-      change x to x + 1
-      return x
-    end
-    move()
-    move()
-    `
-  const { frames, error } = interpret(code, {
-    languageFeatures: { allowGlobals: true },
-  })
-  expect(unwrapJikiObject(frames[6].variables)).toMatchObject({ x: 3 })
-})

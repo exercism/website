@@ -4,21 +4,19 @@ class Bootcamp::CustomFunction::BuildRecursiveList
   initialize_with :user, :selected
 
   def call
-    active_fns = user.bootcamp_custom_functions.active
-
-    available = active_fns.pluck(:name).sort.map do |name|
+    active_fns = user.bootcamp_custom_functions.active.order(:name).to_a
+    available = active_fns.map(&:name).map do |name|
       {
         name:,
         selected: selected.include?(name)
       }
     end
 
-    for_interpreter = active_fns.sort_by(&:name).
-      map do |fn|
-        fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description).merge(
-          dependencies: build_name_tree([], [fn.name]).reject { |n| n == fn.name }.sort
-        )
-      end
+    for_interpreter = active_fns.map do |fn|
+      fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description).merge(
+        dependencies: build_name_tree([], [fn.name]).reject { |n| n == fn.name }.sort
+      )
+    end
 
     {
       available:,

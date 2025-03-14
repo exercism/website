@@ -1,7 +1,7 @@
 import { type Callable, isCallable } from './functions'
 import type { Token } from './token'
 import { isString } from './checks'
-import { Class } from './jikiObjects'
+import * as Jiki from './jikiObjects'
 
 export class Environment {
   private readonly values: Map<string, any> = new Map()
@@ -23,7 +23,7 @@ export class Environment {
     return false
   }
 
-  public define(name: string, value: any): void {
+  public define(name: string, value: Jiki.JikiObject): void {
     this.values.set(name, value)
   }
 
@@ -60,7 +60,7 @@ export class Environment {
     while (current != null) {
       for (const [key, value] of this.values) {
         if (key in vars) continue
-        if (value instanceof Class) continue
+        if (value instanceof Jiki.Class) continue
         if (isCallable(value)) continue
 
         vars[key] = value
@@ -79,7 +79,7 @@ export class Environment {
     while (current != null) {
       for (const [key, value] of this.values) {
         if (key in functions) continue
-        if (value instanceof Class) continue
+        if (value instanceof Jiki.Class) continue
         if (!isCallable(value)) continue
 
         functions[key] = value

@@ -28,7 +28,11 @@ export function executeGetterExpression(
 
   let value
   try {
-    value = getter.apply(object.jikiObject, executor.getExecutionContext())
+    value = getter.apply(undefined, [
+      object.jikiObject as Jiki.Instance,
+      executor.getExecutionContext(),
+    ])
+    console.log('valueres', value)
   } catch (e: unknown) {
     if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
@@ -37,7 +41,7 @@ export function executeGetterExpression(
 
   return {
     type: 'GetterExpression',
-    jikiObject: value,
+    jikiObject: value.jikiObject,
     object,
   }
 }

@@ -1,4 +1,5 @@
 import { isArray, isString } from './checks'
+import { EvaluationResult } from './evaluation-result'
 import { ExecutionContext } from './executor'
 import { Arity, UserDefinedCallable } from './functions'
 
@@ -13,6 +14,8 @@ type ObjectType =
   | 'list'
   | 'dictionary'
   | 'instance'
+
+type Returnable = { jikiObject: JikiObject } | void
 
 export abstract class JikiObject {
   public readonly objectId: string
@@ -31,14 +34,17 @@ export class Method {
     public readonly fn: (
       executionContext: ExecutionContext,
       ...args
-    ) => JikiObject | null
+    ) => Returnable
   ) {}
 }
 
 export type Getter = (
+  object: Instance,
   executionContext: ExecutionContext
-) => JikiObject | undefined
+) => Returnable
+
 export type Setter = (
+  object: Instance,
   executionContext: ExecutionContext,
   value: JikiObject
 ) => void
@@ -46,6 +52,7 @@ export type Setter = (
 export class Class {
   private initialize: RawConstructor | UserDefinedCallable | undefined
   constructor(public readonly name: string) {}
+  private readonly properties: string[] = []
   private readonly methods: Record<string, Method> = {}
   private readonly getters: Record<string, Getter> = {}
   private readonly setters: Record<string, Setter> = {}
@@ -82,10 +89,7 @@ export class Class {
   //
   public addMethod(
     name: string,
-    fn: (
-      executionContext: ExecutionContext,
-      ...args: any[]
-    ) => JikiObject | null
+    fn: (executionContext: ExecutionContext, ...args: any[]) => Returnable
   ) {
     // Reduce the arity by 1 because the first argument is the execution context
     // which is invisible to the user
@@ -94,6 +98,9 @@ export class Class {
   }
   public getMethod(name: string): Method | undefined {
     return this.methods[name]
+  }
+  public addProperty(name: string): void {
+    this.properties.push(name)
   }
 
   //
@@ -107,29 +114,24 @@ export class Class {
   }
   public addGetter(
     name: string,
-    fn?: (
-      this: Instance,
-      executionContext: ExecutionContext
-    ) => JikiObject | undefined
+    fn?: (object: Instance, _: ExecutionContext) => Returnable
   ) {
     if (fn === undefined) {
-      fn = function (this: Instance, _: ExecutionContext) {
-        return this.fields[name]
+      fn = function (object: Instance, _: ExecutionContext) {
+        return {
+          jikiObject: object.getField(name),
+        }
       }
     }
     this.getters[name] = fn
   }
   public addSetter(
     name: string,
-    fn?: (
-      this: Instance,
-      executionContext: ExecutionContext,
-      value: JikiObject
-    ) => void
+    fn?: (object: Instance, _: ExecutionContext, value: JikiObject) => void
   ) {
     if (fn === undefined) {
-      fn = function (this: Instance, x: ExecutionContext, value: JikiObject) {
-        this.fields[name] = value
+      fn = function (object: Instance, _: ExecutionContext, value: JikiObject) {
+        object.setField(name, value)
       }
     }
     this.setters[name] = fn
@@ -157,7 +159,7 @@ export class Instance extends JikiObject {
   public getSetter(name: string): Setter | undefined {
     return this.jikiClass.getSetter(name)
   }
-  public getField(name: string): JikiObject | undefined {
+  public getField(name: string): JikiObject {
     return this.fields[name]
   }
   public getUnwrappedField(name: string): any {

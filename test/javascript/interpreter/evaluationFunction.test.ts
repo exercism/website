@@ -192,7 +192,10 @@ describe('evaluateFunction', () => {
       languageFeatures: { allowGlobals: true },
     })
     interpreter.compile()
-    const { value: value1 } = interpreter.evaluateFunction('move')
+    const { frames, value: value1 } = interpreter.evaluateFunction('move')
+    console.log(frames)
+    expect(frames.at(-1)?.status).toBe('SUCCESS')
+
     const { value: value2 } = interpreter.evaluateFunction('move')
     expect(value1).toBe(2)
     expect(value2).toBe(2)

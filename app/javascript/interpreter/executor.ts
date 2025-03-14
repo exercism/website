@@ -468,7 +468,10 @@ export class Executor {
         )
       }
 
-      this.environment.define(statement.name.lexeme, value.jikiObject)
+      this.environment.define(
+        statement.name.lexeme,
+        value.jikiObject as Jiki.JikiObject
+      )
 
       return {
         type: 'SetVariableStatement',
@@ -504,7 +507,11 @@ export class Executor {
       }
 
       // Update the underlying value
-      currentThis.setField(statement.property.lexeme, value)
+      this.guardNoneJikiObject(value.jikiObject, statement.location)
+      currentThis.setField(
+        statement.property.lexeme,
+        value.jikiObject as Jiki.JikiObject
+      )
 
       return {
         type: 'SetPropertyStatement',
@@ -578,8 +585,6 @@ export class Executor {
     this.executeFrame<EvaluationResultChangePropertyStatement>(
       statement,
       () => {
-        const value = this.evaluate(statement.value)
-
         if (!(object.jikiObject instanceof Jiki.Instance)) {
           this.error('AccessorUsedOnNonInstance', statement.object.location)
         }
@@ -590,12 +595,16 @@ export class Executor {
           })
         }
 
+        const value = this.evaluate(statement.value)
+        this.guardNoneJikiObject(value.jikiObject, statement.location)
+
         // Do the update
-        const oldValue = object.jikiObject.fields[statement.property.lexeme]
+        const oldValue = object.jikiObject.getField(statement.property.lexeme)
         try {
-          setter.apply(object.jikiObject, [
+          setter.apply(undefined, [
+            object.jikiObject,
             this.getExecutionContext(),
-            value.jikiObject,
+            value.jikiObject as Jiki.JikiObject,
           ])
         } catch (e: unknown) {
           if (e instanceof LogicError) {
@@ -1661,7 +1670,7 @@ export class Executor {
     this.error('ExpressionIsNull', location)
   }
 
-  private guardNoneJikiObject(value, location: Location) {
+  private guardNoneJikiObject(value: any, location: Location) {
     if (value instanceof Jiki.JikiObject) {
       return
     }

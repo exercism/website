@@ -215,29 +215,3 @@ const useCustomFunctionStore = create<CustomFunctionsStore>((set, get) => ({
 }))
 
 export default useCustomFunctionStore
-
-export async function getCustomFunctionsForInterpreter(
-  url: string,
-  name: string
-): Promise<{
-  custom_functions: {
-    code: string
-    arity: number
-    name: string
-  }[]
-}> {
-  // bootcamp/custom_functions/for_interpreter?uuids=123,234,345
-  const response = await fetch(url + '?name=' + encodeURIComponent(name), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: null,
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to submit code')
-  }
-
-  return response.json()
-}

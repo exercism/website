@@ -11,26 +11,36 @@ function fn(this: WordleExercise) {
   ) {})
   WordleGame.addGetter(
     'target_word',
-    function (executionCtx: ExecutionContext) {
-      return new Jiki.String(exercise.targetWord)
+    function (executionCtx: ExecutionContext, object: Jiki.Instance) {
+      return { jikiObject: new Jiki.String(exercise.targetWord) }
     }
   )
-  WordleGame.addMethod('draw_board', function (executionCtx: ExecutionContext) {
-    exercise.setupView()
-
-    return null
-  })
+  WordleGame.addMethod(
+    'draw_board',
+    function (executionCtx: ExecutionContext, _: Jiki.Instance) {
+      exercise.setupView(executionCtx)
+    }
+  )
   WordleGame.addMethod(
     'add_word',
     function (
       executionCtx: ExecutionContext,
-      row: Jiki.Number,
-      word: Jiki.String,
-      states: Jiki.List
+      _: Jiki.Instance,
+      row: Jiki.JikiObject,
+      word: Jiki.JikiObject,
+      states: Jiki.JikiObject
     ) {
+      if (!(row instanceof Jiki.Number)) {
+        return executionCtx.logicError('Row must be a number')
+      }
+      if (!(word instanceof Jiki.String)) {
+        return executionCtx.logicError('Word must be a string')
+      }
+      if (!(states instanceof Jiki.List)) {
+        return executionCtx.logicError('States must be a list')
+      }
       exercise.drawGuess(executionCtx, row.value - 1, word.value)
       exercise.colorRow(executionCtx, row, states)
-      return null
     }
   )
   return WordleGame

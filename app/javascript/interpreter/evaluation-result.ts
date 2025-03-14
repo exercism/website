@@ -150,6 +150,12 @@ export type EvaluationResultLiteralExpression = {
   data?: Record<string, any>
 }
 
+export type EvaluationResultThisExpression = {
+  type: 'ThisExpression'
+  jikiObject: JikiTypes.Instance
+  data?: Record<string, any>
+}
+
 export type EvaluationResultVariableLookupExpression = {
   type: 'VariableLookupExpression'
   name: string

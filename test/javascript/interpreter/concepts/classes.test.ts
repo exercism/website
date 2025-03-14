@@ -276,7 +276,7 @@ describe('execute', () => {
         console.log(frames)
         expect(error).toBeNull()
         expect(frames).toBeArrayOfSize(3)
-        expect(frames.at(-1).status).toBe('SUCCESS')
+        expect(frames.at(-1)?.status).toBe('SUCCESS')
         expect(
           Jiki.unwrapJikiObject(frames.at(-1).variables['outer_baz'])
         ).toBe(10)
@@ -284,7 +284,24 @@ describe('execute', () => {
     })
   })
   describe('method', () => {
-    test('naked', () => {
+    test('simple', () => {
+      const { error, frames } = interpret(`
+        class Foobar do
+          public method do_it do
+            return 10
+          end
+        end
+        set foo to new Foobar()
+        set outer_baz to foo.do_it()
+      `)
+      expect(error).toBeNull()
+      expect(frames).toBeArrayOfSize(3)
+      expect(frames.at(-1).status).toBe('SUCCESS')
+      expect(Jiki.unwrapJikiObject(frames.at(-1).variables['outer_baz'])).toBe(
+        10
+      )
+    })
+    test('with this', () => {
       const { error, frames } = interpret(`
         class Foobar do
           public property baz
@@ -300,11 +317,11 @@ describe('execute', () => {
         set foo to new Foobar()
         set outer_baz to foo.do_it()
       `)
-      console.log(frames)
+      console.log(frames.at(-1))
       expect(error).toBeNull()
-      expect(frames).toBeArrayOfSize(3)
-      expect(frames.at(-1).status).toBe('SUCCESS')
-      expect(Jiki.unwrapJikiObject(frames.at(-1).variables['outer_baz'])).toBe(
+      expect(frames).toBeArrayOfSize(4)
+      expect(frames.at(-1)?.status).toBe('SUCCESS')
+      expect(Jiki.unwrapJikiObject(frames.at(-1)?.variables['outer_baz'])).toBe(
         10
       )
     })

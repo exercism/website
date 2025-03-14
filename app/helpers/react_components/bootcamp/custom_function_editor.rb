@@ -21,7 +21,7 @@ module ReactComponents
 
     private
     def custom_functions
-      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function.depends_on)
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, custom_function&.depends_on || [])
     end
   end
 end

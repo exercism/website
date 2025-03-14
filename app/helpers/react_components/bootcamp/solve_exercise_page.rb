@@ -55,7 +55,7 @@ module ReactComponents
     end
 
     def custom_functions
-      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission.custom_functions)
+      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission&.custom_functions || [])
     end
 
     def readonly_ranges

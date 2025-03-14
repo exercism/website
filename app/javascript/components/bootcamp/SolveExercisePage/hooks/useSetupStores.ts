@@ -20,29 +20,13 @@ export function useSetupStores({
   } = useTaskStore()
   const { setFlatPreviewTaskTests } = useTestStore()
 
-  const {
-    setCustomFunctionMetadataCollection,
-    populateCustomFunctionsForInterpreter,
-
-    activateCustomFunction,
-  } = useCustomFunctionStore()
+  const { initializeCustomFunctions } = useCustomFunctionStore()
 
   useLayoutEffect(() => {
     initializeTasks(exercise.tasks, null)
 
-    setCustomFunctionMetadataCollection(customFunctions.available)
+    initializeCustomFunctions(customFunctions)
 
-    // populateCustomFunctionsForInterpreter(
-    //   customFunctions.forInterpreter.map((acf) => {
-    //     return { ...acf, arity: acf.arity }
-    //   })
-    // )
-
-    // TODO replace this with an actual list of activated functions
-    const activatedFunctions = customFunctions.available.filter(
-      (fn) => fn.selected
-    )
-    activatedFunctions.forEach((fn) => activateCustomFunction(fn.name, ''))
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
     setWasFinishLessonModalShown(solution.passedBasicTests)
     setShouldShowBonusTasks(solution.passedBasicTests)

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
 import { Instructions } from './Instructions/Instructions'

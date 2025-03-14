@@ -21,22 +21,16 @@ declare global {
   }
 
   type CustomFunctionsFromServer = {
-    available: AvailableCustomFunction[]
+    selected: string[]
     forInterpreter: CustomFunctionForInterpreter[]
-  }
-
-  type AvailableCustomFunction = {
-    name: string
-    dependencies: string[]
-    description: string
-    selected: boolean
   }
 
   type CustomFunctionForInterpreter = {
     name: string
     arity: number
     code: string
-    id: null
+    description: string
+    dependencies: string[]
   }
 
   type Code = {

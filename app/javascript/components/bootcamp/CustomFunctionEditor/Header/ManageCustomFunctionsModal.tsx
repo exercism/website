@@ -1,12 +1,15 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import Modal from 'react-modal'
-import useCustomFunctionStore, {
-  CustomFunctionMetadata,
-} from '../store/customFunctionsStore'
+import useCustomFunctionStore from '../store/customFunctionsStore'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common'
 
 Modal.setAppElement('body')
+
+type CustomFunctionMetadata = {
+  name: string
+  description: string
+}
 
 export function ManageCustomFunctionsModal({
   isOpen,
@@ -18,7 +21,7 @@ export function ManageCustomFunctionsModal({
   onChange?: () => void
 }) {
   const {
-    customFunctionMetadataCollection,
+    availableCustomFunctions,
     getIsFunctionActivated,
     activateCustomFunction,
     deactivateCustomFunction,
@@ -27,13 +30,13 @@ export function ManageCustomFunctionsModal({
   const { links } = useContext(SolveExercisePageContext)
 
   const hasMetadata = useMemo(
-    () => customFunctionMetadataCollection.length > 0,
-    [customFunctionMetadataCollection]
+    () => Object.keys(availableCustomFunctions).length > 0,
+    [availableCustomFunctions]
   )
 
   const handleActivateCustomFunction = useCallback(
     async (name: string) => {
-      activateCustomFunction(name, links.getCustomFnsForInterpreter)
+      activateCustomFunction(name)
       if (onChange) {
         onChange()
       }
@@ -65,7 +68,7 @@ export function ManageCustomFunctionsModal({
       </p>
       <div className="flex flex-col gap-8 mb-12 overflow-y-auto mr-[-32px] pr-32">
         {hasMetadata ? (
-          customFunctionMetadataCollection.map((customFnMetadata) => {
+          Object.values(availableCustomFunctions).map((customFnMetadata) => {
             return (
               <CustomFunctionMetadata
                 key={customFnMetadata.name}

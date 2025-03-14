@@ -7,15 +7,10 @@ import useCustomFunctionStore from '../../CustomFunctionEditor/store/customFunct
 export function useSetupStores({
   exercise,
   solution,
-  activeCustomFunctions,
-  availableCustomFunctions,
+  customFunctions,
 }: Pick<
   SolveExercisePageProps,
-  | 'exercise'
-  | 'code'
-  | 'solution'
-  | 'activeCustomFunctions'
-  | 'availableCustomFunctions'
+  'exercise' | 'code' | 'solution' | 'customFunctions'
 >) {
   const {
     initializeTasks,
@@ -28,21 +23,26 @@ export function useSetupStores({
   const {
     setCustomFunctionMetadataCollection,
     populateCustomFunctionsForInterpreter,
-    setActivatedCustomFunctions,
+
+    activateCustomFunction,
   } = useCustomFunctionStore()
 
   useLayoutEffect(() => {
     initializeTasks(exercise.tasks, null)
 
-    setCustomFunctionMetadataCollection(availableCustomFunctions)
-    populateCustomFunctionsForInterpreter(
-      activeCustomFunctions.map((acf) => {
-        return { ...acf, arity: acf.arity }
-      })
-    )
+    setCustomFunctionMetadataCollection(customFunctions.available)
+
+    // populateCustomFunctionsForInterpreter(
+    //   customFunctions.forInterpreter.map((acf) => {
+    //     return { ...acf, arity: acf.arity }
+    //   })
+    // )
 
     // TODO replace this with an actual list of activated functions
-    setActivatedCustomFunctions(activeCustomFunctions.map((acf) => [acf.name]))
+    const activatedFunctions = customFunctions.available.filter(
+      (fn) => fn.selected
+    )
+    activatedFunctions.forEach((fn) => activateCustomFunction(fn.name, ''))
     setWasCompletedBonusTasksModalShown(solution.passedBonusTests)
     setWasFinishLessonModalShown(solution.passedBasicTests)
     setShouldShowBonusTasks(solution.passedBasicTests)

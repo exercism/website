@@ -27,6 +27,10 @@ type CustomFunctionsStore = {
   deactivateCustomFunction: (name: string) => void
   getIsFunctionActivated: (name: string) => boolean
   activatedCustomFunctions: string[][]
+  /**
+   * Returns the list of functions the user clicked on - imported deliberately
+   */
+  getSelectedCustomFunctions: () => string[]
   setActivatedCustomFunctions: (activatedCustomFunctions: string[][]) => void
   customFunctionMetadataCollection: CustomFunctionMetadata[]
   setCustomFunctionMetadataCollection: (
@@ -61,6 +65,11 @@ const useCustomFunctionStore = create<CustomFunctionsStore>((set, get) => ({
     })
   },
   activatedCustomFunctions: [],
+  getSelectedCustomFunctions: () => {
+    const activatedCustomFunctions = get().activatedCustomFunctions
+    const selectedCustomFunctions = activatedCustomFunctions.map((fn) => fn[0])
+    return selectedCustomFunctions
+  },
   setActivatedCustomFunctions: (activatedCustomFunctions: string[][]) => {
     set({ activatedCustomFunctions })
   },

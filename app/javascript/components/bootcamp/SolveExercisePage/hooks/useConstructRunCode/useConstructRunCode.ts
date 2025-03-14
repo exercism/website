@@ -73,7 +73,8 @@ export function useConstructRunCode({
     setInspectedTestResult(null)
   }
 
-  const { customFunctionsForInterpreter } = useCustomFunctionStore()
+  const { customFunctionsForInterpreter, getSelectedCustomFunctions } =
+    useCustomFunctionStore()
 
   /**
    * This function is used to run the code in the editor
@@ -203,9 +204,7 @@ export function useConstructRunCode({
             })
           ),
         },
-        customFunctions: Object.values(customFunctionsForInterpreter).map(
-          (cfn) => cfn.name
-        ),
+        customFunctions: getSelectedCustomFunctions(),
         postUrl: links.postSubmission,
         readonlyRanges: getCodeMirrorFieldValue(
           editorView,

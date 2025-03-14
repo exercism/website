@@ -17,19 +17,23 @@ declare global {
       updateCustomFns?: string
       customFnsDashboard?: string
     }
-    availableCustomFunctions: AvailableCustomFunction[]
-    activeCustomFunctions: ActiveCustomFunction[]
+    customFunctions: CustomFunctionsFromServer
+  }
+
+  type CustomFunctionsFromServer = {
+    available: AvailableCustomFunction[]
+    forInterpreter: CustomFunctionForInterpreter[]
   }
 
   type AvailableCustomFunction = {
     name: string
-    fnName: string
+    dependencies: string[]
     description: string
+    selected: boolean
   }
 
-  type ActiveCustomFunction = {
+  type CustomFunctionForInterpreter = {
     name: string
-    fnName: string
     arity: number
     code: string
     id: null

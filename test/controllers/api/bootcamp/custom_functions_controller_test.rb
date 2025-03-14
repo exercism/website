@@ -39,35 +39,6 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_json_response(expected)
   end
 
-  test "for_interpreter: gets functions by names" do
-    user = create :user
-    function_1 = create(:bootcamp_custom_function, user:, active: true)
-    function_2 = create(:bootcamp_custom_function, user:, active: true)
-    other_user_function = create(:bootcamp_custom_function)
-    create(:bootcamp_custom_function)
-
-    setup_user(user)
-    name = [function_1, function_2, other_user_function].map(&:name).join(',')
-    get for_interpreter_api_bootcamp_custom_functions_url(name:), headers: @headers
-
-    assert_response :ok
-    expected = {
-      custom_functions: [
-        {
-          name: function_1.name,
-          arity: function_1.arity,
-          code: function_1.code
-        },
-        {
-          name: function_2.name,
-          arity: function_2.arity,
-          code: function_2.code
-        }
-      ]
-    }
-    assert_json_response(expected)
-  end
-
   test "update: can't change someone else's function" do
     user = create :user
     function = create(:bootcamp_custom_function, user:)

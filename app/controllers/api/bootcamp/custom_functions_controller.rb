@@ -8,20 +8,6 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
     }
   end
 
-  def for_interpreter
-    @custom_functions = Bootcamp::CustomFunction::BuildRecursiveList.(current_user, params[:name].split(','))
-
-    render json: {
-      custom_functions: @custom_functions.map do |cf|
-        {
-          name: cf.name,
-          arity: cf.arity,
-          code: cf.code
-        }
-      end
-    }
-  end
-
   def update
     @custom_function = current_user.bootcamp_custom_functions.find_by!(uuid: params[:uuid])
     data = params[:custom_function].slice(

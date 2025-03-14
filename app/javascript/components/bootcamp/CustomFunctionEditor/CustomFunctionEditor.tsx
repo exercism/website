@@ -41,8 +41,6 @@ export type CustomFunctionEditorProps = {
   customFunctions: CustomFunctionsFromServer
   links: {
     updateCustomFns: string
-    getCustomFns: string
-    getCustomFnsForInterpreter: string
     customFnsDashboard: string
   }
 }

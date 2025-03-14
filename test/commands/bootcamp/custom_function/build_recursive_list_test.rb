@@ -10,16 +10,14 @@ class Bootcamp::CustomFunction::BuildRecursiveListTest < ActiveSupport::TestCase
     expected = {
       available: [{
         name: fn_1.name,
-        dependencies: [],
         selected: true
       }, {
         name: fn_2.name,
-        dependencies: [],
         selected: false
       }].sort_by { |fn| fn[:name] },
       for_interpreter: [
-        { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description },
-        { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description }
+        { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description, dependencies: [] },
+        { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description, dependencies: [] }
       ].sort_by { |fn| fn[:name] }
     }
     assert_equal expected, actual
@@ -39,26 +37,22 @@ class Bootcamp::CustomFunction::BuildRecursiveListTest < ActiveSupport::TestCase
     expected = {
       available: [{
         name: fn_1.name,
-        dependencies: [],
         selected: true
       }, {
         name: fn_2.name,
-        dependencies: [],
         selected: false
       }, {
         name: fn_3.name,
-        dependencies: [fn_2.name],
         selected: false
       }, {
         name: fn_4.name,
-        dependencies: [fn_2.name, fn_3.name],
         selected: true
       }].sort_by { |fn| fn[:name] },
       for_interpreter: [
-        { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description },
-        { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description },
-        { name: fn_3.name, arity: fn_3.arity, code: fn_3.code, description: fn_3.description },
-        { name: fn_4.name, arity: fn_4.arity, code: fn_4.code, description: fn_4.description }
+        { name: fn_1.name, arity: fn_1.arity, code: fn_1.code, description: fn_1.description, dependencies: [] },
+        { name: fn_2.name, arity: fn_2.arity, code: fn_2.code, description: fn_2.description, dependencies: [] },
+        { name: fn_3.name, arity: fn_3.arity, code: fn_3.code, description: fn_3.description, dependencies: [fn_2.name] },
+        { name: fn_4.name, arity: fn_4.arity, code: fn_4.code, description: fn_4.description, dependencies: [fn_2.name, fn_3.name] }
       ]
     }
     assert_equal expected, actual

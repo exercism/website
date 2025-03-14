@@ -9,13 +9,16 @@ class Bootcamp::CustomFunction::BuildRecursiveList
     available = active_fns.pluck(:name).sort.map do |name|
       {
         name:,
-        dependencies: build_name_tree([], [name]).reject { |n| n == name }.sort,
         selected: selected.include?(name)
       }
     end
 
     for_interpreter = active_fns.sort_by(&:name).
-      map { |fn| fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description) }
+      map do |fn|
+        fn.attributes.symbolize_keys.slice(:name, :arity, :code, :description).merge(
+          dependencies: build_name_tree([], [fn.name]).reject { |n| n == fn.name }.sort
+        )
+      end
 
     {
       available:,

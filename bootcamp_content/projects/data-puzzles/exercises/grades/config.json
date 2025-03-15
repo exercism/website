@@ -2,7 +2,7 @@
   "title": "Grades",
   "description": "Turn the school grades into a pattern",
   "level": 9,
-  "idx": 1,
+  "idx": 2,
   "tests_type": "io",
   "project_type": "data",
   "stdlib_functions": ["concatenate", "push"],

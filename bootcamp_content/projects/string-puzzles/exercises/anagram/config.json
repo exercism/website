@@ -2,7 +2,7 @@
   "title": "Anagram",
   "description": "Find all anagrams of a given word from a list of candidates.",
   "level": 9,
-  "idx": 2,
+  "idx": 3,
   "tests_type": "io",
   "stdlib_functions": ["push", "concatenate"],
   "tasks": [

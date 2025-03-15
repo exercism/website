@@ -1,7 +1,9 @@
-# Wordle
+# Wordle Rules
 
 In the last Wordle exercise, you built out logic to color the rows.
-This time, you're going to modify your code to use the new `WordleGame` class.
+This time, you're going to modify your code to use the new `WordleGame` class and, if you want to take on the bonus, add an extra rule.
+
+## The `WordleGame` class
 
 The `WordleGame` class is a blueprint for a wordle game.
 The constructor of the class takes zero inputs (so you don't use any inputs when creating an instance).

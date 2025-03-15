@@ -16,6 +16,14 @@ function contains with haystack, needle do
   return false
 end
 
+function add_or_increment with things, thing do
+  if not has_key(things, thing) do
+    change things[thing] to 0
+  end
+  change things[thing] to things[thing] + 1
+  return things
+end
+
 //------
 
 function letter_ok_in_guess with letter, knowledge, letter_knowledge do
@@ -97,21 +105,13 @@ function should_be_present with present_letters, target_word, letter do
   return actual > present_letters[letter]
 end
 
-function add_present_letter with present_letters, letter do
-  if not has_key(present_letters, letter) do
-    change present_letters[letter] to 0
-  end
-  change present_letters[letter] to present_letters[letter] + 1
-  return present_letters
-end
-
 function process_guess with game, knowledge, row, guess do
   set states to []
   set present_letters to {}
   for each letter in guess indexed by idx do
     if game.target_word[idx] == letter do
       change knowledge["squares"][idx]["actual"] to letter
-      change present_letters to add_present_letter(present_letters, letter)
+      change present_letters to add_or_increment(present_letters, letter)
       change states to push(states, "correct")
     else if contains(game.target_word, letter) do
       change knowledge["present"] to unique(push(knowledge["present"], letter))
@@ -128,12 +128,11 @@ function process_guess with game, knowledge, row, guess do
       next
     end
 
-    if not should_be_present(present_letters, game.target_word, letter) do
+    if should_be_present(present_letters, game.target_word, letter) do
+      change present_letters to add_or_increment(present_letters, letter)
+    else do
       change states[idx] to "absent"
-      next
     end
-
-    change present_letters to add_present_letter(present_letters, letter)
   end
   
   change knowledge["won"] to has_won(states)

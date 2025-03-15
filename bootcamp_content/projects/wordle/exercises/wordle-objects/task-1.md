@@ -1,3 +1,3 @@
 # Task 1
 
-Process the guess!
+Use the `WordleGame` object!

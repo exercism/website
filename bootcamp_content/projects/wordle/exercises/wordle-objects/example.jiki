@@ -8,13 +8,11 @@ function contains with haystack, needle do
 end
 
 function process_game with word, guesses do
+  set game to new WordleGame()
+  game.draw_board()
   for each guess in guesses indexed by idx do
-    color_row(idx, process_guess(word, guess))
+    game.add_word(idx, guess, process_guess(word, guess))
   end
-end
-
-function process_first_guess with word, guess do
-  color_top_row(process_guess(word, guess))
 end
 
 function process_guess with word, guess do

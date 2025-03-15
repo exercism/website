@@ -14,61 +14,54 @@ export function describeChangeElementStatement(
   frame: FrameWithResult,
   context: DescriptionContext
 ): Description {
+  const frameContext = frame.context as ChangeElementStatement
+  const frameResult = frame.result as EvaluationResultChangeElementStatement
+
   if (frame.result.object.jikiObject instanceof Jiki.List) {
-    return describeChangeElementStatementList(frame, context)
+    return describeChangeElementStatementList(
+      frameContext,
+      frameResult,
+      context
+    )
   } else {
-    return describeChangeElementStatementDictionary(frame, context)
+    return describeChangeElementStatementDictionary(
+      frameContext,
+      frameResult,
+      context
+    )
   }
 }
 
 function describeChangeElementStatementList(
-  frame: FrameWithResult,
+  frameContext: ChangeElementStatement,
+  frameResult: EvaluationResultChangeElementStatement,
   context: DescriptionContext
 ): Description {
-  const frameContext = frame.context as ChangeElementStatement
-  const frameResult = frame.result as EvaluationResultChangeElementStatement
-
   const idx = frameResult.field.jikiObject?.value
   const ordinaledIndex = addOrdinalSuffix(idx)
 
   const oldValue = formatJikiObject(frameResult.oldValue)
   const value = formatJikiObject(frameResult.value.jikiObject)
+  const valueCodeTag = codeTag(value, frameContext.value.location)
 
-  let boxStep
-  let dictDescription
+  let dictDescription = 'the list'
+  let boxStep: string | undefined
 
   if (frameContext.object.type == 'VariableLookupExpression') {
-    const variableName = (frameContext.object as VariableLookupExpression).name
-      .lexeme
-    ;(boxStep = `<li>Jiki found the ${codeTag(
-      variableName,
-      frameContext.object.location
-    )} box.</li>`),
-      (dictDescription = `the ${codeTag(
-        variableName,
-        frameContext.object.location
-      )} list`)
-  } else {
-    dictDescription = `the list`
+    const object = frameContext.object as VariableLookupExpression
+    const variableName = object.name.lexeme
+    const variableCodeTag = codeTag(variableName, frameContext.object.location)
+    dictDescription = `the ${variableCodeTag} list`
+    boxStep = `<li>Jiki found the ${variableCodeTag} box.</li>`
   }
 
-  ;[boxStep].flat()
-
-  const result = `<p>This changed the value in the ${ordinaledIndex} element of ${dictDescription} to ${codeTag(
-    value,
-    frameContext.value.location
-  )}.</p>`
+  const result = `<p>This changed the value in the ${ordinaledIndex} element of ${dictDescription} to ${valueCodeTag}.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)
-  if (boxStep) {
-    steps.push(boxStep)
-  }
   steps = [
     ...steps,
+    ...([boxStep].filter(Boolean) as string[]),
     `<li>Jiki removed the existing contents (<code>${oldValue}</code>) from the ${ordinaledIndex} slot of the list.</li>`,
-    `<li>Jiki put ${codeTag(
-      value,
-      frameContext.value.location
-    )} in the ${ordinaledIndex} slot of the list.</li>`,
+    `<li>Jiki put ${valueCodeTag} in the ${ordinaledIndex} slot of the list.</li>`,
   ]
 
   return {
@@ -78,56 +71,89 @@ function describeChangeElementStatementList(
 }
 
 function describeChangeElementStatementDictionary(
-  frame: FrameWithResult,
+  frameContext: ChangeElementStatement,
+  frameResult: EvaluationResultChangeElementStatement,
   context: DescriptionContext
 ): Description {
-  const frameContext = frame.context as ChangeElementStatement
-  const frameResult = frame.result as EvaluationResultChangeElementStatement
+  let dictDescription = 'the dictionary'
+  let boxStep: string | undefined
+
+  if (frameContext.object.type == 'VariableLookupExpression') {
+    const object = frameContext.object as VariableLookupExpression
+    const variableName = object.name.lexeme
+    const variableCodeTag = codeTag(variableName, frameContext.object.location)
+    dictDescription = `the ${variableCodeTag} dictionary`
+    boxStep = `<li>Jiki found the ${variableCodeTag} box.</li>`
+  }
 
   const key = frameResult.field.jikiObject
   const value = formatJikiObject(frameResult.value.jikiObject)
+  const keyCodeTag = codeTag(key, frameContext.field.location)
+  const valueCodeTag = codeTag(value, frameContext.value.location)
 
-  let boxStep
-  let dictDescription
-
-  if (frameContext.object.type == 'VariableLookupExpression') {
-    const variableName = (frameContext.object as VariableLookupExpression).name
-      .lexeme
-    ;(boxStep = `<li>Jiki found the ${codeTag(
-      variableName,
-      frameContext.object.location
-    )} box.</li>`),
-      (dictDescription = `the ${codeTag(
-        variableName,
-        frameContext.object.location
-      )} dictionary`)
-  } else {
-    dictDescription = `the dictionary`
+  if (frameResult.oldValue == undefined) {
+    return describeChangeElementStatementDictionaryAddKey(
+      frameContext,
+      frameResult,
+      context,
+      dictDescription,
+      boxStep,
+      keyCodeTag,
+      valueCodeTag
+    )
   }
+  return describeChangeElementStatementDictionaryUpdateKey(
+    frameContext,
+    frameResult,
+    context,
+    dictDescription,
+    boxStep,
+    keyCodeTag,
+    valueCodeTag
+  )
+}
 
-  ;[boxStep].flat()
-
-  const result = `<p>This changed the value of the key ${codeTag(
-    key,
-    frameContext.field.location
-  )} in ${dictDescription} to ${codeTag(
-    value,
-    frameContext.value.location
-  )}.</p>`
+function describeChangeElementStatementDictionaryAddKey(
+  frameContext: ChangeElementStatement,
+  frameResult: EvaluationResultChangeElementStatement,
+  context: DescriptionContext,
+  dictDescription: string,
+  boxStep: string | undefined,
+  keyCodeTag: string,
+  valueCodeTag: string
+): Description {
+  const result = `<p>This added a new key/value pair to ${dictDescription}, with the key of ${keyCodeTag} and the value of ${valueCodeTag}.</p>`
   let steps = describeExpression(frameContext.value, frameResult.value, context)
-  if (boxStep) {
-    steps.push(boxStep)
-  }
+
   steps = [
     ...steps,
-    `<li>Jiki found the ${codeTag(
-      key,
-      frameContext.field.location
-    )} key in the dictionary.</i>`,
-    `<li>Jiki updated the corresponding value to be ${codeTag(
-      value,
-      frameContext.value.location
-    )}.</li>`,
+    ...([boxStep].filter(Boolean) as string[]),
+    `<li>Jiki checked for the ${keyCodeTag} key in the dictionary and saw it was missing.</li>`,
+    `<li>Jiki add a new key value pair with the key of ${keyCodeTag} and the value of ${valueCodeTag}.</li>`,
+  ]
+
+  return {
+    result: result,
+    steps: steps,
+  }
+}
+function describeChangeElementStatementDictionaryUpdateKey(
+  frameContext: ChangeElementStatement,
+  frameResult: EvaluationResultChangeElementStatement,
+  context: DescriptionContext,
+  dictDescription: string,
+  boxStep: string | undefined,
+  keyCodeTag: string,
+  valueCodeTag: string
+): Description {
+  const result = `<p>This changed the value of the key ${keyCodeTag} in ${dictDescription} to ${valueCodeTag}.</p>`
+  let steps = describeExpression(frameContext.value, frameResult.value, context)
+
+  steps = [
+    ...steps,
+    ...([boxStep].filter(Boolean) as string[]),
+    `<li>Jiki found the ${keyCodeTag} key in the dictionary.</i>`,
+    `<li>Jiki updated the corresponding value to be ${valueCodeTag}.</li>`,
   ]
 
   return {

@@ -18,7 +18,13 @@ class Bootcamp::Exercise < ApplicationRecord
   def locked? = level_idx > Bootcamp::Settings.level_idx
   def unlocked? = !locked?
   def concepts = super.to_a.sort
-  def major_project? = project.slug == 'games-and-apps'
+
+  def major_project?
+    return true if project.slug == 'games-and-apps'
+    return true if %w[omniscience wordle-solver].include?(slug)
+
+    false
+  end
 
   def icon_url = "#{Exercism.config.website_icons_host}/bootcamp/exercises/#{project.slug}/#{slug}.svg"
 

@@ -81,12 +81,11 @@ function process_guess with word, guess do
       next
     end
 
-    if not should_be_present(present_letters, game.target_word, letter) do
+    if should_be_present(present_letters, word, letter) do
+      change present_letters to add_or_increment(present_letters, letter)
+    else do
       change states[idx] to "absent"
-      next
     end
-
-    change present_letters to add_or_increment(present_letters, letter)
   end
   
   return states

@@ -3,6 +3,7 @@ fill_color_hex("#ADD8E6")
 rectangle(0, 0, 100, 100)
 
 // Draw the Spikes
+fill_color_hex("#ffed06")
 triangle(10,10,29,33,33,29)
 triangle(50,2,47,23,53,23)
 triangle(90,10,71,33,67,29)

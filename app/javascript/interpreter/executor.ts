@@ -569,7 +569,7 @@ export class Executor {
 
       // Do the update
       const oldValue = Jiki.unwrapJikiObject(
-        dictionary.jikiObject[field.jikiObject.value]
+        dictionary.jikiObject.value.get(field.jikiObject.value)
       )
       dictionary.jikiObject.value.set(field.jikiObject.value, value.jikiObject)
 

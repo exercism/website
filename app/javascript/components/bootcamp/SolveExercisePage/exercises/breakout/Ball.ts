@@ -2,7 +2,7 @@ import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import BreakoutExercise from './BreakoutExercise'
 
-type BallInstance = Jiki.Instance & {}
+export type BallInstance = Jiki.Instance & {}
 
 function fn(this: BreakoutExercise) {
   const createBall = (executionCtx: ExecutionContext, ball: BallInstance) => {
@@ -24,15 +24,15 @@ function fn(this: BreakoutExercise) {
   const Ball = new Jiki.Class('Ball')
   Ball['default_radius'] = 3
   Ball.addConstructor(function (
-    this: Jiki.Instance,
-    executionCtx: ExecutionContext
+    executionCtx: ExecutionContext,
+    ball: Jiki.Instance
   ) {
-    this.fields['cx'] = new Jiki.Number(50)
-    this.fields['cy'] = new Jiki.Number(100 - Ball['default_radius'])
-    this.fields['radius'] = new Jiki.Number(Ball['default_radius'])
-    this.fields['y_velocity'] = new Jiki.Number(-1)
-    this.fields['x_velocity'] = new Jiki.Number(-1)
-    createBall(executionCtx, this)
+    ball.setField('cx', new Jiki.Number(50))
+    ball.setField('cy', new Jiki.Number(100 - Ball['default_radius']))
+    ball.setField('radius', new Jiki.Number(Ball['default_radius']))
+    ball.setField('y_velocity', new Jiki.Number(-1))
+    ball.setField('x_velocity', new Jiki.Number(-1))
+    createBall(executionCtx, ball)
   })
   Ball.addGetter('cx')
   Ball.addGetter('cy')

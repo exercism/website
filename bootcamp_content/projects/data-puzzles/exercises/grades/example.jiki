@@ -89,14 +89,14 @@ end
 
 function build_url with description do
   set parts to split(description, " ")
-  set class to parts[2]
+  set klass to parts[2]
   set year to parts[4]
 
   set api_version to "v3"
   if year == "2025" do
     change api_version to "v4"
   end
-  return concatenate("https://api.school.com/", api_version, "/grades/", year, "/class-", class)
+  return concatenate("https://api.school.com/", api_version, "/grades/", year, "/class-", klass)
 end
 
 function flatten with thing do

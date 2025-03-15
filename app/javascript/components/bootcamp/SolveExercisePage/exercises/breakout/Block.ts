@@ -44,17 +44,20 @@ function fn(this: BreakoutExercise) {
   const Block = new Jiki.Class('Block')
   Block['default_height'] = 7
   Block.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    left: Jiki.Number,
-    top: Jiki.Number
+    object: Jiki.Instance,
+    left: Jiki.JikiObject,
+    top: Jiki.JikiObject
   ) {
-    this.fields['left'] = left
-    this.fields['top'] = top
-    this.fields['width'] = new Jiki.Number(16)
-    this.fields['height'] = new Jiki.Number(Block['default_height'])
-    this.fields['smashed'] = new Jiki.Boolean(false)
-    createBlock(executionCtx, this as BlockInstance)
+    if (!(left instanceof Jiki.Number) || !(top instanceof Jiki.Number)) {
+      return executionCtx.logicError('Left and top must be numbers')
+    }
+    object.setField('left', left)
+    object.setField('top', top)
+    object.setField('width', new Jiki.Number(16))
+    object.setField('height', new Jiki.Number(Block['default_height']))
+    object.setField('smashed', new Jiki.Boolean(false))
+    createBlock(executionCtx, object as BlockInstance)
   })
   Block.addGetter('top')
   Block.addGetter('left')

@@ -21,6 +21,7 @@ import {
   InstantiationExpression,
   ClassLookupExpression,
   AccessorExpression,
+  ThisExpression,
 } from './expression'
 import type { LanguageFeatures } from './interpreter'
 import { Location } from './location'
@@ -45,6 +46,11 @@ import {
   ChangeElementStatement,
   MethodCallStatement,
   ChangePropertyStatement,
+  ClassStatement,
+  ConstructorStatement,
+  MethodStatement,
+  PropertyStatement,
+  SetPropertyStatement,
 } from './statement'
 import { KeywordTokens, type Token, type TokenType } from './token'
 import { translate } from './translator'
@@ -110,12 +116,118 @@ export class Parser {
 
   private declarationStatement(): Statement {
     if (this.match('FUNCTION')) return this.functionStatement()
+    if (this.match('CLASS')) return this.classStatement()
 
     return this.statement()
   }
 
+  private classStatement(): Statement {
+    const name = this.consume('IDENTIFIER', 'MissingClassName')
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'class', name })
+    this.consumeEndOfLine()
+
+    const body: Statement[] = []
+
+    while (!this.check('END') && !this.isAtEnd()) {
+      const stmt = this.classBodyStatement()
+      body.push(stmt)
+    }
+
+    this.consume('END', 'MissingEndAfterBlock', { type: 'class' })
+    this.consumeEndOfLine()
+
+    return new ClassStatement(
+      name,
+      body,
+      Location.between(name, this.previous())
+    )
+  }
+
+  private classBodyStatement(): Statement {
+    if (this.match('CONSTRUCTOR')) return this.constructorStatement()
+    if (this.check('PUBLIC', 'PRIVATE')) {
+      if (this.checkAhead(2, 'PROPERTY')) return this.propertyStatement()
+      if (this.checkAhead(2, 'METHOD')) return this.methodStatement()
+      this.error('UnexpectedTokenAfterAccessModifier', this.peek().location, {
+        accessModifier: this.peek().lexeme,
+      })
+    }
+
+    this.error('MissingStatement', this.peek().location)
+  }
+
+  private propertyStatement(): Statement {
+    // We know we have an access modifier to even get here.
+    this.match('PUBLIC', 'PRIVATE')
+    const accessModifer = this.previous()
+    this.consume('PROPERTY', 'UnexpectedTokenAfterAccessModifier', {
+      accessModifier: accessModifer.lexeme,
+    })
+
+    const name = this.consume('IDENTIFIER', 'MissingPropertyName')
+    this.consumeEndOfLine()
+
+    return new PropertyStatement(
+      accessModifer,
+      name,
+      Location.between(accessModifer, this.previous())
+    )
+  }
+
+  private constructorStatement(): Statement {
+    const constructorToken = this.previous()
+    const params = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('constructor')
+    return new ConstructorStatement(
+      params,
+      body,
+      Location.between(constructorToken, this.previous())
+    )
+  }
+
+  private methodStatement(): Statement {
+    // We know we have an access modifier to even get here.
+    this.match('PUBLIC', 'PRIVATE')
+    const accessModifer = this.previous()
+    this.consume('METHOD', 'UnexpectedTokenAfterAccessModifier', {
+      accessModifier: accessModifer.lexeme,
+    })
+
+    const name = this.consume('IDENTIFIER', 'MissingMethodName')
+    const parameters = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'method', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('method')
+    return new MethodStatement(
+      accessModifer,
+      name,
+      parameters,
+      body,
+      Location.between(accessModifer, this.previous())
+    )
+  }
+
   private functionStatement(): Statement {
     const name = this.consume('IDENTIFIER', 'MissingFunctionName')
+    const parameters = this.functionParameters()
+    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
+    this.consumeEndOfLine()
+
+    const body = this.block('function')
+    this.functionNames.push(name.lexeme)
+    return new FunctionStatement(
+      name,
+      parameters,
+      body,
+      Location.between(name, this.previous())
+    )
+  }
+
+  private functionParameters(): FunctionParameter[] {
     const parameters: FunctionParameter[] = []
     if (this.match('WITH')) {
       do {
@@ -133,11 +245,8 @@ export class Parser {
 
         // If we have some keyword other than "DO", it's probably
         // someone using a reserved keyword by accident
-        if (this.nextTokenIsKeyword() && !this.check('DO')) {
-          this.error('UnexpectedKeyword', this.peek().location, {
-            lexeme: this.peek().lexeme,
-          })
-        }
+        if (!this.check('DO')) this.guardUnexpectedKeyword()
+
         const parameterName = this.consume(
           'IDENTIFIER',
           'MissingParameterName',
@@ -162,17 +271,7 @@ export class Parser {
       )
       this.error(errorType, this.peek().location, context)
     }
-    this.consume('DO', 'MissingDoToStartBlock', { type: 'function', name })
-    this.consumeEndOfLine()
-
-    const body = this.block('function')
-    this.functionNames.push(name.lexeme)
-    return new FunctionStatement(
-      name,
-      parameters,
-      body,
-      Location.between(name, this.previous())
-    )
+    return parameters
   }
 
   private statement(): Statement {
@@ -211,6 +310,7 @@ export class Parser {
           name: nameLexeme,
         })
       } else {
+        this.guardUnexpectedKeyword()
         throw e
       }
     }
@@ -226,7 +326,12 @@ export class Parser {
   }
 
   private setVariableStatement(): Statement {
+    if (this.check('THIS')) {
+      return this.setPropertyStatement()
+    }
+
     const setToken = this.previous()
+
     const name = this.identifier()
     this.guardValidVariableName(name)
 
@@ -248,14 +353,16 @@ export class Parser {
   }
 
   private changeVariableStatement(): Statement {
-    const changeToken = this.previous()
-
     // If we have a left bracket, we're changing an element in a list
     // not a variable, so move to that function instead
     if (this.checkAhead(2, 'LEFT_BRACKET', 'DOT')) {
-      return this.changeMemberStatement(changeToken)
+      return this.changeMemberStatement()
+    }
+    if (this.check('THIS')) {
+      return this.changeThisPropertyStatement()
     }
 
+    const changeToken = this.previous()
     const name = this.identifier()
     this.guardValidVariableName(name)
 
@@ -276,9 +383,60 @@ export class Parser {
     )
   }
 
-  private changeMemberStatement(
-    changeToken: Token
-  ): ChangeElementStatement | ChangePropertyStatement {
+  private setPropertyStatement(): Statement {
+    const setToken = this.previous()
+    this.advance() // Consume the "this" token
+    this.consume('DOT', 'MissingDotAfterThis')
+    const name = this.identifier()
+    this.guardValidVariableName(name)
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: name.lexeme,
+    })
+
+    const value = this.expression()
+    this.consumeEndOfLine()
+
+    return new SetPropertyStatement(
+      name,
+      value,
+      Location.between(setToken, value)
+    )
+  }
+
+  private changeThisPropertyStatement(): Statement {
+    const changeToken = this.previous()
+    this.advance() // Consume the "this" token
+    this.consume('DOT', 'MissingDotAfterThis')
+
+    const name = this.identifier()
+    this.guardValidVariableName(name)
+
+    // Guard mistaken equals sign for assignment
+    this.guardEqualsSignForAssignment(this.peek())
+
+    this.consume('TO', 'MissingToAfterVariableNameToInitializeValue', {
+      name: name.lexeme,
+    })
+
+    const initializer = this.expression()
+    this.consumeEndOfLine()
+
+    return new ChangeThisPropertyStatement(
+      name,
+      initializer,
+      Location.between(changeToken, initializer)
+    )
+  }
+
+  private changeMemberStatement():
+    | ChangeElementStatement
+    | ChangePropertyStatement {
+    const changeToken = this.previous()
+
     // Convert the statement
     // change foobar[123] into a lookup expression for foobar[123]
     // and then we'll break down the foobar and the 123 as the list
@@ -972,14 +1130,18 @@ export class Parser {
     if (this.match('TRUE'))
       return new LiteralExpression(true, this.previous().location)
 
-    if (this.match('NULL'))
-      return new LiteralExpression(null, this.previous().location)
+    // if (this.match('NULL'))
+    //   return new LiteralExpression(null, this.previous().location)
 
     if (this.match('NUMBER', 'STRING'))
       return new LiteralExpression(
         this.previous().literal,
         this.previous().location
       )
+
+    if (this.match('THIS')) {
+      return new ThisExpression(this.previous().location)
+    }
 
     if (this.match('IDENTIFIER')) {
       //this.guardValidVariableName(this.previous())
@@ -1345,6 +1507,13 @@ export class Parser {
     }
   }
 
+  private guardUnexpectedKeyword() {
+    const token = this.nextTokenIsKeyword()
+    if (!token) return
+
+    this.error('UnexpectedKeyword', token.location, { lexeme: token.lexeme })
+  }
+
   private guardTrailingComma(
     token: 'COMMA' | 'RIGHT_BRACKET' | 'RIGHT_BRACE',
     location: Location
@@ -1383,14 +1552,15 @@ export class Parser {
     return this.peek().type == 'EOL' || this.isAtEnd()
   }
 
-  private nextTokenIsKeyword(): boolean {
+  private nextTokenIsKeyword(): Token | false {
     let counter = 1
     while (this.checkAhead(counter, 'EOL')) {
       counter++
     }
-    const nextActualThing = this.peek(counter)
+    const token = this.peek(counter)
 
-    return KeywordTokens.includes(nextActualThing.type)
+    if (KeywordTokens.includes(token.type)) return token
+    return false
   }
 
   private peek(n = 1): Token {

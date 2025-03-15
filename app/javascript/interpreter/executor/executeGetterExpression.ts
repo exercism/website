@@ -28,11 +28,15 @@ export function executeGetterExpression(
 
   let value
   try {
-    value = getter.apply(object.jikiObject, executor.getExecutionContext())
+    value = getter.apply(undefined, [
+      executor.getExecutionContext(),
+      object.jikiObject as Jiki.Instance,
+    ])
   } catch (e: unknown) {
     if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
     }
+    throw e
   }
 
   return {

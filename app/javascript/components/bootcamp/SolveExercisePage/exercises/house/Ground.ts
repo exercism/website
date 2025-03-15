@@ -30,33 +30,35 @@ function fn(this: any) {
 
   const Ground = new Jiki.Class('Ground')
   Ground.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    height: Jiki.Number,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    height: Jiki.JikiObject,
+    z_index: Jiki.JikiObject
   ) {
-    if (height == undefined || z_index == undefined) {
-      executionCtx.logicError('Ground constructor requires height and z_index')
+    if (!(height instanceof Jiki.Number) || !(z_index instanceof Jiki.Number)) {
+      executionCtx.logicError(
+        'Ground constructor requires height and z_index to be numbers'
+      )
     }
-    this.fields['height'] = height
-    this.fields['z_index'] = z_index
-    drawGround(executionCtx, this)
+    object.setField('height', height)
+    object.setField('z_index', z_index)
+    drawGround(executionCtx, object)
   })
   Ground.addSetter(
     'brightness',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
-      brightness: Jiki.Number
+      object: Jiki.Instance,
+      brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
-        executionCtx.logicError('Ooops! Brightness must be a number.')
+        return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
         executionCtx.logicError('Brightness must be between 0 and 100')
       }
-      this.fields['brightness'] = brightness
-      changeGroundBrightness(executionCtx, this)
+      object.setField('brightness', brightness)
+      changeGroundBrightness(executionCtx, object)
     }
   )
 

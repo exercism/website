@@ -1,15 +1,18 @@
 import { Environment } from './environment'
-import { LanguageFeatures } from './interpreter'
-import { FunctionStatement } from './statement'
-import type { ExecutionContext, Executor } from './executor'
+import {
+  ConstructorStatement,
+  FunctionStatement,
+  MethodStatement,
+} from './statement'
+import type { ExecutionContext } from './executor'
 import { Location } from './location'
-import { JikiObject } from './jikiObjects'
+import * as Jiki from './jikiObjects'
 
 export type Arity = number | [min: number, max: number]
 
 export interface Callable {
   arity: Arity
-  call(context: ExecutionContext, args: any[]): JikiObject | void
+  call(context: ExecutionContext, args: any[]): Jiki.JikiObject | void
 }
 
 export class ReturnValue extends Error {
@@ -22,12 +25,14 @@ export function isCallable(obj: any): obj is Callable {
   return obj instanceof Object && 'arity' in obj && 'call' in obj
 }
 
-export class UserDefinedFunction implements Callable {
+class UserDefinedCallable implements Callable {
   public readonly arity: Arity
+
   constructor(
-    private declaration: FunctionStatement,
-    private closure: Environment,
-    private languageFeatures: LanguageFeatures
+    private declaration:
+      | FunctionStatement
+      | ConstructorStatement
+      | MethodStatement
   ) {
     this.arity = [
       this.declaration.parameters.filter((p) => p.defaultValue === null).length,
@@ -35,13 +40,8 @@ export class UserDefinedFunction implements Callable {
     ]
   }
 
-  call(executor: ExecutionContext, args: any[]): any {
-    let environment
-    if (this.languageFeatures.allowGlobals) {
-      environment = new Environment(this.closure)
-    } else {
-      environment = new Environment()
-    }
+  public call(executor: ExecutionContext, args: Jiki.JikiObject[]): any {
+    const environment = new Environment()
 
     for (let i = 0; i < this.declaration.parameters.length; i++) {
       const arg =
@@ -63,5 +63,17 @@ export class UserDefinedFunction implements Callable {
     }
 
     return null
+  }
+}
+
+export class UserDefinedMethod extends UserDefinedCallable {
+  constructor(declaration: ConstructorStatement | MethodStatement) {
+    super(declaration)
+  }
+}
+
+export class UserDefinedFunction extends UserDefinedCallable {
+  constructor(declaration: FunctionStatement) {
+    super(declaration)
   }
 }

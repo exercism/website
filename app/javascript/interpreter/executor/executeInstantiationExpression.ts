@@ -1,12 +1,9 @@
-import { isArray, isNumber } from 'lodash'
+import { isNumber } from 'lodash'
 
 import {
-  EvaluationResult,
-  EvaluationResultBinaryExpression,
   EvaluationResultClassLookupExpression,
   EvaluationResultExpression,
   EvaluationResultInstantiationExpression,
-  EvaluationResultVariableLookupExpression,
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression, InstantiationExpression } from '../expression'
@@ -21,7 +18,11 @@ export function executeInstantiationExpression(
   ) as EvaluationResultClassLookupExpression
   const jikiClass = className.class
 
-  if (expression.args.length !== jikiClass.arity) {
+  const [minArity, maxArity] = isNumber(jikiClass.arity)
+    ? [jikiClass.arity, jikiClass.arity]
+    : jikiClass.arity
+
+  if (expression.args.length < minArity || expression.args.length > maxArity) {
     executor.error('WrongNumberOfArgumentsInConstructor', expression.location, {
       arity: jikiClass.arity,
       numberOfArgs: expression.args.length,

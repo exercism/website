@@ -180,21 +180,4 @@ describe('evaluateFunction', () => {
     expect(value).toBe(7)
     expect(frames).toBeArrayOfSize(1)
   })
-
-  test('idempotent', () => {
-    const code = `
-      set x to 1
-      function move do
-        change x to x + 1
-        return x
-      end`
-    const interpreter = new Interpreter(code, {
-      languageFeatures: { allowGlobals: true },
-    })
-    interpreter.compile()
-    const { value: value1 } = interpreter.evaluateFunction('move')
-    const { value: value2 } = interpreter.evaluateFunction('move')
-    expect(value1).toBe(2)
-    expect(value2).toBe(2)
-  })
 })

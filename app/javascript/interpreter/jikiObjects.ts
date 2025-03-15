@@ -1,6 +1,7 @@
 import { isArray, isString } from './checks'
+import { EvaluationResult } from './evaluation-result'
 import { ExecutionContext } from './executor'
-import { Arity } from './functions'
+import { Arity, UserDefinedMethod } from './functions'
 
 type ObjectType =
   | 'number'
@@ -9,6 +10,18 @@ type ObjectType =
   | 'list'
   | 'dictionary'
   | 'instance'
+
+type RawConstructor = (
+  executionContext: ExecutionContext,
+  object: Instance,
+  ...args: JikiObject[]
+) => void
+
+export type RawMethod = (
+  executionContext: ExecutionContext,
+  object: Instance,
+  ...args: JikiObject[]
+) => JikiObject | void
 
 export abstract class JikiObject {
   public readonly objectId: string
@@ -24,24 +37,25 @@ export class Method {
   constructor(
     public readonly name: string,
     public readonly arity: Arity,
-    public readonly fn: (
-      executionContext: ExecutionContext,
-      ...args
-    ) => JikiObject | null
+    public readonly fn: UserDefinedMethod | RawMethod
   ) {}
 }
 
 export type Getter = (
-  executionContext: ExecutionContext
-) => JikiObject | undefined
+  executionContext: ExecutionContext,
+  object: Instance
+) => JikiObject
+
 export type Setter = (
   executionContext: ExecutionContext,
+  object: Instance,
   value: JikiObject
 ) => void
 
 export class Class {
-  private initialize: ((...args: any[]) => void) | undefined
+  private initialize: RawConstructor | UserDefinedMethod | undefined
   constructor(public readonly name: string) {}
+  private readonly properties: string[] = []
   private readonly methods: Record<string, Method> = {}
   private readonly getters: Record<string, Getter> = {}
   private readonly setters: Record<string, Setter> = {}
@@ -53,36 +67,45 @@ export class Class {
   ): Instance {
     const instance = new Instance(this)
 
-    if (this.initialize !== undefined) {
-      this.initialize.apply(instance, [executionContext, ...args])
+    const initializer = this.initialize
+    if (initializer instanceof UserDefinedMethod) {
+      executionContext.withThis(instance, () => {
+        initializer.call(executionContext, args)
+      })
+    } else if (initializer !== undefined) {
+      initializer.apply(undefined, [executionContext, instance, ...args])
     }
 
     return instance
   }
-  public addConstructor(
-    fn: (executionContext: ExecutionContext, ...args: any[]) => void
-  ) {
+  public addConstructor(fn: RawConstructor | UserDefinedMethod) {
     this.initialize = fn
-    this.arity = fn.length - 1
+    if (fn instanceof UserDefinedMethod) {
+      this.arity = fn.arity
+    } else {
+      this.arity = fn.length - 2
+    }
   }
 
   //
   // Methods
   //
-  public addMethod(
-    name: string,
-    fn: (
-      executionContext: ExecutionContext,
-      ...args: any[]
-    ) => JikiObject | null
-  ) {
-    // Reduce the arity by 1 because the first argument is the execution context
-    // which is invisible to the user
-    const arity = fn.length - 1
+  public addMethod(name: string, fn: UserDefinedMethod | RawMethod) {
+    // Reduce the arity by 2 because the first argument is the execution context
+    // and the second is the object, both of which are invisible to the user
+    let arity: Arity | undefined
+    if (typeof fn == 'function') {
+      arity = fn.length - 2
+    } else {
+      arity = fn.arity
+    }
     this.methods[name] = new Method(name, arity, fn)
   }
   public getMethod(name: string): Method | undefined {
     return this.methods[name]
+  }
+  public addProperty(name: string): void {
+    this.properties.push(name)
   }
 
   //
@@ -96,29 +119,22 @@ export class Class {
   }
   public addGetter(
     name: string,
-    fn?: (
-      this: Instance,
-      executionContext: ExecutionContext
-    ) => JikiObject | undefined
+    fn?: (_: ExecutionContext, object: Instance) => JikiObject
   ) {
     if (fn === undefined) {
-      fn = function (this: Instance, _: ExecutionContext) {
-        return this.fields[name]
+      fn = function (_: ExecutionContext, object: Instance) {
+        return object.getField(name)
       }
     }
     this.getters[name] = fn
   }
   public addSetter(
     name: string,
-    fn?: (
-      this: Instance,
-      executionContext: ExecutionContext,
-      value: JikiObject
-    ) => void
+    fn?: (_: ExecutionContext, object: Instance, value: JikiObject) => void
   ) {
     if (fn === undefined) {
-      fn = function (this: Instance, x: ExecutionContext, value: JikiObject) {
-        this.fields[name] = value
+      fn = function (_: ExecutionContext, object: Instance, value: JikiObject) {
+        object.setField(name, value)
       }
     }
     this.setters[name] = fn
@@ -146,7 +162,7 @@ export class Instance extends JikiObject {
   public getSetter(name: string): Setter | undefined {
     return this.jikiClass.getSetter(name)
   }
-  public getField(name: string): JikiObject | undefined {
+  public getField(name: string): JikiObject {
     return this.fields[name]
   }
   public getUnwrappedField(name: string): any {

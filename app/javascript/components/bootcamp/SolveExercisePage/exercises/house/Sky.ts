@@ -46,19 +46,23 @@ function fn(this: HouseExercise) {
 
   const Sky = new Jiki.Class('Sky')
   Sky.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    z_index: Jiki.JikiObject
   ) {
-    this.fields['z_index'] = z_index
-    this.fields['hue'] = new Jiki.Number(190)
-    drawSky(executionCtx, this)
+    if (!(z_index instanceof Jiki.Number)) {
+      return executionCtx.logicError('Ooops! z_index must be a number.')
+    }
+
+    object.setField('z_index', z_index)
+    object.setField('hue', new Jiki.Number(190))
+    drawSky(executionCtx, object)
   })
   Sky.addSetter(
     'brightness',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
@@ -67,16 +71,16 @@ function fn(this: HouseExercise) {
       if (brightness.value < 0 || brightness.value > 100) {
         executionCtx.logicError('Brightness must be between 0 and 100')
       }
-      this.fields['brightness'] = brightness
-      changeSkyBrightness(executionCtx, this)
+      object.setField('brightness', brightness)
+      changeSkyBrightness(executionCtx, object)
     }
   )
   Sky.addGetter('hue')
   Sky.addSetter(
     'hue',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       hue: Jiki.JikiObject
     ) {
       if (!(hue instanceof Jiki.Number)) {
@@ -88,8 +92,8 @@ function fn(this: HouseExercise) {
       if (hue.value > 310) {
         executionCtx.logicError("The sky can't go more red than 310!")
       }
-      this.fields['hue'] = hue
-      changeSkyHue(executionCtx, this)
+      object.setField('hue', hue)
+      changeSkyHue(executionCtx, object)
     }
   )
 

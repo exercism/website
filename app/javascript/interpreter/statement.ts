@@ -84,6 +84,18 @@ export class ChangeVariableStatement extends Statement {
     return [this.value]
   }
 }
+export class ChangeObjectPropertyStatement extends Statement {
+  constructor(
+    public name: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('ChangeObjectPropertyStatement')
+  }
+  public children() {
+    return [this.value]
+  }
+}
 
 export class BreakStatement extends Statement {
   constructor(public keyword: Token, public location: Location) {
@@ -210,6 +222,19 @@ export class SetVariableStatement extends Statement {
   }
 }
 
+export class SetPropertyStatement extends Statement {
+  constructor(
+    public property: Token,
+    public value: Expression,
+    public location: Location
+  ) {
+    super('SetPropertyStatement')
+  }
+  public children() {
+    return [this.value]
+  }
+}
+
 /*export class ConstantStatement extends Statement {
   constructor(
     public name: Token,
@@ -273,5 +298,58 @@ export class FunctionStatement extends Statement {
   }
   public children() {
     return this.body
+  }
+}
+
+// OOP Shizzle
+export class ClassStatement extends Statement {
+  constructor(
+    public name: Token,
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('ClassStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+
+export class ConstructorStatement extends Statement {
+  constructor(
+    public parameters: FunctionParameter[],
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('ConstructorStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+export class MethodStatement extends Statement {
+  constructor(
+    public accessModifier: Token,
+    public name: Token,
+    public parameters: FunctionParameter[],
+    public body: Statement[],
+    public location: Location
+  ) {
+    super('MethodStatement')
+  }
+  public children() {
+    return this.body
+  }
+}
+export class PropertyStatement extends Statement {
+  constructor(
+    public accessModifier: Token,
+    public name: Token,
+    public location: Location
+  ) {
+    super('PropertyStatement')
+  }
+  public children() {
+    return []
   }
 }

@@ -22,6 +22,15 @@ export class LiteralExpression extends Expression {
   }
 }
 
+export class ThisExpression extends Expression {
+  constructor(public location: Location) {
+    super('ThisExpression')
+  }
+  public children() {
+    return []
+  }
+}
+
 export class VariableLookupExpression extends Expression {
   constructor(public name: Token, public location: Location) {
     super('VariableLookupExpression')

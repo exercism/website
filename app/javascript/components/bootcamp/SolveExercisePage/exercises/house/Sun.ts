@@ -27,18 +27,31 @@ function fn(this: HouseExercise) {
 
   const Sun = new Jiki.Class('Sun')
   Sun.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    cx: Jiki.Number,
-    cy: Jiki.Number,
-    radius: Jiki.Number,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    cx: Jiki.JikiObject,
+    cy: Jiki.JikiObject,
+    radius: Jiki.JikiObject,
+    z_index: Jiki.JikiObject
   ) {
-    this.fields['cx'] = cx
-    this.fields['cy'] = cy
-    this.fields['radius'] = radius
-    this.fields['z_index'] = z_index
-    drawSun(executionCtx, this)
+    if (!(cx instanceof Jiki.Number)) {
+      return executionCtx.logicError('Ooops! Cx must be a number.')
+    }
+    if (!(cy instanceof Jiki.Number)) {
+      return executionCtx.logicError('Ooops! Cy must be a number.')
+    }
+    if (!(radius instanceof Jiki.Number)) {
+      return executionCtx.logicError('Ooops! Radius must be a number.')
+    }
+    if (!(z_index instanceof Jiki.Number)) {
+      return executionCtx.logicError('Ooops! Z-index must be a number.')
+    }
+
+    object.setField('cx', cx)
+    object.setField('cy', cy)
+    object.setField('radius', radius)
+    object.setField('z_index', z_index)
+    drawSun(executionCtx, object)
   })
   Sun.addGetter('cx')
   Sun.addGetter('cy')
@@ -46,31 +59,31 @@ function fn(this: HouseExercise) {
   Sun.addSetter(
     'cx',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       cx: Jiki.JikiObject
     ) {
       if (!(cx instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Cx must be a number.')
       }
-      this.fields['cx'] = cx
+      object.setField('cx', cx)
 
-      drawSun(executionCtx, this)
+      drawSun(executionCtx, object)
     }
   )
   Sun.addSetter(
     'cy',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       cy: Jiki.JikiObject
     ) {
       if (!(cy instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Cy must be a number.')
       }
-      this.fields['cy'] = cy
+      object.setField('cy', cy)
 
-      drawSun(executionCtx, this)
+      drawSun(executionCtx, object)
     }
   )
   return Sun

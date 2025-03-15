@@ -21,7 +21,7 @@ You should only make one instance of the class.
 
 Edit your code to create a `WordleGame` instance, draw the board and update add words.
 
-Rather than returning `states` at the end of the `process_guess` you should use the methods on your wordle game instance.
+Rather than using the `color_row` function to update the `states`, you should use the methods on your wordle game instance.
 You also no longer need your `process_first_guess` function.
 
 ## Functions

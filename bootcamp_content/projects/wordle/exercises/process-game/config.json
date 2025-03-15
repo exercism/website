@@ -6,7 +6,7 @@
   "idx": 10,
   "tests_type": "state",
   "stdlib_functions": ["push"],
-  "exercise_functions": [],
+  "exercise_functions": ["color_row", "color_top_row"],
   "tasks": [
     {
       "name": "Process Guesses",
@@ -93,7 +93,7 @@
       "tests": [
         {
           "slug": "hole-in-one",
-          "name": "All correct",
+          "name": "First time!",
           "description_html": "Deal with a first correct guess.",
           "setup_functions": [["setupView"], ["drawGuesses", [["hello"]]]],
           "function": "process_game",

@@ -102,6 +102,8 @@ import { executeMethodCallExpression } from './executor/executeMethodCallExpress
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
 import { executeGetterExpression } from './executor/executeGetterExpression'
 
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+
 export type ExecutionContext = {
   state: Record<string, any>
   getCurrentTime: Function
@@ -820,7 +822,7 @@ export class Executor {
         // Because we're using keys that can be strings here,
         // guard in case we need to wrap them as Jiki strings!
         if (typeof temporaryVariableValue == 'string') {
-          temporaryVariableValue = new Jiki.String(temporaryVariableValue)
+          temporaryVariableValue = Jiki.String.fetch(temporaryVariableValue)
         }
         const temporaryVariableName = statement.elementName.lexeme
         temporaryVariableNames.push(temporaryVariableName)
@@ -870,7 +872,7 @@ export class Executor {
     counterVariableName: string | null
   ): void {
     if (counterVariableName) {
-      this.environment.define(counterVariableName, new Jiki.Number(iteration))
+      this.environment.define(counterVariableName, Jiki.Number.fetch(iteration))
     }
 
     try {
@@ -935,10 +937,6 @@ export class Executor {
       while (iteration < count.value) {
         iteration++
         this.guardInfiniteLoop(statement.keyword.location)
-
-        if (counterVariableName) {
-          this.environment.define(counterVariableName, iteration)
-        }
 
         this.executeFrame<EvaluationResultRepeatStatement>(statement, () => {
           return {
@@ -1042,11 +1040,11 @@ export class Executor {
   ): EvaluationResultLiteralExpression {
     let jikiObject
     if (isBoolean(expression.value)) {
-      jikiObject = new Jiki.Boolean(expression.value)
+      jikiObject = Jiki.Boolean.fetch(expression.value)
     } else if (isNumber(expression.value)) {
-      jikiObject = new Jiki.Number(expression.value)
+      jikiObject = Jiki.Number.fetch(expression.value)
     } else if (isString(expression.value)) {
-      jikiObject = new Jiki.String(expression.value)
+      jikiObject = Jiki.String.fetch(expression.value)
     } else {
       // If this happens, we've gone really wrong somewhere!
       this.error('InvalidLiteralType', expression.location, {
@@ -1082,7 +1080,7 @@ export class Executor {
       function: value,
       // This is needed so that the null guard doesn't
       // blow up upstream
-      jikiObject: new Jiki.Boolean(true),
+      jikiObject: Jiki.Boolean.fetch(true),
     }
   }
 
@@ -1095,7 +1093,7 @@ export class Executor {
       type: 'ClassLookupExpression',
       name: expression.name.lexeme,
       class: klass,
-      jikiObject: new Jiki.Boolean(true),
+      jikiObject: Jiki.Boolean.fetch(true),
     }
   }
 
@@ -1109,14 +1107,14 @@ export class Executor {
         this.verifyBoolean(operand.jikiObject, expression.operand)
         return {
           type: 'UnaryExpression',
-          jikiObject: new Jiki.Boolean(!operand.jikiObject.value),
+          jikiObject: Jiki.Boolean.fetch(!operand.jikiObject.value),
           right: operand,
         }
       case 'MINUS':
         this.verifyNumber(operand.jikiObject, expression.operand)
         return {
           type: 'UnaryExpression',
-          jikiObject: new Jiki.Number(-operand.jikiObject.value),
+          jikiObject: Jiki.Number.fetch(-operand.jikiObject.value),
           right: operand,
         }
     }
@@ -1147,7 +1145,7 @@ export class Executor {
         this.verifyBoolean(rightOr.jikiObject, expression.right)
       }
 
-      const jikiObject = new Jiki.Boolean(
+      const jikiObject = Jiki.Boolean.fetch(
         leftOr.jikiObject.value || rightOr?.jikiObject.value
       )
       return {
@@ -1169,7 +1167,7 @@ export class Executor {
       this.verifyBoolean(rightAnd.jikiObject, expression.right)
     }
 
-    const jikiObject = new Jiki.Boolean(
+    const jikiObject = Jiki.Boolean.fetch(
       leftAnd.jikiObject.value && rightAnd?.jikiObject.value
     )
 
@@ -1298,7 +1296,7 @@ export class Executor {
 
     // Extra using 0-index
     // Then wrap the new object
-    const value = new Jiki.String(
+    const value = Jiki.String.fetch(
       obj.jikiObject.value[idx.jikiObject.value - 1]
     )
 
@@ -1634,7 +1632,7 @@ export class Executor {
   ): void {
     if (location == null) location = Location.unknown
 
-    const frame: Frame = {
+    const frame: Optional<Frame, 'description'> = {
       code: location.toCode(this.sourceCode),
       line: location.line,
       status,
@@ -1643,16 +1641,15 @@ export class Executor {
       time: this.time,
       // Multiple the time by 100 and floor it to get an integer
       timelineTime: Math.round(this.time * 100),
-      description: '',
       context: context,
     }
     if (process.env.NODE_ENV == 'test') {
-      frame.variables = cloneDeep(this.environment.variables())
+      frame.variables = Jiki.unwrapJikiObject(this.environment.variables())
     }
-    frame.description = describeFrame(frame, {
+    frame.description = describeFrame(frame as Frame, {
       functionDescriptions: this.externalFunctionDescriptions,
     })
-    this.frames.push(frame)
+    this.frames.push(frame as Frame)
 
     this.time += this.timePerFrame
   }

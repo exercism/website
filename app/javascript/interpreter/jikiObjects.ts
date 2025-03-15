@@ -174,20 +174,36 @@ export abstract class Literal extends Primitive {
 }
 
 export class Number extends Literal {
+  static cache = {}
   constructor(value: number) {
     super('number', value)
   }
   public toArg(): Number {
     return new Number(this.value)
   }
+  public static fetch(value: number): Number {
+    const obj = this.cache[value]
+    if (obj) return obj
+    const newObj = new Number(value)
+    this.cache[value] = newObj
+    return newObj
+  }
 }
 
 export class String extends Literal {
+  static cache: Map<string, String> = new Map()
   constructor(value: string) {
     super('string', value)
   }
   public toArg(): String {
     return new String(this.value)
+  }
+  public static fetch(value: string): String {
+    const obj = this.cache.get(value)
+    if (obj) return obj
+    const newObj = new String(value)
+    this.cache.set(value, newObj)
+    return newObj
   }
 }
 
@@ -197,6 +213,9 @@ export class Boolean extends Literal {
   }
   public toArg(): Boolean {
     return new Boolean(this.value)
+  }
+  public static fetch(val: boolean): Boolean {
+    return val ? True : False
   }
 }
 export const True = new Boolean(true)

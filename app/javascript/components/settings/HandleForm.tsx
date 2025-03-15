@@ -65,12 +65,12 @@ export default function HandleForm({
         />
       </div>
       <div className="field">
-        <label htmlFor="user_sudo_password" className="label">
+        <label htmlFor="user_sudo_password_handle" className="label">
           Confirm your password
         </label>
         <input
           type="password"
-          id="user_sudo_password"
+          id="user_sudo_password_handle"
           value={state.password}
           onChange={(e) => setState({ ...state, password: e.target.value })}
           required

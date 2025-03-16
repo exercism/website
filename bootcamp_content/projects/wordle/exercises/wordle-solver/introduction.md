@@ -1,28 +1,11 @@
 # Wordle
 
-In the last Wordle exercise, you built out logic to color the rows.
+In the last Wordle exercise, you switched to using a `WordleGame` class.
 This time, you're taking one step further, and actually working out how to solve the game!
 
-We've also evolved the exercise so that it now uses objects and methods, rather than you calling functions.
+To help, you have a new `common_words()` function that returns a list of the 100+ words that you can use in the game.
 
 The key to this exercise is thinking through how to remember things, and how to use that memory to find the most efficient path to victory.
-
-## The `WordleGame` class.
-
-The `WordleGame` class is a blueprint for a wordle game.
-
-An instances of WordleGame will have the following methods:
-
-- `draw_board()`: Draws the board
-- `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
-
-It has one property that you can read:
-
-- `target_word`: Povides the target word.
-
-You should only make one instance of the class.
-
-In addition, you also have a `common_words()` function that returns a list of the 100+ words that you can use in the game.
 
 ## Instructions
 
@@ -72,7 +55,9 @@ You have two function available:
 - `common_words()`: Returns a list of common words.
 - `push(list, element)`: This adds an element to a list, then returns the new list. It does not change the original list.
 
-## Reminder of Wordle rules
+## Reminders
+
+### Wordle rules
 
 - There is a correct secret word.
 - You have 6 guesses to get it right.
@@ -80,3 +65,18 @@ You have two function available:
   - If a letter is correct, it goes green
   - If a letter is present in the word but in the wrong place, it goes yellow.
   - If a letter is missing, it goes grey.
+
+## The `WordleGame` class.
+
+The `WordleGame` class is a blueprint for a wordle game.
+
+An instances of WordleGame will have the following methods:
+
+- `draw_board()`: Draws the board
+- `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
+
+It has one property that you can read:
+
+- `target_word`: Povides the target word.
+
+You should only make one instance of the class.

@@ -68,15 +68,3 @@ function executePropertyStatement(
   klass.addGetter(stmt.name.lexeme)
   klass.addSetter(stmt.name.lexeme)
 }
-
-/*
-
-export function executeGetPropertyExpression(executor: Executor, statement: GetThisPropertyExpression) {
-
-  this.executeFrame<EvaluationResultGetPropertyExpression>(
-    statement,
-    () => {
-      
-      
-      executor.currentThis().getField(statement.property.lexeme)
-}*/

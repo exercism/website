@@ -21,6 +21,11 @@ export function executeGetterExpression(
   const getter = object.jikiObject.getGetter(getterName)
 
   if (!getter) {
+    if (object.jikiObject.getMethod(getterName)) {
+      executor.error('MethodUsedAsGetter', expression.property.location, {
+        name: getterName,
+      })
+    }
     executor.error('CouldNotFindGetter', expression.property.location, {
       name: getterName,
     })

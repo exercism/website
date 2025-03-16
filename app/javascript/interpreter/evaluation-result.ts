@@ -104,7 +104,7 @@ export type EvaluationResultSetVariableStatement = {
 
 export type EvaluationResultSetPropertyStatement = {
   type: 'SetPropertyStatement'
-  property: EvaluationResult
+  property: string
   value: EvaluationResult
   jikiObject?: undefined
   data?: Record<string, any>
@@ -249,6 +249,7 @@ export type EvaluationResultStatement =
   | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
+  | EvaluationResultSetPropertyStatement
   | EvaluationResultChangeElementStatement
   | EvaluationResultContinueStatement
   | EvaluationResultBreakStatement

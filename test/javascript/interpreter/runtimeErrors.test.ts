@@ -837,6 +837,10 @@ describe('AccessorUsedOnNonInstance', () => {
     const { frames } = interpret(`log "".foo`)
     expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
   })
+  test('this', () => {
+    const { frames } = interpret(`log this.foo`)
+    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
+  })
 })
 
 describe('UnexpectedForeachSecondElementName', () => {
@@ -895,28 +899,107 @@ test('UnexpectedObjectArgumentForCustomFunction', () => {
   )
 })
 
-test('who knows', () => {
-  const context = {
-    languageFeatures: { customFunctionDefinitionMode: true },
-    customFunctions: [],
-  }
-  const { frames } = interpret(
-    `
-    function my#starts_with with string, prefix do
-      if string == "" do
-        return true
+describe('ConstructorDidNotSetProperty', () => {
+  test('no constructor', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
       end
+      log new Foobar()
+    `)
 
-      if my#length(prefix) > my#length(string) do
-        return false
+    console.log(error, frames)
+    expect(frames[0].error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: foo'
+    )
+  })
+  test('lazy constructor', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
+        constructor do
+        end
       end
-    end
-    my#starts_with("foo", "f")`,
-    context
-  )
-  expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: my#length')
+      log new Foobar()
+    `)
+
+    console.log(error, frames)
+    expect(frames[0].error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: foo'
+    )
+  })
+  test('only one property', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
+        public property bar
+        public property baz
+
+        constructor do
+          set this.foo to 5
+        end
+      end
+      log new Foobar()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: bar'
+    )
+  })
 })
 
-//ClassAlreadyDefined
-//AccessorUsedOnNonInstance
-//UnexpectedChangeOfMethod
+test('ClassAlreadyDefined', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+    end
+    class Foobar do
+    end
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'ClassAlreadyDefined: name: Foobar'
+  )
+})
+
+test('UnexpectedChangeOfMethod', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      public method foo do
+      end
+
+      constructor do
+        set this.foo to 5
+      end
+    end
+    log new Foobar()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'UnexpectedChangeOfMethod: name: foo'
+  )
+})
+test('PropertySetterUsedOnNonProperty', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      constructor do
+        set this.foo to 5
+      end
+    end
+    log new Foobar()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'PropertySetterUsedOnNonProperty: name: foo'
+  )
+})
+test('MethodUsedAsGetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      public method foo do
+      end
+    end
+    log (new Foobar()).foo
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('MethodUsedAsGetter: name: foo')
+})

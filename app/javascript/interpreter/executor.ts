@@ -87,6 +87,7 @@ import type {
   EvaluationResultGetterExpression,
   EvaluationResultChangePropertyStatement,
   EvaluationResultThisExpression,
+  EvaluationResultSetPropertyStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -475,13 +476,22 @@ export class Executor {
     this.executeFrame<EvaluationResultSetPropertyStatement>(statement, () => {
       const currentThis = this.currentThis()
       if (!currentThis) {
-        this.error('AccessorUsedOnNonInstance', statement.thisKeyword.location)
+        this.error('AccessorUsedOnNonInstance', statement.property.location)
       }
 
-      if (isCallable(this.environment.get(statement.property))) {
+      if (currentThis.getMethod(statement.property.lexeme)) {
         this.error('UnexpectedChangeOfMethod', statement.property.location, {
           name: statement.property.lexeme,
         })
+      }
+      if (!currentThis.hasProperty(statement.property.lexeme)) {
+        this.error(
+          'PropertySetterUsedOnNonProperty',
+          statement.property.location,
+          {
+            name: statement.property.lexeme,
+          }
+        )
       }
 
       let value: EvaluationResultExpression
@@ -1096,7 +1106,7 @@ export class Executor {
   ): EvaluationResultThisExpression {
     const currentThis = this.currentThis()
     if (!currentThis) {
-      this.error('AccessorUsedOnNonInstance', expression.thisKeyword.location)
+      this.error('AccessorUsedOnNonInstance', expression.location)
     }
 
     return {

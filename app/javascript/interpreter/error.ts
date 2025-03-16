@@ -169,6 +169,12 @@ export type RuntimeErrorType =
   | 'UnexpectedForeachSecondElementName'
   | 'MissingForeachSecondElementName'
   | 'UnexpectedObjectArgumentForCustomFunction'
+  | 'ClassAlreadyDefined'
+  | 'AccessorUsedOnNonInstance'
+  | 'UnexpectedChangeOfMethod'
+  | 'ConstructorDidNotSetProperty'
+  | 'PropertySetterUsedOnNonProperty'
+  | 'MethodUsedAsGetter'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

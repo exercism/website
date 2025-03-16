@@ -1,7 +1,9 @@
+import { exec } from 'child_process'
 import { isArray, isString } from './checks'
 import { EvaluationResult } from './evaluation-result'
 import { ExecutionContext } from './executor'
 import { Arity, UserDefinedMethod } from './functions'
+import { UnsetPropertyError } from './executor/executeInstantiationExpression'
 
 type ObjectType =
   | 'number'
@@ -76,8 +78,17 @@ export class Class {
       initializer.apply(undefined, [executionContext, instance, ...args])
     }
 
+    // Check that the constructor set all the properties
+    this.properties.forEach((property) => {
+      if (instance.getField(property) === undefined) {
+        throw new UnsetPropertyError(property)
+      }
+    })
+
     return instance
   }
+
+  // Constructor
   public addConstructor(fn: RawConstructor | UserDefinedMethod) {
     this.initialize = fn
     if (fn instanceof UserDefinedMethod) {
@@ -85,6 +96,11 @@ export class Class {
     } else {
       this.arity = fn.length - 2
     }
+  }
+
+  // Properties
+  public hasProperty(name: string): boolean {
+    return this.properties.includes(name)
   }
 
   //
@@ -155,6 +171,9 @@ export class Instance extends JikiObject {
   }
   public getMethod(name: string): Method | undefined {
     return this.jikiClass.getMethod(name)
+  }
+  public hasProperty(name: string): boolean {
+    return this.jikiClass.hasProperty(name)
   }
   public getGetter(name: string): Getter | undefined {
     return this.jikiClass.getGetter(name)

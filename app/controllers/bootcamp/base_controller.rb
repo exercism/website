@@ -1,5 +1,5 @@
 class Bootcamp::BaseController < ApplicationController
-  layout "bootcamp-ui"
+  layout "bootcamp"
   before_action :redirect_unless_attendee!
   before_action :setup_bootcamp_data!
 

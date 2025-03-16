@@ -1,13 +1,43 @@
-class BootcampController < ApplicationController
-  layout 'bootcamp'
-
+class CoursesController < ApplicationController
+  layout 'courses'
   skip_before_action :authenticate_user!
+
+  # before_action :redirect_if_paid!
+  before_action :set_location
+
+  private
+  def set_location
+    return "MX" unless Rails.env.production?
+
+    retrieve_location_from_vpnapi! unless session[:location_country_code].present?
+    @country_code_2 = session[:location_country_code]
+  rescue StandardError
+    # Rate limit probably
+  end
+
+  def retrieve_location_from_vpnapi!
+    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
+    return if data.dig("security", "vpn")
+
+    session[:location_country_code] = data.dig("location", "country_code")
+  end
+
+=begin
   before_action :redirect_if_paid!
   before_action :save_utm!
   before_action :setup_data!
   before_action :setup_pricing!
 
-  def index
+  def ltc
+    if @bootcamp_data
+      @bootcamp_data.num_views += 1
+      @bootcamp_data.last_viewed_at = Time.current
+      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
+      @bootcamp_data.save
+    end
+  end
+
+  def bootcamp
     if @bootcamp_data
       @bootcamp_data.num_views += 1
       @bootcamp_data.last_viewed_at = Time.current
@@ -189,25 +219,25 @@ class BootcampController < ApplicationController
       @hello = country_data[1]
 
       @has_discount = true
-      @complete_price = country_data[2].to_f
+      @price = country_data[2].to_f
       @part_1_price = country_data[3].to_f
       @full_payment_url = country_data[4]
       @part_1_payment_url = country_data[5]
 
       @discount_percentage = (
         (
-          User::BootcampData::COMPLETE_PRICE - @complete_price
-        ) / User::BootcampData::COMPLETE_PRICE * 100
+          User::BootcampData::PRICE - @price
+        ) / User::BootcampData::PRICE * 100
       ).round
     else
       @has_discount = false
-      @complete_price = User::BootcampData::COMPLETE_PRICE
+      @price = User::BootcampData::PRICE
       @part_1_price = User::BootcampData::PART_1_PRICE
       @full_payment_url = User::BootcampData::FULL_PAYMENT_URL
       @part_1_payment_url = User::BootcampData::PART_1_PAYMENT_URL
     end
 
-    @full_complete_price = User::BootcampData::COMPLETE_PRICE
+    @full_price = User::BootcampData::PRICE
     @full_part_1_price = User::BootcampData::PART_1_PRICE
   end
 
@@ -223,4 +253,6 @@ class BootcampController < ApplicationController
 
     redirect_to bootcamp_dashboard_url
   end
+
+=end
 end

@@ -102,20 +102,27 @@ export default class WordleExercise extends Exercise {
     return this.states[rowIdx]
   }
 
-  private colorTopRow(executionCtx: ExecutionContext, colors: Jiki.List) {
-    this.colorRow(executionCtx, new Jiki.Number(1), colors)
+  private colorTopRow(executionCtx: ExecutionContext, states: Jiki.JikiObject) {
+    if (!(states instanceof Jiki.List)) {
+      return executionCtx.logicError('Oops, the input must be a list.')
+    }
+
+    this.colorRow(executionCtx, new Jiki.Number(1), states)
   }
 
   public colorRow(
     executionCtx: ExecutionContext,
-    rowIdx: Jiki.Number,
-    states: Jiki.List
+    rowIdx: Jiki.JikiObject,
+    states: Jiki.JikiObject
   ) {
     if (!(rowIdx instanceof Jiki.Number)) {
       return executionCtx.logicError('Row must be a number')
     }
     if (rowIdx.value < 1 || rowIdx.value > 6) {
       return executionCtx.logicError('Row must be between 1 and 6')
+    }
+    if (!(states instanceof Jiki.List)) {
+      return executionCtx.logicError('Oops, the second input must be a list.')
     }
     const row = this.guessRows[rowIdx.value - 1]
     this.states[rowIdx.value - 1] = Jiki.unwrapJikiObject(states) as state[]

@@ -231,7 +231,7 @@
             {
               "function": "statesForRow(3)",
               "value": ["correct", "correct", "correct", "present", "present"],
-              "error_html": "We expected the fourth row to correct, correct, correct, present, present"
+              "error_html": "We expected the fourth row to be correct, correct, correct, present, present"
             },
             {
               "function": "statesForRow(4)",
@@ -271,7 +271,7 @@
             {
               "function": "statesForRow(3)",
               "value": ["correct", "correct", "correct", "correct", "correct"],
-              "error_html": "We expected the fourth row to correct"
+              "error_html": "We expected the fourth row to be correct"
             }
           ]
         },

@@ -35,14 +35,14 @@ For example:
 2. You check it against the target word.
 3. You find the `"w"` is correct, the `"h"` is present, and the other three letters are absent.
 4. You add `"which"` to row `1` with the states of `["correct", "present", "absent", "absent", "absent"]`.
-5. You then choose the next word in the list that starts with `"w"` and has an `"h"` in the third, fouth or fifth spots.
+5. You then choose the next word in the list that starts with `"w"` and has an `"h"` in the third, fourth or fifth spots.
 6. Go to (2)...
 
 ## Solving the exercise
 
 This exercise is best solved by breaking it down into chunks.
 
-The scenarios are broken into four groups (1, 2, 3-5, 6-9), which get progresively more complex. As you solve each group, we'll give you some more advice on what to do next at the bottom of these instructions. Keep an eye on it when you get scenarios passing.
+The scenarios are broken into four groups (1, 2, 3-5, 6-9), which get progressively more complex. As you solve each group, we'll give you some more advice on what to do next at the bottom of these instructions. Keep an eye on it when you get scenarios passing.
 
 ## Library Functions
 
@@ -70,13 +70,9 @@ You have two function available:
 
 The `WordleGame` class is a blueprint for a wordle game.
 
-An instances of WordleGame will have the following methods:
+An instance of WordleGame will have the following methods:
 
 - `draw_board()`: Draws the board
 - `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
-
-It has one property that you can read:
-
-- `target_word`: Povides the target word.
 
 You should only make one instance of the class.

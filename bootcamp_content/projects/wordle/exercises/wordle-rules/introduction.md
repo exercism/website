@@ -8,14 +8,14 @@ This time, you're going to modify your code to use the new `WordleGame` class an
 The `WordleGame` class is a blueprint for a wordle game.
 The constructor of the class takes zero inputs (so you don't use any inputs when creating an instance).
 
-An instances of WordleGame will have the following methods:
+An instance of WordleGame will have the following methods:
 
 - `draw_board()`: Draws the board
 - `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
 
 It has one property that you can read:
 
-- `target_word`: Povides the target word.
+- `target_word`: Provides the target word.
 
 You should only make one instance of the class.
 

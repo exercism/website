@@ -54,7 +54,7 @@
             {
               "function": "statesForRow(0)",
               "value": ["correct", "absent", "correct", "absent", "present"],
-              "error_html": "We expected the second letter to be absent"
+              "error_html": "We expected the second and fourth letters to be absent"
             },
             {
               "function": "statesForRow(1)",

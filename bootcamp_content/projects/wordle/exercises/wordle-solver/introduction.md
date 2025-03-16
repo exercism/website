@@ -3,7 +3,10 @@
 In the last Wordle exercise, you switched to using a `WordleGame` class.
 This time, you're taking one step further, and actually working out how to solve the game!
 
-To help, you have a new `common_words()` function that returns a list of the 100+ words that you can use in the game.
+To help, you now have:
+
+- A new readonly property on `WordleGame` called `target_word`, which provides the target word.
+- A new `common_words()` function that returns a list of the 100+ words that you can use in the game.
 
 The key to this exercise is thinking through how to remember things, and how to use that memory to find the most efficient path to victory.
 
@@ -74,5 +77,9 @@ An instance of WordleGame will have the following methods:
 
 - `draw_board()`: Draws the board
 - `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
+
+It has one property that you can read:
+
+- `target_word`: Provides the target word.
 
 You should only make one instance of the class.

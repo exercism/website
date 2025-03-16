@@ -13,10 +13,6 @@ An instance of WordleGame will have the following methods:
 - `draw_board()`: Draws the board
 - `add_word(row_idx, word, states)`: Adds a row at the given index (`1-6`) with a word and the same states you provided to `color_row` in the previous exercise.
 
-It has one property that you can read:
-
-- `target_word`: Provides the target word.
-
 You should only make one instance of the class.
 
 ## Instructions

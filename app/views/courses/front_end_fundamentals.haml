@@ -11,7 +11,7 @@
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content
       %strong.font-semibold Exercism 
-      Fundamentals
+      Bootcamps
     = link_to "Enroll now 👉", bootcamp_enroll_path, class: "button !ml-auto"
 
 .hero
@@ -21,7 +21,8 @@
       .tagline
         Learn 
         %strong HTML, CSS, JavaScript and Git
-        with live teaching and 100s of hours of fun projects.
+        with live teaching and 100s of hours of 
+        %strong fun projects.
         
     .bubbles
       .bubble
@@ -60,7 +61,7 @@
         = image_tag "bootcamp/mozilla.svg", class: 'h-[38px] mt-[-7px]'
         = image_tag "bootcamp/packt.svg", class: 'h-[38px] mt-[2px]'
 
-  .paper-tear
+  = render "scrolling_testimonials"
 
 %section.welcome
   .md-container
@@ -87,7 +88,7 @@
     %p
       But now-a-days, web development is a very
       %strong competitive market.
-      Standing out from the crowd is much toughter.
+      Standing out from the crowd is much tougher.
     %p
       Lots of people think you stand out by knowing the 
       %strong most languages or the most frameworks.
@@ -212,10 +213,10 @@
         .h3-sideheading.flex.mt-8.flex-wrap
           .flex.items-center.gap-8
             = image_tag "bootcamp/teacher.svg"
-            .mr-20.whitespace-nowrap 3 hours teaching
+            .mr-20.whitespace-nowrap 2 hours teaching
           .flex.items-center.gap-8
             = image_tag "bootcamp/study.svg"
-            .mr-20.whitespace-nowrap 5 hours project work
+            .mr-20.whitespace-nowrap 6 hours project work
       %p.mb-12
         Each week we'll have a mix of live sessions and fun projects for you to work on!
 
@@ -229,7 +230,7 @@
         %li
           = image_tag "bootcamp/coding-illustration.svg"
           .text
-            %h4 5+ hours of having fun coding 🧑‍💻
+            %h4 6+ hours of having fun coding 🧑‍💻
             %p
               The most important part of the bootcamp!
               The more you code, the better your brain starts to piece everything together.
@@ -324,27 +325,17 @@
           = image_tag "bootcamp/linkedin.png"
           %span Share your certificate in your network
 
-%section#testimonial-section
-  .lg-container
-    .quote
-      = image_tag "bootcamp/quote.png", class: 'mark left-mark'
-      %span
-        Exercism is an incredible platform and Jeremy is an outstanding teacher. This is going to be an amazing bootcamp.
-        = image_tag "bootcamp/quote.png", class: 'mark right-mark'
-    .person
-      .text
-        .name Loretta Bresciani Murray
-        .description Senior Consultant
-      = image_tag "bootcamp/loretta.png"
+= render "testimonials", quotes: @quotes
 
 %section#signup-section
   .lhs-bg
   .rhs-bg
   .lg-container
     %h2.text-center.font-medium
-      Choose your Journey
+      Get Signed Up!
     %p.intro.text-balance
-      Depending on whether you want to learn web development or some other speciality such as data science, we have two different options.
+      Sign up now to secure your spot on the bootcamp starting on April 19th.
+      There are limited spaces available so don't miss out!
     - if @has_discount
       #discount-bar
         .flag= flag_for_country_code(@country_code_2)
@@ -356,81 +347,20 @@
       .container
         .header
           = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
-          .flex.flex-col.items-start
-            .bubbles
-              .bubble
-                Only
-                %strong Part 1
-
-            %h2
-              Learn to
-              %strong Code
-            %p Build rock solid coding fundamentals, applicable to every speciality.
-          - if @has_discount
-            .price
-              %strong $#{@part_1_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_part_1_price}
-            .discount
-
-              Includes a
-              %strong #{@discount_percentage}% discount
-              for our friends in
-              %span.flag= flag_for_country_code(@country_code_2)
-              #{@country_name}!
-          - else
-            .price
-              %strong $#{@full_part_1_price}
-        .body
-          .point
-            %h4 Who's it for? 🧑🏽
-            %p
-              Anyone looking to develop rock solid
-              %strong coding fundamentals.
-              Designed for
-              %strong absolute beginners
-              or new devs wanting to reinforce their solid foundations.
-
-          .point
-            %h4 Duration ⏳
-            %p.mb-12 3 months, part-time.
-
-          .point
-            %h4 Where you'll be by the end 🎉
-            %p
-              You'll have a solid understanding of
-              %strong coding fundamentals.
-              You'll be ready to learn vocational skills like app development or
-              %strong data science.
-
-          .point
-            %h4 What's included? 🔎
-            %ul.list-disc
-              %li Over 35 hours of live teaching (that you can watch back forever).
-              %li Weekly sessions to answer your questions.
-              %li Hundreds of hours of exercises and projects, in a specially designed interface for beginners.
-              %li A dedicated community Discord server.
-              %li An official certificate of completion.
-
-          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'part_1'), class: "button"
-
-      .container
-        .header
-          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
 
           .bubbles
             .bubble
-              The
-              %strong Complete Course
+              Front End 
+              %strong only
           %h2
-            Become a
-            %strong Front-End Dev
-          %p Expand your knowledge to front-end web development.
+            Front-end 
+            %strong Fundamentals
+          %p Designed for students who understand the fundamentals of coding.
 
-          -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
           - if @has_discount
             .price
-              %strong $#{@price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_price}
+              %strong $#{@course_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_course_price}
             .discount
               Includes a
               %strong #{@discount_percentage}% discount
@@ -439,20 +369,18 @@
               #{@country_name}.
           - else
             .price
-              %strong $#{@full_price}
+              %strong $#{@course_price}
         .body
           .point
             %h4 Who's it for? 🧑🏽
             %p
-              Anyone looking to become a
-              %strong web developer.
-              Designed for
-              %strong absolute beginners
-              or new devs wanting to reinforce their solid foundations.
+              Anyone who understands coding fundamentals and wants to become a
+              %strong web developer
+              or add front-end skills to their repertoire.
 
           .point
             %h4 Duration ⏳
-            %p.mb-12 6 months, part-time.
+            %p.mb-12 3 months, part-time.
 
           .point
             %h4 Where you'll be by the end 🎉
@@ -464,13 +392,105 @@
           .point
             %h4 What's included? 🔎
             %ul.list-disc
-              %li Everything in Part 1.
-              %li An extra 35 hours of live teaching.
-              %li More weekly sessions to answer your questions.
-              %li More exercises and projects, this time for you to solve on your own laptop.
-              %li A second official certificate of completion to put on your resume.
+              %li 
+                Over 
+                %strong 35 hours 
+                of live teaching (that you can watch back forever).
+              %li 
+                %strong Weekly sessions
+                to answer your questions.
+              %li 
+                %strong Hundreds of hours
+                of fun and interesting exercises and projects.
+              %li 
+                A dedicated, 
+                %strong active 
+                community Discord server.
+              %li 
+                An official 
+                %strong certificate 
+                of completion.
 
           = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'complete'), class: "button"
+
+      .container
+        .header
+          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+          .flex.flex-col.items-start
+            .bubbles
+              .bubble
+                The Fundamentals
+                %strong Bundle
+
+            %h2
+              Learn to
+              %strong Code 
+              + 
+              %strong Front End
+            %p Designed for total beginners. The best way to learn to code on the internet.
+          - if @has_discount
+            .price
+              %strong $#{@bundle_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_bundle_price}
+            .discount
+
+              Includes a
+              %strong #{@discount_percentage}% discount
+              for our friends in
+              %span.flag= flag_for_country_code(@country_code_2)
+              #{@country_name}!
+          - else
+            .price
+              %strong $#{@bundle_price}
+        .body
+          .point
+            %h4 Who's it for? 🧑🏽
+            %p
+              Anyone looking to develop rock solid
+              %strong coding fundamentals 
+              and 
+              %strong web-dev skils.
+              Designed for
+              %strong absolute beginners
+              or newer devs.
+
+          .point
+            %h4 Duration ⏳
+            %p.mb-12 6 months, part-time.
+
+          .point
+            %h4 Where you'll be by the end 🎉
+            %p
+              You'll have a solid understanding of
+              %strong coding fundamentals
+              and be confident making 
+              %strong beautiful, functional 
+              front-ends for websites.
+
+          .point
+            %h4 What's included? 🔎
+            %ul.list-disc
+              %li 
+                Over 
+                %strong 80 hours
+                of videos - yours forever!
+              %li 
+                Hundreds of hours
+                %strong of exercises and projects.
+              %li 
+                A 
+                %strong specially designed interface 
+                for beginners that makes programming easier and more fun.
+              %li 
+                An
+                %strong active
+                dedicated community Discord server.
+              %li 
+                An official 
+                %strong certificate
+                of completion.
+
+          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'part_1'), class: "button"
 
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 

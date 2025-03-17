@@ -10,8 +10,8 @@
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content
-      %strong.font-semibold Exercism
-      for Beginners
+      %strong Exercism
+      Bootcamps
     = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session", target: "_blank", rel: 'noopener'
     = link_to "Enroll now 👉", bootcamp_enroll_path, class: "button"
 
@@ -19,11 +19,18 @@
   .md-container
     .text-center
       %h1.rock-solid
-        The 
-        %strong Ultimate 
-        Way to Learn to Code
+        Build 
+        %strong Rock Solid 
+        Coding Foundations
       .tagline
-        Go from zero to coder by solving over 100 hours of fun, interesting exercises.
+        The 
+        %em ultimate
+        way to 
+        %strong.font-semibold Learn to Code.
+        %br
+        From zero to confident, through by 
+        100s of hours of 
+        %strong.font-semibold fun, interesting projects.
         
     .bubbles
       .bubble
@@ -41,19 +48,17 @@
           .text
             %span.line-through{ class: 'text-[#666]' } $#{@full_price}
             Only
-            %strong $#{@price}
+            %strong $#{@course_price}
         - else
           = image_tag "bootcamp/cost.svg"
           .text
             Only
-            %strong $#{@price}
+            %strong $#{@course_price}
 
-    In 12 weeks, go from this...
-    to this! 
-    -# .video-container
-    -#   .video
-    -#     <iframe src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="bootcamp"></iframe>
-    -#     <script src="https://player.vimeo.com/api/player.js"></script>
+    .video-container
+      .video
+        <iframe src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="bootcamp"></iframe>
+        <script src="https://player.vimeo.com/api/player.js"></script>
 
     .supported-by
       %h3 Exercism's supporters include:
@@ -63,7 +68,8 @@
         = image_tag "bootcamp/mozilla.svg", class: 'h-[38px] mt-[-7px]'
         = image_tag "bootcamp/packt.svg", class: 'h-[38px] mt-[2px]'
 
-  .paper-tear
+  -# .paper-tear
+  = render "scrolling_testimonials"
 
 %section.welcome
   .md-container
@@ -511,7 +517,7 @@
           -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
           - if @has_discount
             .price
-              %strong $#{@price}
+              %strong $#{@course_price}
               %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_price}
             .discount
               Includes a

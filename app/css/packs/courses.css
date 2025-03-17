@@ -93,6 +93,49 @@ body {
     }
 }
 
+.scrolling-testimonials {
+    @apply mt-80;
+    @apply grid relative;
+    display: grid;
+    .inner {
+        background: #111;
+        align-items: center;
+        display: flex;
+        height: 50px;
+        justify-self: center;
+        overflow: hidden;
+        position: relative;
+        user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        width: 102%;
+    }
+
+    ul {
+        @apply text-[19px] font-semibold text-white;
+        @apply leading-150;
+        @apply flex absolute;
+        animation: marquee 40s linear infinite;
+        white-space: nowrap;
+        will-change: transform;
+
+        li {
+            background: url("bootcamp/stars.svg") right center / 4em auto
+                no-repeat;
+            @apply pr-[5em] mr-20;
+        }
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 #nav {
     @apply text-[#dde5f0];
     width: 100%;
@@ -158,8 +201,18 @@ body {
         @apply text-[#dde5f0];
         @apply max-w-[530px] mx-auto;
         strong {
-            @apply font-semibold;
+            @apply font-medium;
             @apply text-white;
+        }
+        em {
+            @apply text-white;
+            @apply not-italic;
+            @apply relative;
+            &:after {
+                content: "";
+                @apply absolute inset-0 bottom-[3px];
+                @apply border-b-1 border-[#ffffffaa];
+            }
         }
     }
     .bubbles {
@@ -253,7 +306,7 @@ body {
 }
 
 section.welcome {
-    @apply pt-20 pb-60;
+    @apply pt-60 pb-60;
     @apply md:text-22 text-18 leading-[150%];
     @apply font-light;
 
@@ -696,35 +749,105 @@ section#testimonial-section {
     background-color: var(--light-blue);
     background-image: url("bootcamp/testimonial-bg.png");
     background-size: 300px;
-    .quote {
-        @apply md:text-[28px] text-20 font-normal;
-        @apply mb-16;
-        @apply flex flex-row gap-12;
-        .mark {
-            @apply w-[34px];
+    h2 {
+        @apply md:text-[38px] text-22 font-semibold;
+        @apply mb-20 text-center;
+    }
+    .primary-quote {
+        @apply mb-40;
+        .words {
+            @apply md:text-[28px] text-20 font-normal;
+            @apply mb-16;
+            @apply flex flex-row gap-12;
+            .mark {
+                @apply w-[34px];
+            }
+            .left-mark {
+                @apply self-start;
+                @apply mt-8;
+            }
+            .right-mark {
+                transform: scaleX(-1);
+                @apply inline ml-12;
+            }
         }
-        .left-mark {
-            @apply self-start;
-            @apply mt-8;
-        }
-        .right-mark {
-            transform: scaleX(-1);
-            @apply inline ml-12;
+        .person {
+            @apply flex flex-row items-center justify-end gap-8;
+            img {
+                @apply w-[60px];
+            }
+            .text {
+                @apply flex flex-col items-end;
+            }
+            .name {
+                @apply md:text-[18px] text-16 leading-[100%] font-semibold mb-4;
+            }
+            .description {
+                @apply md:text-[16px] text-14 leading-[100%] font-normal;
+            }
         }
     }
-    .person {
-        @apply flex flex-row items-center justify-end gap-8;
-        img {
-            @apply w-[60px];
+    .quotes {
+        column-count: 2;
+        column-gap: 32px;
+    }
+
+    .quote {
+        @apply bg-white relative pb-32 mb-96;
+        break-inside: avoid;
+        display: inline-block;
+        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+        @apply rounded-[20px] px-24 py-24;
+
+        .words {
+            @apply md:text-[120x] text-20 font-normal;
+            @apply mb-16;
+            @apply flex flex-row gap-12;
+            p {
+                @apply inline;
+                strong {
+                    @apply font-semibold;
+                }
+            }
+            .mark {
+                @apply w-[16px] grayscale opacity-[0.7];
+            }
+            .left-mark {
+                @apply self-start;
+                @apply mt-8;
+            }
+            .right-mark {
+                transform: scaleX(-1);
+                @apply inline ml-6;
+            }
         }
-        .text {
-            @apply flex flex-col items-end;
+        .stars {
+            @apply h-[21px] w-[110px] mb-8;
+            background-image: url("bootcamp/stars.svg");
+            @apply bg-center bg-no-repeat;
+            background-size: 100px;
+            @apply ml-auto;
+
+            @apply bg-white rounded-[20px] left-[16px];
         }
-        .name {
-            @apply md:text-[18px] text-16 leading-[100%] font-normal mb-8;
-        }
-        .description {
-            @apply md:text-[16px] text-14 leading-[100%] font-normal;
+        .person {
+            @apply flex flex-col;
+            @apply absolute;
+            @apply bg-white rounded-[20px] px-20 py-12 right-[16px];
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+
+            img {
+                @apply w-[40px] rounded-circle;
+            }
+            .text {
+                @apply flex flex-col items-end;
+            }
+            .name {
+                @apply md:text-[16px] text-16 leading-[100%] font-semibold mb-4;
+            }
+            .description {
+                @apply md:text-[16px] text-14 leading-[100%] font-normal;
+            }
         }
     }
 }
@@ -856,6 +979,9 @@ section#signup-section {
                 strong {
                     @apply font-medium;
                 }
+            }
+            li {
+                @apply mb-2;
             }
         }
         .button {

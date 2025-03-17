@@ -3,10 +3,21 @@ class CoursesController < ApplicationController
   skip_before_action :authenticate_user!
 
   # before_action :redirect_if_paid!
-  before_action :set_location
+  before_action :use_location
+  before_action :use_quotes
+
+  def learn_to_code
+    @course_price = 99.99
+    @bundle_price = 149.99
+  end
+
+  def front_end_fundamentals
+    @course_price = 99.99
+    @bundle_price = 149.99
+  end
 
   private
-  def set_location
+  def use_location
     return "MX" unless Rails.env.production?
 
     retrieve_location_from_vpnapi! unless session[:location_country_code].present?
@@ -22,237 +33,318 @@ class CoursesController < ApplicationController
     session[:location_country_code] = data.dig("location", "country_code")
   end
 
-=begin
-  before_action :redirect_if_paid!
-  before_action :save_utm!
-  before_action :setup_data!
-  before_action :setup_pricing!
+  def use_quotes
+    @quotes = [
+      [
+        "I was brand new to coding and this bootcamp **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
+        "Shaun",
+        "Absolute Beginner",
+        "shaun.jpg"
+      ],
+      [
+        "From the moment I bought the course, I realized it would **be different from anything I had ever experienced** in terms of classes and studying. Learning while actually coding **has made it pretty fun**. Getting help and encouraging messages from the community, sharing their experiences, and knowing that you're not alone made things much easier. It's **such a pleasure** to be part of it!",
+        "Lucas",
+        "Total Beginner",
+        "lukas.webp"
+      ],
+      [
+        "Getting into **programming always felt overwhelming**. I often quit before I really got started. However, the bootcamp has provided an **excellent, guided path to self-sufficiency**, and I now feel capable of growing and learning more in the field.",
+        "Nolan Lounsbery",
+        "Beginner",
+        "giantlemur.jpg"
+      ],
+      [
+        "This course has pushed me past what I thought were personal limitations, and in doing so, has **increased my confidence and motivation**. Know that when you get the certificate at the end of the course, it will be because you EARNED it!",
+        "@RedRobio",
+        "Junior Developer",
+        "redrobio.jpg"
+      ],
+      [
+        "Before this, I often relied on AI to solve coding problems. In fact, it was ChatGPT that recommended Exercism to me, and I instantly fell in love with it. So when I heard about Exercism Bootcamp, I didn’t think twice — I knew the **quality would be top-notch**. The **affordability was unbelievable**, and now, halfway through, I can proudly say **I’ve been almost three months ChatGPT-free! 🙂**",
+        "Veronika",
+        "Junior Developer",
+        "veronica.webp"
+      ],
+      [
+        "The bootcamp provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
+        "@abhinav",
+        "Beginner",
+        "abhinav.png"
+      ],
+      [
+        "Before I started this course I didn't think I could do the exercises we do now. **I thought I am not smart enough**, that “this is not for me” and I didn’t expect anything which required so much effort to be here in the fundamentals of programming. But in the end, **Jeremy shows it’s yet another skill that can be learnt**, even in such a **short period of time.**",
+        "Oleksandra",
+        "Beginner",
+        "github.png"
 
-  def ltc
-    if @bootcamp_data
-      @bootcamp_data.num_views += 1
-      @bootcamp_data.last_viewed_at = Time.current
-      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
-      @bootcamp_data.save
-    end
+      ],
+      [
+        "I had doubts that I would understand this kind of material, and yet as I look back to where I started, I have a deep appreciation for the incredible skills and knowledge I am now nurturing and growing. **How I think about thinking, and about problem solving in general, has changed dramatically** since undertaking this course. I can't wait to see what's next!",
+        "@Kazzybits",
+        "Beginner",
+        "kazzybits.webp"
+      ],
+      [
+        "Honestly, I had no expectations when I stumbled upon Exercism through a random ChatGPT search 😅, but it turned out to be **my greatest discovery of the year!** I was lucky to find it just as Part 1 of the Bootcamp was about to begin, and given the cost, I didn’t hesitate to join and give it a try. I had no experience whatsoever, and now that we’re almost done with Part 1, **I’m very impressed with myself** looking at what I can do! 100% recommended!",
+        "Rick",
+        "Beginner",
+        "ricksn.jpg"
+      ],
+      [
+        "This course hasn't just taught basic structures and logic for programming, but **it instills some basic tenets of the coder's mindset** that will be invaluable on your journey (**how to start from a blank screen**, breaking big impossible challenges into the smallest solvable pieces, creating more efficient, readable, and maintainable code).",
+        "Robert",
+        "Junior Developer",
+        "rob.jpg"
+      ],
+      [
+        "I have next to no coding experience yet have found this course to be **so intelligently scaffolded**, with **concepts clearly explained and logically built one after the other**, making the information accessible to learn.",
+        "Karen",
+        "Beginner",
+        "github.png"
+      ],
+      [
+        "This course gives you the **tools to think through the process** before even writing a single line of code which makes the actual coding part easier. Having **a good mental model** helps with understanding what's 'under the hood'",
+        "@kcash",
+        "Intermediate Dev",
+        "kcash.webp"
+      ],
+      [
+        "The **resources are fantastic** but it is Jeremy's knack of breaking things down into **the smallest possible steps** that has really helped things click for me.  I've **learned an unbelievable amount** in a few short weeks and I'm now **solving problems with code that I would never have thought possible!**",
+        "Cpt Drac",
+        "Total Beginner",
+        "drac.webp"
+      ]
+    ]
   end
 
-  def bootcamp
-    if @bootcamp_data
-      @bootcamp_data.num_views += 1
-      @bootcamp_data.last_viewed_at = Time.current
-      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
-      @bootcamp_data.save
-    end
-
-    difference_in_seconds = Time.utc(2025, 1, 11, 18, 0, 0) - Time.current
-
-    # Convert to days, hours, minutes, and seconds
-    @days = (difference_in_seconds / (24 * 60 * 60)).to_i
-    @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
-    @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
-    @seconds = (difference_in_seconds % 60).to_i
-  end
-
-  def start_enrolling
-    create_bootcamp_data!
-
-    @name = @bootcamp_data.name || @bootcamp_data&.user&.name
-    @email = @bootcamp_data.email || @bootcamp_data&.user&.email
-    @package = params[:package] || @bootcamp_data.package
-
-    unless @bootcamp_data.enrolled? # rubocop:disable Style/GuardClause
-      @bootcamp_data.started_enrolling_at = Time.current
-      @bootcamp_data.package = @package if params[:package].present?
-      @bootcamp_data.save!
-    end
-  end
-
-  def do_enrollment
-    create_bootcamp_data!
-
-    @bootcamp_data.update!(
-      enrolled_at: Time.current,
-      name: params[:name],
-      email: params[:email],
-      package: params[:package],
-      ppp_country: @country_code_2
-    )
-
-    redirect_to action: :pay
-  end
-
-  def pay
-    redirect_to action: :start_enrolling unless @bootcamp_data&.enrolled?
-  end
-
-  def stripe_create_checkout_session
-    if Rails.env.production?
-      stripe_price = @bootcamp_data.stripe_price_id
-    else
-      stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
-    end
-
-    session = Stripe::Checkout::Session.create({
-      ui_mode: 'embedded',
-      customer_email: @bootcamp_data.email,
-      customer_creation: "always",
-      line_items: [{
-        price: stripe_price,
-        quantity: 1
-      }],
-      mode: 'payment',
-      allow_promotion_codes: true,
-      return_url: "#{bootcamp_confirmed_url}?session_id={CHECKOUT_SESSION_ID}"
-    })
-
-    render json: { clientSecret: session.client_secret }
-  end
-
-  def stripe_session_status
-    session = Stripe::Checkout::Session.retrieve(params[:session_id])
-
-    if session.status == 'complete'
-      @bootcamp_data.update!(
-        paid_at: Time.current,
-        checkout_session_id: session.id,
-        access_code: SecureRandom.hex(8)
-      )
-      if current_user
-        User::BecomeBootcampAttendee.(current_user)
-      else
-        user = User.find_by(email: @bootcamp_data.email)
-        if user
-          # Reset old bootcamp data sessions
-          User::BootcampData.where(user:).
-            where.not(id: @bootcamp_data.id).
-            update_all(user_id: nil)
-
-          # Enroll this one.
-          @bootcamp_data.update(user:)
-          User::BecomeBootcampAttendee.(user)
-        end
-      end
-    end
-
-    render json: {
-      status: session.status,
-      customer_email: session.customer_details.email
-    }
-  end
-
-  def confirmed; end
-
-  private
-  def setup_data!
-    @bootcamp_data = retrieve_user_bootcamp_data_from_user
-    @bootcamp_data ||= retrieve_user_bootcamp_data_from_session
-
-    if @bootcamp_data && @bootcamp_data.ppp_country.present?
-      session[:bootcamp_data_id] = @bootcamp_data.id
-      @country_code_2 = @bootcamp_data.ppp_country
-    elsif session[:country_code_2].present?
-      @country_code_2 = session[:country_code_2]
-    else
-      @country_code_2 = lookup_country_code_from_ip
-      session[:country_code_2] = @country_code_2
-    end
-
-    # rubocop:disable Style/SafeNavigation
-    if @bootcamp_data && @bootcamp_data.user_id&.nil? && cookies.signed[:_exercism_user_id].present? # rubocop:disable Style/GuardClause
-      @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
-    end
-    # rubocop:enable Style/SafeNavigation
-  end
-
-  def retrieve_user_bootcamp_data_from_user
-    user_id = cookies.signed[:_exercism_user_id]
-    return unless user_id
-
-    user = User.find_by(id: user_id)
-    return unless user
-
-    begin
-      user.bootcamp_data || user.create_bootcamp_data!
-    rescue ActiveRecord::RecordNotUnique
-      # Guard the race condition
-      user.bootcamp_data
-    end
-  rescue StandardError
-    # Something's a mess, but don't blow up.
-  end
-
-  def retrieve_user_bootcamp_data_from_session
-    return unless session[:bootcamp_data_id].present?
-
-    User::BootcampData.find(session[:bootcamp_data_id])
-  rescue StandardError
-    # We don't have anything valid in the session.
-  end
-
-  def lookup_country_code_from_ip
-    return "MX" unless Rails.env.production?
-
-    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-    return "VPN" if data.dig("security", "vpn")
-
-    data.dig("location", "country_code")
-  rescue StandardError
-    # Rate limit probably
-  end
-
-  def create_bootcamp_data!
-    return if @bootcamp_data
-
-    @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2, utm: session[:utm])
-    session[:bootcamp_data_id] = @bootcamp_data.id
-
-    return unless cookies.signed[:_exercism_user_id].present? && @bootcamp_data.user_id.nil?
-
-    @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
-  end
-
-  def setup_pricing!
-    country_data = User::BootcampData::DATA[@country_code_2]
-    if country_data
-      @country_name = country_data[0]
-      @hello = country_data[1]
-
-      @has_discount = true
-      @price = country_data[2].to_f
-      @part_1_price = country_data[3].to_f
-      @full_payment_url = country_data[4]
-      @part_1_payment_url = country_data[5]
-
-      @discount_percentage = (
-        (
-          User::BootcampData::PRICE - @price
-        ) / User::BootcampData::PRICE * 100
-      ).round
-    else
-      @has_discount = false
-      @price = User::BootcampData::PRICE
-      @part_1_price = User::BootcampData::PART_1_PRICE
-      @full_payment_url = User::BootcampData::FULL_PAYMENT_URL
-      @part_1_payment_url = User::BootcampData::PART_1_PAYMENT_URL
-    end
-
-    @full_price = User::BootcampData::PRICE
-    @full_part_1_price = User::BootcampData::PART_1_PRICE
-  end
-
-  def save_utm!
-    session[:utm] ||= {}
-    session[:utm][:source] = params[:utm_source] if params[:utm_source].present?
-    session[:utm][:medium] = params[:utm_medium] if params[:utm_medium].present?
-    session[:utm][:campaign] = params[:utm_campaign] if params[:utm_campaign].present?
-  end
-
-  def redirect_if_paid!
-    return unless current_user&.bootcamp_attendee? || current_user&.bootcamp_mentor?
-
-    redirect_to bootcamp_dashboard_url
-  end
-
-=end
+  #   before_action :redirect_if_paid!
+  #   before_action :save_utm!
+  #   before_action :setup_data!
+  #   before_action :setup_pricing!
+  #
+  #   def ltc
+  #     if @bootcamp_data
+  #       @bootcamp_data.num_views += 1
+  #       @bootcamp_data.last_viewed_at = Time.current
+  #       @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
+  #       @bootcamp_data.save
+  #     end
+  #   end
+  #
+  #   def bootcamp
+  #     if @bootcamp_data
+  #       @bootcamp_data.num_views += 1
+  #       @bootcamp_data.last_viewed_at = Time.current
+  #       @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
+  #       @bootcamp_data.save
+  #     end
+  #
+  #     difference_in_seconds = Time.utc(2025, 1, 11, 18, 0, 0) - Time.current
+  #
+  #     # Convert to days, hours, minutes, and seconds
+  #     @days = (difference_in_seconds / (24 * 60 * 60)).to_i
+  #     @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
+  #     @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
+  #     @seconds = (difference_in_seconds % 60).to_i
+  #   end
+  #
+  #   def start_enrolling
+  #     create_bootcamp_data!
+  #
+  #     @name = @bootcamp_data.name || @bootcamp_data&.user&.name
+  #     @email = @bootcamp_data.email || @bootcamp_data&.user&.email
+  #     @package = params[:package] || @bootcamp_data.package
+  #
+  #     unless @bootcamp_data.enrolled?
+  #       @bootcamp_data.started_enrolling_at = Time.current
+  #       @bootcamp_data.package = @package if params[:package].present?
+  #       @bootcamp_data.save!
+  #     end
+  #   end
+  #
+  #   def do_enrollment
+  #     create_bootcamp_data!
+  #
+  #     @bootcamp_data.update!(
+  #       enrolled_at: Time.current,
+  #       name: params[:name],
+  #       email: params[:email],
+  #       package: params[:package],
+  #       ppp_country: @country_code_2
+  #     )
+  #
+  #     redirect_to action: :pay
+  #   end
+  #
+  #   def pay
+  #     redirect_to action: :start_enrolling unless @bootcamp_data&.enrolled?
+  #   end
+  #
+  #   def stripe_create_checkout_session
+  #     if Rails.env.production?
+  #       stripe_price = @bootcamp_data.stripe_price_id
+  #     else
+  #       stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
+  #     end
+  #
+  #     session = Stripe::Checkout::Session.create({
+  #       ui_mode: 'embedded',
+  #       customer_email: @bootcamp_data.email,
+  #       customer_creation: "always",
+  #       line_items: [{
+  #         price: stripe_price,
+  #         quantity: 1
+  #       }],
+  #       mode: 'payment',
+  #       allow_promotion_codes: true,
+  #       return_url: "#{bootcamp_confirmed_url}?session_id={CHECKOUT_SESSION_ID}"
+  #     })
+  #
+  #     render json: { clientSecret: session.client_secret }
+  #   end
+  #
+  #   def stripe_session_status
+  #     session = Stripe::Checkout::Session.retrieve(params[:session_id])
+  #
+  #     if session.status == 'complete'
+  #       @bootcamp_data.update!(
+  #         paid_at: Time.current,
+  #         checkout_session_id: session.id,
+  #         access_code: SecureRandom.hex(8)
+  #       )
+  #       if current_user
+  #         User::BecomeBootcampAttendee.(current_user)
+  #       else
+  #         user = User.find_by(email: @bootcamp_data.email)
+  #         if user
+  #           # Reset old bootcamp data sessions
+  #           User::BootcampData.where(user:).
+  #             where.not(id: @bootcamp_data.id).
+  #             update_all(user_id: nil)
+  #
+  #           # Enroll this one.
+  #           @bootcamp_data.update(user:)
+  #           User::BecomeBootcampAttendee.(user)
+  #         end
+  #       end
+  #     end
+  #
+  #     render json: {
+  #       status: session.status,
+  #       customer_email: session.customer_details.email
+  #     }
+  #   end
+  #
+  #   def confirmed; end
+  #
+  #   private
+  #   def setup_data!
+  #     @bootcamp_data = retrieve_user_bootcamp_data_from_user
+  #     @bootcamp_data ||= retrieve_user_bootcamp_data_from_session
+  #
+  #     if @bootcamp_data && @bootcamp_data.ppp_country.present?
+  #       session[:bootcamp_data_id] = @bootcamp_data.id
+  #       @country_code_2 = @bootcamp_data.ppp_country
+  #     elsif session[:country_code_2].present?
+  #       @country_code_2 = session[:country_code_2]
+  #     else
+  #       @country_code_2 = lookup_country_code_from_ip
+  #       session[:country_code_2] = @country_code_2
+  #     end
+  #
+  #
+  #     if @bootcamp_data && @bootcamp_data.user_id&.nil? && cookies.signed[:_exercism_user_id].present?
+  #       @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
+  #     end
+  #       #   end
+  #
+  #   def retrieve_user_bootcamp_data_from_user
+  #     user_id = cookies.signed[:_exercism_user_id]
+  #     return unless user_id
+  #
+  #     user = User.find_by(id: user_id)
+  #     return unless user
+  #
+  #     begin
+  #       user.bootcamp_data || user.create_bootcamp_data!
+  #     rescue ActiveRecord::RecordNotUnique
+  #       # Guard the race condition
+  #       user.bootcamp_data
+  #     end
+  #   rescue StandardError
+  #     # Something's a mess, but don't blow up.
+  #   end
+  #
+  #   def retrieve_user_bootcamp_data_from_session
+  #     return unless session[:bootcamp_data_id].present?
+  #
+  #     User::BootcampData.find(session[:bootcamp_data_id])
+  #   rescue StandardError
+  #     # We don't have anything valid in the session.
+  #   end
+  #
+  #   def lookup_country_code_from_ip
+  #     return "MX" unless Rails.env.production?
+  #
+  #     data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
+  #     return "VPN" if data.dig("security", "vpn")
+  #
+  #     data.dig("location", "country_code")
+  #   rescue StandardError
+  #     # Rate limit probably
+  #   end
+  #
+  #   def create_bootcamp_data!
+  #     return if @bootcamp_data
+  #
+  #     @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2, utm: session[:utm])
+  #     session[:bootcamp_data_id] = @bootcamp_data.id
+  #
+  #     return unless cookies.signed[:_exercism_user_id].present? && @bootcamp_data.user_id.nil?
+  #
+  #     @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
+  #   end
+  #
+  #   def setup_pricing!
+  #     country_data = User::BootcampData::DATA[@country_code_2]
+  #     if country_data
+  #       @country_name = country_data[0]
+  #       @hello = country_data[1]
+  #
+  #       @has_discount = true
+  #       @price = country_data[2].to_f
+  #       @part_1_price = country_data[3].to_f
+  #       @full_payment_url = country_data[4]
+  #       @part_1_payment_url = country_data[5]
+  #
+  #       @discount_percentage = (
+  #         (
+  #           User::BootcampData::PRICE - @price
+  #         ) / User::BootcampData::PRICE * 100
+  #       ).round
+  #     else
+  #       @has_discount = false
+  #       @price = User::BootcampData::PRICE
+  #       @part_1_price = User::BootcampData::PART_1_PRICE
+  #       @full_payment_url = User::BootcampData::FULL_PAYMENT_URL
+  #       @part_1_payment_url = User::BootcampData::PART_1_PAYMENT_URL
+  #     end
+  #
+  #     @full_price = User::BootcampData::PRICE
+  #     @full_part_1_price = User::BootcampData::PART_1_PRICE
+  #   end
+  #
+  #   def save_utm!
+  #     session[:utm] ||= {}
+  #     session[:utm][:source] = params[:utm_source] if params[:utm_source].present?
+  #     session[:utm][:medium] = params[:utm_medium] if params[:utm_medium].present?
+  #     session[:utm][:campaign] = params[:utm_campaign] if params[:utm_campaign].present?
+  #   end
+  #
+  #   def redirect_if_paid!
+  #     return unless current_user&.bootcamp_attendee? || current_user&.bootcamp_mentor?
+  #
+  #     redirect_to bootcamp_dashboard_url
+  #   end
+  #
 end

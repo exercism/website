@@ -479,7 +479,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/learn-to-code" => "courses#ltc"
+  get "/learn-to-code" => "courses#learn_to_code"
   get "/front-end-fundamentals" => "courses#front_end_fundamentals"
   get "/bootcamp" => "courses#bootcamp"
   get "/bootcamp/enroll" => "courses#start_enrolling", as: :bootcamp_enroll

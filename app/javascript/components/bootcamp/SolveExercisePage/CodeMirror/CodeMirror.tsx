@@ -220,7 +220,9 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.highlightLine(highlightedLine),
           Ext.showInfoWidgetField,
           Ext.informationWidgetDataField,
-          Ext.lineInformationExtension(),
+          Ext.lineInformationExtension({
+            onClose: () => setShouldShowInformationWidget(false),
+          }),
           Ext.multiHighlightLine({ from: 0, to: 0 }),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
           onBreakpointChange(() => setBreakpoints(getBreakpointLines(view))),

@@ -36,6 +36,12 @@ class CoursesController < ApplicationController
   def use_quotes
     @quotes = [
       [
+        "As someone with **no previous coding experience** - I've been blown away with the **quality of this course**. I've **come so far** in the past weeks and reflecting on what I've achieved and **how much I've learned has been phenomenal**. My journey has been from a complete coding novice, to someone who is **confident and excited to tackle complex logic problems** in code!",
+        "Fred",
+        "Total Beginner",
+        "fred.png"
+      ],
+      [
         "I was brand new to coding and this bootcamp **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
         "Shaun",
         "Absolute Beginner",
@@ -63,7 +69,7 @@ class CoursesController < ApplicationController
         "Before this, I often relied on AI to solve coding problems. In fact, it was ChatGPT that recommended Exercism to me, and I instantly fell in love with it. So when I heard about Exercism Bootcamp, I didn’t think twice — I knew the **quality would be top-notch**. The **affordability was unbelievable**, and now, halfway through, I can proudly say **I’ve been almost three months ChatGPT-free! 🙂**",
         "Veronika",
         "Junior Developer",
-        "veronica.webp"
+        "veronika.jpg"
       ],
       [
         "The bootcamp provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
@@ -83,6 +89,12 @@ class CoursesController < ApplicationController
         "@Kazzybits",
         "Beginner",
         "kazzybits.webp"
+      ],
+      [
+        "I joined this course with **some coding experience**, but the clarity and structure **made everything click like never before** and the lessons are perfectly paced, building concepts step-by-step in a way that **feels natural and engaging**. It's a transformative learning experience that **leaves you feeling motivated and excited** to keep pushing your coding skills to the next level.",
+        "Vignesh",
+        "Intermediate Dev",
+        "vignesh.webp"
       ],
       [
         "Honestly, I had no expectations when I stumbled upon Exercism through a random ChatGPT search 😅, but it turned out to be **my greatest discovery of the year!** I was lucky to find it just as Part 1 of the Bootcamp was about to begin, and given the cost, I didn’t hesitate to join and give it a try. I had no experience whatsoever, and now that we’re almost done with Part 1, **I’m very impressed with myself** looking at what I can do! 100% recommended!",
@@ -113,6 +125,24 @@ class CoursesController < ApplicationController
         "Cpt Drac",
         "Total Beginner",
         "drac.webp"
+      ],
+      [
+        "Jeremy and the mentors have created an amazing **resource like no other** on the web. From the **fun and sleek interface**, to the live classes and labs or the discord discussions, it all comes together to make **a superb learning experience**.",
+        "@JJ",
+        "Junior Developer",
+        "jj.webp"
+      ],
+      [
+        "Enrolling in this programming bootcamp was one of the **best decisions I’ve ever made**. The curriculum is well-structured, covering foundational programming concepts. The team behing this bootcamp is **supportive, and truly invested** in helping students succeed.",
+        "@nanouss01",
+        "Beginner",
+        "nanouss01.webp"
+      ],
+      [
+        "For nearly a decade, **I've repeatedly started online coding courses**, but every time I run up against something that didn't make sense or a problem I just couldn't solve which stopped me in my tracks, meaning I have never completed a course, but now after years of trying, suddenly, **coding feels possible.**",
+        "Chris",
+        "Serial beginner",
+        "sharpiemath.png"
       ]
     ]
   end

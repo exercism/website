@@ -97,6 +97,12 @@ body {
     @apply mt-80;
     @apply grid relative;
     display: grid;
+
+    &:hover {
+        ul {
+            animation-duration: 20s;
+        }
+    }
     .inner {
         background: #111;
         align-items: center;
@@ -115,7 +121,7 @@ body {
         @apply text-[19px] font-semibold text-white;
         @apply leading-150;
         @apply flex absolute;
-        animation: marquee 40s linear infinite;
+        animation: marquee 60s linear infinite;
         white-space: nowrap;
         will-change: transform;
 

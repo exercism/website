@@ -94,13 +94,10 @@ body {
 }
 
 .scrolling-testimonials {
-    --gap: 16px;
-    gap: var(--gap);
     @apply flex overflow-hidden;
     @apply mt-80;
 
     .inner {
-        gap: var(--gap);
         background: #111;
         min-width: 100%;
         justify-content: space-around;

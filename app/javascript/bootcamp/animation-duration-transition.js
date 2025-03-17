@@ -3,15 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const marqueeElement = document.querySelector('.scrolling-testimonials ul')
   const container = document.querySelector('.scrolling-testimonials')
 
-  const computedStyle = getComputedStyle(container)
-  const gap = parseFloat(computedStyle.getPropertyValue('--gap')) || 1
-
   const marqueeWidth = marqueeElement.scrollWidth
 
   const clonedItems = marqueeElement.innerHTML
   marqueeElement.innerHTML = clonedItems + clonedItems
 
-  const speed = { current: 5, max: 20, min: 5 }
+  const speed = { current: 1, max: 4, min: 1 }
+  // this slows the animation down, if we need a slower/faster speed, adjust this value accordingly
+  // and keep the speed.min and speed.max values as ratio numbers
+  const velocityScale = 0.1
   let animationPosition = 0
   let lastTimestamp = null
 
@@ -23,12 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const elapsed = timestamp - lastTimestamp
     lastTimestamp = timestamp
 
-    animationPosition += elapsed * 0.03 * speed.current
+    animationPosition += elapsed * speed.current * velocityScale
 
-    const totalWidth = marqueeWidth + gap
-
-    if (animationPosition >= totalWidth) {
-      animationPosition = animationPosition % totalWidth
+    if (animationPosition >= marqueeWidth) {
+      animationPosition = animationPosition % marqueeWidth
     }
 
     marqueeElement.style.transform = `translateX(${-animationPosition}px)`

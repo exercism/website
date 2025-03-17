@@ -412,18 +412,7 @@
           = image_tag "bootcamp/linkedin.png"
           %span Share your certificate in your network
 
-%section#testimonial-section
-  .lg-container
-    .quote
-      = image_tag "bootcamp/quote.png", class: 'mark left-mark'
-      %span
-        Exercism is an incredible platform and Jeremy is an outstanding teacher. This is going to be an amazing bootcamp.
-        = image_tag "bootcamp/quote.png", class: 'mark right-mark'
-    .person
-      .text
-        .name Loretta Bresciani Murray
-        .description Senior Consultant
-      = image_tag "bootcamp/loretta.png"
+= render "testimonials", quotes: @quotes
 
 %section#signup-section
   .lhs-bg

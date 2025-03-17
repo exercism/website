@@ -94,35 +94,34 @@ body {
 }
 
 .scrolling-testimonials {
+    --gap: 1rem;
+    --speed: 80s;
+    gap: var(--gap);
+    @apply flex overflow-hidden;
     @apply mt-80;
-    @apply grid relative;
-    display: grid;
 
-    &:hover {
-        ul {
-            animation-duration: 20s;
-        }
-    }
     .inner {
+        gap: var(--gap);
         background: #111;
+        min-width: 100%;
+        justify-content: space-around;
         align-items: center;
         display: flex;
+        flex-shrink: 0;
         height: 50px;
-        justify-self: center;
         overflow: hidden;
         position: relative;
         user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
-        width: 102%;
     }
 
     ul {
         @apply text-[19px] font-semibold text-white;
         @apply leading-150;
-        @apply flex absolute;
-        animation: marquee 60s linear infinite;
+        @apply flex;
         white-space: nowrap;
+        /* animation: marquee var(--speed) linear infinite; */
         will-change: transform;
 
         li {
@@ -131,14 +130,14 @@ body {
             @apply pr-[5em] mr-20;
         }
     }
-}
 
-@keyframes marquee {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
+    @keyframes marquee {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(calc(-100% - var(--gap)));
+        }
     }
 }
 

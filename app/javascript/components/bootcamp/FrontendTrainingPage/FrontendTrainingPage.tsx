@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { Instructions } from '../SolveExercisePage/Instructions/Instructions'
@@ -14,6 +14,10 @@ import { useInitResizablePanels } from './useInitResizablePanels'
 import { useSetupEditors } from './useSetupEditors'
 import { useSetupIFrames } from './useSetupIFrames'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
+import { interpret } from '@/css-interpreter/interpreter'
+import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
+import { Frame } from '@/css-interpreter/frames'
+import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 
 export default function FrontendTrainingPage() {
   const {
@@ -39,6 +43,21 @@ export default function FrontendTrainingPage() {
     handleHtmlEditorDidMount,
     setEditorCodeLocalStorage,
   } = useSetupEditors()
+
+  const [frames, setFrames] = useState<Frame[] | undefined>(undefined)
+  const [cssAnimationTimeline, setCssAnimationTimeline] = useState()
+  const interpreterCssCode = useCallback(() => {
+    const cssCode = cssEditorViewRef.current?.state.doc.toString() || ''
+    const interpretation = interpret(cssCode)
+    const { frames } = interpretation
+    if (frames) {
+      setFrames(frames)
+      const animationTimeline = buildAnimationTimeline(undefined, frames)
+      setCssAnimationTimeline(animationTimeline)
+    }
+
+    console.log(interpretation)
+  }, [])
 
   return (
     <FrontendTrainingPageContext.Provider
@@ -73,7 +92,7 @@ export default function FrontendTrainingPage() {
               handleMouseDown={handleHeightChangeMouseDown}
             />
             <CodeMirror
-              style={{ height: `${BottomHeight}px` }}
+              style={{ height: `${BottomHeight - 100}px` }}
               editorDidMount={handleCssEditorDidMount}
               onEditorChangeCallback={(view) => {
                 const css = view.state.doc.toString()
@@ -88,6 +107,19 @@ export default function FrontendTrainingPage() {
               handleRunCode={() => {}}
               ref={cssEditorViewRef}
             />
+
+            {cssAnimationTimeline && frames && (
+              <Scrubber
+                animationTimeline={cssAnimationTimeline}
+                frames={frames}
+              />
+            )}
+            <button
+              onClick={interpreterCssCode}
+              className="btn-primary btn-s grow h-fit w-fit"
+            >
+              Interpret CSS
+            </button>
           </div>
 
           <div className="flex flex-col gap-12">

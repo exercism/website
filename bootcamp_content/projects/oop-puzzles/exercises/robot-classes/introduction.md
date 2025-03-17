@@ -10,8 +10,6 @@ It takes two inputs, the name of a Robot, and the words it speaks. When you want
 
 The `Robot` class differs slightly to the last exercise as its constructor takes two inputs, the `name` and `age`.
 
-Also the `participant_2_name` property has changed to become a method called `get_participant_name(idx)`, which takes the participant's index (`1` or `2`) as the input.
-
 ## Instructions
 
 Create the `Robot` and `FormalConversation` classes.

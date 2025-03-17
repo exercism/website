@@ -20,22 +20,22 @@ function fn(this: FormalRobotsExercise) {
     object.setField('robot1', robot1)
     object.setField('robot2', robot2)
   })
-  FormalConversation.addGetter(
-    'participant_1_name',
+  FormalConversation.addMethod(
+    'get_participant_name',
     function (
       executionCtx: ExecutionContext,
-      object: FormalConversationInstance
+      object: FormalConversationInstance,
+      idx: Jiki.JikiObject
     ) {
-      return (object.getField('robot1') as RobotInstance).getField('name')
-    }
-  )
-  FormalConversation.addGetter(
-    'participant_2_name',
-    function (
-      executionCtx: ExecutionContext,
-      object: FormalConversationInstance
-    ) {
-      return (object.getField('robot2') as RobotInstance).getField('name')
+      if (!(idx instanceof Jiki.Number)) {
+        return executionCtx.logicError('Index must be a number')
+      }
+      if (idx.value !== 1 && idx.value !== 2) {
+        return executionCtx.logicError('Index must be 1 or 2')
+      }
+      return (object.getField(`robot${idx.value}`) as RobotInstance).getField(
+        'name'
+      )
     }
   )
   FormalConversation.addMethod(

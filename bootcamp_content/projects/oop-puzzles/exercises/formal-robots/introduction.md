@@ -25,15 +25,11 @@ Robots have very complex and formal social interactions and follow a specific se
 Fortunately for you, there is a helpful class called `FormalConversation`, which encapsulates all the details.
 The `FormalConversation`'s constructor takes two inputs - the two robot objects that are having the conversation.
 
-This class has two methods:
+This class has three methods:
 
 - `exchange_salutations()`: Cause the robots go through their formal hello process.
 - `exchange_valedictions()`: Cause the robots go through their formal goodbye process.
-
-It also has two properties:
-
-- `participant_1_name`: Returns the first robot's name.
-- `participant_2_name`: Returns the second robot's name.
+- `get_participant_name(index)`: Returns the name of either the first or the second robot in the conversation (based on an index of `1` or `2`).
 
 ## The conversation(s)
 

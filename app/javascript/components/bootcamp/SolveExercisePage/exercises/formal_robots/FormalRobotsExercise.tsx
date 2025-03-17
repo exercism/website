@@ -32,7 +32,7 @@ export default class FormalRobotsExercise extends Exercise {
   public getInteraction(_, idx: number) {
     return this.interactions[idx]
   }
-  public speak(
+  public vibrate_air(
     executionCtx: ExecutionContext,
     name: Jiki.JikiObject,
     utterance: Jiki.JikiObject
@@ -49,8 +49,8 @@ export default class FormalRobotsExercise extends Exercise {
   public availableClasses: Jiki.Class[] = [this.Robot, this.FormalConversation]
   public availableFunctions: ExternalFunction[] = [
     {
-      name: 'speak',
-      func: this.speak.bind(this),
+      name: 'vibrate_air',
+      func: this.vibrate_air.bind(this),
       description: 'caused the robot to speak',
     },
   ]

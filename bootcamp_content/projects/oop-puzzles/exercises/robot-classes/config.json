@@ -7,7 +7,7 @@
   "project_type": "formal-robots",
   "stdlib_functions": ["concatenate"],
   "exercise_classes": [],
-  "exercise_functions": ["speak"],
+  "exercise_functions": ["vibrate_air"],
   "readonly_ranges": [{ "from": 3, "to": 20 }],
   "tasks": [
     {
@@ -160,9 +160,9 @@
               "error_html": "We expected sixth line of the first conversation to be: \"Sam: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
             },
             {
-              "function": "numFunctionCallsInCode('speak')",
+              "function": "numFunctionCallsInCode('vibrate_air')",
               "value": 1,
-              "error_html": "We expected the <code>speak</code> function to once appear once on your code."
+              "error_html": "We expected the <code>vibrate_air</code> function to once appear once on your code."
             }
           ]
         }

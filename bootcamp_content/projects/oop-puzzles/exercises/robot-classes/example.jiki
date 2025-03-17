@@ -8,7 +8,7 @@ class Robot do
   end
 
   public method say with utterance do
-    speak(this.name, utterance)
+    vibrate_air(this.name, utterance)
   end
 end
 

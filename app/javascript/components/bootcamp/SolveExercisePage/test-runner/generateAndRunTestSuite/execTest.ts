@@ -23,7 +23,6 @@ export function execTest(
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
-  console.log(options)
   const context = {
     externalFunctions: buildExternalFunctions(options, exercise),
     classes: buildExternalClasses(options, exercise),
@@ -86,7 +85,7 @@ const buildExternalFunctions = (
   if (!exercise) return externalFunctions
 
   let exerciseFunctions = exercise.availableFunctions || []
-  if (options.config.exerciseFunctions !== undefined) {
+  if (options.config.exerciseFunctions != undefined) {
     const required = options.config.exerciseFunctions
     exerciseFunctions = exerciseFunctions.filter((func) =>
       required.includes(func.name)
@@ -101,7 +100,7 @@ const buildExternalClasses = (
   if (!exercise) return []
 
   let exerciseClasses = exercise.availableClasses || []
-  if (options.config.exerciseClasses !== undefined) {
+  if (options.config.exerciseClasses != undefined) {
     const required = options.config.exerciseClasses
     exerciseClasses = exerciseClasses.filter((func) =>
       required.includes(func.name)

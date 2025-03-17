@@ -10,7 +10,7 @@ import BreakoutExercise from '../exercises/breakout/BreakoutExercise'
 import WeatherExercise from '../exercises/weather/WeatherExercise'
 import HouseExercise from '../exercises/house/HouseExercise'
 import DataExercise from '../exercises/data/DataExercise'
-import ChattyRobotsExercise from '../exercises/chatty_robots/ChattyRobotsExercise'
+import FormalRobotsExercise from '../exercises/formal_robots/FormalRobotsExercise'
 
 import { Exercise } from '../exercises/Exercise'
 
@@ -33,7 +33,7 @@ projectsCache.set('breakout', BreakoutExercise)
 projectsCache.set('weather', WeatherExercise)
 projectsCache.set('house', HouseExercise)
 projectsCache.set('data', DataExercise)
-projectsCache.set('chatty-robots', ChattyRobotsExercise)
+projectsCache.set('formal-robots', FormalRobotsExercise)
 
 export default projectsCache
 

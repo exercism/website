@@ -100,12 +100,12 @@ const runSetupFunctions = (
   if (!exercise) return
 
   setupFunctions.forEach((functionData) => {
-    let [functionName, params] = functionData
-    if (!params) {
-      params = []
+    let [functionName, args] = functionData
+    if (!args) {
+      args = []
     }
     if (typeof exercise[functionName] === 'function') {
-      ;(exercise[functionName] as Function)(null, ...params)
+      ;(exercise[functionName] as Function)(null, ...args)
     }
   })
 }

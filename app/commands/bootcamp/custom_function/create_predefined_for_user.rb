@@ -223,6 +223,17 @@ class Bootcamp::CustomFunction::CreatePredefinedForUser
         ["Rubber Duck"] => false,
         ["123 456"] => false
       }
+    },
+    number_to_string: {
+      description: "Takes a number and returns it as a string.",
+      params: %w[number],
+      tests: {
+        [1] => "1",
+        [12] => "12",
+        [123] => "123",
+        [1_234_567_890] => "1234567890",
+        [9_876_543_210] => "9876543210"
+      }
     }
   }.freeze
 end

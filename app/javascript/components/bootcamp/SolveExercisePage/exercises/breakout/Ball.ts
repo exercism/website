@@ -34,11 +34,11 @@ function fn(this: BreakoutExercise) {
     ball.setField('x_velocity', new Jiki.Number(-1))
     createBall(executionCtx, ball)
   })
-  Ball.addGetter('cx')
-  Ball.addGetter('cy')
-  Ball.addGetter('radius')
-  Ball.addGetter('x_velocity')
-  Ball.addGetter('y_velocity')
+  Ball.addGetter('cx', 'public')
+  Ball.addGetter('cy', 'public')
+  Ball.addGetter('radius', 'public')
+  Ball.addGetter('x_velocity', 'public')
+  Ball.addGetter('y_velocity', 'public')
 
   function guardVelocity(
     executionCtx: ExecutionContext,

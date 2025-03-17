@@ -22,6 +22,8 @@ function fn(this: FormalRobotsExercise) {
   })
   FormalConversation.addMethod(
     'get_participant_name',
+    'public',
+
     function (
       executionCtx: ExecutionContext,
       object: FormalConversationInstance,
@@ -40,6 +42,7 @@ function fn(this: FormalRobotsExercise) {
   )
   FormalConversation.addMethod(
     'exchange_salutations',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: FormalConversationInstance
@@ -54,6 +57,7 @@ function fn(this: FormalRobotsExercise) {
   )
   FormalConversation.addMethod(
     'exchange_valedictions',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: FormalConversationInstance

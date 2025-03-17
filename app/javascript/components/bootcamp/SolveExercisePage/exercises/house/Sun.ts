@@ -53,8 +53,8 @@ function fn(this: HouseExercise) {
     object.setField('z_index', z_index)
     drawSun(executionCtx, object)
   })
-  Sun.addGetter('cx')
-  Sun.addGetter('cy')
+  Sun.addGetter('cx', 'public')
+  Sun.addGetter('cy', 'public')
 
   Sun.addSetter(
     'cx',

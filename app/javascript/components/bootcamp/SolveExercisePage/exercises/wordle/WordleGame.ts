@@ -8,18 +8,21 @@ function fn(this: WordleExercise) {
 
   WordleGame.addGetter(
     'target_word',
+    'public',
     function (executionCtx: ExecutionContext, object: Jiki.Instance) {
       return new Jiki.String(exercise.targetWord)
     }
   )
   WordleGame.addMethod(
     'draw_board',
+    'public',
     function (executionCtx: ExecutionContext, _: Jiki.Instance) {
       exercise.setupView(executionCtx)
     }
   )
   WordleGame.addMethod(
     'add_word',
+    'public',
     function (
       executionCtx: ExecutionContext,
       _: Jiki.Instance,

@@ -72,13 +72,14 @@ function fn(this: MazeExercise) {
     object.setField('in_maze', in_maze)
     object.setField('contents', contents)
   })
-  Square.addGetter('is_start')
-  Square.addGetter('is_finish')
-  Square.addGetter('is_wall')
-  Square.addGetter('in_maze')
-  Square.addGetter('contents')
+  Square.addGetter('is_start', 'public')
+  Square.addGetter('is_finish', 'public')
+  Square.addGetter('is_wall', 'public')
+  Square.addGetter('in_maze', 'public')
+  Square.addGetter('contents', 'public')
   Square.addMethod(
     'remove_emoji',
+    'public',
     function (executionCtx: ExecutionContext, object: Jiki.Instance) {
       removeEmoji(executionCtx, object as SquareInstance)
     }

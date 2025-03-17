@@ -25,7 +25,7 @@ export class Environment {
 
   public define(
     name: string,
-    value: Jiki.JikiObject | UserDefinedFunction
+    value: Jiki.JikiObject | Jiki.Class | UserDefinedFunction
   ): void {
     this.values.set(name, value)
   }

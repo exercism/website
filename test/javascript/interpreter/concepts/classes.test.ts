@@ -325,4 +325,32 @@ describe('execute', () => {
       )
     })
   })
+  test('Complex methods', () => {
+    const { error, frames } = interpret(`
+      class Foobar do
+        public property baz
+
+        constructor do
+          set this.baz to 10
+        end
+
+        private method updater with value do
+          set this.baz to value
+          return this.baz
+          end
+
+        public method do_it with value do
+          return this.updater(value)
+        end
+      end
+      set foo to new Foobar()
+      set outer_baz to foo.do_it(20)
+    `)
+    expect(error).toBeNull()
+    expect(frames).toBeArrayOfSize(6)
+    expect(frames.at(-1)?.status).toBe('SUCCESS')
+    expect(Jiki.unwrapJikiObject(frames.at(-1)?.variables['outer_baz'])).toBe(
+      20
+    )
+  })
 })

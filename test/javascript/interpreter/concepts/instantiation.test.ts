@@ -78,6 +78,7 @@ describe('execute', () => {
     })
     Person.addMethod(
       'name',
+      'public',
       function (_: ExecutionContext, object: Jiki.Instance) {
         return object.getField('name')
       }
@@ -106,6 +107,8 @@ describe('execute', () => {
     })
     Person.addMethod(
       'name',
+      'public',
+
       function (_: ExecutionContext, object: Jiki.Instance) {
         return object.getField('name')
       }

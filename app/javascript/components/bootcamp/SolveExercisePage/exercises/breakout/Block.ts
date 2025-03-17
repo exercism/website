@@ -59,11 +59,11 @@ function fn(this: BreakoutExercise) {
     object.setField('smashed', new Jiki.Boolean(false))
     createBlock(executionCtx, object as BlockInstance)
   })
-  Block.addGetter('top')
-  Block.addGetter('left')
-  Block.addGetter('width')
-  Block.addGetter('height')
-  Block.addGetter('smashed')
+  Block.addGetter('top', 'public')
+  Block.addGetter('left', 'public')
+  Block.addGetter('width', 'public')
+  Block.addGetter('height', 'public')
+  Block.addGetter('smashed', 'public')
   Block.addSetter(
     'smashed',
     function (

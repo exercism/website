@@ -176,6 +176,10 @@ export type RuntimeErrorType =
   | 'PropertySetterUsedOnNonProperty'
   | 'MethodUsedAsGetter'
   | 'ClassCannotBeUsedAsVariable'
+  | 'ThisUsedOutsideOfMethod'
+  | 'AttemptedToAccessPrivateMethod'
+  | 'AttemptedToAccessPrivateGetter'
+  | 'AttemptedToAccessPrivateSetter'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

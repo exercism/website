@@ -715,7 +715,7 @@ describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
     // @ts-ignore
-    Person.addMethod('num', function (_ex, _in) {
+    Person.addMethod('num', 'public', function (_ex, _in) {
       return 5
     })
 
@@ -835,10 +835,6 @@ describe('AccessorUsedOnNonInstance', () => {
   })
   test('String', () => {
     const { frames } = interpret(`log "".foo`)
-    expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
-  })
-  test('this', () => {
-    const { frames } = interpret(`log this.foo`)
     expect(frames[0].error!.message).toBe('AccessorUsedOnNonInstance')
   })
 })
@@ -1029,4 +1025,99 @@ describe('ClassCannotBeUsedAsVariable', () => {
       'ClassCannotBeUsedAsVariable: name: Foobar'
     )
   })
+})
+
+describe('ThisUsedOutsideOfMethod', () => {
+  test('top level', () => {
+    const { frames, error } = interpret(`
+      log this
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      foo()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('constructor -> function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      class Foobar do
+        public property bar
+        constructor do
+          foo()
+        end
+      end
+      log new Foobar()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('method -> function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      class Foobar do
+        public property bar
+        constructor do
+          set this.bar to 5
+        end
+        public method baz do
+          foo()
+        end
+      end
+      set x to new Foobar()
+      log x.baz()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+})
+// AttemptedToAccessPrivateMethod
+test('AttemptedToAccessPrivateMethod', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private method foo do
+      end
+    end
+    log (new Foobar()).foo()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateMethod')
+})
+test('AttemptedToAccessPrivateGetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+        constructor do
+          set this.foo to 5
+        end
+    end
+    log (new Foobar()).foo
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateGetter')
+})
+test('AttemptedToAccessPrivateSetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+        constructor do
+          set this.foo to 5
+        end
+    end
+    set x to new Foobar()
+    change x.foo to 5
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateSetter')
 })

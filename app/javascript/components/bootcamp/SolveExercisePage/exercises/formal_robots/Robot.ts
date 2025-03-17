@@ -16,7 +16,7 @@ function fn(this: FormalRobotsExercise) {
     object.setField('name', new Jiki.String(name))
     object.setField('age', new Jiki.Number(age))
   })
-  Robot.addGetter('age')
+  Robot.addGetter('age', 'public')
   Robot.addMethod(
     'say',
     function (

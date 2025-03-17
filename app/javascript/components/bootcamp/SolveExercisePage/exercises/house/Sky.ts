@@ -75,7 +75,7 @@ function fn(this: HouseExercise) {
       changeSkyBrightness(executionCtx, object)
     }
   )
-  Sky.addGetter('hue')
+  Sky.addGetter('hue', 'public')
   Sky.addSetter(
     'hue',
     function (

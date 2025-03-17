@@ -56,7 +56,8 @@ function executeMethodStatement(
   stmt: MethodStatement
 ) {
   const fn = new UserDefinedMethod(stmt)
-  klass.addMethod(stmt.name.lexeme, fn)
+  const visibility = stmt.accessModifier.type == 'PUBLIC' ? 'public' : 'private'
+  klass.addMethod(stmt.name.lexeme, visibility, fn)
 }
 
 function executePropertyStatement(
@@ -64,7 +65,8 @@ function executePropertyStatement(
   klass: Jiki.Class,
   stmt: PropertyStatement
 ): void {
+  const visibility = stmt.accessModifier.type == 'PUBLIC' ? 'public' : 'private'
   klass.addProperty(stmt.name.lexeme)
-  klass.addGetter(stmt.name.lexeme)
-  klass.addSetter(stmt.name.lexeme)
+  klass.addGetter(stmt.name.lexeme, visibility)
+  klass.addSetter(stmt.name.lexeme, visibility)
 }

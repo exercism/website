@@ -151,7 +151,11 @@
       "ConstructorDidNotSetProperty": "The constructor for this class didn't set the property `{{property}}`.",
       "PropertySetterUsedOnNonProperty": "You tried to set `this.{{name}}` but it is not a property of this class. Did you forget to use the `property` keyword to define it?",
       "MethodUsedAsGetter": "You tried to use `{{name}}` as a property, but it is a method. Did you forget to add `()` at the end?",
-      "ClassCannotBeUsedAsVariable": "You can't use the `{{name}}` class as a variable. Did you forget to instantiate it?"
+      "ClassCannotBeUsedAsVariable": "You can't use the `{{name}}` class as a variable. Did you forget to instantiate it?",
+      "ThisUsedOutsideOfMethod": "You cannot use `this` outside of a method.",
+      "AttemptedToAccessPrivateMethod": "You cannot access a private method from outside the object.",
+      "AttemptedToAccessPrivateGetter": "You cannot read a private property from outside the object.",
+      "AttemptedToAccessPrivateSetter": "You cannot change a private property from outside the object."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

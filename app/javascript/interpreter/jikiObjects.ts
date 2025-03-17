@@ -13,6 +13,8 @@ type ObjectType =
   | 'dictionary'
   | 'instance'
 
+type Visibility = 'public' | 'private'
+
 type RawConstructor = (
   executionContext: ExecutionContext,
   object: Instance,
@@ -38,21 +40,41 @@ export abstract class JikiObject {
 export class Method {
   constructor(
     public readonly name: string,
+    public readonly visibility: Visibility,
     public readonly arity: Arity,
     public readonly fn: UserDefinedMethod | RawMethod
   ) {}
 }
+export class Getter {
+  constructor(
+    public readonly visibility: Visibility,
+    public readonly fn: (
+      executionContext: ExecutionContext,
+      object: Instance
+    ) => JikiObject
+  ) {}
+}
+export class Setter {
+  constructor(
+    public readonly visibility: Visibility,
+    public readonly fn: (
+      executionContext: ExecutionContext,
+      object: Instance,
+      value: JikiObject
+    ) => JikiObject
+  ) {}
+}
 
-export type Getter = (
-  executionContext: ExecutionContext,
-  object: Instance
-) => JikiObject
+// export type Getter = (
+//   executionContext: ExecutionContext,
+//   object: Instance
+// ) => JikiObject
 
-export type Setter = (
-  executionContext: ExecutionContext,
-  object: Instance,
-  value: JikiObject
-) => void
+// export type Setter = (
+//   executionContext: ExecutionContext,
+//   object: Instance,
+//   value: JikiObject
+// ) => void
 
 export class Class {
   private initialize: RawConstructor | UserDefinedMethod | undefined
@@ -106,7 +128,11 @@ export class Class {
   //
   // Methods
   //
-  public addMethod(name: string, fn: UserDefinedMethod | RawMethod) {
+  public addMethod(
+    name: string,
+    visibility: Visibility,
+    fn: UserDefinedMethod | RawMethod
+  ) {
     // Reduce the arity by 2 because the first argument is the execution context
     // and the second is the object, both of which are invisible to the user
     let arity: Arity | undefined
@@ -115,7 +141,7 @@ export class Class {
     } else {
       arity = fn.arity
     }
-    this.methods[name] = new Method(name, arity, fn)
+    this.methods[name] = new Method(name, visibility, arity, fn)
   }
   public getMethod(name: string): Method | undefined {
     return this.methods[name]
@@ -135,6 +161,7 @@ export class Class {
   }
   public addGetter(
     name: string,
+    visibility: Visibility,
     fn?: (_: ExecutionContext, object: Instance) => JikiObject
   ) {
     if (fn === undefined) {
@@ -142,10 +169,11 @@ export class Class {
         return object.getField(name)
       }
     }
-    this.getters[name] = fn
+    this.getters[name] = new Getter(visibility, fn)
   }
   public addSetter(
     name: string,
+    visibility: Visibility,
     fn?: (_: ExecutionContext, object: Instance, value: JikiObject) => void
   ) {
     if (fn === undefined) {
@@ -153,7 +181,7 @@ export class Class {
         object.setField(name, value)
       }
     }
-    this.setters[name] = fn
+    this.setters[name] = new Setter(visibility, fn)
   }
 }
 

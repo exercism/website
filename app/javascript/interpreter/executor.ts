@@ -106,7 +106,7 @@ import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
 import { executeGetterExpression } from './executor/executeGetterExpression'
-import { executeClassStatement } from './executor/executeClassStatement.test'
+import { executeClassStatement } from './executor/executeClassStatement'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -117,7 +117,7 @@ export type ExecutionContext = {
   updateState: Function
   logicError: Function
   withThis: Function
-  currentThis: () => Jiki.Instance | undefined
+  contextualThis: Jiki.Instance | null
 }
 
 export type ExternalFunction = {
@@ -158,7 +158,7 @@ export class Executor {
   // the changes in the frame descriptions
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
-  private thisValues: Jiki.Instance[] = []
+  private contextualThis: Jiki.Instance | null = null
 
   constructor(
     private readonly sourceCode: string,
@@ -474,17 +474,16 @@ export class Executor {
 
   public visitSetPropertyStatement(statement: SetPropertyStatement): void {
     this.executeFrame<EvaluationResultSetPropertyStatement>(statement, () => {
-      const currentThis = this.currentThis()
-      if (!currentThis) {
+      if (!this.contextualThis) {
         this.error('AccessorUsedOnNonInstance', statement.property.location)
       }
 
-      if (currentThis.getMethod(statement.property.lexeme)) {
+      if (this.contextualThis.getMethod(statement.property.lexeme)) {
         this.error('UnexpectedChangeOfMethod', statement.property.location, {
           name: statement.property.lexeme,
         })
       }
-      if (!currentThis.hasProperty(statement.property.lexeme)) {
+      if (!this.contextualThis.hasProperty(statement.property.lexeme)) {
         this.error(
           'PropertySetterUsedOnNonProperty',
           statement.property.location,
@@ -507,7 +506,7 @@ export class Executor {
 
       // Update the underlying value
       this.guardNoneJikiObject(value.jikiObject, statement.location)
-      currentThis.setField(
+      this.contextualThis.setField(
         statement.property.lexeme,
         value.jikiObject as Jiki.JikiObject
       )
@@ -593,6 +592,15 @@ export class Executor {
             name: statement.property.lexeme,
           })
         }
+        if (setter.visibility === 'private') {
+          this.error(
+            'AttemptedToAccessPrivateSetter',
+            statement.property.location,
+            {
+              name: statement.property.lexeme,
+            }
+          )
+        }
 
         const value = this.evaluate(statement.value)
         this.guardNoneJikiObject(value.jikiObject, statement.location)
@@ -600,7 +608,7 @@ export class Executor {
         // Do the update
         const oldValue = object.jikiObject.getField(statement.property.lexeme)
         try {
-          setter.apply(undefined, [
+          setter.fn.apply(undefined, [
             this.getExecutionContext(),
             object.jikiObject,
             value.jikiObject as Jiki.JikiObject,
@@ -1104,14 +1112,13 @@ export class Executor {
   public visitThisExpression(
     expression: ThisExpression
   ): EvaluationResultThisExpression {
-    const currentThis = this.currentThis()
-    if (!currentThis) {
-      this.error('AccessorUsedOnNonInstance', expression.location)
+    if (!this.contextualThis) {
+      this.error('ThisUsedOutsideOfMethod', expression.location)
     }
 
     return {
       type: 'ThisExpression',
-      jikiObject: currentThis,
+      jikiObject: this.contextualThis,
     }
   }
 
@@ -1784,19 +1791,19 @@ export class Executor {
       updateState: this.updateState.bind(this),
       logicError: this.logicError.bind(this),
       withThis: this.withThis.bind(this),
-      currentThis: this.currentThis.bind(this),
+      contextualThis: this.contextualThis,
     }
   }
 
-  public withThis(newThis: Jiki.Instance, fn) {
+  public withThis(newThis: Jiki.Instance | null, fn) {
+    const oldThis = this.contextualThis
     try {
-      this.thisValues.push(newThis)
+      this.contextualThis = newThis
       return fn()
     } finally {
-      this.thisValues.pop()
+      this.contextualThis = oldThis
     }
   }
-  public currentThis = () => this.thisValues.at(-1)
 
   public error(
     type: RuntimeErrorType,

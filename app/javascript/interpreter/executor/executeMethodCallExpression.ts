@@ -14,9 +14,9 @@ export function executeMethodCallExpression(
   expression: MethodCallExpression
 ): EvaluationResultMethodCallExpression {
   const object = executor.evaluate(expression.object)
+
   const methodName = expression.methodName.lexeme
 
-  console.log('HJERE2!!')
   if (!(object.jikiObject instanceof Jiki.Instance)) {
     return executor.error('AccessorUsedOnNonInstance', expression.location)
   }
@@ -24,6 +24,15 @@ export function executeMethodCallExpression(
   const method = object.jikiObject.getMethod(methodName)
   if (method === undefined) {
     executor.error('CouldNotFindMethod', expression.location, {
+      name: methodName,
+    })
+  }
+
+  if (
+    method.visibility === 'private' &&
+    expression.object.type != 'ThisExpression'
+  ) {
+    executor.error('AttemptedToAccessPrivateMethod', expression.location, {
       name: methodName,
     })
   }

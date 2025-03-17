@@ -152,7 +152,11 @@
       "ConstructorDidNotSetProperty": "ConstructorDidNotSetProperty: property: {{property}}",
       "PropertySetterUsedOnNonProperty": "PropertySetterUsedOnNonProperty: name: {{name}}",
       "MethodUsedAsGetter": "MethodUsedAsGetter: name: {{name}}",
-      "ClassCannotBeUsedAsVariable": "ClassCannotBeUsedAsVariable: name: {{name}}"
+      "ClassCannotBeUsedAsVariable": "ClassCannotBeUsedAsVariable: name: {{name}}",
+      "ThisUsedOutsideOfMethod": "ThisUsedOutsideOfMethod",
+      "AttemptedToAccessPrivateMethod": "AttemptedToAccessPrivateMethod",
+      "AttemptedToAccessPrivateGetter": "AttemptedToAccessPrivateGetter",
+      "AttemptedToAccessPrivateSetter": "AttemptedToAccessPrivateSetter"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

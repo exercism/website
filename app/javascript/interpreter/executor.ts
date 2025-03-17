@@ -1142,6 +1142,11 @@ export class Executor {
   ): EvaluationResultVariableLookupExpression {
     const value = this.lookupVariable(expression.name)
     this.guardUncalledFunction(value, expression)
+    if (value instanceof Jiki.Class) {
+      this.error('ClassCannotBeUsedAsVariable', expression.name.location, {
+        name: expression.name.lexeme,
+      })
+    }
 
     return {
       type: 'VariableLookupExpression',

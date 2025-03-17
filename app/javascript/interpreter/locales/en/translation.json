@@ -150,7 +150,8 @@
       "UnexpectedChangeOfMethod": "You are trying to change `{{name}}` but it is a method, not a property.",
       "ConstructorDidNotSetProperty": "The constructor for this class didn't set the property `{{property}}`.",
       "PropertySetterUsedOnNonProperty": "You tried to set `this.{{name}}` but it is not a property of this class. Did you forget to use the `property` keyword to define it?",
-      "MethodUsedAsGetter": "You tried to use `{{name}}` as a property, but it is a method. Did you forget to add `()` at the end?"
+      "MethodUsedAsGetter": "You tried to use `{{name}}` as a property, but it is a method. Did you forget to add `()` at the end?",
+      "ClassCannotBeUsedAsVariable": "You can't use the `{{name}}` class as a variable. Did you forget to instantiate it?"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

@@ -16,6 +16,7 @@ export function executeMethodCallExpression(
   const object = executor.evaluate(expression.object)
   const methodName = expression.methodName.lexeme
 
+  console.log('HJERE2!!')
   if (!(object.jikiObject instanceof Jiki.Instance)) {
     return executor.error('AccessorUsedOnNonInstance', expression.location)
   }

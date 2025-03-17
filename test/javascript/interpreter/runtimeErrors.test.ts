@@ -1003,3 +1003,30 @@ test('MethodUsedAsGetter', () => {
 
   expect(frames.at(-1)?.error!.message).toBe('MethodUsedAsGetter: name: foo')
 })
+
+describe('ClassCannotBeUsedAsVariable', () => {
+  test('as object', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+      end
+      Foobar.say()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ClassCannotBeUsedAsVariable: name: Foobar'
+    )
+  })
+  test('as arg', () => {
+    const { frames, error } = interpret(`
+      function say do
+      end
+      class Foobar do
+      end
+      say(Foobar)
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ClassCannotBeUsedAsVariable: name: Foobar'
+    )
+  })
+})

@@ -175,6 +175,7 @@ export type RuntimeErrorType =
   | 'ConstructorDidNotSetProperty'
   | 'PropertySetterUsedOnNonProperty'
   | 'MethodUsedAsGetter'
+  | 'ClassCannotBeUsedAsVariable'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

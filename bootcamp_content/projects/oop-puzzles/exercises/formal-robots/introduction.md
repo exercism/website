@@ -59,7 +59,7 @@ The conversation should look like this (with different names and ages per scenar
 R1: [Mysterious greetings]
 R2: [Mysterious greetings]
 R1: I am 10 years old. How old are you?
-R2: I am 15 years old. Together we are 25 years old. Wow.
+R2: I am 15. Together we are 25 years old. Wow.
 R1: Wow.
 R1: [Mysterious goodbyes]
 R2: [Mysterious goodbyes]

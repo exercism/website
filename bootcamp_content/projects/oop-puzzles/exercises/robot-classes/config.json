@@ -1,24 +1,24 @@
 {
-  "title": "Formal Robots",
-  "description": "Write out a conversation between two formal robots.",
-  "level": 9,
+  "title": "Robot Classes",
+  "description": "Write out your own formal Robot classes",
+  "level": 10,
   "idx": 1,
   "tests_type": "state",
   "project_type": "formal-robots",
-  "exercise_functions": [],
   "stdlib_functions": ["concatenate"],
+  "exercise_classes": [],
+  "exercise_functions": ["speak"],
+  "readonly_ranges": [{ "from": 3, "to": 20 }],
   "tasks": [
     {
-      "name": "Formal Robots",
+      "name": "Robots Classes",
       "tests": [
         {
           "slug": "simple",
           "name": "A conversation",
           "description_html": "Write out a simple conversation between two robots.",
-          "setup_functions": [
-            ["setRobotNames", [["Jeremy", "Nicole", "Sam"]]],
-            ["setRobotAges", [[10, 13, 15]]]
-          ],
+          "function": "hold_conversation",
+          "args": ["Jeremy", 10, "Nicole", 13, "Sam", 10],
           "checks": [
             {
               "function": "getInteraction(0)",
@@ -48,7 +48,7 @@
             {
               "function": "getInteraction(5)",
               "value": "Jeremy: Goodbye ★⚔♠✧❀.",
-              "error_html": "We expected sixth line of the first conversation to be: \"Jeremy: Goodbye ★⚔♠✧❀.\" but it was \"%actual%\"."
+              "error_html": "We expected sixth line of the first conversation to be: \"Jeremy: ★⚔♠✧❀.\" but it was \"%actual%\"."
             },
             {
               "function": "getInteraction(6)",
@@ -78,7 +78,7 @@
             {
               "function": "getInteraction(11)",
               "value": "Sam: Goodbye ★⚔♠✧❀.",
-              "error_html": "We expected fifth line of the first conversation to be: \"Sam: Goodbye ★⚔♠✧❀.\" but it was \"%actual%\"."
+              "error_html": "We expected fifth line of the first conversation to be: \"Sam: ★⚔♠✧❀.\" but it was \"%actual%\"."
             },
             {
               "function": "getInteraction(12)",
@@ -91,10 +91,8 @@
           "slug": "adults",
           "name": "Adult Robots",
           "description_html": "Write out the same conversation with adults",
-          "setup_functions": [
-            ["setRobotNames", [["Sam", "Jeremy", "Nicole"]]],
-            ["setRobotAges", [[40, 41, 36]]]
-          ],
+          "function": "hold_conversation",
+          "args": ["Sam", 40, "Jeremy", 41, "Nicole", 36],
           "checks": [
             {
               "function": "getInteraction(0)",
@@ -160,6 +158,11 @@
               "function": "getInteraction(12)",
               "value": "Sam: Goodbye ♜⚙❖☾✺.",
               "error_html": "We expected sixth line of the first conversation to be: \"Sam: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "numFunctionCallsInCode('speak')",
+              "value": 1,
+              "error_html": "We expected the <code>speak</code> function to once appear once on your code."
             }
           ]
         }

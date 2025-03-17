@@ -32,7 +32,26 @@ export default class FormalRobotsExercise extends Exercise {
   public getInteraction(_, idx: number) {
     return this.interactions[idx]
   }
+  public speak(
+    executionCtx: ExecutionContext,
+    name: Jiki.JikiObject,
+    utterance: Jiki.JikiObject
+  ) {
+    if (!(name instanceof Jiki.String)) {
+      return executionCtx.logicError('The robot name must be a string')
+    }
+    if (!(utterance instanceof Jiki.String)) {
+      return executionCtx.logicError('What the robot says must be a string')
+    }
+    this.interactions.push(`${name.value}: ${utterance.value}`)
+  }
 
   public availableClasses: Jiki.Class[] = [this.Robot, this.FormalConversation]
-  public availableFunctions: ExternalFunction[] = []
+  public availableFunctions: ExternalFunction[] = [
+    {
+      name: 'speak',
+      func: this.speak.bind(this),
+      description: 'caused the robot to speak',
+    },
+  ]
 }

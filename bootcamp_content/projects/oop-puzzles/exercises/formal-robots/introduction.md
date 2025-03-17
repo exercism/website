@@ -80,3 +80,8 @@ Just write out the code to hold the conversations between the robots, using the 
 ## Library Functions
 
 This exercise might benefit from your [`my#number_to_string`](/bootcamp/custom_functions/number_to_string/edit) function.
+
+## Functions
+
+You have one function available:
+`concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.

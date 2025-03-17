@@ -67,8 +67,9 @@ declare global {
     projectType: string
     // tasks: Task[];
     testsType: 'io' | 'state'
-    interpreterOptions: LanguageFeatures
-    stdlibFunctions: string[]
-    exerciseFunctions: string[]
+    interpreterOptions?: LanguageFeatures
+    stdlibFunctions?: string[]
+    exerciseFunctions?: string[]
+    exerciseClasses?: string[]
   }
 }

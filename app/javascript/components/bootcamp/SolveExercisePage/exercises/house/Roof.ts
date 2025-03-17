@@ -57,6 +57,7 @@ function fn(this: HouseExercise) {
   })
   Roof.addSetter(
     'brightness',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

@@ -92,12 +92,12 @@ export function executeFunctionCallExpression(
     executor.addFunctionCallToLog(fnName, argResults)
 
     // Reset this so it's not used in functions
-    value = executor.withThis(null, () => {
-      value = callee.function.call(
+    value = executor.withThis(null, () =>
+      callee.function.call(
         executor.getExecutionContext(),
         args.map((arg) => arg.jikiObject?.toArg())
       )
-    })
+    )
   } catch (e) {
     if (e instanceof CustomFunctionError) {
       executor.error('CustomFunctionError', expression.location, {

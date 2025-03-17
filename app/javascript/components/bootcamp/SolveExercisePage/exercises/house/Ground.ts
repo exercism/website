@@ -11,7 +11,7 @@ function fn(this: any) {
     this.rectangle(
       executionCtx,
       new Jiki.Number(0),
-      new Jiki.Number(100 - ground.getField('height').value),
+      new Jiki.Number(100 - (ground.getField('height') as Jiki.Number).value),
       new Jiki.Number(100),
       ground.getField('height') as Jiki.Number
     )
@@ -46,6 +46,7 @@ function fn(this: any) {
   })
   Ground.addSetter(
     'brightness',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

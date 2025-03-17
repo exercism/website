@@ -7,7 +7,7 @@ function fn(this: HouseExercise) {
   const drawSky = (executionCtx: ExecutionContext, sky: Jiki.Instance) => {
     this.fillColorHSL(
       executionCtx,
-      sky.getField('hue'),
+      sky.getField('hue') as Jiki.Number,
       new Jiki.Number(70),
       new Jiki.Number(60)
     )
@@ -60,6 +60,7 @@ function fn(this: HouseExercise) {
   })
   Sky.addSetter(
     'brightness',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,
@@ -78,6 +79,7 @@ function fn(this: HouseExercise) {
   Sky.addGetter('hue', 'public')
   Sky.addSetter(
     'hue',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

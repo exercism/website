@@ -58,6 +58,7 @@ function fn(this: HouseExercise) {
 
   Sun.addSetter(
     'cx',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,
@@ -73,6 +74,7 @@ function fn(this: HouseExercise) {
   )
   Sun.addSetter(
     'cy',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

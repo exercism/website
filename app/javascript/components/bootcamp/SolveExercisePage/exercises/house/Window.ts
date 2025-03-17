@@ -71,6 +71,7 @@ function fn(this: HouseExercise) {
   })
   Window.addSetter(
     'lights',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

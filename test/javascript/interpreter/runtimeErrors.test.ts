@@ -904,7 +904,6 @@ describe('ConstructorDidNotSetProperty', () => {
       log new Foobar()
     `)
 
-    console.log(error, frames)
     expect(frames[0].error!.message).toBe(
       'ConstructorDidNotSetProperty: property: foo'
     )
@@ -919,7 +918,6 @@ describe('ConstructorDidNotSetProperty', () => {
       log new Foobar()
     `)
 
-    console.log(error, frames)
     expect(frames[0].error!.message).toBe(
       'ConstructorDidNotSetProperty: property: foo'
     )

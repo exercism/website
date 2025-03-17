@@ -54,6 +54,7 @@ function fn(this: HouseExercise) {
   })
   Frame.addSetter(
     'brightness',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

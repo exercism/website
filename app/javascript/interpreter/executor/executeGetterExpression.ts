@@ -33,7 +33,10 @@ export function executeGetterExpression(
       name: getterName,
     })
   }
-  if (getter.visibility === 'private') {
+  if (
+    getter.visibility === 'private' &&
+    expression.object.type !== 'ThisExpression'
+  ) {
     executor.error(
       'AttemptedToAccessPrivateGetter',
       expression.property.location,

@@ -81,6 +81,7 @@ function fn(this: HouseExercise) {
   })
   Door.addSetter(
     'brightness',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

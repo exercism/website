@@ -94,8 +94,7 @@ body {
 }
 
 .scrolling-testimonials {
-    --gap: 1rem;
-    --speed: 80s;
+    --gap: 16px;
     gap: var(--gap);
     @apply flex overflow-hidden;
     @apply mt-80;
@@ -121,22 +120,12 @@ body {
         @apply leading-150;
         @apply flex;
         white-space: nowrap;
-        /* animation: marquee var(--speed) linear infinite; */
         will-change: transform;
 
         li {
             background: url("bootcamp/stars.svg") right center / 4em auto
                 no-repeat;
             @apply pr-[5em] mr-20;
-        }
-    }
-
-    @keyframes marquee {
-        from {
-            transform: translateX(0);
-        }
-        to {
-            transform: translateX(calc(-100% - var(--gap)));
         }
     }
 }

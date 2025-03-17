@@ -1,3 +1,4 @@
+import { animate } from '@juliangarnierorg/anime-beta'
 document.addEventListener('DOMContentLoaded', () => {
   const marqueeElement = document.querySelector('.scrolling-testimonials ul')
   const container = document.querySelector('.scrolling-testimonials')
@@ -5,12 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const computedStyle = getComputedStyle(container)
   const gap = parseFloat(computedStyle.getPropertyValue('--gap')) || 1
 
-  const normalSpeed = 0.1
-  const fastSpeed = 0.3
-  let currentSpeed = normalSpeed
+  const marqueeWidth = marqueeElement.scrollWidth
+
+  const clonedItems = marqueeElement.innerHTML
+  marqueeElement.innerHTML = clonedItems + clonedItems
+
+  const speed = { current: 5, max: 20, min: 5 }
   let animationPosition = 0
   let lastTimestamp = null
-  let isHovering = false
 
   function animateMarquee(timestamp) {
     if (!lastTimestamp) {
@@ -20,13 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const elapsed = timestamp - lastTimestamp
     lastTimestamp = timestamp
 
-    animationPosition += elapsed * 0.01 * currentSpeed
+    animationPosition += elapsed * 0.03 * speed.current
 
-    if (animationPosition >= 100) {
-      animationPosition = animationPosition % 100
+    const totalWidth = marqueeWidth + gap
+
+    if (animationPosition >= totalWidth) {
+      animationPosition = animationPosition % totalWidth
     }
 
-    marqueeElement.style.transform = `translateX(${-animationPosition}%)`
+    marqueeElement.style.transform = `translateX(${-animationPosition}px)`
 
     requestAnimationFrame(animateMarquee)
   }
@@ -34,26 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(animateMarquee)
 
   container.addEventListener('mouseenter', () => {
-    isHovering = true
-
-    const speedTransition = setInterval(() => {
-      currentSpeed += 0.1
-      if (currentSpeed >= fastSpeed) {
-        currentSpeed = fastSpeed
-        clearInterval(speedTransition)
-      }
-    }, 20)
+    animate(speed, {
+      current: speed.max,
+      duration: 500,
+      easing: 'linear',
+    })
   })
 
   container.addEventListener('mouseleave', () => {
-    isHovering = false
-
-    const speedTransition = setInterval(() => {
-      currentSpeed -= 0.1
-      if (currentSpeed <= normalSpeed) {
-        currentSpeed = normalSpeed
-        clearInterval(speedTransition)
-      }
-    }, 20)
+    animate(speed, {
+      current: speed.min,
+      duration: 500,
+      easing: 'linear',
+    })
   })
 })

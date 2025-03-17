@@ -26,7 +26,8 @@ export class InformationWidget extends WidgetType {
   constructor(
     private readonly tooltipHtml: string,
     private readonly status: 'ERROR' | 'SUCCESS',
-    private readonly view: EditorView
+    private readonly view: EditorView,
+    private readonly onClose: () => void
   ) {
     super()
   }
@@ -46,7 +47,6 @@ export class InformationWidget extends WidgetType {
   private createRefElement() {
     const refElement = document.createElement('span')
     refElement.classList.add('font-bold', 'text-black')
-    // refElement.style.float = 'right'
     refElement.style.position = 'absolute'
     refElement.style.right = '0'
     refElement.innerText = ' '
@@ -72,7 +72,7 @@ export class InformationWidget extends WidgetType {
     const closeButton = document.createElement('button')
     closeButton.innerHTML = '&times;'
     closeButton.classList.add('tooltip-close')
-    closeButton.onclick = () => this.hideTooltip()
+    closeButton.onclick = this.onClose
 
     this.tooltip.querySelectorAll('code').forEach((ct) => {
       ct.addEventListener('mouseenter', () => {
@@ -112,15 +112,6 @@ export class InformationWidget extends WidgetType {
     this.tooltip.style.opacity = '0'
   }
 
-  private hideTooltip() {
-    if (this.tooltip) {
-      this.tooltip.style.opacity = '0'
-      // this prevents the tooltip from blocking mouse interaction with elements covered by an invisible tooltip
-      // on any tooltip change a new tooltip is created with correct zIndex, so this is safe
-      this.tooltip.style.zIndex = '-1'
-    }
-  }
-
   private cleanupDuplicateTooltips() {
     const tooltips = document.querySelectorAll('.information-tooltip')
 
@@ -146,13 +137,6 @@ export class InformationWidget extends WidgetType {
     this.arrowElement = document.createElement('div')
     this.arrowElement.classList.add('tooltip-arrow')
     this.tooltip.prepend(this.arrowElement)
-  }
-
-  // @ts-ignore
-  private setupListeners(refElement: HTMLElement | null = null) {
-    if (!refElement) return
-    refElement.addEventListener('mouseenter', () => this.showTooltip())
-    refElement.addEventListener('mouseleave', () => this.hideTooltip())
   }
 
   private showTooltip() {

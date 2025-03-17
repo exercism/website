@@ -52,13 +52,15 @@ export const informationWidgetDataField =
     },
   })
 
-function lineInformationWidget(view: EditorView): DecorationSet {
+function lineInformationWidget(
+  view: EditorView,
+  onClose: () => void
+): DecorationSet {
   let widgets: any[] = []
 
   const shouldShowWidget = view.state.field(showInfoWidgetField)
   const widgetData = view.state.field(informationWidgetDataField)
 
-  // soft return
   if (widgetData.line > view.state.doc.lines || widgetData.line === 0)
     return Decoration.none
   if (!shouldShowWidget) return Decoration.none
@@ -66,7 +68,7 @@ function lineInformationWidget(view: EditorView): DecorationSet {
   const { html, status } = widgetData
 
   let deco = Decoration.widget({
-    widget: new InformationWidget(html, status, view),
+    widget: new InformationWidget(html, status, view, onClose),
     side: 1,
   })
   let lastPosOfLine = view.state.doc.line(widgetData.line).to
@@ -76,36 +78,45 @@ function lineInformationWidget(view: EditorView): DecorationSet {
   return Decoration.set(widgets)
 }
 
-export const endLineDecoration = ViewPlugin.fromClass(
-  class {
-    placeholders: DecorationSet
-    constructor(view: EditorView) {
-      this.placeholders = lineInformationWidget(view)
-    }
-    update(update: ViewUpdate) {
-      if (
-        update.docChanged ||
-        update.viewportChanged ||
-        update.startState.field(highlightedLineField) !==
-          update.state.field(highlightedLineField) ||
-        update.startState.field(showInfoWidgetField) !==
-          update.state.field(showInfoWidgetField) ||
-        update.startState.field(informationWidgetDataField) !==
-          update.state.field(informationWidgetDataField)
-      ) {
-        this.placeholders = lineInformationWidget(update.view)
-      }
-    }
-  },
-  {
-    decorations: (instance) => instance.placeholders,
-    provide: (plugin) =>
-      EditorView.atomicRanges.of((view) => {
-        return view.plugin(plugin)?.placeholders || Decoration.none
-      }),
+class EndlineDecoration {
+  placeholders: DecorationSet
+  onClose: () => void
+  constructor(view: EditorView, onClose: () => void) {
+    this.onClose = onClose
+    this.placeholders = lineInformationWidget(view, this.onClose)
   }
-)
+  update(update: ViewUpdate) {
+    if (
+      update.docChanged ||
+      update.viewportChanged ||
+      update.startState.field(highlightedLineField) !==
+        update.state.field(highlightedLineField) ||
+      update.startState.field(showInfoWidgetField) !==
+        update.state.field(showInfoWidgetField) ||
+      update.startState.field(informationWidgetDataField) !==
+        update.state.field(informationWidgetDataField)
+    ) {
+      this.placeholders = lineInformationWidget(update.view, this.onClose)
+    }
+  }
+}
 
-export function lineInformationExtension() {
-  return [placeholderTheme, endLineDecoration]
+function endlineDecoration(onClose: () => void) {
+  return ViewPlugin.define(
+    (view) => {
+      return new EndlineDecoration(view, onClose)
+    },
+    {
+      decorations: (instance) => instance.placeholders,
+      provide: (plugin) => {
+        return EditorView.atomicRanges.of((view) => {
+          return view.plugin(plugin)?.placeholders || Decoration.none
+        })
+      },
+    }
+  )
+}
+
+export function lineInformationExtension({ onClose }: { onClose: () => void }) {
+  return [placeholderTheme, endlineDecoration(onClose)]
 }

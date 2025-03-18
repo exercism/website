@@ -6,8 +6,8 @@ import { offset } from '@popperjs/core'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { buildBlock, type BlockInstance } from './Block'
 import { buildBall, type BallInstance } from './Ball'
-import { buildPaddle } from './Paddle'
-import { buildGame } from './Game'
+import { buildPaddle, PaddleInstance } from './Paddle'
+import { buildGame, type GameInstance } from './Game'
 
 export default class BreakoutExercise extends Exercise {
   private Block = buildBlock(this)
@@ -16,6 +16,7 @@ export default class BreakoutExercise extends Exercise {
   private Game = buildGame(this)
 
   public autoDrawBlock = true
+  private gameInstance: GameInstance | undefined
 
   public constructor() {
     super('breakout')
@@ -25,6 +26,7 @@ export default class BreakoutExercise extends Exercise {
     this.view.appendChild(this.container)
 
     this.ballPositions = []
+    this.paddleBallInteractionCount = 0
     this.blocks = []
   }
   public disableAutoDrawBlock() {
@@ -38,6 +40,7 @@ export default class BreakoutExercise extends Exercise {
         block.getUnwrappedField('smashed')
       ).length,
       numBallPositions: this.ballPositions.length,
+      paddleBallInteractionCount: this.paddleBallInteractionCount,
     }
   }
 
@@ -51,6 +54,10 @@ export default class BreakoutExercise extends Exercise {
 
   public getFalse() {
     return false
+  }
+
+  public timesPaddleTouchedBall(executionCtx: ExecutionContext) {
+    this.paddleBallInteractionCount += 1
   }
 
   public didBallAppearAt(_: InterpretResult, cx: number, cy: number) {
@@ -95,6 +102,26 @@ export default class BreakoutExercise extends Exercise {
       offset: executionCtx.getCurrentTime(),
     })
     executionCtx.fastForward(1)
+  }
+
+  public logBallPaddleInteractions(executionCtx: ExecutionContext) {
+    if (this.gameInstance == undefined) {
+      return
+    }
+    const ball = this.gameInstance.getField('ball') as BallInstance
+    const paddle = this.gameInstance.getField('paddle') as PaddleInstance
+    if (ball == undefined || paddle == undefined) {
+      return
+    }
+
+    const ballBottom =
+      ball.getUnwrappedField('cy') + ball.getUnwrappedField('radius')
+    const paddleTop =
+      paddle.getUnwrappedField('cy') - paddle.getUnwrappedField('height') / 2
+
+    if (ballBottom == paddleTop) {
+      this.paddleBallInteractionCount += 1
+    }
   }
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {
@@ -151,6 +178,8 @@ export default class BreakoutExercise extends Exercise {
       offset: executionCtx.getCurrentTime(),
     })
     executionCtx.fastForward(1)
+
+    this.logBallPaddleInteractions(executionCtx)
   }
 
   // Setup Functions

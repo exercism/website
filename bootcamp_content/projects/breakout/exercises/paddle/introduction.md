@@ -44,9 +44,13 @@ The Block class is unchanged. You create a block by specifying a left and top in
 
 ## Instructions
 
-Amend your code to use an instance of the `Game` class and handle the paddle.
+There are a few steps to take:
 
-When you create an instance of the `Game` class, the ball and the paddle are automatically created and available. You still need to create the `Block` instances like you did previously, but now you need to add them to the game for them to appear.
+1. Amend your code to use an instance of the `Game` class. When you create an instance of the `Game` class, the ball and the paddle are automatically created and available. You still need to create the `Block` instances like you did previously, but now you need to add them to the game for them to appear.
+2. You need to change the `top` of the blocks to be `28`, not `31`.
+   and handle the paddle.
+3. You need to handle hitting the tops of the blocks as well as the bottom.
+4. You need to implement the paddle.
 
 Because the paddle travels slower than the ball, you need to be a little more intelligent than just trying to follow the ball with the paddle. It's a fun problem to solve, but if you get too frustrated, check the hint!
 

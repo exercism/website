@@ -90,7 +90,7 @@ function fn(this: BreakoutExercise) {
         return executionCtx.logicError('cy must be a number')
       }
       object.setField('cy', value)
-      redrawBall(executionCtx, object)
+      exercise.redrawBall(executionCtx, object)
     }
   )
   Ball.addMethod(

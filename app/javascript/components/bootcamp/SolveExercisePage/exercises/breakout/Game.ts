@@ -3,10 +3,13 @@ import * as Jiki from '@/interpreter/jikiObjects'
 import BreakoutExercise from './BreakoutExercise'
 import { BlockInstance, buildBlock } from './Block'
 import { bindAll } from 'lodash'
-import { buildBall } from './Ball'
-import { buildPaddle } from './Paddle'
+import { buildBall, type BallInstance } from './Ball'
+import { buildPaddle, type PaddleInstance } from './Paddle'
 
-export type GameInstance = Jiki.Instance & {}
+export type GameInstance = Jiki.Instance & {
+  ball: BallInstance
+  paddle: PaddleInstance
+}
 
 function fn(this: BreakoutExercise) {
   const exercise = this
@@ -54,6 +57,8 @@ function fn(this: BreakoutExercise) {
     const ball = Ball.instantiate(executionCtx, [])
     ball.setField('cy', new Jiki.Number(92))
     exercise.redrawBall(executionCtx, ball)
+    exercise.gameInstance = game
+
     game.setField('ball', ball)
     game.setField('paddle', Paddle.instantiate(executionCtx, []))
     game.setField('blocks', new Jiki.List([]))

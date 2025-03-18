@@ -26,6 +26,21 @@
           "setup_functions": [["disableAutoDrawBlock"]],
           "checks": [
             {
+              "function": "didBallAppearAt(null, 97)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didBallAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didBallAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
               "property": "numBlocks",
               "value": 5,
               "error_html": "You didn't create exactly 5 blocks."
@@ -36,9 +51,15 @@
               "error_html": "You didn't smash all the blocks"
             },
             {
+              "property": "paddleBallInteractionCount",
+              "value": 4,
+              "error_html": "The paddle didn't hit the ball 4 times."
+            },
+            {
               "property": "numBallPositions",
               "value": 486,
-              "error_html": "You moved the ball more times than you needed to! (%actual%)"
+              "matcher": "toBeLessThanOrEqual",
+              "error_html": "You moved the ball more times than you needed to!"
             }
           ]
         },
@@ -53,6 +74,21 @@
           ],
           "checks": [
             {
+              "function": "didBallAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didBallAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didBallAppearAt(null, 94)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
               "property": "numBlocks",
               "value": 5,
               "error_html": "You didn't create exactly 5 blocks."
@@ -63,8 +99,14 @@
               "error_html": "You didn't smash all the blocks"
             },
             {
+              "property": "paddleBallInteractionCount",
+              "value": 3,
+              "error_html": "The paddle didn't hit the ball 3 times."
+            },
+            {
               "property": "numBallPositions",
               "value": 503,
+              "matcher": "toBeLessThanOrEqual",
               "error_html": "You moved the ball more times than you needed to! (%actual%)"
             }
           ]

@@ -17,22 +17,46 @@ export function executeGetterExpression(
   if (!(object.jikiObject instanceof Jiki.Instance)) {
     executor.error('AccessorUsedOnNonInstance', expression.location)
   }
+  if (!(object.jikiObject instanceof Jiki.Instance)) {
+    executor.error('AccessorUsedOnNonInstance', expression.location)
+  }
   const getterName = expression.property.lexeme
   const getter = object.jikiObject.getGetter(getterName)
 
   if (!getter) {
+    if (object.jikiObject.getMethod(getterName)) {
+      executor.error('MethodUsedAsGetter', expression.property.location, {
+        name: getterName,
+      })
+    }
     executor.error('CouldNotFindGetter', expression.property.location, {
       name: getterName,
     })
   }
+  if (
+    getter.visibility === 'private' &&
+    expression.object.type !== 'ThisExpression'
+  ) {
+    executor.error(
+      'AttemptedToAccessPrivateGetter',
+      expression.property.location,
+      {
+        name: getterName,
+      }
+    )
+  }
 
   let value
   try {
-    value = getter.apply(object.jikiObject, executor.getExecutionContext())
+    value = getter.fn.apply(undefined, [
+      executor.getExecutionContext(),
+      object.jikiObject as Jiki.Instance,
+    ])
   } catch (e: unknown) {
     if (e instanceof LogicError) {
       executor.error('LogicError', expression.location, { message: e.message })
     }
+    throw e
   }
 
   return {

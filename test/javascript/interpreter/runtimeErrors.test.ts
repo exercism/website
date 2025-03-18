@@ -715,7 +715,7 @@ describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
     // @ts-ignore
-    Person.addMethod('num', function (this: any, _) {
+    Person.addMethod('num', 'public', function (_ex, _in) {
       return 5
     })
 
@@ -781,7 +781,7 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
   })
   test('None when Some expect', () => {
     const Person = new Jiki.Class('Person')
-    Person.addConstructor((ex, something) => {})
+    Person.addConstructor((ex, object, something) => {})
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(`set person to new Person()`, context)
@@ -792,7 +792,7 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
   })
   test('More than expected', () => {
     const Person = new Jiki.Class('Person')
-    Person.addConstructor((ex, something) => {})
+    Person.addConstructor((ex, object, something) => {})
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(
@@ -895,26 +895,227 @@ test('UnexpectedObjectArgumentForCustomFunction', () => {
   )
 })
 
-test('who knows', () => {
-  const context = {
-    languageFeatures: { customFunctionDefinitionMode: true },
-    customFunctions: [],
-  }
-  const { frames } = interpret(
-    `
-    function my#starts_with with string, prefix do
-      if string == "" do
-        return true
+describe('ConstructorDidNotSetProperty', () => {
+  test('no constructor', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
       end
+      log new Foobar()
+    `)
 
-      if my#length(prefix) > my#length(string) do
-        return false
+    expect(frames[0].error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: foo'
+    )
+  })
+  test('lazy constructor', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
+        constructor do
+        end
       end
-    end
-    my#starts_with("foo", "f")`,
-    context
-  )
-  expect(frames[1].error!.message).toBe('CouldNotFindFunction: name: my#length')
+      log new Foobar()
+    `)
+
+    expect(frames[0].error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: foo'
+    )
+  })
+  test('only one property', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        public property foo
+        public property bar
+        public property baz
+
+        constructor do
+          set this.foo to 5
+        end
+      end
+      log new Foobar()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ConstructorDidNotSetProperty: property: bar'
+    )
+  })
 })
 
-//ClassAlreadyDefined
+test('ClassAlreadyDefined', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+    end
+    class Foobar do
+    end
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'ClassAlreadyDefined: name: Foobar'
+  )
+})
+
+test('UnexpectedChangeOfMethod', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      public method foo do
+      end
+
+      constructor do
+        set this.foo to 5
+      end
+    end
+    log new Foobar()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'UnexpectedChangeOfMethod: name: foo'
+  )
+})
+test('PropertySetterUsedOnNonProperty', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      constructor do
+        set this.foo to 5
+      end
+    end
+    log new Foobar()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe(
+    'PropertySetterUsedOnNonProperty: name: foo'
+  )
+})
+test('MethodUsedAsGetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      public method foo do
+      end
+    end
+    log (new Foobar()).foo
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('MethodUsedAsGetter: name: foo')
+})
+
+describe('ClassCannotBeUsedAsVariable', () => {
+  test('as object', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+      end
+      Foobar.say()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ClassCannotBeUsedAsVariable: name: Foobar'
+    )
+  })
+  test('as arg', () => {
+    const { frames, error } = interpret(`
+      function say do
+      end
+      class Foobar do
+      end
+      say(Foobar)
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'ClassCannotBeUsedAsVariable: name: Foobar'
+    )
+  })
+})
+
+describe('ThisUsedOutsideOfMethod', () => {
+  test('top level', () => {
+    const { frames, error } = interpret(`
+      log this
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      foo()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('constructor -> function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      class Foobar do
+        public property bar
+        constructor do
+          foo()
+        end
+      end
+      log new Foobar()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+  test('method -> function', () => {
+    const { frames, error } = interpret(`
+      function foo do
+        log this.bar
+      end
+      class Foobar do
+        public property bar
+        constructor do
+          set this.bar to 5
+        end
+        public method baz do
+          foo()
+        end
+      end
+      set x to new Foobar()
+      log x.baz()
+    `)
+
+    expect(frames.at(-1)?.error!.message).toBe('ThisUsedOutsideOfMethod')
+  })
+})
+// AttemptedToAccessPrivateMethod
+test('AttemptedToAccessPrivateMethod', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private method foo do
+      end
+    end
+    log (new Foobar()).foo()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateMethod')
+})
+test('AttemptedToAccessPrivateGetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+        constructor do
+          set this.foo to 5
+        end
+    end
+    log (new Foobar()).foo
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateGetter')
+})
+test('AttemptedToAccessPrivateSetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+        constructor do
+          set this.foo to 5
+        end
+    end
+    set x to new Foobar()
+    change x.foo to 5
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateSetter')
+})

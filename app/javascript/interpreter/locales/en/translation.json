@@ -44,7 +44,7 @@
       "MissingWithBeforeParameters": "Did you forget the `with` keyword before your parameters?",
       "MissingStringAsKey": "Dictionary keys should always be strings. Did you forget your quotes?",
       "MissingToAfterVariableNameToInitializeValue": "Did you forget to add the `to` after `{{name}}`?",
-      "MissingVariableName": "Expect variable name.",
+      "MissingVariableName": "Jiki expected a variable name here.",
       "MissingTimesInRepeat": "Did you forget to write `times` after the number of times you want to repeat?",
       "DuplicateParameterName": "Did you accidently use the name `{{parameter}}` twice in your function parameters.",
       "MissingWhileBeforeDoWhileCondition": "Expected 'while' to start 'while' condition",
@@ -145,7 +145,17 @@
       "UnexpectedForeachSecondElementName": "When you iterate through a {{type}}, you should only specify one variable name.",
       "MissingForeachSecondElementName": "When you iterate through a dictionary, you need to specify two variable names - one of the key and one for the value.",
       "UnexpectedObjectArgumentForCustomFunction": "Objects cannot be passed into custom functions",
-      "CustomFunctionError": "An error occurred running your library function. Inside the function, we got the following error:\n\n{{message}}"
+      "CustomFunctionError": "An error occurred running your library function. Inside the function, we got the following error:\n\n{{message}}",
+      "ClassAlreadyDefined": "There is already a class with the name `{{name}}`. Please choose a different name for this class.",
+      "UnexpectedChangeOfMethod": "You are trying to change `{{name}}` but it is a method, not a property.",
+      "ConstructorDidNotSetProperty": "The constructor for this class didn't set the property `{{property}}`.",
+      "PropertySetterUsedOnNonProperty": "You tried to set `this.{{name}}` but it is not a property of this class. Did you forget to use the `property` keyword to define it?",
+      "MethodUsedAsGetter": "You tried to use `{{name}}` as a property, but it is a method. Did you forget to add `()` at the end?",
+      "ClassCannotBeUsedAsVariable": "You can't use the `{{name}}` class as a variable. Did you forget to instantiate it?",
+      "ThisUsedOutsideOfMethod": "You cannot use `this` outside of a method.",
+      "AttemptedToAccessPrivateMethod": "You cannot access a private method from outside the object.",
+      "AttemptedToAccessPrivateGetter": "You cannot read a private property from outside the object.",
+      "AttemptedToAccessPrivateSetter": "You cannot change a private property from outside the object."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

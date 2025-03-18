@@ -1,16 +1,19 @@
-import { isArray, isNumber } from 'lodash'
-
+import { isNumber } from 'lodash'
 import {
-  EvaluationResult,
-  EvaluationResultBinaryExpression,
   EvaluationResultClassLookupExpression,
   EvaluationResultExpression,
   EvaluationResultInstantiationExpression,
-  EvaluationResultVariableLookupExpression,
 } from '../evaluation-result'
 import { Executor } from '../executor'
 import { BinaryExpression, InstantiationExpression } from '../expression'
 import * as JikiTypes from '../jikiObjects'
+
+// Add UnsetPropertiesError
+export class UnsetPropertyError extends Error {
+  constructor(public readonly property: string) {
+    super('UnsetPropertiesError')
+  }
+}
 
 export function executeInstantiationExpression(
   executor: Executor,
@@ -19,31 +22,52 @@ export function executeInstantiationExpression(
   const className = executor.evaluate(
     expression.className
   ) as EvaluationResultClassLookupExpression
-  const jikiClass = className.class
+  try {
+    const jikiClass = className.class
 
-  if (expression.args.length !== jikiClass.arity) {
-    executor.error('WrongNumberOfArgumentsInConstructor', expression.location, {
-      arity: jikiClass.arity,
-      numberOfArgs: expression.args.length,
-    })
-  }
-  const args: EvaluationResultExpression[] = []
-  for (const arg of expression.args) {
-    const evaluatedArg = executor.evaluate(arg)
-    if (!(evaluatedArg.jikiObject instanceof JikiTypes.JikiObject)) {
-      throw 'URGH'
+    const [minArity, maxArity] = isNumber(jikiClass.arity)
+      ? [jikiClass.arity, jikiClass.arity]
+      : jikiClass.arity
+
+    if (
+      expression.args.length < minArity ||
+      expression.args.length > maxArity
+    ) {
+      executor.error(
+        'WrongNumberOfArgumentsInConstructor',
+        expression.location,
+        {
+          arity: jikiClass.arity,
+          numberOfArgs: expression.args.length,
+        }
+      )
     }
-    args.push(evaluatedArg)
-  }
-  const object = jikiClass.instantiate(
-    executor.getExecutionContext(),
-    args.map((arg) => (arg.jikiObject as JikiTypes.JikiObject).toArg())
-  )
+    const args: EvaluationResultExpression[] = []
+    for (const arg of expression.args) {
+      const evaluatedArg = executor.evaluate(arg)
+      if (!(evaluatedArg.jikiObject instanceof JikiTypes.JikiObject)) {
+        throw 'URGH'
+      }
+      args.push(evaluatedArg)
+    }
 
-  return {
-    type: 'InstantiationExpression',
-    jikiObject: object,
-    className,
-    args: args,
+    const object = jikiClass.instantiate(
+      executor.getExecutionContext(),
+      args.map((arg) => (arg.jikiObject as JikiTypes.JikiObject).toArg())
+    )
+
+    return {
+      type: 'InstantiationExpression',
+      jikiObject: object,
+      className,
+      args: args,
+    }
+  } catch (e) {
+    if (e instanceof UnsetPropertyError) {
+      executor.error('ConstructorDidNotSetProperty', expression.location, {
+        property: e.property,
+      })
+    }
+    throw e
   }
 }

@@ -55,36 +55,46 @@ function fn(this: HouseExercise) {
 
   const Door = new Jiki.Class('Door')
   Door.addConstructor(function (
-    this: Jiki.Instance,
     executionCtx: ExecutionContext,
-    left: Jiki.Number,
-    top: Jiki.Number,
-    width: Jiki.Number,
-    height: Jiki.Number,
-    z_index: Jiki.Number
+    object: Jiki.Instance,
+    left: Jiki.JikiObject,
+    top: Jiki.JikiObject,
+    width: Jiki.JikiObject,
+    height: Jiki.JikiObject,
+    z_index: Jiki.JikiObject
   ) {
-    this.fields['left'] = left
-    this.fields['top'] = top
-    this.fields['width'] = width
-    this.fields['height'] = height
-    this.fields['z_index'] = z_index
-    drawDoor(executionCtx, this)
+    if (
+      !(left instanceof Jiki.Number) ||
+      !(top instanceof Jiki.Number) ||
+      !(width instanceof Jiki.Number) ||
+      !(height instanceof Jiki.Number) ||
+      !(z_index instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All parameters must be numbers.')
+    }
+    object.setField('left', left)
+    object.setField('top', top)
+    object.setField('width', width)
+    object.setField('height', height)
+    object.setField('z_index', z_index)
+    drawDoor(executionCtx, object)
   })
   Door.addSetter(
     'brightness',
+    'public',
     function (
-      this: Jiki.Instance,
       executionCtx: ExecutionContext,
+      object: Jiki.Instance,
       brightness: Jiki.JikiObject
     ) {
       if (!(brightness instanceof Jiki.Number)) {
         return executionCtx.logicError('Ooops! Brightness must be a number.')
       }
       if (brightness.value < 0 || brightness.value > 100) {
-        return executionCtx.logicError('Brightness must be between 0 and 100')
+        executionCtx.logicError('Brightness must be between 0 and 100')
       }
-      this.fields['brightness'] = brightness
-      changeDoorBrightness(executionCtx, this)
+      object.setField('brightness', brightness)
+      changeDoorBrightness(executionCtx, object)
     }
   )
   return Door

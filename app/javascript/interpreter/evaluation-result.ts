@@ -98,7 +98,15 @@ export type EvaluationResultSetVariableStatement = {
   type: 'SetVariableStatement'
   name: string
   value: EvaluationResultExpression
-  jikiObject: JikiTypes.JikiObject
+  jikiObject?: undefined
+  data?: Record<string, any>
+}
+
+export type EvaluationResultSetPropertyStatement = {
+  type: 'SetPropertyStatement'
+  property: string
+  value: EvaluationResult
+  jikiObject?: undefined
   data?: Record<string, any>
 }
 
@@ -139,6 +147,12 @@ export type EvaluationResultGroupingExpression = {
 export type EvaluationResultLiteralExpression = {
   type: 'LiteralExpression'
   jikiObject: JikiTypes.Literal
+  data?: Record<string, any>
+}
+
+export type EvaluationResultThisExpression = {
+  type: 'ThisExpression'
+  jikiObject: JikiTypes.Instance
   data?: Record<string, any>
 }
 
@@ -235,6 +249,7 @@ export type EvaluationResultStatement =
   | EvaluationResultLogStatement
   | EvaluationResultSetVariableStatement
   | EvaluationResultChangeVariableStatement
+  | EvaluationResultSetPropertyStatement
   | EvaluationResultChangeElementStatement
   | EvaluationResultContinueStatement
   | EvaluationResultBreakStatement
@@ -260,4 +275,3 @@ export type EvaluationResultExpression =
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
   | EvaluationResultInstantiationExpression
-  | EvaluationResultAccessorExpression

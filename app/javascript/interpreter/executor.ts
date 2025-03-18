@@ -29,6 +29,7 @@ import {
   InstantiationExpression,
   ClassLookupExpression,
   AccessorExpression,
+  ThisExpression,
 } from './expression'
 import { Location, Span } from './location'
 import {
@@ -50,6 +51,8 @@ import {
   ContinueStatement,
   MethodCallStatement,
   ChangePropertyStatement,
+  ClassStatement,
+  SetPropertyStatement,
 } from './statement'
 import type { Token } from './token'
 import type {
@@ -83,6 +86,8 @@ import type {
   EvaluationResultClassLookupExpression,
   EvaluationResultGetterExpression,
   EvaluationResultChangePropertyStatement,
+  EvaluationResultThisExpression,
+  EvaluationResultSetPropertyStatement,
 } from './evaluation-result'
 import { translate } from './translator'
 import cloneDeep from 'lodash.clonedeep'
@@ -101,6 +106,7 @@ import { isBoolean, isNumber, isString } from './checks'
 import { executeMethodCallExpression } from './executor/executeMethodCallExpression'
 import { executeInstantiationExpression } from './executor/executeInstantiationExpression'
 import { executeGetterExpression } from './executor/executeGetterExpression'
+import { executeClassStatement } from './executor/executeClassStatement'
 
 export type ExecutionContext = {
   state: Record<string, any>
@@ -110,6 +116,8 @@ export type ExecutionContext = {
   executeBlock: Function
   updateState: Function
   logicError: Function
+  withThis: Function
+  contextualThis: Jiki.Instance | null
 }
 
 export type ExternalFunction = {
@@ -150,6 +158,7 @@ export class Executor {
   // the changes in the frame descriptions
   protected functionCallLog: Record<string, Record<any, number>> = {}
   protected functionCallStack: String[] = []
+  private contextualThis: Jiki.Instance | null = null
 
   constructor(
     private readonly sourceCode: string,
@@ -389,6 +398,7 @@ export class Executor {
     this.location = null
     return result as T
   }
+
   public visitFunctionCallStatement(statement: FunctionCallStatement): void {
     this.executeFrame<EvaluationResultFunctionCallStatement>(statement, () => {
       const result = this.visitFunctionCallExpression(
@@ -448,13 +458,63 @@ export class Executor {
         )
       }
 
-      this.environment.define(statement.name.lexeme, value.jikiObject)
+      this.environment.define(
+        statement.name.lexeme,
+        value.jikiObject as Jiki.JikiObject
+      )
 
       return {
         type: 'SetVariableStatement',
         name: statement.name.lexeme,
         value: value,
         jikiObject: value.jikiObject,
+      }
+    })
+  }
+
+  public visitSetPropertyStatement(statement: SetPropertyStatement): void {
+    this.executeFrame<EvaluationResultSetPropertyStatement>(statement, () => {
+      if (!this.contextualThis) {
+        this.error('AccessorUsedOnNonInstance', statement.property.location)
+      }
+
+      if (this.contextualThis.getMethod(statement.property.lexeme)) {
+        this.error('UnexpectedChangeOfMethod', statement.property.location, {
+          name: statement.property.lexeme,
+        })
+      }
+      if (!this.contextualThis.hasProperty(statement.property.lexeme)) {
+        this.error(
+          'PropertySetterUsedOnNonProperty',
+          statement.property.location,
+          {
+            name: statement.property.lexeme,
+          }
+        )
+      }
+
+      let value: EvaluationResultExpression
+      try {
+        value = this.evaluate(statement.value)
+      } catch (e) {
+        if (e instanceof RuntimeError && e.type == 'ExpressionIsNull') {
+          this.error('CannotStoreNullFromFunction', statement.value.location)
+        } else {
+          throw e
+        }
+      }
+
+      // Update the underlying value
+      this.guardNoneJikiObject(value.jikiObject, statement.location)
+      this.contextualThis.setField(
+        statement.property.lexeme,
+        value.jikiObject as Jiki.JikiObject
+      )
+
+      return {
+        type: 'SetPropertyStatement',
+        property: statement.property.lexeme,
+        value: value,
       }
     })
   }
@@ -523,8 +583,6 @@ export class Executor {
     this.executeFrame<EvaluationResultChangePropertyStatement>(
       statement,
       () => {
-        const value = this.evaluate(statement.value)
-
         if (!(object.jikiObject instanceof Jiki.Instance)) {
           this.error('AccessorUsedOnNonInstance', statement.object.location)
         }
@@ -534,18 +592,32 @@ export class Executor {
             name: statement.property.lexeme,
           })
         }
+        if (setter.visibility === 'private') {
+          this.error(
+            'AttemptedToAccessPrivateSetter',
+            statement.property.location,
+            {
+              name: statement.property.lexeme,
+            }
+          )
+        }
+
+        const value = this.evaluate(statement.value)
+        this.guardNoneJikiObject(value.jikiObject, statement.location)
 
         // Do the update
-        const oldValue = object.jikiObject.fields[statement.property.lexeme]
+        const oldValue = object.jikiObject.getField(statement.property.lexeme)
         try {
-          setter.apply(object.jikiObject, [
+          setter.fn.apply(undefined, [
             this.getExecutionContext(),
-            value.jikiObject,
+            object.jikiObject,
+            value.jikiObject as Jiki.JikiObject,
           ])
         } catch (e: unknown) {
           if (e instanceof LogicError) {
             this.error('LogicError', statement.location, { message: e.message })
           }
+          throw e
         }
 
         return {
@@ -659,12 +731,12 @@ export class Executor {
     this.executeBlock(statement.statements, this.environment)
   }
 
+  public visitClassStatement(statement: ClassStatement): void {
+    executeClassStatement(this, statement)
+  }
+
   public visitFunctionStatement(statement: FunctionStatement): void {
-    const func = new UserDefinedFunction(
-      statement,
-      this.environment,
-      this.languageFeatures
-    )
+    const func = new UserDefinedFunction(statement)
 
     if (
       !this.customFunctionDefinitionMode &&
@@ -797,7 +869,7 @@ export class Executor {
     this.executeLoop(() => {
       let iteration = 0
       for (let temporaryVariableValue of iterable.jikiObject.value) {
-        iteration += 1
+        iteration++
         this.guardInfiniteLoop(statement.location)
 
         const temporaryVariableNames: string[] = []
@@ -1037,6 +1109,19 @@ export class Executor {
     return executeGetterExpression(this, expression)
   }
 
+  public visitThisExpression(
+    expression: ThisExpression
+  ): EvaluationResultThisExpression {
+    if (!this.contextualThis) {
+      this.error('ThisUsedOutsideOfMethod', expression.location)
+    }
+
+    return {
+      type: 'ThisExpression',
+      jikiObject: this.contextualThis,
+    }
+  }
+
   public visitLiteralExpression(
     expression: LiteralExpression
   ): EvaluationResultLiteralExpression {
@@ -1064,6 +1149,11 @@ export class Executor {
   ): EvaluationResultVariableLookupExpression {
     const value = this.lookupVariable(expression.name)
     this.guardUncalledFunction(value, expression)
+    if (value instanceof Jiki.Class) {
+      this.error('ClassCannotBeUsedAsVariable', expression.name.location, {
+        name: expression.name.lexeme,
+      })
+    }
 
     return {
       type: 'VariableLookupExpression',
@@ -1584,6 +1674,12 @@ export class Executor {
     }
   }
 
+  public guardDefinedClass(name: Token) {
+    if (this.globals.inScope(name)) {
+      this.error('ClassAlreadyDefined', name.location, { name: name.lexeme })
+    }
+  }
+
   private guardInfiniteLoop(loc: Location) {
     this.totalLoopIterations++
 
@@ -1600,7 +1696,7 @@ export class Executor {
     this.error('ExpressionIsNull', location)
   }
 
-  private guardNoneJikiObject(value, location: Location) {
+  private guardNoneJikiObject(value: any, location: Location) {
     if (value instanceof Jiki.JikiObject) {
       return
     }
@@ -1679,6 +1775,10 @@ export class Executor {
     this.functionCallStack.pop()
   }
 
+  public addClass(klass: Jiki.Class) {
+    this.globals.define(klass.name, klass)
+  }
+
   public getExecutionContext(): ExecutionContext {
     return {
       state: this.externalState,
@@ -1690,6 +1790,18 @@ export class Executor {
       evaluate: this.evaluate.bind(this),
       updateState: this.updateState.bind(this),
       logicError: this.logicError.bind(this),
+      withThis: this.withThis.bind(this),
+      contextualThis: this.contextualThis,
+    }
+  }
+
+  public withThis(newThis: Jiki.Instance | null, fn) {
+    const oldThis = this.contextualThis
+    try {
+      this.contextualThis = newThis
+      return fn()
+    } finally {
+      this.contextualThis = oldThis
     }
   }
 

@@ -50,14 +50,14 @@ describe('parse', () => {
 test('execute', () => {
   const Person = new Jiki.Class('Person')
   Person.addConstructor(function (
-    this: any,
     _: ExecutionContext,
-    name: string
+    object: Jiki.Instance,
+    name: Jiki.JikiObject
   ) {
-    this.fields['name'] = name
+    object.setField('name', name)
   })
-  Person.addGetter('name')
-  Person.addSetter('name')
+  Person.addGetter('name', 'public')
+  Person.addSetter('name', 'public')
 
   const context: EvaluationContext = { classes: [Person] }
   const { frames, error } = interpret(

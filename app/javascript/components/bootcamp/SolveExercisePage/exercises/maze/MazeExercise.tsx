@@ -8,6 +8,7 @@ import { isEqual } from 'lodash'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { exec } from 'child_process'
 import { buildSquare, type SquareInstance } from './Square'
+import { UserDefinedMethod } from '@/interpreter/functions'
 
 type Cell = 0 | 1 | 2 | 3 | 4 | 5 | 6 | string
 
@@ -279,7 +280,8 @@ export default class MazeExercise extends Exercise {
   private removeEmoji(executionCtx: ExecutionContext) {
     const yRow = this.mazeLayout[this.characterPosition.y]
     const square = yRow[this.characterPosition.x]
-    square.getMethod('remove_emoji')!.fn.bind(square).call(square, executionCtx)
+    const fn = square.getMethod('remove_emoji')!.fn as Jiki.RawMethod
+    fn.call(undefined, executionCtx, square)
   }
 
   private gameOverWin(executionCtx: ExecutionContext) {

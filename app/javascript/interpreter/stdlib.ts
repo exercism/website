@@ -3,7 +3,7 @@ import { FunctionCallTypeMismatchError } from './error'
 import { ExecutionContext, ExternalFunction } from './executor'
 import * as Jiki from './jikiObjects'
 
-export function filteredStdLibFunctions(required: string[]) {
+export function filteredStdLibFunctions(required?: string[]) {
   // Choose the functions that are available to the student from config.stdlibFunctions
   return Object.entries(StdlibFunctions)
     .filter(([key]) => (required || []).includes(key))

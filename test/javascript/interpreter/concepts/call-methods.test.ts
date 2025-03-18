@@ -112,15 +112,19 @@ describe('execute', () => {
   test('no args', () => {
     const Person = new Jiki.Class('Person')
     Person.addConstructor(function (
-      this: Jiki.Instance,
       _: ExecutionContext,
-      name: Jiki.String
+      object: Jiki.Instance,
+      name: Jiki.JikiObject
     ) {
-      this.fields['name'] = name
+      object.setField('name', name)
     })
-    Person.addMethod('name', function (this: any, _: ExecutionContext) {
-      return this.fields['name']
-    })
+    Person.addMethod(
+      'name',
+      'public',
+      function (_: ExecutionContext, object: Jiki.Instance) {
+        return object.getField('name')
+      }
+    )
 
     const context: EvaluationContext = { classes: [Person] }
     const { frames, error } = interpret(
@@ -137,16 +141,22 @@ describe('execute', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
     Person.addConstructor(function (
-      this: any,
       _: ExecutionContext,
-      name: Jiki.String
+      object: any,
+      name: Jiki.JikiObject
     ) {
-      this.name = name
+      object.setField('name', name)
     })
     Person.addMethod(
       'name_char',
-      function (this: any, _: ExecutionContext, idx: Jiki.Number) {
-        return new Jiki.String(this.name.value[idx.value - 1])
+      'public',
+      function (
+        _: ExecutionContext,
+        object: Jiki.Instance,
+        idx: Jiki.JikiObject
+      ) {
+        if (!(idx instanceof Jiki.Number)) return
+        return new Jiki.String(object.getUnwrappedField('name')[idx.value - 1])
       }
     )
 
@@ -160,49 +170,5 @@ describe('execute', () => {
     // Last line
     const lastFrame = frames[frames.length - 1]
     expect(Jiki.unwrapJikiObject(lastFrame.variables)['name']).toBe('r')
-  })
-
-  describe('pass by value', () => {
-    test.skip('lists', () => {
-      const getObjectFunction = (_: any) => {
-        const jikiObject = new Jiki.Number(5)
-        jikiObject.methods.set(
-          // TODO: We've removed methods from numbers
-          'increment_all',
-          new Jiki.Method(
-            'increment_all',
-            1,
-            (_: EvaluationContext, ...args) => {
-              args[0].value += 1
-              return new Jiki.Number(3)
-            }
-          )
-        )
-        return jikiObject
-      }
-      const context: EvaluationContext = {
-        externalFunctions: [
-          {
-            name: 'get_object',
-            func: getObjectFunction,
-            description: '',
-          },
-        ],
-      }
-      const { frames, error } = interpret(
-        `
-      set original to [1, 2, 3]
-      get_object().increment_all(original)
-      log original
-    `,
-        context
-      )
-
-      // Last line
-      const lastFrame = frames[frames.length - 1]
-      expect(Jiki.unwrapJikiObject(lastFrame.variables)['original']).toEqual([
-        1, 2, 3,
-      ])
-    })
   })
 })

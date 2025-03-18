@@ -34,5 +34,9 @@
   {
     "title": "Methods",
     "description": "We explore the second small step into Object-Oriented Programming: methods"
+  },
+  {
+    "title": "Classes",
+    "description": "We finally start to build our own classes!"
   }
 ]

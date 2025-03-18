@@ -4,17 +4,24 @@ import { SomethingWithLocation } from './interpreter'
 const StatementKeywordTokens = [
   'BREAK',
   'CHANGE',
+  'CLASS',
+  'CONSTRUCTOR',
   'CONTINUE',
   'NEXT',
   'FOR',
   'FUNCTION',
   'IF',
   'LOG',
+  'METHOD',
+  'PRIVATE',
+  'PROPERTY',
+  'PUBLIC',
   'REPEAT',
   'REPEAT_FOREVER',
   'REPEAT_UNTIL_GAME_OVER',
   'RETURN',
   'SET',
+  'THIS',
   // 'WHILE'
 ] as const
 

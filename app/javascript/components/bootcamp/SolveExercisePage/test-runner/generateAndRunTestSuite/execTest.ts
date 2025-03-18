@@ -25,7 +25,7 @@ export function execTest(
 
   const context = {
     externalFunctions: buildExternalFunctions(options, exercise),
-    classes: exercise?.availableClasses || [],
+    classes: buildExternalClasses(options, exercise),
     languageFeatures: options.config.interpreterOptions,
     customFunctions: options.customFunctions,
   }
@@ -85,12 +85,28 @@ const buildExternalFunctions = (
   if (!exercise) return externalFunctions
 
   let exerciseFunctions = exercise.availableFunctions || []
-  if (options.config.exerciseFunctions) {
+  if (options.config.exerciseFunctions != undefined) {
+    const required = options.config.exerciseFunctions
     exerciseFunctions = exerciseFunctions.filter((func) =>
-      options.config.exerciseFunctions.includes(func.name)
+      required.includes(func.name)
     )
   }
   return externalFunctions.concat(exerciseFunctions)
+}
+const buildExternalClasses = (
+  options: TestRunnerOptions,
+  exercise: Exercise | undefined
+) => {
+  if (!exercise) return []
+
+  let exerciseClasses = exercise.availableClasses || []
+  if (options.config.exerciseClasses != undefined) {
+    const required = options.config.exerciseClasses
+    exerciseClasses = exerciseClasses.filter((func) =>
+      required.includes(func.name)
+    )
+  }
+  return exerciseClasses
 }
 
 const runSetupFunctions = (
@@ -100,12 +116,12 @@ const runSetupFunctions = (
   if (!exercise) return
 
   setupFunctions.forEach((functionData) => {
-    let [functionName, params] = functionData
-    if (!params) {
-      params = []
+    let [functionName, args] = functionData
+    if (!args) {
+      args = []
     }
     if (typeof exercise[functionName] === 'function') {
-      ;(exercise[functionName] as Function)(null, ...params)
+      ;(exercise[functionName] as Function)(null, ...args)
     }
   })
 }

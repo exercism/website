@@ -5,6 +5,7 @@
   "level": 4,
   "idx": 3,
   "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
   "tasks": [
     {
       "name": "Correctly identify even numbers",

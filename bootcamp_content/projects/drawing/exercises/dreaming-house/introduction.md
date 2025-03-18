@@ -57,6 +57,7 @@ You only have one function available:
 
 ### Reminder: House Instructions
 
+- The sun starts with a cx of 80, a cy of 20, and a radius of 10.
 - The top-left of the drawing canvas is `0,0`. The bottom-right is `100,100`.
 - The frame of the house (the big rectangle) should be 60 wide and 40 height. It should have it's top-left corner at 20x50.
 - The roof sits snuggly on top of the house's frame. It should overhang the left and right of the house by 4 on each side. It should have a height of 20, and it's point should be centered horizontally (50).

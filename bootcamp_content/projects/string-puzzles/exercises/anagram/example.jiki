@@ -15,29 +15,6 @@ function contains with haystack, needle do
   return false
 end
 
-function sort_string with unsorted do
-  set dict to {}
-  set letters to "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTvUvVwWxXyYzZ" 
-  for each letter in letters do
-    change dict[letter] to 0
-  end
-
-  for each char in unsorted do
-    change dict[char] to dict[char] + 1
-  end
-
-  set res to ""
-  for each k in letters do
-    repeat dict[k] times do
-      change res to concatenate(res, k)
-    end
-  end
-  
-  return res
-
-
-end
-
 function to_lowercase with string do
 
   set output to ""

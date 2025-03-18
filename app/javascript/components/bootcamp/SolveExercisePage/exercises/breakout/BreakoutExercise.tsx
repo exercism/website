@@ -134,7 +134,6 @@ export default class BreakoutExercise extends Exercise {
     ) {
       this.paddleBallInteractionCount += 1
     }
-    console.log(this.paddleBallInteractionCount)
   }
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {

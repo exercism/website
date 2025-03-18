@@ -66,8 +66,8 @@
           "type": "io",
           "name": "Number 19",
           "description_html": "Is Ducky Game?",
-          "expression": "(new TameOrGame(19)).game_or_tame(\"Ducky\")",
-          "code_run": "(new TameOrGame(19)).game_or_tame(\"Ducky\")",
+          "expression": "(new TameOrGame(19)).tame_or_game(\"Ducky\")",
+          "code_run": "(new TameOrGame(19)).tame_or_game(\"Ducky\")",
           "checks": [
             {
               "value": "Ducky is game."
@@ -79,8 +79,8 @@
           "type": "io",
           "name": "Number 100",
           "description_html": "Is Ducky Game now?",
-          "expression": "(new TameOrGame(100)).game_or_tame(\"Ducky\")",
-          "code_run": "(new TameOrGame(100)).game_or_tame(\"Ducky\")",
+          "expression": "(new TameOrGame(100)).tame_or_game(\"Ducky\")",
+          "code_run": "(new TameOrGame(100)).tame_or_game(\"Ducky\")",
           "checks": [
             {
               "value": "Ducky is tame."
@@ -92,8 +92,8 @@
           "type": "io",
           "name": "Number 1235",
           "description_html": "Is Rubber Game now?",
-          "expression": "(new TameOrGame(1235)).game_or_tame(\"Rubber\")",
-          "code_run": "(new TameOrGame(1235)).game_or_tame(\"Rubber\")",
+          "expression": "(new TameOrGame(1235)).tame_or_game(\"Rubber\")",
+          "code_run": "(new TameOrGame(1235)).tame_or_game(\"Rubber\")",
           "checks": [
             {
               "value": "Rubber is game."

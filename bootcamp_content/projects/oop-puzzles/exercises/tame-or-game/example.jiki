@@ -13,7 +13,7 @@ class TameOrGame do
     return !this.is_even()
   end
 
-  public method game_or_tame with thing do
+  public method tame_or_game with thing do
     if this.is_tame() do
       set word to "tame"
     else do

@@ -23,7 +23,6 @@ function fn(this: BreakoutExercise) {
   }
 
   const Block = new Jiki.Class('Block')
-  Block['default_height'] = 7
   Block.addConstructor(function (
     executionCtx: ExecutionContext,
     object: Jiki.Instance,
@@ -36,7 +35,7 @@ function fn(this: BreakoutExercise) {
     object.setField('left', left)
     object.setField('top', top)
     object.setField('width', new Jiki.Number(16))
-    object.setField('height', new Jiki.Number(Block['default_height']))
+    object.setField('height', new Jiki.Number(exercise.default_block_height))
     object.setField('smashed', new Jiki.Boolean(false))
     if (exercise.autoDrawBlock) {
       exercise.drawBlock(executionCtx, object as BlockInstance)

@@ -11,11 +11,6 @@ export function filteredStdLibFunctions(required?: string[]) {
 }
 
 export const StdlibFunctions: Record<string, ExternalFunction> = {
-  join: {
-    name: 'join',
-    func: join,
-    description: 'joined the two strings together',
-  },
   concatenate: {
     name: 'concatenate',
     func: concatenate,
@@ -72,17 +67,43 @@ export const StdlibFunctions: Record<string, ExternalFunction> = {
     func: max,
     description: 'returned the maximum of two numbers',
   },
+  sort_string: {
+    name: 'sort_string',
+    func: sortString,
+    description: 'sorted the string',
+  },
 }
+//const funcsForLib = ["push", "concatenate"]
+const funcsForLib = Object.keys(StdlibFunctions).filter(
+  (key) => key !== 'sort_string'
+)
+export const StdlibFunctionsForLibrary: ExternalFunction[] = Object.entries(
+  StdlibFunctions
+)
+  .filter(([key]) => funcsForLib.includes(key))
+  .map(([_, v]) => v)
 
-function join(
-  _: ExecutionContext,
-  str1: Jiki.String,
-  str2: Jiki.String
-): Jiki.String {
-  verifyType(str1, Jiki.String, 'string', 1)
-  verifyType(str2, Jiki.String, 'string', 2)
+function sortString(_: ExecutionContext, str: Jiki.JikiObject): Jiki.String {
+  if (str instanceof Jiki.String) {
+    return new Jiki.String(str.value.split('').sort().join(''))
+  }
+  if (str instanceof Jiki.List) {
+    if (!str.value.every((el) => el instanceof Jiki.String)) {
+      throw new FunctionCallTypeMismatchError({
+        argIdx: 1,
+        expectedType: 'list of strings',
+        value: Jiki.unwrapJikiObject(str),
+      })
+    }
 
-  return new Jiki.String(`${str1.value}${str2.value}`)
+    return new Jiki.String(Jiki.unwrapJikiObject(str).sort().join(''))
+  }
+
+  throw new FunctionCallTypeMismatchError({
+    argIdx: 1,
+    expectedType: 'string or list',
+    value: Jiki.unwrapJikiObject(str),
+  })
 }
 
 function concatenate(

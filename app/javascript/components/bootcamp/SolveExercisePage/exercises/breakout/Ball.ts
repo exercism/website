@@ -24,14 +24,13 @@ function fn(this: BreakoutExercise) {
   }
 
   const Ball = new Jiki.Class('Ball')
-  Ball['default_radius'] = 3
   Ball.addConstructor(function (
     executionCtx: ExecutionContext,
     ball: Jiki.Instance
   ) {
     ball.setField('cx', new Jiki.Number(50))
-    ball.setField('cy', new Jiki.Number(100 - Ball['default_radius']))
-    ball.setField('radius', new Jiki.Number(Ball['default_radius']))
+    ball.setField('cy', new Jiki.Number(100 - exercise.default_ball_radius))
+    ball.setField('radius', new Jiki.Number(exercise.default_ball_radius))
     ball.setField('y_velocity', new Jiki.Number(-1))
     ball.setField('x_velocity', new Jiki.Number(-1))
     createBall(executionCtx, ball)

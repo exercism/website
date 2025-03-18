@@ -1,6 +1,10 @@
 # Bonus Tasks
 
-Can you sort the anagrams so that they're returned in alphabetical order? For example:
+You have two bonus tasks:
+
+The first is to make your own [`my#sort_string`](/bootcamp/custom_functions/sort_string/edit) function rather than using the built-in sort_string.
+
+The second is tougher: Can you sort the anagrams so that they're returned in alphabetical order? For example:
 
 ```jikiscript
 find_anagrams("stone", ["tones", "banana", "notes", "Seton"])

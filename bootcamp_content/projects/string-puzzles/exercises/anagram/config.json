@@ -4,7 +4,7 @@
   "level": 9,
   "idx": 3,
   "tests_type": "io",
-  "stdlib_functions": ["push", "concatenate"],
+  "stdlib_functions": ["push", "concatenate", "sort_string"],
   "tasks": [
     {
       "name": "Find Anagrams",
@@ -79,6 +79,26 @@
       "name": "Bonus Tests",
       "bonus": true,
       "tests": [
+        {
+          "slug": "sort_string",
+          "skip_ci": true,
+          "name": "Use your own sort_string",
+          "description_html": "Can you solve the exercise without using the built in sort_string?",
+          "function": "find_anagrams",
+          "args": [
+            "stone",
+            ["stone", "tones", "banana", "tons", "notes", "Seton"]
+          ],
+          "checks": [
+            {
+              "code_run": "We checked how many times the built in sort_string function was used.",
+              "function": "numFunctionCallsInCode('sort_string')",
+              "value": 0,
+              "error_html": "You should not use the sort_string function in your solution."
+            },
+            { "value": ["Seton", "notes", "tones"] }
+          ]
+        },
         {
           "name": "Sorting",
           "slug": "sorting",

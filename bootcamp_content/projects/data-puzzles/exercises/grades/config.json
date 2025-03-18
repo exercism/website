@@ -5,7 +5,7 @@
   "idx": 2,
   "tests_type": "io",
   "project_type": "data",
-  "stdlib_functions": ["concatenate", "push"],
+  "stdlib_functions": ["concatenate", "push", "sort_string"],
   "tasks": [
     {
       "name": "Build the URL",
@@ -93,6 +93,25 @@
           "function": "grades_to_pattern",
           "args": ["Class 3 of 2024"],
           "checks": [
+            {
+              "value": { "teacher": "Perez Espinosa", "grades": "AAABCDDE" }
+            }
+          ]
+        },
+        {
+          "slug": "sort_string",
+          "skip_ci": true,
+          "name": "Use your own sort_string",
+          "description_html": "Can you solve the exercise without using the built in sort_string?",
+          "function": "grades_to_pattern",
+          "args": ["Class 3 of 2024"],
+          "checks": [
+            {
+              "code_run": "We checked how many times the built in sort_string function was used.",
+              "function": "numFunctionCallsInCode('sort_string')",
+              "value": 0,
+              "error_html": "You should not use the sort_string function in your solution."
+            },
             {
               "value": { "teacher": "Perez Espinosa", "grades": "AAABCDDE" }
             }

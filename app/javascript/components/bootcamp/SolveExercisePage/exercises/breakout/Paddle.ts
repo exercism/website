@@ -61,7 +61,7 @@ function fn(this: BreakoutExercise) {
     'move_left',
     'public',
     function (executionCtx: ExecutionContext, paddle: PaddleInstance) {
-      const newCx = paddle.getUnwrappedField('cx') - 0.8
+      const newCx = paddle.getUnwrappedField('cx') - 0.85
       if (newCx - paddle.getUnwrappedField('width') / 2 < 0) {
         return executionCtx.logicError(
           'Paddle cannot move off the left of the screen'

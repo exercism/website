@@ -34,6 +34,7 @@ export const DEFAULT_BROWSER_STYLES = {
   body: {
     display: 'block',
     margin: '8px',
+    overflow: 'scroll',
   },
   'body:focus': { outline: 'none' },
   br: {},

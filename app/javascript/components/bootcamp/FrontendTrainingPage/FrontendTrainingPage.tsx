@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { Instructions } from './Instructions'
@@ -17,12 +17,17 @@ import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
 import { interpret } from '@/css-interpreter/interpreter'
 import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { Frame } from '@/css-interpreter/frames'
-import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { showError } from '../SolveExercisePage/utils/showError'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import SolveExercisePageContextWrapper from '../SolveExercisePage/SolveExercisePageContextWrapper'
+import {
+  Animation,
+  AnimationTimeline,
+} from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
+import { DEFAULT_BROWSER_STYLES } from './defaultStyles'
 
 export default function FrontendTrainingPage() {
+  const actualOutputRef = useRef<HTMLDivElement>(null)
   const {
     actualIFrameRef,
     expectedIFrameRef,
@@ -58,7 +63,25 @@ export default function FrontendTrainingPage() {
 
   const [frames, setFrames] = useState<Frame[] | undefined>(undefined)
   const [cssAnimationTimeline, setCssAnimationTimeline] = useState()
+
   const interpreterCssCode = useCallback(() => {
+    if (actualIFrameRef.current) {
+      // reload iframe, remove all stylings
+      actualIFrameRef.current.contentWindow?.location.reload()
+      const document = actualIFrameRef.current.contentDocument
+      document?.querySelectorAll('*').forEach((el) => {
+        Object.assign(el.style, DEFAULT_BROWSER_STYLES[el.tagName])
+      })
+      if (document) {
+        const styles = window.getComputedStyle(document.body)
+        console.log('styles', styles)
+      }
+      updateIFrame(
+        actualIFrameRef,
+        htmlEditorViewRef.current?.state.doc.toString() || ''
+      )
+    }
+
     const cssCode = cssEditorViewRef.current?.state.doc.toString() || ''
     const interpretation = interpret(cssCode)
     if (interpretation.error) {
@@ -77,7 +100,10 @@ export default function FrontendTrainingPage() {
     const { frames } = interpretation
     if (frames && frames.length > 0) {
       setFrames(frames)
-      const animationTimeline = buildAnimationTimeline(undefined, frames)
+      const animationTimeline = buildCssAnimationTimeline(
+        actualIFrameRef.current,
+        frames
+      )
       console.log(animationTimeline)
       setCssAnimationTimeline(animationTimeline)
     }
@@ -116,7 +142,7 @@ export default function FrontendTrainingPage() {
                     htmlEditorContent: html,
                     cssEditorContent: css,
                   })
-                  updateIFrame(actualIFrameRef, html, css)
+                  updateIFrame(actualIFrameRef, html)
                 }}
                 handleRunCode={() => {}}
                 ref={htmlEditorViewRef}
@@ -132,7 +158,6 @@ export default function FrontendTrainingPage() {
                   const css = view.state.doc.toString()
                   const html =
                     htmlEditorViewRef.current?.state.doc.toString() || ''
-                  updateIFrame(actualIFrameRef, html, css)
                   setEditorCodeLocalStorage({
                     htmlEditorContent: html,
                     cssEditorContent: css,
@@ -159,6 +184,7 @@ export default function FrontendTrainingPage() {
             </div>
 
             <div className="flex flex-col gap-12">
+              <div ref={actualOutputRef} />
               <ActualOutput />
               <ExpectedOutput />
             </div>
@@ -177,5 +203,43 @@ export default function FrontendTrainingPage() {
         </div>
       </FrontendTrainingPageContext.Provider>
     </SolveExercisePageContextWrapper>
+  )
+}
+
+export function buildCssAnimationTimeline(
+  domElement: HTMLIFrameElement | null,
+  frames: Frame[]
+) {
+  let animations: Animation[] = []
+  let placeholder = false
+
+  if (!domElement) return
+
+  const document = domElement.contentDocument
+  if (!document) return
+
+  frames.forEach((frame) => {
+    if (frame.animations) {
+      frame.animations.forEach((animation) => {
+        const target = document.querySelector(animation.selector)
+
+        console.log('target', target)
+        if (!target) return
+        const newAnim: Animation = {
+          targets: target,
+          [animation.property]: animation.value,
+          duration: 10,
+          offset: frame.time,
+        }
+        animations.push(newAnim)
+      })
+    }
+  })
+
+  console.log('ANIMATION INSIDE', animations)
+
+  return new AnimationTimeline({}, frames).populateTimeline(
+    animations,
+    placeholder
   )
 }

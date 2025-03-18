@@ -1,7 +1,6 @@
 import React from 'react'
 import { diffChars, diffWords, type Change } from 'diff'
 import { useRef, useEffect, useMemo } from 'react'
-import useEditorStore from '../store/editorStore'
 import useTestStore from '../store/testStore'
 import { formatJikiObject } from '@/interpreter/helpers'
 

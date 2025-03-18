@@ -1,4 +1,8 @@
-import { evaluateFunction, interpret } from '@/interpreter/interpreter'
+import {
+  evaluateExpression,
+  evaluateFunction,
+  interpret,
+} from '@/interpreter/interpreter'
 import { generateExpects } from './generateExpects'
 import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { filteredStdLibFunctions } from '@/interpreter/stdlib'
@@ -40,6 +44,12 @@ export function execTest(
       testData.function,
       ...args
     )
+  } else if (testData.expression) {
+    evaluated = evaluateExpression(
+      options.studentCode,
+      context,
+      testData.expression
+    )
   } else {
     evaluated = interpret(options.studentCode, context)
   }
@@ -57,7 +67,9 @@ export function execTest(
     })
   }*/
 
-  const codeRun = generateCodeRunString(testData.function, args)
+  const codeRun = testData.codeRun
+    ? testData.codeRun
+    : generateCodeRunString(testData.function, args)
 
   const animationTimeline = buildAnimationTimeline(exercise, frames)
 

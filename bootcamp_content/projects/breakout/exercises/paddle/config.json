@@ -1,6 +1,6 @@
 {
   "title": "Paddle",
-  "description": "Add the paddle",
+  "description": "Add the paddle to Breakout (and make it move intelligently!)",
   "project_type": "breakout",
   "level": 9,
   "idx": 3,

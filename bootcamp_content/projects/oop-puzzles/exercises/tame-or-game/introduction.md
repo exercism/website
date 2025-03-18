@@ -18,7 +18,7 @@ It should methods for `is_tame()`, `is_game()` and `tame_or_game()`:
 
 For example:
 
-```
+```jikiscript
 game = new TameOrGame(5)
 game.is_tame() // returns false
 game.is_game() // returns true

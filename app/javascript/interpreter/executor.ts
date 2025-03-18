@@ -1522,23 +1522,30 @@ export class Executor {
   }
 
   public executeStatement(statement: Statement): void {
-    if (this.time > this.languageFeatures.maxTotalExecutionTime) {
-      const location = new Location(
-        statement.location.line,
-        new Span(
-          statement.location.relative.begin,
-          statement.location.relative.begin + 1
-        ),
-        new Span(
-          statement.location.absolute.begin,
-          statement.location.absolute.begin + 1
+    try {
+      if (this.time > this.languageFeatures.maxTotalExecutionTime) {
+        const location = new Location(
+          statement.location.line,
+          new Span(
+            statement.location.relative.begin,
+            statement.location.relative.begin + 1
+          ),
+          new Span(
+            statement.location.absolute.begin,
+            statement.location.absolute.begin + 1
+          )
         )
-      )
-      this.error('MaxTotalExecutionTimeReached', location)
-    }
+        this.error('MaxTotalExecutionTimeReached', location)
+      }
 
-    const method = `visit${statement.type}`
-    this[method](statement)
+      const method = `visit${statement.type}`
+      this[method](statement)
+    } catch (e) {
+      if (e instanceof LogicError) {
+        this.error('LogicError', statement.location, { message: e.message })
+      }
+      throw e
+    }
   }
 
   public evaluate(expression: Expression): EvaluationResultExpression {

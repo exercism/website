@@ -44,6 +44,7 @@ function fn(this: any) {
     object.setField('z_index', z_index)
     drawGround(executionCtx, object)
   })
+  Ground.addGetter('height', 'public')
   Ground.addSetter(
     'brightness',
     'public',

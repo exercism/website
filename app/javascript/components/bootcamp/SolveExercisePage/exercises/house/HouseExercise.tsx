@@ -11,6 +11,10 @@ import { buildDoor } from './Door'
 import { buildGround } from './Ground'
 import { buildSky } from './Sky'
 import { buildSun } from './Sun'
+import { buildRectangle } from './Rectangle'
+import { buildCircle } from './Circle'
+import { buildTriangle } from './Triangle'
+import { buildHSLColor } from './HSLColor'
 
 export default class HouseExercise extends DrawExercise {
   private Roof = buildRoof(this)
@@ -20,8 +24,12 @@ export default class HouseExercise extends DrawExercise {
   private Ground = buildGround(this)
   private Sky = buildSky(this)
   private Sun = buildSun(this)
+  private Rectangle = buildRectangle(this)
+  private Circle = buildCircle(this)
+  private Triangle = buildTriangle(this)
+  private HSLColor = buildHSLColor(this)
 
-  protected events: string[] = []
+  public events: string[] = []
 
   public constructor() {
     super('house')
@@ -40,26 +48,40 @@ export default class HouseExercise extends DrawExercise {
   }
 
   public checkSunSet() {
-    return this.events.includes('sun:position:-4,90')
+    return (
+      this.events.includes('sun:position:-4,90') ||
+      this.events.includes('circle:position:-4,90')
+    )
   }
 
   public checkLightsOn() {
     return (
       this.events.filter((event) => event.includes('window:lights:on'))
+        .length == 2 ||
+      this.events.filter((event) => event.includes('rectangle:hsl:56:100:50'))
         .length == 2
     )
   }
 
   public checkSunBeforeLights() {
-    const sunsetIdx = this.events.indexOf('sun:position:-4,90')
-    const lightsOnIdx = this.events.indexOf('window:lights:on')
+    let sunsetIdx = this.events.indexOf('sun:position:-4,90')
+    if (sunsetIdx == -1)
+      sunsetIdx = this.events.indexOf('circle:position:-4,90')
+    let lightsOnIdx = this.events.indexOf('window:lights:on')
+    if (lightsOnIdx == -1)
+      lightsOnIdx = this.events.indexOf('rectangle:hsl:56:100:50')
 
     return sunsetIdx < lightsOnIdx
   }
 
   public checkLightsBeforeBrightness() {
-    const lightsOnIdx = this.events.indexOf('window:lights:on')
-    const roofBrightnessIdx = this.events.indexOf('roof:brightness:99')
+    let lightsOnIdx = this.events.indexOf('window:lights:on')
+    if (lightsOnIdx == -1)
+      lightsOnIdx = this.events.indexOf('rectangle:hsl:56:100:50')
+
+    let roofBrightnessIdx = this.events.indexOf('roof:brightness:99')
+    if (roofBrightnessIdx == -1)
+      roofBrightnessIdx = this.events.indexOf('triangle:brightness:99')
 
     return lightsOnIdx < roofBrightnessIdx
   }
@@ -71,32 +93,42 @@ export default class HouseExercise extends DrawExercise {
   }
   public elementsReachedBrightness80() {
     return (
-      this.events.includes('roof:brightness:80') &&
-      this.events.includes('roof:brightness:80') &&
-      this.events.includes('frame:brightness:80') &&
-      this.events.includes('door:brightness:80') &&
-      this.events.includes('ground:brightness:80') &&
-      this.events.includes('sky:brightness:80')
+      (this.events.includes('roof:brightness:80') &&
+        this.events.includes('frame:brightness:80') &&
+        this.events.includes('door:brightness:80') &&
+        this.events.includes('ground:brightness:80') &&
+        this.events.includes('sky:brightness:80')) ||
+      (this.events.includes('triangle:brightness:80') &&
+        this.events.includes('rectangle:brightness:80') &&
+        this.events.includes('circle:brightness:80'))
     )
   }
   public elementsReachedBrightness20() {
     return (
-      this.events.includes('roof:brightness:20') &&
-      this.events.includes('roof:brightness:20') &&
-      this.events.includes('frame:brightness:20') &&
-      this.events.includes('door:brightness:20') &&
-      this.events.includes('ground:brightness:20') &&
-      this.events.includes('sky:brightness:20')
+      (this.events.includes('roof:brightness:20') &&
+        this.events.includes('roof:brightness:20') &&
+        this.events.includes('frame:brightness:20') &&
+        this.events.includes('door:brightness:20') &&
+        this.events.includes('ground:brightness:20') &&
+        this.events.includes('sky:brightness:20')) ||
+      (this.events.includes('triangle:brightness:20') &&
+        this.events.includes('rectangle:brightness:20') &&
+        this.events.includes('circle:brightness:20'))
     )
   }
   public elementsReachedBrightness19() {
-    return !(
-      this.events.includes('roof:brightness:19') ||
-      this.events.includes('roof:brightness:19') ||
-      this.events.includes('frame:brightness:19') ||
-      this.events.includes('door:brightness:19') ||
-      this.events.includes('ground:brightness:19') ||
-      this.events.includes('sky:brightness:19')
+    return (
+      !(
+        this.events.includes('roof:brightness:19') ||
+        this.events.includes('roof:brightness:19') ||
+        this.events.includes('frame:brightness:19') ||
+        this.events.includes('door:brightness:19') ||
+        this.events.includes('ground:brightness:19') ||
+        this.events.includes('sky:brightness:19')
+      ) ||
+      (this.events.includes('triangle:brightness:19') &&
+        this.events.includes('rectangle:brightness:19') &&
+        this.events.includes('circle:brightness:19'))
     )
   }
 
@@ -111,6 +143,10 @@ export default class HouseExercise extends DrawExercise {
     this.Ground,
     this.Sky,
     this.Sun,
+    this.Rectangle,
+    this.Circle,
+    this.Triangle,
+    this.HSLColor,
   ]
 
   public availableFunctions = []

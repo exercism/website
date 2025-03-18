@@ -58,6 +58,11 @@ function numFunctionCallsInCode(
   ).length
 }
 
+function numStatements(result: InterpretResult): number {
+  console.log(result.meta.statements)
+  return result.meta.statements.length
+}
+
 function numTimesStatementUsed(result: InterpretResult, type: string): number {
   const filterStatements = (statements) =>
     statements
@@ -100,6 +105,7 @@ export default {
   numFunctionCalls,
   wasFunctionCalled,
   numFunctionCallsInCode,
+  numStatements,
   numDirectStringComparisons,
   numTimesStatementUsed,
   numUppercaseLettersInStrings,

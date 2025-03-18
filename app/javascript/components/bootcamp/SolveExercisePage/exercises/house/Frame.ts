@@ -52,6 +52,8 @@ function fn(this: HouseExercise) {
     object.setField('z_index', z_index)
     drawFrame(executionCtx, object)
   })
+  Frame.addGetter('left', 'public')
+  Frame.addGetter('top', 'public')
   Frame.addSetter(
     'brightness',
     'public',

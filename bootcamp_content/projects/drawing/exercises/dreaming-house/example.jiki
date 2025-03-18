@@ -1,0 +1,125 @@
+class Sky do
+  private property hue
+  private property rectangle
+
+  constructor do
+    set this.hue to 190
+    set hsl to new HSLColor(this.hue, 70, 60)
+    set this.rectangle to new Rectangle(0, 0, 100, 100, hsl, 1)
+  end
+
+  public method increase_hue_by with amount do
+    change this.hue to min(this.hue + amount, 310)
+    change this.rectangle.hsl to new HSLColor(this.hue, 70, 60)
+  end
+
+  public method change_brightness with amount do
+    change this.rectangle.brightness to amount
+  end
+end
+
+class Sun do
+  private property circle
+  constructor with cx, cy do
+    set this.circle to new Circle(cx, cy, 10, "#f9d71c", 2)
+  end
+
+  public method move_by with dx, dy do
+    change this.circle.cx to this.circle.cx + dx
+    change this.circle.cy to this.circle.cy + dy
+  end
+end
+
+class Roof do
+  private property triangle
+
+  constructor with width, height do
+    set x_center to 50
+    set top to 30
+    set left to x_center - width / 2
+    set right to x_center + width / 2
+    set bottom to top + height
+    set this.triangle to new Triangle(left, bottom, x_center, top, right, bottom, "#b84221", 4)
+  end
+
+  public method change_brightness with amount do
+    change this.triangle.brightness to amount
+  end
+end
+
+class Door do
+  private property rectangle
+  private property knob
+
+  constructor with x,y do
+    set  w to 14
+    set h to 18
+    set this.rectangle to new Rectangle(x,y, w, h,new HSLColor(24, 88, 20),5)
+    set this.knob to new Circle(x + w - 2, y + h/2, 1, "#ff0000", 6)
+  end
+
+  public method change_brightness with amount do
+    change this.rectangle.brightness to amount
+    change this.knob.brightness to amount
+  end
+end
+
+class Ground do
+  private property rectangle
+
+  constructor with height do
+    set this.rectangle to new Rectangle(0, 100-height, 100, height,new HSLColor(91, 100, 40), 3)
+  end
+
+  public method change_brightness with amount do
+    change this.rectangle.brightness to amount
+  end
+end
+
+class Frame do
+  private property rectangle
+
+  constructor with x,y,w,h do
+    set this.rectangle to new Rectangle(x,y,w,h,new HSLColor(7, 68, 39), 4)
+  end
+
+  public method change_brightness with amount do
+    change this.rectangle.brightness to amount
+  end
+end
+
+class Window do
+  private property rectangle
+
+  constructor with x,y do
+    set hsl to new HSLColor(100, 100, 100)
+    set this.rectangle to new Rectangle(x,y, 12, 13, hsl, 5)
+  end
+
+  public method turn_lights_on do
+    change this.rectangle.hsl to new HSLColor(56, 100, 50)
+  end
+end
+
+set sky to new Sky()
+set sun to new Sun(80, 20)
+set ground to new Ground(20)
+set roof to new Roof(68, 20)
+set frame to new Frame(20, 50, 60, 40)
+set left_window to new Window(30, 55)
+set right_window to new Window(58, 55)
+set door to new Door(43, 72)
+
+repeat 70 times do  
+  sun.move_by(-1.2, 1)
+end
+
+left_window.turn_lights_on()
+right_window.turn_lights_on()
+
+repeat 80 times indexed by index do
+  sky.increase_hue_by(2)
+  for each part in [ground, sky, roof, frame, door] do
+    part.change_brightness(100 - index)
+  end
+end

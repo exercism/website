@@ -55,9 +55,9 @@ function fn(this: BreakoutExercise) {
     game: Jiki.Instance
   ) {
     const ball = Ball.instantiate(executionCtx, [])
-    ball.setField('cy', new Jiki.Number(92))
+    ball.setField('cy', new Jiki.Number(95 - exercise.default_ball_radius))
     exercise.redrawBall(executionCtx, ball)
-    exercise.gameInstance = game
+    exercise.gameInstance = game as GameInstance
 
     game.setField('ball', ball)
     game.setField('paddle', Paddle.instantiate(executionCtx, []))

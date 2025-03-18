@@ -15,6 +15,9 @@ export default class BreakoutExercise extends Exercise {
   private Paddle = buildPaddle(this)
   private Game = buildGame(this)
 
+  public default_ball_radius = 3
+  public default_block_height = 7
+
   public autoDrawBlock = true
   private gameInstance: GameInstance | undefined
 
@@ -45,11 +48,11 @@ export default class BreakoutExercise extends Exercise {
   }
 
   public setDefaultBallRadius(_, radius: number) {
-    this.Ball['default_radius'] = radius
+    this.default_ball_radius = radius
   }
 
   public setDefaultBlockHeight(_, height: number) {
-    this.Block['default_height'] = height
+    this.default_block_height = height
   }
 
   public getFalse() {
@@ -131,6 +134,7 @@ export default class BreakoutExercise extends Exercise {
     ) {
       this.paddleBallInteractionCount += 1
     }
+    console.log(this.paddleBallInteractionCount)
   }
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {

@@ -2,7 +2,6 @@ import React, { useCallback, useRef, useState } from 'react'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
 import { animate } from '@juliangarnierorg/anime-beta'
 import { useFrontendTrainingPageStore } from './store/frontendTrainingPageStore'
-import { useLogger } from '../common/hooks/useLogger'
 
 const WIDTH = 350
 

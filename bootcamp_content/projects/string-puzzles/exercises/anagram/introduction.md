@@ -36,13 +36,13 @@ find_anagrams("stone", ["stone", "Seton", "banana", "tons", "notes", "tones"])
 
 This exercise will benefit from you using your library functions. The following in particular might be useful:
 
-- [`my#sort_string`](/bootcamp/custom_functions/sort_string/edit)
 - [`my#to_lowercase`](/bootcamp/custom_functions/to_lowercase/edit) or [`my#to_uppercase`](/bootcamp/custom_functions/to_uppercase/edit)
 - [`my#index_of`](/bootcamp/custom_functions/index_of/edit)
 
 ## Functions
 
-You have two built-in functions avaible:
+You have three built-in functions avaible:
 
 - `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
 - `push(list, elem)`. Returns a new list with the element added to the original list.
+- `sort_string(string_or_list)`: Takes a string or a list and returns a string with its contents sort alphabetically.

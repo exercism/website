@@ -62,8 +62,9 @@ This exercise is solved most easily if you have a good library of functions read
 
 ## Functions
 
-You have three functions avaible:
+You have four functions avaible:
 
 - `fetch(url, params)`: Fetches data from an API.
 - `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
 - `push(list, elem)`. Returns a new list with the element added to the original list.
+- `sort_string(string_or_list)`: Takes a string or a list and returns a string with its contents sort alphabetically.

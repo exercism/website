@@ -10,7 +10,7 @@ import type { ExecutionContext, ExternalFunction } from './executor'
 import type { Frame } from './frames'
 import { Arity } from './functions'
 import * as Jiki from './jikiObjects'
-import { StdlibFunctions } from './stdlib'
+import { StdlibFunctions, StdlibFunctionsForLibrary } from './stdlib'
 
 export type FrameContext = {
   result: any
@@ -199,7 +199,7 @@ export class Interpreter {
         maxTotalLoopIterations: 100000,
         addSuccessFrames: false,
       },
-      externalFunctions: Object.values(StdlibFunctions),
+      externalFunctions: StdlibFunctionsForLibrary,
     })
     interpreter.compile()
 

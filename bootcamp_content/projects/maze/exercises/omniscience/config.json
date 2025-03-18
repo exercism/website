@@ -5,6 +5,7 @@
   "idx": 4,
   "project_type": "maze",
   "tests_type": "state",
+  "blocks_level_progression": false,
   "exercise_functions": [
     "move",
     "turn_left",

@@ -7,6 +7,7 @@
   "tests_type": "state",
   "stdlib_functions": ["push"],
   "exercise_functions": ["common_words"],
+  "blocks_level_progression": false,
   "interpreter_options": {
     "max_total_loop_iterations": 5000
   },

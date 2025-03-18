@@ -2,7 +2,7 @@
   "title": "Robot Classes",
   "description": "Write out your own formal Robot classes",
   "level": 10,
-  "idx": 3,
+  "idx": 4,
   "tests_type": "state",
   "project_type": "formal-robots",
   "stdlib_functions": ["concatenate"],

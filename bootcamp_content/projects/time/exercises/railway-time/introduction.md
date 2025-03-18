@@ -1,31 +1,32 @@
 # Digital Clock
 
-Welcome to the Time project.
+Waaaaay back in Level 3, you made a digital clock.
 
-In this first exercise you're going to use two new functions that we've given Jiki:
+We're going to carry on that theme in this Exercise.
 
-- `current_time_hour()`: Returns the current hour using 24 hour time (e.g. 15 minutes to midnight would return `23`) as a number.
-- `current_time_minute()`: Returns the current minute as a number.
+## Instructions
 
-Your job is to update a digital clock based on whatever numbers those functions give back.
+Your job is to make a new `Clock` class.
 
-The digital clock expects the numbers to be in a 12 hour format with an `am` or `pm` (what's called the "meridiem").
+Its constructor should take two inputs - the `hours` and `minutes` (both in 24-hour format).
 
-So for example:
+It should have two methods:
 
+- `get_railway_time()`: Returns the time in 24 hour format (`"16:42"`)
+- `get_duodecimal_time()`: Returns the time in 12 hour format (`"4:42pm"`)
+
+For example:
+
+```jikiscript
+set clock to new Clock(19, 35)
+log clock.get_railway_time() // Should log "19:35"
+log clock.get_duodecimal_time() // Should log "7:35pm"
 ```
-7:45 -> 7:45am
-19:45 -> 7:45pm
-```
 
-To display the time on the clock you use the `display_time(hour, minutes, meridiem)` function.
+We've given you your original code. You should reuse whatever parts you feel are appropriate and delete the rest.
 
-## Scenarios
+Your final solution should contain the `Clock` class.
 
-In this exercise, we introduce different **scenarios** for the first time.
+## Library Functions
 
-Different scenarios test that your code works in different situations. In this exercise, the current time changes in each scenario. So in one scenario, the time might be `07:45` and in another it might be `21:33`.
-
-Once you click "Run Scenarios", click through the `1`, `2`, `3`, ... boxes to see the different scenarios and whether your code solved that scenario or not.
-
-Your job is to write code that makes **all the scenarios work**.
+This exercise might benefit from your [`my#number_to_string`](/bootcamp/custom_functions/number_to_string/edit) function.

@@ -48,14 +48,3 @@ class Clock do
     return concatenate(number_to_string(hour), ":", number_to_string(this.minutes), indicator)
   end
 end
-
-function railway_time with hours, minutes do
-  set clock to new Clock(hours, minutes)
-  return clock.get_railway_time()
-end
-
-function duodecimal_time with hours, minutes do
-  set clock to new Clock(hours, minutes)
-  return clock.get_duodecimal_time()
-end
-

@@ -2,7 +2,7 @@
   "title": "Raindrops Collector",
   "description": "Collect raindrops in a RaindropsCollector object",
   "level": 10,
-  "idx": 2,
+  "idx": 3,
   "tests_type": "io",
   "readonly_ranges": [{ "from": 3, "to": 9 }],
   "stdlib_functions": ["concatenate", "push"],

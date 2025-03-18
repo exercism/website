@@ -3,7 +3,7 @@
   "description": "Build a House class to animate the nighttime scene ",
   "project_type": "house",
   "level": 10,
-  "idx": 4,
+  "idx": 5,
   "concepts": [],
   "exercise_classes": ["Rectangle", "Circle", "Triangle", "HSLColor"],
   "tests_type": "state",

@@ -5,7 +5,6 @@
   "idx": 2,
   "tests_type": "io",
   "stdlib_functions": ["concatenate"],
-  "readonly_ranges": [{ "from": 4, "to": 12 }],
   "tasks": [
     {
       "name": "Display times",
@@ -14,8 +13,8 @@
           "slug": "morning-duodecimal",
           "name": "Early morning - Duodecimal",
           "description_html": "Display 6:35 in duodecimal time.",
-          "function": "duodecimal_time",
-          "args": [6, 35],
+          "expression": "(new Clock(6, 35)).get_duodecimal_time()",
+          "code_run": "(new Clock(6, 35)).get_duodecimal_time()",
           "checks": [
             {
               "value": "6:35am"
@@ -26,8 +25,8 @@
           "slug": "morning-railway",
           "name": "Early morning - Railway",
           "description_html": "Display 6:35 in railway time.",
-          "function": "railway_time",
-          "args": [6, 35],
+          "expression": "(new Clock(6, 35)).get_railway_time()",
+          "code_run": "(new Clock(6, 35)).get_railway_time()",
           "checks": [
             {
               "value": "6:35"
@@ -38,8 +37,8 @@
           "slug": "afternoon-duodecimal",
           "name": "Afternoon - Duodecimal",
           "description_html": "Display 13:48 in duodecimal time.",
-          "function": "duodecimal_time",
-          "args": [13, 48],
+          "expression": "(new Clock(13, 48)).get_duodecimal_time()",
+          "code_run": "(new Clock(13, 48)).get_duodecimal_time()",
           "checks": [
             {
               "value": "1:48pm"
@@ -48,10 +47,10 @@
         },
         {
           "slug": "afternoon-railway",
-          "name": "Early morning - Railway",
+          "name": "Afternoon - Railway",
           "description_html": "Display 13:48 in railway time.",
-          "function": "railway_time",
-          "args": [13, 48],
+          "expression": "(new Clock(13, 48)).get_railway_time()",
+          "code_run": "(new Clock(13, 48)).get_railway_time()",
           "checks": [
             {
               "value": "13:48"
@@ -62,8 +61,8 @@
           "slug": "evening-duodecimal",
           "name": "Evening - Duodecimal",
           "description_html": "Display 19:35 in duodecimal time.",
-          "function": "duodecimal_time",
-          "args": [19, 35],
+          "expression": "(new Clock(19, 35)).get_duodecimal_time()",
+          "code_run": "(new Clock(19, 35)).get_duodecimal_time()",
           "checks": [
             {
               "value": "7:35pm"
@@ -73,12 +72,18 @@
         {
           "slug": "evening-railway",
           "name": "Evening - Railway",
+          "skip_ci": true,
           "description_html": "Display 19:35 in railway time.",
-          "function": "railway_time",
-          "args": [19, 35],
+          "expression": "(new Clock(19, 35)).get_railway_time()",
+          "code_run": "(new Clock(19, 35)).get_railway_time()",
           "checks": [
             {
               "value": "19:35"
+            },
+            {
+              "function": "numStatements()",
+              "value": 1,
+              "error_html": "Your solution should only have the Clock class."
             }
           ]
         }

@@ -57,11 +57,11 @@ function handle_paddle_collision with game do
   set paddle_left to paddle.cx - paddle.width / 2
   set paddle_right to paddle.cx + paddle.width / 2
   
-  if ball_left < paddle_left or ball_right > paddle_right do
+  if ball_right < paddle_left or ball_left > paddle_right do
     return
   end
 
-  if ball_bottom == paddle_top do
+  if ball_bottom >= paddle_top do
     change ball.y_velocity to -1
   end
 end
@@ -80,26 +80,26 @@ function all_blocks_smashed with blocks do
 end
 
 function move_paddle_left with paddle do
-  if paddle.cx - paddle.width / 2 <= 0.75 do
+  if paddle.cx - paddle.width / 2 <= 1 do
     return
   end
   paddle.move_left()
 end
 function move_paddle_right with paddle do
-  if paddle.cx + (paddle.width / 2) >= 99.25 do
+  if paddle.cx + (paddle.width / 2) >= 99 do
     return
   end
   paddle.move_right()
 end
 
 function move_paddle with ball, paddle do
-  if ball.y_velocity == - 1 do
+ if ball.y_velocity == - 1 do
     if paddle.cx < 50 do
       move_paddle_right(paddle)
     else do
       move_paddle_left(paddle)
     end
-  else if paddle.cx < ball.cx do
+   else if paddle.cx < ball.cx do
     move_paddle_right(paddle)
   else if paddle.cx > ball.cx do
     move_paddle_left(paddle)
@@ -116,6 +116,7 @@ repeat_forever do
   handle_block_collision(game)
   handle_paddle_collision(game)
   if all_blocks_smashed(game.blocks) do
+    game.game_over("win")
     break
   end
   move_paddle(game.ball, game.paddle)

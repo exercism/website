@@ -8,15 +8,13 @@ You have two Classes to use:
 
 ### The `Robot` class.
 
-The robot class represents a robot.
-
-The Robot class provides one method:
+The `Robot` class represents a robot. I provides one method:
 
 - `say(string)`: Says whatever you tell it to.
 
-It also has a property:
+It also has a readonly property:
 
-- `age`: The robot's age. readonly.
+- `age`: The robot's age.
 
 ### The `FormalConversation` class.
 
@@ -64,8 +62,8 @@ R3: [Mysterious greetings]
 R1: [Mysterious greetings]
 R3: Who was that?
 R1: That was Nicole.
-R3: [Mysterious greetings]
-R1: [Mysterious greetings]
+R3: [Mysterious goodbyes]
+R1: [Mysterious goodbyes]
 ```
 
 ## Instructions

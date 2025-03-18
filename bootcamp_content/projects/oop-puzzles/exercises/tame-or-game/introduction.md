@@ -24,3 +24,9 @@ game.is_tame() // returns false
 game.is_game() // returns true
 game.tame_or_game("Jeremy") // returns "Jeremy is game."
 ```
+
+## Functions
+
+You have one function available:
+
+`concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.

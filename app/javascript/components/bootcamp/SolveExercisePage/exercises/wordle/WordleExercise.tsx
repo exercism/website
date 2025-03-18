@@ -63,6 +63,11 @@ export default class WordleExercise extends Exercise {
     idx: number,
     guess: string
   ) {
+    if (this.guessRows.length === 0) {
+      executionCtx?.logicError(
+        'Ooops! You need to draw the board before you can add words.'
+      )
+    }
     const row = this.guessRows[idx]
     const letters = row.getElementsByClassName('letter')
 

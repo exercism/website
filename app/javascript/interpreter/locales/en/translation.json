@@ -77,7 +77,8 @@
       "MissingRightParenthesisInInstantiation": "Did you forget the end parenthesis when trying to instantiate a new object?",
       "InvalidClassNameInInstantiation": "Jiki couldn't work out which class you refering to here. Class names must start with a capital letter.",
       "InvalidVariableName": "Variable names must start with a lowercase letter.",
-      "MissingSecondElementNameAfterForeach": "Did you forget to add a second variable name after the comma?"
+      "MissingSecondElementNameAfterForeach": "Did you forget to add a second variable name after the comma?",
+      "UnexpectedTokenAfterAccessModifier": "Did you forget the `property` or `method` keyword after the access modifier?"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

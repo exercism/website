@@ -131,6 +131,16 @@ export function evaluateFunction(
   interpreter.compile()
   return interpreter.evaluateFunction(functionCall, ...args)
 }
+export function evaluateExpression(
+  sourceCode: string,
+  context: EvaluationContext = {},
+  expression: string,
+  ...args: any[]
+): EvaluateFunctionResult {
+  const interpreter = new Interpreter(sourceCode, context)
+  interpreter.compile()
+  return interpreter.evaluateExpression(expression, ...args)
+}
 
 export class Interpreter {
   private readonly parser: Parser
@@ -266,6 +276,42 @@ export class Interpreter {
       this.languageFeatures,
       false
     ).parse(callingCode)
+
+    if (callingStatements.length !== 1)
+      this.error('CouldNotEvaluateFunction', Location.unknown, {
+        callingStatements,
+      })
+
+    const executor = new Executor(
+      this.sourceCode,
+      this.languageFeatures,
+      this.externalFunctions,
+      this.customFunctions,
+      this.classes
+    )
+    const generalExec = executor.execute(this.statements)
+    const exprExec = executor.evaluateSingleExpression(callingStatements[0])
+
+    return {
+      ...exprExec,
+      meta: {
+        ...exprExec.meta,
+        statements: generalExec.meta.statements,
+      },
+    }
+  }
+
+  public evaluateExpression(
+    expression: string,
+    ...args: any[]
+  ): EvaluateFunctionResult {
+    // Create a new parser with wrapTopLevelStatements set to false
+    // and use it to generate the calling statements.
+    const callingStatements = new Parser(
+      this.externalFunctions.map((f) => f.name),
+      this.languageFeatures,
+      false
+    ).parse(expression)
 
     if (callingStatements.length !== 1)
       this.error('CouldNotEvaluateFunction', Location.unknown, {

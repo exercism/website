@@ -51,6 +51,10 @@ export abstract class Exercise {
     return checkers.numFunctionCallsInCode(result, fnName)
   }
 
+  public numStatements(result: InterpretResult): number {
+    return checkers.numStatements(result)
+  }
+
   public numTimesStatementUsed(result: InterpretResult, type: string): number {
     return checkers.numTimesStatementUsed(result, type)
   }

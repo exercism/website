@@ -141,6 +141,7 @@ export function useConstructRunCode({
         }
         console.log(compError)
       }
+      console.log('No error')
 
       const bonusTestResults = generateAndRunTestSuite({
         studentCode,

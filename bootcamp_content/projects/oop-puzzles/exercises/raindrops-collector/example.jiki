@@ -1,0 +1,35 @@
+// Create the RaindropsCollector class here.
+class RaindropsCollector do
+  private property numbers
+  constructor do
+    set this.numbers to []
+  end
+
+  public method add_number with number do
+    change this.numbers to push(this.numbers, number)
+  end
+
+  public method get_sounds do
+    set result to ""
+    for each number in this.numbers do
+      if number % 3 == 0 do
+        change result to concatenate(result, "Pling")
+      end
+      if number % 5 == 0 do
+        change result to concatenate(result, "Plang")
+      end
+      if number % 7 == 0 do
+        change result to concatenate(result, "Plong")
+      end
+    end
+    return result
+  end
+end
+
+function raindrops with numbers do
+  set collector to new RaindropsCollector()
+  for each number in numbers do
+    collector.add_number(number)
+  end
+  return collector.get_sounds()
+end

@@ -1,0 +1,120 @@
+{
+  "title": "Raindrops Collector",
+  "description": "Collect raindrops in a RaindropsCollector object",
+  "level": 10,
+  "idx": 3,
+  "tests_type": "io",
+  "readonly_ranges": [{ "from": 3, "to": 9 }],
+  "stdlib_functions": ["concatenate", "push"],
+  "tasks": [
+    {
+      "name": "Single numbers",
+      "tests": [
+        {
+          "slug": "number-27",
+          "description_html": "If 27 is input, return \"Pling\"",
+
+          "name": "Number 27",
+          "function": "raindrops",
+          "args": [[27]],
+          "checks": [
+            {
+              "value": "Pling"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/27.jpg"
+        },
+        {
+          "slug": "number-3125",
+          "description_html": "If 3125 is input, return \"Plang\"",
+          "name": "Number 3125",
+          "function": "raindrops",
+          "args": [[3125]],
+          "checks": [
+            {
+              "value": "Plang"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/3125.jpg"
+        },
+        {
+          "slug": "number-15",
+          "description_html": "If 15 is input, return \"PlingPlang\"",
+          "name": "Number 15",
+          "function": "raindrops",
+          "args": [[15]],
+          "checks": [
+            {
+              "value": "PlingPlang"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/15.jpg"
+        },
+        {
+          "slug": "number-21",
+          "description_html": "If 21 is input, return \"PlingPlong\"",
+          "name": "Number 21",
+          "function": "raindrops",
+          "args": [[21]],
+          "checks": [
+            {
+              "value": "PlingPlong"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/21.jpg"
+        },
+        {
+          "slug": "number-35",
+          "description_html": "If 35 is input, return \"PlangPlong\"",
+          "name": "Number 35",
+          "function": "raindrops",
+          "args": [[35]],
+          "checks": [
+            {
+              "value": "PlangPlong"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/35.jpg"
+        },
+        {
+          "slug": "number-105",
+          "description_html": "If 105 is input, return \"PlingPlangPlong\"",
+          "name": "Number 105",
+          "function": "raindrops",
+          "args": [[105]],
+          "checks": [
+            {
+              "value": "PlingPlangPlong"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/105.jpg"
+        },
+        {
+          "slug": "number-8",
+          "description_html": "If 8 is input, return 8",
+          "name": "Number 8",
+          "function": "raindrops",
+          "args": [[8]],
+          "checks": [
+            {
+              "value": ""
+            }
+          ]
+        },
+        {
+          "slug": "multiple-number",
+          "name": "Multiple Numbers",
+          "description_html": "Does your code work with multiple numbers?",
+          "function": "raindrops",
+          "args": [[27, 105, 2, 35]],
+          "checks": [
+            {
+              "value": "PlingPlingPlangPlongPlangPlong"
+            }
+          ],
+          "image_slug": "number-puzzles/raindrops/27.jpg"
+        }
+      ]
+    }
+  ]
+}

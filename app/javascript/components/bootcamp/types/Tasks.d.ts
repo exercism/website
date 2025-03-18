@@ -15,7 +15,9 @@ declare type TaskTest = {
   slug: string
   data: any
   imageSlug?: string
-  function: string
+  codeRun?: string
+  function?: string
+  expression?: string
   args?: any[]
   type?: TestsType
   checks?: ExpectCheck[]

@@ -19,7 +19,7 @@ export function HasNoLearningModeStep({
       <p className="mb-12">
         {' '}
         If you&apos;d like to learn {track.title} from scratch, take a look at
-        these{' '}
+        {' '}
         <a
           className="font-semibold text-prominentLinkColor"
           href={links.learningResources}

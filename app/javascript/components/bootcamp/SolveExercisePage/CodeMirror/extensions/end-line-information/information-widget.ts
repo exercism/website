@@ -155,7 +155,9 @@ export class InformationWidget extends WidgetType {
 
   private positionTooltip() {
     if (!this.referenceElement || !this.tooltip || !this.arrowElement) return
-    const editor = document.getElementById('bootcamp-cm-editor')
+    // this gets the actual editor, instead of querySelecting it
+    // useful if there are multiple editors on one page
+    const editor = this.view.dom
 
     this.cleanupDuplicateTooltips()
 
@@ -167,7 +169,9 @@ export class InformationWidget extends WidgetType {
         arrow({ element: this.arrowElement! }),
       ],
     }).then(({ y, middlewareData }) => {
-      const x = localStorage.getItem('solve-exercise-page-lhs')
+      // attach to actual editor's right side instead of a random external store value - like panel's location
+      const editorRect = editor.getBoundingClientRect()
+      const x = editorRect.right + 10
       const { arrow } = middlewareData
       if (!this.tooltip) return
       Object.assign(this.tooltip.style, {

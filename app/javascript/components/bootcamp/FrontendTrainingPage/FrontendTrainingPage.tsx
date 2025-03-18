@@ -66,19 +66,12 @@ export default function FrontendTrainingPage() {
 
   const interpreterCssCode = useCallback(() => {
     if (actualIFrameRef.current) {
-      // reload iframe, remove all stylings
+      // Reload iframe
       actualIFrameRef.current.contentWindow?.location.reload()
-      const document = actualIFrameRef.current.contentDocument
-      document?.querySelectorAll('*').forEach((el) => {
-        Object.assign(el.style, DEFAULT_BROWSER_STYLES[el.tagName])
-      })
-      if (document) {
-        const styles = window.getComputedStyle(document.body)
-        console.log('styles', styles)
-      }
+
       updateIFrame(
         actualIFrameRef,
-        htmlEditorViewRef.current?.state.doc.toString() || ''
+        htmlEditorViewRef?.current?.state.doc.toString() || ''
       )
     }
 
@@ -222,21 +215,34 @@ export function buildCssAnimationTimeline(
     if (frame.animations) {
       frame.animations.forEach((animation) => {
         const target = document.querySelector(animation.selector)
-
-        console.log('target', target)
         if (!target) return
+
+        const defaultStyle =
+          DEFAULT_BROWSER_STYLES[target.tagName.toLowerCase()][
+            animation.property
+          ]
+
+        // // if there is a default style, prepend it to the animation, so the student can undo their css
+        if (defaultStyle && typeof defaultStyle === 'string') {
+          const newAnim: Animation = {
+            targets: target,
+            [animation.property]: defaultStyle,
+            duration: 0,
+            offset: frame.time - 1,
+          }
+          animations.push(newAnim)
+        }
+
         const newAnim: Animation = {
           targets: target,
           [animation.property]: animation.value,
-          duration: 10,
+          duration: 0,
           offset: frame.time,
         }
         animations.push(newAnim)
       })
     }
   })
-
-  console.log('ANIMATION INSIDE', animations)
 
   return new AnimationTimeline({}, frames).populateTimeline(
     animations,

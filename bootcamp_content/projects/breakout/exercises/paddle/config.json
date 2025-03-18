@@ -1,0 +1,75 @@
+{
+  "title": "Paddle",
+  "description": "Add the paddle",
+  "project_type": "breakout",
+  "level": 8,
+  "idx": 4,
+  "tests_type": "state",
+  "exercise_classes": ["Game", "Block"],
+  "exercise_functions": [],
+  "interpreter_options": {
+    "timePerFrame": 0.01,
+    "repeat_delay": 10,
+    "max_total_loop_iterations": 5000,
+    "max_repeat_until_game_over_iterations": 520,
+    "max_total_execution_time": 30000
+  },
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Smash the blocks",
+      "tests": [
+        {
+          "slug": "standard",
+          "name": "Smash the blocks",
+          "description_html": "Don't let the ball hit the ground!",
+          "setup_functions": [["disableAutoDrawBlock"]],
+          "checks": [
+            {
+              "property": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "property": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "numBallPositions",
+              "value": 486,
+              "error_html": "You moved the ball more times than you needed to! (%actual%)"
+            }
+          ]
+        },
+        {
+          "slug": "different-dimensions",
+          "name": "Changing dimensions.",
+          "description_html": "Check your code still works if the dimensions change!",
+          "setup_functions": [
+            ["disableAutoDrawBlock"],
+            ["setDefaultBallRadius", [4]],
+            ["setDefaultBlockHeight", [3]]
+          ],
+          "checks": [
+            {
+              "property": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "property": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "numBallPositions",
+              "value": 503,
+              "error_html": "You moved the ball more times than you needed to! (%actual%)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

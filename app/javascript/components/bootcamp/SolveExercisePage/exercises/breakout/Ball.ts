@@ -1,10 +1,12 @@
 import { ExecutionContext } from '@/interpreter/executor'
 import * as Jiki from '@/interpreter/jikiObjects'
 import BreakoutExercise from './BreakoutExercise'
+import { moveCursorByPasteLength } from '../../CodeMirror/extensions/move-cursor-by-paste-length'
 
 export type BallInstance = Jiki.Instance & {}
 
 function fn(this: BreakoutExercise) {
+  const exercise = this
   const createBall = (executionCtx: ExecutionContext, ball: BallInstance) => {
     const div = document.createElement('div')
     div.classList.add('ball')
@@ -54,6 +56,7 @@ function fn(this: BreakoutExercise) {
 
   Ball.addSetter(
     'x_velocity',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: BallInstance,
@@ -65,6 +68,7 @@ function fn(this: BreakoutExercise) {
   )
   Ball.addSetter(
     'y_velocity',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: BallInstance,
@@ -72,6 +76,28 @@ function fn(this: BreakoutExercise) {
     ) {
       guardVelocity(executionCtx, value)
       object.setField('y_velocity', value)
+    }
+  )
+  Ball.addSetter(
+    'cy',
+    'public',
+    function (
+      executionCtx: ExecutionContext,
+      object: BallInstance,
+      value: Jiki.JikiObject
+    ) {
+      if (!(value instanceof Jiki.Number)) {
+        return executionCtx.logicError('cy must be a number')
+      }
+      object.setField('cy', value)
+      redrawBall(executionCtx, object)
+    }
+  )
+  Ball.addMethod(
+    'move',
+    'public',
+    function (executionCtx: ExecutionContext, object: BallInstance) {
+      exercise.moveBall(executionCtx, object)
     }
   )
 

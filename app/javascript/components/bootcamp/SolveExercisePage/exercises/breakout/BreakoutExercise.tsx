@@ -6,10 +6,16 @@ import { offset } from '@popperjs/core'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { buildBlock, type BlockInstance } from './Block'
 import { buildBall, type BallInstance } from './Ball'
+import { buildPaddle } from './Paddle'
+import { buildGame } from './Game'
 
 export default class BreakoutExercise extends Exercise {
   private Block = buildBlock(this)
   private Ball = buildBall(this)
+  private Paddle = buildPaddle(this)
+  private Game = buildGame(this)
+
+  public autoDrawBlock = true
 
   public constructor() {
     super('breakout')
@@ -20,6 +26,9 @@ export default class BreakoutExercise extends Exercise {
 
     this.ballPositions = []
     this.blocks = []
+  }
+  public disableAutoDrawBlock() {
+    this.autoDrawBlock = false
   }
 
   public getState() {
@@ -55,6 +64,37 @@ export default class BreakoutExercise extends Exercise {
       }
     }
     return false
+  }
+  public drawBlock(executionCtx: ExecutionContext, block: BlockInstance) {
+    this.blocks.push(block)
+
+    const div = document.createElement('div')
+    div.classList.add('block')
+    div.id = `block-${block.objectId}`
+    div.style.left = `${block.getUnwrappedField('left')}%`
+    div.style.top = `${block.getUnwrappedField('top')}%`
+    div.style.width = `${block.getUnwrappedField('width')}%`
+    div.style.height = `${block.getUnwrappedField('height')}%`
+    div.style.opacity = '0'
+    this.container.appendChild(div)
+
+    this.animateIntoView(
+      executionCtx,
+      `#${this.view.id} #block-${block.objectId}`
+    )
+  }
+
+  public redrawBall(executionCtx: ExecutionContext, ball: BallInstance) {
+    this.addAnimation({
+      targets: `#${this.view.id} #ball-${ball.objectId}`,
+      duration: 1,
+      transformations: {
+        left: `${ball.getUnwrappedField('cx')}%`,
+        top: `${ball.getUnwrappedField('cy')}%`,
+      },
+      offset: executionCtx.getCurrentTime(),
+    })
+    executionCtx.fastForward(1)
   }
 
   public moveBall(executionCtx: ExecutionContext, ball: BallInstance) {
@@ -116,7 +156,7 @@ export default class BreakoutExercise extends Exercise {
   // Setup Functions
   public setupBlocks(_: ExecutionContext, layout: [][]) {}
 
-  public availableClasses = [this.Block, this.Ball]
+  public availableClasses = [this.Block, this.Ball, this.Game]
 
   public availableFunctions = [
     {

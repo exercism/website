@@ -9,27 +9,8 @@ export type BlockInstance = Jiki.Instance & {
 }
 
 function fn(this: BreakoutExercise) {
-  const createBlock = (
-    executionCtx: ExecutionContext,
-    block: BlockInstance
-  ) => {
-    this.blocks.push(block)
+  const exercise = this
 
-    const div = document.createElement('div')
-    div.classList.add('block')
-    div.id = `block-${block.objectId}`
-    div.style.left = `${block.getUnwrappedField('left')}%`
-    div.style.top = `${block.getUnwrappedField('top')}%`
-    div.style.width = `${block.getUnwrappedField('width')}%`
-    div.style.height = `${block.getUnwrappedField('height')}%`
-    div.style.opacity = '0'
-    this.container.appendChild(div)
-
-    this.animateIntoView(
-      executionCtx,
-      `#${this.view.id} #block-${block.objectId}`
-    )
-  }
   const hideBlock = (
     executionCtx: ExecutionContext,
     block: Jiki.JikiObject
@@ -57,7 +38,9 @@ function fn(this: BreakoutExercise) {
     object.setField('width', new Jiki.Number(16))
     object.setField('height', new Jiki.Number(Block['default_height']))
     object.setField('smashed', new Jiki.Boolean(false))
-    createBlock(executionCtx, object as BlockInstance)
+    if (exercise.autoDrawBlock) {
+      exercise.drawBlock(executionCtx, object as BlockInstance)
+    }
   })
   Block.addGetter('top', 'public')
   Block.addGetter('left', 'public')
@@ -66,6 +49,7 @@ function fn(this: BreakoutExercise) {
   Block.addGetter('smashed', 'public')
   Block.addSetter(
     'smashed',
+    'public',
     function (
       executionCtx: ExecutionContext,
       object: Jiki.Instance,

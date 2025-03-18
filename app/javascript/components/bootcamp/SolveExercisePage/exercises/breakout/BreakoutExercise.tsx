@@ -116,10 +116,19 @@ export default class BreakoutExercise extends Exercise {
 
     const ballBottom =
       ball.getUnwrappedField('cy') + ball.getUnwrappedField('radius')
+    const ballMiddle = ball.getUnwrappedField('cx')
     const paddleTop =
       paddle.getUnwrappedField('cy') - paddle.getUnwrappedField('height') / 2
+    const paddleLeft =
+      paddle.getUnwrappedField('cx') - paddle.getUnwrappedField('width') / 2
+    const paddleRight =
+      paddle.getUnwrappedField('cx') + paddle.getUnwrappedField('width') / 2
 
-    if (ballBottom == paddleTop) {
+    if (
+      ballBottom == paddleTop &&
+      ballMiddle >= paddleLeft &&
+      ballMiddle <= paddleRight
+    ) {
       this.paddleBallInteractionCount += 1
     }
   }

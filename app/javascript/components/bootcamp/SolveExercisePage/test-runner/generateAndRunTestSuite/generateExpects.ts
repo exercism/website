@@ -54,6 +54,7 @@ export function generateExpects(
       // And then we get the function from either exercise or checkers and call it.
       const fn = exercise ? exercise[fnName].bind(exercise) : checkers[fnName]
 
+      console.log(fn)
       checkActual = fn.call(exercise, interpreterResult, ...args)
       codeRun = check.codeRun ? check.codeRun : undefined
     }

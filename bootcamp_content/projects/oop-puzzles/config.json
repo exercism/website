@@ -2,5 +2,5 @@
   "slug": "oop-puzzles",
   "title": "Object Oriented Programming Puzzles",
   "description": "An assortment of object-oriented programming puzzles",
-  "exercises": ["formal-robots", "robot-classes"]
+  "exercises": ["formal-robots", "robot-classes", "raindrops-collector"]
 }

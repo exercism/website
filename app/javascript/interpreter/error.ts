@@ -96,6 +96,7 @@ export type SyntaxErrorType =
   | 'InvalidClassNameInInstantiation'
   | 'InvalidVariableName'
   | 'MissingSecondElementNameAfterForeach'
+  | 'UnexpectedTokenAfterAccessModifier'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

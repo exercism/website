@@ -1,0 +1,88 @@
+{
+  "title": "Railway Time",
+  "description": "Let your clock toggle switch between 12 and 24 hours",
+  "level": 10,
+  "idx": 2,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
+  "readonly_ranges": [{ "from": 4, "to": 12 }],
+  "tasks": [
+    {
+      "name": "Display times",
+      "tests": [
+        {
+          "slug": "morning-duodecimal",
+          "name": "Early morning - Duodecimal",
+          "description_html": "Display 6:35 in duodecimal time.",
+          "function": "duodecimal_time",
+          "args": [6, 35],
+          "checks": [
+            {
+              "value": "6:35am"
+            }
+          ]
+        },
+        {
+          "slug": "morning-railway",
+          "name": "Early morning - Railway",
+          "description_html": "Display 6:35 in railway time.",
+          "function": "railway_time",
+          "args": [6, 35],
+          "checks": [
+            {
+              "value": "6:35"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-duodecimal",
+          "name": "Afternoon - Duodecimal",
+          "description_html": "Display 13:48 in duodecimal time.",
+          "function": "duodecimal_time",
+          "args": [13, 48],
+          "checks": [
+            {
+              "value": "1:48pm"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-railway",
+          "name": "Early morning - Railway",
+          "description_html": "Display 13:48 in railway time.",
+          "function": "railway_time",
+          "args": [13, 48],
+          "checks": [
+            {
+              "value": "13:48"
+            }
+          ]
+        },
+        {
+          "slug": "evening-duodecimal",
+          "name": "Evening - Duodecimal",
+          "description_html": "Display 19:35 in duodecimal time.",
+          "function": "duodecimal_time",
+          "args": [19, 35],
+          "checks": [
+            {
+              "value": "7:35pm"
+            }
+          ]
+        },
+        {
+          "slug": "evening-railway",
+          "name": "Evening - Railway",
+          "description_html": "Display 19:35 in railway time.",
+          "function": "railway_time",
+          "args": [19, 35],
+          "checks": [
+            {
+              "value": "19:35"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

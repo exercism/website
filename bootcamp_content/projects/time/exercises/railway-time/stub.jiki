@@ -1,0 +1,18 @@
+// Create the Clock class here
+
+
+function railway_time with hours, minutes do
+  set clock to new Clock(hours, minutes)
+  return clock.get_railway_time()
+end
+
+function duodecimal_time with hours, minutes do
+  set clock to new Clock(hours, minutes)
+  return clock.get_duodecimal_time()
+end
+
+
+// This is your code from the previous exericse
+// as a reference for you. 
+// You should move or delete it.
+{{EXERCISE:time/digital-clock}}  

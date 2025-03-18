@@ -353,4 +353,22 @@ describe('execute', () => {
       20
     )
   })
+  test('Another example', () => {
+    const { error, frames } = interpret(`
+      class RaindropsCollector do
+        private property numbers
+        constructor do
+          set this.numbers to []
+        end
+
+        public method add_number with number do
+          change this.numbers to [number]
+        end
+      end
+      set collector to new RaindropsCollector()
+      collector.add_number(10)
+    `)
+    expect(error).toBeNull()
+    expect(frames.at(-1)?.status).toBe('SUCCESS')
+  })
 })

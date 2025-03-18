@@ -592,7 +592,10 @@ export class Executor {
             name: statement.property.lexeme,
           })
         }
-        if (setter.visibility === 'private') {
+        if (
+          setter.visibility === 'private' &&
+          statement.object.type !== 'ThisExpression'
+        ) {
           this.error(
             'AttemptedToAccessPrivateSetter',
             statement.property.location,

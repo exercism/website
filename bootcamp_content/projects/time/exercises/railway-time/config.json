@@ -75,13 +75,13 @@
           "skip_ci": true,
           "description_html": "Display 19:35 in railway time.",
           "expression": "(new Clock(19, 35)).get_railway_time()",
-          "code_run": "(new Clock(19, 35)).get_railway_time()",
           "checks": [
             {
               "value": "19:35"
             },
             {
               "function": "numStatements()",
+              "code_run": "We checked how many instructions your code gives to Jiki. We just expected 1 (\"make a class\"), but found other instructions outside the class too.",
               "value": 1,
               "error_html": "Your solution should only have the Clock class."
             }

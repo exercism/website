@@ -94,8 +94,18 @@ body {
 }
 
 .scrolling-testimonials {
-    @apply flex overflow-hidden;
+    @apply flex;
     @apply mt-80;
+    @apply relative;
+
+    .hamster {
+        position: absolute;
+        right: 20px;
+        top: -75px;
+        width: 80px;
+        height: 80px;
+        z-index: 9999;
+    }
 
     .inner {
         background: #111;

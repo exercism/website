@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clonedItems = marqueeElement.innerHTML
   marqueeElement.innerHTML = clonedItems + clonedItems
 
-  const speed = { current: 1, max: 4, min: 1 }
+  const speed = { current: 1, max: 5, min: 1 }
   // this slows the animation down, if we need a slower/faster speed, adjust this value accordingly
   // and keep the speed.min and speed.max values as ratio numbers
   const velocityScale = 0.1

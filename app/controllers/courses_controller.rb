@@ -7,11 +7,13 @@ class CoursesController < ApplicationController
   before_action :use_quotes
 
   def learn_to_code
+    @course_full_price = 99.99
     @course_price = 99.99
     @bundle_price = 149.99
   end
 
   def front_end_fundamentals
+    @course_full_price = 99.99
     @course_price = 99.99
     @bundle_price = 149.99
   end

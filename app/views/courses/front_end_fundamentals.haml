@@ -39,14 +39,14 @@
         - if @has_discount
           .flag= flag_for_country_code(@country_code_2)
           .text
-            %span.line-through{ class: 'text-[#666]' } $#{@full_price}
+            %span.line-through{ class: 'text-[#666]' } $#{@course_full_price}
             Only
-            %strong $#{@price}
+            %strong $#{@course_price}
         - else
           = image_tag "bootcamp/cost.svg"
           .text
             Only
-            %strong $#{@price}
+            %strong $#{@course_price}
 
     .video-container
       .video
@@ -360,7 +360,7 @@
           - if @has_discount
             .price
               %strong $#{@course_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_course_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@course_full_price}
             .discount
               Includes a
               %strong #{@discount_percentage}% discount

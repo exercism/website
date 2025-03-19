@@ -12,16 +12,25 @@ export function useSetupCustomFunctionStore({
   const { initializeCustomFunctions } = useCustomFunctionStore()
 
   useEffect(() => {
-    // We don't want to include the custom function we're editing in the list of custom functions
-    const customFunctionsButThisOne = customFunctions.forInterpreter.filter(
-      (fn) => fn.name !== customFunction.name
-    )
+    const filteredInterpreterFunctions = customFunctions.forInterpreter
+      // We don't want to include the custom function we're editing in the list of custom functions
+      .filter((fn) => fn.name !== customFunction.name)
+      .map((fn) => {
+        // We want to know if a custom functions depends on what we currently have in the editor
+        if (fn.dependencies.includes(customFunction.name)) {
+          return {
+            ...fn,
+            dependsOnCurrentFunction: true,
+          }
+        }
+        return fn
+      })
 
-    const reviewedCustomFunctions = {
+    const updatedCustomFunctions = {
       ...customFunctions,
-      forInterpreter: customFunctionsButThisOne,
+      forInterpreter: filteredInterpreterFunctions,
     }
 
-    initializeCustomFunctions(reviewedCustomFunctions)
+    initializeCustomFunctions(updatedCustomFunctions)
   }, [])
 }

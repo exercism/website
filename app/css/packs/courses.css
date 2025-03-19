@@ -1188,7 +1188,7 @@ section#confirmation {
         border: 1px solid #eee;
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
         background: white;
-        @apply md:pt-32 md:pb-32 pt-16 pb-8 md:px-48 px-24 rounded-[8px];
+        @apply md:pt-32 md:pb-32 pt-16 pb-8 md:px-40 px-24 rounded-[8px];
         @apply flex flex-col;
     }
 
@@ -1200,16 +1200,25 @@ section#confirmation {
         @apply bg-[#7029f522];
     }
     h2 {
-        @apply md:text-[38px] text-22 font-light;
-        @apply mb-4;
+        @apply md:text-[38px] text-20 leading-100;
+        @apply mb-16;
+        @apply text-center;
+        .prefix {
+            @apply md:text-[29px] text-20 font-light;
+            color: #4a4a4a;
+        }
+
         strong {
+            @apply mt-[-2px];
             @apply font-semibold;
+            color: #4e06d5;
         }
     }
     p.intro {
-        @apply md:text-22 text-18 font-light text-left;
+        @apply md:text-21 text-18 font-light text-left;
+        @apply text-balance;
         strong {
-            @apply font-semibold;
+            @apply font-medium;
         }
     }
 
@@ -1324,10 +1333,13 @@ section#enroll {
                 @apply hidden;
             }
             h3 {
-                @apply text-[24px] font-semibold leading-[120%] mb-2;
+                @apply text-[24px] font-semibold leading-[120%] mb-4;
             }
             p {
-                @apply text-[16px] font-light leading-140;
+                @apply text-[16px] font-light leading-150;
+                strong {
+                    @apply font-medium;
+                }
             }
             .face {
                 @apply opacity-[0.02];
@@ -1441,6 +1453,62 @@ section#payment {
         }
         p {
             color: rgb(0, 120, 50);
+        }
+    }
+
+    .quote {
+        @apply mt-48 ml-20 mb-40;
+        @apply bg-white relative;
+        break-inside: avoid;
+        display: inline-block;
+        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.2));
+        @apply rounded-[20px] px-24 py-24;
+
+        .words {
+            @apply md:text-[19px] text-20 font-normal;
+            @apply flex flex-row gap-12;
+            p {
+                @apply inline;
+                strong {
+                    @apply font-semibold;
+                }
+            }
+            .mark {
+                @apply w-[16px]  opacity-[0.7];
+            }
+            .left-mark {
+                @apply self-start;
+                margin-top: -40px;
+                margin-left: -40px;
+                font-size: 50px;
+                width: 50px;
+            }
+        }
+        .stars {
+            @apply h-[21px] w-[110px] mb-8;
+            background-image: url("bootcamp/stars.svg");
+            @apply bg-center bg-no-repeat;
+            background-size: 100px;
+            @apply ml-auto;
+        }
+        .person {
+            @apply flex flex-col;
+            @apply absolute;
+            @apply bg-white rounded-[20px] px-20 py-12 right-[16px];
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+
+            img {
+                @apply w-[40px] rounded-circle;
+            }
+            .text {
+                @apply flex flex-col items-end;
+            }
+            .name {
+                @apply md:text-[16px] text-16 leading-[100%] font-semibold mb-4;
+            }
+            .description {
+                @apply md:text-[16px] text-14 leading-[100%] font-normal;
+            }
         }
     }
 }
@@ -1602,7 +1670,7 @@ section#confirmation {
                 }
             }
             .mark {
-                @apply w-[16px] grayscale opacity-[0.4];
+                @apply w-[16px] opacity-[0.6];
             }
             .left-mark {
                 @apply self-start;

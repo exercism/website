@@ -3,22 +3,175 @@ class CoursesController < ApplicationController
   skip_before_action :authenticate_user!
 
   # before_action :redirect_if_paid!
-  before_action :use_location
-  before_action :use_quotes
+  before_action :use_course!, only: %i[show start_enrolling enroll pay]
+  before_action :use_enrollment!
+  before_action :use_location!, only: %i[show start_enrolling enroll pay]
+  before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
+  before_action :use_quotes!, only: [:show]
 
-  def learn_to_code
-    @course_full_price = 99.99
-    @course_price = 99.99
-    @bundle_price = 149.99
+  def use_course!
+    @bundle = Courses::BundleCodingFrontEnd.instance
+    @course = Courses::Course.course_for_slug(params[:id])
+    redirect_to action: :index unless @course
   end
 
-  def front_end_fundamentals
-    @course_full_price = 99.99
-    @course_price = 99.99
-    @bundle_price = 149.99
+  def use_enrollment!
+    if session[:enrollment_id]
+      @enrollment = CourseEnrollment.find(session[:enrollment_id])
+    elsif user_signed_in?
+      @enrollment = CourseEnrollment.find_by(
+        user: current_user,
+        course_slug: @course.slug
+      )
+      session[:enrollment_id] = @enrollment.id if @enrollment
+    end
+  rescue StandardError
+  end
+
+  def show
+    render action: @course.template_slug
   end
 
   def testimonials
+    use_testimonials!
+  end
+
+  def start_enrolling
+    @name = @enrollment&.name.presence || current_user&.name
+    @email = @enrollment&.email.presence || current_user&.email
+
+    @course_or_bundle = params[:course_or_bundle].presence
+    return unless !@course_or_bundle && @enrollment&.course_slug
+
+    @course_or_bundle = @enrollment.course_slug == @course.slug ? "course" : "bundle"
+  end
+
+  def enroll
+    course_slug = params[:course_or_bundle] == "course" ? @course.slug : @bundle.slug
+    if @enrollment
+      @enrollment.update!(
+        name: params[:name],
+        email: params[:email],
+        course_slug:,
+        country_code_2: @country_code_2
+      )
+    else
+      @enrollment = CourseEnrollment.create!(
+        user: current_user,
+        name: params[:name],
+        email: params[:email],
+        course_slug:,
+        country_code_2: @country_code_2
+      )
+    end
+
+    redirect_to action: :pay
+  end
+
+  def pay
+    redirect_to action: :start_enrolling unless @enrollment&.course_slug.present?
+  end
+
+  def stripe_create_checkout_session
+    if Rails.env.production?
+      stripe_price = @enrollment.stripe_price_id
+    else
+      stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
+    end
+
+    session = Stripe::Checkout::Session.create({
+      ui_mode: 'embedded',
+      customer_email: @enrollment.email,
+      customer_creation: "always",
+      line_items: [{
+        price: stripe_price,
+        quantity: 1
+      }],
+      mode: 'payment',
+      allow_promotion_codes: true,
+      return_url: "#{courses_enrolled_url}?failure_path=#{course_pay_path(@enrollment.course_slug)}&session_id={CHECKOUT_SESSION_ID}"
+    })
+
+    render json: { clientSecret: session.client_secret }
+  end
+
+  def stripe_session_status
+    session = Stripe::Checkout::Session.retrieve(params[:session_id])
+
+    if session.status == 'complete'
+      @enrollment.update!(
+        paid_at: Time.current,
+        checkout_session_id: session.id,
+        access_code: SecureRandom.hex(8)
+      )
+      if @enrollment.user
+        User::BecomeBootcampAttendee.(current_user)
+      else
+        user = User.find_by(email: @enrollment.email)
+        if user
+          @enrollment.update(user:)
+          User::BecomeBootcampAttendee.(user)
+        end
+      end
+    end
+
+    render json: {
+      status: session.status,
+      customer_email: session.customer_details.email
+    }
+  end
+
+  def enrolled; end
+
+  private
+  def use_location!
+    @country_code_2 = @enrollment&.country_code_2.presence ||
+                      session[:location_country_code].presence ||
+                      retrieve_location_from_vpnapi!
+  rescue StandardError
+    # Rate limit probably
+  end
+
+  def retrieve_location_from_vpnapi!
+    return session[:location_country_code] = "IN" unless Rails.env.production?
+
+    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
+    return if data.dig("security", "vpn")
+
+    session[:location_country_code] = data.dig("location", "country_code")
+  end
+
+  def setup_pricing!
+    @course_full_price = @course.full_price
+    @bundle_full_price = @bundle.full_price
+
+    country_data = @course.pricing_data_for_country(@country_code_2)
+    country_data ? setup_country_pricing!(country_data) : setup_default_pricing!
+  end
+
+  def setup_country_pricing!(country_data)
+    @country_name = country_data[:country_name]
+    @hello = country_data[:hello]
+
+    @has_discount = true
+    @bundle_price = country_data[:bundle_price].to_f
+    @course_price = country_data[:course_price].to_f
+    @bundle_payment_url = country_data[:bundle_payment_url]
+    @course_payment_url = country_data[:course_payment_url]
+    @discount_percentage = country_data[:discount_percentage]
+  end
+
+  def setup_default_pricing!
+    @has_discount = false
+
+    @bundle_price = @bundle.full_price
+    @bundle_payment_url = @bundle.default_payment_url
+
+    @course_price = @course.full_price
+    @course_payment_url = @course.default_payment_url
+  end
+
+  def use_testimonials!
     @testimonials = [
       [
         "As someone with **no previous coding experience** - I've been blown away with the **quality of this course**. I've **come so far** in the past weeks and reflecting on what I've achieved and **how much I've learned has been phenomenal**. My journey has been from a complete coding novice, to someone who is **confident and excited to tackle complex logic problems** in code!",
@@ -144,24 +297,7 @@ class CoursesController < ApplicationController
     ]
   end
 
-  private
-  def use_location
-    return "MX" unless Rails.env.production?
-
-    retrieve_location_from_vpnapi! unless session[:location_country_code].present?
-    @country_code_2 = session[:location_country_code]
-  rescue StandardError
-    # Rate limit probably
-  end
-
-  def retrieve_location_from_vpnapi!
-    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-    return if data.dig("security", "vpn")
-
-    session[:location_country_code] = data.dig("location", "country_code")
-  end
-
-  def use_quotes
+  def use_quotes!
     @quotes = [
       [
         "As someone with **no previous coding experience** - I've been blown away with the **quality of this course**. I've **come so far** in the past weeks and reflecting on what I've achieved and **how much I've learned has been phenomenal**. My journey has been from a complete coding novice, to someone who is **confident and excited to tackle complex logic problems** in code!",

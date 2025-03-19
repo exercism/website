@@ -6,14 +6,14 @@
         %h2
           %strong You're almost set up!
         %p.intro
-          We've reserved a space for you on the Bootcamp!
-          %strong Please add your payment details to finish enrolling 👉
+          Thanks for choosing to learn with us. 
+          We're really excited to help you learn #{@course.name.downcase}!
 
         %div{ class: "hidden lg:block" }
-          = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }
+          = render partial: "courses/pay/upsell", locals: { bootcamp_data: @bootcamp_data }
 
       .rhs
         #checkout
 
       %div{ class: "lg:hidden" }
-        = render partial: "pay_copy", locals: { bootcamp_data: @bootcamp_data }
+        = render partial: "courses/pay/upsell", locals: { bootcamp_data: @bootcamp_data }

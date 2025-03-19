@@ -3,15 +3,14 @@
     .container
       .tag Let's get you coding!
       %h2
-        %strong Enroll
-        on the Bootcamp
+        .prefix Enroll on 
+        %strong= @course.name
       %p.intro.mb-2
-        %strong Great decision! 🎉
-        We're really excited to have you come and learn to code with us!
-
+        %strong Great decision!
+        We're really excited to have you come and join us! 🎉
       %hr
 
-      = form_with url: bootcamp_create_enrollment_path do |f|
+      = form_with url: course_enroll_path(@course.slug) do |f|
         .field
           = f.label :name, "Name"
           = f.text_field :name, placeholder: 'Your name', value: @name, required: true
@@ -19,37 +18,33 @@
           = f.label :email
           = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", value: @email, required: true
 
-        .label.mt-24 Choose your course
+        .label.mt-24 Choose your package
         .part-selector.flex.flex-col.gap-12
-          = f.label "package_part_1" do
-            = f.radio_button :package, "part_1", checked: @package == "part_1", class: "hidden"
+          = f.label "course_or_bundle_course" do
+            = f.radio_button :course_or_bundle, "course", checked: @course_or_bundle == "course", class: "hidden"
             .package
               = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
               = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
               .flex.flex-col.items-start
                 .bubble
                   Only
-                  %strong Part 1
+                  %strong This Course
+                %h3= @course.name
+                %p= raw @course.blurb
 
-                %h3
-                  Learn to Code
-                %p Build rock solid coding fundamentals, applicable to every speciality.
-
-          = f.label "package_complete" do
-            = f.radio_button :package, "complete", checked: @package != "part_1", class: "hidden"
+          = f.label "course_or_bundle_bundle" do
+            = f.radio_button :course_or_bundle, "bundle", checked: @course_or_bundle != "course", class: "hidden"
             .package
               = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
               = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
               .flex.flex-col.items-start
                 .bubble
                   The
-                  %strong Complete Course
-
-                %h3
-                  Become a Front-End Dev
-                %p Build rock solid coding fundamentals, and then specialize your knowledge and learn front-end web development.
+                  %strong Complete Bundle
+                %h3= @bundle.name
+                %p= raw @bundle.blurb
 
         .field.mt-20
           = f.button do
-            Enroll on the Bootcamp
+            Continue to the Course
             %span.ml-12 👉

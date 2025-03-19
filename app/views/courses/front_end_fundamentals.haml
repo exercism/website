@@ -12,7 +12,7 @@
     .content
       %strong.font-semibold Exercism 
       Bootcamps
-    = link_to "Enroll now 👉", bootcamp_enroll_path, class: "button !ml-auto"
+    = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button !ml-auto"
 
 .hero
   .md-container
@@ -364,9 +364,10 @@
             .discount
               Includes a
               %strong #{@discount_percentage}% discount
-              for our friends in
+              for 
+              %strong.font-semibold our friends in
               %span.flag= flag_for_country_code(@country_code_2)
-              #{@country_name}.
+              %strong.font-semibold #{@country_name}.
           - else
             .price
               %strong $#{@course_price}
@@ -411,7 +412,7 @@
                 %strong certificate 
                 of completion.
 
-          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'complete'), class: "button"
+          = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug, product: "course"), class: "button"
 
       .container
         .header
@@ -431,14 +432,15 @@
           - if @has_discount
             .price
               %strong $#{@bundle_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_bundle_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle_full_price}
             .discount
 
               Includes a
               %strong #{@discount_percentage}% discount
-              for our friends in
+              for
+              %strong.font-semibold our friends in
               %span.flag= flag_for_country_code(@country_code_2)
-              #{@country_name}!
+              %strong.font-semibold #{@country_name}!
           - else
             .price
               %strong $#{@bundle_price}
@@ -490,7 +492,7 @@
                 %strong certificate
                 of completion.
 
-          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'part_1'), class: "button"
+          = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug, product: "bundle"), class: "button"
 
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 

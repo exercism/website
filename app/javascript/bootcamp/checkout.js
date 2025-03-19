@@ -1,6 +1,6 @@
 import { loadStripe } from '@stripe/stripe-js'
 
-if (window.location.pathname === '/bootcamp/pay') {
+if (window.location.pathname.match(/\/courses\/[\w-]+\/pay/)) {
   initialize()
 }
 
@@ -16,7 +16,7 @@ async function initialize() {
   const stripe = await loadStripe(publishableKey.content)
 
   const fetchClientSecret = async () => {
-    const response = await fetch('/bootcamp/stripe/create-checkout-session', {
+    const response = await fetch('/courses/stripe/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

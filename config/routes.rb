@@ -479,16 +479,18 @@ Rails.application.routes.draw do
     end
   end
 
+  # get "/courses" => "courses#index"
+
   get "/courses/testimonials" => "courses#testimonials"
-  get "/learn-to-code" => "courses#learn_to_code"
-  get "/front-end-fundamentals" => "courses#front_end_fundamentals"
-  get "/bootcamp" => "courses#bootcamp"
-  get "/bootcamp/enroll" => "courses#start_enrolling", as: :bootcamp_enroll
-  post "/bootcamp/enroll" => "courses#do_enrollment", as: :bootcamp_create_enrollment
-  get "/bootcamp/pay" => "courses#pay", as: :bootcamp_pay
-  post "/bootcamp/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :bootcamp_
-  get "/bootcamp/stripe/session-status" => "courses#stripe_session_status", as: :bootcamp_stripe_session_status
-  get "/bootcamp/confirmed" => "courses#confirmed", as: :bootcamp_confirmed
+  get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
+  get "/courses/:id" => "courses#show"
+
+  get "/courses/:id/enroll" => "courses#start_enrolling", as: :course_start_enrolling
+  post "/courses/:id/enroll" => "courses#enroll", as: :course_enroll
+  get "/courses/:id/pay" => "courses#pay", as: :course_pay
+
+  post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
+  get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
 
   draw(:bootcamp)
 end

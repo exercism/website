@@ -11,7 +11,7 @@
     "timePerFrame": 0.01,
     "repeat_delay": 10,
     "max_total_loop_iterations": 5000,
-    "max_repeat_until_game_over_iterations": 520,
+    "max_repeat_until_game_over_iterations": 600,
     "max_total_execution_time": 30000
   },
   "stdlib_functions": ["push"],

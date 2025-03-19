@@ -38,25 +38,6 @@ class FormalConversation do
   end
 end
 
-function number_to_string with number do
-  set map to ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  set digit to ""
-  set res to ""
-  repeat_forever do
-    change digit to number % 10
-    change res to concatenate(map[digit + 1], res)
-    change number to number - digit
-    if number == 10 do
-      change res to concatenate("1", res)
-      return res
-    else if number == 0 do
-      return res
-    else do
-      change number to number / 10
-    end
-  end
-end
-
 function hold_conversation with name_1, age_1, name_2, age_2, name_3, age_3 do
   set r1 to new Robot(name_1, age_1)
   set r2 to new Robot(name_2, age_2)

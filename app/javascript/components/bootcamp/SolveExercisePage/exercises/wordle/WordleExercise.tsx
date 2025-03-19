@@ -63,7 +63,10 @@ export default class WordleExercise extends Exercise {
     idx: number,
     guess: string
   ) {
-    if (this.guessRows.length === 0) {
+    if (
+      this.guessRows.length === 0 ||
+      this.guessRows[0].children.length === 0
+    ) {
       executionCtx?.logicError(
         'Ooops! You need to draw the board before you can add words.'
       )

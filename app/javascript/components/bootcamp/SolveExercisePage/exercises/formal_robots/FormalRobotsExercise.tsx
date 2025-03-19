@@ -4,6 +4,7 @@ import { Exercise } from '../Exercise'
 import * as Jiki from '@/interpreter/jikiObjects'
 import { buildRobot } from './Robot'
 import { buildFormalConversation } from './FormalConversation'
+import checkers from '../../test-runner/generateAndRunTestSuite/checkers'
 
 export default class FormalRobotsExercise extends Exercise {
   private Robot = buildRobot(this)

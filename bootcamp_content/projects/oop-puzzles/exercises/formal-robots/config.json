@@ -6,7 +6,7 @@
   "tests_type": "state",
   "project_type": "formal-robots",
   "exercise_functions": [],
-  "stdlib_functions": ["concatenate"],
+  "stdlib_functions": ["concatenate", "number_to_string"],
   "tasks": [
     {
       "name": "Formal Robots",
@@ -160,6 +160,30 @@
               "function": "getInteraction(12)",
               "value": "Sam: Goodbye ♜⚙❖☾✺.",
               "error_html": "We expected sixth line of the first conversation to be: \"Sam: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Task",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus",
+          "skip_ci": true,
+          "name": "number_to_string",
+          "description_html": "Can you use your my#number_to_string function instead?",
+          "setup_functions": [
+            ["setRobotNames", [["Sam", "Jeremy", "Nicole"]]],
+            ["setRobotAges", [[40, 41, 36]]]
+          ],
+          "checks": [
+            {
+              "code_run": "We checked how many times the built-in built in number_to_string function was used.",
+              "function": "numFunctionCallsInCode('number_to_string')",
+              "value": 0,
+              "error_html": "You should not use the built in number_to_string function in your solution."
             }
           ]
         }

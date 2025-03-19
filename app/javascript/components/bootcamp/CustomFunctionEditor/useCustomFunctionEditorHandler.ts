@@ -18,6 +18,7 @@ import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfol
 import { CustomFunction } from './CustomFunctionEditor'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
 import customFunctionsStore from './store/customFunctionsStore'
+import { FunctionStatement } from '@/interpreter/statement'
 
 export function useCustomFunctionEditorHandler({
   customFunctionDataFromServer,
@@ -88,6 +89,7 @@ export function useCustomFunctionEditorHandler({
       setLatestValueSnapshot(value)
 
       const evaluated = interpret(value, context)
+      console.log('eval', evaluated)
       if (evaluated.error) {
         showError({
           error: evaluated.error,
@@ -100,6 +102,9 @@ export function useCustomFunctionEditorHandler({
         })
         return
       }
+
+      const fnStatement = evaluated.meta.statements[0] as FunctionStatement
+      setArity(fnStatement.parameters.length)
 
       const results = {}
       let errorOccurred: boolean = false
@@ -119,7 +124,6 @@ export function useCustomFunctionEditorHandler({
           errorOccurred = true
           break
         }
-        setArity(safeArgs.length)
 
         const fnEvaluationResult = evaluateFunction(
           value,

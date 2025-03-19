@@ -3,6 +3,8 @@ import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
 import { Instructions } from './Instructions'
 import { html } from '@codemirror/lang-html'
+import { css } from '@codemirror/lang-css'
+import interact from '@replit/codemirror-interact'
 import { basicLight } from 'cm6-theme-basic-light'
 import { Prec } from '@codemirror/state'
 import { ActualOutput } from './ActualOutput'
@@ -15,7 +17,6 @@ import { useSetupEditors } from './useSetupEditors'
 import { useSetupIFrames } from './useSetupIFrames'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
 import { interpret } from '@/css-interpreter/interpreter'
-import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
 import { Frame } from '@/css-interpreter/frames'
 import { showError } from '../SolveExercisePage/utils/showError'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
@@ -25,6 +26,8 @@ import {
   AnimationTimeline,
 } from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
 import { DEFAULT_BROWSER_STYLES } from './defaultStyles'
+
+let colorInput: HTMLInputElement | null = null
 
 export default function FrontendTrainingPage() {
   const actualOutputRef = useRef<HTMLDivElement>(null)
@@ -98,6 +101,7 @@ export default function FrontendTrainingPage() {
         frames
       )
       console.log(animationTimeline)
+      // @ts-ignore
       setCssAnimationTimeline(animationTimeline)
     }
 
@@ -106,6 +110,7 @@ export default function FrontendTrainingPage() {
 
   return (
     <SolveExercisePageContextWrapper
+      // @ts-ignore
       value={{
         editorView: cssEditorViewRef.current,
         isSpotlightActive: false,
@@ -135,7 +140,7 @@ export default function FrontendTrainingPage() {
                     htmlEditorContent: html,
                     cssEditorContent: css,
                   })
-                  updateIFrame(actualIFrameRef, html)
+                  updateIFrame(actualIFrameRef, html, css)
                 }}
                 handleRunCode={() => {}}
                 ref={htmlEditorViewRef}
@@ -155,12 +160,120 @@ export default function FrontendTrainingPage() {
                     htmlEditorContent: html,
                     cssEditorContent: css,
                   })
+                  updateIFrame(actualIFrameRef, html, css)
                 }}
+                extensions={[
+                  Prec.highest([css(), basicLight]),
+                  interact({
+                    rules: [
+                      // {
+                      //   regexp: /-?\b\d+\.?\d*\b/g,
+                      //   // set cursor to "ew-resize" on hover
+                      //   cursor: "ew-resize",
+                      //   // change number value based on mouse X movement on drag
+                      //   onDrag: (text, setText, e) => {
+                      //     const newVal = Number(text) + e.movementX;
+                      //     if (isNaN(newVal)) return;
+                      //     setText(newVal.toString());
+                      //   },
+                      // },
+                      {
+                        regexp: /(-?\d+\.?\d*)(px|%)/g,
+                        cursor: 'ew-resize',
+                        onDrag: (text, setText, e) => {
+                          // Match numbers even if they are followed by 'px' or '%', etc
+                          const match = text.match(/(-?\d+\.?\d*)(px|%|vw|vh)/)
+                          if (!match) return
+
+                          const [, num, unit] = match
+                          const newVal = Number(num) + e.movementX
+
+                          if (isNaN(newVal)) return
+
+                          setText(`${newVal}${unit}`)
+                        },
+                      },
+                      {
+                        // match HEX and rgb
+                        regexp:
+                          /#([0-9a-fA-F]{3,6})\b|rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g,
+                        cursor: 'pointer',
+                        onDrag: (text, setText, e) => {
+                          // setText("#000000")
+                          const toHex = (rgb: string): string => {
+                            const match = rgb.match(/\d+/g)
+                            if (!match) return '#000000'
+                            return `#${match
+                              .map((num) =>
+                                Number(num).toString(16).padStart(2, '0')
+                              )
+                              .join('')}`
+                          }
+
+                          const currentColor = text.startsWith('rgb')
+                            ? toHex(text)
+                            : text
+
+                          document
+                            .querySelectorAll('.color-picker')
+                            .forEach((el) => el.remove())
+
+                          const colorInput = document.createElement('input')
+                          colorInput.type = 'color'
+                          colorInput.className = 'color-picker'
+                          colorInput.value = currentColor
+                          colorInput.style.position = 'absolute'
+                          colorInput.style.zIndex = '1000'
+                          colorInput.style.left = `${e.clientX}px`
+                          colorInput.style.top = `${e.clientY}px`
+                          colorInput.style.border = 'none'
+                          colorInput.style.padding = '0'
+                          colorInput.style.width = '40px'
+                          colorInput.style.height = '40px'
+                          colorInput.style.background = 'transparent'
+                          colorInput.style.cursor = 'pointer'
+
+                          document.body.appendChild(colorInput)
+
+                          colorInput.focus()
+
+                          colorInput.addEventListener('input', (e) => {
+                            console.log(
+                              'inputting',
+                              colorInput.value,
+                              'text',
+                              text,
+                              e
+                            )
+                            setTimeout(() => {
+                              setText(colorInput.value)
+                            }, 0)
+                          })
+
+                          const closePicker = (event: MouseEvent) => {
+                            if (!colorInput.contains(event.target as Node)) {
+                              colorInput.remove()
+                              document.removeEventListener('click', closePicker)
+                            }
+                          }
+
+                          document.addEventListener('click', closePicker, {
+                            capture: true,
+                          })
+
+                          colorInput.addEventListener('click', (event) => {
+                            event.stopPropagation()
+                          })
+                        },
+                      },
+                    ],
+                  }),
+                ]}
                 handleRunCode={() => {}}
                 ref={cssEditorViewRef}
               />
 
-              <div className="page-body-lhs-bottom">
+              {/* <div className="page-body-lhs-bottom">
                 <button
                   onClick={interpreterCssCode}
                   className="btn-primary btn-s grow shrink-0 w-fit"
@@ -170,10 +283,11 @@ export default function FrontendTrainingPage() {
                 {cssAnimationTimeline && frames && (
                   <Scrubber
                     animationTimeline={cssAnimationTimeline}
+                    // @ts-ignore
                     frames={frames}
                   />
                 )}
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-col gap-12">
@@ -244,6 +358,7 @@ export function buildCssAnimationTimeline(
     }
   })
 
+  // @ts-ignore
   return new AnimationTimeline({}, frames).populateTimeline(
     animations,
     placeholder

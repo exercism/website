@@ -1139,7 +1139,7 @@
     "@codemirror/language" "^6.0.0"
     "@lezer/cpp" "^1.0.0"
 
-"@codemirror/lang-css@^6.0.0":
+"@codemirror/lang-css@^6.0.0", "@codemirror/lang-css@^6.3.1":
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/@codemirror/lang-css/-/lang-css-6.3.1.tgz#763ca41aee81bb2431be55e3cfcc7cc8e91421a3"
   integrity sha512-kr5fwBGiGtmz6l0LSJIbno9QrifNMUusivHbnA1H6Dmqy4HZFte3UAICix1VuKo0lMPKQr2rqB+0BkKi/S3Ejg==
@@ -1266,7 +1266,7 @@
     "@codemirror/view" "^6.0.0"
     crelt "^1.0.5"
 
-"@codemirror/state@6.5.0", "@codemirror/state@^6.0.0", "@codemirror/state@^6.4.0", "@codemirror/state@^6.5.0":
+"@codemirror/state@6.5.0", "@codemirror/state@^6.0.0", "@codemirror/state@^6.2.1", "@codemirror/state@^6.4.0", "@codemirror/state@^6.5.0":
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/@codemirror/state/-/state-6.5.0.tgz#e98dde85620618651543152fe1c2483300a0ccc9"
   integrity sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==
@@ -2042,6 +2042,13 @@
   version "7.2.201"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.201.tgz#bfb3da01b3e2462f5a18f372c52dedd7de76037f"
   integrity sha512-wsTdWoZ5EfG5k3t7ORdyQF0ZmDEgN4aVPCanHAiNEwCROqibSZMXXmCbH7IDJUVri4FOeAVwwbPINI7HVHPKBw==
+
+"@replit/codemirror-interact@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@replit/codemirror-interact/-/codemirror-interact-6.3.1.tgz#45f6ce8c7e4ff952c698599bd9899f22739fe966"
+  integrity sha512-3kGCrOSo7tRGrmvThRdMRCjrUo0BqFilC+MiucSznFD6W4snyxaqElZTNWMEfFsj/rWHykcUHlyfLOoxNWjvAw==
+  dependencies:
+    "@codemirror/state" "^6.2.1"
 
 "@sector-labs/postcss-inline-class@^0.0.6":
   version "0.0.6"

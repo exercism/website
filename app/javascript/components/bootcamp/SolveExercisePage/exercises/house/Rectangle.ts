@@ -136,7 +136,6 @@ function fn(this: HouseExercise) {
       )}:${hsl.getUnwrappedField('saturation')}:${hsl.getUnwrappedField(
         'luminosity'
       )}`
-      console.log(hslString)
       exercise.events.push(`rectangle:hsl:${hslString}`)
       object.setField('hsl', hsl)
       changeRectangleHue(executionCtx, object)

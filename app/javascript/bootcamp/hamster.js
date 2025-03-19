@@ -6,6 +6,7 @@ const hamsterContainer = document.getElementById('hamster-animation-container')
 const scrollingTestimonials = document.querySelector('.scrolling-testimonials')
 
 const hamsterSpeed = { value: 1 }
+const TRANSITION_DURATION = 500
 
 Lottie.loadAnimation({
   container: hamsterContainer,
@@ -18,7 +19,7 @@ Lottie.loadAnimation({
 scrollingTestimonials.addEventListener('mouseover', () => {
   animate(hamsterSpeed, {
     value: 3,
-    duration: 500,
+    duration: TRANSITION_DURATION,
     easing: 'linear',
     onUpdate() {
       Lottie.setSpeed(hamsterSpeed.value)
@@ -29,7 +30,7 @@ scrollingTestimonials.addEventListener('mouseover', () => {
 scrollingTestimonials.addEventListener('mouseout', () => {
   animate(hamsterSpeed, {
     value: 1,
-    duration: 500,
+    duration: TRANSITION_DURATION,
     easing: 'linear',
     onUpdate() {
       Lottie.setSpeed(hamsterSpeed.value)

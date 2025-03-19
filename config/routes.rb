@@ -479,6 +479,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/courses/testimonials" => "courses#testimonials"
   get "/learn-to-code" => "courses#learn_to_code"
   get "/front-end-fundamentals" => "courses#front_end_fundamentals"
   get "/bootcamp" => "courses#bootcamp"

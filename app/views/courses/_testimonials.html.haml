@@ -1,6 +1,9 @@
 %section#testimonial-section
   .lg-container
     %h2 What do our students think?
+    %p.subheading 
+      These are some extracts from students' testimonials.
+      = link_to "Read the full versions here!", courses_testimonials_path, class: "underline font-semibold"
     .primary-quote
       .words
         = image_tag "bootcamp/quote.png", class: 'mark left-mark'
@@ -11,7 +14,7 @@
         .text
           .name Oleksandra
           .description Coding Newbie
-        = image_tag "bootcamp/loretta.png"
+        = image_tag "bootcamp/testimonials/oleksandra.jpg"
 
     .quotes
       - quotes.each do |quote, name, role, image_url|

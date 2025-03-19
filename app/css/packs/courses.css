@@ -752,7 +752,11 @@ section#testimonial-section {
     background-size: 300px;
     h2 {
         @apply md:text-[38px] text-22 font-semibold;
-        @apply mb-20 text-center;
+        @apply text-center;
+    }
+    .subheading {
+        @apply md:text-[21px] text-16 font-normal;
+        @apply mb-24 text-center;
     }
     .primary-quote {
         @apply mb-40;
@@ -775,7 +779,7 @@ section#testimonial-section {
         .person {
             @apply flex flex-row items-center justify-end gap-8;
             img {
-                @apply w-[60px];
+                @apply w-[50px] rounded-circle ml-6;
             }
             .text {
                 @apply flex flex-col items-end;
@@ -1560,5 +1564,85 @@ section#confirmation {
     }
     100% {
         transform: rotate(0deg);
+    }
+}
+
+#page-testimonials {
+    @apply pt-32 pb-40;
+    @apply bg-repeat;
+    background-color: var(--light-blue);
+    background-image: url("bootcamp/testimonial-bg.png");
+    background-size: 300px;
+    h1 {
+        @apply text-[40px] font-semibold mb-2;
+    }
+    .subheading {
+        @apply text-[22px] mb-32;
+    }
+
+    .quotes {
+        column-count: 2;
+        column-gap: 32px;
+    }
+    .quote {
+        @apply bg-white relative pb-32 mb-96;
+        break-inside: avoid;
+        display: inline-block;
+        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+        @apply rounded-[20px] px-24 py-24;
+
+        .words {
+            @apply md:text-[120x] text-20 font-normal;
+            @apply mb-16;
+            @apply flex flex-row gap-12;
+            p {
+                @apply mb-16;
+                strong {
+                    @apply font-semibold;
+                }
+            }
+            .mark {
+                @apply w-[16px] grayscale opacity-[0.4];
+            }
+            .left-mark {
+                @apply self-start;
+                margin-top: -40px;
+                margin-left: -40px;
+                font-size: 50px;
+                width: 50px;
+            }
+            .right-mark {
+                transform: scaleX(-1);
+                @apply inline ml-6;
+            }
+        }
+        .stars {
+            @apply h-[21px] w-[110px] mb-8;
+            background-image: url("bootcamp/stars.svg");
+            @apply bg-center bg-no-repeat;
+            background-size: 100px;
+            @apply ml-auto;
+
+            @apply bg-white rounded-[20px] left-[16px];
+        }
+        .person {
+            @apply flex flex-col;
+            @apply absolute;
+            @apply bg-white rounded-[20px] px-20 py-12 right-[16px];
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
+
+            img {
+                @apply w-[40px] rounded-circle;
+            }
+            .text {
+                @apply flex flex-col items-end;
+            }
+            .name {
+                @apply md:text-[16px] text-16 leading-[100%] font-semibold mb-4;
+            }
+            .description {
+                @apply md:text-[16px] text-14 leading-[100%] font-normal;
+            }
+        }
     }
 }

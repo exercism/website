@@ -10,7 +10,7 @@ export function useSetupIFrames() {
   const expectedReferenceIFrameRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    const { html, css } = cssPattern
+    const { html, css } = boxExample
     updateIFrame(expectedIFrameRef, html, css)
     updateIFrame(expectedReferenceIFrameRef, html, css)
   }, [])
@@ -91,4 +91,23 @@ background-size: 10px 10px;
 background-repeat: repeat;
 }
   `,
+}
+
+const boxExample = {
+  html: `<div class='box'></div>`,
+  css: `
+body{
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background: #0ad;
+  display: grid;
+  place-items: center;
+}
+
+.box{
+  background: #8ba;
+  height: 50px;
+  width: 50px;
+}`,
 }

@@ -5,7 +5,7 @@
   "idx": 4,
   "tests_type": "state",
   "project_type": "formal-robots",
-  "stdlib_functions": ["concatenate"],
+  "stdlib_functions": ["concatenate", "number_to_string"],
   "exercise_classes": [],
   "exercise_functions": ["vibrate_air"],
   "readonly_ranges": [{ "from": 3, "to": 20 }],

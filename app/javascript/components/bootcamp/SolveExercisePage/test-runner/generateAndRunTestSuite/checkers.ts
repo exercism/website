@@ -127,10 +127,8 @@ export function extractExpressions<T extends Expression>(
   return tree
     .filter((obj) => obj)
     .map((elem: Statement | Expression) => {
-      if (elem instanceof type) {
-        return [elem]
-      }
-      return extractExpressions<T>(elem.children(), type)
+      const res = elem instanceof type ? [elem] : []
+      return res.concat(extractExpressions<T>(elem.children(), type))
     })
     .flat()
 }

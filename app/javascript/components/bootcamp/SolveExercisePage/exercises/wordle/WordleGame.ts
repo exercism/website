@@ -31,7 +31,12 @@ function fn(this: WordleExercise) {
       states: Jiki.JikiObject
     ) {
       if (!(row instanceof Jiki.Number)) {
-        return executionCtx.logicError('Row must be a number')
+        return executionCtx.logicError('The first input must be a number')
+      }
+      if (row.value < 1 || row.value > 6) {
+        return executionCtx.logicError(
+          `The first input must be between 1 and 6 (it was ${row.value}).`
+        )
       }
       if (!(word instanceof Jiki.String)) {
         return executionCtx.logicError('Word must be a string')

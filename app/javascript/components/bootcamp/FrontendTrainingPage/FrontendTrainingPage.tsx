@@ -26,6 +26,7 @@ import {
   AnimationTimeline,
 } from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
 import { DEFAULT_BROWSER_STYLES } from './defaultStyles'
+import { interactionExtension } from './extensions/interaction'
 
 let colorInput: HTMLInputElement | null = null
 
@@ -164,62 +165,7 @@ export default function FrontendTrainingPage() {
                 }}
                 extensions={[
                   Prec.highest([css(), basicLight]),
-                  interact({
-                    rules: [
-                      // {
-                      //   regexp: /-?\b\d+\.?\d*\b/g,
-                      //   // set cursor to "ew-resize" on hover
-                      //   cursor: "ew-resize",
-                      //   // change number value based on mouse X movement on drag
-                      //   onDrag: (text, setText, e) => {
-                      //     const newVal = Number(text) + e.movementX;
-                      //     if (isNaN(newVal)) return;
-                      //     setText(newVal.toString());
-                      //   },
-                      // },
-                      {
-                        regexp: /(-?\d+\.?\d*)(px|%)/g,
-                        cursor: 'ew-resize',
-                        onDrag: (text, setText, e) => {
-                          // Match numbers even if they are followed by 'px' or '%', etc
-                          const match = text.match(/(-?\d+\.?\d*)(px|%|vw|vh)/)
-                          if (!match) return
-
-                          const [, num, unit] = match
-                          const newVal = Number(num) + e.movementX
-
-                          if (isNaN(newVal)) return
-
-                          setText(`${newVal}${unit}`)
-                        },
-                      },
-                      {
-                        regexp: /rgb\(.*\)/g,
-                        cursor: 'pointer',
-                        onDrag: (text, setText, e) => {
-                          const res =
-                            /rgb\((?<r>\d+)\s*,\s*(?<g>\d+)\s*,\s*(?<b>\d+)\)/.exec(
-                              text
-                            )
-                          const r = Number(res?.groups?.r)
-                          const g = Number(res?.groups?.g)
-                          const b = Number(res?.groups?.b)
-                          const sel = document.createElement('input')
-                          sel.style.position = 'absolute'
-                          sel.type = 'color'
-                          if (!isNaN(r + g + b)) sel.value = rgb2hex(r, g, b)
-                          sel.addEventListener('input', (e) => {
-                            const el = e.target as HTMLInputElement
-                            if (el.value) {
-                              const [r, g, b] = hex2rgb(el.value)
-                              setText(`rgb(${r}, ${g}, ${b})`)
-                            }
-                          })
-                          sel.click()
-                        },
-                      },
-                    ],
-                  }),
+                  interactionExtension(),
                 ]}
                 handleRunCode={() => {}}
                 ref={cssEditorViewRef}
@@ -316,11 +262,3 @@ export function buildCssAnimationTimeline(
     placeholder
   )
 }
-
-const hex2rgb = (hex: string): [number, number, number] => {
-  const v = parseInt(hex.substring(1), 16)
-  return [(v >> 16) & 255, (v >> 8) & 255, v & 255]
-}
-
-const rgb2hex = (r: number, g: number, b: number): string =>
-  '#' + r.toString(16) + g.toString(16) + b.toString(16)

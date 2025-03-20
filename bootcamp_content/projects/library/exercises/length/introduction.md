@@ -1,17 +1,28 @@
 # Length
 
-Welcome to the first Library Function Exercise.
+Welcome to the first Library Function Exercise!
 
-These exercises all follow the same pattern.
-The first part of the solution is prewritten, using one or more of your library functions.
+## Your Library
+
+You now have access to your own [personal Functions Library](/bootcamp/custom_functions), where you can create functions that you need frequently in exercises.
+You create them in your library them import them into your exercises using the "Dependencies" button above.
+You can add whatever functions you like to the library, but there are a few that are pre-created waiting for you to fill them in.
+
+[Watch this video](https://www.youtube.com/live/00tNx4XCJxY?t=1403s) to watch the introduction session on Library Functions.
+
+## The Exercise
+
+These Library Function Exercises all follow the same pattern.
+The first part of the solution is prewritten.
+It uses a library function that you need to write.
 
 Your job is to:
 
 1. Write the library function (if you haven't already)
-2. Import it (using the dependencies button)
+2. Import it (using the "Dependencies" button)
 3. Finish off the exercise
 
-Note that you might need to refresh this page in between writing your library function and importing it!
+Note that you need to refresh this page in between writing your library function and importing it.
 
 ## Length
 

@@ -78,7 +78,8 @@
       "MissingRightParenthesisInInstantiation": "MissingRightParenthesisInInstantiation: class: {{class}}",
       "InvalidClassNameInInstantiation": "InvalidClassNameInInstantiation: class: {{class}}",
       "InvalidVariableName": "InvalidVariableName",
-      "MissingSecondElementNameAfterForeach": "MissingSecondElementNameAfterForeach"
+      "MissingSecondElementNameAfterForeach": "MissingSecondElementNameAfterForeach",
+      "UnexpectedVisibilityModifierOutsideClass": "UnexpectedVisibilityModifierOutsideClass: lexeme: {{lexeme}}"
     },
     "semantic": {
       "CannotAssignToConstant": "CannotAssignToConstant",

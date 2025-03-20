@@ -296,6 +296,16 @@ export class Parser {
       this.error('UnexpectedElseWithoutIf', this.previous().location)
     }
 
+    if (this.match('PUBLIC', 'PRIVATE')) {
+      this.error(
+        'UnexpectedVisibilityModifierOutsideClass',
+        this.previous().location,
+        {
+          lexeme: this.previous().lexeme,
+        }
+      )
+    }
+
     return this.callStatement()
   }
 
@@ -706,7 +716,23 @@ export class Parser {
       (!allowElse || !this.check('ELSE')) &&
       !this.isAtEnd()
     ) {
-      statements.push(this.statement())
+      try {
+        statements.push(this.statement())
+      } catch (e) {
+        if (
+          type == 'method' &&
+          e instanceof SyntaxError &&
+          e.type == 'UnexpectedVisibilityModifierOutsideClass'
+        ) {
+          this.error(
+            'UnexpectedVisibilityModifierInsideMethod',
+            e.location!,
+            e.context
+          )
+        } else {
+          throw e
+        }
+      }
     }
 
     if (consumeEnd && (!allowElse || this.peek().type != 'ELSE')) {

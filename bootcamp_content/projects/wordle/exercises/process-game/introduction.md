@@ -23,12 +23,12 @@ It should take two inputs:
 1. The secret target word.
 2. The guess the player has made.
 
-You should work out the state of each letter then call the `color_top_row(states)` function with a state for each square in the first row. Either: `"correct"`, `"present"`, or `"absent"`.
+You should work out the state of each letter then call the `color_row(1, states)` function with a state for each square in the first row. Either: `"correct"`, `"present"`, or `"absent"`.
 
 For example, if the word was correct, you would call:
 
 ```jikiscript
-color_top_row(["correct", "correct", "correct", "correct", "correct"])
+color_row(1, ["correct", "correct", "correct", "correct", "correct"])
 ```
 
 ### Process Game

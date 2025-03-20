@@ -197,43 +197,109 @@ export default class DrawExercise extends Exercise {
     this.fillColor = { type: 'hex', color: color.value }
   }
   public fillColorRGB(
-    _: ExecutionContext,
-    red: Jiki.Number,
-    green: Jiki.Number,
-    blue: Jiki.Number
+    executionCtx: ExecutionContext,
+    red: Jiki.JikiObject,
+    green: Jiki.JikiObject,
+    blue: Jiki.JikiObject
   ) {
+    if (
+      !(red instanceof Jiki.Number) ||
+      !(green instanceof Jiki.Number) ||
+      !(blue instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
+    if (red.value < 0 || red.value > 255) {
+      return executionCtx.logicError('Red must be between 0 and 255')
+    }
+    if (green.value < 0 || green.value > 255) {
+      return executionCtx.logicError('Green must be between 0 and 255')
+    }
+    if (blue.value < 0 || blue.value > 255) {
+      return executionCtx.logicError('Blue must be between 0 and 255')
+    }
     this.fillColor = {
       type: 'rgb',
       color: [red.value, green.value, blue.value],
     }
   }
   public fillColorRGBA(
-    _: ExecutionContext,
-    red: Jiki.Number,
-    green: Jiki.Number,
-    blue: Jiki.Number,
-    alpha: Jiki.Number
+    executionCtx: ExecutionContext,
+    red: Jiki.JikiObject,
+    green: Jiki.JikiObject,
+    blue: Jiki.JikiObject,
+    alpha: Jiki.JikiObject
   ) {
+    if (
+      !(red instanceof Jiki.Number) ||
+      !(green instanceof Jiki.Number) ||
+      !(blue instanceof Jiki.Number) ||
+      !(alpha instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
+    if (red.value < 0 || red.value > 255) {
+      return executionCtx.logicError('Red must be between 0 and 255')
+    }
+    if (green.value < 0 || green.value > 255) {
+      return executionCtx.logicError('Green must be between 0 and 255')
+    }
+    if (blue.value < 0 || blue.value > 255) {
+      return executionCtx.logicError('Blue must be between 0 and 255')
+    }
+    if (alpha.value < 0 || alpha.value > 1) {
+      return executionCtx.logicError('Alpha must be between 0 and 1')
+    }
     this.fillColor = {
       type: 'rgba',
       color: [red.value, green.value, blue.value, alpha.value],
     }
   }
   public fillColorHSL(
-    _: ExecutionContext,
-    h: Jiki.Number,
-    s: Jiki.Number,
-    l: Jiki.Number
+    executionCtx: ExecutionContext,
+    h: Jiki.JikiObject,
+    s: Jiki.JikiObject,
+    l: Jiki.JikiObject
   ) {
+    if (
+      !(h instanceof Jiki.Number) ||
+      !(s instanceof Jiki.Number) ||
+      !(l instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
+    if (h.value < 0 || h.value > 360) {
+      return executionCtx.logicError('Hue must be between 0 and 360')
+    }
+    if (s.value < 0 || s.value > 100) {
+      return executionCtx.logicError('Saturation must be between 0 and 100')
+    }
+    if (l.value < 0 || l.value > 100) {
+      return executionCtx.logicError('Luminosity must be between 0 and 100')
+    }
     this.fillColor = { type: 'hsl', color: [h.value, s.value, l.value] }
   }
   public rectangle(
     executionCtx: ExecutionContext,
-    x: Jiki.Number,
-    y: Jiki.Number,
-    width: Jiki.Number,
-    height: Jiki.Number
+    x: Jiki.JikiObject,
+    y: Jiki.JikiObject,
+    width: Jiki.JikiObject,
+    height: Jiki.JikiObject
   ): void {
+    if (
+      !(x instanceof Jiki.Number) ||
+      !(y instanceof Jiki.Number) ||
+      !(width instanceof Jiki.Number) ||
+      !(height instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
+    if (width.value < 0) {
+      return executionCtx.logicError('Width must be greater than 0')
+    }
+    if (height.value < 0) {
+      return executionCtx.logicError('Height must be greater than 0')
+    }
     const [absX, absY, absWidth, absHeight] = [
       x.value,
       y.value,
@@ -268,11 +334,19 @@ export default class DrawExercise extends Exercise {
   }
   public line(
     executionCtx: ExecutionContext,
-    x1: Jiki.Number,
-    y1: Jiki.Number,
-    x2: Jiki.Number,
-    y2: Jiki.Number
+    x1: Jiki.JikiObject,
+    y1: Jiki.JikiObject,
+    x2: Jiki.JikiObject,
+    y2: Jiki.JikiObject
   ): void {
+    if (
+      !(x1 instanceof Jiki.Number) ||
+      !(y1 instanceof Jiki.Number) ||
+      !(x2 instanceof Jiki.Number) ||
+      !(y2 instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
     const [absX1, absY1, absX2, absY2] = [
       x1.value,
       y1.value,
@@ -307,10 +381,17 @@ export default class DrawExercise extends Exercise {
 
   public circle(
     executionCtx: ExecutionContext,
-    x: Jiki.Number,
-    y: Jiki.Number,
-    radius: Jiki.Number
+    x: Jiki.JikiObject,
+    y: Jiki.JikiObject,
+    radius: Jiki.JikiObject
   ): void {
+    if (
+      !(x instanceof Jiki.Number) ||
+      !(y instanceof Jiki.Number) ||
+      !(radius instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
     const [absX, absY, absRadius] = [x.value, y.value, radius.value].map(
       (val) => rToA(val)
     )
@@ -341,11 +422,20 @@ export default class DrawExercise extends Exercise {
 
   public ellipse(
     executionCtx: ExecutionContext,
-    x: Jiki.Number,
-    y: Jiki.Number,
-    rx: Jiki.Number,
-    ry: Jiki.Number
+    x: Jiki.JikiObject,
+    y: Jiki.JikiObject,
+    rx: Jiki.JikiObject,
+    ry: Jiki.JikiObject
   ): void {
+    if (
+      !(x instanceof Jiki.Number) ||
+      !(y instanceof Jiki.Number) ||
+      !(rx instanceof Jiki.Number) ||
+      !(ry instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
+
     const [absX, absY, absRx, absRy] = [
       x.value,
       y.value,
@@ -381,13 +471,23 @@ export default class DrawExercise extends Exercise {
 
   public triangle(
     executionCtx: ExecutionContext,
-    x1: Jiki.Number,
-    y1: Jiki.Number,
-    x2: Jiki.Number,
-    y2: Jiki.Number,
-    x3: Jiki.Number,
-    y3: Jiki.Number
-  ): Triangle {
+    x1: Jiki.JikiObject,
+    y1: Jiki.JikiObject,
+    x2: Jiki.JikiObject,
+    y2: Jiki.JikiObject,
+    x3: Jiki.JikiObject,
+    y3: Jiki.JikiObject
+  ): void {
+    if (
+      !(x1 instanceof Jiki.Number) ||
+      !(y1 instanceof Jiki.Number) ||
+      !(x2 instanceof Jiki.Number) ||
+      !(y2 instanceof Jiki.Number) ||
+      !(x3 instanceof Jiki.Number) ||
+      !(y3 instanceof Jiki.Number)
+    ) {
+      return executionCtx.logicError('All inputs must be numbers')
+    }
     const [absX1, absY1, absX2, absY2, absX3, absY3] = [
       x1.value,
       y1.value,

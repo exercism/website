@@ -1,6 +1,6 @@
 # Alphanumeric
 
-In this Library Function Exercise, your task is to create three functions all around checking whether is string contains letters and/or numbers.
+In this Library Function Exercise, your task is to create three functions all around checking whether a string contains letters and/or numbers.
 
 As normal in these exercises, your job is to:
 

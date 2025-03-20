@@ -78,7 +78,9 @@
       "InvalidClassNameInInstantiation": "Jiki couldn't work out which class you refering to here. Class names must start with a capital letter.",
       "InvalidVariableName": "Variable names must start with a lowercase letter.",
       "MissingSecondElementNameAfterForeach": "Did you forget to add a second variable name after the comma?",
-      "UnexpectedTokenAfterAccessModifier": "Did you forget the `property` or `method` keyword after the access modifier?"
+      "UnexpectedTokenAfterAccessModifier": "Did you forget the `property` or `method` keyword after the access modifier?",
+      "UnexpectedVisibilityModifierOutsideClass": "Jiki didn't expect to see `{{lexeme}}` outside of a class.",
+      "UnexpectedVisibilityModifierInsideMethod": "Jiki didn't expect to see `{{lexeme}}` inside a method. Did you forget an `end` above this?"
     },
     "semantic": {
       "CannotAssignToConstant": "Cannot re-assign value of constant.",

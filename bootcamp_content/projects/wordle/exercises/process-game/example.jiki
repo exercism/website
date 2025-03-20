@@ -14,7 +14,7 @@ function process_game with word, guesses do
 end
 
 function process_first_guess with word, guess do
-  color_top_row(process_guess(word, guess))
+  process_game(word, [guess])
 end
 
 function process_guess with word, guess do

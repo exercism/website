@@ -1119,3 +1119,17 @@ test('AttemptedToAccessPrivateSetter', () => {
 
   expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateSetter')
 })
+test('AttemptedToAccessPrivateSetter', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+      constructor do
+        set this.foo to 5
+      end
+    end
+    set x to new Foobar()
+    change x.foo to 5
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateSetter')
+})

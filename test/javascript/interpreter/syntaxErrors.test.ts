@@ -863,6 +863,27 @@ test('MissingSecondElementNameAfterForeach', () => {
     'MissingSecondElementNameAfterForeach'
   )
 })
+
+test('UnexpectedVisibilityModifierOutsideClass', () => {
+  expect(() =>
+    parse(`
+    public function foo do
+    end
+  `)
+  ).toThrow('UnexpectedVisibilityModifierOutsideClass')
+})
+
+test('UnexpectedVisibilityModifierInsideMethod', () => {
+  expect(() =>
+    parse(`
+    class Foo do
+      public method foo do
+        public property foobar
+    end
+  `)
+  ).toThrow('UnexpectedVisibilityModifierInsideMethod')
+})
+
 // MissingToAfterChangeKeyword
 // MissingClassName
 // MissingStatement

@@ -97,6 +97,8 @@ export type SyntaxErrorType =
   | 'InvalidVariableName'
   | 'MissingSecondElementNameAfterForeach'
   | 'UnexpectedTokenAfterAccessModifier'
+  | 'UnexpectedVisibilityModifierOutsideClass'
+  | 'UnexpectedVisibilityModifierInsideMethod'
 
 export type SemanticErrorType =
   | 'TopLevelReturn'

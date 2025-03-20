@@ -7,6 +7,8 @@ import {
 } from '@codemirror/view'
 import { SyntaxNode } from '@lezer/common'
 
+const COLOR_INPUT_ID = 'editor-color-input'
+
 class SyntaxTreeLogger implements PluginValue {
   private view: EditorView
 
@@ -24,79 +26,91 @@ class SyntaxTreeLogger implements PluginValue {
 
   traverseSyntaxTree(view: EditorView) {
     const tree = syntaxTree(view.state)
-    // console.clear()
     this.traverse(tree.topNode, view)
   }
 
-  traverse(node: SyntaxNode, view: EditorView, depth = 0) {
-    this.handleNode(node, view, depth)
+  traverse(node: SyntaxNode, view: EditorView) {
+    this.handleNode(node, view)
 
     for (let child = node.firstChild; child; child = child.nextSibling) {
-      this.traverse(child, view, depth + 1)
+      this.traverse(child, view)
     }
   }
 
   removeInputElements() {
-    const colorInput = document.getElementById('editor-color-input')
+    const colorInput = document.getElementById(COLOR_INPUT_ID)
 
     if (colorInput && document.activeElement !== colorInput) {
       colorInput.remove()
     }
   }
 
-  handleNode(node: SyntaxNode, view: EditorView, depth: number) {
-    // this.removeInputElements()
-    const cursorPos = view.state.selection.main.head
+  appendColorInput({
+    top,
+    left,
+    defaultValue,
+    onChange,
+    id = 'editor-color-input',
+  }: {
+    top: number
+    left: number
+    defaultValue: string
+    onChange: (color: string) => void
+    id?: string
+  }) {
+    const colorInput = document.createElement('input')
+    colorInput.id = id
+    colorInput.type = 'color'
+    colorInput.value = formatColorInputDefaultValue(defaultValue)
+    Object.assign(colorInput.style, {
+      position: 'absolute',
+      top: top + 'px',
+      left: left + 'px',
+      transform: 'translate(-50%, -100%)',
+      zIndex: '9999',
+      width: '40px',
+      height: '40px',
+      padding: '0',
+      border: 'none',
+    })
+
+    colorInput.onclick = (e) => {
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+    }
+
+    colorInput.oninput = (e) => {
+      const color = (e.target as HTMLInputElement).value
+      onChange(color)
+    }
+
+    if (document.getElementById(COLOR_INPUT_ID) === null) {
+      document.body.appendChild(colorInput)
+    }
+  }
+
+  handleNode(node: SyntaxNode, view: EditorView) {
     const nodeContent = view.state.sliceDoc(node.from, node.to)
-    const isCursorInside = node.from <= cursorPos && cursorPos <= node.to
-    let topPosition = 0
-    let leftPosition = 0
-    const colorInputId = 'editor-color-input'
+    const isItHexNode = node.type.name === 'ColorLiteral'
+    const isItRgbNode =
+      node.type.name === 'CallExpression' && nodeContent.startsWith('rgb')
+    const isItColorNode = isItHexNode || isItRgbNode
+    const { top, left, isCursorInside } = cursorPositionHelper(view, node)
 
-    if (
-      (node.type.name === 'ColorLiteral' ||
-        (node.type.name === 'CallExpression' &&
-          nodeContent.startsWith('rgb'))) &&
-      isCursorInside
-    ) {
-      requestAnimationFrame(() => {
-        const nodeSlice = view.state.sliceDoc(node.from, node.to)
-        const coords = view.coordsAtPos(cursorPos)
-        if (coords) {
-          topPosition = Math.round(coords.top)
-          leftPosition = Math.round(coords.left)
-        }
-
-        const colorInput = document.createElement('input')
-        colorInput.id = colorInputId
-        colorInput.type = 'color'
-        colorInput.value = nodeContent
-        Object.assign(colorInput.style, {
-          position: 'absolute',
-          top: topPosition + 'px',
-          left: leftPosition + 'px',
-          transform: 'translate(-50%, -100%)',
-          zIndex: '9999',
-          width: '40px',
-          height: '40px',
-          padding: '0',
-          border: 'none',
-        })
-
-        colorInput.addEventListener('click', (e) => {
-          e.stopPropagation()
-          e.stopImmediatePropagation()
-        })
-
-        colorInput.addEventListener('input', (e) => {
-          const color = (e.target as HTMLInputElement).value
+    if (isItColorNode && isCursorInside) {
+      this.appendColorInput({
+        top,
+        left,
+        defaultValue: nodeContent,
+        onChange: (color: string) => {
           const newColorString = formattedHex2Rgb(color)
 
           const newString = view.state
             .sliceDoc(node.from, node.to)
-            .replace(/rgb\(\d+,\s*\d+,\s*\d+\)/, newColorString)
-
-          console.log(newColorString, newString)
+            .replace(
+              /rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*(?:0|1|0?\.\d+))?\s*\)/,
+              newColorString
+            )
 
           this.view.dispatch({
             changes: {
@@ -105,19 +119,9 @@ class SyntaxTreeLogger implements PluginValue {
               insert: newString,
             },
           })
-        })
-
-        if (document.getElementById(colorInputId) === null) {
-          document.body.appendChild(colorInput)
-        }
+        },
       })
     }
-
-    // console.log(
-    //   `${node.type.name} [${node.from}, ${node.to}] "${nodeContent}" ${
-    //     isCursorInside ? '=== cursor is inside === ' : ''
-    //   }`
-    // )
   }
 }
 
@@ -136,4 +140,29 @@ function formattedHex2Rgb(hex: string) {
 
 function rgb2hex(r: number, g: number, b: number): string {
   return '#' + r.toString(16) + g.toString(16) + b.toString(16)
+}
+
+function formatColorInputDefaultValue(string: string) {
+  if (string.startsWith('rgb')) {
+    const rgb = string.match(/\d+/g)
+    if (!rgb) return string
+    return rgb2hex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))
+  }
+
+  return string
+}
+
+function cursorPositionHelper(view: EditorView, node: SyntaxNode) {
+  const cursorPos = view.state.selection.main.head
+  const coords = view.coordsAtPos(cursorPos)
+  let top = 0,
+    left = 0
+  if (coords) {
+    top = coords.top
+    left = coords.left
+  }
+
+  const isCursorInside = node.from <= cursorPos && cursorPos <= node.to
+
+  return { isCursorInside, top, left }
 }

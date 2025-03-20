@@ -100,10 +100,10 @@ body {
 
     .hamster {
         position: absolute;
-        right: 20px;
-        top: -75px;
-        width: 80px;
-        height: 80px;
+        right: 30px;
+        top: -92px;
+        width: 100px;
+        height: 100px;
         z-index: 9999;
     }
 

@@ -9,7 +9,7 @@ import { SyntaxNode } from '@lezer/common'
 
 const COLOR_INPUT_ID = 'editor-color-input'
 
-class SyntaxTreeLogger implements PluginValue {
+class ValueInteractor implements PluginValue {
   private view: EditorView
 
   constructor(view: EditorView) {
@@ -89,44 +89,56 @@ class SyntaxTreeLogger implements PluginValue {
     }
   }
 
-  handleNode(node: SyntaxNode, view: EditorView) {
-    const nodeContent = view.state.sliceDoc(node.from, node.to)
-    const isItHexNode = node.type.name === 'ColorLiteral'
-    const isItRgbNode =
-      node.type.name === 'CallExpression' && nodeContent.startsWith('rgb')
-    const isItColorNode = isItHexNode || isItRgbNode
+  handleColorNode(node: SyntaxNode, view: EditorView) {
     const { top, left, isCursorInside } = cursorPositionHelper(view, node)
+    if (!isCursorInside) return
+    const nodeContent = view.state.sliceDoc(node.from, node.to)
+    this.appendColorInput({
+      top,
+      left,
+      defaultValue: nodeContent,
+      onChange: (color: string) => {
+        const [rVal, gVal, bVal] = hex2rgb(color)
 
-    if (isItColorNode && isCursorInside) {
-      this.appendColorInput({
-        top,
-        left,
-        defaultValue: nodeContent,
-        onChange: (color: string) => {
-          const newColorString = formattedHex2Rgb(color)
+        const nodeContent = view.state.sliceDoc(node.from, node.to)
+        console.log('nodeContent', nodeContent)
+        const currentTree = syntaxTree(view.state)
+        const nodeAtCursor = currentTree.resolve(node.from, -1)
+        const newNode = nodeAtCursor.getChild('CallExpression')
+        if (!newNode) return
+        console.log(
+          'nodeAtCursor',
+          view.state.sliceDoc(newNode.from, newNode.to)
+        )
 
-          const newString = view.state
-            .sliceDoc(node.from, node.to)
-            .replace(
-              /rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*(?:0|1|0?\.\d+))?\s*\)/,
-              newColorString
-            )
+        const argListNode = node.getChild('ArgList')
+        if (!argListNode) return
 
-          this.view.dispatch({
-            changes: {
-              from: node.from,
-              to: node.to,
-              insert: newString,
-            },
-          })
-        },
-      })
+        const numLiterals = argListNode.getChildren('NumberLiteral')
+        if (numLiterals.length === 0) return
+
+        view.dispatch({
+          changes: {
+            from: newNode.from,
+            to: newNode.to,
+            insert: `rgb(${rVal}, ${gVal}, ${bVal})`,
+          },
+        })
+      },
+    })
+  }
+
+  handleNode(node: SyntaxNode, view: EditorView) {
+    const isColorNode = getIsColorNode(view, node)
+
+    if (isColorNode) {
+      requestAnimationFrame(() => this.handleColorNode(node, view))
     }
   }
 }
 
 export function interactionExtension() {
-  return ViewPlugin.fromClass(SyntaxTreeLogger)
+  return ViewPlugin.fromClass(ValueInteractor)
 }
 
 function hex2rgb(hex: string): [number, number, number] {
@@ -165,4 +177,24 @@ function cursorPositionHelper(view: EditorView, node: SyntaxNode) {
   const isCursorInside = node.from <= cursorPos && cursorPos <= node.to
 
   return { isCursorInside, top, left }
+}
+
+function getIsColorNode(view: EditorView, node: SyntaxNode) {
+  return getIsHexNode(node) || getIsRgbNode(view, node)
+}
+
+function getIsRgbNode(view: EditorView, node: SyntaxNode) {
+  const nodeContent = view.state.sliceDoc(node.from, node.to)
+  return node.type.name === 'CallExpression' && nodeContent.startsWith('rgb')
+}
+
+function getIsHexNode(node: SyntaxNode) {
+  return node.type.name === 'ColorLiteral'
+}
+
+function traverseTree(node: SyntaxNode, cb: (node: SyntaxNode) => void) {
+  const cursor = node.cursor()
+  do {
+    cb(cursor.node)
+  } while (cursor.next())
 }

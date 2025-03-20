@@ -371,13 +371,13 @@ end))
         visit bootcamp_project_exercise_url(exercise.project, exercise)
 
         change_codemirror_content(%(function even_or_odd with number do
-  set this to 5
+  set lol to 5
   return "Even"
 end))
         check_scenarios
 
         scrub_to 0
-        assert_text "This created a new variable called this and set its value to 5."
+        assert_text "This created a new variable called lol and set its value to 5."
         assert_selector ".information-tooltip.description"
       end
     end

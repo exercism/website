@@ -194,76 +194,28 @@ export default function FrontendTrainingPage() {
                         },
                       },
                       {
-                        // match HEX and rgb
-                        regexp:
-                          /#([0-9a-fA-F]{3,6})\b|rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g,
+                        regexp: /rgb\(.*\)/g,
                         cursor: 'pointer',
                         onDrag: (text, setText, e) => {
-                          // setText("#000000")
-                          const toHex = (rgb: string): string => {
-                            const match = rgb.match(/\d+/g)
-                            if (!match) return '#000000'
-                            return `#${match
-                              .map((num) =>
-                                Number(num).toString(16).padStart(2, '0')
-                              )
-                              .join('')}`
-                          }
-
-                          const currentColor = text.startsWith('rgb')
-                            ? toHex(text)
-                            : text
-
-                          document
-                            .querySelectorAll('.color-picker')
-                            .forEach((el) => el.remove())
-
-                          const colorInput = document.createElement('input')
-                          colorInput.type = 'color'
-                          colorInput.className = 'color-picker'
-                          colorInput.value = currentColor
-                          colorInput.style.position = 'absolute'
-                          colorInput.style.zIndex = '1000'
-                          colorInput.style.left = `${e.clientX}px`
-                          colorInput.style.top = `${e.clientY}px`
-                          colorInput.style.border = 'none'
-                          colorInput.style.padding = '0'
-                          colorInput.style.width = '40px'
-                          colorInput.style.height = '40px'
-                          colorInput.style.background = 'transparent'
-                          colorInput.style.cursor = 'pointer'
-
-                          document.body.appendChild(colorInput)
-
-                          colorInput.focus()
-
-                          colorInput.addEventListener('input', (e) => {
-                            console.log(
-                              'inputting',
-                              colorInput.value,
-                              'text',
-                              text,
-                              e
+                          const res =
+                            /rgb\((?<r>\d+)\s*,\s*(?<g>\d+)\s*,\s*(?<b>\d+)\)/.exec(
+                              text
                             )
-                            setTimeout(() => {
-                              setText(colorInput.value)
-                            }, 0)
-                          })
-
-                          const closePicker = (event: MouseEvent) => {
-                            if (!colorInput.contains(event.target as Node)) {
-                              colorInput.remove()
-                              document.removeEventListener('click', closePicker)
+                          const r = Number(res?.groups?.r)
+                          const g = Number(res?.groups?.g)
+                          const b = Number(res?.groups?.b)
+                          const sel = document.createElement('input')
+                          sel.style.position = 'absolute'
+                          sel.type = 'color'
+                          if (!isNaN(r + g + b)) sel.value = rgb2hex(r, g, b)
+                          sel.addEventListener('input', (e) => {
+                            const el = e.target as HTMLInputElement
+                            if (el.value) {
+                              const [r, g, b] = hex2rgb(el.value)
+                              setText(`rgb(${r}, ${g}, ${b})`)
                             }
-                          }
-
-                          document.addEventListener('click', closePicker, {
-                            capture: true,
                           })
-
-                          colorInput.addEventListener('click', (event) => {
-                            event.stopPropagation()
-                          })
+                          sel.click()
                         },
                       },
                     ],
@@ -364,3 +316,11 @@ export function buildCssAnimationTimeline(
     placeholder
   )
 }
+
+const hex2rgb = (hex: string): [number, number, number] => {
+  const v = parseInt(hex.substring(1), 16)
+  return [(v >> 16) & 255, (v >> 8) & 255, v & 255]
+}
+
+const rgb2hex = (r: number, g: number, b: number): string =>
+  '#' + r.toString(16) + g.toString(16) + b.toString(16)

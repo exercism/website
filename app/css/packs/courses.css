@@ -936,6 +936,7 @@ section#signup-section {
             @apply absolute top-[5%] right-[10px] bottom-[5%];
             @apply !w-[auto] !h-[90%];
             transform: translateX(50%);
+            @apply pointer-events-none;
         }
 
         .bubbles {
@@ -1346,6 +1347,7 @@ section#enroll {
                 @apply absolute top-[5%] right-[10px] bottom-[5%];
                 @apply !w-[auto] !h-[90%];
                 transform: translateX(50%);
+                @apply pointer-events-none;
             }
 
             .bubble {

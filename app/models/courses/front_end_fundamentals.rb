@@ -7,10 +7,10 @@ class Courses::FrontEndFundamentals < Courses::Course
 
   def slug = "front-end-fundamentals"
   def template_slug = "front_end_fundamentals"
-  def name = "Front-end Fundamentals"
+  def name = "Front-End Fundamentals"
 
   def blurb = Markdown::Parse.(
-    "Add front end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
+    "Add front-end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
   )
 
   def stripe_prices = STRIPE_PRICES

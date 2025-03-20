@@ -104,7 +104,6 @@ body {
         top: -92px;
         width: 100px;
         height: 100px;
-        z-index: 9999;
     }
 
     .inner {
@@ -189,18 +188,25 @@ body {
     color: white;
     @apply overflow-hidden;
 
+    .md-container { @apply px-[4%];
+    }
+
     h1 {
         @apply sm:text-[80px] text-[40px] leading-[1.05];
-        @apply max-w-[850px] mx-auto;
+        @apply max-w-[1050px] mx-auto;
         @apply mb-20;
         @apply font-light;
+        strong {
+            @apply font-medium;
+        }
     }
 
     .tagline {
         @apply md:text-22 text-18 mb-20;
         @apply font-light;
         @apply text-[#dde5f0];
-        @apply max-w-[530px] mx-auto;
+        @apply mx-auto;
+        /* @apply text-balance; */
         strong {
             @apply font-medium;
             @apply text-white;
@@ -429,7 +435,7 @@ section#bootcamp {
         .intro {
             @apply md:text-22 text-18 font-light;
             @apply text-center text-balance;
-            @apply max-w-[750px] mx-auto;
+            @apply mx-auto;
         }
         hr {
             @apply border-b-1 border-[#fafafa] my-20;
@@ -1139,7 +1145,7 @@ section#legals {
         height: 60px;
     }
 
-    &#rhodri {
+    &#rhodri, &#jiki {
         position: absolute;
         height: 70px;
         width: 70px;
@@ -1395,6 +1401,7 @@ section#enroll {
     }
 }
 section#payment {
+    @apply py-40;
     .lg-container {
         @apply md:px-[3%] px-8;
         .container {
@@ -1420,7 +1427,8 @@ section#payment {
         background-image: url("icons/checkmark-neon.svg");
         background-size: 14px;
         @apply bg-no-repeat;
-        @apply pl-20 mb-6;
+        @apply pl-20 mb-8;
+        @apply text-17;
         background-position: 0px 4px;
         strong {
             @apply font-semibold;

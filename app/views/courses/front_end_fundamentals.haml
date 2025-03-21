@@ -1,10 +1,10 @@
-= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, country_name: @country_name, discount_percentage: @discount_percentage
+= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage
 
 #nav
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content
-      %strong.font-semibold Exercism 
+      %strong.font-semibold Exercism
       Bootcamps
     = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button !ml-auto"
 
@@ -12,20 +12,20 @@
   .md-container
     .text-center
       %h1.rock-solid Learn Front-end Fundamentals
-      .tagline{class: "max-w-[570px]"}
-        Learn 
-        how to make 
+      .tagline{ class: "max-w-[570px]" }
+        Learn
+        how to make
         %strong beautiful, interactive websites
-        with 
-        %strong live teaching 
-        and 100s of hours of 
+        with
+        %strong live teaching
+        and 100s of hours of
         %strong fun projects!
-        
+
     .bubbles
       .bubble
         = image_tag "bootcamp/wave.svg"
         .text
-          %strong Live 
+          %strong Live
           Teaching
       .bubble
         = image_tag "bootcamp/fun.svg"
@@ -64,7 +64,7 @@
   .md-container
     .flex.flex-col.items-center.gap-40
       .flex.flex-col.items-stretch
-    %h2{class: "!mb-20"}
+    %h2{ class: "!mb-20" }
       Hi there!
       %span.waving-hand
         👋
@@ -87,7 +87,7 @@
       %strong competitive market.
       Standing out from the crowd is much tougher.
     %p
-      Lots of people think you stand out by knowing the 
+      Lots of people think you stand out by knowing the
       %strong most languages or the most frameworks.
       But that's not true!
       When I'm hiring, I look for one thing...
@@ -95,31 +95,31 @@
     %h3
       %span.inline.rough-highlight Do you have the coding mindset?  🧠
 
-    %p 
+    %p
       The people that thrive at coding, the ones that get the best jobs and enjoy the work the most share one thing.
-      They have the 
+      They have the
       %strong coder mindset.
-      They are great at 
-      %strong critical thinking, 
-      great at 
+      They are great at
+      %strong critical thinking,
+      great at
       %strong problem solving.
-    %p 
+    %p
       To become a good developer you need to learn how to think like a coder.
-      And the secret to that is to 
+      And the secret to that is to
       %strong practice making real things,
-      with the right 
+      with the right
       %strong guidance, support and mentoring.
 
     %h3
       %span.inline.rough-highlight What is this course?
     %p
-      This is a new type of course, that teaches you the fundamentals of web development - things like CSS and JavaScript - but does it differently, focussed on getting you 
+      This is a new type of course, that teaches you the fundamentals of web development - things like CSS and JavaScript - but does it differently, focussed on getting you
       %strong building fun things.
-      In the first few weeks, you'll be building games like 
-      %strong Space Invaders, Tic Tac Toe, and 
+      In the first few weeks, you'll be building games like
+      %strong Space Invaders, Tic Tac Toe, and
       %strong Breakout.
-      You'll be building bots that can solve mazes, and talking to real APIs like 
-      %strong ChatGPT 
+      You'll be building bots that can solve mazes, and talking to real APIs like
+      %strong ChatGPT
       to build useful real-world projects.
 
     .grid.grid-cols-4.gap-10.my-16
@@ -142,7 +142,7 @@
       For 3 months, I'll teach you the fundamentals of web development, and help you
       %strong to think like a coder.
     %p
-      And even more, we have world-class mentors to help you out. 
+      And even more, we have world-class mentors to help you out.
       Some who have worked in web-dev for decades and others who have worked at places like Google.
       They'll be there to help nudge you in the right directions and challenge you even more!
     %p
@@ -156,8 +156,8 @@
       %h2
         What's on the
         %strong Menu?
-      %p.intro.mb-24.text-balance{class: 'max-w-[750px]'}
-        We've put together a course that teaches all the things you need to be able to make 
+      %p.intro.mb-24.text-balance{ class: 'max-w-[750px]' }
+        We've put together a course that teaches all the things you need to be able to make
         %strong beautiful, interactive websites.
 
       .sections
@@ -167,7 +167,7 @@
             %h3.mb-8
               Front-End Web Development 🧑‍💻
             .part-intro
-              From April to July, you'll gain the skills you need to build 
+              From April to July, you'll gain the skills you need to build
               %strong beautiful, interactive websites
               and kickstart your career.
 
@@ -347,10 +347,10 @@
 
           .bubbles
             .bubble
-              Front-End 
+              Front-End
               %strong only
           %h2
-            Front-end 
+            Front-end
             %strong Fundamentals
           %p Designed for students who understand the fundamentals of coding.
 
@@ -361,7 +361,7 @@
             .discount
               Includes a
               %strong #{@discount_percentage}% discount
-              for 
+              for
               %strong.font-semibold our friends in
               %span.flag= flag_for_country_code(@country_code_2)
               %strong.font-semibold #{@country_name}.
@@ -390,23 +390,23 @@
           .point
             %h4 What's included? 🔎
             %ul.list-disc
-              %li 
-                Over 
-                %strong 35 hours 
+              %li
+                Over
+                %strong 35 hours
                 of live teaching - yours forever!
-              %li 
+              %li
                 %strong Weekly sessions
                 to answer your questions.
-              %li 
+              %li
                 %strong Hundreds of hours
                 of fun and interesting exercises and projects.
-              %li 
-                A dedicated, 
-                %strong active 
+              %li
+                A dedicated,
+                %strong active
                 community Discord server.
-              %li 
-                An official 
-                %strong certificate 
+              %li
+                An official
+                %strong certificate
                 of completion.
 
           = link_to "Learn Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "course"), class: "button"
@@ -422,8 +422,8 @@
 
             %h2
               Learn to
-              %strong Code 
-              + 
+              %strong Code
+              +
               %strong Front-End
             %p Designed for total beginners. The best way to learn to code on the internet.
           - if @has_discount
@@ -446,8 +446,8 @@
             %h4 Who's it for? 🧑🏽
             %p
               Anyone looking to develop rock solid
-              %strong coding fundamentals 
-              and 
+              %strong coding fundamentals
+              and
               %strong web-dev skils.
               Designed for
               %strong absolute beginners
@@ -462,29 +462,29 @@
             %p
               You'll have a solid understanding of
               %strong coding fundamentals
-              and be confident making 
-              %strong beautiful, functional 
+              and be confident making
+              %strong beautiful, functional
               front-ends for websites.
 
           .point
             %h4 What's included? 🔎
             %ul.list-disc
-              %li 
+              %li
                 Everything in Front-End Fundamentals;
                 %strong PLUS...
-              %li 
-                An extra  
+              %li
+                An extra
                 %strong 40 hours
                 of videos - yours forever!
-              %li 
+              %li
                 Hundreds hours more
                 %strong of exercises and projects.
-              %li 
-                A 
-                %strong specially designed interface 
+              %li
+                A
+                %strong specially designed interface
                 for beginners that makes programming easier and more fun.
-              %li 
-                An extra official 
+              %li
+                An extra official
                 %strong certificate
                 of completion.
 
@@ -538,8 +538,8 @@
 
     .faq
       %h4 When does the Bootcamp start?
-      %p 
-        The first session of Front-End Fundamentals be on April 19th 2025. 
+      %p
+        The first session of Front-End Fundamentals be on April 19th 2025.
         If you buy the bundle with Coding Fundamentals, you can access all that content immediately!
     .faq
       %h4 How much time will I need to spend each week on the bootcamp?

@@ -23,7 +23,10 @@
           "slug": "standard",
           "name": "Smash the blocks",
           "description_html": "Don't let the ball hit the ground!",
-          "setup_functions": [["disableAutoDrawBlock"]],
+          "setup_functions": [
+            ["disableAutoDrawBlock"],
+            ["setDefaultBlockHeight", [5]]
+          ],
           "checks": [
             {
               "function": "didBallAppearAt(null, 97)",
@@ -57,7 +60,7 @@
             },
             {
               "property": "numBallPositions",
-              "value": 486,
+              "value": 504,
               "matcher": "toBeLessThanOrEqual",
               "error_html": "You moved the ball more times than you needed to!"
             }

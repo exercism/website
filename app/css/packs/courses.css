@@ -1114,7 +1114,7 @@ section#faqs {
         @apply max-w-[750px] mx-auto mb-32;
         a {
             @apply font-semibold underline;
-            @apply text-[#4d81ee];
+            @apply text-[blue];
         }
     }
     .faq {

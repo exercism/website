@@ -9,7 +9,7 @@ function initHamsterAnimation() {
   const hamsterSpeed = { value: 1 }
 
   const TRANSITION_DURATION = 500
-  const SMOKE_DELAY = 2000
+  const SMOKE_DELAY = 1000
   const SMOKE_INTERVAL = 50
 
   const hamsterContainer = document.getElementById(
@@ -82,7 +82,7 @@ function initHamsterAnimation() {
     puff.animate(
       [
         { opacity: 0, transform: 'translate(-50%, 0) scale(0.5)' },
-        { offset: 0.1, opacity: 0.8 },
+        { offset: 0.1, opacity: 0.2 },
         {
           opacity: 0,
           transform: `translate(${finalX}%, ${finalY}px) scale(${finalScale})`,

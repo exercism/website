@@ -138,7 +138,10 @@ class CoursesController < ApplicationController
     return session[:location_country_code] = "IN" unless Rails.env.production?
 
     data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-    return if data.dig("security", "vpn")
+    if data.dig("security", "vpn")
+      @using_vpn = true
+      return
+    end
 
     session[:location_country_code] = data.dig("location", "country_code")
   end
@@ -158,8 +161,6 @@ class CoursesController < ApplicationController
     @has_discount = true
     @bundle_price = country_data[:bundle_price].to_f
     @course_price = country_data[:course_price].to_f
-    @bundle_payment_url = country_data[:bundle_payment_url]
-    @course_payment_url = country_data[:course_payment_url]
     @discount_percentage = country_data[:discount_percentage]
   end
 
@@ -167,10 +168,7 @@ class CoursesController < ApplicationController
     @has_discount = false
 
     @bundle_price = @bundle.full_price
-    @bundle_payment_url = @bundle.default_payment_url
-
     @course_price = @course.full_price
-    @course_payment_url = @course.default_payment_url
   end
 
   # rubocop:disable Layout/LineLength

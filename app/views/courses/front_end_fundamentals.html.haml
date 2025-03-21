@@ -329,9 +329,11 @@
   .lhs-bg
   .rhs-bg
   .lg-container
-    %h2.text-center.font-medium
-      Get Signed Up!
-    %p.intro.text-balance
+    %h2.text-center.font-normal
+      Choose
+      your
+      %strong.font-semibold Path
+    %p.intro
       Sign up now to secure your spot on the bootcamp starting on April 19th.
       There are limited spaces available so don't miss out!
     - if @has_discount
@@ -341,6 +343,17 @@
           %strong #{@hello}!
         Everyone in #{@country_name} gets a
         %strong.inline #{@discount_percentage}% discount!
+
+    - elsif @using_vpn
+      #vpn-bar
+        %span.inline-block
+          🌐 Many countries have
+          %strong discounts
+          that make this course more affordable
+          %strong globally! 🌐
+        Please
+        %strong disable your VPN
+        and refresh the page to see if you're eligible.
     .grid.md:grid-cols-2.grid-cols-1.gap-40
       .container
         .header

@@ -63,7 +63,7 @@ body {
     @apply relative z-[10];
     @apply rounded-8 mb-20;
     @apply border-4 border-purple text-purple text-center;
-    @apply text-[19px];
+    @apply text-[18px];
     @apply bg-lightPurple;
 
     .flag {
@@ -73,6 +73,21 @@ body {
     @apply font-medium;
     strong {
         @apply font-semibold;
+    }
+}
+#vpn-bar {
+    @apply px-16 py-12;
+    @apply block mx-auto;
+    @apply relative z-[10];
+    @apply rounded-8 mb-20;
+    @apply border-4 border-[#ff9900] text-[#ac6700] text-center;
+    @apply text-[18px];
+    @apply bg-[#fff4e4];
+    @apply font-normal text-balance;
+    @apply max-w-[850px];
+
+    strong {
+        @apply font-semibold text-[#915700];
     }
 }
 

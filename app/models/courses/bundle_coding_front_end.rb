@@ -8,8 +8,6 @@ class Courses::BundleCodingFrontEnd < Courses::Course
 
   def full_price = 149.99
 
-  def default_payment_url = ""
-
   def slug = "bundle-coding-front-end"
   def template_slug = "bundle_coding_front_end"
   def name = "Coding & Front-End Fundamentals"
@@ -23,6 +21,7 @@ class Courses::BundleCodingFrontEnd < Courses::Course
   def stripe_prices = STRIPE_PRICES
 
   STRIPE_PRICES = {
+    "DEFAULT" => { dollars: 99.00, stripe_id: "price_1QD0E7EoOT0Jqx0U9o3IND2o" },
     "AE" => { dollars: 79.99, stripe_id: "price_1QD0K5EoOT0Jqx0UVNgsQeBl" },
     "AF" => { dollars: 29.99, stripe_id: "price_1QD0HhEoOT0Jqx0UJhA4D3QK" },
     "AG" => { dollars: 99.99, stripe_id: "price_1QD0KYEoOT0Jqx0UzafkJgC6" },

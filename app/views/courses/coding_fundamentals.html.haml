@@ -488,10 +488,13 @@
   .lhs-bg
   .rhs-bg
   .lg-container
-    %h2.text-center.font-medium
-      Choose your Journey
+    %h2.text-center.font-normal
+      Choose
+      your
+      %strong.font-semibold Path
     %p.intro.text-balance
-      Depending on whether you want to learn web development or some other speciality such as data science, we have two different options.
+      Depending on whether you want to learn web development or some other speciality such as data science, we have
+      %strong.font-medium two different options.
     - if @has_discount
       #discount-bar
         .flag= flag_for_country_code(@country_code_2)
@@ -499,6 +502,18 @@
           %strong #{@hello}!
         Everyone in #{@country_name} gets a
         %strong.inline #{@discount_percentage}% discount!
+
+    - elsif @using_vpn
+      #vpn-bar
+        %span.inline-block
+          🌐 Many countries have
+          %strong discounts
+          that make this course more affordable
+          %strong globally! 🌐
+        Please
+        %strong disable your VPN
+        and refresh the page to see if you're eligible.
+
     .grid.md:grid-cols-2.grid-cols-1.gap-40
       .container
         .header
@@ -571,7 +586,7 @@
           %h2
             Become a
             %strong Front-End Dev
-          %p Expand your knowledge to front-end web development.
+          %p Learn the fundamentals then specialise in front-end web development.
 
           -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
           - if @has_discount

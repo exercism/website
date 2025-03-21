@@ -148,14 +148,6 @@ module ViewComponents
           description: "Our way of saying thank you",
           path: Exercism::Routes.insiders_path,
           icon: :insiders
-        },
-        {
-          title: "SWAG",
-          description: "Hoodies, stickers & more",
-          path: 'https://swag.exercism.org',
-          icon: :swag,
-          icon_filter: "textColor6",
-          external: true
         }
 
       ].freeze

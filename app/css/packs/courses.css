@@ -289,6 +289,27 @@ body {
         }
     }
     .supported-by {
+        .google {
+            height: 42px;
+            width: 124px;
+            @apply h-[42px] mt-[3px];
+        }
+
+        .chicago {
+            width: 152px;
+            height: 38px;
+        }
+
+        .mozilla {
+            @apply h-[38px] mt-[-7px];
+            width: 175px;
+        }
+
+        .packt {
+            @apply h-[38px] mt-[2px];
+            width: 141px;
+        }
+
         @apply pt-64;
         @apply flex flex-col items-center;
 
@@ -385,6 +406,10 @@ section.welcome {
             animation: glower 20s linear infinite alternate;
             @apply rounded-circle;
         }
+    }
+
+    .bootcamp-arrow-1 {
+        height: 168px;
     }
 }
 
@@ -812,7 +837,8 @@ section#testimonial-section {
             @apply mb-16;
             @apply flex flex-row gap-12;
             .mark {
-                @apply w-[34px];
+                height: 25px;
+                width: 34px;
             }
             .left-mark {
                 @apply self-start;
@@ -826,7 +852,9 @@ section#testimonial-section {
         .person {
             @apply flex flex-row items-center justify-end gap-8;
             img {
-                @apply w-[50px] rounded-circle ml-6;
+                height: 50px;
+                width: 50px;
+                @apply rounded-circle ml-6;
             }
             .text {
                 @apply flex flex-col items-end;
@@ -861,7 +889,9 @@ section#testimonial-section {
                 }
             }
             .mark {
-                @apply w-[16px] grayscale opacity-[0.7];
+                height: 12px;
+                width: 16px;
+                @apply grayscale opacity-[0.7];
             }
             .left-mark {
                 @apply self-start;
@@ -888,7 +918,7 @@ section#testimonial-section {
             filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
 
             img {
-                @apply w-[40px] rounded-circle;
+                @apply w-[40px] h-[40px] rounded-circle;
             }
             .text {
                 @apply flex flex-col items-end;
@@ -1525,7 +1555,9 @@ section#payment {
                 }
             }
             .mark {
-                @apply w-[16px]  opacity-[0.7];
+                height: 12px;
+                width: 16px;
+                @apply opacity-[0.7];
             }
             .left-mark {
                 @apply self-start;
@@ -1722,7 +1754,9 @@ section#confirmation {
                 }
             }
             .mark {
-                @apply w-[16px] opacity-[0.6];
+                height: 12px;
+                width: 16px;
+                @apply opacity-[0.6];
             }
             .left-mark {
                 @apply self-start;
@@ -1752,7 +1786,7 @@ section#confirmation {
             filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
 
             img {
-                @apply w-[40px] rounded-circle;
+                @apply w-[40px] h-[40px] rounded-circle;
             }
             .text {
                 @apply flex flex-col items-end;

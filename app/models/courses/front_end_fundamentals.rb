@@ -2,7 +2,7 @@ class Courses::FrontEndFundamentals < Courses::Course
   include Singleton
 
   def enable_for_user!(user)
-    # TODO: Send email
+    # Currently a no-op
   end
 
   def full_price = 99.99
@@ -13,9 +13,11 @@ class Courses::FrontEndFundamentals < Courses::Course
   def template_slug = "front_end_fundamentals"
   def name = "Front-End Fundamentals"
 
+  # rubocop:disable Layout/LineLength
   def blurb = Markdown::Parse.(
     "Add front-end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
   )
+  # rubocop:enable Layout/LineLength
 
   def stripe_prices = STRIPE_PRICES
 

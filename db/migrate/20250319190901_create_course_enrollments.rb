@@ -11,6 +11,8 @@ class CreateCourseEnrollments < ActiveRecord::Migration[7.0]
       t.string :checkout_session_id, null: true
       t.string :access_code, null: true
 
+      t.integer :email_status, limit: 1, default: 0, null: false
+
       t.timestamps
     end
   end

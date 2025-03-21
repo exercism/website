@@ -17,9 +17,11 @@ class Courses::CodingFundamentals < Courses::Course
   def template_slug = "coding_fundamentals"
   def name = "Coding Fundamentals"
 
+  # rubocop:disable Layout/LineLength
   def blurb = Markdown::Parse.(
     "Learn to code and build rock solid coding fundamentals! Perfect for **total beginners** or anyone who wants to **build more solid foundations.**"
   )
+  # rubocop:enable Layout/LineLength
 
   def stripe_prices = STRIPE_PRICES
 

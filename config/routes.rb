@@ -479,7 +479,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # get "/courses" => "courses#index"
+  get "/courses" => "courses#index"
 
   get "/courses/testimonials" => "courses#testimonials"
   get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
@@ -491,6 +491,8 @@ Rails.application.routes.draw do
 
   post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
   get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
+
+  get "/bootcamp" => "courses#bootcamp_redirect"
 
   draw(:bootcamp)
 end

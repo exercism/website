@@ -2,30 +2,18 @@ class CoursesController < ApplicationController
   layout 'courses'
   skip_before_action :authenticate_user!
 
-  # before_action :redirect_if_paid!
   before_action :use_course!, only: %i[show start_enrolling enroll pay]
   before_action :use_enrollment!
   before_action :use_location!, only: %i[show start_enrolling enroll pay]
   before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
   before_action :use_quotes!, only: [:show]
 
-  def use_course!
-    @bundle = Courses::BundleCodingFrontEnd.instance
-    @course = Courses::Course.course_for_slug(params[:id])
-    redirect_to action: :index unless @course
-  end
-
-  def use_enrollment!
-    if session[:enrollment_id]
-      @enrollment = CourseEnrollment.find(session[:enrollment_id])
-    elsif user_signed_in?
-      @enrollment = CourseEnrollment.find_by(
-        user: current_user,
-        course_slug: @course.slug
-      )
-      session[:enrollment_id] = @enrollment.id if @enrollment
+  def bootcamp_redirect
+    if user_signed_in? && current_user.bootcamp_attendee?
+      redirect_to bootcamp_dashboard_url
+    else
+      redirect_to "/courses/#{Courses::CodingFundamentals.instance.slug}"
     end
-  rescue StandardError
   end
 
   def show
@@ -112,6 +100,31 @@ class CoursesController < ApplicationController
   def enrolled; end
 
   private
+  def use_course!
+    @bundle = Courses::BundleCodingFrontEnd.instance
+    @course = Courses::Course.course_for_slug(params[:id])
+    redirect_to action: :index unless @course
+  end
+
+  def use_enrollment!
+    if session[:enrollment_id]
+      begin
+        @enrollment = CourseEnrollment.find(session[:enrollment_id])
+        return
+      rescue ActiveRecord::RecordNotFound
+        session.delete(:enrollment_id)
+      end
+    end
+
+    return unless user_signed_in?
+
+    @enrollment = CourseEnrollment.find_by(
+      user: current_user,
+      course_slug: @course.slug
+    )
+    session[:enrollment_id] = @enrollment.id if @enrollment
+  end
+
   def use_location!
     @country_code_2 = @enrollment&.country_code_2.presence ||
                       session[:location_country_code].presence ||
@@ -159,6 +172,7 @@ class CoursesController < ApplicationController
     @course_payment_url = @course.default_payment_url
   end
 
+  # rubocop:disable Layout/LineLength
   def use_testimonials!
     @testimonials = [
       [
@@ -398,6 +412,7 @@ class CoursesController < ApplicationController
       ]
     ]
   end
+  # rubocop:enable Layout/LineLength
 
   #   before_action :redirect_if_paid!
   #   before_action :save_utm!

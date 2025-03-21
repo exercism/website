@@ -16,7 +16,7 @@ class User::Bootstrap
   def link_courses_user!
     CourseEnrollment.where(email: user.email, user: nil).each do |ce|
       ce.update!(user:)
-      ce.course.enable_for_user!(user)
+      ce.course.enable_for_enrollment!(user)
     end
   end
 end

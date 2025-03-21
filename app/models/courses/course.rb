@@ -4,8 +4,22 @@ class Courses::Course
       Courses::CodingFundamentals.instance,
       Courses::FrontEndFundamentals.instance,
       Courses::BundleCodingFrontEnd.instance
-    ].index_by { |course| course.slug }.freeze
+    ].index_by(&:slug).freeze
     courses[slug]
+  end
+
+  def send_welcome_email!(enrollment)
+    mail_slug = "#{template_slug}_enrolled"
+    if enrollment.user
+      User::SendEmail.(enrollment) do
+        CoursesMailer.with(enrollment:).send(mail_slug).deliver_later
+      end
+    else
+      return unless enrollment.email_pending?
+
+      CoursesMailer.with(enrollment:).send(mail_slug).deliver_later
+      enrollment.email_sent!
+    end
   end
 
   def pricing_data_for_country(country_code_2)

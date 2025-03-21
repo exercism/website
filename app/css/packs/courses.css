@@ -146,6 +146,10 @@ body {
     z-index: 9999;
     @apply py-16;
     @apply md:text-18 text-14;
+    .exercism-face {
+        width: 28px;
+        height: 24px;
+    }
 
     .first-session {
         @apply text-15 font-semibold leading-100;
@@ -278,9 +282,9 @@ body {
         margin-left: auto;
         margin-right: auto;
         padding: 8px;
-        display: block;
         box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
         position: relative;
+        aspect-ratio: 760/434.5;
 
         .video {
             width: 100%;

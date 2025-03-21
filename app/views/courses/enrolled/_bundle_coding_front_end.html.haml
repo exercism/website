@@ -1,6 +1,6 @@
 %p.info
   We're so excited to have you on board! 💙
-- if current_user
+- if enrollment.user
   %p.info
     %strong Your Exercism account has been granted Bootcamp access.
     Please use the button below to get started.
@@ -20,10 +20,10 @@
   %ul.mt-8.mb-12.list-disc.ml-20.font-light
     %li.text-18 If you do, logging in should give you access. 
     %li.text-18
-      If you don't, the easiest way to get acccess is to #{link_to 'create one here', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address "#{@enrollment.email}".
+      If you don't, the easiest way to get acccess is to #{link_to 'create one here', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address "#{enrollment.email}".
       If you use a different email and don't get access, please email us at
       %strong.font-medium bootcamp@exercism.org
-      with your Exercism username/handle and the email address you've enrolled with (#{@enrollment.email}) and we'll give you access manually.
+      with your Exercism username/handle and the email address you've enrolled with (#{enrollment.email}) and we'll give you access manually.
   %p.info
     You should also shortly receive an email welcoming you to the Bootcamp, and asking you to say hello. 
     %strong Please do reply

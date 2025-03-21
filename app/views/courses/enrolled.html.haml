@@ -13,4 +13,4 @@
           Your payment has been successfully processed and you're all set!
         %hr
 
-        = render "courses/enrolled/#{@enrollment.course.template_slug}"
+        = render "courses/enrolled/#{@enrollment.course.template_slug}", enrollment: @enrollment

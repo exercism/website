@@ -133,6 +133,8 @@ export default class BreakoutExercise extends Exercise {
       ballMiddle <= paddleRight
     ) {
       this.paddleBallInteractionCount += 1
+    } else if (ballBottom == paddleTop) {
+      console.log(ballMiddle, paddleLeft, paddleRight)
     }
   }
 

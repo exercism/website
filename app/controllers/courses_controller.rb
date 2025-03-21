@@ -89,7 +89,7 @@ class CoursesController < ApplicationController
 
     if session.status == 'complete'
       @enrollment.update!(checkout_session_id: session.id)
-      @enrollment.paid!(session.id)
+      @enrollment.paid!
     end
 
     render json: {
@@ -104,7 +104,7 @@ class CoursesController < ApplicationController
   def use_course!
     @bundle = Courses::BundleCodingFrontEnd.instance
     @course = Courses::Course.course_for_slug(params[:id])
-    redirect_to action: :index unless @course
+    redirect_to action: :coding_fundamentals unless @course
   end
 
   def use_enrollment!
@@ -117,7 +117,7 @@ class CoursesController < ApplicationController
       end
     end
 
-    return unless user_signed_in?
+    return unless user_signed_in? && @course
 
     @enrollment = CourseEnrollment.find_by(
       user: current_user,

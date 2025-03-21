@@ -1,7 +1,5 @@
 if (window.location.pathname === '/courses/enrolled') {
-  // initialize()
-  document.getElementById('pending').classList.add('hidden')
-  document.getElementById('success').classList.remove('hidden')
+  initialize()
 }
 
 async function initialize() {

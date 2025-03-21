@@ -2,8 +2,8 @@ class Courses::BundleCodingFrontEnd < Courses::Course
   include Singleton
 
   def enable_for_user!(user)
-    Course.course_for_slug("coding-fundamentals").enable_for_user!(user)
-    Course.course_for_slug("front-end-fundamentals").enable_for_user!(user)
+    Courses::Course.course_for_slug("coding-fundamentals").enable_for_user!(user)
+    Courses::Course.course_for_slug("front-end-fundamentals").enable_for_user!(user)
   end
 
   def full_price = 149.99

@@ -12,10 +12,6 @@ class User::BootcampData < ApplicationRecord
     self.level_idx = 1
   end
 
-  after_save_commit do
-    User::Bootcamp::SubscribeToOnboardingEmails.defer(self)
-  end
-
   def self.to_tsv(status: :enrolled_unpaid)
     return unless status == :enrolled_unpaid
 

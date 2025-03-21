@@ -99,20 +99,8 @@ class CoursesController < ApplicationController
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
 
     if session.status == 'complete'
-      @enrollment.update!(
-        paid_at: Time.current,
-        checkout_session_id: session.id,
-        access_code: SecureRandom.hex(8)
-      )
-      if @enrollment.user
-        User::BecomeBootcampAttendee.(current_user)
-      else
-        user = User.find_by(email: @enrollment.email)
-        if user
-          @enrollment.update(user:)
-          User::BecomeBootcampAttendee.(user)
-        end
-      end
+      @enrollment.update!(checkout_session_id: session.id)
+      @enrollment.paid!(session.id)
     end
 
     render json: {

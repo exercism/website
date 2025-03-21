@@ -1,7 +1,15 @@
 class Courses::CodingFundamentals < Courses::Course
   include Singleton
 
-  def full_price = 99
+  def enable_for_user!(user)
+    user.update!(bootcamp_attendee: true)
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
+
+    # TODO: Send welcome email
+  end
+
+  def full_price = 99.99
 
   def default_payment_url = ""
 

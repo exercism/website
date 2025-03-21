@@ -188,7 +188,8 @@ body {
     color: white;
     @apply overflow-hidden;
 
-    .md-container { @apply px-[4%];
+    .md-container {
+        @apply px-[4%];
     }
 
     h1 {
@@ -612,6 +613,36 @@ section#bootcamp {
         .h3-sideheading {
             color: var(--pink);
         }
+
+        .levels {
+            @apply grid grid-cols-4 gap-16;
+            @apply relative;
+            h4 {
+                @apply text-15 leading-[130%] text-center;
+                @apply font-light;
+                border: 1px solid rgba(183, 0, 144, 0.15);
+                background: #fff;
+                color: #111;
+                strong {
+                    color: rgba(183, 0, 144, 1);
+                    @apply font-medium;
+                }
+                @apply py-6 px-8;
+                border-color: rgba(183, 0, 144, 1);
+                @apply rounded-b-5 border-3;
+                @apply border-t-0;
+                @apply text-balance;
+            }
+
+            p {
+                @apply text-14 mb-6;
+            }
+            img {
+                @apply block w-fill rounded-t-8 border-3;
+                border-color: rgba(183, 0, 144, 1);
+            }
+        }
+
         .projects {
             @apply grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-20;
 
@@ -1145,7 +1176,8 @@ section#legals {
         height: 60px;
     }
 
-    &#rhodri, &#jiki {
+    &#rhodri,
+    &#jiki {
         position: absolute;
         height: 70px;
         width: 70px;

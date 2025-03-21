@@ -1,7 +1,11 @@
 class Courses::FrontEndFundamentals < Courses::Course
   include Singleton
 
-  def full_price = 99
+  def enable_for_user!(user)
+    # TODO: Send email
+  end
+
+  def full_price = 99.99
 
   def default_payment_url = ""
 

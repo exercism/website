@@ -80,7 +80,7 @@
           %span.lg:inline.hidden 1998: Me and Rhodri making the first website we ever got paid for.
 
     %p
-      When I first wrote my first lines of JavaScript over 25 years ago, almost no-one new how to code.
+      When I first wrote my first lines of JavaScript over 25 years ago, almost no-one knew how to code.
       If you could make even the simplest of websites, you were a wizard! 🧙
     %p
       But now-a-days, web development is a very
@@ -312,7 +312,7 @@
           .lhs.flex.flex-col.items-start
             .bubble Celebrate your new skills!
             %h3.mb-8 Get a verified certificate
-            %p.text-16.mb-12 At the end of the Bootcamp, we'll issue you with an official certificate to recognise your participation and completion of the course.
+            %p.text-16.mb-12 At the end of the Bootcamp, we'll issue you an official certificate to recognise your participation and completion of the course.
             %p.text-16 Show off your skills on your resume and in the Certifications section of your LinkedIn profile.
 
           = image_tag "bootcamp/certificate-arrow.png", class: 'w-[100px] self-middle mt-[100px] mb-10 mr-40 my-10 lg:block hidden'
@@ -357,7 +357,7 @@
           - if @has_discount
             .price
               %strong $#{@course_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@course_full_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@course.full_price}
             .discount
               Includes a
               %strong #{@discount_percentage}% discount
@@ -409,7 +409,7 @@
                 %strong certificate 
                 of completion.
 
-          = link_to "Learn Front-End 👉", course_start_enrolling_path(@course.slug, product: "course"), class: "button"
+          = link_to "Learn Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "course"), class: "button"
 
       .container
         .header
@@ -429,7 +429,7 @@
           - if @has_discount
             .price
               %strong $#{@bundle_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle_full_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle.full_price}
             .discount
 
               Includes a
@@ -488,7 +488,7 @@
                 %strong certificate
                 of completion.
 
-          = link_to "Learn to Code + Front-End 👉", course_start_enrolling_path(@course.slug, product: "bundle"), class: "button"
+          = link_to "Learn to Code + Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "bundle"), class: "button"
 
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 

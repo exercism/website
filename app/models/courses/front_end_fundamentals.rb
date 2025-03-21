@@ -182,7 +182,7 @@ class Courses::FrontEndFundamentals < Courses::Course
     "UY" => { dollars: 69.99, stripe_id: "price_1R5AyqEoOT0Jqx0US3wrSOIE" },
     "UZ" => { dollars: 19.99, stripe_id: "price_1R5AzeEoOT0Jqx0Ub7qY9SDV" },
     "VC" => { dollars: 49.99, stripe_id: "price_1R5Az1EoOT0Jqx0U4HgRDviZ" },
-    "VE" => { dollars: 0.0, stripe_id: "price_1R5AzeEoOT0Jqx0UhWuNcQQT" },
+    "VE" => { dollars: 29.99, stripe_id: "price_1R5AzeEoOT0Jqx0UhWuNcQQT" },
     "VN" => { dollars: 34.99, stripe_id: "price_1R5AzLEoOT0Jqx0U6eTxMUz7" },
     "WF" => { dollars: 79.99, stripe_id: "price_1R5AygEoOT0Jqx0UZdEN8ssj" },
     "WS" => { dollars: 79.99, stripe_id: "price_1R5AyhEoOT0Jqx0UTerwT0x5" },

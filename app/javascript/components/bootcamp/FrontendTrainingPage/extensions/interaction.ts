@@ -89,6 +89,80 @@ class ValueInteractor implements PluginValue {
     }
   }
 
+  handleNumberNode(node: SyntaxNode, view: EditorView) {
+    const { top, left, isCursorInside } = cursorPositionHelper(view, node)
+    if (!isCursorInside) return
+
+    const currentTree = syntaxTree(view.state)
+    const nodeAtCursor = currentTree.resolve(node.from, 1)
+    const unitNode = nodeAtCursor.getChild('Unit')
+
+    if (unitNode) {
+      const unit = view.state.sliceDoc(unitNode.from, unitNode.to)
+      const numberText = view.state.sliceDoc(node.from, unitNode.from).trim()
+      let currentNumber = parseFloat(numberText)
+      const id = 'faux-range'
+
+      if (document.getElementById(id)) return
+
+      const fauxRange = document.createElement('div')
+      fauxRange.id = id
+      Object.assign(fauxRange.style, {
+        position: 'absolute',
+        top: `${top}px`,
+        left: `${left}px`,
+        transform: 'translate(-50%, -100%)',
+        zIndex: '9999',
+        width: '30px',
+        height: '30px',
+        background: 'red',
+        cursor: 'ew-resize',
+      })
+
+      let isDragging = false
+      let startX = 0
+      let currentDelta = 0
+
+      const onMouseMove = (e: MouseEvent) => {
+        if (!isDragging) return
+        currentDelta = e.clientX - startX
+        fauxRange.style.left = `${left + currentDelta}px`
+
+        const currentTree = syntaxTree(view.state)
+        const nodeAtCursor = currentTree.resolve(node.from, 1)
+
+        view.dispatch({
+          changes: {
+            from: nodeAtCursor.from,
+            to: nodeAtCursor.to,
+            insert: `${currentNumber + currentDelta}${unit}`,
+          },
+        })
+      }
+
+      const onMouseUp = () => {
+        isDragging = false
+
+        fauxRange.style.left = `${left}px`
+
+        currentNumber = parseFloat(numberText) + currentDelta
+
+        document.removeEventListener('mousemove', onMouseMove)
+        document.removeEventListener('mouseup', onMouseUp)
+      }
+
+      fauxRange.addEventListener('mousedown', (e: MouseEvent) => {
+        isDragging = true
+        startX = e.clientX
+        // currentDelta = 0
+        document.addEventListener('mousemove', onMouseMove)
+        document.addEventListener('mouseup', onMouseUp)
+      })
+
+      document.body.appendChild(fauxRange)
+    }
+  }
+
   handleColorNode(node: SyntaxNode, view: EditorView) {
     const { top, left, isCursorInside } = cursorPositionHelper(view, node)
     if (!isCursorInside) return
@@ -106,10 +180,6 @@ class ValueInteractor implements PluginValue {
         const nodeAtCursor = currentTree.resolve(node.from, -1)
         const newNode = nodeAtCursor.getChild('CallExpression')
         if (!newNode) return
-        console.log(
-          'nodeAtCursor',
-          view.state.sliceDoc(newNode.from, newNode.to)
-        )
 
         const argListNode = node.getChild('ArgList')
         if (!argListNode) return
@@ -131,8 +201,20 @@ class ValueInteractor implements PluginValue {
   handleNode(node: SyntaxNode, view: EditorView) {
     const isColorNode = getIsColorNode(view, node)
 
+    // requestAnimationFrame(() => {
+    //   const { top, left, isCursorInside } = cursorPositionHelper(view, node)
+    //   if (isCursorInside) {
+    //     console.log(
+    //       'node',
+    //       node.type.name,
+    //       view.state.sliceDoc(node.from, node.to)
+    //     )
+    //   }
+    // })
     if (isColorNode) {
       requestAnimationFrame(() => this.handleColorNode(node, view))
+    } else if (getIsNumberNode(node)) {
+      requestAnimationFrame(() => this.handleNumberNode(node, view))
     }
   }
 }
@@ -190,6 +272,10 @@ function getIsRgbNode(view: EditorView, node: SyntaxNode) {
 
 function getIsHexNode(node: SyntaxNode) {
   return node.type.name === 'ColorLiteral'
+}
+
+function getIsNumberNode(node: SyntaxNode) {
+  return node.type.name === 'NumberLiteral'
 }
 
 function traverseTree(node: SyntaxNode, cb: (node: SyntaxNode) => void) {

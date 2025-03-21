@@ -104,6 +104,9 @@ body {
         top: -92px;
         width: 100px;
         height: 100px;
+        @apply md:h-[100px] h-[80px];
+        @apply md:w-[100px] w-[80px];
+        @apply md:top-[-92px] top-[-72px];
     }
 
     .inner {
@@ -615,7 +618,7 @@ section#bootcamp {
         }
 
         .levels {
-            @apply grid grid-cols-4 gap-16;
+            @apply grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1  gap-16;
             @apply relative;
             h4 {
                 @apply text-15 leading-[130%] text-center;
@@ -830,8 +833,7 @@ section#testimonial-section {
         }
     }
     .quotes {
-        column-count: 2;
-        column-gap: 32px;
+        @apply grid md:grid-cols-2 grid-cols-1 gap-24;
     }
 
     .quote {

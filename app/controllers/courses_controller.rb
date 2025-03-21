@@ -51,6 +51,7 @@ class CoursesController < ApplicationController
         course_slug:,
         country_code_2: @country_code_2
       )
+      session[:enrollment_id] = @enrollment.id
     end
 
     redirect_to action: :pay

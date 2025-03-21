@@ -613,6 +613,13 @@ section#bootcamp {
         background-position: top right;
         background-size: cover;
 
+        h2 {
+            @apply text-[28px] font-light;
+            strong {
+                @apply font-semibold;
+            }
+        }
+
         .h3-sideheading {
             color: var(--pink);
         }
@@ -1563,7 +1570,7 @@ section#confirmation {
         @apply flex flex-col;
     }
     .tag {
-        @apply mx-0 mb-2;
+        @apply mx-0 mb-4;
     }
     p.intro {
         @apply text-pretty;
@@ -1599,6 +1606,7 @@ section#confirmation {
         border-color: rgb(19 11 67);
         border-width: 1px;
         color: rgb(255 255 255);
+        @apply mt-6;
     }
 }
 

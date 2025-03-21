@@ -139,7 +139,7 @@ body {
     }
 }
 
-#nav {
+.nav {
     @apply text-[#dde5f0];
     width: 100%;
     background: rgb(13, 18, 33);
@@ -162,10 +162,11 @@ body {
         transition: all 0.3s ease-out;
     }
 
-    &.floating {
-        @apply py-10;
+    &#nav-sticky {
+        height: 0px;
+        @apply py-0;
         background-color: #702af4;
-        position: sticky;
+        position: fixed;
         top: 0;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         transition: background-color 0.3s ease-out, opacity 0.3s ease-out,

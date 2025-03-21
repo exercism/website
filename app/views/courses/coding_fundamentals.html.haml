@@ -1,13 +1,15 @@
-= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage
+-# = render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage
 
-#nav
-  .lg-container.flex.flex-row.gap-8.items-center
+#nav-fixed.nav{class: "h-[64px]"}
+  #nav-contents.lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content.mr-auto
       %strong Exercism
       %span.hidden.md:inline-block Bootcamps
     = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session hidden md:block", target: "_blank", rel: 'noopener'
     = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button"
+#nav-sticky.nav
+
 .hero
   .md-container
     .text-center

@@ -316,3 +316,43 @@ describe('logical expression', () => {
     })
   })
 })
+
+describe('unary', () => {
+  describe('not', () => {
+    test('simple boolean', () => {
+      const { frames } = interpret('log not true')
+      const actual = describeFrame(frames[0])
+      assertHTML(actual, `<p>This logged <code>false</code>.</p>`, [
+        `<li>Jiki evaluated that<code>not true</code>is<code>false</code>.</li>`,
+        `<li>Jiki wrote<code>false</code>here for you!</li>`,
+      ])
+    })
+    test('expression', () => {
+      const { frames } = interpret('log not (true == false)')
+      const actual = describeFrame(frames[0])
+      assertHTML(actual, `<p>This logged <code>true</code>.</p>`, [
+        `<li>Jiki evaluated<code>true == false</code>and determined it was<code>false</code>.</li>`,
+        `<li>Jiki evaluated that<code>not false</code>is<code>true</code>.</li>`,
+        `<li>Jiki wrote<code>true</code>here for you!</li>`,
+      ])
+    })
+  })
+  describe('minus', () => {
+    test('number is no-op', () => {
+      const { frames } = interpret('log -1')
+      const actual = describeFrame(frames[0])
+      assertHTML(actual, `<p>This logged <code>-1</code>.</p>`, [
+        `<li>Jiki wrote<code>-1</code>here for you!</li>`,
+      ])
+    })
+    test('expression', () => {
+      const { frames } = interpret('log -(3 - 2)')
+      const actual = describeFrame(frames[0])
+      assertHTML(actual, `<p>This logged <code>-1</code>.</p>`, [
+        `<li>Jiki evaluated<code>3 - 2</code>and determined it was<code>1</code>.</li>`,
+        `<li>Jiki evaluated that<code>-1</code>is<code>-1</code>.</li>`,
+        `<li>Jiki wrote<code>-1</code>here for you!</li>`,
+      ])
+    })
+  })
+})

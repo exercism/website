@@ -45,6 +45,7 @@ function initHamsterAnimation() {
   })
 
   const clearTimers = () => {
+    console.log('clearing timeouts', smokeTimeout, smokeInterval)
     if (smokeTimeout) {
       clearTimeout(smokeTimeout)
       smokeTimeout = null
@@ -96,7 +97,7 @@ function initHamsterAnimation() {
 
   const startSmokeMachine = () => setInterval(createPuff, SMOKE_INTERVAL)
 
-  const handleMouseOver = () => {
+  const handleMouseEnter = () => {
     animate(hamsterSpeed, {
       value: 3,
       duration: TRANSITION_DURATION,
@@ -111,7 +112,8 @@ function initHamsterAnimation() {
     }, SMOKE_DELAY)
   }
 
-  const handleMouseOut = () => {
+  const handleMouseLeave = () => {
+    console.log('mouse is out')
     animate(hamsterSpeed, {
       value: 1,
       duration: TRANSITION_DURATION,
@@ -124,8 +126,8 @@ function initHamsterAnimation() {
     clearTimers()
   }
 
-  scrollingTestimonials.addEventListener('mouseover', handleMouseOver)
-  scrollingTestimonials.addEventListener('mouseout', handleMouseOut)
+  scrollingTestimonials.addEventListener('mouseenter', handleMouseEnter)
+  scrollingTestimonials.addEventListener('mouseleave', handleMouseLeave)
 }
 
 document.addEventListener('DOMContentLoaded', initHamsterAnimation)

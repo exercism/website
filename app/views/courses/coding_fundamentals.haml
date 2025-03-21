@@ -3,10 +3,10 @@
 #nav
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
-    .content
+    .content.mr-auto
       %strong Exercism
-      Bootcamps
-    = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session", target: "_blank", rel: 'noopener'
+      %span.hidden.md:inline-block Bootcamps
+    = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session hidden md:block", target: "_blank", rel: 'noopener'
     = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button"
 .hero
   .md-container

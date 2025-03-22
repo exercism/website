@@ -79,6 +79,7 @@ function fn(this: MazeExercise) {
   Square.addGetter('contents', 'public')
   Square.addMethod(
     'remove_emoji',
+    'removed the emoji from the square',
     'public',
     function (executionCtx: ExecutionContext, object: Jiki.Instance) {
       removeEmoji(executionCtx, object as SquareInstance)

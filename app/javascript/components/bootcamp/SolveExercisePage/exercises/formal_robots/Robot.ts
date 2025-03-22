@@ -19,6 +19,7 @@ function fn(this: FormalRobotsExercise) {
   Robot.addGetter('age', 'public')
   Robot.addMethod(
     'say',
+    'caused the robot to say ${arg1}',
     'public',
     function (
       executionCtx: ExecutionContext,

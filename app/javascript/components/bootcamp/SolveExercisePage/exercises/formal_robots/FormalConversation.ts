@@ -22,6 +22,7 @@ function fn(this: FormalRobotsExercise) {
   })
   FormalConversation.addMethod(
     'get_participant_name',
+    "returned the participant's name at index ${arg1}",
     'public',
 
     function (
@@ -42,6 +43,7 @@ function fn(this: FormalRobotsExercise) {
   )
   FormalConversation.addMethod(
     'exchange_salutations',
+    'caused the robots to greet each other',
     'public',
     function (
       executionCtx: ExecutionContext,
@@ -57,6 +59,7 @@ function fn(this: FormalRobotsExercise) {
   )
   FormalConversation.addMethod(
     'exchange_valedictions',
+    'caused the robots to say goodbye',
     'public',
     function (
       executionCtx: ExecutionContext,

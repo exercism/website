@@ -15,6 +15,7 @@ function fn(this: WordleExercise) {
   )
   WordleGame.addMethod(
     'draw_board',
+    'drew the board',
     'public',
     function (executionCtx: ExecutionContext, _: Jiki.Instance) {
       exercise.setupView(executionCtx)
@@ -22,6 +23,7 @@ function fn(this: WordleExercise) {
   )
   WordleGame.addMethod(
     'add_word',
+    'added a word to the board',
     'public',
     function (
       executionCtx: ExecutionContext,

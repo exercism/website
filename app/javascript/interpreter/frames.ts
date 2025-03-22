@@ -39,6 +39,7 @@ import { describeRepeatStatement } from './describers/describeRepeatStatement'
 import { describeBreakStatement } from './describers/describeBreakStatement'
 import { describeContinueStatement } from './describers/describeNextStatement'
 import { describeChangePropertyStatement } from './describers/describeChangePropertyStatement'
+import { describeMethodCallStatement } from './describers/describeMethodCallStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -131,6 +132,8 @@ function generateDescription(
     case 'ChangeElementStatement':
       return describeChangeElementStatement(frame, context)
 
+    case 'MethodCallStatement':
+      return describeMethodCallStatement(frame, context)
     case 'FunctionCallStatement':
       return describeFunctionCallStatement(frame, context)
     case 'ReturnStatement':

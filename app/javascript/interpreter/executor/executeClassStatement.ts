@@ -1,18 +1,12 @@
-import { set } from 'lodash'
-import { EvaluationResultIfStatement } from '../evaluation-result'
-import { ExecutionContext, Executor } from '../executor'
-import { Expression, FunctionCallExpression } from '../expression'
+import { Executor } from '../executor'
 import * as Jiki from '../jikiObjects'
 import {
   ClassStatement,
   ConstructorStatement,
   MethodStatement,
   PropertyStatement,
-  SetPropertyStatement,
 } from '../statement'
-import { UserDefinedFunction, UserDefinedMethod } from '../functions'
-import { Environment } from '../environment'
-import stat from '@/components/impact/stat'
+import { UserDefinedMethod } from '../functions'
 
 export function executeClassStatement(
   executor: Executor,
@@ -24,7 +18,7 @@ export function executeClassStatement(
 
   statement.body.forEach((stmt) => {
     if (statement.type == 'ConstructorStatement') {
-      executeConstructorStatement(executor, klass, stmt)
+      executeConstructorStatement(executor, klass, stmt as ConstructorStatement)
     }
   })
 
@@ -57,7 +51,7 @@ function executeMethodStatement(
 ) {
   const fn = new UserDefinedMethod(stmt)
   const visibility = stmt.accessModifier.type == 'PUBLIC' ? 'public' : 'private'
-  klass.addMethod(stmt.name.lexeme, visibility, fn)
+  klass.addMethod(stmt.name.lexeme, null, visibility, fn)
 }
 
 function executePropertyStatement(

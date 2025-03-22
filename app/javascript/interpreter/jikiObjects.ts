@@ -40,6 +40,7 @@ export abstract class JikiObject {
 export class Method {
   constructor(
     public readonly name: string,
+    public readonly description: string | null,
     public readonly visibility: Visibility,
     public readonly arity: Arity,
     public readonly fn: UserDefinedMethod | RawMethod
@@ -130,6 +131,7 @@ export class Class {
   //
   public addMethod(
     name: string,
+    description: string | null,
     visibility: Visibility,
     fn: UserDefinedMethod | RawMethod
   ) {
@@ -141,7 +143,7 @@ export class Class {
     } else {
       arity = fn.arity
     }
-    this.methods[name] = new Method(name, visibility, arity, fn)
+    this.methods[name] = new Method(name, description, visibility, arity, fn)
   }
   public getMethod(name: string): Method | undefined {
     return this.methods[name]
@@ -196,6 +198,9 @@ export class Instance extends JikiObject {
   }
   public toString() {
     return `(an instance of ${this.jikiClass.name})`
+  }
+  public getClassName(): string {
+    return this.jikiClass.name
   }
   public getMethod(name: string): Method | undefined {
     return this.jikiClass.getMethod(name)

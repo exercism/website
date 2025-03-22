@@ -5,6 +5,7 @@ import {
   EvaluationResultGroupingExpression,
   EvaluationResultInstantiationExpression,
   EvaluationResultLogicalExpression,
+  EvaluationResultMethodCallExpression,
   EvaluationResultUnaryExpression,
   EvaluationResultVariableLookupExpression,
 } from '../evaluation-result'
@@ -18,6 +19,7 @@ import {
   InstantiationExpression,
   AccessorExpression,
   UnaryExpression,
+  MethodCallExpression,
 } from '../expression'
 import { describeLogicalExpression } from './describeLogicalExpression'
 import { DescriptionContext } from '../frames'
@@ -28,6 +30,7 @@ import { describeVariableLookupExpression } from './describeVariableLookupExpres
 import { describeInstantiationExpression } from './describeInstantiationExpression'
 import { describeGetterExpression } from './describeGetterExpression'
 import { describeUnaryExpression } from './describeUnaryExpression'
+import { describeMethodCallExpression } from './describeMethodCallExpression'
 
 export function describeExpression(
   expression: Expression,
@@ -59,6 +62,13 @@ export function describeExpression(
     return describeFunctionCallExpression(
       expression,
       result as EvaluationResultFunctionCallExpression,
+      context
+    )
+  }
+  if (expression instanceof MethodCallExpression) {
+    return describeMethodCallExpression(
+      expression,
+      result as EvaluationResultMethodCallExpression,
       context
     )
   }

@@ -72,10 +72,11 @@ function fn(this: BreakoutExercise) {
 
   Game.addMethod(
     'add_block',
+    'added a block to the game',
     'public',
     function (
       executionCtx: ExecutionContext,
-      game: GameInstance,
+      game: Jiki.Instance,
       block: Jiki.JikiObject
     ) {
       if (!(block instanceof Jiki.Instance)) {
@@ -88,10 +89,11 @@ function fn(this: BreakoutExercise) {
 
   Game.addMethod(
     'game_over',
+    'set the game as over',
     'public',
     function (
       executionCtx: ExecutionContext,
-      game: GameInstance,
+      game: Jiki.Instance,
       result: Jiki.JikiObject
     ) {
       if (!(result instanceof Jiki.String)) {

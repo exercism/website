@@ -1429,10 +1429,10 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
-"@exercism/codemirror-lang-jikiscript@0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-jikiscript/-/codemirror-lang-jikiscript-0.0.20.tgz#7308868dedb2520efe352574742e70a4eb9634d0"
-  integrity sha512-NOmJbo9Ns0Nz4YIXVCcK+uBJkQT73X3VOtbSnnubR6RPb8M2I/isIrZP0o37Dxp4RmbT+2Ude/5h0wU2/y9LVw==
+"@exercism/codemirror-lang-jikiscript@0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-jikiscript/-/codemirror-lang-jikiscript-0.0.21.tgz#d5df5fdddc152c0d8ed587a71911366c8388dd91"
+  integrity sha512-b6bB1gQi3ebBRnMv7I7c5bMviEWEh8h5WSfkG5nXqVTD0/k9onVNNMbTTwTK0mIzVztMQ35BRnM76YQHjrX5Ow==
   dependencies:
     "@codemirror/language" "^6.10.1"
     "@lezer/highlight" "^1.2.0"

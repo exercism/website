@@ -94,6 +94,7 @@ function fn(this: BreakoutExercise) {
   )
   Ball.addMethod(
     'move',
+    'moved the ball',
     'public',
     function (executionCtx: ExecutionContext, object: BallInstance) {
       exercise.moveBall(executionCtx, object)

@@ -217,6 +217,7 @@ export type EvaluationResultMethodCallExpression = {
   type: 'MethodCallExpression'
   jikiObject: JikiTypes.JikiObject
   object: EvaluationResult
+  method: JikiTypes.Method
   args: EvaluationResult[]
   data?: Record<string, any>
 }
@@ -276,3 +277,4 @@ export type EvaluationResultExpression =
   | EvaluationResultSetElementExpression
   | EvaluationResultInstantiationExpression
   | EvaluationResultGetterExpression
+  | EvaluationResultMethodCallExpression

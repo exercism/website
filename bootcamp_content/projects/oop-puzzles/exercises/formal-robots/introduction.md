@@ -8,7 +8,7 @@ You have two Classes to use:
 
 ### The `Robot` class.
 
-The `Robot` class represents a robot. I provides one method:
+The `Robot` class represents a robot. It provides one method:
 
 - `say(string)`: Says whatever you tell it to.
 

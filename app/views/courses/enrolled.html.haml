@@ -1,0 +1,16 @@
+%section#confirmation
+  .xs-container
+    #pending
+      .container
+        .flex.flex-col.items-center.w-fill
+          = icon "spinner", "Processing", css_class: "spinner"
+    #success.hidden
+      .container
+        .tag Let's get you coding!
+        %h2
+          %strong Congratulations! 🥳
+        %p.intro
+          Your payment has been successfully processed and you're all set!
+        %hr
+
+        = render "courses/enrolled/#{@enrollment.course.template_slug}", enrollment: @enrollment

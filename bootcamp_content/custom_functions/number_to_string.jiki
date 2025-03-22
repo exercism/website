@@ -1,0 +1,11 @@
+  set map to "01234567890"
+  set digit to 0
+  set res to ""
+  repeat 10 times do
+    change digit to number % 10
+    change res to concatenate(map[digit + 1], res)
+    change number to (number - digit) / 10
+    if number == 0 do
+      return res
+    end
+  end

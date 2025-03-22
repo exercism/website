@@ -1,0 +1,19 @@
+%section#payment
+  .lg-container
+    .container
+      .lhs
+        .tag Let's get you coding!
+        %h2
+          %strong You're almost set up!
+        %p.intro
+          Thanks for choosing to learn with us. 
+          We're really excited to help you learn #{@enrollment.course.name.downcase}!
+
+        %div{ class: "hidden lg:block" }
+          = render partial: "courses/pay/upsell", locals: { enrollment: @enrollment }
+
+      .rhs
+        #checkout
+
+      %div{ class: "lg:hidden" }
+        = render partial: "courses/pay/upsell", locals: { enrollment: @enrollment }

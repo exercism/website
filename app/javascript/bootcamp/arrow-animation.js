@@ -7,6 +7,7 @@ const animationContainers = document.querySelectorAll('.arrow-animation')
 function getAnimationData(id) {
   switch (id) {
     case 'rhodri':
+    case 'jiki':
       return arrow3
     default:
       return arrowAnimation

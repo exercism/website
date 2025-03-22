@@ -11,7 +11,7 @@ module Auth
         if user.persisted?
           User::Bootstrap.(
             user,
-            bootcamp_access_code: session[:bootcamp_access_code]
+            course_access_code: session[:course_access_code]
           )
         end
       end

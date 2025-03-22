@@ -1,0 +1,7 @@
+- if has_discount
+  #top-discount-bar
+    .flag= flag_for_country_code(country_code_2)
+    - if @hello.present?
+      %strong #{hello}!
+    Everyone in #{country_name} gets a
+    %strong.inline #{discount_percentage}% discount!

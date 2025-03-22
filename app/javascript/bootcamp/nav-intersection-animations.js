@@ -1,4 +1,8 @@
-const nav = document.querySelector('#nav')
+const nav = document.querySelector('.nav')
+const navFixed = document.querySelector('#nav-fixed')
+const navSticky = document.querySelector('#nav-sticky')
+const navContents = document.querySelector('#nav-contents')
+const hero = document.querySelector('.hero')
 const bootcamp = document.querySelector('#bootcamp')
 const rockSolid = document.querySelector('.rock-solid')
 const tagline = document.querySelector('.tagline')
@@ -17,12 +21,6 @@ let isRockSolidIntersecting
 const intersectionCallback = (entries) => {
   entries.forEach((entry) => {
     switch (entry.target) {
-      case rockSolid:
-        entry.isIntersecting
-          ? immediateOpacityChange(1)
-          : immediateOpacityChange(0)
-        isRockSolidIntersecting = entry.isIntersecting
-        break
       case tagline:
         entry.isIntersecting || isRockSolidIntersecting
           ? makeInline()
@@ -54,20 +52,19 @@ if (bootcamp) bootcampObserver.observe(bootcamp)
 
 /* helper fns */
 function smoothOpacityChange(opacity) {
-  // nav.style.transition = "opacity 0.3s ease-out";
-  nav.style.opacity = `${opacity}`
-}
-
-function immediateOpacityChange(opacity) {
-  nav.style.opacity = `${opacity}`
+  navSticky.style.opacity = `${opacity}`
 }
 
 function makeSticky() {
-  nav.classList.add(FLOATING_CLASS)
+  navSticky.style.height = 'auto'
+  navSticky.style.padding = '10px'
+  navSticky.append(navContents)
 }
 
 function makeInline() {
-  nav.classList.remove(FLOATING_CLASS)
+  navSticky.style.height = '0px'
+  navSticky.style.padding = '0px'
+  navFixed.append(navContents)
 }
 
 function addOnPurpleClass() {

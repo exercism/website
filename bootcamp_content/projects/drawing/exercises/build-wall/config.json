@@ -9,6 +9,9 @@
   "tests_type": "state",
   "readonly_ranges": [],
   "exercise_functions": ["rectangle", "fill_color_hex"],
+  "interpreter_options": {
+    "repeat_delay": 30
+  },
   "tasks": [
     {
       "name": "Draw the scene",

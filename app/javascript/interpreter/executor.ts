@@ -1216,15 +1216,19 @@ export class Executor {
         this.verifyBoolean(operand.jikiObject, expression.operand)
         return {
           type: 'UnaryExpression',
-          jikiObject: new Jiki.Boolean(!operand.jikiObject.value),
-          right: operand,
+          jikiObject: new Jiki.Boolean(
+            !(operand.jikiObject as Jiki.Boolean).value
+          ),
+          operand: operand,
         }
       case 'MINUS':
         this.verifyNumber(operand.jikiObject, expression.operand)
         return {
           type: 'UnaryExpression',
-          jikiObject: new Jiki.Number(-operand.jikiObject.value),
-          right: operand,
+          jikiObject: new Jiki.Number(
+            -(operand.jikiObject as Jiki.Number).value
+          ),
+          operand: operand,
         }
     }
 

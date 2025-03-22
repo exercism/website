@@ -59,6 +59,7 @@ function fn(this: BreakoutExercise) {
 
   Paddle.addMethod(
     'move_left',
+    'moved the paddle left 0.85 units',
     'public',
     function (executionCtx: ExecutionContext, paddle: PaddleInstance) {
       const newCx = paddle.getUnwrappedField('cx') - 0.85
@@ -80,6 +81,7 @@ function fn(this: BreakoutExercise) {
 
   Paddle.addMethod(
     'move_right',
+    'moved the paddle right 0.9 units',
     'public',
     function (executionCtx: ExecutionContext, paddle: PaddleInstance) {
       const newCx = paddle.getUnwrappedField('cx') + 0.9

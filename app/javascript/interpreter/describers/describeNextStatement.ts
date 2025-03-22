@@ -1,6 +1,6 @@
 import { Description, DescriptionContext, FrameWithResult } from '../frames'
 
-export function describeNextStatement(
+export function describeContinueStatement(
   _fr: FrameWithResult,
   _dc: DescriptionContext
 ): Description {

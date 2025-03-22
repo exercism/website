@@ -37,8 +37,9 @@ import { describeChangeElementStatement } from './describers/describeChangeEleme
 import { describeForeachStatement } from './describers/describeForeachStatement'
 import { describeRepeatStatement } from './describers/describeRepeatStatement'
 import { describeBreakStatement } from './describers/describeBreakStatement'
-import { describeNextStatement } from './describers/describeNextStatement'
+import { describeContinueStatement } from './describers/describeNextStatement'
 import { describeChangePropertyStatement } from './describers/describeChangePropertyStatement'
+import { describeMethodCallStatement } from './describers/describeMethodCallStatement'
 
 export type FrameType = 'ERROR' | 'REPEAT' | 'EXPRESSION'
 
@@ -131,6 +132,8 @@ function generateDescription(
     case 'ChangeElementStatement':
       return describeChangeElementStatement(frame, context)
 
+    case 'MethodCallStatement':
+      return describeMethodCallStatement(frame, context)
     case 'FunctionCallStatement':
       return describeFunctionCallStatement(frame, context)
     case 'ReturnStatement':
@@ -144,8 +147,8 @@ function generateDescription(
       return describeRepeatStatement(frame, context)
     case 'BreakStatement':
       return describeBreakStatement(frame, context)
-    case 'NextStatement':
-      return describeNextStatement(frame, context)
+    case 'ContinueStatement':
+      return describeContinueStatement(frame, context)
     case 'ChangePropertyStatement':
       return describeChangePropertyStatement(frame, context)
   }

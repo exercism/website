@@ -32,13 +32,13 @@ export function describeChangePropertyStatement(
   const steps = [
     ...objectSteps,
     ...valueSteps,
-    `<p>Jiki set the ${codeTag(
+    `<li>Jiki set the ${codeTag(
       frameContext.property.lexeme,
       frameContext.property.location
     )} property to ${codeTag(
       resultingValue,
       frameContext.value.location
-    )}.</p>`,
+    )}.</li>`,
   ]
   const result = `<p>This set the <code>${frameContext.property.lexeme}</code> property to <code>${resultingValue}</code>.</p>`
 

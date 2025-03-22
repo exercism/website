@@ -133,7 +133,7 @@ export type EvaluationResultBinaryExpression = {
 export type EvaluationResultUnaryExpression = {
   type: 'UnaryExpression'
   jikiObject: JikiTypes.Primitive
-  right: EvaluationResult
+  operand: EvaluationResult
   data?: Record<string, any>
 }
 
@@ -206,7 +206,7 @@ export type EvaluationResultDictionaryExpression = {
 
 export type EvaluationResultFunctionCallExpression = {
   type: 'FunctionCallExpression'
-  jikiObject: JikiTypes.JikiObject | void
+  jikiObject: JikiTypes.JikiObject
   callee:
     | EvaluationResultVariableLookupExpression
     | EvaluationResultFunctionLookupExpression
@@ -215,8 +215,9 @@ export type EvaluationResultFunctionCallExpression = {
 }
 export type EvaluationResultMethodCallExpression = {
   type: 'MethodCallExpression'
-  jikiObject: JikiTypes.JikiObject | null
+  jikiObject: JikiTypes.JikiObject
   object: EvaluationResult
+  method: JikiTypes.Method
   args: EvaluationResult[]
   data?: Record<string, any>
 }
@@ -275,3 +276,5 @@ export type EvaluationResultExpression =
   | EvaluationResultGetElementExpression
   | EvaluationResultSetElementExpression
   | EvaluationResultInstantiationExpression
+  | EvaluationResultGetterExpression
+  | EvaluationResultMethodCallExpression

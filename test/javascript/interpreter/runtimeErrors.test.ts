@@ -715,7 +715,7 @@ describe('NoneJikiObjectDetected', () => {
   test('with args', () => {
     const Person = new Jiki.Class('Person')
     // @ts-ignore
-    Person.addMethod('num', 'public', function (_ex, _in) {
+    Person.addMethod('num', '', 'public', function (_ex, _in) {
       return 5
     })
 

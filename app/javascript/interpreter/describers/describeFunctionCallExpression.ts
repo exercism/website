@@ -22,7 +22,6 @@ export function describeFunctionCallExpression(
     expression,
     result,
     fnName,
-    argNames,
     context
   )
   const fnCallDesc =
@@ -41,7 +40,6 @@ function generateFunctionDescription(
   expression: FunctionCallExpression,
   result: EvaluationResultFunctionCallExpression,
   fnName: string,
-  argNames: string,
   context: DescriptionContext
 ) {
   const descriptionTemplate = context.functionDescriptions

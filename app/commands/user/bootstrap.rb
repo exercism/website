@@ -9,11 +9,11 @@ class User::Bootstrap
     Metric::Queue.(:sign_up, user.created_at, user:)
     User::VerifyEmail.defer(user)
 
-    link_courses_user!
+    link_courses!
   end
 
   private
-  def link_courses_user!
+  def link_courses!
     CourseEnrollment.where(email: user.email, user: nil).each do |ce|
       ce.update!(user:)
       ce.course.enable_for_enrollment!(user)

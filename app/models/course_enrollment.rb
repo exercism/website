@@ -34,6 +34,11 @@ class CourseEnrollment < ApplicationRecord
     course.send_welcome_email!(self)
   end
 
+  def link_to_user!(user)
+    update!(user:)
+    course.enable_for_user!(user) if paid?
+  end
+
   private
   memoize
   def pricing_data

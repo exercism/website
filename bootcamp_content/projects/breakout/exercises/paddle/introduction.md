@@ -52,7 +52,7 @@ There are a few steps to take:
 3. You need to handle hitting the tops of the blocks as well as the bottom.
 4. You need to implement the paddle.
 
-Because the paddle travels slower than the ball, you need to be a little more intelligent than just trying to follow the ball with the paddle. It's a fun problem to solve, but if you get too frustrated, check the hint!
+Because the paddle travels slower than the ball, you need to be a little more intelligent than just trying to follow the ball with the paddle. You **cannot** move the paddle twice in a row before moving the ball. It's a fun problem to solve, but if you get too frustrated, check the hint!
 
 The resulting game should look like this:
 

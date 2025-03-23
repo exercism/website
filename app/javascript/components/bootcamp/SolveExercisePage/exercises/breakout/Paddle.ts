@@ -73,8 +73,14 @@ function fn(this: BreakoutExercise) {
           'Paddle cannot move off the right of the screen'
         )
       }
+      if (exercise.lastMovedItem == 'paddle') {
+        return executionCtx.logicError(
+          'You cannot move the Paddle twice in a row.'
+        )
+      }
 
       paddle.setField('cx', new Jiki.Number(newCx))
+      exercise.lastMovedItem = 'paddle'
       move(executionCtx, paddle)
     }
   )

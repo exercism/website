@@ -32,7 +32,6 @@ export function describeMethodCallExpression(
   const fnCallDesc =
     argNames.length > 0 ? `${methodName}(${argNames})` : `${methodName}()`
 
-  console.log(expression.object.type)
   const actionCodeTag = codeTag(fnCallDesc, expression.location)
   const who =
     expression.object.type === 'ThisExpression'

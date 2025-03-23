@@ -13,9 +13,9 @@ export type GameInstance = Jiki.Instance & {
 
 function fn(this: BreakoutExercise) {
   const exercise = this
-  const Block = buildBlock(this)
-  const Ball = buildBall(this)
-  const Paddle = buildPaddle(this)
+  const Block = buildBlock(exercise)
+  const Ball = buildBall(exercise)
+  const Paddle = buildPaddle(exercise)
 
   const gameOverWin = (executionCtx: ExecutionContext) => {
     this.gameOverWinView = document.createElement('div')

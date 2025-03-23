@@ -12,11 +12,11 @@ import { buildGame, type GameInstance } from './Game'
 export default class BreakoutExercise extends Exercise {
   private Block = buildBlock(this)
   private Ball = buildBall(this)
-  private Paddle = buildPaddle(this)
   private Game = buildGame(this)
 
   public default_ball_radius = 3
   public default_block_height = 7
+  public lastMovedItem: 'ball' | 'paddle' = 'ball'
 
   public autoDrawBlock = true
   private gameInstance: GameInstance | undefined
@@ -158,6 +158,7 @@ export default class BreakoutExercise extends Exercise {
 
     ball.setField('cx', new Jiki.Number(newCx))
     ball.setField('cy', new Jiki.Number(newCy))
+    this.lastMovedItem = 'ball'
 
     this.ballPositions.push([newCx, newCy])
 

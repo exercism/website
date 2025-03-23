@@ -888,7 +888,8 @@ section#testimonial-section {
         }
     }
     .quotes {
-        @apply grid md:grid-cols-2 grid-cols-1 gap-24;
+        @apply grid grid-cols-1 gap-24;
+        @apply md:block md:columns-2 md:gap-32;
     }
 
     .quote {
@@ -1784,6 +1785,7 @@ section#confirmation {
                 margin-left: -40px;
                 font-size: 50px;
                 width: 50px;
+                height: auto;
             }
             .right-mark {
                 transform: scaleX(-1);

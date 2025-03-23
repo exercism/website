@@ -17,7 +17,3 @@ Create the `Robot` and `FormalConversation` classes.
 When the `exchange_salutations()` method is called, it should result in the first robot saying `"Hello ⚡☂♞✿☯."` and the second saying `"Hello ✦☀♻❄☘."`.
 
 When the `exchange_valedictions()` method is called, it should result in the first robot saying `"Goodbye ★⚔♠✧❀."` and the second saying `"Goodbye ♜⚙❖☾✺."`.
-
-## Library Functions
-
-This exercise requires you to have a [`my#number_to_string`](/bootcamp/custom_functions/number_to_string/edit) function.

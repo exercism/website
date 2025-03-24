@@ -11,6 +11,7 @@
     "max_total_loop_iterations": 500,
     "max_repeat_until_game_over_iterations": 500
   },
+  "stdlib_functions": ["push"],
   "tasks": [
     {
       "name": "Make the ball bounce around",

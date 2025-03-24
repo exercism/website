@@ -10,9 +10,9 @@ class CoursesController < ApplicationController
 
   def course_redirect
     if user_signed_in? && current_user.bootcamp_attendee?
-      redirect_to course_dashboard_url
+      redirect_to bootcamp_dashboard_url
     else
-      redirect_to "/courses/#{Courses::CodingFundamentals.instance.slug}"
+      redirect_to course_url(Courses::CodingFundamentals.instance.slug)
     end
   end
 

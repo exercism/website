@@ -483,7 +483,7 @@ Rails.application.routes.draw do
 
   get "/courses/testimonials" => "courses#testimonials"
   get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
-  get "/courses/:id" => "courses#show"
+  get "/courses/:id" => "courses#show", as: :course
 
   get "/courses/:id/enroll" => "courses#start_enrolling", as: :course_start_enrolling
   post "/courses/:id/enroll" => "courses#enroll", as: :course_enroll

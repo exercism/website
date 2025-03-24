@@ -1,7 +1,7 @@
 class User::Bootstrap
   include Mandate
 
-  initialize_with :user, bootcamp_access_code: nil
+  initialize_with :user, course_access_code: nil
 
   def call
     user.auth_tokens.create!
@@ -14,9 +14,14 @@ class User::Bootstrap
 
   private
   def link_courses!
-    CourseEnrollment.where(email: user.email, user: nil).each do |ce|
+    enrollments = CourseEnrollment.where(email: user.email).or(
+      CourseEnrollment.where(access_code: course_access_code)
+    )
+    enrollments.each do |ce|
+      next if ce.user
+
       ce.update!(user:)
-      ce.course.enable_for_user!(user)
+      ce.course.enable_for_user!(user) if ce.paid?
     end
   end
 end

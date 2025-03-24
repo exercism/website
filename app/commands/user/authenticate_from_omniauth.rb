@@ -75,8 +75,8 @@ class User::AuthenticateFromOmniauth
       # Ensure this is done after the normal save as this failing
       # shouldn't cause the whole model's save to fail
       User::SetGithubUsername.(user, auth.info.nickname)
-
-      User::Bootstrap.(user)
+      q
+      User::Bootstrap.(user, course_access_code: session[:course_access_code])
     end
 
     user

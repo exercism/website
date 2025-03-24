@@ -7,7 +7,7 @@ The formal name for a blueprint is a "Class".
 
 Classes specify the different data and functionality that objects created using that blueprint will have.
 
-Classes are written using "Pascal Case", which means they always start with a capital letter, and word divisions use another capital letter, rather than underscores.
+Classes are written using "Pascal Case", which means thapp/models/course_enrollment.rb:ey always start with a capital letter, and word divisions use another capital letter, rather than underscores.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/objects-classes.png" class="diagram"/>
 

@@ -42,6 +42,7 @@ class CourseEnrollment < ApplicationRecord
   private
   memoize
   def pricing_data
-    course.stripe_prices[country_code_2.presence || "DEFAULT"]
+    course.stripe_prices[country_code_2.presence || "DEFAULT"] ||
+      course.stripe_prices["DEFAULT"]
   end
 end

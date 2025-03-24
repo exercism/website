@@ -3,11 +3,15 @@ import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
+import { redirectTo } from '@/utils'
+import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function BootcampAdvertismentView() {
-  const { patchCloseModal } = useContext(SenioritySurveyModalContext)
+  const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
+
+  useLogger('BootcampAdvertismentView', links)
   return (
     <>
       <div className="lhs">
@@ -33,7 +37,7 @@ export function BootcampAdvertismentView() {
         </header>
         <div className="flex gap-8">
           <a
-            href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=seniority"
+            href={links.bootcampDashboard}
             className="btn-primary btn-l cursor-pointer"
           >
             Go to the Bootcamp ✨

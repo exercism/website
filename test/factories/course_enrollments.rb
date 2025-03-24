@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :course_enrollment do
     name { "Foo Bar" }
     email { "foo#{SecureRandom.hex(4)}@bar.com" }
+    course_slug { "coding-fundamentals" }
   end
 
   trait :coding_fundamentals do

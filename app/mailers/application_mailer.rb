@@ -46,7 +46,7 @@ class ApplicationMailer < ActionMailer::Base
       **kwargs
     )
   end
-  
+
   def mail_to_email(email, subject)
     delivery_method_options = {
       user_name: Exercism.secrets.transactional_smtp_username,
@@ -58,7 +58,8 @@ class ApplicationMailer < ActionMailer::Base
     }
     mail(
       to: email,
-      subject: "Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
+      from: "Jeremy from Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
+      subject:,
       delivery_method_options:
     )
   end

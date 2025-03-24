@@ -64,15 +64,12 @@ class User::BootstrapTest < ActiveSupport::TestCase
   end
 
   test "becomes attendee and subscribes to onboarding emails if paid access code" do
-    ubd = create :user_bootcamp_data, paid_at: Time.current, access_code: SecureRandom.hex(8)
-    user = create :user
+    enrollment = create :course_enrollment, :coding_fundamentals, :paid
+    user = create :user, email: enrollment.email
 
-    # Always does this once by default anyway
-    User::Bootcamp::SubscribeToOnboardingEmails.expects(:defer).with(ubd).twice
-
-    User::Bootstrap.(user, bootcamp_access_code: ubd.access_code)
+    User::Bootstrap.(user, bootcamp_access_code: enrollment.access_code)
+    assert_equal user.id, enrollment.reload.user_id
     assert user.reload.bootcamp_attendee?
-    assert_equal user.id, ubd.reload.user_id
   end
 
   test "does not becomes attendee if not paid access code" do

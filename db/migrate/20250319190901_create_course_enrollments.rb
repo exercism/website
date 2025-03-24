@@ -1,5 +1,7 @@
 class CreateCourseEnrollments < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+    
     create_table :course_enrollments do |t|
       t.bigint :user_id, null: true, foreign_key: true
       t.string :name, null: false

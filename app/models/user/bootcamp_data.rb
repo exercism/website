@@ -12,10 +12,6 @@ class User::BootcampData < ApplicationRecord
     self.level_idx = 1
   end
 
-  after_save_commit do
-    User::Bootcamp::SubscribeToOnboardingEmails.defer(self)
-  end
-
   def self.to_tsv(status: :enrolled_unpaid)
     return unless status == :enrolled_unpaid
 
@@ -69,19 +65,8 @@ class User::BootcampData < ApplicationRecord
   def has_discount? = !!country_data
 
   def discount_percentage
-    if package == 'part_1'
-      ((PART_1_PRICE - price) / PART_1_PRICE * 100).round
-    else
-      ((COMPLETE_PRICE - price) / COMPLETE_PRICE * 100).round
-    end
+    ((COMPLETE_PRICE - price) / COMPLETE_PRICE * 100).round
   end
 
   DATA = JSON.parse(File.read(Rails.root / 'config' / 'bootcamp.json')).freeze
-  COMPLETE_PRICE = 149.99
-  PART_1_PRICE = 99.99
-  FULL_STRIPE_PRICE_ID = "price_1QD0E7EoOT0Jqx0U9o3IND2o".freeze
-  PART_1_STRIPE_PRICE_ID = "price_1QD0D3EoOT0Jqx0Uj2UvJ76j".freeze
-
-  FULL_PAYMENT_URL = "https://buy.stripe.com/14k9BE4FBcyBeDmf0f".freeze
-  PART_1_PAYMENT_URL = "https://buy.stripe.com/6oE4hk9ZVfKNeDm7xO".freeze
 end

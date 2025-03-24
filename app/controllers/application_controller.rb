@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_session_variables
-    session[:bootcamp_access_code] = params[:bootcamp_access_code] if params[:bootcamp_access_code].present?
+    session[:course_access_code] = params[:course_access_code] if params[:course_access_code].present?
   end
 
   # We want to mark relevant notifications as read, but we don't

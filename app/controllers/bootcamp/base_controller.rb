@@ -1,5 +1,5 @@
 class Bootcamp::BaseController < ApplicationController
-  layout "bootcamp-ui"
+  layout "bootcamp"
   before_action :redirect_unless_attendee!
   before_action :setup_bootcamp_data!
 
@@ -8,13 +8,13 @@ class Bootcamp::BaseController < ApplicationController
     return if current_user&.bootcamp_attendee?
     return if current_user&.bootcamp_mentor?
 
-    if session[:bootcamp_access_code].present?
+    if session[:course_access_code].present?
       return redirect_to new_user_session_path unless user_signed_in?
 
-      ubd = User::BootcampData.find_by(access_code: session[:bootcamp_access_code])
-      return redirect_to bootcamp_path unless ubd
+      enrollment = CourseEnrollment.find_by(access_code: session[:course_access_code])
+      return redirect_to bootcamp_path unless enrollment
 
-      User::LinkWithBootcampData.(current_user, ubd)
+      enrollment.link_to_user!(current_user)
       return if current_user.bootcamp_attendee?
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_03_015104) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_19_190901) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -298,6 +298,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_03_015104) do
     t.index ["track_id", "position"], name: "index_documents_on_track_id_and_position"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
+  end
+
+  create_table "course_enrollments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "course_slug", null: false
+    t.string "country_code_2"
+    t.datetime "paid_at"
+    t.string "checkout_session_id"
+    t.string "access_code"
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

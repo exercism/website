@@ -47,6 +47,23 @@ class ApplicationMailer < ActionMailer::Base
     )
   end
 
+  def mail_to_email(email, subject)
+    delivery_method_options = {
+      user_name: Exercism.secrets.transactional_smtp_username,
+      password: Exercism.secrets.transactional_smtp_password,
+      address: Exercism.secrets.transactional_smtp_address,
+      port: Exercism.secrets.transactional_smtp_port,
+      authentication: Exercism.secrets.transactional_smtp_authentication,
+      enable_starttls_auto: true
+    }
+    mail(
+      to: email,
+      from: "Jeremy from Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
+      subject:,
+      delivery_method_options:
+    )
+  end
+
   private
   def mail_to_user(user, subject, from:, delivery_method_options:, **options)
     return unless user.may_receive_emails?

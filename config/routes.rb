@@ -479,13 +479,20 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/bootcamp" => "bootcamp#index"
-  get "/bootcamp/enroll" => "bootcamp#start_enrolling", as: :bootcamp_enroll
-  post "/bootcamp/enroll" => "bootcamp#do_enrollment", as: :bootcamp_create_enrollment
-  get "/bootcamp/pay" => "bootcamp#pay", as: :bootcamp_pay
-  post "/bootcamp/stripe/create-checkout-session" => "bootcamp#stripe_create_checkout_session", as: :bootcamp_
-  get "/bootcamp/stripe/session-status" => "bootcamp#stripe_session_status", as: :bootcamp_stripe_session_status
-  get "/bootcamp/confirmed" => "bootcamp#confirmed", as: :bootcamp_confirmed
+  get "/courses" => "courses#index"
+
+  get "/courses/testimonials" => "courses#testimonials"
+  get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
+  get "/courses/:id" => "courses#show"
+
+  get "/courses/:id/enroll" => "courses#start_enrolling", as: :course_start_enrolling
+  post "/courses/:id/enroll" => "courses#enroll", as: :course_enroll
+  get "/courses/:id/pay" => "courses#pay", as: :course_pay
+
+  post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
+  get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
+
+  get "/bootcamp" => "courses#course_redirect"
 
   draw(:bootcamp)
 end

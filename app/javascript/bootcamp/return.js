@@ -1,4 +1,4 @@
-if (window.location.pathname === '/bootcamp/confirmed') {
+if (window.location.pathname === '/courses/enrolled') {
   initialize()
 }
 
@@ -6,17 +6,22 @@ async function initialize() {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const sessionId = urlParams.get('session_id')
+  let failurePath = urlParams.get('failure_path')
+  if (!failurePath || !failurePath.startsWith('/courses/')) {
+    failurePath = '/bootcamp'
+  }
+
   if (!sessionId) {
-    // window.location.replace('/bootcamp/pay')
+    window.location.replace(failurePath)
     return
   }
   const response = await fetch(
-    `/bootcamp/stripe/session-status?session_id=${sessionId}`
+    `/courses/stripe/session-status?session_id=${sessionId}`
   )
   const session = await response.json()
 
   if (session.status == 'open') {
-    window.location.replace('/bootcamp/pay')
+    window.location.replace(failurePath)
   } else if (session.status == 'complete') {
     document.getElementById('pending').classList.add('hidden')
     document.getElementById('success').classList.remove('hidden')

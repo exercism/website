@@ -1,0 +1,21 @@
+%p Hi #{@user&.handle || "there"},
+%p Thank you so much for choosing Coding Fundamentals! We're so excited to have you on board!
+
+- if @user
+  %p
+    Your Exercism account has been granted access to the course.
+    You can access it here: #{link_to "https://exercism.org/bootcamp/dashboard", bootcamp_dashboard_url} (you might want to bookmark this link!)
+-else
+  %p
+    %strong As you were not logged into your Exercism account when purchasing the course, we need to connect things up for you.
+    The easiest way is to #{link_to 'create an exercism account', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address #{@enrollment.email}. That will automatically give you access.
+  %p
+    If you create your account with a different email address, please reply to this email with your Exercism username/handle and the email address you've enrolled with (#{@enrollment.email}) and we'll give you access manually.
+
+%p We'd love you to join our #{link_to "Discord server", "https://exercism.org/r/discord"} and say hello. Becoming part of the community is a great way to keep motivated when things feel tough! Connect your Exercism and Discord accounts #{link_to "here", "https://exercism.org/settings/integrations"} and then you should be able to see the #bootcamp channel. Any problems, just post in the public #bootcamp-onboarding channel and someone will help you out!
+
+%p 
+  Finally, it would be great to connect and I'd love to hear about your goals with coding, and why you chose the course. 
+  %strong Please reply to this email and say hello! 🙂
+%p Thank you again!
+

@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
   before_action :use_quotes!, only: [:show]
 
   def course_redirect
-    if user_signed_in? && current_user.course_attendee?
+    if user_signed_in? && current_user.bootcamp_attendee?
       redirect_to course_dashboard_url
     else
       redirect_to "/courses/#{Courses::CodingFundamentals.instance.slug}"

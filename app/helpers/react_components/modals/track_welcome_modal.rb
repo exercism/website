@@ -21,6 +21,7 @@ module ReactComponents
               track_tooling: Exercism::Routes.track_doc_path(track, 'installation'),
               learning_resources: Exercism::Routes.track_doc_path(track, 'learning'),
               download_cmd: Exercise.for(track.slug, 'hello-world').download_cmd,
+              # LINK NEEDS UPDATING
               bootcamp_landing: Exercism::Routes.bootcamp_path
             },
             track:,

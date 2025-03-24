@@ -4,6 +4,10 @@ import { GraphicalIcon } from '@/components/common'
 
 export function BootcampRecommendationView() {
   const { hideBootcampRecommendationView, links } = useContext(TrackContext)
+
+  // EDIT COPY
+  // shown on TrackWelcomeModal
+
   return (
     <>
       <h4

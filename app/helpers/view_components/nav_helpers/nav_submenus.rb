@@ -10,6 +10,7 @@ module ViewComponents
           view: :tracks
         },
 
+        # REVIEW: COPY - nav button
         {
           title: "Beginners Bootcamp",
           description: "The best way to learn to code",

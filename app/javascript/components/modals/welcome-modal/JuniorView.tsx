@@ -7,6 +7,8 @@ import { redirectTo } from '@/utils'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
+// EDIT COPY
+// shown on WelcomeModal
 export function JuniorView() {
   const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
@@ -40,7 +42,7 @@ export function JuniorView() {
             type="button"
             onClick={() => {
               patchCloseModal.mutate()
-              redirectTo(links.bootcampUrl)
+              redirectTo(links.codingFundamentalsCourse)
             }}
           >
             Go to the Bootcamp ✨
@@ -84,6 +86,7 @@ export function JuniorView() {
             background: '#333',
           }}
         >
+          {/* LINK NEEDS UPDATING */}
           <iframe
             src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
             title="Introducing the Exercism Bootcamp"

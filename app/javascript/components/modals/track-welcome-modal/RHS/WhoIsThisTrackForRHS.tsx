@@ -1,9 +1,11 @@
-import { GraphicalIcon, Icon } from '@/components/common'
-import VimeoEmbed from '@/components/common/VimeoEmbed'
-import { Track } from '@/components/types'
 import React from 'react'
+import VimeoEmbed from '@/components/common/VimeoEmbed'
+import { Icon } from '@/components/common'
 
-export function WhoIsThisTrackForRHS({ track }: { track: Track }): JSX.Element {
+// EDIT COPY
+// TrackWecomeModal's RHS if bootcamp is recommended. (its parent is TrackWelcomeModalRHS)
+// probably needs a better name
+export function WhoIsThisTrackForRHS(): JSX.Element {
   return (
     <div className="rhs" data-capy-element="who-is-this-track-for-rhs">
       <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7 mb-16">

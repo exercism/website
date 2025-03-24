@@ -11,7 +11,7 @@ export function TrackWelcomeModalRHS(): JSX.Element {
     currentState.matches('learningEnvironmentSelector') &&
     shouldShowBootcampRecommendationView
   ) {
-    return <WhoIsThisTrackForRHS track={track} />
+    return <WhoIsThisTrackForRHS />
   }
 
   return <VideoRHS track={track} />

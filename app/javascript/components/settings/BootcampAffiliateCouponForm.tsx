@@ -124,7 +124,7 @@ export function InfoMessage({
       <>
         <p className="text-p-base mb-12">
           To thank you for being an Insider and to help increase the amount of
-          people signing up to Exercism's{' '}
+          people signing up to Exercism's {/* LINK NEEDS UPDATING */}
           <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
             Learn to Code Bootcamp
           </a>
@@ -158,6 +158,7 @@ export function InfoMessage({
       return (
         <p className="text-p-base mb-16">
           Exercism Insiders can access 20% off Exercism's{' '}
+          {/* LINK NEEDS UPDATING */}
           <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
             Learn to Code Bootcamp
           </a>

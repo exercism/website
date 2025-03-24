@@ -6,7 +6,11 @@ async function initialize() {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const sessionId = urlParams.get('session_id')
-  const failurePath = urlParams.get('failure_path')
+  let failurePath = urlParams.get('failure_path')
+  if (!failurePath || !failurePath.startsWith('/courses/')) {
+    failurePath = '/bootcamp'
+  }
+
   if (!sessionId) {
     window.location.replace(failurePath)
     return

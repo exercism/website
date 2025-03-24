@@ -212,12 +212,12 @@ body {
     @apply overflow-hidden;
 
     .md-container {
-        @apply px-[4%];
+        padding-left: min(4%, 20px);
+        padding-right: min(4%, 20px);
     }
 
     h1 {
-        @apply sm:text-[80px] text-[40px] leading-[1.05];
-        @apply max-w-[1050px] mx-auto;
+        @apply sm:text-[77px] text-[40px] leading-[1.05];
         @apply mb-20;
         @apply font-light;
         strong {

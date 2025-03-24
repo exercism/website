@@ -1,4 +1,3 @@
-const nav = document.querySelector('.nav')
 const navFixed = document.querySelector('#nav-fixed')
 const navSticky = document.querySelector('#nav-sticky')
 const navContents = document.querySelector('#nav-contents')
@@ -69,10 +68,10 @@ function makeInline() {
 
 function addOnPurpleClass() {
   exercismFace.style.filter = 'invert(1)'
-  nav.classList.add(ON_PURPLE_CLASS)
+  navSticky.classList.add(ON_PURPLE_CLASS)
 }
 
 function removeOnPurpleClass() {
   exercismFace.style.filter = ''
-  nav.classList.remove(ON_PURPLE_CLASS)
+  navSticky.classList.remove(ON_PURPLE_CLASS)
 }

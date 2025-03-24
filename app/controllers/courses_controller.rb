@@ -135,7 +135,7 @@ class CoursesController < ApplicationController
   end
 
   def retrieve_location_from_vpnapi!
-    return session[:location_country_code] = "IN" unless Rails.env.production?
+    return session[:location_country_code] = "MX" unless Rails.env.production?
 
     data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
     if data.dig("security", "vpn")

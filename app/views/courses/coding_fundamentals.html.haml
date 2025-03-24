@@ -591,7 +591,7 @@
           -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
           - if @has_discount
             .price
-              %strong $#{@course_price}
+              %strong $#{@bundle_price}
               %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle.full_price}
             .discount
               Includes a

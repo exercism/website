@@ -8,9 +8,9 @@ class CoursesController < ApplicationController
   before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
   before_action :use_quotes!, only: [:show]
 
-  def bootcamp_redirect
-    if user_signed_in? && current_user.bootcamp_attendee?
-      redirect_to bootcamp_dashboard_url
+  def course_redirect
+    if user_signed_in? && current_user.course_attendee?
+      redirect_to course_dashboard_url
     else
       redirect_to "/courses/#{Courses::CodingFundamentals.instance.slug}"
     end
@@ -181,19 +181,19 @@ class CoursesController < ApplicationController
         "fred.png"
       ],
       [
-        "I was brand new to coding and this bootcamp **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
+        "I was brand new to coding and this course **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
         "Shaun",
         "Absolute Beginner",
         "shaun.jpg"
       ],
       [
-        "From the moment I bought the course, I realized it would **be different from anything I had ever experienced** in terms of classes and studying. Learning while actually coding **has made it pretty fun**. Getting help and encouraging messages from the community, sharing their experiences, and knowing that you're not alone made things much easier. It's **such a pleasure** to be part of it!",
+        "From the moment I bought the course, I realized it would **be different from anything I had ever experienced** in terms of classes and studying. Learning while actually coding **has made it pretty fun**.\n\nGetting help and encouraging messages from the community, sharing their experiences, and knowing that you're not alone made things much easier. It's **such a pleasure** to be part of it!",
         "Lucas",
         "Total Beginner",
         "lukas.webp"
       ],
       [
-        "Getting into **programming always felt overwhelming**. I often quit before I really got started. However, the bootcamp has provided an **excellent, guided path to self-sufficiency**, and I now feel capable of growing and learning more in the field.",
+        "Getting into **programming always felt overwhelming**. I often quit before I really got started. However, the course has provided an **excellent, guided path to self-sufficiency**, and I now feel capable of growing and learning more in the field.",
         "Nolan Lounsbery",
         "Beginner",
         "giantlemur.jpg"
@@ -205,13 +205,13 @@ class CoursesController < ApplicationController
         "redrobio.jpg"
       ],
       [
-        "Before this, I often relied on AI to solve coding problems. In fact, it was ChatGPT that recommended Exercism to me, and I instantly fell in love with it. So when I heard about Exercism Bootcamp, I didn’t think twice — I knew the **quality would be top-notch**. The **affordability was unbelievable**, and now, halfway through, I can proudly say **I’ve been almost three months ChatGPT-free! 🙂**",
+        "Before this, I often relied on AI to solve coding problems. In fact, it was ChatGPT that recommended Exercism to me, and I instantly fell in love with it. So when I heard about Exercism Course, I didn’t think twice — I knew the **quality would be top-notch**. The **affordability was unbelievable**, and now, halfway through, I can proudly say **I’ve been almost three months ChatGPT-free! 🙂**",
         "Veronika",
         "Junior Developer",
         "veronika.jpg"
       ],
       [
-        "The bootcamp provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
+        "The course provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
         "@abhinav",
         "Beginner",
         "abhinav.png"
@@ -221,8 +221,32 @@ class CoursesController < ApplicationController
         "Oleksandra",
         "Beginner",
         "github.png"
-
       ],
+      [
+        "Very happy to have joined this course. Jeremy and the mentors are very **motivating, excellent tutors and highly skilled**. Great value in my opinion!",
+        "Roger",
+        "Beginner",
+        "rogerb.webp"
+      ],
+      [
+        "I'd recommend this to anyone trying to become a better programmer. I have done a fair bit of tutorial material online to learn programming but this course, does the best job In teaching you the fundamentals. This course has given me confidence in writing code and made it Fun! 😄 . The community, exercises , mentors, and Jeremy have all been to interact with. If you want, you can push(Course, you).",
+        "Laura",
+        "Was in Tutorial Hell",
+        "laura.webp"
+      ],
+      [
+        "I joined the course with some Python knowledge, looking to learn front-end languages. I’d been **struggling with self-paced learning**, so I signed up for the structure and accountability. The teaching style — **full of effective analogies** — really clicked with me.\n\nIn just 10 weeks, I’ve learned new material and **gained clarity on topics I thought I already understood**. Fantastic mentors, teaching, community, and global cohort. The course has exceeded my expectations—I’d highly recommend it!",
+        "Matt",
+        "Python Dev",
+        "github.png"
+      ],
+      [
+        "You will not believe how fantastic this course is! You learn to write code by writing code to solve problems that match--and push--your abilities. Jeremy is a master teacher. Exercism is the perfect environment. Mix in the camaraderie of people all over the world along with mentors ready at hand to help, and there is nothing like this bootcamp anywhere. It will do what everything else has failed to do. And it is the one you'll keep recommending to everyone you know.",
+        "Thom Chittom",
+        "Beginner",
+        "thom.webp"
+      ],
+
       [
         "I had doubts that I would understand this kind of material, and yet as I look back to where I started, I have a deep appreciation for the incredible skills and knowledge I am now nurturing and growing. **How I think about thinking, and about problem solving in general, has changed dramatically** since undertaking this course. I can't wait to see what's next!",
         "@Kazzybits",
@@ -236,7 +260,7 @@ class CoursesController < ApplicationController
         "vignesh.webp"
       ],
       [
-        "Honestly, I had no expectations when I stumbled upon Exercism through a random ChatGPT search 😅, but it turned out to be **my greatest discovery of the year!** I was lucky to find it just as Part 1 of the Bootcamp was about to begin, and given the cost, I didn’t hesitate to join and give it a try. I had no experience whatsoever, and now that we’re almost done with Part 1, **I’m very impressed with myself** looking at what I can do! 100% recommended!",
+        "Honestly, I had no expectations when I stumbled upon Exercism through a random ChatGPT search 😅, but it turned out to be **my greatest discovery of the year!** I was lucky to find it just as Part 1 of the Course was about to begin, and given the cost, I didn’t hesitate to join and give it a try.\n\nI had no experience whatsoever, and now that we’re almost done with Part 1, **I’m very impressed with myself** looking at what I can do! 100% recommended!",
         "Rick",
         "Beginner",
         "ricksn.jpg"
@@ -272,7 +296,7 @@ class CoursesController < ApplicationController
         "jj.webp"
       ],
       [
-        "Enrolling in this programming bootcamp was one of the **best decisions I’ve ever made**. The curriculum is well-structured, covering foundational programming concepts. The team behing this bootcamp is **supportive, and truly invested** in helping students succeed.",
+        "Enrolling in this programming course was one of the **best decisions I’ve ever made**. The curriculum is well-structured, covering foundational programming concepts. The team behind this course is **supportive, and truly invested** in helping students succeed.",
         "@nanouss01",
         "Beginner",
         "nanouss01.webp"
@@ -284,13 +308,13 @@ class CoursesController < ApplicationController
         "sharpiemath.png"
       ],
       [
-        "I learned a bit of programming at university (I'm a mathematician), but the bootcamp has been **a game-changer for me**.\n\nThe pace is perfect: **challenging yet not impossible**. The exercises are very nice, and it is **incredibly satisfying** to see that in just a few weeks one can pass from simply moving a blob in a maze to program one that solve EVERY maze.\n\nThe classes and labs are very well planned: even when I've solved the exercises, I always learn something more from the labs. The analogies that Jeremy uses to teach us coding are powerful and **gave me a deeper knowledge even of things I knew.**",
+        "I learned a bit of programming at university (I'm a mathematician), but the course has been **a game-changer for me**.\n\nThe pace is perfect: **challenging yet not impossible**. The exercises are very nice, and it is **incredibly satisfying** to see that in just a few weeks one can pass from simply moving a blob in a maze to program one that solve EVERY maze.\n\nThe classes and labs are very well planned: even when I've solved the exercises, I always learn something more from the labs. The analogies that Jeremy uses to teach us coding are powerful and **gave me a deeper knowledge even of things I knew.**",
         "@m_artigiani",
         "",
         "m_artigiani.webp"
       ],
       [
-        "As a first-time bootcamp attendee, I was skeptical at first, since I was looking for a platform that was not just theory. Exercism has been **a game-changer** in that regard.\n\nThe weekly exercises have provided me with hands-on practice, helping me improve key programming concepts. The **visual representation, creating mental models, mentor feedback, and the interactive exercises** have been incredibly valuable.\n\nThanks to this bootcamp, **I feel more confident** and I’ve been able to shape my mindset and hoping to apply that to my personal and professional projects. If you’re looking for a way to reinforce your learning through hands-on coding, **I highly recommend it!**",
+        "As a first-time course attendee, I was skeptical at first, since I was looking for a platform that was not just theory. Exercism has been **a game-changer** in that regard.\n\nThe weekly exercises have provided me with hands-on practice, helping me improve key programming concepts. The **visual representation, creating mental models, mentor feedback, and the interactive exercises** have been incredibly valuable.\n\nThanks to this course, **I feel more confident** and I’ve been able to shape my mindset and hoping to apply that to my personal and professional projects. If you’re looking for a way to reinforce your learning through hands-on coding, **I highly recommend it!**",
         "@nilophars",
         "",
         "nilophars.webp"
@@ -307,7 +331,7 @@ class CoursesController < ApplicationController
         "fred.png"
       ],
       [
-        "I was brand new to coding and this bootcamp **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
+        "I was brand new to coding and this course **exceeded my wildest expectations** and then some. In my humble opinion, it will be **one of the best choices you will ever make!**",
         "Shaun",
         "Absolute Beginner",
         "shaun.jpg"
@@ -319,7 +343,7 @@ class CoursesController < ApplicationController
         "lukas.webp"
       ],
       [
-        "Getting into **programming always felt overwhelming**. I often quit before I really got started. However, the bootcamp has provided an **excellent, guided path to self-sufficiency**, and I now feel capable of growing and learning more in the field.",
+        "Getting into **programming always felt overwhelming**. I often quit before I really got started. However, the course has provided an **excellent, guided path to self-sufficiency**, and I now feel capable of growing and learning more in the field.",
         "Nolan Lounsbery",
         "Beginner",
         "giantlemur.jpg"
@@ -331,16 +355,22 @@ class CoursesController < ApplicationController
         "redrobio.jpg"
       ],
       [
-        "Before this, I often relied on AI to solve coding problems. In fact, it was ChatGPT that recommended Exercism to me, and I instantly fell in love with it. So when I heard about Exercism Bootcamp, I didn’t think twice — I knew the **quality would be top-notch**. The **affordability was unbelievable**, and now, halfway through, I can proudly say **I’ve been almost three months ChatGPT-free! 🙂**",
-        "Veronika",
-        "Junior Developer",
-        "veronika.jpg"
+        "I joined the course with some Python knowledge, looking to learn front-end languages. I’d been **struggling with self-paced learning**, so I signed up for the structure and accountability. The teaching style — **full of effective analogies** — really clicked with me. In just 10 weeks, I’ve learned new material and **gained clarity on topics I thought I already understood**. Fantastic mentors, teaching, community, and global cohort. The course has exceeded my expectations—I’d highly recommend it!",
+        "Matt",
+        "Python Dev",
+        "github.png"
       ],
       [
-        "The bootcamp provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
+        "The course provided me an opportunity to **learn from a bonafide master**. The purchasing power parity discount made it even more affordable. **Thank you for making it accessible**.",
         "@abhinav",
         "Beginner",
         "abhinav.png"
+      ],
+      [
+        "I'd recommend this to anyone trying to become a better programmer. I have done a fair bit of tutorial material online to learn programming but this course **does the best job in teaching you the fundamentals**. This course has **given me confidence in writing code and made it fun! 😄**.",
+        "Laura",
+        "Was in Tutorial Hell",
+        "laura.webp"
       ],
       [
         "Before I started this course I didn't think I could do the exercises we do now. **I thought I am not smart enough**, that “this is not for me” and I didn’t expect anything which required so much effort to be here in the fundamentals of programming. But in the end, **Jeremy shows it’s yet another skill that can be learnt**, even in such a **short period of time.**",
@@ -362,10 +392,16 @@ class CoursesController < ApplicationController
         "vignesh.webp"
       ],
       [
-        "Honestly, I had no expectations when I stumbled upon Exercism through a random ChatGPT search 😅, but it turned out to be **my greatest discovery of the year!** I was lucky to find it just as Part 1 of the Bootcamp was about to begin, and given the cost, I didn’t hesitate to join and give it a try. I had no experience whatsoever, and now that we’re almost done with Part 1, **I’m very impressed with myself** looking at what I can do! 100% recommended!",
+        "Honestly, I had no expectations when I stumbled upon Exercism, but it turned out to be **my greatest discovery of the year!** Given the cost, I didn’t hesitate to join and give it a try. I had no experience whatsoever, and **I’m very impressed with myself** looking at what I can do! 100% recommended!",
         "Rick",
         "Beginner",
         "ricksn.jpg"
+      ],
+      [
+        "The course has been **a game-changer for me**.The pace is perfect: **challenging yet not impossible**. The exercises are very nice, and it is **incredibly satisfying** to see that in just a few weeks one can pass from simply moving a blob in a maze to program one that solve EVERY maze.\n\n",
+        "@m_artigiani",
+        "",
+        "m_artigiani.webp"
       ],
       [
         "This course hasn't just taught basic structures and logic for programming, but **it instills some basic tenets of the coder's mindset** that will be invaluable on your journey (**how to start from a blank screen**, breaking big impossible challenges into the smallest solvable pieces, creating more efficient, readable, and maintainable code).",
@@ -398,10 +434,16 @@ class CoursesController < ApplicationController
         "jj.webp"
       ],
       [
-        "Enrolling in this programming bootcamp was one of the **best decisions I’ve ever made**. The curriculum is well-structured, covering foundational programming concepts. The team behing this bootcamp is **supportive, and truly invested** in helping students succeed.",
+        "Enrolling in this programming course was one of the **best decisions I’ve ever made**. The curriculum is well-structured, covering foundational programming concepts. The team is **supportive, and truly invested** in helping students succeed.",
         "@nanouss01",
         "Beginner",
         "nanouss01.webp"
+      ],
+      [
+        "You will not believe **how fantastic this course is**! You learn to write code by writing code to solve problems that match--and push--your abilities. **Jeremy is a master teacher.** Exercism is the perfect environment.",
+        "Thom Chittom",
+        "Beginner",
+        "thom.webp"
       ],
       [
         "For nearly a decade, **I've repeatedly started online coding courses**, but every time I run up against something that didn't make sense or a problem I just couldn't solve which stopped me in my tracks, meaning I have never completed a course, but now after years of trying, suddenly, **coding feels possible.**",
@@ -412,235 +454,4 @@ class CoursesController < ApplicationController
     ]
   end
   # rubocop:enable Layout/LineLength
-
-  #   before_action :redirect_if_paid!
-  #   before_action :save_utm!
-  #   before_action :setup_data!
-  #   before_action :setup_pricing!
-  #
-  #   def ltc
-  #     if @bootcamp_data
-  #       @bootcamp_data.num_views += 1
-  #       @bootcamp_data.last_viewed_at = Time.current
-  #       @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
-  #       @bootcamp_data.save
-  #     end
-  #   end
-  #
-  #   def bootcamp
-  #     if @bootcamp_data
-  #       @bootcamp_data.num_views += 1
-  #       @bootcamp_data.last_viewed_at = Time.current
-  #       @bootcamp_data.ppp_country = @country_code_2 if @country_code_2
-  #       @bootcamp_data.save
-  #     end
-  #
-  #     difference_in_seconds = Time.utc(2025, 1, 11, 18, 0, 0) - Time.current
-  #
-  #     # Convert to days, hours, minutes, and seconds
-  #     @days = (difference_in_seconds / (24 * 60 * 60)).to_i
-  #     @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
-  #     @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
-  #     @seconds = (difference_in_seconds % 60).to_i
-  #   end
-  #
-  #   def start_enrolling
-  #     create_bootcamp_data!
-  #
-  #     @name = @bootcamp_data.name || @bootcamp_data&.user&.name
-  #     @email = @bootcamp_data.email || @bootcamp_data&.user&.email
-  #     @package = params[:package] || @bootcamp_data.package
-  #
-  #     unless @bootcamp_data.enrolled?
-  #       @bootcamp_data.started_enrolling_at = Time.current
-  #       @bootcamp_data.package = @package if params[:package].present?
-  #       @bootcamp_data.save!
-  #     end
-  #   end
-  #
-  #   def do_enrollment
-  #     create_bootcamp_data!
-  #
-  #     @bootcamp_data.update!(
-  #       enrolled_at: Time.current,
-  #       name: params[:name],
-  #       email: params[:email],
-  #       package: params[:package],
-  #       ppp_country: @country_code_2
-  #     )
-  #
-  #     redirect_to action: :pay
-  #   end
-  #
-  #   def pay
-  #     redirect_to action: :start_enrolling unless @bootcamp_data&.enrolled?
-  #   end
-  #
-  #   def stripe_create_checkout_session
-  #     if Rails.env.production?
-  #       stripe_price = @bootcamp_data.stripe_price_id
-  #     else
-  #       stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
-  #     end
-  #
-  #     session = Stripe::Checkout::Session.create({
-  #       ui_mode: 'embedded',
-  #       customer_email: @bootcamp_data.email,
-  #       customer_creation: "always",
-  #       line_items: [{
-  #         price: stripe_price,
-  #         quantity: 1
-  #       }],
-  #       mode: 'payment',
-  #       allow_promotion_codes: true,
-  #       return_url: "#{bootcamp_confirmed_url}?session_id={CHECKOUT_SESSION_ID}"
-  #     })
-  #
-  #     render json: { clientSecret: session.client_secret }
-  #   end
-  #
-  #   def stripe_session_status
-  #     session = Stripe::Checkout::Session.retrieve(params[:session_id])
-  #
-  #     if session.status == 'complete'
-  #       @bootcamp_data.update!(
-  #         paid_at: Time.current,
-  #         checkout_session_id: session.id,
-  #         access_code: SecureRandom.hex(8)
-  #       )
-  #       if current_user
-  #         User::BecomeBootcampAttendee.(current_user)
-  #       else
-  #         user = User.find_by(email: @bootcamp_data.email)
-  #         if user
-  #           # Reset old bootcamp data sessions
-  #           User::BootcampData.where(user:).
-  #             where.not(id: @bootcamp_data.id).
-  #             update_all(user_id: nil)
-  #
-  #           # Enroll this one.
-  #           @bootcamp_data.update(user:)
-  #           User::BecomeBootcampAttendee.(user)
-  #         end
-  #       end
-  #     end
-  #
-  #     render json: {
-  #       status: session.status,
-  #       customer_email: session.customer_details.email
-  #     }
-  #   end
-  #
-  #   def confirmed; end
-  #
-  #   private
-  #   def setup_data!
-  #     @bootcamp_data = retrieve_user_bootcamp_data_from_user
-  #     @bootcamp_data ||= retrieve_user_bootcamp_data_from_session
-  #
-  #     if @bootcamp_data && @bootcamp_data.ppp_country.present?
-  #       session[:bootcamp_data_id] = @bootcamp_data.id
-  #       @country_code_2 = @bootcamp_data.ppp_country
-  #     elsif session[:country_code_2].present?
-  #       @country_code_2 = session[:country_code_2]
-  #     else
-  #       @country_code_2 = lookup_country_code_from_ip
-  #       session[:country_code_2] = @country_code_2
-  #     end
-  #
-  #
-  #     if @bootcamp_data && @bootcamp_data.user_id&.nil? && cookies.signed[:_exercism_user_id].present?
-  #       @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
-  #     end
-  #       #   end
-  #
-  #   def retrieve_user_bootcamp_data_from_user
-  #     user_id = cookies.signed[:_exercism_user_id]
-  #     return unless user_id
-  #
-  #     user = User.find_by(id: user_id)
-  #     return unless user
-  #
-  #     begin
-  #       user.bootcamp_data || user.create_bootcamp_data!
-  #     rescue ActiveRecord::RecordNotUnique
-  #       # Guard the race condition
-  #       user.bootcamp_data
-  #     end
-  #   rescue StandardError
-  #     # Something's a mess, but don't blow up.
-  #   end
-  #
-  #   def retrieve_user_bootcamp_data_from_session
-  #     return unless session[:bootcamp_data_id].present?
-  #
-  #     User::BootcampData.find(session[:bootcamp_data_id])
-  #   rescue StandardError
-  #     # We don't have anything valid in the session.
-  #   end
-  #
-  #   def lookup_country_code_from_ip
-  #     return "MX" unless Rails.env.production?
-  #
-  #     data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-  #     return "VPN" if data.dig("security", "vpn")
-  #
-  #     data.dig("location", "country_code")
-  #   rescue StandardError
-  #     # Rate limit probably
-  #   end
-  #
-  #   def create_bootcamp_data!
-  #     return if @bootcamp_data
-  #
-  #     @bootcamp_data = User::BootcampData.create!(ppp_country: @country_code_2, utm: session[:utm])
-  #     session[:bootcamp_data_id] = @bootcamp_data.id
-  #
-  #     return unless cookies.signed[:_exercism_user_id].present? && @bootcamp_data.user_id.nil?
-  #
-  #     @bootcamp_data.update(user_id: cookies.signed[:_exercism_user_id])
-  #   end
-  #
-  #   def setup_pricing!
-  #     country_data = User::BootcampData::DATA[@country_code_2]
-  #     if country_data
-  #       @country_name = country_data[0]
-  #       @hello = country_data[1]
-  #
-  #       @has_discount = true
-  #       @price = country_data[2].to_f
-  #       @part_1_price = country_data[3].to_f
-  #       @full_payment_url = country_data[4]
-  #       @part_1_payment_url = country_data[5]
-  #
-  #       @discount_percentage = (
-  #         (
-  #           User::BootcampData::PRICE - @price
-  #         ) / User::BootcampData::PRICE * 100
-  #       ).round
-  #     else
-  #       @has_discount = false
-  #       @price = User::BootcampData::PRICE
-  #       @part_1_price = User::BootcampData::PART_1_PRICE
-  #       @full_payment_url = User::BootcampData::FULL_PAYMENT_URL
-  #       @part_1_payment_url = User::BootcampData::PART_1_PAYMENT_URL
-  #     end
-  #
-  #     @full_price = User::BootcampData::PRICE
-  #     @full_part_1_price = User::BootcampData::PART_1_PRICE
-  #   end
-  #
-  #   def save_utm!
-  #     session[:utm] ||= {}
-  #     session[:utm][:source] = params[:utm_source] if params[:utm_source].present?
-  #     session[:utm][:medium] = params[:utm_medium] if params[:utm_medium].present?
-  #     session[:utm][:campaign] = params[:utm_campaign] if params[:utm_campaign].present?
-  #   end
-  #
-  #   def redirect_if_paid!
-  #     return unless current_user&.bootcamp_attendee? || current_user&.bootcamp_mentor?
-  #
-  #     redirect_to bootcamp_dashboard_url
-  #   end
-  #
 end

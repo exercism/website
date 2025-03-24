@@ -9,7 +9,7 @@ function initHamsterAnimation() {
   const hamsterSpeed = { value: 1 }
 
   const TRANSITION_DURATION = 500
-  const SMOKE_DELAY = 1000
+  const SMOKE_DELAY = 200
   const SMOKE_INTERVAL = 50
 
   const hamsterContainer = document.getElementById(

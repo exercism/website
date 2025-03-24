@@ -411,7 +411,7 @@ turn_right()
         visit bootcamp_project_exercise_url(exercise.project, exercise)
 
         change_codemirror_content(%(function even_or_odd with number do
-          set this to 5
+          set var to 5
           return "Even"
         end))
 
@@ -419,7 +419,7 @@ turn_right()
 
         scrub_to(0)
         assert_selector ".information-tooltip.description"
-        assert_text "This created a new variable called this and set its value to 5."
+        assert_text "This created a new variable called var and set its value to 5."
         scrub_to(1)
         assert_text "This returned \"Even\" and ended the function."
       end

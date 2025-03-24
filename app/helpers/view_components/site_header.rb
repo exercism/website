@@ -20,7 +20,7 @@ module ViewComponents
       return bootcamp_announcement_bar unless user_signed_in?
       return bootcamp_announcement_bar if current_user.solutions.count <= 5
 
-      return tag.span("") if current_user.current_subscr - iption
+      return tag.span("") if current_user.current_subscription
       return tag.span("") if current_user.donated_in_last_35_days?
 
       link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do

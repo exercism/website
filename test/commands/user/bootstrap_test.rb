@@ -85,4 +85,24 @@ class User::BootstrapTest < ActiveSupport::TestCase
     assert user.reload.bootcamp_attendee?
     assert_equal user.id, enrollment.reload.user_id
   end
+
+  test "does not link with nuil access code" do
+    # Create an enrollment without an access code
+    enrollment = create :course_enrollment, paid_at: Time.current, access_code: nil
+    user = create(:user)
+
+    User::Bootstrap.(user, course_access_code: nil)
+    refute user.reload.bootcamp_attendee?
+    refute_equal user.id, enrollment.reload.user_id
+  end
+
+  test "does not link with blank access code" do
+    # Create an enrollment without an access code
+    enrollment = create :course_enrollment, paid_at: Time.current, access_code: ""
+    user = create(:user)
+
+    User::Bootstrap.(user, course_access_code: "")
+    refute user.reload.bootcamp_attendee?
+    refute_equal user.id, enrollment.reload.user_id
+  end
 end

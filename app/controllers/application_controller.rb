@@ -227,7 +227,8 @@ class ApplicationController < ActionController::Base
 
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr? &&
-      request.fullpath != '/site.webmanifest'
+      request.fullpath != '/site.webmanifest' &&
+      !request.fullpath.starts_with?('/courses/stripe')
   end
 
   def after_sign_in_path_for(resource_or_scope)

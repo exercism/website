@@ -24,7 +24,7 @@ For this exercise, you have one function available:
 
 Those last two scenarios are weird ones, aren't they... Any ideas what's going on?
 
-It turns out that lots of emojis are acutally made up of other emojis joined together with hidden (zero width) spaces.
+It turns out that lots of emojis are actually made up of other emojis joined together with hidden (zero width) spaces.
 
 In the first example, the family emoji (👩‍👩‍👧‍👦) is made up of two women and two children. When it's reversed you can see the individual characters (👦‍👧‍👩‍👩).
 

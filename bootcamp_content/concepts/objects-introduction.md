@@ -3,7 +3,7 @@
 There are two fundamental ideas in programming:
 
 1. Having information (data) that you read, change and use.
-2. Having some sort of functionality that acutally does stuff.
+2. Having some sort of functionality that actually does stuff.
 
 Objects bring these two ideas together into one, allowing you to encapsulate the data and functionality that something might need into... object.
 

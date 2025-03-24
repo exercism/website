@@ -8,7 +8,7 @@ Your job is write a function called `even_or_odd`.
 
 It should have one input that expects a _number_. It should return a _string_ specifying whether the number is `"Even"` (0, 2, 4, 6, 8, etc), or `"Odd"` (1, 3, 5, 7, etc).
 
-To approach this problem, think about what it is that acutally makes a number odd or even.
+To approach this problem, think about what it is that actually makes a number odd or even.
 
 Remember, that Jiki understands plus (`+`), minus (`-`), multiply (`*`), divide (`/`) and remainder (`%`). Check the [Numbers Concept](https://exercism.org/bootcamp/concepts/numbers) for a recap on how they work.
 

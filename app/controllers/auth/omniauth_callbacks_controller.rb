@@ -11,7 +11,7 @@ module Auth
         return redirect_to integrations_settings_path
       end
 
-      @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"])
+      @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"], session:)
 
       if @user.persisted?
         remember_me(@user)

@@ -1,7 +1,7 @@
 class User::AuthenticateFromOmniauth
   include Mandate
 
-  initialize_with :auth
+  initialize_with :auth, session: {}
 
   def call
     find_by_uid || find_by_email || create

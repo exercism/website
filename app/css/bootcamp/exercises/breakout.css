@@ -16,18 +16,25 @@
         opacity: 0;
     }
 
-    .ball {
+    .ball,
+    .circle {
         @apply absolute;
         @apply bg-[#fafafa];
         @apply rounded-circle;
-        width: 6%;
-        height: 6%;
         transform: translate(-50%, -50%);
     }
-    .paddle {
-        @apply absolute;
+    .ball {
         @apply bg-[#fafafa];
+        width: 6%;
+        height: 6%;
+    }
+    .paddle,
+    .rectangle {
+        @apply absolute;
         @apply rounded-8;
+    }
+    .paddle {
+        @apply bg-[#fafafa];
         width: 10%;
         height: 4%;
         transform: translate(-50%, -50%);

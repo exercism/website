@@ -8,11 +8,15 @@ import { buildBlock, type BlockInstance } from './Block'
 import { buildBall, type BallInstance } from './Ball'
 import { buildPaddle, PaddleInstance } from './Paddle'
 import { buildGame, type GameInstance } from './Game'
+import { buildCircle } from './Circle'
+import { buildRectangle } from './RoundedRectangle'
 
 export default class BreakoutExercise extends Exercise {
   private Block = buildBlock(this)
   private Ball = buildBall(this)
   private Game = buildGame(this)
+  private Circle = buildCircle(this)
+  private RoundedRectangle = buildRectangle(this)
 
   public default_ball_radius = 3
   public default_block_height = 7
@@ -200,7 +204,13 @@ export default class BreakoutExercise extends Exercise {
   // Setup Functions
   public setupBlocks(_: ExecutionContext, layout: [][]) {}
 
-  public availableClasses = [this.Block, this.Ball, this.Game]
+  public availableClasses = [
+    this.Block,
+    this.Ball,
+    this.Game,
+    this.Circle,
+    this.RoundedRectangle,
+  ]
 
   public availableFunctions = [
     {

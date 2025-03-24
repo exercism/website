@@ -14,9 +14,8 @@ class User::Bootstrap
 
   private
   def link_courses!
-    enrollments = CourseEnrollment.where(email: user.email).or(
-      CourseEnrollment.where(access_code: course_access_code)
-    )
+    enrollments = CourseEnrollment.where(email: user.email)
+    enrollments = enrollments.or(CourseEnrollment.where(access_code: course_access_code)) if course_access_code.present?
     enrollments.each do |ce|
       next if ce.user
 

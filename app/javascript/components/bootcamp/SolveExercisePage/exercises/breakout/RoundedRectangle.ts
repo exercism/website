@@ -36,6 +36,20 @@ function fn(this: BreakoutExercise) {
     })
     executionCtx.fastForward(1)
   }
+  const changeOpacity = (
+    executionCtx: ExecutionContext,
+    rectangle: Jiki.Instance
+  ) => {
+    this.addAnimation({
+      targets: `#${this.view.id} #rect-${rectangle.objectId}`,
+      duration: 100,
+      transformations: {
+        opacity: `${rectangle.getUnwrappedField('opacity')}%`,
+      },
+      offset: executionCtx.getCurrentTime(),
+    })
+    executionCtx.fastForward(1)
+  }
 
   const RoundedRectangle = new Jiki.Class('RoundedRectangle')
   RoundedRectangle.addConstructor(function (
@@ -87,6 +101,22 @@ function fn(this: BreakoutExercise) {
       object.setField('left', left)
 
       move(executionCtx, object)
+    }
+  )
+  RoundedRectangle.addSetter(
+    'opacity',
+    'public',
+    function (
+      executionCtx: ExecutionContext,
+      object: Jiki.Instance,
+      opacity: Jiki.JikiObject
+    ) {
+      if (!(opacity instanceof Jiki.Number)) {
+        return executionCtx.logicError('Ooops! Opacity must be a number.')
+      }
+      object.setField('opacity', opacity)
+
+      changeOpacity(executionCtx, object)
     }
   )
   return RoundedRectangle

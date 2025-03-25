@@ -10,7 +10,6 @@ import { InitialView } from './InitialView'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { BootcampAdvertismentView } from './BootcampAdvertismentView'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 type ViewVariant = 'initial' | 'thanks' | 'bootcamp-advertisment'
 

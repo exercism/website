@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Icon } from '@/components/common'
+import { GraphicalIcon, Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
@@ -16,40 +16,73 @@ export function BootcampAdvertismentView() {
     <>
       <div className="lhs">
         <header>
-          <h1>Have you heard about the Bootcamp?</h1>
+          <h1 className="!font-medium">
+            Meet our new{' '}
+            <strong className="font-semibold">Coding Fundamentals</strong>{' '}
+            course...
+          </h1>
 
           <p className="mb-8">
-            In January, we're running a one-off{' '}
-            <strong className="font-semibold text-softEmphasis">
-              part-time, remote bootcamp for beginners! 🎉
+            Our{' '}
+            <strong className="!font-semibold text-black">
+              Coding Fundamentals
+            </strong>{' '}
+            course is designed specifically for beginners! It will teach you how
+            to <strong>think like a coder</strong> by solving puzzles and
+            building games.
+          </p>
+          <p className="mb-6">
+            In 12 weeks, you'll go from zero to making these...
+          </p>
+          <div className="grid grid-cols-4 gap-10 mb-12">
+            <Icon
+              category="bootcamp"
+              alt="Image of a space invaders game"
+              icon="space-invaders.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a tic-tac-toe game"
+              icon="tic-tac-toe.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a breakout game"
+              icon="breakout.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a maze game"
+              icon="maze.gif"
+              className="w-full"
+            />
+          </div>
+          <p className="mb-8">
+            This is a course for anyone that wants to get really good at coding.
+            It's affordable. It's fun. And most importantly, it's{' '}
+            <strong className="text-black font-semibold">
+              incredibly effective
             </strong>
+            !
           </p>
-          <p className="mb-8">
-            We're going to teach you all the fundamentals with a hands-on
-            project-based approach. No stuffy videos, no heavy theory, just lots
-            of fun coding!
-          </p>
-          <p className="mb-8">
-            It's super affordable, with discounts if you're a student,
-            unemployed, or live in a country with an emerging economy.
-          </p>
-          <p className="mb-20">Watch our intro video to learn more 👉</p>
         </header>
-        <div className="flex gap-8">
+        <div className="flex gap-12 mt-auto flex-grow">
           <a
-            href={links.bootcampUrl}
-            className="btn-primary btn-l cursor-pointer"
+            href={links.codingFundamentalsCourse}
+            className="btn-primary btn-l cursor-pointer flex-grow"
           >
-            Go to the Bootcamp ✨
+            Learn more ✨
           </a>
-
           <FormButton
             status={patchCloseModal.status}
-            className="btn-secondary btn-l"
+            className="btn-secondary btn-l w-[140px]"
             type="button"
             onClick={patchCloseModal.mutate}
           >
-            Skip &amp; Close
+            Close
           </FormButton>
         </div>
         <ErrorBoundary resetKeys={[patchCloseModal.status]}>
@@ -59,27 +92,21 @@ export function BootcampAdvertismentView() {
           />
         </ErrorBoundary>
       </div>
-      <div className="rhs pt-72">
-        <div className="flex flex-row gap-8 items-center justify-center text-16 text-textColor1 mb-16">
-          <Icon
-            icon="exercism-face"
-            className="filter-textColor1"
-            alt="exercism-face"
-            height={16}
-            width={16}
-          />
-          <div>
-            <strong className="font-semibold"> Exercism </strong>
-            Bootcamp
-          </div>
+      <div className="rhs">
+        <div className="font-semibold text-18 text-center mb-16">
+          Watch the Course Intro 👇
         </div>
         <div
           className="video relative rounded-8 overflow-hidden !mb-16"
-          style={{ padding: '56.25% 0 0 0', position: 'relative' }}
+          style={{
+            padding: '56.25% 0 0 0',
+            position: 'relative',
+            background: '#333',
+          }}
         >
           <iframe
-            src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-            title="Introducing the Exercism Bootcamp"
+            src="https://player.vimeo.com/video/1068683543?h=2de237a304&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+            title="Introducing Coding Fundamentals"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -87,9 +114,9 @@ export function BootcampAdvertismentView() {
         </div>
         <div className="bubbles">
           <div className="bubble">
-            <Icon category="bootcamp" alt="wave-icon" icon="wave" />
+            <Icon category="bootcamp" alt="wave-icon" icon="video-tutorial" />
             <div className="text">
-              <strong>Live</strong> teaching
+              <strong>Video</strong> tutorials
             </div>
           </div>
           <div className="bubble">
@@ -99,9 +126,45 @@ export function BootcampAdvertismentView() {
             </div>
           </div>
           <div className="bubble">
-            <Icon category="bootcamp" alt="price-icon" icon="price" />
+            <Icon category="bootcamp" alt="help-icon" icon="help" />
             <div className="text">
-              Priced <strong>fairly</strong>{' '}
+              Helpful <strong>mentors</strong>
+            </div>
+          </div>
+        </div>
+        <div className="quote">
+          <div className="words">
+            <GraphicalIcon
+              category="bootcamp"
+              icon="quote.png"
+              className="mark left-mark"
+            />
+            <span>
+              <p>
+                I was brand new to coding and this course{' '}
+                <strong>exceeded my wildest expectations</strong>. In my humble
+                opinion, it will be{' '}
+                <strong>one of the best choices you will ever make!</strong>
+              </p>
+
+              <GraphicalIcon
+                category="bootcamp"
+                icon="quote.png"
+                className="mark right-mark"
+              />
+            </span>
+          </div>
+          <div className="person">
+            <div className="flex flex-row items-center justify-end gap-8">
+              <div className="text">
+                <div className="name">Shaun</div>
+                <div className="description">Absolute Beginner</div>
+              </div>
+              <Icon
+                category="bootcamp/testimonials"
+                alt="Picture of shaun"
+                icon="shaun.jpg"
+              />
             </div>
           </div>
         </div>

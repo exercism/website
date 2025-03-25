@@ -22,10 +22,10 @@ export function JuniorView() {
             to <strong>think like a coder</strong> by solving puzzles and
             building games.
           </p>
-          <p className="mb-4">
+          <p className="mb-6">
             In 12 weeks, you'll go from zero to making these...
           </p>
-          <div className="grid grid-cols-4 gap-10 my-16">
+          <div className="grid grid-cols-4 gap-10 mb-12">
             <Icon
               category="bootcamp"
               alt="Image of a space invaders game"
@@ -52,9 +52,12 @@ export function JuniorView() {
             />
           </div>
           <p className="mb-8">
-            This is a course for anyone that wants to get really good at
-            programming, and have fun doing it. It's affordable, detailed, and
-            most importantly, it's <strong>incredible effective</strong>!
+            This is a course for anyone that wants to get really good at coding.
+            It's affordable. It's fun. And most importantly, it's{' '}
+            <strong className="text-black font-semibold">
+              incredibly effective
+            </strong>
+            !
           </p>
         </header>
         <div className="flex gap-8 mt-auto">

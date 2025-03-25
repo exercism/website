@@ -4,8 +4,6 @@ import { Icon } from '@/components/common'
 
 export function BootcampRecommendationView() {
   const { hideBootcampRecommendationView, links } = useContext(TrackContext)
-
-  // shown on TrackWelcomeModal
   return (
     <>
       <h4

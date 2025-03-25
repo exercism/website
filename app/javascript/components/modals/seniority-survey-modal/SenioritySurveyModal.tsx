@@ -13,7 +13,11 @@ import { BootcampAdvertismentView } from './BootcampAdvertismentView'
 
 type ViewVariant = 'initial' | 'thanks' | 'bootcamp-advertisment'
 
-type Links = { hideModalEndpoint: string; apiUserEndpoint: string }
+type Links = {
+  hideModalEndpoint: string
+  apiUserEndpoint: string
+  bootcampUrl: string
+}
 
 type SenioritySurveyModalContextProps = {
   currentView: ViewVariant
@@ -32,7 +36,11 @@ export const SenioritySurveyModalContext =
     currentView: DEFAULT_VIEW,
     setCurrentView: () => {},
     setOpen: () => {},
-    links: { apiUserEndpoint: '', hideModalEndpoint: '' },
+    links: {
+      apiUserEndpoint: '',
+      hideModalEndpoint: '',
+      bootcampUrl: '',
+    },
     patchCloseModal: {
       mutate: () => null,
       status: 'idle',

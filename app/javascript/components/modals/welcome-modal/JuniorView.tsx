@@ -3,11 +3,12 @@ import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { WelcomeModalContext } from './WelcomeModal'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { redirectTo } from '@/utils'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
-  const { patchCloseModal } = useContext(WelcomeModalContext)
+  const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs">
@@ -33,12 +34,17 @@ export function JuniorView() {
           <p className="mb-20">Watch our intro video to learn more 👉</p>
         </header>
         <div className="flex gap-8">
-          <a
-            href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=welcome"
+          <FormButton
+            status={patchCloseModal.status}
             className="btn-primary btn-l cursor-pointer"
+            type="button"
+            onClick={() => {
+              patchCloseModal.mutate()
+              redirectTo(links.bootcampUrl)
+            }}
           >
             Go to the Bootcamp ✨
-          </a>
+          </FormButton>
 
           <FormButton
             status={patchCloseModal.status}

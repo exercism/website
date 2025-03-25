@@ -7,7 +7,8 @@ import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function BootcampAdvertismentView() {
-  const { patchCloseModal } = useContext(SenioritySurveyModalContext)
+  const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
+
   return (
     <>
       <div className="lhs">
@@ -33,7 +34,7 @@ export function BootcampAdvertismentView() {
         </header>
         <div className="flex gap-8">
           <a
-            href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=seniority"
+            href={links.bootcampUrl}
             className="btn-primary btn-l cursor-pointer"
           >
             Go to the Bootcamp ✨

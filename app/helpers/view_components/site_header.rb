@@ -32,6 +32,7 @@ module ViewComponents
       end
     end
 
+    # REVIEW: COPY - announcement bar
     def bootcamp_announcement_bar
       link_to(Exercism::Routes.bootcamp_url, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do

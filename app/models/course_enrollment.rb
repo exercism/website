@@ -4,6 +4,10 @@ class CourseEnrollment < ApplicationRecord
 
   belongs_to :user, optional: true
 
+  before_create do
+    self.uuid = SecureRandom.uuid unless self.uuid
+  end
+
   def course
     Courses::Course.course_for_slug(course_slug)
   end

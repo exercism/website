@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   skip_before_action :authenticate_user!
 
   before_action :use_course!, only: %i[show start_enrolling enroll pay]
-  before_action :use_enrollment!
+  before_action :use_enrollment!, except: %i[enrolled stripe_session_status]
   before_action :use_location!, only: %i[show start_enrolling enroll pay]
   before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
   before_action :use_quotes!, only: [:show]
@@ -68,6 +68,7 @@ class CoursesController < ApplicationController
       stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
     end
 
+    # rubocop:disable Layout/LineLength
     session = Stripe::Checkout::Session.create({
       ui_mode: 'embedded',
       customer_email: @enrollment.email,
@@ -78,14 +79,16 @@ class CoursesController < ApplicationController
       }],
       mode: 'payment',
       allow_promotion_codes: true,
-      return_url: "#{courses_enrolled_url}?failure_path=#{course_pay_path(@enrollment.course_slug)}&session_id={CHECKOUT_SESSION_ID}"
+      return_url: "#{courses_enrolled_url}?enrollment_uuid=#{@enrollment.uuid}&failure_path=#{course_pay_path(@enrollment.course_slug)}&session_id={CHECKOUT_SESSION_ID}"
     })
+    # rubocop:enable Layout/LineLength
 
     render json: { clientSecret: session.client_secret }
   end
 
   def stripe_session_status
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    @enrollment = CourseEnrollment.find_by!(uuid: params[:enrollment_uuid])
 
     if session.status == 'complete'
       @enrollment.update!(checkout_session_id: session.id)
@@ -98,7 +101,9 @@ class CoursesController < ApplicationController
     }
   end
 
-  def enrolled; end
+  def enrolled
+    @enrollment = CourseEnrollment.find_by!(uuid: params[:enrollment_uuid])
+  end
 
   private
   def use_course!

@@ -29,26 +29,32 @@
 
     .bubbles
       .bubble
-        = image_tag "bootcamp/wave.svg"
+        = image_tag "bootcamp/video-tutorial.svg"
         .text
-          %strong Video tutorials
+          %strong Video
+          tutorials
       .bubble
         = image_tag "bootcamp/fun.svg"
         .text
           %strong Fun
           projects
       .bubble
-        - if @has_discount
-          .flag= flag_for_country_code(@country_code_2)
-          .text
-            %span.line-through{ class: 'text-[#666]' } $#{@course.full_price}
-            Only
-            %strong $#{@course_price}
-        - else
-          = image_tag "bootcamp/cost.svg"
-          .text
-            Only
-            %strong $#{@course_price}
+        = image_tag "bootcamp/help.svg"
+        .text
+          Helpful
+          %strong mentors
+        -#
+          - if @has_discount
+            .flag= flag_for_country_code(@country_code_2)
+            .text
+              %span.line-through{ class: 'text-[#666]' } $#{@course.full_price}
+              Only
+              %strong $#{@course_price}
+          - else
+            = image_tag "bootcamp/cost.svg"
+            .text
+              Only
+              %strong $#{@course_price}
 
     .video-container
       .video

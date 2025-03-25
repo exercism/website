@@ -16,7 +16,7 @@ type ViewVariant = 'initial' | 'thanks' | 'bootcamp-advertisment'
 type Links = {
   hideModalEndpoint: string
   apiUserEndpoint: string
-  bootcampUrl: string
+  codingFundamentalsCourse: string
 }
 
 type SenioritySurveyModalContextProps = {
@@ -39,7 +39,7 @@ export const SenioritySurveyModalContext =
     links: {
       apiUserEndpoint: '',
       hideModalEndpoint: '',
-      bootcampUrl: '',
+      codingFundamentalsCourse: '',
     },
     patchCloseModal: {
       mutate: () => null,

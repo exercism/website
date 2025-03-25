@@ -23,7 +23,7 @@ type WelcomeModalContextProps = {
   links: {
     hideModalEndpoint: string
     apiUserEndpoint: string
-    bootcampUrl: string
+    codingFundamentalsCourse: string
   }
 }
 
@@ -52,7 +52,7 @@ export const WelcomeModalContext =
     setOpen: () => null,
     currentView: 'initial',
     setCurrentView: () => null,
-    links: { hideModalEndpoint: '', apiUserEndpoint: '', bootcampUrl: '' },
+    links: { hideModalEndpoint: '', apiUserEndpoint: '', codingFundamentalsCourse: '' },
   })
 
 export default function WelcomeModal({

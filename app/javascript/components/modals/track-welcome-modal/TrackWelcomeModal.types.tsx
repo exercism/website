@@ -18,7 +18,7 @@ export type TrackWelcomeModalLinks = Record<
   | 'cliWalkthrough'
   | 'trackTooling'
   | 'learningResources'
-  | 'bootcampLanding',
+  | 'codingFundamentalsCourse',
   string
 >
 

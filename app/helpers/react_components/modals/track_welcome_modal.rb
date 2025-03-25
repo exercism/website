@@ -5,10 +5,11 @@ module ReactComponents
 
       def to_s
         return if showing_modal?
-        return if current_user.introducer_dismissed?(introducer_slug) || UserTrack.for(current_user,
-          track).tutorial_exercise_completed?
+        return if current_user.introducer_dismissed?(introducer_slug)
+        return if UserTrack.for(current_user, track).tutorial_exercise_completed?
 
         showing_modal!
+
         super(
           "modals-#{modal_slug}",
           {
@@ -21,8 +22,7 @@ module ReactComponents
               track_tooling: Exercism::Routes.track_doc_path(track, 'installation'),
               learning_resources: Exercism::Routes.track_doc_path(track, 'learning'),
               download_cmd: Exercise.for(track.slug, 'hello-world').download_cmd,
-              # LINK NEEDS UPDATING
-              bootcamp_landing: Exercism::Routes.bootcamp_path
+              coding_fundamentals_course: Courses::CodingFundamentals.url
             },
             track:,
             user_seniority: current_user.seniority

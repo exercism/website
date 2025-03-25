@@ -1,6 +1,7 @@
 import React from 'react'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
 import { Icon } from '@/components/common'
+import { GraphicalIcon } from '@/components/common'
 
 // EDIT COPY
 // TrackWecomeModal's RHS if bootcamp is recommended. (its parent is TrackWelcomeModalRHS)
@@ -18,17 +19,66 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
             width={16}
           />
           <div>
-            <strong className="font-semibold"> Exercism </strong>
-            Bootcamp
+            Exercism's
+            <strong className="font-semibold"> Coding Fundamentals</strong>
           </div>
         </div>
-        <VimeoEmbed className="rounded-8 mb-16" id="1024390839?h=c2b3bdce14" />
+        <VimeoEmbed className="rounded-8 mb-16" id="1068683543?h=2de237a304" />
         <span className="text-16 leading-150 text-textColor2">
-          <strong className="font-medium">
-            🗓️ The Bootcamp starts in January.{' '}
-          </strong>
-          Check out our introduction video (☝️) to see how it will work and if
-          it's the right fit for you!
+          <p className="mb-8 text-17 font-semibold">The course offers:</p>
+          <ul className="flex flex-col gap-6 text-16 font-regular mb-8">
+            <li className="flex items-start">
+              <GraphicalIcon
+                icon="wave"
+                category="bootcamp"
+                className="mr-8 w-[20px]"
+              />
+              <span>
+                <strong className="font-semibold">Expert teaching</strong> and
+                mentoring support.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <GraphicalIcon
+                icon="fun"
+                category="bootcamp"
+                className="mr-8 w-[20px]"
+              />
+              <span>
+                Over{' '}
+                <strong className="font-semibold">
+                  100 hours of hands-on project based learning
+                </strong>
+                , making games and solving puzzles.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <GraphicalIcon
+                icon="complete"
+                category="bootcamp"
+                className="mr-8 w-[20px]"
+              />
+              <span>
+                A{' '}
+                <strong className="font-semibold">
+                  complete Learn to Code syllabus
+                </strong>{' '}
+                covering coding basics, functions, object oriented programming,
+                and the coder's mindset.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <GraphicalIcon
+                icon="certificate"
+                category="bootcamp"
+                className="mr-8 w-[20px]"
+              />
+              <span>
+                A formal <strong className="font-semibold">certificate</strong>{' '}
+                on completion.
+              </span>
+            </li>
+          </ul>
         </span>
       </div>
     </div>

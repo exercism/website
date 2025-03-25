@@ -1,6 +1,18 @@
 class Courses::CodingFundamentals < Courses::Course
   include Singleton
 
+  def slug = "coding-fundamentals"
+  def template_slug = "coding_fundamentals"
+  def name = "Coding Fundamentals"
+  def full_price = 99.99
+  def self.url = Exercism::Routes.course_path(instance.slug)
+
+  # rubocop:disable Layout/LineLength
+  def blurb = Markdown::Parse.(
+    "Learn to code and build rock solid coding fundamentals! Perfect for **total beginners** or anyone who wants to **build more solid foundations.**"
+  )
+  # rubocop:enable Layout/LineLength
+
   def enable_for_user!(user)
     user.update!(bootcamp_attendee: true)
     User::SetDiscordRoles.defer(user)
@@ -8,20 +20,6 @@ class Courses::CodingFundamentals < Courses::Course
 
     # TODO: Send welcome email
   end
-
-  def full_price = 99.99
-
-  def default_payment_url = ""
-
-  def slug = "coding-fundamentals"
-  def template_slug = "coding_fundamentals"
-  def name = "Coding Fundamentals"
-
-  # rubocop:disable Layout/LineLength
-  def blurb = Markdown::Parse.(
-    "Learn to code and build rock solid coding fundamentals! Perfect for **total beginners** or anyone who wants to **build more solid foundations.**"
-  )
-  # rubocop:enable Layout/LineLength
 
   def stripe_prices = STRIPE_PRICES
 

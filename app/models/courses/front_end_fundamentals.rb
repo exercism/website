@@ -1,22 +1,21 @@
 class Courses::FrontEndFundamentals < Courses::Course
   include Singleton
 
-  def enable_for_user!(user)
-    # Currently a no-op
-  end
-
-  def full_price = 99.99
-
-  def default_payment_url = ""
-
   def slug = "front-end-fundamentals"
   def template_slug = "front_end_fundamentals"
   def name = "Front-End Fundamentals"
+  def full_price = 99.99
+  def self.url = Exercism::Routes.course_path(instance.slug)
 
   # rubocop:disable Layout/LineLength
   def blurb = Markdown::Parse.(
     "Add front-end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
   )
+
+  def enable_for_user!(user)
+    # Currently a no-op
+  end
+
   # rubocop:enable Layout/LineLength
 
   def stripe_prices = STRIPE_PRICES

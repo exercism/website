@@ -7,11 +7,12 @@ import { CustomFunctionsButton } from './CustomFunctionsButton'
 import { ActiveToggleButton } from './ActiveToggleButton'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 import customFunctionEditorStore from '../store/customFunctionEditorStore'
+import { DeleteFunctionButton } from '../DeleteFunctionButton'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
-  const { clearResults, customFunctionName } = customFunctionEditorStore()
+  const { clearResults, customFunctionName, isPredefined } = customFunctionEditorStore()
 
   const { links } = useContext(SolveExercisePageContext)
   return (
@@ -37,7 +38,7 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
         >
           Save Changes
         </button>
-
+        <DeleteFunctionButton predefined={isPredefined} />
         <a
           href={links.customFnsDashboard}
           className={assembleClassNames('btn-secondary btn-xxs')}

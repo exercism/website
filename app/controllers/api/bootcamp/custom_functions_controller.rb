@@ -23,4 +23,11 @@ class API::Bootcamp::CustomFunctionsController < API::Bootcamp::BaseController
 
     render json: {}, status: :ok
   end
+
+  def destroy
+    @custom_function = current_user.bootcamp_custom_functions.find_by!(uuid: params[:uuid])
+    @custom_function.destroy
+
+    render json: {}, status: :ok
+  end
 end

@@ -89,4 +89,27 @@ class API::Bootcamp::CustomFunctionsControllerTest < API::BaseTestCase
     assert_equal arity, function.arity
     assert_equal depends_on, function.depends_on
   end
+
+  test "destroy: deletes the function" do
+    user = create :user
+    function = create(:bootcamp_custom_function, user:)
+
+    setup_user(user)
+    delete api_bootcamp_custom_function_url(function), headers: @headers
+
+    assert_response :ok
+    assert_raises(ActiveRecord::RecordNotFound) do
+      function.reload
+    end
+  end
+
+  test "destroy: can't delete someone else's function" do
+    user = create :user
+    function = create(:bootcamp_custom_function, user:)
+
+    setup_user
+    assert_raises(ActiveRecord::RecordNotFound) do
+      delete api_bootcamp_custom_function_url(function), headers: @headers
+    end
+  end
 end

@@ -284,7 +284,7 @@ namespace :api do
         resources :submissions, param: :uuid, only: [:create]
       end
       resources :drawings, param: :uuid, only: [:update]
-      resources :custom_functions, param: :uuid, only: %i[update index]
+      resources :custom_functions, param: :uuid, only: %i[update index destroy]
     end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"

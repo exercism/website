@@ -26,7 +26,7 @@ class Courses::CodingFundamentals < Courses::Course
   def stripe_prices = STRIPE_PRICES
 
   STRIPE_PRICES = {
-    "DEFAULT" => { dollars: 99.00, stripe_id: "price_1J5ZQzJ9Z6Z6Z6Z6" },
+    "DEFAULT" => { dollars: 99.00, stripe_id: "price_1QD0D3EoOT0Jqx0Uj2UvJ76j" },
     "AE" => { dollars: 54.99, stripe_id: "price_1QD0K6EoOT0Jqx0UhHyh4A4u" },
     "AF" => { dollars: 24.99, stripe_id: "price_1QD0HiEoOT0Jqx0UouVId42Y" },
     "AG" => { dollars: 64.99, stripe_id: "price_1QD0KZEoOT0Jqx0UpXsLazjL" },

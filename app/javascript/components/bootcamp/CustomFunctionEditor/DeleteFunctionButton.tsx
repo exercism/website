@@ -7,7 +7,7 @@ export function DeleteFunctionButton({ predefined }: { predefined: boolean }) {
   const { links } = useContext(SolveExercisePageContext)
 
   const handleDeleteCustomFunction = useCallback(() => {
-    const url = links.deleteCustomFn as string
+    const url = links.updateCustomFns as string
     const customFnDashboardUrl = links.customFnsDashboard as string
 
     if (window.confirm('Are you sure you want to delete this function?')) {

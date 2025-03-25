@@ -196,7 +196,6 @@ export default function CustomFunctionEditor({
           >
             <CustomFunctionDetails />
             <CustomFunctionTests />
-            <DeleteFunctionButton predefined={false} />
           </div>
         </div>
       </div>

@@ -45,7 +45,6 @@ function initHamsterAnimation() {
   })
 
   const clearTimers = () => {
-    console.log('clearing timeouts', smokeTimeout, smokeInterval)
     if (smokeTimeout) {
       clearTimeout(smokeTimeout)
       smokeTimeout = null
@@ -113,7 +112,6 @@ function initHamsterAnimation() {
   }
 
   const handleMouseLeave = () => {
-    console.log('mouse is out')
     animate(hamsterSpeed, {
       value: 1,
       duration: TRANSITION_DURATION,

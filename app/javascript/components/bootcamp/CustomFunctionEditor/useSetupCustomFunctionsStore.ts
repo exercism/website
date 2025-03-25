@@ -25,6 +25,12 @@ export function useSetupCustomFunctionStore({
         }
         return fn
       })
+      .sort((a, b) => {
+        return (
+          Number(!!a.dependsOnCurrentFunction) -
+          Number(!!b.dependsOnCurrentFunction)
+        )
+      })
 
     const updatedCustomFunctions = {
       ...customFunctions,

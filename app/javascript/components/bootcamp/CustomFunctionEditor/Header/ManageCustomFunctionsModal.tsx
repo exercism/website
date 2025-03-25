@@ -118,7 +118,7 @@ function CustomFunctionMetadata({
       className={assembleClassNames(
         'row',
         buttonClass,
-        dependsOnCurrentFunction && 'bg-[#eaeaee] cursor-not-allowed'
+        dependsOnCurrentFunction && 'disabled'
       )}
       onClick={onClick}
     >
@@ -141,7 +141,7 @@ function DependsOnCurrentFunctionText() {
   }
 
   return (
-    <div className="mt-8 font-semibold">
+    <div className="mt-8 font-semibold text-[#cc5500]">
       This function depends on <code>{customFunction.name}</code>, so it cannot
       be imported.
     </div>

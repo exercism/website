@@ -28,6 +28,12 @@
                     @apply block;
                 }
             }
+            &.disabled {
+                @apply bg-[#f9eee5] border-[#e5aa7f] cursor-not-allowed;
+                .circle {
+                    @apply border-[#e5aa7f];
+                }
+            }
         }
     }
 }

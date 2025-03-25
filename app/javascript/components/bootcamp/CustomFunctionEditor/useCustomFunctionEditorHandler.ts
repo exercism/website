@@ -8,10 +8,7 @@ import {
 } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
-import {
-  StdlibFunctions,
-  StdlibFunctionsForLibrary,
-} from '@/interpreter/stdlib'
+import { StdlibFunctionsForLibrary } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
 import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
@@ -89,7 +86,6 @@ export function useCustomFunctionEditorHandler({
       setLatestValueSnapshot(value)
 
       const evaluated = interpret(value, context)
-      console.log('eval', evaluated)
       if (evaluated.error) {
         showError({
           error: evaluated.error,

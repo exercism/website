@@ -8,16 +8,14 @@ import {
 } from '@/interpreter/interpreter'
 import useEditorStore from '../SolveExercisePage/store/editorStore'
 import { showError } from '../SolveExercisePage/utils/showError'
-import {
-  StdlibFunctions,
-  StdlibFunctionsForLibrary,
-} from '@/interpreter/stdlib'
+import { StdlibFunctionsForLibrary } from '@/interpreter/stdlib'
 import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
 import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
 import { CustomFunction } from './CustomFunctionEditor'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
 import customFunctionsStore from './store/customFunctionsStore'
+import { FunctionStatement } from '@/interpreter/statement'
 
 export function useCustomFunctionEditorHandler({
   customFunctionDataFromServer,
@@ -101,6 +99,9 @@ export function useCustomFunctionEditorHandler({
         return
       }
 
+      const fnStatement = evaluated.meta.statements[0] as FunctionStatement
+      setArity(fnStatement.parameters.length)
+
       const results = {}
       let errorOccurred: boolean = false
       for (const test of tests) {
@@ -119,7 +120,6 @@ export function useCustomFunctionEditorHandler({
           errorOccurred = true
           break
         }
-        setArity(safeArgs.length)
 
         const fnEvaluationResult = evaluateFunction(
           value,

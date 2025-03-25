@@ -8,7 +8,7 @@ import { redirectTo } from '@/utils'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
-  const { patchCloseModal } = useContext(WelcomeModalContext)
+  const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs">
@@ -40,10 +40,7 @@ export function JuniorView() {
             type="button"
             onClick={() => {
               patchCloseModal.mutate()
-              // TODO: add proper link
-              redirectTo(
-                'https://exercism.org/bootcamp?utm_source=exercism&utm_medium=welcome'
-              )
+              redirectTo(links.bootcampUrl)
             }}
           >
             Go to the Bootcamp ✨

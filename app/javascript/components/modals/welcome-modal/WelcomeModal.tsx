@@ -20,6 +20,11 @@ type WelcomeModalContextProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentView: ViewVariant
   setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
+  links: {
+    hideModalEndpoint: string
+    apiUserEndpoint: string
+    bootcampUrl: string
+  }
 }
 
 export type SeniorityLevel =
@@ -47,6 +52,7 @@ export const WelcomeModalContext =
     setOpen: () => null,
     currentView: 'initial',
     setCurrentView: () => null,
+    links: { hideModalEndpoint: '', apiUserEndpoint: '', bootcampUrl: '' },
   })
 
 export default function WelcomeModal({
@@ -54,7 +60,11 @@ export default function WelcomeModal({
   numTracks,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  links: { hideModalEndpoint: string; apiUserEndpoint: string }
+  links: {
+    hideModalEndpoint: string
+    apiUserEndpoint: string
+    bootcampUrl: string
+  }
   numTracks: number
 }): JSX.Element {
   const [open, setOpen] = useState(true)
@@ -114,6 +124,7 @@ export default function WelcomeModal({
         numTracks,
         currentView,
         setCurrentView,
+        links,
       }}
     >
       <Modal

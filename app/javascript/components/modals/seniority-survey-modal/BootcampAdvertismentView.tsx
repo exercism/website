@@ -3,15 +3,12 @@ import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
-import { redirectTo } from '@/utils'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function BootcampAdvertismentView() {
   const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
 
-  useLogger('BootcampAdvertismentView', links)
   return (
     <>
       <div className="lhs">

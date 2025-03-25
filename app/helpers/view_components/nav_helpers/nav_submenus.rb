@@ -9,23 +9,20 @@ module ViewComponents
           icon: 'nav-tracks',
           view: :tracks
         },
-
-        # REVIEW: COPY - nav button
         {
-          title: "Beginners Bootcamp",
-          description: "The best way to learn to code",
-          path: Exercism::Routes.bootcamp_url,
-          icon: 'nav-bootcamp',
-          view: :bootcamp
+          title: "Coding Fundamentals",
+          description: "The ultimate way to learn to code",
+          path: Courses::CodingFundamentals.url,
+          icon: 'nav-coding-fundamentals',
+          view: :coding_fundamentals
         },
         {
-          title: "#48in24 Challenge",
-          description: "A different challenge each week in 2024",
-          path: Exercism::Routes.challenge_path('48in24'),
-          icon: 'nav-12in23',
-          view: :challenge_48in24 # rubocop:disable Naming/VariableNumber
+          title: "Front-end Fundamentals",
+          description: "Learn the basics of front-end development",
+          path: Courses::FrontEndFundamentals.url,
+          icon: 'nav-front-end-fundamentals',
+          view: :front_end_fundamentals
         },
-
         {
           title: "Your Journey",
           description: "Explore your Exercism journey",

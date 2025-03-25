@@ -36,6 +36,7 @@ class User::Data < ApplicationRecord
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
   def email_status = super.to_sym
   def seniority = super&.to_sym
+  def junior? = seniority == :absolute_beginner || seniority == :beginner
 
   def usages = super || (self.usages = {})
 

@@ -20,6 +20,11 @@ module BodyClassConcern
     controller_parts.size > 1 ? controller_parts[0] : nil
   end
 
+  def javascript_track?
+    (controller_name == "tracks" && params[:id] == "javascript") ||
+      namespace_name == "tracks" && params[:track_id] == "javascript"
+  end
+
   def landing_page?
     namespace_name.nil? && controller_name == "pages" && action_name == "index"
   end
@@ -31,6 +36,7 @@ module BodyClassConcern
   included do
     helper_method :body_class
     helper_method :namespace_name
+    helper_method :javascript_track?
     helper_method :landing_page?
   end
 end

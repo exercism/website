@@ -8,6 +8,7 @@ import {
 import { SyntaxNode } from '@lezer/common'
 
 const COLOR_INPUT_ID = 'editor-color-input'
+const FAUX_RANGE_INPUT_ID = 'faux-range'
 
 class ValueInteractor implements PluginValue {
   private view: EditorView
@@ -39,9 +40,13 @@ class ValueInteractor implements PluginValue {
 
   removeInputElements() {
     const colorInput = document.getElementById(COLOR_INPUT_ID)
+    const fauxRange = document.getElementById(FAUX_RANGE_INPUT_ID)
 
     if (colorInput && document.activeElement !== colorInput) {
       colorInput.remove()
+    }
+    if (fauxRange) {
+      fauxRange.remove()
     }
   }
 
@@ -101,7 +106,7 @@ class ValueInteractor implements PluginValue {
       const unit = view.state.sliceDoc(unitNode.from, unitNode.to)
       const numberText = view.state.sliceDoc(node.from, unitNode.from).trim()
       let currentNumber = parseFloat(numberText)
-      const id = 'faux-range'
+      const id = FAUX_RANGE_INPUT_ID
 
       if (document.getElementById(id)) return
 
@@ -174,8 +179,6 @@ class ValueInteractor implements PluginValue {
       onChange: (color: string) => {
         const [rVal, gVal, bVal] = hex2rgb(color)
 
-        const nodeContent = view.state.sliceDoc(node.from, node.to)
-        console.log('nodeContent', nodeContent)
         const currentTree = syntaxTree(view.state)
         const nodeAtCursor = currentTree.resolve(node.from, -1)
         const newNode = nodeAtCursor.getChild('CallExpression')

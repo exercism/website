@@ -37,7 +37,7 @@ export function BootcampAdvertismentView() {
         </header>
         <div className="flex gap-8">
           <a
-            href={links.bootcampDashboard}
+            href={links.bootcampUrl}
             className="btn-primary btn-l cursor-pointer"
           >
             Go to the Bootcamp ✨

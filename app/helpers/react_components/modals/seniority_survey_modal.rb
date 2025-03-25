@@ -16,7 +16,7 @@ module ReactComponents
             links: {
               hide_modal_endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug),
               api_user_endpoint: Exercism::Routes.api_user_url,
-              bootcamp_dashboard: Exercism::Routes.bootcamp_dashboard_url(only_path: true)
+              bootcamp_url: Exercism::Routes.bootcamp_dashboard_url
             }
           }
         )

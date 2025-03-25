@@ -6,9 +6,6 @@ import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-// EDIT COPY
-// shown on SenioritySurveyModal
-
 export function BootcampAdvertismentView() {
   const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
 

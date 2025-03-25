@@ -7,7 +7,6 @@ import { redirectTo } from '@/utils'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-// shown on WelcomeModal
 export function JuniorView() {
   const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (

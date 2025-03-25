@@ -1,9 +1,8 @@
-import { act } from 'react'
 import { create } from 'zustand'
 
 export type AvailableCustomFunctions = Record<
   string,
-  CustomFunctionForInterpreter
+  CustomFunctionForInterpreter & { dependsOnCurrentFunction?: boolean }
 >
 
 type CustomFunctionsStore = {

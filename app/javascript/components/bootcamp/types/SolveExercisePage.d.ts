@@ -25,6 +25,7 @@ declare global {
   }
 
   type CustomFunctionForInterpreter = {
+    dependsOnCurrentFunction?: boolean
     name: string
     arity: number
     code: string

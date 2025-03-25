@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import useCustomFunctionStore from '../store/customFunctionsStore'
 import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common'
+import { CustomFunctionContext } from '../CustomFunctionEditor'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 Modal.setAppElement('body')
 
@@ -71,6 +73,9 @@ export function ManageCustomFunctionsModal({
             return (
               <CustomFunctionMetadata
                 key={customFnMetadata.name}
+                dependsOnCurrentFunction={
+                  customFnMetadata.dependsOnCurrentFunction
+                }
                 onClick={() => {
                   return getIsFunctionActivated(customFnMetadata.name)
                     ? handleDeactivateCustomFunction(customFnMetadata.name)
@@ -100,19 +105,45 @@ function CustomFunctionMetadata({
   customFnMetadata,
   onClick,
   buttonClass,
+  dependsOnCurrentFunction,
 }: {
   customFnMetadata: CustomFunctionMetadata
   onClick: () => void
   buttonClass: string
+  dependsOnCurrentFunction?: boolean
 }) {
   return (
-    <button className={`row ${buttonClass}`} onClick={onClick}>
+    <button
+      disabled={dependsOnCurrentFunction}
+      className={assembleClassNames(
+        'row',
+        buttonClass,
+        dependsOnCurrentFunction && 'disabled'
+      )}
+      onClick={onClick}
+    >
       <div className="circle"></div>
       <GraphicalIcon icon="completed-check-circle" width={24} height={24} />
       <div>
         <h3 className="text-h6 mb-2">{customFnMetadata.name}</h3>
         <p className="text-p-base">{customFnMetadata.description}</p>
+        {dependsOnCurrentFunction && <DependsOnCurrentFunctionText />}
       </div>
     </button>
+  )
+}
+
+function DependsOnCurrentFunctionText() {
+  const customFunction = useContext(CustomFunctionContext)
+
+  if (!customFunction) {
+    return null
+  }
+
+  return (
+    <div className="mt-8 font-semibold text-[#cc5500]">
+      This function depends on <code>{customFunction.name}</code>, so it cannot
+      be imported.
+    </div>
   )
 }

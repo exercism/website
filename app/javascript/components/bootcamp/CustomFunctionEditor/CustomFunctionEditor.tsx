@@ -51,6 +51,8 @@ export const CustomFunctionEditorStoreContext = createContext<{
   customFunctionEditorStore: CustomFunctionEditorStore
 }>({ customFunctionEditorStore: {} as CustomFunctionEditorStore })
 
+export const CustomFunctionContext = createContext<CustomFunction | null>(null)
+
 export default function CustomFunctionEditor({
   customFunction,
   customFunctions,
@@ -138,68 +140,70 @@ export default function CustomFunctionEditor({
         } as SolveExercisePageContextValues
       }
     >
-      <div id="bootcamp-custom-function-editor-page">
-        <Header
-          handleSaveChanges={() =>
-            handlePatchCustomFunction({
-              code: editorViewRef.current?.state.doc.toString() ?? '',
-              dependsOn: getSelectedCustomFunctions(),
-              url: links.updateCustomFns,
-            })
-          }
-        />
-        <div className="page-body">
-          <div style={{ width: LHSWidth }} className="page-body-lhs">
-            <ErrorBoundary>
-              <CodeMirror
-                style={{ height: `100%` }}
-                ref={editorViewRef}
-                editorDidMount={handleEditorDidMount}
-                handleRunCode={() => handleRunCode()}
-                onEditorChangeCallback={(view) => {
-                  setHasUnsavedChanges(true)
-                  handleSetCustomFunctionName(view)
+      <CustomFunctionContext.Provider value={customFunction}>
+        <div id="bootcamp-custom-function-editor-page">
+          <Header
+            handleSaveChanges={() =>
+              handlePatchCustomFunction({
+                code: editorViewRef.current?.state.doc.toString() ?? '',
+                dependsOn: getSelectedCustomFunctions(),
+                url: links.updateCustomFns,
+              })
+            }
+          />
+          <div className="page-body">
+            <div style={{ width: LHSWidth }} className="page-body-lhs">
+              <ErrorBoundary>
+                <CodeMirror
+                  style={{ height: `100%` }}
+                  ref={editorViewRef}
+                  editorDidMount={handleEditorDidMount}
+                  handleRunCode={() => handleRunCode()}
+                  onEditorChangeCallback={(view) => {
+                    setHasUnsavedChanges(true)
+                    handleSetCustomFunctionName(view)
 
-                  const { areAllTestsPassing } =
-                    customFunctionEditorStore.getState()
-                  if (areAllTestsPassing) {
-                    clearResults()
-                  }
-                }}
-                extensions={[readOnlyDocumentFragment]}
-              />
-            </ErrorBoundary>
+                    const { areAllTestsPassing } =
+                      customFunctionEditorStore.getState()
+                    if (areAllTestsPassing) {
+                      clearResults()
+                    }
+                  }}
+                  extensions={[readOnlyDocumentFragment]}
+                />
+              </ErrorBoundary>
 
-            <div className="page-lhs-bottom flex items-center gap-8 bg-white">
-              <CheckCodeButton handleRunCode={handleCheckCode} />
-              <div className="flex-grow">
-                {results &&
-                  results[inspectedTest] &&
-                  results[inspectedTest].animationTimeline && (
-                    <Scrubber
-                      animationTimeline={
-                        results[inspectedTest].animationTimeline
-                      }
-                      frames={inspectedFrames}
-                      context={`Test ${inspectedTestIdx + 1}`}
-                    />
-                  )}
+              <div className="page-lhs-bottom flex items-center gap-8 bg-white">
+                <CheckCodeButton handleRunCode={handleCheckCode} />
+                <div className="flex-grow">
+                  {results &&
+                    results[inspectedTest] &&
+                    results[inspectedTest].animationTimeline && (
+                      <Scrubber
+                        animationTimeline={
+                          results[inspectedTest].animationTimeline
+                        }
+                        frames={inspectedFrames}
+                        context={`Test ${inspectedTestIdx + 1}`}
+                      />
+                    )}
+                </div>
               </div>
             </div>
-          </div>
 
-          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-          {/* RHS */}
-          <div
-            className="page-body-rhs py-16 px-16"
-            style={{ width: RHSWidth }}
-          >
-            <CustomFunctionDetails />
-            <CustomFunctionTests />
+            <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+            {/* RHS */}
+            <div
+              className="page-body-rhs py-16 px-16"
+              style={{ width: RHSWidth }}
+            >
+              <CustomFunctionDetails />
+              <CustomFunctionTests />
+            </div>
           </div>
         </div>
-      </div>
-      <Toaster />
+        <Toaster />
+      </CustomFunctionContext.Provider>
     </SolveExercisePageContextWrapper>
   )
 }

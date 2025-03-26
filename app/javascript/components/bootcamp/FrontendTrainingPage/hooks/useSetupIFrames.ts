@@ -10,9 +10,9 @@ export function useSetupIFrames() {
   const expectedReferenceIFrameRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    const { html, css } = boxExample
-    updateIFrame(expectedIFrameRef, html, css)
-    updateIFrame(expectedReferenceIFrameRef, html, css)
+    const { html, css, js } = boxExample
+    updateIFrame(expectedIFrameRef, { html, css, javascript: js })
+    updateIFrame(expectedReferenceIFrameRef, { html, css, javascript: js })
   }, [])
 
   const handleCompare = useCallback(async () => {
@@ -94,6 +94,7 @@ background-repeat: repeat;
 }
 
 const boxExample = {
+  js: undefined,
   html: `<div class='box'></div>`,
   css: `
 body{

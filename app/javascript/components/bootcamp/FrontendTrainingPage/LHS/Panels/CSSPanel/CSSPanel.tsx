@@ -5,7 +5,7 @@ import { CSSEditor } from './CSSEditor'
 
 export function CSSPanel() {
   return (
-    <Tab.Panel id="css" context={TabsContext}>
+    <Tab.Panel alwaysAttachToDOM id="css" context={TabsContext}>
       <CSSEditor />
     </Tab.Panel>
   )

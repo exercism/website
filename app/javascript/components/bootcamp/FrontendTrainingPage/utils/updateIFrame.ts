@@ -3,7 +3,8 @@ export function updateIFrame(
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
   html: string,
-  css?: string
+  css?: string,
+  javascript?: string
 ) {
   let iframeElement: HTMLIFrameElement | null = null
 
@@ -28,6 +29,7 @@ export function updateIFrame(
     <html>
       <head>
         <style>${css}</style>
+        <script>${javascript}</script>
       </head>
       <body>${html}</body>
     </html>

@@ -16,7 +16,9 @@
         %ul
           %li= link_to "Exercism", root_url
           -# UPDATE LINKS - footer
-          %li= link_to "Learn to Code", Exercism::Routes.bootcamp_url
+          %li= link_to "Learn to Code", Courses::CodingFundamentals.url
+          %li= link_to "Coding Fundamentals", Courses::CodingFundamentals.url
+          %li= link_to "Front-end Course", Courses::FrontEndFundamentals.url
           %li= link_to "Exercism Bootcamp", Exercism::Routes.bootcamp_url
           %li= link_to "Exercism for Teams", doc_path(:using, 'editions/teams')
           %li= link_to "Exercism Research", doc_path(:using, 'editions/research')

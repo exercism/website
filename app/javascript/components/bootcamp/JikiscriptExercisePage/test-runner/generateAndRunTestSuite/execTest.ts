@@ -15,6 +15,7 @@ import {
   AnimationTimeline,
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
+import { expect } from '../expect'
 
 /**
  This is of type TestCallback
@@ -27,6 +28,54 @@ export function execTest(
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
+  //
+  window.addEventListener(
+    'error',
+    function (e) {
+      console.log(e)
+      console.log('Error line:', e.lineno)
+    },
+    false
+  )
+
+  const expects: MatcherResult[] = []
+  const matcher = 'toEqual'
+  const test = 'two_fer("Jeremy")'
+
+  function runCode(code) {
+    let js = document.createElement('script')
+    try {
+      js.innerHTML = `"use strict;"\n${code}`
+      document.head.appendChild(js)
+      const exp = expect({
+        actual: eval?.(test),
+        codeRun: test,
+        errorHtml: "Didn't match",
+        matcher,
+      })[matcher]('One for Jeremy, one for me.')
+      console.log(exp)
+      expects.push(exp)
+    } catch (e) {
+      console.log(e)
+      // ...
+    }
+    document.head.removeChild(js)
+  }
+  runCode(options.studentCode)
+
+  return {
+    expects: expects,
+    slug: testData.slug,
+    codeRun: 'two_fer("Jeremy")',
+    frames: [],
+    type: options.config.testsType || (exercise ? 'state' : 'io'),
+    animationTimeline: buildAnimationTimeline(exercise, []),
+    imageSlug: testData.imageSlug,
+    view: exercise?.getView(),
+  }
+
+  /*
+  
   const context = {
     externalFunctions: buildExternalFunctions(options, exercise),
     classes: buildExternalClasses(options, exercise),
@@ -56,17 +105,6 @@ export function execTest(
 
   const { value: actual, frames } = evaluated
 
-  /*if(frames[0].timelineTime !== 0) {
-    frames.unshift({
-      timelineTime: 0,
-      time: 0,
-      line: 0,
-      code: "",
-      status: 'BOOKEND',
-      description: ""
-    })
-  }*/
-
   const codeRun = testData.codeRun
     ? testData.codeRun
     : generateCodeRunString(testData.function, args)
@@ -84,7 +122,7 @@ export function execTest(
     animationTimeline,
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
-  }
+  }*/
 }
 
 const buildExternalFunctions = (

@@ -6,11 +6,13 @@ export function HTMLEditor() {
   const { LHSWidth, handleHtmlEditorDidMount } = useContext(
     FrontendTrainingPageContext
   )
+
   return (
     <SimpleCodeMirror
       style={{ width: LHSWidth }}
       editorDidMount={handleHtmlEditorDidMount}
       extensions={[]}
+      defaultCode="<div>hello</div>"
     />
   )
 }

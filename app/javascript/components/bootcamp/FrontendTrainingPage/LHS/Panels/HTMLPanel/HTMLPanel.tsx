@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tab } from '@/components/common'
-import { TabsContext } from '@/components/Editor'
+import { TabsContext } from '../../LHS'
 import { HTMLEditor } from './HTMLEditor'
 
 export function HTMLPanel() {

@@ -8,6 +8,8 @@ class Courses::Course
     courses[slug]
   end
 
+  def url = Exercism::Routes.course_url(slug)
+
   def send_welcome_email!(enrollment)
     mail_slug = "#{template_slug}_enrolled"
     if enrollment.user

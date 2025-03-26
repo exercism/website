@@ -91,10 +91,10 @@ module Pages
         end
       end
 
-      test "user sees bootcamp recommendation page if beginner" do
+      test "old user sees bootcamp recommendation page if beginner" do
         use_capybara_host do
           @user.reload
-          @user.update!(seniority: :beginner)
+          @user.update!(seniority: :beginner, created_at: 10.days.ago)
 
           sign_in!(@user)
           visit track_path(@track)
@@ -107,10 +107,26 @@ module Pages
         end
       end
 
-      test "user can go to bootcamp landing" do
+      test "new user doesn't see bootcamp recommendation page if beginner" do
         use_capybara_host do
           @user.reload
           @user.update!(seniority: :beginner)
+
+          sign_in!(@user)
+          visit track_path(@track)
+
+          assert_text "Here to learn or practice?"
+          click_on "Learning Mode"
+          refute_selector '[data-capy-element="bootcamp-recommendation-header"]'
+          # assert if rhs is rendered correctly
+          refute_selector '[data-capy-element="who-is-this-track-for-rhs"]'
+        end
+      end
+
+      test "user can go to bootcamp landing" do
+        use_capybara_host do
+          @user.reload
+          @user.update!(seniority: :beginner, created_at: 10.days.ago)
 
           sign_in!(@user)
           visit track_path(@track)
@@ -126,7 +142,7 @@ module Pages
       test "user can dismiss bootcamp recommendation" do
         use_capybara_host do
           @user.reload
-          @user.update!(seniority: :beginner)
+          @user.update!(seniority: :beginner, created_at: 10.days.ago)
 
           sign_in!(@user)
           visit track_path(@track)

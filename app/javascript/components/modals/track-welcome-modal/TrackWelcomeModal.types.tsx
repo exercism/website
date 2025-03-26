@@ -8,6 +8,7 @@ export type TrackWelcomeModalProps = {
   track: Track
   links: TrackWelcomeModalLinks
   userSeniority: SeniorityLevel
+  userJoinedDaysAgo: number
 }
 
 export type TrackWelcomeModalLinks = Record<

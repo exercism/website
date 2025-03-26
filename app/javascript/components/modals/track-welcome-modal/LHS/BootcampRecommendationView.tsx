@@ -23,13 +23,13 @@ export function BootcampRecommendationView() {
       <p className="mb-8">
         If you're just starting out on your coding journey,{' '}
         <strong className="font-semibold text-black">
-          our Coding Fundamentals might be a better fit for you.
+          our Coding Fundamentals Course might be a better fit for you.
         </strong>{' '}
       </p>
-      <p className="mb-4">
+      <p className="mb-6">
         In 12 weeks, you'll go from zero to making these...
       </p>
-      <div className="grid grid-cols-4 gap-10 my-16">
+      <div className="grid grid-cols-4 gap-10 mb-16">
         <Icon
           category="bootcamp"
           alt="Image of a space invaders game"
@@ -55,7 +55,7 @@ export function BootcampRecommendationView() {
           className="w-full"
         />
       </div>
-      <p className="mb-16">
+      <p className="mb-12">
         It's self-paced and <strong>priced affordably</strong>, with discounts
         available for students, people who are unemployed, and those living in
         emerging economies.

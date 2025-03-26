@@ -4,6 +4,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { WelcomeModalContext } from './WelcomeModal'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { redirectTo } from '@/utils'
+import VimeoEmbed from '@/components/common/VimeoEmbed'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -11,18 +12,19 @@ export function JuniorView() {
   const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
     <>
-      <div className="lhs">
+      <div className="lhs flex flex-col">
         <header>
           <h1>A course for you... 🎉</h1>
 
           <p className="mb-8">
             Our <strong className="!font-semibold">Coding Fundamentals</strong>{' '}
-            course is designed specifically for beginners! It will teach you how
-            to <strong>think like a coder</strong> by solving puzzles and
-            building games.
+            course is designed for people who have been coding for less than a
+            year!!
           </p>
-          <p className="mb-6">
-            In 12 weeks, you'll go from zero to making these...
+          <p className="mb-8">
+            It will teach you how to <strong>think like a coder</strong> by
+            solving puzzles and building games. In only 12 weeks, you'll go from
+            zero to making these...
           </p>
           <div className="grid grid-cols-4 gap-10 mb-12">
             <Icon
@@ -50,7 +52,7 @@ export function JuniorView() {
               className="w-full"
             />
           </div>
-          <p className="mb-8">
+          <p>
             This is a course for anyone that wants to get really good at coding.
             It's affordable. It's fun. And most importantly, it's{' '}
             <strong className="text-black font-semibold">
@@ -89,25 +91,80 @@ export function JuniorView() {
         </ErrorBoundary>
       </div>
       <div className="rhs">
-        <div className="font-semibold text-18 text-center mb-16">
-          Watch the Course Intro 👇
-        </div>
-        <div
-          className="video relative rounded-8 overflow-hidden !mb-16"
-          style={{
-            padding: '56.25% 0 0 0',
-            position: 'relative',
-            background: '#333',
-          }}
-        >
-          <iframe
-            src="https://player.vimeo.com/video/1068683543?h=2de237a304&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-            title="Introducing Coding Fundamentals"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+        <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7">
+          <div className="flex flex-row gap-8 items-center justify-center text-16 text-textColor1 mb-16">
+            <Icon
+              icon="exercism-face"
+              className="filter-textColor1"
+              alt="exercism-face"
+              height={16}
+              width={16}
+            />
+            <div>
+              Exercism's
+              <strong className="font-semibold"> Coding Fundamentals</strong>
+            </div>
+          </div>
+          <VimeoEmbed
+            className="rounded-8 mb-16"
+            id="1068683543?h=2de237a304"
           />
-        </div>
+          <div className="text-16 leading-150 text-textColor2">
+            <p className="mb-8 text-17 font-semibold">The course offers:</p>
+            <ul className="flex flex-col gap-6 text-16 font-regular">
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="wave"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  <strong className="font-semibold">Expert teaching</strong> and
+                  mentoring support.
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="fun"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  Over{' '}
+                  <strong className="font-semibold">
+                    100 hours of hands-on project based learning
+                  </strong>
+                  , making games and solving puzzles.
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="complete"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  A complete Coding Fundamentals{' '}
+                  <strong className="font-semibold">syllabus</strong> designed
+                  to build knowledge & confidence.
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="certificate"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  A formal{' '}
+                  <strong className="font-semibold">certificate</strong> on
+                  completion.
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/*
         <div className="bubbles">
           <div className="bubble">
             <Icon category="bootcamp" alt="wave-icon" icon="video-tutorial" />
@@ -163,6 +220,7 @@ export function JuniorView() {
               />
             </div>
           </div>
+        </div>*/}
         </div>
       </div>
     </>

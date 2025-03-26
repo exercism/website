@@ -16,7 +16,7 @@ export function SeniorView() {
 
           <p className="">
             Exercism is the place to deepen your programming skills and explore
-            over {numTracks} programming languages. It&apos;s 100% free.
+            over {numTracks} programming languages.
           </p>
         </header>
 

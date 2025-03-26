@@ -313,14 +313,14 @@
 
 
   .content
-    %h2 Exercism is free for all people, everywhere
-    %p
+    %h2 Affordable education free for all people, everywhere
+    %p.mb-8
       Level up your programming skills with
       = succeed(',') do
         %strong #{Exercise.available.count} exercises across #{Track.active.count} languages
       and insightful discussion with our dedicated team of welcoming mentors.
     %p
-      %strong Exercism is 100% free forever.
+      %strong Everything on Exercism is free or priced affordably.
 
     .icons
       - Track.first(5).each do |track|

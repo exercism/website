@@ -11,7 +11,7 @@ module MetaTagsHelper
 
   def meta_description
     content_for?(:meta_description) ? content_for(:meta_description) :
-      "Learn, practice and get world-class mentoring in over 50 languages. 100% free."
+      "Learn, practice and get world-class mentoring in over 50 languages. Affordable Education."
   end
 
   def meta_image_url

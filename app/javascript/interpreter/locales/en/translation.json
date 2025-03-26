@@ -158,7 +158,8 @@
       "ThisUsedOutsideOfMethod": "You cannot use `this` outside of a method.",
       "AttemptedToAccessPrivateMethod": "You cannot access a private method from outside the object.",
       "AttemptedToAccessPrivateGetter": "You cannot read a private property from outside the object.",
-      "AttemptedToAccessPrivateSetter": "You cannot change a private property from outside the object."
+      "AttemptedToAccessPrivateSetter": "You cannot change a private property from outside the object.",
+      "PropertyAlreadySet": "You've already set the `{{name}}` property in this class. Did you mean to use `change`?."
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "Jiki doesn't know how to use `{{lexeme}}` in this exercise.",

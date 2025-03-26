@@ -497,6 +497,7 @@ export class Executor {
           name: statement.property.lexeme,
         })
       }
+
       if (!this.contextualThis.hasProperty(statement.property.lexeme)) {
         this.error(
           'PropertySetterUsedOnNonProperty',
@@ -505,6 +506,13 @@ export class Executor {
             name: statement.property.lexeme,
           }
         )
+      }
+      if (
+        this.contextualThis.getField(statement.property.lexeme) != undefined
+      ) {
+        this.error('PropertyAlreadySet', statement.property.location, {
+          name: statement.property.lexeme,
+        })
       }
 
       let value: EvaluationResultExpression

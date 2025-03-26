@@ -157,7 +157,8 @@
       "ThisUsedOutsideOfMethod": "ThisUsedOutsideOfMethod",
       "AttemptedToAccessPrivateMethod": "AttemptedToAccessPrivateMethod",
       "AttemptedToAccessPrivateGetter": "AttemptedToAccessPrivateGetter",
-      "AttemptedToAccessPrivateSetter": "AttemptedToAccessPrivateSetter"
+      "AttemptedToAccessPrivateSetter": "AttemptedToAccessPrivateSetter",
+      "PropertyAlreadySet": "PropertyAlreadySet: name: {{name}}"
     },
     "disabledLanguageFeature": {
       "ExcludeListViolation": "ExcludeListViolation: tokenType: {{tokenType}}",

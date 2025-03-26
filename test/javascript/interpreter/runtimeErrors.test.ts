@@ -1145,3 +1145,21 @@ test('AttemptedToAccessPrivateSetter', () => {
 
   expect(frames.at(-1)?.error!.message).toBe('AttemptedToAccessPrivateSetter')
 })
+test('PropertyAlreadySet', () => {
+  const { frames, error } = interpret(`
+    class Foobar do
+      private property foo
+      constructor do
+        set this.foo to 3
+      end
+
+      public method bar do
+        set this.foo to 5
+      end
+    end
+    set x to new Foobar()
+    x.bar()
+  `)
+
+  expect(frames.at(-1)?.error!.message).toBe('PropertyAlreadySet: name: foo')
+})

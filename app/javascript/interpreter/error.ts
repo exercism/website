@@ -183,6 +183,7 @@ export type RuntimeErrorType =
   | 'AttemptedToAccessPrivateMethod'
   | 'AttemptedToAccessPrivateGetter'
   | 'AttemptedToAccessPrivateSetter'
+  | 'PropertyAlreadySet'
 
 export type StaticErrorType =
   | DisabledLanguageFeatureErrorType

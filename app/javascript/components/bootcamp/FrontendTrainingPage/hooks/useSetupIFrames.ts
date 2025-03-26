@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
-import { updateIFrame } from './utils/updateIFrame'
-import { getIframesMatchPercentage } from './utils/getIframesMatchPercentage'
+import { getIframesMatchPercentage } from '../utils/getIframesMatchPercentage'
+import { updateIFrame } from '../utils/updateIFrame'
 
 // set up expected output and reference output
 export function useSetupIFrames() {

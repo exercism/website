@@ -3,7 +3,11 @@ import * as Jiki from '@/interpreter/jikiObjects'
 import BreakoutExercise from './BreakoutExercise'
 import { guardValidHex } from '../house/helpers'
 
+export type CircleInstance = Jiki.Instance & {}
+
 function fn(this: BreakoutExercise) {
+  const exercise = this
+
   const drawCircle = (
     executionCtx: ExecutionContext,
     circle: Jiki.Instance
@@ -22,6 +26,8 @@ function fn(this: BreakoutExercise) {
       executionCtx,
       `#${this.view.id} #circle-${circle.objectId}`
     )
+
+    exercise.circles.push(circle as CircleInstance)
   }
   const move = (executionCtx: ExecutionContext, circle: Jiki.Instance) => {
     this.addAnimation({
@@ -34,6 +40,11 @@ function fn(this: BreakoutExercise) {
       offset: executionCtx.getCurrentTime(),
     })
     executionCtx.fastForward(1)
+
+    exercise.circlePositions.push([
+      circle.getUnwrappedField('cx'),
+      circle.getUnwrappedField('cy'),
+    ])
   }
 
   const Circle = new Jiki.Class('Circle')

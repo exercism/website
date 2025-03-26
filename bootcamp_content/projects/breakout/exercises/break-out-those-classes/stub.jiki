@@ -1,0 +1,34 @@
+// TODO: Add your code here!
+class Game do
+end
+
+class Ball do
+end
+
+class Block do
+end
+
+class Paddle do
+end
+
+// Create the game
+// This should create a ball and paddle
+set game to new Game()
+
+// Add 5 blocks with a width of 17 and a height of 6 starting at a y of 28
+game.add_block_row(5, 17, 6, 28)
+
+// Play the game
+repeat_until_game_over do
+  // Firstly, we move things
+  game.move_ball()
+  game.move_paddle()
+
+  // Now check for collisions
+  game.handle_wall_collision()
+  game.handle_block_collision()
+  game.handle_paddle_collision()
+
+  // Finally check for any game over scenarios
+  game.check_finished()
+end

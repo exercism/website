@@ -50,7 +50,7 @@ export default class BreakoutExercise extends Exercise {
   }
 
   public getState() {
-    const x = {
+    return {
       numBlocks: this.blocks.length,
       numSmashedBlocks: this.blocks.filter((block: BlockInstance) =>
         block.getUnwrappedField('smashed')
@@ -66,8 +66,6 @@ export default class BreakoutExercise extends Exercise {
       numCirclePositions: this.circlePositions.length,
       numRoundedRectangles: this.roundedRectangles.length,
     }
-    console.log(x)
-    return x
   }
 
   public setDefaultBallRadius(_, radius: number) {

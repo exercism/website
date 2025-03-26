@@ -172,9 +172,9 @@ class Game do
   private property ball
   private property paddle
 
-  constructor with width, height do
-    set this.width to width
-    set this.height to height
+  constructor do
+    set this.width to 100
+    set this.height to 100
     set this.blocks to []
     set this.ball to new Ball(50, 93, 2)
     set this.paddle to new Paddle(100)
@@ -265,7 +265,7 @@ end
 // This should create a ball and paddle
 set game to new Game()
 
-// Add 5 blocks with a width of 17 and a height of 6 starting at a y of 28
+// Add 5 blocks with a width of 8 and a height of 6 starting at a y of 28
 game.add_block_row(5, 17, 6, 28)
 
 // Play the game

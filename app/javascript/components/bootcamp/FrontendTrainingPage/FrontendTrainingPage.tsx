@@ -10,7 +10,7 @@ import { LHS } from './LHS/LHS'
 import { ActualOutput } from './ActualOutput'
 import { ExpectedOutput } from './ExpectedOutput'
 import { Instructions } from './Instructions'
-import { useLogger } from '../common/hooks/useLogger'
+import { useFrontendTrainingPageStore } from './store/frontendTrainingPageStore'
 
 export default function FrontendTrainingPage() {
   const actualOutputRef = useRef<HTMLDivElement>(null)
@@ -21,16 +21,18 @@ export default function FrontendTrainingPage() {
     handleCompare,
   } = useSetupIFrames()
 
-  const { LHSWidth, RHSWidth, handleWidthChangeMouseDown } =
-    useInitResizablePanels()
+  const { handleWidthChangeMouseDown } = useInitResizablePanels()
 
   const {
     htmlEditorViewRef,
     cssEditorViewRef,
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
-    setEditorCodeLocalStorage,
   } = useSetupEditors()
+
+  const {
+    panelSizes: { RHSWidth },
+  } = useFrontendTrainingPageStore()
 
   return (
     <FrontendTrainingPageContext.Provider
@@ -42,8 +44,6 @@ export default function FrontendTrainingPage() {
         cssEditorRef: cssEditorViewRef,
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
-        LHSWidth,
-        RHSWidth,
       }}
     >
       <div id="bootcamp-front-end-training-page">

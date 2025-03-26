@@ -1,20 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Tab } from '@/components/common'
-import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
-import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
 import { TabsContext } from '../../LHS'
+import { CSSEditor } from './CSSEditor'
 
 export function CSSPanel() {
-  const { handleCssEditorDidMount, LHSWidth } = useContext(
-    FrontendTrainingPageContext
-  )
-
   return (
     <Tab.Panel id="css" context={TabsContext}>
-      <SimpleCodeMirror
-        style={{ width: LHSWidth }}
-        editorDidMount={handleCssEditorDidMount}
-      />
+      <CSSEditor />
     </Tab.Panel>
   )
 }

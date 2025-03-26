@@ -10,8 +10,6 @@ type FrontendTrainingPageContextType = {
   cssEditorRef: React.RefObject<EditorView>
   handleCssEditorDidMount: (handler: Handler) => void
   handleHtmlEditorDidMount: (handler: Handler) => void
-  LHSWidth: number
-  RHSWidth: number
 }
 
 export const FrontendTrainingPageContext =

@@ -1,17 +1,8 @@
 import { useResizablePanels } from '../../SolveExercisePage/hooks/useResize'
+import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
 
 export function useInitResizablePanels() {
-  const {
-    primarySize: TopHeight,
-    secondarySize: BottomHeight,
-    handleMouseDown: handleHeightChangeMouseDown,
-  } = useResizablePanels({
-    initialSize: 500,
-    secondaryMinSize: 250,
-    direction: 'vertical',
-    localStorageId: 'frontend-training-page-lhs-height',
-  })
-
+  const { setPanelSizes } = useFrontendTrainingPageStore()
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,
@@ -20,14 +11,17 @@ export function useInitResizablePanels() {
     initialSize: 800,
     direction: 'horizontal',
     localStorageId: 'solve-exercise-page-lhs',
+    onChange: (panelSizes) => {
+      setPanelSizes({
+        LHSWidth: panelSizes.primarySize,
+        RHSWidth: panelSizes.secondarySize,
+      })
+    },
   })
 
   return {
-    TopHeight,
-    BottomHeight,
     LHSWidth,
     RHSWidth,
-    handleHeightChangeMouseDown,
     handleWidthChangeMouseDown,
   }
 }

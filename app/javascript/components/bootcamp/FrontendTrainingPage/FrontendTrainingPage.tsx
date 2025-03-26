@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
 import { Header } from './Header'
@@ -7,13 +7,9 @@ import { useInitResizablePanels } from './hooks/useInitResizablePanels'
 import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
-import { ActualOutput } from './ActualOutput'
-import { ExpectedOutput } from './ExpectedOutput'
-import { Instructions } from './Instructions'
-import { useFrontendTrainingPageStore } from './store/frontendTrainingPageStore'
+import { RHS } from './RHS/RHS'
 
 export default function FrontendTrainingPage() {
-  const actualOutputRef = useRef<HTMLDivElement>(null)
   const {
     actualIFrameRef,
     expectedIFrameRef,
@@ -32,10 +28,6 @@ export default function FrontendTrainingPage() {
     handleJavaScriptEditorDidMount,
     setEditorCodeLocalStorage,
   } = useSetupEditors()
-
-  const {
-    panelSizes: { RHSWidth },
-  } = useFrontendTrainingPageStore()
 
   return (
     <FrontendTrainingPageContext.Provider
@@ -60,17 +52,7 @@ export default function FrontendTrainingPage() {
             direction="vertical"
             handleMouseDown={handleWidthChangeMouseDown}
           />
-          <div className="page-body-rhs" style={{ width: RHSWidth }}>
-            <div className="flex flex-col gap-12">
-              <div ref={actualOutputRef} />
-              <ActualOutput />
-              <ExpectedOutput />
-            </div>
-            <Instructions
-              exerciseTitle="Css world!"
-              exerciseInstructions="<div>Follow these instructions</div>"
-            />
-          </div>
+          <RHS />
         </div>
       </div>
       <Toaster />

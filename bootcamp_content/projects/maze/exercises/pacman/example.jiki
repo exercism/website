@@ -1,0 +1,222 @@
+function has_key with dict, key do
+  for each k,v in dict do
+    if k == key do
+      return true
+    end
+  end
+  return false
+end
+
+function calculate_starting_position with maze do
+  for each row in maze indexed by row_idx do
+    for each cell in row indexed by col_idx do
+      if cell.is_start do
+        return {"row": row_idx, "col": col_idx}
+      end
+    end
+  end
+end
+
+function calculate_starting_direction with maze, pos do
+  if space_free_below(maze, pos) do
+    return "down"
+  else if space_free_left(maze, pos) do
+    return "left"
+  else if space_free_right(maze, pos) do
+    return "right"
+  else if space_free_above(maze, pos) do
+    return "up"
+  end
+end
+
+function check_boundaries with maze, row, col do
+  if row < 1 or row > 9 or col < 1 or col > 9 do
+    return false
+  end
+  return true
+end
+
+function space_free with maze, row, col do
+  if not check_boundaries(maze, row, col) do
+    return false
+  end
+
+  set square to maze[row][col]
+  
+  return !square.is_wall and square.in_maze and square.contents != "🔥" and square.contents != "💩"
+end
+
+function can_move with maze, pos do
+  if pos["direction"] == "down" do
+    return space_free_below(maze, pos)
+  else if pos["direction"] == "up" do
+    return space_free_above(maze, pos)
+  else if pos["direction"] == "left" do
+    return space_free_left(maze, pos)
+  else if pos["direction"] == "right" do
+    return space_free_right(maze, pos)
+  end
+end
+
+function can_turn_left with maze, pos do
+  if pos["direction"] == "up" do
+    return space_free_left(maze, pos)
+  else if pos["direction"] == "right" do
+    return space_free_above(maze, pos)
+  else if pos["direction"] == "down" do
+    return space_free_right(maze, pos)
+  else if pos["direction"] == "left" do
+    return space_free_below(maze, pos)
+  end
+end
+
+function can_turn_right with maze, pos do
+  if pos["direction"] == "up" do
+    return space_free_right(maze, pos)
+  else if pos["direction"] == "right" do
+    return space_free_below(maze, pos)
+  else if pos["direction"] == "down" do
+    return space_free_left(maze, pos)
+  else if pos["direction"] == "left" do
+    return space_free_above(maze, pos)
+  end
+end
+
+function space_free_above with maze, pos do
+  return space_free(maze, pos["row"] - 1, pos["col"])
+end
+
+function space_free_below with maze, pos do
+  return space_free(maze, pos["row"] + 1, pos["col"])
+end
+
+function space_free_left with maze, pos do
+  return space_free(maze, pos["row"], pos["col"] - 1)
+end
+
+function space_free_right with maze, pos do
+  return space_free(maze, pos["row"], pos["col"] + 1)
+end
+
+
+//----
+
+
+
+
+
+
+
+function check_direction with direction do
+  set space to look(direction)
+  return !space.is_wall and space.in_maze and space.contents != "🔥" and space.contents != "💩"
+end
+
+function current_square with maze, position do
+  return maze[pos["row"]][pos["col"]]
+end
+
+function handle_move with maze, pos do
+  move()
+  
+  if(pos["direction"] == "up") do
+    change pos["row"] to pos["row"] - 1
+  else if(pos["direction"] == "down") do
+    change pos["row"] to pos["row"] + 1
+  else if(pos["direction"] == "left") do
+    change pos["col"] to pos["col"] - 1
+  else if(pos["direction"] == "right") do
+    change pos["col"] to pos["col"] + 1
+  end
+  change pos["square"] to maze[pos["row"]][pos["col"]]
+
+  return pos
+end
+  
+function collect with current_square, emojis do
+  set emoji to current_square.contents
+  if emoji == "" do
+    return emojis
+  end
+  
+  current_square.remove_emoji()
+  
+  if has_key(emojis, emoji) do
+    change emojis[emoji] to emojis[emoji] + 1
+  else do
+    change emojis[emoji] to 1
+  end
+  
+  return emojis
+end
+
+function turn_around do
+  turn_right()
+  turn_right()
+end
+
+function direction_string_to_num with direction do
+  if direction == "up" do 
+    return 0
+  else if direction == "right" do 
+    return 1
+  else if direction == "down" do 
+    return 2
+  else if direction == "left" do 
+    return 3
+  end
+end
+
+function direction_num_to_string with direction do
+  if direction == 0 do 
+    return "up"
+  else if direction == 1 do 
+    return "right"
+  else if direction == 2 do 
+    return "down"
+  else if direction == 3 do 
+    return "left"
+  end
+end
+
+function change_direction with direction, changer do
+  set num to direction_string_to_num(direction)
+  change num to (num + changer) % 4
+  return direction_num_to_string(num)
+end
+
+function turn_if_required with maze, position do
+  if can_turn_left(maze, position) do
+    turn_left()
+    change position["direction"] to change_direction(position["direction"], 3)
+    return position
+  else if can_move(maze, position) do
+    return position
+  else if can_turn_right(maze, position) do
+    turn_right()
+    change position["direction"] to change_direction(position["direction"], 1)
+    return position
+  else do
+    turn_around()
+    change position["direction"] to change_direction(position["direction"], 2)
+    return position
+  end
+end
+
+set maze to get_initial_maze()
+
+set pos to calculate_starting_position(maze)
+change pos["square"] to maze[pos["row"]][pos["col"]]
+change pos["direction"] to calculate_starting_direction(maze, pos)
+
+set emojis to {}
+
+repeat_until_game_over do
+  change pos to turn_if_required(maze, pos)
+  change pos to handle_move(maze, pos)
+  change emojis to collect(pos["square"], emojis)
+
+  if pos["square"].is_finish do
+    announce_emojis(emojis)
+  end
+end

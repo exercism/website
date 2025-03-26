@@ -26,6 +26,9 @@
         {
           "slug": "diamonds",
           "name": "Collect the diamonds",
+          "function": "build_maze",
+          "args": ["get_layout()"],
+          "codeRun": "new Maze(...)",
           "description_html": "Collect and announce the diamonds.",
           "setup_functions": [
             ["enableEmojiMode"],
@@ -49,7 +52,7 @@
           ],
           "checks": [
             {
-              "function": "new Maze(get_layout())",
+              "property": "position",
               "value": [4, 6],
               "error_html": "You didn't reach the end of the maze."
             }

@@ -1,4 +1,4 @@
-import { useResizablePanels } from '../SolveExercisePage/hooks/useResize'
+import { useResizablePanels } from '../../SolveExercisePage/hooks/useResize'
 
 export function useInitResizablePanels() {
   const {

@@ -1,7 +1,8 @@
 import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import { Handler } from '@/components/misc/CodeMirror'
-import { Extension } from '@codemirror/state'
-import { EditorView } from 'codemirror'
+import { EditorState, Extension } from '@codemirror/state'
+import { basicSetup, EditorView } from 'codemirror'
+import { onEditorChange } from './extensions/onEditorChange'
 
 export const SimpleCodeMirror = forwardRef(function (
   {
@@ -18,6 +19,8 @@ export const SimpleCodeMirror = forwardRef(function (
   ref: ForwardedRef<EditorView | null>
 ) {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
+
+  let value: string
 
   const getEditorView = (): EditorView | null => {
     if (typeof ref === 'function') {
@@ -55,12 +58,46 @@ export const SimpleCodeMirror = forwardRef(function (
     }
 
     const view = new EditorView({
-      state: {
-        doc: textarea.textContent || '',
-      },
+      state: EditorState.create({
+        doc: value,
+        extensions: [
+          basicSetup,
+          onEditorChange(() => {
+            if (onEditorChangeCallback) {
+              onEditorChangeCallback(view)
+            }
+          }),
+          ...extensions,
+        ],
+      }),
       parent: textarea,
-      extensions: extensions,
     })
+
+    if (typeof ref === 'function') {
+      throw new Error('Callback refs are not supported.')
+    } else if (ref) {
+      ref.current = view
+    }
+
+    try {
+      editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
+    } catch (e: unknown) {
+      if (
+        process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'test'
+      ) {
+        throw e
+      }
+
+      // setHasUnhandledError(true)
+      // setUnhandledErrorBase64(
+      //   JSON.stringify({
+      //     error: String(e),
+      //     code: value,
+      //     type: 'Codemirror editor mounting',
+      //   })
+      // )
+    }
   }, [])
 
   return (

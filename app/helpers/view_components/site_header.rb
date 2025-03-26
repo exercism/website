@@ -45,7 +45,7 @@ module ViewComponents
     end
 
     def front_end_fundamentals_announcement_bar
-      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
+      link_to(Courses::FrontEndFundamentals.url, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Learning web development? Check out our") +

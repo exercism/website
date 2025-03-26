@@ -4,7 +4,7 @@ module ViewComponents
     include ViewComponents::NavHelpers::All
     # include ViewComponents::ThemeToggleButton
 
-    delegate :namespace_name, :controller_name,
+    delegate :namespace_name, :controller_name, :javascript_track?,
       to: :view_context
 
     def to_s
@@ -17,8 +17,9 @@ module ViewComponents
     end
 
     def announcement_bar
-      return bootcamp_announcement_bar unless user_signed_in?
-      return bootcamp_announcement_bar if current_user.solutions.count <= 5
+      return coding_fundamentals_announcement_bar unless user_signed_in?
+      return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner
+      return coding_fundamentals_announcement_bar if current_user.junior?
 
       return tag.span("") if current_user.current_subscription
       return tag.span("") if current_user.donated_in_last_35_days?
@@ -32,14 +33,24 @@ module ViewComponents
       end
     end
 
-    # REVIEW: COPY - announcement bar
-    def bootcamp_announcement_bar
-      link_to(Exercism::Routes.bootcamp_url, class: "announcement-bar md:block hidden") do
+    def coding_fundamentals_announcement_bar
+      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Learning to code? Check out our") +
-            tag.strong("brand new Bootcamp") +
-            tag.span("for beginners!")
+            tag.strong("Coding Fundamentals") +
+            tag.span("course for beginners!")
+        end
+      end
+    end
+
+    def front_end_fundamentals_announcement_bar
+      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("👋", class: 'emoji mr-6') +
+            tag.span("Learning web development? Check out our") +
+            tag.strong("Front-end Fundamentals") +
+            tag.span("course!")
         end
       end
     end

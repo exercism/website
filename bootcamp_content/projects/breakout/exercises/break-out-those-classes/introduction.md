@@ -15,7 +15,7 @@ It has a readonly property of `radius` and read/write properties for `cx` and `c
 
 ### The `RoundedRectangle` class
 
-The `RoundedRectangle`'s constructor takes four inputs: `(left, top, width, height, radius, hex_color)`. The radius is the corner radius.
+The `RoundedRectangle`'s constructor takes six inputs: `(left, top, width, height, radius, hex_color)`. The radius is the corner radius.
 
 It has readonly properties for `top`, `width` and `height`. It has read/write properties for `left` and `opacity`.
 

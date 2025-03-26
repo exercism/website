@@ -25,7 +25,8 @@ module ReactComponents
               coding_fundamentals_course: Courses::CodingFundamentals.url
             },
             track:,
-            user_seniority: current_user.seniority
+            user_seniority: current_user.seniority,
+            user_joined_days_ago: (Time.zone.today - current_user.created_at.to_date).to_i
           }
         )
       end

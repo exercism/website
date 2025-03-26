@@ -22,8 +22,8 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
         </div>
         <VimeoEmbed className="rounded-8 mb-16" id="1068683543?h=2de237a304" />
         <span className="text-16 leading-150 text-textColor2">
-          <p className="mb-8 text-17 font-semibold">The course offers:</p>
-          <ul className="flex flex-col gap-6 text-16 font-regular mb-8">
+          <p className="mb-12 text-17 font-semibold">The course offers:</p>
+          <ul className="flex flex-col gap-8 text-16 font-regular">
             <li className="flex items-start">
               <GraphicalIcon
                 icon="wave"

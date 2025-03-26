@@ -9,14 +9,15 @@ import { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 
 export function useTrackWelcomeModal(
   links: TrackWelcomeModalLinks,
-  userSeniority: SeniorityLevel
+  userSeniority: SeniorityLevel,
+  userJoinedDaysAgo: number
 ) {
   const [open, setOpen] = useState(true)
 
   const [
     shouldShowBootcampRecommendationView,
     setShouldShowBootcampRecommendationView,
-  ] = useState(userSeniority.includes('beginner'))
+  ] = useState(userSeniority.includes('beginner') && userJoinedDaysAgo >= 7)
 
   const hideBootcampRecommendationView = useCallback(() => {
     setShouldShowBootcampRecommendationView(false)

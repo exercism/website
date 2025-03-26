@@ -22,6 +22,7 @@ export const TrackContext = createContext<{
   send: any
   links: TrackWelcomeModalLinks
   userSeniority: SeniorityLevel
+  userJoinedDaysAgo: number
   shouldShowBootcampRecommendationView: boolean
   hideBootcampRecommendationView: () => void
 }>({
@@ -30,6 +31,7 @@ export const TrackContext = createContext<{
   send: () => {},
   links: {} as TrackWelcomeModalLinks,
   userSeniority: '' as SeniorityLevel,
+  userJoinedDaysAgo: 0 as number,
   shouldShowBootcampRecommendationView: false,
   hideBootcampRecommendationView: () => {},
 })
@@ -38,6 +40,7 @@ export const TrackWelcomeModal = ({
   links,
   track,
   userSeniority,
+  userJoinedDaysAgo,
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> &
   TrackWelcomeModalProps): JSX.Element => {
   const {
@@ -47,7 +50,7 @@ export const TrackWelcomeModal = ({
     error: modalDismissalError,
     shouldShowBootcampRecommendationView,
     hideBootcampRecommendationView,
-  } = useTrackWelcomeModal(links, userSeniority)
+  } = useTrackWelcomeModal(links, userSeniority, userJoinedDaysAgo)
 
   return (
     <Modal
@@ -63,6 +66,7 @@ export const TrackWelcomeModal = ({
           send,
           links,
           userSeniority,
+          userJoinedDaysAgo,
           shouldShowBootcampRecommendationView,
           hideBootcampRecommendationView,
         }}

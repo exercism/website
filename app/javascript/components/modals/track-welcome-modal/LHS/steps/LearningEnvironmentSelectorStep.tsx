@@ -30,7 +30,6 @@ export function LearningEnvironmentSelectorStep({
       </p>
       <p className="mb-16">
         <span className="font-semibold">
-          {' '}
           How would you like to start solving the {track.title} exercises?
         </span>
       </p>

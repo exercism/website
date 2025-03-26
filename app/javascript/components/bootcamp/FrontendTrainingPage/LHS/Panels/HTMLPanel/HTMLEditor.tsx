@@ -4,9 +4,8 @@ import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPag
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 
 export function HTMLEditor() {
-  const { handleHtmlEditorDidMount, htmlEditorRef } = useContext(
-    FrontendTrainingPageContext
-  )
+  const { handleHtmlEditorDidMount, htmlEditorRef, setEditorCodeLocalStorage } =
+    useContext(FrontendTrainingPageContext)
   const {
     panelSizes: { LHSWidth },
   } = useFrontendTrainingPageStore()
@@ -16,6 +15,12 @@ export function HTMLEditor() {
       style={{ width: LHSWidth }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
+      onEditorChangeCallback={(view) => {
+        setEditorCodeLocalStorage((prev) => ({
+          ...prev,
+          htmlEditorContent: view.state.doc.toString(),
+        }))
+      }}
       extensions={[]}
       defaultCode="<div>hello</div>"
     />

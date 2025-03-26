@@ -30,6 +30,7 @@ export default function FrontendTrainingPage() {
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
     handleJavaScriptEditorDidMount,
+    setEditorCodeLocalStorage,
   } = useSetupEditors()
 
   const {
@@ -48,6 +49,7 @@ export default function FrontendTrainingPage() {
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
         handleJavaScriptEditorDidMount,
+        setEditorCodeLocalStorage,
       }}
     >
       <div id="bootcamp-front-end-training-page">

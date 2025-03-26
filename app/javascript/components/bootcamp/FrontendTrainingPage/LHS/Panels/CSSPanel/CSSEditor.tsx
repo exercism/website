@@ -4,17 +4,23 @@ import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContex
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 
 export function CSSEditor() {
-  const { cssEditorRef, handleCssEditorDidMount } = useContext(
-    FrontendTrainingPageContext
-  )
+  const { cssEditorRef, handleCssEditorDidMount, setEditorCodeLocalStorage } =
+    useContext(FrontendTrainingPageContext)
   const {
     panelSizes: { LHSWidth },
   } = useFrontendTrainingPageStore()
+
   return (
     <SimpleCodeMirror
       defaultCode=""
       style={{ width: LHSWidth }}
       editorDidMount={handleCssEditorDidMount}
+      onEditorChangeCallback={(view) => {
+        setEditorCodeLocalStorage((prev) => ({
+          ...prev,
+          cssEditorContent: view.state.doc.toString(),
+        }))
+      }}
       ref={cssEditorRef}
     />
   )

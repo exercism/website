@@ -12,6 +12,13 @@ type FrontendTrainingPageContextType = {
   handleHtmlEditorDidMount: (handler: Handler) => void
   handleCssEditorDidMount: (handler: Handler) => void
   handleJavaScriptEditorDidMount: (handler: Handler) => void
+  setEditorCodeLocalStorage: React.Dispatch<
+    React.SetStateAction<{
+      htmlEditorContent: string
+      cssEditorContent: string
+      javaScriptEditorContent: string
+    }>
+  >
 }
 
 export const FrontendTrainingPageContext =

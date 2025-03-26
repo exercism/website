@@ -1586,6 +1586,7 @@ section#payment {
                 margin-left: -40px;
                 font-size: 50px;
                 width: 50px;
+                height: auto;
             }
         }
         .stars {

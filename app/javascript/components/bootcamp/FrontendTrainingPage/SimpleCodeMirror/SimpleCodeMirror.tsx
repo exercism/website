@@ -2,6 +2,7 @@ import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import { Handler } from '@/components/misc/CodeMirror'
 import { EditorState, Extension } from '@codemirror/state'
 import { basicSetup, EditorView } from 'codemirror'
+import { useLogger } from '../../common/hooks/useLogger'
 import { onEditorChange } from './extensions/onEditorChange'
 
 export const SimpleCodeMirror = forwardRef(function (
@@ -10,17 +11,21 @@ export const SimpleCodeMirror = forwardRef(function (
     style,
     onEditorChangeCallback,
     extensions = [],
+    defaultCode = '',
   }: {
     editorDidMount: (handler: Handler) => void
     style?: React.CSSProperties
     onEditorChangeCallback?: (view: EditorView) => void
+    defaultCode: string
     extensions?: Extension[]
   },
   ref: ForwardedRef<EditorView | null>
 ) {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
-  let value: string
+  useLogger('editor did mount', editorDidMount)
+
+  let value: string = defaultCode
 
   const getEditorView = (): EditorView | null => {
     if (typeof ref === 'function') {
@@ -88,20 +93,11 @@ export const SimpleCodeMirror = forwardRef(function (
       ) {
         throw e
       }
-
-      // setHasUnhandledError(true)
-      // setUnhandledErrorBase64(
-      //   JSON.stringify({
-      //     error: String(e),
-      //     code: value,
-      //     type: 'Codemirror editor mounting',
-      //   })
-      // )
     }
-  }, [])
+  })
 
   return (
-    <div className="editor-wrapper" style={style}>
+    <div className="editor-wrapper" style={{ height: '100%', ...style }}>
       <div
         data-ci="codemirror-editor"
         id="bootcamp-cm-editor"

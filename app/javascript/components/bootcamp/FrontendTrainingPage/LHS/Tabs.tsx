@@ -1,5 +1,5 @@
-import { Tab, GraphicalIcon } from '@/components/common'
 import React from 'react'
+import { Tab } from '@/components/common'
 import { TabsContext } from './LHS'
 
 export function Tabs() {
@@ -15,7 +15,6 @@ export function Tabs() {
 function HTMLTab() {
   return (
     <Tab id="html" context={TabsContext}>
-      <GraphicalIcon icon="instructions" />
       <span data-text="HTML">HTML</span>
     </Tab>
   )
@@ -24,7 +23,6 @@ function HTMLTab() {
 function CSSTab() {
   return (
     <Tab id="css" context={TabsContext}>
-      <GraphicalIcon icon="instructions" />
       <span data-text="CSS">CSS</span>
     </Tab>
   )
@@ -32,7 +30,6 @@ function CSSTab() {
 function JavaScriptTab() {
   return (
     <Tab id="javascript" context={TabsContext}>
-      <GraphicalIcon icon="instructions" />
       <span data-text="JavaScript">JavaScript</span>
     </Tab>
   )

@@ -20,8 +20,10 @@ export function LHS() {
           switchToTab: (id: string) => setTab(id as TabIndex),
         }}
       >
-        <Tabs />
-        <Panels />
+        <div className="c-iteration-pane">
+          <Tabs />
+          <Panels />
+        </div>
       </TabsContext.Provider>
     </div>
   )

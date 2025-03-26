@@ -804,6 +804,18 @@ describe('WrongNumberOfArgumentsInConstructor', () => {
       'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 3'
     )
   })
+  test('Inline class', () => {
+    const { frames, error } = interpret(`
+      class Foobar do
+        constructor with something do
+        end
+      end
+      log new Foobar("too", "many")`)
+
+    expect(frames.at(-1)?.error!.message).toBe(
+      'WrongNumberOfArgumentsInConstructor: arity: 1, numberOfArgs: 2'
+    )
+  })
 })
 
 test('ClassNotFound', () => {

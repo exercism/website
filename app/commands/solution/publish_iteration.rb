@@ -6,11 +6,11 @@ class Solution::PublishIteration
   def call
     solution.update!(published_iteration: iteration)
 
-    Solution::UpdateTags.(solution)
-    Solution::UpdatePublishedExerciseRepresentation.(solution)
-    Solution::UpdateSnippet.(solution)
-    Solution::UpdateNumLoc.(solution)
-    Solution::InvalidateCloudfrontItem.(solution) if invalidate
+    Solution::UpdateTags.defer(solution)
+    Solution::UpdatePublishedExerciseRepresentation.defer(solution)
+    Iteration::GenerateSnippet.defer(solution)
+    Solution::UpdateNumLoc.defer(solution)
+    Solution::InvalidateCloudfrontItem.defer(solution) if invalidate
   end
 
   private

@@ -1,78 +1,44 @@
 # Breakout
 
-Welcome to the third Breakout exercise.
-There's a few changes for you in this one!
+This is the final Breakout exercise in Coding Fundamentals.
+Your job is to create your own `Block`, `Ball`, `Paddle` and `Game` classes to make the game playable!
 
-### The `Game` class
+## Classes
 
-Firstly, you now have a `Game` class.
-This has three readonly properties:
+While all of the game logic is down to you, you have two classes available to use for the drawing part.
 
-- `ball`: The ball
-- `blocks`: The blocks
-- `paddle`: The paddle.
+### The `Circle` class
 
-You also have two methods:
+The `Circle`'s constructor takes four inputs: `(cx, cy, radius, hex_color)`.
 
-- `add_block(block)`: Adds a block to the game.
-- `game_over(result)`: Ends the game (expects the input to be either `"win"` or `"lose"`).
+It has readonly properties for `cx`, `cy`, and `radius`
 
-### The `Paddle` class
+### The `RoundedRectangle` class
 
-The game's `paddle` is an instance of the `Paddle` class.
-This has various readonly properties:
+The `RoundedRectangle`'s constructor takes four inputs: `(left, top, width, height, radius, hex_color)`. The radius is the corner radius.
 
-- `cx`: The center x of the paddle.
-- `cy`: The center y of the paddle.
-- `height`: The height of the paddle.
-- `width`: The width of the paddle.
+It has readonly properties for `left`, `top`, `width` and `height`.
 
-It also has two methods:
+### The `game_over` function
 
-- `move_left()`: Move the paddle left.
-- `move_right()`: Move the paddle right.
+You have one game function: `game_over`. It should be called with `"win"` or `"lose"` when the game is won or lost.
+The game is won when the final block is smashed. It is lost if the ball hits the floor.
 
-Note that the paddle moves slightly slower than the ball! And it moves slower when moving left then when moving right 😮
-
-### The `Ball` class
-
-Previously you used the `move_ball(ball)` function to move the ball. Now you should use the ball's `move()` method instead.
-
-### The `Block` class
-
-The Block class is unchanged. You create a block by specifying a left and top into the constructor.
+As is often the case you also have the `push` function available.
 
 ## Instructions
 
-There are a few steps to take:
+The code to play the game is given for you. Your job is to implement the classes and methods needed to make it work.
 
-1. Amend your code to use an instance of the `Game` class. When you create an instance of the `Game` class, the ball and the paddle are automatically created and available. You still need to create the `Block` instances like you did previously, but now you need to add them to the game for them to appear.
-2. You need to change the `top` of the blocks to be `28`, not `31`.
-   and handle the paddle.
-3. You need to handle hitting the tops of the blocks as well as the bottom.
-4. You need to implement the paddle.
+There are a few things you need to stick to in order for the scenario to pass:
 
-Because the paddle travels slower than the ball, you need to be a little more intelligent than just trying to follow the ball with the paddle. You **cannot** move the paddle twice in a row before moving the ball. It's a fun problem to solve, but if you get too frustrated, check the hint!
+- The game's width and height is `100`.
+- The paddle's should have a width of `20` and a height of `4`. There should be a gap of `1` between it and the floor. It should start in the horizontal middle.
+- A row of blocks should be centered with a gap of `1` between each.
+- The ball's radius should be `2`. It should sit on paddle at its horizontal center.
 
-The resulting game should look like this:
+You have a huge amount of freedom as to how you design the game.
+We explored the first part of this exercise in a live teaching session.
+I highly recommend coding along with that to understand the different ways to think about this project, and then continuing to finish the exercise by yourelf.
 
-<details><summary>Click to expand</summary>
-
-<img src="https://assets.exercism.org/bootcamp/graphics/breakout-paddle.gif" style="width: 100%; max-width:400px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
-</details>
-
-### Functions
-
-You have one function available:
-
-- `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
-
-## Hints
-
-Stuck on the paddle? Expand to get the solution...
-
-<details><summary>Click to expand</summary>
-
-The secret with the paddle is to move it back to the center when the ball is rising and then follow the ball once it's on its way back down.
-
-</details>
+[EMBED](https://www.youtube.com/embed/9QQQB4qctx4)

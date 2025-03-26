@@ -17,38 +17,6 @@ function fn(this: BreakoutExercise) {
   const Ball = buildBall(exercise)
   const Paddle = buildPaddle(exercise)
 
-  const gameOverWin = (executionCtx: ExecutionContext) => {
-    this.gameOverWinView = document.createElement('div')
-    this.gameOverWinView.classList.add('game-over-win')
-    this.gameOverWinView.style.opacity = '0'
-    this.view.appendChild(this.gameOverWinView)
-    this.addAnimation({
-      targets: `#${this.view.id} .game-over-win`,
-      duration: 100,
-      transformations: {
-        opacity: 0.9,
-      },
-      offset: executionCtx.getCurrentTime(),
-    })
-    executionCtx.fastForward(100)
-  }
-
-  const gameOverLose = (executionCtx: ExecutionContext) => {
-    this.gameOverLoseView = document.createElement('div')
-    this.gameOverLoseView.classList.add('game-over-lose')
-    this.gameOverLoseView.style.opacity = '0'
-    this.view.appendChild(this.gameOverLoseView)
-    this.addAnimation({
-      targets: `#${this.view.id} .game-over-lose`,
-      duration: 100,
-      transformations: {
-        opacity: 0.9,
-      },
-      offset: executionCtx.getCurrentTime(),
-    })
-    executionCtx.fastForward(100)
-  }
-
   const Game = new Jiki.Class('Game')
   Game.addConstructor(function (
     executionCtx: ExecutionContext,
@@ -91,25 +59,8 @@ function fn(this: BreakoutExercise) {
     'game_over',
     'set the game as over',
     'public',
-    function (
-      executionCtx: ExecutionContext,
-      game: Jiki.Instance,
-      result: Jiki.JikiObject
-    ) {
-      if (!(result instanceof Jiki.String)) {
-        return executionCtx.logicError('Result must be either "win" or "lose"')
-      }
-      if (!(result.value === 'win' || result.value === 'lose')) {
-        return executionCtx.logicError('Result must be either "win" or "lose"')
-      }
-      game.setField('result', result)
-
-      if (result.value === 'win') {
-        gameOverWin(executionCtx)
-      }
-      if (result.value === 'lose') {
-        gameOverLose(executionCtx)
-      }
+    function (executionCtx: ExecutionContext, result: Jiki.JikiObject) {
+      exercise.gameOver(executionCtx, result)
     }
   )
 

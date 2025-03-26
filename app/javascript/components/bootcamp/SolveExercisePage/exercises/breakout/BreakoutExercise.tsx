@@ -8,8 +8,8 @@ import { buildBlock, type BlockInstance } from './Block'
 import { buildBall, type BallInstance } from './Ball'
 import { buildPaddle, PaddleInstance } from './Paddle'
 import { buildGame, type GameInstance } from './Game'
-import { buildCircle } from './Circle'
-import { buildRectangle } from './RoundedRectangle'
+import { buildCircle, CircleInstance } from './Circle'
+import { buildRectangle, RoundedRectangleInstance } from './RoundedRectangle'
 
 export default class BreakoutExercise extends Exercise {
   private Block = buildBlock(this)
@@ -23,7 +23,13 @@ export default class BreakoutExercise extends Exercise {
   public lastMovedItem: 'ball' | 'paddle' = 'ball'
 
   public autoDrawBlock = true
-  private gameInstance: GameInstance | undefined
+  public gameInstance: GameInstance | undefined
+  private result: 'win' | 'lose' | undefined
+
+  public circlePositions: [number, number][]
+  public rectangleCircleInteractionCount = 0
+  public circles: CircleInstance[] = []
+  public roundedRectangles: RoundedRectangleInstance[] = []
 
   public constructor() {
     super('breakout')
@@ -35,20 +41,33 @@ export default class BreakoutExercise extends Exercise {
     this.ballPositions = []
     this.paddleBallInteractionCount = 0
     this.blocks = []
+
+    this.circlePositions = []
+    this.rectangleCircleInteractionCount = 0
   }
   public disableAutoDrawBlock() {
     this.autoDrawBlock = false
   }
 
   public getState() {
-    return {
+    const x = {
       numBlocks: this.blocks.length,
       numSmashedBlocks: this.blocks.filter((block: BlockInstance) =>
         block.getUnwrappedField('smashed')
       ).length,
       numBallPositions: this.ballPositions.length,
       paddleBallInteractionCount: this.paddleBallInteractionCount,
+
+      numOpaqueRoundedRectangles: this.roundedRectangles.filter(
+        (rectangle: RoundedRectangleInstance) =>
+          rectangle.getUnwrappedField('opacity') == 1
+      ).length,
+      rectangleCircleInteractionCount: this.rectangleCircleInteractionCount,
+      numCirclePositions: this.circlePositions.length,
+      numRoundedRectangles: this.roundedRectangles.length,
     }
+    console.log(x)
+    return x
   }
 
   public setDefaultBallRadius(_, radius: number) {
@@ -63,10 +82,6 @@ export default class BreakoutExercise extends Exercise {
     return false
   }
 
-  public timesPaddleTouchedBall(executionCtx: ExecutionContext) {
-    this.paddleBallInteractionCount += 1
-  }
-
   public didBallAppearAt(_: InterpretResult, cx: number, cy: number) {
     for (const [ballX, ballY] of this.ballPositions) {
       if (
@@ -79,6 +94,20 @@ export default class BreakoutExercise extends Exercise {
     }
     return false
   }
+
+  public didCircleAppearAt(_: InterpretResult, cx: number, cy: number) {
+    for (const [circleX, circleY] of this.circlePositions) {
+      if (
+        (cx == null && circleY == cy) ||
+        (cy == null && circleY == cx) ||
+        (circleX == cx && circleY == cy)
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
   public drawBlock(executionCtx: ExecutionContext, block: BlockInstance) {
     this.blocks.push(block)
 
@@ -201,6 +230,58 @@ export default class BreakoutExercise extends Exercise {
     this.logBallPaddleInteractions(executionCtx)
   }
 
+  public gameOver(executionCtx: ExecutionContext, result: Jiki.JikiObject) {
+    if (!(result instanceof Jiki.String)) {
+      return executionCtx.logicError('Result must be either "win" or "lose"')
+    }
+    if (!(result.value === 'win' || result.value === 'lose')) {
+      return executionCtx.logicError('Result must be either "win" or "lose"')
+    }
+
+    if (result.value === 'win') {
+      this.result = 'win'
+      this.gameOverWin(executionCtx)
+    }
+    if (result.value === 'lose') {
+      this.result = 'lose'
+      this.gameOverLose(executionCtx)
+    }
+
+    executionCtx.updateState('gameOver', true)
+  }
+
+  private gameOverWin(executionCtx: ExecutionContext) {
+    this.gameOverWinView = document.createElement('div')
+    this.gameOverWinView.classList.add('game-over-win')
+    this.gameOverWinView.style.opacity = '0'
+    this.view.appendChild(this.gameOverWinView)
+    this.addAnimation({
+      targets: `#${this.view.id} .game-over-win`,
+      duration: 100,
+      transformations: {
+        opacity: 0.9,
+      },
+      offset: executionCtx.getCurrentTime(),
+    })
+    executionCtx.fastForward(100)
+  }
+
+  private gameOverLose(executionCtx: ExecutionContext) {
+    this.gameOverLoseView = document.createElement('div')
+    this.gameOverLoseView.classList.add('game-over-lose')
+    this.gameOverLoseView.style.opacity = '0'
+    this.view.appendChild(this.gameOverLoseView)
+    this.addAnimation({
+      targets: `#${this.view.id} .game-over-lose`,
+      duration: 100,
+      transformations: {
+        opacity: 0.9,
+      },
+      offset: executionCtx.getCurrentTime(),
+    })
+    executionCtx.fastForward(100)
+  }
+
   // Setup Functions
   public setupBlocks(_: ExecutionContext, layout: [][]) {}
 
@@ -217,6 +298,11 @@ export default class BreakoutExercise extends Exercise {
       name: 'move_ball',
       func: this.moveBall.bind(this),
       description: 'moved the ball by its velocities',
+    },
+    {
+      name: 'game_over',
+      func: this.gameOver.bind(this),
+      description: 'announced the game as over',
     },
   ]
 }

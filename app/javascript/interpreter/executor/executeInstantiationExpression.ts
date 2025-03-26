@@ -37,7 +37,7 @@ export function executeInstantiationExpression(
         'WrongNumberOfArgumentsInConstructor',
         expression.location,
         {
-          arity: jikiClass.arity,
+          arity: jikiClass.arity[0],
           numberOfArgs: expression.args.length,
         }
       )

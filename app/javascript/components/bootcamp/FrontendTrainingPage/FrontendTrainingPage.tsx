@@ -26,8 +26,10 @@ export default function FrontendTrainingPage() {
   const {
     htmlEditorViewRef,
     cssEditorViewRef,
+    javaScriptEditorViewRef,
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
+    handleJavaScriptEditorDidMount,
   } = useSetupEditors()
 
   const {
@@ -42,8 +44,10 @@ export default function FrontendTrainingPage() {
         expectedReferenceIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
+        javaScriptEditorRef: javaScriptEditorViewRef,
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
+        handleJavaScriptEditorDidMount,
       }}
     >
       <div id="bootcamp-front-end-training-page">

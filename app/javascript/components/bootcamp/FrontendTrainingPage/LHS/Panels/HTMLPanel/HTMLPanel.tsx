@@ -5,8 +5,8 @@ import { HTMLEditor } from './HTMLEditor'
 
 export function HTMLPanel() {
   return (
-    <Tab.Panel id="html" context={TabsContext}>
-      s{/* <HTMLEditor /> */}
+    <Tab.Panel alwaysAttachToDOM id="html" context={TabsContext}>
+      <HTMLEditor />
     </Tab.Panel>
   )
 }

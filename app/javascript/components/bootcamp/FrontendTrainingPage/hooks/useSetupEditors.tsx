@@ -5,6 +5,7 @@ export function useSetupEditors() {
   const [editorCode, setEditorCode] = useLocalStorage('frontend-editor-code', {
     htmlEditorContent: '',
     cssEditorContent: '',
+    javaScriptEditorContent: '',
   })
   const {
     editorViewRef: htmlEditorViewRef,
@@ -15,11 +16,18 @@ export function useSetupEditors() {
     handleEditorDidMount: handleCssEditorDidMount,
   } = useEditorHandler(editorCode.cssEditorContent)
 
+  const {
+    editorViewRef: javaScriptEditorViewRef,
+    handleEditorDidMount: handleJavaScriptEditorDidMount,
+  } = useEditorHandler(editorCode.javaScriptEditorContent)
+
   return {
     htmlEditorViewRef,
     cssEditorViewRef,
+    javaScriptEditorViewRef,
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,
+    handleJavaScriptEditorDidMount,
     setEditorCodeLocalStorage: setEditorCode,
   }
 }

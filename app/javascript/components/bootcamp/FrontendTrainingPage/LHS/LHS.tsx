@@ -1,5 +1,5 @@
-import { TabContext } from '@/components/common/Tab'
 import React, { createContext, useState } from 'react'
+import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
 
@@ -17,7 +17,9 @@ export function LHS() {
       <TabsContext.Provider
         value={{
           current: tab,
-          switchToTab: (id: string) => setTab(id as TabIndex),
+          switchToTab: (id: string) => {
+            setTab(id as TabIndex)
+          },
         }}
       >
         <div className="c-iteration-pane">

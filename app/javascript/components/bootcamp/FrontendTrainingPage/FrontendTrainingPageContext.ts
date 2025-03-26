@@ -8,8 +8,10 @@ type FrontendTrainingPageContextType = {
   expectedReferenceIFrameRef: React.RefObject<HTMLIFrameElement>
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
-  handleCssEditorDidMount: (handler: Handler) => void
+  javaScriptEditorRef: React.RefObject<EditorView>
   handleHtmlEditorDidMount: (handler: Handler) => void
+  handleCssEditorDidMount: (handler: Handler) => void
+  handleJavaScriptEditorDidMount: (handler: Handler) => void
 }
 
 export const FrontendTrainingPageContext =

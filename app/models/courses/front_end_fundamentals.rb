@@ -5,9 +5,11 @@ class Courses::FrontEndFundamentals < Courses::Course
   def template_slug = "front_end_fundamentals"
   def name = "Front-End Fundamentals"
   def full_price = 99.99
-  def self.url = Exercism::Routes.course_path(instance.slug)
+  def self.url = instance.url
 
   # rubocop:disable Layout/LineLength
+  def description = "Add front-end skills to your coding repertoire. Designed for people with a solid grasp of coding basics. No web-dev experience required!"
+
   def blurb = Markdown::Parse.(
     "Add front-end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
   )

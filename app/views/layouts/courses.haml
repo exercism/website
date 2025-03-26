@@ -55,32 +55,33 @@
     = csrf_meta_tags
     = csp_meta_tag
 
-    - title = "The Exercism Learn-to-Code Bootcamp"
-    - description = "The Exercism Bootcamp is a unique coding bootcamp, teaching absolute beginners coding fundamentals. It's all online, it's part-time and will last 6 months. Brought to you by the team behind Exercism."
-    - url = "https://bootcamp.exercism.org"
-    - og_image_url = image_url('bootcamp/og.jpg')
+    - if @course
+      - title = @course.name
+      - description = @course.description
+      - url = @course.url
+      - og_image_url = image_url("bootcamp/og-#{@course.slug}.jpg")
 
-    %title= title
-    %meta{ name: "description", content: description }
-    %meta{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" }
+      %title= title
+      %meta{ name: "description", content: description }
+      %meta{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" }
 
-    -# Twitter Card data
-    %meta{ name: "twitter:card", content: "summary_large_image" }
-    %meta{ name: "twitter:site", content: "@exercism_io" }
-    %meta{ name: "twitter:creator", content: "@exercism_io" }
-    %meta{ name: "twitter:url", content: url }
-    %meta{ name: "twitter:title", content: title }
-    %meta{ name: "twitter:description", content: description }
-    %meta{ name: "twitter:image", content: og_image_url }
+      -# Twitter Card data
+      %meta{ name: "twitter:card", content: "summary_large_image" }
+      %meta{ name: "twitter:site", content: "@exercism_io" }
+      %meta{ name: "twitter:creator", content: "@exercism_io" }
+      %meta{ name: "twitter:url", content: url }
+      %meta{ name: "twitter:title", content: title }
+      %meta{ name: "twitter:description", content: description }
+      %meta{ name: "twitter:image", content: og_image_url }
 
-    -# Open Graph data
-    %meta{ property: "og:title", content: title }
-    %meta{ property: "og:type", content: "website" }
-    %meta{ property: "og:url", content: url }
-    %meta{ property: "og:image", content: og_image_url }
-    %meta{ property: "og:description", content: description }
-    %meta{ property: "og:site_name", content: "Exercism" }
-    %meta{ property: "fb:admins", content: "744760440" }
+      -# Open Graph data
+      %meta{ property: "og:title", content: title }
+      %meta{ property: "og:type", content: "website" }
+      %meta{ property: "og:url", content: url }
+      %meta{ property: "og:image", content: og_image_url }
+      %meta{ property: "og:description", content: description }
+      %meta{ property: "og:site_name", content: "Exercism" }
+      %meta{ property: "fb:admins", content: "744760440" }
 
     -# Favicon
     %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }

@@ -5,9 +5,11 @@ class Courses::CodingFundamentals < Courses::Course
   def template_slug = "coding_fundamentals"
   def name = "Coding Fundamentals"
   def full_price = 99.99
-  def self.url = Exercism::Routes.course_path(instance.slug)
+  def self.url = instance.url
 
   # rubocop:disable Layout/LineLength
+  def description = "Learn to code and build rock solid coding fundamentals! Perfect for total beginners or anyone who wants to build more solid foundations."
+
   def blurb = Markdown::Parse.(
     "Learn to code and build rock solid coding fundamentals! Perfect for **total beginners** or anyone who wants to **build more solid foundations.**"
   )

@@ -1,15 +1,21 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
-import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
+import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 
 export function HTMLEditor() {
-  const { LHSWidth, handleHtmlEditorDidMount } = useContext(
-    FrontendTrainingPageContext
-  )
+  const [editorCode, setEditorCode] = useLocalStorage('frontend-editor-code', {
+    htmlEditorContent: '',
+    cssEditorContent: '',
+  })
+  const {
+    editorViewRef: cssEditorViewRef,
+    handleEditorDidMount: handleCssEditorDidMount,
+  } = useEditorHandler(editorCode.cssEditorContent)
 
   return (
     <SimpleCodeMirror
-      style={{ width: LHSWidth }}
+      style={{ width: panelSizes.LHSWidth }}
+      ref={}
       editorDidMount={handleHtmlEditorDidMount}
       extensions={[]}
       defaultCode="<div>hello</div>"

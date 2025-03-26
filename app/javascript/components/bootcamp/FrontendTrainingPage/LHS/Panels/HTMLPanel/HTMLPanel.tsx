@@ -6,7 +6,7 @@ import { HTMLEditor } from './HTMLEditor'
 export function HTMLPanel() {
   return (
     <Tab.Panel id="html" context={TabsContext}>
-      <HTMLEditor />
+      s{/* <HTMLEditor /> */}
     </Tab.Panel>
   )
 }

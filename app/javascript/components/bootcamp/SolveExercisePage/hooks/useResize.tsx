@@ -11,6 +11,7 @@ type ResizableOptions = {
   localStorageId: string
   primaryMinSize?: number
   secondaryMinSize?: number
+  onChange?: (newSizes: { primarySize: number; secondarySize: number }) => void
 }
 
 export function useResizablePanels({
@@ -19,6 +20,7 @@ export function useResizablePanels({
   localStorageId,
   primaryMinSize = 250,
   secondaryMinSize = 250,
+  onChange,
 }: ResizableOptions) {
   const [primarySize, setPrimarySize] = useLocalStorage(
     localStorageId,
@@ -49,6 +51,12 @@ export function useResizablePanels({
 
       setPrimarySize(newPrimarySize)
       setSecondarySize(containerSize - newPrimarySize)
+      if (onChange) {
+        onChange({
+          primarySize: newPrimarySize,
+          secondarySize: containerSize - newPrimarySize,
+        })
+      }
     }
 
     const handleMouseUp = () => {
@@ -65,6 +73,12 @@ export function useResizablePanels({
       direction === 'horizontal' ? window.innerWidth : window.innerHeight
 
     const newPrimarySize = Math.min(primarySize, containerSize - 300)
+    if (onChange) {
+      onChange({
+        primarySize: newPrimarySize,
+        secondarySize: containerSize - newPrimarySize,
+      })
+    }
     setPrimarySize(newPrimarySize)
     setSecondarySize(containerSize - newPrimarySize)
   }

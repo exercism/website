@@ -1,10 +1,11 @@
 import { create } from 'zustand'
-import { Handler } from '../../SolveExercisePage/CodeMirror/CodeMirror'
 
 type FrontendTrainingPageStoreState = {
   diffMode: boolean
   toggleDiffMode: () => void
   curtainOpacity: number
+  curtainMode: boolean
+  toggleCurtainMode: () => void
   setCurtainOpacity: (curtainOpacity: number) => void
   panelSizes: {
     LHSWidth: number
@@ -16,6 +17,9 @@ type FrontendTrainingPageStoreState = {
 export const useFrontendTrainingPageStore =
   create<FrontendTrainingPageStoreState>((set) => ({
     diffMode: false,
+    curtainMode: false,
+    toggleCurtainMode: () =>
+      set((state) => ({ curtainMode: !state.curtainMode })),
     toggleDiffMode: () => set((state) => ({ diffMode: !state.diffMode })),
     curtainOpacity: 1,
     setCurtainOpacity: (curtainOpacity) => set({ curtainOpacity }),

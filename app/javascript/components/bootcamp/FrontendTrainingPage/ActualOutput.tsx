@@ -12,7 +12,7 @@ export function ActualOutput() {
   }
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
 
-  const { diffMode, curtainOpacity, setCurtainOpacity } =
+  const { diffMode, curtainOpacity, setCurtainOpacity, curtainMode } =
     useFrontendTrainingPageStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -78,23 +78,27 @@ export function ActualOutput() {
           }}
         />
 
-        {/* the curtain itself */}
-        <div
-          className="absolute top-0 left-0 h-full"
-          style={{
-            boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
-            zIndex: 20,
-          }}
-        />
+        {curtainMode && (
+          <>
+            {/* the curtain itself */}
+            <div
+              className="absolute top-0 left-0 h-full"
+              style={{
+                boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
+                zIndex: 20,
+              }}
+            />
 
-        {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
-        <div
-          className="absolute top-0 left-0 w-full h-full"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleOnMouseLeave}
-          onMouseEnter={handleOnMouseEnter}
-          style={{ zIndex: 40 }}
-        />
+            {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
+            <div
+              className="absolute top-0 left-0 w-full h-full"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleOnMouseLeave}
+              onMouseEnter={handleOnMouseEnter}
+              style={{ zIndex: 40 }}
+            />
+          </>
+        )}
       </div>
     </div>
   )

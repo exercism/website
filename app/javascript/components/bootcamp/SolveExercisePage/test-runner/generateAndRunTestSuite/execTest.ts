@@ -16,15 +16,25 @@ import {
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
 import { expect } from '../expect'
+import { execJS } from './execJS'
 
 /**
  This is of type TestCallback
  */
-export function execTest(
+export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
   project?: Project
-): ReturnType<TestCallback> {
+): Promise<{
+  slug: string
+  expects: MatcherResult[]
+  codeRun: string
+  frames: Frame[]
+  animationTimeline: TAnimationTimeline
+  type: TestsType
+  view?: HTMLElement
+  imageSlug?: string
+}> {
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
@@ -38,35 +48,30 @@ export function execTest(
     false
   )
 
-  const expects: MatcherResult[] = []
   const matcher = 'toEqual'
-  const test = 'two_fer("Jeremy")'
+  const fnName = 'two_fer'
+  const args = ['Jeremy']
+  const codeRun = generateCodeRunString(fnName, args)
+  const expected = 'One for Jeremy, one for me.'
+  console.log('MEH1')
+  const prom = execJS(options.studentCode, fnName, args)
+  console.log(prom)
+  const actual = (await prom).result
+  console.log(prom)
+  console.log('MEH2')
+  console.log(actual)
 
-  function runCode(code) {
-    let js = document.createElement('script')
-    try {
-      js.innerHTML = `"use strict;"\n${code}`
-      document.head.appendChild(js)
-      const exp = expect({
-        actual: eval?.(test),
-        codeRun: test,
-        errorHtml: "Didn't match",
-        matcher,
-      })[matcher]('One for Jeremy, one for me.')
-      console.log(exp)
-      expects.push(exp)
-    } catch (e) {
-      console.log(e)
-      // ...
-    }
-    document.head.removeChild(js)
-  }
-  runCode(options.studentCode)
+  const exp = expect({
+    actual: actual,
+    codeRun,
+    errorHtml: "Didn't match",
+    matcher,
+  })[matcher](expected)
 
   return {
-    expects: expects,
+    expects: [exp],
     slug: testData.slug,
-    codeRun: 'two_fer("Jeremy")',
+    codeRun,
     frames: [],
     type: options.config.testsType || (exercise ? 'state' : 'io'),
     animationTimeline: buildAnimationTimeline(exercise, []),

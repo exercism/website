@@ -96,6 +96,7 @@ function fn(this: BreakoutExercise) {
   RoundedRectangle.addGetter('top', 'public')
   RoundedRectangle.addGetter('width', 'public')
   RoundedRectangle.addGetter('height', 'public')
+  RoundedRectangle.addGetter('opacity', 'public')
 
   RoundedRectangle.addSetter(
     'left',

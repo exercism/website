@@ -33,12 +33,12 @@ The code to play the game is given for you. Your job is to implement the classes
 There are a few things you need to stick to in order for the scenario to pass:
 
 - The game's width and height is `100`.
-- The paddle's should have a width of `20` and a height of `4`. There should be a gap of `1` between it and the floor. It should start in the horizontal middle. You can choose its radius and decide how fast it can move (make it slow to make it more challenging for yourself 😉).
+- The paddle should have a width of `20` and a height of `4`. There should be a gap of `1` between it and the floor. It should start in the horizontal middle. You can choose its radius and decide how fast it can move (make it slow to make it more challenging for yourself 😉).
 - A row of blocks should be centered with a gap of `1` between each. You can choose their radii. Their opacity is set to `1` by default. It should be changed to `0` once they're hit.
-- The ball's radius should be `2`. It should sit on paddle at its horizontal center. It should move by `1` at a time, starting by moving to the top-left.
+- The ball's radius should be `2`. It should sit on the paddle at its horizontal center. It should move by `1` at a time, starting by moving to the top-left.
 
 You have a huge amount of freedom as to how you design the game.
 We explored the first part of this exercise in a live teaching session.
-I highly recommend coding along with that to understand the different ways to think about this project, and then continuing to finish the exercise by yourelf.
+I highly recommend coding along with that to understand the different ways to think about this project, and then continuing to finish the exercise by yourself.
 
 [EMBED](https://www.youtube.com/embed/9QQQB4qctx4)

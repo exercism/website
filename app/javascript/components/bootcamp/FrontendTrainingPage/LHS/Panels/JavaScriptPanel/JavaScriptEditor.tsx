@@ -4,6 +4,7 @@ import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContex
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { javascript } from '@codemirror/lang-javascript'
 import { updateIFrame } from '../../../utils/updateIFrame'
+import { eslintLinter } from '../../../extensions/eslinter'
 
 export function JavaScriptEditor() {
   const {
@@ -23,15 +24,16 @@ export function JavaScriptEditor() {
       defaultCode=""
       style={{ width: LHSWidth, height: '90vh' }}
       editorDidMount={handleJavaScriptEditorDidMount}
-      extensions={[javascript()]}
+      extensions={[javascript(), eslintLinter]}
       onEditorChangeCallback={(view) => {
+        const doc = view.state.doc.toString()
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
-          javaScriptEditorContent: view.state.doc.toString(),
+          javaScriptEditorContent: doc,
         }))
 
         updateIFrame(actualIFrameRef, {
-          javascript: view.state.doc.toString(),
+          javascript: doc,
           html: htmlEditorRef.current?.state.doc.toString(),
           css: cssEditorRef.current?.state.doc.toString(),
         })

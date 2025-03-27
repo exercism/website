@@ -3,6 +3,10 @@ import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
 import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
+import {
+  Resizer,
+  useResizablePanels,
+} from '../../SolveExercisePage/hooks/useResize'
 
 type TabIndex = 'instructions' | 'output'
 
@@ -16,6 +20,17 @@ export function RHS() {
   const {
     panelSizes: { RHSWidth },
   } = useFrontendTrainingPageStore()
+
+  const {
+    primarySize: TopHeight,
+    secondarySize: BottomHeight,
+    handleMouseDown: handleHeightChangeMouseDown,
+  } = useResizablePanels({
+    initialSize: 800,
+    direction: 'vertical',
+    localStorageId: 'frontend-training-page-rhs-height',
+  })
+
   return (
     <div className="page-body-rhs" style={{ width: RHSWidth }}>
       <TabsContext.Provider
@@ -26,11 +41,21 @@ export function RHS() {
           },
         }}
       >
-        <div className="c-iteration-pane">
+        <div className="c-iteration-pane" style={{ height: TopHeight }}>
           <Tabs />
           <Panels />
         </div>
       </TabsContext.Provider>
+      <Resizer
+        direction="horizontal"
+        handleMouseDown={handleHeightChangeMouseDown}
+      />
+      <div
+        style={{ height: BottomHeight }}
+        className="bg-gray-400 grid place-content-center"
+      >
+        Results here
+      </div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { OutputPanel } from './OutputPanel'
 
 export function Panels() {
   return (
-    <div className="panels">
+    <div className="panels h-100">
       <InstructionsPanel />
       <OutputPanel />
     </div>

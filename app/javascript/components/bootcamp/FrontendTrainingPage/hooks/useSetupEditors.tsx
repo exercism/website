@@ -1,12 +1,15 @@
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 
-export function useSetupEditors() {
-  const [editorCode, setEditorCode] = useLocalStorage('frontend-editor-code', {
-    htmlEditorContent: '',
-    cssEditorContent: '',
-    javaScriptEditorContent: '',
-  })
+export function useSetupEditors(uuid: string = '') {
+  const [editorCode, setEditorCode] = useLocalStorage(
+    'frontend-editor-code-' + uuid,
+    {
+      htmlEditorContent: '',
+      cssEditorContent: '',
+      javaScriptEditorContent: '',
+    }
+  )
   const {
     editorViewRef: htmlEditorViewRef,
     handleEditorDidMount: handleHtmlEditorDidMount,

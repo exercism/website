@@ -1,6 +1,6 @@
 import React from 'react'
-import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
+import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { Header } from './Header'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
 import { useInitResizablePanels } from './hooks/useInitResizablePanels'
@@ -10,12 +10,7 @@ import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 
 export default function FrontendTrainingPage() {
-  const {
-    actualIFrameRef,
-    expectedIFrameRef,
-    expectedReferenceIFrameRef,
-    handleCompare,
-  } = useSetupIFrames()
+  const { actualIFrameRef } = useSetupIFrames()
 
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
 
@@ -27,14 +22,13 @@ export default function FrontendTrainingPage() {
     handleHtmlEditorDidMount,
     handleJavaScriptEditorDidMount,
     setEditorCodeLocalStorage,
+    // TODO: ADD EXERCISE UUID HERE
   } = useSetupEditors()
 
   return (
     <FrontendTrainingPageContext.Provider
       value={{
         actualIFrameRef,
-        expectedIFrameRef,
-        expectedReferenceIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
         javaScriptEditorRef: javaScriptEditorViewRef,
@@ -44,8 +38,8 @@ export default function FrontendTrainingPage() {
         setEditorCodeLocalStorage,
       }}
     >
-      <div id="bootcamp-front-end-training-page">
-        <Header onCompare={handleCompare} />
+      <div id="bootcamp-frontend-training-page">
+        <Header onComplete={() => {}} />
         <div className="page-body">
           <LHS />
           <Resizer

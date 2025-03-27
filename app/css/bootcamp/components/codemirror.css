@@ -1,6 +1,6 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page,
-#bootcamp-front-end-training-page {
+#bootcamp-frontend-training-page {
     .cm-breakpoint-gutter .cm-gutterElement {
         @apply flex;
     }

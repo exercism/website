@@ -27,6 +27,7 @@ export function LHS() {
           <Panels />
         </div>
       </TabsContext.Provider>
+      <div className="btn-primary btn-m">Run Code</div>
     </div>
   )
 }

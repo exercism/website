@@ -5,6 +5,7 @@ import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPag
 import { css } from '@codemirror/lang-css'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { cssLinter } from '../../../extensions/cssLinter'
+import { EDITOR_HEIGHT } from '../Panels'
 
 export function CSSEditor() {
   const {
@@ -22,7 +23,7 @@ export function CSSEditor() {
   return (
     <SimpleCodeMirror
       defaultCode=""
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleCssEditorDidMount}
       extensions={[css(), cssLinter]}
       onEditorChangeCallback={(view) => {

@@ -5,6 +5,7 @@ import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPag
 import { javascript } from '@codemirror/lang-javascript'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { eslintLinter } from '../../../extensions/eslinter'
+import { EDITOR_HEIGHT } from '../Panels'
 
 export function JavaScriptEditor() {
   const {
@@ -22,7 +23,7 @@ export function JavaScriptEditor() {
   return (
     <SimpleCodeMirror
       defaultCode=""
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleJavaScriptEditorDidMount}
       extensions={[javascript(), eslintLinter]}
       onEditorChangeCallback={(view) => {

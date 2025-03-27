@@ -1,0 +1,33 @@
+#bootcamp-frontend-training-page {
+    .page-body-rhs {
+        @apply flex-grow;
+        @apply flex flex-col;
+        @apply overflow-hidden;
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+    .page-body-lhs {
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+}

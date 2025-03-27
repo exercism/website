@@ -5,6 +5,7 @@ import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContex
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { htmlLinter } from '../../../extensions/htmlLinter'
+import { EDITOR_HEIGHT } from '../Panels'
 
 export function HTMLEditor() {
   const {
@@ -21,7 +22,7 @@ export function HTMLEditor() {
 
   return (
     <SimpleCodeMirror
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       onEditorChangeCallback={(view) => {

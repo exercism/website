@@ -1,3 +1,4 @@
+import { useLayoutEffect } from 'react'
 import { useResizablePanels } from '../../SolveExercisePage/hooks/useResize'
 import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
 
@@ -10,7 +11,7 @@ export function useInitResizablePanels() {
   } = useResizablePanels({
     initialSize: 800,
     direction: 'horizontal',
-    localStorageId: 'solve-exercise-page-lhs',
+    localStorageId: 'frontend-training-page-size',
     onChange: (panelSizes) => {
       setPanelSizes({
         LHSWidth: panelSizes.primarySize,
@@ -18,6 +19,14 @@ export function useInitResizablePanels() {
       })
     },
   })
+
+  // load in the stored panel sizes before mount
+  useLayoutEffect(() => {
+    setPanelSizes({
+      LHSWidth,
+      RHSWidth,
+    })
+  }, [])
 
   return {
     LHSWidth,

@@ -89,7 +89,7 @@ function fn(this: BreakoutExercise) {
     object.setField('height', height)
     object.setField('corner_radius', cornerRadius)
     object.setField('fill_color_hex', fillColorHex)
-    object.setField('opacity', 1)
+    object.setField('opacity', new Jiki.Number(1))
     drawRectangle(executionCtx, object)
   })
   RoundedRectangle.addGetter('left', 'public')

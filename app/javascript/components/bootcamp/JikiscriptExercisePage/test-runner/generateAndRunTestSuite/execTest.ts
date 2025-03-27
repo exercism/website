@@ -38,40 +38,17 @@ export async function execTest(
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
-  //
-  window.addEventListener(
-    'error',
-    function (e) {
-      console.log(e)
-      console.log('Error line:', e.lineno)
-    },
-    false
-  )
-
-  const matcher = 'toEqual'
-  const fnName = 'two_fer'
-  const args = ['Jeremy']
-  const codeRun = generateCodeRunString(fnName, args)
-  const expected = 'One for Jeremy, one for me.'
-  console.log('MEH1')
+  const fnName = testData.function
+  const args = testData.args
   const prom = execJS(options.studentCode, fnName, args)
-  console.log(prom)
   const actual = (await prom).result
-  console.log(prom)
-  console.log('MEH2')
-  console.log(actual)
 
-  const exp = expect({
-    actual: actual,
-    codeRun,
-    errorHtml: "Didn't match",
-    matcher,
-  })[matcher](expected)
+  const expects = generateExpects(null, testData, actual, exercise)
 
   return {
-    expects: [exp],
+    expects,
     slug: testData.slug,
-    codeRun,
+    codeRun: generateCodeRunString(fnName, args),
     frames: [],
     type: options.config.testsType || (exercise ? 'state' : 'io'),
     animationTimeline: buildAnimationTimeline(exercise, []),

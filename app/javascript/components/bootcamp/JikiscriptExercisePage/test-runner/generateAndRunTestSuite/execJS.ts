@@ -23,11 +23,14 @@ export async function execJS(
     URL.revokeObjectURL(importableTestCode)
   }
 
+  //
+
   return import(`${importableTestCode}`)
     .then((result) => {
       return { result: result.default, cleanup }
     })
     .catch((error) => {
+      console.log(error)
       return { ...{ message: error.message }, cleanup }
     })
 }

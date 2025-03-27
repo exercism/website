@@ -12,7 +12,7 @@ export const TabsContext = createContext<TabContext>({
 })
 
 export function RHS() {
-  const [tab, setTab] = useState<TabIndex>('instructions')
+  const [tab, setTab] = useState<TabIndex>('output')
   const {
     panelSizes: { RHSWidth },
   } = useFrontendTrainingPageStore()

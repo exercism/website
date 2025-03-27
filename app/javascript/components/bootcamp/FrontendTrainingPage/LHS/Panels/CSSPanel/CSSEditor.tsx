@@ -4,6 +4,7 @@ import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContex
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { css } from '@codemirror/lang-css'
 import { updateIFrame } from '../../../utils/updateIFrame'
+import { cssLinter } from '../../../extensions/cssLinter'
 
 export function CSSEditor() {
   const {
@@ -23,7 +24,7 @@ export function CSSEditor() {
       defaultCode=""
       style={{ width: LHSWidth, height: '90vh' }}
       editorDidMount={handleCssEditorDidMount}
-      extensions={[css()]}
+      extensions={[css(), cssLinter]}
       onEditorChangeCallback={(view) => {
         setEditorCodeLocalStorage((prev) => ({
           ...prev,

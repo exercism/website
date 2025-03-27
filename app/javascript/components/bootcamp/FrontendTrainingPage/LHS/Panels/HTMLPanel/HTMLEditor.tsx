@@ -4,6 +4,7 @@ import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPag
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
+import { htmlLinter } from '../../../extensions/htmlLinter'
 
 export function HTMLEditor() {
   const {
@@ -35,7 +36,7 @@ export function HTMLEditor() {
           javascript: javaScriptEditorRef.current?.state.doc.toString(),
         })
       }}
-      extensions={[html()]}
+      extensions={[html(), htmlLinter]}
       defaultCode="<div>hello</div>"
     />
   )

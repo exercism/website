@@ -10,6 +10,8 @@ export type StudentCodeGetter = () => string | undefined
 function _Header({ onCompare }: { onCompare: () => void }) {
   const {
     diffMode,
+    curtainMode,
+    toggleCurtainMode,
     toggleDiffMode: toggleDiffModeState,
     setCurtainOpacity,
   } = useFrontendTrainingPageStore()
@@ -29,6 +31,11 @@ function _Header({ onCompare }: { onCompare: () => void }) {
       </div>
 
       <div className="flex items-center gap-8">
+        <ToggleButton
+          className="w-fit"
+          checked={curtainMode}
+          onToggle={toggleCurtainMode}
+        />
         <ToggleButton
           className="w-fit"
           checked={diffMode}

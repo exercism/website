@@ -1,7 +1,7 @@
 import React from 'react'
-import { CSSTrainingPageContext } from './CSSExercisePageContext'
+import { CSSExercisePageContext } from './CSSExercisePageContext'
 export function ExpectedOutput() {
-  const context = React.useContext(CSSTrainingPageContext)
+  const context = React.useContext(CSSExercisePageContext)
 
   if (!context) {
     return null

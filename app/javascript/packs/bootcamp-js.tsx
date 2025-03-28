@@ -12,6 +12,10 @@ const JikiscriptExercisePage = lazy(
     )
 )
 
+const CSSExercisePage = lazy(
+  () => import('../components/bootcamp/CSSExercisePage/CSSExercisePage')
+)
+
 const FrontendTrainingPage = lazy(
   () =>
     import('../components/bootcamp/FrontendTrainingPage/FrontendTrainingPage')
@@ -45,6 +49,14 @@ const mappings = {
       <JikiscriptExercisePage
         {...camelizeKeysAs<JikiscriptExercisePageProps>(data)}
       />
+    </Suspense>
+  ),
+
+  'bootcamp-css-exercise-page': (
+    data: JikiscriptExercisePageProps
+  ): JSX.Element => (
+    <Suspense>
+      <CSSExercisePage />
     </Suspense>
   ),
 

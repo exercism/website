@@ -20,7 +20,11 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     curtainMode: false,
     toggleCurtainMode: () =>
       set((state) => ({ curtainMode: !state.curtainMode })),
-    toggleDiffMode: () => set((state) => ({ diffMode: !state.diffMode })),
+    toggleDiffMode: () =>
+      set((state) => ({
+        diffMode: !state.diffMode,
+        curtainOpacity: state.diffMode ? 0.3 : 1,
+      })),
     curtainOpacity: 1,
     setCurtainOpacity: (curtainOpacity) => set({ curtainOpacity }),
     panelSizes: {

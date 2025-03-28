@@ -1,13 +1,14 @@
 import React from 'react'
 import { CSSEditor } from './CSSEditor'
 import { HTMLEditor } from './HTMLEditor'
+import { ControlButtons } from './ControlButtons'
 
 export function LHS() {
   return (
     <div className="page-body-lhs">
       <HTMLEditor />
       <CSSEditor />
-      <div className="btn-primary btn-m">Run Code</div>
+      <ControlButtons />
     </div>
   )
 }

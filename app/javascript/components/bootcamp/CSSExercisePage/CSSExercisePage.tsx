@@ -42,10 +42,11 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         handleHtmlEditorDidMount,
         setEditorCodeLocalStorage,
         exercise: data.exercise,
+        handleCompare,
       }}
     >
       <div id="bootcamp-frontend-training-page">
-        <Header onCompare={handleCompare} />
+        <Header />
         <div className="page-body">
           <LHS />
           <Resizer

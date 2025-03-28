@@ -1,21 +1,10 @@
-import {
-  evaluateFunction,
-  EvaluateFunctionResult,
-  interpret,
-} from '@/interpreter/interpreter'
 import fs from 'fs'
 import path from 'path'
 import exerciseMap, {
   Project,
-} from '@/components/bootcamp/SolveExercisePage/utils/exerciseMap'
-import { Exercise } from '@/components/bootcamp/SolveExercisePage/exercises/Exercise'
-import { parseArgs } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/parseArgs'
-import { Camelized, camelizeKeys } from 'humps'
-import { filteredStdLibFunctions } from '@/interpreter/stdlib'
-import checkers from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/checkers'
+} from '@/components/bootcamp/JikiscriptExercisePage/utils/exerciseMap'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
-import { execTest } from '@/components/bootcamp/SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
-import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
+import { execTest } from '@/components/bootcamp/JikiscriptExercisePage/test-runner/generateAndRunTestSuite/execTest'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 

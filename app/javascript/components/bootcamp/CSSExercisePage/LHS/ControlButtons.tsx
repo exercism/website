@@ -6,8 +6,13 @@ import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCo
 import { getEditorValue } from '../SimpleCodeMirror/getEditorValue'
 
 export function ControlButtons() {
-  const { diffMode, curtainMode, toggleCurtainMode, toggleDiffMode } =
-    useCSSExercisePageStore()
+  const {
+    diffMode,
+    curtainMode,
+    toggleCurtainMode,
+    toggleDiffMode,
+    setMatchPercentage,
+  } = useCSSExercisePageStore()
 
   const { handleCompare, cssEditorRef, htmlEditorRef, links } = useContext(
     CSSExercisePageContext
@@ -25,6 +30,9 @@ export function ControlButtons() {
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
 
     const percentage = await handleCompare()
+
+    setMatchPercentage(percentage)
+
     submitCode({
       postUrl: links.postSubmission,
       code,

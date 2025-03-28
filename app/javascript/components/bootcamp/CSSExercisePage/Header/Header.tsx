@@ -1,12 +1,37 @@
-import React, { useCallback } from 'react'
+import React, { useContext } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
+import { CSSExercisePageContext } from '../CSSExercisePageContext'
+import { useHandleCompletingSolution } from './useHandleCompletingSolution'
+import { FinishLessonModal } from '../FinishLessonModal/FinishLessonModal'
+import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModalContext'
+import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header() {
+  const { solution, links } = useContext(CSSExercisePageContext)
+
+  const {
+    assertionStatus,
+    setIsFinishLessonModalOpen,
+    isFinishLessonModalOpen,
+  } = useCSSExercisePageStore()
+
+  const {
+    modalView,
+    handleCompleteSolution,
+    nextExerciseData,
+    nextLevelIdx,
+    completedLevelIdx,
+  } = useHandleCompletingSolution({
+    isFinishModalOpen: isFinishLessonModalOpen,
+    setIsFinishModalOpen: setIsFinishLessonModalOpen,
+    completeSolutionLink: links.completeSolution,
+  })
+
   return (
     <div className="page-header justify-between">
       <div className="ident">
@@ -18,9 +43,36 @@ function _Header() {
 
       <div className="flex items-center gap-8">
         <ResetButton />
-        <button className="btn-primary btn-xxs" onClick={() => {}}>
-          Complete Exercise
-        </button>
+        {solution.status === 'in_progress' && (
+          <button
+            onClick={handleCompleteSolution}
+            disabled={assertionStatus !== 'pass'}
+            className={assembleClassNames(
+              'btn-primary btn-xxs',
+              assertionStatus === 'pass' ? '' : 'disabled cursor-not-allowed'
+            )}
+          >
+            Complete Exercise
+          </button>
+        )}
+        {assertionStatus === 'pass' && (
+          <>
+            <FinishLessonModalContext.Provider
+              value={{
+                isFinishLessonModalOpen,
+                setIsFinishLessonModalOpen,
+                completedLevelIdx,
+                nextLevelIdx,
+                handleCompleteSolution,
+                modalView,
+                nextExerciseData,
+                links,
+              }}
+            >
+              <FinishLessonModal />
+            </FinishLessonModalContext.Provider>
+          </>
+        )}
 
         <a href={''} className={assembleClassNames('btn-secondary btn-xxs')}>
           Back

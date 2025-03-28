@@ -2,14 +2,14 @@ import React from 'react'
 import { Resizer } from '../SolveExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
 import { Header } from './Header'
-import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
+import { CSSTrainingPageContext } from './CSSTrainingPageContext'
 import { useInitResizablePanels } from './hooks/useInitResizablePanels'
 import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 
-export default function FrontendTrainingPage() {
+export default function CSSTrainingPage() {
   const {
     actualIFrameRef,
     expectedIFrameRef,
@@ -30,7 +30,7 @@ export default function FrontendTrainingPage() {
   } = useSetupEditors()
 
   return (
-    <FrontendTrainingPageContext.Provider
+    <CSSTrainingPageContext.Provider
       value={{
         actualIFrameRef,
         expectedIFrameRef,
@@ -56,6 +56,6 @@ export default function FrontendTrainingPage() {
         </div>
       </div>
       <Toaster />
-    </FrontendTrainingPageContext.Provider>
+    </CSSTrainingPageContext.Provider>
   )
 }

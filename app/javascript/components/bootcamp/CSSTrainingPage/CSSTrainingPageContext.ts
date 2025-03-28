@@ -2,7 +2,7 @@ import { EditorView } from 'codemirror'
 import { createContext } from 'react'
 import { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
 
-type FrontendTrainingPageContextType = {
+type CSSTrainingPageContextType = {
   actualIFrameRef: React.RefObject<HTMLIFrameElement>
   expectedIFrameRef: React.RefObject<HTMLIFrameElement>
   expectedReferenceIFrameRef: React.RefObject<HTMLIFrameElement>
@@ -21,7 +21,6 @@ type FrontendTrainingPageContextType = {
   >
 }
 
-export const FrontendTrainingPageContext =
-  createContext<FrontendTrainingPageContextType>(
-    {} as FrontendTrainingPageContextType
-  )
+export const CSSTrainingPageContext = createContext<CSSTrainingPageContextType>(
+  {} as CSSTrainingPageContextType
+)

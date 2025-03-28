@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type FrontendTrainingPageStoreState = {
+type CSSTrainingPageStoreState = {
   diffMode: boolean
   toggleDiffMode: () => void
   curtainOpacity: number
@@ -14,8 +14,8 @@ type FrontendTrainingPageStoreState = {
   setPanelSizes: (panelSizes: { LHSWidth: number; RHSWidth: number }) => void
 }
 
-export const useFrontendTrainingPageStore =
-  create<FrontendTrainingPageStoreState>((set) => ({
+export const useCSSTrainingPageStore = create<CSSTrainingPageStoreState>(
+  (set) => ({
     diffMode: false,
     curtainMode: false,
     toggleCurtainMode: () =>
@@ -28,4 +28,5 @@ export const useFrontendTrainingPageStore =
       RHSWidth: 800,
     },
     setPanelSizes: (panelSizes) => set({ panelSizes }),
-  }))
+  })
+)

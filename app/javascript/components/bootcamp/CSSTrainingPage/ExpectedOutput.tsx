@@ -1,7 +1,7 @@
 import React from 'react'
-import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
+import { CSSTrainingPageContext } from './CSSTrainingPageContext'
 export function ExpectedOutput() {
-  const context = React.useContext(FrontendTrainingPageContext)
+  const context = React.useContext(CSSTrainingPageContext)
 
   if (!context) {
     return null

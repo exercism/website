@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { css } from '@codemirror/lang-css'
-import { cssLinter } from '../extensions/cssLinter'
+import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'

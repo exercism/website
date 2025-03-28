@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
 import { getIframesMatchPercentage } from '../utils/getIframesMatchPercentage'
 import { updateIFrame } from '../utils/updateIFrame'
+import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 
 // set up expected output and reference output
 export function useSetupIFrames(config: CSSExercisePageConfig) {
@@ -20,11 +22,14 @@ export function useSetupIFrames(config: CSSExercisePageConfig) {
       actualIFrameRef,
       expectedIFrameRef
     )
+
     if (percentage === 100) {
       toast.success(`MATCHING! ${percentage}%`)
     } else {
       toast.error(`NOT MATCHING! ${percentage}%`)
     }
+
+    return percentage
   }, [])
 
   return {

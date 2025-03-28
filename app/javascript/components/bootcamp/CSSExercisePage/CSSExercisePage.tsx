@@ -1,6 +1,6 @@
 import React from 'react'
-import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
+import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
 import { useInitResizablePanels } from './hooks/useInitResizablePanels'
 import { useSetupEditors } from './hooks/useSetupEditors'
@@ -43,8 +43,8 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         handleHtmlEditorDidMount,
         setEditorCodeLocalStorage,
         resetEditors,
-        exercise: data.exercise,
         handleCompare,
+        exercise: data.exercise,
         links: data.links,
       }}
     >

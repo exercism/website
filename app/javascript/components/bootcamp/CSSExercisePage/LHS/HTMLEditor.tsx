@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { html } from '@codemirror/lang-html'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
-import { htmlLinter } from '../extensions/htmlLinter'
+import { htmlLinter } from '../SimpleCodeMirror/extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { updateIFrame } from '../utils/updateIFrame'

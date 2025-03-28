@@ -15,18 +15,49 @@ import {
   AnimationTimeline,
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
+import { expect } from '../expect'
+import { execJS } from './execJS'
 
 /**
  This is of type TestCallback
  */
-export function execTest(
+export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
   project?: Project
-): ReturnType<TestCallback> {
+): Promise<{
+  slug: string
+  expects: MatcherResult[]
+  codeRun: string
+  frames: Frame[]
+  animationTimeline: TAnimationTimeline
+  type: TestsType
+  view?: HTMLElement
+  imageSlug?: string
+}> {
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
+  const fnName = testData.function
+  const args = testData.args
+  const prom = execJS(options.studentCode, fnName, args)
+  const actual = (await prom).result
+
+  const expects = generateExpects(null, testData, actual, exercise)
+
+  return {
+    expects,
+    slug: testData.slug,
+    codeRun: generateCodeRunString(fnName, args),
+    frames: [],
+    type: options.config.testsType || (exercise ? 'state' : 'io'),
+    animationTimeline: buildAnimationTimeline(exercise, []),
+    imageSlug: testData.imageSlug,
+    view: exercise?.getView(),
+  }
+
+  /*
+  
   const context = {
     externalFunctions: buildExternalFunctions(options, exercise),
     classes: buildExternalClasses(options, exercise),
@@ -56,17 +87,6 @@ export function execTest(
 
   const { value: actual, frames } = evaluated
 
-  /*if(frames[0].timelineTime !== 0) {
-    frames.unshift({
-      timelineTime: 0,
-      time: 0,
-      line: 0,
-      code: "",
-      status: 'BOOKEND',
-      description: ""
-    })
-  }*/
-
   const codeRun = testData.codeRun
     ? testData.codeRun
     : generateCodeRunString(testData.function, args)
@@ -84,7 +104,7 @@ export function execTest(
     animationTimeline,
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
-  }
+  }*/
 }
 
 const buildExternalFunctions = (

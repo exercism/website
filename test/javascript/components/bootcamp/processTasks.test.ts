@@ -1,4 +1,4 @@
-import { processTasks } from '@/components/bootcamp/SolveExercisePage/store/taskStore/processTasks'
+import { processTasks } from '@/components/bootcamp/JikiscriptExercisePage/store/taskStore/processTasks'
 
 const toTaskStore = (data) => {
   return {

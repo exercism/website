@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
 import toast from 'react-hot-toast'
 import { redirectTo } from '@/utils/redirect-to'
-import { SolveExercisePageContext } from '../SolveExercisePage/SolveExercisePageContextWrapper'
+import { JikiscriptExercisePageContext } from '../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 
 export function DeleteFunctionButton({ predefined }: { predefined: boolean }) {
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
 
   const handleDeleteCustomFunction = useCallback(() => {
     const url = links.updateCustomFns as string

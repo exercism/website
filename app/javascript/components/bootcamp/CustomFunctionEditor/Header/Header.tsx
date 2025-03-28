@@ -4,16 +4,17 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { CustomFunctionsButton } from './CustomFunctionsButton'
 import { ActiveToggleButton } from './ActiveToggleButton'
-import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import customFunctionEditorStore from '../store/customFunctionEditorStore'
 import { DeleteFunctionButton } from '../DeleteFunctionButton'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
-  const { clearResults, customFunctionName, isPredefined } = customFunctionEditorStore()
+  const { clearResults, customFunctionName, isPredefined } =
+    customFunctionEditorStore()
 
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div className="page-header justify-between">
       <div className="ident">

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { css } from '@codemirror/lang-css'
 import { cssLinter } from '../extensions/cssLinter'
-import { CSSTrainingPageContext } from '../CSSTrainingPageContext'
+import { CSSTrainingPageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
-import { useCSSTrainingPageStore } from '../store/cssTrainingPageStore'
+import { useCSSTrainingPageStore } from '../store/cssExercisePageStore'
 import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {

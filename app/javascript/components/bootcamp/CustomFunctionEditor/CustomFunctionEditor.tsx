@@ -1,24 +1,24 @@
 import React, { createContext, useCallback, useEffect, useMemo } from 'react'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
-import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
+import { CodeMirror } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 import { useCustomFunctionEditorHandler } from './useCustomFunctionEditorHandler'
 import {
   Resizer,
   useResizablePanels,
-} from '../SolveExercisePage/hooks/useResize'
+} from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
 import { CustomTests } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
-import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
-import SolveExercisePageContextWrapper, {
-  SolveExercisePageContextValues,
-} from '../SolveExercisePage/SolveExercisePageContextWrapper'
-import useEditorStore from '../SolveExercisePage/store/editorStore'
+import Scrubber from '../JikiscriptExercisePage/Scrubber/Scrubber'
+import JikiscriptExercisePageContextWrapper, {
+  JikiscriptExercisePageContextValues,
+} from '../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
+import useEditorStore from '../JikiscriptExercisePage/store/editorStore'
 import { CheckCodeButton } from './CheckCodeButton'
 import { flushSync } from 'react-dom'
 import useCustomFunctionStore from './store/customFunctionsStore'
-import { ReadonlyFunctionMyExtension } from '../SolveExercisePage/CodeMirror/extensions/readonly-function-my'
+import { ReadonlyFunctionMyExtension } from '../JikiscriptExercisePage/CodeMirror/extensions/readonly-function-my'
 import { useSetupCustomFunctionStore } from './useSetupCustomFunctionsStore'
 import customFunctionEditorStore, {
   CustomFunctionEditorStore,
@@ -131,13 +131,13 @@ export default function CustomFunctionEditor({
   }, [customFunction])
 
   return (
-    <SolveExercisePageContextWrapper
+    <JikiscriptExercisePageContextWrapper
       value={
         {
           editorView: editorViewRef.current,
           isSpotlightActive: false,
           links,
-        } as SolveExercisePageContextValues
+        } as JikiscriptExercisePageContextValues
       }
     >
       <CustomFunctionContext.Provider value={customFunction}>
@@ -204,6 +204,6 @@ export default function CustomFunctionEditor({
         </div>
         <Toaster />
       </CustomFunctionContext.Provider>
-    </SolveExercisePageContextWrapper>
+    </JikiscriptExercisePageContextWrapper>
   )
 }

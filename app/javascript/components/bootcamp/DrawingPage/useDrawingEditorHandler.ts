@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
-import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
-import DrawExercise from '../SolveExercisePage/exercises/draw'
+import type { Handler } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
+import DrawExercise from '../JikiscriptExercisePage/exercises/draw'
 import { interpret } from '@/interpreter/interpreter'
-import useEditorStore from '../SolveExercisePage/store/editorStore'
-import { showError } from '../SolveExercisePage/utils/showError'
-import { AnimationTimeline } from '../SolveExercisePage/AnimationTimeline/AnimationTimeline'
+import useEditorStore from '../JikiscriptExercisePage/store/editorStore'
+import { showError } from '../JikiscriptExercisePage/utils/showError'
+import { AnimationTimeline } from '../JikiscriptExercisePage/AnimationTimeline/AnimationTimeline'
 import type { Frame } from '@/interpreter/frames'
 
 export function useDrawingEditorHandler() {

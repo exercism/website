@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'
 import { FinishLessonModalContext } from '../FinishLessonModal/FinishLessonModalContextWrapper'
-import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 
 export function CompletedBonusTasksView() {
   const { setIsCompletedBonusTasksModalOpen, handleCompleteSolution } =
     useContext(FinishLessonModalContext)
-  const { links, solution } = useContext(SolveExercisePageContext)
+  const { links, solution } = useContext(JikiscriptExercisePageContext)
 
   return (
     <>

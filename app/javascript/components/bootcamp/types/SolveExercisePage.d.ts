@@ -1,7 +1,7 @@
 import { LanguageFeatures } from '@/interpreter/interpreter'
 
 declare global {
-  type SolveExercisePageProps = {
+  type JikiscriptExercisePageProps = {
     solution: Solution
     project: Project
     exercise: Exercise

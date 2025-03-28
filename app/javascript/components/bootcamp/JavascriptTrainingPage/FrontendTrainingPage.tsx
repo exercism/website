@@ -1,5 +1,5 @@
 import React from 'react'
-import { Resizer } from '../SolveExercisePage/hooks/useResize'
+import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
 import { Header } from './Header'
 import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'

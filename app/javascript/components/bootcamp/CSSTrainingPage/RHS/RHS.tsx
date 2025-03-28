@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
-import { useCSSTrainingPageStore } from '../store/cssTrainingPageStore'
+import { useCSSTrainingPageStore } from '../store/cssExercisePageStore'
 
 type TabIndex = 'instructions' | 'output'
 

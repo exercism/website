@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react'
 import type { EditorView } from 'codemirror'
-import type { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
+import type { Handler } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 import {
   evaluateFunction,
   EvaluationContext,
   interpret,
 } from '@/interpreter/interpreter'
-import useEditorStore from '../SolveExercisePage/store/editorStore'
-import { showError } from '../SolveExercisePage/utils/showError'
+import useEditorStore from '../JikiscriptExercisePage/store/editorStore'
+import { showError } from '../JikiscriptExercisePage/utils/showError'
 import { StdlibFunctionsForLibrary } from '@/interpreter/stdlib'
-import { buildAnimationTimeline } from '../SolveExercisePage/test-runner/generateAndRunTestSuite/execTest'
+import { buildAnimationTimeline } from '../JikiscriptExercisePage/test-runner/generateAndRunTestSuite/execTest'
 import { framesSucceeded } from '@/interpreter/frames'
-import { updateUnfoldableFunctions } from '../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
+import { updateUnfoldableFunctions } from '../JikiscriptExercisePage/CodeMirror/unfoldableFunctionNames'
 import { CustomFunction } from './CustomFunctionEditor'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
 import customFunctionsStore from './store/customFunctionsStore'

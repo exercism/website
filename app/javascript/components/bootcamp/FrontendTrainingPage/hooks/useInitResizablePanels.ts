@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react'
-import { useResizablePanels } from '../../SolveExercisePage/hooks/useResize'
+import { useResizablePanels } from '../../JikiscriptExercisePage/hooks/useResize'
 import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
 
 export function useInitResizablePanels() {

@@ -6,7 +6,7 @@ import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore
 import {
   Resizer,
   useResizablePanels,
-} from '../../SolveExercisePage/hooks/useResize'
+} from '../../JikiscriptExercisePage/hooks/useResize'
 
 type TabIndex = 'instructions' | 'output'
 

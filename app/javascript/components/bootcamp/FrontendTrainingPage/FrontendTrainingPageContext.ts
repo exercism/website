@@ -1,6 +1,6 @@
 import { EditorView } from 'codemirror'
 import { createContext } from 'react'
-import { Handler } from '../SolveExercisePage/CodeMirror/CodeMirror'
+import { Handler } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 
 type FrontendTrainingPageContextType = {
   actualIFrameRef: React.RefObject<HTMLIFrameElement>

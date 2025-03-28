@@ -5,8 +5,11 @@ import '@hotwired/turbo-rails'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { CustomFunctionEditorProps } from '../components/bootcamp/CustomFunctionEditor/CustomFunctionEditor'
 
-const SolveExercisePage = lazy(
-  () => import('../components/bootcamp/SolveExercisePage/SolveExercisePage')
+const JikiscriptExercisePage = lazy(
+  () =>
+    import(
+      '../components/bootcamp/JikiscriptExercisePage/JikiscriptExercisePage'
+    )
 )
 
 const FrontendTrainingPage = lazy(
@@ -35,11 +38,13 @@ declare global {
 document.addEventListener('turbo:load', () => (window.turboLoaded = true))
 
 const mappings = {
-  'bootcamp-solve-exercise-page': (
-    data: SolveExercisePageProps
+  'bootcamp-jikiscript-exercise-page': (
+    data: JikiscriptExercisePageProps
   ): JSX.Element => (
     <Suspense>
-      <SolveExercisePage {...camelizeKeysAs<SolveExercisePageProps>(data)} />
+      <JikiscriptExercisePage
+        {...camelizeKeysAs<JikiscriptExercisePageProps>(data)}
+      />
     </Suspense>
   ),
 

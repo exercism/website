@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
-import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
-import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { css } from '@codemirror/lang-css'
-import { updateIFrame } from '../../../utils/updateIFrame'
-import { cssLinter } from '../../../extensions/cssLinter'
+import { cssLinter } from '../extensions/cssLinter'
+import { CSSTrainingPageContext } from '../CSSTrainingPageContext'
+import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
+import { useCSSTrainingPageStore } from '../store/cssTrainingPageStore'
+import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {
   const {
@@ -14,10 +14,10 @@ export function CSSEditor() {
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
-  } = useContext(FrontendTrainingPageContext)
+  } = useContext(CSSTrainingPageContext)
   const {
     panelSizes: { LHSWidth },
-  } = useFrontendTrainingPageStore()
+  } = useCSSTrainingPageStore()
 
   return (
     <SimpleCodeMirror

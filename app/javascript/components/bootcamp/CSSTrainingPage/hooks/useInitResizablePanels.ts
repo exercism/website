@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { useResizablePanels } from '../../SolveExercisePage/hooks/useResize'
-import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
+import { useFrontendTrainingPageStore } from '../store/cssTrainingPageStore'
 
 export function useInitResizablePanels() {
   const { setPanelSizes } = useFrontendTrainingPageStore()

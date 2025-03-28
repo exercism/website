@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { FrontendTrainingPageContext } from './FrontendTrainingPageContext'
+import { FrontendTrainingPageContext } from './CSSTrainingPageContext'
 import { animate } from '@juliangarnierorg/anime-beta'
-import { useFrontendTrainingPageStore } from './store/frontendTrainingPageStore'
+import { useFrontendTrainingPageStore } from './store/cssTrainingPageStore'
 
 const WIDTH = 350
 

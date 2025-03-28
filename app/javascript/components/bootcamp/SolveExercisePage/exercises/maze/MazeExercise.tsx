@@ -520,6 +520,9 @@ export default class MazeExercise extends Exercise {
     this.character.style.left = `${this.characterPosition.x * this.squareSize}%`
     this.character.style.top = `${this.characterPosition.y * this.squareSize}%`
   }
+  public getLayout(_: ExecutionContext): SquareInstance[][] {
+    return Jiki.wrapJSToJikiObject(this.mazeLayout)
+  }
   public announceEmojis(_: ExecutionContext, emojis: Jiki.Dictionary) {
     this.collectedEmojis = Jiki.unwrapJikiObject(emojis)
   }
@@ -574,6 +577,11 @@ export default class MazeExercise extends Exercise {
       name: 'remove_emoji',
       func: this.removeEmoji.bind(this),
       description: 'removed the emoji from the current square',
+    },
+    {
+      name: 'get_layout',
+      func: this.getLayout.bind(this),
+      description: 'got the current layout of the maze',
     },
   ]
 }

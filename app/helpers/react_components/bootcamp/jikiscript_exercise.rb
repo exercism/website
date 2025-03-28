@@ -6,7 +6,7 @@ module ReactComponents
       super(id, data)
     end
 
-    def id = "bootcamp-jikiscript-exercise"
+    def id = "bootcamp-jikiscript-exercise-page"
 
     def data
       {

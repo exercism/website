@@ -1,19 +1,19 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { FrontendTrainingPageContext } from './CSSExercisePageContext'
 import { animate } from '@juliangarnierorg/anime-beta'
-import { useFrontendTrainingPageStore } from './store/cssExercisePageStore'
+import { useCSSExercisePageStore } from './store/cssExercisePageStore'
+import { CSSExercisePageContext } from './CSSExercisePageContext'
 
 const WIDTH = 350
 
 export function ActualOutput() {
-  const context = React.useContext(FrontendTrainingPageContext)
+  const context = React.useContext(CSSExercisePageContext)
   if (!context) {
     return null
   }
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
 
   const { diffMode, curtainOpacity, setCurtainOpacity, curtainMode } =
-    useFrontendTrainingPageStore()
+    useCSSExercisePageStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [curtainWidth, setCurtainWidth] = useState(350)

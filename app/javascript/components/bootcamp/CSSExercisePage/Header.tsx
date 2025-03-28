@@ -3,7 +3,7 @@ import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundar
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ToggleButton } from '@/components/common/ToggleButton'
-import { useFrontendTrainingPageStore } from './store/cssExercisePageStore'
+import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 
 export type StudentCodeGetter = () => string | undefined
 
@@ -14,7 +14,7 @@ function _Header({ onCompare }: { onCompare: () => void }) {
     toggleCurtainMode,
     toggleDiffMode: toggleDiffModeState,
     setCurtainOpacity,
-  } = useFrontendTrainingPageStore()
+  } = useCSSExercisePageStore()
 
   const toggleDiffMode = useCallback((diffState: boolean) => {
     toggleDiffModeState()

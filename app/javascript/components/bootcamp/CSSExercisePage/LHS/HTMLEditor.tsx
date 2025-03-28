@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { html } from '@codemirror/lang-html'
-import { CSSTrainingPageContext } from '../CSSExercisePageContext'
+import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { htmlLinter } from '../extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
-import { useCSSTrainingPageStore } from '../store/cssExercisePageStore'
+import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { updateIFrame } from '../utils/updateIFrame'
 
 export function HTMLEditor() {
@@ -14,10 +14,10 @@ export function HTMLEditor() {
     javaScriptEditorRef,
     setEditorCodeLocalStorage,
     actualIFrameRef,
-  } = useContext(CSSTrainingPageContext)
+  } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
-  } = useCSSTrainingPageStore()
+  } = useCSSExercisePageStore()
 
   return (
     <SimpleCodeMirror

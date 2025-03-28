@@ -6,7 +6,7 @@ module ReactComponents
       super(id, data)
     end
 
-    def id = "bootcamp-css-exercise"
+    def id = "bootcamp-css-exercise-page"
 
     def data
       {

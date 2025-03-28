@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { launchConfetti } from '../../JikiscriptExercisePage/Tasks/launchConfetti'
 
 type CSSExercisePageStoreState = {
   diffMode: boolean
@@ -53,6 +54,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
               isFinishLessonModalOpen: true,
               wasFinishLessonModalShown: true,
             })
+            launchConfetti()
           }
           return newState
         })

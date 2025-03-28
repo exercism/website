@@ -10,6 +10,7 @@ type CSSExercisePageContextType = {
   cssEditorRef: React.RefObject<EditorView>
   exercise: CSSExercisePageExercise
   handleCompare: () => void
+  resetEditors: () => void
   handleHtmlEditorDidMount: (handler: Handler) => void
   handleCssEditorDidMount: (handler: Handler) => void
   setEditorCodeLocalStorage: React.Dispatch<
@@ -19,6 +20,7 @@ type CSSExercisePageContextType = {
       storedAt: string
     }>
   >
+  links: CSSExercisePageProps['links']
 }
 
 export const CSSExercisePageContext = createContext<CSSExercisePageContextType>(

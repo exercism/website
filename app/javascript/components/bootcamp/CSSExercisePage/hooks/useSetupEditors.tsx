@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 
@@ -39,9 +40,38 @@ export function useSetupEditors(slug: string, code: CSSExercisePageCode) {
     handleEditorDidMount: handleCssEditorDidMount,
   } = useEditorHandler(editorCode.cssEditorContent)
 
+  const resetEditors = useCallback(() => {
+    const cssEditorView = cssEditorViewRef.current
+    const htmlEditorView = htmlEditorViewRef.current
+
+    if (!(cssEditorView && htmlEditorView)) return
+
+    setEditorCode({
+      htmlEditorContent: code.stub.html,
+      cssEditorContent: code.stub.css,
+      storedAt: new Date().toISOString(),
+    })
+    cssEditorView.dispatch({
+      changes: {
+        from: 0,
+        to: cssEditorView.state.doc.length,
+        insert: code.stub.css,
+      },
+    })
+
+    htmlEditorView.dispatch({
+      changes: {
+        from: 0,
+        to: htmlEditorView.state.doc.length,
+        insert: code.stub.html,
+      },
+    })
+  }, [])
+
   return {
     htmlEditorViewRef,
     cssEditorViewRef,
+    resetEditors,
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,
     setEditorCodeLocalStorage: setEditorCode,

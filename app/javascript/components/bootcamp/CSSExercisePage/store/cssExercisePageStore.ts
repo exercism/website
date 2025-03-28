@@ -23,7 +23,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     toggleDiffMode: () =>
       set((state) => ({
         diffMode: !state.diffMode,
-        curtainOpacity: state.diffMode ? 0.3 : 1,
+        curtainOpacity: state.diffMode ? 1 : 0.3,
       })),
     curtainOpacity: 1,
     setCurtainOpacity: (curtainOpacity) => set({ curtainOpacity }),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Toaster } from 'react-hot-toast'
-import { Header } from './Header'
+import { Header } from './Header/Header'
 import { useInitResizablePanels } from './hooks/useInitResizablePanels'
 import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
@@ -28,6 +28,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
     setEditorCodeLocalStorage,
+    resetEditors,
   } = useSetupEditors(data.exercise.slug, data.code)
 
   return (
@@ -41,8 +42,10 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
         setEditorCodeLocalStorage,
+        resetEditors,
         exercise: data.exercise,
         handleCompare,
+        links: data.links,
       }}
     >
       <div id="bootcamp-frontend-training-page">

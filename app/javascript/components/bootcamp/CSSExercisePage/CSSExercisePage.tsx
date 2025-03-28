@@ -46,6 +46,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         handleCompare,
         exercise: data.exercise,
         links: data.links,
+        solution: data.solution,
       }}
     >
       <div id="bootcamp-frontend-training-page">

@@ -16,6 +16,10 @@ type CSSExercisePageStoreState = {
   setMatchPercentage: (matchPercentage: number) => void
   assertionStatus: 'pass' | 'fail' | 'pending'
   setAssertionStatus: (assertionStatus: 'pass' | 'fail' | 'pending') => void
+  isFinishLessonModalOpen: boolean
+  setIsFinishLessonModalOpen: (value: boolean) => void
+  wasFinishLessonModalShown: boolean
+  setWasFinishLessonModalShown: (value: boolean) => void
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
@@ -39,11 +43,29 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     matchPercentage: 0,
     setMatchPercentage: (matchPercentage) => {
       if (matchPercentage === 100) {
-        set({ assertionStatus: 'pass' })
+        set((state) => {
+          const newState: {
+            assertionStatus: CSSExercisePageStoreState['assertionStatus']
+          } = { assertionStatus: 'pass' }
+
+          if (!state.wasFinishLessonModalShown) {
+            Object.assign(newState, {
+              isFinishLessonModalOpen: true,
+              wasFinishLessonModalShown: true,
+            })
+          }
+          return newState
+        })
       }
       set({ matchPercentage })
     },
     assertionStatus: 'pending',
     setAssertionStatus: (assertionStatus) => set({ assertionStatus }),
+    isFinishLessonModalOpen: false,
+    setIsFinishLessonModalOpen: (value) =>
+      set({ isFinishLessonModalOpen: value }),
+    wasFinishLessonModalShown: false,
+    setWasFinishLessonModalShown: (value) =>
+      set({ wasFinishLessonModalShown: value }),
   })
 )

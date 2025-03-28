@@ -21,6 +21,7 @@ type CSSExercisePageContextType = {
     }>
   >
   links: CSSExercisePageProps['links']
+  solution: CSSExercisePageProps['solution']
 }
 
 export const CSSExercisePageContext = createContext<CSSExercisePageContextType>(

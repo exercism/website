@@ -1,12 +1,12 @@
 module ReactComponents
-  class Bootcamp::SolveExercisePage < ReactComponent
+  class Bootcamp::CSSExercise < ReactComponent
     initialize_with :solution
 
     def to_s
       super(id, data)
     end
 
-    def id = "bootcamp-solve-exercise-page"
+    def id = "bootcamp-css-exercise"
 
     def data
       {
@@ -16,34 +16,30 @@ module ReactComponents
           slug: exercise.slug,
           title: exercise.title,
           introduction_html: exercise.introduction_html,
-          tasks: exercise.tasks,
           config: {
             title: exercise.config[:title],
             description: exercise.config[:description],
-            project_type: exercise.config[:project_type],
-            tests_type: exercise.config[:tests_type],
-            interpreter_options: exercise.config[:interpreter_options],
-            stdlib_functions: exercise.config[:stdlib_functions],
-            exercise_functions: exercise.config[:exercise_functions],
-            exercise_classes: exercise.config[:exercise_classes]
-          },
-          test_results: submission&.test_results
+            allowed_properties: exercise.config[:allowed_properties],
+            disallowed_properties: exercise.config[:disallowed_properties],
+            expected:
+          }
         },
         solution: {
           uuid: solution.uuid,
           status: solution.status,
-          passed_basic_tests: solution.passed_basic_tests?,
-          passed_bonus_tests: solution.passed_bonus_tests?
+          passed_basic_tests: solution.passed_basic_tests?
         },
         test_results: submission&.test_results,
         code: {
-          stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user),
+          stub: {
+            css: exercise.stub("css"),
+            html: exercise.stub("html")
+          },
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,
           default_readonly_ranges: exercise.readonly_ranges
         },
-        custom_functions:,
         links: {
           post_submission: Exercism::Routes.api_bootcamp_solution_submissions_url(solution_uuid: solution.uuid, only_path: true),
           complete_solution: Exercism::Routes.complete_api_bootcamp_solution_url(solution.uuid, only_path: true),
@@ -55,8 +51,11 @@ module ReactComponents
       }
     end
 
-    def custom_functions
-      ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission&.custom_functions || [])
+    def expected
+      {
+        html: exercise.example("html"),
+        css: exercise.example("css")
+      }
     end
 
     def readonly_ranges

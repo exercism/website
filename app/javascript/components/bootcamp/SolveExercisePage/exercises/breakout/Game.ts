@@ -59,7 +59,11 @@ function fn(this: BreakoutExercise) {
     'game_over',
     'set the game as over',
     'public',
-    function (executionCtx: ExecutionContext, result: Jiki.JikiObject) {
+    function (
+      executionCtx: ExecutionContext,
+      game: Jiki.Instance,
+      result: Jiki.JikiObject
+    ) {
       exercise.gameOver(executionCtx, result)
     }
   )

@@ -53,7 +53,6 @@ export function ActualOutput() {
       <div
         ref={containerRef}
         className="border border-textColor1 border-1 rounded-12 w-[350px] h-[350px] relative overflow-hidden"
-        // style={{ isolation: 'isolate' }}
       >
         {/* student's code's output */}
         <iframe

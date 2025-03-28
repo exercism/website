@@ -10,7 +10,6 @@ export function CSSEditor() {
   const {
     cssEditorRef,
     htmlEditorRef,
-    javaScriptEditorRef,
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
@@ -34,7 +33,6 @@ export function CSSEditor() {
         updateIFrame(actualIFrameRef, {
           css: view.state.doc.toString(),
           html: htmlEditorRef.current?.state.doc.toString(),
-          javascript: javaScriptEditorRef.current?.state.doc.toString(),
         })
       }}
       ref={cssEditorRef}

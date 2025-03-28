@@ -20,7 +20,7 @@ export async function getIframesMatchPercentage(
     const bDiff = Math.abs(actualPixels[i + 2] - expectedPixels[i + 2])
     const aDiff = Math.abs(actualPixels[i + 3] - expectedPixels[i + 3])
 
-    const threshold = 10
+    const threshold = 0
     if (
       rDiff > threshold ||
       gDiff > threshold ||
@@ -30,8 +30,6 @@ export async function getIframesMatchPercentage(
       differentPixels++
     }
   }
-
-  console.log('differentPixels', differentPixels)
 
   const matchPercentage = ((1 - differentPixels / totalPixels) * 100).toFixed(2)
   return parseFloat(matchPercentage)

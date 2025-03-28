@@ -11,7 +11,6 @@ export function HTMLEditor() {
     handleHtmlEditorDidMount,
     htmlEditorRef,
     cssEditorRef,
-    javaScriptEditorRef,
     setEditorCodeLocalStorage,
     actualIFrameRef,
   } = useContext(CSSExercisePageContext)
@@ -33,7 +32,6 @@ export function HTMLEditor() {
         updateIFrame(actualIFrameRef, {
           html: view.state.doc.toString(),
           css: cssEditorRef.current?.state.doc.toString(),
-          javascript: javaScriptEditorRef.current?.state.doc.toString(),
         })
       }}
       extensions={[html(), htmlLinter]}

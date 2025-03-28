@@ -7,6 +7,7 @@ export function LHS() {
     <div className="page-body-lhs">
       <HTMLEditor />
       <CSSEditor />
+      <div className="btn-primary btn-m">Run Code</div>
     </div>
   )
 }

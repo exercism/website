@@ -1,7 +1,7 @@
 type CSSExercisePageProps = {
   solution: CSSExercisePageSolution
   project: Project
-  exercise: Exercise
+  exercise: CSSExercisePageExercise
   code: CSSExercisePageCode
   links: {
     postSubmission: string
@@ -18,7 +18,7 @@ type CSSExercisePageProps = {
 type CSSExercisePageCode = {
   stub: { html: string; css: string }
   code: string
-  storedAt: Date | string | null
+  storedAt: string | null
   readonlyRanges?: { from: number; to: number }[]
   defaultReadonlyRanges?: { from: number; to: number }[]
 }

@@ -10,16 +10,18 @@ export function RHS() {
   } = useCSSExercisePageStore()
   return (
     <div className="page-body-rhs" style={{ width: RHSWidth }}>
-      <div className="flex gap-8">
+      <div className="flex gap-8 h-full">
         <div className="flex flex-col gap-12">
           <ActualOutput />
           <ExpectedOutput />
         </div>
 
-        <Instructions
-          exerciseTitle="Css world!"
-          exerciseInstructions="<div>Follow these instructions</div>"
-        />
+        <div className="h-100 overflow-auto">
+          <Instructions
+            exerciseTitle="Css world!"
+            exerciseInstructions="<div>Follow these instructions</div>"
+          />
+        </div>
       </div>
     </div>
   )

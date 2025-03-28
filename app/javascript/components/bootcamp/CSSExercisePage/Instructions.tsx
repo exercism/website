@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CSSExercisePageContext } from './CSSExercisePageContext'
 
 export function Instructions({
   exerciseTitle,
@@ -7,13 +8,15 @@ export function Instructions({
   exerciseTitle: string
   exerciseInstructions: string
 }) {
+  const { exercise } = useContext(CSSExercisePageContext)
   return (
     <div className="scenario-rhs c-prose c-prose-small">
-      <h3>{exerciseTitle}</h3>
+      <h3>{exercise.title}</h3>
 
       <div
         dangerouslySetInnerHTML={{
-          __html: exerciseInstructions || '<p>Instructions are missing</p>',
+          __html:
+            exercise.introductionHtml || '<p>Instructions are missing</p>',
         }}
       />
     </div>

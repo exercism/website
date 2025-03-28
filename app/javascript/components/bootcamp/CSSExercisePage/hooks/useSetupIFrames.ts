@@ -4,15 +4,15 @@ import { getIframesMatchPercentage } from '../utils/getIframesMatchPercentage'
 import { updateIFrame } from '../utils/updateIFrame'
 
 // set up expected output and reference output
-export function useSetupIFrames() {
+export function useSetupIFrames(config: CSSExercisePageConfig) {
   const actualIFrameRef = useRef<HTMLIFrameElement>(null)
   const expectedIFrameRef = useRef<HTMLIFrameElement>(null)
   const expectedReferenceIFrameRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    const { html, css, js } = boxExample
-    updateIFrame(expectedIFrameRef, { html, css, javascript: js })
-    updateIFrame(expectedReferenceIFrameRef, { html, css, javascript: js })
+    const { html, css } = config.expected
+    updateIFrame(expectedIFrameRef, { html, css })
+    updateIFrame(expectedReferenceIFrameRef, { html, css })
   }, [])
 
   const handleCompare = useCallback(async () => {

@@ -1,36 +1,26 @@
-import React, { createContext, useState } from 'react'
-import { TabContext } from '@/components/common/Tab'
-import { Tabs } from './Tabs'
-import { Panels } from './Panels/Panels'
+import React, { createContext } from 'react'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
-
-type TabIndex = 'instructions' | 'output'
-
-export const TabsContext = createContext<TabContext>({
-  current: 'instructions',
-  switchToTab: () => {},
-})
+import { ActualOutput } from '../ActualOutput'
+import { ExpectedOutput } from '../ExpectedOutput'
+import { Instructions } from '../Instructions'
 
 export function RHS() {
-  const [tab, setTab] = useState<TabIndex>('output')
   const {
     panelSizes: { RHSWidth },
   } = useCSSExercisePageStore()
   return (
     <div className="page-body-rhs" style={{ width: RHSWidth }}>
-      <TabsContext.Provider
-        value={{
-          current: tab,
-          switchToTab: (id: string) => {
-            setTab(id as TabIndex)
-          },
-        }}
-      >
-        <div className="c-iteration-pane">
-          <Tabs />
-          <Panels />
+      <div className="flex gap-8">
+        <div className="flex flex-col gap-12">
+          <ActualOutput />
+          <ExpectedOutput />
         </div>
-      </TabsContext.Provider>
+
+        <Instructions
+          exerciseTitle="Css world!"
+          exerciseInstructions="<div>Follow these instructions</div>"
+        />
+      </div>
     </div>
   )
 }

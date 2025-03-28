@@ -52,11 +52,9 @@ const mappings = {
     </Suspense>
   ),
 
-  'bootcamp-css-exercise-page': (
-    data: JikiscriptExercisePageProps
-  ): JSX.Element => (
+  'bootcamp-css-exercise-page': (data: CSSExercisePageProps): JSX.Element => (
     <Suspense>
-      <CSSExercisePage />
+      <CSSExercisePage {...camelizeKeysAs<CSSExercisePageProps>(data)} />
     </Suspense>
   ),
 

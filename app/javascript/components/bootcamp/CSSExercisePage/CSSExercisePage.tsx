@@ -8,8 +8,9 @@ import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
+import { useLogger } from '../common/hooks/useLogger'
 
-export default function CSSExercisePage() {
+export default function CSSExercisePage(data: CSSExercisePageProps) {
   const {
     actualIFrameRef,
     expectedIFrameRef,
@@ -17,17 +18,17 @@ export default function CSSExercisePage() {
     handleCompare,
   } = useSetupIFrames()
 
+  useLogger('CSSExercisePage', data)
+
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
 
   const {
     htmlEditorViewRef,
     cssEditorViewRef,
-    javaScriptEditorViewRef,
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
-    handleJavaScriptEditorDidMount,
     setEditorCodeLocalStorage,
-  } = useSetupEditors()
+  } = useSetupEditors(data.exercise.slug)
 
   return (
     <CSSExercisePageContext.Provider
@@ -37,10 +38,8 @@ export default function CSSExercisePage() {
         expectedReferenceIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
-        javaScriptEditorRef: javaScriptEditorViewRef,
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
-        handleJavaScriptEditorDidMount,
         setEditorCodeLocalStorage,
       }}
     >

@@ -16,7 +16,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     expectedIFrameRef,
     expectedReferenceIFrameRef,
     handleCompare,
-  } = useSetupIFrames()
+  } = useSetupIFrames(data.exercise.config)
 
   useLogger('CSSExercisePage', data)
 
@@ -28,7 +28,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
     setEditorCodeLocalStorage,
-  } = useSetupEditors(data.exercise.slug)
+  } = useSetupEditors(data.exercise.slug, data.code)
 
   return (
     <CSSExercisePageContext.Provider
@@ -41,6 +41,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
         setEditorCodeLocalStorage,
+        exercise: data.exercise,
       }}
     >
       <div id="bootcamp-frontend-training-page">

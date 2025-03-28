@@ -8,12 +8,14 @@ type CSSExercisePageContextType = {
   expectedReferenceIFrameRef: React.RefObject<HTMLIFrameElement>
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
+  exercise: CSSExercisePageExercise
   handleHtmlEditorDidMount: (handler: Handler) => void
   handleCssEditorDidMount: (handler: Handler) => void
   setEditorCodeLocalStorage: React.Dispatch<
     React.SetStateAction<{
       htmlEditorContent: string
       cssEditorContent: string
+      storedAt: string
     }>
   >
 }

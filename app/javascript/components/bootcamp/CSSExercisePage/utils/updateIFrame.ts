@@ -2,11 +2,7 @@ export function updateIFrame(
   iframeRef:
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
-  {
-    html,
-    css,
-    javascript,
-  }: { html?: string; css?: string; javascript?: string }
+  { html, css }: { html?: string; css?: string }
 ) {
   let iframeElement: HTMLIFrameElement | null = null
 
@@ -31,15 +27,6 @@ export function updateIFrame(
     <html>
       <head>
         <style>${css}</style>
-        <script>
-          window.runCode = function() {
-            try {
-              ${javascript}
-            } catch (error) {
-              console.error('User script error:', error)
-            }
-          }
-        </script>
       </head>
       <body>
         ${html}
@@ -47,20 +34,4 @@ export function updateIFrame(
         </html>
         `)
   iframeDoc.close()
-
-  iframeElement.onload = () => {
-    try {
-      // @ts-ignore
-      const runCode = iframeElement?.contentWindow?.runCode
-      if (typeof runCode === 'function') {
-        runCode()
-      } else {
-        console.warn('runCode is not defined on iframe')
-      }
-    } catch (err) {
-      console.error('Failed to execute runCode:', err)
-    }
-  }
 }
-
-/* <script>window.runCode?.()</script> */

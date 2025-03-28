@@ -23,10 +23,13 @@ export function useSetupEditors(slug: string, code: CSSExercisePageCode) {
     new Date(editorCode.storedAt).getTime() <
       new Date(code.storedAt).getTime() - 60000
   ) {
+    // Might be a weak point
+    // TODO: Add extra guard here
+    const { html, css } = JSON.parse(code.code)
     setEditorCode({
       // TODO: replace this to code.code once it's there
-      htmlEditorContent: code.stub.html,
-      cssEditorContent: code.stub.css,
+      htmlEditorContent: html,
+      cssEditorContent: css,
       storedAt: code.storedAt,
     })
   }

@@ -74,7 +74,10 @@ function _Header() {
           </>
         )}
 
-        <a href={''} className={assembleClassNames('btn-secondary btn-xxs')}>
+        <a
+          href={links.dashboardIndex}
+          className={assembleClassNames('btn-secondary btn-xxs')}
+        >
           Back
         </a>
       </div>

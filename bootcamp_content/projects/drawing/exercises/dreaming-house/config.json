@@ -75,7 +75,7 @@
             {
               "function": "skyReachedHue192()",
               "matcher": "toBeTrue",
-              "error_html": "The sky didn't seem to change hue correctly."
+              "error_html": "The sky didn't seem to increase from 190 to 310 by the amount input into <code>increase_hue_by</code>."
             },
             {
               "function": "skyReachedHue310()",

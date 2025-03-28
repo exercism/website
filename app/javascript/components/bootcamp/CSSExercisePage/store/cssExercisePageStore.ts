@@ -12,6 +12,10 @@ type CSSExercisePageStoreState = {
     RHSWidth: number
   }
   setPanelSizes: (panelSizes: { LHSWidth: number; RHSWidth: number }) => void
+  matchPercentage: number
+  setMatchPercentage: (matchPercentage: number) => void
+  assertionStatus: 'pass' | 'fail' | 'pending'
+  setAssertionStatus: (assertionStatus: 'pass' | 'fail' | 'pending') => void
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
@@ -32,5 +36,14 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
       RHSWidth: 800,
     },
     setPanelSizes: (panelSizes) => set({ panelSizes }),
+    matchPercentage: 0,
+    setMatchPercentage: (matchPercentage) => {
+      if (matchPercentage === 100) {
+        set({ assertionStatus: 'pass' })
+      }
+      set({ matchPercentage })
+    },
+    assertionStatus: 'pending',
+    setAssertionStatus: (assertionStatus) => set({ assertionStatus }),
   })
 )

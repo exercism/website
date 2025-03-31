@@ -46,17 +46,10 @@
           %strong Fun
           projects
       .bubble
-        - if @has_discount
-          .flag= flag_for_country_code(@country_code_2)
-          .text
-            %span.line-through{ class: 'text-[#666]' } $#{@course_full_price}
-            Only
-            %strong $#{@course_price}
-        - else
-          = image_tag "bootcamp/cost.svg"
-          .text
-            Only
-            %strong $#{@course_price}
+        = image_tag "bootcamp/help.svg"
+        .text
+          Helpful
+          %strong mentors
 
     .video-container
       .video

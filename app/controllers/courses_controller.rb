@@ -18,6 +18,14 @@ class CoursesController < ApplicationController
 
   def show
     render action: @course.template_slug
+
+    difference_in_seconds = Time.utc(2025, 4, 26, 11, 0o0, 0o0) - Time.current
+
+    # Convert to days, hours, minutes, and seconds
+    @days = (difference_in_seconds / (24 * 60 * 60)).to_i
+    @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
+    @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
+    @seconds = (difference_in_seconds % 60).to_i
   end
 
   def testimonials

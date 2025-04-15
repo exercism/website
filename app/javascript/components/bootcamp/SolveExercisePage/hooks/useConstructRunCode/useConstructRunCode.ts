@@ -80,7 +80,7 @@ export function useConstructRunCode({
    * This function is used to run the code in the editor
    */
   const runCode = useCallback(
-    (studentCode: string, editorView: EditorView | null) => {
+    async (studentCode: string, editorView: EditorView | null) => {
       if (!tasks) {
         console.error('tasks are missing in useRunCode')
         return
@@ -95,21 +95,21 @@ export function useConstructRunCode({
         .forEach((e) => e.remove())
 
       // @ts-ignore
-      const compiled = compile(studentCode, {
-        languageFeatures: config.interpreterOptions,
-        customFunctions: Object.values(customFunctionsForInterpreter).map(
-          (cfn) => {
-            return { name: cfn.name, arity: cfn.arity, code: cfn.code }
-          }
-        ),
-      })
+      // const compiled = compile(studentCode, {
+      //   languageFeatures: config.interpreterOptions,
+      //   customFunctions: Object.values(customFunctionsForInterpreter).map(
+      //     (cfn) => {
+      //       return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+      //     }
+      //   ),
+      // })
 
-      const error = compiled.error as CompilationError
+      // const error = compiled.error as CompilationError
 
-      if (error) {
-        handleCompilationError(error, editorView)
-        return
-      }
+      // if (error) {
+      //   handleCompilationError(error, editorView)
+      //   return
+      // }
 
       let testResults
 
@@ -123,12 +123,13 @@ export function useConstructRunCode({
         }
       )
       try {
-        testResults = generateAndRunTestSuite({
+        testResults = await generateAndRunTestSuite({
           studentCode,
           tasks,
           config,
           customFunctions: customFns,
         })
+        console.log("Thinks I've run", testResults.tests.length)
       } catch (error) {
         console.log(error)
         const compError = error as CompilationError
@@ -143,7 +144,7 @@ export function useConstructRunCode({
       }
       console.log('No error')
 
-      const bonusTestResults = generateAndRunTestSuite({
+      const bonusTestResults = await generateAndRunTestSuite({
         studentCode,
         tasks: bonusTasks ?? [],
         config,
@@ -161,6 +162,7 @@ export function useConstructRunCode({
         inspectedTestResult,
         shouldShowBonusTasks
       )
+      console.log(automaticallyInspectedTest)
 
       // Don't play out the animation if there are errors
       // The scrubber will automatically handle jumping to

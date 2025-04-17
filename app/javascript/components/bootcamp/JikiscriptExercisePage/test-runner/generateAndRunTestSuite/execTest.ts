@@ -18,6 +18,8 @@ import { Frame } from '@/interpreter/frames'
 import { expect } from '../expect'
 import { execJS } from './execJS'
 
+const language: 'jikiscript' | 'javascript' = 'javascript'
+
 /**
  This is of type TestCallback
  */
@@ -25,73 +27,57 @@ export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
   project?: Project
-): Promise<{
-  slug: string
-  expects: MatcherResult[]
-  codeRun: string
-  frames: Frame[]
-  animationTimeline: TAnimationTimeline
-  type: TestsType
-  view?: HTMLElement
-  imageSlug?: string
-}> {
+): Promise<ReturnType<TestCallback>> {
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
   const fnName = testData.function
-  const args = testData.args
-  const prom = execJS(options.studentCode, fnName, args)
-  const actual = (await prom).result
-
-  const expects = generateExpects(null, testData, actual, exercise)
-
-  return {
-    expects,
-    slug: testData.slug,
-    codeRun: generateCodeRunString(fnName, args),
-    frames: [],
-    type: options.config.testsType || (exercise ? 'state' : 'io'),
-    animationTimeline: buildAnimationTimeline(exercise, []),
-    imageSlug: testData.imageSlug,
-    view: exercise?.getView(),
-  }
-
-  /*
-  
-  const context = {
-    externalFunctions: buildExternalFunctions(options, exercise),
-    classes: buildExternalClasses(options, exercise),
-    languageFeatures: options.config.interpreterOptions,
-    customFunctions: options.customFunctions,
-  }
-
   const args = testData.args ? parseArgs(testData.args) : []
 
-  let evaluated
-  if (testData.function) {
-    evaluated = evaluateFunction(
-      options.studentCode,
-      context,
-      testData.function,
-      ...args
-    )
-  } else if (testData.expression) {
-    evaluated = evaluateExpression(
-      options.studentCode,
-      context,
-      testData.expression
-    )
-  } else {
-    evaluated = interpret(options.studentCode, context)
+  let actual: any
+  let frames: Frame[] = []
+  let evaluated: any = null
+
+  switch (language) {
+    case 'javascript': {
+      // we can probably assume that fnName will always exist?
+      const result = await execJS(options.studentCode, fnName!, args)
+      actual = result.result
+      break
+    }
+
+    case 'jikiscript': {
+      const context = {
+        externalFunctions: buildExternalFunctions(options, exercise),
+        classes: buildExternalClasses(options, exercise),
+        languageFeatures: options.config.interpreterOptions,
+        customFunctions: options.customFunctions,
+      }
+
+      if (fnName) {
+        evaluated = evaluateFunction(
+          options.studentCode,
+          context,
+          fnName,
+          ...args
+        )
+      } else if (testData.expression) {
+        evaluated = evaluateExpression(
+          options.studentCode,
+          context,
+          testData.expression
+        )
+      } else {
+        evaluated = interpret(options.studentCode, context)
+      }
+
+      actual = evaluated.value
+      frames = evaluated.frames
+      break
+    }
   }
 
-  const { value: actual, frames } = evaluated
-
-  const codeRun = testData.codeRun
-    ? testData.codeRun
-    : generateCodeRunString(testData.function, args)
-
-  const animationTimeline = buildAnimationTimeline(exercise, frames)
+  const codeRun = testData.codeRun ?? generateCodeRunString(fnName, args)
 
   const expects = generateExpects(evaluated, testData, actual, exercise)
 
@@ -101,10 +87,10 @@ export async function execTest(
     codeRun,
     frames,
     type: options.config.testsType || (exercise ? 'state' : 'io'),
-    animationTimeline,
+    animationTimeline: buildAnimationTimeline(exercise, frames),
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
-  }*/
+  }
 }
 
 const buildExternalFunctions = (
@@ -177,9 +163,7 @@ export function buildAnimationTimeline(
       {
         targets: `body`,
         duration: lastFrame.time,
-        transformations: {
-          propProgress: '100%',
-        },
+        transformations: {},
         offset: 0,
       },
     ]

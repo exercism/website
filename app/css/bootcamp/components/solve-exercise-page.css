@@ -1,5 +1,6 @@
 #bootcamp-solve-exercise-page,
-#bootcamp-custom-function-editor-page {
+#bootcamp-custom-function-editor-page,
+#bootcamp-frontend-training-page {
     @apply flex flex-col w-full h-screen;
 
     .page-header {
@@ -40,7 +41,6 @@
         @apply p-8;
         @apply flex flex-col;
         @apply bg-bootcamp-very-light-purple;
-
         & > button {
             @apply h-[12px];
             &:active {

@@ -3,8 +3,8 @@ import React from 'react'
 import Modal from 'react-modal'
 import { FinishLessonModalContext } from './FinishLessonModalContextWrapper'
 import { useContext } from 'react'
-import { SolveExercisePageContext } from '@/components/bootcamp/SolveExercisePage/SolveExercisePageContextWrapper'
-import { NextExercise } from '../../SolveExercisePage/Tasks/completeSolution'
+import { JikiscriptExercisePageContext } from '@/components/bootcamp/JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
+import { NextExercise } from '../../JikiscriptExercisePage/Tasks/completeSolution'
 import { InitialView } from './views/InitialView'
 
 Modal.setAppElement('body')
@@ -56,7 +56,7 @@ function CompletedExerciseView({
 }: {
   nextExerciseData: NextExercise
 }) {
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
@@ -87,7 +87,7 @@ function CompletedExerciseView({
 
 function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
   const { completedLevelIdx } = useContext(FinishLessonModalContext)
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
@@ -121,7 +121,7 @@ function CompletedAllLevelsView({
   nextExerciseData: NextExercise
 }) {
   const { completedLevelIdx } = useContext(FinishLessonModalContext)
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
@@ -158,7 +158,7 @@ function CompletedAllLevelsView({
 }
 
 function CompletedEverythingView() {
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
 
   return (
     <div>

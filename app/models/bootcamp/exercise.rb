@@ -48,8 +48,12 @@ class Bootcamp::Exercise < ApplicationRecord
     Markdown::Parse.(file_contents("introduction.md"))
   end
 
-  def stub
-    file_contents("stub.jiki")
+  def stub(type = "jiki")
+    file_contents("stub.#{type}")
+  end
+
+  def example(type = "jiki")
+    file_contents("example.#{type}")
   end
 
   def readonly_ranges

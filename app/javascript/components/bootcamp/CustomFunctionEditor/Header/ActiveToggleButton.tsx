@@ -1,6 +1,6 @@
 import React from 'react'
 import { ToggleButton } from '@/components/common/ToggleButton'
-import { StaticTooltip } from '../../SolveExercisePage/Scrubber/ScrubberTooltipInformation'
+import { StaticTooltip } from '../../JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
 import customFunctionEditorStore from '../store/customFunctionEditorStore'
 
 export function ActiveToggleButton() {

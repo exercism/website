@@ -15,7 +15,9 @@ import { CustomFunctionsButton } from '../../CustomFunctionEditor/Header/CustomF
 
 function _Header() {
   const { areAllTasksCompleted } = useTaskStore()
-  const { solution, links } = useContext(JikiscriptExercisePageContext)
+  const { solution, links, exercise } = useContext(
+    JikiscriptExercisePageContext
+  )
 
   const {
     handleCompleteSolution,
@@ -39,7 +41,7 @@ function _Header() {
         </div>
       </div>
       <div className="ml-auto flex items-center gap-8">
-        <CustomFunctionsButton />
+        {exercise.language === 'jikiscript' && <CustomFunctionsButton />}
         <ResetButton />
 
         {solution.status === 'in_progress' && (

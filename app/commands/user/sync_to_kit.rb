@@ -12,6 +12,8 @@ class User
 
       new_sub = add_subscriber!
       add_to_form! if new_sub
+    rescue RestClient::TooManyRequests
+      requeue_job!(rand(10..119)) # Backoff for between 10 and 120 seconds (space them out)
     end
 
     private

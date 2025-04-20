@@ -12,7 +12,7 @@ class User::SetDiscordRoles
       [SUPERMENTOR_ROLE_ID, user.supermentor?],
       [MENTOR_ROLE_ID, user.mentor?],
       [INSIDERS_ROLE_ID, user.insider?],
-      [BOOTCAMP_ATTENDEE_ROLE_ID, user.bootcamp_attendee?],
+      [BOOTCAMP_ATTENDEE_ROLE_ID, user.bought_course?],
       [BOOTCAMP_MENTOR_ROLE_ID, user.bootcamp_mentor?]
     ].each do |role_id, condition|
       add_or_remove!(role_id, condition)

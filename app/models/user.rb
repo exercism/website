@@ -342,6 +342,11 @@ class User < ApplicationRecord
   end
 
   memoize
+  def bought_course?
+    course_enrollments.paid.exists?
+  end
+
+  memoize
   def profile? = profile.present?
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 

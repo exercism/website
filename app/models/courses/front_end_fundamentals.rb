@@ -15,7 +15,9 @@ class Courses::FrontEndFundamentals < Courses::Course
   )
 
   def enable_for_user!(user)
-    # Currently a no-op
+    # TODO: Enable bootcamp_attendee here
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
   end
 
   # rubocop:enable Layout/LineLength

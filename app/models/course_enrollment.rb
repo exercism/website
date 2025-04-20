@@ -10,6 +10,10 @@ class CourseEnrollment < ApplicationRecord
     self.uuid = SecureRandom.uuid unless self.uuid
   end
 
+  after_save do
+    User::SyncToKit.defer(user) if user
+  end
+
   def course
     Courses::Course.course_for_slug(course_slug)
   end

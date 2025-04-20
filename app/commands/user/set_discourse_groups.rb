@@ -39,7 +39,7 @@ class User::SetDiscourseGroups
   end
 
   def set_bootcamp_attendee!
-    if user.bootcamp_attendee?
+    if user.bought_course?
       add_to_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)
     else
       remove_from_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)

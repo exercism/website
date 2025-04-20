@@ -28,6 +28,8 @@ class User < ApplicationRecord
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
 
+  has_many :course_enrollments, dependent: :nullify
+
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy

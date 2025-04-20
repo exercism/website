@@ -18,8 +18,13 @@ class User
     delegate :course_enrollments, to: :user
 
     memoize
+    def name
+      course_enrollments.paid.last&.name.presence || course_enrollments.last.name.presence || user.name
+    end
+
+    memoize
     def email
-      course_enrollments.paid.last&.email || course_enrollments.last.email || user.email
+      course_enrollments.paid.last&.email.presence || course_enrollments.last.email.presence || user.email
     end
 
     memoize
@@ -47,7 +52,9 @@ class User
         'https://api.kit.com/v4/subscribers',
         {
           "email_address": email,
+          "first_name": name,
           "fields": {
+            "username": user.handle,
             "user_id": user.id,
             "owns_something": owns_something?,
             "owns_coding_fundamentals": owns_coding_fundamentals?,

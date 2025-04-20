@@ -67,7 +67,7 @@ class User
       RestClient.post(
         "https://api.kit.com/v4/forms/#{SUBSCRIBE_FORM_ID}/subscribers",
         {
-          "email_address": bootcamp_data.email
+          "email_address": email
         }, HEADERS
       )
     end

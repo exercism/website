@@ -29,18 +29,16 @@ export async function execJS(
   args: any[],
   externalFunctionNames: string[]
 ): Promise<ExecResult> {
+  // First, look for parse-errors, which we have to do via acorn to get line/col numbers.
   try {
     acorn.parse(studentCode, { ecmaVersion: 2020, sourceType: 'module' })
-    const blob = new Blob([studentCode], { type: 'text/javascript' })
-    const url = URL.createObjectURL(blob)
-    await import(url)
   } catch (err: any) {
     return {
       status: 'error',
       cleanup: () => {},
       error: {
         message: err.message.replace(/\s*\(\d+:\d+\)$/, ''),
-        lineNumber: err.loc.line - 3, // No idea why we are 3 out.
+        lineNumber: err.loc.line - 2, // No idea why we are 2 out.
         colNumber: err.loc.column,
         type: err.name,
       },

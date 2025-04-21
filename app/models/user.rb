@@ -342,8 +342,24 @@ class User < ApplicationRecord
   end
 
   memoize
-  def bought_course?
-    course_enrollments.paid.exists?
+  def bought_course? = course_enrollments.paid.exists?
+
+  memoize
+  def bootcamp_part_1_attendee?
+    return false unless bootcamp_attendee?
+
+    course_enrollments.paid.
+      where(course_slug: %w[coding-fundamentals bundle-coding-front-end]).
+      exists?
+  end
+
+  memoize
+  def bootcamp_part_2_attendee?
+    return false unless bootcamp_attendee?
+
+    course_enrollments.paid.
+      where(course_slug: %w[front-end-fundamentals bundle-coding-front-end]).
+      exists?
   end
 
   memoize

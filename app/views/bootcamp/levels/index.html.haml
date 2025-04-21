@@ -11,18 +11,41 @@
         %h1.font-semibold.text-20.mb-8 Levels
         %p Levels are the building blocks of the bootcamp. Each level contains a set of exercises and concepts that you need to complete before moving on to the next.
   .lg-container
-    .grid.grid-cols-3.gap-16
-      - (1..27).each do |idx|
-        - level = @levels[idx]
-        - if level&.unlocked?
+    - if current_user.bootcamp_part_1_attendee?
+      %h3.text-h3.mt-32.mb-12 Part 1 - Coding Fundamentals
+      .grid.grid-cols-3.gap-16
+        - (1..10).each do |idx|
+          - level = @levels[idx]
+          - if level&.unlocked?
 
-          - css_class = current_user.bootcamp_data.level_idx > idx ? "completed" : ""
-          = link_to level, class: "level #{css_class}" do
-            .number= idx
-            .text
-              %h2.font-semibold= level.title
-              -# %p= level.status
-              %p= level.description
-            = graphical_icon 'bootcamp-completed-check-circle', css_class: "completed-icon"
-        - else
-          .locked-level
+            - css_class = current_user.bootcamp_data.level_idx > idx ? "completed" : ""
+            = link_to level, class: "level #{css_class}" do
+              .number= idx
+              .text
+                %h2.font-semibold= level.title
+                -# %p= level.status
+                %p= level.description
+              = graphical_icon 'bootcamp-completed-check-circle', css_class: "completed-icon"
+          - else
+            .locked-level
+
+    - if current_user.bootcamp_part_1_attendee? && current_user.bootcamp_part_2_attendee?
+      %hr.my-32.border-borderColor5
+
+    - if current_user.bootcamp_part_2_attendee?
+      %h3.text-h3.mt-32.mb-16 Part 2 - Front-End Fundamentals
+      .grid.grid-cols-3.gap-16
+        - (11..27).each do |idx|
+          - level = @levels[idx]
+          - if level&.unlocked?
+
+            - css_class = current_user.bootcamp_data.level_idx > idx ? "completed" : ""
+            = link_to level, class: "level #{css_class}" do
+              .number= idx
+              .text
+                %h2.font-semibold= level.title
+                -# %p= level.status
+                %p= level.description
+              = graphical_icon 'bootcamp-completed-check-circle', css_class: "completed-icon"
+          - else
+            .locked-level

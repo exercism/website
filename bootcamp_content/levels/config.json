@@ -1,42 +1,57 @@
 [
   {
     "title": "Writing your first code",
-    "description": "Learn what coding is and how to write your first lines of code."
+    "description": "Learn what coding is and how to write your first lines of code.",
+    "part": 1
   },
   {
     "title": "Variables and Repeats",
-    "description": "Learn how to create, update and use variables, and learn repeats."
+    "description": "Learn how to create, update and use variables, and learn repeats.",
+    "part": 1
   },
   {
     "title": "Conditionals",
-    "description": "Learn about if and else keywords, and functions that return things."
+    "description": "Learn about if and else keywords, and functions that return things.",
+    "part": 1
   },
   {
     "title": "Functions",
-    "description": "This week we learn how to make our own functions!"
+    "description": "This week we learn how to make our own functions!",
+    "part": 1
   },
   {
     "title": "Lists",
-    "description": "This week we learn our first compound data structure - lists."
+    "description": "This week we learn our first compound data structure - lists.",
+    "part": 1
   },
   {
     "title": "Recap Week",
-    "description": "We recap everything we've learned so far and introduce your first major project!"
+    "description": "We recap everything we've learned so far and introduce your first major project!",
+    "part": 1
   },
   {
     "title": "Dictionaries",
-    "description": "We look at dictionaries, break, continue and loop counters."
+    "description": "We look at dictionaries, break, continue and loop counters.",
+    "part": 1
   },
   {
     "title": "Objects",
-    "description": "We explore the first step into Object-Oriented Programming: objects"
+    "description": "We explore the first step into Object-Oriented Programming: objects",
+    "part": 1
   },
   {
     "title": "Methods",
-    "description": "We explore the second small step into Object-Oriented Programming: methods"
+    "description": "We explore the second small step into Object-Oriented Programming: methods",
+    "part": 1
   },
   {
     "title": "Classes",
-    "description": "We finally start to build our own classes!"
+    "description": "We finally start to build our own classes!",
+    "part": 1
+  },
+  {
+    "title": "Intro to HTML/CSS/JS",
+    "description": "We say hello to the core web technologies",
+    "part": 2
   }
 ]

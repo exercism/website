@@ -54,7 +54,7 @@ export async function execJS(
     }
   `
   externalFunctionNames.forEach((fn) => {
-    code += `export function ${fn}(...args) { console.log(executionCtx); globalThis.externalFunctions.${fn}.call(null, executionCtx, ...args) }\n`
+    code += `export function ${fn}(...args) { globalThis.externalFunctions.${fn}.call(null, executionCtx, ...args) }\n`
   })
   const numSetupLines = code.split('\n').length
   code += studentCode

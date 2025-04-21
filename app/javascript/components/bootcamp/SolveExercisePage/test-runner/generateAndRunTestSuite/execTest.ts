@@ -38,12 +38,25 @@ export async function execTest(
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
+  // Turn {name: , func: } into {name: func}
+  const externalFunctions = buildExternalFunctions(options, exercise)
+  globalThis.externalFunctions = externalFunctions.reduce((acc, func) => {
+    acc[func.name] = func.func
+    return acc
+  }, {} as Record<string, any>)
+
   const fnName = testData.function
   const args = testData.args
-  const prom = execJS(options.studentCode, fnName, args)
-  const actual = (await prom).result
+  const prom = execJS(
+    options.studentCode,
+    fnName,
+    args,
+    externalFunctions.map((f) => f.name)
+  )
+  const execResult = await prom
+  console.log(execResult)
 
-  const expects = generateExpects(null, testData, actual, exercise)
+  const expects = generateExpects(null, testData, execResult.result, exercise)
 
   return {
     expects,

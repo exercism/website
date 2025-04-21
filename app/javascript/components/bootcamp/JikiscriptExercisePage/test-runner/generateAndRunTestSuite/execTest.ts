@@ -31,6 +31,13 @@ export async function execTest(
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
+  // Turn {name: , func: } into {name: func}
+  const externalFunctions = buildExternalFunctions(options, exercise)
+  globalThis.externalFunctions = externalFunctions.reduce((acc, func) => {
+    acc[func.name] = func.func
+    return acc
+  }, {} as Record<string, any>)
+
   const fnName = testData.function
   const args = testData.args ? parseArgs(testData.args) : []
 
@@ -41,8 +48,13 @@ export async function execTest(
   switch (language) {
     case 'javascript': {
       // we can probably assume that fnName will always exist?
-      const result = await execJS(options.studentCode, fnName!, args)
-      actual = result.result
+      const result = await execJS(
+        options.studentCode,
+        fnName!,
+        args,
+        externalFunctions.map((f) => f.name)
+      )
+      actual = result
       break
     }
 

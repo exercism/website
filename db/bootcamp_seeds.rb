@@ -26,7 +26,8 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/levels/config.json"), symbol
   level.update!(
     title: details[:title],
     description: details[:description],
-    content_markdown: File.read(Rails.root / "bootcamp_content/levels/#{idx}.md")
+    content_markdown: File.read(Rails.root / "bootcamp_content/levels/#{idx}.md"),
+    part: details[:part]
   )
 end
 

@@ -5,9 +5,17 @@ import exerciseMap, {
 import { execTest } from './execTest'
 import { type TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 import { EditorView } from 'codemirror'
+import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
 
 export async function generateAndRunTestSuite(
   options: TestRunnerOptions,
+  stateSetters: {
+    setUnderlineRange: (range: { from: number; to: number }) => void
+    setHighlightedLine: (line: number) => void
+    setHighlightedLineColor: (color: string) => void
+    setShouldShowInformationWidget: (shouldShow: boolean) => void
+    setInformationWidgetData: (data: InformationWidgetData) => void
+  },
   editorView: EditorView | null
 ) {
   return await describe(options.config.title, async (test) => {
@@ -16,14 +24,20 @@ export async function generateAndRunTestSuite(
       project = exerciseMap.get(options.config.projectType)
     }
 
-    await mapTasks(test, options, editorView, project)
+    await mapTasks(test, options, editorView, stateSetters, project)
   })
 }
-const mapTasks = async (test, options, editorView, project) => {
+const mapTasks = async (test, options, editorView, stateSetters, project) => {
   for (const taskData of options.tasks) {
     for (const testData of taskData.tests) {
       await test(testData.name, testData.descriptionHtml, async () => {
-        const result = await execTest(testData, options, editorView, project)
+        const result = await execTest(
+          testData,
+          options,
+          editorView,
+          stateSetters,
+          project
+        )
 
         const { frames, expects } = result
 

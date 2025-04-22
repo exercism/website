@@ -133,6 +133,13 @@ export function useConstructRunCode({
           config,
           customFunctions: customFns,
         },
+        {
+          setUnderlineRange,
+          setHighlightedLine,
+          setHighlightedLineColor,
+          setShouldShowInformationWidget,
+          setInformationWidgetData,
+        },
         editorView
       )
       // console.log("Thinks I've run", testResults.tests.length)
@@ -156,6 +163,13 @@ export function useConstructRunCode({
           tasks: bonusTasks ?? [],
           config,
           customFunctions: customFns,
+        },
+        {
+          setUnderlineRange,
+          setHighlightedLine,
+          setHighlightedLineColor,
+          setShouldShowInformationWidget,
+          setInformationWidgetData,
         },
         editorView
       )

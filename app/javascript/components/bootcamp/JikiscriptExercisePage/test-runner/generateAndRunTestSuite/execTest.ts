@@ -18,6 +18,7 @@ import { Frame } from '@/interpreter/frames'
 import { execJS } from './execJS'
 import { showJSError } from '../../utils/showError'
 import { EditorView } from 'codemirror'
+import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
 
 const language: 'jikiscript' | 'javascript' = 'javascript'
 
@@ -28,6 +29,13 @@ export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
   editorView: EditorView | null,
+  stateSetters: {
+    setUnderlineRange: (range: { from: number; to: number }) => void
+    setHighlightedLine: (line: number) => void
+    setHighlightedLineColor: (color: string) => void
+    setShouldShowInformationWidget: (shouldShow: boolean) => void
+    setInformationWidgetData: (data: InformationWidgetData) => void
+  },
   project?: Project
 ): Promise<ReturnType<TestCallback>> {
   const exercise: Exercise | undefined = project ? new project() : undefined
@@ -49,9 +57,9 @@ export async function execTest(
 
   switch (language) {
     case 'javascript': {
-      // we can probably assume that fnName will always exist?
       const result = await execJS(
         options.studentCode,
+        // we can probably assume that fnName will always exist?
         fnName!,
         args,
         externalFunctions.map((f) => f.name)
@@ -63,6 +71,7 @@ export async function execTest(
         if (editorView) {
           showJSError({
             error: result.error,
+            ...stateSetters,
             editorView,
           })
         }

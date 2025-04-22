@@ -54,7 +54,12 @@ export async function execTest(
         args,
         externalFunctions.map((f) => f.name)
       )
-      actual = result
+
+      actual =
+        result.status === 'success'
+          ? result.result
+          : 'You have an error in your code.'
+      console.log('result of execJS', result)
       break
     }
 

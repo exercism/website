@@ -1,0 +1,13 @@
+main {
+    border: 5px solid blue;
+}
+#outer-section {
+    border-top: 7px dashed green;
+    border-bottom: 7px dashed green;
+    border-left: 5px solid green;
+    border-right: 5px solid green;
+}
+#inner-section {
+    border: solid red;
+    border-width: 3px 4px 5px 6px;
+}

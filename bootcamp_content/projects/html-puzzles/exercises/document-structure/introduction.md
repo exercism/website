@@ -1,4 +1,6 @@
-# Margin
+# Document Structure
+
+For this exercise, you need to ad
 
 So you've now used `padding` to arrange boxes. In this exercise you're going to use `padding`'s friend - `margin`.
 

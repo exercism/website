@@ -40,7 +40,8 @@ export function showError({
   let html = ''
   const status = 'ERROR' as const
 
-  // Type guard: StaticError
+  // If 'location' exists in error, it means it's a Jikiscript error,
+  // and we can make it behave as it used to.
   if ('location' in error) {
     if (!error.location) {
       console.error('Error location is missing')
@@ -52,7 +53,8 @@ export function showError({
     line = error.location.line
     html = describeError(error, context)
   } else {
-    // JS error
+    // Otherwise it's a JS error, and typeof `error` is not StaticError
+    // on this error we - for example - don't have `location`.
     const pos =
       editorView.state.doc.line(error.lineNumber).from + error.colNumber
     from = pos - 1
@@ -60,8 +62,7 @@ export function showError({
     line = error.lineNumber
     html = describeError({
       // @ts-expect-error - partial StaticError-like structure
-      // TODO adjust types here
-
+      // TODO: adjust types in describeError
       type: error.type,
       message: error.message,
     })

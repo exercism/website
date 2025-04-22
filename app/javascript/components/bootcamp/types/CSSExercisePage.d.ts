@@ -18,6 +18,10 @@ type CSSExercisePageProps = {
 type CSSExercisePageCode = {
   stub: { html: string; css: string }
   code: string
+  default: {
+    html?: string
+    css?: string
+  }
   storedAt: string | null
   readonlyRanges?: { from: number; to: number }[]
   defaultReadonlyRanges?: { from: number; to: number }[]

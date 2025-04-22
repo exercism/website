@@ -45,6 +45,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         resetEditors,
         handleCompare,
         exercise: data.exercise,
+        code: data.code,
         links: data.links,
         solution: data.solution,
       }}

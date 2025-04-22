@@ -32,6 +32,10 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
+          # TODO: pass this down properly
+          default: {
+            css: "body { background: red; }"
+          },
           stub: {
             css: exercise.stub("css"),
             html: exercise.stub("html")

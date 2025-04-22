@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { ActualOutput } from '../ActualOutput'
 import { ExpectedOutput } from '../ExpectedOutput'

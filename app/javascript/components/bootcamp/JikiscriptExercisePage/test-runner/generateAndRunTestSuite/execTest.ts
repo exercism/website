@@ -15,8 +15,9 @@ import {
   AnimationTimeline,
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
-import { expect } from '../expect'
 import { execJS } from './execJS'
+import { showJSError } from '../../utils/showError'
+import { EditorView } from 'codemirror'
 
 const language: 'jikiscript' | 'javascript' = 'javascript'
 
@@ -26,6 +27,7 @@ const language: 'jikiscript' | 'javascript' = 'javascript'
 export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
+  editorView: EditorView | null,
   project?: Project
 ): Promise<ReturnType<TestCallback>> {
   const exercise: Exercise | undefined = project ? new project() : undefined
@@ -55,11 +57,19 @@ export async function execTest(
         externalFunctions.map((f) => f.name)
       )
 
-      actual =
-        result.status === 'success'
-          ? result.result
-          : 'You have an error in your code.'
-      console.log('result of execJS', result)
+      console.log('result', result)
+
+      if (result.status === 'error') {
+        if (editorView) {
+          showJSError({
+            error: result.error,
+            editorView,
+          })
+        }
+      }
+
+      // null falls back to [Your function didn't return anything]
+      actual = result.status === 'success' ? result.result : null
       break
     }
 

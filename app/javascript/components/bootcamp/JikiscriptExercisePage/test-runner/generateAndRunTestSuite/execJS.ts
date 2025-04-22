@@ -1,7 +1,5 @@
-import { ExternalFunction } from '@/interpreter/executor'
 import { generateCodeRunString } from '../../utils/generateCodeRunString'
 import * as acorn from 'acorn'
-import { c } from '@codemirror/legacy-modes/mode/clike'
 
 const esm = (code: string) =>
   URL.createObjectURL(new Blob([code], { type: 'text/javascript' }))
@@ -38,7 +36,7 @@ export async function execJS(
       cleanup: () => {},
       error: {
         message: err.message.replace(/\s*\(\d+:\d+\)$/, ''),
-        lineNumber: err.loc.line - 2, // No idea why we are 2 out.
+        lineNumber: err.loc.line, // No idea why we are 2 out.
         colNumber: err.loc.column,
         type: err.name,
       },

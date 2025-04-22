@@ -20,8 +20,10 @@ import { framesSucceeded } from '@/interpreter/frames'
 export function useConstructRunCode({
   links,
   config,
+  language,
 }: Pick<JikiscriptExercisePageProps, 'links'> & {
   config: Config
+  language: Exercise['language']
 }) {
   const {
     setTestSuiteResult,
@@ -94,22 +96,23 @@ export function useConstructRunCode({
         .querySelectorAll('.exercise-container')
         .forEach((e) => e.remove())
 
-      // @ts-ignore
-      // const compiled = compile(studentCode, {
-      //   languageFeatures: config.interpreterOptions,
-      //   customFunctions: Object.values(customFunctionsForInterpreter).map(
-      //     (cfn) => {
-      //       return { name: cfn.name, arity: cfn.arity, code: cfn.code }
-      //     }
-      //   ),
-      // })
+      if (language === 'jikiscript') {
+        const compiled = compile(studentCode, {
+          languageFeatures: config.interpreterOptions,
+          customFunctions: Object.values(customFunctionsForInterpreter).map(
+            (cfn) => {
+              return { name: cfn.name, arity: cfn.arity, code: cfn.code }
+            }
+          ),
+        })
 
-      // const error = compiled.error as CompilationError
+        const error = compiled.error as CompilationError
 
-      // if (error) {
-      //   handleCompilationError(error, editorView)
-      //   return
-      // }
+        if (error) {
+          handleCompilationError(error, editorView)
+          return
+        }
+      }
 
       let testResults
 
@@ -123,12 +126,15 @@ export function useConstructRunCode({
         }
       )
       // try {
-      testResults = await generateAndRunTestSuite({
-        studentCode,
-        tasks,
-        config,
-        customFunctions: customFns,
-      })
+      testResults = await generateAndRunTestSuite(
+        {
+          studentCode,
+          tasks,
+          config,
+          customFunctions: customFns,
+        },
+        editorView
+      )
       // console.log("Thinks I've run", testResults.tests.length)
       // } catch (error) {
       //   console.log(error)
@@ -144,12 +150,15 @@ export function useConstructRunCode({
       // }
       console.log('No error')
 
-      const bonusTestResults = await generateAndRunTestSuite({
-        studentCode,
-        tasks: bonusTasks ?? [],
-        config,
-        customFunctions: customFns,
-      })
+      const bonusTestResults = await generateAndRunTestSuite(
+        {
+          studentCode,
+          tasks: bonusTasks ?? [],
+          config,
+          customFunctions: customFns,
+        },
+        editorView
+      )
 
       setTestSuiteResult(testResults)
       setBonusTestSuiteResult(bonusTestResults)

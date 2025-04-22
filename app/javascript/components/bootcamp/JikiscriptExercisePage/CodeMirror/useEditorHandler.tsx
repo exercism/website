@@ -70,6 +70,7 @@ export function useEditorHandler({
   const runCode = useConstructRunCode({
     links,
     config: exercise.config,
+    language: exercise.language,
   })
 
   const resetEditorToStub = () => {

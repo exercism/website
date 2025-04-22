@@ -4,22 +4,26 @@ import exerciseMap, {
 } from '@/components/bootcamp/JikiscriptExercisePage/utils/exerciseMap'
 import { execTest } from './execTest'
 import { type TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
+import { EditorView } from 'codemirror'
 
-export async function generateAndRunTestSuite(options: TestRunnerOptions) {
+export async function generateAndRunTestSuite(
+  options: TestRunnerOptions,
+  editorView: EditorView | null
+) {
   return await describe(options.config.title, async (test) => {
     let project: Project | undefined
     if (options.config.projectType) {
       project = exerciseMap.get(options.config.projectType)
     }
 
-    await mapTasks(test, options, project)
+    await mapTasks(test, options, editorView, project)
   })
 }
-const mapTasks = async (test, options, project) => {
+const mapTasks = async (test, options, editorView, project) => {
   for (const taskData of options.tasks) {
     for (const testData of taskData.tests) {
       await test(testData.name, testData.descriptionHtml, async () => {
-        const result = await execTest(testData, options, project)
+        const result = await execTest(testData, options, editorView, project)
 
         const { frames, expects } = result
 

@@ -70,27 +70,31 @@ export async function execJS(
     URL.revokeObjectURL(importableTestCode)
   }
 
-  return import(`${importableTestCode}`)
-    .then((result) => {
-      return { status: 'success', result: result.default, cleanup }
-    })
-    .catch((error: Error) => {
-      console.log('Logic error', error)
+  try {
+    const result = await import(`${importableTestCode}`)
+    const successResult: ExecSuccess = {
+      status: 'success',
+      result: result.default,
+      cleanup,
+    }
+    return successResult
+  } catch (error: any) {
+    console.error('Logic error', error)
 
-      // Extract line, and column from the error message string
-      const [, lineNumber, colNumber] =
-        error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []
+    // Extract line, and column from the error message string
+    const [, lineNumber, colNumber] =
+      error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []
 
-      // console.log(type, message, line, col)
-      return {
-        status: 'error',
-        error: {
-          type: error.name,
-          message: error.message,
-          lineNumber: lineNumber ? parseInt(lineNumber) - numSetupLines : 0,
-          colNumber: colNumber ? parseInt(colNumber) : 0,
-        },
-        cleanup,
-      }
-    })
+    const execError: ExecError = {
+      status: 'error',
+      error: {
+        type: error.name,
+        message: error.message,
+        lineNumber: lineNumber ? parseInt(lineNumber) - numSetupLines : 0,
+        colNumber: colNumber ? parseInt(colNumber) : 0,
+      },
+      cleanup,
+    }
+    return execError
+  }
 }

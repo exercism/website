@@ -13,7 +13,7 @@ class User::SetDiscourseGroups
     # If the external user can't be found, then the
     # oauth didn't complete so there's nothing to do.
   rescue DiscourseApi::TooManyRequests => e
-    retry_after = (e.response.body['extras']['wait_seconds'] || 60).to_i
+    retry_after = (e.response.body['extras']['wait_seconds'] || rand(10..360)).to_i
     requeue_job!(retry_after.seconds)
   end
 

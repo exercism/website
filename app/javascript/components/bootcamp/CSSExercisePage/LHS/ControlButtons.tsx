@@ -4,6 +4,7 @@ import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 import { getEditorValue } from '../SimpleCodeMirror/getEditorValue'
+import { runChecks } from '../utils/runCheckFunctions'
 
 export function ControlButtons() {
   const {
@@ -14,9 +15,8 @@ export function ControlButtons() {
     setMatchPercentage,
   } = useCSSExercisePageStore()
 
-  const { handleCompare, cssEditorRef, htmlEditorRef, links } = useContext(
-    CSSExercisePageContext
-  )
+  const { handleCompare, cssEditorRef, htmlEditorRef, links, exercise } =
+    useContext(CSSExercisePageContext)
 
   const handleSubmitCode = useCallback(async () => {
     const cssEditorView = cssEditorRef.current
@@ -26,6 +26,9 @@ export function ControlButtons() {
 
     const cssValue = getEditorValue(cssEditorView)
     const htmlValue = getEditorValue(htmlEditorView)
+
+    const checks = runChecks(exercise.checks, cssValue)
+    console.log('checks', checks)
 
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
 

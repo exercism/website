@@ -35,6 +35,13 @@ interface CSSExercisePageExercise {
   introductionHtml: string
   slug: string
   title: string
+  checks: CSSCheck[]
+}
+
+type CSSCheck = {
+  function: string
+  matcher: 'toBeTrue' | 'toBeFalse'
+  errorHtml: string
 }
 
 type CSSExercisePageConfig = {

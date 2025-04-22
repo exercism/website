@@ -1,6 +1,7 @@
 {
   "title": "Solve a simple maze using JavaScript",
   "description": "Solve a maze using an exported function",
+  "language": "javascript",
   "project_type": "maze",
   "level": 1,
   "idx": 1,

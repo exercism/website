@@ -16,9 +16,9 @@ import {
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
 import { execJS } from './execJS'
-import { showJSError } from '../../utils/showError'
 import { EditorView } from 'codemirror'
 import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
+import { showError } from '../../utils/showError'
 
 const language: 'jikiscript' | 'javascript' = 'javascript'
 
@@ -69,7 +69,7 @@ export async function execTest(
 
       if (result.status === 'error') {
         if (editorView) {
-          showJSError({
+          showError({
             error: result.error,
             ...stateSetters,
             editorView,

@@ -1,0 +1,35 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    padding: 5%;
+    container-type: size;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: lightblue;
+    color: #222;
+}
+h1 {
+    font-size: 10cqh;
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 5cqh;
+}
+p {
+    font-size: 6.5cqh;
+    line-height: 1.3;
+    margin: 0;
+    margin-bottom: 4cqh;
+    min-height: 6.5cqh; /* Guards against stray paragraphs */
+}
+ul {
+    margin: 0 0 4cqh 0;
+}
+strong {
+    font-weight: bold;
+}

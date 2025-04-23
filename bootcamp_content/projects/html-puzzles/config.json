@@ -1,0 +1,6 @@
+{
+  "slug": "html-puzzles",
+  "title": "HTML Puzzles",
+  "description": "An assortment of puzzles to do with html",
+  "exercises": ["basic-text", "links", "unordered-lists", "document-structure"]
+}

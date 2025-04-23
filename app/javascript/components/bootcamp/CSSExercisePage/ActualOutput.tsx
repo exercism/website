@@ -50,10 +50,7 @@ export function ActualOutput() {
   return (
     <div className="p-12">
       <h3 className="mb-12 font-mono font-semibold">Your code:</h3>
-      <div
-        ref={containerRef}
-        className="border border-textColor1 border-1 rounded-12 w-[350px] h-[350px] relative overflow-hidden"
-      >
+      <div ref={containerRef} className="css-render-actual">
         {/* student's code's output */}
         <iframe
           className="absolute top-0 left-0 h-full w-full"

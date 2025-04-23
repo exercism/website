@@ -34,7 +34,7 @@ module ReactComponents
         code: {
           # TODO: pass this down properly
           default: {
-            css: "body { background: red; }"
+            css: exercise.default("css")
           },
           stub: {
             css: exercise.stub("css"),

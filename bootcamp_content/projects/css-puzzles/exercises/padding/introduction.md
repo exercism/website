@@ -1,6 +1,6 @@
 # Margin
 
-So you've now used `padding` to arrange boxes. In this exercise you're going to use `padding`'s friend - `margin`.
+Welcome to your first CSS exercise!
 
 We're going to start off by looking at a couple of important CSS properties that affect layout.
 The first is `padding`.

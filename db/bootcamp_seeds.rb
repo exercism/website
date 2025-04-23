@@ -65,6 +65,7 @@ projects = %w[
   data-puzzles
   oop-puzzles
   css-puzzles
+  html-puzzles
 ]
 
 projects.each do |project_slug|

@@ -1,6 +1,6 @@
 {
-  "slug": "data-puzzles",
-  "title": "Data Puzzles",
-  "description": "An assortment of puzzles to do with data manipulation",
-  "exercises": ["happy-text"]
+  "slug": "css-puzzles",
+  "title": "CSS Puzzles",
+  "description": "An assortment of puzzles to do with css",
+  "exercises": ["padding", "margin", "border", "happy-text"]
 }

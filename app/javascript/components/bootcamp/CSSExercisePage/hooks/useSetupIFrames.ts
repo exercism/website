@@ -28,10 +28,20 @@ export function useSetupIFrames(
   }, [curtainMode, diffMode])
 
   const handleCompare = useCallback(async () => {
-    const percentage = await getIframesMatchPercentage(
+    const { percentage } = await getIframesMatchPercentage(
       actualIFrameRef,
       expectedIFrameRef
     )
+
+    // experimenting with a diff canvas
+    // if (alternative.diffCanvas) {
+    //   let canvas = alternative.diffCanvas as HTMLCanvasElement
+    //   canvas.style.position = 'absolute'
+    //   canvas.style.left = '0'
+    //   canvas.style.top = '0'
+    //   canvas.style.zIndex = '9999'
+    //   document.body.appendChild(canvas)
+    // }
 
     if (percentage === 100) {
       toast.success(`MATCHING! ${percentage}%`)

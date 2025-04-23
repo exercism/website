@@ -32,7 +32,6 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
-          # TODO: pass this down properly
           default: {
             css: exercise.default("css")
           },
@@ -40,7 +39,8 @@ module ReactComponents
             css: exercise.stub("css"),
             html: exercise.stub("html")
           },
-          should_hide_css_editor: true,
+          # TODO: pass this down properly
+          should_hide_css_editor: false,
           should_hide_html_editor: false,
           code: solution.code,
           stored_at: submission&.created_at,

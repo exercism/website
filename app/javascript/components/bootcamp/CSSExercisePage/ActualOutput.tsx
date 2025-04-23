@@ -3,8 +3,6 @@ import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 
-const WIDTH = 350
-
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
   if (!context) {
@@ -16,15 +14,15 @@ export function ActualOutput() {
     useCSSExercisePageStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const [curtainWidth, setCurtainWidth] = useState(350)
+  const [curtainWidth, setCurtainWidth] = useState(0)
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return
 
-    const { left } = containerRef.current.getBoundingClientRect()
+    const { left, width } = containerRef.current.getBoundingClientRect()
     const mouseX = e.clientX - left
 
-    const newWidth = Math.max(0, Math.min(mouseX, WIDTH))
+    const newWidth = Math.max(0, Math.min(mouseX, width))
     setCurtainWidth(newWidth)
   }, [])
 
@@ -34,15 +32,19 @@ export function ActualOutput() {
   }, [diffMode])
 
   const handleOnMouseLeave = useCallback(() => {
+    if (!containerRef.current) return
+    const { width } = containerRef.current.getBoundingClientRect()
     const curtain = { width: curtainWidth }
+
     animate(curtain, {
-      width: WIDTH,
+      width,
       duration: 250,
       ease: 'outQuint',
       onUpdate: () => {
         setCurtainWidth(curtain.width)
       },
     })
+
     if (diffMode) return
     setCurtainOpacity(1)
   }, [curtainWidth, diffMode])
@@ -60,14 +62,13 @@ export function ActualOutput() {
             opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
             filter: diffMode ? 'invert(1) hue-rotate(90deg)' : 'none',
-            clipPath: `inset(0 ${WIDTH - curtainWidth}px 0 0)`,
+            clipPath: `inset(0 calc(100% - ${curtainWidth}px) 0 0)`,
           }}
         />
 
-        {/* Dont show it at all if curtainMode or diffMode is not on */}
+        {/* Don't show it at all if curtainMode or diffMode is not on */}
         {(curtainMode || diffMode) && (
           <>
-            {' '}
             {/* the reference iframe - visually the same as `expected` */}
             <iframe
               className="absolute top-0 left-0 h-full w-full"

@@ -14,7 +14,8 @@ export function ActualOutput() {
     useCSSExercisePageStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const [curtainWidth, setCurtainWidth] = useState(0)
+  // set a high number so curtain isn't at pos zero at first
+  const [curtainWidth, setCurtainWidth] = useState(9999)
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return
@@ -62,7 +63,9 @@ export function ActualOutput() {
             opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
             filter: diffMode ? 'invert(1) hue-rotate(90deg)' : 'none',
-            clipPath: `inset(0 calc(100% - ${curtainWidth}px) 0 0)`,
+            clipPath: curtainMode
+              ? `inset(0 calc(100% - ${curtainWidth}px) 0 0)`
+              : 'none',
           }}
         />
 

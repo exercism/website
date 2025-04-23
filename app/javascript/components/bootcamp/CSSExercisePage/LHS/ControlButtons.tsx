@@ -3,10 +3,13 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { getEditorValue } from '../SimpleCodeMirror/getEditorValue'
 import { runChecks } from '../utils/runCheckFunctions'
 
-export function ControlButtons() {
+export function ControlButtons({
+  getEditorValues,
+}: {
+  getEditorValues: () => { cssValue: string; htmlValue: string }
+}) {
   const {
     diffMode,
     curtainMode,
@@ -15,17 +18,10 @@ export function ControlButtons() {
     setMatchPercentage,
   } = useCSSExercisePageStore()
 
-  const { handleCompare, cssEditorRef, htmlEditorRef, links, exercise } =
-    useContext(CSSExercisePageContext)
+  const { handleCompare, links, exercise } = useContext(CSSExercisePageContext)
 
   const handleSubmitCode = useCallback(async () => {
-    const cssEditorView = cssEditorRef.current
-    const htmlEditorView = htmlEditorRef.current
-
-    if (!(cssEditorView && htmlEditorView)) return
-
-    const cssValue = getEditorValue(cssEditorView)
-    const htmlValue = getEditorValue(htmlEditorView)
+    const { cssValue, htmlValue } = getEditorValues()
 
     const checks = runChecks(exercise.checks, cssValue)
     console.log('checks', checks)

@@ -17,6 +17,12 @@ export function useSetupEditors(
     }
   )
 
+  const getEditorValues = useCallback(() => {
+    const { cssEditorContent: cssValue, htmlEditorContent: htmlValue } =
+      editorCode
+    return { cssValue, htmlValue }
+  }, [editorCode])
+
   useEffect(() => {
     updateIFrame(
       actualIFrameRef,
@@ -94,5 +100,6 @@ export function useSetupEditors(
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,
     setEditorCodeLocalStorage: setEditorCode,
+    getEditorValues,
   }
 }

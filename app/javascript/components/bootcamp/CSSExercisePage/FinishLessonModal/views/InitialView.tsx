@@ -27,7 +27,7 @@ export function InitialView() {
 
       <div className="flex items-center gap-8 self-stretch">
         <button onClick={handleTweakFurther} className="btn-l btn-secondary">
-          'Tweak further'
+          Tweak further
         </button>
         <button
           onClick={handleCompleteSolution}

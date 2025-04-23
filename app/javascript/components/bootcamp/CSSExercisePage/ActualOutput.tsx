@@ -64,35 +64,40 @@ export function ActualOutput() {
           }}
         />
 
-        {/* the reference iframe - visually the same as `expected` */}
-        <iframe
-          className="absolute top-0 left-0 h-full w-full"
-          ref={expectedReferenceIFrameRef}
-          style={{
-            opacity: 1,
-            zIndex: 10,
-          }}
-        />
-
-        {curtainMode && (
+        {/* Dont show it at all if curtainMode or diffMode is not on */}
+        {(curtainMode || diffMode) && (
           <>
-            {/* the curtain itself */}
-            <div
-              className="absolute top-0 left-0 h-full"
+            {' '}
+            {/* the reference iframe - visually the same as `expected` */}
+            <iframe
+              className="absolute top-0 left-0 h-full w-full"
+              ref={expectedReferenceIFrameRef}
               style={{
-                boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
-                zIndex: 20,
+                opacity: 1,
+                zIndex: 10,
               }}
             />
+            {curtainMode && (
+              <>
+                {/* the curtain itself */}
+                <div
+                  className="absolute top-0 left-0 h-full"
+                  style={{
+                    boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
+                    zIndex: 20,
+                  }}
+                />
 
-            {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
-            <div
-              className="absolute top-0 left-0 w-full h-full"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleOnMouseLeave}
-              onMouseEnter={handleOnMouseEnter}
-              style={{ zIndex: 40 }}
-            />
+                {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
+                <div
+                  className="absolute top-0 left-0 w-full h-full"
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleOnMouseLeave}
+                  onMouseEnter={handleOnMouseEnter}
+                  style={{ zIndex: 40 }}
+                />
+              </>
+            )}
           </>
         )}
       </div>

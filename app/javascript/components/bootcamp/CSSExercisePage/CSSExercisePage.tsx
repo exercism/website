@@ -16,7 +16,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     expectedIFrameRef,
     expectedReferenceIFrameRef,
     handleCompare,
-  } = useSetupIFrames(data.exercise.config)
+  } = useSetupIFrames(data.exercise.config, data.code)
 
   useLogger('CSSExercisePage', data)
 
@@ -29,7 +29,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     handleHtmlEditorDidMount,
     setEditorCodeLocalStorage,
     resetEditors,
-  } = useSetupEditors(data.exercise.slug, data.code)
+  } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
 
   return (
     <CSSExercisePageContext.Provider

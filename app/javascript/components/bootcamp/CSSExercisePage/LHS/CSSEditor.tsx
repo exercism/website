@@ -4,7 +4,6 @@ import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
-import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {
   const {
@@ -30,12 +29,6 @@ export function CSSEditor() {
           ...prev,
           cssEditorContent: view.state.doc.toString(),
         }))
-
-        const css = code.default.css + view.state.doc.toString()
-        updateIFrame(actualIFrameRef, {
-          css,
-          html: htmlEditorRef.current?.state.doc.toString(),
-        })
       }}
       ref={cssEditorRef}
     />

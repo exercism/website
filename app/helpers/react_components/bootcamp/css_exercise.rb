@@ -40,6 +40,8 @@ module ReactComponents
             css: exercise.stub("css"),
             html: exercise.stub("html")
           },
+          should_hide_css_editor: false,
+          should_hide_html_editor: true,
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

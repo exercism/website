@@ -5,7 +5,10 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 
 // set up expected output and reference output
-export function useSetupIFrames(config: CSSExercisePageConfig) {
+export function useSetupIFrames(
+  config: CSSExercisePageConfig,
+  code: CSSExercisePageCode
+) {
   const actualIFrameRef = useRef<HTMLIFrameElement>(null)
   const expectedIFrameRef = useRef<HTMLIFrameElement>(null)
   const expectedReferenceIFrameRef = useRef<HTMLIFrameElement>(null)
@@ -14,14 +17,14 @@ export function useSetupIFrames(config: CSSExercisePageConfig) {
 
   useEffect(() => {
     const { html, css } = config.expected
-    updateIFrame(expectedIFrameRef, { html, css })
+    updateIFrame(expectedIFrameRef, { html, css }, code.default)
   }, [])
 
   // since curtainMode and diffMode is off by default, we don't render the iframe
   // this updates the newly added iframe's inner value if curtainMode or diffMode is changed
   useEffect(() => {
     const { html, css } = config.expected
-    updateIFrame(expectedReferenceIFrameRef, { html, css })
+    updateIFrame(expectedReferenceIFrameRef, { html, css }, code.default)
   }, [curtainMode, diffMode])
 
   const handleCompare = useCallback(async () => {

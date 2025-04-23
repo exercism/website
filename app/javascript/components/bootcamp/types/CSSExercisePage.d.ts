@@ -22,6 +22,9 @@ type CSSExercisePageCode = {
     html?: string
     css?: string
   }
+
+  shouldHideCssEditor: boolean
+  shouldHideHtmlEditor: boolean
   storedAt: string | null
   readonlyRanges?: { from: number; to: number }[]
   defaultReadonlyRanges?: { from: number; to: number }[]

@@ -1,8 +1,13 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
+import { updateIFrame } from '../utils/updateIFrame'
 
-export function useSetupEditors(slug: string, code: CSSExercisePageCode) {
+export function useSetupEditors(
+  slug: string,
+  code: CSSExercisePageCode,
+  actualIFrameRef: React.RefObject<HTMLIFrameElement>
+) {
   const [editorCode, setEditorCode] = useLocalStorage(
     `css-editor-code-${slug}`,
     {
@@ -11,6 +16,17 @@ export function useSetupEditors(slug: string, code: CSSExercisePageCode) {
       storedAt: new Date().toISOString(),
     }
   )
+
+  useEffect(() => {
+    updateIFrame(
+      actualIFrameRef,
+      {
+        css: editorCode.cssEditorContent,
+        html: editorCode.htmlEditorContent,
+      },
+      code.default
+    )
+  }, [editorCode])
 
   if (
     // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage

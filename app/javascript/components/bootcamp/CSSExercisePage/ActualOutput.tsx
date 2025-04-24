@@ -86,17 +86,8 @@ export function ActualOutput() {
                 style={{
                   width: `${curtainWidth}px`,
                   backgroundColor: `rgba(255, 255, 255, ${curtainOpacity})`,
-                  zIndex: 20,
-                }}
-              />
-
-              <div
-                className="absolute top-0 h-full"
-                style={{
-                  left: `calc(100% - ${curtainWidth}px)`,
-                  width: '2px',
-                  backgroundColor: '#f22',
                   zIndex: 25,
+                  boxShadow: '-2px 0 0 #f22',
                 }}
               />
 

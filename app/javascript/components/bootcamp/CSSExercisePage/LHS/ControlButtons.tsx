@@ -24,6 +24,7 @@ export function ControlButtons({
   const handleSubmitCode = useCallback(async () => {
     const { cssValue, htmlValue } = getEditorValues()
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
+
     const percentage = await handleCompare()
 
     let status: 'pass' | 'fail' = 'fail'
@@ -34,6 +35,7 @@ export function ControlButtons({
         status = 'pass'
       } else {
         const checks = runChecks(exercise.checks, cssValue)
+
         if (checks.success) {
           status = 'pass'
         } else {

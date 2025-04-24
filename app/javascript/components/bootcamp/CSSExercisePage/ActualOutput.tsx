@@ -62,7 +62,6 @@ export function ActualOutput() {
           ref={actualIFrameRef}
           style={{
             zIndex: 30,
-            opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
             clipPath: curtainMode
               ? `inset(0 0 0 calc(100% - ${curtainWidth}px))`
@@ -75,7 +74,6 @@ export function ActualOutput() {
             className="absolute top-0 left-0 h-full w-full"
             ref={expectedReferenceIFrameRef}
             style={{
-              opacity: 1,
               zIndex: 10,
               display: curtainMode || diffMode ? 'block' : 'none',
             }}
@@ -87,7 +85,6 @@ export function ActualOutput() {
                 className="absolute top-0 right-0 h-full"
                 style={{
                   width: `${curtainWidth}px`,
-                  backgroundColor: `rgba(255, 255, 255, ${curtainOpacity})`,
                   zIndex: 25,
                   boxShadow: '-2px 0 0 #f22',
                 }}

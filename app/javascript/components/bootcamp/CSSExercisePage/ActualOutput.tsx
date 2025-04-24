@@ -51,7 +51,9 @@ export function ActualOutput() {
         ref={containerRef}
         className="css-render-actual"
         style={{
-          filter: diffMode ? 'invert(1) hue-rotate(100deg)' : 'none',
+          filter: diffMode
+            ? ' sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
+            : 'none',
         }}
       >
         {/* student's code's output */}

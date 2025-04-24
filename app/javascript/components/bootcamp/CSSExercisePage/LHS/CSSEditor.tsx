@@ -25,10 +25,14 @@ export function CSSEditor() {
       editorDidMount={handleCssEditorDidMount}
       extensions={[css(), cssLinter]}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => ({
-          ...prev,
-          cssEditorContent: view.state.doc.toString(),
-        }))
+        setEditorCodeLocalStorage((prev) => {
+          return {
+            ...prev,
+            cssEditorContent: view.state.doc.toString(),
+            htmlEditorContent:
+              htmlEditorRef.current?.state.doc.toString() || '',
+          }
+        })
       }}
       ref={cssEditorRef}
     />

@@ -6,8 +6,12 @@ import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 
 export function HTMLEditor() {
-  const { handleHtmlEditorDidMount, htmlEditorRef, setEditorCodeLocalStorage } =
-    useContext(CSSExercisePageContext)
+  const {
+    handleHtmlEditorDidMount,
+    htmlEditorRef,
+    cssEditorRef,
+    setEditorCodeLocalStorage,
+  } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
   } = useCSSExercisePageStore()
@@ -21,6 +25,7 @@ export function HTMLEditor() {
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
           htmlEditorContent: view.state.doc.toString(),
+          cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
         }))
       }}
       extensions={[html(), htmlLinter]}

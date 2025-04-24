@@ -32,7 +32,7 @@ export function useSetupEditors(
       },
       code.default
     )
-  }, [editorCode])
+  }, [editorCode.cssEditorContent, editorCode.htmlEditorContent])
 
   if (
     // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage

@@ -1,0 +1,24 @@
+{
+  "title": "Fancy Borders",
+  "description": "Let's use some fancy borders.",
+  "language": "css",
+  "level": 11,
+  "idx": 2,
+  "readonly_ranges": {
+    "css": [
+      { "start": 1, "end": 2 },
+      { "start": 4, "end": 7 },
+      { "start": 9, "end": 12 },
+      { "start": 14, "end": 17 },
+      { "start": 10, "end": 2 },
+      { "start": 19, "end": 23 }
+    ]
+  },
+  "checks": [
+    {
+      "function": "exactPropertiesUsed(['padding'])",
+      "matcher": "toBeTrue",
+      "error_html": "You should only use the padding property."
+    }
+  ]
+}

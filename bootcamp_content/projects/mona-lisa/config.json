@@ -2,5 +2,5 @@
   "slug": "mona-lisa",
   "title": "Create the Mona Lisa",
   "description": "An assortment of puzzles to do with css",
-  "exercises": ["frame-her", "marginalize-her"]
+  "exercises": ["frame-her", "marginalize-her", "fancy-borders"]
 }

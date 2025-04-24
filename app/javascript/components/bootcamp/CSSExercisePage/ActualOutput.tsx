@@ -53,7 +53,13 @@ export function ActualOutput() {
   return (
     <div className="p-12">
       <h3 className="mb-12 font-mono font-semibold">Your code:</h3>
-      <div ref={containerRef} className="css-render-actual">
+      <div
+        ref={containerRef}
+        className="css-render-actual"
+        style={{
+          filter: diffMode ? 'invert(1) hue-rotate(100deg)' : 'none',
+        }}
+      >
         {/* student's code's output */}
         <iframe
           className="absolute top-0 left-0 h-full w-full"
@@ -62,7 +68,6 @@ export function ActualOutput() {
             zIndex: 30,
             opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
-            filter: diffMode ? 'invert(1) hue-rotate(90deg)' : 'none',
             clipPath: curtainMode
               ? `inset(0 calc(100% - ${curtainWidth}px) 0 0)`
               : 'none',

@@ -1,6 +1,19 @@
-main {
-    padding: 10% 10% 20% 30%;
+#frame-wood {
+    background: #4e342e; /* wood color */
+    padding: 20px;
 }
-#outer-section {
-    padding: 20% 10% 30% 30%;
+
+#frame-glass {
+    background: #f5f5dc; /* cream matte */
+    padding: 15px;
+}
+
+#frame-rim {
+    background: #d4af37; /* gold */
+    padding: 10px;
+}
+
+#frame-canvas {
+    background: white;
+    padding: 10px;
 }

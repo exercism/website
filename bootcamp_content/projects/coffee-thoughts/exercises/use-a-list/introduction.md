@@ -10,7 +10,7 @@ An unordered list is wrapped with `<ul>` tags, and contains lots of list items (
 
 For example, if we were to list what we've learnt so far:
 
-```xml
+```html
 <ul>
   <li>Headers</li>
   <li>Paragraphs (<strong>My favourite</strong>)</li>

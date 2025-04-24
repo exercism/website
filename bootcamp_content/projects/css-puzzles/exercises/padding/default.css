@@ -7,15 +7,18 @@ body {
     margin: 0;
     aspect-ratio: 1;
 }
-main {
-    background: blue;
-    display: grid;
-    height: 100%;
+body {
+    background: #f0f0f0;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
 }
-#outer-section {
-    background: green;
-    display: grid;
+
+div,
+img {
+    flex-grow: 1;
 }
-#inner-section {
-    background: red;
+
+img {
+    width: 100%;
 }

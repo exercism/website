@@ -15,7 +15,7 @@ The four colors of the borders are `saddlebrown`, `white`, `gold`, and `#f5fdc` 
 Notes:
 
 - We've added some background colors to help with the visuals.
-- You can either use the full `margin-xxx` syntax, or the `margin` shortcut syntax.
+- You can either use the full `border-xxx` syntax, or the `border` shortcut syntax.
 - All units should be specified as pixels.
 
-Again, think about what you're trying to achieve in concrete terms first before you start coding. Maybe use a pen and paper to draw out how margins are different from paddings.
+Again, think about what you're trying to achieve in concrete terms first before you start coding. Maybe use a pen and paper to draw out how you think the borders are working in the sample drawing.

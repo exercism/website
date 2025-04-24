@@ -13,7 +13,7 @@ Your job is to create some HTML with one heading and two paragraphs that match t
 The text is:
 
 ```text
-Coffee Thoughts
+Coffee Thoughts ☕
 
 There's lots of great coffee out there.
 

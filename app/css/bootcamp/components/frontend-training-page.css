@@ -39,4 +39,7 @@
         aspect-ratio: 1;
         max-height: calc(50vh - 80px);
     }
+    .css-render-expected {
+        pointer-events: none;
+    }
 }

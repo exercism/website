@@ -1,0 +1,33 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    padding: 5%;
+    container-type: size;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: #e1d3c6;
+}
+h1,
+p,
+ul {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.3;
+    color: black;
+    font-weight: normal;
+}
+ul {
+    padding: 0 0 0 10%;
+}
+a {
+    text-decoration: none;
+}
+strong {
+    font-weight: normal;
+}

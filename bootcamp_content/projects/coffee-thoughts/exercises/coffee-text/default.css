@@ -11,14 +11,14 @@ body {
     padding: 5%;
     container-type: size;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background: lightblue;
-    color: #222;
+    background: #e1d3c6;
 }
 h1 {
-    font-size: 10cqh;
+    font-size: 9.5cqh;
     font-weight: 600;
     margin: 0;
     margin-bottom: 5cqh;
+    color: #2b1a0b;
 }
 p {
     font-size: 6.5cqh;
@@ -26,9 +26,11 @@ p {
     margin: 0;
     margin-bottom: 4cqh;
     min-height: 6.5cqh; /* Guards against stray paragraphs */
+    color: #442a12;
 }
 ul {
     margin: 0 0 4cqh 0;
+    color: #442a12;
 }
 strong {
     font-weight: bold;

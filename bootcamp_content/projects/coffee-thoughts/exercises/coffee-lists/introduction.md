@@ -23,3 +23,5 @@ Note: Lists should not be placed inside paragraphs. Paragraphs are designed for 
 ## Instructions
 
 Update the content to use a list rather than paragraphs.
+
+You should also add in the locations that the shops are at, with their flags as emojis. You can find flags on <a href="https://emojipedia.org/flags">on Emojipedia</a>.

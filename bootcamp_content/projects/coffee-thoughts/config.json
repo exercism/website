@@ -1,6 +1,6 @@
 {
-  "slug": "css-puzzles",
-  "title": "CSS Puzzles",
+  "slug": "coffee-thoughts",
+  "title": "Coffee Thoughts",
   "description": "An assortment of puzzles to do with css",
-  "exercises": ["basic-text", "add-links", "use-a-list"]
+  "exercises": ["coffee-text", "coffee-links", "coffee-lists", "coffee-styles"]
 }

@@ -4,6 +4,14 @@
   "language": "css",
   "level": 11,
   "idx": 1,
+  "readonly_ranges": {
+    "css": [
+      {
+        "start": 1,
+        "end": 1
+      }
+    ]
+  },
   "checks": [
     {
       "function": "exactPropertiesUsed(['padding'])",

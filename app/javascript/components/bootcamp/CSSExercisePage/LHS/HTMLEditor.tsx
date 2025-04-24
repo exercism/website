@@ -4,6 +4,10 @@ import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { htmlLinter } from '../SimpleCodeMirror/extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import {
+  initReadOnlyRangesExtension,
+  readOnlyRangeDecoration,
+} from '../../JikiscriptExercisePage/CodeMirror/extensions'
 
 export function HTMLEditor() {
   const {
@@ -28,7 +32,12 @@ export function HTMLEditor() {
           cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
         }))
       }}
-      extensions={[html(), htmlLinter]}
+      extensions={[
+        html(),
+        htmlLinter,
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       defaultCode="<div>hello</div>"
     />
   )

@@ -38,6 +38,7 @@ export const readOnlyRangesStateField = StateField.define<ReadOnlyRange[]>({
 
     for (let effect of tr.effects) {
       if (effect.is(updateReadOnlyRangesEffect)) {
+        console.log('effect', effect.value)
         return effect.value
       }
     }

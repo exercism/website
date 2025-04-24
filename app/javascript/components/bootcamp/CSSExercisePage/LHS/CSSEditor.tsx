@@ -4,6 +4,8 @@ import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyLineDeco'
+import { initReadOnlyRangesExtension } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 
 export function CSSEditor() {
   const {
@@ -23,7 +25,12 @@ export function CSSEditor() {
       defaultCode=""
       style={{ width: LHSWidth, height: '90vh' }}
       editorDidMount={handleCssEditorDidMount}
-      extensions={[css(), cssLinter]}
+      extensions={[
+        css(),
+        cssLinter,
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       onEditorChangeCallback={(view) => {
         setEditorCodeLocalStorage((prev) => {
           return {

@@ -1,8 +1,9 @@
 {
-  "title": "Padding",
-  "description": "Add some padding",
+  "title": "Marginalize Her",
+  "description": "Use margins instead of padding!",
+  "language": "css",
   "level": 11,
-  "idx": 1,
+  "idx": 2,
   "checks": [
     {
       "function": "exactPropertiesUsed(['padding'])",

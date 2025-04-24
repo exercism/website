@@ -8,7 +8,6 @@ body {
     aspect-ratio: 1;
 }
 body {
-    background: #f0f0f0;
     display: flex;
     justify-content: stretch;
     align-items: stretch;
@@ -16,9 +15,10 @@ body {
 
 div,
 img {
+    display: flex;
     flex-grow: 1;
 }
 
 img {
-    width: 100%;
+    width: 1%;
 }

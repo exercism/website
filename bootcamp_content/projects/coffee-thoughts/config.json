@@ -2,5 +2,5 @@
   "slug": "css-puzzles",
   "title": "CSS Puzzles",
   "description": "An assortment of puzzles to do with css",
-  "exercises": ["padding", "margin", "border", "happy-text"]
+  "exercises": ["basic-text", "add-links", "use-a-list"]
 }

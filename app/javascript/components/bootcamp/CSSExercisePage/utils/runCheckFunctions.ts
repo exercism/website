@@ -45,7 +45,8 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
       let args: any
 
       try {
-        args = eval(argsString)
+        const safe_eval = eval
+        args = safe_eval(argsString)
       } catch (error) {
         // TODO: show this only in dev mode
         throw new Error(`Invalid arguments format: ${argsString}`)

@@ -6,7 +6,7 @@
   "idx": 1,
   "checks": [
     {
-      "function": "exactPropertiesUsed(['padding', 'background'])",
+      "function": "exactPropertiesUsed(['padding'])",
       "matcher": "toBeTrue",
       "error_html": "You should only use the padding property."
     }

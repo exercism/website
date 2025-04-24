@@ -58,7 +58,6 @@ export function exactPropertiesUsed(css: string, allowed: string[]): boolean {
 
   // Check that every used property is in the expanded allowed set
   for (const used of usedProps) {
-    console.log('used', used)
     if (!expandedAllowed.has(used)) {
       return false
     }

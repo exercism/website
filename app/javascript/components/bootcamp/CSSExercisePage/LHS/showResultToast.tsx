@@ -17,19 +17,24 @@ export function showResultToast(
           'border-2 flex bg-white shadow-base text-14 rounded-5 p-8 gap-8 items-center'
         )}
       >
-        <div className="flex flex-col gap-4">
-          <div
-            className={assembleClassNames(
-              'font-semibold',
-              status === 'pass' ? 'text-darkSuccessGreen' : 'text-danger'
-            )}
-          >
-            {firstFailingCheck
-              ? firstFailingCheck.error_html
-              : 'All checks are passing!'}
-          </div>
-          <div className="font-semibold">Match percentage: {percentage}%</div>
-        </div>
+        {/*
+          We always only show one message. 
+          Pixel-matching is top priority, then other checks' error message. 
+          Otherwise show a success message.
+         */}
+        {percentage !== 100 ? (
+          <TextBlock
+            status={status}
+            text={`Your output isn't exactly the same as the target yet (${percentage}%).`}
+          />
+        ) : firstFailingCheck ? (
+          <TextBlock
+            status={status}
+            text={firstFailingCheck.error_html || ''}
+          />
+        ) : (
+          <TextBlock status={status} text="Congrats! All checks are passing!" />
+        )}
 
         <button
           className="btn-xs btn-enhanced"
@@ -40,5 +45,24 @@ export function showResultToast(
       </div>
     ),
     { duration: 6000 }
+  )
+}
+
+function TextBlock({
+  text,
+  status,
+}: {
+  text: string
+  status: 'pass' | 'fail'
+}) {
+  return (
+    <div
+      className={assembleClassNames(
+        'font-semibold',
+        status === 'pass' ? 'text-darkSuccessGreen' : 'text-danger'
+      )}
+    >
+      {text}
+    </div>
   )
 }

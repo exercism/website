@@ -6,7 +6,7 @@ import { CheckResult } from '../utils/runCheckFunctions'
 export function showResultToast(
   status: 'pass' | 'fail',
   percentage: number,
-  firstFailingCheck?: CheckResult | undefined
+  firstFailingCheck?: CheckResult | null
 ) {
   toast.custom(
     (t) => (

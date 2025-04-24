@@ -3,7 +3,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { runChecks } from '../utils/runCheckFunctions'
+import { CheckResult, runChecks } from '../utils/runCheckFunctions'
 import { showResultToast } from './showResultToast'
 
 export function ControlButtons({
@@ -16,28 +16,35 @@ export function ControlButtons({
     curtainMode,
     toggleCurtainMode,
     toggleDiffMode,
-    setMatchPercentage,
+    updateAssertionStatus,
   } = useCSSExercisePageStore()
 
   const { handleCompare, links, exercise } = useContext(CSSExercisePageContext)
 
   const handleSubmitCode = useCallback(async () => {
     const { cssValue, htmlValue } = getEditorValues()
-
-    const checks = runChecks(exercise.checks, cssValue)
-    console.log('checks', checks)
-
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
     const percentage = await handleCompare()
-    setMatchPercentage(percentage)
 
-    const firstFailingCheck = checks.results.find(
-      (check) => check.passes === false
-    )
+    let status: 'pass' | 'fail' = 'fail'
+    let firstFailingCheck: CheckResult | null = null
 
-    const status = percentage === 100 && !firstFailingCheck ? 'pass' : 'fail'
+    if (percentage === 100) {
+      if (exercise.checks.length === 0) {
+        status = 'pass'
+      } else {
+        const checks = runChecks(exercise.checks, cssValue)
+        if (checks.success) {
+          status = 'pass'
+        } else {
+          firstFailingCheck =
+            checks.results.find((check) => !check.passes) || null
+        }
+      }
+    }
 
     showResultToast(status, percentage, firstFailingCheck)
+    updateAssertionStatus(status)
 
     submitCode({
       postUrl: links.postSubmission,
@@ -49,7 +56,15 @@ export function ControlButtons({
       customFunctions: [],
       readonlyRanges: [],
     })
-  }, [])
+  }, [
+    getEditorValues,
+    handleCompare,
+    exercise,
+    showResultToast,
+    updateAssertionStatus,
+    submitCode,
+    links.postSubmission,
+  ])
 
   return (
     <div className="flex py-8 justify-between">

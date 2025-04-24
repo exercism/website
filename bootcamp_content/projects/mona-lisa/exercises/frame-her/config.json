@@ -4,11 +4,5 @@
   "language": "css",
   "level": 11,
   "idx": 1,
-  "checks": [
-    {
-      "function": "exactPropertiesUsed(['padding'])",
-      "matcher": "toBeTrue",
-      "error_html": "You should only use the padding property."
-    }
-  ]
+  "checks": []
 }

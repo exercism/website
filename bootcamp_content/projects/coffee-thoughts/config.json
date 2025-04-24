@@ -2,5 +2,11 @@
   "slug": "coffee-thoughts",
   "title": "Coffee Thoughts",
   "description": "An assortment of puzzles to do with css",
-  "exercises": ["coffee-text", "coffee-links", "coffee-lists", "coffee-styles"]
+  "exercises": [
+    "coffee-text",
+    "coffee-links",
+    "coffee-lists",
+    "coffee-styles",
+    "coffee-background"
+  ]
 }

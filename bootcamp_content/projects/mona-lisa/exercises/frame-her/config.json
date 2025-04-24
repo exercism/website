@@ -7,7 +7,6 @@
   "checks": [
     {
       "function": "exactPropertiesUsed(['padding', 'background'])",
-
       "matcher": "toBeTrue",
       "error_html": "You should only use the padding property."
     }

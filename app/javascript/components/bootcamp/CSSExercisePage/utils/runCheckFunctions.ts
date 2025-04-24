@@ -35,6 +35,8 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
   const results: CheckResult[] = checks.map((check) => {
     try {
       const funcMatch = check.function.match(/([a-zA-Z0-9_]+)\((.*)\)/)
+
+      console.log('funcMathc', funcMatch)
       if (!funcMatch) {
         throw new Error(`Invalid function format: ${check.function}`)
       }
@@ -45,6 +47,7 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
 
       try {
         args = eval(argsString)
+        console.log('args', args)
       } catch (error) {
         // TODO: show this only in dev mode
         throw new Error(`Invalid arguments format: ${argsString}`)
@@ -56,12 +59,7 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
         throw new Error(`Function not found: ${funcName}`)
       }
 
-      let result: boolean
-      if (Array.isArray(args)) {
-        result = func(cssValue, ...args)
-      } else {
-        result = func(cssValue, args)
-      }
+      const result = func(cssValue, args)
 
       const passes = evaluateMatch(result, check.matcher)
 

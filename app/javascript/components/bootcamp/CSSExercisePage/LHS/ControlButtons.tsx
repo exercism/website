@@ -4,6 +4,7 @@ import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 import { runChecks } from '../utils/runCheckFunctions'
+import { showResultToast } from './showResultToast'
 
 export function ControlButtons({
   getEditorValues,
@@ -27,16 +28,22 @@ export function ControlButtons({
     console.log('checks', checks)
 
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
-
     const percentage = await handleCompare()
-
     setMatchPercentage(percentage)
+
+    const firstFailingCheck = checks.results.find(
+      (check) => check.passes === false
+    )
+
+    const status = percentage === 100 && !firstFailingCheck ? 'pass' : 'fail'
+
+    showResultToast(status, percentage, firstFailingCheck)
 
     submitCode({
       postUrl: links.postSubmission,
       code,
       testResults: {
-        status: percentage === 100 ? 'pass' : 'fail',
+        status,
         tests: [],
       },
       customFunctions: [],

@@ -21,6 +21,14 @@ const propertyGroups: Record<string, string[]> = {
     'border-bottom',
     'border-left',
   ],
+  background: [
+    'background',
+    'background-color',
+    'background-image',
+    'background-repeat',
+    'background-position',
+    'background-size',
+  ],
   // add more as needed
 }
 
@@ -50,6 +58,7 @@ export function exactPropertiesUsed(css: string, allowed: string[]): boolean {
 
   // Check that every used property is in the expanded allowed set
   for (const used of usedProps) {
+    console.log('used', used)
     if (!expandedAllowed.has(used)) {
       return false
     }

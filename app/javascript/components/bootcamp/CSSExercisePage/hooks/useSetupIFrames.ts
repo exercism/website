@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef } from 'react'
-import toast from 'react-hot-toast'
 import { getIframesMatchPercentage } from '../utils/getIframesMatchPercentage'
 import { updateIFrame } from '../utils/updateIFrame'
 
@@ -26,12 +25,6 @@ export function useSetupIFrames(
       actualIFrameRef,
       expectedIFrameRef
     )
-
-    if (percentage === 100) {
-      toast.success(`MATCHING! ${percentage}%`)
-    } else {
-      toast.error(`NOT MATCHING! ${percentage}%`)
-    }
 
     return percentage
   }, [])

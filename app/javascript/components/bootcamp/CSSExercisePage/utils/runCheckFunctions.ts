@@ -4,13 +4,13 @@ import {
 } from './elementHasProperty'
 import { exactPropertiesUsed } from './exactPropertiesUsed'
 
-type CheckResult = {
+export type CheckResult = {
   result: boolean | null
   passes: boolean
   error_html: string | null
 }
 
-type ChecksResult = {
+export type ChecksResult = {
   success: boolean
   results: CheckResult[]
 }

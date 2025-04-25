@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, RefObject } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
@@ -8,19 +8,11 @@ import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMir
 export function useSetupEditors(
   slug: string,
   code: CSSExercisePageCode,
-  actualIFrameRef: React.RefObject<HTMLIFrameElement>
+  actualIFrameRef: RefObject<HTMLIFrameElement>
 ) {
   const [editorCode, setEditorCode] = useLocalStorage(
     `css-editor-code-${slug}`,
-    {
-      htmlEditorContent: code.stub.html,
-      cssEditorContent: code.stub.css,
-      storedAt: new Date().toISOString(),
-      readonlyRanges: {
-        html: code.readonlyRanges?.html || [],
-        css: code.readonlyRanges?.css || [],
-      },
-    }
+    getInitialEditorCode(code)
   )
 
   const getEditorValues = useCallback(() => {
@@ -44,87 +36,64 @@ export function useSetupEditors(
     editorViewRef: htmlEditorViewRef,
     handleEditorDidMount: handleHtmlEditorDidMount,
   } = useEditorHandler(editorCode.htmlEditorContent, (view) => {
-    if (
-      // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage
-      // localStorage defaults to the stub code.
-      editorCode.storedAt &&
-      code.storedAt &&
-      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      // ---
-      // code on the server must be newer by at least a minute
-      new Date(editorCode.storedAt).getTime() <
-        new Date(code.storedAt).getTime() - 60000
-    ) {
-      // Might be a weak point
-      // TODO: Add extra guard here
+    if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
       const { html, css } = JSON.parse(code.code)
-      setEditorCode({
+      const codeFromServer = {
         htmlEditorContent: html,
         cssEditorContent: css,
-        storedAt: code.storedAt,
+        storedAt: code.storedAt!,
         readonlyRanges: {
           html: code.readonlyRanges?.html || [],
           css: code.readonlyRanges?.css || [],
         },
-      })
-      // setupReadonlyRanges(view, code.readonlyRanges?.html || [])
+      }
+      setEditorCode(codeFromServer)
       setupEditor(view, {
         code: html,
-        readonlyRanges: code.readonlyRanges?.html || [],
+        readonlyRanges: codeFromServer.readonlyRanges.html,
       })
     } else {
-      // we don't need to set editor code here, because that defaults to the stub code
+      // otherwise we fallback to localstorage
       setupEditor(view, {
         code: editorCode.htmlEditorContent,
-        readonlyRanges: editorCode.readonlyRanges?.html || [],
+        readonlyRanges: editorCode.readonlyRanges.html,
       })
     }
   })
+
   const {
     editorViewRef: cssEditorViewRef,
     handleEditorDidMount: handleCssEditorDidMount,
   } = useEditorHandler(editorCode.cssEditorContent, (view) => {
-    if (
-      // if there is no storedAt it means we have not submitted the code yet, ignore this, and keep using localStorage
-      // localStorage defaults to the stub code.
-      editorCode.storedAt &&
-      code.storedAt &&
-      // if the code on the server is newer than in localstorage, update the storage and load the code from the server
-      // ---
-      // code on the server must be newer by at least a minute
-      new Date(editorCode.storedAt).getTime() <
-        new Date(code.storedAt).getTime() - 60000
-    ) {
-      // Might be a weak point
-      // TODO: Add extra guard here
+    if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
       const { html, css } = JSON.parse(code.code)
-      setEditorCode({
+      const newCode = {
         htmlEditorContent: html,
         cssEditorContent: css,
-        storedAt: code.storedAt,
+        storedAt: code.storedAt!,
         readonlyRanges: {
           html: code.readonlyRanges?.html || [],
           css: code.readonlyRanges?.css || [],
         },
-      })
+      }
+      setEditorCode(newCode)
       setupEditor(view, {
         code: css,
-        readonlyRanges: code.readonlyRanges?.css || [],
+        readonlyRanges: newCode.readonlyRanges.css,
       })
     } else {
-      // we don't need to set editor code here, because that defaults to the stub code
       setupEditor(view, {
         code: editorCode.cssEditorContent,
-        readonlyRanges: editorCode.readonlyRanges?.css || [],
+        readonlyRanges: editorCode.readonlyRanges.css,
       })
     }
   })
 
   const resetEditors = useCallback(() => {
-    const cssEditorView = cssEditorViewRef.current
-    const htmlEditorView = htmlEditorViewRef.current
+    const cssView = cssEditorViewRef.current
+    const htmlView = htmlEditorViewRef.current
 
-    if (!(cssEditorView && htmlEditorView)) return
+    if (!cssView || !htmlView) return
 
     setEditorCode({
       htmlEditorContent: code.stub.html,
@@ -136,26 +105,16 @@ export function useSetupEditors(
       },
     })
 
-    // reset first
-    setupEditor(cssEditorView, {
-      code: '',
-      readonlyRanges: [],
-    })
-
-    setupEditor(cssEditorView, {
-      code: code.stub.css,
-      readonlyRanges: code.defaultReadonlyRanges?.css || [],
-    })
-
-    setupEditor(htmlEditorView, {
-      code: '',
-      readonlyRanges: [],
-    })
-
-    setupEditor(htmlEditorView, {
-      code: code.stub.html,
-      readonlyRanges: code.defaultReadonlyRanges?.html || [],
-    })
+    resetSingleEditor(
+      cssView,
+      code.stub.css,
+      code.defaultReadonlyRanges?.css || []
+    )
+    resetSingleEditor(
+      htmlView,
+      code.stub.html,
+      code.defaultReadonlyRanges?.html || []
+    )
   }, [])
 
   return {
@@ -169,11 +128,37 @@ export function useSetupEditors(
   }
 }
 
-function setupReadonlyRanges(
+function shouldUpdateFromServer(
+  local?: string,
+  server?: string | null
+): boolean {
+  return !!(
+    local &&
+    server &&
+    // if local time is older than server time by more than 1 minute
+    new Date(local).getTime() < new Date(server).getTime() - 60000
+  )
+}
+
+function setupEditor(
   editorView: EditorView | null,
-  readonlyRanges: { from: number; to: number }[]
+  {
+    code,
+    readonlyRanges,
+  }: {
+    code: string
+    readonlyRanges?: { from: number; to: number }[]
+  }
 ) {
   if (!editorView) return
+
+  editorView.dispatch({
+    changes: {
+      from: 0,
+      to: editorView.state.doc.length,
+      insert: code,
+    },
+  })
 
   if (readonlyRanges) {
     editorView.dispatch({
@@ -182,29 +167,24 @@ function setupReadonlyRanges(
   }
 }
 
-function setupEditor(
-  editorView: EditorView | null,
-  {
-    readonlyRanges,
-    code,
-  }: { readonlyRanges?: { from: number; to: number }[]; code: string }
+function resetSingleEditor(
+  view: EditorView | null,
+  content: string,
+  readonlyRanges: { from: number; to: number }[]
 ) {
-  if (!editorView) return
+  if (!view) return
+  setupEditor(view, { code: '', readonlyRanges: [] })
+  setupEditor(view, { code: content, readonlyRanges })
+}
 
-  // This needs to happen before the code is added.
-
-  if (code) {
-    editorView.dispatch({
-      changes: {
-        from: 0,
-        to: editorView.state.doc.length,
-        insert: code,
-      },
-    })
-  }
-  if (readonlyRanges) {
-    editorView.dispatch({
-      effects: updateReadOnlyRangesEffect.of(readonlyRanges),
-    })
+function getInitialEditorCode(code: CSSExercisePageCode) {
+  return {
+    htmlEditorContent: code.stub.html,
+    cssEditorContent: code.stub.css,
+    storedAt: new Date().toISOString(),
+    readonlyRanges: {
+      html: code.readonlyRanges?.html || [],
+      css: code.readonlyRanges?.css || [],
+    },
   }
 }

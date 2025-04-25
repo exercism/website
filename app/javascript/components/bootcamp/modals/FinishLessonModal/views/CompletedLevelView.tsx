@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { SolveExercisePageContext } from '../../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { JikiscriptExercisePageContext } from '../../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 
 export function CompletedLevelView() {
   const { nextLevelIdx, completedLevelIdx } = useContext(
     FinishLessonModalContext
   )
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">

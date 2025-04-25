@@ -7,7 +7,7 @@ class Bootcamp::Exercise::AvailableForUser
     # If the exercise is gloabally locked, it's locked
     return false if exercise.locked?
 
-    return false if user.bootcamp_data.level_idx < exercise.level_idx
+    return false if user_level_idx < exercise.level_idx
 
     # Otherwise the previous solution must be completed
     previous_exercises_completed?
@@ -28,4 +28,11 @@ class Bootcamp::Exercise::AvailableForUser
 
     previous_exercises.all? { |ex| completed_exercise_ids.include?(ex.id) }
   end
+
+  def user_level_idx
+    part = exercise.level_idx <= 10 ? 1 : 2
+    part == 1 ? bootcamp_data.part_1_level_idx : bootcamp_data.part_2_level_idx
+  end
+
+  delegate :bootcamp_data, to: :user
 end

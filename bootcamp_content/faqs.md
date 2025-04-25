@@ -98,8 +98,8 @@ Use Discord to chat with other students, post your successes and stuggles, and b
 The Bootcamp is split into a series of Levels.
 Each Level has:
 
-- A teaching session where Jeremy introduces the new concept(s) for that week (normally livestreamed on Mondays at 18:00 UTC).
-- A Labs session where Jeremy walks through the week's exercises and answers your questions (normally livestreamed on Saturdays at 18:00 UTC).
+- A teaching session where Jeremy introduces the new concept(s) for that week (normally livestreamed on Mondays at noon UTC).
+- A Labs session where Jeremy walks through the week's exercises and answers your questions (normally livestreamed on Saturdays at noon UTC).
 
 Each Level also unlocks new Exercises.
 

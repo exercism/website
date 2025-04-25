@@ -10,7 +10,7 @@ class Bootcamp::Solution::Complete
     # inline to ensure next exercise selection is correct
     solution.update!(completed_at: Time.current)
     Bootcamp::UserProject::UpdateStatus.(user_project)
-    Bootcamp::UpdateUserLevel.(user)
+    Bootcamp::UpdateUserLevel.(user, solution.exercise.level.part)
   end
 
   private

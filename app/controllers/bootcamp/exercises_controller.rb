@@ -3,7 +3,16 @@ class Bootcamp::ExercisesController < Bootcamp::BaseController
   before_action :use_exercise, only: %i[show edit]
 
   def index
-    @projects = Bootcamp::Project.all.index_with { |p| p.exercises.unlocked }
+    @projects = Bootcamp::Project.all
+    unless current_user.bootcamp_data.enrolled_in_both_parts?
+      if current_user.bootcamp_data.enrolled_on_part_1?
+        @projects = @projects.part_1
+      elsif current_user.bootcamp_data.enrolled_on_part_2?
+        @projects = @projects.part_2
+      end
+    end
+
+    @projects = @projects.index_with { |p| p.exercises.unlocked }
     @solutions = current_user.bootcamp_solutions.where(exercise: @exercises).index_by(&:exercise_id)
   end
 

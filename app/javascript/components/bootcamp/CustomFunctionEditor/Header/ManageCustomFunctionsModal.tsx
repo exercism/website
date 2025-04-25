@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import Modal from 'react-modal'
 import useCustomFunctionStore from '../store/customFunctionsStore'
-import { SolveExercisePageContext } from '../../SolveExercisePage/SolveExercisePageContextWrapper'
+import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common'
 import { CustomFunctionContext } from '../CustomFunctionEditor'
 import { assembleClassNames } from '@/utils/assemble-classnames'
@@ -29,7 +29,7 @@ export function ManageCustomFunctionsModal({
     deactivateCustomFunction,
   } = useCustomFunctionStore()
 
-  const { links } = useContext(SolveExercisePageContext)
+  const { links } = useContext(JikiscriptExercisePageContext)
 
   const hasMetadata = useMemo(
     () => Object.keys(availableCustomFunctions).length > 0,

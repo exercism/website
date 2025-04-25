@@ -7,6 +7,7 @@ body.namespace-tracks.controller-mentor_requests.action-new,
 body.namespace-tracks.controller-mentor_requests.action-show,
 body.namespace-tracks.controller-mentor_discussions.action-show,
 body.namespace-training_data.controller-code_tags_samples.action-show,
+body.namespace-bootcamp.controller-frontend.action-index,
 body.controller-user_onboarding.action-show,
 body.devise {
     & #site-header,

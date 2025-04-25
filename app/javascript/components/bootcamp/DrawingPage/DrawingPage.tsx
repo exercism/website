@@ -3,12 +3,12 @@ import { Header, StudentCodeGetter } from './Header/Header'
 import {
   Resizer,
   useResizablePanels,
-} from '../SolveExercisePage/hooks/useResize'
-import { CodeMirror } from '../SolveExercisePage/CodeMirror/CodeMirror'
+} from '../JikiscriptExercisePage/hooks/useResize'
+import { CodeMirror } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary'
 import { useDrawingEditorHandler } from './useDrawingEditorHandler'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import Scrubber from '../SolveExercisePage/Scrubber/Scrubber'
+import Scrubber from '../JikiscriptExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
 

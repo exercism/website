@@ -1,0 +1,23 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    aspect-ratio: 1;
+}
+body {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+div,
+img {
+    flex-grow: 1;
+}
+
+img {
+    width: 100%;
+}

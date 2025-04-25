@@ -4,8 +4,8 @@ import { Frame } from '@/interpreter/frames'
 import { EditorView } from 'codemirror'
 import { CustomFunction } from '../CustomFunctionEditor'
 import toast from 'react-hot-toast'
-import { AnimationTimeline } from '../../SolveExercisePage/AnimationTimeline/AnimationTimeline'
-import { updateUnfoldableFunctions } from '../../SolveExercisePage/CodeMirror/unfoldableFunctionNames'
+import { AnimationTimeline } from '../../JikiscriptExercisePage/AnimationTimeline/AnimationTimeline'
+import { updateUnfoldableFunctions } from '../../JikiscriptExercisePage/CodeMirror/unfoldableFunctionNames'
 
 export type CustomTests = {
   args: string

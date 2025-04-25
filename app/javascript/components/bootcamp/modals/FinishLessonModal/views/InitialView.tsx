@@ -1,8 +1,8 @@
 import React from 'react'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'
-import useTaskStore from '@/components/bootcamp/SolveExercisePage/store/taskStore/taskStore'
-import useTestStore from '@/components/bootcamp/SolveExercisePage/store/testStore'
+import useTaskStore from '@/components/bootcamp/JikiscriptExercisePage/store/taskStore/taskStore'
+import useTestStore from '@/components/bootcamp/JikiscriptExercisePage/store/testStore'
 import { useContext, useMemo, useCallback } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 

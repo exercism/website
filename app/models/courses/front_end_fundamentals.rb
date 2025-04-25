@@ -13,14 +13,16 @@ class Courses::FrontEndFundamentals < Courses::Course
   def blurb = Markdown::Parse.(
     "Add front-end skills to your coding repertoire. Designed for people **with a solid grasp of coding basics**. No web-dev experience required!"
   )
+  # rubocop:enable Layout/LineLength
 
   def enable_for_user!(user)
-    # TODO: Enable bootcamp_attendee here
+    user.update!(bootcamp_attendee: true)
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
-  end
 
-  # rubocop:enable Layout/LineLength
+    user.create_bootcamp_data! unless user.bootcamp_data
+    user.bootcamp_data.update!(enrolled_on_part_2: true, active_part: 2)
+  end
 
   def stripe_prices = STRIPE_PRICES
 

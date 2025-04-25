@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_25_230617) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_25_060229) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1470,12 +1470,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_25_230617) do
     t.string "name"
     t.string "email"
     t.string "ppp_country"
-    t.string "checkout_session_id"
-    t.text "utm"
-    t.integer "level_idx", null: false, default: 0
-    t.string "access_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "checkout_session_id"
+    t.text "utm"
+    t.integer "part_1_level_idx", default: 0, null: false
+    t.string "access_code"
+    t.integer "part_2_level_idx", default: 0, null: false
+    t.boolean "enrolled_on_part_1", default: false, null: false
+    t.boolean "enrolled_on_part_2", default: false, null: false
+    t.integer "active_part", default: 1, null: false
     t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
   end
 

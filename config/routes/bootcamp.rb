@@ -1,6 +1,8 @@
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard
+  post "change_part", to: "dashboard#change_part", as: :change_part
   get "faqs", to: "pages#faqs", as: :faqs
+  get 'frontend', to: 'frontend#index', as: :frontend
   resources "levels", param: :idx, only: %i[index show]
   resources "concepts", param: :slug, only: %i[index show]
   resources "projects", param: :slug, only: %i[index show] do

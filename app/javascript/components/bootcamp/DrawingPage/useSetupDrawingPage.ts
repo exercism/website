@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import useEditorStore from '../SolveExercisePage/store/editorStore'
+import useEditorStore from '../JikiscriptExercisePage/store/editorStore'
 
 export function useSetupDrawingPage({
   editorLocalStorageValue,

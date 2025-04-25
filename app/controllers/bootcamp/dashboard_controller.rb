@@ -3,8 +3,21 @@ class Bootcamp::DashboardController < Bootcamp::BaseController
     @exercise = Bootcamp::SelectNextExercise.(current_user)
     @solution = current_user.bootcamp_solutions.find_by(exercise: @exercise)
 
-    level_idx = [Bootcamp::Settings.level_idx, current_user.bootcamp_data.level_idx].min
-    level_idx = 1 if level_idx.zero?
+    bd = current_user.bootcamp_data
+    ulidx = bd.active_part == 1 ? bd.part_1_level_idx : bd.part_2_level_idx
+    level_idx = [Bootcamp::Settings.level_idx, ulidx].min
+    level_idx = bd.active_part == 1 ? 1 : 11 if level_idx.zero?
     @level = Bootcamp::Level.find_by!(idx: level_idx)
+  end
+
+  def change_part
+    bd = current_user.bootcamp_data
+    if bd.enrolled_in_both_parts?
+      part = params[:part].to_i
+      part = 1 unless [1, 2].include?(part)
+      bd.update!(active_part: part)
+    end
+
+    redirect_to bootcamp_dashboard_path
   end
 end

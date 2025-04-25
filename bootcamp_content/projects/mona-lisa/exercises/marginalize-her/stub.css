@@ -1,0 +1,19 @@
+#frame-wood {
+    background: #4e342e;
+    padding: 20px;
+}
+
+#frame-glass {
+    background: white;
+    padding: 10px;
+}
+
+#frame-rim {
+    background: #d4af37;
+    padding: 5px;
+}
+
+#frame-canvas {
+    background: #f5f5dc;
+    padding: 20px;
+}

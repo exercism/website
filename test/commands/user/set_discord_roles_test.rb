@@ -110,7 +110,7 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
 
     uid = SecureRandom.hex
     user = create :user, :not_mentor, discord_uid: uid
-    user.update!(bootcamp_attendee: true)
+    create(:course_enrollment, :paid, user:)
 
     RestClient.expects(:put).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1326564387284320276",

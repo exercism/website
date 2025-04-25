@@ -28,6 +28,8 @@ class User < ApplicationRecord
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
 
+  has_many :course_enrollments, dependent: :nullify
+
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy
@@ -337,6 +339,11 @@ class User < ApplicationRecord
   def reverify_email!
     email_status_unverified!
     User::VerifyEmail.defer(self)
+  end
+
+  memoize
+  def bought_course?
+    course_enrollments.paid.exists?
   end
 
   memoize

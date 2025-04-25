@@ -12,9 +12,8 @@ class User::SetDiscourseGroups
   rescue DiscourseApi::NotFoundError
     # If the external user can't be found, then the
     # oauth didn't complete so there's nothing to do.
-  rescue DiscourseApi::TooManyRequests => e
-    retry_after = (e.response.body['extras']['wait_seconds'] || 60).to_i
-    requeue_job!(retry_after.seconds)
+  rescue DiscourseApi::TooManyRequests
+    requeue_job!(rand(10..360))
   end
 
   private
@@ -39,7 +38,7 @@ class User::SetDiscourseGroups
   end
 
   def set_bootcamp_attendee!
-    if user.bootcamp_attendee?
+    if user.bought_course?
       add_to_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)
     else
       remove_from_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)

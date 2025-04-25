@@ -5,7 +5,7 @@
   %p
     Your Exercism account has been granted access to the Bootcamp.
     You can access it here: #{link_to "https://exercism.org/bootcamp/dashboard", bootcamp_dashboard_url} (you might want to bookmark this link!)
-- else
+-else
   %p
     %strong As you were not logged into your Exercism account when purchasing the course, we need to connect things up for you.
     The easiest way is to #{link_to 'create an exercism account', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address #{@enrollment.email}. That will automatically give you access.
@@ -18,6 +18,3 @@
   Finally, it would be great to connect and I'd love to hear about your goals with coding, and why you chose the course.
   %strong Please reply to this email and say hello! 🙂
 %p Thank you again!
-
-
-

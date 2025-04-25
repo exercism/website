@@ -1,5 +1,7 @@
 class AddPart2FieldsToBootcampData < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     rename_column :user_bootcamp_data, :level_idx, :part_1_level_idx
     add_column :user_bootcamp_data, :part_2_level_idx, :integer, null: false, default: 0
 

@@ -16,7 +16,8 @@ export async function generateAndRunTestSuite(
     setShouldShowInformationWidget: (shouldShow: boolean) => void
     setInformationWidgetData: (data: InformationWidgetData) => void
   },
-  editorView: EditorView | null
+  editorView: EditorView | null,
+  language: Exercise['language']
 ) {
   return await describe(options.config.title, async (test) => {
     let project: Project | undefined
@@ -24,10 +25,17 @@ export async function generateAndRunTestSuite(
       project = exerciseMap.get(options.config.projectType)
     }
 
-    await mapTasks(test, options, editorView, stateSetters, project)
+    await mapTasks(test, options, editorView, stateSetters, language, project)
   })
 }
-const mapTasks = async (test, options, editorView, stateSetters, project) => {
+const mapTasks = async (
+  test,
+  options,
+  editorView,
+  stateSetters,
+  language,
+  project
+) => {
   for (const taskData of options.tasks) {
     for (const testData of taskData.tests) {
       await test(testData.name, testData.descriptionHtml, async () => {
@@ -36,6 +44,7 @@ const mapTasks = async (test, options, editorView, stateSetters, project) => {
           options,
           editorView,
           stateSetters,
+          language,
           project
         )
 

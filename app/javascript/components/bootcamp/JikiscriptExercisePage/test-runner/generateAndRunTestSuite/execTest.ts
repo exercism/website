@@ -20,8 +20,6 @@ import { EditorView } from 'codemirror'
 import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
 import { showError } from '../../utils/showError'
 
-const language: 'jikiscript' | 'javascript' = 'javascript'
-
 /**
  This is of type TestCallback
  */
@@ -36,6 +34,7 @@ export async function execTest(
     setShouldShowInformationWidget: (shouldShow: boolean) => void
     setInformationWidgetData: (data: InformationWidgetData) => void
   },
+  language: Exercise['language'],
   project?: Project
 ): Promise<ReturnType<TestCallback>> {
   const exercise: Exercise | undefined = project ? new project() : undefined

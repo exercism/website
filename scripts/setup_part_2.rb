@@ -3,7 +3,10 @@ CourseEnrollment.paid.each do |ce|
 
   ce.course.enable_for_user!(ce.user)
 
-  if ce.user.bootcamp_data.part_1_level_idx >= 11 && ce.user.bootcamp_data.enrolled_on_part_2?
+User::BootcampData.where(enrolled_on_part_1: false, enrolled_on_part_2: true).each do |ubd|
+  if ubd.part_1_level_idx >= 10
     ce.user.bootcamp_data.update!(active_part: 2)
+  else
+    ubd.update!(active_part: 1)
   end
 end

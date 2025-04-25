@@ -1,9 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { css } from '@codemirror/lang-css'
 import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import { debounce } from 'lodash'
+import {
+  initReadOnlyRangesExtension,
+  readOnlyRangesStateField,
+} from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
+import { EditorView } from 'codemirror'
+import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyLineDeco'
+import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {
   const {
@@ -18,21 +27,60 @@ export function CSSEditor() {
     panelSizes: { LHSWidth },
   } = useCSSExercisePageStore()
 
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return debounce((view: EditorView) => {
+      if (!setEditorCodeLocalStorage) {
+        return
+      }
+
+      const htmlReadonlyRanges = getCodeMirrorFieldValue(
+        htmlEditorRef.current,
+        readOnlyRangesStateField
+      )
+
+      const cssReadonlyRanges = getCodeMirrorFieldValue(
+        view,
+        readOnlyRangesStateField
+      )
+
+      setEditorCodeLocalStorage({
+        cssEditorContent: view.state.doc.toString(),
+        htmlEditorContent: htmlEditorRef.current?.state.doc.toString() || '',
+        storedAt: new Date().toISOString(),
+        readonlyRanges: {
+          css: cssReadonlyRanges,
+          html: htmlReadonlyRanges,
+        },
+      })
+    }, 500)
+  }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
+
   return (
     <SimpleCodeMirror
       defaultCode=""
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{
+        width: LHSWidth,
+        height: '90vh',
+        display: code.shouldHideCssEditor ? 'none' : 'block',
+      }}
       editorDidMount={handleCssEditorDidMount}
-      extensions={[css(), cssLinter]}
+      extensions={[
+        css(),
+        cssLinter,
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => {
-          return {
-            ...prev,
-            cssEditorContent: view.state.doc.toString(),
-            htmlEditorContent:
-              htmlEditorRef.current?.state.doc.toString() || '',
-          }
-        })
+        updateIFrame(
+          actualIFrameRef,
+          {
+            css: view.state.doc.toString(),
+            html: htmlEditorRef.current?.state.doc.toString() || '',
+          },
+          code.default
+        )
+
+        updateLocalStorageValueOnDebounce(view)
       }}
       ref={cssEditorRef}
     />

@@ -39,7 +39,6 @@ module ReactComponents
             css: exercise.stub("css"),
             html: exercise.stub("html")
           },
-          # TODO: pass this down properly
           should_hide_css_editor: !!exercise.editor_config[:hide_css],
           should_hide_html_editor: !!exercise.editor_config[:hide_html],
           code: solution.code,

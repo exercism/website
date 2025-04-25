@@ -18,6 +18,10 @@ type CSSExercisePageContextType = {
     React.SetStateAction<{
       htmlEditorContent: string
       cssEditorContent: string
+      readonlyRanges: {
+        css: ReadonlyRange[]
+        html: ReadonlyRange[]
+      }
       storedAt: string
     }>
   >

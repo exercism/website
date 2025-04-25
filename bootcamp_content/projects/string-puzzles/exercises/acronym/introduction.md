@@ -1,6 +1,6 @@
 # Acronym
 
-This is another classic Exercism exercise where your job is to convert a phase into its acronym.
+This is another classic Exercism exercise where your job is to convert a phrase into its acronym.
 
 Techies love their TLA (Three Letter Acronyms), so being able to quickly turn long name like Portable Network Graphics to its acronym (PNG) is a pretty nice ability to have.
 

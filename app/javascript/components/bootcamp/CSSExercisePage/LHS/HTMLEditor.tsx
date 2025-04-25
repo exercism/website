@@ -77,7 +77,7 @@ export function HTMLEditor() {
             html: view.state.doc.toString(),
             css: cssEditorRef.current?.state.doc.toString() || '',
           },
-          code.default
+          code
         )
 
         updateLocalStorageValueOnDebounce(view)

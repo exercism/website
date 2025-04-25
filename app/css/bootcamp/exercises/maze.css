@@ -71,22 +71,22 @@
                 background: radial-gradient(
                         circle,
                         transparent 20%,
-                        #f9dcdc 20%,
-                        #f9dcdc 80%,
+                        #dcdef9 20%,
+                        #dcdef9 80%,
                         transparent 80%,
                         transparent
                     ),
                     radial-gradient(
                             circle,
                             transparent 20%,
-                            #f9dcdc 20%,
-                            #f9dcdc 80%,
+                            #dcdef9 20%,
+                            #dcdef9 80%,
                             transparent 80%,
                             transparent
                         )
                         10px 10px,
-                    linear-gradient(#f74545 0.8px, transparent 0.8px) 0 -0.4px,
-                    linear-gradient(90deg, #f74545 0.8px, #f9dcdc 0.8px) -0.4px 0;
+                    linear-gradient(#6645f7 0.8px, transparent 0.8px) 0 -0.4px,
+                    linear-gradient(90deg, #6645f7 0.8px, #dcdef9 0.8px) -0.4px 0;
                 background-size: 10px 10px, 10px 10px, 5px 5px, 5px 5px;
             }
             &.start {

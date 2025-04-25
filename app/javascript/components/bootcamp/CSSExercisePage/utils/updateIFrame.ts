@@ -28,6 +28,9 @@ export function updateIFrame(
     <html>
       <head>
         <style>
+        body{
+          background: white;
+        }
         ${code.default.css}
         ${css}
         </style>

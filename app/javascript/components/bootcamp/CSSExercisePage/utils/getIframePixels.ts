@@ -19,6 +19,7 @@ export async function getIframePixels(
     const canvas = await html2canvas(iframeDoc.body, {
       windowWidth: iframe.clientWidth,
       windowHeight: iframe.clientHeight,
+      logging: false,
     })
 
     if (canvas) {

@@ -17,6 +17,7 @@ type CSSExercisePageStoreState = {
   matchPercentage: number
   setMatchPercentage: (matchPercentage: number) => void
   assertionStatus: 'pass' | 'fail' | 'pending'
+  setAssertionStatus: (assertionStatus: 'pass' | 'fail' | 'pending') => void
   updateAssertionStatus: (newStatus: 'pass' | 'fail') => void
   isFinishLessonModalOpen: boolean
   setIsFinishLessonModalOpen: (value: boolean) => void
@@ -27,7 +28,7 @@ type CSSExercisePageStoreState = {
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
-  (set) => ({
+  (set, get) => ({
     diffMode: false,
     curtainMode: false,
     toggleCurtainMode: () =>
@@ -46,8 +47,17 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     setPanelSizes: (panelSizes) => set({ panelSizes }),
     checksResult: [],
     setChecksResult: (checksResult) => set({ checksResult }),
+    assertionStatus: 'pending',
+    setAssertionStatus: (assertionStatus) => {
+      set({ assertionStatus })
+    },
 
     updateAssertionStatus: (newStatus) => {
+      const currentAssertionStatus = get().assertionStatus
+
+      // if it's already passing, we won't degrade it, and won't show modals anymore
+      if (currentAssertionStatus === 'pass') return
+
       if (newStatus === 'pass') {
         set((state) => {
           const newState: {
@@ -87,7 +97,6 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
       }
       set({ matchPercentage })
     },
-    assertionStatus: 'pending',
     isFinishLessonModalOpen: false,
     setIsFinishLessonModalOpen: (value) =>
       set({ isFinishLessonModalOpen: value }),

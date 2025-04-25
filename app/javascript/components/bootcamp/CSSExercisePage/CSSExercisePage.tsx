@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
@@ -8,7 +8,7 @@ import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
-import { useLogger } from '../common/hooks/useLogger'
+import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 
 export default function CSSExercisePage(data: CSSExercisePageProps) {
   const {
@@ -17,6 +17,14 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     expectedReferenceIFrameRef,
     handleCompare,
   } = useSetupIFrames(data.exercise.config, data.code)
+
+  const { setAssertionStatus } = useCSSExercisePageStore()
+
+  useEffect(() => {
+    if (data.solution.passedBasicTests) {
+      setAssertionStatus('pass')
+    }
+  }, [data.solution])
 
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
 

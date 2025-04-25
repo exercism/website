@@ -20,7 +20,7 @@ class Courses::FrontEndFundamentals < Courses::Course
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
 
-    user.bootcamp_data || user.create_bootcamp_data
+    user.create_bootcamp_data! unless user.bootcamp_data
     user.bootcamp_data.update!(enrolled_on_part_2: true, active_part: 2)
   end
 

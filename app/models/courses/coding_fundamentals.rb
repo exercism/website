@@ -20,7 +20,7 @@ class Courses::CodingFundamentals < Courses::Course
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
 
-    user.bootcamp_data || user.create_bootcamp_data
+    user.create_bootcamp_data! unless user.bootcamp_data
     user.bootcamp_data.update!(enrolled_on_part_1: true, active_part: 1)
 
     # TODO: Send welcome email

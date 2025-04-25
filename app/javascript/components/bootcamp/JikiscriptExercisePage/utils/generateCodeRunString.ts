@@ -1,7 +1,8 @@
 import { formatJikiObject } from '@/interpreter/helpers'
 
-export function generateCodeRunString(fn: string, params: any[]) {
-  if (!fn || !params) return ''
-  params = params.map((p) => formatJikiObject(p))
-  return `${fn}(${params.join(', ')})`
+export function generateCodeRunString(fn: string | undefined, args: any[]) {
+  if (!fn) return ''
+  if (!args) return `${fn}()`
+  args = args.map((p) => formatJikiObject(p))
+  return `${fn}(${args.join(', ')})`
 }

@@ -50,6 +50,7 @@ declare global {
 
   interface Exercise {
     part: number
+    language: 'jikiscript' | 'javascript'
     title: string
     slug: string
     id: number

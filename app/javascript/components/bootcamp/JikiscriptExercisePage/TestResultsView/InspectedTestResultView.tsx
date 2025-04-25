@@ -49,6 +49,8 @@ export function InspectedTestResultViewLHS({
   result: NewTestResult
   firstExpect: ProcessedExpect | null
 }) {
+  const { exercise } = useContext(JikiscriptExercisePageContext)
+
   return (
     <div data-ci="inspected-test-result-view" className="scenario-lhs">
       <div className="scenario-lhs-content">
@@ -71,7 +73,7 @@ export function InspectedTestResultViewLHS({
         <TestResultInfo result={result} firstExpect={firstExpect} />
       </div>
 
-      {result.frames && (
+      {exercise.language === 'jikiscript' && result.frames && (
         <Scrubber
           animationTimeline={result.animationTimeline}
           frames={result.frames}

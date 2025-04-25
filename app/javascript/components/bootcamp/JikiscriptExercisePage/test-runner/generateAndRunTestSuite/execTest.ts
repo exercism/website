@@ -15,63 +15,105 @@ import {
   AnimationTimeline,
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
+import { execJS } from './execJS'
+import { EditorView } from 'codemirror'
+import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
+import { showError } from '../../utils/showError'
+
+const language: 'jikiscript' | 'javascript' = 'javascript'
 
 /**
  This is of type TestCallback
  */
-export function execTest(
+export async function execTest(
   testData: TaskTest,
   options: TestRunnerOptions,
+  editorView: EditorView | null,
+  stateSetters: {
+    setUnderlineRange: (range: { from: number; to: number }) => void
+    setHighlightedLine: (line: number) => void
+    setHighlightedLineColor: (color: string) => void
+    setShouldShowInformationWidget: (shouldShow: boolean) => void
+    setInformationWidgetData: (data: InformationWidgetData) => void
+  },
   project?: Project
-): ReturnType<TestCallback> {
+): Promise<ReturnType<TestCallback>> {
   const exercise: Exercise | undefined = project ? new project() : undefined
   runSetupFunctions(exercise, testData.setupFunctions || [])
 
-  const context = {
-    externalFunctions: buildExternalFunctions(options, exercise),
-    classes: buildExternalClasses(options, exercise),
-    languageFeatures: options.config.interpreterOptions,
-    customFunctions: options.customFunctions,
-  }
+  // Turn {name: , func: } into {name: func}
+  const externalFunctions = buildExternalFunctions(options, exercise)
+  globalThis.externalFunctions = externalFunctions.reduce((acc, func) => {
+    acc[func.name] = func.func
+    return acc
+  }, {} as Record<string, any>)
 
+  const fnName = testData.function
   const args = testData.args ? parseArgs(testData.args) : []
 
-  let evaluated
-  if (testData.function) {
-    evaluated = evaluateFunction(
-      options.studentCode,
-      context,
-      testData.function,
-      ...args
-    )
-  } else if (testData.expression) {
-    evaluated = evaluateExpression(
-      options.studentCode,
-      context,
-      testData.expression
-    )
-  } else {
-    evaluated = interpret(options.studentCode, context)
+  let actual: any
+  let frames: Frame[] = []
+  let evaluated: any = null
+
+  switch (language) {
+    case 'javascript': {
+      const result = await execJS(
+        options.studentCode,
+        // we can probably assume that fnName will always exist?
+        fnName!,
+        args,
+        externalFunctions.map((f) => f.name)
+      )
+
+      console.log('result', result)
+
+      if (result.status === 'error') {
+        if (editorView) {
+          showError({
+            error: result.error,
+            ...stateSetters,
+            editorView,
+          })
+        }
+      }
+
+      // null falls back to [Your function didn't return anything]
+      actual = result.status === 'success' ? result.result : null
+      break
+    }
+
+    case 'jikiscript': {
+      const context = {
+        externalFunctions: buildExternalFunctions(options, exercise),
+        classes: buildExternalClasses(options, exercise),
+        languageFeatures: options.config.interpreterOptions,
+        customFunctions: options.customFunctions,
+      }
+
+      if (fnName) {
+        evaluated = evaluateFunction(
+          options.studentCode,
+          context,
+          fnName,
+          ...args
+        )
+      } else if (testData.expression) {
+        evaluated = evaluateExpression(
+          options.studentCode,
+          context,
+          testData.expression
+        )
+      } else {
+        evaluated = interpret(options.studentCode, context)
+      }
+
+      actual = evaluated.value
+      frames = evaluated.frames
+      break
+    }
   }
 
-  const { value: actual, frames } = evaluated
-
-  /*if(frames[0].timelineTime !== 0) {
-    frames.unshift({
-      timelineTime: 0,
-      time: 0,
-      line: 0,
-      code: "",
-      status: 'BOOKEND',
-      description: ""
-    })
-  }*/
-
-  const codeRun = testData.codeRun
-    ? testData.codeRun
-    : generateCodeRunString(testData.function, args)
-
-  const animationTimeline = buildAnimationTimeline(exercise, frames)
+  const codeRun = testData.codeRun ?? generateCodeRunString(fnName, args)
 
   const expects = generateExpects(evaluated, testData, actual, exercise)
 
@@ -81,7 +123,7 @@ export function execTest(
     codeRun,
     frames,
     type: options.config.testsType || (exercise ? 'state' : 'io'),
-    animationTimeline,
+    animationTimeline: buildAnimationTimeline(exercise, frames),
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
   }
@@ -157,9 +199,7 @@ export function buildAnimationTimeline(
       {
         targets: `body`,
         duration: lastFrame.time,
-        transformations: {
-          propProgress: '100%',
-        },
+        transformations: {},
         offset: 0,
       },
     ]

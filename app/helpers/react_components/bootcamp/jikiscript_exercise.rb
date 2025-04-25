@@ -15,6 +15,7 @@ module ReactComponents
           id: exercise.id,
           slug: exercise.slug,
           title: exercise.title,
+          language: exercise.config[:language].presence || "jikiscript",
           introduction_html: exercise.introduction_html,
           tasks: exercise.tasks,
           config: {

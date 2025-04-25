@@ -16,7 +16,7 @@ import {
 } from '../../AnimationTimeline/AnimationTimeline'
 import { Frame } from '@/interpreter/frames'
 import { execJS } from './execJS'
-import { EditorView } from 'codemirror'
+import { EditorView } from '@codemirror/view'
 import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
 import { showError } from '../../utils/showError'
 

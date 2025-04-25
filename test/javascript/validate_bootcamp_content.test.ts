@@ -5,6 +5,7 @@ import exerciseMap, {
 } from '@/components/bootcamp/JikiscriptExercisePage/utils/exerciseMap'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { execTest } from '@/components/bootcamp/JikiscriptExercisePage/test-runner/generateAndRunTestSuite/execTest'
+import { TestRunnerOptions } from '@/components/bootcamp/types/TestRunner'
 
 const contentDir = path.resolve(__dirname, '../../bootcamp_content/projects')
 
@@ -30,11 +31,15 @@ describe('Exercise Tests', () => {
   projects.forEach((project) => {
     const projectDir = contentDir + '/' + project + '/exercises'
     const exercises = getSubdirectories(projectDir)
-    exercises.forEach((exercise) => {
+    exercises.forEach(async (exercise) => {
       const exerciseDir = path.join(projectDir, exercise)
       const config = camelizeKeysAs<any>(getConfig(exerciseDir))
 
-      if (config.language && config.language != 'jikiscript') {
+      if (config.language === 'javascript') {
+        // we need at least one test
+        expect('no validation for javascript').toBe(
+          'no validation for javascript'
+        )
         return
       }
 
@@ -44,18 +49,32 @@ describe('Exercise Tests', () => {
       if (config.projectType) {
         projectClass = exerciseMap.get(config.projectType)
       }
-      const options = {
+      const options: TestRunnerOptions = {
         studentCode: exampleScript,
         tasks: [],
         config: config,
+        customFunctions: [],
       }
 
       config.tasks.forEach((task) => {
-        task.tests.forEach((testData) => {
+        task.tests.forEach(async (testData) => {
           if (testData.skipCi) return
 
-          test(`${project} - ${exercise} - ${task.name} - ${testData.name}`, () => {
-            const res = execTest(testData, options, projectClass)
+          test(`${project} - ${exercise} - ${task.name} - ${testData.name}`, async () => {
+            const res = await execTest(
+              testData,
+              options,
+              null,
+              {
+                setHighlightedLine: () => {},
+                setHighlightedLineColor: () => {},
+                setInformationWidgetData: () => {},
+                setShouldShowInformationWidget: () => {},
+                setUnderlineRange: () => {},
+              },
+              'jikiscript',
+              projectClass
+            )
             res.expects.forEach((exp) => {
               expect(exp.actual)[exp.matcher](exp.expected)
             })

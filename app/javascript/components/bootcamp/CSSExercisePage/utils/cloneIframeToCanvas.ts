@@ -1,7 +1,7 @@
-import html2canvas from 'html2canvas'
+import { toCanvas } from 'html-to-image'
 
 // this is a good debugging util to see output of the pixel-data gained from the iframe
-export async function cloneIframeToCanvasThenAppendToBody(
+export async function cloneIframeToCanvas(
   iframeRef: React.RefObject<HTMLIFrameElement>
 ): Promise<HTMLCanvasElement | null> {
   const iframe = iframeRef.current
@@ -15,9 +15,9 @@ export async function cloneIframeToCanvasThenAppendToBody(
   }
 
   try {
-    const canvas = await html2canvas(iframeDoc.body, {
-      windowWidth: iframe.clientWidth,
-      windowHeight: iframe.clientHeight,
+    const canvas = await toCanvas(iframeDoc.body, {
+      width: iframe.clientWidth,
+      height: iframe.clientHeight,
     })
 
     canvas.style.position = 'absolute'

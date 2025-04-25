@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas'
+import { toCanvas, toJpeg } from 'html-to-image'
 
 export async function getIframePixels(
   iframeRef: React.RefObject<HTMLIFrameElement>
@@ -16,11 +16,19 @@ export async function getIframePixels(
   }
 
   try {
-    const canvas = await html2canvas(iframeDoc.body, {
-      windowWidth: iframe.clientWidth,
-      windowHeight: iframe.clientHeight,
-      logging: false,
+    const canvas = await toCanvas(iframeDoc.body, {
+      width: iframe.clientWidth,
+      height: iframe.clientHeight,
     })
+
+    // uncomment to generate a download link for the actual canvas content
+
+    // toJpeg(iframeDoc.body, { quality: 0.95 }).then(function (dataUrl) {
+    //   var link = document.createElement('a')
+    //   link.download = 'my-image-name.jpeg'
+    //   link.href = dataUrl
+    //   link.click()
+    // })
 
     if (canvas) {
       const ctx = canvas.getContext('2d')

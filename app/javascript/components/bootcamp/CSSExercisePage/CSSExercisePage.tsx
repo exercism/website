@@ -18,8 +18,6 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     handleCompare,
   } = useSetupIFrames(data.exercise.config, data.code)
 
-  useLogger('CSSExercisePage', data)
-
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
 
   const {

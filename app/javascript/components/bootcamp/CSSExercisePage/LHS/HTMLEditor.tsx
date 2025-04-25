@@ -10,6 +10,7 @@ export function HTMLEditor() {
     handleHtmlEditorDidMount,
     htmlEditorRef,
     cssEditorRef,
+    code,
     setEditorCodeLocalStorage,
   } = useContext(CSSExercisePageContext)
   const {
@@ -18,7 +19,11 @@ export function HTMLEditor() {
 
   return (
     <SimpleCodeMirror
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{
+        width: LHSWidth,
+        height: '90vh',
+        display: code.shouldHideHtmlEditor ? 'none' : 'block',
+      }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       onEditorChangeCallback={(view) => {

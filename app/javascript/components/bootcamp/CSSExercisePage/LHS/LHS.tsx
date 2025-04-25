@@ -9,11 +9,10 @@ export function LHS({
 }: {
   getEditorValues: () => { cssValue: string; htmlValue: string }
 }) {
-  const { code } = useContext(CSSExercisePageContext)
   return (
     <div className="page-body-lhs">
-      {!code.shouldHideHtmlEditor && <HTMLEditor />}
-      {!code.shouldHideCssEditor && <CSSEditor />}
+      <HTMLEditor />
+      <CSSEditor />
       <ControlButtons getEditorValues={getEditorValues} />
     </div>
   )

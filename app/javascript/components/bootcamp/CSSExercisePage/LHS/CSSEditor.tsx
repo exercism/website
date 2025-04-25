@@ -21,7 +21,11 @@ export function CSSEditor() {
   return (
     <SimpleCodeMirror
       defaultCode=""
-      style={{ width: LHSWidth, height: '90vh' }}
+      style={{
+        width: LHSWidth,
+        height: '90vh',
+        display: code.shouldHideCssEditor ? 'none' : 'block',
+      }}
       editorDidMount={handleCssEditorDidMount}
       extensions={[css(), cssLinter]}
       onEditorChangeCallback={(view) => {

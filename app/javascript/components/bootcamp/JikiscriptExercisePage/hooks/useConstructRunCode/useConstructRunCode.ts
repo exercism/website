@@ -140,7 +140,8 @@ export function useConstructRunCode({
           setShouldShowInformationWidget,
           setInformationWidgetData,
         },
-        editorView
+        editorView,
+        language
       )
       // console.log("Thinks I've run", testResults.tests.length)
       // } catch (error) {
@@ -171,7 +172,8 @@ export function useConstructRunCode({
           setShouldShowInformationWidget,
           setInformationWidgetData,
         },
-        editorView
+        editorView,
+        language
       )
 
       setTestSuiteResult(testResults)
@@ -185,7 +187,6 @@ export function useConstructRunCode({
         inspectedTestResult,
         shouldShowBonusTasks
       )
-      console.log(automaticallyInspectedTest)
 
       // Don't play out the animation if there are errors
       // The scrubber will automatically handle jumping to

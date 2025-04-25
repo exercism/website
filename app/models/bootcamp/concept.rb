@@ -14,6 +14,12 @@ class Bootcamp::Concept < ApplicationRecord
   scope :apex, -> { where(apex: true) }
   scope :non_apex, -> { where(apex: false) }
 
+  scope :part_1, -> { where(level_idx: 1..10) }
+  scope :part_2, -> { where(level_idx: 11..20) }
+
+  scope :unlocked, -> { where('level_idx <= ?', Bootcamp::Settings.level_idx) }
+  scope :locked, -> { where('level_idx > ?', Bootcamp::Settings.level_idx) }
+
   def to_param = slug
 
   def parents

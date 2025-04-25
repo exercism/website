@@ -38,6 +38,7 @@ class Bootcamp::Exercise < ApplicationRecord
   end
 
   def num_tasks = tasks.size
+  def editor_config = config[:editor_config] || {}
 
   memoize
   def config

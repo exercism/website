@@ -3,15 +3,26 @@ class Bootcamp::Project < ApplicationRecord
 
   has_markdown_field :introduction
 
+  # scope :part_1, -> { unlocked.where('exercises.level_idx': 1..10) }
+  # scope :part_2, -> { unlocked.where('exercises.level_idx': 11..20) }
+
   # TODO: Fix the rubocop error
   has_many :exercises, class_name: "Bootcamp::Exercise" # rubocop:disable Rails/HasManyOrHasOneDependent
 
   def self.unlocked
-    where(id: Bootcamp::Exercise.unlocked.select(:project_id))
+    where(id: Bootcamp::Exercise.unscoped.unlocked.select(:project_id))
+  end
+
+  def self.part_1
+    where(id: Bootcamp::Exercise.unscoped.where(level_idx: 1..10).select(:project_id))
+  end
+
+  def self.part_2
+    where(id: Bootcamp::Exercise.unscoped.where(level_idx: 11..200).select(:project_id))
   end
 
   def locked? = !unlocked?
-  def unlocked? = Bootcamp::Exercise.unlocked.where(project_id: id).exists?
+  def unlocked? = Bootcamp::Exercise.unscoped.unlocked.where(project_id: id).exists?
 
   def to_param = slug
 

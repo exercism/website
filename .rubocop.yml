@@ -102,6 +102,9 @@ Style/ZeroLengthPredicate:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
 Naming/VariableNumber:
   EnforcedStyle: snake_case
   AllowedIdentifiers:

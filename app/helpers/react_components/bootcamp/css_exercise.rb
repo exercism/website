@@ -40,8 +40,8 @@ module ReactComponents
             html: exercise.stub("html")
           },
           # TODO: pass this down properly
-          should_hide_css_editor: false,
-          should_hide_html_editor: false,
+          should_hide_css_editor: !!exercise.editor_config[:hide_css],
+          should_hide_html_editor: !!exercise.editor_config[:hide_html],
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

@@ -5,7 +5,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     create :bootcamp_level, idx: 1
     exercise = create :bootcamp_exercise, level_idx: 1
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -16,7 +16,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     (1..2).each { |idx| create :bootcamp_level, idx: }
     exercise = create :bootcamp_exercise, level_idx: 2
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -29,7 +29,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
 
@@ -42,7 +42,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
     create(:bootcamp_solution, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
@@ -56,7 +56,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 1, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
     create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
@@ -71,7 +71,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     second_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:, blocks_project_progression: false)
     third_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 3, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
     create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 1)
@@ -86,7 +86,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
 
@@ -99,7 +99,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
     create(:bootcamp_solution, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
@@ -113,7 +113,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     first_exercise = create(:bootcamp_exercise, level_idx: 1, idx: 2, project:)
     second_exercise = create(:bootcamp_exercise, level_idx: 2, idx: 1, project:)
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 10)
+    user.bootcamp_data.update!(part_1_level_idx: 10)
     create(:bootcamp_solution, :completed, exercise: first_exercise, user:)
 
     Bootcamp::Settings.instance.update(level_idx: 2)
@@ -127,7 +127,7 @@ class Bootcamp::Exercise::AvailableForUserTest < ActiveSupport::TestCase
     (1..2).each { |idx| create :bootcamp_level, idx: }
     exercise = create :bootcamp_exercise, level_idx: 2
     user = create :user, :with_bootcamp_data
-    user.bootcamp_data.update!(level_idx: 1)
+    user.bootcamp_data.update!(part_1_level_idx: 1)
 
     refute Bootcamp::Exercise::AvailableForUser.(exercise, user)
   end

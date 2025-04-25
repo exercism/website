@@ -6,8 +6,13 @@ import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { EditorView } from 'codemirror'
 import { debounce } from 'lodash'
-import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import {
+  initReadOnlyRangesExtension,
+  readOnlyRangesStateField,
+} from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
+import { updateIFrame } from '../utils/updateIFrame'
+import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions'
 
 export function HTMLEditor() {
   const {
@@ -16,6 +21,7 @@ export function HTMLEditor() {
     cssEditorRef,
     code,
     setEditorCodeLocalStorage,
+    actualIFrameRef,
   } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -58,8 +64,22 @@ export function HTMLEditor() {
       }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
-      extensions={[html(), htmlLinter, readOnlyRangesStateField]}
+      extensions={[
+        html(),
+        htmlLinter,
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       onEditorChangeCallback={(view) => {
+        updateIFrame(
+          actualIFrameRef,
+          {
+            html: view.state.doc.toString(),
+            css: cssEditorRef.current?.state.doc.toString() || '',
+          },
+          code.default
+        )
+
         updateLocalStorageValueOnDebounce(view)
       }}
       defaultCode="<div>hello</div>"

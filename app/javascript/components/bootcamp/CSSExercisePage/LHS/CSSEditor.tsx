@@ -12,6 +12,7 @@ import {
 import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
 import { EditorView } from 'codemirror'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyLineDeco'
+import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {
   const {
@@ -70,10 +71,15 @@ export function CSSEditor() {
         initReadOnlyRangesExtension(),
       ]}
       onEditorChangeCallback={(view) => {
-        console.log(
-          'readonly ranges',
-          view.state.field(readOnlyRangesStateField)
+        updateIFrame(
+          actualIFrameRef,
+          {
+            css: view.state.doc.toString(),
+            html: htmlEditorRef.current?.state.doc.toString() || '',
+          },
+          code.default
         )
+
         updateLocalStorageValueOnDebounce(view)
       }}
       ref={cssEditorRef}

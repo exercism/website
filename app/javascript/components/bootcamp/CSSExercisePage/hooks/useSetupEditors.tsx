@@ -21,6 +21,7 @@ export function useSetupEditors(
     return { cssValue, htmlValue }
   }, [editorCode])
 
+  // set it up once on mount
   useEffect(() => {
     updateIFrame(
       actualIFrameRef,
@@ -30,7 +31,7 @@ export function useSetupEditors(
       },
       code.default
     )
-  }, [editorCode.cssEditorContent, editorCode.htmlEditorContent])
+  }, [])
 
   const {
     editorViewRef: htmlEditorViewRef,

@@ -53,13 +53,14 @@ export function showError({
     line = error.location.line
     html = describeError(error, context)
   } else {
+    // Codemirror requires a 1-based line number, while Js's error output generates a 0-based line number
+    const lineNumber = error.lineNumber + 1
     // Otherwise it's a JS error, and typeof `error` is not StaticError
     // on this error we - for example - don't have `location`.
-    const pos =
-      editorView.state.doc.line(error.lineNumber).from + error.colNumber
+    const pos = editorView.state.doc.line(lineNumber).from + error.colNumber
     from = pos - 1
     to = pos
-    line = error.lineNumber
+    line = lineNumber
     html = describeError({
       // @ts-expect-error - partial StaticError-like structure
       // TODO: adjust types in describeError

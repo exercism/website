@@ -1,0 +1,43 @@
+.card {
+    margin: 5%;
+    padding: 5%;
+    background: #fff;
+    border: 3px double rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    color: #333;
+    background-image: url("http://assets.exercism.org/images/bootcamp/paper-texture.jpg");
+    background-size: cover;
+}
+
+.inner {
+    background-image: url("http://assets.exercism.org/images/bootcamp/candle.png");
+    background-size: 20%;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: bold;
+    color: #5b3a29;
+    margin-bottom: 1%;
+}
+
+.tagline {
+    font-style: italic;
+    color: #8c6e54;
+    margin-bottom: 8%;
+    font-size: 16px;
+}
+
+.contact {
+    font-size: 15px;
+    color: #7c614a;
+}
+
+.contact div {
+    margin-top: 2%;
+}
+.emoji {
+    margin-right: 5px;
+}

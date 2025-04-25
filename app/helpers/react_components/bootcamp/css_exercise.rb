@@ -41,6 +41,7 @@ module ReactComponents
           },
           should_hide_css_editor: !!exercise.editor_config[:hide_css],
           should_hide_html_editor: !!exercise.editor_config[:hide_html],
+          aspect_ratio: exercise.editor_config[:aspect_ratio] || 1,
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

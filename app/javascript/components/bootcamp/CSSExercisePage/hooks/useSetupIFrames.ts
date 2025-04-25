@@ -13,8 +13,8 @@ export function useSetupIFrames(
 
   useEffect(() => {
     const { html, css } = config.expected
-    updateIFrame(expectedIFrameRef, { html, css }, code.default)
-    updateIFrame(expectedReferenceIFrameRef, { html, css }, code.default)
+    updateIFrame(expectedIFrameRef, { html, css }, code)
+    updateIFrame(expectedReferenceIFrameRef, { html, css }, code)
   }, [])
 
   // since curtainMode and diffMode is off by default, we don't render the iframe

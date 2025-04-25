@@ -1,0 +1,39 @@
+.card {
+    margin: 5%;
+    padding: 5%;
+    border: 2px solid #e3caa5;
+    border-radius: 10px;
+    color: #4b3f2f;
+    background-image: url("http://assets.exercism.org/images/bootcamp/lemons.jpg");
+    background-size: cover;
+    background-position: top right;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 3%;
+}
+
+.ingredients {
+    margin: 0 0 3% 0;
+    padding-left: 6%;
+}
+
+.ingredients li {
+    margin-bottom: 1%;
+    list-style-type: "🍯 ";
+}
+
+.instructions {
+    font-size: 16px;
+    margin-right: 20%;
+    margin-bottom: 3%;
+}
+
+.note {
+    font-size: 14px;
+    font-style: italic;
+    color: #777;
+}

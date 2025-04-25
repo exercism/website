@@ -54,6 +54,7 @@ export function ActualOutput() {
           filter: diffMode
             ? ' sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
             : 'none',
+          aspectRatio: context.code.aspectRatio,
         }}
       >
         {/* student's code's output */}

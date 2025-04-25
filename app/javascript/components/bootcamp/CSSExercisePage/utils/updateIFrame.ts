@@ -3,7 +3,7 @@ export function updateIFrame(
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
   { html, css }: { html?: string; css?: string },
-  defaults: { html?: string; css?: string } = { html: '', css: '' }
+  code: CSSExercisePageCode
 ) {
   let iframeElement: HTMLIFrameElement | null = null
 
@@ -28,11 +28,11 @@ export function updateIFrame(
     <html>
       <head>
         <style>
-        ${defaults.css}
+        ${code.default.css}
         ${css}
         </style>
       </head>
-      <body>
+      <body style="aspect-ratio:${code.aspectRatio}">
         ${html}
         </body>
         </html>

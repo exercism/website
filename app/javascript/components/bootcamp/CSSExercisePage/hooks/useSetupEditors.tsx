@@ -29,7 +29,7 @@ export function useSetupEditors(
         css: editorCode.cssEditorContent,
         html: editorCode.htmlEditorContent,
       },
-      code.default
+      code
     )
   }, [])
 

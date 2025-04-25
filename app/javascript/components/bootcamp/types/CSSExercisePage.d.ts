@@ -25,6 +25,7 @@ type CSSExercisePageCode = {
 
   shouldHideCssEditor: boolean
   shouldHideHtmlEditor: boolean
+  aspectRatio: number
   storedAt: string | null
   readonlyRanges?: HtmlCssReadonlyRanges
   defaultReadonlyRanges?: HtmlCssReadonlyRanges

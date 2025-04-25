@@ -12,7 +12,12 @@ export function ExpectedOutput() {
   return (
     <div className="p-12">
       <h3 className="mb-12 font-mono font-semibold">Expected: </h3>
-      <div className="css-render-expected">
+      <div
+        className="css-render-expected"
+        style={{
+          aspectRatio: context.code.aspectRatio,
+        }}
+      >
         <iframe
           className="absolute top-0 left-0 h-full w-full"
           ref={expectedIFrameRef}

@@ -66,6 +66,7 @@ projects = %w[
   oop-puzzles
   coffee-thoughts
   mona-lisa
+  style-puzzles
 ]
 
 projects.each do |project_slug|

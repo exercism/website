@@ -38,7 +38,7 @@ export function HTMLEditor() {
       )
 
       setEditorCodeLocalStorage({
-        cssEditorContent: htmlEditorRef.current?.state.doc.toString() || '',
+        cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
         htmlEditorContent: view.state.doc.toString(),
         storedAt: new Date().toISOString(),
         readonlyRanges: {
@@ -58,10 +58,10 @@ export function HTMLEditor() {
       }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
+      extensions={[html(), htmlLinter, readOnlyRangesStateField]}
       onEditorChangeCallback={(view) => {
         updateLocalStorageValueOnDebounce(view)
       }}
-      extensions={[html(), htmlLinter]}
       defaultCode="<div>hello</div>"
     />
   )

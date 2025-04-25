@@ -9,9 +9,15 @@ class User::BootcampData < ApplicationRecord
   scope :not_paid, -> { where(paid_at: nil) }
 
   before_create do
-    self.level_idx = 1
+    self.part_1_level_idx = 1
+    self.part_2_level_idx = 11
   end
 
-  def enrolled? = enrolled_at.present?
-  def paid? = paid_at.present?
+  def level_idx
+    active_part == 1 ? part_1_level_idx : part_2_level_idx
+  end
+
+  def enrolled_in_both_parts?
+    enrolled_on_part_1? && enrolled_on_part_2?
+  end
 end

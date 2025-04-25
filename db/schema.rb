@@ -1479,6 +1479,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_25_060229) do
     t.integer "part_2_level_idx", default: 0, null: false
     t.boolean "enrolled_on_part_1", default: false, null: false
     t.boolean "enrolled_on_part_2", default: false, null: false
+    t.integer "active_part", default: 1, null: false
     t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
   end
 

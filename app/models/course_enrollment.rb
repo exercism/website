@@ -2,6 +2,8 @@ class CourseEnrollment < ApplicationRecord
   extend Mandate::Memoize
   include Emailable
 
+  scope :paid, -> { where.not(paid_at: nil) }
+
   belongs_to :user, optional: true
 
   before_create do

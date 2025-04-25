@@ -26,6 +26,7 @@ export function HTMLEditor() {
           ...prev,
           htmlEditorContent: view.state.doc.toString(),
           cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
+          storedAt: new Date().toISOString(),
         }))
       }}
       extensions={[html(), htmlLinter]}

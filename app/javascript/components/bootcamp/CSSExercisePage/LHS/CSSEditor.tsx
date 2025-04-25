@@ -31,6 +31,7 @@ export function CSSEditor() {
             cssEditorContent: view.state.doc.toString(),
             htmlEditorContent:
               htmlEditorRef.current?.state.doc.toString() || '',
+            storedAt: new Date().toISOString(),
           }
         })
       }}

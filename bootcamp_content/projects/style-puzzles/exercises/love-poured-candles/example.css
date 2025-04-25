@@ -4,7 +4,6 @@
     background: #fff;
     border: 3px double rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    color: #333;
     background-image: url("http://assets.exercism.org/images/bootcamp/paper-texture.jpg");
     background-size: cover;
 }

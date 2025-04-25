@@ -25,7 +25,8 @@ class Bootcamp::BaseController < ApplicationController
     return if current_user.bootcamp_data
 
     current_user.create_bootcamp_data!
-    Bootcamp::UpdateUserLevel.(current_user)
+    # Bootcamp::UpdateUserLevel.(current_user, 1)
+    # Bootcamp::UpdateUserLevel.(current_user, 2)
   end
 
   def use_project

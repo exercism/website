@@ -3,47 +3,70 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { getEditorValue } from '../SimpleCodeMirror/getEditorValue'
+import { CheckResult, runChecks } from '../utils/runCheckFunctions'
+import { showResultToast } from './showResultToast'
 
-export function ControlButtons() {
+export function ControlButtons({
+  getEditorValues,
+}: {
+  getEditorValues: () => { cssValue: string; htmlValue: string }
+}) {
   const {
     diffMode,
     curtainMode,
     toggleCurtainMode,
     toggleDiffMode,
-    setMatchPercentage,
+    updateAssertionStatus,
   } = useCSSExercisePageStore()
 
-  const { handleCompare, cssEditorRef, htmlEditorRef, links } = useContext(
-    CSSExercisePageContext
-  )
+  const { handleCompare, links, exercise } = useContext(CSSExercisePageContext)
 
   const handleSubmitCode = useCallback(async () => {
-    const cssEditorView = cssEditorRef.current
-    const htmlEditorView = htmlEditorRef.current
-
-    if (!(cssEditorView && htmlEditorView)) return
-
-    const cssValue = getEditorValue(cssEditorView)
-    const htmlValue = getEditorValue(htmlEditorView)
-
+    const { cssValue, htmlValue } = getEditorValues()
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
 
     const percentage = await handleCompare()
 
-    setMatchPercentage(percentage)
+    let status: 'pass' | 'fail' = 'fail'
+    let firstFailingCheck: CheckResult | null = null
+
+    if (percentage === 100) {
+      if (exercise.checks.length === 0) {
+        status = 'pass'
+      } else {
+        const checks = runChecks(exercise.checks, cssValue)
+
+        if (checks.success) {
+          status = 'pass'
+        } else {
+          firstFailingCheck =
+            checks.results.find((check) => !check.passes) || null
+        }
+      }
+    }
+
+    showResultToast(status, percentage, firstFailingCheck)
+    updateAssertionStatus(status)
 
     submitCode({
       postUrl: links.postSubmission,
       code,
       testResults: {
-        status: percentage === 100 ? 'pass' : 'fail',
+        status,
         tests: [],
       },
       customFunctions: [],
       readonlyRanges: [],
     })
-  }, [])
+  }, [
+    getEditorValues,
+    handleCompare,
+    exercise,
+    showResultToast,
+    updateAssertionStatus,
+    submitCode,
+    links.postSubmission,
+  ])
 
   return (
     <div className="flex py-8 justify-between">

@@ -30,4 +30,16 @@
             }
         }
     }
+    .css-render-expected,
+    .css-render-actual {
+        @apply border-textColor1 border-1;
+        @apply shadow-base;
+
+        @apply w-auto h-[350px] relative overflow-hidden;
+        aspect-ratio: 1;
+        max-height: calc(50vh - 80px);
+    }
+    .css-render-expected {
+        pointer-events: none;
+    }
 }

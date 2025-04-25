@@ -3,28 +3,23 @@ import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 
-const WIDTH = 350
-
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
   if (!context) {
     return null
   }
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
-
   const { diffMode, curtainOpacity, setCurtainOpacity, curtainMode } =
     useCSSExercisePageStore()
-
   const containerRef = useRef<HTMLDivElement>(null)
-  const [curtainWidth, setCurtainWidth] = useState(350)
+  // set a high number so curtain isn't at pos zero at first
+  const [curtainWidth, setCurtainWidth] = useState(9999)
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return
-
-    const { left } = containerRef.current.getBoundingClientRect()
+    const { left, width } = containerRef.current.getBoundingClientRect()
     const mouseX = e.clientX - left
-
-    const newWidth = Math.max(0, Math.min(mouseX, WIDTH))
+    const newWidth = Math.max(0, Math.min(width - mouseX, width))
     setCurtainWidth(newWidth)
   }, [])
 
@@ -34,9 +29,11 @@ export function ActualOutput() {
   }, [diffMode])
 
   const handleOnMouseLeave = useCallback(() => {
+    if (!containerRef.current) return
+    const { width } = containerRef.current.getBoundingClientRect()
     const curtain = { width: curtainWidth }
     animate(curtain, {
-      width: WIDTH,
+      width,
       duration: 250,
       ease: 'outQuint',
       onUpdate: () => {
@@ -52,7 +49,12 @@ export function ActualOutput() {
       <h3 className="mb-12 font-mono font-semibold">Your code:</h3>
       <div
         ref={containerRef}
-        className="border border-textColor1 border-1 rounded-12 w-[350px] h-[350px] relative overflow-hidden"
+        className="css-render-actual"
+        style={{
+          filter: diffMode
+            ? ' sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
+            : 'none',
+        }}
       >
         {/* student's code's output */}
         <iframe
@@ -60,44 +62,45 @@ export function ActualOutput() {
           ref={actualIFrameRef}
           style={{
             zIndex: 30,
-            opacity: diffMode ? 1 : curtainOpacity,
             mixBlendMode: diffMode ? 'difference' : 'normal',
-            filter: diffMode ? 'invert(1) hue-rotate(90deg)' : 'none',
-            clipPath: `inset(0 ${WIDTH - curtainWidth}px 0 0)`,
+            clipPath: curtainMode
+              ? `inset(0 0 0 calc(100% - ${curtainWidth}px))`
+              : 'none',
           }}
         />
+        <>
+          {/* the reference iframe - visually the same as `expected` */}
+          <iframe
+            className="absolute top-0 left-0 h-full w-full"
+            ref={expectedReferenceIFrameRef}
+            style={{
+              zIndex: 10,
+              display: curtainMode || diffMode ? 'block' : 'none',
+            }}
+          />
+          {curtainMode && (
+            <>
+              {/* the curtain itself */}
+              <div
+                className="absolute top-0 right-0 h-full"
+                style={{
+                  width: `${curtainWidth}px`,
+                  zIndex: 25,
+                  boxShadow: '-2px 0 0 #f22',
+                }}
+              />
 
-        {/* the reference iframe - visually the same as `expected` */}
-        <iframe
-          className="absolute top-0 left-0 h-full w-full"
-          ref={expectedReferenceIFrameRef}
-          style={{
-            opacity: 1,
-            zIndex: 10,
-          }}
-        />
-
-        {curtainMode && (
-          <>
-            {/* the curtain itself */}
-            <div
-              className="absolute top-0 left-0 h-full"
-              style={{
-                boxShadow: `${curtainWidth}px 0 0 2px #f22, 2px 0 0 ${curtainWidth}px rgba(255, 255, 255, ${curtainOpacity})`,
-                zIndex: 20,
-              }}
-            />
-
-            {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
-            <div
-              className="absolute top-0 left-0 w-full h-full"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleOnMouseLeave}
-              onMouseEnter={handleOnMouseEnter}
-              style={{ zIndex: 40 }}
-            />
-          </>
-        )}
+              {/* mouse-capture area - otherwise mouse-move couldn't be properly captured */}
+              <div
+                className="absolute top-0 left-0 w-full h-full"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleOnMouseLeave}
+                onMouseEnter={handleOnMouseEnter}
+                style={{ zIndex: 40 }}
+              />
+            </>
+          )}
+        </>
       </div>
     </div>
   )

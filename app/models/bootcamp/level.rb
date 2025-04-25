@@ -10,6 +10,8 @@ class Bootcamp::Level < ApplicationRecord
 
   def to_param = idx
 
+  def part = idx <= 10 ? 1 : 2
+
   def locked? = !unlocked?
   def unlocked? = Bootcamp::Settings.level_idx >= idx
 end

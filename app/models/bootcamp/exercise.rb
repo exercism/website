@@ -18,6 +18,7 @@ class Bootcamp::Exercise < ApplicationRecord
   def locked? = level_idx > Bootcamp::Settings.level_idx
   def unlocked? = !locked?
   def concepts = super.to_a.sort
+  def language = config[:language] || "jikiscript"
 
   def major_project?
     return true if project.slug == 'games-and-apps'
@@ -37,6 +38,7 @@ class Bootcamp::Exercise < ApplicationRecord
   end
 
   def num_tasks = tasks.size
+  def editor_config = config[:editor_config] || {}
 
   memoize
   def config
@@ -50,6 +52,10 @@ class Bootcamp::Exercise < ApplicationRecord
 
   def stub(type = "jiki")
     file_contents("stub.#{type}")
+  end
+
+  def default(type)
+    file_contents("default.#{type}") || ""
   end
 
   def example(type = "jiki")

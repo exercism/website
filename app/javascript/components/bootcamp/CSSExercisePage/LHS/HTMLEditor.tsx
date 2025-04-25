@@ -4,7 +4,6 @@ import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { htmlLinter } from '../SimpleCodeMirror/extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
-import { updateIFrame } from '../utils/updateIFrame'
 
 export function HTMLEditor() {
   const {
@@ -12,7 +11,6 @@ export function HTMLEditor() {
     htmlEditorRef,
     cssEditorRef,
     setEditorCodeLocalStorage,
-    actualIFrameRef,
   } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -27,12 +25,8 @@ export function HTMLEditor() {
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
           htmlEditorContent: view.state.doc.toString(),
+          cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
         }))
-
-        updateIFrame(actualIFrameRef, {
-          html: view.state.doc.toString(),
-          css: cssEditorRef.current?.state.doc.toString(),
-        })
       }}
       extensions={[html(), htmlLinter]}
       defaultCode="<div>hello</div>"

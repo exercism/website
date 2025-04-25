@@ -33,6 +33,11 @@ describe('Exercise Tests', () => {
     exercises.forEach((exercise) => {
       const exerciseDir = path.join(projectDir, exercise)
       const config = camelizeKeysAs<any>(getConfig(exerciseDir))
+
+      if (config.language && config.language != 'jikiscript') {
+        return
+      }
+
       const exampleScript = getExampleScript(exerciseDir)
 
       let projectClass: Project | undefined

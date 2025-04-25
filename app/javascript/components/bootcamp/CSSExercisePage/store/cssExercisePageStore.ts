@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { launchConfetti } from '../../JikiscriptExercisePage/Tasks/launchConfetti'
+import { ChecksResult } from '../utils/runCheckFunctions'
 
 type CSSExercisePageStoreState = {
   diffMode: boolean
@@ -16,11 +17,13 @@ type CSSExercisePageStoreState = {
   matchPercentage: number
   setMatchPercentage: (matchPercentage: number) => void
   assertionStatus: 'pass' | 'fail' | 'pending'
-  setAssertionStatus: (assertionStatus: 'pass' | 'fail' | 'pending') => void
+  updateAssertionStatus: (newStatus: 'pass' | 'fail') => void
   isFinishLessonModalOpen: boolean
   setIsFinishLessonModalOpen: (value: boolean) => void
   wasFinishLessonModalShown: boolean
   setWasFinishLessonModalShown: (value: boolean) => void
+  checksResult: ChecksResult[]
+  setChecksResult: (checksResult: ChecksResult[]) => void
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
@@ -28,11 +31,11 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     diffMode: false,
     curtainMode: false,
     toggleCurtainMode: () =>
-      set((state) => ({ curtainMode: !state.curtainMode })),
+      set((state) => ({ curtainMode: !state.curtainMode, diffMode: false })),
     toggleDiffMode: () =>
       set((state) => ({
         diffMode: !state.diffMode,
-        curtainOpacity: state.diffMode ? 1 : 0.3,
+        curtainMode: false,
       })),
     curtainOpacity: 1,
     setCurtainOpacity: (curtainOpacity) => set({ curtainOpacity }),
@@ -41,6 +44,29 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
       RHSWidth: 800,
     },
     setPanelSizes: (panelSizes) => set({ panelSizes }),
+    checksResult: [],
+    setChecksResult: (checksResult) => set({ checksResult }),
+
+    updateAssertionStatus: (newStatus) => {
+      if (newStatus === 'pass') {
+        set((state) => {
+          const newState: {
+            assertionStatus: CSSExercisePageStoreState['assertionStatus']
+          } = { assertionStatus: 'pass' }
+
+          if (!state.wasFinishLessonModalShown) {
+            Object.assign(newState, {
+              isFinishLessonModalOpen: true,
+              wasFinishLessonModalShown: true,
+            })
+            launchConfetti()
+          }
+          return newState
+        })
+      } else {
+        set({ assertionStatus: 'fail' })
+      }
+    },
     matchPercentage: 0,
     setMatchPercentage: (matchPercentage) => {
       if (matchPercentage === 100) {
@@ -62,7 +88,6 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
       set({ matchPercentage })
     },
     assertionStatus: 'pending',
-    setAssertionStatus: (assertionStatus) => set({ assertionStatus }),
     isFinishLessonModalOpen: false,
     setIsFinishLessonModalOpen: (value) =>
       set({ isFinishLessonModalOpen: value }),

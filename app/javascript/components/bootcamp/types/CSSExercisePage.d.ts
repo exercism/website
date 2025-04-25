@@ -18,6 +18,13 @@ type CSSExercisePageProps = {
 type CSSExercisePageCode = {
   stub: { html: string; css: string }
   code: string
+  default: {
+    html?: string
+    css?: string
+  }
+
+  shouldHideCssEditor: boolean
+  shouldHideHtmlEditor: boolean
   storedAt: string | null
   readonlyRanges?: { from: number; to: number }[]
   defaultReadonlyRanges?: { from: number; to: number }[]
@@ -35,6 +42,13 @@ interface CSSExercisePageExercise {
   introductionHtml: string
   slug: string
   title: string
+  checks: CSSCheck[]
+}
+
+type CSSCheck = {
+  function: string
+  matcher: 'toBeTrue' | 'toBeFalse'
+  errorHtml: string
 }
 
 type CSSExercisePageConfig = {

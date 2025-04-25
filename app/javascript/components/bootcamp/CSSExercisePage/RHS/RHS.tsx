@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { ActualOutput } from '../ActualOutput'
 import { ExpectedOutput } from '../ExpectedOutput'
@@ -17,10 +17,7 @@ export function RHS() {
         </div>
 
         <div className="h-100 overflow-auto">
-          <Instructions
-            exerciseTitle="Css world!"
-            exerciseInstructions="<div>Follow these instructions</div>"
-          />
+          <Instructions />
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     expectedIFrameRef,
     expectedReferenceIFrameRef,
     handleCompare,
-  } = useSetupIFrames(data.exercise.config)
+  } = useSetupIFrames(data.exercise.config, data.code)
 
   useLogger('CSSExercisePage', data)
 
@@ -29,7 +29,8 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     handleHtmlEditorDidMount,
     setEditorCodeLocalStorage,
     resetEditors,
-  } = useSetupEditors(data.exercise.slug, data.code)
+    getEditorValues,
+  } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
 
   return (
     <CSSExercisePageContext.Provider
@@ -45,6 +46,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
         resetEditors,
         handleCompare,
         exercise: data.exercise,
+        code: data.code,
         links: data.links,
         solution: data.solution,
       }}
@@ -52,7 +54,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
       <div id="bootcamp-frontend-training-page">
         <Header />
         <div className="page-body">
-          <LHS />
+          <LHS getEditorValues={getEditorValues} />
           <Resizer
             direction="vertical"
             handleMouseDown={handleWidthChangeMouseDown}

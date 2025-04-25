@@ -9,6 +9,7 @@ type CSSExercisePageContextType = {
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
   exercise: CSSExercisePageExercise
+  code: CSSExercisePageCode
   handleCompare: () => Promise<number>
   resetEditors: () => void
   handleHtmlEditorDidMount: (handler: Handler) => void

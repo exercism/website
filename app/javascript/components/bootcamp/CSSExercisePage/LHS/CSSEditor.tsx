@@ -4,7 +4,6 @@ import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
-import { updateIFrame } from '../utils/updateIFrame'
 
 export function CSSEditor() {
   const {
@@ -13,6 +12,7 @@ export function CSSEditor() {
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
+    code,
   } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -25,14 +25,13 @@ export function CSSEditor() {
       editorDidMount={handleCssEditorDidMount}
       extensions={[css(), cssLinter]}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => ({
-          ...prev,
-          cssEditorContent: view.state.doc.toString(),
-        }))
-
-        updateIFrame(actualIFrameRef, {
-          css: view.state.doc.toString(),
-          html: htmlEditorRef.current?.state.doc.toString(),
+        setEditorCodeLocalStorage((prev) => {
+          return {
+            ...prev,
+            cssEditorContent: view.state.doc.toString(),
+            htmlEditorContent:
+              htmlEditorRef.current?.state.doc.toString() || '',
+          }
         })
       }}
       ref={cssEditorRef}

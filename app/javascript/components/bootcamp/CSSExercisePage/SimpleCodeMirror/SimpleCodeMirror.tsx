@@ -9,6 +9,9 @@ import { Handler } from '@/components/misc/CodeMirror'
 import { EditorState, Extension } from '@codemirror/state'
 import { basicSetup, EditorView } from 'codemirror'
 import { onEditorChange } from './extensions/onEditorChange'
+import { keymap } from '@codemirror/view'
+import { indentWithTab } from '@codemirror/commands'
+import { defaultKeymap, historyKeymap } from '@codemirror/commands'
 
 export const SimpleCodeMirror = forwardRef(function (
   {
@@ -70,6 +73,7 @@ export const SimpleCodeMirror = forwardRef(function (
         doc: value,
         extensions: [
           basicSetup,
+          keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
           onEditorChange(() => {
             if (onEditorChangeCallback) {
               onEditorChangeCallback(view)

@@ -16,6 +16,7 @@ module ReactComponents
           slug: exercise.slug,
           title: exercise.title,
           introduction_html: exercise.introduction_html,
+          checks: exercise.config[:checks] || [],
           config: {
             title: exercise.config[:title],
             description: exercise.config[:description],
@@ -31,10 +32,16 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
+          default: {
+            css: exercise.default("css")
+          },
           stub: {
             css: exercise.stub("css"),
             html: exercise.stub("html")
           },
+          # TODO: pass this down properly
+          should_hide_css_editor: !!exercise.editor_config[:hide_css],
+          should_hide_html_editor: !!exercise.editor_config[:hide_html],
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

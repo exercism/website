@@ -14,6 +14,10 @@ export function useSetupEditors(
       htmlEditorContent: code.stub.html,
       cssEditorContent: code.stub.css,
       storedAt: new Date().toISOString(),
+      readonlyRanges: {
+        html: code.defaultReadonlyRanges?.html || [],
+        css: code.defaultReadonlyRanges?.css || [],
+      },
     }
   )
 
@@ -49,10 +53,13 @@ export function useSetupEditors(
     // TODO: Add extra guard here
     const { html, css } = JSON.parse(code.code)
     setEditorCode({
-      // TODO: replace this to code.code once it's there
       htmlEditorContent: html,
       cssEditorContent: css,
       storedAt: code.storedAt,
+      readonlyRanges: {
+        html: code.readonlyRanges?.html || [],
+        css: code.readonlyRanges?.css || [],
+      },
     })
   }
 
@@ -75,6 +82,10 @@ export function useSetupEditors(
       htmlEditorContent: code.stub.html,
       cssEditorContent: code.stub.css,
       storedAt: new Date().toISOString(),
+      readonlyRanges: {
+        html: code.defaultReadonlyRanges?.html || [],
+        css: code.defaultReadonlyRanges?.css || [],
+      },
     })
     cssEditorView.dispatch({
       changes: {

@@ -1,9 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { html } from '@codemirror/lang-html'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { htmlLinter } from '../SimpleCodeMirror/extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import { EditorView } from 'codemirror'
+import { debounce } from 'lodash'
+import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
 
 export function HTMLEditor() {
   const {
@@ -17,6 +21,34 @@ export function HTMLEditor() {
     panelSizes: { LHSWidth },
   } = useCSSExercisePageStore()
 
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return debounce((view: EditorView) => {
+      if (!setEditorCodeLocalStorage) {
+        return
+      }
+
+      const htmlReadonlyRanges = getCodeMirrorFieldValue(
+        view,
+        readOnlyRangesStateField
+      )
+
+      const cssReadonlyRanges = getCodeMirrorFieldValue(
+        cssEditorRef.current,
+        readOnlyRangesStateField
+      )
+
+      setEditorCodeLocalStorage({
+        cssEditorContent: htmlEditorRef.current?.state.doc.toString() || '',
+        htmlEditorContent: view.state.doc.toString(),
+        storedAt: new Date().toISOString(),
+        readonlyRanges: {
+          css: cssReadonlyRanges,
+          html: htmlReadonlyRanges,
+        },
+      })
+    }, 500)
+  }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
+
   return (
     <SimpleCodeMirror
       style={{
@@ -27,12 +59,7 @@ export function HTMLEditor() {
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => ({
-          ...prev,
-          htmlEditorContent: view.state.doc.toString(),
-          cssEditorContent: cssEditorRef.current?.state.doc.toString() || '',
-          storedAt: new Date().toISOString(),
-        }))
+        updateLocalStorageValueOnDebounce(view)
       }}
       extensions={[html(), htmlLinter]}
       defaultCode="<div>hello</div>"

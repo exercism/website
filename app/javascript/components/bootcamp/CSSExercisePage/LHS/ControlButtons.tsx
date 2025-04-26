@@ -77,12 +77,14 @@ export function ControlButtons({
         <button
           onClick={toggleCurtainMode}
           className={assembleClassNames('btn-secondary btn-s')}
+          style={{ background: curtainMode ? '#E5D8FD' : '' }}
         >
           Curtain: {curtainMode ? 'on' : 'off'}
         </button>
         <button
           onClick={toggleDiffMode}
           className={assembleClassNames('btn-secondary btn-s')}
+          style={{ background: diffMode ? '#E5D8FD' : '' }}
         >
           Diff: {diffMode ? 'on' : 'off'}
         </button>

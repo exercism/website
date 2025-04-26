@@ -15,9 +15,7 @@ Firstly, write out your HTML with a sensible structure. Then style the card itse
 
 We've setup the exercise so that the first element you create will fill all the horizontal space but not the vertical space.
 
-You need one images (which should be used as a background images):
-
-- The lemon image is available at `http://assets.exercism.org/images/bootcamp/lemons.jpg`.
+You need one image for the lemons (which should be used as a background images). It is available at `/bootcamp/images/lemons.jpg`.
 
 ### CSS Properties Used
 

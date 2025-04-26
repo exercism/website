@@ -12,8 +12,8 @@ export function RHS() {
     <div className="page-body-rhs" style={{ width: RHSWidth }}>
       <div className="flex gap-8 h-full">
         <div className="flex flex-col gap-12">
-          <ActualOutput />
           <ExpectedOutput />
+          <ActualOutput />
         </div>
 
         <div className="h-100 overflow-auto">

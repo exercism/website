@@ -11,7 +11,7 @@ export function ExpectedOutput() {
 
   return (
     <div className="p-12">
-      <h3 className="mb-12 font-mono font-semibold">Expected: </h3>
+      <h3 className="mb-8 font-mono font-semibold">Target result</h3>
       <div
         className="css-render-expected"
         style={{

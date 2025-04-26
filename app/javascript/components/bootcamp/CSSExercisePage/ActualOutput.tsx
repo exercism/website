@@ -46,7 +46,7 @@ export function ActualOutput() {
 
   return (
     <div className="p-12">
-      <h3 className="mb-12 font-mono font-semibold">Your code:</h3>
+      <h3 className="mb-8 font-mono font-semibold">Your result</h3>
       <div
         ref={containerRef}
         className="css-render-actual"

@@ -12,8 +12,8 @@ We've setup the exercise so that the first element you create will fill all the 
 
 You need two images (both of which should be set as background images):
 
-- The paper texture image is available at `http://assets.exercism.org/images/bootcamp/paper-texture.jpg`.
-- The candle image is available at `http://assets.exercism.org/images/bootcamp/candle.png`.
+- The paper texture image is available at `/bootcamp/images/paper-texture.jpg`.
+- The candle image is available at `/bootcamp/images/candle.png`.
 
 ### CSS Properties Used
 

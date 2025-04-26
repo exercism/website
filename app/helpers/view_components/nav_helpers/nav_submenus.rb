@@ -12,14 +12,14 @@ module ViewComponents
         {
           title: "Coding Fundamentals",
           description: "The ultimate way to learn to code",
-          path: Exercism::Routes.bootcamp_url,
+          path: Exercism::Routes.bootcamp_url(course: "coding-fundamentals"),
           icon: 'nav-coding-fundamentals',
           view: :coding_fundamentals
         },
         {
           title: "Front-end Fundamentals",
           description: "Learn the basics of front-end development",
-          path: Courses::FrontEndFundamentals.url,
+          path: Exercism::Routes.bootcamp_url(course: "front-end-fundamentals"),
           icon: 'nav-front-end-fundamentals',
           view: :front_end_fundamentals
         },

@@ -12,7 +12,7 @@ class CoursesController < ApplicationController
     if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
       redirect_to bootcamp_dashboard_url
     else
-      redirect_to course_url(Courses::CodingFundamentals.instance.slug)
+      redirect_to course_url(params[:course] || Courses::CodingFundamentals.instance.slug)
     end
   end
 

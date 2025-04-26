@@ -1,20 +1,9 @@
+import { createTheme } from '@uiw/codemirror-themes'
 import { tags as t } from '@lezer/highlight'
-import createTheme from './create-theme.js'
-// uses createTheme by Chris Kempson
+import { EDITOR_COLORS } from '../../JikiscriptExercisePage/CodeMirror/extensions/create-theme/colorScheme'
 
-export const EDITOR_COLORS = {
-  background: '#FFFFFF',
-  foreground: '#4D4D4C',
-  caret: '#AEAFAD',
-  gutterBackground: '#FFFFFF',
-  gutterForeground: '#4D4D4C80',
-  lineHighlight: '#D6ECFA80',
-  selection: '#D5D1F2',
-  selectionMatch: '#D5D1F2',
-}
-
-export const colorScheme = createTheme({
-  variant: 'light',
+export const cssTheme = createTheme({
+  theme: 'light',
   settings: EDITOR_COLORS,
   styles: [
     {
@@ -27,22 +16,12 @@ export const colorScheme = createTheme({
       color: '#3E8A00',
     },
     {
-      tag: t.controlKeyword,
+      tag: [t.controlKeyword, t.definitionKeyword, t.keyword],
       color: '#0080FF',
       fontWeight: '500',
     },
     {
-      tag: t.definitionKeyword,
-      color: '#0080FF',
-      fontWeight: '500',
-    },
-    {
-      tag: t.keyword,
-      color: '#0080FF',
-      fontWeight: '500',
-    },
-    {
-      tag: [t.paren],
+      tag: [t.paren, t.squareBracket, t.brace],
       color: '#888',
     },
     {
@@ -64,12 +43,32 @@ export const colorScheme = createTheme({
     },
     {
       tag: t.function(t.variableName),
-      color: 'rgb(184, 0, 255)',
-      borderBottom: '0.5px solid rgba(184, 0, 255, 0.6)',
+      color: '#b800ff',
     },
     {
       tag: t.className,
       color: '#00008B',
+    },
+    {
+      tag: t.labelName,
+      color: '#00008B',
+    },
+    {
+      tag: t.propertyName,
+      color: '#7A009F',
+    },
+    {
+      tag: [t.tagName],
+      color: '#00008B',
+    },
+    {
+      tag: t.color,
+      color: '#F33636',
+    },
+    // px, %, em (similar to numbers)
+    {
+      tag: t.unit,
+      color: '#F33636',
     },
   ],
 })

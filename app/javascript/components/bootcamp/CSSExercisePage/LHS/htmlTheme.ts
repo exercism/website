@@ -1,20 +1,9 @@
+import { createTheme } from '@uiw/codemirror-themes'
 import { tags as t } from '@lezer/highlight'
-import createTheme from './create-theme.js'
-// uses createTheme by Chris Kempson
+import { EDITOR_COLORS } from '../../JikiscriptExercisePage/CodeMirror/extensions/create-theme/colorScheme'
 
-export const EDITOR_COLORS = {
-  background: '#FFFFFF',
-  foreground: '#4D4D4C',
-  caret: '#AEAFAD',
-  gutterBackground: '#FFFFFF',
-  gutterForeground: '#4D4D4C80',
-  lineHighlight: '#D6ECFA80',
-  selection: '#D5D1F2',
-  selectionMatch: '#D5D1F2',
-}
-
-export const colorScheme = createTheme({
-  variant: 'light',
+export const htmlTheme = createTheme({
+  theme: 'light',
   settings: EDITOR_COLORS,
   styles: [
     {
@@ -27,24 +16,38 @@ export const colorScheme = createTheme({
       color: '#3E8A00',
     },
     {
-      tag: t.controlKeyword,
+      tag: t.special(t.brace),
       color: '#0080FF',
       fontWeight: '500',
     },
     {
-      tag: t.definitionKeyword,
-      color: '#0080FF',
-      fontWeight: '500',
+      tag: t.name,
+      color: '#7A009F',
     },
     {
-      tag: t.keyword,
-      color: '#0080FF',
-      fontWeight: '500',
+      tag: t.content,
+      color: '#00008B',
     },
     {
-      tag: [t.paren],
+      tag: t.tagName,
+      color: '#0080FF',
+      fontWeight: '500',
+      fontStyle: 'italic',
+    },
+    {
+      tag: t.angleBracket,
       color: '#888',
     },
+    {
+      tag: t.attributeName,
+      color: '#7A009F',
+    },
+    {
+      tag: t.attributeValue,
+      color: '#3E8A00',
+    },
+
+    // for JS stuff - we might not need this
     {
       tag: [t.bool, t.number, t.float],
       color: '#F33636',
@@ -69,6 +72,10 @@ export const colorScheme = createTheme({
     },
     {
       tag: t.className,
+      color: '#00008B',
+    },
+    {
+      tag: [t.definition(t.typeName), t.typeName],
       color: '#00008B',
     },
   ],

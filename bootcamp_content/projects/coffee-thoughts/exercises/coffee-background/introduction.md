@@ -17,7 +17,7 @@ Firstly, we've removed some hidden styling. You'll need to reimplement that with
 1. In your HTML, wrap all of the content in a new element.
 2. In the CSS, add some padding to that element.
 
-We've created a very transparent image of some coffee beans. It lives at `https://assets.exercism.org/images/bootcamp/coffee-beans.png`. You should set the background of your new element to be this image along with a underlying color of `#e1d3c6`.
+We've created a very transparent image of some coffee beans. It lives at `/bootcamp/images/coffee-beans.png`. You should set the background of your new element to be this image along with a underlying color of `#e1d3c6`.
 
 ### Contrast
 

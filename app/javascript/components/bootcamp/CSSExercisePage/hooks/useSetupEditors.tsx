@@ -1,4 +1,4 @@
-import { useCallback, useEffect, RefObject } from 'react'
+import { useCallback, useEffect, RefObject, useState } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
@@ -10,10 +10,17 @@ export function useSetupEditors(
   code: CSSExercisePageCode,
   actualIFrameRef: RefObject<HTMLIFrameElement>
 ) {
+  const [editorCodeIsReady, setEditorCodeIsReady] = useState(false)
   const [editorCode, setEditorCode] = useLocalStorage(
     `css-editor-code-${slug}`,
     getInitialEditorCode(code)
   )
+
+  useEffect(() => {
+    if (!!editorCode.storedAt) {
+      setEditorCodeIsReady(true)
+    }
+  }, [editorCode.storedAt])
 
   const getEditorValues = useCallback(() => {
     const { cssEditorContent: cssValue, htmlEditorContent: htmlValue } =
@@ -37,6 +44,7 @@ export function useSetupEditors(
     editorViewRef: htmlEditorViewRef,
     handleEditorDidMount: handleHtmlEditorDidMount,
   } = useEditorHandler(editorCode.htmlEditorContent, (view) => {
+    if (!editorCodeIsReady) return
     if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
       const { html, css } = JSON.parse(code.code)
       const codeFromServer = {
@@ -56,8 +64,8 @@ export function useSetupEditors(
     } else {
       // otherwise we fallback to localstorage
       setupEditor(view, {
-        code: editorCode.htmlEditorContent,
-        readonlyRanges: editorCode.readonlyRanges.html,
+        code: editorCode?.htmlEditorContent || '',
+        readonlyRanges: editorCode?.readonlyRanges?.html || [],
       })
     }
   })
@@ -66,6 +74,7 @@ export function useSetupEditors(
     editorViewRef: cssEditorViewRef,
     handleEditorDidMount: handleCssEditorDidMount,
   } = useEditorHandler(editorCode.cssEditorContent, (view) => {
+    if (!editorCodeIsReady) return
     if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
       const { html, css } = JSON.parse(code.code)
       const newCode = {
@@ -84,8 +93,8 @@ export function useSetupEditors(
       })
     } else {
       setupEditor(view, {
-        code: editorCode.cssEditorContent,
-        readonlyRanges: editorCode.readonlyRanges.css,
+        code: editorCode?.cssEditorContent || '',
+        readonlyRanges: editorCode?.readonlyRanges?.css || [],
       })
     }
   })

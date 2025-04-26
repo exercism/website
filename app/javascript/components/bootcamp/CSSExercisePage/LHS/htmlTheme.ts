@@ -32,6 +32,7 @@ export const htmlTheme = createTheme({
       tag: t.tagName,
       color: '#0080FF',
       fontWeight: '500',
+      fontStyle: 'italic',
     },
     {
       tag: t.angleBracket,

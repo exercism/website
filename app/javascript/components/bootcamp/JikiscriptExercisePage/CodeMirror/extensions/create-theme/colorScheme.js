@@ -1,18 +1,21 @@
 import { tags as t } from '@lezer/highlight'
 import createTheme from './create-theme.js'
 // uses createTheme by Chris Kempson
+
+export const EDITOR_COLORS = {
+  background: '#FFFFFF',
+  foreground: '#4D4D4C',
+  caret: '#AEAFAD',
+  gutterBackground: '#FFFFFF',
+  gutterForeground: '#4D4D4C80',
+  lineHighlight: '#D6ECFA80',
+  selection: '#D5D1F2',
+  selectionMatch: '#D5D1F2',
+}
+
 export const colorScheme = createTheme({
   variant: 'light',
-  settings: {
-    background: '#FFFFFF',
-    foreground: '#4D4D4C',
-    caret: '#AEAFAD',
-    gutterBackground: '#FFFFFF',
-    gutterForeground: '#4D4D4C80',
-    lineHighlight: '#D6ECFA80',
-    selection: '#D5D1F2',
-    selectionMatch: '#D5D1F2',
-  },
+  settings: EDITOR_COLORS,
   styles: [
     {
       tag: [t.comment, t.lineComment],

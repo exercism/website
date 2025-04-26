@@ -13,7 +13,7 @@ class Bootcamp::UpdateUserLevel
 
   memoize
   def new_level_idx
-    max = 0
+    max = part == 1 ? 0 : 10
     exercise_ids_by_level_idx.each do |level_idx, exercise_ids|
       next if level_idx < max
       break unless solved_exercise_ids_by_level_idx[level_idx] == exercise_ids

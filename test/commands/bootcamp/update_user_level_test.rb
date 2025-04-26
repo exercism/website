@@ -1,12 +1,20 @@
 require 'test_helper'
 
 class Bootcamp::UpdateUserLevelTest < ActiveSupport::TestCase
-  test "sets to 1 with no exercises" do
+  test "sets to 1 with no exercises (p1)" do
     user = create :user, :with_bootcamp_data
 
     Bootcamp::UpdateUserLevel.(user, 1)
 
-    assert_equal 1, user.bootcamp_data.level_idx
+    assert_equal 1, user.bootcamp_data.part_1_level_idx
+  end
+
+  test "sets to 11 with no exercises (p2)" do
+    user = create :user, :with_bootcamp_data
+
+    Bootcamp::UpdateUserLevel.(user, 2)
+
+    assert_equal 11, user.bootcamp_data.part_2_level_idx
   end
 
   test "sets to 1 with no completed exercises" do

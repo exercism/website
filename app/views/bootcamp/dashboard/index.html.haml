@@ -30,13 +30,13 @@
             .text-18.mb-20 You have an exercise in progress.
 
             = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution, size: "large")
-          - else
-            %h2.mb-4 Start new exercise
-            .text-18.mb-20 You have a new exercise available to work on.
-            = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
-        - else
-          %h2.mb-8 All exercises completed 🎉
-          .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
+        -#   - else
+        -#     %h2.mb-4 Start new exercise
+        -#     .text-18.mb-20 You have a new exercise available to work on.
+        -#     = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
+        -# - else
+        -#   %h2.mb-8 All exercises completed 🎉
+        -#   .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
 
       .rhs.ml-auto{ class: 'max-w-[400px]' }
         %h2.mb-4 Upcoming Live Sessions

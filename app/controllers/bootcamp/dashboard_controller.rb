@@ -27,6 +27,11 @@ class Bootcamp::DashboardController < Bootcamp::BaseController
     url = "https://assets.exercism.org/images/bootcamp/#{params[:filename]}.#{params[:format]}"
     begin
       image = URI.open(url) # rubocop:disable Security/Open
+
+      response.headers["Expires"] = 1.year.from_now.httpdate
+      response.headers["Cache-Control"] = 'public'
+      expires_in 1.year, public: true
+
       send_data image.read, type: image.content_type, disposition: 'inline'
     rescue OpenURI::HTTPError
       head :not_found

@@ -65,7 +65,9 @@ export function HTMLEditor() {
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       extensions={[
-        html(),
+        html({
+          autoCloseTags: false,
+        }),
         htmlLinter,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),

@@ -23,7 +23,7 @@ The roasters featured in the live videos include Dak, Glitch, and Sweven. All ar
 Notes:
 
 - You need to use one `h1`, two `p` tags and two `strong` tags. Do not use any other tags.
-- We've added some styling behind-the-scenes, so once you've got it in place, it should look pretty. You don't need to write any HTML.
+- We've added some styling behind-the-scenes, so once you've got it in place, it should look pretty. You don't need to write any CSS.
 - Take care to open, close and nest your tags correctly.
 
 ### Suggested workflow

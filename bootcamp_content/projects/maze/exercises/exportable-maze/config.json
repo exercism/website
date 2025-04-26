@@ -3,7 +3,7 @@
   "description": "Solve a maze using an exported function",
   "language": "javascript",
   "project_type": "maze",
-  "level": 1,
+  "level": 20,
   "idx": 1,
   "exercise_functions": ["move", "turn_left", "turn_right"],
   "tests_type": "state",

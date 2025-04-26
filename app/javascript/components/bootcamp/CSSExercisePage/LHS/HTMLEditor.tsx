@@ -13,6 +13,7 @@ import {
 import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
 import { updateIFrame } from '../utils/updateIFrame'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions'
+import { htmlTheme } from './htmlTheme'
 
 export function HTMLEditor() {
   const {
@@ -68,6 +69,7 @@ export function HTMLEditor() {
         html({
           autoCloseTags: false,
         }),
+        htmlTheme,
         htmlLinter,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),

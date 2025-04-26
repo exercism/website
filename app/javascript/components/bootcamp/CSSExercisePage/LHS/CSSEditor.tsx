@@ -13,6 +13,7 @@ import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror
 import { EditorView } from 'codemirror'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyLineDeco'
 import { updateIFrame } from '../utils/updateIFrame'
+import { cssTheme } from './cssTheme'
 
 export function CSSEditor() {
   const {
@@ -67,6 +68,7 @@ export function CSSEditor() {
       extensions={[
         css(),
         cssLinter,
+        cssTheme,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
       ]}

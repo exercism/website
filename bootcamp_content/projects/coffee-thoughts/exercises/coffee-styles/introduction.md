@@ -21,7 +21,7 @@ There's a few different CSS properties you need for this exercise:
 
 - `font-size`: Used to set the size of the font. For this exercise, use `px` values.
 - `font-weight`: Used to change how fat letters appear. For this exercise, you can just set relevant elements to be `bold`.
-- `color`: Used to change the color of text. You need both `#2b1a0b` and `#442a12` for this exercise.
+- `color`: Used to change the color of text. You need `#2b1a0b` (text) and `darkmagenta` (links) for this exercise.
 - `text-decoration`: Used to add decorative lines on text. For this exercise, you just need the `underline` value.
 - `margin-bottom`: Used to seperate things from each other. Use `%` values in this exercise.
 

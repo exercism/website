@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
   before_action :use_quotes!, only: [:show]
 
   def course_redirect
-    if user_signed_in? && current_user.bootcamp_attendee?
+    if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
       redirect_to bootcamp_dashboard_url
     else
       redirect_to course_url(Courses::CodingFundamentals.instance.slug)
@@ -19,7 +19,7 @@ class CoursesController < ApplicationController
   def show
     render action: @course.template_slug
 
-    difference_in_seconds = Time.utc(2025, 4, 26, 11, 0o0, 0o0) - Time.current
+    difference_in_seconds = Time.utc(2025, 4, 26, 12, 0o0, 0o0) - Time.current
 
     # Convert to days, hours, minutes, and seconds
     @days = (difference_in_seconds / (24 * 60 * 60)).to_i

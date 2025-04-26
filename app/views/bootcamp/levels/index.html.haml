@@ -17,8 +17,7 @@
         - (1..10).each do |idx|
           - level = @levels[idx]
           - if level&.unlocked?
-
-            - css_class = current_user.bootcamp_data.level_idx > idx ? "completed" : ""
+            - css_class = current_user.bootcamp_data.part_1_level_idx > idx ? "completed" : ""
             = link_to level, class: "level #{css_class}" do
               .number= idx
               .text
@@ -39,7 +38,7 @@
           - level = @levels[idx]
           - if level&.unlocked?
 
-            - css_class = current_user.bootcamp_data.level_idx > idx ? "completed" : ""
+            - css_class = current_user.bootcamp_data.part_2_level_idx > idx ? "completed" : ""
             = link_to level, class: "level #{css_class}" do
               .number= idx
               .text

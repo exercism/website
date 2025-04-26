@@ -605,9 +605,8 @@
     %strong not-for-profit organisation.
     %span.whitespace-nowrap © #{Date.current.year} Exercism
 
-
 :javascript
-  const targetDate = new Date("2025-04-26T11:00:00").getTime();
+  const targetDate = new Date(Date.UTC(2025,3,26,12,0,0)).getTime();
   const timeElem = document.getElementById("js-countdown-time")
   const secondsElem = document.getElementById("js-countdown-seconds")
 

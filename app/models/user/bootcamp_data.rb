@@ -20,4 +20,7 @@ class User::BootcampData < ApplicationRecord
   def enrolled_in_both_parts?
     enrolled_on_part_1? && enrolled_on_part_2?
   end
+
+  def enrolled_on_part_1? = super || user.bootcamp_mentor?
+  def enrolled_on_part_2? = super || user.bootcamp_mentor?
 end

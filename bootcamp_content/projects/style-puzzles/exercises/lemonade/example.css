@@ -4,7 +4,7 @@
     border: 2px solid #e3caa5;
     border-radius: 10px;
     color: #4b3f2f;
-    background-image: url("http://assets.exercism.org/images/bootcamp/lemons.jpg");
+    background-image: url("/bootcamp/images/lemons.jpg");
     background-size: cover;
     background-position: top right;
 }

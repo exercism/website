@@ -1,5 +1,6 @@
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard
+  get "images/:filename", to: "dashboard#image_proxy", as: :image_proxy
   post "change_part", to: "dashboard#change_part", as: :change_part
   get "faqs", to: "pages#faqs", as: :faqs
   get 'frontend', to: 'frontend#index', as: :frontend

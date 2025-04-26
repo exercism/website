@@ -20,4 +20,16 @@ class Bootcamp::DashboardController < Bootcamp::BaseController
 
     redirect_to bootcamp_dashboard_path
   end
+
+  def image_proxy
+    require 'open-uri'
+
+    url = "https://assets.exercism.org/images/bootcamp/#{params[:filename]}.#{params[:format]}"
+    begin
+      image = URI.open(url) # rubocop:disable Security/Open
+      send_data image.read, type: image.content_type, disposition: 'inline'
+    rescue OpenURI::HTTPError
+      head :not_found
+    end
+  end
 end

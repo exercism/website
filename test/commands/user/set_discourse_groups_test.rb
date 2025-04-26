@@ -159,7 +159,7 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
   test "bootcamp attendee user is added to attendees group" do
     user = create :user
-    create(:course_enrollment, :paid, user:)
+    user.update(bootcamp_attendee: true)
 
     stub_insider_group_requests
     stub_bootcamp_mentor_group_requests

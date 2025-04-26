@@ -8,7 +8,7 @@ This is the first time you've written any CSS in the Bootcamp - exciting!
 
 Your job is to readd the styling to make your output look like the target.
 
-You need to set the correct styles on the text and seperate things properly using `margin`.
+You need to set the correct styles on the text and separate things properly using `margin`.
 
 ### Selectors
 
@@ -23,7 +23,7 @@ There's a few different CSS properties you need for this exercise:
 - `font-weight`: Used to change how fat letters appear. For this exercise, you can just set relevant elements to be `bold`.
 - `color`: Used to change the color of text. You need `#2b1a0b` (text) and `darkmagenta` (links) for this exercise.
 - `text-decoration`: Used to add decorative lines on text. For this exercise, you just need the `underline` value.
-- `margin-bottom`: Used to seperate things from each other. Use `%` values in this exercise.
+- `margin-bottom`: Used to separate things from each other. Use `%` values in this exercise.
 
 ### The plan...
 

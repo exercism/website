@@ -23,7 +23,7 @@ For example:
 The descriptions follow these rules:
 
 - They are always lower case.
-- They are always one or more words seperated by spaces.
+- They are always one or more words separated by spaces.
 - For things that can be pairs, they will always start with `"left"` and `"right"`
 
 You have the following functions available:

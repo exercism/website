@@ -6,6 +6,7 @@
 body {
     margin: 0;
     aspect-ratio: 1;
+    overflow: hidden;
 }
 body {
     display: flex;

@@ -32,7 +32,17 @@ class Bootcamp::Solution::Create
   end
 
   def code
-    Bootcamp::Solution::GenerateStub.(exercise, user)
+    case exercise.language
+    when "jikiscript"
+      Bootcamp::Solution::GenerateStub.(exercise, user, 'jiki')
+    when "javascript"
+      Bootcamp::Solution::GenerateStub.(exercise, user, 'js')
+    when "css"
+      {
+        html: Bootcamp::Solution::GenerateStub.(exercise, user, 'html'),
+        css: Bootcamp::Solution::GenerateStub.(exercise, user, 'css')
+      }
+    end
   end
 
   # This is used for the code interpolation, only if actually required.

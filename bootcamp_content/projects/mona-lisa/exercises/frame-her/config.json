@@ -1,9 +1,9 @@
 {
-  "title": "Padding",
-  "description": "Add some padding",
+  "title": "Frame her",
+  "description": "Give the Mona Lisa a frame",
   "language": "css",
   "level": 11,
-  "idx": 1,
+  "idx": 6,
   "checks": [
     {
       "function": "exactPropertiesUsed(['padding'])",

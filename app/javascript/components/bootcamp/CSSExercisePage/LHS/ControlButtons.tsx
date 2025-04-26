@@ -71,7 +71,7 @@ export function ControlButtons({
   return (
     <div className="flex py-8 justify-between">
       <button onClick={handleSubmitCode} className="btn-primary btn-s">
-        Compare
+        Check Result
       </button>
       <div className="flex gap-8">
         <button

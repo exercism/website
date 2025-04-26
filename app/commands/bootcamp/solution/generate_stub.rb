@@ -1,10 +1,10 @@
 class Bootcamp::Solution::GenerateStub
   include Mandate
 
-  initialize_with :exercise, :user
+  initialize_with :exercise, :user, :language
 
   def call
-    exercise.stub.gsub(Regexp.new("{{EXERCISE:([-a-z0-9]+)/([-a-z0-9]+)}}")) do
+    exercise.stub(language).gsub(Regexp.new("{{EXERCISE:([-a-z0-9]+)/([-a-z0-9]+)}}")) do
       project_slug = ::Regexp.last_match(1)
       exercise_slug = ::Regexp.last_match(2)
       user.bootcamp_solutions.joins(exercise: :project).

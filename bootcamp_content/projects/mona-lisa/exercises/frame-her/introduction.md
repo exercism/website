@@ -1,12 +1,19 @@
 # Margin
 
-Welcome to your first CSS exercise!
+Welcome to the first HTML/CSS Exercise.
 
-In this exercise, we're going to create a frame for a picture of the Mona Lisa.
+In all exercises of this type, your job is to replicate what you see in the "Target" window by writing code in the HTML and CSS editors.
 
-You'll hopefully remember from the video that padding is responsible for adding space **inside** an element.
+When you think you've got it right, you can click "Check Result" to check.
+
+You also have two buttons:
+
+- **Curtain**: This allows you to toggle a curtain effect on your result. Turn it on and hover over your result to see how it compares to the target.
+- **Diff**: This button shows the difference between your result and the target. If something is red, that means it's wrong. The more red it is, the more wrong it is.
 
 ## Instructions
+
+In this exercise, we're going to create a frame for a picture of the Mona Lisa using padding. You'll hopefully remember from the video that padding is responsible for adding space **inside** an element.
 
 We've given you the HTML for this exercise.
 You don't need to change that, but you do need to read it to discover your selectors.

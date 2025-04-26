@@ -3,7 +3,7 @@
   "description": "Let's use some fancy borders.",
   "language": "css",
   "level": 11,
-  "idx": 2,
+  "idx": 8,
   "readonly_ranges": {
     "css": [
       { "from": 1, "to": 2 },
@@ -16,7 +16,7 @@
   },
   "checks": [
     {
-      "function": "exactPropertiesUsed(['padding'])",
+      "function": "exactPropertiesUsed(['background', 'border'])",
       "matcher": "toBeTrue",
       "error_html": "You should only use the padding property."
     }

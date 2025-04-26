@@ -3,12 +3,12 @@
   "description": "Use margins instead of padding!",
   "language": "css",
   "level": 11,
-  "idx": 2,
+  "idx": 7,
   "checks": [
     {
-      "function": "exactPropertiesUsed(['padding'])",
+      "function": "exactPropertiesUsed(['margin'])",
       "matcher": "toBeTrue",
-      "error_html": "You should only use the padding property."
+      "error_html": "You should only use the margin property."
     }
   ]
 }

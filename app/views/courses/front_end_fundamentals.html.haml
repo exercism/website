@@ -1,13 +1,13 @@
-/= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage, hello: @hello
+= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage, hello: @hello
 
-#countdown-bar
-  %span.inline-block
-    %strong First live session
-    in
-    #js-countdown-time.inline>= " #{@days} days, #{@hours} hours, #{@minutes} minutes"
-    #js-countdown-seconds{ class: "hidden md:inline" }> , #{@seconds} seconds
-    \.
-  %strong.inline-block Don't miss out!
+-# #countdown-bar
+-#   %span.inline-block
+-#     %strong First live session
+-#     in
+-#     #js-countdown-time.inline>= " #{@days} days, #{@hours} hours, #{@minutes} minutes"
+-#     #js-countdown-seconds{ class: "hidden md:inline" }> , #{@seconds} seconds
+-#     \.
+-#   %strong.inline-block Don't miss out!
 
 #nav-fixed.nav{ class: "h-[64px]" }
   #nav-contents.lg-container.flex.flex-row.gap-8.items-center
@@ -605,34 +605,34 @@
     %strong not-for-profit organisation.
     %span.whitespace-nowrap © #{Date.current.year} Exercism
 
-:javascript
-  const targetDate = new Date(Date.UTC(2025,3,26,12,0,0)).getTime();
-  const timeElem = document.getElementById("js-countdown-time")
-  const secondsElem = document.getElementById("js-countdown-seconds")
+-# :javascript
+-#   const targetDate = new Date(Date.UTC(2025,3,26,12,0,0)).getTime();
+-#   const timeElem = document.getElementById("js-countdown-time")
+-#   const secondsElem = document.getElementById("js-countdown-seconds")
 
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
+-#   function updateCountdown() {
+-#     const now = new Date().getTime();
+-#     const distance = targetDate - now;
 
-    if (distance < 0) {
-      timeElem.innerText = "Countdown Finished!";
-      secondsElem.style.display = "none"
-      return;
-    }
+-#     if (distance < 0) {
+-#       timeElem.innerText = "Countdown Finished!";
+-#       secondsElem.style.display = "none"
+-#       return;
+-#     }
 
-    // Calculate time components
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+-#     // Calculate time components
+-#     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+-#     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+-#     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+-#     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Display the countdown
-    timeElem.innerText = ` ${days} days, ${hours} hours, ${minutes} minutes`;
-    secondsElem.innerText = `, ${seconds} seconds`
-  }
+-#     // Display the countdown
+-#     timeElem.innerText = ` ${days} days, ${hours} hours, ${minutes} minutes`;
+-#     secondsElem.innerText = `, ${seconds} seconds`
+-#   }
 
-  // Update the countdown every second
-  setInterval(updateCountdown, 1000);
+-#   // Update the countdown every second
+-#   setInterval(updateCountdown, 1000);
 
-  // Initialize the countdown
-  updateCountdown();
+-#   // Initialize the countdown
+-#   updateCountdown();

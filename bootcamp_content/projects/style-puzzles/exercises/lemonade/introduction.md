@@ -36,4 +36,6 @@ You will probably want to make use of all of the properties. **In order to get t
 - `list-style-type` (or `list-style` shortcut): See above.
 - `text-transform` (or `list-style` shortcut): See above.
 
+Please note that all values (`px` and `%`) should be round numbers!
+
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!

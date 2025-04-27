@@ -15,9 +15,15 @@ You need two images (both of which should be set as background images):
 - The paper texture image is available at `/bootcamp/images/paper-texture.jpg`.
 - The candle image is available at `/bootcamp/images/candle.png`.
 
+The three emojis used are `🌐`, `📧` and `📞`.
+Although this might look like a good target for a list with custom markers, it's probably best to use a collection of divs instead here.
+The emojis have meaning and we want to preserve those for SEO and screenreaders, not simply make our bullet points pretty like we did with the Lemonade exercise.
+
+When we're a little more advanced, we would probably want to use a list, with markers hidden, but still with the emojis inline, with descriptions added to them. We'll come to that later 🙂
+
 ### CSS Properties Used
 
-You will probably want to make use of all of the properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
+Use the following properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
 
 - `margin`: Use `%` in this exercise.
 - `padding`: Use `%` in this exercise.
@@ -31,5 +37,7 @@ You will probably want to make use of all of the properties. **In order to get t
 - `color`: You need `#5b3a29` (heading) and `#8c6e54` (everything else).
 - `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`
 - `border-radius`: Use `px` values for this exercise.
+
+Please note that all values (`px` and `%`) should be round numbers!
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!

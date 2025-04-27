@@ -13,6 +13,6 @@ We've given you the same elements that we gave you in the first exercise. You ne
 Notes:
 
 - You can either use the full `margin-xxx` syntax, or the `margin` shortcut syntax.
-- All units should be specified as pixels.
+- All units should be specified as `px`.
 
 Again, think about what you're trying to achieve in concrete terms first before you start coding. Maybe use a pen and paper to draw out how margins are different from paddings.

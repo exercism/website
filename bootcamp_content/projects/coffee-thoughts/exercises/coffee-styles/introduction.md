@@ -17,7 +17,7 @@ You can use element selectors instead (such as `h1` and `p`).
 
 ### Properties
 
-There's a few different CSS properties you need for this exercise:
+There's a few different CSS properties you need for this exercise. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
 
 - `font-size`: Used to set the size of the font. For this exercise, use `px` values.
 - `font-weight`: Used to change how fat letters appear. For this exercise, you can just set relevant elements to be `bold`.

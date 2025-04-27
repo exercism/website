@@ -31,7 +31,7 @@ Notes:
 
 - As nothing has padding at the start, you can only see the top-most element.
 - You can either use the full `padding-xxx` syntax, or the `padding` shortcut syntax.
-- All units should be specified as pixels.
+- All units should be specified as `px`.
 
 One really important skill to learn is to be able to see where your implementation is different to a design. So **try and work out the values by eye** and then use the Curtain/Diff tools to check them when needed.
 

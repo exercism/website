@@ -9,6 +9,7 @@ As you'll remember from the video, borders are a decorative element that goes ar
 We've given you the same elements that we gave you in the first exercise. The layout is almost identical, but this time we're making it slightly more "funky" looking.
 
 You need to set four borders - one of each `solid`, `dashed`, `dotted` and `double`. You also need to set one `border-radius`.
+Use `px` as the unit for the border sizes.
 
 The four colors of the borders are `saddlebrown`, `white`, `gold`, and `#f5fdc` and `rgba(175, 116, 24, 0.5)`.
 

@@ -12,6 +12,8 @@ class Bootcamp::Exercise < ApplicationRecord
 
   default_scope -> { order(:level_idx, :idx) }
   scope :unlocked, -> { where('level_idx <= ?', Bootcamp::Settings.level_idx) }
+  scope :part_1, -> { where(level_idx: 1..10) }
+  scope :part_2, -> { where(level_idx: 11..200) }
 
   def to_param = slug
   def brain_buster? = !blocks_level_progression?

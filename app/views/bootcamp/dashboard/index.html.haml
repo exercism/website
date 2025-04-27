@@ -5,22 +5,10 @@
   .lg-container
     .flex.mb-40
       .lhs.mr-48{ class: 'w-full max-w-[780px]' }
-        - if active_part == 2
-          %h1 Welcome to Front-End Fundamentals!
-          .level-content
-            %p
-              Front-End Fundamentals will start on 26th April at noon UTC.
-              The first live session will at #{link_to "here on YouTube", "https://youtube.com/live/7C9xqADqBQ4", class: "font-semibold text-primary-blue"}.
-              We'll be explaining the structure of the course, how to make the most of it, and taking a look at HTML and CSS.
-            %p
-              The people who got the most from Part 1 were those who interacted with the community and the mentors.
-              Please make sure you're set up correctly on #{link_to "Discord", "https://exercism.org/r/discord", class: "font-semibold text-primary-blue"} by connecting your accounts in the #{link_to "Integrations page", "/settings/integrations", class: "font-semibold text-primary-blue"}. Once that's done, you should be able to access the #bootcamp-announcements channel.
-
-        - else
-          %h1 Welcome to Level #{@level.idx}!
-          .level-content
-            = raw @level.content_html
-            = link_to "Go to Level #{@level.idx}", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
+        %h1 Welcome to Level #{@level.idx}!
+        .level-content
+          = raw @level.content_html
+          = link_to "Go to Level #{@level.idx}", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
 
         %hr.border-borderColor5.my-20
 
@@ -30,13 +18,13 @@
             .text-18.mb-20 You have an exercise in progress.
 
             = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution, size: "large")
-        -#   - else
-        -#     %h2.mb-4 Start new exercise
-        -#     .text-18.mb-20 You have a new exercise available to work on.
-        -#     = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
-        -# - else
-        -#   %h2.mb-8 All exercises completed 🎉
-        -#   .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
+          - else
+            %h2.mb-4 Start new exercise
+            .text-18.mb-20 You have a new exercise available to work on.
+            = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
+        - else
+          %h2.mb-8 All exercises completed 🎉
+          .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
 
       .rhs.ml-auto{ class: 'max-w-[400px]' }
         %h2.mb-4 Upcoming Live Sessions

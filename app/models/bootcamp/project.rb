@@ -3,9 +3,6 @@ class Bootcamp::Project < ApplicationRecord
 
   has_markdown_field :introduction
 
-  # scope :part_1, -> { unlocked.where('exercises.level_idx': 1..10) }
-  # scope :part_2, -> { unlocked.where('exercises.level_idx': 11..20) }
-
   # TODO: Fix the rubocop error
   has_many :exercises, class_name: "Bootcamp::Exercise" # rubocop:disable Rails/HasManyOrHasOneDependent
 

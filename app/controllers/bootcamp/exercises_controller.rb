@@ -12,7 +12,17 @@ class Bootcamp::ExercisesController < Bootcamp::BaseController
       end
     end
 
-    @projects = @projects.index_with { |p| p.exercises.unlocked }
+    @projects = @projects.index_with do |project|
+      exercises = project.exercises.unlocked
+      unless current_user.bootcamp_data.enrolled_in_both_parts?
+        if current_user.bootcamp_data.enrolled_on_part_1?
+          exercises = exercises.part_1
+        elsif current_user.bootcamp_data.enrolled_on_part_2?
+          exercises = exercises.part_2
+        end
+      end
+      exercises
+    end
     @solutions = current_user.bootcamp_solutions.where(exercise: @exercises).index_by(&:exercise_id)
   end
 

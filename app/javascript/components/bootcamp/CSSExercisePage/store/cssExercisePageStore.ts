@@ -2,6 +2,8 @@ import { create } from 'zustand'
 import { launchConfetti } from '../../JikiscriptExercisePage/Tasks/launchConfetti'
 import { ChecksResult } from '../utils/runCheckFunctions'
 
+export const PASS_THRESHOLD = 99
+
 type CSSExercisePageStoreState = {
   diffMode: boolean
   toggleDiffMode: () => void
@@ -79,7 +81,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     },
     matchPercentage: 0,
     setMatchPercentage: (matchPercentage) => {
-      if (matchPercentage === 100) {
+      if (matchPercentage >= PASS_THRESHOLD) {
         set((state) => {
           const newState: {
             assertionStatus: CSSExercisePageStoreState['assertionStatus']

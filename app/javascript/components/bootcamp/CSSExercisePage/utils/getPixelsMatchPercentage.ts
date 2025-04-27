@@ -15,13 +15,14 @@ export function getPixelsMatchPercentage(
     const bDiff = Math.abs(actualPixels[i + 2] - expectedPixels[i + 2])
     const aDiff = Math.abs(actualPixels[i + 3] - expectedPixels[i + 3])
 
-    const threshold = 0
+    const threshold = 10 // Copy with a little bit of difference
     if (
       rDiff > threshold ||
       gDiff > threshold ||
       bDiff > threshold ||
       aDiff > threshold
     ) {
+      // console.log([actualPixels[i], actualPixels[i+1], actualPixels[i+2], actualPixels[i+3]], [expectedPixels[i], expectedPixels[i+1], expectedPixels[i+2], expectedPixels[i+3]])
       differentPixels++
     }
   }

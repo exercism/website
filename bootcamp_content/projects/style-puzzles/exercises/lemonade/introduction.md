@@ -19,7 +19,7 @@ You need one image for the lemons (which should be used as a background images).
 
 ### CSS Properties Used
 
-You will probably want to make use of all of these properties:
+You will probably want to make use of all of the properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
 
 - `margin`: Use `%` in this exercise.
 - `padding`: Use `%` in this exercise.

@@ -2,6 +2,7 @@ import React from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { CheckResult } from '../utils/runCheckFunctions'
+import { PASS_THRESHOLD } from '../store/cssExercisePageStore'
 
 export function showResultToast(
   status: 'pass' | 'fail',
@@ -22,7 +23,7 @@ export function showResultToast(
           Pixel-matching is top priority, then other checks' error message. 
           Otherwise show a success message.
          */}
-        {percentage !== 100 ? (
+        {percentage < PASS_THRESHOLD ? (
           <TextBlock
             status={status}
             text={`Your output isn't exactly the same as the target yet (${percentage}%).`}

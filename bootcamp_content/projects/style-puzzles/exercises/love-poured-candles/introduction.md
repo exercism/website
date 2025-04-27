@@ -17,7 +17,7 @@ You need two images (both of which should be set as background images):
 
 ### CSS Properties Used
 
-You will probably want to make use of all of these properties:
+You will probably want to make use of all of the properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
 
 - `margin`: Use `%` in this exercise.
 - `padding`: Use `%` in this exercise.
@@ -28,7 +28,7 @@ You will probably want to make use of all of these properties:
 - `font-size`: Use `px` values for this exercise.
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
-- `color`: You need `#5b3a29`, `#8c6e54` and `#7c614a` for this exercise.
+- `color`: You need `#5b3a29` (heading) and `#8c6e54` (everything else).
 - `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`
 - `border-radius`: Use `px` values for this exercise.
 

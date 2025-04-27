@@ -1,4 +1,4 @@
-import { toCanvas, toJpeg } from 'html-to-image'
+import { toCanvas, toSvg, toJpeg } from 'html-to-image'
 
 export async function getIframePixels(
   iframeRef: React.RefObject<HTMLIFrameElement>
@@ -23,9 +23,10 @@ export async function getIframePixels(
 
     // uncomment to generate a download link for the actual canvas content
 
-    // toJpeg(iframeDoc.body, { quality: 0.95 }).then(function (dataUrl) {
+    // toJpeg(iframeDoc.body, { quality: 1 }).then(function (dataUrl) {
     //   var link = document.createElement('a')
-    //   link.download = 'my-image-name.jpeg'
+    //   // Generate random name
+    //   link.download = `iframe-${Math.random().toString(36).substring(2, 15)}.jpeg`
     //   link.href = dataUrl
     //   link.click()
     // })

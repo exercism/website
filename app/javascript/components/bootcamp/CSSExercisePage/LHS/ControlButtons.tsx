@@ -1,6 +1,9 @@
 import React, { useCallback, useContext } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
+import {
+  PASS_THRESHOLD,
+  useCSSExercisePageStore,
+} from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 import { CheckResult, runChecks } from '../utils/runCheckFunctions'
@@ -30,7 +33,7 @@ export function ControlButtons({
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
-    if (percentage === 100) {
+    if (percentage >= PASS_THRESHOLD) {
       if (exercise.checks.length === 0) {
         status = 'pass'
       } else {

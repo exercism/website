@@ -8,7 +8,8 @@ body {
     aspect-ratio: 1;
     overflow: hidden;
 
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, ui-sans-serif, system-ui, sans-serif,
+        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 h1,
 p,

@@ -11,7 +11,7 @@ We've given you the same elements that we gave you in the first exercise. The la
 You need to set four borders - one of each `solid`, `dashed`, `dotted` and `double`. You also need to set one `border-radius`.
 Use `px` as the unit for the border sizes.
 
-The four colors of the borders are `saddlebrown`, `white`, `gold`, and `#f5fdc` and `rgba(175, 116, 24, 0.5)`.
+The five colors of the borders are `saddlebrown`, `white`, `gold`, `#f5f5dc` and `rgba(175, 116, 24, 0.5)`.
 
 Notes:
 

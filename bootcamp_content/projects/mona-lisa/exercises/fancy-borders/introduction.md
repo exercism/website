@@ -18,5 +18,6 @@ Notes:
 - We've added some background colors to help with the visuals.
 - You can either use the full `border-xxx` syntax, or the `border` shortcut syntax.
 - All units should be specified as pixels.
+- You should **only** use the `border`, `border-radius` and `background` properties to solve this.
 
 Again, think about what you're trying to achieve in concrete terms first before you start coding. Maybe use a pen and paper to draw out how you think the borders are working in the sample drawing.

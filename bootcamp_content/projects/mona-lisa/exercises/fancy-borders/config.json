@@ -16,9 +16,9 @@
   },
   "checks": [
     {
-      "function": "exactPropertiesUsed(['background', 'border'])",
+      "function": "exactPropertiesUsed(['background', 'border', 'border-radius'])",
       "matcher": "toBeTrue",
-      "error_html": "You should only use the padding property."
+      "error_html": "You should only use the background, border and border-radius properties."
     }
   ]
 }

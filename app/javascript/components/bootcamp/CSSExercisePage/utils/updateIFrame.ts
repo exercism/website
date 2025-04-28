@@ -31,6 +31,7 @@ export function updateIFrame(
         body{
           background: white;
         }
+        ${code.normalizeCss}
         ${code.default.css}
         ${css}
         </style>

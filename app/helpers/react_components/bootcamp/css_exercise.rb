@@ -32,6 +32,7 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
+          normalize_css: 'body{filter: grayscale(1);}',
           default: {
             css: exercise.default("css")
           },

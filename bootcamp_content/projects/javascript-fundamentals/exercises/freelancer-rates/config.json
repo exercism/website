@@ -1,0 +1,121 @@
+{
+  "title": "Freelancer Rates",
+  "description": "Learn about numbers whilst helping a freelancer communicate with a project manager about day- and month rates.",
+  "language": "javascript",
+  "level": 12,
+  "idx": 2,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Day rate calculation",
+      "tests": [
+        {
+          "name": "Calculate day rate at 16/hour",
+          "slug": "day-rate-16",
+          "description_html": "Calculate the day rate when earning $16 per hour.",
+          "function": "dayRate",
+          "args": [16],
+          "checks": [{ "value": 128 }]
+        },
+        {
+          "name": "Calculate day rate at 25/hour",
+          "slug": "day-rate-25",
+          "description_html": "Calculate the day rate when earning $25 per hour.",
+          "function": "dayRate",
+          "args": [25],
+          "checks": [{ "value": 200 }]
+        },
+        {
+          "name": "Calculate day rate at 31.40/hour",
+          "slug": "day-rate-31.4",
+          "description_html": "Calculate the day rate when earning $31.40 per hour.",
+          "function": "dayRate",
+          "args": [31.4],
+          "checks": [{ "value": 251.2 }]
+        },
+        {
+          "name": "Calculate day rate at 89.89/hour",
+          "slug": "day-rate-89.89",
+          "description_html": "Calculate the day rate when earning $89.89 per hour.",
+          "function": "dayRate",
+          "args": [89.89],
+          "checks": [{ "value": 719.12 }]
+        },
+        {
+          "name": "Calculate day rate at 97.654321/hour",
+          "slug": "day-rate-97.654321",
+          "description_html": "Calculate the day rate when earning $97.654321 per hour.",
+          "function": "dayRate",
+          "args": [97.654321],
+          "checks": [{ "value": 781.234568 }]
+        }
+      ]
+    },
+    {
+      "name": "Days in budget calculation",
+      "tests": [
+        {
+          "name": "Calculate days with 1280 budget at 16/hour",
+          "slug": "days-budget-1280-16",
+          "description_html": "Calculate how many whole days fit into a $1280 budget at $16/hour.",
+          "function": "daysInBudget",
+          "args": [1280, 16],
+          "checks": [{ "value": 10 }]
+        },
+        {
+          "name": "Calculate days with 1280 budget at 25/hour",
+          "slug": "days-budget-1280-25",
+          "description_html": "Calculate how many whole days fit into a $1280 budget at $25/hour.",
+          "function": "daysInBudget",
+          "args": [1280, 25],
+          "checks": [{ "value": 6 }]
+        },
+        {
+          "name": "Calculate days with 835 budget at 12/hour",
+          "slug": "days-budget-835-12",
+          "description_html": "Calculate how many whole days fit into a $835 budget at $12/hour.",
+          "function": "daysInBudget",
+          "args": [835, 12],
+          "checks": [{ "value": 8 }]
+        }
+      ]
+    },
+    {
+      "name": "Price with monthly discount",
+      "tests": [
+        {
+          "name": "Cost at 16/hour for 70 days without discount",
+          "slug": "price-discount-16-70-0",
+          "description_html": "Calculate the cost at $16/hour for 70 days without a discount.",
+          "function": "priceWithMonthlyDiscount",
+          "args": [16, 70, 0],
+          "checks": [{ "value": 8960 }]
+        },
+        {
+          "name": "Cost at 16/hour for 130 days with 15% discount",
+          "slug": "price-discount-16-130-15",
+          "description_html": "Calculate the cost at $16/hour for 130 days with a 15% discount.",
+          "function": "priceWithMonthlyDiscount",
+          "args": [16, 130, 0.15],
+          "checks": [{ "value": 14528 }]
+        },
+        {
+          "name": "Cost at 29.654321/hour for 220 days with 11.2% discount",
+          "slug": "price-discount-29.654321-220-11.2",
+          "description_html": "Calculate the cost at $29.654321/hour for 220 days with an 11.2% discount.",
+          "function": "priceWithMonthlyDiscount",
+          "args": [29.654321, 220, 0.112],
+          "checks": [{ "value": 46347 }]
+        },
+        {
+          "name": "Cost at 29.654321/hour for 155 days with 25.47% discount",
+          "slug": "price-discount-29.654321-155-25.47",
+          "description_html": "Calculate the cost at $29.654321/hour for 155 days with a 25.47% discount.",
+          "function": "priceWithMonthlyDiscount",
+          "args": [29.654321, 155, 0.2547],
+          "checks": [{ "value": 27467 }]
+        }
+      ]
+    }
+  ]
+}

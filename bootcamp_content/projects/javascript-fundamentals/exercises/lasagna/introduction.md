@@ -6,7 +6,9 @@ In this exercise, you're going to write some code to help Lucian cook an exquisi
 
 ## Instructions
 
-You have three tasks related to the time spent cooking the lasagna.
+According to the cooking book, the expected oven time in minutes is `40`.
+
+You have three tasks related to the time spent cooking the lasagna:
 
 ### 1. Calculate the remaining oven time in minutes
 

@@ -1,6 +1,9 @@
 .logger {
+    @apply font-medium text-14;
+
     .log-container {
         .hljs {
+            @apply text-16;
             &::before {
                 content: "> ";
             }
@@ -9,8 +12,7 @@
     }
 
     .info-message {
-        @apply text-16 font-medium;
-        @apply mt-12 p-12;
+        @apply p-12;
         @apply mx-auto;
 
         .hljs {
@@ -18,7 +20,7 @@
             @apply inline;
         }
 
-        *:not(pre) > code {
+        code:not(pre code) {
             @apply bg-blue-100 py-2 px-4 rounded-5 whitespace-normal;
         }
     }
@@ -31,7 +33,7 @@
     .console-label {
         @apply leading-100;
         @apply rounded-bl-5;
-        @apply absolute top-0 right-0;
+        @apply absolute bottom-0 right-0;
         @apply bg-purple bg-opacity-15;
         @apply font-bold font-mono text-14;
         @apply px-6 py-4;

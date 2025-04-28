@@ -50,6 +50,7 @@ import { breakpointEffect } from './extensions/breakpoint'
 import { foldEffect } from '@codemirror/language'
 import { getFoldedLines } from './getFoldedLines'
 import { unfoldableFunctionsField } from './unfoldableFunctionNames'
+import { javascript } from '@codemirror/lang-javascript'
 
 export const readonlyCompartment = new Compartment()
 
@@ -126,7 +127,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     setFoldedLines,
   } = useEditorStore()
 
-  const { setExerciseLocalStorageData } = useContext(
+  const { setExerciseLocalStorageData, exercise } = useContext(
     JikiscriptExercisePageContext
   )
 
@@ -198,7 +199,8 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.foldGutter,
           Ext.underlineExtension(),
           Ext.readOnlyRangeDecoration(),
-          Ext.colorScheme,
+          exercise.language === 'jikiscript' ? jikiscript() : javascript(),
+          Ext.jsTheme,
           minimalSetup,
           unfoldableFunctionsField,
           highlightActiveLineGutter(),
@@ -218,7 +220,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
             ...lintKeymap,
             indentWithTab,
           ]),
-          jikiscript(),
           Ext.highlightLine(highlightedLine),
           Ext.showInfoWidgetField,
           Ext.informationWidgetDataField,

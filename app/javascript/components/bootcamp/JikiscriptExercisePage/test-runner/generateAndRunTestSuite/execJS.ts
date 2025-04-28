@@ -36,7 +36,7 @@ export async function execJS(
       cleanup: () => {},
       error: {
         message: err.message.replace(/\s*\(\d+:\d+\)$/, ''),
-        lineNumber: err.loc.line, // No idea why we are 2 out.
+        lineNumber: err.loc.line - 1,
         colNumber: err.loc.column,
         type: err.name,
       },
@@ -77,8 +77,12 @@ export async function execJS(
       cleanup,
     }
     return successResult
-  } catch (error: any) {
-    console.error('Logic error', error)
+  } catch (error: any & { message: string }) {
+    // console.error('Logic error', error)
+
+    if (error.message.includes('does not provide an export')) {
+      error.message = `Oh dear, we couldn't find \`${fnName}\`. Did you forget to \`export\` it?`
+    }
 
     // Extract line, and column from the error message string
     const [, lineNumber, colNumber] =

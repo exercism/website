@@ -51,7 +51,7 @@ export function showError({
     from = Math.max(0, error.location.absolute.begin - 1)
     to = Math.max(0, error.location.absolute.end - 1)
     line = error.location.line
-    html = describeError(error, context)
+    html = describeError(error, 'jikiscript', context)
   } else {
     // Codemirror requires a 1-based line number, while Js's error output generates a 0-based line number
     const lineNumber = error.lineNumber + 1
@@ -61,12 +61,15 @@ export function showError({
     from = pos - 1
     to = pos
     line = lineNumber
-    html = describeError({
-      // @ts-expect-error - partial StaticError-like structure
-      // TODO: adjust types in describeError
-      type: error.type,
-      message: error.message,
-    })
+    html = describeError(
+      {
+        // @ts-expect-error - partial StaticError-like structure
+        // TODO: adjust types in describeError
+        type: error.type,
+        message: error.message,
+      },
+      'javascript'
+    )
   }
 
   scrollToLine(editorView, line)

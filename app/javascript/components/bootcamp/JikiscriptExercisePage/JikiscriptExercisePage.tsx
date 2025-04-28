@@ -18,6 +18,8 @@ import { Project } from './utils/exerciseMap'
 import JikiscriptExercisePageContextWrapper, {
   ExerciseLocalStorageData,
 } from './JikiscriptExercisePageContextWrapper'
+import { Logger } from './Logger/Logger'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export default function JikiscriptExercisePage({
   exercise,
@@ -169,11 +171,16 @@ export default function JikiscriptExercisePage({
           </div>
           <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
           {/* RHS */}
-          <div className="page-body-rhs" style={{ width: RHSWidth }}>
+          <div
+            className={assembleClassNames('page-body-rhs')}
+            style={{ width: RHSWidth }}
+          >
             <Instructions
               exerciseTitle={exercise.title}
               exerciseInstructions={exercise.introductionHtml}
             />
+
+            {exercise.language === 'javascript' && <Logger />}
           </div>
         </div>
       </div>

@@ -131,6 +131,7 @@ export async function execTest(
     animationTimeline: buildAnimationTimeline(exercise, frames),
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
+    logMessages,
   }
 }
 

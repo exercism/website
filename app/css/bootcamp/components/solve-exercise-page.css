@@ -58,7 +58,7 @@
         @apply flex flex-col;
     }
     .page-body-rhs {
-        @apply flex-grow h-full;
+        @apply flex flex-col flex-grow h-full;
     }
 
     .scenario-lhs {

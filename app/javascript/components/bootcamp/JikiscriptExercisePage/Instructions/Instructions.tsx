@@ -5,6 +5,7 @@ import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
 import useTestStore from '../store/testStore'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export function _Instructions({
   exerciseTitle,
@@ -22,7 +23,7 @@ export function _Instructions({
   } = useTaskStore()
   const { remainingBonusTasksCount } = useTestStore()
 
-  const { solution } = useContext(JikiscriptExercisePageContext)
+  const { solution, exercise } = useContext(JikiscriptExercisePageContext)
 
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
@@ -68,7 +69,12 @@ export function _Instructions({
   }, [currentTask])
 
   return (
-    <div className="scenario-rhs c-prose c-prose-small">
+    <div
+      className={assembleClassNames(
+        'scenario-rhs c-prose c-prose-small',
+        exercise.language
+      )}
+    >
       <h3>{exerciseTitle}</h3>
 
       <div

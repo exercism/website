@@ -1,0 +1,17 @@
+.logger {
+    @apply max-h-[200px] overflow-hidden;
+    @apply m-4;
+    @apply border-1 border-borderColor4 rounded-6;
+    .log-container {
+        @apply p-8;
+        @apply h-full;
+        @apply overflow-auto;
+        @apply font-mono font-semibold leading-200;
+        @apply flex flex-col grow overflow-auto;
+
+        .log {
+            @apply flex items-start;
+            @apply break-all;
+        }
+    }
+}

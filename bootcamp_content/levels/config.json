@@ -42,5 +42,9 @@
   {
     "title": "CSS",
     "description": "We build some CSS and HTML!"
+  },
+  {
+    "title": "JS",
+    "description": "We learn JS!"
   }
 ]

@@ -67,6 +67,7 @@ projects = %w[
   coffee-thoughts
   mona-lisa
   style-puzzles
+  javascript-fundamentals
 ]
 
 projects.each do |project_slug|

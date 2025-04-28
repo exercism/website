@@ -47,6 +47,11 @@ export async function execTest(
     return acc
   }, {} as Record<string, any>)
 
+  const logMessages: any[] = []
+  globalThis.customLog = function (...args: any[]) {
+    logMessages.push(args)
+  }
+
   const fnName = testData.function
   const args = testData.args ? parseArgs(testData.args) : []
 
@@ -65,6 +70,7 @@ export async function execTest(
       )
 
       console.log('result', result)
+      console.log('logMessages', logMessages)
 
       if (result.status === 'error') {
         if (editorView) {

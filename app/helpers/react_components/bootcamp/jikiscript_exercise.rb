@@ -38,7 +38,7 @@ module ReactComponents
         },
         test_results: submission&.test_results,
         code: {
-          stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user, "jiki"),
+          stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user, exercise.language == "jikiscript" ? "jiki" : "js"),
           code: solution.code,
           stored_at: submission&.created_at,
           readonly_ranges:,

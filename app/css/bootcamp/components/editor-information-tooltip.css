@@ -75,6 +75,8 @@
     &.error {
         @apply bg-white border-2 border-red-500;
 
+        @apply p-0;
+
         filter: drop-shadow(0px 4px 8px rgba(79, 114, 205, 0.5));
 
         h2 {
@@ -89,6 +91,7 @@
             }
         }
         .content {
+            @apply rounded-6;
             @apply text-textColor1;
             @apply pt-10 px-20 pb-12;
             @apply relative z-tooltip-content bg-white;

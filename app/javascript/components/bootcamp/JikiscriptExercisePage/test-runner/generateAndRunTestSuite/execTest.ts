@@ -69,8 +69,8 @@ export async function execTest(
         externalFunctions.map((f) => f.name)
       )
 
-      console.log('result', result)
-      console.log('logMessages', logMessages)
+      // console.log('result', result)
+      // console.log('logMessages', logMessages)
 
       if (result.status === 'error') {
         if (editorView) {

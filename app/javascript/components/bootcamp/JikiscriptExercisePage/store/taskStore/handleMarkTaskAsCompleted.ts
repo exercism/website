@@ -1,4 +1,3 @@
-import { launchConfetti } from '../../Tasks/launchConfetti'
 import { processTasks } from './processTasks'
 import type { TaskStore } from './taskStore'
 

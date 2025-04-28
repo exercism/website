@@ -18,7 +18,7 @@ export function InitialView() {
   }, [bonusTestSuiteResult, remainingBonusTasksCount])
 
   const bonusTaskInfoText = useMemo(() => {
-    return bonusTestSuiteResult!.tests.length > 1
+    return bonusTestSuiteResult && bonusTestSuiteResult.tests.length > 1
       ? `There are ${
           bonusTestSuiteResult!.tests.length
         } bonus tasks on this exercise to complete. Do you want to go back to complete those now?`

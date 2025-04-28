@@ -44,6 +44,7 @@ export function useTasks() {
   } = useTaskStore()
   const {
     solution,
+    exercise,
     links: { completeSolution: completeSolutionLink },
   } = useContext(JikiscriptExercisePageContext)
   const { isTimelineComplete } = useAnimationTimelineStore()
@@ -75,7 +76,9 @@ export function useTasks() {
       isSetupStage.current = false
     } else {
       const shouldShowModal = areAllTasksCompleted && !wasFinishLessonModalShown
-      const hasTimeline = !!inspectedTestResult?.animationTimeline
+      const hasTimeline =
+        exercise.language === 'jikiscript' &&
+        !!inspectedTestResult?.animationTimeline
       // if we don't have a timeline, we don't need to wait for it to be complete
       const isTimelineReady = hasTimeline ? isTimelineComplete : true
 

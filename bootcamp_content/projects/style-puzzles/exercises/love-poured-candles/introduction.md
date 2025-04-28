@@ -38,6 +38,6 @@ Use the following properties. **In order to get things identical, you should be 
 - `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`
 - `border-radius`: Use `px` values for this exercise.
 
-Please note that all values (`px` and `%`) should be round numbers!
+Please note that all values (`px` and `%`) should be whole numbers (e.g. 3%, 20px)!
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!

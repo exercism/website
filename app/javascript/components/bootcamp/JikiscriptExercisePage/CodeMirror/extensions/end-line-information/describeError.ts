@@ -9,14 +9,19 @@ import { marked } from 'marked'
 import type { StaticError } from '@/interpreter/error'
 import { SyntaxError } from '@/interpreter/error'
 
-export function describeError(error: StaticError, context?: string) {
+export function describeError(
+  error: StaticError,
+  language: 'jikiscript' | 'javascript',
+  context?: string
+) {
+  const who = language === 'jikiscript' ? 'Jiki' : 'We'
   let errorHeading
   if (error instanceof SyntaxError) {
-    errorHeading = "Jiki couldn't understand your code"
+    errorHeading = `${who} couldn't understand your code`
   } else if (error.type == 'LogicError') {
     errorHeading = "Something didn't go as expected!"
   } else {
-    errorHeading = 'Jiki hit a problem running your code.'
+    errorHeading = `${who} hit a problem running your code.`
   }
   if (context) {
     errorHeading = `${context}: ${errorHeading}`

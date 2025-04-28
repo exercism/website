@@ -1,5 +1,3 @@
-// @ts-check
-
 /**
  * The amount of minutes the lasagna should be in the oven.
  */

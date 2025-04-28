@@ -2,5 +2,5 @@
   "slug": "javascript-fundamentals",
   "title": "JavaScript Fundamentals",
   "description": "A series of exercises to get you familiar with JavaScript.",
-  "exercises": ["exportable-maze"]
+  "exercises": ["exportable-maze", "lasagna"]
 }

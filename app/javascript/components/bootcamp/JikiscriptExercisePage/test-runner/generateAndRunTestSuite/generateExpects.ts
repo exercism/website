@@ -23,15 +23,10 @@ export function generateExpects(
     // We pivot on that to determine the actual value
     let checkActual
     let codeRun
-    const checkType = check.hasOwnProperty('function')
-      ? 'function'
-      : check.hasOwnProperty('property')
-      ? 'property'
-      : 'return'
 
     // If it's a function call, we split out any params and then call the function
     // on the exercise with those params passed in.
-    if (checkType == 'function') {
+    if (check.hasOwnProperty('function')) {
       check = check as ExpectCheckFunction
 
       let fnName
@@ -57,9 +52,10 @@ export function generateExpects(
       checkActual = fn.call(exercise, interpreterResult, ...args)
       codeRun = check.codeRun ? check.codeRun : undefined
     }
+
     // Our normal state is much easier! We just check the state object that
     // we've retrieved above via getState() for the variable in question.
-    else if (checkType == 'property') {
+    else if (check.hasOwnProperty('property')) {
       check = check as ExpectCheckProperty
       checkActual = state[check.property]
       codeRun = check.codeRun ? check.codeRun : undefined

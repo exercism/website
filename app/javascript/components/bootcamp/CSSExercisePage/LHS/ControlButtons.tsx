@@ -8,6 +8,7 @@ import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 import { CheckResult, runChecks } from '../utils/runCheckFunctions'
 import { showResultToast } from './showResultToast'
+import Icon from '@/components/common/Icon'
 
 export function ControlButtons({
   getEditorValues,
@@ -85,19 +86,22 @@ export function ControlButtons({
         >
           Curtain: {curtainMode ? 'on' : 'off'}
         </button>
-        <div>
-          <button
-            onClick={toggleIsDiffModeOn}
-            className={assembleClassNames('btn-secondary btn-s')}
-          >
+        <div className="btn-secondary btn-s flex gap-4 p-0 overflow-hidden">
+          <button onClick={toggleIsDiffModeOn} className="p-4">
             Diff: {isDiffModeOn ? 'on' : 'off'}
           </button>
 
           <button
+            className="border-l-1 border-l-borderColor4 bg-lightPurpleDarkened h-full px-4"
             onClick={toggleDiffMode}
-            className={assembleClassNames('btn-secondary btn-s')}
           >
-            mode: {diffMode}
+            <Icon
+              className="border-1 border-borderColor5"
+              icon={`${diffMode}-diff.svg`}
+              alt={'diff-mode'}
+              height={24}
+              width={24}
+            />
           </button>
         </div>
       </div>

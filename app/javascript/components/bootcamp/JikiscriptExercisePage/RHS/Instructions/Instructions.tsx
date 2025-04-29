@@ -1,17 +1,20 @@
 import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
-import useTaskStore from '../store/taskStore/taskStore'
 import Typewriter from 'typewriter-effect/dist/core'
 import { type Options } from 'typewriter-effect'
-import useTestStore from '../store/testStore'
-import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePageContextWrapper'
+import useTaskStore from '../../store/taskStore/taskStore'
+import useTestStore from '../../store/testStore'
 
 export function _Instructions({
   exerciseTitle,
   exerciseInstructions,
+  height = '100%',
 }: {
   exerciseTitle: string
   exerciseInstructions: string
+  height?: number | string
 }): JSX.Element {
   const {
     activeTaskIndex,
@@ -22,7 +25,7 @@ export function _Instructions({
   } = useTaskStore()
   const { remainingBonusTasksCount } = useTestStore()
 
-  const { solution } = useContext(JikiscriptExercisePageContext)
+  const { solution, exercise } = useContext(JikiscriptExercisePageContext)
 
   const typewriterRef = useRef<HTMLDivElement>(null)
   const isFirstRender = useRef(true)
@@ -68,7 +71,13 @@ export function _Instructions({
   }, [currentTask])
 
   return (
-    <div className="scenario-rhs c-prose c-prose-small">
+    <div
+      style={{ height }}
+      className={assembleClassNames(
+        'scenario-rhs c-prose c-prose-small',
+        exercise.language
+      )}
+    >
       <h3>{exerciseTitle}</h3>
 
       <div

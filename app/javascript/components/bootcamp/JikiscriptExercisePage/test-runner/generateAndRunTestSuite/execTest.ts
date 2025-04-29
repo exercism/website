@@ -47,6 +47,11 @@ export async function execTest(
     return acc
   }, {} as Record<string, any>)
 
+  const logMessages: any[] = []
+  globalThis.customLog = function (...args: any[]) {
+    logMessages.push(args)
+  }
+
   const fnName = testData.function
   const args = testData.args ? parseArgs(testData.args) : []
 
@@ -64,7 +69,8 @@ export async function execTest(
         externalFunctions.map((f) => f.name)
       )
 
-      console.log('result', result)
+      // console.log('result', result)
+      // console.log('logMessages', logMessages)
 
       if (result.status === 'error') {
         if (editorView) {
@@ -125,6 +131,7 @@ export async function execTest(
     animationTimeline: buildAnimationTimeline(exercise, frames),
     imageSlug: testData.imageSlug,
     view: exercise?.getView(),
+    logMessages,
   }
 }
 

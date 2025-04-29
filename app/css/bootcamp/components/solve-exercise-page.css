@@ -58,7 +58,19 @@
         @apply flex flex-col;
     }
     .page-body-rhs {
-        @apply flex-grow h-full;
+        @apply flex flex-col flex-grow h-full;
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
     }
 
     .scenario-lhs {

@@ -101,15 +101,18 @@ export function useResizablePanels({
 export function Resizer({
   handleMouseDown,
   direction,
+  className = '',
 }: {
   handleMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => void
   direction: Direction
+  className?: string
 }) {
   return (
     <button
       onMouseDown={handleMouseDown}
       className={assembleClassNames(
         '',
+        className,
         direction === 'horizontal' ? 'cursor-row-resize' : 'cursor-col-resize'
       )}
     >

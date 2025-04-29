@@ -9,6 +9,7 @@ declare global {
     type: TestsType
     view?: HTMLElement
     imageSlug?: string
+    logMessages?: any[]
   }
 }
 

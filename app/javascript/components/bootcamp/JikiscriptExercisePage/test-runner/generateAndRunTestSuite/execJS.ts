@@ -51,6 +51,7 @@ export async function execJS(
       updateState: () => {},
     }
   `
+  code += `export function log(...args) { globalThis.customLog.call(null,...args) }\n`
   externalFunctionNames.forEach((fn) => {
     code += `export function ${fn}(...args) { globalThis.externalFunctions.${fn}.call(null, executionCtx, ...args) }\n`
   })

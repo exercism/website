@@ -13,6 +13,8 @@ export const EDITOR_COLORS = {
   selectionMatch: '#D5D1F2',
 }
 
+// this is unused from now, but let's keep this as reference
+// this contains the OG jikiscript colours, while the js-theme file may change.
 export const colorScheme = createTheme({
   variant: 'light',
   settings: EDITOR_COLORS,

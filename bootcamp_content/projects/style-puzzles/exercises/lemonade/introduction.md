@@ -19,24 +19,24 @@ You need one image for the lemons (which should be used as a background images).
 
 ### CSS Properties Used
 
-You will probably want to make use of all of the properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
+You will probably want to make use of all of the properties.
 
-- `margin`: Use `%` in this exercise.
-- `padding`: Use `%` in this exercise.
+Please note that all values should be `px` and multiples of 5 (e.g. `5px`, `10px`).
+
+- `margin`
+- `padding`
 - `background-image: url(...)`: Sets a background image.
 - `background-size`: Sets the size of the background image. Use `cover` in this exercise.
 - `background-position`: Sets the position of the background image. This should be `top right` in this exercise.
 - `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
-- `font-size`: Use `px` values for this exercise.
+- `font-size`
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
 - `color`: You need `#4b3f2f` and `#777` for this exercise.
 - `border`: The border on the edge of the card is colored `e3caa5`.
-- `border-radius`: Use `px` values for this exercise.
+- `border-radius`
 - `list-style-type` (or `list-style` shortcut): See above.
 - `text-transform` (or `list-style` shortcut): See above.
-
-Please note that all values (`px` and `%`) should be whole numbers (e.g. 3%, 20px)!
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!
 
@@ -51,8 +51,7 @@ Here are common mistakes people make:
 
 - Not checking the diff/curtain carefuly enough.
 - Not using `cover` and `top right` for the background?
-- Not using `%` for all margins and padding?
+- Not using `px` for all margins and padding?
 - Having slightly different corner radius (check the diff carefully).
 - Not having the text break correctly over two lines.
-- Using non-whole percentages (e.g 1.64%).
 - The "marker" in the list (the thing you change with `list-style-type`) needs to use an emoji and have a space inside of it. Later on we'll learn how to add margins to markers, but for now, just include a space inside of it.

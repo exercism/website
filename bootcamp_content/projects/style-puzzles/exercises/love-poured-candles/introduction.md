@@ -23,22 +23,22 @@ When we're a little more advanced, we would probably want to use a list, with ma
 
 ### CSS Properties Used
 
-Use the following properties. **In order to get things identical, you should be careful to use the units specified below** (e.g. `%` or `px`):
+You will probably want to make use of all of the properties.
 
-- `margin`: Use `%` in this exercise.
-- `padding`: Use `%` in this exercise.
+Please note that all values should be `px` and multiples of 5 (e.g. `5px`, `10px`).
+
+- `margin`
+- `padding`
 - `background-image: url(...)`: Sets a background image.
-- `background-size`: Sets the size of the background image. Choose from `cover` or `%` in this exercise.
+- `background-size`: Sets the size of the background image. Choose from `cover` or a `px` value in this exercise.
 - `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `left`, `bottom` and `right` separated by a space (e.g. `background-position: top left`).
 - `background-repeat`: Determines whether the background should repeat. To make it repeat, use `repeat`. To stop it from repeating, you can use the `no-repeat` value.
-- `font-size`: Use `px` values for this exercise.
+- `font-size`
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
 - `color`: You need `#5b3a29` (heading) and `#8c6e54` (everything else).
 - `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`
-- `border-radius`: Use `px` values for this exercise.
-
-Please note that all values (`px` and `%`) should be whole numbers (e.g. 3%, 20px)!
+- `border-radius`
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!
 
@@ -53,8 +53,7 @@ Here are common mistakes people make:
 
 - Not checking the diff/curtain carefuly enough.
 - Not using `cover`, `top left` and `repeat` for the paper background.
-- Not using `%` for all margins and padding?
+- Not using `px` for all margins and padding?
 - Having slightly different corner radius (check the diff carefully).
 - Not having the same padding all the way around. Instead people often have a different bottom padding, or try and use negative margins. This should feel a bit yucky - can you find a different way?
-- Using non-whole percentages (e.g 1.64%).
 - The emoji and the text next to it need to be spaced correctly. Think about how you can push two elements apart.

@@ -19,7 +19,6 @@ export async function getIframePixels(
     const canvas = await toCanvas(iframeDoc.body, {
       width: iframe.clientWidth,
       height: iframe.clientHeight,
-      // pixelRatio: 1,
     })
 
     // uncomment to generate a download link for the actual canvas content

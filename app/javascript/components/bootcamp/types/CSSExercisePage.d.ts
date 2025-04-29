@@ -18,6 +18,7 @@ type CSSExercisePageProps = {
 type CSSExercisePageCode = {
   stub: { html: string; css: string }
   code: string
+  normalizeCss: string
   default: {
     html?: string
     css?: string

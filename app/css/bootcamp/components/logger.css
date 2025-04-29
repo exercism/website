@@ -1,0 +1,54 @@
+.logger {
+    @apply font-medium text-14;
+
+    .log-container {
+        .hljs {
+            @apply text-16;
+            &::before {
+                content: "> ";
+            }
+            @apply py-4 px-0;
+        }
+    }
+
+    .info-message {
+        @apply p-12;
+        @apply mx-auto;
+
+        .hljs {
+            @apply py-4 px-0;
+            @apply inline;
+        }
+
+        code:not(pre code) {
+            @apply bg-blue-100 py-2 px-4 rounded-5 whitespace-normal;
+        }
+    }
+
+    @apply overflow-hidden;
+    @apply m-4;
+    @apply border-1 border-borderColor4 rounded-6;
+    @apply relative;
+
+    .console-label {
+        @apply leading-100;
+        @apply rounded-bl-5;
+        @apply absolute bottom-0 right-0;
+        @apply bg-purple bg-opacity-15;
+        @apply font-bold font-mono text-14;
+        @apply px-6 py-4;
+    }
+
+    .log-container {
+        @apply p-8;
+        @apply h-full;
+        @apply overflow-auto;
+        @apply font-mono font-semibold;
+        @apply flex flex-col grow overflow-auto;
+
+        .log {
+            @apply flex items-start;
+            @apply break-all;
+        }
+    }
+}

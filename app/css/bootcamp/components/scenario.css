@@ -122,6 +122,10 @@
 
     .scenario-rhs {
         @apply h-fill overflow-auto;
+
+        &.javascript {
+            @apply h-[80%];
+        }
         @apply py-16 px-20;
         h3 {
         }

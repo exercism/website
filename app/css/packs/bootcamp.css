@@ -22,6 +22,7 @@
 @import "../bootcamp/components/toggle-switch";
 @import "../bootcamp/components/test-buttons";
 @import "../bootcamp/components/scenario";
+@import "../bootcamp/components/logger";
 @import "../bootcamp/components/modal";
 
 @import "../bootcamp/components/project-widget";

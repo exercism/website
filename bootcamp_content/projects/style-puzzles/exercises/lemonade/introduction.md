@@ -44,9 +44,14 @@ Remember to use the diff and curtain if you get stuck, and to **start styling fr
 
 ## Stuck?
 
-Check these things:
+A lot of people get to 97% on this exercise, and can't get the last few percent correct.
+That's normally because they've missed an instruction, or taken a more "hacky" approach to something than we're hoping to see.
 
-- Do the diff or curtain show anything?
-- Does your background image `cover` the card, and is it positioned at the `top right`?
-- Is your text breaking over two lines in the correct place?
-- Do your corners look correctly rounded on the diff?
+Here are common mistakes people make:
+
+- Not checking the diff/curtain carefuly enough.
+- Not using `cover` and `top right` for the background?
+- Not using `%` for all margins and padding?
+- Having slightly different corner radius (check the diff carefully).
+- Not having the text break correctly over two lines.
+- Using non-whole percentages (e.g 1.64%).

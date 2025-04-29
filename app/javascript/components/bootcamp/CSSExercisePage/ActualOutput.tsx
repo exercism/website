@@ -11,8 +11,13 @@ export function ActualOutput() {
   }
   const { actualIFrameRef, expectedReferenceIFrameRef, expectedIFrameRef } =
     context
-  const { isDiffModeOn, setCurtainOpacity, curtainMode, diffMode } =
-    useCSSExercisePageStore()
+  const {
+    isDiffModeOn,
+    setCurtainOpacity,
+    curtainMode,
+    diffMode,
+    studentCodeHash,
+  } = useCSSExercisePageStore()
   const containerRef = useRef<HTMLDivElement>(null)
   // set a high number so curtain isn't at pos zero at first
   const [curtainWidth, setCurtainWidth] = useState(9999)
@@ -95,7 +100,7 @@ export function ActualOutput() {
     }
 
     populateCanvas()
-  }, [isDiffModeOn, diffMode])
+  }, [isDiffModeOn, diffMode, studentCodeHash])
 
   return (
     <div className="p-12">

@@ -29,6 +29,8 @@ type CSSExercisePageStoreState = {
   setWasFinishLessonModalShown: (value: boolean) => void
   checksResult: ChecksResult[]
   setChecksResult: (checksResult: ChecksResult[]) => void
+  studentCodeHash: string
+  setStudentCodeHash: (studentCodeHash: string) => void
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
@@ -117,5 +119,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     wasFinishLessonModalShown: false,
     setWasFinishLessonModalShown: (value) =>
       set({ wasFinishLessonModalShown: value }),
+    studentCodeHash: '',
+    setStudentCodeHash: (studentCodeHash) => set({ studentCodeHash }),
   })
 )

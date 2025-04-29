@@ -15,6 +15,7 @@ import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror
 import { updateIFrame } from '../utils/updateIFrame'
 import { cssTheme } from './cssTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
+import xxhash from 'xxhash-wasm'
 
 export function CSSEditor() {
   const {
@@ -27,6 +28,7 @@ export function CSSEditor() {
   } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
+    setStudentCodeHash,
   } = useCSSExercisePageStore()
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
@@ -54,6 +56,19 @@ export function CSSEditor() {
           html: htmlReadonlyRanges,
         },
       })
+    }, 500)
+  }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
+
+  const updateEditorHashOnDebounce = useMemo(() => {
+    return debounce(async (view: EditorView) => {
+      const hasher = await xxhash()
+
+      const cssContent = view.state.doc.toString()
+      const htmlContent = htmlEditorRef.current?.state.doc.toString() || ''
+
+      const hash = hasher.h32ToString(htmlContent + cssContent)
+
+      setStudentCodeHash(hash)
     }, 500)
   }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
 
@@ -85,6 +100,7 @@ export function CSSEditor() {
         )
 
         updateLocalStorageValueOnDebounce(view)
+        updateEditorHashOnDebounce(view)
       }}
       ref={cssEditorRef}
     />

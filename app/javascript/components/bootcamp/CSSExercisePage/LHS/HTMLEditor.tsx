@@ -15,6 +15,7 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions'
 import { htmlTheme } from './htmlTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
+import xxhash from 'xxhash-wasm'
 
 export function HTMLEditor() {
   const {
@@ -27,6 +28,7 @@ export function HTMLEditor() {
   } = useContext(CSSExercisePageContext)
   const {
     panelSizes: { LHSWidth },
+    setStudentCodeHash,
   } = useCSSExercisePageStore()
 
   const updateLocalStorageValueOnDebounce = useMemo(() => {
@@ -54,6 +56,19 @@ export function HTMLEditor() {
           html: htmlReadonlyRanges,
         },
       })
+    }, 500)
+  }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
+
+  const updateEditorHashOnDebounce = useMemo(() => {
+    return debounce(async (view: EditorView) => {
+      const hasher = await xxhash()
+
+      const htmlContent = view.state.doc.toString()
+      const cssContent = cssEditorRef.current?.state.doc.toString() || ''
+
+      const hash = hasher.h32ToString(htmlContent + cssContent)
+
+      setStudentCodeHash(hash)
     }, 500)
   }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
 
@@ -87,6 +102,7 @@ export function HTMLEditor() {
         )
 
         updateLocalStorageValueOnDebounce(view)
+        updateEditorHashOnDebounce(view)
       }}
       defaultCode="<div>hello</div>"
     />

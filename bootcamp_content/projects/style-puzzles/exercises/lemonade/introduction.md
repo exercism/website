@@ -7,7 +7,7 @@ We've given you a blank slate, but it's a straight-forward thing to structure.
 There are two properties you've not used before:
 
 - `text-transform`: If you want to make text uppercase for visual reasons (ie it looks nicer that way), you should still write it using normal casing, but then apply the `text-transform: uppercase` property. For example, you could write `"Jeremy Walker"`, but then use this property to make it visually appear as `"JEREMY WALKER"`.
-- `list-style-type`. By default, unordered lists use bullet points as the "marker" of the list. However, you can change this to be a different decorative item, using the `list-style-type` property. It accepts some special values like `circle` or `square` but it also accepts strings containing character(s) (e.g. `list-style-type: "a"` would make the markers all be `"a"`, or `"- "` would add a dash and a space). Emojis are characters too...
+- `list-style-type`. By default, unordered lists use bullet points as the "marker" of the list. However, you can change this to be a different decorative item, using the `list-style-type` property. It accepts some special values like `circle` or `square` but it also accepts strings containing character(s) (e.g. `list-style-type: "a"` would make the markers all be `"a"`, or `"- "` would add a dash and a space). Emojis are characters too.
 
 ## Instructions
 
@@ -55,3 +55,4 @@ Here are common mistakes people make:
 - Having slightly different corner radius (check the diff carefully).
 - Not having the text break correctly over two lines.
 - Using non-whole percentages (e.g 1.64%).
+- The "marker" in the list (the thing you change with `list-style-type`) needs to use an emoji and have a space inside of it. Later on we'll learn how to add margins to markers, but for now, just include a space inside of it.

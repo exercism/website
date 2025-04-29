@@ -57,3 +57,4 @@ Here are common mistakes people make:
 - Having slightly different corner radius (check the diff carefully).
 - Not having the same padding all the way around. Instead people often have a different bottom padding, or try and use negative margins. This should feel a bit yucky - can you find a different way?
 - Using non-whole percentages (e.g 1.64%).
+- The emoji and the text next to it need to be spaced correctly. Think about how you can push two elements apart.

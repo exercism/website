@@ -87,11 +87,11 @@ export function ControlButtons({
           Curtain: {curtainMode ? 'on' : 'off'}
         </button>
         <div className="btn-secondary btn-s flex gap-4 p-0 overflow-hidden">
-          <button onClick={toggleIsDiffModeOn} className="p-4">
+          <button onClick={toggleIsDiffModeOn} className="p-4 px-16">
             Diff: {isDiffModeOn ? 'on' : 'off'}
           </button>
 
-          <button
+          {/*<button
             className="border-l-1 border-l-borderColor4 bg-lightPurpleDarkened h-full px-4"
             onClick={toggleDiffMode}
           >
@@ -102,7 +102,7 @@ export function ControlButtons({
               height={24}
               width={24}
             />
-          </button>
+          </button>*/}
         </div>
       </div>
     </div>

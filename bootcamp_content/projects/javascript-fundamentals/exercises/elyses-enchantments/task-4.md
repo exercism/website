@@ -1,3 +1,3 @@
-# Task 4
+# Task 3
 
-Finally, implement the `totalTimeInMinutes` function!
+Next, implement the `removeItem` function.

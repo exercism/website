@@ -1,3 +1,3 @@
-# Task 2
+# Task 1
 
-Next, implement the `remainingMinutesInOven` function.
+Next, implement the `getItem` function.

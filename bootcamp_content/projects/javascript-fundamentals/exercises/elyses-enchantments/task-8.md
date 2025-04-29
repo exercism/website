@@ -1,3 +1,3 @@
 # Task 4
 
-Finally, implement the `totalTimeInMinutes` function!
+Finally, implement the `checkSizeOfStack` function!

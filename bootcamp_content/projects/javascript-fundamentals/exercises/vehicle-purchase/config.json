@@ -1,0 +1,143 @@
+{
+  "title": "Vehicle Purchase",
+  "description": "Learn about comparison and conditionals while preparing for your next vehicle purchase",
+  "language": "javascript",
+  "level": 12,
+  "idx": 6,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "License Requirement",
+      "tests": [
+        {
+          "name": "License needed for a car",
+          "slug": "license-needed-car",
+          "description_html": "Check if a license is needed for a car.",
+          "function": "needsLicense",
+          "args": ["car"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "License needed for a truck",
+          "slug": "license-needed-truck",
+          "description_html": "Check if a license is needed for a truck.",
+          "function": "needsLicense",
+          "args": ["truck"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "License not needed for a bike",
+          "slug": "license-not-needed-bike",
+          "description_html": "Check if a license is not needed for a bike.",
+          "function": "needsLicense",
+          "args": ["bike"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "License not needed for a stroller",
+          "slug": "license-not-needed-stroller",
+          "description_html": "Check if a license is not needed for a stroller.",
+          "function": "needsLicense",
+          "args": ["stroller"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "License not needed for an e-scooter",
+          "slug": "license-not-needed-escooter",
+          "description_html": "Check if a license is not needed for an e-scooter.",
+          "function": "needsLicense",
+          "args": ["e-scooter"],
+          "checks": [{ "value": false }]
+        }
+      ]
+    },
+    {
+      "name": "Choosing a Vehicle",
+      "tests": [
+        {
+          "name": "Recommends first option",
+          "slug": "recommends-first-option",
+          "description_html": "Correctly recommend the first vehicle option.",
+          "function": "chooseVehicle",
+          "args": ["Bugatti Veyron", "Ford Pinto"],
+          "checks": [
+            { "value": "Bugatti Veyron is clearly the better choice." }
+          ]
+        },
+        {
+          "name": "Recommends first option again",
+          "slug": "recommends-first-option-again",
+          "description_html": "Correctly recommend the first vehicle option.",
+          "function": "chooseVehicle",
+          "args": ["Chery EQ", "Kia Niro Elektro"],
+          "checks": [{ "value": "Chery EQ is clearly the better choice." }]
+        },
+        {
+          "name": "Recommends second option",
+          "slug": "recommends-second-option",
+          "description_html": "Correctly recommend the second vehicle option.",
+          "function": "chooseVehicle",
+          "args": ["Ford Pinto", "Bugatti Veyron"],
+          "checks": [
+            { "value": "Bugatti Veyron is clearly the better choice." }
+          ]
+        },
+        {
+          "name": "Recommends second option again",
+          "slug": "recommends-second-option-again",
+          "description_html": "Correctly recommend the second vehicle option.",
+          "function": "chooseVehicle",
+          "args": ["2020 Gazelle Medeo", "2018 Bergamont City"],
+          "checks": [
+            { "value": "2018 Bergamont City is clearly the better choice." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resell Price Calculation",
+      "tests": [
+        {
+          "name": "Reduced to 80% for under 3 years",
+          "slug": "resell-80-under-3",
+          "description_html": "Price reduced to 80% if the vehicle is under 3 years old.",
+          "function": "calculateResellPrice",
+          "args": [40000, 2],
+          "checks": [{ "value": 32000 }]
+        },
+        {
+          "name": "Reduced to 80% for 2.5 years",
+          "slug": "resell-80-2.5-years",
+          "description_html": "Price reduced to 80% for vehicle aged 2.5 years.",
+          "function": "calculateResellPrice",
+          "args": [40000, 2.5],
+          "checks": [{ "value": 32000 }]
+        },
+        {
+          "name": "Reduced to 50% for over 10 years",
+          "slug": "resell-50-over-10",
+          "description_html": "Price reduced to 50% if vehicle is over 10 years old.",
+          "function": "calculateResellPrice",
+          "args": [40000, 12],
+          "checks": [{ "value": 20000 }]
+        },
+        {
+          "name": "Reduced to 70% between 3 and 10 years",
+          "slug": "resell-70-between-3-10",
+          "description_html": "Price reduced to 70% if vehicle is between 3 and 10 years old.",
+          "function": "calculateResellPrice",
+          "args": [25000, 7],
+          "checks": [{ "value": 17500 }]
+        },
+        {
+          "name": "Threshold age exactly 3 years",
+          "slug": "resell-threshold-3",
+          "description_html": "Calculate price at threshold age 3 years.",
+          "function": "calculateResellPrice",
+          "args": [40000, 3],
+          "checks": [{ "value": 28000 }]
+        }
+      ]
+    }
+  ]
+}

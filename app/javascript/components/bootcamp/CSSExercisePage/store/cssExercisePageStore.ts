@@ -5,8 +5,10 @@ import { ChecksResult } from '../utils/runCheckFunctions'
 export const PASS_THRESHOLD = 99
 
 type CSSExercisePageStoreState = {
-  diffMode: boolean
+  isDiffModeOn: boolean
+  diffMode: 'gradual' | 'binary'
   toggleDiffMode: () => void
+  toggleIsDiffModeOn: () => void
   curtainOpacity: number
   curtainMode: boolean
   toggleCurtainMode: () => void
@@ -27,17 +29,31 @@ type CSSExercisePageStoreState = {
   setWasFinishLessonModalShown: (value: boolean) => void
   checksResult: ChecksResult[]
   setChecksResult: (checksResult: ChecksResult[]) => void
+  studentCodeHash: string
+  setStudentCodeHash: (studentCodeHash: string) => void
 }
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
   (set, get) => ({
-    diffMode: false,
+    isDiffModeOn: false,
+    diffMode: 'gradual',
+    toggleDiffMode: () => {
+      set((state) => ({
+        diffMode: state.diffMode === 'gradual' ? 'binary' : 'gradual',
+        isDiffModeOn: true,
+        curtainMode: false,
+      }))
+    },
+
     curtainMode: false,
     toggleCurtainMode: () =>
-      set((state) => ({ curtainMode: !state.curtainMode, diffMode: false })),
-    toggleDiffMode: () =>
       set((state) => ({
-        diffMode: !state.diffMode,
+        curtainMode: !state.curtainMode,
+        isDiffModeOn: false,
+      })),
+    toggleIsDiffModeOn: () =>
+      set((state) => ({
+        isDiffModeOn: !state.isDiffModeOn,
         curtainMode: false,
       })),
     curtainOpacity: 1,
@@ -105,5 +121,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     wasFinishLessonModalShown: false,
     setWasFinishLessonModalShown: (value) =>
       set({ wasFinishLessonModalShown: value }),
+    studentCodeHash: '',
+    setStudentCodeHash: (studentCodeHash) => set({ studentCodeHash }),
   })
 )

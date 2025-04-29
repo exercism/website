@@ -1,16 +1,23 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
+import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'
 
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
   if (!context) {
     return null
   }
-  const { actualIFrameRef, expectedReferenceIFrameRef } = context
-  const { diffMode, curtainOpacity, setCurtainOpacity, curtainMode } =
-    useCSSExercisePageStore()
+  const { actualIFrameRef, expectedReferenceIFrameRef, expectedIFrameRef } =
+    context
+  const {
+    isDiffModeOn,
+    setCurtainOpacity,
+    curtainMode,
+    diffMode,
+    studentCodeHash,
+  } = useCSSExercisePageStore()
   const containerRef = useRef<HTMLDivElement>(null)
   // set a high number so curtain isn't at pos zero at first
   const [curtainWidth, setCurtainWidth] = useState(9999)
@@ -24,9 +31,9 @@ export function ActualOutput() {
   }, [])
 
   const handleOnMouseEnter = useCallback(() => {
-    if (diffMode) return
+    if (isDiffModeOn) return
     setCurtainOpacity(0.6)
-  }, [diffMode])
+  }, [isDiffModeOn])
 
   const handleOnMouseLeave = useCallback(() => {
     if (!containerRef.current) return
@@ -40,9 +47,60 @@ export function ActualOutput() {
         setCurtainWidth(curtain.width)
       },
     })
-    if (diffMode) return
+    if (isDiffModeOn) return
     setCurtainOpacity(1)
-  }, [curtainWidth, diffMode])
+  }, [curtainWidth, isDiffModeOn])
+
+  const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
+
+  const previousActualSnapshot = useRef<string>()
+
+  useEffect(() => {
+    async function populateCanvas() {
+      if (!isDiffModeOn || diffMode === 'gradual') return
+
+      const actualIframe = actualIFrameRef.current
+      const expectedIframe = expectedIFrameRef.current
+      const canvas = binaryDiffRef.current
+
+      if (!actualIframe || !expectedIframe || !canvas) return
+
+      const actualDoc = actualIframe.contentDocument
+      const currentActualSnapshot = getIframeSnapshot(actualDoc)
+
+      if (previousActualSnapshot.current === currentActualSnapshot) {
+        // console.log("no changes")
+        return
+      } else {
+        // console.log("changes detected")
+      }
+
+      previousActualSnapshot.current = currentActualSnapshot
+
+      await Promise.all([
+        waitForIframeLoad(actualIframe),
+        waitForIframeLoad(expectedIframe),
+      ])
+
+      const resultCanvas = await getDiffCanvasFromIframes(
+        actualIFrameRef,
+        expectedIFrameRef
+      )
+
+      if (resultCanvas) {
+        canvas.width = resultCanvas.width
+        canvas.height = resultCanvas.height
+
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          ctx.drawImage(resultCanvas, 0, 0)
+        }
+      }
+    }
+
+    populateCanvas()
+  }, [isDiffModeOn, diffMode, studentCodeHash])
 
   return (
     <div className="p-12">
@@ -51,9 +109,10 @@ export function ActualOutput() {
         ref={containerRef}
         className="css-render-actual"
         style={{
-          filter: diffMode
-            ? ' sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
-            : 'none',
+          filter:
+            isDiffModeOn && diffMode === 'gradual'
+              ? 'sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
+              : 'none',
           aspectRatio: context.code.aspectRatio,
         }}
       >
@@ -63,7 +122,8 @@ export function ActualOutput() {
           ref={actualIFrameRef}
           style={{
             zIndex: 30,
-            mixBlendMode: diffMode ? 'difference' : 'normal',
+            mixBlendMode:
+              isDiffModeOn && diffMode === 'gradual' ? 'difference' : 'normal',
             clipPath: curtainMode
               ? `inset(0 0 0 calc(100% - ${curtainWidth}px))`
               : 'none',
@@ -76,7 +136,18 @@ export function ActualOutput() {
             ref={expectedReferenceIFrameRef}
             style={{
               zIndex: 10,
-              display: curtainMode || diffMode ? 'block' : 'none',
+              display:
+                curtainMode || (isDiffModeOn && diffMode === 'gradual')
+                  ? 'block'
+                  : 'none',
+            }}
+          />
+          <canvas
+            ref={binaryDiffRef}
+            className="absolute top-0 left-0 h-full w-full pointer-events-none"
+            style={{
+              zIndex: 35,
+              display: isDiffModeOn && diffMode === 'binary' ? 'block' : 'none',
             }}
           />
           {curtainMode && (
@@ -105,4 +176,29 @@ export function ActualOutput() {
       </div>
     </div>
   )
+}
+
+function waitForIframeLoad(iframe: HTMLIFrameElement): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (!iframe) {
+      reject('No iframe element.')
+      return
+    }
+    if (iframe.contentDocument?.readyState === 'complete') {
+      // Already loaded
+      resolve()
+    } else {
+      iframe.onload = () => resolve()
+      iframe.onerror = (err) => reject(err)
+    }
+  })
+}
+
+function getIframeSnapshot(doc: Document | null): string {
+  if (!doc) return ''
+
+  const headHTML = doc.head?.innerHTML ?? ''
+  const bodyHTML = doc.body?.innerHTML ?? ''
+
+  return headHTML + bodyHTML
 }

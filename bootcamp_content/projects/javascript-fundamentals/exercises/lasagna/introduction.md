@@ -1,8 +1,11 @@
 # Lasagna
 
-Lucian's girlfriend is on her way home, and he hasn't cooked their anniversary dinner!
+Welcome to the first JavaScript exercise.
+In Level 12, we'll be walking through a few exercises that each focus on one or two ideas, then giving you one exercise that brings everything together.
 
 In this exercise, you're going to write some code to help Lucian cook an exquisite lasagna from his favorite cookbook.This should feel quite straightforward for you, but give you a basic sense of working with JavaScript.
+
+One thing to note - all the functions are prefixed with `export`. This means that they're visible outside of this file (ie we can see them and check them). You need to ensure these functions stay exported, but if you make your own helper functions, they do **not** need to be exported!
 
 ## Instructions
 

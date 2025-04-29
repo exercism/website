@@ -6,14 +6,21 @@ export function IOTestResultView({ diff }: { diff: Change[] }) {
     <>
       <tr>
         <th>Expected:</th>
-        <td>
+        <td style={{ whiteSpace: 'pre-wrap' }}>
           {diff.map((part, index) =>
             !part.added ? (
               <span
                 key={`expected-${index}`}
                 className={part.removed ? 'added-part' : ''}
               >
-                {part.value}
+                {part.added || part.removed
+                  ? part.value
+                  : part.value.split('\\n').map((line, i, arr) => (
+                      <React.Fragment key={i}>
+                        {line}
+                        {i < arr.length - 1 && <br />}
+                      </React.Fragment>
+                    ))}
               </span>
             ) : null
           )}
@@ -21,14 +28,21 @@ export function IOTestResultView({ diff }: { diff: Change[] }) {
       </tr>
       <tr>
         <th>Actual:</th>
-        <td>
+        <td style={{ whiteSpace: 'pre-wrap' }}>
           {diff.map((part, index) =>
             !part.removed ? (
               <span
                 key={`actual-${index}`}
                 className={part.added ? 'removed-part' : ''}
               >
-                {part.value}
+                {part.added || part.removed
+                  ? part.value
+                  : part.value.split('\\n').map((line, i, arr) => (
+                      <React.Fragment key={i}>
+                        {line}
+                        {i < arr.length - 1 && <br />}
+                      </React.Fragment>
+                    ))}
               </span>
             ) : null
           )}

@@ -9,11 +9,13 @@ export async function getDiffCanvasFromIframes(
   const expectedPixels = await getIframePixels(expectedIFrameRef)
 
   if (actualPixels && expectedPixels) {
+    const width = actualIFrameRef.current?.clientWidth || 400
+    const height = actualIFrameRef.current?.clientHeight || 400
     const canvas = getDiffCanvasFromPixels(
       actualPixels,
       expectedPixels,
-      actualIFrameRef.current?.clientWidth || 400,
-      actualIFrameRef.current?.clientHeight || 400
+      width * window.devicePixelRatio,
+      height * window.devicePixelRatio
     )
     if (canvas) {
       return canvas.canvas

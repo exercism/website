@@ -8,11 +8,10 @@ export function getDiffCanvasFromPixels(
   if (actualPixels.length !== expectedPixels.length) return null
 
   const expectedLength = width * height * 4
-  console.log('width', width, 'height', height, 'expected', expectedLength)
-  // if (actualPixels.length !== expectedLength) {
-  //   console.error('Pixel data does not match width/height dimensions.')
-  //   return null
-  // }
+  if (actualPixels.length !== expectedLength) {
+    console.error('Pixel data does not match width/height dimensions.')
+    return null
+  }
 
   const diffPixels = new Uint8ClampedArray(expectedLength)
 

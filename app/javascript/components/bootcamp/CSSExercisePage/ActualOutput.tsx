@@ -9,7 +9,8 @@ export function ActualOutput() {
   if (!context) {
     return null
   }
-  const { actualIFrameRef, expectedReferenceIFrameRef } = context
+  const { actualIFrameRef, expectedReferenceIFrameRef, expectedIFrameRef } =
+    context
   const { isDiffModeOn, setCurtainOpacity, curtainMode, diffMode } =
     useCSSExercisePageStore()
   const containerRef = useRef<HTMLDivElement>(null)
@@ -51,13 +52,23 @@ export function ActualOutput() {
     async function populateCanvas() {
       if (!isDiffModeOn && diffMode === 'gradual') return
 
-      const resultCanvas = await getDiffCanvasFromIframes(
-        actualIFrameRef,
-        expectedReferenceIFrameRef
-      )
+      const actualIframe = actualIFrameRef.current
+      const expectedIframe = expectedIFrameRef.current
       const canvas = binaryDiffRef.current
 
-      if (canvas && resultCanvas) {
+      if (!actualIframe || !expectedIframe || !canvas) return
+
+      await Promise.all([
+        waitForIframeLoad(actualIframe),
+        waitForIframeLoad(expectedIframe),
+      ])
+
+      const resultCanvas = await getDiffCanvasFromIframes(
+        actualIFrameRef,
+        expectedIFrameRef
+      )
+
+      if (resultCanvas) {
         canvas.width = resultCanvas.width
         canvas.height = resultCanvas.height
 
@@ -146,4 +157,20 @@ export function ActualOutput() {
       </div>
     </div>
   )
+}
+
+function waitForIframeLoad(iframe: HTMLIFrameElement): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (!iframe) {
+      reject('No iframe element.')
+      return
+    }
+    if (iframe.contentDocument?.readyState === 'complete') {
+      // Already loaded
+      resolve()
+    } else {
+      iframe.onload = () => resolve()
+      iframe.onerror = (err) => reject(err)
+    }
+  })
 }

@@ -1,4 +1,4 @@
-export function getDiffCanvas(
+export function getDiffCanvasFromPixels(
   actualPixels: Uint8ClampedArray | null,
   expectedPixels: Uint8ClampedArray | null,
   width: number,

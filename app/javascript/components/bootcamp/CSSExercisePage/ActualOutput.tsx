@@ -1,7 +1,8 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
+import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'
 
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
@@ -44,6 +45,33 @@ export function ActualOutput() {
     setCurtainOpacity(1)
   }, [curtainWidth, diffMode])
 
+  const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    async function populateCanvas() {
+      if (!diffMode) return
+
+      const resultCanvas = await getDiffCanvasFromIframes(
+        actualIFrameRef,
+        expectedReferenceIFrameRef
+      )
+      const canvas = binaryDiffRef.current
+
+      if (canvas && resultCanvas) {
+        canvas.width = resultCanvas.width
+        canvas.height = resultCanvas.height
+
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          ctx.drawImage(resultCanvas, 0, 0)
+        }
+      }
+    }
+
+    populateCanvas()
+  }, [diffMode])
+
   return (
     <div className="p-12">
       <h3 className="mb-8 font-mono font-semibold">Your result</h3>
@@ -77,6 +105,14 @@ export function ActualOutput() {
             style={{
               zIndex: 10,
               display: curtainMode || diffMode ? 'block' : 'none',
+            }}
+          />
+          <canvas
+            ref={binaryDiffRef}
+            className="absolute top-0 left-0 h-full w-full pointer-events-none"
+            style={{
+              zIndex: 35,
+              display: diffMode ? 'block' : 'none',
             }}
           />
           {curtainMode && (

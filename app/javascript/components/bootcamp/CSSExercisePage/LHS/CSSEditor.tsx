@@ -17,7 +17,7 @@ import { cssTheme } from './cssTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 import xxhash from 'xxhash-wasm'
 
-export function CSSEditor() {
+export function CSSEditor({ defaultCode }: { defaultCode: string }) {
   const {
     cssEditorRef,
     htmlEditorRef,
@@ -74,7 +74,7 @@ export function CSSEditor() {
 
   return (
     <SimpleCodeMirror
-      defaultCode=""
+      defaultCode={defaultCode}
       style={{
         width: LHSWidth,
         height: '90vh',

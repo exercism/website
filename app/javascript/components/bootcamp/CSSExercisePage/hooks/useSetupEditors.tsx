@@ -1,9 +1,26 @@
-import { useCallback, useEffect, RefObject, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  RefObject,
+  useState,
+  useMemo,
+  useRef,
+} from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
 import { EditorView } from 'codemirror'
 import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+
+export type EditorCode = {
+  htmlEditorContent: string
+  cssEditorContent: string
+  storedAt: string
+  readonlyRanges: {
+    html: ReadonlyRange[]
+    css: ReadonlyRange[]
+  }
+}
 
 export function useSetupEditors(
   slug: string,
@@ -11,10 +28,28 @@ export function useSetupEditors(
   actualIFrameRef: RefObject<HTMLIFrameElement>
 ) {
   const [editorCodeIsReady, setEditorCodeIsReady] = useState(false)
-  const [editorCode, setEditorCode] = useLocalStorage(
+  const [editorCode, setEditorCode] = useLocalStorage<EditorCode>(
     `css-editor-code-${slug}`,
     getInitialEditorCode(code)
   )
+
+  const defaultCodeRef = useRef<{ css: string; html: string }>({
+    css: '',
+    html: '',
+  })
+
+  if (
+    !defaultCodeRef.current &&
+    editorCode?.cssEditorContent &&
+    editorCode?.htmlEditorContent
+  ) {
+    defaultCodeRef.current = {
+      css: editorCode.cssEditorContent,
+      html: editorCode.htmlEditorContent,
+    }
+  }
+
+  const defaultCode = defaultCodeRef.current
 
   useEffect(() => {
     if (!!editorCode.storedAt) {
@@ -130,6 +165,7 @@ export function useSetupEditors(
   return {
     htmlEditorViewRef,
     cssEditorViewRef,
+    editorCode,
     resetEditors,
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,

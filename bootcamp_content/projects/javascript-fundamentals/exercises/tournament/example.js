@@ -3,7 +3,7 @@
 // convenience to get you started writing code faster.
 //
 
-export const tournamentTally = (input) => {
+export function tournamentTally(input) {
   const lines = input.split('\n')
 
   const data = {}

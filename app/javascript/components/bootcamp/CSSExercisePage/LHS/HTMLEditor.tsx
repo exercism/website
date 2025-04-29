@@ -14,6 +14,7 @@ import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror
 import { updateIFrame } from '../utils/updateIFrame'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions'
 import { htmlTheme } from './htmlTheme'
+import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 
 export function HTMLEditor() {
   const {
@@ -66,6 +67,7 @@ export function HTMLEditor() {
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       extensions={[
+        moveCursorByPasteLength,
         html({
           autoCloseTags: false,
         }),

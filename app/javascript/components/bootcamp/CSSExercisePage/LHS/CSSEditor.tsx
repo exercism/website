@@ -14,6 +14,7 @@ import { EditorView } from 'codemirror'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyLineDeco'
 import { updateIFrame } from '../utils/updateIFrame'
 import { cssTheme } from './cssTheme'
+import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 
 export function CSSEditor() {
   const {
@@ -66,6 +67,7 @@ export function CSSEditor() {
       }}
       editorDidMount={handleCssEditorDidMount}
       extensions={[
+        moveCursorByPasteLength,
         css(),
         cssLinter,
         cssTheme,

@@ -1,3 +1,3 @@
 # Task 4
 
-Finally, implement the `totalTimeInMinutes` function!
+Next, lets look at some multiple matches.

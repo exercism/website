@@ -1,80 +1,74 @@
-export function tournamentTally(input) {
-  const header = 'Team                           | MP |  W |  D |  L |  P'
+//
+// This is only a SKELETON file for the 'Tournament' exercise. It's been provided as a
+// convenience to get you started writing code faster.
+//
 
-  if (!input) return header
+export const tournamentTally = (input) => {
+  const lines = input.split('\n')
 
-  const scores = input.split('\n')
+  const data = {}
 
-  let teamResults = calculateTeamResults(scores)
-  teamResults
-    .sort((teamA, teamB) => (teamA.name < teamB.name ? 1 : -1))
-    .sort((teamA, teamB) => (teamA.points < teamB.points ? 1 : -1))
-  teamResults = teamResults
-    .map((result) => {
-      return `${result.name.padEnd(30, ' ')} |  ${result.games} |  ${
-        result.wins
-      } |  ${result.draws} |  ${result.losses} | ${result.points
-        .toString()
-        .padStart(2, ' ')}`
-    })
-    .join('\n')
-
-  return `${header}\n${teamResults}`
-}
-
-const calculateTeamResults = (scores) => {
-  const results = []
-
-  for (const score of scores) {
-    const [homeTeam, awayTeam, result] = score.split(';')
-
-    let indexOfHomeTeam = results.map((team) => team.name).indexOf(homeTeam)
-    if (indexOfHomeTeam === -1) {
-      results.push(createTeamResults(homeTeam))
-      indexOfHomeTeam = results.length - 1
+  // lines.forEach((line) => {
+  for (const line of lines) {
+    // Handle empty input
+    if (line.length === 0) {
+      continue
     }
 
-    let indexOfAwayTeam = results.map((team) => team.name).indexOf(awayTeam)
-    if (indexOfAwayTeam === -1) {
-      results.push(createTeamResults(awayTeam))
-      indexOfAwayTeam = results.length - 1
+    // const [teamA, teamB, result] = line.split(';')
+
+    const information = line.split(';')
+    const teamA = information[0]
+    const teamB = information[1]
+    const result = information[2]
+
+    // Make sure we have an entry for both teams, or initialize at 0
+
+    // data[teamA] = data[teamA] || { Team: teamA, MP: 0, W: 0, D: 0, L: 0, P: 0 }
+    // data[teamB] = data[teamB] || { Team: teamB, MP: 0, W: 0, D: 0, L: 0, P: 0 }
+    if (data[teamA] === undefined) {
+      data[teamA] = { Team: teamA, MP: 0, W: 0, D: 0, L: 0, P: 0 }
+    }
+    if (data[teamB] === undefined) {
+      data[teamB] = { Team: teamB, MP: 0, W: 0, D: 0, L: 0, P: 0 }
     }
 
-    results[indexOfHomeTeam].games += 1
-    results[indexOfAwayTeam].games += 1
+    data[teamA].MP += 1
+    data[teamB].MP += 1
 
-    switch (result) {
-      case 'win':
-        results[indexOfHomeTeam].points += 3
-        results[indexOfHomeTeam].wins += 1
-        results[indexOfAwayTeam].losses += 1
-        break
-      case 'loss':
-        results[indexOfAwayTeam].points += 3
-        results[indexOfAwayTeam].wins += 1
-        results[indexOfHomeTeam].losses += 1
-        break
-      case 'draw':
-        results[indexOfHomeTeam].points += 1
-        results[indexOfHomeTeam].draws += 1
-        results[indexOfAwayTeam].points += 1
-        results[indexOfAwayTeam].draws += 1
-        break
-      default:
-        break
+    // Process the information
+    // switch (result)
+    if (result === 'draw') {
+      data[teamA].D += 1
+      data[teamA].P += 1
+
+      data[teamB].D += 1
+      data[teamB].P += 1
+    } else {
+      // const [winner, loser] = result === 'win' ? [teamA, teamB] : [teamB, teamA]
+      const winner = result === 'win' ? teamA : teamB
+      const loser = result === 'win' ? teamB : teamA
+
+      data[winner].W += 1
+      data[winner].P += 3
+
+      data[loser].L += 1
     }
   }
 
-  return results
-}
+  let output = ['Team                           | MP |  W |  D |  L |  P']
+  for (const team in data) {
+    const line = [
+      teamResult.Team.padEnd('Team                          '.length, ' '),
+      teamResult.MP.toString().padStart('MP'.length, ' '),
+      teamResult.W.toString().padStart(' W'.length, ' '),
+      teamResult.D.toString().padStart(' D'.length, ' '),
+      teamResult.L.toString().padStart(' L'.length, ' '),
+      teamResult.P.toString().padStart(' P'.length, ' '),
+    ].join(' | ')
 
-const createTeamResults = (teamName) => {
-  return {
-    name: teamName,
-    wins: 0,
-    losses: 0,
-    draws: 0,
-    points: 0,
-    games: 0,
+    output.push(line)
   }
+
+  return output.join('\n')
 }

@@ -1,38 +1,72 @@
-# Lasagna
+# Tournament
 
-Lucian's girlfriend is on her way home, and he hasn't cooked their anniversary dinner!
+This exercise brings together all the elements from the first video session, and gives you a more challenging project to have fun with!
 
-In this exercise, you're going to write some code to help Lucian cook an exquisite lasagna from his favorite cookbook.This should feel quite straightforward for you, but give you a basic sense of working with JavaScript.
+A little later in the course, we'll look at how to use the sort method on arrays. But for now, we've provided you with a `sort` function. It takes an array and sorts it alphabetically.
 
-## Instructions
+# Instructions
 
-According to the cooking book, the expected oven time in minutes is `40`.
+Tally the results of a small football competition.
 
-You have three tasks related to the time spent cooking the lasagna:
+Based on an input file containing which team played against which and what the outcome was, create a file with a table like this:
 
-### 1. Calculate the remaining oven time in minutes
-
-Implement the `remainingMinutesInOven` function that takes the actual minutes the lasagna has been in the oven as a _parameter_ and _returns_ how many minutes the lasagna still has to remain in the oven, based on the **expected oven time in minutes** from the previous task.
-
-```javascript
-remainingMinutesInOven(30);
-// => 10
+```text
+Team                           | MP |  W |  D |  L |  P
+Devastating Donkeys            |  3 |  2 |  1 |  0 |  7
+Allegoric Alaskans             |  3 |  2 |  0 |  1 |  6
+Blithering Badgers             |  3 |  1 |  0 |  2 |  3
+Courageous Californians        |  3 |  0 |  1 |  2 |  1
 ```
 
-### 2. Calculate the preparation time in minutes
+What do those abbreviations mean?
 
-Implement the `preparationTimeInMinutes` function that takes the number of layers you added to the lasagna as a _parameter_ and _returns_ how many minutes you spent preparing the lasagna, assuming each layer takes you 2 minutes to prepare.
+- MP: Matches Played
+- W: Matches Won
+- D: Matches Drawn (Tied)
+- L: Matches Lost
+- P: Points
 
-```javascript
-preparationTimeInMinutes(2);
-// => 4
+A win earns a team 3 points.
+A draw earns 1.
+A loss earns 0.
+
+The outcome is ordered by points, descending.
+In case of a tie, teams are ordered alphabetically.
+
+## Input
+
+Your tallying program will receive input that looks like:
+
+```text
+Allegoric Alaskans;Blithering Badgers;win
+Devastating Donkeys;Courageous Californians;draw
+Devastating Donkeys;Allegoric Alaskans;win
+Courageous Californians;Blithering Badgers;loss
+Blithering Badgers;Devastating Donkeys;loss
+Allegoric Alaskans;Courageous Californians;win
 ```
 
-### 3. Calculate the total working time in minutes
+The result of the match refers to the first team listed.
+So this line:
 
-Implement the `totalTimeInMinutes` function that takes _two parameters_: the `numberOfLayers` parameter is the number of layers you added to the lasagna, and the `actualMinutesInOven` parameter is the number of minutes the lasagna has been in the oven. The function should _return_ how many minutes in total you've worked on cooking the lasagna, which is the sum of the preparation time in minutes, and the time in minutes the lasagna has spent in the oven at the moment.
-
-```javascript
-totalTimeInMinutes(3, 20);
-// => 26
+```text
+Allegoric Alaskans;Blithering Badgers;win
 ```
+
+means that the Allegoric Alaskans beat the Blithering Badgers.
+
+This line:
+
+```text
+Courageous Californians;Blithering Badgers;loss
+```
+
+means that the Blithering Badgers beat the Courageous Californians.
+
+And this line:
+
+```text
+Devastating Donkeys;Courageous Californians;draw
+```
+
+means that the Devastating Donkeys and Courageous Californians tied.

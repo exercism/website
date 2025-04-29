@@ -10,7 +10,7 @@ export function ActualOutput() {
     return null
   }
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
-  const { diffMode, curtainOpacity, setCurtainOpacity, curtainMode } =
+  const { isDiffModeOn, setCurtainOpacity, curtainMode, diffMode } =
     useCSSExercisePageStore()
   const containerRef = useRef<HTMLDivElement>(null)
   // set a high number so curtain isn't at pos zero at first
@@ -25,9 +25,9 @@ export function ActualOutput() {
   }, [])
 
   const handleOnMouseEnter = useCallback(() => {
-    if (diffMode) return
+    if (isDiffModeOn) return
     setCurtainOpacity(0.6)
-  }, [diffMode])
+  }, [isDiffModeOn])
 
   const handleOnMouseLeave = useCallback(() => {
     if (!containerRef.current) return
@@ -41,15 +41,15 @@ export function ActualOutput() {
         setCurtainWidth(curtain.width)
       },
     })
-    if (diffMode) return
+    if (isDiffModeOn) return
     setCurtainOpacity(1)
-  }, [curtainWidth, diffMode])
+  }, [curtainWidth, isDiffModeOn])
 
   const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
     async function populateCanvas() {
-      if (!diffMode) return
+      if (!isDiffModeOn && diffMode === 'gradual') return
 
       const resultCanvas = await getDiffCanvasFromIframes(
         actualIFrameRef,
@@ -70,7 +70,7 @@ export function ActualOutput() {
     }
 
     populateCanvas()
-  }, [diffMode])
+  }, [isDiffModeOn, diffMode])
 
   return (
     <div className="p-12">
@@ -79,9 +79,10 @@ export function ActualOutput() {
         ref={containerRef}
         className="css-render-actual"
         style={{
-          filter: diffMode
-            ? ' sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
-            : 'none',
+          filter:
+            isDiffModeOn && diffMode === 'gradual'
+              ? 'sepia(100%) invert(100%) hue-rotate(116deg) brightness(110%)'
+              : 'none',
           aspectRatio: context.code.aspectRatio,
         }}
       >
@@ -91,7 +92,8 @@ export function ActualOutput() {
           ref={actualIFrameRef}
           style={{
             zIndex: 30,
-            mixBlendMode: diffMode ? 'difference' : 'normal',
+            mixBlendMode:
+              isDiffModeOn && diffMode === 'gradual' ? 'difference' : 'normal',
             clipPath: curtainMode
               ? `inset(0 0 0 calc(100% - ${curtainWidth}px))`
               : 'none',
@@ -104,7 +106,10 @@ export function ActualOutput() {
             ref={expectedReferenceIFrameRef}
             style={{
               zIndex: 10,
-              display: curtainMode || diffMode ? 'block' : 'none',
+              display:
+                curtainMode || (isDiffModeOn && diffMode === 'gradual')
+                  ? 'block'
+                  : 'none',
             }}
           />
           <canvas
@@ -112,7 +117,7 @@ export function ActualOutput() {
             className="absolute top-0 left-0 h-full w-full pointer-events-none"
             style={{
               zIndex: 35,
-              display: diffMode ? 'block' : 'none',
+              display: isDiffModeOn && diffMode === 'binary' ? 'block' : 'none',
             }}
           />
           {curtainMode && (

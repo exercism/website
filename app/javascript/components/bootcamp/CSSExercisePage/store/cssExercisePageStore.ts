@@ -5,8 +5,10 @@ import { ChecksResult } from '../utils/runCheckFunctions'
 export const PASS_THRESHOLD = 99
 
 type CSSExercisePageStoreState = {
-  diffMode: boolean
+  isDiffModeOn: boolean
+  diffMode: 'gradual' | 'binary'
   toggleDiffMode: () => void
+  toggleIsDiffModeOn: () => void
   curtainOpacity: number
   curtainMode: boolean
   toggleCurtainMode: () => void
@@ -31,13 +33,23 @@ type CSSExercisePageStoreState = {
 
 export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
   (set, get) => ({
-    diffMode: false,
+    isDiffModeOn: false,
+    diffMode: 'gradual',
+    toggleDiffMode: () => {
+      set((state) => ({
+        diffMode: state.diffMode === 'gradual' ? 'binary' : 'gradual',
+      }))
+    },
+
     curtainMode: false,
     toggleCurtainMode: () =>
-      set((state) => ({ curtainMode: !state.curtainMode, diffMode: false })),
-    toggleDiffMode: () =>
       set((state) => ({
-        diffMode: !state.diffMode,
+        curtainMode: !state.curtainMode,
+        isDiffModeOn: false,
+      })),
+    toggleIsDiffModeOn: () =>
+      set((state) => ({
+        isDiffModeOn: !state.isDiffModeOn,
         curtainMode: false,
       })),
     curtainOpacity: 1,

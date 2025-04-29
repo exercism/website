@@ -15,10 +15,12 @@ export function ControlButtons({
   getEditorValues: () => { cssValue: string; htmlValue: string }
 }) {
   const {
+    isDiffModeOn,
     diffMode,
+    toggleDiffMode,
     curtainMode,
     toggleCurtainMode,
-    toggleDiffMode,
+    toggleIsDiffModeOn,
     updateAssertionStatus,
   } = useCSSExercisePageStore()
 
@@ -83,12 +85,21 @@ export function ControlButtons({
         >
           Curtain: {curtainMode ? 'on' : 'off'}
         </button>
-        <button
-          onClick={toggleDiffMode}
-          className={assembleClassNames('btn-secondary btn-s')}
-        >
-          Diff: {diffMode ? 'on' : 'off'}
-        </button>
+        <div>
+          <button
+            onClick={toggleIsDiffModeOn}
+            className={assembleClassNames('btn-secondary btn-s')}
+          >
+            Diff: {isDiffModeOn ? 'on' : 'off'}
+          </button>
+
+          <button
+            onClick={toggleDiffMode}
+            className={assembleClassNames('btn-secondary btn-s')}
+          >
+            mode: {diffMode}
+          </button>
+        </div>
       </div>
     </div>
   )

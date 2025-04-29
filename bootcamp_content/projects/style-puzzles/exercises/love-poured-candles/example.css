@@ -1,10 +1,10 @@
 .card {
     margin: 5%;
     padding: 5%;
-    background: #fff;
     border: 3px double rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     background-image: url("/bootcamp/images/paper-texture.jpg");
+    background-position: top left;
     background-size: cover;
 }
 

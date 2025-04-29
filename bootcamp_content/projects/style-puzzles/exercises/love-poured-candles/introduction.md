@@ -12,7 +12,7 @@ We've setup the exercise so that the first element you create will fill all the 
 
 You need two images (both of which should be set as background images):
 
-- The paper texture image is available at `/bootcamp/images/paper-texture.jpg`. This image should `cover` the card, and be positioned at the `top left`.
+- The paper texture image is available at `/bootcamp/images/paper-texture.jpg`. This image should `cover` the card, be positioned at the `top left`, and it **should** repeat (if you're interested, check what happens when you toggle this - can you see the subtle difference?)
 - The candle image is available at `/bootcamp/images/candle.png`.
 
 The three emojis used are `🌐`, `📧` and `📞`.
@@ -30,7 +30,7 @@ Use the following properties. **In order to get things identical, you should be 
 - `background-image: url(...)`: Sets a background image.
 - `background-size`: Sets the size of the background image. Choose from `cover` or `%` in this exercise.
 - `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `left`, `bottom` and `right` separated by a space (e.g. `background-position: top left`).
-- `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
+- `background-repeat`: Determines whether the background should repeat. To make it repeat, use `repeat`. To stop it from repeating, you can use the `no-repeat` value.
 - `font-size`: Use `px` values for this exercise.
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
@@ -52,8 +52,8 @@ That's normally because they've missed an instruction, or taken a more "hacky" a
 Here are common mistakes people make:
 
 - Not checking the diff/curtain carefuly enough.
-- Not using `cover` and `top left` for the paper background?
+- Not using `cover`, `top left` and `repeat` for the paper background.
 - Not using `%` for all margins and padding?
 - Having slightly different corner radius (check the diff carefully).
-- Not having the same padding all the way around. Instead people often have a different bottom padding. This should feel a bit yucky - can you find a different way?
+- Not having the same padding all the way around. Instead people often have a different bottom padding, or try and use negative margins. This should feel a bit yucky - can you find a different way?
 - Using non-whole percentages (e.g 1.64%).

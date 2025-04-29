@@ -21,7 +21,8 @@ export function Logger({ height }: { height: number | string }) {
   return (
     <div style={{ height }} className="c-logger" ref={ref}>
       <h2>Log Messages</h2>
-      {inspectedTestResult?.logMessages?.length === 0 ? (
+      {!inspectedTestResult ||
+      inspectedTestResult?.logMessages?.length === 0 ? (
         <div className="info-message">
           <p>
             Use the <code>log</code> function to log messages to the console.
@@ -36,7 +37,7 @@ export function Logger({ height }: { height: number | string }) {
           <div className="info-message">
             <p>
               These are the log messages for scenario{' '}
-              {inspectedTestResult?.testIndex}:
+              {inspectedTestResult.testIndex + 1}:
             </p>
           </div>
           <div className="log-container">

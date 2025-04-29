@@ -24,8 +24,8 @@ You will probably want to make use of all of the properties. **In order to get t
 - `margin`: Use `%` in this exercise.
 - `padding`: Use `%` in this exercise.
 - `background-image: url(...)`: Sets a background image.
-- `background-size`: Sets the size of the background image. Choose from `cover`, `contain` or `%` in this exercise.
-- `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `bottom`, `left`, and `right` separated by a space (e.g. `background-position: top left`).
+- `background-size`: Sets the size of the background image. Use `cover` in this exercise.
+- `background-position`: Sets the position of the background image. This should be `top right` in this exercise.
 - `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
 - `font-size`: Use `px` values for this exercise.
 - `font-weight`: You need `bold` for this exercise.
@@ -39,3 +39,14 @@ You will probably want to make use of all of the properties. **In order to get t
 Please note that all values (`px` and `%`) should be whole numbers (e.g. 3%, 20px)!
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!
+
+<hr class="mt-40 mb-32 border-borderColor5"/>
+
+## Stuck?
+
+Check these things:
+
+- Do the diff or curtain show anything?
+- Does your background image `cover` the card, and is it positioned at the `top right`?
+- Is your text breaking over two lines in the correct place?
+- Do your corners look correctly rounded on the diff?

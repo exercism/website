@@ -188,9 +188,15 @@ function resetSingleEditor(
 }
 
 function getInitialEditorCode(code: CSSExercisePageCode) {
-  let { html, css } = JSON.parse(code.code)
-  html = html.length > 0 ? html : code.stub.html
-  css = css.length > 0 ? css : code.stub.css
+  let parsed: { html?: string; css?: string } = {}
+
+  try {
+    parsed = JSON.parse(code.code)
+  } catch (err) {}
+
+  const html =
+    parsed.html && parsed.html.length > 0 ? parsed.html : code.stub.html
+  const css = parsed.css && parsed.css.length > 0 ? parsed.css : code.stub.css
 
   return {
     htmlEditorContent: html,

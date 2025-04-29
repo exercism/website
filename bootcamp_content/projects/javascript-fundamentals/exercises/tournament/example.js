@@ -56,8 +56,9 @@ export const tournamentTally = (input) => {
     }
   }
 
+  const tally = sort(Object.values(data), 'P', 'Team')
   let output = ['Team                           | MP |  W |  D |  L |  P']
-  for (const team in data) {
+  for (const teamResult of tally) {
     const line = [
       teamResult.Team.padEnd('Team                          '.length, ' '),
       teamResult.MP.toString().padStart('MP'.length, ' '),
@@ -71,4 +72,17 @@ export const tournamentTally = (input) => {
   }
 
   return output.join('\n')
+}
+
+// We've provided you this function. You might be interested to
+// explore how it works, but you don't need to understand it
+// or change it. Read the instructions to see how to use it!
+function sort(data, pointsKey, nameKey) {
+  return data.sort((a, b) => {
+    const pointsComparison = b[pointsKey] - a[pointsKey]
+    if (pointsComparison != 0) {
+      return pointsComparison
+    }
+    return a[nameKey].localeCompare(b[nameKey])
+  })
 }

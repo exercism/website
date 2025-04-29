@@ -41,6 +41,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
       set((state) => ({
         diffMode: state.diffMode === 'gradual' ? 'binary' : 'gradual',
         isDiffModeOn: true,
+        curtainMode: false,
       }))
     },
 

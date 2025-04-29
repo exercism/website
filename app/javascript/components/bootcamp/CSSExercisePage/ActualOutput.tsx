@@ -48,15 +48,29 @@ export function ActualOutput() {
 
   const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
 
+  const previousActualSnapshot = useRef<string>()
+
   useEffect(() => {
     async function populateCanvas() {
-      if (!isDiffModeOn && diffMode === 'gradual') return
+      if (!isDiffModeOn || diffMode === 'gradual') return
 
       const actualIframe = actualIFrameRef.current
       const expectedIframe = expectedIFrameRef.current
       const canvas = binaryDiffRef.current
 
       if (!actualIframe || !expectedIframe || !canvas) return
+
+      const actualDoc = actualIframe.contentDocument
+      const currentActualSnapshot = getIframeSnapshot(actualDoc)
+
+      if (previousActualSnapshot.current === currentActualSnapshot) {
+        // console.log("no changes")
+        return
+      } else {
+        // console.log("changes detected")
+      }
+
+      previousActualSnapshot.current = currentActualSnapshot
 
       await Promise.all([
         waitForIframeLoad(actualIframe),
@@ -173,4 +187,13 @@ function waitForIframeLoad(iframe: HTMLIFrameElement): Promise<void> {
       iframe.onerror = (err) => reject(err)
     }
   })
+}
+
+function getIframeSnapshot(doc: Document | null): string {
+  if (!doc) return ''
+
+  const headHTML = doc.head?.innerHTML ?? ''
+  const bodyHTML = doc.body?.innerHTML ?? ''
+
+  return headHTML + bodyHTML
 }

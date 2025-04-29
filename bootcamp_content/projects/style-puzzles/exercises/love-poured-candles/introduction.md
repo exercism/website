@@ -12,7 +12,7 @@ We've setup the exercise so that the first element you create will fill all the 
 
 You need two images (both of which should be set as background images):
 
-- The paper texture image is available at `/bootcamp/images/paper-texture.jpg`.
+- The paper texture image is available at `/bootcamp/images/paper-texture.jpg`. This image should `cover` the card, and be positioned at the `top left`.
 - The candle image is available at `/bootcamp/images/candle.png`.
 
 The three emojis used are `🌐`, `📧` and `📞`.
@@ -28,7 +28,7 @@ Use the following properties. **In order to get things identical, you should be 
 - `margin`: Use `%` in this exercise.
 - `padding`: Use `%` in this exercise.
 - `background-image: url(...)`: Sets a background image.
-- `background-size`: Sets the size of the background image. Choose from `cover`, `contain` or `%` in this exercise.
+- `background-size`: Sets the size of the background image. Choose from `cover` or `%` in this exercise.
 - `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `left`, `bottom` and `right` separated by a space (e.g. `background-position: top left`).
 - `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
 - `font-size`: Use `px` values for this exercise.
@@ -41,3 +41,13 @@ Use the following properties. **In order to get things identical, you should be 
 Please note that all values (`px` and `%`) should be whole numbers (e.g. 3%, 20px)!
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!
+
+<hr class="mt-40 mb-32 border-borderColor5"/>
+
+## Stuck?
+
+Check these things:
+
+- Do the diff or curtain show anything?
+- Does your paper image `cover` the card, and is it positioned at the `top left`?
+- Do your corners look correctly rounded on the diff?

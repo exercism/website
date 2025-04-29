@@ -36,7 +36,7 @@ export async function execJS(
       cleanup: () => {},
       error: {
         message: err.message.replace(/\s*\(\d+:\d+\)$/, ''),
-        lineNumber: err.loc.line, // No idea why we are 2 out.
+        lineNumber: err.loc.line - 1, // No idea why we are 2 out.
         colNumber: err.loc.column,
         type: err.name,
       },

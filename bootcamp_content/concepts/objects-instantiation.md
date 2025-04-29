@@ -20,7 +20,7 @@ When we want to create an object, we use the `new` keyword, along with the class
 We can also specify certain values when we create the object.
 We can only provide values that the blueprint expects.
 
-To do this, we use a syntax very similar to when we call a function, using parentheses with comma-seperated inputs.
+To do this, we use a syntax very similar to when we call a function, using parentheses with comma-separated inputs.
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/objects-new-2.png" class="diagram"/>
 

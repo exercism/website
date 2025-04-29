@@ -25,7 +25,7 @@ You will probably want to make use of all of the properties. **In order to get t
 - `padding`: Use `%` in this exercise.
 - `background-image: url(...)`: Sets a background image.
 - `background-size`: Sets the size of the background image. Choose from `cover`, `contain` or `%` in this exercise.
-- `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `bottom`, `left`, and `right` seperated by a space (e.g. `background-position: top left`).
+- `background-position`: Sets the position of the background image. This property has lots of options, but in this exercise, you need to choose two of `top`, `bottom`, `left`, and `right` separated by a space (e.g. `background-position: top left`).
 - `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
 - `font-size`: Use `px` values for this exercise.
 - `font-weight`: You need `bold` for this exercise.

@@ -12,7 +12,7 @@ export function RHS({ width }: { width: number }) {
     secondarySize: BottomHeight,
     handleMouseDown: handleHeightChangeMouseDown,
   } = useResizablePanels({
-    initialSize: 500,
+    initialSize: 200,
     secondaryMinSize: 200,
     direction: 'vertical',
     localStorageId: 'solve-exercise-page-rhs-height',
@@ -30,6 +30,7 @@ export function RHS({ width }: { width: number }) {
           <Resizer
             direction="horizontal"
             handleMouseDown={handleHeightChangeMouseDown}
+            className="c-logger-resizer"
           />
           <Logger height={BottomHeight} />
         </>

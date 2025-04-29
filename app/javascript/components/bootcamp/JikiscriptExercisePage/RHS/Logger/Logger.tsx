@@ -19,25 +19,35 @@ export function Logger({ height }: { height: number | string }) {
   const ref = useHighlighting<HTMLDivElement>(inspectedTestResult?.name)
 
   return (
-    <div style={{ height }} className="logger" ref={ref}>
-      <label className="console-label">CONSOLE OUTPUT</label>
-      {inspectedTestResult?.logMessages?.length === 0 && (
+    <div style={{ height }} className="c-logger" ref={ref}>
+      <h2>Log Messages</h2>
+      {inspectedTestResult?.logMessages?.length === 0 ? (
         <div className="info-message">
-          Use the <code>log</code> function to log messages to the console.
-          <br />
-          e.g.{' '}
+          <p>
+            Use the <code>log</code> function to log messages to the console.
+            e.g.
+          </p>
           <pre className="hljs language-javascript">
             <code>log("Hello World")</code>
           </pre>
         </div>
+      ) : (
+        <>
+          <div className="info-message">
+            <p>
+              These are the log messages for scenario{' '}
+              {inspectedTestResult?.testIndex}:
+            </p>
+          </div>
+          <div className="log-container">
+            {inspectedTestResult?.logMessages?.map((log, index) => (
+              <pre key={index} className="log ">
+                {renderLog(log)}
+              </pre>
+            ))}
+          </div>
+        </>
       )}
-      <div className="log-container">
-        {inspectedTestResult?.logMessages?.map((log, index) => (
-          <pre key={index} className="log ">
-            {renderLog(log)}
-          </pre>
-        ))}
-      </div>
     </div>
   )
 }

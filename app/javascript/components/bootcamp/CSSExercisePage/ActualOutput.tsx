@@ -54,7 +54,7 @@ export function ActualOutput() {
 
   const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
 
-  const previousActualSnapshot = useRef<string>()
+  const previousActualSnapshot = useRef<string | undefined>(undefined)
 
   useEffect(() => {
     async function populateCanvas(forceRedraw = false) {
@@ -65,6 +65,11 @@ export function ActualOutput() {
       const canvas = binaryDiffRef.current
 
       if (!actualIframe || !expectedIframe || !canvas) return
+
+      await Promise.all([
+        waitForIframeLoad(actualIframe),
+        waitForIframeLoad(expectedIframe),
+      ])
 
       const actualDoc = actualIframe.contentDocument
       const currentActualSnapshot = getIframeSnapshot(actualDoc)
@@ -77,11 +82,6 @@ export function ActualOutput() {
       }
 
       previousActualSnapshot.current = currentActualSnapshot
-
-      await Promise.all([
-        waitForIframeLoad(actualIframe),
-        waitForIframeLoad(expectedIframe),
-      ])
 
       const resultCanvas = await getDiffCanvasFromIframes(
         actualIFrameRef,
@@ -111,6 +111,7 @@ export function ActualOutput() {
 
     return () => {
       window.removeEventListener('resize', debouncedResize)
+      debouncedResize.cancel?.()
     }
   }, [isDiffModeOn, diffMode, studentCodeHash])
 

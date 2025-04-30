@@ -47,11 +47,13 @@ Remember to use the diff and curtain if you get stuck, and to **start styling fr
 A lot of people get to 97% on this exercise, and can't get the last few percent correct.
 That's normally because they've missed an instruction, or taken a more "hacky" approach to something than we're hoping to see.
 
-Here are common mistakes people make:
+Here are common mistakes people make.
+I recommend double-checking each of them!
 
 - Not checking the diff/curtain carefuly enough.
 - Not using `cover`, `top left` and `repeat` for the paper background.
 - Not using `px` for all margins and padding?
 - Having slightly different corner radius (check the diff carefully).
+- Not all pieces of text have the correct color.
 - Not having the same padding all the way around. Instead people often have a different bottom padding, or try and use negative margins. This should feel a bit yucky - can you find a different way?
 - The emoji and the text next to it need to be spaced correctly. Think about how you can push two elements apart.

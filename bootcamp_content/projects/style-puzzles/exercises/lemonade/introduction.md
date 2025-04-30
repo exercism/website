@@ -47,11 +47,13 @@ Remember to use the diff and curtain if you get stuck, and to **start styling fr
 A lot of people get to 97% on this exercise, and can't get the last few percent correct.
 That's normally because they've missed an instruction, or taken a more "hacky" approach to something than we're hoping to see.
 
-Here are common mistakes people make:
+Here are common mistakes people make.
+I recommend double-checking each of them!
 
 - Not checking the diff/curtain carefuly enough.
 - Not using `cover` and `top right` for the background?
 - Not using `px` for all margins and padding?
 - Having slightly different corner radius (check the diff carefully).
+- Not all pieces of text have the correct color.
 - Not having the text break correctly over two lines. You shouldn't use `<br>` to do this - use a padding/margin instead, so that your solution still works at different zoom levels.
 - The "marker" in the list (the thing you change with `list-style-type`) needs to use an emoji and have a space inside of it. Later on we'll learn how to add margins to markers, but for now, just include a space inside of it.

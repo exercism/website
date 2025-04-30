@@ -122,7 +122,7 @@
     }
     .cm-lineNumbers {
         .cm-gutterElement {
-            @apply px-8;
+            @apply pr-8 pl-12;
         }
     }
 

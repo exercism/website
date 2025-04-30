@@ -31,7 +31,7 @@ export const SimpleCodeMirror = forwardRef(function (
 ) {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
 
-  let value: string = defaultCode
+  const value = useRef(defaultCode)
 
   const getEditorView = (): EditorView | null => {
     if (typeof ref === 'function') {
@@ -60,7 +60,7 @@ export const SimpleCodeMirror = forwardRef(function (
 
   const getValue = () => {
     const editorView = getEditorView()
-    return (value = editorView?.state.doc.toString() || '')
+    return (value.current = editorView?.state.doc.toString() || '')
   }
 
   const initializedRef = useRef(false)
@@ -70,7 +70,7 @@ export const SimpleCodeMirror = forwardRef(function (
 
     const view = new EditorView({
       state: EditorState.create({
-        doc: value,
+        doc: value.current,
         extensions: [
           basicSetup,
           keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),

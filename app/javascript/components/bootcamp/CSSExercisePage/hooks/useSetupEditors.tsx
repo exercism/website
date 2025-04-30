@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  RefObject,
-  useState,
-  useMemo,
-  useRef,
-} from 'react'
+import { useCallback, useEffect, RefObject, useState } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
@@ -33,23 +26,10 @@ export function useSetupEditors(
     getInitialEditorCode(code)
   )
 
-  const defaultCodeRef = useRef<{ css: string; html: string }>({
-    css: '',
-    html: '',
+  const [defaultCode] = useState<{ css: string; html: string }>({
+    css: editorCode.cssEditorContent,
+    html: editorCode.htmlEditorContent,
   })
-
-  if (
-    !defaultCodeRef.current &&
-    editorCode?.cssEditorContent &&
-    editorCode?.htmlEditorContent
-  ) {
-    defaultCodeRef.current = {
-      css: editorCode.cssEditorContent,
-      html: editorCode.htmlEditorContent,
-    }
-  }
-
-  const defaultCode = defaultCodeRef.current
 
   useEffect(() => {
     if (!!editorCode.storedAt) {
@@ -166,6 +146,7 @@ export function useSetupEditors(
     htmlEditorViewRef,
     cssEditorViewRef,
     editorCode,
+    defaultCode,
     resetEditors,
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,

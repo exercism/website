@@ -56,7 +56,7 @@ export function ActualOutput() {
   const previousActualSnapshot = useRef<string>()
 
   useEffect(() => {
-    async function populateCanvas() {
+    async function populateCanvas(forceRedraw = false) {
       if (!isDiffModeOn || diffMode === 'gradual') return
 
       const actualIframe = actualIFrameRef.current
@@ -68,11 +68,11 @@ export function ActualOutput() {
       const actualDoc = actualIframe.contentDocument
       const currentActualSnapshot = getIframeSnapshot(actualDoc)
 
-      if (previousActualSnapshot.current === currentActualSnapshot) {
-        // console.log("no changes")
+      if (
+        !forceRedraw &&
+        previousActualSnapshot.current === currentActualSnapshot
+      ) {
         return
-      } else {
-        // console.log("changes detected")
       }
 
       previousActualSnapshot.current = currentActualSnapshot
@@ -100,6 +100,17 @@ export function ActualOutput() {
     }
 
     populateCanvas()
+
+    const handleResize = () => {
+      // force redraw on resize
+      populateCanvas(true)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [isDiffModeOn, diffMode, studentCodeHash])
 
   return (

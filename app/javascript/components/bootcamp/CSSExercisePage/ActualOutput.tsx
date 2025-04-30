@@ -3,6 +3,7 @@ import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'
+import { debounce } from 'lodash'
 
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
@@ -53,10 +54,10 @@ export function ActualOutput() {
 
   const binaryDiffRef = useRef<HTMLCanvasElement | null>(null)
 
-  const previousActualSnapshot = useRef<string>()
+  const previousActualSnapshot = useRef<string | undefined>(undefined)
 
   useEffect(() => {
-    async function populateCanvas() {
+    async function populateCanvas(forceRedraw = false) {
       if (!isDiffModeOn || diffMode === 'gradual') return
 
       const actualIframe = actualIFrameRef.current
@@ -65,22 +66,22 @@ export function ActualOutput() {
 
       if (!actualIframe || !expectedIframe || !canvas) return
 
-      const actualDoc = actualIframe.contentDocument
-      const currentActualSnapshot = getIframeSnapshot(actualDoc)
-
-      if (previousActualSnapshot.current === currentActualSnapshot) {
-        // console.log("no changes")
-        return
-      } else {
-        // console.log("changes detected")
-      }
-
-      previousActualSnapshot.current = currentActualSnapshot
-
       await Promise.all([
         waitForIframeLoad(actualIframe),
         waitForIframeLoad(expectedIframe),
       ])
+
+      const actualDoc = actualIframe.contentDocument
+      const currentActualSnapshot = getIframeSnapshot(actualDoc)
+
+      if (
+        !forceRedraw &&
+        previousActualSnapshot.current === currentActualSnapshot
+      ) {
+        return
+      }
+
+      previousActualSnapshot.current = currentActualSnapshot
 
       const resultCanvas = await getDiffCanvasFromIframes(
         actualIFrameRef,
@@ -100,6 +101,18 @@ export function ActualOutput() {
     }
 
     populateCanvas()
+
+    const debouncedResize = debounce(() => {
+      if (!isDiffModeOn || diffMode === 'gradual') return
+      populateCanvas(true)
+    }, 500)
+
+    window.addEventListener('resize', debouncedResize)
+
+    return () => {
+      window.removeEventListener('resize', debouncedResize)
+      debouncedResize.cancel?.()
+    }
   }, [isDiffModeOn, diffMode, studentCodeHash])
 
   return (

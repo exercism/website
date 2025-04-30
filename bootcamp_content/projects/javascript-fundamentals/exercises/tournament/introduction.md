@@ -135,5 +135,5 @@ const teams = [
   { name: "iHiD's Heros", points: 20, wins: 15 },
   { name: "DJ's Villains", points: 17, wins: 12 },
 ];
-const sortedTeams = sort(teams, "name", "points");
+const sortedTeams = sort(teams, "points", "name");
 ```

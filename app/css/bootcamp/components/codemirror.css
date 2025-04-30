@@ -122,7 +122,7 @@
     }
     .cm-lineNumbers {
         .cm-gutterElement {
-            @apply pl-2 pr-8;
+            @apply px-8;
         }
     }
 
@@ -154,7 +154,6 @@
     }
 
     .cm-lineNumbers {
-        /* width: 2em; */
         text-align: right;
     }
 

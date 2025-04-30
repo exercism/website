@@ -250,5 +250,26 @@
     "title": "Using objects in functions",
     "description": "Learn how we pass references to objects into functions.",
     "level": 8
+  },
+  {
+    "slug": "html-basics",
+    "apex": true,
+    "title": "HTML Basics",
+    "description": "Learn the basics of HTML",
+    "level": 11
+  },
+  {
+    "slug": "css-basics",
+    "apex": true,
+    "title": "CSS Basics",
+    "description": "Learn the basics of CSS",
+    "level": 11
+  },
+  {
+    "slug": "javascript-basics",
+    "apex": true,
+    "title": "JavaScript Basics",
+    "description": "Learn the basics of JavaScript",
+    "level": 12
   }
 ]

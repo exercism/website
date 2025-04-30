@@ -1,6 +1,18 @@
-# Lasagna
+# Freelancer Rates
 
 In this exercise you will be writing code to help a freelancer communicate with their clients about the prices of certain projects. You will write a few utility functions to quickly calculate the costs for the clients.
+
+### Rounding Numbers
+
+In this exercise, you will most likely want to round numbers (either up, down, or to the nearest integer).There are a few functions you can use for this. You can find a list of all maths functions [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math):
+
+```javascript
+const number = 10.4;
+
+Math.round(number); // 10
+Math.ceil(number); // 11
+Math.floor(number); // 10
+```
 
 ## Instructions
 

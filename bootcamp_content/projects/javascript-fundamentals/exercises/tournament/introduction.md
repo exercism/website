@@ -35,6 +35,19 @@ My name
 is Jeremy
 ```
 
+### Padding strings
+
+It is often useful to be able to add whitespace (or other characters) at the start or end of strings to ensure a string is a certain length. To do this we "pad" a string, and there are some nice built-in JavaScript methods to help you. The both take two inputs - the total length of the string, and the character you want to use to pad.
+
+```javascript
+const name = "Jeremy";
+
+name.padStart(10, " "); // "    Jeremy"
+name.padEnd(10, " "); // "Jeremy    "
+```
+
+You can see all string methods [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
+
 ## Instructions
 
 Your job is to tally the results of a small football competition.

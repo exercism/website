@@ -28,7 +28,6 @@ Please note that all values
 - `background-image: url(...)`: Sets a background image.
 - `background-size`: Sets the size of the background image. Use `cover` in this exercise.
 - `background-position`: Sets the position of the background image. This should be `top right` in this exercise.
-- `background-repeat`: Determines whether the background should repeat. To stop it from repeating, you can use the `no-repeat` value.
 - `font-size`: Use `px` values.
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
@@ -51,8 +50,9 @@ Here are common mistakes people make.
 I recommend double-checking each of them!
 
 - Not checking the diff/curtain carefuly enough.
-- Not using `cover` and `top right` for the background?
-- Not using `px` for all margins and padding?
+- Not using `cover`, `top right` for the background.
+- Unncessarily using `background-repeat: no-repeat`. This makes no visual difference, but does change the subpixel rendering.
+- Not using `px` for all margins and padding.
 - Having slightly different corner radius (check the diff carefully).
 - Not all pieces of text have the correct color.
 - Not having the text break correctly over two lines. You shouldn't use `<br>` to do this - use a padding/margin instead, so that your solution still works at different zoom levels.

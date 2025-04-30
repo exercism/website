@@ -91,7 +91,7 @@ export function ControlButtons({
             Diff: {isDiffModeOn ? 'on' : 'off'}
           </button>
 
-          {/*<button
+          <button
             className="border-l-1 border-l-borderColor4 bg-lightPurpleDarkened h-full px-4"
             onClick={toggleDiffMode}
           >
@@ -102,7 +102,7 @@ export function ControlButtons({
               height={24}
               width={24}
             />
-          </button>*/}
+          </button>
         </div>
       </div>
     </div>

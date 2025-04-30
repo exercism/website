@@ -36,6 +36,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     setEditorCodeLocalStorage,
     resetEditors,
     getEditorValues,
+    defaultCode,
   } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
 
   return (
@@ -60,7 +61,7 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
       <div id="bootcamp-frontend-training-page">
         <Header />
         <div className="page-body">
-          <LHS getEditorValues={getEditorValues} />
+          <LHS defaultCode={defaultCode} getEditorValues={getEditorValues} />
           <Resizer
             direction="vertical"
             handleMouseDown={handleWidthChangeMouseDown}

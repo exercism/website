@@ -5,16 +5,31 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { EditorView } from 'codemirror'
 import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 
+export type EditorCode = {
+  htmlEditorContent: string
+  cssEditorContent: string
+  storedAt: string
+  readonlyRanges: {
+    html: ReadonlyRange[]
+    css: ReadonlyRange[]
+  }
+}
+
 export function useSetupEditors(
   slug: string,
   code: CSSExercisePageCode,
   actualIFrameRef: RefObject<HTMLIFrameElement>
 ) {
   const [editorCodeIsReady, setEditorCodeIsReady] = useState(false)
-  const [editorCode, setEditorCode] = useLocalStorage(
+  const [editorCode, setEditorCode] = useLocalStorage<EditorCode>(
     `css-editor-code-${slug}`,
     getInitialEditorCode(code)
   )
+
+  const [defaultCode] = useState<{ css: string; html: string }>({
+    css: editorCode.cssEditorContent,
+    html: editorCode.htmlEditorContent,
+  })
 
   useEffect(() => {
     if (!!editorCode.storedAt) {
@@ -130,6 +145,8 @@ export function useSetupEditors(
   return {
     htmlEditorViewRef,
     cssEditorViewRef,
+    editorCode,
+    defaultCode,
     resetEditors,
     handleHtmlEditorDidMount,
     handleCssEditorDidMount,

@@ -1,18 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import { CSSEditor } from './CSSEditor'
 import { HTMLEditor } from './HTMLEditor'
 import { ControlButtons } from './ControlButtons'
-import { CSSExercisePageContext } from '../CSSExercisePageContext'
 
 export function LHS({
+  defaultCode,
   getEditorValues,
 }: {
+  defaultCode: Record<'html' | 'css', string>
   getEditorValues: () => { cssValue: string; htmlValue: string }
 }) {
   return (
     <div className="page-body-lhs">
-      <HTMLEditor />
-      <CSSEditor />
+      <HTMLEditor defaultCode={defaultCode.html} />
+      <CSSEditor defaultCode={defaultCode.css} />
       <ControlButtons getEditorValues={getEditorValues} />
     </div>
   )

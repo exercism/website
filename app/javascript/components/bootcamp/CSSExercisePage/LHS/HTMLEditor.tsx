@@ -17,7 +17,7 @@ import { htmlTheme } from './htmlTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 import xxhash from 'xxhash-wasm'
 
-export function HTMLEditor() {
+export function HTMLEditor({ defaultCode }: { defaultCode: string }) {
   const {
     handleHtmlEditorDidMount,
     htmlEditorRef,
@@ -104,7 +104,7 @@ export function HTMLEditor() {
         updateLocalStorageValueOnDebounce(view)
         updateEditorHashOnDebounce(view)
       }}
-      defaultCode="<div>hello</div>"
+      defaultCode={defaultCode}
     />
   )
 }

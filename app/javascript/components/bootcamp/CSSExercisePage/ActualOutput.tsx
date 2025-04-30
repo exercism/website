@@ -3,6 +3,7 @@ import { animate } from '@juliangarnierorg/anime-beta'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'
+import { debounce } from 'lodash'
 
 export function ActualOutput() {
   const context = React.useContext(CSSExercisePageContext)
@@ -101,15 +102,15 @@ export function ActualOutput() {
 
     populateCanvas()
 
-    const handleResize = () => {
-      // force redraw on resize
+    const debouncedResize = debounce(() => {
+      if (!isDiffModeOn || diffMode === 'gradual') return
       populateCanvas(true)
-    }
+    }, 500)
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', debouncedResize)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('resize', debouncedResize)
     }
   }, [isDiffModeOn, diffMode, studentCodeHash])
 

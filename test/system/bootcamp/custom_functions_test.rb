@@ -1,8 +1,8 @@
 require_relative "base_test"
 
 module Bootcamp
-  class EditorTest < BaseTest
-    test "things render" do
+  class CustomFunctionsTest < BaseTest
+    test "custom function editor page renders" do
       user = create(:user, bootcamp_attendee: true)
 
       use_capybara_host do

@@ -93,7 +93,10 @@ export function ControlButtons({
   } = useCSSExercisePageStore()
 
   return (
-    <div style={{ width: LHSWidth }} className="flex py-8 justify-between">
+    <div
+      style={{ width: LHSWidth }}
+      className="flex py-8 gap-8 justify-between"
+    >
       <button onClick={handleSubmitCode} className="btn-primary btn-s">
         Check Result
       </button>

@@ -74,8 +74,12 @@ export function ControlButtons({
     links.postSubmission,
   ])
 
+  const {
+    panelSizes: { LHSWidth },
+  } = useCSSExercisePageStore()
+
   return (
-    <div className="flex py-8 justify-between">
+    <div style={{ width: LHSWidth }} className="flex py-8 justify-between">
       <button onClick={handleSubmitCode} className="btn-primary btn-s">
         Check Result
       </button>

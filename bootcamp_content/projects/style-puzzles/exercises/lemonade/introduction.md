@@ -32,7 +32,7 @@ Please note that all values
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
 - `color`: You need `#4b3f2f` and `#777` for this exercise.
-- `border`: The border on the edge of the card is colored `e3caa5`.
+- `border`: The border on the edge of the card is colored `e3caa5`. Remember to specify all three values if you use the border shorthand syntax.
 - `border-radius`: Use a `px` value.
 - `list-style-type` (or `list-style` shortcut): See above.
 - `text-transform` (or `list-style` shortcut): See above.

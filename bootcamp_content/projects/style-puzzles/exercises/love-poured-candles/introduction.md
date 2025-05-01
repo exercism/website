@@ -35,7 +35,7 @@ You will probably want to make use of all of the properties.
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
 - `color`: You need `#5b3a29` (heading) and `#8c6e54` (everything else).
-- `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`
+- `border`: The border on the edge of the card is `double` with a color of `rgba(0, 0, 0, 0.2)`. Remember to specify all three values if you use the border shorthand syntax.
 - `border-radius`: Use a `px` value.
 
 Remember to use the diff and curtain if you get stuck, and to **start styling from the top-left** to keep things sane!

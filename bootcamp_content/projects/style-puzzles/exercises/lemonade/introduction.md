@@ -32,7 +32,7 @@ Please note that all values
 - `font-weight`: You need `bold` for this exercise.
 - `font-style`: You can use the `italic` value here.
 - `color`: You need `#4b3f2f` and `#777` for this exercise.
-- `border`: The border on the edge of the card is colored `e3caa5`. Remember to specify all three values if you use the border shorthand syntax.
+- `border`: The border on the edge of the card is colored `e3caa5`.
 - `border-radius`: Use a `px` value.
 - `list-style-type` (or `list-style` shortcut): See above.
 - `text-transform` (or `list-style` shortcut): See above.
@@ -56,5 +56,5 @@ I recommend double-checking each of them!
 - Having slightly different corner radius (check the diff carefully).
 - Not all pieces of text have the correct color.
 - Not having the text break correctly over two lines. You shouldn't use `<br>` to do this - use a padding/margin instead, so that your solution still works at different zoom levels.
-- Not specifying a border width.
+- Not specifying a border width when using the shorthand syntax.
 - The "marker" in the list (the thing you change with `list-style-type`) needs to use an emoji and have a space inside of it. Later on we'll learn how to add margins to markers, but for now, just include a space inside of it.

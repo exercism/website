@@ -56,4 +56,5 @@ I recommend double-checking each of them!
 - Having slightly different corner radius (check the diff carefully).
 - Not all pieces of text have the correct color.
 - Not having the text break correctly over two lines. You shouldn't use `<br>` to do this - use a padding/margin instead, so that your solution still works at different zoom levels.
+- Not specifying a border width.
 - The "marker" in the list (the thing you change with `list-style-type`) needs to use an emoji and have a space inside of it. Later on we'll learn how to add margins to markers, but for now, just include a space inside of it.

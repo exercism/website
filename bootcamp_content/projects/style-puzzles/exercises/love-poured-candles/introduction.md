@@ -56,4 +56,5 @@ I recommend double-checking each of them!
 - Having slightly different corner radius (check the diff carefully).
 - Not all pieces of text have the correct color.
 - Not having the same padding all the way around. Instead people often have a different bottom padding, or try and use negative margins. This should feel a bit yucky - can you find a different way?
+- Not specifying a border width.
 - The emoji and the text next to it need to be spaced correctly. Think about how you can push two elements apart.

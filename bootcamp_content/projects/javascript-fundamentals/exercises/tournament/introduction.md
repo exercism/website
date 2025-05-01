@@ -35,9 +35,25 @@ My name
 is Jeremy
 ```
 
+### String Functions
+
+In this exercise, both your input and output are strings, and it may well be useful to be familiar with some of the methods you can use.
+You can see all string methods [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
+
+### Splitting strings
+
+You might want to split your string into pieces. You can achieve this using the [`split` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split). It takes the character you want to split on.
+
+```javascript
+const name = "Jeremy Walker";
+name.split(" "); // ["Jeremy", "Walker"]
+```
+
+You can pass any character in, including the newline character (`"\n"`) that's discussed above.
+
 ### Padding strings
 
-It is often useful to be able to add whitespace (or other characters) at the start or end of strings to ensure a string is a certain length. To do this we "pad" a string, and there are some nice built-in JavaScript methods to help you. The both take two inputs - the total length of the string, and the character you want to use to pad.
+It is often useful to be able to add whitespace (or other characters) at the start or end of strings to ensure a string is a certain length. To do this we "pad" a string, and there are some nice built-in JavaScript methods to help you: [`padStart`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart) and [`padEnd`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd). The both take two inputs - the total length of the string, and the character you want to use to pad.
 
 ```javascript
 const name = "Jeremy";
@@ -45,8 +61,6 @@ const name = "Jeremy";
 name.padStart(10, " "); // "    Jeremy"
 name.padEnd(10, " "); // "Jeremy    "
 ```
-
-You can see all string methods [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
 ## Instructions
 

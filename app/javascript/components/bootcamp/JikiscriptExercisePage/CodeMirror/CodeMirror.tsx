@@ -199,7 +199,7 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.foldGutter,
           Ext.underlineExtension(),
           Ext.readOnlyRangeDecoration(),
-          exercise.language === 'jikiscript' ? jikiscript() : javascript(),
+          exercise?.language === 'javascript' ? javascript() : jikiscript(),
           Ext.jsTheme,
           minimalSetup,
           unfoldableFunctionsField,

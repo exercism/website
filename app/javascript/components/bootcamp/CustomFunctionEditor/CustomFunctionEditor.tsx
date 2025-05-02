@@ -51,7 +51,10 @@ export const CustomFunctionEditorStoreContext = createContext<{
   customFunctionEditorStore: CustomFunctionEditorStore
 }>({ customFunctionEditorStore: {} as CustomFunctionEditorStore })
 
-export const CustomFunctionContext = createContext<CustomFunction | null>(null)
+export const CustomFunctionContext = createContext<{
+  customFunction: CustomFunction | null
+  links: CustomFunctionEditorProps['links']
+}>({ customFunction: null, links: {} as CustomFunctionEditorProps['links'] })
 
 export default function CustomFunctionEditor({
   customFunction,
@@ -140,7 +143,7 @@ export default function CustomFunctionEditor({
         } as JikiscriptExercisePageContextValues
       }
     >
-      <CustomFunctionContext.Provider value={customFunction}>
+      <CustomFunctionContext.Provider value={{ customFunction, links }}>
         <div id="bootcamp-custom-function-editor-page">
           <Header
             handleSaveChanges={() =>

@@ -3,8 +3,6 @@ import React, {
   useEffect,
   forwardRef,
   type ForwardedRef,
-  useMemo,
-  useContext,
 } from 'react'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 import {
@@ -38,19 +36,13 @@ import useEditorStore from '../store/editorStore'
 import * as Ext from './extensions'
 import * as Hook from './hooks'
 import { INFO_HIGHLIGHT_COLOR } from './extensions/lineHighlighter'
-import { debounce } from 'lodash'
-import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
-import { getCodeMirrorFieldValue } from './getCodeMirrorFieldValue'
-import { readOnlyRangesStateField } from './extensions/read-only-ranges/readOnlyRanges'
 import { moveCursorByPasteLength } from './extensions/move-cursor-by-paste-length'
 import useErrorStore from '../store/errorStore'
-import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
 import { getBreakpointLines } from './getBreakpointLines'
 import { breakpointEffect } from './extensions/breakpoint'
 import { foldEffect } from '@codemirror/language'
 import { getFoldedLines } from './getFoldedLines'
 import { unfoldableFunctionsField } from './unfoldableFunctionNames'
-import { javascript } from '@codemirror/lang-javascript'
 
 export const readonlyCompartment = new Compartment()
 
@@ -127,32 +119,9 @@ export const CodeMirror = forwardRef(function _CodeMirror(
     setFoldedLines,
   } = useEditorStore()
 
-  const { setExerciseLocalStorageData, exercise } = useContext(
-    JikiscriptExercisePageContext
-  )
-
   const { setHasUnhandledError, setUnhandledErrorBase64 } = useErrorStore()
 
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
-
-  const updateLocalStorageValueOnDebounce = useMemo(() => {
-    return debounce((value: string, view) => {
-      if (!setExerciseLocalStorageData) {
-        return
-      }
-
-      const readonlyRanges = getCodeMirrorFieldValue(
-        view,
-        readOnlyRangesStateField
-      )
-
-      setExerciseLocalStorageData({
-        code: value,
-        storedAt: new Date().toISOString(),
-        readonlyRanges: readonlyRanges,
-      })
-    }, 500)
-  }, [setExerciseLocalStorageData, readOnlyRangesStateField])
 
   let value = defaultCode
 
@@ -199,7 +168,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
           Ext.foldGutter,
           Ext.underlineExtension(),
           Ext.readOnlyRangeDecoration(),
-          exercise?.language === 'javascript' ? javascript() : jikiscript(),
           Ext.jsTheme,
           minimalSetup,
           unfoldableFunctionsField,
@@ -238,9 +206,6 @@ export const CodeMirror = forwardRef(function _CodeMirror(
                 status: 'SUCCESS',
               }),
             () => setHighlightedLine(0),
-            (e) => {
-              updateLocalStorageValueOnDebounce(e.state.doc.toString(), e.view)
-            },
             () => setHighlightedLineColor(INFO_HIGHLIGHT_COLOR),
             () => setShouldShowInformationWidget(false),
             () => setHasCodeBeenEdited(true),

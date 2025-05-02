@@ -22,6 +22,7 @@ import customFunctionEditorStore, {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
+import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
 
 export type CustomFunction = {
   uuid: string
@@ -159,7 +160,7 @@ export default function CustomFunctionEditor({
                     clearResults()
                   }
                 }}
-                extensions={[readOnlyDocumentFragment]}
+                extensions={[readOnlyDocumentFragment, jikiscript()]}
               />
             </ErrorBoundary>
 

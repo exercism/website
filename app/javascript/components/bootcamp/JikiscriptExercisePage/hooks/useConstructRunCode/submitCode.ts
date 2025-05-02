@@ -11,7 +11,9 @@ export async function submitCode({
     tests: { slug: string; status: string; bonus?: boolean }[]
   }
   postUrl: string
-  readonlyRanges: { from: number; to: number }[]
+  readonlyRanges:
+    | ReadonlyRange[]
+    | { html: ReadonlyRange[]; css: ReadonlyRange[] }
   customFunctions: string[]
 }) {
   const response = await fetch(postUrl, {

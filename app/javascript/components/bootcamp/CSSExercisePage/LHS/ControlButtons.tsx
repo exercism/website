@@ -9,6 +9,8 @@ import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCo
 import { CheckResult, runChecks } from '../utils/runCheckFunctions'
 import { showResultToast } from './showResultToast'
 import Icon from '@/components/common/Icon'
+import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
+import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 
 export function ControlButtons({
   getEditorValues,
@@ -25,10 +27,19 @@ export function ControlButtons({
     updateAssertionStatus,
   } = useCSSExercisePageStore()
 
-  const { handleCompare, links, exercise } = useContext(CSSExercisePageContext)
+  const { handleCompare, links, exercise, cssEditorRef, htmlEditorRef } =
+    useContext(CSSExercisePageContext)
 
   const handleSubmitCode = useCallback(async () => {
     const { cssValue, htmlValue } = getEditorValues()
+    const cssReadonlyRanges = getCodeMirrorFieldValue(
+      cssEditorRef.current,
+      readOnlyRangesStateField
+    )
+    const htmlReadonlyRanges = getCodeMirrorFieldValue(
+      htmlEditorRef.current,
+      readOnlyRangesStateField
+    )
     const code = JSON.stringify({ css: cssValue, html: htmlValue })
 
     const percentage = await handleCompare()
@@ -62,7 +73,7 @@ export function ControlButtons({
         tests: [],
       },
       customFunctions: [],
-      readonlyRanges: [],
+      readonlyRanges: { html: htmlReadonlyRanges, css: cssReadonlyRanges },
     })
   }, [
     getEditorValues,

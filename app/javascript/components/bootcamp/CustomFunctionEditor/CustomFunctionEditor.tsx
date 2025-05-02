@@ -11,9 +11,6 @@ import { CustomTests } from './useTestManager'
 import { CustomFunctionTests } from './CustomFunctionTests'
 import { CustomFunctionDetails } from './CustomFunctionDetails'
 import Scrubber from '../JikiscriptExercisePage/Scrubber/Scrubber'
-import JikiscriptExercisePageContextWrapper, {
-  JikiscriptExercisePageContextValues,
-} from '../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import useEditorStore from '../JikiscriptExercisePage/store/editorStore'
 import { CheckCodeButton } from './CheckCodeButton'
 import { flushSync } from 'react-dom'
@@ -25,7 +22,6 @@ import customFunctionEditorStore, {
 } from './store/customFunctionEditorStore'
 import { Toaster } from 'react-hot-toast'
 import useWarnOnUnsavedChanges from './Header/useWarnOnUnsavedChanges'
-import { DeleteFunctionButton } from './DeleteFunctionButton'
 
 export type CustomFunction = {
   uuid: string
@@ -134,79 +130,70 @@ export default function CustomFunctionEditor({
   }, [customFunction])
 
   return (
-    <JikiscriptExercisePageContextWrapper
-      value={
-        {
-          editorView: editorViewRef.current,
-          isSpotlightActive: false,
-          links,
-        } as JikiscriptExercisePageContextValues
-      }
-    >
-      <CustomFunctionContext.Provider value={{ customFunction, links }}>
-        <div id="bootcamp-custom-function-editor-page">
-          <Header
-            handleSaveChanges={() =>
-              handlePatchCustomFunction({
-                code: editorViewRef.current?.state.doc.toString() ?? '',
-                dependsOn: getSelectedCustomFunctions(),
-                url: links.updateCustomFns,
-              })
-            }
-          />
-          <div className="page-body">
-            <div style={{ width: LHSWidth }} className="page-body-lhs">
-              <ErrorBoundary>
-                <CodeMirror
-                  style={{ height: `100%` }}
-                  ref={editorViewRef}
-                  editorDidMount={handleEditorDidMount}
-                  handleRunCode={() => handleRunCode()}
-                  onEditorChangeCallback={(view) => {
-                    setHasUnsavedChanges(true)
-                    handleSetCustomFunctionName(view)
+    <CustomFunctionContext.Provider value={{ customFunction, links }}>
+      <div id="bootcamp-custom-function-editor-page">
+        <Header
+          handleSaveChanges={() =>
+            handlePatchCustomFunction({
+              code: editorViewRef.current?.state.doc.toString() ?? '',
+              dependsOn: getSelectedCustomFunctions(),
+              url: links.updateCustomFns,
+            })
+          }
+        />
+        <div className="page-body">
+          <div style={{ width: LHSWidth }} className="page-body-lhs">
+            <ErrorBoundary>
+              <CodeMirror
+                style={{ height: `100%` }}
+                ref={editorViewRef}
+                editorDidMount={handleEditorDidMount}
+                handleRunCode={() => handleRunCode()}
+                onEditorChangeCallback={(view) => {
+                  setHasUnsavedChanges(true)
+                  handleSetCustomFunctionName(view)
 
-                    const { areAllTestsPassing } =
-                      customFunctionEditorStore.getState()
-                    if (areAllTestsPassing) {
-                      clearResults()
-                    }
-                  }}
-                  extensions={[readOnlyDocumentFragment]}
-                />
-              </ErrorBoundary>
+                  const { areAllTestsPassing } =
+                    customFunctionEditorStore.getState()
+                  if (areAllTestsPassing) {
+                    clearResults()
+                  }
+                }}
+                extensions={[readOnlyDocumentFragment]}
+              />
+            </ErrorBoundary>
 
-              <div className="page-lhs-bottom flex items-center gap-8 bg-white">
-                <CheckCodeButton handleRunCode={handleCheckCode} />
-                <div className="flex-grow">
-                  {results &&
-                    results[inspectedTest] &&
-                    results[inspectedTest].animationTimeline && (
-                      <Scrubber
-                        animationTimeline={
-                          results[inspectedTest].animationTimeline
-                        }
-                        frames={inspectedFrames}
-                        context={`Test ${inspectedTestIdx + 1}`}
-                      />
-                    )}
-                </div>
+            <div className="page-lhs-bottom flex items-center gap-8 bg-white">
+              <CheckCodeButton handleRunCode={handleCheckCode} />
+              <div className="flex-grow">
+                {results &&
+                  results[inspectedTest] &&
+                  results[inspectedTest].animationTimeline && (
+                    <Scrubber
+                      editorView={editorViewRef.current}
+                      animationTimeline={
+                        results[inspectedTest].animationTimeline
+                      }
+                      frames={inspectedFrames}
+                      context={`Test ${inspectedTestIdx + 1}`}
+                    />
+                  )}
               </div>
             </div>
+          </div>
 
-            <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
-            {/* RHS */}
-            <div
-              className="page-body-rhs py-16 px-16"
-              style={{ width: RHSWidth }}
-            >
-              <CustomFunctionDetails />
-              <CustomFunctionTests />
-            </div>
+          <Resizer direction="vertical" handleMouseDown={handleMouseDown} />
+          {/* RHS */}
+          <div
+            className="page-body-rhs py-16 px-16"
+            style={{ width: RHSWidth }}
+          >
+            <CustomFunctionDetails />
+            <CustomFunctionTests />
           </div>
         </div>
-        <Toaster />
-      </CustomFunctionContext.Provider>
-    </JikiscriptExercisePageContextWrapper>
+      </div>
+      <Toaster />
+    </CustomFunctionContext.Provider>
   )
 }

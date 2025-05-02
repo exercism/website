@@ -203,11 +203,10 @@ function setupEditor(
     },
   })
 
-  if (readonlyRanges && readonlyRanges.length > 0) {
-    editorView.dispatch({
-      effects: updateReadOnlyRangesEffect.of(readonlyRanges),
-    })
-  }
+  if (!readonlyRanges) return
+  editorView.dispatch({
+    effects: updateReadOnlyRangesEffect.of(readonlyRanges),
+  })
 }
 
 function resetSingleEditor(

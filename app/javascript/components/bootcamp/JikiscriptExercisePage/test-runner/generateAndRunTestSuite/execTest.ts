@@ -19,6 +19,7 @@ import { execJS } from './execJS'
 import { EditorView } from '@codemirror/view'
 import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-information/line-information'
 import { showError } from '../../utils/showError'
+import { cloneDeep } from 'lodash'
 
 /**
  This is of type TestCallback
@@ -49,7 +50,7 @@ export async function execTest(
 
   const logMessages: any[] = []
   globalThis.customLog = function (...args: any[]) {
-    logMessages.push(args)
+    logMessages.push(cloneDeep(args))
   }
 
   const fnName = testData.function

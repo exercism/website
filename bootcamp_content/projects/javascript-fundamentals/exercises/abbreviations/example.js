@@ -4,14 +4,14 @@ function isLetter(letter) {
 
 export function acronym(sentence) {
   let output = ''
-  let was_space = true
+  let wasSpace = true
 
   for (const letter of sentence) {
     if (letter == ' ' || letter == '-') {
-      was_space = true
-    } else if (was_space && isLetter(letter)) {
+      wasSpace = true
+    } else if (wasSpace && isLetter(letter)) {
       output += letter
-      was_space = false
+      wasSpace = false
     }
   }
 

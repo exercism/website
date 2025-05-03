@@ -93,7 +93,7 @@ function find_anagrams with target, possibilties do
   set results to []
   set lc_pos to ""
   for each pos in possibilties do
-    change lc_pos to to_lowercase(pos)
+  change lc_pos to to_lowercase(pos)
     if(lc_target == lc_pos) do
       next
     end

@@ -91,7 +91,7 @@ function renderLog(logArgs: unknown[]) {
       }
 
       try {
-        return JSON.stringify(arg)
+        return verboseStringify(arg)
       } catch {
         return '[Unrenderable object]'
       }
@@ -99,4 +99,14 @@ function renderLog(logArgs: unknown[]) {
     .join(' ')
 
   return <code className="language-javascript hljs">{line}</code>
+}
+
+function verboseStringify(obj) {
+  return JSON.stringify(
+    obj,
+    (key, value) => {
+      return value === undefined ? '__undefined__' : value
+    },
+    2
+  ).replace(/"__undefined__"/g, 'undefined')
 }

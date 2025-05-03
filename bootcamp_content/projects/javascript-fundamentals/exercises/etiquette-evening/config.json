@@ -13,7 +13,7 @@
           "slug": "empty-list",
           "description_html": "No-one's allowed in",
           "name": "Empty register",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [[], "Mr Pitt"],
           "checks": [
             {
@@ -25,7 +25,7 @@
           "slug": "name-missing",
           "description_html": "The name's not on the list",
           "name": "Brad's turned away",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [["Brian May", "Albert Einstein", "James Watt"], "Mr Pitt"],
           "checks": [
             {
@@ -37,7 +37,7 @@
           "slug": "name-present",
           "description_html": "The name's on the list",
           "name": "Brad's allowed in",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [["Brian May", "Brad Pitt", "Albert Einstein"], "Mr Pitt"],
           "checks": [
             {
@@ -49,7 +49,7 @@
           "slug": "different-honorific",
           "description_html": "Handle a different honourific",
           "name": "Knight of the realm",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [
             ["Arthur Conan Doyle", "Bradley Cooper", "Albert Einstein"],
             "Lord Doyle"
@@ -64,7 +64,7 @@
           "slug": "bond-allowed",
           "description_html": "James is always allowed, regardless of the disguise",
           "name": "Mr Bond, I presume",
-          "function": "on_guest_list",
+          "function": "onGuestList",
 
           "args": [
             ["James Bond"],
@@ -80,7 +80,7 @@
           "slug": "bond-not-allowed",
           "description_html": "You see James a mile off. He's not getting in here.",
           "name": "Hmmm.. Mr Bond, I presume",
-          "function": "on_guest_list",
+          "function": "onGuestList",
 
           "args": [
             ["Jason Bourne"],
@@ -102,7 +102,7 @@
           "slug": "lloyd-webber",
           "description_html": "Baron Lloyd Webber has two words in his surname!",
           "name": "How about a Baron?",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [
             [
               "Brian May",
@@ -123,7 +123,7 @@
           "slug": "mark-webber",
           "description_html": "A differ Webber doesn't count",
           "name": "Is Mark the Baron?",
-          "function": "on_guest_list",
+          "function": "onGuestList",
           "args": [
             ["Brian May", "Brad Pitt", "Albert Einstein", "Mark Webber"],
             "Baron Lloyd Webber"

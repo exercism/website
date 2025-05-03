@@ -23,9 +23,14 @@ You should return a boolean specifying whether the person is on the guest list.
 
 For this task, you can presume that honorifics will always be one word.
 
-### String Functions
+### String Methods
 
 In this exercise, you'll be using strings, and it may be useful to be familiar with some of the properties and methods you can use.
 You can see all string methods [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
-Take a specific look at `length` property and the `endsWith` method.
+Take a specific look at `length` property and the `endsWith()` method. You might also find the `split()` method helpful.
+
+### Array Methods
+
+Depending on your approach, you might be interested in looking at a few Array methods - for example, `slice()` and `join()`.
+You can see all array methods [on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) too.

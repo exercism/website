@@ -1,20 +1,7 @@
-function strip_your_honor(name) {
-  let found_space = false
-  let surname = ''
-  for (const letter of name) {
-    if (found_space) {
-      surname = surname + letter
-    } else if (letter == ' ') {
-      found_space = true
-    }
-  }
-  return surname
-}
+export function onGuestList(guestList, formalName) {
+  const surname = formalName.split(' ').slice(1).join(' ')
 
-export function on_guest_list(guest_list, formal_name) {
-  const surname = strip_your_honor(formal_name)
-
-  for (const name of guest_list) {
+  for (const name of guestList) {
     if (name.endsWith(surname)) return true
   }
 

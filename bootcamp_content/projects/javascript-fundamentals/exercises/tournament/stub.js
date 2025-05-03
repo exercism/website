@@ -1,4 +1,4 @@
-export function tournamentTally() {
+export function tournamentTally(data) {
   // Write your code here!
 }
 

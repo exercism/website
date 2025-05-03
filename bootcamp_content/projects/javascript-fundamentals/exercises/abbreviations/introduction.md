@@ -22,13 +22,6 @@ Some examples:
 | Liquid-crystal display    | LCD    |
 | Thank George It's Friday! | TGIF   |
 
-### Functions
-
-For this exercise, you have two functions available:
-
-- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
-- `to_upper_case(str)`: This takes a string and returns its uppercase equivalent (e.g. it turns `"frog"` into `"FROG"`).
-
 ### String Functions
 
 In this exercise, you'll be using strings, and it may be useful to be familiar with some of the properties and methods you can use.

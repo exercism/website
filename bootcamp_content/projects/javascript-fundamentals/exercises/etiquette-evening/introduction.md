@@ -17,7 +17,7 @@ So when Mr Pitt turns up, you need to work out that this is the "Brad Pitt" on y
 
 Write a function called `onGuestList`.
 The function has two inputs.
-The first will contain the guest_list as a list of strings.
+The first will contain the guest list as a list of strings.
 The second is the name of the person formatted as honorific and a surname.
 You should return a boolean specifying whether the person is on the guest list.
 

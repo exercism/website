@@ -1,13 +1,11 @@
 import { EditorView } from '@codemirror/view'
 import { SyntaxNode } from '@lezer/common'
-import {
-  appendColorInput,
-  cursorPositionHelper,
-  formatColorInputDefaultValue,
-  hex2rgb,
-} from '../../utils'
-import { getIsHexNode, getIsRgbNode } from '../../nodeHandlers'
 import { syntaxTree } from '@codemirror/language'
+import { cursorPositionHelper, hex2rgb } from '../../utils'
+import { getIsHexNode, getIsRgbNode } from '../../syntaxNodeChecks'
+import { appendColorInput } from './appendColorInput'
+import { formatColorInputDefaultValue } from './formatColorInputDefaultValue'
+import { findColorNodeAbove } from './findColorNodeAbove'
 
 export function handleColorNode(node: SyntaxNode, view: EditorView) {
   const { top, left, isCursorInside } = cursorPositionHelper(view, node)
@@ -30,14 +28,10 @@ export function handleColorNode(node: SyntaxNode, view: EditorView) {
         const [r, g, b] = hex2rgb(color)
         newColor = `rgb(${r}, ${g}, ${b})`
       }
-
       const cursorPos = view.state.selection.main.head
-
       const updatedTree = syntaxTree(view.state)
       const updatedNode = updatedTree.resolve(cursorPos, 1)
-
-      const colorNode = findColorNodeUp(updatedNode)
-
+      const colorNode = findColorNodeAbove(view, updatedNode)
       if (!colorNode) return
 
       view.dispatch({
@@ -49,21 +43,4 @@ export function handleColorNode(node: SyntaxNode, view: EditorView) {
       })
     },
   })
-}
-
-function findColorNodeUp(node: SyntaxNode): SyntaxNode | null {
-  let current: SyntaxNode | null = node
-  while (current) {
-    if (isColorSyntaxNode(current)) return current
-    current = current.parent
-  }
-  return null
-}
-
-function isColorSyntaxNode(node: SyntaxNode): boolean {
-  return (
-    node.name === 'CallExpression' ||
-    node.name === 'Color' ||
-    node.name === 'ColorLiteral'
-  )
 }

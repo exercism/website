@@ -67,12 +67,14 @@ export function appendColorInput({
   }
 }
 
-function formatColorInputDefaultValue(string: string) {
-  if (string.startsWith('rgb')) {
-    const rgb = string.match(/\d+/g)
-    if (!rgb) return string
-    return rgb2hex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))
+export function formatColorInputDefaultValue(input: string): string {
+  if (input.startsWith('#')) return input
+
+  const match = input.match(/rgb\s*\((\d+),\s*(\d+),\s*(\d+)\)/)
+  if (match) {
+    const [r, g, b] = match.slice(1).map(Number)
+    return rgb2hex(r, g, b)
   }
 
-  return string
+  return '#000000'
 }

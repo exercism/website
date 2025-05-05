@@ -2,42 +2,12 @@ import { EditorView } from '@codemirror/view'
 import { SyntaxNode } from '@lezer/common'
 import { handleNumberNode } from './handlers/handleNumberNode'
 import { handleColorNode } from './handlers/handleColorNode'
-import { cursorPositionHelper } from './utils'
 
-const COLOR_INPUT_ID = 'editor-color-input'
-export const FAUX_RANGE_INPUT_ID = 'faux-range'
-
-export function removeInputElements() {
-  const colorInput = document.getElementById(COLOR_INPUT_ID)
-  const fauxRange = document.getElementById(FAUX_RANGE_INPUT_ID)
-
-  if (colorInput && document.activeElement !== colorInput) {
-    colorInput.remove()
-  }
-  if (fauxRange) {
-    fauxRange.remove()
-  }
-}
-
-// TODO: activate this once colournode handler is fine
-// remove requestAnimFrame - it's been moved a level up
-// export function handleNode(node: SyntaxNode, view: EditorView): boolean {
-//   const { isCursorInside } = cursorPositionHelper(view, node)
-
-//   if (!isCursorInside) return false
-
-//   if (getIsColorNode(view, node)) {
-//     requestAnimationFrame(() => handleColorNode(node, view))
-//     return true
-//   } else if (getIsNumberNode(node)) {
-//     requestAnimationFrame(() => handleNumberNode(node, view))
-//     return true
-//   }
-
-//   return false
-// }
 export function handleNode(node: SyntaxNode, view: EditorView) {
-  if (getIsNumberNode(node)) {
+  if (getIsColorNode(view, node)) {
+    handleColorNode(node, view)
+    return true
+  } else if (getIsNumberNode(node)) {
     handleNumberNode(node, view)
     return true
   }
@@ -48,12 +18,12 @@ function getIsColorNode(view: EditorView, node: SyntaxNode) {
   return getIsHexNode(node) || getIsRgbNode(view, node)
 }
 
-function getIsRgbNode(view: EditorView, node: SyntaxNode) {
+export function getIsRgbNode(view: EditorView, node: SyntaxNode) {
   const nodeContent = view.state.sliceDoc(node.from, node.to)
   return node.type.name === 'CallExpression' && nodeContent.startsWith('rgb')
 }
 
-function getIsHexNode(node: SyntaxNode) {
+export function getIsHexNode(node: SyntaxNode) {
   return node.type.name === 'ColorLiteral'
 }
 

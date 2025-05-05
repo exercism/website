@@ -5,8 +5,9 @@ import {
   ViewPlugin,
 } from '@codemirror/view'
 import { syntaxTree } from '@codemirror/language'
-import { findNodeAtCursor, handleNode } from './nodeHandlers'
+import { handleNode } from './nodeHandlers'
 import { removeInputElements } from './removeInputElements'
+import { findNodeAtCursor } from './utils'
 
 export class ValueInteractor implements PluginValue {
   private removeScrollListener: () => void

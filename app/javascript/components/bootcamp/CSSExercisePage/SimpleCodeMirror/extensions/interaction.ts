@@ -280,10 +280,3 @@ function getIsHexNode(node: SyntaxNode) {
 function getIsNumberNode(node: SyntaxNode) {
   return node.type.name === 'NumberLiteral'
 }
-
-function traverseTree(node: SyntaxNode, cb: (node: SyntaxNode) => void) {
-  const cursor = node.cursor()
-  do {
-    cb(cursor.node)
-  } while (cursor.next())
-}

@@ -16,6 +16,7 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { cssTheme } from './cssTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 import xxhash from 'xxhash-wasm'
+import { interactionExtension } from '../SimpleCodeMirror/extensions/interaction'
 
 export function CSSEditor({ defaultCode }: { defaultCode: string }) {
   const {
@@ -88,6 +89,7 @@ export function CSSEditor({ defaultCode }: { defaultCode: string }) {
         cssTheme,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
+        interactionExtension(),
       ]}
       onEditorChangeCallback={(view) => {
         updateIFrame(

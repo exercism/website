@@ -16,9 +16,16 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
   const nodeAtCursor = currentTree.resolve(node.from, 1)
   const unitNode = nodeAtCursor.getChild('Unit')
 
-  if (!unitNode) return
-  const unit = view.state.sliceDoc(unitNode.from, unitNode.to)
-  const numberText = view.state.sliceDoc(node.from, unitNode.from).trim()
+  let numberText = ''
+  let unit = ''
+
+  if (unitNode) {
+    unit = view.state.sliceDoc(unitNode.from, unitNode.to)
+    numberText = view.state.sliceDoc(node.from, unitNode.from).trim()
+  } else {
+    numberText = view.state.sliceDoc(node.from, node.to).trim()
+  }
+
   let originalValue = parseFloat(numberText)
   if (isNaN(originalValue)) return
 
@@ -70,7 +77,7 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
   let currentDelta = 0
 
   const getSensitivity = (val: number) => 1
-  // Math.abs(val) >= 1 ? 1 : 0.5
+  // Math.abs(val) >= 10 ? 1 : 0.5
 
   let sensitivity = getSensitivity(originalValue)
 
@@ -87,12 +94,12 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
     const currentTree = syntaxTree(view.state)
     const currentNode = currentTree.resolve(node.from, 1)
     const currentUnitNode = currentNode.getChild('Unit')
-    if (!currentUnitNode) return
+    const to = currentUnitNode ? currentUnitNode.to : currentNode.to
 
     view.dispatch({
       changes: {
         from: currentNode.from,
-        to: currentUnitNode.to,
+        to,
         insert: `${newValue}${unit}`,
       },
     })
@@ -110,16 +117,16 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
     const updatedTree = syntaxTree(view.state)
     const updatedNode = updatedTree.resolve(node.from, 1)
     const updatedUnitNode = updatedNode.getChild('Unit')
-    if (updatedUnitNode) {
-      const updatedNumberText = view.state
-        .sliceDoc(updatedNode.from, updatedUnitNode.from)
-        .trim()
-      const parsed = parseFloat(updatedNumberText)
-      if (!isNaN(parsed)) {
-        originalValue = parsed
-        sensitivity = getSensitivity(originalValue)
-        tooltip.textContent = `${originalValue}${unit}`
-      }
+    const updatedTo = updatedUnitNode ? updatedUnitNode.from : updatedNode.to
+    const updatedNumberText = view.state
+      .sliceDoc(updatedNode.from, updatedTo)
+      .trim()
+
+    const parsed = parseFloat(updatedNumberText)
+    if (!isNaN(parsed)) {
+      originalValue = parsed
+      sensitivity = getSensitivity(originalValue)
+      tooltip.textContent = `${originalValue}${unit}`
     }
 
     document.removeEventListener('mousemove', onMouseMove)

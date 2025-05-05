@@ -5,7 +5,7 @@ import { handleColorNode } from './handlers/handleColorNode'
 import { cursorPositionHelper } from './utils'
 
 const COLOR_INPUT_ID = 'editor-color-input'
-const FAUX_RANGE_INPUT_ID = 'faux-range'
+export const FAUX_RANGE_INPUT_ID = 'faux-range'
 
 export function removeInputElements() {
   const colorInput = document.getElementById(COLOR_INPUT_ID)

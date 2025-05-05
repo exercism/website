@@ -12,8 +12,20 @@ import {
 } from './nodeHandlers'
 
 export class ValueInteractor implements PluginValue {
+  private removeScrollListener: () => void
+
   constructor(private view: EditorView) {
     requestAnimationFrame(() => this.findAndHandleNode(this.view))
+
+    const onScroll = () => {
+      removeInputElements()
+    }
+
+    view.scrollDOM.addEventListener('scroll', onScroll)
+
+    this.removeScrollListener = () => {
+      view.scrollDOM.removeEventListener('scroll', onScroll)
+    }
   }
 
   update(update: ViewUpdate) {
@@ -21,6 +33,10 @@ export class ValueInteractor implements PluginValue {
       removeInputElements()
       requestAnimationFrame(() => this.findAndHandleNode(update.view))
     }
+  }
+
+  destroy() {
+    this.removeScrollListener()
   }
 
   findAndHandleNode(view: EditorView) {

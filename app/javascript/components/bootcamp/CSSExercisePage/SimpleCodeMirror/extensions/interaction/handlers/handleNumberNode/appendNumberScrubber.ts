@@ -4,7 +4,7 @@ import { syntaxTree } from '@codemirror/language'
 import { FAUX_RANGE_INPUT_ID } from '.'
 import { formatNumber, getSensitivity } from './utils'
 
-export function createScrubber({
+export function appendNumberScrubber({
   top,
   left,
   originalValue,

@@ -1,7 +1,7 @@
 import { EditorView } from '@codemirror/view'
 import { SyntaxNode } from '@lezer/common'
 import { cursorPositionHelper } from '../../utils'
-import { createScrubber } from './createScrubber'
+import { appendNumberScrubber } from './appendNumberScrubber'
 import { removeExistingScrubber, extractNumberAndUnit } from './utils'
 
 export const FAUX_RANGE_INPUT_ID = 'faux-range'
@@ -24,7 +24,7 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
     return
   }
 
-  createScrubber({
+  appendNumberScrubber({
     top,
     left,
     originalValue,

@@ -2,6 +2,7 @@ import { EditorView } from '@codemirror/view'
 import { SyntaxNode } from '@lezer/common'
 import { handleNumberNode } from './handlers/handleNumberNode'
 import { handleColorNode } from './handlers/handleColorNode'
+import { cursorPositionHelper } from './utils'
 
 const COLOR_INPUT_ID = 'editor-color-input'
 const FAUX_RANGE_INPUT_ID = 'faux-range'
@@ -19,17 +20,28 @@ export function removeInputElements() {
 }
 
 // TODO: activate this once colournode handler is fine
-// export function handleNode(node: SyntaxNode, view: EditorView) {
+// remove requestAnimFrame - it's been moved a level up
+// export function handleNode(node: SyntaxNode, view: EditorView): boolean {
+//   const { isCursorInside } = cursorPositionHelper(view, node)
+
+//   if (!isCursorInside) return false
+
 //   if (getIsColorNode(view, node)) {
 //     requestAnimationFrame(() => handleColorNode(node, view))
+//     return true
 //   } else if (getIsNumberNode(node)) {
 //     requestAnimationFrame(() => handleNumberNode(node, view))
+//     return true
 //   }
+
+//   return false
 // }
 export function handleNode(node: SyntaxNode, view: EditorView) {
   if (getIsNumberNode(node)) {
-    requestAnimationFrame(() => handleNumberNode(node, view))
+    handleNumberNode(node, view)
+    return true
   }
+  return false
 }
 
 function getIsColorNode(view: EditorView, node: SyntaxNode) {
@@ -54,4 +66,19 @@ export function traverseTree(node: SyntaxNode, cb: (node: SyntaxNode) => void) {
   do {
     cb(cursor.node)
   } while (cursor.next())
+}
+
+export function findNodeAtCursor(
+  node: SyntaxNode,
+  cursorPos: number,
+  cb: (node: SyntaxNode) => boolean
+): boolean {
+  const cursor = node.cursor()
+  do {
+    const current = cursor.node
+    if (current.from <= cursorPos && cursorPos <= current.to) {
+      if (cb(current)) return true
+    }
+  } while (cursor.next())
+  return false
 }

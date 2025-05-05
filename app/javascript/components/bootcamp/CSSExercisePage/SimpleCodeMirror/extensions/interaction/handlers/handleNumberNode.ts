@@ -15,8 +15,8 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
   const currentTree = syntaxTree(view.state)
   const nodeAtCursor = currentTree.resolve(node.from, 1)
   const unitNode = nodeAtCursor.getChild('Unit')
-  if (!unitNode) return
 
+  if (!unitNode) return
   const unit = view.state.sliceDoc(unitNode.from, unitNode.to)
   const numberText = view.state.sliceDoc(node.from, unitNode.from).trim()
   let originalValue = parseFloat(numberText)
@@ -69,8 +69,8 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
   let startX = 0
   let currentDelta = 0
 
-  const getSensitivity = (val: number) =>
-    Math.abs(val) >= 10 ? 0.1 : Math.abs(val) >= 1 ? 0.05 : 0.01
+  const getSensitivity = (val: number) => 1
+  // Math.abs(val) >= 1 ? 1 : 0.5
 
   let sensitivity = getSensitivity(originalValue)
 
@@ -137,6 +137,7 @@ export function handleNumberNode(node: SyntaxNode, view: EditorView) {
 
   document.body.appendChild(scrubber)
 
+  // remove scrubber after 3 secs of inactivity
   setTimeout(() => {
     if (document.getElementById(id) && !isDragging) {
       scrubber.remove()

@@ -1,5 +1,6 @@
-import { COLOR_INPUT_ID } from '../../removeInputElements'
 import { formatColorInputDefaultValue } from './formatColorInputDefaultValue'
+
+export const COLOR_INPUT_ID = 'editor-color-input'
 
 export function appendColorInput({
   top,

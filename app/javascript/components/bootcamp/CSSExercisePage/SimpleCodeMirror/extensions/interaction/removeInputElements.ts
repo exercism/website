@@ -1,5 +1,5 @@
-export const COLOR_INPUT_ID = 'editor-color-input'
-export const FAUX_RANGE_INPUT_ID = 'faux-range'
+import { COLOR_INPUT_ID } from './handlers/handleColorNode/appendColorInput'
+import { FAUX_RANGE_INPUT_ID } from './handlers/handleNumberNode'
 
 export function removeInputElements() {
   const colorInput = document.getElementById(COLOR_INPUT_ID)

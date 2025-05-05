@@ -18,15 +18,20 @@ export function removeInputElements() {
   }
 }
 
+// TODO: activate this once colournode handler is fine
+// export function handleNode(node: SyntaxNode, view: EditorView) {
+//   if (getIsColorNode(view, node)) {
+//     requestAnimationFrame(() => handleColorNode(node, view))
+//   } else if (getIsNumberNode(node)) {
+//     requestAnimationFrame(() => handleNumberNode(node, view))
+//   }
+// }
 export function handleNode(node: SyntaxNode, view: EditorView) {
-  if (getIsColorNode(view, node)) {
-    requestAnimationFrame(() => handleColorNode(node, view))
-  } else if (getIsNumberNode(node)) {
+  if (getIsNumberNode(node)) {
     requestAnimationFrame(() => handleNumberNode(node, view))
   }
 }
 
-// Helpers
 function getIsColorNode(view: EditorView, node: SyntaxNode) {
   return getIsHexNode(node) || getIsRgbNode(view, node)
 }

@@ -5,6 +5,8 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { EditorView } from 'codemirror'
 import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 
+export type ReadonlyRange = { from: number; to: number }
+
 export type EditorCode = {
   htmlEditorContent: string
   cssEditorContent: string
@@ -20,7 +22,6 @@ export function useSetupEditors(
   code: CSSExercisePageCode,
   actualIFrameRef: RefObject<HTMLIFrameElement>
 ) {
-  const [editorCodeIsReady, setEditorCodeIsReady] = useState(false)
   const [editorCode, setEditorCode] = useLocalStorage<EditorCode>(
     `css-editor-code-${slug}`,
     getInitialEditorCode(code)
@@ -30,12 +31,6 @@ export function useSetupEditors(
     css: editorCode.cssEditorContent,
     html: editorCode.htmlEditorContent,
   })
-
-  useEffect(() => {
-    if (!!editorCode.storedAt) {
-      setEditorCodeIsReady(true)
-    }
-  }, [editorCode.storedAt])
 
   const getEditorValues = useCallback(() => {
     const { cssEditorContent: cssValue, htmlEditorContent: htmlValue } =
@@ -59,28 +54,37 @@ export function useSetupEditors(
     editorViewRef: htmlEditorViewRef,
     handleEditorDidMount: handleHtmlEditorDidMount,
   } = useEditorHandler(editorCode.htmlEditorContent, (view) => {
-    if (!editorCodeIsReady) return
     if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
-      const { html, css } = JSON.parse(code.code)
-      const codeFromServer = {
-        htmlEditorContent: html,
-        cssEditorContent: css,
-        storedAt: code.storedAt!,
-        readonlyRanges: {
-          html: code.readonlyRanges?.html || [],
-          css: code.readonlyRanges?.css || [],
-        },
+      try {
+        const { html, css } = JSON.parse(code.code)
+
+        const codeFromServer = {
+          htmlEditorContent: html,
+          cssEditorContent: css,
+          storedAt: code.storedAt!,
+          readonlyRanges: {
+            html: code.readonlyRanges?.html || [],
+            css: code.readonlyRanges?.css || [],
+          },
+        }
+
+        setEditorCode(codeFromServer)
+        setupEditor(view, {
+          code: html,
+          readonlyRanges: codeFromServer.readonlyRanges.html,
+        })
+      } catch (error) {
+        console.error('Error updating from server:', error)
+        // on error fallback to existing data
+        setupEditor(view, {
+          code: editorCode.htmlEditorContent,
+          readonlyRanges: editorCode.readonlyRanges?.html,
+        })
       }
-      setEditorCode(codeFromServer)
-      setupEditor(view, {
-        code: html,
-        readonlyRanges: codeFromServer.readonlyRanges.html,
-      })
     } else {
-      // otherwise we fallback to localstorage
       setupEditor(view, {
-        code: editorCode?.htmlEditorContent || '',
-        readonlyRanges: editorCode?.readonlyRanges?.html || [],
+        code: editorCode.htmlEditorContent,
+        readonlyRanges: editorCode.readonlyRanges?.html || [],
       })
     }
   })
@@ -89,27 +93,37 @@ export function useSetupEditors(
     editorViewRef: cssEditorViewRef,
     handleEditorDidMount: handleCssEditorDidMount,
   } = useEditorHandler(editorCode.cssEditorContent, (view) => {
-    if (!editorCodeIsReady) return
     if (shouldUpdateFromServer(editorCode.storedAt, code.storedAt)) {
-      const { html, css } = JSON.parse(code.code)
-      const newCode = {
-        htmlEditorContent: html,
-        cssEditorContent: css,
-        storedAt: code.storedAt!,
-        readonlyRanges: {
-          html: code.readonlyRanges?.html || [],
-          css: code.readonlyRanges?.css || [],
-        },
+      try {
+        const { html, css } = JSON.parse(code.code)
+
+        const newCode = {
+          htmlEditorContent: html,
+          cssEditorContent: css,
+          storedAt: code.storedAt!,
+          readonlyRanges: {
+            html: code.readonlyRanges?.html || [],
+            css: code.readonlyRanges?.css || [],
+          },
+        }
+
+        setEditorCode(newCode)
+        setupEditor(view, {
+          code: css,
+          readonlyRanges: newCode.readonlyRanges.css,
+        })
+      } catch (error) {
+        console.error('Error updating from server:', error)
+
+        setupEditor(view, {
+          code: editorCode.cssEditorContent,
+          readonlyRanges: editorCode.readonlyRanges?.css,
+        })
       }
-      setEditorCode(newCode)
-      setupEditor(view, {
-        code: css,
-        readonlyRanges: newCode.readonlyRanges.css,
-      })
     } else {
       setupEditor(view, {
-        code: editorCode?.cssEditorContent || '',
-        readonlyRanges: editorCode?.readonlyRanges?.css || [],
+        code: editorCode.cssEditorContent,
+        readonlyRanges: editorCode.readonlyRanges?.css || [],
       })
     }
   })
@@ -120,7 +134,7 @@ export function useSetupEditors(
 
     if (!cssView || !htmlView) return
 
-    setEditorCode({
+    const stubEditorCode = {
       htmlEditorContent: code.stub.html,
       cssEditorContent: code.stub.css,
       storedAt: new Date().toISOString(),
@@ -128,17 +142,19 @@ export function useSetupEditors(
         html: code.defaultReadonlyRanges?.html || [],
         css: code.defaultReadonlyRanges?.css || [],
       },
-    })
+    }
+
+    setEditorCode(stubEditorCode)
 
     resetSingleEditor(
       cssView,
-      code.stub.css,
-      code.defaultReadonlyRanges?.css || []
+      stubEditorCode.cssEditorContent,
+      stubEditorCode.readonlyRanges.css
     )
     resetSingleEditor(
       htmlView,
-      code.stub.html,
-      code.defaultReadonlyRanges?.html || []
+      stubEditorCode.htmlEditorContent,
+      stubEditorCode.readonlyRanges.html
     )
   }, [])
 
@@ -174,7 +190,7 @@ function setupEditor(
     readonlyRanges,
   }: {
     code: string
-    readonlyRanges?: { from: number; to: number }[]
+    readonlyRanges?: ReadonlyRange[]
   }
 ) {
   if (!editorView) return
@@ -187,42 +203,50 @@ function setupEditor(
     },
   })
 
-  if (readonlyRanges) {
-    editorView.dispatch({
-      effects: updateReadOnlyRangesEffect.of(readonlyRanges),
-    })
-  }
+  if (!readonlyRanges) return
+  editorView.dispatch({
+    effects: updateReadOnlyRangesEffect.of(readonlyRanges),
+  })
 }
 
 function resetSingleEditor(
   view: EditorView | null,
   content: string,
-  readonlyRanges: { from: number; to: number }[]
+  readonlyRanges: ReadonlyRange[]
 ) {
   if (!view) return
   setupEditor(view, { code: '', readonlyRanges: [] })
   setupEditor(view, { code: content, readonlyRanges })
 }
 
-function getInitialEditorCode(code: CSSExercisePageCode) {
-  const parsed = (() => {
-    try {
-      return JSON.parse(code.code)
-    } catch {
-      return {}
+function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
+  try {
+    const parsed = JSON.parse(code.code) as { html?: string; css?: string }
+    const html = parsed.html?.length ? parsed.html : code.stub.html
+    const css = parsed.css?.length ? parsed.css : code.stub.css
+
+    return {
+      htmlEditorContent: html,
+      cssEditorContent: css,
+      storedAt: new Date().toISOString(),
+      readonlyRanges: {
+        // if can't find readonly ranges, safer to fall back to empty
+        html: code.readonlyRanges?.html || [],
+        css: code.readonlyRanges?.css || [],
+      },
     }
-  })() as { html?: string; css?: string }
+  } catch (error) {
+    console.error('Error parsing initial code:', error)
 
-  const html = parsed.html?.length ? parsed.html : code.stub.html
-  const css = parsed.css?.length ? parsed.css : code.stub.css
-
-  return {
-    htmlEditorContent: html,
-    cssEditorContent: css,
-    storedAt: new Date().toISOString(),
-    readonlyRanges: {
-      html: code.readonlyRanges?.html || [],
-      css: code.readonlyRanges?.css || [],
-    },
+    // if we can't parse code from the server, fall back to stub code.
+    return {
+      htmlEditorContent: code.stub.html,
+      cssEditorContent: code.stub.css,
+      storedAt: new Date().toISOString(),
+      readonlyRanges: {
+        html: code.defaultReadonlyRanges?.html || [],
+        css: code.defaultReadonlyRanges?.css || [],
+      },
+    }
   }
 }

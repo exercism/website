@@ -3,6 +3,7 @@ import { SyntaxNode } from '@lezer/common'
 import { syntaxTree } from '@codemirror/language'
 import { FAUX_RANGE_INPUT_ID } from '.'
 import { formatNumber, getSensitivity } from './utils'
+import { assetUrl } from '@/utils/assets'
 
 export function appendNumberScrubber({
   top,
@@ -28,11 +29,15 @@ export function appendNumberScrubber({
     left: `${left}px`,
     transform: 'translate(-50%, -100%)',
     zIndex: '9999',
-    width: '30px',
+    width: '34px',
     height: '20px',
-    background: 'rgba(0, 120, 255, 0.2)',
-    border: '1px solid rgba(0, 120, 255, 0.5)',
-    borderRadius: '3px',
+    backgroundColor: 'white',
+    backgroundImage: `url(${assetUrl('icons/move.svg')})`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    filter: 'drop-shadow(0px 0px 5px rgba(0, 120, 255, 0.5))',
+    borderRadius: '5px',
     cursor: 'ew-resize',
     userSelect: 'none',
   })
@@ -76,7 +81,6 @@ export function appendNumberScrubber({
     if (!isDragging) return
     isDragging = false
     scrubber.style.left = `${left}px`
-    scrubber.style.background = 'rgba(0, 120, 255, 0.2)'
 
     const updatedTree = syntaxTree(view.state)
     const updatedNode = updatedTree.resolve(node.from, 1)
@@ -100,7 +104,6 @@ export function appendNumberScrubber({
     e.preventDefault()
     isDragging = true
     startX = e.clientX
-    scrubber.style.background = 'rgba(0, 120, 255, 0.4)'
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseup', onMouseUp)
   })

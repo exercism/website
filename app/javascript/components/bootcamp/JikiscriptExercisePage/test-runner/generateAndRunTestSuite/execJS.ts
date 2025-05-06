@@ -33,7 +33,7 @@ export async function execJS(
   } catch (err: any) {
     return {
       status: 'error',
-      cleanup: () => {},
+      cleanup: () => { },
       error: {
         message: err.message.replace(/\s*\(\d+:\d+\)$/, ''),
         lineNumber: err.loc.line - 1, // No idea why we are 2 out.
@@ -79,8 +79,8 @@ export async function execJS(
     }
     return successResult
   } catch (error: any) {
-    let lineNumber
-    let colNumber
+    let lineNumber: string
+    let colNumber: string
 
     if (error.name === 'JikiLogicError') {
       ;[, lineNumber, colNumber] = extractLineColFromJikiLogicError(error)
@@ -88,6 +88,9 @@ export async function execJS(
       // Extract line, and column from the error message string
       ;[, lineNumber, colNumber] =
         error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []
+    }
+    if (error.message.includes('does not provide an export')) {
+      error.message = `Oh dear, we couldn't find \`${fnName}\`. Did you forget to \`export\` it?`
     }
 
     const execError: ExecError = {

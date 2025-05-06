@@ -49,8 +49,8 @@ export function ControlButtons({
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
-    const htmlChecks = runHtmlChecks(exercise.htmlChecks, htmlValue)
-    const cssChecks = runCssChecks(exercise.cssChecks, cssValue)
+    const htmlChecks = await runHtmlChecks(exercise.htmlChecks, htmlValue)
+    const cssChecks = await runCssChecks(exercise.cssChecks, cssValue)
 
     const allHtmlChecksPass = htmlChecks.success
     const allCssChecksPass =

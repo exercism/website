@@ -7,9 +7,9 @@ const htmlCheckFunctions: Record<string, Function> = {
   numTagsUsed,
 }
 
-export function runHtmlChecks(
+export async function runHtmlChecks(
   checks: Check[],
   htmlValue: string
-): ChecksResult {
-  return runChecks(checks, htmlValue, htmlCheckFunctions)
+): Promise<ChecksResult> {
+  return await runChecks(checks, htmlValue, htmlCheckFunctions)
 }

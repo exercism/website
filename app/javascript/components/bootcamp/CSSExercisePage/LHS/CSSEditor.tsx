@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from 'react'
 import { css } from '@codemirror/lang-css'
-import { cssLinter } from '../SimpleCodeMirror/extensions/cssLinter'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
@@ -84,7 +83,6 @@ export function CSSEditor({ defaultCode }: { defaultCode: string }) {
       extensions={[
         moveCursorByPasteLength,
         css(),
-        cssLinter,
         cssTheme,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),

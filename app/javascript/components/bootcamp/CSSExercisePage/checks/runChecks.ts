@@ -26,12 +26,12 @@ export function evaluateMatch(result: boolean, matcher: string): boolean {
   }
 }
 
-export function runChecks(
+export async function runChecks(
   checks: Check[],
   value: string,
   checkFunctions: Record<string, Function>
-): ChecksResult {
-  const results: CheckResult[] = checks.map((check) => {
+): Promise<ChecksResult> {
+  const resultPromises: Promise<CheckResult>[] = checks.map(async (check) => {
     try {
       const funcMatch = check.function.match(/([a-zA-Z0-9_]+)\((.*)\)/)
 
@@ -57,7 +57,7 @@ export function runChecks(
         throw new Error(`Function not found: ${funcName}`)
       }
 
-      const result = func(value, args)
+      const result = await func(value, args)
       const passes = evaluateMatch(result, check.matcher)
 
       return {
@@ -73,6 +73,8 @@ export function runChecks(
       }
     }
   })
+
+  const results = await Promise.all(resultPromises)
 
   return {
     success: results.every((r) => r.passes),

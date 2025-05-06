@@ -13,6 +13,9 @@ const cssCheckFunctions: Record<string, Function> = {
   onlyPropertiesUsed,
 }
 
-export function runCssChecks(checks: Check[], cssValue: string): ChecksResult {
-  return runChecks(checks, cssValue, cssCheckFunctions)
+export async function runCssChecks(
+  checks: Check[],
+  cssValue: string
+): Promise<ChecksResult> {
+  return await runChecks(checks, cssValue, cssCheckFunctions)
 }

@@ -11,10 +11,13 @@ export async function onlyPropertiesUsed(
     from: undefined,
   })
 
+
   result.root.walkDecls((decl) => {
     usedProps.add(decl.prop)
   })
 
+  console.log('%c usedProps', 'color: yellow', usedProps)
+  console.log('%c allowed', 'color: red', allowed)
   for (const used of usedProps) {
     if (!allowed.includes(used)) {
       return false

@@ -1,3 +1,4 @@
+import { numTagsUsed } from './html/numTagsUsed'
 import { tagOccursNoMoreThan } from './html/tagOccursNoMoreThan'
 
 export type HtmlCheck = {
@@ -19,6 +20,7 @@ export type ChecksResult = {
 
 const checkFunctions: Record<string, Function> = {
   tagOccursNoMoreThan,
+  numTagsUsed,
 }
 
 function evaluateMatch(result: boolean, matcher: string): boolean {

@@ -3,7 +3,6 @@ export function tagOccursNoMoreThan(
   html: string,
   tagLimits: Record<string, number>
 ): boolean {
-  console.log('enforcing limits', tagLimits)
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
   const tagCounts: Record<string, number> = {}

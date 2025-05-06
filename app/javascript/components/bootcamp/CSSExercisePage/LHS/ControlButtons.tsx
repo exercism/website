@@ -38,6 +38,7 @@ export function ControlButtons({
     let firstFailingCheck: CheckResult | null = null
 
     const htmlChecks = runHtmlChecks(exercise.htmlChecks, htmlValue)
+    console.log('htmlChecks', htmlChecks)
     const cssChecks = runCssChecks(exercise.cssChecks, cssValue)
 
     const allHtmlChecksPass = htmlChecks.success

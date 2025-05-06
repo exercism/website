@@ -9,7 +9,7 @@
   },
   "html_checks": [
     {
-      "function": "tagOccursNoMoreThan({div: 2})",
+      "function": "numTagsUsed(2)",
       "matcher": "toBeTrue",
       "error_html": "You shouldn't use more than 2 divs in your code."
     }

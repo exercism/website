@@ -1,8 +1,10 @@
-import {
-  elementHasProperty,
-  elementHasPropertyValue,
-} from './elementHasProperty'
-import { exactPropertiesUsed } from './exactPropertiesUsed'
+import { tagOccursNoMoreThan } from './html/tagOccursNoMoreThan'
+
+export type HtmlCheck = {
+  function: string
+  matcher: 'toBeTrue' | 'toBeFalse'
+  errorHtml: string
+}
 
 export type CheckResult = {
   result: boolean | null
@@ -16,9 +18,7 @@ export type ChecksResult = {
 }
 
 const checkFunctions: Record<string, Function> = {
-  elementHasProperty,
-  elementHasPropertyValue,
-  exactPropertiesUsed,
+  tagOccursNoMoreThan,
 }
 
 function evaluateMatch(result: boolean, matcher: string): boolean {
@@ -31,7 +31,11 @@ function evaluateMatch(result: boolean, matcher: string): boolean {
       throw new Error(`Unimplemented matcher: ${matcher}`)
   }
 }
-export function runChecks(checks: Check[], cssValue: string): ChecksResult {
+
+export function runHtmlChecks(
+  checks: Check[],
+  htmlValue: string
+): ChecksResult {
   const results: CheckResult[] = checks.map((check) => {
     try {
       const funcMatch = check.function.match(/([a-zA-Z0-9_]+)\((.*)\)/)
@@ -46,20 +50,17 @@ export function runChecks(checks: Check[], cssValue: string): ChecksResult {
 
       try {
         const safe_eval = eval
-        args = safe_eval(argsString)
+        args = safe_eval(`(${argsString})`)
       } catch (error) {
-        // TODO: show this only in dev mode
         throw new Error(`Invalid arguments format: ${argsString}`)
       }
 
       const func = checkFunctions[funcName]
       if (!func) {
-        // TODO: show this only in dev mode
         throw new Error(`Function not found: ${funcName}`)
       }
 
-      const result = func(cssValue, args)
-
+      const result = func(htmlValue, args)
       const passes = evaluateMatch(result, check.matcher)
 
       return {

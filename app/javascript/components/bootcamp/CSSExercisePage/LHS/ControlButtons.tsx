@@ -6,10 +6,10 @@ import {
 } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { CheckResult, runChecks } from '../utils/runCheckFunctions'
+import { CheckResult, runChecks as runCssChecks } from '../checks/runCssChecks'
 import { showResultToast } from './showResultToast'
 import Icon from '@/components/common/Icon'
-import { runHtmlChecks } from '../utils/runHtmlChecks'
+import { runHtmlChecks } from '../checks/runHtmlChecks'
 
 export function ControlButtons({
   getEditorValues,
@@ -38,7 +38,7 @@ export function ControlButtons({
     let firstFailingCheck: CheckResult | null = null
 
     const htmlChecks = runHtmlChecks(exercise.htmlChecks, htmlValue)
-    const cssChecks = runChecks(exercise.cssChecks, cssValue)
+    const cssChecks = runCssChecks(exercise.cssChecks, cssValue)
 
     const allHtmlChecksPass = htmlChecks.success
     const allCssChecksPass =

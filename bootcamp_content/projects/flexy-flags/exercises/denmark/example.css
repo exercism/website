@@ -1,13 +1,21 @@
 #flag {
     background: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
+    background: white;
+    gap: 50px;
 }
 
-#circle {
-    background: #bc002d;
-    border-radius: 100%;
-    flex-basis: 40%;
-    aspect-ratio: 1;
+#flag div {
+    background: #c8102e;
+
+    &:nth-child(1),
+    &:nth-child(3) {
+        flex-basis: 30%;
+    }
+    &:nth-child(2),
+    &:nth-child(4) {
+        flex-basis: 50%;
+        flex-grow: 1;
+    }
 }

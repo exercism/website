@@ -1,3 +1,3 @@
 # Task 1
 
-Next, implement the `getItem` function.
+Help Elyse as she continues her training!

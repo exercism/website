@@ -1,0 +1,10 @@
+{
+  "title": "Flexy Liberia",
+  "description": "Reproduce Liberia's flag using flexbox",
+  "language": "css",
+  "level": 13,
+  "idx": 9,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

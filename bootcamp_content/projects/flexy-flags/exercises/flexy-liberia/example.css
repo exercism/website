@@ -1,0 +1,41 @@
+#flag {
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#top {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 5;
+    align-items: stretch;
+}
+#star {
+    aspect-ratio: 1;
+    background: #002868;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 60%;
+    }
+}
+#rhs,
+#bottom {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#bottom {
+    flex-basis: 0;
+    flex-grow: 6;
+}
+
+#rhs div,
+#bottom div {
+    flex-grow: 1;
+}
+#rhs div:nth-child(odd),
+#bottom div:nth-child(even) {
+    background: #bf0a30;
+}

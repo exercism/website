@@ -1,6 +1,8 @@
 #bootcamp-frontend-training-page {
     .page-body-rhs {
+        @apply bg-white;
         @apply flex-grow;
+
         @apply flex flex-col;
         @apply overflow-hidden;
         & > button {

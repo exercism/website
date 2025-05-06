@@ -9,9 +9,9 @@
   },
   "html_checks": [
     {
-      "function": "numTagsUsed(2)",
+      "function": "numTagsUsed(4)",
       "matcher": "toBeTrue",
-      "error_html": "You shouldn't use more than 2 divs in your code."
+      "error_html": "You shouldn't use more than 4 tags in your HTML."
     }
   ]
 }

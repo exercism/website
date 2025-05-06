@@ -221,7 +221,12 @@ function resetSingleEditor(
 
 function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
   try {
-    const parsed = JSON.parse(code.code) as { html?: string; css?: string }
+    let parsed
+    try {
+      parsed = JSON.parse(code.code) as { html?: string; css?: string }
+    } catch {
+      parsed = {}
+    }
     const html = parsed.html?.length ? parsed.html : code.stub.html
     const css = parsed.css?.length ? parsed.css : code.stub.css
 

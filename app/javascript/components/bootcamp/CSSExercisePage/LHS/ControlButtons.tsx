@@ -38,20 +38,19 @@ export function ControlButtons({
     let firstFailingCheck: CheckResult | null = null
 
     const htmlChecks = runHtmlChecks(exercise.htmlChecks, htmlValue)
-    console.log('htmlchecks', htmlChecks, exercise.cssChecks)
-    if (percentage >= PASS_THRESHOLD) {
-      if (exercise.cssChecks.length === 0) {
-        status = 'pass'
-      } else {
-        const cssChecks = runChecks(exercise.cssChecks, cssValue)
+    const cssChecks = runChecks(exercise.cssChecks, cssValue)
 
-        if (cssChecks.success) {
-          status = 'pass'
-        } else {
-          firstFailingCheck =
-            cssChecks.results.find((check) => !check.passes) || null
-        }
-      }
+    const allHtmlChecksPass = htmlChecks.success
+    const allCssChecksPass =
+      exercise.cssChecks.length === 0 || cssChecks.success
+
+    if (percentage >= PASS_THRESHOLD && allHtmlChecksPass && allCssChecksPass) {
+      status = 'pass'
+    } else {
+      firstFailingCheck =
+        htmlChecks.results.find((check) => !check.passes) ||
+        cssChecks.results.find((check) => !check.passes) ||
+        null
     }
 
     showResultToast(status, percentage, firstFailingCheck)
@@ -68,13 +67,13 @@ export function ControlButtons({
       readonlyRanges: [],
     })
   }, [
+    exercise,
     getEditorValues,
     handleCompare,
-    exercise,
+    links.postSubmission,
     showResultToast,
     updateAssertionStatus,
     submitCode,
-    links.postSubmission,
   ])
 
   return (

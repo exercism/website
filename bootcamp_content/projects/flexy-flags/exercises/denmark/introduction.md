@@ -1,6 +1,6 @@
 # Flag of Denmark
 
-The Flag of Denmark
+The Flag of Denmark is a red background with a white cross. How can you recreate this using flexbox?
 
 ## Instructions
 
@@ -8,10 +8,17 @@ Behind the scenes we've added some CSS so that your outermost element will fill 
 
 You should **only** use the following properties:
 
-- `background`: The Japanese flag is a mixture of `white` and `#BC002D`.
-- `border-radius`: Used to round the corners of an element. Use a percentage in this exercise.
+- `background`: The flag of Denmark is a mixture of `white` and `#c8102e`.
 - `display`: Used to turn an element into a flexbox container.
-- `justify-content`: Used to justify content on the main axis.
-- `align-items`: Used to justify content on the secondary axis.
-- `flex-basis`: Used to specify the initial size of an element on the main axis. Use a percentage in this exercise (divisible by 10).
-- `aspect-ratio`: Used to set the aspect ratio of an element. (e.g. `1` makes something square, `1.5` makes something into a rectangle).
+- `flex-basis`: Used to specify the initial size of an element on the main axis. Use percentages in this exercise (divisible by 10).
+- `flex-wrap`: Specifies whether the elements of the flex-box should wrap onto the next line if they're too large to fill the space.
+- `flex-grow`: Specifies whether an element should grow, and by how much compared to otehr elements.
+- `gap`: Specifies the gap between elements. Use pixels for this exercise.
+
+You might find it helpful to use `nth-child` selectors in this exercise. We looked at these briefly in the teaching video. To target the 3rd div in a section, you could use:
+
+```css
+section div:nth-child(3) {
+  ...;
+}
+```

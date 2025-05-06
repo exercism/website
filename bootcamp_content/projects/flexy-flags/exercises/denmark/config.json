@@ -1,9 +1,9 @@
 {
-  "title": "The Flag of Japan",
-  "description": "Reproduce Japan's flag",
+  "title": "The Flag of Denmark",
+  "description": "Reproduce Denmark's flag",
   "language": "css",
   "level": 13,
-  "idx": 6,
+  "idx": 8,
   "editor_config": {
     "aspect_ratio": 1.5
   }

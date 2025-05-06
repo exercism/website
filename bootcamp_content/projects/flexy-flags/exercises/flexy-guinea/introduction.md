@@ -10,7 +10,7 @@ Behind the scenes we've added some CSS so that your outermost element will fill 
 
 You should **only** use the following properties:
 
-- `background`: The flag has stripes of of `#ce1126`, `#fcd116` and `#009460`.
+- `background`: The flag has stripes of of `#ce1126`, `#fcd116` and `#various`.
 - `display`: Used to turn an element into a flexbox container.
 - `flex-direction`: Used to determine the direction that the flex container arranges its items.
 - `flex-grow`: Used to specify whether an element should grow to fill the remaining space.

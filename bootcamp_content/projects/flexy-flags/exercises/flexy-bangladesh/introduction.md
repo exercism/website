@@ -1,6 +1,6 @@
 # Flag of Bangladesh
 
-Welcome to a new series of exercises in which you'll use flexbox to recreate varous world flags.
+Welcome to a new series of exercises in which you'll use flexbox to recreate various world flags.
 
 In this first exercise, your job is to recreate the flag of Bangladesh. The Bangladesh flag is similar to the Japanese flag in that it has a circle in the middle, but the circle is offset to the left slightly.
 

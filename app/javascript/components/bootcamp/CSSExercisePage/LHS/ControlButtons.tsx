@@ -6,10 +6,11 @@ import {
 } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { CheckResult, runChecks as runCssChecks } from '../checks/runCssChecks'
 import { showResultToast } from './showResultToast'
 import Icon from '@/components/common/Icon'
 import { runHtmlChecks } from '../checks/runHtmlChecks'
+import { CheckResult } from '../checks/runChecks'
+import { runCssChecks } from '../checks/runCssChecks'
 
 export function ControlButtons({
   getEditorValues,

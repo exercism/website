@@ -6,5 +6,12 @@
   "idx": 4,
   "editor_config": {
     "aspect_ratio": 1.5
-  }
+  },
+  "html_checks": [
+    {
+      "function": "numTagsUsed(4)",
+      "matcher": "toBeTrue",
+      "error_html": "You shouldn't use more than 4 tags in your HTML."
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { CheckResult } from '../utils/runCheckFunctions'
+import { CheckResult } from '../checks/runCssChecks'
 import { PASS_THRESHOLD } from '../store/cssExercisePageStore'
 
 export function showResultToast(

@@ -2,14 +2,14 @@ import {
   elementHasProperty,
   elementHasPropertyValue,
 } from './css/elementHasProperty'
-import { exactPropertiesUsed } from './css/exactPropertiesUsed'
+import { onlyPropertyGroupsUsed } from './css/onlyPropertyGroupsUsed'
 import { onlyPropertiesUsed } from './css/onlyPropertiesUsed'
 import { Check, ChecksResult, runChecks } from './runChecks'
 
 const cssCheckFunctions: Record<string, Function> = {
   elementHasProperty,
   elementHasPropertyValue,
-  exactPropertiesUsed,
+  onlyPropertyGroupsUsed,
   onlyPropertiesUsed,
 }
 

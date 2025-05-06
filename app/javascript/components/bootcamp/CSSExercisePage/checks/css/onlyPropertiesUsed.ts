@@ -11,6 +11,7 @@ export async function onlyPropertiesUsed(
     from: undefined,
   })
 
+
   result.root.walkDecls((decl) => {
     usedProps.add(decl.prop)
   })

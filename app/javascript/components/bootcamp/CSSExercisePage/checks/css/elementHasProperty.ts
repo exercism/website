@@ -1,4 +1,5 @@
-import * as csstree from 'css-tree'
+import postcss from 'postcss'
+import postcssNesting from 'postcss-nesting'
 
 function normalize(s: string): string {
   return s.replace(/\s+/g, ' ').trim()
@@ -11,55 +12,52 @@ function selectorRoughlyMatches(sel: string, target: string): boolean {
   return normSel.includes(normTarget)
 }
 
-export function findPropertyDeclarations(
+export async function findPropertyDeclarations(
   css: string,
   targetSelector: string,
   propertyName: string
-): string[] {
+): Promise<string[]> {
   const result: string[] = []
-  const ast = csstree.parse(css)
 
-  csstree.walk(ast, {
-    visit: 'Rule',
-    enter(node) {
-      if (node.type !== 'Rule' || node.prelude.type !== 'SelectorList') return
+  const processed = await postcss([postcssNesting]).process(css, {
+    from: undefined,
+  })
 
-      const selectorText = csstree.generate(node.prelude)
-      const selectors = selectorText.split(',').map(normalize)
+  processed.root.walkRules((rule) => {
+    const selectors = rule.selectors?.map(normalize) ?? []
 
-      const matches = selectors.some((sel) =>
-        selectorRoughlyMatches(sel, targetSelector)
-      )
+    const matches = selectors.some((sel) =>
+      selectorRoughlyMatches(sel, targetSelector)
+    )
 
-      if (!matches || node.block.type !== 'Block') return
+    if (!matches) return
 
-      for (const child of node.block.children) {
-        if (child.type === 'Declaration' && child.property === propertyName) {
-          const value = csstree.generate(child.value)
-          result.push(`${child.property}: ${value}`)
-        }
+    rule.walkDecls((decl) => {
+      if (decl.prop === propertyName) {
+        result.push(`${decl.prop}: ${decl.value}`)
       }
-    },
+    })
   })
 
   return result
 }
 
-export function elementHasProperty(
+export async function elementHasProperty(
   css: string,
   selector: string,
   property: string
-): boolean {
-  return findPropertyDeclarations(css, selector, property).length > 0
+): Promise<boolean> {
+  const decls = await findPropertyDeclarations(css, selector, property)
+  return decls.length > 0
 }
 
-export function elementHasPropertyValue(
+export async function elementHasPropertyValue(
   css: string,
   selector: string,
   property: string,
   value: string
-): boolean {
-  const declarations = findPropertyDeclarations(css, selector, property)
+): Promise<boolean> {
+  const declarations = await findPropertyDeclarations(css, selector, property)
   const normalizedValue = normalize(value)
   return declarations.some((decl) => decl.endsWith(normalizedValue))
 }

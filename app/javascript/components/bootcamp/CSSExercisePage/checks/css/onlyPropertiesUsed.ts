@@ -1,16 +1,18 @@
-import * as csstree from 'css-tree'
+import postcss from 'postcss'
+import postcssNested from 'postcss-nested'
 
-export function onlyPropertiesUsed(css: string, allowed: string[]): boolean {
-  const ast = csstree.parse(css)
+export async function onlyPropertiesUsed(
+  css: string,
+  allowed: string[]
+): Promise<boolean> {
   const usedProps = new Set<string>()
 
-  csstree.walk(ast, {
-    visit: 'Declaration',
-    enter(node) {
-      if (node.type === 'Declaration') {
-        usedProps.add(node.property)
-      }
-    },
+  const result = await postcss([postcssNested]).process(css, {
+    from: undefined,
+  })
+
+  result.root.walkDecls((decl) => {
+    usedProps.add(decl.prop)
   })
 
   for (const used of usedProps) {

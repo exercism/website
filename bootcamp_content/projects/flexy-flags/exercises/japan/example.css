@@ -1,0 +1,13 @@
+#flag {
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#circle {
+    background: #bc002d;
+    border-radius: 100%;
+    flex-basis: 40%;
+    aspect-ratio: 1;
+}

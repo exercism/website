@@ -29,3 +29,5 @@ section div:nth-child(3) {
   ...;
 }
 ```
+
+You can also use keywords like `even` or `odd` (e.g. `div:nth-child(even)`) to target all the even/odd items. Maybe you can chain some selectors to make your CSS more DRY?

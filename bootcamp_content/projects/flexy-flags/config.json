@@ -3,13 +3,14 @@
   "title": "Flexy Flags",
   "description": "Use Flexbox to reproduce various flag designs.",
   "exercises": [
-    "guinea",
-    "armenia",
-    "benin",
-    "botswana",
-    "cameroon",
-    "japan",
-    "bangladesh",
-    "denmark"
+    "flexy-guinea",
+    "flexy-armenia",
+    "flexy-benin",
+    "flexy-botswana",
+    "flexy-cameroon",
+    "flexy-japan",
+    "flexy-bangladesh",
+    "flexy-denmark",
+    "flexy-liberia"
   ]
 }

@@ -62,7 +62,7 @@ export function useEditorHandler({
       )
     }
 
-    if (code.storedAt) {
+    if (code.storedAt && exercise.language !== 'javascript') {
       handleRunCode()
     }
   }

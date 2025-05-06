@@ -2,6 +2,7 @@ import {
   elementHasProperty,
   elementHasPropertyValue,
 } from './elementHasProperty'
+import { enforceHtmlTagLimits } from './enforceHtmlTagLimits'
 import { exactPropertiesUsed } from './exactPropertiesUsed'
 
 export type CheckResult = {
@@ -19,6 +20,7 @@ const checkFunctions: Record<string, Function> = {
   elementHasProperty,
   elementHasPropertyValue,
   exactPropertiesUsed,
+  enforceHtmlTagLimits,
 }
 
 function evaluateMatch(result: boolean, matcher: string): boolean {

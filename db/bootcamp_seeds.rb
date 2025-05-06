@@ -68,6 +68,7 @@ projects = %w[
   mona-lisa
   style-puzzles
   javascript-fundamentals
+  flexy-flags
 ]
 
 projects.each do |project_slug|

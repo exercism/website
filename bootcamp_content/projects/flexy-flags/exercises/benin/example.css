@@ -1,0 +1,27 @@
+#flag {
+    background: white;
+    display: flex;
+
+    #lhs {
+        flex-basis: 40%;
+        background: #008751;
+    }
+    #rhs {
+        flex-grow: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        div {
+            flex-grow: 1;
+
+            &:nth-child(1) {
+                background: #fcd116;
+            }
+
+            &:nth-child(2) {
+                background: #e8112d;
+            }
+        }
+    }
+}

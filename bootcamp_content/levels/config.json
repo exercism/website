@@ -44,7 +44,11 @@
     "description": "We build some CSS and HTML!"
   },
   {
-    "title": "JS",
+    "title": "JavaScript",
     "description": "We explore the crazy (but fun) world of Javascript!"
+  },
+  {
+    "title": "Flexbox & Higher Order Functions",
+    "description": "We learn about Flexbox in CSS and higher order functions in JavaScript."
   }
 ]

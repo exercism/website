@@ -1,4 +1,6 @@
-import * as csstree from 'css-tree'
+import postcss from 'postcss'
+import postcssNesting from 'postcss-nesting'
+
 const propertyGroups: Record<string, string[]> = {
   padding: [
     'padding',
@@ -29,23 +31,22 @@ const propertyGroups: Record<string, string[]> = {
     'background-position',
     'background-size',
   ],
-  // add more as needed
 }
 
-export function exactPropertiesUsed(css: string, allowed: string[]): boolean {
-  const ast = csstree.parse(css)
+export async function onlyPropertyGroupsUsed(
+  css: string,
+  allowed: string[]
+): Promise<boolean> {
   const usedProps = new Set<string>()
 
-  csstree.walk(ast, {
-    visit: 'Declaration',
-    enter(node) {
-      if (node.type === 'Declaration') {
-        usedProps.add(node.property)
-      }
-    },
+  const result = await postcss([postcssNesting]).process(css, {
+    from: undefined,
   })
 
-  // Expand the allowed properties based on property groups
+  result.root.walkDecls((decl) => {
+    usedProps.add(decl.prop)
+  })
+
   const expandedAllowed = new Set<string>()
   for (const prop of allowed) {
     const group = propertyGroups[prop]
@@ -56,7 +57,6 @@ export function exactPropertiesUsed(css: string, allowed: string[]): boolean {
     }
   }
 
-  // Check that every used property is in the expanded allowed set
   for (const used of usedProps) {
     if (!expandedAllowed.has(used)) {
       return false

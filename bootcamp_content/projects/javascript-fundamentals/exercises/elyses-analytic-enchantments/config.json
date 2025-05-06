@@ -1,0 +1,103 @@
+{
+  "title": "Elyse's Analytic Enchantments",
+  "description": "Elyse's magic training continues, teaching you about useful built-in methods to analyse arrays.",
+  "language": "javascript",
+  "level": 13,
+  "idx": 10,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Help Elyse!",
+      "tests": [
+        {
+          "name": "Card is first",
+          "slug": "get-card-position-first",
+          "description_html": "Return the position of the first card.",
+          "function": "getCardPosition",
+          "args": [[1, 2, 3], 1],
+          "checks": [{ "value": 0 }]
+        },
+        {
+          "name": "Card not found",
+          "slug": "get-card-position-not-found",
+          "description_html": "Return -1 if the card is not found.",
+          "function": "getCardPosition",
+          "args": [[1, 2, 3], 4],
+          "checks": [{ "value": -1 }]
+        },
+        {
+          "name": "Card is found",
+          "slug": "stack-includes-card",
+          "description_html": "Check if a specific card is in the stack.",
+          "function": "doesStackIncludeCard",
+          "args": [[1, 2, 3], 1],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Card not found",
+          "slug": "stack-not-includes-card",
+          "description_html": "Check if a card not in the stack returns false.",
+          "function": "doesStackIncludeCard",
+          "args": [[1, 2, 3], 4],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "All cards even",
+          "slug": "all-cards-even",
+          "description_html": "Check if all cards are even.",
+          "function": "isEachCardEven",
+          "args": [[2, 4, 6]],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Some cards odd",
+          "slug": "some-cards-odd",
+          "description_html": "Return false if any card is odd.",
+          "function": "isEachCardEven",
+          "args": [[2, 5, 6]],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Includes odd card",
+          "slug": "includes-odd",
+          "description_html": "Return true if there is an odd card.",
+          "function": "doesStackIncludeOddCard",
+          "args": [[2, 5]],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "No odd card",
+          "slug": "no-odd",
+          "description_html": "Return false if there are no odd cards.",
+          "function": "doesStackIncludeOddCard",
+          "args": [[2, 4, 6]],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "First odd card found",
+          "slug": "first-odd-card",
+          "description_html": "Return the first odd card.",
+          "function": "getFirstOddCard",
+          "args": [[2, 4, 1, 3]],
+          "checks": [{ "value": 1 }]
+        },
+        {
+          "name": "Find even card position",
+          "slug": "first-even-card-position",
+          "description_html": "Return the position of the first even card.",
+          "function": "getFirstEvenCardPosition",
+          "args": [[2, 4, 1, 3]],
+          "checks": [{ "value": 0 }]
+        },
+        {
+          "name": "No even card",
+          "slug": "no-even-card-position",
+          "description_html": "Return -1 when no even card exists.",
+          "function": "getFirstEvenCardPosition",
+          "args": [[1, 3, 5]],
+          "checks": [{ "value": -1 }]
+        }
+      ]
+    }
+  ]
+}

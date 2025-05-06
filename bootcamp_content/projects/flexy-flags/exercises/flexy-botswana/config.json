@@ -1,0 +1,24 @@
+{
+  "title": "Flexy Botswana",
+  "description": "Reproduce Botswana's flag with flexbox",
+  "language": "css",
+  "level": 13,
+  "idx": 4,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  },
+  "html_checks": [
+    {
+      "function": "numTagsUsed(4)",
+      "matcher": "toBeTrue",
+      "error_html": "You shouldn't use more than 4 tags in your HTML."
+    }
+  ],
+  "checks": [
+    {
+      "function": "onlyPropertiesUsed(['background','display','flex-basis','flex-direction','flex-grow','gap'])",
+      "matcher": "toBeTrue",
+      "errorHtml": "You used a CSS property that is not allowed for this exercise."
+    }
+  ]
+}

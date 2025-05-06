@@ -51,10 +51,11 @@ interface CSSExercisePageExercise {
   introductionHtml: string
   slug: string
   title: string
-  checks: CSSCheck[]
+  cssChecks: Check[]
+  htmlChecks: Check[]
 }
 
-type CSSCheck = {
+type Check = {
   function: string
   matcher: 'toBeTrue' | 'toBeFalse'
   errorHtml: string

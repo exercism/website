@@ -6,11 +6,13 @@ import {
 } from '../store/cssExercisePageStore'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
-import { CheckResult, runChecks } from '../utils/runCheckFunctions'
 import { showResultToast } from './showResultToast'
 import Icon from '@/components/common/Icon'
 import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { runHtmlChecks } from '../checks/runHtmlChecks'
+import { CheckResult } from '../checks/runChecks'
+import { runCssChecks } from '../checks/runCssChecks'
 
 export function ControlButtons({
   getEditorValues,
@@ -47,19 +49,20 @@ export function ControlButtons({
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
-    if (percentage >= PASS_THRESHOLD) {
-      if (exercise.checks.length === 0) {
-        status = 'pass'
-      } else {
-        const checks = runChecks(exercise.checks, cssValue)
+    const htmlChecks = await runHtmlChecks(exercise.htmlChecks, htmlValue)
+    const cssChecks = await runCssChecks(exercise.cssChecks, cssValue)
 
-        if (checks.success) {
-          status = 'pass'
-        } else {
-          firstFailingCheck =
-            checks.results.find((check) => !check.passes) || null
-        }
-      }
+    const allHtmlChecksPass = htmlChecks.success
+    const allCssChecksPass =
+      exercise.cssChecks.length === 0 || cssChecks.success
+
+    if (percentage >= PASS_THRESHOLD && allHtmlChecksPass && allCssChecksPass) {
+      status = 'pass'
+    } else {
+      firstFailingCheck =
+        htmlChecks.results.find((check) => !check.passes) ||
+        cssChecks.results.find((check) => !check.passes) ||
+        null
     }
 
     showResultToast(status, percentage, firstFailingCheck)
@@ -76,13 +79,13 @@ export function ControlButtons({
       readonlyRanges: { html: htmlReadonlyRanges, css: cssReadonlyRanges },
     })
   }, [
+    exercise,
     getEditorValues,
     handleCompare,
-    exercise,
+    links.postSubmission,
     showResultToast,
     updateAssertionStatus,
     submitCode,
-    links.postSubmission,
   ])
 
   return (

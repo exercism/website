@@ -1,9 +1,3 @@
-import {
-  elementHasProperty,
-  elementHasPropertyValue,
-} from './elementHasProperty'
-import { exactPropertiesUsed } from './exactPropertiesUsed'
-
 export type CheckResult = {
   result: boolean | null
   passes: boolean
@@ -15,13 +9,13 @@ export type ChecksResult = {
   results: CheckResult[]
 }
 
-const checkFunctions: Record<string, Function> = {
-  elementHasProperty,
-  elementHasPropertyValue,
-  exactPropertiesUsed,
+export type Check = {
+  function: string
+  matcher: 'toBeTrue' | 'toBeFalse'
+  errorHtml: string
 }
 
-function evaluateMatch(result: boolean, matcher: string): boolean {
+export function evaluateMatch(result: boolean, matcher: string): boolean {
   switch (matcher) {
     case 'toBeTrue':
       return result === true
@@ -31,8 +25,13 @@ function evaluateMatch(result: boolean, matcher: string): boolean {
       throw new Error(`Unimplemented matcher: ${matcher}`)
   }
 }
-export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
-  const results: CheckResult[] = checks.map((check) => {
+
+export async function runChecks(
+  checks: Check[],
+  value: string,
+  checkFunctions: Record<string, Function>
+): Promise<ChecksResult> {
+  const resultPromises: Promise<CheckResult>[] = checks.map(async (check) => {
     try {
       const funcMatch = check.function.match(/([a-zA-Z0-9_]+)\((.*)\)/)
 
@@ -46,20 +45,19 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
 
       try {
         const safe_eval = eval
-        args = safe_eval(argsString)
+        args = argsString.trim().startsWith('(')
+          ? safe_eval(`${argsString}`)
+          : safe_eval(`(${argsString})`)
       } catch (error) {
-        // TODO: show this only in dev mode
         throw new Error(`Invalid arguments format: ${argsString}`)
       }
 
       const func = checkFunctions[funcName]
       if (!func) {
-        // TODO: show this only in dev mode
         throw new Error(`Function not found: ${funcName}`)
       }
 
-      const result = func(cssValue, args)
-
+      const result = await func(value, args)
       const passes = evaluateMatch(result, check.matcher)
 
       return {
@@ -75,6 +73,8 @@ export function runChecks(checks: CSSCheck[], cssValue: string): ChecksResult {
       }
     }
   })
+
+  const results = await Promise.all(resultPromises)
 
   return {
     success: results.every((r) => r.passes),

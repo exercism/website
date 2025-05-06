@@ -1,0 +1,25 @@
+#flag {
+    background: white;
+    display: flex;
+
+    div {
+        flex-grow: 1;
+        flex-basis: 100px;
+
+        &:nth-child(1) {
+            background: #007a5e;
+        }
+        &:nth-child(2) {
+            background: #ce1126;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                width: 50%;
+            }
+        }
+        &:nth-child(3) {
+            background: #fcd116;
+        }
+    }
+}

@@ -16,7 +16,8 @@ module ReactComponents
           slug: exercise.slug,
           title: exercise.title,
           introduction_html: exercise.introduction_html,
-          checks: exercise.config[:checks] || [],
+          css_checks: exercise.config[:checks] || [],
+          html_checks: exercise.config[:html_checks] || [],
           config: {
             title: exercise.config[:title],
             description: exercise.config[:description],

@@ -6,5 +6,12 @@
   "idx": 4,
   "editor_config": {
     "aspect_ratio": 1.5
-  }
+  },
+  "html_checks": [
+    {
+      "function": "tagOccursNoMoreThan({div: 2})",
+      "matcher": "toBeTrue",
+      "error_html": "You shouldn't use more than 2 divs in your code."
+    }
+  ]
 }

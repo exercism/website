@@ -9,6 +9,7 @@ import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCo
 import { CheckResult, runChecks } from '../utils/runCheckFunctions'
 import { showResultToast } from './showResultToast'
 import Icon from '@/components/common/Icon'
+import { runHtmlChecks } from '../utils/runHtmlChecks'
 
 export function ControlButtons({
   getEditorValues,
@@ -36,17 +37,19 @@ export function ControlButtons({
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
+    const htmlChecks = runHtmlChecks(exercise.htmlChecks, htmlValue)
+    console.log('htmlchecks', htmlChecks, exercise.cssChecks)
     if (percentage >= PASS_THRESHOLD) {
-      if (exercise.checks.length === 0) {
+      if (exercise.cssChecks.length === 0) {
         status = 'pass'
       } else {
-        const checks = runChecks(exercise.checks, cssValue)
+        const cssChecks = runChecks(exercise.cssChecks, cssValue)
 
-        if (checks.success) {
+        if (cssChecks.success) {
           status = 'pass'
         } else {
           firstFailingCheck =
-            checks.results.find((check) => !check.passes) || null
+            cssChecks.results.find((check) => !check.passes) || null
         }
       }
     }

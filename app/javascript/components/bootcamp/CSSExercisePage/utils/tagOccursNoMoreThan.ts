@@ -1,7 +1,9 @@
-export function enforceHtmlTagLimits(
+// tagLimits is {div: 2}, etc
+export function tagOccursNoMoreThan(
   html: string,
   tagLimits: Record<string, number>
 ): boolean {
+  console.log('enforcing limits', tagLimits)
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
   const tagCounts: Record<string, number> = {}

@@ -6,7 +6,7 @@
   "idx": 7,
   "checks": [
     {
-      "function": "exactPropertiesUsed(['margin', 'background'])",
+      "function": "onlyPropertyGroupsUsed(['margin', 'background'])",
       "matcher": "toBeTrue",
       "error_html": "You should only use the margin property."
     }

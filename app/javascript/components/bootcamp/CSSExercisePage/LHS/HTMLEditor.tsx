@@ -60,7 +60,7 @@ export function HTMLEditor({ defaultCode }: { defaultCode: string }) {
   }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
 
   const updateEditorHashOnDebounce = useMemo(() => {
-    return debounce(async (view: EditorView) => {
+    return debounce((view: EditorView) => {
       const htmlContent = view.state.doc.toString()
       const cssContent = cssEditorRef.current?.state.doc.toString() || ''
 

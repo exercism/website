@@ -17,6 +17,7 @@ You should **only** use the following properties:
 - `flex-basis`: Used to specify the initial size of an element on the main axis. Use percentages in this exercise (divisible by 10).
 - `flex-direction`: Used to determine the direction that the flex container arranges its items.
 - `flex-grow`: Used to specify whether an element should grow to fill the remaining space.
+- `min-height`: Sometimes it's helpful to set min-height to `0` to get your flex-grow to do what you'd desire. Check the video for a full explanation!
 - `justify-content`: Used to justify content on the main axis.
 - `align-items`: Used to justify content on the secondary axis.
 - `aspect-ratio`: Used to set the aspect ratio of an element. (e.g. `1` makes something square, `1.5` makes something into a rectangle).

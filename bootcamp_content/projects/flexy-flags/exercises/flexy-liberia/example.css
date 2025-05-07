@@ -4,9 +4,13 @@
     flex-direction: column;
 }
 
+#top,
+#bottom {
+    flex-basis: 0;
+    min-height: 0;
+}
 #top {
     display: flex;
-    flex-basis: 0;
     flex-grow: 5;
     align-items: stretch;
 }
@@ -27,7 +31,6 @@
     flex-direction: column;
 }
 #bottom {
-    flex-basis: 0;
     flex-grow: 6;
 }
 

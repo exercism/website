@@ -225,7 +225,6 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
     css: code.defaultReadonlyRanges?.css || [],
   }
 
-  // fall back to this if code is not found or falsy/empty
   const fallbackCode: EditorCode = {
     htmlEditorContent: code.stub.html,
     cssEditorContent: code.stub.css,
@@ -233,27 +232,29 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
     readonlyRanges: fallbackReadonlyRanges,
   }
 
+  if (!code.code) return fallbackCode
+
+  let parsed: Partial<
+    Pick<EditorCode, 'htmlEditorContent' | 'cssEditorContent'>
+  > = {}
+
   try {
-    if (!code.code) return fallbackCode
-
-    const parsed = JSON.parse(code.code) as Partial<
-      Pick<EditorCode, 'htmlEditorContent' | 'cssEditorContent'>
-    >
-    const html = parsed.htmlEditorContent?.trim() || code.stub.html
-    const css = parsed.cssEditorContent?.trim() || code.stub.css
-
-    return {
-      htmlEditorContent: html,
-      cssEditorContent: css,
-      storedAt: new Date().toISOString(),
-      readonlyRanges: {
-        // if can't find readonly ranges, safer to fall back to empty
-        html: code.readonlyRanges?.html || [],
-        css: code.readonlyRanges?.css || [],
-      },
-    }
+    parsed = JSON.parse(code.code)
   } catch (error) {
     console.error('Error parsing initial code:', error)
     return fallbackCode
+  }
+
+  const html = parsed.htmlEditorContent?.trim() || code.stub.html
+  const css = parsed.cssEditorContent?.trim() || code.stub.css
+
+  return {
+    htmlEditorContent: html,
+    cssEditorContent: css,
+    storedAt: new Date().toISOString(),
+    readonlyRanges: {
+      html: code.readonlyRanges?.html || [],
+      css: code.readonlyRanges?.css || [],
+    },
   }
 }

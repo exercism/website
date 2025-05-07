@@ -15,7 +15,7 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror/extensions'
 import { htmlTheme } from './htmlTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
-import xxhash from 'xxhash-wasm'
+import XXH from 'xxhashjs'
 
 export function HTMLEditor({ defaultCode }: { defaultCode: string }) {
   const {
@@ -61,12 +61,10 @@ export function HTMLEditor({ defaultCode }: { defaultCode: string }) {
 
   const updateEditorHashOnDebounce = useMemo(() => {
     return debounce(async (view: EditorView) => {
-      const hasher = await xxhash()
-
       const htmlContent = view.state.doc.toString()
       const cssContent = cssEditorRef.current?.state.doc.toString() || ''
 
-      const hash = hasher.h32ToString(htmlContent + cssContent)
+      const hash = XXH.h32(htmlContent + cssContent, 0).toString(16)
 
       setStudentCodeHash(hash)
     }, 500)

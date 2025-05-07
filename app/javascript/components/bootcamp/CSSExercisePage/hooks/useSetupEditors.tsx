@@ -220,15 +220,27 @@ function resetSingleEditor(
 }
 
 function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
+  const fallbackReadonlyRanges = {
+    html: code.defaultReadonlyRanges?.html || [],
+    css: code.defaultReadonlyRanges?.css || [],
+  }
+
+  // fall back to this if code is not found or falsy/empty
+  const fallbackCode: EditorCode = {
+    htmlEditorContent: code.stub.html,
+    cssEditorContent: code.stub.css,
+    storedAt: new Date().toISOString(),
+    readonlyRanges: fallbackReadonlyRanges,
+  }
+
   try {
-    let parsed
-    try {
-      parsed = JSON.parse(code.code) as { html?: string; css?: string }
-    } catch {
-      parsed = {}
-    }
-    const html = parsed.html?.length ? parsed.html : code.stub.html
-    const css = parsed.css?.length ? parsed.css : code.stub.css
+    if (!code.code) return fallbackCode
+
+    const parsed = JSON.parse(code.code) as Partial<
+      Pick<EditorCode, 'htmlEditorContent' | 'cssEditorContent'>
+    >
+    const html = parsed.htmlEditorContent?.trim() || code.stub.html
+    const css = parsed.cssEditorContent?.trim() || code.stub.css
 
     return {
       htmlEditorContent: html,
@@ -242,16 +254,6 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
     }
   } catch (error) {
     console.error('Error parsing initial code:', error)
-
-    // if we can't parse code from the server, fall back to stub code.
-    return {
-      htmlEditorContent: code.stub.html,
-      cssEditorContent: code.stub.css,
-      storedAt: new Date().toISOString(),
-      readonlyRanges: {
-        html: code.defaultReadonlyRanges?.html || [],
-        css: code.defaultReadonlyRanges?.css || [],
-      },
-    }
+    return fallbackCode
   }
 }

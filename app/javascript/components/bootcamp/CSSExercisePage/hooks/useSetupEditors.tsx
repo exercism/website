@@ -220,38 +220,41 @@ function resetSingleEditor(
 }
 
 function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
-  try {
-    let parsed
-    try {
-      parsed = JSON.parse(code.code) as { html?: string; css?: string }
-    } catch {
-      parsed = {}
-    }
-    const html = parsed.html?.length ? parsed.html : code.stub.html
-    const css = parsed.css?.length ? parsed.css : code.stub.css
+  const fallbackReadonlyRanges = {
+    html: code.defaultReadonlyRanges?.html || [],
+    css: code.defaultReadonlyRanges?.css || [],
+  }
 
-    return {
-      htmlEditorContent: html,
-      cssEditorContent: css,
-      storedAt: new Date().toISOString(),
-      readonlyRanges: {
-        // if can't find readonly ranges, safer to fall back to empty
-        html: code.readonlyRanges?.html || [],
-        css: code.readonlyRanges?.css || [],
-      },
-    }
+  const fallbackCode: EditorCode = {
+    htmlEditorContent: code.stub.html,
+    cssEditorContent: code.stub.css,
+    storedAt: new Date().toISOString(),
+    readonlyRanges: fallbackReadonlyRanges,
+  }
+
+  if (!code.code) return fallbackCode
+
+  let parsed: Partial<
+    Pick<EditorCode, 'htmlEditorContent' | 'cssEditorContent'>
+  > = {}
+
+  try {
+    parsed = JSON.parse(code.code)
   } catch (error) {
     console.error('Error parsing initial code:', error)
+    return fallbackCode
+  }
 
-    // if we can't parse code from the server, fall back to stub code.
-    return {
-      htmlEditorContent: code.stub.html,
-      cssEditorContent: code.stub.css,
-      storedAt: new Date().toISOString(),
-      readonlyRanges: {
-        html: code.defaultReadonlyRanges?.html || [],
-        css: code.defaultReadonlyRanges?.css || [],
-      },
-    }
+  const html = parsed.htmlEditorContent?.trim() || code.stub.html
+  const css = parsed.cssEditorContent?.trim() || code.stub.css
+
+  return {
+    htmlEditorContent: html,
+    cssEditorContent: css,
+    storedAt: new Date().toISOString(),
+    readonlyRanges: {
+      html: code.readonlyRanges?.html || [],
+      css: code.readonlyRanges?.css || [],
+    },
   }
 }

@@ -6026,6 +6026,9 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
+"html-to-image-local@file:../html-to-image":
+  version "1.11.13"
+
 "html-to-image@https://github.com/exercism/html-to-image":
   version "1.11.13"
   resolved "https://github.com/exercism/html-to-image#ed3093704d85f4237932d907dc736d8ea23e7c54"

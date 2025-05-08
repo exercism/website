@@ -87,7 +87,7 @@
     "highlightjs-roc": "^0.2.0",
     "highlightjs-sap-abap": "^0.2.0",
     "highlightjs-zig": "^1.0.2",
-    "html-to-image": "^1.11.13",
+    "html-to-image": "https://github.com/exercism/html-to-image",
     "html2canvas": "^1.4.1",
     "htmlhint": "^1.1.4",
     "humps": "^2.0.1",

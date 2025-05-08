@@ -1,4 +1,4 @@
-import { toCanvas, toSvg, toJpeg } from 'html-to-image'
+import { toCanvas, toSvg, toJpeg } from 'html-to-image/src'
 
 export async function getIframePixels(
   iframeRef: React.RefObject<HTMLIFrameElement>

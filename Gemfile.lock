@@ -364,7 +364,7 @@ GEM
     qonfig (0.28.0)
     raabro (1.4.0)
     racc (1.7.3)
-    rack (2.2.9)
+    rack (2.2.14)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (2.0.1)

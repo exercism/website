@@ -234,9 +234,7 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
 
   if (!code.code) return fallbackCode
 
-  let parsed: Partial<
-    Pick<EditorCode, 'htmlEditorContent' | 'cssEditorContent'>
-  > = {}
+  let parsed: { html?: string; css?: string } = {}
 
   try {
     parsed = JSON.parse(code.code)
@@ -245,16 +243,13 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
     return fallbackCode
   }
 
-  const html = parsed.htmlEditorContent?.trim() || code.stub.html
-  const css = parsed.cssEditorContent?.trim() || code.stub.css
+  const html = parsed.html?.trim() || code.stub.html
+  const css = parsed.css?.trim() || code.stub.css
 
   return {
     htmlEditorContent: html,
     cssEditorContent: css,
     storedAt: new Date().toISOString(),
-    readonlyRanges: {
-      html: code.readonlyRanges?.html || [],
-      css: code.readonlyRanges?.css || [],
-    },
+    readonlyRanges: fallbackReadonlyRanges,
   }
 }

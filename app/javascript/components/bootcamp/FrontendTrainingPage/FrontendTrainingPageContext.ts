@@ -6,15 +6,21 @@ type FrontendTrainingPageContextType = {
   actualIFrameRef: React.RefObject<HTMLIFrameElement>
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
-  javaScriptEditorRef: React.RefObject<EditorView>
+  jsEditorRef: React.RefObject<EditorView>
   handleHtmlEditorDidMount: (handler: Handler) => void
   handleCssEditorDidMount: (handler: Handler) => void
-  handleJavaScriptEditorDidMount: (handler: Handler) => void
+  handleJsEditorDidMount: (handler: Handler) => void
   setEditorCodeLocalStorage: React.Dispatch<
     React.SetStateAction<{
       htmlEditorContent: string
       cssEditorContent: string
-      javaScriptEditorContent: string
+      jsEditorContent: string
+      readonlyRanges: {
+        css: ReadonlyRange[]
+        html: ReadonlyRange[]
+        js: ReadonlyRange[]
+      }
+      storedAt: string
     }>
   >
 }

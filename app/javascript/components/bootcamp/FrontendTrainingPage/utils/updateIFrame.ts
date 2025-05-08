@@ -2,11 +2,8 @@ export function updateIFrame(
   iframeRef:
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
-  {
-    html,
-    css,
-    javascript,
-  }: { html?: string; css?: string; javascript?: string }
+  { html, css, js }: { html?: string; css?: string; js?: string },
+  code?: FrontendExercisePageCode
 ) {
   let iframeElement: HTMLIFrameElement | null = null
 
@@ -34,7 +31,7 @@ export function updateIFrame(
         <script>
           window.runCode = function() {
             try {
-              ${javascript}
+              ${js}
             } catch (error) {
               console.error('User script error:', error)
             }

@@ -6,13 +6,14 @@ import { javascript } from '@codemirror/lang-javascript'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { eslintLinter } from '../../../extensions/eslinter'
 import { EDITOR_HEIGHT } from '../Panels'
+import { jsTheme } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 
 export function JavaScriptEditor() {
   const {
-    javaScriptEditorRef,
+    jsEditorRef,
     htmlEditorRef,
     cssEditorRef,
-    handleJavaScriptEditorDidMount,
+    handleJsEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
   } = useContext(FrontendTrainingPageContext)
@@ -24,8 +25,8 @@ export function JavaScriptEditor() {
     <SimpleCodeMirror
       defaultCode=""
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
-      editorDidMount={handleJavaScriptEditorDidMount}
-      extensions={[javascript(), eslintLinter]}
+      editorDidMount={handleJsEditorDidMount}
+      extensions={[javascript(), eslintLinter, jsTheme]}
       onEditorChangeCallback={(view) => {
         const doc = view.state.doc.toString()
         setEditorCodeLocalStorage((prev) => ({
@@ -34,12 +35,12 @@ export function JavaScriptEditor() {
         }))
 
         updateIFrame(actualIFrameRef, {
-          javascript: doc,
+          js: doc,
           html: htmlEditorRef.current?.state.doc.toString(),
           css: cssEditorRef.current?.state.doc.toString(),
         })
       }}
-      ref={javaScriptEditorRef}
+      ref={jsEditorRef}
     />
   )
 }

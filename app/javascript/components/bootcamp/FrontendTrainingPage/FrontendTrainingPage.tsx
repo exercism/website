@@ -17,13 +17,35 @@ export default function FrontendTrainingPage() {
   const {
     htmlEditorViewRef,
     cssEditorViewRef,
-    javaScriptEditorViewRef,
+    jsEditorViewRef,
     handleCssEditorDidMount,
     handleHtmlEditorDidMount,
-    handleJavaScriptEditorDidMount,
+    handleJsEditorDidMount,
     setEditorCodeLocalStorage,
     // TODO: ADD EXERCISE UUID HERE
-  } = useSetupEditors()
+  } = useSetupEditors(
+    'slug',
+    {
+      // TODO: Pass down `code` once it exists
+      stub: {
+        html: '',
+        css: '',
+        js: '',
+      },
+      code: '',
+      normalizeCss: '',
+      default: {
+        html: undefined,
+        css: undefined,
+        js: undefined,
+      },
+      shouldHideCssEditor: false,
+      shouldHideHtmlEditor: false,
+      aspectRatio: 0,
+      storedAt: null,
+    },
+    actualIFrameRef
+  )
 
   return (
     <FrontendTrainingPageContext.Provider
@@ -31,10 +53,10 @@ export default function FrontendTrainingPage() {
         actualIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
-        javaScriptEditorRef: javaScriptEditorViewRef,
+        jsEditorRef: jsEditorViewRef,
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
-        handleJavaScriptEditorDidMount,
+        handleJsEditorDidMount,
         setEditorCodeLocalStorage,
       }}
     >

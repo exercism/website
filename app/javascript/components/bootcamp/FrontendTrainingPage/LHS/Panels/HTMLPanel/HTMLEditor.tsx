@@ -4,7 +4,6 @@ import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPag
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
-import { htmlLinter } from '../../../extensions/htmlLinter'
 import { EDITOR_HEIGHT } from '../Panels'
 
 export function HTMLEditor() {
@@ -12,7 +11,7 @@ export function HTMLEditor() {
     handleHtmlEditorDidMount,
     htmlEditorRef,
     cssEditorRef,
-    javaScriptEditorRef,
+    jsEditorRef,
     setEditorCodeLocalStorage,
     actualIFrameRef,
   } = useContext(FrontendTrainingPageContext)
@@ -34,10 +33,10 @@ export function HTMLEditor() {
         updateIFrame(actualIFrameRef, {
           html: view.state.doc.toString(),
           css: cssEditorRef.current?.state.doc.toString(),
-          javascript: javaScriptEditorRef.current?.state.doc.toString(),
+          js: jsEditorRef.current?.state.doc.toString(),
         })
       }}
-      extensions={[html(), htmlLinter]}
+      extensions={[html()]}
       defaultCode="<div>hello</div>"
     />
   )

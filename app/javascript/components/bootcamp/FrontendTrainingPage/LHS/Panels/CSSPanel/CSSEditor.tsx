@@ -4,14 +4,14 @@ import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContex
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { css } from '@codemirror/lang-css'
 import { updateIFrame } from '../../../utils/updateIFrame'
-import { cssLinter } from '../../../extensions/cssLinter'
 import { EDITOR_HEIGHT } from '../Panels'
+import { interactionExtension } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/interaction/interaction'
 
 export function CSSEditor() {
   const {
     cssEditorRef,
     htmlEditorRef,
-    javaScriptEditorRef,
+    jsEditorRef,
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
@@ -25,7 +25,7 @@ export function CSSEditor() {
       defaultCode=""
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleCssEditorDidMount}
-      extensions={[css(), cssLinter]}
+      extensions={[css(), interactionExtension()]}
       onEditorChangeCallback={(view) => {
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
@@ -35,7 +35,7 @@ export function CSSEditor() {
         updateIFrame(actualIFrameRef, {
           css: view.state.doc.toString(),
           html: htmlEditorRef.current?.state.doc.toString(),
-          javascript: javaScriptEditorRef.current?.state.doc.toString(),
+          js: jsEditorRef.current?.state.doc.toString(),
         })
       }}
       ref={cssEditorRef}

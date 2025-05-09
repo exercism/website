@@ -16,9 +16,9 @@ const CSSExercisePage = lazy(
   () => import('../components/bootcamp/CSSExercisePage/CSSExercisePage')
 )
 
-const FrontendTrainingPage = lazy(
+const FrontendExercisePage = lazy(
   () =>
-    import('../components/bootcamp/FrontendTrainingPage/FrontendTrainingPage')
+    import('../components/bootcamp/FrontendExercisePage/FrontendExercisePage')
 )
 
 const DrawingPage = lazy(
@@ -59,11 +59,11 @@ const mappings = {
     </Suspense>
   ),
 
-  'bootcamp-frontend-training-page': (
+  'bootcamp-frontend-exercise-page': (
     data: CSSExercisePageProps
   ): JSX.Element => (
     <Suspense>
-      <FrontendTrainingPage />
+      <FrontendExercisePage />
     </Suspense>
   ),
 

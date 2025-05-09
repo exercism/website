@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
-import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
+import { FrontendTrainingPageContext } from '../../../FrontendExercisePageContext'
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'

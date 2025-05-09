@@ -1,18 +1,19 @@
 import React, { useContext } from 'react'
-import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
+import { FrontendTrainingPageContext } from '../../../FrontendExercisePageContext'
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
-import { css } from '@codemirror/lang-css'
+import { javascript } from '@codemirror/lang-javascript'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
-import { interactionExtension } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/interaction/interaction'
 import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
+import { jsTheme } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
+import { eslintLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/eslinter'
 
-export function CSSEditor() {
+export function JavaScriptEditor() {
   const {
-    cssEditorRef,
-    htmlEditorRef,
     jsEditorRef,
-    handleCssEditorDidMount,
+    htmlEditorRef,
+    cssEditorRef,
+    handleJsEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
   } = useContext(FrontendTrainingPageContext)
@@ -24,21 +25,22 @@ export function CSSEditor() {
     <SimpleCodeMirror
       defaultCode=""
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
-      editorDidMount={handleCssEditorDidMount}
-      extensions={[css(), interactionExtension()]}
+      editorDidMount={handleJsEditorDidMount}
+      extensions={[javascript(), eslintLinter, jsTheme]}
       onEditorChangeCallback={(view) => {
+        const doc = view.state.doc.toString()
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
-          cssEditorContent: view.state.doc.toString(),
+          jsEditorContent: doc,
         }))
 
         updateIFrame(actualIFrameRef, {
-          css: view.state.doc.toString(),
+          js: doc,
           html: htmlEditorRef.current?.state.doc.toString(),
-          js: jsEditorRef.current?.state.doc.toString(),
+          css: cssEditorRef.current?.state.doc.toString(),
         })
       }}
-      ref={cssEditorRef}
+      ref={jsEditorRef}
     />
   )
 }

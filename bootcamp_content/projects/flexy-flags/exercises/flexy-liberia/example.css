@@ -34,9 +34,11 @@
     flex-grow: 6;
 }
 
-#rhs div,
-#bottom div {
-    flex-grow: 1;
+#rhs,
+#bottom {
+    div {
+        flex-grow: 1;
+    }
 }
 #rhs div:nth-child(odd),
 #bottom div:nth-child(even) {

@@ -6,7 +6,8 @@ module ReactComponents
           user: {
             name: current_user.name,
             location: current_user.location,
-            bio: current_user.bio
+            bio: current_user.bio,
+            seniority: current_user.seniority
           },
           profile:,
           links: {

@@ -10,6 +10,7 @@ body,
     display: flex;
     justify-content: stretch;
     align-items: stretch;
+
     & > * {
         flex: 1;
     }

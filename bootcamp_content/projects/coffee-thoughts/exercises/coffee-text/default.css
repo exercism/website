@@ -3,7 +3,8 @@
 ::after {
     box-sizing: border-box;
 }
-body {
+body,
+.--jiki-faux-body {
     margin: 0;
     aspect-ratio: 1;
     overflow: hidden;

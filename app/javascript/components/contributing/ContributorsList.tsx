@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Pagination } from '@/components/common'
 import { TrackSelect } from '@/components/common/TrackSelect'
 import type { PaginatedResult, Contributor, Track } from '@/components/types'
@@ -39,6 +39,8 @@ export default function ContributorsList({
   tracks: readonly Track[]
 }): JSX.Element {
   const { request, setPage, setQuery } = useList(initialRequest)
+  const [currentData, setCurrentData] =
+    useState<PaginatedResult<readonly Contributor[]>>()
   const {
     status,
     data: resolvedData,
@@ -48,6 +50,10 @@ export default function ContributorsList({
     ['contributors-list', request.endpoint, request.query],
     request
   )
+
+  useEffect(() => {
+    if (!isFetching) setCurrentData(resolvedData)
+  }, [isFetching, resolvedData])
 
   const requestQuery = useDeepMemo(request.query)
   const setQueryValue = useCallback(
@@ -115,10 +121,10 @@ export default function ContributorsList({
           error={error}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData ? (
+          {currentData ? (
             <>
               <div className="contributors">
-                {resolvedData.results.map((contributor) => (
+                {currentData.results.map((contributor) => (
                   <ContributorRow
                     contributor={contributor}
                     key={contributor.handle}
@@ -126,9 +132,9 @@ export default function ContributorsList({
                 ))}
               </div>
               <Pagination
-                disabled={resolvedData === undefined}
+                disabled={currentData === undefined}
                 current={request.query.page || 1}
-                total={resolvedData.meta.totalPages}
+                total={currentData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
                   scrollToTop('contributors-list', 32)

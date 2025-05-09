@@ -281,6 +281,7 @@ GEM
       net-pop
       net-smtp
     mandate (2.2.0)
+    mandate-rails (0.2.0)
     marcel (1.0.2)
     matrix (0.4.2)
     maxminddb (0.1.22)
@@ -589,6 +590,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 4.0)
   mandate (~> 2.0)
+  mandate-rails (>= 0.2.0)
   maxminddb (~> 0.1.22)
   mini_magick
   minitest

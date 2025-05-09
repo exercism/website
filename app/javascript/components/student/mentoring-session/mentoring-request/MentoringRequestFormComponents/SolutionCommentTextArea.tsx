@@ -6,7 +6,7 @@ export const SolutionCommentTextArea = React.forwardRef<
 >((_, ref) => (
   <div className="question">
     <label htmlFor="request-mentoring-form-solution-comment">
-      How can a mentor help you with this solution?
+      About your solution
     </label>
     <p id="request-mentoring-form-solution-description">
       Give your mentor a starting point for the conversation. This will be your

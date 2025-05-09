@@ -22,28 +22,60 @@ export function updateIFrame(
     iframeElement.contentDocument || iframeElement.contentWindow?.document
   if (!iframeDoc) return
 
-  iframeDoc.open()
-  iframeDoc.write(`
+  const escapedJS = js?.replace(/<\/script>/g, '<\\/script>') ?? ''
+
+  const iframeHtml = `
     <!DOCTYPE html>
     <html>
       <head>
         <style>${css}</style>
         <script>
+          window.onerror = function(message, source, lineno, colno, error) {
+            window.parent.postMessage({
+              type: 'iframe-js-error',
+              message,
+              source,
+              lineno,
+              colno,
+              stack: error?.stack || null,
+            }, '*');
+          };
+
           window.runCode = function() {
             try {
-              ${js}
+              ${escapedJS}
             } catch (error) {
-              console.error('User script error:', error)
+              window.parent.postMessage({
+                type: 'iframe-js-error',
+                message: error.message,
+                stack: error.stack || null,
+              }, '*');
             }
           }
         </script>
       </head>
       <body>
         ${html}
-        </body>
-        </html>
-        `)
-  iframeDoc.close()
+      </body>
+    </html>
+  `
+
+  try {
+    iframeDoc.open()
+    iframeDoc.write(iframeHtml)
+    iframeDoc.close()
+  } catch (err) {
+    // Catch immediate syntax errors (e.g. unterminated expressions)
+    window.postMessage(
+      {
+        type: 'iframe-js-parse-error',
+        message: (err as Error).message,
+        stack: (err as Error).stack,
+      },
+      '*'
+    )
+    return
+  }
 
   iframeElement.onload = () => {
     try {
@@ -59,5 +91,3 @@ export function updateIFrame(
     }
   }
 }
-
-/* <script>window.runCode?.()</script> */

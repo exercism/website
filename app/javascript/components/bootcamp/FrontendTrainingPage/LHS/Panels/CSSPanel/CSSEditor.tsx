@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { css } from '@codemirror/lang-css'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
 import { interactionExtension } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/interaction/interaction'
+import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
 
 export function CSSEditor() {
   const {

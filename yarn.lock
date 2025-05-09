@@ -1477,6 +1477,11 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-uiua/-/highlightjs-uiua-0.0.4.tgz#82799b3a47345596d85fc1ebbb193308db068202"
   integrity sha512-fyKgDFLHA1x2yJmu/xC0FIVWyFkzdUwvKmX1Ll0N6PxJ/AaR0beZkuZM2Powj6z01bOHQmrl84AKHZtdqiu/gQ==
 
+"@exercism/html-to-image@^1.11.15":
+  version "1.11.15"
+  resolved "https://registry.yarnpkg.com/@exercism/html-to-image/-/html-to-image-1.11.15.tgz#43f256c58cfef9ad8c8737656485ed999031ccb1"
+  integrity sha512-NkUUlp5EX5VWfLvfn70uq3zy/fPTl8UnUFD3lADgyOGBAYrL5DWe/q6ititBr8FOQ/IDAgKN5ITiDzT3uWv6fA==
+
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"
   resolved "https://github.com/exercism/twine2-story-format.git#ab0ed60553b2c6f06d51c4f91df35e29ac4ba865"
@@ -2164,6 +2169,10 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
+
+"@types/@exercism/html-to-image":
+  version "1.11.13"
+  resolved "https://codeload.github.com/exercism/html-to-image/tar.gz/db2fc718194b2cf048cac26c1cff4c70d0f603ae"
 
 "@types/actioncable@^5.2.3":
   version "5.2.11"
@@ -6025,13 +6034,6 @@ html-escaper@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
-
-"html-to-image-local@file:../html-to-image":
-  version "1.11.13"
-
-"html-to-image@https://github.com/exercism/html-to-image":
-  version "1.11.13"
-  resolved "https://github.com/exercism/html-to-image#ed3093704d85f4237932d907dc736d8ea23e7c54"
 
 html2canvas@^1.4.1:
   version "1.4.1"

@@ -1,4 +1,4 @@
-import { toCanvas } from 'html-to-image'
+import { toCanvas } from '@exercism/html-to-image'
 
 // this is a good debugging util to see output of the pixel-data gained from the iframe
 export async function cloneIframeToCanvas(

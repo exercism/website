@@ -1,4 +1,4 @@
-import { toPixelData } from 'html-to-image'
+import { toPixelData } from '@exercism/html-to-image'
 
 export async function captureIframeContent(
   iframeRef: React.RefObject<HTMLIFrameElement>

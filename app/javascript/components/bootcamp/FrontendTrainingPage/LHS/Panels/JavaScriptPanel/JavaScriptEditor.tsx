@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { javascript } from '@codemirror/lang-javascript'
 import { updateIFrame } from '../../../utils/updateIFrame'
-import { eslintLinter } from '../../../extensions/eslinter'
 import { EDITOR_HEIGHT } from '../Panels'
+import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
 import { jsTheme } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
+import { eslintLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/eslinter'
 
 export function JavaScriptEditor() {
   const {
@@ -31,7 +31,7 @@ export function JavaScriptEditor() {
         const doc = view.state.doc.toString()
         setEditorCodeLocalStorage((prev) => ({
           ...prev,
-          javaScriptEditorContent: doc,
+          jsEditorContent: doc,
         }))
 
         updateIFrame(actualIFrameRef, {

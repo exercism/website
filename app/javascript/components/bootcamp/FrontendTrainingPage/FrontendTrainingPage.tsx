@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header'
@@ -46,6 +46,21 @@ export default function FrontendTrainingPage() {
     },
     actualIFrameRef
   )
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const data = event.data
+      if (
+        data?.type === 'iframe-js-error' ||
+        data?.type === 'iframe-js-parse-error'
+      ) {
+        console.log('captured error:', data)
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+    return () => window.removeEventListener('message', handleMessage)
+  }, [])
 
   return (
     <FrontendTrainingPageContext.Provider

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { SimpleCodeMirror } from '../../../SimpleCodeMirror/SimpleCodeMirror'
 import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
 import { FrontendTrainingPageContext } from '../../../FrontendTrainingPageContext'
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
+import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
 
 export function HTMLEditor() {
   const {

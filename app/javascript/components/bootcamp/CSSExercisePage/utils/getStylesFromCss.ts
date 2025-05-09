@@ -12,6 +12,50 @@ interface SimulatedNode {
   parent?: SimulatedNode
 }
 
+export async function getStylesFromCss(
+  css: string,
+  targetSelector: string
+): Promise<Styles> {
+  const targetNode = buildSimulatedTree(targetSelector)
+  const result = await postcss([postcssNested]).process(css, {
+    from: undefined,
+  })
+
+  const styles: Styles = {}
+
+  result.root.walkRules((rule) => {
+    const raw = rule.selector
+    const selectors = raw.split(',').map((s) => s.trim())
+
+    for (const sel of selectors) {
+      if (selectorMatchesNode(sel, targetNode)) {
+        rule.walkDecls((decl) => {
+          styles[decl.prop] = decl.value
+        })
+      }
+    }
+  })
+
+  return styles
+}
+
+// converts a full selector string (e.g. #flag #top #rhs div) into a parent-linked tree
+function buildSimulatedTree(selector: string): SimulatedNode {
+  const parts = selector.split(' ').filter(Boolean)
+  let parent: SimulatedNode | undefined = undefined
+  let node: SimulatedNode | undefined
+
+  for (const part of parts) {
+    const current = parseSelectorPart(part)
+    current.parent = parent
+    parent = current
+    node = current
+  }
+
+  if (!node) throw new Error('Invalid selector')
+  return node
+}
+
 // parses a single CSS selector into a node
 function parseSelectorPart(part: string): SimulatedNode {
   const tokens = parseSelector(part)[0]
@@ -37,35 +81,6 @@ function parseSelectorPart(part: string): SimulatedNode {
   }
 
   return node
-}
-
-// converts a full selector string (e.g. #flag #top #rhs div) into a parent-linked tree
-function buildSimulatedTree(selector: string): SimulatedNode {
-  const parts = selector.split(' ').filter(Boolean)
-  let parent: SimulatedNode | undefined = undefined
-  let node: SimulatedNode | undefined
-
-  for (const part of parts) {
-    const current = parseSelectorPart(part)
-    current.parent = parent
-    parent = current
-    node = current
-  }
-
-  if (!node) throw new Error('Invalid selector')
-  return node
-}
-
-// evals n-th logic
-// we might need to add more of these if we want to support more pseudo-classes
-function nthChildMatches(
-  expected: string,
-  actual: number | undefined
-): boolean {
-  if (!actual) return false
-  if (expected === 'odd') return actual % 2 === 1
-  if (expected === 'even') return actual % 2 === 0
-  return parseInt(expected) === actual
 }
 
 // matches a CSS selector against a kinda "simulated DOM" node
@@ -102,29 +117,14 @@ function selectorMatchesNode(selector: string, node: SimulatedNode): boolean {
   return true
 }
 
-export async function getStylesFromCss(
-  css: string,
-  targetSelector: string
-): Promise<Styles> {
-  const targetNode = buildSimulatedTree(targetSelector)
-  const result = await postcss([postcssNested]).process(css, {
-    from: undefined,
-  })
-
-  const styles: Styles = {}
-
-  result.root.walkRules((rule) => {
-    const raw = rule.selector
-    const selectors = raw.split(',').map((s) => s.trim())
-
-    for (const sel of selectors) {
-      if (selectorMatchesNode(sel, targetNode)) {
-        rule.walkDecls((decl) => {
-          styles[decl.prop] = decl.value
-        })
-      }
-    }
-  })
-
-  return styles
+// evals n-th logic
+// we might need to add more of these if we want to support more pseudo-classes
+function nthChildMatches(
+  expected: string,
+  actual: number | undefined
+): boolean {
+  if (!actual) return false
+  if (expected === 'odd') return actual % 2 === 1
+  if (expected === 'even') return actual % 2 === 0
+  return parseInt(expected) === actual
 }

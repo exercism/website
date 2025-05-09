@@ -54,6 +54,8 @@ export async function getIframePixels(
     bodyWrapper.appendChild(style)
     foreignObject.appendChild(bodyWrapper)
 
+    // TODO: toCanvas expects an html element, but we have an SVG element - maybe do something about it?
+    // @ts-expect-error
     const canvas = await toCanvas(svg, {
       width: iframe.clientWidth,
       height: iframe.clientHeight,

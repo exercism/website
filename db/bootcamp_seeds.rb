@@ -37,6 +37,10 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symb
     c.content_markdown = ""
     c.level_idx = details[:level]
   end
+end
+
+JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
+  concept = Bootcamp::Concept.find_by!(slug: details[:slug])
 
   concept.update!(
     parent: details[:parent] ? Bootcamp::Concept.find_by!(slug: details[:parent]) : nil,

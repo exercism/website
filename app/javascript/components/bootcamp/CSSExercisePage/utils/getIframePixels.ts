@@ -40,7 +40,7 @@ export async function getIframePixels(
     decodedElem.innerHTML = decoded
     const svg = decodedElem.firstChild! as SVGElement
     svg.id = svgId
-    document.body.appendChild(svg)
+    // document.body.appendChild(svg)
 
     const foreignObject = svg.firstChild! as SVGForeignObjectElement
 

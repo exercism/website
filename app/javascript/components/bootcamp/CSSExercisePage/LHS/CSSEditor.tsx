@@ -14,7 +14,7 @@ import { readOnlyRangeDecoration } from '../../JikiscriptExercisePage/CodeMirror
 import { updateIFrame } from '../utils/updateIFrame'
 import { cssTheme } from './cssTheme'
 import { moveCursorByPasteLength } from '../../JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
-import xxhash from 'xxhash-wasm'
+import XXH from 'xxhashjs'
 import { interactionExtension } from '../SimpleCodeMirror/extensions/interaction/interaction'
 
 export function CSSEditor({ defaultCode }: { defaultCode: string }) {
@@ -60,13 +60,11 @@ export function CSSEditor({ defaultCode }: { defaultCode: string }) {
   }, [setEditorCodeLocalStorage, readOnlyRangesStateField])
 
   const updateEditorHashOnDebounce = useMemo(() => {
-    return debounce(async (view: EditorView) => {
-      const hasher = await xxhash()
-
+    return debounce((view: EditorView) => {
       const cssContent = view.state.doc.toString()
       const htmlContent = htmlEditorRef.current?.state.doc.toString() || ''
 
-      const hash = hasher.h32ToString(htmlContent + cssContent)
+      const hash = XXH.h32(htmlContent + cssContent, 0).toString(16)
 
       setStudentCodeHash(hash)
     }, 500)

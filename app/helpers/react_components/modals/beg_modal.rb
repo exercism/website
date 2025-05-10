@@ -41,7 +41,8 @@ module ReactComponents
         return false if current_user.current_subscription?
         return false if current_user.donated_in_last_35_days?
         return false unless current_user.solutions.count >= 5
-        return false unless current_user.submissions.where('created_at > ?', Time.current - 5.days).exists?
+
+        # return false unless current_user.submissions.where('created_at > ?', Time.current - 5.days).exists?
 
         dismissal = current_user.dismissed_introducers.find_by(slug: INTRODUCER_SLUG)
         return true unless dismissal

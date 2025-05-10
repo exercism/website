@@ -1,8 +1,7 @@
-body {
+body,
+.--jiki-faux-body {
     aspect-ratio: 1;
     overflow: hidden;
-}
-body {
     display: flex;
     justify-content: stretch;
     align-items: stretch;

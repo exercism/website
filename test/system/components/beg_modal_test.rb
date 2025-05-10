@@ -78,6 +78,7 @@ module Components
     def setup_user
       create(:user).tap do |user|
         5.times { create :practice_solution, user: }
+        # create :submission, solution: Solution.last
       end
     end
   end

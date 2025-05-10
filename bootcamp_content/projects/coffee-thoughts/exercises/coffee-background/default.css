@@ -1,4 +1,5 @@
-body {
+body,
+.--jiki-faux-body {
     aspect-ratio: 1;
     overflow: hidden;
 

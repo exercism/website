@@ -50,5 +50,9 @@
   {
     "title": "Flexbox & Higher Order Functions",
     "description": "We learn about Flexbox in CSS and higher order functions in JavaScript."
+  },
+  {
+    "title": "CSS Grid & more advanced JavaScript",
+    "description": "We learn about Grid in CSS and some more advanced JS and functional concepts."
   }
 ]

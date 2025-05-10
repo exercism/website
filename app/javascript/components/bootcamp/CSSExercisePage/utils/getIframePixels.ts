@@ -48,7 +48,7 @@ export async function getIframePixels(
     bodyWrapper.classList.add('--jiki-faux-body')
 
     // Move all children inside the foreignObject to the wrappedDecoded
-    for (const child of foreignObject.children) {
+    for (const child of Array.from(foreignObject.children)) {
       bodyWrapper.appendChild(child)
     }
     bodyWrapper.appendChild(style)

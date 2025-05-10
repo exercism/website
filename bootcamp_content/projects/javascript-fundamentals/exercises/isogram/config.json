@@ -1,0 +1,127 @@
+{
+  "title": "Isogram",
+  "description": "Determine if a word or phrase is an isogram.",
+  "language": "javascript",
+  "level": 13,
+  "idx": 13,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Check if string is an isogram",
+      "tests": [
+        {
+          "name": "Empty string",
+          "slug": "empty-string",
+          "description_html": "Check if an empty string is considered an isogram.",
+          "function": "isIsogram",
+          "args": [""],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Lowercase isogram",
+          "slug": "lowercase-isogram",
+          "description_html": "An isogram with only lowercase characters.",
+          "function": "isIsogram",
+          "args": ["isogram"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Duplicated character",
+          "slug": "duplicated-character",
+          "description_html": "Word with one duplicated character.",
+          "function": "isIsogram",
+          "args": ["eleven"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Duplicated end-of-alphabet character",
+          "slug": "duplicated-end-char",
+          "description_html": "Word with one duplicated character from the end of the alphabet.",
+          "function": "isIsogram",
+          "args": ["zzyzx"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Longest English isogram",
+          "slug": "longest-english-isogram",
+          "description_html": "Check the longest reported English isogram.",
+          "function": "isIsogram",
+          "args": ["subdermatoglyphic"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Mixed case duplicate",
+          "slug": "mixed-case-duplicate",
+          "description_html": "Duplicated character in mixed case.",
+          "function": "isIsogram",
+          "args": ["Alphabet"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Mixed case duplicate (lowercase first)",
+          "slug": "mixed-case-duplicate-lower",
+          "description_html": "Duplicated character in mixed case, lowercase first.",
+          "function": "isIsogram",
+          "args": ["alphAbet"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Isogram with hyphen",
+          "slug": "isogram-hyphen",
+          "description_html": "Hypothetical isogrammic word with hyphen.",
+          "function": "isIsogram",
+          "args": ["thumbscrew-japingly"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Duplicate after hyphen",
+          "slug": "duplicate-after-hyphen",
+          "description_html": "Word with duplicated character following hyphen.",
+          "function": "isIsogram",
+          "args": ["thumbscrew-jappingly"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Duplicated hyphen",
+          "slug": "duplicated-hyphen",
+          "description_html": "Isogram with duplicated hyphen.",
+          "function": "isIsogram",
+          "args": ["six-year-old"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Made-up isogram name",
+          "slug": "isogram-name",
+          "description_html": "Made-up name that is an isogram.",
+          "function": "isIsogram",
+          "args": ["Emily Jung Schwartzkopf"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Duplicate in middle",
+          "slug": "duplicate-middle",
+          "description_html": "Duplicated character in the middle.",
+          "function": "isIsogram",
+          "args": ["accentor"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Same first and last",
+          "slug": "same-first-last",
+          "description_html": "Same first and last characters.",
+          "function": "isIsogram",
+          "args": ["angola"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Duplicate with two hyphens",
+          "slug": "duplicate-two-hyphens",
+          "description_html": "Word with duplicated character and two hyphens.",
+          "function": "isIsogram",
+          "args": ["up-to-date"],
+          "checks": [{ "value": false }]
+        }
+      ]
+    }
+  ]
+}

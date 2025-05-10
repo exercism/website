@@ -1,0 +1,39 @@
+{
+  "title": "Resistor Color",
+  "description": "Convert a resistor band's color to its numeric representation.",
+  "language": "javascript",
+  "level": 13,
+  "idx": 15,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Color code lookup",
+      "tests": [
+        {
+          "name": "Black",
+          "slug": "color-black",
+          "description_html": "Color code for black should be 0.",
+          "function": "colorCode",
+          "args": ["black"],
+          "checks": [{ "value": 0 }]
+        },
+        {
+          "name": "White",
+          "slug": "color-white",
+          "description_html": "Color code for white should be 9.",
+          "function": "colorCode",
+          "args": ["white"],
+          "checks": [{ "value": 9 }]
+        },
+        {
+          "name": "Orange",
+          "slug": "color-orange",
+          "description_html": "Color code for orange should be 3.",
+          "function": "colorCode",
+          "args": ["orange"],
+          "checks": [{ "value": 3 }]
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "description": "Convert a resistor band's color to its numeric representation.",
   "language": "javascript",
   "level": 13,
-  "idx": 15,
+  "idx": 11,
   "tests_type": "io",
   "tasks": [
     {

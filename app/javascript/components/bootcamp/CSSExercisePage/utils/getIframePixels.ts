@@ -1,3 +1,4 @@
+// import { toCanvas, toSvg } from '../../../../../../../html-to-image/src'
 import { toCanvas, toSvg } from '@exercism/html-to-image'
 
 export async function getIframePixels(

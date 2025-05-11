@@ -29,7 +29,7 @@
     "@exercism/highlightjs-gdscript": "^0.0.1",
     "@exercism/highlightjs-jikiscript": "^0.0.2",
     "@exercism/highlightjs-uiua": "^0.0.4",
-    "@exercism/html-to-image": "^1.11.15",
+    "@exercism/html-to-image": "^1.11.17",
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@floating-ui/dom": "^1.6.12",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",

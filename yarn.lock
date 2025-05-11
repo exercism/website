@@ -1477,10 +1477,10 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-uiua/-/highlightjs-uiua-0.0.4.tgz#82799b3a47345596d85fc1ebbb193308db068202"
   integrity sha512-fyKgDFLHA1x2yJmu/xC0FIVWyFkzdUwvKmX1Ll0N6PxJ/AaR0beZkuZM2Powj6z01bOHQmrl84AKHZtdqiu/gQ==
 
-"@exercism/html-to-image@^1.11.15":
-  version "1.11.15"
-  resolved "https://registry.yarnpkg.com/@exercism/html-to-image/-/html-to-image-1.11.15.tgz#43f256c58cfef9ad8c8737656485ed999031ccb1"
-  integrity sha512-NkUUlp5EX5VWfLvfn70uq3zy/fPTl8UnUFD3lADgyOGBAYrL5DWe/q6ititBr8FOQ/IDAgKN5ITiDzT3uWv6fA==
+"@exercism/html-to-image@^1.11.17":
+  version "1.11.17"
+  resolved "https://registry.yarnpkg.com/@exercism/html-to-image/-/html-to-image-1.11.17.tgz#a5169dd4b586c1b6c0cca4e120e66a92894a551d"
+  integrity sha512-Op7NIpWXanCrU6qNI/D8nOMs4HLXlIFE35XDOEVI2qEEZn8FMIoITogr8Xl/FC8HMUhFyyojNwQyWBp9+bObRA==
 
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"

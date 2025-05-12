@@ -22,43 +22,27 @@ export function updateIFrame(
     iframeElement.contentDocument || iframeElement.contentWindow?.document
   if (!iframeDoc) return
 
-  const escapedJS = js?.replace(/<\/script>/g, '<\\/script>') ?? ''
-
   const iframeHtml = `
     <!DOCTYPE html>
     <html>
       <head>
         <style>${css}</style>
-        <script>
-          window.onerror = function(message, source, lineno, colno, error) {
-            window.parent.postMessage({
-              type: 'iframe-js-error',
-              message,
-              source,
-              lineno,
-              colno,
-              stack: error?.stack || null,
-            }, '*');
-          };
-
-          window.runCode = function() {
-            try {
-              ${escapedJS}
-            } catch (error) {
-              window.parent.postMessage({
-                type: 'iframe-js-error',
-                message: error.message,
-                stack: error.stack || null,
-              }, '*');
-            }
-          }
-        </script>
+${scriptPrelude}
+${js}
+} catch (error) {
+window.parent.postMessage({
+  type: 'iframe-js-error',
+  message: error.message,
+  stack: error.stack || null,
+}, '*');
+}
+}
+</script>
       </head>
       <body>
         ${html}
       </body>
-    </html>
-  `
+    </html>`
 
   try {
     iframeDoc.open()
@@ -91,3 +75,20 @@ export function updateIFrame(
     }
   }
 }
+
+const scriptPrelude = `<script>
+window.onerror = function(message, source, lineno, colno, error) {
+window.parent.postMessage({
+type: 'iframe-js-error',
+message,
+source,
+lineno,
+colno,
+stack: error?.stack || null,
+}, '*');
+};
+window.runCode = function() {
+try {`
+
+const jsPreludeLines = scriptPrelude.split('\n')
+export const jsLineOffset = jsPreludeLines.length

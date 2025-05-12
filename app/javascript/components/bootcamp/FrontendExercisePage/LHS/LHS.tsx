@@ -5,9 +5,10 @@ import { Panels } from './Panels/Panels'
 import { FrontendExercisePageContext } from '../FrontendExercisePageContext'
 import { updateIFrame } from '../utils/updateIFrame'
 import { parseJS } from '../utils/parseJS'
-import { showJsError } from './showJsError'
+import { cleanUpEditorErrorState, showJsError } from './showJsError'
+import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
 
-type TabIndex = 'html' | 'css' | 'javascript'
+export type TabIndex = 'html' | 'css' | 'javascript'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
@@ -45,12 +46,15 @@ export function LHS() {
     }
   }, [])
 
+  useHandleJsErrorMessage({ jsViewRef: jsEditorRef, setTab })
+
   return (
     <div className="page-body-lhs">
       <TabsContext.Provider
         value={{
           current: tab,
           switchToTab: (id: string) => {
+            cleanUpEditorErrorState(jsEditorRef.current)
             setTab(id as TabIndex)
           },
         }}

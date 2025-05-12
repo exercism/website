@@ -2,12 +2,10 @@ import React, { useContext, useMemo } from 'react'
 import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
 import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
 import { javascript } from '@codemirror/lang-javascript'
-import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
 import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
 import {
   highlightLine,
-  informationWidgetDataEffect,
   informationWidgetDataField,
   initReadOnlyRangesExtension,
   jsTheme,
@@ -27,7 +25,6 @@ export function JavaScriptEditor() {
     cssEditorRef,
     handleJsEditorDidMount,
     setEditorCodeLocalStorage,
-    actualIFrameRef,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },

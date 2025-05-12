@@ -52,7 +52,11 @@ export function JavaScriptEditor() {
         highlightLine(0),
         showInfoWidgetField,
         informationWidgetDataField,
-        lineInformationExtension({ onClose: () => {} }),
+        lineInformationExtension({
+          onClose: (view) => {
+            cleanUpEditorErrorState(view)
+          },
+        }),
       ]}
       // here we don't want to update the iframe on each keystroke, because that'd be really annoying
       onEditorChangeCallback={(view) => {

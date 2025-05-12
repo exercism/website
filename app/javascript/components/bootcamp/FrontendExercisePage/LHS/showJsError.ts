@@ -19,8 +19,20 @@ export function showJsError(
   if (!view) return
 
   scrollToLine(view, error.lineNumber)
-  const absolutePosition =
-    view.state.doc.line(error.lineNumber).from + error.colNumber
+
+  const editorLength = view.state.doc.length
+  const errorLine = view.state.doc.line(error.lineNumber)
+  const basePos = errorLine.from + error.colNumber
+
+  // range rules to avoid breaking:
+  // from < to
+  // from > 0
+  // to <= editorLength
+  const from = Math.max(1, Math.min(basePos, editorLength - 1))
+  const to = Math.min(editorLength, from + 1)
+
+  console.log('editorleng', editorLength)
+
   view.dispatch({
     effects: [
       showInfoWidgetEffect.of(true),
@@ -32,8 +44,8 @@ export function showJsError(
 
       changeColorEffect.of(ERROR_HIGHLIGHT_COLOR),
       addUnderlineEffect.of({
-        from: absolutePosition,
-        to: absolutePosition + 1,
+        from,
+        to,
       }),
       changeLineEffect.of(error.lineNumber),
     ],
@@ -60,6 +72,8 @@ export function cleanUpEditorErrorState(view: EditorView | null) {
       informationWidgetDataEffect.of({ html: '', line: 0, status: 'ERROR' }),
       changeColorEffect.of(''),
       changeLineEffect.of(0),
+      // from:0, to:0 ==> remove underline
+      addUnderlineEffect.of({ from: 0, to: 0 }),
     ],
   })
 }

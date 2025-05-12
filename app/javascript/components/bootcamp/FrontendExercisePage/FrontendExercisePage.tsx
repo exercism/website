@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header'
-import { FrontendTrainingPageContext } from './FrontendExercisePageContext'
+import { FrontendExercisePageContext } from './FrontendExercisePageContext'
 import { useInitResizablePanels } from './hooks/useInitResizablePanels'
 import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
@@ -63,7 +63,7 @@ export default function FrontendExercisePage() {
   }, [])
 
   return (
-    <FrontendTrainingPageContext.Provider
+    <FrontendExercisePageContext.Provider
       value={{
         actualIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
@@ -87,6 +87,6 @@ export default function FrontendExercisePage() {
         </div>
       </div>
       <Toaster />
-    </FrontendTrainingPageContext.Provider>
+    </FrontendExercisePageContext.Provider>
   )
 }

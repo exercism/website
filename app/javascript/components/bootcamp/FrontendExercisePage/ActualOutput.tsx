@@ -1,8 +1,8 @@
 import React from 'react'
-import { FrontendTrainingPageContext } from './FrontendExercisePageContext'
+import { FrontendExercisePageContext } from './FrontendExercisePageContext'
 
 export function ActualOutput() {
-  const context = React.useContext(FrontendTrainingPageContext)
+  const context = React.useContext(FrontendExercisePageContext)
   if (!context) {
     return null
   }

@@ -2,7 +2,7 @@ import { EditorView } from 'codemirror'
 import { createContext } from 'react'
 import { Handler } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 
-type FrontendTrainingPageContextType = {
+type FrontendExercisePageContextType = {
   actualIFrameRef: React.RefObject<HTMLIFrameElement>
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
@@ -25,7 +25,7 @@ type FrontendTrainingPageContextType = {
   >
 }
 
-export const FrontendTrainingPageContext =
-  createContext<FrontendTrainingPageContextType>(
-    {} as FrontendTrainingPageContextType
+export const FrontendExercisePageContext =
+  createContext<FrontendExercisePageContextType>(
+    {} as FrontendExercisePageContextType
   )

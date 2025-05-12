@@ -1,11 +1,16 @@
-import React, { useContext } from 'react'
-import { FrontendTrainingPageContext } from '../../../FrontendExercisePageContext'
-import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
+import React, { useContext, useMemo } from 'react'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
+import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
 import { css } from '@codemirror/lang-css'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
 import { interactionExtension } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/interaction/interaction'
 import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
+import { createUpdateLocalStorageValueOnDebounce } from '../utils/updateLocalStorageValueOnDebounce'
+import {
+  readOnlyRangeDecoration,
+  initReadOnlyRangesExtension,
+} from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 
 export function CSSEditor() {
   const {
@@ -15,22 +20,35 @@ export function CSSEditor() {
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
-  } = useContext(FrontendTrainingPageContext)
+  } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
-  } = useFrontendTrainingPageStore()
+  } = useFrontendExercisePageStore()
+
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return createUpdateLocalStorageValueOnDebounce()
+  }, [setEditorCodeLocalStorage])
 
   return (
     <SimpleCodeMirror
       defaultCode=""
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleCssEditorDidMount}
-      extensions={[css(), interactionExtension()]}
+      extensions={[
+        css(),
+        interactionExtension(),
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => ({
-          ...prev,
-          cssEditorContent: view.state.doc.toString(),
-        }))
+        updateLocalStorageValueOnDebounce(
+          {
+            cssEditor: view,
+            htmlEditor: htmlEditorRef.current,
+            jsEditor: jsEditorRef.current,
+          },
+          setEditorCodeLocalStorage
+        )
 
         updateIFrame(actualIFrameRef, {
           css: view.state.doc.toString(),

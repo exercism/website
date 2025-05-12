@@ -1,10 +1,15 @@
-import React, { useContext } from 'react'
-import { useFrontendTrainingPageStore } from '../../../store/frontendTrainingPageStore'
-import { FrontendTrainingPageContext } from '../../../FrontendExercisePageContext'
+import React, { useContext, useMemo } from 'react'
+import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
 import { html } from '@codemirror/lang-html'
 import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
 import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
+import { createUpdateLocalStorageValueOnDebounce } from '../utils/updateLocalStorageValueOnDebounce'
+import {
+  readOnlyRangeDecoration,
+  initReadOnlyRangesExtension,
+} from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 
 export function HTMLEditor() {
   const {
@@ -14,10 +19,14 @@ export function HTMLEditor() {
     jsEditorRef,
     setEditorCodeLocalStorage,
     actualIFrameRef,
-  } = useContext(FrontendTrainingPageContext)
+  } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
-  } = useFrontendTrainingPageStore()
+  } = useFrontendExercisePageStore()
+
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return createUpdateLocalStorageValueOnDebounce()
+  }, [setEditorCodeLocalStorage])
 
   return (
     <SimpleCodeMirror
@@ -25,10 +34,14 @@ export function HTMLEditor() {
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
       onEditorChangeCallback={(view) => {
-        setEditorCodeLocalStorage((prev) => ({
-          ...prev,
-          htmlEditorContent: view.state.doc.toString(),
-        }))
+        updateLocalStorageValueOnDebounce(
+          {
+            cssEditor: cssEditorRef.current,
+            htmlEditor: view,
+            jsEditor: jsEditorRef.current,
+          },
+          setEditorCodeLocalStorage
+        )
 
         updateIFrame(actualIFrameRef, {
           html: view.state.doc.toString(),
@@ -36,7 +49,11 @@ export function HTMLEditor() {
           js: jsEditorRef.current?.state.doc.toString(),
         })
       }}
-      extensions={[html()]}
+      extensions={[
+        html(),
+        readOnlyRangeDecoration(),
+        initReadOnlyRangesExtension(),
+      ]}
       defaultCode="<div>hello</div>"
     />
   )

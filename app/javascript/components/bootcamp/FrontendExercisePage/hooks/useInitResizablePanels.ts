@@ -1,9 +1,9 @@
 import { useLayoutEffect } from 'react'
 import { useResizablePanels } from '../../JikiscriptExercisePage/hooks/useResize'
-import { useFrontendTrainingPageStore } from '../store/frontendTrainingPageStore'
+import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
 
 export function useInitResizablePanels() {
-  const { setPanelSizes } = useFrontendTrainingPageStore()
+  const { setPanelSizes } = useFrontendExercisePageStore()
   const {
     primarySize: LHSWidth,
     secondarySize: RHSWidth,

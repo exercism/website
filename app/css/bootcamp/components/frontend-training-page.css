@@ -1,4 +1,5 @@
-#bootcamp-frontend-training-page {
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
     .page-body-rhs {
         @apply bg-white;
         @apply flex-grow;

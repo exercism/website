@@ -75,7 +75,7 @@ export default function FrontendExercisePage() {
         setEditorCodeLocalStorage,
       }}
     >
-      <div id="bootcamp-frontend-training-page">
+      <div id="bootcamp-frontend-exercise-page">
         <Header onComplete={() => {}} />
         <div className="page-body">
           <LHS />

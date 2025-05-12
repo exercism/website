@@ -1,6 +1,7 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page,
-#bootcamp-frontend-training-page {
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
     .c-scenario {
         @apply border-2 rounded-5;
         @apply overflow-hidden;

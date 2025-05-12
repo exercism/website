@@ -6,13 +6,19 @@ import { updateIFrame } from '../../../utils/updateIFrame'
 import { EDITOR_HEIGHT } from '../Panels'
 import { SimpleCodeMirror } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/SimpleCodeMirror'
 import {
+  highlightLine,
+  informationWidgetDataEffect,
+  informationWidgetDataField,
   initReadOnlyRangesExtension,
   jsTheme,
+  lineInformationExtension,
   readOnlyRangeDecoration,
+  showInfoWidgetField,
   underlineExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 import { eslintLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/eslinter'
 import { createUpdateLocalStorageValueOnDebounce } from '../utils/updateLocalStorageValueOnDebounce'
+import { cleanUpEditorErrorState } from '../../showJsError'
 
 export function JavaScriptEditor() {
   const {
@@ -43,6 +49,10 @@ export function JavaScriptEditor() {
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
         underlineExtension(),
+        highlightLine(0),
+        showInfoWidgetField,
+        informationWidgetDataField,
+        lineInformationExtension({ onClose: () => {} }),
       ]}
       // here we don't want to update the iframe on each keystroke, because that'd be really annoying
       onEditorChangeCallback={(view) => {
@@ -54,6 +64,8 @@ export function JavaScriptEditor() {
           },
           setEditorCodeLocalStorage
         )
+
+        cleanUpEditorErrorState(view)
       }}
       ref={jsEditorRef}
     />

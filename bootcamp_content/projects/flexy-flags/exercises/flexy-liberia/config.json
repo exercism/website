@@ -9,7 +9,7 @@
   },
   "checks": [
     {
-      "function": "onlyPropertiesUsed(['background','display','flex-basis','flex-direction','flex-grow','justify-content','align-items','aspect-ratio','width', 'min-height'])",
+      "function": "onlyPropertiesUsed(['background','display','flex-basis','flex-direction','flex-grow','justify-content','align-items','aspect-ratio','width', 'min-height', 'height'])",
       "matcher": "toBeTrue",
       "errorHtml": "You used a CSS property that is not allowed for this exercise."
     }

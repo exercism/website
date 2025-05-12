@@ -42,6 +42,7 @@ export function JavaScriptEditor() {
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
       ]}
+      // here we don't want to update the iframe on each keystroke, because that'd be really annoying
       onEditorChangeCallback={(view) => {
         updateLocalStorageValueOnDebounce(
           {
@@ -51,12 +52,6 @@ export function JavaScriptEditor() {
           },
           setEditorCodeLocalStorage
         )
-
-        updateIFrame(actualIFrameRef, {
-          js: view.state.doc.toString(),
-          html: htmlEditorRef.current?.state.doc.toString(),
-          css: cssEditorRef.current?.state.doc.toString(),
-        })
       }}
       ref={jsEditorRef}
     />

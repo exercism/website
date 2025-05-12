@@ -9,6 +9,7 @@ import {
   initReadOnlyRangesExtension,
   jsTheme,
   readOnlyRangeDecoration,
+  underlineExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 import { eslintLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/eslinter'
 import { createUpdateLocalStorageValueOnDebounce } from '../utils/updateLocalStorageValueOnDebounce'
@@ -41,6 +42,7 @@ export function JavaScriptEditor() {
         jsTheme,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
+        underlineExtension(),
       ]}
       // here we don't want to update the iframe on each keystroke, because that'd be really annoying
       onEditorChangeCallback={(view) => {

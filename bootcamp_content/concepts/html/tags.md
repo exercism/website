@@ -1,4 +1,4 @@
-# HTML
+# Tags
 
 <img src="https://assets.exercism.org/bootcamp/diagrams/html/1.png" class="diagram"/>
 <img src="https://assets.exercism.org/bootcamp/diagrams/html/2.png" class="diagram"/>
@@ -12,8 +12,3 @@
 <img src="https://assets.exercism.org/bootcamp/diagrams/html/10.png" class="diagram"/>
 <img src="https://assets.exercism.org/bootcamp/diagrams/html/11.png" class="diagram"/>
 <img src="https://assets.exercism.org/bootcamp/diagrams/html/12.png" class="diagram"/>
-<img src="https://assets.exercism.org/bootcamp/diagrams/html/13.png" class="diagram"/>
-<img src="https://assets.exercism.org/bootcamp/diagrams/html/14.png" class="diagram"/>
-<img src="https://assets.exercism.org/bootcamp/diagrams/html/15.png" class="diagram"/>
-<img src="https://assets.exercism.org/bootcamp/diagrams/html/16.png" class="diagram"/>
-<img src="https://assets.exercism.org/bootcamp/diagrams/html/17.png" class="diagram"/>

@@ -73,6 +73,7 @@ projects = %w[
   style-puzzles
   javascript-fundamentals
   flexy-flags
+  gridded-glory
 ]
 
 projects.each do |project_slug|

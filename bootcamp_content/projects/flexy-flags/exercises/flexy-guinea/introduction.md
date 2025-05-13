@@ -1,6 +1,6 @@
 # Flag of Guinea
 
-Welcome to a new series of exercises in which you'll use flexbox to recreate varous world flags.
+Welcome to a new series of exercises in which you'll use flexbox to recreate various world flags.
 
 In this first exercise, your job is to recreate the flag of Guinea. The flag of Guinea has three stripes of equal width.
 

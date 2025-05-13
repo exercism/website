@@ -7,6 +7,7 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
+import { injectLoopGuards } from './injectLoopguards'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -33,8 +34,9 @@ export function LHS() {
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
+        const guardedJs = injectLoopGuards(jsCode)
         updateIFrame(actualIFrameRef, {
-          js: jsCode,
+          js: guardedJs,
           html: htmlEditorRef.current?.state.doc.toString(),
           css: cssEditorRef.current?.state.doc.toString(),
         })

@@ -10,14 +10,17 @@ Such a function is called a [`predicate`][predicate_in_programming].
 
 The built-in methods are meant to be used _instead of a `for` loop_ or the built-in `forEach` method:
 
-Example of analysis using a for loop:
+Example of analysis using a for of loop:
 
 ```javascript
 const numbers = [1, "two", 3, "four"];
+let idx = 0;
 for (number of numbers) {
   if (number === "two") {
-    return i;
+    return idx;
   }
+
+  idx = idx + 1;
 }
 // => 1
 ```

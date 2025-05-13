@@ -1,6 +1,6 @@
 # Instructions
 
-We're back with our second look at resistors, and this time we're
+We're back with our second look at resistors, and this time we're looking at two color bands.
 
 ## Instructions
 

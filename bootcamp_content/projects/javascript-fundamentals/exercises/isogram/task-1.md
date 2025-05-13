@@ -1,3 +1,3 @@
 # Task 1
 
-Map the colors to codes!
+Check whether a phrase is an Isogram!

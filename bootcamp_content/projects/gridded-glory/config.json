@@ -2,5 +2,11 @@
   "slug": "gridded-glory",
   "title": "Gridded Glory",
   "description": "Use CSS Grid to reproduce various flag designs.",
-  "exercises": ["gridded-romania", "gridded-gambia", "gridded-greece"]
+  "exercises": [
+    "gridded-romania",
+    "gridded-gambia",
+    "gridded-grand-prix",
+    "gridded-norway",
+    "gridded-greece"
+  ]
 }

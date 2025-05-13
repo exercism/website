@@ -280,13 +280,6 @@
     "level": 8
   },
   {
-    "slug": "html/basics",
-    "parent": "html",
-    "title": "HTML Basics",
-    "description": "Learn the basics of HTML",
-    "level": 11
-  },
-  {
     "slug": "html/tags",
     "parent": "html",
     "title": "Tags",
@@ -329,6 +322,20 @@
     "level": 11
   },
   {
+    "slug": "css/flexbox",
+    "parent": "css",
+    "title": "FlexBox",
+    "description": "Learn the Flexbox layout system",
+    "level": 13
+  },
+  {
+    "slug": "css/grid",
+    "parent": "css",
+    "title": "CSS Grid",
+    "description": "Learn CSS's Grid layout system",
+    "level": 14
+  },
+  {
     "slug": "javascript/basics",
     "parent": "javascript",
     "title": "JavaScript Basics",
@@ -345,7 +352,7 @@
   {
     "slug": "javascript/variables",
     "parent": "javascript",
-    "title": "Variablws in JavaScript",
+    "title": "Variables in JavaScript",
     "description": "Learn the basics of JavaScript Variables",
     "level": 12
   },
@@ -354,6 +361,13 @@
     "parent": "javascript",
     "title": "JavaScript Data Types",
     "description": "Learn the basic JavaScript data types",
+    "level": 12
+  },
+  {
+    "slug": "javascript/arrays",
+    "parent": "javascript",
+    "title": "Arrays in JavaScript",
+    "description": "Learn the basics of JavaScript Arrays",
     "level": 12
   },
   {
@@ -368,6 +382,20 @@
     "parent": "javascript",
     "title": "Manual Mapping",
     "description": "Learn how to map manually in JavaScript",
+    "level": 12
+  },
+  {
+    "slug": "javascript/objects",
+    "parent": "javascript",
+    "title": "Objects (Dictionaries) in JavaScript",
+    "description": "Learn the basics of JavaScript Objects",
+    "level": 12
+  },
+  {
+    "slug": "javascript/conditionals",
+    "parent": "javascript",
+    "title": "Conditionals",
+    "description": "Learn how to use conditions in JavaScript",
     "level": 12
   }
 ]

@@ -80,6 +80,9 @@ export async function execJS(
   } catch (error: any) {
     console.error('Logic error', error)
 
+    if (error.message.includes('does not provide an export')) {
+      error.message = `Oh dear, we couldn't find \`${fnName}\`. Did you forget to \`export\` it?`
+    }
     // Extract line, and column from the error message string
     const [, lineNumber, colNumber] =
       error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []

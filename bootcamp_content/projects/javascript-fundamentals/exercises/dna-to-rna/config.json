@@ -2,7 +2,7 @@
   "title": "DNA To RNA",
   "description": "Convert a DNA sequence into its RNA complement.",
   "level": 14,
-  "idx": 9,
+  "idx": 10,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

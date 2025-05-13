@@ -2,7 +2,7 @@
   "title": "Letter Points",
   "description": "Compute the Scrabble score for a word.",
   "level": 14,
-  "idx": 9,
+  "idx": 11,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

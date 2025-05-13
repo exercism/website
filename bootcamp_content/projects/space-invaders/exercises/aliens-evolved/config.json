@@ -3,7 +3,7 @@
   "description": "Shoot down all the aliens using JavaScript",
   "project_type": "space-invaders",
   "level": 14,
-  "idx": 11,
+  "idx": 14,
   "language": "javascript",
   "tests_type": "state",
   "exercise_functions": ["moveLeft", "moveRight", "shoot", "getStartingAliens"],

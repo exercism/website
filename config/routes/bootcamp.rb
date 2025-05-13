@@ -5,7 +5,10 @@ namespace :bootcamp do
   get "faqs", to: "pages#faqs", as: :faqs
   get 'frontend', to: 'frontend#index', as: :frontend
   resources "levels", param: :idx, only: %i[index show]
-  resources "concepts", param: :slug, only: %i[index show]
+
+  resources :concepts, only: [:index]
+  get 'concepts/*slug', to: 'concepts#show', as: :concept
+
   resources "projects", param: :slug, only: %i[index show] do
     resources "exercises", param: :slug, only: %i[show edit]
   end

@@ -2,7 +2,7 @@
   "title": "Professor Collatz",
   "description": "Calculate the number of steps to reach 1 in the Collatz sequence.",
   "level": 14,
-  "idx": 10,
+  "idx": 13,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

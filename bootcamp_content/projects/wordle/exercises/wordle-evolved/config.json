@@ -3,7 +3,7 @@
   "description": "Create a Wordle game and solver in JavaScript.",
   "project_type": "wordle",
   "level": 14,
-  "idx": 12,
+  "idx": 15,
   "language": "javascript",
   "tests_type": "state",
   "exercise_functions": ["getCommonWords", "getTargetWord", "addWord"],

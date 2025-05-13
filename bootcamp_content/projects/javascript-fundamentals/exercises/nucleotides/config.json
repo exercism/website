@@ -2,7 +2,7 @@
   "title": "Nucleotides",
   "description": "Given a DNA string, compute how many times each nucleotide occurs in the string",
   "level": 14,
-  "idx": 9,
+  "idx": 12,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

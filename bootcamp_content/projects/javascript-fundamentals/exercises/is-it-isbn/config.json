@@ -2,7 +2,7 @@
   "title": "Is It ISBN",
   "description": "Validate ISBN-10 numbers to determine their correctness.",
   "level": 14,
-  "idx": 9,
+  "idx": 8,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

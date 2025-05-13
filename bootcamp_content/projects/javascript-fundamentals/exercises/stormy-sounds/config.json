@@ -2,7 +2,7 @@
   "title": "Stormy Sounds",
   "description": "Convert a number into a raindrop sound based on its factors.",
   "level": 14,
-  "idx": 8,
+  "idx": 7,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [

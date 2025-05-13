@@ -1,0 +1,63 @@
+{
+  "title": "Professor Collatz",
+  "description": "Calculate the number of steps to reach 1 in the Collatz sequence.",
+  "level": 14,
+  "idx": 10,
+  "language": "javascript",
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Basic steps",
+      "tests": [
+        {
+          "slug": "number-1",
+          "description_html": "Zero steps for one.",
+          "name": "Number 1",
+          "function": "collatzSteps",
+          "args": [1],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "number-16",
+          "description_html": "Divide if even.",
+          "name": "Number 16",
+          "function": "collatzSteps",
+          "args": [16],
+          "checks": [
+            {
+              "value": 4
+            }
+          ]
+        },
+        {
+          "slug": "number-12",
+          "description_html": "Even and odd steps.",
+          "name": "Number 12",
+          "function": "collatzSteps",
+          "args": [12],
+          "checks": [
+            {
+              "value": 9
+            }
+          ]
+        },
+        {
+          "slug": "number-1000000",
+          "description_html": "Large number of even and odd steps.",
+          "name": "Number 1000000",
+          "function": "collatzSteps",
+          "args": [1000000],
+          "checks": [
+            {
+              "value": 152
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -32,6 +32,27 @@ export default class WordleExercise extends Exercise {
   public setTargetWord(_: ExecutionContext, word: string) {
     this.targetWord = word
   }
+  private getTargetWord(_: ExecutionContext) {
+    return this.targetWord
+  }
+
+  public createGame(executionCtx: ExecutionContext) {
+    this.game = this.WordleGame.instantiate(executionCtx, [])
+    this.game.getMethod('draw_board').fn.call(this.game, executionCtx)
+  }
+
+  private addWord(_: ExecutionContext, row, guess, states) {
+    this.game
+      .getMethod('add_word')
+      .fn.call(
+        this.game,
+        _,
+        _,
+        Jiki.wrapJSToJikiObject(row + 1),
+        Jiki.wrapJSToJikiObject(guess),
+        Jiki.wrapJSToJikiObject(states)
+      )
+  }
 
   public setupView(_: ExecutionContext) {
     this.container = document.createElement('div')
@@ -163,7 +184,7 @@ export default class WordleExercise extends Exercise {
     executionCtx.fastForward(1)
   }
 
-  private commonWords = Jiki.wrapJSToJikiObject([
+  private commonWords = [
     'which',
     'about',
     'there',
@@ -352,8 +373,10 @@ export default class WordleExercise extends Exercise {
     'twice',
 
     'magic',
-  ])
-  private getCommonWords = (_: ExecutionContext) => this.commonWords
+  ]
+  private getCommonWords = (_: ExecutionContext) =>
+    Jiki.wrapJSToJikiObject(this.commonWords)
+  private getCommonWordsJS = (_: ExecutionContext) => [...this.commonWords]
 
   public availableClasses = [this.WordleGame]
   public availableFunctions = [
@@ -371,6 +394,21 @@ export default class WordleExercise extends Exercise {
       name: 'common_words',
       func: this.getCommonWords.bind(this),
       description: 'returns the words in the game',
+    },
+    {
+      name: 'getCommonWords',
+      func: this.getCommonWordsJS.bind(this),
+      description: 'returns the words in the game',
+    },
+    {
+      name: 'addWord',
+      func: this.addWord.bind(this),
+      description: 'adds a word to the board',
+    },
+    {
+      name: 'getTargetWord',
+      func: this.getTargetWord.bind(this),
+      description: 'returns the target word',
     },
   ]
 }

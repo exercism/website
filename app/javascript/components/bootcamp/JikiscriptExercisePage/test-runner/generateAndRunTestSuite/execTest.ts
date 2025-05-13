@@ -21,6 +21,13 @@ import { InformationWidgetData } from '../../CodeMirror/extensions/end-line-info
 import { showError } from '../../utils/showError'
 import { cloneDeep } from 'lodash'
 
+class JikiLogicError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'JikiLogicError'
+  }
+}
+
 /**
  This is of type TestCallback
  */
@@ -52,6 +59,9 @@ export async function execTest(
   globalThis.customLog = function (...args: any[]) {
     logMessages.push(cloneDeep(args))
   }
+  globalThis.logicError = function (msg: string) {
+    throw new JikiLogicError(msg)
+  }
 
   const fnName = testData.function
   const args = testData.args ? parseArgs(testData.args) : []
@@ -75,6 +85,7 @@ export async function execTest(
 
       if (result.status === 'error') {
         if (editorView) {
+          console.log(result)
           showError({
             error: result.error,
             ...stateSetters,

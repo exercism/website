@@ -1,0 +1,170 @@
+{
+  "title": "Protein Translation",
+  "description": "Translate RNA sequences into proteins.",
+  "level": 7,
+  "idx": 5,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "stdlib_functions": ["push", "concatenate"],
+  "tasks": [
+    {
+      "name": "Basic translations",
+      "tests": [
+        {
+          "slug": "empty-rna-sequence",
+          "description_html": "An empty RNA sequence should result in an empty protein list.",
+          "name": "Empty RNA sequence",
+          "function": "translate_rna",
+          "args": [""],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "methionine-sequence",
+          "description_html": "The RNA sequence 'AUG' should translate to 'Methionine'.",
+          "name": "Methionine RNA sequence",
+          "function": "translate_rna",
+          "args": ["AUG"],
+          "checks": [
+            {
+              "value": ["Methionine"]
+            }
+          ]
+        },
+        {
+          "slug": "phenylalanine-sequence-1",
+          "description_html": "The RNA sequence 'UUU' should translate to 'Phenylalanine'.",
+          "name": "Phenylalanine RNA sequence 1",
+          "function": "translate_rna",
+          "args": ["UUU"],
+          "checks": [
+            {
+              "value": ["Phenylalanine"]
+            }
+          ]
+        },
+        {
+          "slug": "phenylalanine-sequence-2",
+          "description_html": "The RNA sequence 'UUC' should translate to 'Phenylalanine'.",
+          "name": "Phenylalanine RNA sequence 2",
+          "function": "translate_rna",
+          "args": ["UUC"],
+          "checks": [
+            {
+              "value": ["Phenylalanine"]
+            }
+          ]
+        },
+        {
+          "slug": "leucine-sequence-1",
+          "description_html": "The RNA sequence 'UUA' should translate to 'Leucine'.",
+          "name": "Leucine RNA sequence 1",
+          "function": "translate_rna",
+          "args": ["UUA"],
+          "checks": [
+            {
+              "value": ["Leucine"]
+            }
+          ]
+        },
+        {
+          "slug": "leucine-sequence-2",
+          "description_html": "The RNA sequence 'UUG' should translate to 'Leucine'.",
+          "name": "Leucine RNA sequence 2",
+          "function": "translate_rna",
+          "args": ["UUG"],
+          "checks": [
+            {
+              "value": ["Leucine"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Multiple codons",
+      "tests": [
+        {
+          "slug": "sequence-two-proteins",
+          "description_html": "The RNA sequence 'UUUUUU' should translate to ['Phenylalanine', 'Phenylalanine'].",
+          "name": "Sequence of two protein codons",
+          "function": "translate_rna",
+          "args": ["UUUUUU"],
+          "checks": [
+            {
+              "value": ["Phenylalanine", "Phenylalanine"]
+            }
+          ]
+        },
+        {
+          "slug": "sequence-different-codons",
+          "description_html": "The RNA sequence 'UUAUUG' should translate to ['Leucine', 'Leucine'].",
+          "name": "Sequence of two different protein codons",
+          "function": "translate_rna",
+          "args": ["UUAUUG"],
+          "checks": [
+            {
+              "value": ["Leucine", "Leucine"]
+            }
+          ]
+        },
+        {
+          "slug": "sequence-three-proteins",
+          "description_html": "The RNA sequence 'AUGUUUUGG' should translate to ['Methionine', 'Phenylalanine', 'Tryptophan'].",
+          "name": "Sequence of three proteins",
+          "function": "translate_rna",
+          "args": ["AUGUUUUGG"],
+          "checks": [
+            {
+              "value": ["Methionine", "Phenylalanine", "Tryptophan"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stop codon behavior",
+      "tests": [
+        {
+          "slug": "stop-codon-at-start",
+          "description_html": "Translation should stop if a stop codon is at the beginning of the sequence.",
+          "name": "Stop codon at start",
+          "function": "translate_rna",
+          "args": ["UAGUGG"],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "stop-codon-at-end",
+          "description_html": "Translation should stop if a stop codon is at the end of the sequence.",
+          "name": "Stop codon at end",
+          "function": "translate_rna",
+          "args": ["UGGUAG"],
+          "checks": [
+            {
+              "value": ["Tryptophan"]
+            }
+          ]
+        },
+        {
+          "slug": "stop-codon-in-middle",
+          "description_html": "Translation should stop if a stop codon is in the middle of the sequence.",
+          "name": "Stop codon in middle",
+          "function": "translate_rna",
+          "args": ["UGGUAGUGG"],
+          "checks": [
+            {
+              "value": ["Tryptophan"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

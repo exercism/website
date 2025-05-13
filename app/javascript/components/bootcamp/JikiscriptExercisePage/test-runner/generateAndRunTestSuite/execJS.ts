@@ -49,11 +49,12 @@ export async function execJS(
       getCurrentTime: () => currentTime, 
       fastForward: (time) => { currentTime += time },
       updateState: () => {},
+      logicError: (e) => { globalThis.logicError(e) },
     }
   `
   code += `export function log(...args) { globalThis.customLog.call(null,...args) }\n`
   externalFunctionNames.forEach((fn) => {
-    code += `export function ${fn}(...args) { globalThis.externalFunctions.${fn}.call(null, executionCtx, ...args) }\n`
+    code += `export function ${fn}(...args) { return globalThis.externalFunctions.${fn}.call(null, executionCtx, ...args) }\n`
   })
   const numSetupLines = code.split('\n').length
   code += studentCode
@@ -78,11 +79,16 @@ export async function execJS(
     }
     return successResult
   } catch (error: any) {
-    console.error('Logic error', error)
+    let lineNumber
+    let colNumber
 
-    // Extract line, and column from the error message string
-    const [, lineNumber, colNumber] =
-      error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []
+    if (error.name === 'JikiLogicError') {
+      ;[, lineNumber, colNumber] = extractLineColFromJikiLogicError(error)
+    } else {
+      // Extract line, and column from the error message string
+      ;[, lineNumber, colNumber] =
+        error.stack?.match(/:(\d+):(\d+)\)?\s*$/m) || []
+    }
 
     const execError: ExecError = {
       status: 'error',
@@ -96,4 +102,21 @@ export async function execJS(
     }
     return execError
   }
+}
+
+function extractLineColFromJikiLogicError(error) {
+  const stack = error.stack || ''
+
+  const lines = stack.split('\n')
+  const index = lines.findIndex((line) =>
+    line.includes('JikiscriptExercisePage')
+  )
+  const targetLine = lines[index + 2]
+
+  if (!targetLine) return null
+
+  const match = targetLine.match(/:(\d+):(\d+)\)?\s*$/)
+  if (!match) return null
+
+  return match
 }

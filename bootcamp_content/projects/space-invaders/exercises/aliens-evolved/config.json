@@ -1,0 +1,121 @@
+{
+  "title": "Aliens Evolved",
+  "description": "Shoot down all the aliens using JavaScript",
+  "project_type": "space-invaders",
+  "level": 14,
+  "idx": 11,
+  "language": "javascript",
+  "tests_type": "state",
+  "exercise_functions": ["moveLeft", "moveRight", "shoot", "getStartingAliens"],
+  "tasks": [
+    {
+      "name": "Shoot the aliens without a helper function",
+      "tests": [
+        {
+          "slug": "one-alien",
+          "name": "Shoot the alien",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ]
+              ]
+            ]
+          ],
+          "function": "playGame",
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down the alien."
+            }
+          ]
+        },
+        {
+          "slug": "one-row",
+          "name": "One sparse row",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0]
+                ]
+              ]
+            ]
+          ],
+          "function": "playGame",
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        },
+        {
+          "slug": "two-rows",
+          "name": "Two busy rows",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "function": "playGame",
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        },
+        {
+          "slug": "full-rows",
+          "name": "Three packed rows",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "function": "playGame",
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

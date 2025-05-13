@@ -1,0 +1,48 @@
+function codons_to_proteins with codons do
+  set map to {
+    "AUG": "Methionine",
+    "UUU": "Phenylalanine",
+    "UUC": "Phenylalanine",
+    "UUA": "Leucine",
+    "UUG": "Leucine",
+    "UCU": "Serine",
+    "UCC": "Serine",
+    "UCA": "Serine",
+    "UCG": "Serine",
+    "UAU": "Tyrosine",
+    "UAC": "Tyrosine",
+    "UGU": "Cysteine",
+    "UGC": "Cysteine",
+    "UGG": "Tryptophan",
+    "UAA": "STOP",
+    "UAG": "STOP",
+    "UGA": "STOP"
+  }
+  set proteins to []
+  for each codon in codons do
+    if map[codon] == "STOP" do
+      break
+    end
+    change proteins to push(proteins, map[codon])
+  end
+  return proteins
+end
+
+function rna_to_codons with rna do
+  set codons to []
+  set codon to ""
+  
+  for each letter in rna indexed by counter do
+    change codon to concatenate(codon, letter)
+  
+    if counter % 3 == 0 and codon != "" do
+      change codons to push(codons, codon)
+      change codon to ""
+    end
+  end
+  return codons
+end
+
+function translate_rna with rna do
+  return codons_to_proteins(rna_to_codons(rna))
+end

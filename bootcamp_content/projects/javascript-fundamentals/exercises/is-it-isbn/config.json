@@ -1,0 +1,143 @@
+{
+  "title": "Is It ISBN",
+  "description": "Validate ISBN-10 numbers to determine their correctness.",
+  "level": 14,
+  "idx": 9,
+  "language": "javascript",
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Check some ISBNs",
+      "tests": [
+        {
+          "slug": "isbn-valid",
+          "description_html": "A valid ISBN-10 should return true.",
+          "name": "Valid ISBN",
+          "function": "isValidIsbn",
+          "args": ["3-598-21508-8"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "isbn-valid-check-digit-x",
+          "description_html": "A valid ISBN-10 with check digit 'X' should return true.",
+          "name": "Valid ISBN with X as check digit",
+          "function": "isValidIsbn",
+          "args": ["3-598-21507-X"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "isbn-valid-no-dashes",
+          "description_html": "A valid ISBN-10 without separating dashes should return true.",
+          "name": "Valid ISBN without dashes",
+          "function": "isValidIsbn",
+          "args": ["3598215088"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "isbn-valid-no-dashes-x-check",
+          "description_html": "A valid ISBN-10 without dashes and check digit 'X' should return true.",
+          "name": "Valid ISBN without dashes and X as check digit",
+          "function": "isValidIsbn",
+          "args": ["359821507X"],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "isbn-invalid-check-digit",
+          "description_html": "An ISBN-10 with an incorrect check digit should return false.",
+          "name": "Invalid ISBN check digit",
+          "function": "isValidIsbn",
+          "args": ["3-598-21508-9"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-character",
+          "description_html": "An ISBN-10 containing an invalid character should return false.",
+          "name": "Check digit is a character other than X",
+          "function": "isValidIsbn",
+          "args": ["3-598-21507-A"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-character-not-zero",
+          "description_html": "An invalid check digit should not be treated as zero.",
+          "name": "Invalid check digit not treated as zero",
+          "function": "isValidIsbn",
+          "args": ["4-598-21507-B"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-non-numeric",
+          "description_html": "Invalid characters in ISBN should not be ignored.",
+          "name": "Invalid character in ISBN",
+          "function": "isValidIsbn",
+          "args": ["3-598-P1581-X"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-x-position",
+          "description_html": "An 'X' should only be valid as a check digit.",
+          "name": "X only valid as a check digit",
+          "function": "isValidIsbn",
+          "args": ["3-598-2X507-9"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-missing-check-digit",
+          "description_html": "An ISBN-10 without a check digit should return false.",
+          "name": "ISBN without check digit",
+          "function": "isValidIsbn",
+          "args": ["3-598-21507"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-too-long",
+          "description_html": "An ISBN-10 that is too long should return false.",
+          "name": "Too long ISBN",
+          "function": "isValidIsbn",
+          "args": ["3598215078X"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-too-short",
+          "description_html": "An ISBN-10 that is too short should return false.",
+          "name": "Too short ISBN",
+          "function": "isValidIsbn",
+          "args": ["00"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-empty",
+          "description_html": "An empty ISBN string should return false.",
+          "name": "Empty ISBN",
+          "function": "isValidIsbn",
+          "args": [""],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-length-nine",
+          "description_html": "An input with 9 characters should return false.",
+          "name": "ISBN is 9 characters",
+          "function": "isValidIsbn",
+          "args": ["134456729"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-non-numeric-before-check",
+          "description_html": "Invalid characters should not be ignored before checking length.",
+          "name": "Invalid character before checking length",
+          "function": "isValidIsbn",
+          "args": ["3598P215088"],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "isbn-invalid-extra-length",
+          "description_html": "An input longer than 10 characters should return false.",
+          "name": "Input too long but contains a valid ISBN",
+          "function": "isValidIsbn",
+          "args": ["98245726788"],
+          "checks": [{ "value": false }]
+        }
+      ]
+    }
+  ]
+}

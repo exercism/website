@@ -19,18 +19,13 @@ If a given number:
 - is divisible by 7, add `"Plong"` to the result.
 - is not divisible by 3, 5, or 7, the result should be the number as a string.
 
-You need to create a function called `raindrops` that takes the number as an input and returns its Raindrops sounds.
-
-To solve this, you need two functions:
-
-- `concatenate(str1, str2, ...)`: Takes 2 or more strings and return them combined into one.
-- `number_to_string(number)` takes a number as an input and returns it magically changed into a string.
+You need to create a function called `stormySounds` that takes the number as an input and returns its Raindrops sounds.
 
 ### Examples
 
-- We would expect `raindrops(28)` to return `"Plong"` because 28 is divisible by 7, but not 3 or 5.
-- We would expect `raindrops(30)` to return `"PlingPlang"` because 30 is divisible by 3 and 5, but not 7.
-- We would expect `raindrops(34)` to return `"34"` because 34 is not divisible by 3, 5, or 7.
+- We would expect `stormySounds(28)` to return `"Plong"` because 28 is divisible by 7, but not 3 or 5.
+- We would expect `stormySounds(30)` to return `"PlingPlang"` because 30 is divisible by 3 and 5, but not 7.
+- We would expect `stormySounds(34)` to return `"34"` because 34 is not divisible by 3, 5, or 7.
 
 ## Hints
 

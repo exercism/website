@@ -1,8 +1,8 @@
 {
-  "title": "Raindrop Sounds",
+  "title": "Stormy Sounds",
   "description": "Convert a number into a raindrop sound based on its factors.",
   "level": 14,
-  "idx": 4,
+  "idx": 8,
   "language": "javascript",
   "tests_type": "io",
   "tasks": [
@@ -13,7 +13,7 @@
           "slug": "number-3",
           "description_html": "If 3 is input, return \"Pling\"",
           "name": "Number 3",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [3],
           "checks": [
             {
@@ -27,7 +27,7 @@
           "description_html": "If 27 is input, return \"Pling\"",
           "type": "io",
           "name": "Number 27",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [27],
           "checks": [
             {
@@ -45,7 +45,7 @@
           "slug": "number-5",
           "description_html": "If 5 is input, return \"Plang\"",
           "name": "Number 5",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [5],
           "checks": [
             {
@@ -58,7 +58,7 @@
           "slug": "number-3125",
           "description_html": "If 3125 is input, return \"Plang\"",
           "name": "Number 3125",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [3125],
           "checks": [
             {
@@ -71,7 +71,7 @@
           "slug": "number-15",
           "description_html": "If 15 is input, return \"PlingPlang\"",
           "name": "Number 15",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [15],
           "checks": [
             {
@@ -89,7 +89,7 @@
           "slug": "number-7",
           "description_html": "If 7 is input, return \"Plong\"",
           "name": "Number 7",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [7],
           "checks": [
             {
@@ -102,7 +102,7 @@
           "slug": "number-21",
           "description_html": "If 21 is input, return \"PlingPlong\"",
           "name": "Number 21",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [21],
           "checks": [
             {
@@ -115,7 +115,7 @@
           "slug": "number-35",
           "description_html": "If 35 is input, return \"PlangPlong\"",
           "name": "Number 35",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [35],
           "checks": [
             {
@@ -128,7 +128,7 @@
           "slug": "number-105",
           "description_html": "If 105 is input, return \"PlingPlangPlong\"",
           "name": "Number 105",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [105],
           "checks": [
             {
@@ -146,7 +146,7 @@
           "slug": "number-8",
           "description_html": "If 8 is input, return 8",
           "name": "Number 8",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [8],
           "checks": [
             {
@@ -159,7 +159,7 @@
           "slug": "number-52",
           "description_html": "If 52 is input, return 52",
           "name": "Number 52",
-          "function": "raindrops",
+          "function": "stormySounds",
           "args": [52],
           "checks": [
             {

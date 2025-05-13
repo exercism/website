@@ -33,14 +33,14 @@ end
 # Two pass - as the second needs all concepts created
 Bootcamp::Concept.destroy_all
 JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
-  concept = Bootcamp::Concept.find_or_create_by!(slug: details[:slug]) do |c|
+  Bootcamp::Concept.find_or_create_by!(slug: details[:slug]) do |c|
     c.title = ""
     c.description = ""
     c.content_markdown = ""
     c.level_idx = details[:level]
   end
 end
-JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
+JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details| # rubocop:disable Style/CombinableLoops
   concept = Bootcamp::Concept.find_by!(slug: details[:slug])
   concept.update!(
     parent: details[:parent] ? Bootcamp::Concept.find_by!(slug: details[:parent]) : nil,

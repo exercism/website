@@ -1,0 +1,2 @@
+export function translateRna(rna) {
+}

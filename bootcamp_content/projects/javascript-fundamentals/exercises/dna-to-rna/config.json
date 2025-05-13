@@ -1,0 +1,87 @@
+{
+  "title": "DNA To RNA",
+  "description": "Convert a DNA sequence into its RNA complement.",
+  "level": 14,
+  "idx": 10,
+  "language": "javascript",
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Single nucleotide transcription",
+      "tests": [
+        {
+          "slug": "rna-empty-sequence",
+          "description_html": "An empty DNA sequence should return an empty RNA sequence.",
+          "name": "Empty RNA sequence",
+          "function": "dnaToRna",
+          "args": [""],
+          "checks": [
+            {
+              "value": ""
+            }
+          ]
+        },
+        {
+          "slug": "rna-cytosine-to-guanine",
+          "description_html": "The RNA complement of cytosine (C) is guanine (G).",
+          "name": "Cytosine to guanine",
+          "function": "dnaToRna",
+          "args": ["C"],
+          "checks": [
+            {
+              "value": "G"
+            }
+          ]
+        },
+        {
+          "slug": "rna-guanine-to-cytosine",
+          "description_html": "The RNA complement of guanine (G) is cytosine (C).",
+          "name": "Guanine to cytosine",
+          "function": "dnaToRna",
+          "args": ["G"],
+          "checks": [
+            {
+              "value": "C"
+            }
+          ]
+        },
+        {
+          "slug": "rna-thymine-to-adenine",
+          "description_html": "The RNA complement of thymine (T) is adenine (A).",
+          "name": "Thymine to adenine",
+          "function": "dnaToRna",
+          "args": ["T"],
+          "checks": [
+            {
+              "value": "A"
+            }
+          ]
+        },
+        {
+          "slug": "rna-adenine-to-uracil",
+          "description_html": "The RNA complement of adenine (A) is uracil (U).",
+          "name": "Adenine to uracil",
+          "function": "dnaToRna",
+          "args": ["A"],
+          "checks": [
+            {
+              "value": "U"
+            }
+          ]
+        },
+        {
+          "slug": "rna-full-sequence",
+          "description_html": "Convert a full DNA sequence to its RNA complement.",
+          "name": "Full RNA complement",
+          "function": "dnaToRna",
+          "args": ["ACGTGGTCTTAA"],
+          "checks": [
+            {
+              "value": "UGCACCAGAAUU"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

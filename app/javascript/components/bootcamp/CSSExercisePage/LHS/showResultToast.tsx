@@ -1,8 +1,8 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { CheckResult } from '../checks/runCssChecks'
 import { PASS_THRESHOLD } from '../store/cssExercisePageStore'
+import { CheckResult } from '../checks/runChecks'
 
 export function showResultToast(
   status: 'pass' | 'fail',

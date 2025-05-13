@@ -32,6 +32,7 @@ function fn(this: WordleExercise) {
       word: Jiki.JikiObject,
       states: Jiki.JikiObject
     ) {
+      console.log(row, word, states)
       if (!(row instanceof Jiki.Number)) {
         return executionCtx.logicError('The first input must be a number')
       }

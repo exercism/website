@@ -2,5 +2,5 @@
   "slug": "style-puzzles",
   "title": "Style Puzzles",
   "description": "An assortment of puzzles to do with using CSS.",
-  "exercises": ["lemonade", "love-poured-candles"]
+  "exercises": ["lemonade", "love-poured-candles", "bootcamp-features"]
 }

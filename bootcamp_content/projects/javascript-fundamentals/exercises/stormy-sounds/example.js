@@ -5,5 +5,5 @@ export function stormySounds(num) {
   if (num % 5 === 0) str += 'Plang'
   if (num % 7 === 0) str += 'Plong'
 
-  return str || x.toString()
+  return str || num.toString()
 }

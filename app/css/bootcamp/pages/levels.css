@@ -44,14 +44,14 @@ body.namespace-bootcamp.controller-levels.action-index {
             @apply w-[48px] h-[48px];
         }
         h2 {
-            @apply text-20 leading-150;
+            @apply text-20 leading-150 mr-8;
         }
         p {
             @apply text-16 leading-150;
         }
         .completed-icon {
             @apply w-[24px] h-[24px];
-            @apply ml-8;
+            @apply ml-auto;
             @apply hidden;
         }
         &.completed {

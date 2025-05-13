@@ -16,6 +16,13 @@
     "resistor-color",
     "resistor-color-duo",
     "isogram",
-    "stormy-sounds"
+    "stormy-sounds",
+    "professor-collatz",
+    "is-it-isbn",
+    "strand-similarity",
+    "letter-points",
+    "dna-to-rna",
+    "codon-pivot",
+    "nucleotides"
   ]
 }

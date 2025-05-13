@@ -21,7 +21,11 @@ class Courses::FrontEndFundamentals < Courses::Course
     User::SetDiscourseGroups.defer(user)
 
     user.create_bootcamp_data! unless user.bootcamp_data
-    user.bootcamp_data.update!(enrolled_on_part_2: true, active_part: 2)
+    user.bootcamp_data.update!(
+      enrolled_on_part_2: true,
+      part_2_level_idx: 11,
+      active_part: 2
+    )
   end
 
   def stripe_prices = STRIPE_PRICES

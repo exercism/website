@@ -30,6 +30,8 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/levels/config.json"), symbol
   )
 end
 
+# Two pass - as the second needs all concepts created
+Bootcamp::Concept.destroy_all
 JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
   concept = Bootcamp::Concept.find_or_create_by!(slug: details[:slug]) do |c|
     c.title = ""
@@ -37,7 +39,9 @@ JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symb
     c.content_markdown = ""
     c.level_idx = details[:level]
   end
-
+end
+JSON.parse(File.read(Rails.root / "bootcamp_content/concepts/config.json"), symbolize_names: true).each do |details|
+  concept = Bootcamp::Concept.find_by!(slug: details[:slug])
   concept.update!(
     parent: details[:parent] ? Bootcamp::Concept.find_by!(slug: details[:parent]) : nil,
     title: details[:title],
@@ -104,10 +108,7 @@ projects.each do |project_slug|
       blocks_project_progression: exercise_config.fetch(:blocks_project_progression, true),
       description: exercise_config[:description],
       level_idx: exercise_config[:level],
-      has_bonus_tasks: (exercise_config[:tasks] || []).any? { |t| t[:bonus] },
-      concepts: (exercise_config[:concepts] || []).map do |slug|
-                  Bootcamp::Concept.find_by!(slug:)
-                end
+      has_bonus_tasks: (exercise_config[:tasks] || []).any? { |t| t[:bonus] }
     )
   end
 end

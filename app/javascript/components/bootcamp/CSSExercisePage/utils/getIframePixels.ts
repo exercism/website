@@ -16,9 +16,6 @@ export async function getIframePixels(
     return null
   }
 
-  console.log(iframe.clientWidth)
-  console.log(iframe.clientHeight)
-
   try {
     const encodedSvg = await toSvg(iframeDoc.body, {
       width: iframe.clientWidth,

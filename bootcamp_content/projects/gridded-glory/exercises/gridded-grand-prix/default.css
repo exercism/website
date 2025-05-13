@@ -3,7 +3,7 @@ body,
     overflow: hidden;
     font-family: ui-serif, system-ui, serif, Apple Color Emoji, Segoe UI Emoji,
         Segoe UI Symbol, Noto Color Emoji;
-    background: pink;
+    background: white;
 
     display: flex;
     justify-content: stretch;

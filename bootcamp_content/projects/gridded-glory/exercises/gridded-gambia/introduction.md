@@ -8,7 +8,7 @@ Behind the scenes we've added some CSS so that your outermost element will fill 
 
 You should **only** use the following properties:
 
-- `background`: The flag has stripes of of `#002B7F`, `#FCD116` and `#CE1126`.
+- `background`: The flag has stripes of of `#CE1126`, `#0C1C8C` and `#3A7728`.
 - `display`: Used to turn an element into a grid container.
 - `grid-template-rows`: Sets the layout of rows.
 

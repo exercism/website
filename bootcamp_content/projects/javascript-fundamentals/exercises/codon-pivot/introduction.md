@@ -1,5 +1,7 @@
 # Protein Translation
 
+_This is the same exercise as the Protein Translation exercise in Coding Fundamentals and on Exercism. Can you solve it idiomatically in JavaScript?_
+
 Let's go deeper with the microbiology (you're getting two courses for the price of one!)
 
 RNA can be broken into three-nucleotide sequences called codons, and then translated to a protein like so:
@@ -40,13 +42,6 @@ Below are the codons and resulting amino acids needed for the exercise.
 
 ## Instructions
 
-Your task is to write a function `translate_rna` that takes in an RNA sequence, and returns the list of Animo Acids.
+Your task is to write a function `translateRna` that takes in an RNA sequence, and returns the list of Animo Acids.
 
-For example, if we ran the code `translate_rna("AUGUUUUCUUAAAUG")`, we'd expect your function to return `["Methionine", "Phenylalanine", "Serine"]`.
-
-### Functions
-
-You have two functions available:
-
-- `push(list, element)`: This adds an element to a list, then returns the new list. (e.g. `push(["a"], "b") → ["a", "b"]`)
-- `concatenate(str1, str2, ...)`: This takes two or more strings and returns them joined together.
+For example, if we ran the code `translateRna("AUGUUUUCUUAAAUG")`, we'd expect your function to return `["Methionine", "Phenylalanine", "Serine"]`.

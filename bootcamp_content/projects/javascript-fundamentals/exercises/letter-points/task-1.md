@@ -1,3 +1,3 @@
-# Task 1
+# Task 2
 
-Start with getting the `letter_values` function correct.
+Start by getting your `letterPoints` function working with single letters.

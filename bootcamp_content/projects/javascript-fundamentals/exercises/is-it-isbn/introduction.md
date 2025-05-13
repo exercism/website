@@ -1,6 +1,6 @@
 # Description
 
-This is the same exercise as ISBN Verifier in Coding Fundamentals and on Exercism. Can you solve it idiomatically in JavaScript?
+_This is the same exercise as ISBN Verifier in Coding Fundamentals and on Exercism. Can you solve it idiomatically in JavaScript?_
 
 ISBNs are 10 digit numbers given to uniquely identify books.
 Each one is unique and follows a specific format.

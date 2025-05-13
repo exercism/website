@@ -13,7 +13,7 @@
           "slug": "rna-empty-sequence",
           "description_html": "An empty DNA sequence should return an empty RNA sequence.",
           "name": "Empty RNA sequence",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": [""],
           "checks": [
             {
@@ -25,7 +25,7 @@
           "slug": "rna-cytosine-to-guanine",
           "description_html": "The RNA complement of cytosine (C) is guanine (G).",
           "name": "Cytosine to guanine",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": ["C"],
           "checks": [
             {
@@ -37,7 +37,7 @@
           "slug": "rna-guanine-to-cytosine",
           "description_html": "The RNA complement of guanine (G) is cytosine (C).",
           "name": "Guanine to cytosine",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": ["G"],
           "checks": [
             {
@@ -49,7 +49,7 @@
           "slug": "rna-thymine-to-adenine",
           "description_html": "The RNA complement of thymine (T) is adenine (A).",
           "name": "Thymine to adenine",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": ["T"],
           "checks": [
             {
@@ -61,7 +61,7 @@
           "slug": "rna-adenine-to-uracil",
           "description_html": "The RNA complement of adenine (A) is uracil (U).",
           "name": "Adenine to uracil",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": ["A"],
           "checks": [
             {
@@ -73,66 +73,11 @@
           "slug": "rna-full-sequence",
           "description_html": "Convert a full DNA sequence to its RNA complement.",
           "name": "Full RNA complement",
-          "function": "dna_to_rna",
+          "function": "dnaToRna",
           "args": ["ACGTGGTCTTAA"],
           "checks": [
             {
               "value": "UGCACCAGAAUU"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Bonus Tasks",
-      "bonus": true,
-      "tests": [
-        {
-          "slug": "concatenate",
-          "description_html": "Only have `concatenate` appear once in your code.",
-          "name": "Only concatenate once",
-          "function": "dna_to_rna",
-          "args": ["ACGTGGTCTTAA"],
-          "value": "UGCACCAGAAUU",
-          "checks": [
-            {
-              "function": "numFunctionCallsInCode('concatenate')",
-              "value": 1,
-              "code_run": "We checked how many times concatenateed appeared in your code",
-              "error_html": "`concatenate` appears more than once in your code."
-            }
-          ]
-        },
-        {
-          "slug": "rna-no-direct-check",
-          "description_html": "Do not directly check whether the nucleotide is equal to a specific letter (i.e. no `nucleotide == \"G\"`)",
-          "name": "No direct checks",
-          "function": "dna_to_rna",
-          "args": ["ACGTGGTCTTAA"],
-          "value": "UGCACCAGAAUU",
-          "checks": [
-            {
-              "function": "numDirectStringComparisons()",
-              "value": 0,
-              "code_run": "We checked how many times the nucleotide wsa compared to a specific letter.",
-              "error_html": "You directly checked whether the nucleotide is equal to a specific letter."
-            }
-          ]
-        },
-        {
-          "slug": "rna-short-code",
-          "description_html": "With both the other bonus tasks still honoured, get it down to 18 lines of code.",
-          "name": "Short code",
-          "function": "dna_to_rna",
-          "args": ["ACGTGGTCTTAA"],
-          "value": "UGCACCAGAAUU",
-          "checks": [
-            {
-              "function": "numLinesOfCode()",
-              "matcher": "toBeLessThanOrEqual",
-              "value": 18,
-              "code_run": "We checked how many lines you used.",
-              "error_html": "Your code is longer than 18 lines."
             }
           ]
         }

@@ -1,56 +1,11 @@
 {
-  "title": "Scrabble Score",
+  "title": "Letter Points",
   "description": "Compute the Scrabble score for a word.",
-  "level": 7,
-  "idx": 4,
-  "blocks_project_progression": false,
+  "level": 14,
+  "idx": 9,
+  "language": "javascript",
   "tests_type": "io",
-  "stdlib_functions": ["concatenate"],
   "tasks": [
-    {
-      "name": "The letter_values function",
-      "tests": [
-        {
-          "slug": "letter_values",
-          "description_html": "The Letter Values function should be correct",
-          "name": "The letter_values function",
-          "function": "letter_values",
-          "args": [],
-          "checks": [
-            {
-              "value": {
-                "A": 1,
-                "E": 1,
-                "I": 1,
-                "O": 1,
-                "U": 1,
-                "L": 1,
-                "N": 1,
-                "R": 1,
-                "S": 1,
-                "T": 1,
-                "D": 2,
-                "G": 2,
-                "B": 3,
-                "C": 3,
-                "M": 3,
-                "P": 3,
-                "F": 4,
-                "H": 4,
-                "V": 4,
-                "W": 4,
-                "Y": 4,
-                "K": 5,
-                "J": 8,
-                "X": 8,
-                "Q": 10,
-                "Z": 10
-              }
-            }
-          ]
-        }
-      ]
-    },
     {
       "name": "Single letters",
       "tests": [
@@ -58,7 +13,7 @@
           "slug": "scrabble-lowercase-letter",
           "description_html": "Calculate the score for a single lowercase letter.",
           "name": "Lowercase letter",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["a"],
           "checks": [
             {
@@ -70,7 +25,7 @@
           "slug": "scrabble-uppercase-letter",
           "description_html": "Calculate the score for a single uppercase letter.",
           "name": "Uppercase letter",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["A"],
           "checks": [
             {
@@ -82,7 +37,7 @@
           "slug": "scrabble-valuable-letter",
           "description_html": "Calculate the score for a valuable letter.",
           "name": "Valuable letter",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["f"],
           "checks": [
             {
@@ -99,7 +54,7 @@
           "slug": "scrabble-short-word",
           "description_html": "Calculate the score for a short word.",
           "name": "Short word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["at"],
           "checks": [
             {
@@ -111,7 +66,7 @@
           "slug": "scrabble-short-valuable-word",
           "description_html": "Calculate the score for a short word with valuable letters.",
           "name": "Short, valuable word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["zoo"],
           "checks": [
             {
@@ -123,7 +78,7 @@
           "slug": "scrabble-medium-word",
           "description_html": "Calculate the score for a medium-length word.",
           "name": "Medium word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["street"],
           "checks": [
             {
@@ -135,7 +90,7 @@
           "slug": "scrabble-medium-valuable-word",
           "description_html": "Calculate the score for a medium-length word with valuable letters.",
           "name": "Medium, valuable word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["quirky"],
           "checks": [
             {
@@ -147,7 +102,7 @@
           "slug": "scrabble-long-mixed-case-word",
           "description_html": "Calculate the score for a long word with mixed case letters.",
           "name": "Long, mixed-case word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["OxyphenButazone"],
           "checks": [
             {
@@ -159,7 +114,7 @@
           "slug": "scrabble-english-like-word",
           "description_html": "Calculate the score for an English-like word.",
           "name": "English-like word",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["pinata"],
           "checks": [
             {
@@ -176,7 +131,7 @@
           "slug": "scrabble-empty-input",
           "description_html": "Calculate the score for an empty string.",
           "name": "Empty input",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": [""],
           "checks": [
             {
@@ -188,7 +143,7 @@
           "slug": "scrabble-entire-alphabet",
           "description_html": "Calculate the score for a string with every letter of the alphabet.",
           "name": "Entire alphabet",
-          "function": "scrabble_score",
+          "function": "letterPoints",
           "args": ["abcdefghijklmnopqrstuvwxyz"],
           "checks": [
             {

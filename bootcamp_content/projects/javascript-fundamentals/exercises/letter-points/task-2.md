@@ -1,3 +1,3 @@
-# Task 2
+# Task 3
 
-Great! Next, let's get `scrabble_score` working with single letters.
+Nice! Now let's get it working with words.

@@ -1,5 +1,7 @@
 # RNA Transcription
 
+_This is the same exercise as the RNA Transcription exercise in Coding Fundamentals and on Exercism. Can you solve it idiomatically in JavaScript?_
+
 Our second molecular biology exercise looks at RNA as well as DNA!
 
 # Introduction

@@ -1,6 +1,6 @@
 {
   "title": "Wordle Evolved",
-  "description": "Correctly guess the word",
+  "description": "Create a Wordle game and solver in JavaScript.",
   "project_type": "wordle",
   "level": 14,
   "idx": 12,

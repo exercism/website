@@ -1,5 +1,7 @@
 # Description
 
+_This is the same exercise as Nucleotide Count in Coding Fundamentals and on Exercism. Can you solve it idiomatically in JavaScript?_
+
 We're back with some more microbiology.
 
 DNA is a long chain of other chemicals and the most important are the four nucleotides, adenine, cytosine, guanine and thymine.
@@ -13,30 +15,16 @@ In this exercise, we want to count he amount of nucleotides in a strand of DNA.
 
 ## Instructions
 
-Create a function called `count_nucleotides` that takes a DNA strand, and outputs a dictionary whose keys are the DNA letters, and the values are the amount of times those appear.
+Create a function called `countNucleotides` that takes a DNA strand, and outputs a dictionary whose keys are the DNA letters, and the values are the amount of times those appear.
 
 If the strand contains any invalid characters, return `false`.
 
 For example:
 
 ```
-count_nucleotides("GATTACA")
+countNucleotides("GATTACA")
 // -> { "A": 3, "C": 1, "G": 1, "T": 2 }
 
-count_nucleotides("INVALID")
+countNucleotides("INVALID")
 // -> false
-```
-
-### Functions
-
-You have one new function available called `keys(dictionary)`.
-This takes a dictionary as its input and returns a list of all its keys.
-
-So for the dictionary:
-
-```
-set person to { "name": "Jeremy", "age": 41, "developer": true }
-
-keys(person)
-// -> ["name", "age", "developer"]
 ```

@@ -99,7 +99,7 @@ function processGuess(game, knowledge, row, guess) {
   return knowledge
 }
 
-function processGame() {
+function playGame() {
   let knowledge = setupKnowledge()
   for (let idx = 0; idx < 6; idx++) {
     knowledge = processGuess(game, knowledge, idx, chooseWord(knowledge))

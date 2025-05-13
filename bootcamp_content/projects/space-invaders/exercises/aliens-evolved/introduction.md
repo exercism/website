@@ -4,9 +4,9 @@ Welcome to Space Invaders!
 
 For those of you that took part in Coding Fundamentals, this exercise should feel very familiar. You can use your code from Alien Detector as a reference, although there are a few differences to be away of (see below!)
 
-Your job in this exercise is to shoot down all the aliens!
-
 ## Instructions
+
+Your job in this exercise is create a function called `playGame()` to shoot down all the aliens!
 
 You have four functions available to you:
 
@@ -46,7 +46,7 @@ Some points of clarity:
 - You cannot shoot twice in a row without moving.
 - The aliens do not respawn.
 
-## Reusing Alien Detector
+## Reusing Alien Detector (Coding Fundamentals students)
 
 If you reuse your Alien Detector code, here are a few notes:
 

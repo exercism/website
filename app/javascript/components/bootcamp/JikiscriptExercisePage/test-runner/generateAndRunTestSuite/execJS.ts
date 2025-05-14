@@ -1,5 +1,6 @@
 import { generateCodeRunString } from '../../utils/generateCodeRunString'
 import * as acorn from 'acorn'
+import { injectLoopGuards } from './injectLoopGuards'
 
 const esm = (code: string) =>
   URL.createObjectURL(new Blob([code], { type: 'text/javascript' }))
@@ -42,6 +43,8 @@ export async function execJS(
       },
     }
   }
+
+  // let guardedStudentCode = injectLoopGuards(studentCode)
 
   let code = `
     let currentTime = 0

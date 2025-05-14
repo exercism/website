@@ -14,6 +14,7 @@ You can use any properties we've covered so far. To help you out here are a few 
 - The font is sized `15px` and I use both `400` and `600` font weights.
 - All other values are in increments of `5px`.
 - I used image tags, not background images.
+- The text color is `#333`.
 
 The image URLs are:
 

@@ -9,6 +9,7 @@ import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
+import { getStylesFromCss } from './utils/getStylesFromCss'
 
 export default function CSSExercisePage(data: CSSExercisePageProps) {
   const {
@@ -38,6 +39,13 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     getEditorValues,
     defaultCode,
   } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
+
+  useEffect(() => {
+    const selector = '#flag #top #rhs div:nth-child(1)'
+    getStylesFromCss(DUMMY_CSS, selector).then((styles) => {
+      console.log(`getting styles for selector: ${selector}`, styles)
+    })
+  }, [])
 
   return (
     <CSSExercisePageContext.Provider
@@ -73,3 +81,49 @@ export default function CSSExercisePage(data: CSSExercisePageProps) {
     </CSSExercisePageContext.Provider>
   )
 }
+
+const DUMMY_CSS = `#flag {
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#top,
+#bottom {
+    flex-basis: 0;
+    min-height: 0;
+}
+#top {
+    display: flex;
+    flex-grow: 5;
+    align-items: stretch;
+}
+#star {
+    aspect-ratio: 1;
+    background: #002868;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 60%;
+    }
+}
+#rhs,
+#bottom {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#bottom {
+    flex-grow: 6;
+}
+
+#rhs, #bottom {
+   div {
+      flex-grow: 1;
+  }
+}
+#rhs div:nth-child(odd),
+#bottom div:nth-child(even) {
+    background: #BF0A30;
+}`

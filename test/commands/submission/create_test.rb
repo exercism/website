@@ -110,4 +110,25 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert_equal solution.track, metric.track
     assert_equal solution.user, metric.user
   end
+
+  test "processes test run if it's passed and doesn't create new one" do
+    test_results_json = { "foo": "bar" }.to_json
+    solution = create :concept_solution
+
+    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
+
+    test_run_id = SecureRandom.uuid
+    submission_uuid = SecureRandom.uuid
+    SecureRandom.stubs(uuid: test_run_id)
+    SecureRandom.stubs(compact_uuid: submission_uuid)
+    Submission::TestRun::Init.expects(:call).never
+    Submission::TestRun::Process.expects(:call).with do |tooling_job|
+      assert_equal test_run_id, tooling_job.id
+      assert_equal submission_uuid, tooling_job.submission_uuid
+      assert_equal 200, tooling_job.execution_status
+      assert_equal({ "exercise_git_sha": solution.git_sha }, tooling_job.source)
+      assert_equal({ "results.json": test_results_json }, tooling_job.execution_output)
+    end
+    Submission::Create.(solution, files, :api, test_results_json)
+  end
 end

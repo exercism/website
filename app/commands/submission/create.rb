@@ -1,16 +1,15 @@
 class Submission::Create
   include Mandate
 
-  def initialize(solution, files, submitted_via)
+  def initialize(solution, raw_files, submitted_via, test_results_json = nil)
     @submission_uuid = SecureRandom.compact_uuid
-
     @solution = solution
-    @submitted_files = files
     @submitted_via = submitted_via
+    @test_results_json = test_results_json
 
     # TODO: (Optional) - Move this into another service
     # TODO: (Optional) - Consider risks around filenames
-    @submitted_files.each do |f|
+    @submitted_files = raw_files.each do |f|
       f[:digest] = Digest::SHA1.hexdigest(f[:content])
     end
   end
@@ -21,7 +20,7 @@ class Submission::Create
 
     create_submission!
     create_files!
-    init_test_run!
+    handle_test_run!
     schedule_jobs!
     log_metric!
 
@@ -30,7 +29,7 @@ class Submission::Create
   end
 
   private
-  attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission
+  attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission, :test_results_json
 
   delegate :track, :user, to: :solution
 
@@ -61,8 +60,12 @@ class Submission::Create
     end
   end
 
-  def init_test_run!
-    Submission::TestRun::Init.(submission)
+  def handle_test_run!
+    if test_results_json
+      Submission::TestRun::Process.(FauxToolingJob.new(submission, test_results_json))
+    else
+      Submission::TestRun::Init.(submission)
+    end
   end
 
   def schedule_jobs!
@@ -71,5 +74,23 @@ class Submission::Create
 
   def log_metric!
     Metric::Queue.(:submit_submission, submission.created_at, submission:, track:, user:)
+  end
+
+  # Rather than rewrite this critical component, for now
+  # we're just stubbing a tooling job as if it had come back
+  # from the server.
+  class FauxToolingJob
+    include Mandate
+
+    initialize_with :submission, :test_results_json do
+      @id = SecureRandom.uuid
+    end
+
+    attr_reader :id
+
+    delegate :uuid, to: :submission, prefix: true
+    def execution_status = 200
+    def source = { "exercise_git_sha": submission.solution.git_sha }
+    def execution_output = { "results.json": test_results_json }
   end
 end

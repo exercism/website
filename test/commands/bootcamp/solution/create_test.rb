@@ -22,6 +22,7 @@ class Bootcamp::Solution::CreateTest < ActiveSupport::TestCase
     create :bootcamp_user_project, user:, project:, status: :available
     exercise = create(:bootcamp_exercise, project:)
     exercise.stubs(:stub).returns(code)
+    exercise.stubs(:language).returns("jikiscript")
 
     solution = Bootcamp::Solution::Create.(user, exercise)
     assert_equal code, solution.code

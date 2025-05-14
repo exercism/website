@@ -2,7 +2,7 @@
 
 In this exercise, your job is to replicate the features section from the top of the Bootcamp landing page.
 
-I've left the HTML and CSS almost exactly as it is on the page, so you're coding CSS for real here!
+I've left the HTML and CSS almost exactly as it is on the real page, so you're coding CSS for real here!
 
 ## Instructions
 

@@ -69,6 +69,7 @@ export async function execTest(
   let actual: any
   let frames: Frame[] = []
   let evaluated: any = null
+  let hasJSError = false
 
   switch (language) {
     case 'javascript': {
@@ -85,13 +86,13 @@ export async function execTest(
 
       if (result.status === 'error') {
         if (editorView) {
-          console.log(result)
           showError({
             error: result.error,
             ...stateSetters,
             editorView,
           })
         }
+        hasJSError = true
       }
 
       // null falls back to [Your function didn't return anything]
@@ -133,6 +134,16 @@ export async function execTest(
   const codeRun = testData.codeRun ?? generateCodeRunString(fnName, args)
 
   const expects = generateExpects(evaluated, testData, actual, exercise)
+
+  if (hasJSError) {
+    expects.push({
+      actual: 'running',
+      matcher: 'toBe',
+      errorHtml: 'Your code has an error in it.',
+      expected: true,
+      pass: false,
+    })
+  }
 
   return {
     expects,

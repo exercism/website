@@ -1,6 +1,18 @@
 class Settings::GithubSolutionSyncerController < ApplicationController
   def show; end
 
+  def update
+    user.github_solution_syncer.update!(
+      params.require(:github_solution_syncer).permit(%w[
+                                                       processing_method
+                                                       main_branch_name
+                                                       path_template
+                                                       commit_message_template
+                                                       active
+                                                     ])
+    )
+  end
+
   def callback
     installation_id = params[:installation_id]
 

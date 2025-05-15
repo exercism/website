@@ -1586,7 +1586,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_083332) do
     t.boolean "create_automatically", null: false, default: true
     t.integer "processing_method", null: false, default: 1
     t.string "main_branch_name", null: false, default: "main"
-
     t.string "commit_message_template", null: false
     t.string "path_template", null: false
     t.datetime "created_at", null: false

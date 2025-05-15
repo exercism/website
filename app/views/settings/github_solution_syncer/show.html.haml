@@ -4,4 +4,5 @@
     %code= current_user.github_solution_syncer.repo_full_name
   = button_to "Disconnect", settings_github_solution_syncer_path, method: :delete, class: "btn btn-danger"
 - else
+
   = link_to "Connect GitHub Repo", "https://github.com/apps/exercism-solutions-syncer/installations/new", class: "btn btn-primary"

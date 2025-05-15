@@ -62,7 +62,7 @@ class Submission::Create
 
   def handle_test_run!
     if test_results_json
-      Submission::TestRun::ProcessClientSideResults.defer(submission, test_results_json)
+      Submission::TestRun::ProcessClientSideResults.(submission, test_results_json)
     else
       Submission::TestRun::Init.(submission)
     end

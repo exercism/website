@@ -131,7 +131,7 @@ const InsiderBenefitsForm = lazy(
 )
 
 const GitHubSyncerForm = lazy(
-  () => import('@/components/settings/github-syncer/GithubSyncerForm')
+  () => import('@/components/settings/github-syncer/GitHubSyncerForm')
 )
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
@@ -229,6 +229,7 @@ import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skel
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
 import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
 import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
+import { GitHubSyncerFormProps } from '@/components/settings/github-syncer/GitHubSyncerForm'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -526,9 +527,9 @@ initReact({
     </Suspense>
   ),
 
-  'settings-github-syncer-form': (data: any) => (
+  'settings-github-syncer-form': (data: GitHubSyncerFormProps) => (
     <Suspense fallback={RenderLoader()}>
-      <GitHubSyncerForm />
+      <GitHubSyncerForm {...camelizeKeysAs<GitHubSyncerFormProps>(data)} />
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (

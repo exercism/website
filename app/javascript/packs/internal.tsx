@@ -129,6 +129,10 @@ const UserPreferencesForm = lazy(
 const InsiderBenefitsForm = lazy(
   () => import('@/components/settings/InsiderBenefitsForm')
 )
+
+const GitHubSyncerForm = lazy(
+  () => import('@/components/settings/github-syncer/GithubSyncerForm')
+)
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
 )
@@ -521,15 +525,10 @@ initReact({
       />
     </Suspense>
   ),
-  'settings-bootcamp-free-coupon-form': (data: any) => (
+
+  'settings-github-syncer-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <BootcampFreeCouponForm
-        bootcampFreeCouponCode={data.bootcamp_free_coupon_code}
-        links={camelizeKeysAs<{
-          insidersPath: string
-          bootcampFreeCouponCode: string
-        }>(data.links)}
-      />
+      <GitHubSyncerForm />
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (

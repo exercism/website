@@ -1,0 +1,8 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:github_syncer)
+
+    %article
+      %h1 GitHub Syncer
+
+      = render ReactComponents::Settings::GithubSyncerForm.new

@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     get :communication_preferences
     get :donations
     get :integrations
+    get :github_syncer
     get :insiders
     patch :reset_account
     delete :destroy_account

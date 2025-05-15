@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { ConfirmationModal } from './ConfirmationModal'
-import { GitHubSyncerContext, fetchWithParams } from './GitHubSyncerForm'
+import { GitHubSyncerContext } from './GitHubSyncerForm'
+import { fetchWithParams } from './fetchWithParams'
 
 export function DangerZoneSection() {
   const { links, isUserActive } = React.useContext(GitHubSyncerContext)

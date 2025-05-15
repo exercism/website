@@ -16,9 +16,9 @@ export function PathTemplateSection() {
     })
       .then((response) => {
         if (response.ok) {
-          console.log('Change activity status successfully')
+          console.log('Path template was updated successfully')
         } else {
-          console.error('Failed to change status')
+          console.error('Failed to save changes!')
         }
       })
       .catch((error) => {

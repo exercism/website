@@ -52,6 +52,7 @@ import {
 import { RealtimeFeedbackModal } from './modals'
 import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
 import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
+import { runTestsClientSide } from './editor/ClientSideTestRunner/generalTestRunner'
 
 export type TabIndex =
   | 'instructions'
@@ -167,41 +168,49 @@ export default ({
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    createSubmission(files, TEST_RESULTS_JSON, {
-      onSuccess: () => {
-        dispatch({ status: EditorStatus.INITIALIZED })
-        setSubmissionFiles(files)
-        setHasLatestIteration(false)
-      },
-      onError: async (error) => {
-        let editorError: null | Promise<{ type: string; message: string }> =
-          null
+    console.log('files', files)
 
-        if (error instanceof Error) {
-          editorError = Promise.resolve({
-            type: 'unknown',
-            message: 'Unable to submit file. Please try again.',
-          })
-        } else if (error instanceof Response) {
-          editorError = error
-            .json()
-            .then((json) => json.error)
-            .catch(() => {
-              return {
-                type: 'unknown',
-                message: 'Unable to submit file. Please try again.',
-              }
+    const testResults = runTestsClientSide(files)
+
+    createSubmission(
+      { files, testResults },
+      {
+        onSuccess: () => {
+          console.log('SUCCESS')
+          dispatch({ status: EditorStatus.INITIALIZED })
+          setSubmissionFiles(files)
+          setHasLatestIteration(false)
+        },
+        onError: async (error) => {
+          let editorError: null | Promise<{ type: string; message: string }> =
+            null
+
+          if (error instanceof Error) {
+            editorError = Promise.resolve({
+              type: 'unknown',
+              message: 'Unable to submit file. Please try again.',
             })
-        }
+          } else if (error instanceof Response) {
+            editorError = error
+              .json()
+              .then((json) => json.error)
+              .catch(() => {
+                return {
+                  type: 'unknown',
+                  message: 'Unable to submit file. Please try again.',
+                }
+              })
+          }
 
-        if (editorError) {
-          dispatch({
-            status: EditorStatus.CREATE_SUBMISSION_FAILED,
-            error: await editorError,
-          })
-        }
-      },
-    })
+          if (editorError) {
+            dispatch({
+              status: EditorStatus.CREATE_SUBMISSION_FAILED,
+              error: await editorError,
+            })
+          }
+        },
+      }
+    )
   }, [createSubmission, dispatch, files])
 
   const showFeedbackModal = useCallback(() => {
@@ -611,34 +620,3 @@ export default ({
     </FeaturesContext.Provider>
   )
 }
-
-const TEST_RESULTS = {
-  version: 3,
-  status: 'pass',
-  message: null,
-  messageHtml: null,
-  output: null,
-  outputHtml: null,
-  tests: [
-    {
-      name: 'Hello World > Say Hi!',
-      status: 'pass',
-      testCode: "expect(hello()).toEqual('Hello, World!');",
-      message:
-        'Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\nExpected: \u001b[32m"\u001b[7mHello, World\u001b[27m!"\u001b[39m\nReceived: \u001b[31m"\u001b[7mGoodbye, Mars\u001b[27m!"\u001b[39m',
-      messageHtml:
-        "Error: expect(<span style='color:#A00;'>received</span>).toEqual(<span style='color:#0A0;'>expected</span>) // deep equality\n\nExpected: <span style='color:#0A0;'>&quot;Hello, World!&quot;</span>\nReceived: <span style='color:#A00;'>&quot;Goodbye, Mars!&quot;</span>",
-      expected: null,
-      output: null,
-      outputHtml: null,
-      taskId: null,
-    },
-  ],
-  tasks: [],
-  highlightjsLanguage: 'javascript',
-  links: {
-    self: 'http://local.exercism.io:3020/api/v2/solutions/b714573e50244417a0812ca49cc76a1d/submissions/71487f490f584bfaa61a0051bd244932/test_run',
-  },
-}
-
-const TEST_RESULTS_JSON = JSON.stringify(TEST_RESULTS)

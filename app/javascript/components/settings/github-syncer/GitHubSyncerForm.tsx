@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { ConfirmationModal } from './ConfirmationModal'
+import React from 'react'
+import { DangerZoneSection } from './DangerZoneSection'
 
 export type GitHubSyncerFormProps = {
   links: { connectToGithub: string; settings: string }
@@ -11,7 +11,7 @@ type GitHubSyncerContextType = {
   links: GitHubSyncerFormProps['links']
   isUserActive: GitHubSyncerFormProps['isUserActive']
 }
-const GitHubSyncerContext = React.createContext<GitHubSyncerContextType>(
+export const GitHubSyncerContext = React.createContext<GitHubSyncerContextType>(
   {} as GitHubSyncerContextType
 )
 
@@ -48,92 +48,7 @@ function ConnectedSection() {
   return <DangerZoneSection />
 }
 
-function DangerZoneSection() {
-  const { links, isUserActive } = React.useContext(GitHubSyncerContext)
-
-  const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
-    useState(false)
-  const handleDeleteConfirmationModalClose = useCallback(() => {
-    setDeleteConfirmationModalOpen(false)
-  }, [])
-
-  const [
-    isActivityChangeConfirmationModalOpen,
-    setActivityChangeConfirmationModalOpen,
-  ] = useState(false)
-  const handleActivityChangeConfirmationModalClose = useCallback(() => {
-    setActivityChangeConfirmationModalOpen(false)
-  }, [])
-
-  const handleToggleActivity = useCallback(() => {
-    fetchWithParams({ url: links.settings, params: { active: !isUserActive } })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Change activity status successfully')
-        } else {
-          console.error('Failed to change status')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-  }, [isUserActive, links.settings])
-
-  const handleDelete = useCallback(() => {
-    fetchWithParams({ url: links.settings, method: 'DELETE' })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Deleted successfully')
-        } else {
-          console.error('Failed to delete')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-  }, [links.settings])
-
-  return (
-    <section className="border border-2 border-danger">
-      <h2>Danger Zone</h2>
-      <p className="text-16 leading-140 mb-16">
-        This is a dangerous zone. Be careful.
-      </p>
-      <div className="flex gap-8">
-        <button onClick={handleToggleActivity} className="btn">
-          {isUserActive ? 'Pause' : 'Resume'}
-        </button>
-        <button onClick={handleDelete} className="btn">
-          Delete
-        </button>
-      </div>
-      {/* DELETE CONFIRMATION MODAL */}
-      <ConfirmationModal
-        title="Are you sure you want to delete your GitHub sync?"
-        description="This action probably cannot be undone."
-        confirmLabel="Delete"
-        declineLabel="Cancel"
-        onConfirm={handleDelete}
-        open={isDeleteConfirmationModalOpen}
-        onClose={handleDeleteConfirmationModalClose}
-      />
-
-      {/* ACTIVITY CHANGE CONFIRMATION MODAL */}
-      <ConfirmationModal
-        title={`Are you sure you want to ${
-          isUserActive ? 'pause' : 'resume'
-        } syncing things with GitHub?`}
-        confirmLabel="Pause"
-        declineLabel="Cancel"
-        onConfirm={handleDelete}
-        open={isActivityChangeConfirmationModalOpen}
-        onClose={handleActivityChangeConfirmationModalClose}
-      />
-    </section>
-  )
-}
-
-function fetchWithParams({
+export function fetchWithParams({
   url,
   params,
   method = 'GET',

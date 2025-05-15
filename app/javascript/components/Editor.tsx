@@ -168,8 +168,6 @@ export default ({
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    console.log('files', files)
-
     const testResults = runTestsClientSide(files)
 
     createSubmission(

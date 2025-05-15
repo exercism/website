@@ -9,7 +9,6 @@ class API::Solutions::SubmissionsController < API::BaseController
     return render_solution_not_accessible unless solution.user_id == current_user.id
 
     files = submission_params[:files].map(&:to_h).map(&:symbolize_keys)
-    test_results = submission_params[:test_results]
 
     # TODO: (Optional) Move this check into a guard service along with the CLI, which raises and
     # rescues SubmissionFileTooLargeError exceptions
@@ -17,7 +16,7 @@ class API::Solutions::SubmissionsController < API::BaseController
 
     # TODO: (Required) Allow rerunning of tests if previous submission was an error / ops error / timeout
     begin
-      submission = Submission::Create.(solution, files, :api, test_results.to_json)
+      submission = Submission::Create.(solution, files, :api, params[:test_results_json])
     rescue DuplicateSubmissionError
       return render_error(400, :duplicate_submission)
     end
@@ -29,20 +28,6 @@ class API::Solutions::SubmissionsController < API::BaseController
 
   private
   def submission_params
-    params.permit(
-      files: %i[filename content type],
-      test_results: [
-        :version,
-        :status,
-        :message,
-        :messageHtml,
-        :output,
-        :outputHtml,
-        :highlightjsLanguage,
-        { links: [:self] },
-        { tests: %i[name status testCode message messageHtml expected output outputHtml taskId] },
-        { tasks: [] }
-      ]
-    )
+    params.permit(files: %i[filename content])
   end
 end

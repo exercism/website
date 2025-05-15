@@ -11,7 +11,7 @@ type Links = {
 
 type CreateSubmissionParams = {
   files: File[]
-  testResults: any
+  testResults: Object | null
 }
 
 export const useSubmissionsList = (
@@ -34,11 +34,12 @@ export const useSubmissionsList = (
     CreateSubmissionParams
   >(
     async ({ files, testResults }) => {
-      console.log('Creating submission with files:', files, testResults)
+      const testResultsJson = testResults ? JSON.stringify(testResults) : null
+      console.log('Creating submission with files:', files, testResultsJson)
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
-        body: JSON.stringify({ files, test_results: testResults }),
+        body: JSON.stringify({ files, test_results_json: testResultsJson }),
       })
 
       return fetch.then((response) =>

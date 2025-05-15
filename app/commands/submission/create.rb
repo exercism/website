@@ -62,7 +62,7 @@ class Submission::Create
 
   def handle_test_run!
     if test_results_json
-      Submission::TestRun::Process.(FauxToolingJob.new(submission, test_results_json))
+      Submission::TestRun::ProcessClientSideResults.defer(submission, test_results_json)
     else
       Submission::TestRun::Init.(submission)
     end
@@ -74,23 +74,5 @@ class Submission::Create
 
   def log_metric!
     Metric::Queue.(:submit_submission, submission.created_at, submission:, track:, user:)
-  end
-
-  # Rather than rewrite this critical component, for now
-  # we're just stubbing a tooling job as if it had come back
-  # from the server.
-  class FauxToolingJob
-    include Mandate
-
-    initialize_with :submission, :test_results_json do
-      @id = SecureRandom.uuid
-    end
-
-    attr_reader :id
-
-    delegate :uuid, to: :submission, prefix: true
-    def execution_status = 200
-    def source = { "exercise_git_sha" => submission.solution.git_sha }
-    def execution_output = { "results.json" => test_results_json }
   end
 end

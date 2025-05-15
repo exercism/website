@@ -18,6 +18,7 @@ class Bootcamp::Exercise::AvailableForUser
 
   def previous_exercises_completed?
     previous_exercises = project.exercises.
+      where('bootcamp_exercises.level_idx': exercise_level_range).
       where('bootcamp_exercises.blocks_project_progression': true).
       where.not(id: exercise.id).select do |prev_ex|
       prev_ex.level_idx < exercise.level_idx ||
@@ -32,6 +33,10 @@ class Bootcamp::Exercise::AvailableForUser
   def user_level_idx
     part = exercise.level_idx <= 10 ? 1 : 2
     part == 1 ? bootcamp_data.part_1_level_idx : bootcamp_data.part_2_level_idx
+  end
+
+  def exercise_level_range
+    exercise.level_idx <= 10 ? 1..10 : 11..20
   end
 
   delegate :bootcamp_data, to: :user

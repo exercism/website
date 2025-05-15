@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_25_060229) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_15_083332) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1577,6 +1577,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_25_060229) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "slug"], name: "index_user_dismissed_introducers_on_user_id_and_slug", unique: true
     t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
+  end
+
+  create_table "user_github_solution_syncers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "installation_id", null: false
+    t.string "repo_full_name", null: false
+    t.boolean "create_automatically", null: false, default: true
+    t.integer "processing_method", null: false, default: 1
+    t.string "main_branch_name", null: false, default: "main"
+
+    t.string "commit_message_template", null: false
+    t.string "path_template", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_github_solution_syncers_on_user_id", unique: true
   end
 
   create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

@@ -21,9 +21,9 @@ export function ProcessingMethodSection() {
     })
       .then((response) => {
         if (response.ok) {
-          console.log('Change activity status successfully')
+          console.log('Saved changes successfully')
         } else {
-          console.error('Failed to change status')
+          console.error('Failed to save changes')
         }
       })
       .catch((error) => {

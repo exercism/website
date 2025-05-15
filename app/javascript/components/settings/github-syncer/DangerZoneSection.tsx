@@ -24,6 +24,7 @@ export function DangerZoneSection() {
     fetchWithParams({ url: links.settings, params: { active: !isUserActive } })
       .then((response) => {
         if (response.ok) {
+          // maybe use a toast for these?
           console.log('Change activity status successfully')
         } else {
           console.error('Failed to change status')

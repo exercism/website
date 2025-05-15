@@ -17,9 +17,9 @@ export function CommitMessageTemplateSection() {
     })
       .then((response) => {
         if (response.ok) {
-          console.log('Change activity status successfully')
+          console.log('Commit message template was updated successfully')
         } else {
-          console.error('Failed to change status')
+          console.error('Failed to save changes')
         }
       })
       .catch((error) => {

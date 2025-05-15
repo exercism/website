@@ -8,7 +8,7 @@ GIT
 PATH
   remote: ../config
   specs:
-    exercism-config (0.94.0)
+    exercism-config (0.119.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate

@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
+import { ConfirmationModal } from './ConfirmationModal'
 
 export type GitHubSyncerFormProps = {
   links: { connectToGithub: string; settings: string }
@@ -50,6 +51,20 @@ function ConnectedSection() {
 function DangerZoneSection() {
   const { links, isUserActive } = React.useContext(GitHubSyncerContext)
 
+  const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
+    useState(false)
+  const handleDeleteConfirmationModalClose = useCallback(() => {
+    setDeleteConfirmationModalOpen(false)
+  }, [])
+
+  const [
+    isActivityChangeConfirmationModalOpen,
+    setActivityChangeConfirmationModalOpen,
+  ] = useState(false)
+  const handleActivityChangeConfirmationModalClose = useCallback(() => {
+    setActivityChangeConfirmationModalOpen(false)
+  }, [])
+
   const handleToggleActivity = useCallback(() => {
     fetchWithParams({ url: links.settings, params: { active: !isUserActive } })
       .then((response) => {
@@ -92,6 +107,28 @@ function DangerZoneSection() {
           Delete
         </button>
       </div>
+      {/* DELETE CONFIRMATION MODAL */}
+      <ConfirmationModal
+        title="Are you sure you want to delete your GitHub sync?"
+        description="This action probably cannot be undone."
+        confirmLabel="Delete"
+        declineLabel="Cancel"
+        onConfirm={handleDelete}
+        open={isDeleteConfirmationModalOpen}
+        onClose={handleDeleteConfirmationModalClose}
+      />
+
+      {/* ACTIVITY CHANGE CONFIRMATION MODAL */}
+      <ConfirmationModal
+        title={`Are you sure you want to ${
+          isUserActive ? 'pause' : 'resume'
+        } syncing things with GitHub?`}
+        confirmLabel="Pause"
+        declineLabel="Cancel"
+        onConfirm={handleDelete}
+        open={isActivityChangeConfirmationModalOpen}
+        onClose={handleActivityChangeConfirmationModalClose}
+      />
     </section>
   )
 }

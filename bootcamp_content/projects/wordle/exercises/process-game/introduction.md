@@ -47,6 +47,38 @@ For example, if the word was in the first row was correct, you would call:
 color_row(1, ["correct", "correct", "correct", "correct", "correct"])
 ```
 
+## The `push` function
+
+In this exercise, you'll need to use the `push` function for the first time. This is a function that you'll be using in nearly every exercise moving forward.
+
+To "push" onto a list means to add an element to the end of it.
+
+To use the push function, you provide two inputs:
+
+- The list you want to add something to
+- The element you want to add.
+
+The function returns a **new** array with the contents of the list and the extra element added. It does not mutate the original list.
+
+For example:
+
+```jikiscript
+set names to ["Jeremy", "Rubber"]
+set new_names to push(names, "Duck")
+
+// new_names is now ["Jeremy", "Rubber", "Duck"]
+// names is still ["Jeremy", "Rubber"]
+```
+
+Often you do want to replace the old list with the new one. To do that, you can put the new list that the function returns into the original box. For example:
+
+```jikiscript
+set names to ["Jeremy", "Rubber"]
+change names to push(names, "Duck")
+
+// names is now ["Jeremy", "Rubber", "Duck"]
+```
+
 ## Library Functions
 
 This exercise might benefit from your [`my#contains`](/bootcamp/custom_functions/contains) library function!

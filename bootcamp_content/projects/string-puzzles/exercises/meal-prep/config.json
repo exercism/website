@@ -2,7 +2,7 @@
   "title": "Meal Prep",
   "description": "Work out what you need to buy for a meal",
   "level": 6,
-  "idx": 1,
+  "idx": 2,
   "tests_type": "io",
   "stdlib_functions": ["push"],
   "interpreter_options": {

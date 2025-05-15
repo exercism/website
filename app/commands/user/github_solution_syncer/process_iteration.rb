@@ -10,11 +10,11 @@ class User::GithubSolutionSyncer
       if syncer.commit_to_main?
         CreateCommit.(iteration, syncer.main_branch_name)
       else
-        CreatePR.(iteration)
+        CreatePullRequest.(iteration)
       end
     end
 
     memoize
-    def syncer = context.user.github_solution_syncer
+    def syncer = iteration.user.github_solution_syncer
   end
 end

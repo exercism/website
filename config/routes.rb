@@ -81,10 +81,15 @@ Rails.application.routes.draw do
     get :communication_preferences
     get :donations
     get :integrations
+    get :github_syncer
     get :insiders
     patch :reset_account
     delete :destroy_account
     delete :disconnect_discord
+
+    resource :github_solution_syncer, only: %i[show destroy], controller: "settings/github_solution_syncer" do
+      get :callback # For GitHub installation callback
+    end
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"

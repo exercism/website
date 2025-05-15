@@ -1,8 +1,8 @@
 {
   "title": "ISBN Verifier",
   "description": "Validate ISBN-10 numbers to determine their correctness.",
-  "level": 5,
-  "idx": 12,
+  "level": 6,
+  "idx": 2,
   "tests_type": "io",
   "stdlib_functions": ["string_to_number", "push"],
   "tasks": [

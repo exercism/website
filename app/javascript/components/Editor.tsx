@@ -128,7 +128,7 @@ export default ({
     set: setSubmission,
     remove: removeSubmission,
   } = useSubmissionsList(defaultSubmissions, {
-    create: links.runTests + `?test_results_json=${TEST_RESULTS_JSON}`,
+    create: links.runTests,
   })
   const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
   const { create: createIteration } = useIteration()
@@ -167,7 +167,7 @@ export default ({
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    createSubmission(files, {
+    createSubmission(files, TEST_RESULTS_JSON, {
       onSuccess: () => {
         dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)

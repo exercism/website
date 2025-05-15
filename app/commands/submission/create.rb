@@ -90,7 +90,7 @@ class Submission::Create
 
     delegate :uuid, to: :submission, prefix: true
     def execution_status = 200
-    def source = { "exercise_git_sha": submission.solution.git_sha }
-    def execution_output = { "results.json": test_results_json }
+    def source = { "exercise_git_sha" => submission.solution.git_sha }
+    def execution_output = { "results.json" => test_results_json }
   end
 end

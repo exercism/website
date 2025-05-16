@@ -1,0 +1,35 @@
+#game {
+    position: relative;
+
+    #bricks {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2vmin;
+        margin: 15vmin;
+        div {
+            height: 7vmin;
+            border-radius: 2vmin;
+            background: red;
+        }
+    }
+    #paddle {
+        border-radius: 2vmin;
+        height: 5vmin;
+        width: 30vmin;
+        background: red;
+        position: absolute;
+        left: 50vw;
+        bottom: 5vmin;
+        transform: translateX(-50%);
+    }
+    #ball {
+        border-radius: 100%;
+        height: 5vmin;
+        width: 5vmin;
+        background: blue;
+        position: absolute;
+        left: 50vw;
+        bottom: 10vmin;
+        transform: translateX(-50%);
+    }
+}

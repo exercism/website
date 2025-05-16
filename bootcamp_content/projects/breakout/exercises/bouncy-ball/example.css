@@ -1,0 +1,17 @@
+#game {
+    margin: 10%;
+    aspect-ratio: 1;
+    background: #ddd;
+    width: 90%;
+    position: relative;
+}
+#ball {
+    border-radius: 100%;
+    width: 5%;
+    height: 5%;
+    position: absolute;
+    left: 50%;
+    top: 95%;
+    transform: translateX(-5%);
+    background: red;
+}

@@ -12,6 +12,8 @@ type FrontendExercisePageStoreState = {
     RHSWidth: number
   }
   setPanelSizes: (panelSizes: { LHSWidth: number; RHSWidth: number }) => void
+  isFinishLessonModalOpen: boolean
+  setIsFinishLessonModalOpen: (value: boolean) => void
 }
 
 export const useFrontendExercisePageStore =
@@ -28,4 +30,7 @@ export const useFrontendExercisePageStore =
       RHSWidth: 800,
     },
     setPanelSizes: (panelSizes) => set({ panelSizes }),
+    isFinishLessonModalOpen: false,
+    setIsFinishLessonModalOpen: (value) =>
+      set({ isFinishLessonModalOpen: value }),
   }))

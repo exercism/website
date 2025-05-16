@@ -60,10 +60,12 @@ const mappings = {
   ),
 
   'bootcamp-frontend-exercise-page': (
-    data: CSSExercisePageProps
+    data: FrontendExercisePageProps
   ): JSX.Element => (
     <Suspense>
-      <FrontendExercisePage />
+      <FrontendExercisePage
+        {...camelizeKeysAs<FrontendExercisePageProps>(data)}
+      />
     </Suspense>
   ),
 

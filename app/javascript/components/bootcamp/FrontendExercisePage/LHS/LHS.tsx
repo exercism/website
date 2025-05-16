@@ -13,7 +13,7 @@ import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore
 export type TabIndex = 'html' | 'css' | 'javascript'
 
 export const TabsContext = createContext<TabContext>({
-  current: 'instructions',
+  current: 'html',
   switchToTab: () => {},
 })
 
@@ -31,7 +31,13 @@ export function LHS() {
     code,
   } = useContext(FrontendExercisePageContext)
 
-  const { toggleDiffActivity, isDiffActive } = useFrontendExercisePageStore()
+  const { toggleDiffActivity, isDiffActive, setRHSActiveTab } =
+    useFrontendExercisePageStore()
+
+  const handleToggleDiff = useCallback(() => {
+    toggleDiffActivity()
+    setRHSActiveTab('output')
+  }, [])
 
   const handleRunCode = useCallback(() => {
     if (!jsEditorRef.current) return
@@ -102,7 +108,7 @@ export function LHS() {
         </button>
 
         {/* handle diff */}
-        <button onClick={toggleDiffActivity} className="btn-secondary btn-m">
+        <button onClick={handleToggleDiff} className="btn-secondary btn-m">
           Diff: {isDiffActive ? 'on' : 'off'}
         </button>
       </div>

@@ -2,9 +2,10 @@ import React, { createContext, useState } from 'react'
 import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
-import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
-
-type TabIndex = 'instructions' | 'output'
+import {
+  TabIndex,
+  useFrontendExercisePageStore,
+} from '../store/frontendExercisePageStore'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
@@ -12,7 +13,8 @@ export const TabsContext = createContext<TabContext>({
 })
 
 export function RHS() {
-  const [tab, setTab] = useState<TabIndex>('output')
+  const { RHSActiveTab: tab, setRHSActiveTab: setTab } =
+    useFrontendExercisePageStore()
   const {
     panelSizes: { RHSWidth },
   } = useFrontendExercisePageStore()

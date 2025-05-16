@@ -9,6 +9,19 @@ export function ExpectedOutput() {
   const { expectedIFrameRef } = context
 
   return (
-    <iframe style={{ width: '100%', height: '100%' }} ref={expectedIFrameRef} />
+    <div className="p-12">
+      <h3 className="mb-8 font-mono font-semibold">Target result</h3>
+      <div
+        className="css-render-expected"
+        style={{
+          aspectRatio: context.code.aspectRatio,
+        }}
+      >
+        <iframe
+          className="absolute top-0 left-0 h-full w-full"
+          ref={expectedIFrameRef}
+        />
+      </div>
+    </div>
   )
 }

@@ -45,4 +45,16 @@
     .css-render-expected {
         pointer-events: none;
     }
+    .fe-render-expected,
+    .fe-render-actual {
+        @apply border-textColor1 border-1;
+        @apply shadow-base;
+
+        @apply w-full h-full relative overflow-hidden;
+        /* max-height: calc(90vh - 80px); */
+    }
+    .fe-render-expected,
+    .fe-render-actual {
+        pointer-events: none;
+    }
 }

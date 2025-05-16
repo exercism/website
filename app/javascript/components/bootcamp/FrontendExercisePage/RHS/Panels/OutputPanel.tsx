@@ -6,7 +6,7 @@ import { TabsContext } from '../RHS'
 export function OutputPanel() {
   return (
     <Tab.Panel
-      className="h-100"
+      className="h-100 p-16"
       alwaysAttachToDOM
       id="output"
       context={TabsContext}

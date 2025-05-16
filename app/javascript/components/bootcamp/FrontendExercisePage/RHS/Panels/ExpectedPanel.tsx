@@ -6,7 +6,7 @@ import { ExpectedOutput } from './ExpectedOutput'
 export function ExpectedPanel() {
   return (
     <Tab.Panel
-      className="h-100"
+      className="h-100 p-16"
       alwaysAttachToDOM
       id="expected"
       context={TabsContext}

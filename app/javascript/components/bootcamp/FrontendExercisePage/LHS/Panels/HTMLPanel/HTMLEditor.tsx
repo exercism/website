@@ -19,6 +19,7 @@ export function HTMLEditor() {
     jsEditorRef,
     setEditorCodeLocalStorage,
     actualIFrameRef,
+    code,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -43,11 +44,15 @@ export function HTMLEditor() {
           setEditorCodeLocalStorage
         )
 
-        updateIFrame(actualIFrameRef, {
-          html: view.state.doc.toString(),
-          css: cssEditorRef.current?.state.doc.toString(),
-          js: jsEditorRef.current?.state.doc.toString(),
-        })
+        updateIFrame(
+          actualIFrameRef,
+          {
+            html: view.state.doc.toString(),
+            css: cssEditorRef.current?.state.doc.toString(),
+            js: jsEditorRef.current?.state.doc.toString(),
+          },
+          code
+        )
       }}
       extensions={[
         html(),

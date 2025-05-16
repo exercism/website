@@ -20,10 +20,18 @@ export const TabsContext = createContext<TabContext>({
 export function LHS() {
   const [tab, setTab] = useState<TabIndex>('html')
 
-  const { cssEditorRef, htmlEditorRef, jsEditorRef, actualIFrameRef } =
-    useContext(FrontendExercisePageContext)
+  const {
+    cssEditorRef,
+    htmlEditorRef,
+    jsEditorRef,
+    actualIFrameRef,
+    expectedIFrameRef,
+    expectedReferenceIFrameRef,
+    exercise,
+    code,
+  } = useContext(FrontendExercisePageContext)
 
-  const { toggleDiffActivity } = useFrontendExercisePageStore()
+  const { toggleDiffActivity, isDiffActive } = useFrontendExercisePageStore()
 
   const handleRunCode = useCallback(() => {
     if (!jsEditorRef.current) return
@@ -38,11 +46,30 @@ export function LHS() {
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
         const guardedJs = injectLoopGuards(jsCode)
-        updateIFrame(actualIFrameRef, {
-          js: guardedJs,
-          html: htmlEditorRef.current?.state.doc.toString(),
-          css: cssEditorRef.current?.state.doc.toString(),
-        })
+        const runCode = updateIFrame(
+          actualIFrameRef,
+          {
+            js: guardedJs,
+            html: htmlEditorRef.current?.state.doc.toString(),
+            css: cssEditorRef.current?.state.doc.toString(),
+          },
+          code
+        )
+
+        const runRefCode = updateIFrame(
+          expectedIFrameRef,
+          exercise.config.expected,
+          code
+        )
+        const runExpectedCode = updateIFrame(
+          expectedReferenceIFrameRef,
+          exercise.config.expected,
+          code
+        )
+
+        runCode?.()
+        runRefCode?.()
+        runExpectedCode?.()
         break
       case 'error':
         setTab('javascript')
@@ -76,7 +103,7 @@ export function LHS() {
 
         {/* handle diff */}
         <button onClick={toggleDiffActivity} className="btn-secondary btn-m">
-          Diff
+          Diff: {isDiffActive ? 'on' : 'off'}
         </button>
       </div>
     </div>

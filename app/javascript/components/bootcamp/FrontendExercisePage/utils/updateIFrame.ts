@@ -1,10 +1,39 @@
+const scriptPrelude = `window.onerror = function(message, source, lineno, colno, error) {
+  window.parent.postMessage({
+    type: 'iframe-js-error',
+    message,
+    source,
+    lineno,
+    colno,
+    stack: error?.stack || null,
+  }, '*');
+};
+
+window.runCode = function() {
+  try {
+`
+
+const scriptPostlude = `
+  } catch (error) {
+    window.parent.postMessage({
+      type: 'iframe-js-error',
+      message: error.message,
+      stack: error.stack || null,
+    }, '*');
+  }
+};
+`
+
+const jsPreludeLines = scriptPrelude.split('\n')
+export const jsLineOffset = jsPreludeLines.length
+
 export function updateIFrame(
   iframeRef:
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
   { html, css, js }: { html?: string; css?: string; js?: string },
-  code?: FrontendExercisePageCode
-) {
+  code: FrontendExercisePageCode
+): (() => void) | undefined {
   let iframeElement: HTMLIFrameElement | null = null
 
   if (iframeRef) {
@@ -22,25 +51,23 @@ export function updateIFrame(
     iframeElement.contentDocument || iframeElement.contentWindow?.document
   if (!iframeDoc) return
 
+  const fullScript = `<script>
+${scriptPrelude}${js || ''}${scriptPostlude}
+</script>`
+
   const iframeHtml = `
     <!DOCTYPE html>
     <html>
       <head>
-        <style>${css}</style>
-${scriptPrelude}
-${js}
-} catch (error) {
-window.parent.postMessage({
-  type: 'iframe-js-error',
-  message: error.message,
-  stack: error.stack || null,
-}, '*');
-}
-}
-</script>
+        <style>
+        ${code.normalizeCss}
+        ${code.default.css} 
+        ${css || ''}
+        </style>
       </head>
       <body>
-        ${html}
+        ${html || ''}
+        ${fullScript}
       </body>
     </html>`
 
@@ -49,7 +76,6 @@ window.parent.postMessage({
     iframeDoc.write(iframeHtml)
     iframeDoc.close()
   } catch (err) {
-    // Catch immediate syntax errors (e.g. unterminated expressions)
     window.postMessage(
       {
         type: 'iframe-js-parse-error',
@@ -61,7 +87,7 @@ window.parent.postMessage({
     return
   }
 
-  iframeElement.onload = () => {
+  return () => {
     try {
       // @ts-ignore
       const runCode = iframeElement?.contentWindow?.runCode
@@ -75,20 +101,3 @@ window.parent.postMessage({
     }
   }
 }
-
-const scriptPrelude = `<script>
-window.onerror = function(message, source, lineno, colno, error) {
-window.parent.postMessage({
-type: 'iframe-js-error',
-message,
-source,
-lineno,
-colno,
-stack: error?.stack || null,
-}, '*');
-};
-window.runCode = function() {
-try {`
-
-const jsPreludeLines = scriptPrelude.split('\n')
-export const jsLineOffset = jsPreludeLines.length

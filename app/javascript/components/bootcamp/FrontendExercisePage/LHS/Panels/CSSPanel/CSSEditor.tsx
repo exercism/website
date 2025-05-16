@@ -20,6 +20,7 @@ export function CSSEditor() {
     handleCssEditorDidMount,
     setEditorCodeLocalStorage,
     actualIFrameRef,
+    code,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -50,11 +51,15 @@ export function CSSEditor() {
           setEditorCodeLocalStorage
         )
 
-        updateIFrame(actualIFrameRef, {
-          css: view.state.doc.toString(),
-          html: htmlEditorRef.current?.state.doc.toString(),
-          js: jsEditorRef.current?.state.doc.toString(),
-        })
+        updateIFrame(
+          actualIFrameRef,
+          {
+            css: view.state.doc.toString(),
+            html: htmlEditorRef.current?.state.doc.toString(),
+            js: jsEditorRef.current?.state.doc.toString(),
+          },
+          code
+        )
       }}
       ref={cssEditorRef}
     />

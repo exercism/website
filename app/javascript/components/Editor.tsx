@@ -52,6 +52,7 @@ import {
 import { RealtimeFeedbackModal } from './modals'
 import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
 import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
+import { runTestsClientSide } from './editor/ClientSideTestRunner/generalTestRunner'
 
 export type TabIndex =
   | 'instructions'
@@ -127,7 +128,9 @@ export default ({
     current: submission,
     set: setSubmission,
     remove: removeSubmission,
-  } = useSubmissionsList(defaultSubmissions, { create: links.runTests })
+  } = useSubmissionsList(defaultSubmissions, {
+    create: links.runTests,
+  })
   const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
   const { create: createIteration } = useIteration()
   const { get: getFiles, set: setFiles } = useEditorFiles({
@@ -165,41 +168,47 @@ export default ({
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    createSubmission(files, {
-      onSuccess: () => {
-        dispatch({ status: EditorStatus.INITIALIZED })
-        setSubmissionFiles(files)
-        setHasLatestIteration(false)
-      },
-      onError: async (error) => {
-        let editorError: null | Promise<{ type: string; message: string }> =
-          null
+    const testResults = runTestsClientSide(files)
 
-        if (error instanceof Error) {
-          editorError = Promise.resolve({
-            type: 'unknown',
-            message: 'Unable to submit file. Please try again.',
-          })
-        } else if (error instanceof Response) {
-          editorError = error
-            .json()
-            .then((json) => json.error)
-            .catch(() => {
-              return {
-                type: 'unknown',
-                message: 'Unable to submit file. Please try again.',
-              }
+    createSubmission(
+      { files, testResults },
+      {
+        onSuccess: () => {
+          console.log('SUCCESS')
+          dispatch({ status: EditorStatus.INITIALIZED })
+          setSubmissionFiles(files)
+          setHasLatestIteration(false)
+        },
+        onError: async (error) => {
+          let editorError: null | Promise<{ type: string; message: string }> =
+            null
+
+          if (error instanceof Error) {
+            editorError = Promise.resolve({
+              type: 'unknown',
+              message: 'Unable to submit file. Please try again.',
             })
-        }
+          } else if (error instanceof Response) {
+            editorError = error
+              .json()
+              .then((json) => json.error)
+              .catch(() => {
+                return {
+                  type: 'unknown',
+                  message: 'Unable to submit file. Please try again.',
+                }
+              })
+          }
 
-        if (editorError) {
-          dispatch({
-            status: EditorStatus.CREATE_SUBMISSION_FAILED,
-            error: await editorError,
-          })
-        }
-      },
-    })
+          if (editorError) {
+            dispatch({
+              status: EditorStatus.CREATE_SUBMISSION_FAILED,
+              error: await editorError,
+            })
+          }
+        },
+      }
+    )
   }, [createSubmission, dispatch, files])
 
   const showFeedbackModal = useCallback(() => {

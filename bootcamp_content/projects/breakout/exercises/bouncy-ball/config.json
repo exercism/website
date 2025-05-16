@@ -3,5 +3,5 @@
   "description": "Create a ball and get it bouncing off the walls!",
   "level": 15,
   "idx": 2,
-  "language": "javascript"
+  "language": "frontend"
 }

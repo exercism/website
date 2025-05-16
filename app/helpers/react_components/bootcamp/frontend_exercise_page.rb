@@ -33,9 +33,9 @@ module ReactComponents
             css: exercise&.default("css")
           },
           stub: {
-            css: exercise&.stub("css"),
-            html: exercise&.stub("html"),
-            js: exercise&.stub("js")
+            css: exercise.stub("css"),
+            html: exercise.stub("html"),
+            js: exercise.stub("js")
           },
           aspect_ratio: editor_config[:aspect_ratio] || 1,
           code: solution&.code,

@@ -18,7 +18,8 @@ You should **only** use the following properties:
 - `row-gap`: Sets the gap between rows. Use % values.
 - `gap`: Sets both the row and column gap. Use % values.
 - `aspect-ratio`: Sets the aspect ratio of an element. You probably want to use `1` for this exercise.
-- `height`: Depending on your browser, you might need to specify `height: 100%` alongside `aspect-ratio`.
+
+If you are on some versions of Firefox and Safari, you might also need `height` an `z-index`. See the note below.
 
 You might find it helpful to use `nth-child` selectors in this exercise. We looked at these briefly in the teaching video. To target the 3rd div in a section, you could use:
 
@@ -29,3 +30,14 @@ You might find it helpful to use `nth-child` selectors in this exercise. We look
 ```
 
 Remember to nest the `div:nth-child` selector if you take this approach, else you might end up adding rules to other divs that you can't see.
+
+## Firefox / Safari
+
+Some versions of Firefox and Safari don't respond as intelligently to aspect-ratio as well as other browsers. They can't decide whether to calculate the column size or the aspect ratio first.
+
+You have two choices to resolve this:
+
+1. Set `grid-template-columns: calc(10/27 * 100%) 1fr` on your outer container. You could (with some thought come up with 10/27 yourself based on the aspect ratio, but it's not a good use of your time!)
+2. The second option is to set a `height: 100%` next to the aspect ratio. This will force the cross to appear but Firefox sits it over the top of the stripes, which looks wrong. To resolve this you can set a `background-color: white` and a `z-index: 2`, which together raise the cross above the stripes.
+
+Both techniques are a little frustrating, but learning how to make things work with different browsers as their support for newer properties (like `aspect-ratio`) matures is a key part of front-end web development!

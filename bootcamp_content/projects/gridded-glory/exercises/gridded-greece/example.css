@@ -3,7 +3,7 @@
     grid-template-areas:
         "star top-stripes"
         "bottom-stripes bottom-stripes";
-    grid-template-columns: auto 1fr;
+    grid-template-columns: calc(10 / 27 * 100%) 1fr;
     grid-template-rows: 5fr 4fr;
     background: white;
 

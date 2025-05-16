@@ -1050,6 +1050,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bjorn3/browser_wasi_shim@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@bjorn3/browser_wasi_shim/-/browser_wasi_shim-0.3.0.tgz#8aa310eed2298bab435bd1f73ab100fbc3f018da"
+  integrity sha512-FlRBYttPRLcWORzBe6g8nmYTafBkOEFeOqMYM4tAHJzFsQy4+xJA94z85a9BCs8S+Uzfh9LrkpII7DXr2iUVFg==
+
 "@bugsnag/browser@^7.25.0":
   version "7.25.0"
   resolved "https://registry.yarnpkg.com/@bugsnag/browser/-/browser-7.25.0.tgz#aa56a8e138dfff268ac29c5fe374cfc3c9b42a76"
@@ -2054,6 +2059,21 @@
   integrity sha512-3kGCrOSo7tRGrmvThRdMRCjrUo0BqFilC+MiucSznFD6W4snyxaqElZTNWMEfFsj/rWHykcUHlyfLOoxNWjvAw==
   dependencies:
     "@codemirror/state" "^6.2.1"
+
+"@ruby/3.4-wasm-wasi@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@ruby/3.4-wasm-wasi/-/3.4-wasm-wasi-2.7.1.tgz#4c42ed6521982b1ae2cde8ca0b7c870cc6d814d8"
+  integrity sha512-uPRvWNL0eR3nYV1iiuJ/QBREUCqc3QKQIJw1iDmuLjiWsftqPfLxN6t0cEtF5mOGh90EZG/NptJoJ4SlJrfzHw==
+  dependencies:
+    "@ruby/wasm-wasi" "^2.0.0"
+
+"@ruby/wasm-wasi@^2.0.0", "@ruby/wasm-wasi@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@ruby/wasm-wasi/-/wasm-wasi-2.7.1.tgz#72816add3dd665e6c6bcb39b69567f76b4c28ccb"
+  integrity sha512-2f4NqiJuFoeYiXNr60PH3TbH5c+z/xP2Hq36Av2yahp05AaLDyJxWZwr9EGmfoFsmVTmeDdEW2KjPTfpue6xeg==
+  dependencies:
+    "@bjorn3/browser_wasi_shim" "^0.3.0"
+    tslib "^2.8.1"
 
 "@sector-labs/postcss-inline-class@^0.0.6":
   version "0.0.6"

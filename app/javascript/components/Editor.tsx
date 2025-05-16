@@ -165,10 +165,10 @@ export default ({
     else setIsProcessing(false)
   }, [status, testRunStatus])
 
-  const runTests = useCallback(() => {
+  const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    const testResults = runTestsClientSide(files)
+    const testResults = await runTestsClientSide(files)
 
     createSubmission(
       { files, testResults },

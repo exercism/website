@@ -40,6 +40,8 @@
     "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^6.0.0",
     "@replit/codemirror-interact": "^6.3.1",
+    "@ruby/3.4-wasm-wasi": "^2.7.1",
+    "@ruby/wasm-wasi": "^2.7.1",
     "@sector-labs/postcss-inline-class": "^0.0.6",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
@@ -211,7 +213,8 @@
     "test": "jest",
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
-    "build": "./app/javascript/esbuild.js",
+    "copy:wasm": "node ./scripts/wasm/ruby.js",
+    "build": "yarn copy:wasm && ./app/javascript/esbuild.js",
     "prepare": "husky install"
   },
   "resolutions": {

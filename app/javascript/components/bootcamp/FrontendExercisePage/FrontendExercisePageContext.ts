@@ -4,6 +4,9 @@ import { Handler } from '../JikiscriptExercisePage/CodeMirror/CodeMirror'
 
 type FrontendExercisePageContextType = {
   links: FrontendExercisePageProps['links']
+  exercise: FrontendExercisePageProps['exercise']
+  solution: FrontendExercisePageProps['solution']
+  code: FrontendExercisePageProps['code']
   resetEditors: () => void
   actualIFrameRef: React.RefObject<HTMLIFrameElement>
   htmlEditorRef: React.RefObject<EditorView>

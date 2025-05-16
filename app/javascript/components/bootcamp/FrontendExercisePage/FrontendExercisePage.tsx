@@ -8,11 +8,14 @@ import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
+import { useLogger } from '../common/hooks/useLogger'
 
 export default function FrontendExercisePage(data: FrontendExercisePageProps) {
   const { actualIFrameRef } = useSetupIFrames()
 
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
+
+  useLogger('data', data)
 
   const {
     htmlEditorViewRef,
@@ -37,6 +40,9 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
         handleJsEditorDidMount,
         setEditorCodeLocalStorage,
         links: data.links,
+        exercise: data.exercise,
+        code: data.code,
+        solution: data.solution,
         resetEditors,
       }}
     >

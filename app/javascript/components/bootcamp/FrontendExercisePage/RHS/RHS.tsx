@@ -3,10 +3,6 @@ import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
-import {
-  Resizer,
-  useResizablePanels,
-} from '../../JikiscriptExercisePage/hooks/useResize'
 
 type TabIndex = 'instructions' | 'output'
 
@@ -31,7 +27,7 @@ export function RHS() {
           },
         }}
       >
-        <div className="c-iteration-pane">
+        <div className="c-iteration-pane h-100">
           <Tabs />
           <Panels />
         </div>

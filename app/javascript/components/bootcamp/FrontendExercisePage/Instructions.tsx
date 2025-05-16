@@ -1,19 +1,18 @@
 import React from 'react'
+import { useContext } from 'react'
+import { FrontendExercisePageContext } from './FrontendExercisePageContext'
 
-export function Instructions({
-  exerciseTitle,
-  exerciseInstructions,
-}: {
-  exerciseTitle: string
-  exerciseInstructions: string
-}) {
+export function Instructions() {
+  const { exercise } = useContext(FrontendExercisePageContext)
+
   return (
     <div className="scenario-rhs c-prose c-prose-small">
-      <h3>{exerciseTitle}</h3>
+      <h3>{exercise.title}</h3>
 
       <div
         dangerouslySetInnerHTML={{
-          __html: exerciseInstructions || '<p>Instructions are missing</p>',
+          __html:
+            exercise.introductionHtml || '<p>Instructions are missing</p>',
         }}
       />
     </div>

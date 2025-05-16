@@ -66,9 +66,14 @@ export function LHS() {
           <Panels />
         </div>
       </TabsContext.Provider>
-      <div className="flex">
+      <div className="flex justify-between">
         <button onClick={handleRunCode} className="btn-primary btn-m">
           Run Code
+        </button>
+
+        {/* handle diff */}
+        <button onClick={() => {}} className="btn-secondary btn-m">
+          Diff
         </button>
       </div>
     </div>

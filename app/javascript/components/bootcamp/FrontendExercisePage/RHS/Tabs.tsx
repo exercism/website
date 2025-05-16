@@ -7,6 +7,7 @@ export function Tabs() {
     <div className="tabs">
       <InstructionsTab />
       <OutputTab />
+      <ExpectedTab />
     </div>
   )
 }
@@ -23,6 +24,14 @@ function OutputTab() {
   return (
     <Tab id="output" context={TabsContext}>
       <span data-text="Output">Output</span>
+    </Tab>
+  )
+}
+
+function ExpectedTab() {
+  return (
+    <Tab id="expected" context={TabsContext}>
+      <span data-text="Expected">Expected</span>
     </Tab>
   )
 }

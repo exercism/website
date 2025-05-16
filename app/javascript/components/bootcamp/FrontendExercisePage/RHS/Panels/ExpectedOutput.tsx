@@ -1,7 +1,7 @@
 import React from 'react'
-import { FrontendExercisePageContext } from './FrontendExercisePageContext'
+import { FrontendExercisePageContext } from '../../FrontendExercisePageContext'
 
-export function ActualOutput() {
+export function ExpectedOutput() {
   const context = React.useContext(FrontendExercisePageContext)
   if (!context) {
     return null

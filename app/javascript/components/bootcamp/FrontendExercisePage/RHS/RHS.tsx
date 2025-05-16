@@ -21,16 +21,6 @@ export function RHS() {
     panelSizes: { RHSWidth },
   } = useFrontendExercisePageStore()
 
-  const {
-    primarySize: TopHeight,
-    secondarySize: BottomHeight,
-    handleMouseDown: handleHeightChangeMouseDown,
-  } = useResizablePanels({
-    initialSize: 800,
-    direction: 'vertical',
-    localStorageId: 'frontend-training-page-rhs-height',
-  })
-
   return (
     <div className="page-body-rhs" style={{ width: RHSWidth }}>
       <TabsContext.Provider
@@ -41,21 +31,11 @@ export function RHS() {
           },
         }}
       >
-        <div className="c-iteration-pane" style={{ height: TopHeight }}>
+        <div className="c-iteration-pane">
           <Tabs />
           <Panels />
         </div>
       </TabsContext.Provider>
-      <Resizer
-        direction="horizontal"
-        handleMouseDown={handleHeightChangeMouseDown}
-      />
-      <div
-        style={{ height: BottomHeight }}
-        className="bg-gray-400 grid place-content-center"
-      >
-        Results here
-      </div>
     </div>
   )
 }

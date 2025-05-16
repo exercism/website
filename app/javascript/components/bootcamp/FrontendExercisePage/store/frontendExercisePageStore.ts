@@ -23,9 +23,17 @@ export const useFrontendExercisePageStore =
   create<FrontendExercisePageStoreState>((set) => ({
     logs: [],
     setLogs: (logs) =>
-      set((state) => ({
-        logs: typeof logs === 'function' ? logs(state.logs) : logs,
-      })),
+      set((state) => {
+        const nextLogs = typeof logs === 'function' ? logs(state.logs) : logs
+
+        // no more logs than 100
+        const cappedLogs =
+          nextLogs.length > 100
+            ? nextLogs.slice(nextLogs.length - 100)
+            : nextLogs
+
+        return { logs: cappedLogs }
+      }),
     isDiffActive: false,
     toggleDiffActivity: () =>
       set((state) => ({ isDiffActive: !state.isDiffActive })),

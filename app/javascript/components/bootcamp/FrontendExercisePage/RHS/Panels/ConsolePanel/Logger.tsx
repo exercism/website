@@ -23,7 +23,7 @@ export function Logger() {
   }, [])
 
   useEffect(() => {
-    const el = containerRef.current
+    const el = document.querySelector('.panels')
     if (el) {
       el.scrollTop = el.scrollHeight
     }

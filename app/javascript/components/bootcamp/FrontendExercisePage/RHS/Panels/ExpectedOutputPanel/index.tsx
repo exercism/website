@@ -1,17 +1,17 @@
 import { Tab } from '@/components/common'
 import React from 'react'
-import { ActualOutput } from './ActualOutput'
-import { TabsContext } from '../RHS'
+import { TabsContext } from '../../RHS'
+import { ExpectedOutput } from './ExpectedOutput'
 
-export function OutputPanel() {
+export function ExpectedOutputPanel() {
   return (
     <Tab.Panel
       className="h-100 p-16"
       alwaysAttachToDOM
-      id="output"
+      id="expected"
       context={TabsContext}
     >
-      <ActualOutput />
+      <ExpectedOutput />
     </Tab.Panel>
   )
 }

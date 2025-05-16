@@ -25,7 +25,7 @@ export const useFrontendExercisePageStore =
       LHSWidth: 800,
       RHSWidth: 800,
     },
-    RHSActiveTab: 'output',
+    RHSActiveTab: 'instructions',
     setRHSActiveTab: (tab) => set({ RHSActiveTab: tab }),
     setPanelSizes: (panelSizes) => set({ panelSizes }),
     isFinishLessonModalOpen: false,

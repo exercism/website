@@ -17,6 +17,7 @@ import {
 import { eslintLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/eslinter'
 import { createUpdateLocalStorageValueOnDebounce } from '../utils/updateLocalStorageValueOnDebounce'
 import { cleanUpEditorErrorState } from '../../showJsError'
+import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 
 export function JavaScriptEditor() {
   const {
@@ -41,6 +42,7 @@ export function JavaScriptEditor() {
       editorDidMount={handleJsEditorDidMount}
       extensions={[
         javascript(),
+        moveCursorByPasteLength,
         eslintLinter,
         jsTheme,
         readOnlyRangeDecoration(),

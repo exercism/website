@@ -10,6 +10,7 @@ import {
   readOnlyRangeDecoration,
   initReadOnlyRangesExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
+import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 
 export function HTMLEditor() {
   const {
@@ -58,6 +59,7 @@ export function HTMLEditor() {
         html(),
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
+        moveCursorByPasteLength,
       ]}
       defaultCode="<div>hello</div>"
     />

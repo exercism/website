@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
-import { FrontendExercisePageContext } from './FrontendExercisePageContext'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
 
 export function Instructions() {
   const { exercise } = useContext(FrontendExercisePageContext)

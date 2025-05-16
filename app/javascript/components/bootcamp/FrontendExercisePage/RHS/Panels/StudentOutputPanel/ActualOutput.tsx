@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { FrontendExercisePageContext } from '../../FrontendExercisePageContext'
-import { useFrontendExercisePageStore } from '../../store/frontendExercisePageStore'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
+import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
 
 export function ActualOutput() {
   const context = React.useContext(FrontendExercisePageContext)

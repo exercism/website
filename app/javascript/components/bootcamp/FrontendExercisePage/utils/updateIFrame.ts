@@ -9,6 +9,13 @@ const scriptPrelude = `window.onerror = function(message, source, lineno, colno,
   }, '*');
 };
 
+window.log = function(...args) {
+  window.parent.postMessage({
+    type: 'iframe-log',
+    logs: [args],
+  }, '*');
+};
+
 window.runCode = function() {
   try {
 `

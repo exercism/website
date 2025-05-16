@@ -11,6 +11,7 @@ import {
   readOnlyRangeDecoration,
   initReadOnlyRangesExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
+import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 
 export function CSSEditor() {
   const {
@@ -40,6 +41,7 @@ export function CSSEditor() {
         interactionExtension(),
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
+        moveCursorByPasteLength,
       ]}
       onEditorChangeCallback={(view) => {
         updateLocalStorageValueOnDebounce(

@@ -1,14 +1,16 @@
 import React from 'react'
 import { InstructionsPanel } from './InstructionsPanel'
-import { OutputPanel } from './OutputPanel'
-import { ExpectedPanel } from './ExpectedPanel'
+import { StudentOutputPanel } from './StudentOutputPanel'
+import { ExpectedOutputPanel } from './ExpectedOutputPanel'
+import { ConsolePanel } from './ConsolePanel'
 
 export function Panels() {
   return (
     <div className="panels h-100 overflow-auto">
       <InstructionsPanel />
-      <OutputPanel />
-      <ExpectedPanel />
+      <StudentOutputPanel />
+      <ExpectedOutputPanel />
+      <ConsolePanel />
     </div>
   )
 }

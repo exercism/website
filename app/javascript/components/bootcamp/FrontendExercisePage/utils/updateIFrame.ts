@@ -65,7 +65,7 @@ ${scriptPrelude}${js || ''}${scriptPostlude}
         ${css || ''}
         </style>
       </head>
-      <body style="aspect-ratio:${code.aspectRatio}">
+      <body>
         ${html || ''}
         ${fullScript}
       </body>

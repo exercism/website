@@ -37,7 +37,7 @@ Some versions of Firefox and Safari don't respond as intelligently to aspect-rat
 
 You have two choices to resolve this:
 
-1. Set `grid-template-columns: calc(10/27 * 100%) 1fr` on your outer container. You could (with some thought come up with 10/27 yourself based on the aspect ratio, but it's not a good use of your time!)
-2. The second option is to set a `height: 100%` next to the aspect ratio. This will force the cross to appear but Firefox sits it over the top of the stripes, which looks wrong. To resolve this you can set a `background-color: white` and a `z-index: 2`, which together raise the cross above the stripes.
+1. Set the width of the cross. The best way to do this is to set `grid-template-columns: calc(10/27 * 100%) 1fr` on your outer container. (You could with some thought come up with 10/27 yourself based on the aspect ratio, but it's not a good use of your time!)
+2. The second option is to set a `height: 100%` next to the `aspect-ratio: 1` on the cross itself. This will force the cross to appear, but you'll likely get a weird rendering in Firefox as the cross will sit over the top of the stripes. To resolve this you can set a `background-color: white` and a `z-index: 2`, which together raise the cross above the stripes.
 
 Both techniques are a little frustrating, but learning how to make things work with different browsers as their support for newer properties (like `aspect-ratio`) matures is a key part of front-end web development!

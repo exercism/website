@@ -3,7 +3,7 @@
 
 - if @solution.exercise.language == "css"
   = render ReactComponents::Bootcamp::CSSExercise.new(@solution)
-- if @solution.exercise.language == "frontend"
+- elsif @solution.exercise.language == "frontend"
   = render ReactComponents::Bootcamp::FrontendExercisePage.new(@solution)
 - else
   = render ReactComponents::Bootcamp::JikiscriptExercise.new(@solution)

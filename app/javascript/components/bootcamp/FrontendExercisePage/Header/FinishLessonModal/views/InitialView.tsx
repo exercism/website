@@ -11,7 +11,7 @@ export function InitialView() {
 
   return (
     <>
-      <h2 className="text-[25px] mb-12 font-semibold">Hey!</h2>
+      <h2 className="text-[25px] mb-12 font-semibold">👋 Hey!</h2>
 
       <p className="text-18 leading-140 mb-20">
         In this exercise, it's left up to you to decide when you've got your

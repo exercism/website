@@ -3,6 +3,9 @@ import { create } from 'zustand'
 export type TabIndex = 'instructions' | 'output' | 'expected' | 'console'
 
 type FrontendExercisePageStoreState = {
+  logs: unknown[][]
+  setLogs: (logs: unknown[][] | ((prev: unknown[][]) => unknown[][])) => void
+
   isDiffActive: boolean
   toggleDiffActivity: () => void
   panelSizes: {
@@ -18,6 +21,11 @@ type FrontendExercisePageStoreState = {
 
 export const useFrontendExercisePageStore =
   create<FrontendExercisePageStoreState>((set) => ({
+    logs: [],
+    setLogs: (logs) =>
+      set((state) => ({
+        logs: typeof logs === 'function' ? logs(state.logs) : logs,
+      })),
     isDiffActive: false,
     toggleDiffActivity: () =>
       set((state) => ({ isDiffActive: !state.isDiffActive })),

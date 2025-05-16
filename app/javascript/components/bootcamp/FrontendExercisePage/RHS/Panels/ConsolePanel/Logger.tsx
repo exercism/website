@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { renderLog } from '@/components/bootcamp/JikiscriptExercisePage/RHS/Logger/renderLog'
 import { useHighlighting } from '@/utils/highlight'
+import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
 
 export function Logger() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [logs, setLogs] = useState<unknown[][]>([])
+
+  const { logs, setLogs } = useFrontendExercisePageStore()
 
   const ref = useHighlighting<HTMLDivElement>()
 

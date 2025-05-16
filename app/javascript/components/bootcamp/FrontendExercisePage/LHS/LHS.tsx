@@ -31,7 +31,7 @@ export function LHS() {
     code,
   } = useContext(FrontendExercisePageContext)
 
-  const { toggleDiffActivity, isDiffActive, setRHSActiveTab } =
+  const { toggleDiffActivity, isDiffActive, setRHSActiveTab, setLogs } =
     useFrontendExercisePageStore()
 
   const handleToggleDiff = useCallback(() => {
@@ -73,6 +73,7 @@ export function LHS() {
           code
         )
 
+        setLogs([])
         runCode?.()
         runRefCode?.()
         runExpectedCode?.()

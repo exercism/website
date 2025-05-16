@@ -6,9 +6,9 @@ export function ExpectedOutput() {
   if (!context) {
     return null
   }
-  const { actualIFrameRef } = context
+  const { expectedIFrameRef } = context
 
   return (
-    <iframe style={{ width: '100%', height: '100%' }} ref={actualIFrameRef} />
+    <iframe style={{ width: '100%', height: '100%' }} ref={expectedIFrameRef} />
   )
 }

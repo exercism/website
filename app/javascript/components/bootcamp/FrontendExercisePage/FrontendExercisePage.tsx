@@ -11,7 +11,8 @@ import { RHS } from './RHS/RHS'
 import { useLogger } from '../common/hooks/useLogger'
 
 export default function FrontendExercisePage(data: FrontendExercisePageProps) {
-  const { actualIFrameRef } = useSetupIFrames()
+  const { actualIFrameRef, expectedIFrameRef, expectedReferenceIFrameRef } =
+    useSetupIFrames(data.exercise.config, data.code)
 
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
 
@@ -32,6 +33,8 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
     <FrontendExercisePageContext.Provider
       value={{
         actualIFrameRef,
+        expectedIFrameRef,
+        expectedReferenceIFrameRef,
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
         jsEditorRef: jsEditorViewRef,

@@ -8,6 +8,7 @@ import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
 import { injectLoopGuards } from './injectLoopguards'
+import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -21,6 +22,8 @@ export function LHS() {
 
   const { cssEditorRef, htmlEditorRef, jsEditorRef, actualIFrameRef } =
     useContext(FrontendExercisePageContext)
+
+  const { toggleDiffActivity } = useFrontendExercisePageStore()
 
   const handleRunCode = useCallback(() => {
     if (!jsEditorRef.current) return
@@ -72,7 +75,7 @@ export function LHS() {
         </button>
 
         {/* handle diff */}
-        <button onClick={() => {}} className="btn-secondary btn-m">
+        <button onClick={toggleDiffActivity} className="btn-secondary btn-m">
           Diff
         </button>
       </div>

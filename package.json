@@ -53,6 +53,7 @@
     "ace-builds": "^1.4.12",
     "acorn": "^8.14.1",
     "actioncable": "^5.2.4-3",
+    "astring": "^1.9.0",
     "autoprefixer": "latest",
     "browserslist-to-esbuild": "^1.1.1",
     "canvas-confetti": "^1.9.3",

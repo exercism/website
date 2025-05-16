@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { launchConfetti } from '../../JikiscriptExercisePage/Tasks/launchConfetti'
-import { ChecksResult } from '../checks/runCssChecks'
+import { ChecksResult } from '../checks/runChecks'
 
 export const PASS_THRESHOLD = 99
 

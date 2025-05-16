@@ -54,5 +54,9 @@
   {
     "title": "CSS Grid & JavaScript odds and ends",
     "description": "We learn about Grid in CSS and some more advanced JS and functional concepts."
+  },
+  {
+    "title": "CSS Absolute Positioning & JS Game mechanics",
+    "description": "We learn about absolute positioning in CSS and some JS game mecahnics."
   }
 ]

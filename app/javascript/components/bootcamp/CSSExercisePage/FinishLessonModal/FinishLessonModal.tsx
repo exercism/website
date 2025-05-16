@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Modal from 'react-modal'
 import { FinishLessonModalContext } from './FinishLessonModalContext'
 import { useContext } from 'react'

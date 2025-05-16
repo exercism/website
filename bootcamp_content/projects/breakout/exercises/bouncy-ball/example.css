@@ -1,0 +1,17 @@
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: lightgray; /* Just to visualize it */
+    position: relative;
+}
+#ball {
+    border-radius: 100%;
+    width: 5%;
+    height: 5%;
+    position: absolute;
+    left: 50%;
+    top: 95%;
+    transform: translateX(-5%);
+    background: red;
+}

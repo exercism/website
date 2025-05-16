@@ -1,6 +1,7 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page,
-#bootcamp-frontend-training-page {
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
     @apply flex flex-col w-full h-screen;
 
     .page-header {

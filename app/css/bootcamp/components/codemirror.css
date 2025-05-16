@@ -1,6 +1,8 @@
 #bootcamp-solve-exercise-page,
 #bootcamp-custom-function-editor-page,
-#bootcamp-frontend-training-page {
+/* this is the CSSExercise page - change it to bootcamp-css-exercise-page ASAP! */
+#bootcamp-frontend-training-page ,
+#bootcamp-frontend-exercise-page {
     .cm-breakpoint-gutter .cm-gutterElement {
         @apply flex;
     }

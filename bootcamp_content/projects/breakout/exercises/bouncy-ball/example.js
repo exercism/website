@@ -8,18 +8,20 @@ function updateBallCoordinates() {
   ballLeft += ballVelocityX
   ballTop += ballVelocityY
 
-  if (ballLeft < 0) {
+  if (ballLeft < 2.5) {
+    return false
     ballVelocityX = 1 * ballSpeed
   }
-  if (ballLeft > 95) {
+  if (ballLeft > 97.5) {
     ballVelocityX = -1 * ballSpeed
   }
-  if (ballTop < 0) {
+  if (ballTop < 2.5) {
     ballVelocityY = 1 * ballSpeed
   }
-  if (ballTop > 95) {
+  if (ballTop > 97.5) {
     ballVelocityY = -1 * ballSpeed
   }
+  return true
 }
 function render() {
   document.querySelector('#ball').style.left = `${ballLeft}%`
@@ -28,10 +30,12 @@ function render() {
 let lastTime = 0
 
 function gameLoop() {
-  updateBallCoordinates() // game state logic
+  const couldContinue = updateBallCoordinates() // game state logic
   render() // drawing logic
 
-  requestAnimationFrame(gameLoop)
+  if (couldContinue) {
+    requestAnimationFrame(gameLoop)
+  }
 }
 
 requestAnimationFrame(gameLoop)

@@ -41,7 +41,23 @@ export default class WordleExercise extends Exercise {
     this.game.getMethod('draw_board').fn.call(this.game, executionCtx)
   }
 
-  private addWord(_: ExecutionContext, row, guess, states) {
+  private addWord(executionCtx: ExecutionContext, row, guess, states) {
+    if (row == undefined || row == null) {
+      executionCtx.logicError(
+        'Row is undefined or null. Please provide a valid row number.'
+      )
+    }
+    if (guess == undefined || guess == null) {
+      executionCtx.logicError(
+        'The word is undefined or null. Please provide a string.'
+      )
+    }
+    if (states == undefined || states == null) {
+      executionCtx.logicError(
+        'The states array is undefined or null. Please provide a valid array.'
+      )
+    }
+
     this.game
       .getMethod('add_word')
       .fn.call(

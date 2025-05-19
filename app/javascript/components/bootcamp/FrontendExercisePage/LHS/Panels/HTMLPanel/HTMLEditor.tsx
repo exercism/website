@@ -11,6 +11,7 @@ import {
   initReadOnlyRangesExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
+import { htmlLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/htmlLinter'
 
 export function HTMLEditor() {
   const {
@@ -57,7 +58,8 @@ export function HTMLEditor() {
       }}
       extensions={[
         moveCursorByPasteLength,
-        html(),
+        html({ autoCloseTags: false }),
+        htmlLinter,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
       ]}

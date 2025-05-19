@@ -61,11 +61,10 @@ export function LHS() {
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
-        const guardedJs = injectLoopGuards(jsCode)
         const runCode = updateIFrame(
           actualIFrameRef,
           {
-            js: guardedJs,
+            js: jsCode,
             html: htmlEditorRef.current?.state.doc.toString(),
             css: cssEditorRef.current?.state.doc.toString(),
           },

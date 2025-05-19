@@ -37,11 +37,11 @@ export function CSSEditor() {
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleCssEditorDidMount}
       extensions={[
+        moveCursorByPasteLength,
         css(),
         interactionExtension(),
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
-        moveCursorByPasteLength,
       ]}
       onEditorChangeCallback={(view) => {
         updateLocalStorageValueOnDebounce(

@@ -56,10 +56,10 @@ export function HTMLEditor() {
         )
       }}
       extensions={[
+        moveCursorByPasteLength,
         html(),
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
-        moveCursorByPasteLength,
       ]}
       defaultCode="<div>hello</div>"
     />

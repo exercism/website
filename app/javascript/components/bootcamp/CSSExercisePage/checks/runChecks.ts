@@ -11,7 +11,7 @@ export type ChecksResult = {
 
 export type Check = {
   function: string
-  matcher: 'toBeTrue' | 'toBeFalse'
+  matcher: 'toBeTrue' | 'toBeFalse' | 'toBeUndefined'
   errorHtml: string
 }
 
@@ -21,6 +21,9 @@ export function evaluateMatch(result: boolean, matcher: string): boolean {
       return result === true
     case 'toBeFalse':
       return result === false
+    case 'toBeUndefined':
+      return result === undefined || result === null
+
     default:
       throw new Error(`Unimplemented matcher: ${matcher}`)
   }
@@ -60,10 +63,15 @@ export async function runChecks(
       const result = await func(value, args)
       const passes = evaluateMatch(result, check.matcher)
 
+      console.log('HERE')
+      console.log(result)
+
       return {
         result,
         passes,
-        error_html: passes ? null : check.errorHtml,
+        error_html: passes
+          ? null
+          : check.errorHtml.replaceAll('%result%', result),
       }
     } catch (error: any) {
       return {

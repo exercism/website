@@ -8,6 +8,8 @@ type FrontendExercisePageStoreState = {
 
   isDiffActive: boolean
   toggleDiffActivity: () => void
+  isOverlayActive: boolean
+  toggleOverlayActivity: () => void
   panelSizes: {
     LHSWidth: number
     RHSWidth: number
@@ -36,7 +38,16 @@ export const useFrontendExercisePageStore =
       }),
     isDiffActive: false,
     toggleDiffActivity: () =>
-      set((state) => ({ isDiffActive: !state.isDiffActive })),
+      set((state) => ({
+        isDiffActive: !state.isDiffActive,
+        isOverlayActive: false,
+      })),
+    isOverlayActive: false,
+    toggleOverlayActivity: () =>
+      set((state) => ({
+        isOverlayActive: !state.isOverlayActive,
+        isDiffActive: false,
+      })),
     panelSizes: {
       LHSWidth: 800,
       RHSWidth: 800,

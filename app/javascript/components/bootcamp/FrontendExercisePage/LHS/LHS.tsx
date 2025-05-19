@@ -31,11 +31,21 @@ export function LHS() {
     code,
   } = useContext(FrontendExercisePageContext)
 
-  const { toggleDiffActivity, isDiffActive, setRHSActiveTab, setLogs } =
-    useFrontendExercisePageStore()
+  const {
+    toggleDiffActivity,
+    isDiffActive,
+    isOverlayActive,
+    toggleOverlayActivity,
+    setRHSActiveTab,
+    setLogs,
+  } = useFrontendExercisePageStore()
 
   const handleToggleDiff = useCallback(() => {
     toggleDiffActivity()
+    setRHSActiveTab('output')
+  }, [])
+  const handleToggleOverlay = useCallback(() => {
+    toggleOverlayActivity()
     setRHSActiveTab('output')
   }, [])
 
@@ -108,10 +118,14 @@ export function LHS() {
           Run Code
         </button>
 
-        {/* handle diff */}
-        <button onClick={handleToggleDiff} className="btn-secondary btn-m">
-          Diff: {isDiffActive ? 'on' : 'off'}
-        </button>
+        <div className="flex gap-8">
+          <button onClick={handleToggleOverlay} className="btn-secondary btn-m">
+            Overlay: {isOverlayActive ? 'on' : 'off'}
+          </button>
+          <button onClick={handleToggleDiff} className="btn-secondary btn-m">
+            Diff: {isDiffActive ? 'on' : 'off'}
+          </button>
+        </div>
       </div>
     </div>
   )

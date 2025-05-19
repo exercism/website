@@ -8,7 +8,7 @@ export function ActualOutput() {
     return null
   }
   const { actualIFrameRef, expectedReferenceIFrameRef } = context
-  const { isDiffActive } = useFrontendExercisePageStore()
+  const { isDiffActive, isOverlayActive } = useFrontendExercisePageStore()
   const containerRef = useRef<HTMLDivElement>(null)
 
   return (
@@ -30,17 +30,16 @@ export function ActualOutput() {
           mixBlendMode: isDiffActive ? 'difference' : 'normal',
         }}
       />
-      <>
-        {/* the reference iframe - visually the same as `expected` */}
-        <iframe
-          className="absolute top-0 left-0 h-full w-full"
-          ref={expectedReferenceIFrameRef}
-          style={{
-            zIndex: 10,
-            display: isDiffActive ? 'block' : 'none',
-          }}
-        />
-      </>
+      {/* the reference iframe - visually the same as `expected` */}
+      <iframe
+        className="absolute top-0 left-0 h-full w-full"
+        ref={expectedReferenceIFrameRef}
+        style={{
+          zIndex: isOverlayActive ? 40 : 10,
+          opacity: isOverlayActive ? 0.5 : 1,
+          display: isDiffActive || isOverlayActive ? 'block' : 'none',
+        }}
+      />
     </div>
   )
 }

@@ -63,9 +63,6 @@ export async function runChecks(
       const result = await func(value, args)
       const passes = evaluateMatch(result, check.matcher)
 
-      console.log('HERE')
-      console.log(result)
-
       return {
         result,
         passes,

@@ -3,6 +3,7 @@ import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { PASS_THRESHOLD } from '../store/cssExercisePageStore'
 import { CheckResult } from '../checks/runChecks'
+import { GraphicalIcon } from '@/components/common'
 
 export function showResultToast(
   status: 'pass' | 'fail',
@@ -15,7 +16,7 @@ export function showResultToast(
         className={assembleClassNames(
           t.visible ? 'animate-slideIn' : 'animate-slideOut',
           status === 'pass' ? 'border-successColor' : 'border-danger',
-          'border-2 flex bg-white shadow-base text-14 rounded-5 p-8 gap-8 items-center'
+          'border-1 flex bg-white shadow-base text-14 rounded-5 p-8 gap-8 items-center'
         )}
       >
         {/*
@@ -38,10 +39,15 @@ export function showResultToast(
         )}
 
         <button
-          className="btn-xs btn-enhanced"
+          className="rounded-cirle bg-textColor4"
           onClick={() => toast.dismiss(t.id)}
         >
-          Got it
+          <GraphicalIcon
+            className="filter-danger"
+            icon="cross"
+            width={12}
+            height={12}
+          />
         </button>
       </div>
     ),

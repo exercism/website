@@ -62,8 +62,8 @@ export default class WordleExercise extends Exercise {
       .getMethod('add_word')
       .fn.call(
         this.game,
-        _,
-        _,
+        executionCtx,
+        executionCtx,
         Jiki.wrapJSToJikiObject(row + 1),
         Jiki.wrapJSToJikiObject(guess),
         Jiki.wrapJSToJikiObject(states)

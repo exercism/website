@@ -11,7 +11,7 @@ export const isIsogram = (phrase) => {
 
 /* Or...
 export const isIsogram = (phrase) => {
-  const letters = phrase.replaceAll('-', '').replaceAll(' ', '').toLowerCase();
+  const letters = phrase.replaceAll(/[- ]/g, '').toLowerCase();
   return letters.length === new Set(letters).size
 };
 */

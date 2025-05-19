@@ -1,7 +1,10 @@
 import React, { useContext, useMemo } from 'react'
 import { html } from '@codemirror/lang-html'
 import { CSSExercisePageContext } from '../CSSExercisePageContext'
-import { htmlLinter } from '../SimpleCodeMirror/extensions/htmlLinter'
+import {
+  htmlLinter,
+  lintTooltipTheme,
+} from '../SimpleCodeMirror/extensions/htmlLinter'
 import { SimpleCodeMirror } from '../SimpleCodeMirror/SimpleCodeMirror'
 import { useCSSExercisePageStore } from '../store/cssExercisePageStore'
 import { EditorView } from 'codemirror'
@@ -85,6 +88,7 @@ export function HTMLEditor({ defaultCode }: { defaultCode: string }) {
           autoCloseTags: false,
         }),
         htmlTheme,
+        lintTooltipTheme,
         htmlLinter,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),

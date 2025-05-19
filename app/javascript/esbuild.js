@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-const browserslistToEsbuild = require('browserslist-to-esbuild')
+const {
+  nodeModulesPolyfillPlugin,
+} = require('esbuild-plugins-node-modules-polyfill')
 
 function build() {
   const env = require('./.config/env.json')
@@ -28,6 +30,7 @@ function build() {
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
       target: 'es2022',
+      inject: ['./app/javascript/esbuild-shim.js'],
       define: {
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
@@ -38,7 +41,44 @@ function build() {
           env['website_assets_host'] || ''
         }"`,
       },
-      plugins: [ImportGlobPlugin.default()],
+      plugins: [
+        ImportGlobPlugin.default(),
+        nodeModulesPolyfillPlugin(),
+        {
+          name: 'mock-modules',
+          setup(build) {
+            build.onResolve({ filter: /^graceful-fs$/ }, () => {
+              return { path: 'graceful-fs', namespace: 'mock-module' }
+            })
+            build.onLoad({ filter: /.*/, namespace: 'mock-module' }, (args) => {
+              if (args.path === 'graceful-fs') {
+                return {
+                  contents: `
+                    const fs = {
+                      readFileSync: () => '',
+                      writeFileSync: () => {},
+                      existsSync: () => false,
+                      close: function() {},
+                      open: function() {},
+                    };
+                    
+                    Object.defineProperties(fs, {
+                      close: { 
+                        value: function() {}, 
+                        writable: true, 
+                        configurable: true 
+                      }
+                    });
+                    
+                    module.exports = fs;
+                  `,
+                  loader: 'js',
+                }
+              }
+            })
+          },
+        },
+      ],
     })
     .catch(() => process.exit(1))
 }

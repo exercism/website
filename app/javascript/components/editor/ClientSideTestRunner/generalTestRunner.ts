@@ -1,14 +1,30 @@
+import { OutputInterface } from '@exercism/javascript-browser-test-runner/src/output'
 import { File } from '../../types'
-import { runJsTests } from './jsTestRunner'
+import { runTests } from '@exercism/javascript-browser-test-runner/src/index'
 
-export function runTestsClientSide(files: File[]) {
-  const solutionFile = files[0]
+type FileMap = Record<string, string>
 
-  const fileExtension = solutionFile.filename.split('.').pop()
+export async function runTestsClientSide({
+  trackSlug,
+  exerciseSlug,
+  config,
+  files,
+}: {
+  trackSlug: string
+  exerciseSlug: string
+  config: { files: FileMap }
+  files: File[]
+}): Promise<OutputInterface | null> {
+  const studentFileMap = Object.fromEntries(
+    files.map(({ filename, content }) => [filename, content])
+  )
 
-  switch (fileExtension) {
-    case 'js':
-      return runJsTests()
+  const studentFilenames = Object.keys(studentFileMap)
+  const allFiles = { ...config.files, ...studentFileMap }
+
+  switch (trackSlug) {
+    case 'javascript':
+      return runTests(exerciseSlug, allFiles, studentFilenames)
 
     default:
       return null

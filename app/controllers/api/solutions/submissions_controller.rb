@@ -28,6 +28,6 @@ class API::Solutions::SubmissionsController < API::BaseController
 
   private
   def submission_params
-    params.permit(files: %i[filename content])
+    params.permit(:test_results_json, :solution_uuid, files: %i[filename content type])
   end
 end

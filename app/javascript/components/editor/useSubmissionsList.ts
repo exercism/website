@@ -35,7 +35,6 @@ export const useSubmissionsList = (
   >(
     async ({ files, testResults }) => {
       const testResultsJson = testResults ? JSON.stringify(testResults) : null
-      console.log('Creating submission with files:', files, testResultsJson)
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',

@@ -109,6 +109,7 @@ export default ({
   showDeepDiveVideo,
   hasAvailableMentoringSlot,
   features = { theme: false, keybindings: false },
+  localTestRunner,
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
@@ -165,16 +166,20 @@ export default ({
     else setIsProcessing(false)
   }, [status, testRunStatus])
 
-  const runTests = useCallback(() => {
+  const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    const testResults = runTestsClientSide(files)
+    const testResults = await runTestsClientSide({
+      trackSlug: track.slug,
+      exerciseSlug: exercise.slug,
+      config: localTestRunner,
+      files,
+    })
 
     createSubmission(
       { files, testResults },
       {
         onSuccess: () => {
-          console.log('SUCCESS')
           dispatch({ status: EditorStatus.INITIALIZED })
           setSubmissionFiles(files)
           setHasLatestIteration(false)

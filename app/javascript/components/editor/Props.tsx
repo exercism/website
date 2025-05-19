@@ -108,4 +108,5 @@ export type Props = {
   trackObjectives: string
   showDeepDiveVideo: boolean
   hasAvailableMentoringSlot: boolean
+  localTestRunner: { files: Record<string, string> }
 }

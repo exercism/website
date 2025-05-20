@@ -23,14 +23,15 @@ export function useHandleJsErrorMessage({
 
         const { column, line } = extractLineAndColumnFromStack(data.stack)
 
-        const adjustedLineNumber = line - jsLineOffset
-        const lineNumberAbsolutePosition =
-          jsViewRef.current?.state.doc.line(adjustedLineNumber).from ?? 0
-        const adjustedColumnNumber = lineNumberAbsolutePosition + column - 1
+        const adjustedLineNumber = Math.min(
+          Math.max(1, line - jsLineOffset),
+          jsViewRef.current?.state.doc.lines || 1
+        )
 
         showJsError(jsViewRef.current, {
           message: data.message,
-          colNumber: adjustedColumnNumber,
+          // column gets adjusted + positioned in showJsError
+          colNumber: column,
           lineNumber: adjustedLineNumber,
         })
       }

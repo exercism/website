@@ -53,8 +53,4 @@
         @apply w-full h-full relative overflow-hidden;
         /* max-height: calc(90vh - 80px); */
     }
-    .fe-render-expected,
-    .fe-render-actual {
-        pointer-events: none;
-    }
 }

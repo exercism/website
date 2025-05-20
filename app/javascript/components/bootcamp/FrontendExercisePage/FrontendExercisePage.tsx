@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Resizer } from '../JikiscriptExercisePage/hooks/useResize'
 import { Header } from './Header/Header'
@@ -9,6 +9,7 @@ import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
 import { useLogger } from '../common/hooks/useLogger'
+import { useRestoreIframeScrollAfterResize } from './hooks/useRestoreIframeScrollAfterResize'
 
 export default function FrontendExercisePage(data: FrontendExercisePageProps) {
   const { actualIFrameRef, expectedIFrameRef, expectedReferenceIFrameRef } =
@@ -29,6 +30,8 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
     resetEditors,
     defaultCode,
   } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
+
+  useRestoreIframeScrollAfterResize()
 
   return (
     <FrontendExercisePageContext.Provider
@@ -56,6 +59,7 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
         <div className="page-body">
           <LHS />
           <Resizer
+            className="frontend-exercise-page-resizer"
             direction="vertical"
             handleMouseDown={handleWidthChangeMouseDown}
           />

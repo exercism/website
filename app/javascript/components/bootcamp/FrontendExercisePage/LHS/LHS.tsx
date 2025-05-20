@@ -3,7 +3,11 @@ import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
 import { FrontendExercisePageContext } from '../FrontendExercisePageContext'
-import { updateIFrame } from '../utils/updateIFrame'
+import {
+  scriptPostlude,
+  scriptPrelude,
+  updateIFrame,
+} from '../utils/updateIFrame'
 import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
@@ -58,13 +62,15 @@ export function LHS() {
     const result = parseJS(jsView.state.doc.toString())
     switch (result.status) {
       case 'success':
+        const fullScript = wrapJSCode(jsCode)
+        const expectedScript = wrapJSCode(exercise.config.expected.js)
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
         const runCode = updateIFrame(
           actualIFrameRef,
           {
-            js: jsCode,
+            script: fullScript,
             html: htmlEditorRef.current?.state.doc.toString(),
             css: cssEditorRef.current?.state.doc.toString(),
           },
@@ -73,12 +79,18 @@ export function LHS() {
 
         const runRefCode = updateIFrame(
           expectedIFrameRef,
-          exercise.config.expected,
+          {
+            ...exercise.config.expected,
+            script: expectedScript,
+          },
           code
         )
         const runExpectedCode = updateIFrame(
           expectedReferenceIFrameRef,
-          exercise.config.expected,
+          {
+            ...exercise.config.expected,
+            script: expectedScript,
+          },
           code
         )
 
@@ -131,4 +143,10 @@ export function LHS() {
       </div>
     </div>
   )
+}
+
+function wrapJSCode(jsCode: string) {
+  return `<script>
+${scriptPrelude}${jsCode || ''}${scriptPostlude}
+</script>`
 }

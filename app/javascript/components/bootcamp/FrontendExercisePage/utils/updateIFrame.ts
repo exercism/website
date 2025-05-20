@@ -1,4 +1,4 @@
-const scriptPrelude = `window.onerror = function(message, source, lineno, colno, error) {
+export const scriptPrelude = `window.onerror = function(message, source, lineno, colno, error) {
   window.parent.postMessage({
     type: 'iframe-js-error',
     message,
@@ -20,7 +20,7 @@ window.runCode = function() {
   try {
 `
 
-const scriptPostlude = `
+export const scriptPostlude = `
   } catch (error) {
     window.parent.postMessage({
       type: 'iframe-js-error',
@@ -38,7 +38,7 @@ export function updateIFrame(
   iframeRef:
     | React.RefObject<HTMLIFrameElement>
     | React.ForwardedRef<HTMLIFrameElement>,
-  { html, css, js }: { html?: string; css?: string; js?: string },
+  { html, css, script }: { html?: string; css?: string; script?: string },
   code: FrontendExercisePageCode
 ): (() => void) | undefined {
   let iframeElement: HTMLIFrameElement | null = null
@@ -58,23 +58,19 @@ export function updateIFrame(
     iframeElement.contentDocument || iframeElement.contentWindow?.document
   if (!iframeDoc) return
 
-  const fullScript = `<script>
-${scriptPrelude}${js || ''}${scriptPostlude}
-</script>`
-
   const iframeHtml = `
     <!DOCTYPE html>
-    <html>
+    <html style="height: 100%; width: 100%;">
       <head>
         <style>
         ${code.normalizeCss}
         ${code.default.css} 
         ${css || ''}
         </style>
-      </head>
-      <body>
+        </head>
+        <body>
         ${html || ''}
-        ${fullScript}
+        ${script || ''}
       </body>
     </html>`
 

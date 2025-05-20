@@ -7,7 +7,7 @@
         left: -20%;
         display: grid;
         transform: rotate(-35deg);
-        grid-template-rows: 40% 3% 14% 3% 40%;
+        grid-template-rows: 40% 1fr 15% 1fr 40%;
 
         .blue {
             background: #002f6c;

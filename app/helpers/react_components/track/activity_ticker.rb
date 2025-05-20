@@ -10,7 +10,11 @@ module ReactComponents
         })
       end
 
-      def initial_data = Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last&.to_broadcast_hash
+      def initial_data
+        Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last&.to_broadcast_hash
+      rescue StandardError
+        {}
+      end
 
       ALLOWED_METRIC_TYPES = [
         'Metrics::PublishSolutionMetric',

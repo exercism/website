@@ -1,30 +1,27 @@
-# Flag of Norway
+# Breakout CSS
 
-Next we have the flag of Norway. This is a similar flag to one you had with Flexbox, but a little more complex.
+Welcome to Breakout!
 
-The blue lines are the same width and height horizontally and vertically, so the blue rectangle in the middle is a square. Similarly the white lines are the same width and height.
+This was one of my favourite games a kid, and I'm very excited to make it with you here!
 
-You can use the fact that the flag has an aspect ratio of 1.5 to make this easier for yourself. Something with a width of 9% is the same size as something with a height of 6%. I recommend specifying % widths for the white and blue sections, and for the width of the red squares. The remaining space can flow via fractional units.
+By the end of Front-End Fundamentals, you'll have built out a fully working version of this game that you can play, from scratch, using HTML, CSS, and JS.
+
+Those students that took part in Coding Fundamentals will be very familiar with the logic of a lot of the game fundamentals. You'll be able to copy a lot of the logic over to make this easier for you. For those who are new to Front-End Fundamentals, you'll have a little more of the "logic work" to do. But nothing that should be too arduous!
+
+In this first exercise, we're just looking at some basic styling!
 
 ## Instructions
 
-Behind the scenes we've added some CSS so that your outermost element will fill the space fully.
+Recreate the game using whatever CSS you feel is appropriate.
+The colors used are:
 
-You should **only** use the following properties:
+- `rgb(10, 18, 21)`
+- `rgb(198, 44, 52)`
+- `rgb(179, 75, 37)`
+- `rgb(184, 138, 12)`
+- `rgb(46, 133, 44)`
+- `rgb(39, 25, 205)`
+- `rgb(188, 198, 200)`
+- `white`
 
-- `background`: The flag has stripes of `white`, `#BA0C2F` and `#00205B`.
-- `display`: Used to turn an element into a grid container.
-- `grid-template-rows`: Sets the layout of rows.
-- `grid-template-columns`: Sets the layout of columns.
-- `grid-column`: Specify the start and end column lines of a grid item.
-- `grid-row`: Specify the start and end row lines of a grid item.
-
-You might find it helpful to use `nth-child` selectors in this exercise. We looked at these briefly in the teaching video. To target the 3rd div in a section, you could use:
-
-```css
-#flag div:nth-child(3) {
-  ...;
-}
-```
-
-Remember to nest the `div:nth-child` selector if you take this approach, else you might end up adding rules to other divs that you can't see.
+I've stuck to pixels in this to try to give you more flexibility in how to solve it (all divisible by `5`). The only exception is that I've used `%` for border-radiuses and to center things horizontally.

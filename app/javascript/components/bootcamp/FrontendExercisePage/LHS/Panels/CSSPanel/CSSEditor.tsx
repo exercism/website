@@ -12,6 +12,7 @@ import {
   initReadOnlyRangesExtension,
 } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions'
 import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
+import { cssTheme } from '@/components/bootcamp/CSSExercisePage/LHS/cssTheme'
 
 export function CSSEditor() {
   const {
@@ -39,6 +40,7 @@ export function CSSEditor() {
       extensions={[
         moveCursorByPasteLength,
         css(),
+        cssTheme,
         interactionExtension(),
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),

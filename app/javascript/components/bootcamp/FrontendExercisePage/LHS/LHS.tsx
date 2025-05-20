@@ -78,9 +78,6 @@ export function LHS() {
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
-        console.log(
-          fullScript.split('\n').map((line, i) => `${i + 1}: ${line}`)
-        )
         const runCode = updateIFrame(
           actualIFrameRef,
           {

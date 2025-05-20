@@ -42,6 +42,12 @@ class Bootcamp::Solution::Create
         html: Bootcamp::Solution::GenerateStub.(exercise, user, 'html'),
         css: Bootcamp::Solution::GenerateStub.(exercise, user, 'css')
       }
+    when "frontend"
+      {
+        html: Bootcamp::Solution::GenerateStub.(exercise, user, 'html'),
+        css: Bootcamp::Solution::GenerateStub.(exercise, user, 'css'),
+        js: Bootcamp::Solution::GenerateStub.(exercise, user, 'js')
+      }
     end
   end
 

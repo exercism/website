@@ -22,7 +22,7 @@ export function showJsError(
 
   const editorLength = view.state.doc.length
   const errorLine = view.state.doc.line(error.lineNumber)
-  const basePos = errorLine.from + error.colNumber
+  const basePos = errorLine.from + error.colNumber - 1
 
   // range rules to avoid breaking:
   // from < to
@@ -30,8 +30,6 @@ export function showJsError(
   // to <= editorLength
   const from = Math.max(1, Math.min(basePos, editorLength - 1))
   const to = Math.min(editorLength, from + 1)
-
-  console.log('editorleng', editorLength)
 
   view.dispatch({
     effects: [

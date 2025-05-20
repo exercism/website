@@ -8,7 +8,6 @@ import { useSetupEditors } from './hooks/useSetupEditors'
 import { useSetupIFrames } from './hooks/useSetupIFrames'
 import { LHS } from './LHS/LHS'
 import { RHS } from './RHS/RHS'
-import { useLogger } from '../common/hooks/useLogger'
 import { useRestoreIframeScrollAfterResize } from './hooks/useRestoreIframeScrollAfterResize'
 
 export default function FrontendExercisePage(data: FrontendExercisePageProps) {
@@ -16,8 +15,6 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
     useSetupIFrames(data.exercise.config, data.code)
 
   const { handleWidthChangeMouseDown } = useInitResizablePanels()
-
-  useLogger('data', data)
 
   const {
     htmlEditorViewRef,

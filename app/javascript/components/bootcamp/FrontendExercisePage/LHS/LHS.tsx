@@ -7,7 +7,6 @@ import { updateIFrame } from '../utils/updateIFrame'
 import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
-import { injectLoopGuards } from './injectLoopguards'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
@@ -36,6 +35,7 @@ export function LHS() {
     isDiffActive,
     isOverlayActive,
     toggleOverlayActivity,
+    RHSActiveTab,
     setRHSActiveTab,
     setLogs,
   } = useFrontendExercisePageStore()
@@ -82,6 +82,9 @@ export function LHS() {
           code
         )
 
+        if (RHSActiveTab === 'instructions') {
+          setRHSActiveTab('output')
+        }
         setLogs([])
         runCode?.()
         runRefCode?.()

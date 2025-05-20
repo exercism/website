@@ -10,9 +10,20 @@ export const scriptPrelude = `window.onerror = function(message, source, lineno,
 };
 
 window.log = function(...args) {
+
+ const safeArgs = args.map(arg => {
+    if (arg instanceof HTMLCollection || arg instanceof NodeList) {
+      return Array.from(arg).map(el => el.outerHTML || String(el));
+    }
+    if (arg instanceof Element) {
+      return arg.outerHTML;
+    }
+    return arg;
+  });
+
   window.parent.postMessage({
     type: 'iframe-log',
-    logs: [args],
+    logs: [safeArgs],
   }, '*');
 };
 

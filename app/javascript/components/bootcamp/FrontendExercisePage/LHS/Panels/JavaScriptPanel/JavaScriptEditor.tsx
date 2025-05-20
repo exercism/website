@@ -26,6 +26,7 @@ export function JavaScriptEditor() {
     cssEditorRef,
     handleJsEditorDidMount,
     setEditorCodeLocalStorage,
+    defaultCode,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -37,7 +38,7 @@ export function JavaScriptEditor() {
 
   return (
     <SimpleCodeMirror
-      defaultCode=""
+      defaultCode={defaultCode.js}
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleJsEditorDidMount}
       extensions={[

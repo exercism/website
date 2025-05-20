@@ -23,6 +23,7 @@ export function CSSEditor() {
     setEditorCodeLocalStorage,
     actualIFrameRef,
     code,
+    defaultCode,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -34,7 +35,7 @@ export function CSSEditor() {
 
   return (
     <SimpleCodeMirror
-      defaultCode=""
+      defaultCode={defaultCode.css}
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       editorDidMount={handleCssEditorDidMount}
       extensions={[

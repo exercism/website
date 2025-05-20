@@ -24,6 +24,7 @@ export function HTMLEditor() {
     setEditorCodeLocalStorage,
     actualIFrameRef,
     code,
+    defaultCode,
   } = useContext(FrontendExercisePageContext)
   const {
     panelSizes: { LHSWidth },
@@ -35,6 +36,7 @@ export function HTMLEditor() {
 
   return (
     <SimpleCodeMirror
+      defaultCode={defaultCode.html}
       style={{ width: LHSWidth, height: EDITOR_HEIGHT }}
       ref={htmlEditorRef}
       editorDidMount={handleHtmlEditorDidMount}
@@ -67,7 +69,6 @@ export function HTMLEditor() {
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
       ]}
-      defaultCode="<div>hello</div>"
     />
   )
 }

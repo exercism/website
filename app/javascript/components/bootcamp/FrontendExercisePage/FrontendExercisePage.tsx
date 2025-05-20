@@ -27,6 +27,7 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
     handleJsEditorDidMount,
     setEditorCodeLocalStorage,
     resetEditors,
+    defaultCode,
   } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
 
   return (
@@ -47,6 +48,7 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
         code: data.code,
         solution: data.solution,
         resetEditors,
+        defaultCode,
       }}
     >
       <div id="bootcamp-frontend-exercise-page">

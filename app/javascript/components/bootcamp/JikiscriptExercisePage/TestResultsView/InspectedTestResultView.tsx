@@ -49,7 +49,9 @@ export function InspectedTestResultViewLHS({
   result: NewTestResult
   firstExpect: ProcessedExpect | null
 }) {
-  const { exercise } = useContext(JikiscriptExercisePageContext)
+  const { exercise, isSpotlightActive, editorView } = useContext(
+    JikiscriptExercisePageContext
+  )
 
   return (
     <div data-ci="inspected-test-result-view" className="scenario-lhs">
@@ -75,6 +77,8 @@ export function InspectedTestResultViewLHS({
 
       {exercise.language === 'jikiscript' && result.frames && (
         <Scrubber
+          editorView={editorView}
+          isSpotlightActive={isSpotlightActive}
           animationTimeline={result.animationTimeline}
           frames={result.frames}
         />

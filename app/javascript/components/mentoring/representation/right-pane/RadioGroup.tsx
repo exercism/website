@@ -32,7 +32,7 @@ const RADIO_DATA = [
     value: 'celebratory',
     tooltip: {
       title: 'If you mark this as Celebratory',
-      body: 'Student is not prompted to action this before proceeding, congratules the student on their solution.',
+      body: 'Student is not prompted to action this before proceeding, congratulates the student on their solution.',
     },
   },
 ]

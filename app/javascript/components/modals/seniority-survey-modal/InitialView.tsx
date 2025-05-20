@@ -10,7 +10,7 @@ import { ErrorFallback } from '@/components/common/ErrorFallback'
 
 const DEFAULT_ERROR = new Error('Unable to save seniority level.')
 
-const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
+export const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
   {
     label: 'Absolute Beginner',
     value: 'absolute_beginner',

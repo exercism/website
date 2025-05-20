@@ -4,6 +4,8 @@ class Solution::GenerateTestRunConfig
   initialize_with :solution
 
   def call
+    return nil unless [1530, 38366, 757288].includes?(solution.user_id)
+  
     {
       files: exercise_repo.tooling_files
     }

@@ -60,7 +60,7 @@ export function updateIFrame(
 
   const iframeHtml = `
     <!DOCTYPE html>
-    <html style="height: 100%; width: 100%;">
+    <html>
       <head>
         <style>
         ${code.normalizeCss}

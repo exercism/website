@@ -3,15 +3,14 @@ import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
 import { FrontendExercisePageContext } from '../FrontendExercisePageContext'
-import {
-  scriptPostlude,
-  scriptPrelude,
-  updateIFrame,
-} from '../utils/updateIFrame'
+import { updateIFrame } from '../utils/updateIFrame'
 import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
+import toast from 'react-hot-toast'
+import { validateHtml } from './validateHtml'
+import { wrapJSCode } from './wrapJSCode'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -54,7 +53,18 @@ export function LHS() {
   }, [])
 
   const handleRunCode = useCallback(() => {
-    if (!jsEditorRef.current) return
+    if (!jsEditorRef.current || !htmlEditorRef.current) return
+
+    const htmlText = htmlEditorRef.current.state.doc.toString()
+    const isHTMLValid = validateHtml(htmlText)
+
+    if (!isHTMLValid.isValid) {
+      setTab('html')
+      toast.error(
+        `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+      )
+      return
+    }
 
     const jsView = jsEditorRef.current
     const jsCode = jsEditorRef.current.state.doc.toString()
@@ -143,10 +153,4 @@ export function LHS() {
       </div>
     </div>
   )
-}
-
-function wrapJSCode(jsCode: string) {
-  return `<script>
-${scriptPrelude}${jsCode || ''}${scriptPostlude}
-</script>`
 }

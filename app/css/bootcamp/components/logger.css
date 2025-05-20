@@ -6,7 +6,7 @@
     background: aliceblue;
 
     @apply overflow-hidden;
-    @apply p-12 p-16;
+    @apply p-16;
     @apply border-t-1 border-borderColor4;
     @apply relative;
 

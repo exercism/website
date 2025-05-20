@@ -115,7 +115,7 @@ export function LHS() {
           <Panels />
         </div>
       </TabsContext.Provider>
-      <div className="flex justify-between">
+      <div className="control-buttons-container">
         <button onClick={handleRunCode} className="btn-primary btn-m">
           Run Code
         </button>

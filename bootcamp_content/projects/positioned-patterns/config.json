@@ -2,5 +2,9 @@
   "slug": "positioned-patterns",
   "title": "Positioned Patterns",
   "description": "Use your existing knowledge plus positioning to reproduce various flag designs.",
-  "exercises": ["positioned-portugal", "positioned-trinidad-and-tobago"]
+  "exercises": [
+    "positioned-portugal",
+    "positioned-trinidad-and-tobago",
+    "positioned-namibia"
+  ]
 }

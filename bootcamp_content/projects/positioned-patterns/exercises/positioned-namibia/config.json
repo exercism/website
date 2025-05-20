@@ -1,9 +1,9 @@
 {
-  "title": "Positioned Portugal",
-  "description": "Reproduce Portugal's flag using CSS",
+  "title": "Positioned Namibia",
+  "description": "Reproduce Namibia's flag using CSS",
   "language": "css",
   "level": 15,
-  "idx": 5,
+  "idx": 3,
   "editor_config": {
     "aspect_ratio": 1.5
   }

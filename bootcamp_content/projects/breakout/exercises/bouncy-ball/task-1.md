@@ -1,3 +1,5 @@
 # Task 1
 
-Create an instance of a Ball and move it around!
+To start, switch to the Example tab and hit "Run Code" to understand what you're trying to create.
+
+Then go make the ball bounce!

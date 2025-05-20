@@ -2,7 +2,7 @@ const ball = {
   speed: 0.5,
   size: 4,
   left: 50,
-  top: 100,
+  top: 96,
 }
 ball.velocityX = -1 * ball.speed
 ball.velocityY = -1 * ball.speed

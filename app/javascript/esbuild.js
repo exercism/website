@@ -4,6 +4,7 @@ const ImportGlobPlugin = require('esbuild-plugin-import-glob')
 const {
   nodeModulesPolyfillPlugin,
 } = require('esbuild-plugins-node-modules-polyfill')
+const mockFsPlugin = require('./esbuild-helpers/esbuild-plugin-mock-fs')
 
 function build() {
   const env = require('./.config/env.json')
@@ -30,7 +31,7 @@ function build() {
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
       target: 'es2022',
-      inject: ['./app/javascript/esbuild-shim.js'],
+      inject: ['./app/javascript/esbuild-helpers/process-shim.js'],
       define: {
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
@@ -44,40 +45,7 @@ function build() {
       plugins: [
         ImportGlobPlugin.default(),
         nodeModulesPolyfillPlugin(),
-        {
-          name: 'mock-modules',
-          setup(build) {
-            build.onResolve({ filter: /^graceful-fs$/ }, () => {
-              return { path: 'graceful-fs', namespace: 'mock-module' }
-            })
-            build.onLoad({ filter: /.*/, namespace: 'mock-module' }, (args) => {
-              if (args.path === 'graceful-fs') {
-                return {
-                  contents: `
-                    const fs = {
-                      readFileSync: () => '',
-                      writeFileSync: () => {},
-                      existsSync: () => false,
-                      close: function() {},
-                      open: function() {},
-                    };
-                    
-                    Object.defineProperties(fs, {
-                      close: { 
-                        value: function() {}, 
-                        writable: true, 
-                        configurable: true 
-                      }
-                    });
-                    
-                    module.exports = fs;
-                  `,
-                  loader: 'js',
-                }
-              }
-            })
-          },
-        },
+        mockFsPlugin,
       ],
     })
     .catch(() => process.exit(1))

@@ -20,6 +20,8 @@ Your job is to create a square game area that takes up 80% of the screen and to 
 
 If you do everything correctly, you should be able to overlay your solution onto mine and it should look and work identically!
 
+You can choose whatever colors your like. The ball in the example solution is `4%` of the game area.
+
 You can safely let the ball bounce indefinitely.
 
 Good luck!

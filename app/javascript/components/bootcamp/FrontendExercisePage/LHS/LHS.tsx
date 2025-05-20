@@ -95,7 +95,7 @@ export function LHS() {
         showJsError(jsView, result.error)
         break
     }
-  }, [])
+  }, [RHSActiveTab])
 
   useHandleJsErrorMessage({ jsViewRef: jsEditorRef, setTab })
 

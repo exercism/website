@@ -4,7 +4,7 @@
     }
 
     .control-buttons-container {
-        @apply flex items-center justify-between h-full p-8;
+        @apply flex items-center justify-between h-full p-8 gap-8;
         @apply bg-bootcamp-very-light-purple;
     }
 

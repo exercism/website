@@ -41,6 +41,7 @@ export function LHS() {
     RHSActiveTab,
     setRHSActiveTab,
     setLogs,
+    panelSizes: { LHSWidth },
   } = useFrontendExercisePageStore()
 
   const handleToggleDiff = useCallback(() => {
@@ -137,7 +138,7 @@ export function LHS() {
           <Panels />
         </div>
       </TabsContext.Provider>
-      <div className="control-buttons-container">
+      <div style={{ width: LHSWidth }} className="control-buttons-container">
         <button onClick={handleRunCode} className="btn-primary btn-m">
           Run Code
         </button>

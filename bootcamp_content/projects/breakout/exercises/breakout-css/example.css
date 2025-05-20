@@ -9,7 +9,7 @@
         margin: 25px;
         div {
             height: 15px;
-            border-radius: 10%;
+            border-radius: 5px;
             &:nth-child(-n + 5) {
                 background: rgb(198, 44, 52);
             }
@@ -28,7 +28,7 @@
         }
     }
     #paddle {
-        border-radius: 10%;
+        border-radius: 5px;
         height: 10px;
         width: 80px;
         background: rgb(188, 198, 200);

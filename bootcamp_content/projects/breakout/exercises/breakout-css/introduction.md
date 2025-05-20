@@ -24,4 +24,4 @@ The colors used are:
 - `rgb(188, 198, 200)`
 - `white`
 
-I've stuck to pixels in this to try to give you more flexibility in how to solve it (all divisible by `5`). The only exception is that I've used `%` for border-radiuses and to center things horizontally.
+I've stuck to pixels in this to try to give you more flexibility in how to solve it (all divisible by `5`). The only exception is that I've used `%` for the border-radius of the ball, and to center things horizontally.

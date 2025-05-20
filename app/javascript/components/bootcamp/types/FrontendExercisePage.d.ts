@@ -64,5 +64,6 @@ type FrontendExercisePageConfig = {
   expected: {
     html: string
     css: string
+    js: string
   }
 }

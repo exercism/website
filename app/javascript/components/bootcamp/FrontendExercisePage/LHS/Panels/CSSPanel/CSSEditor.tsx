@@ -58,7 +58,7 @@ export function CSSEditor() {
           {
             css: view.state.doc.toString(),
             html: htmlEditorRef.current?.state.doc.toString(),
-            js: jsEditorRef.current?.state.doc.toString(),
+            script: '',
           },
           code
         )

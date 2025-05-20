@@ -8,6 +8,9 @@ import { parseJS } from '../utils/parseJS'
 import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
+import toast from 'react-hot-toast'
+import { validateHtml } from './validateHtml'
+import { wrapJSCode } from './wrapJSCode'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -50,7 +53,18 @@ export function LHS() {
   }, [])
 
   const handleRunCode = useCallback(() => {
-    if (!jsEditorRef.current) return
+    if (!jsEditorRef.current || !htmlEditorRef.current) return
+
+    const htmlText = htmlEditorRef.current.state.doc.toString()
+    const isHTMLValid = validateHtml(htmlText)
+
+    if (!isHTMLValid.isValid) {
+      setTab('html')
+      toast.error(
+        `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+      )
+      return
+    }
 
     const jsView = jsEditorRef.current
     const jsCode = jsEditorRef.current.state.doc.toString()
@@ -58,13 +72,15 @@ export function LHS() {
     const result = parseJS(jsView.state.doc.toString())
     switch (result.status) {
       case 'success':
+        const fullScript = wrapJSCode(jsCode)
+        const expectedScript = wrapJSCode(exercise.config.expected.js)
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
         const runCode = updateIFrame(
           actualIFrameRef,
           {
-            js: jsCode,
+            script: fullScript,
             html: htmlEditorRef.current?.state.doc.toString(),
             css: cssEditorRef.current?.state.doc.toString(),
           },
@@ -73,12 +89,18 @@ export function LHS() {
 
         const runRefCode = updateIFrame(
           expectedIFrameRef,
-          exercise.config.expected,
+          {
+            ...exercise.config.expected,
+            script: expectedScript,
+          },
           code
         )
         const runExpectedCode = updateIFrame(
           expectedReferenceIFrameRef,
-          exercise.config.expected,
+          {
+            ...exercise.config.expected,
+            script: expectedScript,
+          },
           code
         )
 
@@ -95,7 +117,7 @@ export function LHS() {
         showJsError(jsView, result.error)
         break
     }
-  }, [])
+  }, [RHSActiveTab])
 
   useHandleJsErrorMessage({ jsViewRef: jsEditorRef, setTab })
 

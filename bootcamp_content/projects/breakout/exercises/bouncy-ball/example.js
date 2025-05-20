@@ -1,31 +1,32 @@
-const ballSpeed = 0.5
-let ballLeft = 50
-let ballTop = 95
-let ballVelocityX = -1 * ballSpeed
-let ballVelocityY = -1 * ballSpeed
+const ball = {
+  speed: 0.5,
+  left: 50,
+  top: 95,
+}
+ball.velocityX = -1 * ball.speed
+ball.velocityY = -1 * ball.speed
 
 function updateBallCoordinates() {
-  ballLeft += ballVelocityX
-  ballTop += ballVelocityY
+  ball.left += ball.velocityX
+  ball.top += ball.velocityY
 
-  if (ballLeft < 2.5) {
-    return false
-    ballVelocityX = 1 * ballSpeed
+  if (ball.left < 0) {
+    ball.velocityX = 1 * ball.speed
   }
-  if (ballLeft > 97.5) {
-    ballVelocityX = -1 * ballSpeed
+  if (ball.left > 95) {
+    ball.velocityX = -1 * ball.speed
   }
-  if (ballTop < 2.5) {
-    ballVelocityY = 1 * ballSpeed
+  if (ball.top < 0) {
+    ball.velocityY = 1 * ball.speed
   }
-  if (ballTop > 97.5) {
-    ballVelocityY = -1 * ballSpeed
+  if (ball.top > 95) {
+    ball.velocityY = -1 * ball.speed
   }
   return true
 }
 function render() {
-  document.querySelector('#ball').style.left = `${ballLeft}%`
-  document.querySelector('#ball').style.top = `${ballTop}%`
+  document.querySelector('#ball').style.left = `${ball.left}%`
+  document.querySelector('#ball').style.top = `${ball.top}%`
 }
 let lastTime = 0
 

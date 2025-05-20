@@ -1,8 +1,8 @@
 #game {
-    margin: 10%;
-    aspect-ratio: 1;
-    background: #ddd;
-    width: 90%;
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: lightgray; /* Just to visualize it */
     position: relative;
 }
 #ball {
@@ -12,6 +12,6 @@
     position: absolute;
     left: 50%;
     top: 95%;
-    transform: translateX(-50%);
+    transform: translateX(-5%);
     background: red;
 }

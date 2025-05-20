@@ -9,6 +9,7 @@
 
 @import "../bootcamp/components/solve-exercise-page";
 @import "../bootcamp/components/frontend-training-page";
+@import "../bootcamp/components/frontend-exercise-page";
 @import "../bootcamp/components/custom-function-selector";
 @import "../bootcamp/components/rhs-list";
 @import "../bootcamp/components/breadcrumbs";

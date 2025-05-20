@@ -4,8 +4,7 @@ import { linter as cmLinter, Diagnostic } from '@codemirror/lint'
 export const htmlLinter = cmLinter((view) => {
   const code = view.state.doc.toString()
   const messages = HTMLHint.verify(code, {
-    'tagname-lowercase': true,
-    'attr-value-double-quotes': true,
+    'tag-pair': true,
   })
 
   const diagnostics: Diagnostic[] = messages.map((msg) => ({

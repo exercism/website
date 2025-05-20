@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CSSEditor } from './CSSEditor'
 import { HTMLEditor } from './HTMLEditor'
 import { ControlButtons } from './ControlButtons'

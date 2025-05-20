@@ -1,0 +1,10 @@
+{
+  "title": "Positioned Namibia",
+  "description": "Reproduce Namibia's flag using CSS",
+  "language": "css",
+  "level": 15,
+  "idx": 3,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

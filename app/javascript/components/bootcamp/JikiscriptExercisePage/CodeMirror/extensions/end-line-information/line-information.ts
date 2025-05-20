@@ -54,7 +54,7 @@ export const informationWidgetDataField =
 
 function lineInformationWidget(
   view: EditorView,
-  onClose: () => void
+  onClose: (view: EditorView) => void
 ): DecorationSet {
   let widgets: any[] = []
 
@@ -80,8 +80,8 @@ function lineInformationWidget(
 
 class EndlineDecoration {
   placeholders: DecorationSet
-  onClose: () => void
-  constructor(view: EditorView, onClose: () => void) {
+  onClose: (view: EditorView) => void
+  constructor(view: EditorView, onClose: (view: EditorView) => void) {
     this.onClose = onClose
     this.placeholders = lineInformationWidget(view, this.onClose)
   }
@@ -101,7 +101,7 @@ class EndlineDecoration {
   }
 }
 
-function endlineDecoration(onClose: () => void) {
+function endlineDecoration(onClose: (view: EditorView) => void) {
   return ViewPlugin.define(
     (view) => {
       return new EndlineDecoration(view, onClose)
@@ -117,6 +117,10 @@ function endlineDecoration(onClose: () => void) {
   )
 }
 
-export function lineInformationExtension({ onClose }: { onClose: () => void }) {
+export function lineInformationExtension({
+  onClose,
+}: {
+  onClose: (view: EditorView) => void
+}) {
   return [placeholderTheme, endlineDecoration(onClose)]
 }

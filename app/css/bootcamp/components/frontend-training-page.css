@@ -1,4 +1,5 @@
-#bootcamp-frontend-training-page {
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
     .page-body-rhs {
         @apply bg-white;
         @apply flex-grow;
@@ -43,5 +44,13 @@
     }
     .css-render-expected {
         pointer-events: none;
+    }
+    .fe-render-expected,
+    .fe-render-actual {
+        @apply border-textColor1 border-1;
+        @apply shadow-base;
+
+        @apply w-full h-full relative overflow-hidden;
+        /* max-height: calc(90vh - 80px); */
     }
 }

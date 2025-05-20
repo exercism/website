@@ -5,6 +5,7 @@
   "level": 14,
   "idx": 15,
   "language": "javascript",
+  "blocks_level_progression": false,
   "tests_type": "state",
   "exercise_functions": ["getCommonWords", "getTargetWord", "addWord"],
   "tasks": [

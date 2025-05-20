@@ -1,0 +1,16 @@
+#flag {
+    background: #f00;
+    .left {
+        width: 40%;
+        height: 100%;
+        background: #060;
+        position: relative;
+        img {
+            position: absolute;
+            height: 60%;
+            top: 50%;
+            left: 100%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+}

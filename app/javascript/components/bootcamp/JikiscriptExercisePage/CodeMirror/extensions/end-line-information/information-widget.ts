@@ -27,7 +27,7 @@ export class InformationWidget extends WidgetType {
     private readonly tooltipHtml: string,
     private readonly status: 'ERROR' | 'SUCCESS',
     private readonly view: EditorView,
-    private readonly onClose: () => void
+    private readonly onClose: (view: EditorView) => void
   ) {
     super()
   }
@@ -72,7 +72,9 @@ export class InformationWidget extends WidgetType {
     const closeButton = document.createElement('button')
     closeButton.innerHTML = '&times;'
     closeButton.classList.add('tooltip-close')
-    closeButton.onclick = this.onClose
+    closeButton.onclick = () => {
+      this.onClose(this.view)
+    }
 
     this.tooltip.querySelectorAll('code').forEach((ct) => {
       ct.addEventListener('mouseenter', () => {

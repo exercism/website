@@ -1,0 +1,6 @@
+{
+  "slug": "breakout",
+  "title": "Breakout",
+  "description": "Recreate the classic game of Breakout",
+  "exercises": ["slithery-snake"]
+}

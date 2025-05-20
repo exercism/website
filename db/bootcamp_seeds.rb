@@ -74,6 +74,7 @@ projects = %w[
   javascript-fundamentals
   flexy-flags
   gridded-glory
+  positioned-patterns
 ]
 
 projects.each do |project_slug|

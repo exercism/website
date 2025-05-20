@@ -1,5 +1,6 @@
 #game {
     position: relative;
+    background: rgb(10, 18, 21);
 
     #bricks {
         display: grid;
@@ -9,14 +10,28 @@
         div {
             height: 15px;
             border-radius: 10%;
-            background: red;
+            &:nth-child(-n + 5) {
+                background: rgb(198, 44, 52);
+            }
+            &:nth-child(n + 6):nth-child(-n + 10) {
+                background: rgb(179, 75, 37);
+            }
+            &:nth-child(n + 11):nth-child(-n + 15) {
+                background: rgb(184, 138, 12);
+            }
+            &:nth-child(n + 16):nth-child(-n + 20) {
+                background: rgb(46, 133, 44);
+            }
+            &:nth-child(n + 21):nth-child(-n + 25) {
+                background: rgb(39, 25, 205);
+            }
         }
     }
     #paddle {
         border-radius: 10%;
         height: 10px;
         width: 80px;
-        background: red;
+        background: rgb(188, 198, 200);
         position: absolute;
         left: 50%;
         bottom: 5%;
@@ -26,7 +41,7 @@
         border-radius: 100%;
         height: 10px;
         width: 10px;
-        background: blue;
+        background: white;
         position: absolute;
         left: 50%;
         bottom: 10%;

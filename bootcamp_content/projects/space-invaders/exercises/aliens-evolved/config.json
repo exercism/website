@@ -6,6 +6,7 @@
   "idx": 14,
   "language": "javascript",
   "tests_type": "state",
+  "blocks_level_progression": false,
   "exercise_functions": ["moveLeft", "moveRight", "shoot", "getStartingAliens"],
   "tasks": [
     {

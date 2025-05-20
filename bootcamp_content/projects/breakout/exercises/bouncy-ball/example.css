@@ -5,7 +5,7 @@ body {
     width: 80vmin;
     height: 80vmin;
     margin: 10vmin auto;
-    background: #2a0134;
+    background: rgb(10, 18, 21);
     position: relative;
 }
 #ball {

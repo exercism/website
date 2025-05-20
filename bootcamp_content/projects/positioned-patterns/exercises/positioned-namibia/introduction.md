@@ -19,8 +19,8 @@ Behind the scenes we've added some CSS so that your outermost element will fill 
 
 For the stripes:
 
-- The target implementation uses `%` divisible by 10 for all the positioning (e.g. any widths, heights, tops, lefts, rotations, etc) with one exception - the width of the stripes - which are whole number % but not all divisible by 10.
-- The blue is `#002f6c`, the red is `#c8102e`, the green is `#009a44` and the gold is `#002f6c`
+- The target implementation uses `%` divisible by 10 for all the positioning (e.g. any widths, heights, tops, lefts, etc) with two exceptions - the width of the stripes, and the rotation - which are whole number % but not all divisible by 10.
+- The blue is `#002f6c`, the red is `#c8102e`, the green is `#009a44` and the gold is `#ffcd00`
 
 ### The Emblem
 

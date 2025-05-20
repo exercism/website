@@ -1,6 +1,6 @@
 #bootcamp-frontend-exercise-page {
     .page-body-lhs {
-        @apply p-0;
+        @apply p-0 pl-8;
     }
 
     .control-buttons-container {

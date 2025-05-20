@@ -13,6 +13,8 @@ import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirro
 import { runHtmlChecks } from '../checks/runHtmlChecks'
 import { CheckResult } from '../checks/runChecks'
 import { runCssChecks } from '../checks/runCssChecks'
+import { validateHtml } from '../../FrontendExercisePage/LHS/validateHtml'
+import toast from 'react-hot-toast'
 
 export function ControlButtons({
   getEditorValues,
@@ -48,6 +50,15 @@ export function ControlButtons({
 
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
+
+    const isHTMLValid = validateHtml(htmlValue)
+
+    if (!isHTMLValid.isValid) {
+      toast.error(
+        `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+      )
+      return
+    }
 
     const htmlChecks = await runHtmlChecks(exercise.htmlChecks, htmlValue)
     const cssChecks = await runCssChecks(exercise.cssChecks, cssValue)

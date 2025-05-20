@@ -1,0 +1,10 @@
+{
+  "title": "Positioned Portugal",
+  "description": "Reproduce Portugal's flag using CSS",
+  "language": "css",
+  "level": 15,
+  "idx": 5,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

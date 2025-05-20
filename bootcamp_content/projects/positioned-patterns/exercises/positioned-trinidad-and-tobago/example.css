@@ -1,0 +1,18 @@
+#flag {
+    background: #da1a35;
+    position: relative;
+
+    .stripe {
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        height: 180%;
+        width: 15%;
+        border: 0px solid white;
+        border-left-width: 20px;
+        border-right-width: 20px;
+        background: black;
+        transform: rotate(-45deg);
+        transform-origin: top left;
+    }
+}

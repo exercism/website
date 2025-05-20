@@ -1,0 +1,10 @@
+{
+  "title": "Positioned Trinidad and Tobago",
+  "description": "Reproduce Trinidad and Tobago's flag using CSS",
+  "language": "css",
+  "level": 15,
+  "idx": 2,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

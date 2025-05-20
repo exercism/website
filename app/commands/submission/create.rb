@@ -61,7 +61,7 @@ class Submission::Create
   end
 
   def handle_test_run!
-    if test_results_json
+    if test_results_json.present?
       Submission::TestRun::ProcessClientSideResults.(submission, test_results_json)
     else
       Submission::TestRun::Init.(submission)

@@ -4,14 +4,17 @@ class Solution::GenerateTestRunConfig
   initialize_with :solution
 
   def call
-    return nil unless [1530, 38366, 757288].includes?(solution.user_id)
-  
+    return nil unless [1530, 38_366, 757_288].include?(solution.user_id)
+    return nil unless track.slug == "javascript"
+
     {
       files: exercise_repo.tooling_files
     }
   end
 
   private
+  delegate :track, to: :solution
+
   memoize
   def exercise_repo
     Git::Exercise.new(

@@ -104,8 +104,6 @@ module ReactComponents
     end
 
     def local_test_runner
-      return nil unless track.slug == "javascript"
-
       Solution::GenerateTestRunConfig.(solution)
     end
 

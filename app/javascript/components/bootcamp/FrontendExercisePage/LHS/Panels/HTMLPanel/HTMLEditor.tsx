@@ -13,6 +13,7 @@ import {
 import { moveCursorByPasteLength } from '@/components/bootcamp/JikiscriptExercisePage/CodeMirror/extensions/move-cursor-by-paste-length'
 import { htmlLinter } from '@/components/bootcamp/CSSExercisePage/SimpleCodeMirror/extensions/htmlLinter'
 import { htmlTheme } from '@/components/bootcamp/CSSExercisePage/LHS/htmlTheme'
+import { EditorView } from 'codemirror'
 
 export function HTMLEditor() {
   const {
@@ -62,6 +63,7 @@ export function HTMLEditor() {
         html({ autoCloseTags: false }),
         htmlLinter,
         htmlTheme,
+        lintTooltipTheme,
         readOnlyRangeDecoration(),
         initReadOnlyRangesExtension(),
       ]}
@@ -69,3 +71,29 @@ export function HTMLEditor() {
     />
   )
 }
+
+export const lintTooltipTheme = EditorView.theme({
+  '.cm-tooltip-hover.cm-tooltip.cm-tooltip-below': {
+    borderRadius: '8px',
+  },
+
+  '.cm-tooltip .cm-tooltip-lint': {
+    backgroundColor: 'var(--backgroundColorF)',
+    borderRadius: '8px',
+    color: 'var(--textColor6)',
+    border: '1px solid var(--borderColor6)',
+    padding: '4px 8px',
+    fontSize: '14px',
+    fontFamily: 'poppins',
+  },
+  'span.cm-diagnosticText': {
+    display: 'block',
+    marginBottom: '8px',
+  },
+  '.cm-diagnostic.cm-diagnostic-error': {
+    borderColor: '#EB5757',
+  },
+  '.cm-diagnostic.cm-diagnostic-warning': {
+    borderColor: '#F69605',
+  },
+})

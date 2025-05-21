@@ -1,5 +1,5 @@
 const ball = {
-  speed: 0.1,
+  speed: 0.5,
   size: 4,
   left: 48,
   top: 98,

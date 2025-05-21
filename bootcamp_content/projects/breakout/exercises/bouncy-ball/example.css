@@ -14,7 +14,7 @@ body {
     height: 4%;
     position: absolute;
     left: 50%;
-    top: 96%;
-    transform: translateX(-5%);
+    top: 98%;
+    transform: translateX(-50%) translateY(-50%);
     background: white;
 }

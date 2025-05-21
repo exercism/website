@@ -1,8 +1,8 @@
 const ball = {
-  speed: 0.5,
+  speed: 0.1,
   size: 4,
-  left: 50,
-  top: 96,
+  left: 48,
+  top: 98,
 }
 ball.velocityX = -1 * ball.speed
 ball.velocityY = -1 * ball.speed
@@ -11,16 +11,16 @@ function updateBallCoordinates() {
   ball.left += ball.velocityX
   ball.top += ball.velocityY
 
-  if (ball.left < 0) {
+  if (ball.left < 0 + ball.size / 2) {
     ball.velocityX = 1 * ball.speed
   }
-  if (ball.left > 100 - ball.size) {
+  if (ball.left > 100 - ball.size / 2) {
     ball.velocityX = -1 * ball.speed
   }
-  if (ball.top < 0) {
+  if (ball.top < 0 + ball.size / 2) {
     ball.velocityY = 1 * ball.speed
   }
-  if (ball.top > 100 - ball.size) {
+  if (ball.top > 100 - ball.size / 2) {
     ball.velocityY = -1 * ball.speed
   }
   return true

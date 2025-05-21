@@ -9,14 +9,14 @@ import { cleanUpEditorErrorState, showJsError } from './showJsError'
 import { useHandleJsErrorMessage } from './useHandleJsErrorMessage'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
 import toast from 'react-hot-toast'
-import { validateHtml } from './validateHtml'
 import { wrapJSCode } from './wrapJSCode'
+import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
 export const TabsContext = createContext<TabContext>({
   current: 'html',
-  switchToTab: () => {},
+  switchToTab: () => { },
 })
 
 export function LHS() {
@@ -59,12 +59,12 @@ export function LHS() {
     const htmlText = htmlEditorRef.current.state.doc.toString()
 
     if (htmlText.length > 0) {
-      const isHTMLValid = validateHtml(htmlText)
+      const isHTMLValid = validateHtml5(htmlText)
 
       if (!isHTMLValid.isValid) {
         setTab('html')
         toast.error(
-          `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+          `Your HTML is invalid (${isHTMLValid.errorMessage}). Please check the linter and look for hints on how to fix it.`
         )
         return
       }

@@ -1,6 +1,4 @@
-import { parse } from 'parse5'
 import { checkNesting } from './rules/checkNesting'
-import { walkDom } from './rules/walkDom'
 import { checkVoidTagClosure } from './rules/checkVoidTagClosure'
 
 export function validateHtml5(html: string): {
@@ -8,8 +6,6 @@ export function validateHtml5(html: string): {
   errorMessage?: string
 } {
   try {
-    const document = parse(html, { sourceCodeLocationInfo: true })
-
     if (html.includes('<') && !html.includes('>')) {
       return {
         isValid: false,
@@ -39,14 +35,6 @@ export function validateHtml5(html: string): {
       return {
         isValid: false,
         errorMessage: (err as Error).message,
-      }
-    }
-
-    const walkResult = walkDom(document)
-    if (!walkResult.success) {
-      return {
-        isValid: false,
-        errorMessage: walkResult.message,
       }
     }
 

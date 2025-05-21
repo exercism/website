@@ -57,14 +57,17 @@ export function LHS() {
     if (!jsEditorRef.current || !htmlEditorRef.current) return
 
     const htmlText = htmlEditorRef.current.state.doc.toString()
-    const isHTMLValid = validateHtml(htmlText)
 
-    if (!isHTMLValid.isValid) {
-      setTab('html')
-      toast.error(
-        `Your HTML is invalid. Please check the linter and look for unclosed tags.`
-      )
-      return
+    if (htmlText.length > 0) {
+      const isHTMLValid = validateHtml(htmlText)
+
+      if (!isHTMLValid.isValid) {
+        setTab('html')
+        toast.error(
+          `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+        )
+        return
+      }
     }
 
     const jsView = jsEditorRef.current

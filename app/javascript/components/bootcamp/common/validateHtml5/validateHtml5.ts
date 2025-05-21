@@ -1,4 +1,5 @@
 import { checkNesting } from './rules/checkNesting'
+import { checkOpenTagTermination } from './rules/checkOpeningTagTermination'
 import { checkVoidTagClosure } from './rules/checkVoidTagClosure'
 
 export function validateHtml5(html: string): {
@@ -22,6 +23,15 @@ export function validateHtml5(html: string): {
 
     try {
       checkVoidTagClosure(html)
+    } catch (err) {
+      return {
+        isValid: false,
+        errorMessage: (err as Error).message,
+      }
+    }
+
+    try {
+      checkOpenTagTermination(html)
     } catch (err) {
       return {
         isValid: false,

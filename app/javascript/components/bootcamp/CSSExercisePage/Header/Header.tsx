@@ -46,16 +46,16 @@ function _Header() {
         {solution.status === 'in_progress' && (
           <button
             onClick={handleCompleteSolution}
-            disabled={assertionStatus !== 'pass'}
+            disabled={assertionStatus === 'fail'}
             className={assembleClassNames(
               'btn-primary btn-xxs',
-              assertionStatus === 'pass' ? '' : 'disabled cursor-not-allowed'
+              assertionStatus === 'fail' ? 'disabled cursor-not-allowed' : ''
             )}
           >
             Complete Exercise
           </button>
         )}
-        {assertionStatus === 'pass' && (
+        {assertionStatus !== 'fail' && (
           <>
             <FinishLessonModalContext.Provider
               value={{

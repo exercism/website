@@ -3,6 +3,9 @@ import { launchConfetti } from '../../JikiscriptExercisePage/Tasks/launchConfett
 import { ChecksResult } from '../checks/runChecks'
 
 export const PASS_THRESHOLD = 99
+export const GRACE_THRESHOLD = 96
+
+export type AssertionStatus = 'pass' | 'fail' | 'grace'
 
 type CSSExercisePageStoreState = {
   isDiffModeOn: boolean
@@ -20,9 +23,9 @@ type CSSExercisePageStoreState = {
   setPanelSizes: (panelSizes: { LHSWidth: number; RHSWidth: number }) => void
   matchPercentage: number
   setMatchPercentage: (matchPercentage: number) => void
-  assertionStatus: 'pass' | 'fail' | 'pending'
-  setAssertionStatus: (assertionStatus: 'pass' | 'fail' | 'pending') => void
-  updateAssertionStatus: (newStatus: 'pass' | 'fail') => void
+  assertionStatus: AssertionStatus
+  setAssertionStatus: (assertionStatus: AssertionStatus) => void
+  updateAssertionStatus: (newStatus: AssertionStatus) => void
   isFinishLessonModalOpen: boolean
   setIsFinishLessonModalOpen: (value: boolean) => void
   wasFinishLessonModalShown: boolean
@@ -65,7 +68,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
     setPanelSizes: (panelSizes) => set({ panelSizes }),
     checksResult: [],
     setChecksResult: (checksResult) => set({ checksResult }),
-    assertionStatus: 'pending',
+    assertionStatus: 'fail',
     setAssertionStatus: (assertionStatus) => {
       set({ assertionStatus })
     },
@@ -91,9 +94,7 @@ export const useCSSExercisePageStore = create<CSSExercisePageStoreState>(
           }
           return newState
         })
-      } else {
-        set({ assertionStatus: 'fail' })
-      }
+      } else set({ assertionStatus: newStatus })
     },
     matchPercentage: 0,
     setMatchPercentage: (matchPercentage) => {

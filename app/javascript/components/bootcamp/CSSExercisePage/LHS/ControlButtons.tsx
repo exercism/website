@@ -1,6 +1,9 @@
 import React, { useCallback, useContext } from 'react'
+import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import {
+  AssertionStatus,
+  GRACE_THRESHOLD,
   PASS_THRESHOLD,
   useCSSExercisePageStore,
 } from '../store/cssExercisePageStore'
@@ -13,7 +16,6 @@ import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirro
 import { runHtmlChecks } from '../checks/runHtmlChecks'
 import { CheckResult } from '../checks/runChecks'
 import { runCssChecks } from '../checks/runCssChecks'
-import toast from 'react-hot-toast'
 import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
 
 export function ControlButtons({
@@ -48,7 +50,7 @@ export function ControlButtons({
 
     const percentage = await handleCompare()
 
-    let status: 'pass' | 'fail' = 'fail'
+    let status: AssertionStatus = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
     if (htmlValue.length > 0) {
@@ -69,8 +71,13 @@ export function ControlButtons({
     const allCssChecksPass =
       exercise.cssChecks.length === 0 || cssChecks.success
 
-    if (percentage >= PASS_THRESHOLD && allHtmlChecksPass && allCssChecksPass) {
-      status = 'pass'
+    if (allHtmlChecksPass && allCssChecksPass) {
+      if (percentage >= GRACE_THRESHOLD) {
+        status = 'grace'
+      }
+      if (percentage >= PASS_THRESHOLD) {
+        status = 'pass'
+      }
     } else {
       firstFailingCheck =
         htmlChecks.results.find((check) => !check.passes) ||

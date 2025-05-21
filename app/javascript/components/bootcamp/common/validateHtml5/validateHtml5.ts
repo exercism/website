@@ -25,7 +25,7 @@ export function validateHtml5(html: string): {
     }
 
     try {
-      checkNesting(html)
+      checkVoidTagClosure(html)
     } catch (err) {
       return {
         isValid: false,
@@ -34,7 +34,7 @@ export function validateHtml5(html: string): {
     }
 
     try {
-      checkVoidTagClosure(html)
+      checkNesting(html)
     } catch (err) {
       return {
         isValid: false,

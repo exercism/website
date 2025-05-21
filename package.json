@@ -103,7 +103,6 @@
     "marked": "^15.0.6",
     "mousetrap": "^1.6.5",
     "nim-codemirror-mode": "^0.3.0",
-    "parse5": "^7.3.0",
     "pluralize": "^8.0.0",
     "postcss": "latest",
     "postcss-cli": "^9.1.0",

@@ -51,13 +51,15 @@ export function ControlButtons({
     let status: 'pass' | 'fail' = 'fail'
     let firstFailingCheck: CheckResult | null = null
 
-    const isHTMLValid = validateHtml(htmlValue)
+    if (htmlValue.length > 0) {
+      const isHTMLValid = validateHtml(htmlValue)
 
-    if (!isHTMLValid.isValid) {
-      toast.error(
-        `Your HTML is invalid. Please check the linter and look for unclosed tags.`
-      )
-      return
+      if (!isHTMLValid.isValid) {
+        toast.error(
+          `Your HTML is invalid. Please check the linter and look for unclosed tags.`
+        )
+        return
+      }
     }
 
     const htmlChecks = await runHtmlChecks(exercise.htmlChecks, htmlValue)

@@ -44,6 +44,7 @@ Some points of clarity:
 
 - Every time you move left or right, you move one "position" forward or backwards. That position equates to the places the aliens can be.
 - You cannot shoot twice in a row without moving.
+- The aliens do not move.
 - The aliens do not respawn.
 
 ## Reusing Alien Detector (Coding Fundamentals students)

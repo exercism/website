@@ -2,11 +2,11 @@
 
 Welcome to Space Invaders!
 
-For those of you that took part in Coding Fundamentals, this exercise should feel very familiar. You can use your code from Alien Detector as a reference, although there are a few differences to be away of (see below!)
+For those of you that took part in Coding Fundamentals, this exercise should feel very familiar. You can use your code from Alien Detector as a reference, although there are a few differences to be aware of (see below!)
 
 ## Instructions
 
-Your job in this exercise is create a function called `playGame()` to shoot down all the aliens!
+Your job in this exercise is to create a function called `playGame()` to shoot down all the aliens!
 
 You have four functions available to you:
 

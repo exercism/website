@@ -1,4 +1,5 @@
 import { checkNesting } from './rules/checkNesting'
+import { checkNonVoidSelfClose } from './rules/checkNonVoidSelfClose'
 import { checkOpeningTagTermination } from './rules/checkOpeningTagTermination'
 import { checkVoidTagClosure } from './rules/checkVoidTagClosure'
 
@@ -18,6 +19,15 @@ export function validateHtml5(html: string): {
       return {
         isValid: false,
         errorMessage: 'Unclosed tag at end of document',
+      }
+    }
+
+    try {
+      checkNonVoidSelfClose(html)
+    } catch (err) {
+      return {
+        isValid: false,
+        errorMessage: (err as Error).message,
       }
     }
 

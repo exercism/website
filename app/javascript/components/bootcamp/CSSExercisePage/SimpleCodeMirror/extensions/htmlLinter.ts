@@ -6,6 +6,12 @@ export const htmlLinter = cmLinter((view) => {
   const code = view.state.doc.toString()
   const messages = HTMLHint.verify(code, {
     'tag-pair': true,
+    'attr-no-duplication': true,
+    'attr-unsafe-chars': true,
+    'tagname-lowercase': true,
+    'attr-lowercase': true,
+    'id-unique': true,
+    'spec-char-escape': true,
   })
 
   const diagnostics: Diagnostic[] = messages.map((msg) => ({

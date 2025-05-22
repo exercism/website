@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-const browserslistToEsbuild = require('browserslist-to-esbuild')
+const {
+  nodeModulesPolyfillPlugin,
+} = require('esbuild-plugins-node-modules-polyfill')
+const mockFsPlugin = require('./esbuild-helpers/esbuild-plugin-mock-fs')
 
 function build() {
   const env = require('./.config/env.json')
@@ -28,6 +31,7 @@ function build() {
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
       target: 'es2022',
+      inject: ['./app/javascript/esbuild-helpers/process-shim.js'],
       define: {
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
@@ -38,7 +42,11 @@ function build() {
           env['website_assets_host'] || ''
         }"`,
       },
-      plugins: [ImportGlobPlugin.default()],
+      plugins: [
+        ImportGlobPlugin.default(),
+        nodeModulesPolyfillPlugin(),
+        mockFsPlugin,
+      ],
     })
     .catch(() => process.exit(1))
 }

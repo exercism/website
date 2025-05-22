@@ -7,6 +7,7 @@ class Bootcamp::Solution::CreateTest < ActiveSupport::TestCase
     create :bootcamp_user_project, user:, project:, status: :available
     exercise = create(:bootcamp_exercise, project:)
     exercise.stubs(:stub).returns("Something")
+    exercise.stubs(:language).returns("jikiscript")
 
     solution = Bootcamp::Solution::Create.(user, exercise)
     assert solution.persisted?
@@ -45,6 +46,7 @@ class Bootcamp::Solution::CreateTest < ActiveSupport::TestCase
     exercise_2 = create :bootcamp_exercise, project:, slug: exercise_2_slug
     exercise_3 = create(:bootcamp_exercise, project:)
     exercise_3.stubs(:stub).returns(template)
+    exercise_3.stubs(:language).returns("jikiscript")
 
     create :bootcamp_solution, user:, exercise: exercise_1, code: solution_1_code, completed_at: Time.current
     create :bootcamp_solution, user:, exercise: exercise_2, code: solution_2_code, completed_at: Time.current

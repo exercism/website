@@ -9,13 +9,18 @@ type Links = {
   create: string
 }
 
+type CreateSubmissionParams = {
+  files: File[]
+  testResults: Object | null
+}
+
 export const useSubmissionsList = (
   defaultList: readonly Submission[],
   links: Links
 ): {
   current: Submission | null
   create: (
-    files: File[],
+    params: CreateSubmissionParams,
     config?: { onSuccess: () => void; onError: (error: unknown) => void }
   ) => void
   set: (uuid: string, data: Submission) => void
@@ -23,12 +28,17 @@ export const useSubmissionsList = (
 } => {
   const [list, setList] = useState(defaultList)
 
-  const { mutate: create } = useMutation<Submission, unknown, File[]>(
-    async (files) => {
+  const { mutate: create } = useMutation<
+    Submission,
+    unknown,
+    CreateSubmissionParams
+  >(
+    async ({ files, testResults }) => {
+      const testResultsJson = testResults ? JSON.stringify(testResults) : null
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
-        body: JSON.stringify({ files: files }),
+        body: JSON.stringify({ files, test_results_json: testResultsJson }),
       })
 
       return fetch.then((response) =>

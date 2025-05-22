@@ -75,7 +75,8 @@ module ReactComponents
           icon_url: track.icon_url,
           median_wait_time: track.median_wait_time
         },
-        show_deep_dive_video: show_deep_dive_video?
+        show_deep_dive_video: show_deep_dive_video?,
+        local_test_runner:
       }
     end
 
@@ -100,6 +101,10 @@ module ReactComponents
       return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
       true
+    end
+
+    def local_test_runner
+      Solution::GenerateTestRunConfig.(solution)
     end
 
     def mark_video_as_seen_endpoint

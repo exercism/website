@@ -11,6 +11,7 @@ import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore
 import toast from 'react-hot-toast'
 import { wrapJSCode } from './wrapJSCode'
 import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
+import { normalizeHtmlText } from '../../common/validateHtml5/normalizeHtmlText'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -59,8 +60,8 @@ export function LHS() {
     const htmlText = htmlEditorRef.current.state.doc.toString()
 
     if (htmlText.length > 0) {
-      const htmlWithoutComments = htmlText.replace(/<!--[\s\S]*?-->/g, '')
-      const isHTMLValid = validateHtml5(htmlWithoutComments)
+      const normalizedHtml = normalizeHtmlText(htmlText)
+      const isHTMLValid = validateHtml5(normalizedHtml)
 
       if (!isHTMLValid.isValid) {
         setTab('html')

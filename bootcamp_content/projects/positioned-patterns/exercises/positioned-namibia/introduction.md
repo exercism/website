@@ -31,6 +31,8 @@ For the emblem:
 - The target implemenation uses `px` values for nearly everything. The only exception is `transform` and `border-radius` which use `%`.
 - There is a straight-forward approach to positioning the triangles that is pain-free. Try and find the right method, not the right arbitary set of magic co-ordinates!
 
+I highly recommend **not** embedding this in the blue section, else you're going to have to do a lot of maths with the rotations. Instead place it arbitarily on top of the stripes.
+
 ## Think first!
 
 This exercise is not simple, but it **is** achievable. The key to all of the parts are choosing the right concepts and mechanisms. Get one part right first before worrying about the next part etc.

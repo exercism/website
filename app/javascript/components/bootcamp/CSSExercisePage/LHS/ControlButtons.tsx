@@ -54,7 +54,8 @@ export function ControlButtons({
     let firstFailingCheck: CheckResult | null = null
 
     if (htmlValue.length > 0) {
-      const isHTMLValid = validateHtml5(htmlValue)
+      const htmlWithoutComments = htmlValue.replace(/<!--[\s\S]*?-->/g, '')
+      const isHTMLValid = validateHtml5(htmlWithoutComments)
 
       if (!isHTMLValid.isValid) {
         toast.error(

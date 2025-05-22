@@ -16,7 +16,7 @@ export type TabIndex = 'html' | 'css' | 'javascript'
 
 export const TabsContext = createContext<TabContext>({
   current: 'html',
-  switchToTab: () => { },
+  switchToTab: () => {},
 })
 
 export function LHS() {
@@ -59,7 +59,8 @@ export function LHS() {
     const htmlText = htmlEditorRef.current.state.doc.toString()
 
     if (htmlText.length > 0) {
-      const isHTMLValid = validateHtml5(htmlText)
+      const htmlWithoutComments = htmlText.replace(/<!--[\s\S]*?-->/g, '')
+      const isHTMLValid = validateHtml5(htmlWithoutComments)
 
       if (!isHTMLValid.isValid) {
         setTab('html')

@@ -180,14 +180,12 @@ export default ({
         config: localTestRunner,
         files,
       })
-
-      console.log(testResults)
     } catch (e) {
-      console.warn('There was an error running test clientside:', e)
+      console.warn('There was an error running tests clientside:', e)
     }
 
     createSubmission(
-      { files, testResults: null },
+      { files, testResults },
       {
         onSuccess: () => {
           dispatch({ status: EditorStatus.INITIALIZED })

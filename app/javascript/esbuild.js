@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-const alias = require('esbuild-plugin-alias')
-const path = require('path')
-
-const mockFsPlugin = require('./esbuild-helpers/esbuild-plugin-mock-fs')
 
 function build() {
   const env = require('./.config/env.json')
@@ -31,10 +27,6 @@ function build() {
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
       target: 'es2022',
-      inject: [
-        './app/javascript/esbuild-helpers/process-shim.js',
-        './app/javascript/esbuild-helpers/global-shim.js',
-      ],
       define: {
         // global: 'window',
         // TODO: move bugsnag API key into config
@@ -46,17 +38,7 @@ function build() {
           env['website_assets_host'] || ''
         }"`,
       },
-      plugins: [
-        ImportGlobPlugin.default(),
-        // nodeModulesPolyfillPlugin(),
-        mockFsPlugin,
-        alias({
-          path: path.resolve(__dirname, './esbuild-helpers/path-shim.js'),
-          util: path.resolve(__dirname, './esbuild-helpers/util-shim.js'),
-          url: path.resolve(__dirname, './esbuild-helpers/url-shim.js'),
-          module: path.resolve(__dirname, './esbuild-helpers/module-shim.js'),
-        }),
-      ],
+      plugins: [ImportGlobPlugin.default()],
     })
     .catch(() => process.exit(1))
 }

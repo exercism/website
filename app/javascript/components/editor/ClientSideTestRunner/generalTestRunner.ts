@@ -1,6 +1,6 @@
 import { OutputInterface } from '@exercism/javascript-browser-test-runner/src/output'
 import { File } from '../../types'
-import { runTests } from '@exercism/javascript-browser-test-runner/src/index'
+import { runTests } from '@exercism/javascript-browser-test-runner'
 
 type FileMap = Record<string, string>
 

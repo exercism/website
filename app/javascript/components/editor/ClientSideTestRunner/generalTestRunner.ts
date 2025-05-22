@@ -4,29 +4,55 @@ import { runTests } from '@exercism/javascript-browser-test-runner/src/index'
 
 type FileMap = Record<string, string>
 
+interface RunTestsClientSideParams {
+  trackSlug: string
+  exerciseSlug: string
+  config?: { files?: FileMap }
+  files: File[]
+}
+
 export async function runTestsClientSide({
   trackSlug,
   exerciseSlug,
-  config,
+  config = {},
   files,
-}: {
-  trackSlug: string
-  exerciseSlug: string
-  config: { files: FileMap }
-  files: File[]
-}): Promise<OutputInterface | null> {
-  const studentFileMap = Object.fromEntries(
-    files.map(({ filename, content }) => [filename, content])
-  )
-
-  const studentFilenames = Object.keys(studentFileMap)
-  const allFiles = { ...config.files, ...studentFileMap }
-
-  switch (trackSlug) {
-    case 'javascript':
-      return runTests(exerciseSlug, allFiles, studentFilenames)
-
-    default:
+}: RunTestsClientSideParams): Promise<OutputInterface | null> {
+  try {
+    if (!trackSlug || !exerciseSlug || !Array.isArray(files)) {
+      console.warn('Missing required params in runTestsClientSide')
       return null
+    }
+
+    switch (trackSlug) {
+      case 'javascript': {
+        const studentFileMap: FileMap = Object.fromEntries(
+          files
+            .filter(
+              (f): f is File => !!f.filename && typeof f.content === 'string'
+            )
+            .map(({ filename, content }) => [filename, content])
+        )
+
+        if (Object.keys(studentFileMap).length === 0) {
+          console.warn('studentFileMap is empty in runTestsClientSide')
+          return null
+        }
+
+        const allFiles: FileMap = {
+          ...(config.files || {}),
+          ...studentFileMap,
+        }
+
+        const studentFilenames = Object.keys(studentFileMap)
+
+        return await runTests(exerciseSlug, allFiles, studentFilenames)
+      }
+
+      default:
+        return null
+    }
+  } catch (error) {
+    console.error('runTestsClientSide failed:', error)
+    return null
   }
 }

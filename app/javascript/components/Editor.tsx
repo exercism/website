@@ -52,7 +52,6 @@ import {
 import { RealtimeFeedbackModal } from './modals'
 import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
 import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
-import { runTestsClientSide } from './editor/ClientSideTestRunner/generalTestRunner'
 
 export type TabIndex =
   | 'instructions'
@@ -169,15 +168,26 @@ export default ({
   const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    const testResults = await runTestsClientSide({
-      trackSlug: track.slug,
-      exerciseSlug: exercise.slug,
-      config: localTestRunner,
-      files,
-    })
+    let testResults: any = null
+    try {
+      const { runTestsClientSide } = await import(
+        './editor/ClientSideTestRunner/generalTestRunner'
+      )
+
+      testResults = await runTestsClientSide({
+        trackSlug: track.slug,
+        exerciseSlug: exercise.slug,
+        config: localTestRunner,
+        files,
+      })
+
+      console.log(testResults)
+    } catch (e) {
+      console.warn('There was an error running test clientside:', e)
+    }
 
     createSubmission(
-      { files, testResults },
+      { files, testResults: null },
       {
         onSuccess: () => {
           dispatch({ status: EditorStatus.INITIALIZED })

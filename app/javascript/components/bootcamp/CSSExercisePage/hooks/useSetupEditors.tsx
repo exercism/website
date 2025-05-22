@@ -4,6 +4,7 @@ import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
 import { EditorView } from 'codemirror'
 import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { useLazyLocalStorage } from './useLazyLocalStorage'
 
 export type ReadonlyRange = { from: number; to: number }
 
@@ -236,10 +237,14 @@ function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
 
   let parsed: { html?: string; css?: string } = {}
 
+  const stack = new Error().stack
+  console.log('Stack trace:\n', stack)
+  console.log('code', code)
   try {
     parsed = JSON.parse(code.code)
   } catch (error) {
-    console.error('Error parsing initial code:', error)
+    // console.error('Error parsing initial code:', error)
+    console.log('we are here')
     return fallbackCode
   }
 

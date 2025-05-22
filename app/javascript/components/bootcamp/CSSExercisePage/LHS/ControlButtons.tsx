@@ -17,6 +17,7 @@ import { runHtmlChecks } from '../checks/runHtmlChecks'
 import { CheckResult } from '../checks/runChecks'
 import { runCssChecks } from '../checks/runCssChecks'
 import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
+import { normalizeHtmlText } from '../../common/validateHtml5/normalizeHtmlText'
 
 export function ControlButtons({
   getEditorValues,
@@ -54,7 +55,8 @@ export function ControlButtons({
     let firstFailingCheck: CheckResult | null = null
 
     if (htmlValue.length > 0) {
-      const isHTMLValid = validateHtml5(htmlValue)
+      const normalizedHtml = normalizeHtmlText(htmlValue)
+      const isHTMLValid = validateHtml5(normalizedHtml)
 
       if (!isHTMLValid.isValid) {
         toast.error(

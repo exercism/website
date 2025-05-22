@@ -94,7 +94,7 @@ export function ControlButtons({
       postUrl: links.postSubmission,
       code,
       testResults: {
-        status,
+        status: status === 'grace' ? 'pass' : status,
         tests: [],
       },
       customFunctions: [],

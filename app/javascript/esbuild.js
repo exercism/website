@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-const browserslistToEsbuild = require('browserslist-to-esbuild')
 
 function build() {
   const env = require('./.config/env.json')
@@ -29,6 +28,7 @@ function build() {
       tsconfig: './tsconfig.json',
       target: 'es2022',
       define: {
+        // global: 'window',
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
 

@@ -1482,6 +1482,11 @@
   resolved "https://registry.yarnpkg.com/@exercism/html-to-image/-/html-to-image-1.11.17.tgz#a5169dd4b586c1b6c0cca4e120e66a92894a551d"
   integrity sha512-Op7NIpWXanCrU6qNI/D8nOMs4HLXlIFE35XDOEVI2qEEZn8FMIoITogr8Xl/FC8HMUhFyyojNwQyWBp9+bObRA==
 
+"@exercism/javascript-browser-test-runner@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@exercism/javascript-browser-test-runner/-/javascript-browser-test-runner-0.3.0.tgz#affbd67663353c4c7116f5b4d7557e73c0864d92"
+  integrity sha512-8od9p+r0po/jmK1aXWGYBm36xYflnbhrLP8UZ5RKoMbPn4lq2bUCCgsF+ONrZngW3ZqpBpbSI5Nrg6BfKNdWHQ==
+
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"
   resolved "https://github.com/exercism/twine2-story-format.git#ab0ed60553b2c6f06d51c4f91df35e29ac4ba865"
@@ -4871,6 +4876,11 @@ esbuild-openbsd-64@0.14.54:
   version "0.14.54"
   resolved "https://registry.yarnpkg.com/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.54.tgz#db4c8495287a350a6790de22edea247a57c5d47b"
   integrity sha512-Qyk7ikT2o7Wu76UsvvDS5q0amJvmRzDyVlL0qf5VLsLchjCa1+IAvd8kTBgUxD7VBUUVgItLkk609ZHUc1oCaw==
+
+esbuild-plugin-alias@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-alias/-/esbuild-plugin-alias-0.2.1.tgz#45a86cb941e20e7c2bc68a2bea53562172494fcb"
+  integrity sha512-jyfL/pwPqaFXyKnj8lP8iLk6Z0m099uXR45aSN8Av1XD4vhvQutxxPzgA2bTcAwQpa1zCXDcWOlhFgyP3GKqhQ==
 
 esbuild-plugin-import-glob@^0.1.1:
   version "0.1.1"

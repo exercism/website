@@ -248,7 +248,10 @@ initReact({
 
   editor: (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
+      <Editor
+        {...camelizeKeysAs<EditorProps>(data)}
+        localTestRunner={data.local_test_runner}
+      />
     </Suspense>
   ),
 

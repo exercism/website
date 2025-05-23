@@ -108,6 +108,7 @@ export default ({
   showDeepDiveVideo,
   hasAvailableMentoringSlot,
   features = { theme: false, keybindings: false },
+  localTestRunner,
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
@@ -127,7 +128,9 @@ export default ({
     current: submission,
     set: setSubmission,
     remove: removeSubmission,
-  } = useSubmissionsList(defaultSubmissions, { create: links.runTests })
+  } = useSubmissionsList(defaultSubmissions, {
+    create: links.runTests,
+  })
   const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
   const { create: createIteration } = useIteration()
   const { get: getFiles, set: setFiles } = useEditorFiles({
@@ -162,44 +165,63 @@ export default ({
     else setIsProcessing(false)
   }, [status, testRunStatus])
 
-  const runTests = useCallback(() => {
+  const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    createSubmission(files, {
-      onSuccess: () => {
-        dispatch({ status: EditorStatus.INITIALIZED })
-        setSubmissionFiles(files)
-        setHasLatestIteration(false)
-      },
-      onError: async (error) => {
-        let editorError: null | Promise<{ type: string; message: string }> =
-          null
+    let testResults: any = null
+    try {
+      const { runTestsClientSide } = await import(
+        './editor/ClientSideTestRunner/generalTestRunner'
+      )
 
-        if (error instanceof Error) {
-          editorError = Promise.resolve({
-            type: 'unknown',
-            message: 'Unable to submit file. Please try again.',
-          })
-        } else if (error instanceof Response) {
-          editorError = error
-            .json()
-            .then((json) => json.error)
-            .catch(() => {
-              return {
-                type: 'unknown',
-                message: 'Unable to submit file. Please try again.',
-              }
+      testResults = await runTestsClientSide({
+        trackSlug: track.slug,
+        exerciseSlug: exercise.slug,
+        config: localTestRunner,
+        files,
+      })
+    } catch (e) {
+      console.warn('There was an error running tests clientside:', e)
+    }
+
+    createSubmission(
+      { files, testResults },
+      {
+        onSuccess: () => {
+          dispatch({ status: EditorStatus.INITIALIZED })
+          setSubmissionFiles(files)
+          setHasLatestIteration(false)
+        },
+        onError: async (error) => {
+          let editorError: null | Promise<{ type: string; message: string }> =
+            null
+
+          if (error instanceof Error) {
+            editorError = Promise.resolve({
+              type: 'unknown',
+              message: 'Unable to submit file. Please try again.',
             })
-        }
+          } else if (error instanceof Response) {
+            editorError = error
+              .json()
+              .then((json) => json.error)
+              .catch(() => {
+                return {
+                  type: 'unknown',
+                  message: 'Unable to submit file. Please try again.',
+                }
+              })
+          }
 
-        if (editorError) {
-          dispatch({
-            status: EditorStatus.CREATE_SUBMISSION_FAILED,
-            error: await editorError,
-          })
-        }
-      },
-    })
+          if (editorError) {
+            dispatch({
+              status: EditorStatus.CREATE_SUBMISSION_FAILED,
+              error: await editorError,
+            })
+          }
+        },
+      }
+    )
   }, [createSubmission, dispatch, files])
 
   const showFeedbackModal = useCallback(() => {

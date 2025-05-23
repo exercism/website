@@ -16,7 +16,7 @@ class API::Solutions::SubmissionsController < API::BaseController
 
     # TODO: (Required) Allow rerunning of tests if previous submission was an error / ops error / timeout
     begin
-      submission = Submission::Create.(solution, files, :api)
+      submission = Submission::Create.(solution, files, :api, params[:test_results_json])
     rescue DuplicateSubmissionError
       return render_error(400, :duplicate_submission)
     end
@@ -28,6 +28,6 @@ class API::Solutions::SubmissionsController < API::BaseController
 
   private
   def submission_params
-    params.permit(files: %i[filename content])
+    params.permit(:test_results_json, :solution_uuid, files: %i[filename content type])
   end
 end

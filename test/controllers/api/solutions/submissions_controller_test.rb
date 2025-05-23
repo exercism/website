@@ -66,9 +66,28 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       { filename: "foo", content: "bar" },
       { filename: "bar", content: "foo" }
     ]
-    Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
+    Submission::Create.expects(:call).with(solution, files, :api, nil).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),
+      params: { files: },
+      headers: @headers,
+      as: :json
+
+    assert_response :created
+  end
+
+  test "create should proxy test results" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    files = [
+      { filename: "foo", content: "bar" },
+      { filename: "bar", content: "foo" }
+    ]
+    test_results_json = { "foo": "bar" }.to_json
+    Submission::Create.expects(:call).with(solution, files, :api, test_results_json).returns(create(:submission))
+
+    post api_solution_submissions_path(solution.uuid, test_results_json:),
       params: { files: },
       headers: @headers,
       as: :json

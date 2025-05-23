@@ -41,7 +41,6 @@ export const useSubmissionsList = (
         method: 'POST',
         body: JSON.stringify({ files, test_results_json: testResultsJson }),
       })
-
       return fetch.then((response) =>
         typecheck<Submission>(response, 'submission')
       )
@@ -113,7 +112,7 @@ export const useSubmissionsList = (
           outputHtml: '',
           highlightjsLanguage: '',
           links: {
-            self: fauxSubmission.links.testRun,
+            self: '',
           },
           tasks: [],
         },

@@ -264,7 +264,8 @@ const TestRunSummaryContent = ({
               Estimated running time ~ {testRunner.averageTestDuration}s
             </span>
           </p>
-          {onCancel !== undefined ? (
+          {onCancel !== undefined &&
+          testRun.submissionUuid !== 'faux-submission' ? (
             <button
               type="button"
               onClick={() => onCancel()}

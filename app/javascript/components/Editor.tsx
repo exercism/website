@@ -282,10 +282,7 @@ export default ({
       setSubmission(submission.uuid, { ...submission, testRun: testRun })
     },
 
-    // not stringifying this will lead to an infinite loop
-    // see https://github.com/exercism/website/pull/3137#discussion_r1015500657
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setSubmission, JSON.stringify(submission)]
+    [setSubmission, submission?.uuid]
   )
   const editorDidMount = useCallback(
     (editor) => {
@@ -335,7 +332,13 @@ export default ({
         }
       },
     })
-  }, [submission, dispatch, revertToLastIteration, setFiles, defaultFiles])
+  }, [
+    submission?.uuid,
+    dispatch,
+    revertToLastIteration,
+    setFiles,
+    defaultFiles,
+  ])
 
   const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
@@ -378,7 +381,13 @@ export default ({
         }
       },
     })
-  }, [submission, dispatch, revertToExerciseStart, setFiles, defaultFiles])
+  }, [
+    submission?.uuid,
+    dispatch,
+    revertToExerciseStart,
+    setFiles,
+    defaultFiles,
+  ])
 
   const handleCancelled = useCallback(() => {
     if (!submission) {
@@ -387,7 +396,7 @@ export default ({
 
     removeSubmission(submission.uuid)
     setHasCancelled(true)
-  }, [removeSubmission, setHasCancelled, submission])
+  }, [removeSubmission, setHasCancelled, submission?.uuid])
 
   useEffect(() => {
     if (!submission) {

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Submission, TestRunStatus, TestRun } from './types'
-import { File } from '../types'
+import { File, SubmissionTestsStatus } from '../types'
 import { useMutation } from '@tanstack/react-query'
 import { typecheck } from '../../utils/typecheck'
 
@@ -35,6 +35,7 @@ export const useSubmissionsList = (
   >(
     async ({ files, testResults }) => {
       const testResultsJson = testResults ? JSON.stringify(testResults) : null
+      appendFaux()
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
@@ -48,7 +49,7 @@ export const useSubmissionsList = (
     {
       onSuccess: (submission) => {
         setList([
-          ...list,
+          ...list.filter((s) => s.uuid !== 'faux-submission'),
           {
             ...submission,
             testRun: {
@@ -75,16 +76,56 @@ export const useSubmissionsList = (
 
   const set = useCallback(
     (uuid: string, data: Submission) => {
-      setList(list.map((s) => (s.uuid === uuid ? data : s)))
+      setList((prevList) => prevList.map((s) => (s.uuid === uuid ? data : s)))
     },
-    [JSON.stringify(list)]
+    [setList]
   )
+
+  // append a faux submission at the moment someone clicks "Run Tests"
+  // to force the UI into the "Running tests" state
+  const appendFaux = useCallback(() => {
+    const fauxSubmission: Submission = {
+      testsStatus: SubmissionTestsStatus.NOT_QUEUED,
+      uuid: 'faux-submission',
+      links: {
+        cancel: '',
+        submit: '',
+        testRun: '',
+        aiHelp: '',
+        initialFiles: '',
+        lastIterationFiles: '',
+      },
+    }
+
+    setList((prev) => [
+      ...prev,
+      {
+        ...fauxSubmission,
+        testRun: {
+          uuid: null,
+          submissionUuid: fauxSubmission.uuid,
+          version: 0,
+          status: TestRunStatus.QUEUED,
+          tests: [],
+          message: '',
+          messageHtml: '',
+          output: '',
+          outputHtml: '',
+          highlightjsLanguage: '',
+          links: {
+            self: fauxSubmission.links.testRun,
+          },
+          tasks: [],
+        },
+      },
+    ])
+  }, [setList])
 
   const remove = useCallback(
     (uuid: string) => {
-      setList(list.filter((s) => s.uuid !== uuid))
+      setList((list) => list.filter((s) => s.uuid !== uuid))
     },
-    [JSON.stringify(list)]
+    [setList]
   )
 
   const current = list[list.length - 1] || null
@@ -109,7 +150,7 @@ export const useSubmissionsList = (
 
       set(current.uuid, { ...current, testRun: testRun })
     })
-  }, [JSON.stringify(defaultList), set])
+  }, [set])
 
   return { current, create, set, remove }
 }

@@ -11,16 +11,16 @@ function updateBallCoordinates() {
   ball.left += ball.velocityX
   ball.top += ball.velocityY
 
-  if (ball.left < 0 + ball.size / 2) {
+  if (ball.left <= 0 + ball.size / 2) {
     ball.velocityX = 1 * ball.speed
   }
-  if (ball.left > 100 - ball.size / 2) {
+  if (ball.left >= 100 - ball.size / 2) {
     ball.velocityX = -1 * ball.speed
   }
-  if (ball.top < 0 + ball.size / 2) {
+  if (ball.top <= 0 + ball.size / 2) {
     ball.velocityY = 1 * ball.speed
   }
-  if (ball.top > 100 - ball.size / 2) {
+  if (ball.top >= 100 - ball.size / 2) {
     ball.velocityY = -1 * ball.speed
   }
   return true

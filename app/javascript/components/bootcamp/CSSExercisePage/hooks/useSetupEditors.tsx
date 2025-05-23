@@ -4,6 +4,7 @@ import { useEditorHandler } from './useEditorHandler'
 import { updateIFrame } from '../utils/updateIFrame'
 import { EditorView } from 'codemirror'
 import { updateReadOnlyRangesEffect } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { getInitialEditorCode } from './getInitialEditorCode'
 
 export type ReadonlyRange = { from: number; to: number }
 
@@ -217,39 +218,4 @@ function resetSingleEditor(
   if (!view) return
   setupEditor(view, { code: '', readonlyRanges: [] })
   setupEditor(view, { code: content, readonlyRanges })
-}
-
-function getInitialEditorCode(code: CSSExercisePageCode): EditorCode {
-  const fallbackReadonlyRanges = {
-    html: code.defaultReadonlyRanges?.html || [],
-    css: code.defaultReadonlyRanges?.css || [],
-  }
-
-  const fallbackCode: EditorCode = {
-    htmlEditorContent: code.stub.html,
-    cssEditorContent: code.stub.css,
-    storedAt: new Date().toISOString(),
-    readonlyRanges: fallbackReadonlyRanges,
-  }
-
-  if (!code.code) return fallbackCode
-
-  let parsed: { html?: string; css?: string } = {}
-
-  try {
-    parsed = JSON.parse(code.code)
-  } catch (error) {
-    console.error('Error parsing initial code:', error)
-    return fallbackCode
-  }
-
-  const html = parsed.html?.trim() || code.stub.html
-  const css = parsed.css?.trim() || code.stub.css
-
-  return {
-    htmlEditorContent: html,
-    cssEditorContent: css,
-    storedAt: new Date().toISOString(),
-    readonlyRanges: fallbackReadonlyRanges,
-  }
 }

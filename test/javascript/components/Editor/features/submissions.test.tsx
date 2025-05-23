@@ -89,7 +89,9 @@ test('shows message when test times out', async () => {
     userEvent.click(screen.getByRole('button', { name: /Run Tests/i }))
   })
   expect(await screen.findByText(/Running tests/i)).toBeInTheDocument()
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+  })
   expect(await screen.findByText('Your tests timed out')).toBeInTheDocument()
 })
 

@@ -12,6 +12,9 @@ import toast from 'react-hot-toast'
 import { wrapJSCode } from './wrapJSCode'
 import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
 import { normalizeHtmlText } from '../../common/validateHtml5/normalizeHtmlText'
+import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
+import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
+import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -32,6 +35,7 @@ export function LHS() {
     expectedReferenceIFrameRef,
     exercise,
     code,
+    links,
   } = useContext(FrontendExercisePageContext)
 
   const {
@@ -57,10 +61,10 @@ export function LHS() {
   const handleRunCode = useCallback(() => {
     if (!jsEditorRef.current || !htmlEditorRef.current) return
 
-    const htmlText = htmlEditorRef.current.state.doc.toString()
+    const htmlCode = htmlEditorRef.current.state.doc.toString()
 
-    if (htmlText.length > 0) {
-      const normalizedHtml = normalizeHtmlText(htmlText)
+    if (htmlCode.length > 0) {
+      const normalizedHtml = normalizeHtmlText(htmlCode)
       const isHTMLValid = validateHtml5(normalizedHtml)
 
       if (!isHTMLValid.isValid) {
@@ -72,8 +76,43 @@ export function LHS() {
       }
     }
 
+    const cssCode = cssEditorRef.current?.state.doc.toString()
+
     const jsView = jsEditorRef.current
     const jsCode = jsEditorRef.current.state.doc.toString()
+
+    const cssReadonlyRanges = getCodeMirrorFieldValue(
+      cssEditorRef.current,
+      readOnlyRangesStateField
+    )
+    const htmlReadonlyRanges = getCodeMirrorFieldValue(
+      htmlEditorRef.current,
+      readOnlyRangesStateField
+    )
+    const jsReadonlyRanges = getCodeMirrorFieldValue(
+      jsEditorRef.current,
+      readOnlyRangesStateField
+    )
+
+    const submittedCode = JSON.stringify({
+      html: htmlCode,
+      css: cssCode,
+      js: jsCode,
+    })
+    submitCode({
+      postUrl: links.postSubmission,
+      code: submittedCode,
+      testResults: {
+        status: 'unknown',
+        tests: [],
+      },
+      customFunctions: [],
+      readonlyRanges: {
+        html: cssReadonlyRanges,
+        css: cssReadonlyRanges,
+        js: jsReadonlyRanges,
+      },
+    })
 
     const result = parseJS(jsView.state.doc.toString())
     switch (result.status) {
@@ -87,8 +126,8 @@ export function LHS() {
           actualIFrameRef,
           {
             script: fullScript,
-            html: htmlEditorRef.current?.state.doc.toString(),
-            css: cssEditorRef.current?.state.doc.toString(),
+            html: htmlCode,
+            css: cssCode,
           },
           code
         )

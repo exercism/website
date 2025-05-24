@@ -14,6 +14,7 @@ export async function submitCode({
   readonlyRanges:
     | ReadonlyRange[]
     | { html: ReadonlyRange[]; css: ReadonlyRange[] }
+    | { html: ReadonlyRange[]; css: ReadonlyRange[]; js: ReadonlyRange[] }
   customFunctions: string[]
 }) {
   const response = await fetch(postUrl, {

@@ -4,7 +4,7 @@ class Bootcamp::Submission < ApplicationRecord
   serialize :test_results, JSONWithIndifferentAccess
   serialize :readonly_ranges, JSONWithIndifferentAccess
   serialize :custom_functions, JSONWithIndifferentAccess
-  enum :status, { pass: 0, fail: 1, pass_bonus: 2 }
+  enum :status, { pass: 0, fail: 1, pass_bonus: 2, unknown: 3 }
 
   scope :passed, -> { where(status: :pass) }
   scope :passed_bonus, -> { where(status: :pass_bonus) }

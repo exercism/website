@@ -2,7 +2,7 @@ jest.mock(
   '../../../../../app/javascript/components/editor/FileEditorCodeMirror'
 )
 
-import React from 'react'
+import React, { act } from 'react'
 import { waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
@@ -60,7 +60,7 @@ afterAll(() => {
 })
 
 test('shows message when test times out', async () => {
-  const props = buildEditor({ overrides: { timeout: 1000 } })
+  const props = buildEditor({ overrides: { timeout: 500 } })
   const { promise } = deferred()
 
   server.use(
@@ -85,8 +85,13 @@ test('shows message when test times out', async () => {
 
   render(<Editor {...props} />)
 
-  userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
+  await act(async () => {
+    userEvent.click(screen.getByRole('button', { name: /Run Tests/i }))
+  })
   expect(await screen.findByText(/Running tests/i)).toBeInTheDocument()
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+  })
   expect(await screen.findByText('Your tests timed out')).toBeInTheDocument()
 })
 
@@ -95,7 +100,9 @@ test('cancels a pending submission', async () => {
 
   render(<Editor {...props} />)
 
-  userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
+  await act(async () => {
+    userEvent.click(screen.getByRole('button', { name: /Run Tests/i }))
+  })
   expect(await screen.findByText('Running tests…')).toBeInTheDocument()
   userEvent.click(await screen.findByRole('button', { name: /cancel/i }))
 
@@ -106,7 +113,9 @@ test('makes editor readonly while submitting tests', async () => {
 
   render(<Editor {...props} />)
 
-  userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
+  await act(async () => {
+    userEvent.click(screen.getByRole('button', { name: /Run Tests/i }))
+  })
   expect(await screen.findByText('Running tests…')).toBeInTheDocument()
   expect(screen.getByText('Readonly: true')).toBeInTheDocument()
 })

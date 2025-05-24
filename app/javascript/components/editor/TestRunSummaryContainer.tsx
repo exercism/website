@@ -29,6 +29,7 @@ export const TestRunSummaryContainer = ({
     {
       endpoint: testRun.links.self,
       options: {
+        enabled: testRun.submissionUuid !== 'faux-submission',
         refetchInterval:
           testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
       },
@@ -68,14 +69,16 @@ export const TestRunSummaryContainer = ({
   useEffect(() => {
     switch (testRun.status) {
       case TestRunStatus.QUEUED:
-        handleQueued()
+        if (testRun.submissionUuid !== 'faux-submission') {
+          handleQueued()
+        }
         break
       default:
         clearTimeout(timer.current)
         channel.current?.disconnect()
         break
     }
-  }, [handleQueued, testRun.status])
+  }, [handleQueued, testRun.status, testRun.submissionUuid])
 
   useEffect(() => {
     channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {

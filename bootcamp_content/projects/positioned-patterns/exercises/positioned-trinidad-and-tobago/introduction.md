@@ -4,8 +4,6 @@ Next up we have the flag of Trinidad and Tobago.
 
 This is the first flag where you have things working at a diagonal.
 
-To start with we look at Portugal. This is a straightforward split background, with a single element positioned across the intersection of the two colors.
-
 ## Instructions
 
 Behind the scenes we've added some CSS so that your outermost element will fill the space fully.

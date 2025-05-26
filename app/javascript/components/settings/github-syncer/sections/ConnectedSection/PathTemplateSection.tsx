@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 const DEFAULT = ''
 export function PathTemplateSection() {
@@ -12,6 +14,8 @@ export function PathTemplateSection() {
   const [isRevertPathTemplateModalOpen, setIsRevertPathTemplateModalOpen] =
     useState(false)
 
+  const [isTemplateInvalid, setIsTemplateInvalid] = useState<boolean>(false)
+
   const handleRevertPathTemplate = useCallback(() => {
     setPathTemplate(DEFAULT)
     handleSaveChanges()
@@ -20,21 +24,35 @@ export function PathTemplateSection() {
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return
+
+    if (!isPathTemplateValid(pathTemplate)) {
+      setIsTemplateInvalid(true)
+      return
+    } else {
+      setIsTemplateInvalid(false)
+    }
+
     fetchWithParams({
       url: links.settings,
       params: {
         path_template: pathTemplate,
       },
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          console.log('Path template was updated successfully')
+          toast.success('Saved changes successfully!')
         } else {
-          console.error('Failed to save changes!')
+          const data = await response.json()
+          toast.error(
+            'Failed to save changes: ' + data.error.message || 'Unknown error'
+          )
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        toast.error(
+          'Something went wrong while saving changes. Please try again.'
+        )
       })
   }, [pathTemplate, links.settings])
 
@@ -73,8 +91,14 @@ export function PathTemplateSection() {
       </ul>
       <input
         type="text"
-        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
-        onChange={(e) => setPathTemplate(e.target.value)}
+        className={assembleClassNames(
+          'font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16',
+          isTemplateInvalid && '!border-orange'
+        )}
+        onChange={(e) => {
+          setPathTemplate(e.target.value)
+          setIsTemplateInvalid(false)
+        }}
       />
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note:</strong> If you omit the{' '}
@@ -83,6 +107,14 @@ export function PathTemplateSection() {
         Including the iteration index will result in a different folder for
         every iteration.
       </p>
+
+      {isTemplateInvalid && (
+        <div className="text-orange font-semibold mb-16">
+          Your path template must include either <code>$track_slug</code> or{' '}
+          <code>$track_name</code>, and either <code>$exercise_slug</code> or{' '}
+          <code>$exercise_name</code>.
+        </div>
+      )}
 
       <div className="flex gap-8">
         <button
@@ -111,4 +143,15 @@ export function PathTemplateSection() {
       />
     </section>
   )
+}
+
+function isPathTemplateValid(pathTemplate: string): boolean {
+  const hasTrackPlaceholder =
+    pathTemplate.includes('$track_slug') || pathTemplate.includes('$track_name')
+
+  const hasExercisePlaceholder =
+    pathTemplate.includes('$exercise_slug') ||
+    pathTemplate.includes('$exercise_name')
+
+  return hasTrackPlaceholder && hasExercisePlaceholder
 }

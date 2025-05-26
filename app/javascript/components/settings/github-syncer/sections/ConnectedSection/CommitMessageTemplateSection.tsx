@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
@@ -23,15 +24,21 @@ export function CommitMessageTemplateSection() {
         commit_message_template: commitMessageTemplate,
       },
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          console.log('Commit message template was updated successfully')
+          toast.success('Saved changes successfully!')
         } else {
-          console.error('Failed to save changes')
+          const data = await response.json()
+          toast.error(
+            'Failed to save changes: ' + data.error.message || 'Unknown error'
+          )
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        toast.error(
+          'Something went wrong while saving changes. Please try again.'
+        )
       })
   }, [commitMessageTemplate, links.settings, isUserInsider])
 

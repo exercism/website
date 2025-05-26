@@ -1,0 +1,10 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:github_syncer)
+
+    %article
+      %h1 GitHub Syncer
+      = render ReactComponents::Settings::GithubSyncerForm.new
+
+-# link_to "Connect GitHub Repo", "https://github.com/apps/exercism-solutions-syncer/installations/new", class: "btn btn-primary"
+-# = button_to "Disconnect", settings_github_solution_syncer_path, method: :delete, class: "btn btn-danger"

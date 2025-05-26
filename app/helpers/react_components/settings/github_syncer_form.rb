@@ -3,11 +3,11 @@ module ReactComponents
     class GithubSyncerForm < ReactComponent
       def to_s
         super("settings-github-syncer-form", {
-          is_user_connected: false,
-          is_user_active: false,
+          is_user_connected: current_user.github_solution_syncer.present?,
+          is_user_active: current_user.github_solution_syncer&.enabled?,
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
-            settings: Exercism::Routes.settings_github_solution_syncer_path
+            settings: Exercism::Routes.settings_github_syncer_path
           }
         })
       end

@@ -67,7 +67,9 @@ class User::GithubSolutionSyncer
         headers: { "Content-Type" => "application/json" }
       )
 
-      User::GithubSolutionSyncer::CreateCommit.(iteration, branch_name)
+      files = User::GithubSolutionSyncer::FilesForIteration.(syncer, iteration)
+      commit_message = "my first commit"
+      User::GithubSolutionSyncer::CreateCommit.(syncer, files, commit_message, branch_name)
 
       assert_requested :get, branch_url
       assert_requested :post, tree_url do |req|

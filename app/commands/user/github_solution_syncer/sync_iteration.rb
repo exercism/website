@@ -1,5 +1,5 @@
 class User::GithubSolutionSyncer
-  class ProcessIteration
+  class SyncIteration
     include Mandate
 
     initialize_with :iteration
@@ -7,10 +7,13 @@ class User::GithubSolutionSyncer
     def call
       return unless syncer
 
+      files = FilesForIteration.(iteration)
+      commit_message = GenerateCommitMessage.(iteration)
+
       if syncer.commit_to_main?
-        CreateCommit.(iteration, syncer.main_branch_name)
+        CreateCommit.(syncer, files, commit_message, syncer.main_branch_name)
       else
-        CreatePullRequest.(iteration)
+        CreatePullRequest.(syncer, files, commit_message)
       end
     end
 

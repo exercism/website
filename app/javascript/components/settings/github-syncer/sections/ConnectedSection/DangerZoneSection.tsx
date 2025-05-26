@@ -47,7 +47,9 @@ export function DangerZoneSection() {
         } else {
           const data = await response.json()
           toast.error(
-            `Failed to delete GitHub sync: ${data.message || 'Unknown error'}`
+            `Failed to delete GitHub sync: ${
+              data.error.message || 'Unknown error'
+            }`
           )
         }
       })

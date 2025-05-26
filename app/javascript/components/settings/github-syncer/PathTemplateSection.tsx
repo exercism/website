@@ -69,6 +69,11 @@ export function PathTemplateSection() {
           exercise (e.g. "1")
         </li>
       </ul>
+      <input
+        type="text"
+        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
+        onChange={(e) => setPathTemplate(e.target.value)}
+      />
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note:</strong> If you omit the{' '}
         <code>$iteration_idx</code>, each iteration will override the previous
@@ -76,12 +81,6 @@ export function PathTemplateSection() {
         Including the iteration index will result in a different folder for
         every iteration.
       </p>
-
-      <input
-        type="text"
-        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
-        onChange={(e) => setPathTemplate(e.target.value)}
-      />
 
       <div className="flex gap-8">
         <button className="btn btn-primary" onClick={handleSaveChanges}>

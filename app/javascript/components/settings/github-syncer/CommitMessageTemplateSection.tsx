@@ -78,18 +78,17 @@ export function CommitMessageTemplateSection() {
           syncs, this will be "Iteration".
         </li>
       </ul>
+      <input
+        type="text"
+        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
+        onChange={(e) => setCommitMessageTemplate(e.target.value)}
+      />
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note:</strong> If your commit message
         contains leading or trailing slashes or dashes, these will be stripped.
         If it contains multiple consecutive slashes or dashes, these will be
         reduced to single slashes or dashes.
       </p>
-
-      <input
-        type="text"
-        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
-        onChange={(e) => setCommitMessageTemplate(e.target.value)}
-      />
 
       <div className="flex gap-8">
         <button className="btn btn-primary" onClick={handleSaveChanges}>

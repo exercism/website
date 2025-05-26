@@ -1,11 +1,21 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { fetchWithParams } from './fetchWithParams'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
+import { ConfirmationModal } from './ConfirmationModal'
 
+const DEFAULT = ''
 export function PathTemplateSection() {
   const { links } = React.useContext(GitHubSyncerContext)
 
-  const [pathTemplate, setPathTemplate] = React.useState<string>('')
+  const [pathTemplate, setPathTemplate] = useState<string>('')
+  const [isRevertPathTemplateModalOpen, setIsRevertPathTemplateModalOpen] =
+    useState(false)
+
+  const handleRevertPathTemplate = useCallback(() => {
+    setPathTemplate(DEFAULT)
+    handleSaveChanges()
+    setIsRevertPathTemplateModalOpen(false)
+  }, [])
 
   const handleSaveChanges = useCallback(() => {
     fetchWithParams({
@@ -67,9 +77,32 @@ export function PathTemplateSection() {
         every iteration.
       </p>
 
-      <button className="btn btn-primary" onClick={handleSaveChanges}>
-        Save changes
-      </button>
+      <input
+        type="text"
+        className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
+        onChange={(e) => setPathTemplate(e.target.value)}
+      />
+
+      <div className="flex gap-8">
+        <button className="btn btn-primary" onClick={handleSaveChanges}>
+          Save changes
+        </button>
+
+        <button
+          className="btn btn-secondary"
+          onClick={() => setIsRevertPathTemplateModalOpen(true)}
+        >
+          Revert to default
+        </button>
+      </div>
+      <ConfirmationModal
+        title="Are you sure you want to revert your path template to default?"
+        confirmLabel="Revert"
+        declineLabel="Cancel"
+        onConfirm={handleRevertPathTemplate}
+        open={isRevertPathTemplateModalOpen}
+        onClose={() => setIsRevertPathTemplateModalOpen(false)}
+      />
     </section>
   )
 }

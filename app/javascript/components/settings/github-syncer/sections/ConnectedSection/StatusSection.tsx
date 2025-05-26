@@ -1,5 +1,5 @@
 import React from 'react'
-import { GitHubSyncerContext } from './GitHubSyncerForm'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 
 export function StatusSection() {
   const { repoFullName } = React.useContext(GitHubSyncerContext)

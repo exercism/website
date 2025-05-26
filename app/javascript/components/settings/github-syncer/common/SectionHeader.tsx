@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { InsiderBubble } from './InsiderBubble'
-import { GitHubSyncerContext } from './GitHubSyncerForm'
+import { GitHubSyncerContext } from '../GitHubSyncerForm'
 
 export function SectionHeader({ title }: { title: string }) {
   const { isUserInsider } = useContext(GitHubSyncerContext)

@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import { fetchWithParams } from './fetchWithParams'
-import { GitHubSyncerContext } from './GitHubSyncerForm'
-import { ConfirmationModal } from './ConfirmationModal'
-import { SectionHeader } from './SectionHeader'
+import { ConfirmationModal } from '../../common/ConfirmationModal'
+import { fetchWithParams } from '../../fetchWithParams'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
+import { SectionHeader } from '../../common/SectionHeader'
 
 const DEFAULT = ''
 export function PathTemplateSection() {

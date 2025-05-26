@@ -1,6 +1,6 @@
-import { GraphicalIcon } from '@/components/common'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import { GraphicalIcon } from '@/components/common'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'

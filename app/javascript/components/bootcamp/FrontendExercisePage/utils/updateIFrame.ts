@@ -9,17 +9,28 @@ export const scriptPrelude = `window.onerror = function(message, source, lineno,
   }, '*');
 };
 
-window.log = function(...args) {
+window.log = function (...args) {
+  function sanitize(value) {
+    if (value instanceof HTMLCollection || value instanceof NodeList) {
+      return Array.from(value).map(sanitize);
+    }
+    if (value instanceof Element) {
+      return value.outerHTML;
+    }
+    if (Array.isArray(value)) {
+      return value.map(sanitize);
+    }
+    if (value && typeof value === 'object') {
+      const safeObj = {};
+      for (const key in value) {
+        safeObj[key] = sanitize(value[key]);
+      }
+      return safeObj;
+    }
+    return value;
+  }
 
- const safeArgs = args.map(arg => {
-    if (arg instanceof HTMLCollection || arg instanceof NodeList) {
-      return Array.from(arg).map(el => el.outerHTML || String(el));
-    }
-    if (arg instanceof Element) {
-      return arg.outerHTML;
-    }
-    return arg;
-  });
+  const safeArgs = args.map(sanitize);
 
   window.parent.postMessage({
     type: 'iframe-log',

@@ -70,6 +70,8 @@ class Iteration::Create
   end
 
   def sync_to_github!(iteration)
+    return unless user.github_solution_syncer&.sync_on_iteration_creation?
+
     User::GithubSolutionSyncer::SyncIteration.defer(iteration)
   end
 

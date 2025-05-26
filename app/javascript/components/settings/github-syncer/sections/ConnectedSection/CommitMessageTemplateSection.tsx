@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import { fetchWithParams } from './fetchWithParams'
-import { GitHubSyncerContext } from './GitHubSyncerForm'
-import { ConfirmationModal } from './ConfirmationModal'
-import { SectionHeader } from './SectionHeader'
+import { ConfirmationModal } from '../../common/ConfirmationModal'
+import { fetchWithParams } from '../../fetchWithParams'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
+import { SectionHeader } from '../../common/SectionHeader'
 
 const DEFAULT = ''
 export function CommitMessageTemplateSection() {
@@ -14,12 +14,6 @@ export function CommitMessageTemplateSection() {
     isRevertCommitMessageTemplateModalOpen,
     setIsRevertCommitMessageTemplateModalOpen,
   ] = useState(false)
-
-  const handleRevertCommitMessageTemplate = useCallback(() => {
-    setCommitMessageTemplate(DEFAULT)
-    handleSaveChanges()
-    setIsRevertCommitMessageTemplateModalOpen(false)
-  }, [])
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return
@@ -39,7 +33,13 @@ export function CommitMessageTemplateSection() {
       .catch((error) => {
         console.error('Error:', error)
       })
-  }, [commitMessageTemplate, links.settings])
+  }, [commitMessageTemplate, links.settings, isUserInsider])
+
+  const handleRevertCommitMessageTemplate = useCallback(() => {
+    setCommitMessageTemplate(DEFAULT)
+    handleSaveChanges()
+    setIsRevertCommitMessageTemplateModalOpen(false)
+  }, [handleSaveChanges])
 
   return (
     <section>

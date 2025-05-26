@@ -1,8 +1,8 @@
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
-import { GitHubSyncerContext } from './GitHubSyncerForm'
-import { fetchWithParams } from './fetchWithParams'
-import { SectionHeader } from './SectionHeader'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
+import { fetchWithParams } from '../../fetchWithParams'
+import { SectionHeader } from '../../common/SectionHeader'
 
 export function IterationFilesSection() {
   const { links, isUserInsider } = React.useContext(GitHubSyncerContext)

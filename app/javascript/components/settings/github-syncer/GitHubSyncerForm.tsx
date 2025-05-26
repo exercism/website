@@ -1,6 +1,7 @@
 import React from 'react'
-import { ConnectToGithubSection } from './ConnectToGithubSection'
-import { ConnectedSection } from './ConnectedSection'
+import { ConnectedSection } from './sections/ConnectedSection'
+import { Toaster } from 'react-hot-toast'
+import { ConnectToGithubSection } from './sections/ConnectToGithubSection'
 
 export type GitHubSyncerFormProps = {
   links: { connectToGithub: string; settings: string }
@@ -29,6 +30,7 @@ export default function GitHubSyncerForm(
       }}
     >
       {data.isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}
+      <Toaster position="bottom-right" />
     </GitHubSyncerContext.Provider>
   )
 }

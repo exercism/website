@@ -1,21 +1,16 @@
 export function fetchWithParams({
   url,
   params,
-  method = 'GET',
+  method = 'PATCH',
 }: {
   url: string
   params?: Record<string, string | number | boolean>
-  method?: 'GET' | 'DELETE'
+  method?: 'DELETE' | 'PATCH'
 }): Promise<Response> {
-  const query = params
-    ? '?' +
-      new URLSearchParams(
-        Object.entries(params).reduce((acc, [key, val]) => {
-          acc[key] = String(val)
-          return acc
-        }, {} as Record<string, string>)
-      ).toString()
-    : ''
-
-  return fetch(url + query, { method })
+  return fetch(url, {
+    method,
+    body: JSON.stringify({
+      github_solution_syncer: params,
+    }),
+  })
 }

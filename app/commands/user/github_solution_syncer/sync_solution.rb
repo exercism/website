@@ -6,7 +6,6 @@ class User::GithubSolutionSyncer
 
     def call
       return unless syncer
-      return unless user.insider?
 
       if syncer.commit_to_main?
         sync_iterations(syncer.main_branch_name)

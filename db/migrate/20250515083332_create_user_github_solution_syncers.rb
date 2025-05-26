@@ -6,7 +6,9 @@ class CreateUserGithubSolutionSyncers < ActiveRecord::Migration[7.0]
       t.string :repo_full_name, null: false
 
       # Configuable options
-      t.boolean :create_automatically, null: false, default: true
+      t.boolean :enabled, null: false, default: true
+      t.boolean :sync_on_iteration_creation, null: false, default: true
+      t.boolean :sync_exercise_files, null: false, default: false
       t.integer :processing_method, null: false, default: 1
       t.string :main_branch_name, null: false, default: "main"
 

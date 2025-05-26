@@ -1583,7 +1583,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_083332) do
     t.bigint "user_id", null: false
     t.bigint "installation_id", null: false
     t.string "repo_full_name", null: false
-    t.boolean "create_automatically", null: false, default: true
+    t.boolean "enabled" null: false, default: true
+    t.boolean "sync_on_iteration_creation", null: false, default: true
+    t.boolean "sync_exercise_files" null: false
     t.integer "processing_method", null: false, default: 1
     t.string "main_branch_name", null: false, default: "main"
     t.string "commit_message_template", null: false

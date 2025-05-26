@@ -2,7 +2,7 @@ require "test_helper"
 
 class User::GithubSolutionSyncer
   class FilesForIterationTest < ActiveSupport::TestCase
-    test "creates commit for iteration" do
+    test "selects files for iteration" do
       user = create(:user)
       track = create(:track, title: "Ruby", slug: "ruby")
       exercise = create(:practice_exercise, title: "Two Fer", slug: "two-fer", track:)

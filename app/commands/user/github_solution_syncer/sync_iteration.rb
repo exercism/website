@@ -6,7 +6,6 @@ class User::GithubSolutionSyncer
 
     def call
       return unless syncer
-      return unless user.insider?
 
       files = FilesForIteration.(syncer, iteration)
       commit_message = GenerateCommitMessage.(syncer, iteration)

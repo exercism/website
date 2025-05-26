@@ -6,10 +6,11 @@ class User::GithubSolutionSyncer < ApplicationRecord
   enum processing_method: { commit: 1, pr: 2 }
 
   before_create do
-    unless self.commit_message_template.present?
-      self.commit_message_template = "[Add Iteration] $track_slug/$exercise_slug/$iteration_idx"
-    end
+    self.commit_message_template = "[Add Iteration] $track_slug/$exercise_slug/$iteration_idx" unless self.commit_message_template.present? # rubocop:disable Layout/LineLength
     self.path_template = "solutions/$track_slug/$exercise_slug/$iteration_idx" unless self.path_template.present?
+    self.processing_method = :pr unless self.processing_method.present?
+    self.sync_on_iteration_creation = true unless self.sync_on_iteration_creation.present?
+    self.sync_exercise_files = false unless self.sync_exercise_files.present?
   end
 
   def processing_method = super.to_sym

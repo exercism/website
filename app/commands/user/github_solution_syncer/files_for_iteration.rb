@@ -19,6 +19,16 @@ class User::GithubSolutionSyncer
     delegate :user, :track, :exercise, to: :iteration
 
     def files
+      exercise_files.merge(submission_files)
+    end
+
+    def exercise_files
+      return {} unless syncer.sync_exercise_files?
+
+      iteration.solution.git_exercise.cli_files
+    end
+
+    def submission_files
       iteration.submission.files.each_with_object({}) do |file, hash|
         hash[file.filename] = file.content
       end

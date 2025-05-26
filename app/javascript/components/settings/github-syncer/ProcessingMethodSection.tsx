@@ -63,17 +63,19 @@ export function ProcessingMethodSection() {
         </button>
       </div>
 
-      <label className="flex flex-col mb-16">
-        <span className="text-16 leading-140 mb-8">
-          What is the name of your main branch?
-        </span>
-        <input
-          type="text"
-          className="font-mono font-semibold text-16 leading-140 border border-1"
-          value={mainBranchName}
-          onChange={(e) => setMainBranchName(e.target.value)}
-        />
-      </label>
+      {selectedProcessingMethod === 'commit' && (
+        <label className="flex flex-col mb-16">
+          <span className="text-16 leading-140 mb-8">
+            What is the name of your main branch?
+          </span>
+          <input
+            type="text"
+            className="font-mono font-semibold text-16 leading-140 border border-1"
+            value={mainBranchName}
+            onChange={(e) => setMainBranchName(e.target.value)}
+          />
+        </label>
+      )}
 
       <button className="btn btn-primary" onClick={handleSaveChanges}>
         Save changes

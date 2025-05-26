@@ -35,6 +35,19 @@
             margin-top: -8px;
             @apply mb-24;
         }
+
+        ul {
+            list-style-type: disc;
+            @apply ml-20;
+            li {
+                @apply mb-4;
+            }
+        }
+        & :not(pre) > code {
+            @apply inline-flex items-center justify-center rounded-5;
+            @apply px-6 text-textColor10 leading-regular;
+            background: var(--backgroundColorI);
+        }
         & section {
             @apply shadow-lg rounded-8 bg-backgroundColorA;
             @apply py-24 px-32 mb-24;

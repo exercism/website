@@ -13,7 +13,8 @@ class User::GithubSolutionSyncer
       if syncer.commit_to_main?
         CreateCommit.(syncer, files, commit_message, syncer.main_branch_name)
       else
-        CreatePullRequest.(syncer, commit_message) do |pr_branch_name, token|
+        pr_title = GeneratePullRequestTitle.(syncer, "Iteration", iteration:)
+        CreatePullRequest.(syncer, pr_title) do |pr_branch_name, token|
           CreateCommit.(syncer, files, commit_message, pr_branch_name, token:)
         end
       end

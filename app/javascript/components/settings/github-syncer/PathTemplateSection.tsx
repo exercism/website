@@ -28,9 +28,43 @@ export function PathTemplateSection() {
 
   return (
     <section>
-      <h2>Folder structure</h2>
-      <p className="text-16 leading-140 mb-16">
-        What folder structure do you want?
+      <h2 className="!mb-6">Folder structure</h2>
+      <p className="text-18 leading-150 mb-16">
+        Use this option to configure the folder structure for your repository.
+      </p>
+      <p className="text-16 leading-150 mb-12">
+        You can use the following placeholder values, which will be interpolated
+        for each commit:
+      </p>
+
+      <ul className="text-16 leading-150 mb-16">
+        <li>
+          <code>$track_slug</code> (mandatory): The slug of the track (e.g.
+          "csharp").
+        </li>
+        <li>
+          <code>$track_name</code> (mandatory): The name of the track (e.g.
+          "C#")
+        </li>
+        <li>
+          <code>$exercise_slug</code> (mandatory): The slug of the exercise
+          (e.g. "hello-world")
+        </li>
+        <li>
+          <code>$exercise_name</code> (mandatory): The name of the exercise
+          (e.g. "Hello World")
+        </li>
+        <li>
+          <code>$iteration_idx</code> (optional): The iteration index of the
+          exercise (e.g. "1")
+        </li>
+      </ul>
+      <p className="text-16 leading-150 mb-16">
+        <strong className="font-medium">Note:</strong> If you omit the{' '}
+        <code>$iteration_idx</code>, each iteration will override the previous
+        one. This allows you to use Git for version controlling your solutions.
+        Including the iteration index will result in a different folder for
+        every iteration.
       </p>
 
       <button className="btn btn-primary" onClick={handleSaveChanges}>

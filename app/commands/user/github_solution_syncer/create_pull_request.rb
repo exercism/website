@@ -2,7 +2,7 @@ class User::GithubSolutionSyncer
   class CreatePullRequest
     include Mandate
 
-    def initialize(syncer, pr_title, &commit_block)
+    def initialize(syncer, pr_title, _pr_message, &commit_block)
       @syncer = syncer
       @pr_title = pr_title
       @commit_block = commit_block

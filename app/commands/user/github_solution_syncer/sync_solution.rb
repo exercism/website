@@ -10,15 +10,16 @@ class User::GithubSolutionSyncer
       if syncer.commit_to_main?
         sync_iterations(syncer.main_branch_name)
       else
+        pr_title = GeneratePullRequestTitle.(syncer, "Solution", exercise:)
         pr_message = "[Exercism] Batch sync of solution #{solution.track.title} | #{solution.exercise.title}"
-        CreatePullRequest.(syncer, pr_message) do |pr_branch_name, token|
+        CreatePullRequest.(syncer, pr_title, pr_message) do |pr_branch_name, token|
           sync_iterations(pr_branch_name, token)
         end
       end
     end
 
     private
-    delegate :user, to: :solution
+    delegate :user, :exercise, :track, to: :solution
 
     def sync_iterations(branch_name, _token = nil)
       # Note if any of these are successful!

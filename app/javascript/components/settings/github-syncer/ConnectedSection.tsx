@@ -3,11 +3,15 @@ import { CommitMessageTemplateSection } from './CommitMessageTemplateSection'
 import { DangerZoneSection } from './DangerZoneSection'
 import { PathTemplateSection } from './PathTemplateSection'
 import { ProcessingMethodSection } from './ProcessingMethodSection'
+import { IterationFilesSection } from './IterationFilesSection'
+import { StatusSection } from './StatusSection'
 
 export function ConnectedSection() {
   return (
     <>
+      <StatusSection />
       <ProcessingMethodSection />
+      <IterationFilesSection />
       <PathTemplateSection />
       <CommitMessageTemplateSection />
       <DangerZoneSection />

@@ -2,6 +2,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
 import { fetchWithParams } from './fetchWithParams'
+import { GraphicalIcon } from '@/components/common'
 
 export function ProcessingMethodSection() {
   const { links } = React.useContext(GitHubSyncerContext)
@@ -10,6 +11,8 @@ export function ProcessingMethodSection() {
   >('commit')
 
   const [mainBranchName, setMainBranchName] = useState<string>('main')
+  const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
+    useState(false)
 
   const handleSaveChanges = useCallback(() => {
     fetchWithParams({
@@ -17,6 +20,7 @@ export function ProcessingMethodSection() {
       params: {
         processing_method: selectedProcessingMethod,
         main_branch_name: mainBranchName,
+        sync_on_iteration_creation: shouldSyncOnIterationCreation,
       },
     })
       .then((response) => {
@@ -76,6 +80,20 @@ export function ProcessingMethodSection() {
           />
         </label>
       )}
+
+      <label className="c-checkbox-wrapper">
+        <input
+          type="checkbox"
+          checked={shouldSyncOnIterationCreation}
+          onChange={() => setShouldSyncOnInterationCreation((s) => !s)}
+        />
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
+          </div>
+          Automatically sync to GitHub every time you create an iteration?
+        </div>
+      </label>
 
       <button className="btn btn-primary" onClick={handleSaveChanges}>
         Save changes

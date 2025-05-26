@@ -470,4 +470,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
   end
+
+  test "enqueues github sync" do
+    user = create :user
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    assert_enqueued_with(job: User::GithubSolutionSyncer::SyncIteration) do
+      Iteration::Create.(solution, submission)
+    end
+  end
 end

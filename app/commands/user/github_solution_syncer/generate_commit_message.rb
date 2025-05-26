@@ -1,7 +1,7 @@
 class User::GithubSolutionSyncer::GenerateCommitMessage
   include Mandate
 
-  initialize_with :iteration
+  initialize_with :syncer, :iteration
 
   def call
     template = syncer.commit_message_template
@@ -15,8 +15,5 @@ class User::GithubSolutionSyncer::GenerateCommitMessage
       gsub("//", "/")
   end
 
-  private
   delegate :user, :exercise, :track, to: :iteration
-
-  def syncer = user.github_solution_syncer
 end

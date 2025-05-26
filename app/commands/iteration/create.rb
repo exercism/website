@@ -32,6 +32,7 @@ class Iteration::Create
       record_activity!(iteration)
       award_badges!(iteration)
       award_trophies!(iteration)
+      sync_to_github!(iteration)
       log_metric!(iteration)
     end
   rescue ActiveRecord::RecordNotUnique
@@ -66,6 +67,10 @@ class Iteration::Create
 
   def award_trophies!(iteration)
     AwardTrophyJob.perform_later(user, track, :iterated_twenty_exercises, context: iteration)
+  end
+
+  def sync_to_github!(iteration)
+    User::GithubSolutionSyncer::SyncIteration.defer(iteration)
   end
 
   def log_metric!(iteration)

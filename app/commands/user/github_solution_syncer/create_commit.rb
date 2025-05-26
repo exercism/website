@@ -12,8 +12,16 @@ class User::GithubSolutionSyncer
       base_tree_sha = base_branch.commit.commit.tree.sha
 
       new_tree = client.create_tree(repo, files, base_tree: base_tree_sha)
+
+      # If the tree hasn't changed, we don't create the commit and return false
+      # so that anything upstream can be aware
+      return false if new_tree.sha == base_tree_sha
+
       new_commit = client.create_commit(repo, commit_message, new_tree.sha, base_commit_sha)
       client.update_ref(repo, "heads/#{branch_name}", new_commit.sha)
+
+      # Let's keep this as always a boolean response.
+      true
     end
 
     private

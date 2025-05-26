@@ -6,18 +6,24 @@ class User::GithubSolutionSyncer
 
     def call
       return unless syncer
+      return unless user.insider?
 
-      files = FilesForIteration.(iteration)
-      commit_message = GenerateCommitMessage.(iteration)
+      files = FilesForIteration.(syncer, iteration)
+      commit_message = GenerateCommitMessage.(syncer, iteration)
 
       if syncer.commit_to_main?
         CreateCommit.(syncer, files, commit_message, syncer.main_branch_name)
       else
-        CreatePullRequest.(syncer, files, commit_message)
+        CreatePullRequest.(syncer, commit_message) do |pr_branch_name, token|
+          CreateCommit.(syncer, files, commit_message, pr_branch_name, token:)
+        end
       end
     end
 
+    private
+    delegate :user, to: :iteration
+
     memoize
-    def syncer = iteration.user.github_solution_syncer
+    def syncer = user.github_solution_syncer
   end
 end

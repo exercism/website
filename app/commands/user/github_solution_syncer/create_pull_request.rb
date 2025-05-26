@@ -2,9 +2,11 @@ class User::GithubSolutionSyncer
   class CreatePullRequest
     include Mandate
 
-    # Expects files to be an array of hashes, with the
-    # keys path, mode, type and content.
-    initialize_with :syncer, :files, :pr_title
+    def initialize(syncer, pr_title, &commit_block)
+      @syncer = syncer
+      @pr_title = pr_title
+      @commit_block = commit_block
+    end
 
     def call
       repo = syncer.repo_full_name
@@ -16,8 +18,8 @@ class User::GithubSolutionSyncer
       new_branch = "exercism-sync/#{SecureRandom.hex(8)}"
       client.create_ref(repo, "heads/#{new_branch}", base_sha)
 
-      # Reuse your existing logic to create a commit on this new branch
-      CreateCommit.(files, pr_title, new_branch, token:)
+      commits_created = commit_block.(new_branch, token)
+      return unless commits_created
 
       client.create_pull_request(
         repo,
@@ -27,6 +29,9 @@ class User::GithubSolutionSyncer
         "This is an automatic sync from Exercism (https://exercism.org)."
       )
     end
+
+    private
+    attr_reader :syncer, :pr_title, :commit_block
 
     memoize
     def token

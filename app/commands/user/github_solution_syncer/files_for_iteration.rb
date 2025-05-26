@@ -5,7 +5,6 @@ class User::GithubSolutionSyncer
     initialize_with :syncer, :iteration
 
     def call
-      # Build a tree with all the new/updated files
       files.map do |filename, content|
         {
           path: "#{path}/#{filename}",

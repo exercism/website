@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react'
 import { fetchWithParams } from './fetchWithParams'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
 import { ConfirmationModal } from './ConfirmationModal'
+import { SectionHeader } from './SectionHeader'
 
 const DEFAULT = ''
 export function PathTemplateSection() {
-  const { links } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
 
   const [pathTemplate, setPathTemplate] = useState<string>('')
   const [isRevertPathTemplateModalOpen, setIsRevertPathTemplateModalOpen] =
@@ -18,6 +19,7 @@ export function PathTemplateSection() {
   }, [])
 
   const handleSaveChanges = useCallback(() => {
+    if (!isUserInsider) return
     fetchWithParams({
       url: links.settings,
       params: {
@@ -38,7 +40,7 @@ export function PathTemplateSection() {
 
   return (
     <section>
-      <h2 className="!mb-6">Folder structure</h2>
+      <SectionHeader title="File structure" />
       <p className="text-18 leading-150 mb-16">
         Use this option to configure the folder structure for your repository.
       </p>
@@ -83,11 +85,16 @@ export function PathTemplateSection() {
       </p>
 
       <div className="flex gap-8">
-        <button className="btn btn-primary" onClick={handleSaveChanges}>
+        <button
+          disabled={!isUserInsider}
+          className="btn btn-primary"
+          onClick={handleSaveChanges}
+        >
           Save changes
         </button>
 
         <button
+          disabled={!isUserInsider}
           className="btn btn-secondary"
           onClick={() => setIsRevertPathTemplateModalOpen(true)}
         >

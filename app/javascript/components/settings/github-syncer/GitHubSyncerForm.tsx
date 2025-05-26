@@ -7,6 +7,7 @@ export type GitHubSyncerFormProps = {
   isUserConnected: boolean
   isUserActive: boolean
   repoFullName: string
+  isUserInsider: boolean
 }
 
 type GitHubSyncerContextType = Omit<GitHubSyncerFormProps, 'isUserConnected'>
@@ -24,6 +25,7 @@ export default function GitHubSyncerForm(
         links: data.links,
         isUserActive: data.isUserActive,
         repoFullName: data.repoFullName,
+        isUserInsider: data.isUserInsider,
       }}
     >
       {data.isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}

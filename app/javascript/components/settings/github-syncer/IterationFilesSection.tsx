@@ -2,13 +2,15 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useState, useCallback } from 'react'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
 import { fetchWithParams } from './fetchWithParams'
+import { SectionHeader } from './SectionHeader'
 
 export function IterationFilesSection() {
-  const { links } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
   const [shouldSyncExerciseFiles, setShouldSyncExerciseFiles] =
     useState<boolean>(false)
 
   const handleSaveChanges = useCallback(() => {
+    if (!isUserInsider) return
     fetchWithParams({
       url: links.settings,
       params: {
@@ -29,7 +31,7 @@ export function IterationFilesSection() {
 
   return (
     <section>
-      <h2>Iteration files</h2>
+      <SectionHeader title="Iteration files" />
       <p className="text-16 leading-140 mb-16">
         Do you want to include just your solution files, or all the files in the
         exercise?
@@ -60,7 +62,11 @@ export function IterationFilesSection() {
         </button>
       </div>
 
-      <button className="btn btn-primary" onClick={handleSaveChanges}>
+      <button
+        disabled={!isUserInsider}
+        className="btn btn-primary"
+        onClick={handleSaveChanges}
+      >
         Save changes
       </button>
     </section>

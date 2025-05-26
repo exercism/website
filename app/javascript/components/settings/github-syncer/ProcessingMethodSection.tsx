@@ -3,9 +3,10 @@ import React, { useState, useCallback } from 'react'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
 import { fetchWithParams } from './fetchWithParams'
 import { GraphicalIcon } from '@/components/common'
+import { SectionHeader } from './SectionHeader'
 
 export function ProcessingMethodSection() {
-  const { links } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
   const [selectedProcessingMethod, setSelectedProcessingMethod] = useState<
     'commit' | 'pr'
   >('commit')
@@ -15,6 +16,7 @@ export function ProcessingMethodSection() {
     useState(false)
 
   const handleSaveChanges = useCallback(() => {
+    if (!isUserInsider) return
     fetchWithParams({
       url: links.settings,
       params: {
@@ -33,11 +35,16 @@ export function ProcessingMethodSection() {
       .catch((error) => {
         console.error('Error:', error)
       })
-  }, [selectedProcessingMethod, links.settings])
+  }, [
+    selectedProcessingMethod,
+    links.settings,
+    shouldSyncOnIterationCreation,
+    mainBranchName,
+  ])
 
   return (
     <section>
-      <h2>Processing method</h2>
+      <SectionHeader title="Processing method" />
       <p className="text-16 leading-140 mb-16">
         Do you want to commit directly or create a pull request?
       </p>
@@ -95,7 +102,11 @@ export function ProcessingMethodSection() {
         </div>
       </label>
 
-      <button className="btn btn-primary" onClick={handleSaveChanges}>
+      <button
+        disabled={!isUserInsider}
+        className="btn btn-primary"
+        onClick={handleSaveChanges}
+      >
         Save changes
       </button>
     </section>

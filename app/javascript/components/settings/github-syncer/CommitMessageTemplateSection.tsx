@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react'
 import { fetchWithParams } from './fetchWithParams'
 import { GitHubSyncerContext } from './GitHubSyncerForm'
 import { ConfirmationModal } from './ConfirmationModal'
+import { SectionHeader } from './SectionHeader'
 
 const DEFAULT = ''
 export function CommitMessageTemplateSection() {
-  const { links } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
 
   const [commitMessageTemplate, setCommitMessageTemplate] = useState<string>('')
 
@@ -21,6 +22,7 @@ export function CommitMessageTemplateSection() {
   }, [])
 
   const handleSaveChanges = useCallback(() => {
+    if (!isUserInsider) return
     fetchWithParams({
       url: links.settings,
       params: {
@@ -41,7 +43,7 @@ export function CommitMessageTemplateSection() {
 
   return (
     <section>
-      <h2>Commit message template</h2>
+      <SectionHeader title="Commit message template" />
       <p className="text-18 leading-150 mb-16">
         Use this option to determine what your commit and PR messages should
         look like.
@@ -91,11 +93,16 @@ export function CommitMessageTemplateSection() {
       </p>
 
       <div className="flex gap-8">
-        <button className="btn btn-primary" onClick={handleSaveChanges}>
+        <button
+          disabled={!isUserInsider}
+          className="btn btn-primary"
+          onClick={handleSaveChanges}
+        >
           Save changes
         </button>
 
         <button
+          disabled={!isUserInsider}
           className="btn btn-secondary"
           onClick={() => setIsRevertCommitMessageTemplateModalOpen(true)}
         >

@@ -1,7 +1,7 @@
 class Settings::GithubSyncerController < ApplicationController
   def show
     current_user.github_solution_syncer
-   end
+  end
 
   def update
     user.github_solution_syncer.update!(
@@ -12,6 +12,7 @@ class Settings::GithubSyncerController < ApplicationController
           path_template
           commit_message_template
           active
+          sync_on_iteration_creation
         ]
       )
     )

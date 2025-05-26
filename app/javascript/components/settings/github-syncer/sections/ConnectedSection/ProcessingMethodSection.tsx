@@ -1,6 +1,7 @@
+import React, { useState, useCallback } from 'react'
+import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import React, { useState, useCallback } from 'react'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
@@ -25,15 +26,21 @@ export function ProcessingMethodSection() {
         sync_on_iteration_creation: shouldSyncOnIterationCreation,
       },
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          console.log('Saved changes successfully')
+          toast.success('Saved changes successfully!')
         } else {
-          console.error('Failed to save changes')
+          const data = await response.json()
+          toast.error(
+            'Failed to save changes: ' + data.error.message || 'Unknown error'
+          )
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        toast.error(
+          'Something went wrong while saving changes. Please try again.'
+        )
       })
   }, [
     selectedProcessingMethod,
@@ -88,7 +95,7 @@ export function ProcessingMethodSection() {
         </label>
       )}
 
-      <label className="c-checkbox-wrapper">
+      <label className="c-checkbox-wrapper mb-16">
         <input
           type="checkbox"
           checked={shouldSyncOnIterationCreation}

@@ -61,7 +61,7 @@ export function ProcessingMethodSection() {
           className={assembleClassNames(
             'btn btn-xs border border-1',
             selectedProcessingMethod === 'commit'
-              ? 'bg-[var(--backgroundColorIterationCommentsUnread)]  border-midnightBlue text-midnightBlue'
+              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
               : ''
           )}
         >
@@ -73,7 +73,7 @@ export function ProcessingMethodSection() {
           className={assembleClassNames(
             'btn btn-xs border border-1',
             selectedProcessingMethod === 'pr'
-              ? 'bg-[var(--backgroundColorIterationCommentsUnread)]  border-midnightBlue text-midnightBlue'
+              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
               : ''
           )}
         >

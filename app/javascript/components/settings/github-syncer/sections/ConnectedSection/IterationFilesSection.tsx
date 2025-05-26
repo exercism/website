@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams } from '../../fetchWithParams'
@@ -17,15 +18,21 @@ export function IterationFilesSection() {
         sync_exercise_files: shouldSyncExerciseFiles,
       },
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          console.log('Saved changes successfully')
+          toast.success('Saved changes successfully!')
         } else {
-          console.error('Failed to save changes')
+          const data = await response.json()
+          toast.error(
+            'Failed to save changes: ' + data.error.message || 'Unknown error'
+          )
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        toast.error(
+          'Something went wrong while saving changes. Please try again.'
+        )
       })
   }, [shouldSyncExerciseFiles, links.settings])
 
@@ -42,7 +49,7 @@ export function IterationFilesSection() {
           className={assembleClassNames(
             'btn btn-xs border border-1',
             !shouldSyncExerciseFiles
-              ? 'bg-[var(--backgroundColorIterationCommentsUnread)]  border-midnightBlue text-midnightBlue'
+              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
               : ''
           )}
         >
@@ -54,7 +61,7 @@ export function IterationFilesSection() {
           className={assembleClassNames(
             'btn btn-xs border border-1',
             shouldSyncExerciseFiles
-              ? 'bg-[var(--backgroundColorIterationCommentsUnread)]  border-midnightBlue text-midnightBlue'
+              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
               : ''
           )}
         >

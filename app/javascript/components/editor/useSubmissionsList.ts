@@ -70,6 +70,12 @@ export const useSubmissionsList = (
           },
         ])
       },
+
+      onError: () => {
+        setList((prevList) => {
+          return prevList.filter((s) => s.uuid !== 'faux-submission')
+        })
+      },
     }
   )
 

@@ -1,4 +1,5 @@
 import Modal, { ModalProps } from '@/components/modals/Modal'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { useCallback } from 'react'
 
 type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
@@ -8,6 +9,7 @@ type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
   declineLabel?: string
   onConfirm: () => void
   onDecline?: () => void
+  confirmButtonClass?: string
 }
 
 export const ConfirmationModal = ({
@@ -18,6 +20,7 @@ export const ConfirmationModal = ({
   onConfirm,
   onDecline,
   onClose,
+  confirmButtonClass = 'btn-warning',
   ...props
 }: ConfirmationModalProps): JSX.Element => {
   const handleClose = useCallback(() => {
@@ -38,7 +41,10 @@ export const ConfirmationModal = ({
       <h3>{title}</h3>
       {description && <p>{description}</p>}
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
-        <button type="submit" className="btn-warning btn-s">
+        <button
+          type="submit"
+          className={assembleClassNames('btn-s', confirmButtonClass)}
+        >
           {confirmLabel}
         </button>
         <button

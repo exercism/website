@@ -389,3 +389,14 @@
         }
     }
 }
+
+#page-settings-github-syncer {
+    section.danger-zone {
+        @apply border-2 border-danger;
+        background: var(--backgroundColorDangerSection);
+
+        strong {
+            @apply text-alert font-semibold;
+        }
+    }
+}

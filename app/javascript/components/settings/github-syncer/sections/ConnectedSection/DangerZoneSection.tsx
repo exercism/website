@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
@@ -24,10 +25,13 @@ export function DangerZoneSection() {
     fetchWithParams({ url: links.settings, params: { active: !isUserActive } })
       .then((response) => {
         if (response.ok) {
-          // maybe use a toast for these?
-          console.log('Change activity status successfully')
+          toast.success(
+            isUserActive
+              ? 'Paused code sync with GitHub.'
+              : 'Resumed code sync with GitHub.'
+          )
         } else {
-          console.error('Failed to change status')
+          toast.error(`Failed to change status.`)
         }
       })
       .catch((error) => {
@@ -37,11 +41,14 @@ export function DangerZoneSection() {
 
   const handleDelete = useCallback(() => {
     fetchWithParams({ url: links.settings, method: 'DELETE' })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
-          console.log('Deleted successfully')
+          toast.success('GitHub sync deleted successfully')
         } else {
-          console.error('Failed to delete')
+          const data = await response.json()
+          toast.error(
+            `Failed to delete GitHub sync: ${data.message || 'Unknown error'}`
+          )
         }
       })
       .catch((error) => {
@@ -50,10 +57,10 @@ export function DangerZoneSection() {
   }, [links.settings])
 
   return (
-    <section className="border border-2 border-danger">
+    <section className="danger-zone">
       <h2>Danger Zone</h2>
       <p className="text-16 leading-140 mb-16">
-        This is a dangerous zone. Be careful.
+        <strong>This is a dangerous zone.</strong> Be careful.
       </p>
 
       <p className="text-16 leading-140 mb-8">
@@ -63,7 +70,7 @@ export function DangerZoneSection() {
       </p>
       <button
         onClick={() => setActivityChangeConfirmationModalOpen(true)}
-        className="btn mb-16"
+        className="btn-m mb-16 btn-warning"
       >
         {isUserActive ? 'Pause' : 'Resume'}
       </button>
@@ -73,7 +80,7 @@ export function DangerZoneSection() {
       </p>
       <button
         onClick={() => setDeleteConfirmationModalOpen(true)}
-        className="btn"
+        className="btn-m btn-alert"
       >
         Delete
       </button>
@@ -82,6 +89,7 @@ export function DangerZoneSection() {
         title="Are you sure you want to delete your GitHub sync?"
         description="This action probably cannot be undone."
         confirmLabel="Delete"
+        confirmButtonClass="btn-alert"
         declineLabel="Cancel"
         onConfirm={handleDelete}
         open={isDeleteConfirmationModalOpen}

@@ -36,7 +36,7 @@ export function showResultToast(
         style={{ borderColor: STATUS_COLORS[status].border }}
         className={assembleClassNames(
           t.visible ? 'animate-slideIn' : 'animate-slideOut',
-          'max-w-[500px] w-full',
+          'max-w-[500px]',
           `border-${STATUS_COLORS[status].border}`,
           'border-1 flex justify-between bg-white shadow-base text-14 rounded-8 p-8 gap-8 items-center relative'
         )}

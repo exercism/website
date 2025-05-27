@@ -1,30 +1,36 @@
 main {
-    background-image: url(/bootcamp/images/coffee-beans.png);
-    background-size: cover;
-    background-color: #e1d3c6;
-    padding: 5%;
-}
-h1 {
-    font-size: 23px;
-    font-weight: bold;
-    margin-bottom: 5%;
-    color: #2b1a0b;
-}
-p,
-ul {
-    font-size: 17px;
-    color: #2b1a0b;
-}
-p {
-    margin-bottom: 5%;
-}
-ul {
-    margin-bottom: 5%;
-}
-strong {
-    font-weight: bold;
-}
-a {
-    color: darkmagenta;
-    text-decoration: underline;
+    display: grid;
+    height: 100%;
+    place-items: center;
+
+    .notifications {
+        margin: 15px;
+        background: #130b43;
+        padding: 10px;
+        border: 2px solid rgb(136, 0, 254);
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+        gap: 10px;
+        position: relative;
+        img {
+            height: 25px;
+        }
+        .count {
+            font-size: 17px;
+            color: white;
+            font-weight: 600;
+        }
+        .dot {
+            background: #eb5757;
+            border: 3px solid white;
+            border-radius: 100%;
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: -7px;
+            right: -7px;
+        }
+    }
 }

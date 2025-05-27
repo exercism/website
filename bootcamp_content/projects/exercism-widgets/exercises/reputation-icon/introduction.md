@@ -1,32 +1,32 @@
-# Background
+# Reputation Icon
 
-To add a bit more style - we're going to add a background image to our Coffee Thoughts.
+In this exercise, we're recreating the reputation icon that you can find on the top bar inside Exercism.
 
-To set backgrounds, we have a number of properties we can use:
-
-- `background-image: url(...)`: Sets the url of a background image.
-- `background-size`: Can be lots of values. In this exercise, we want the image to cover our space, so we use the `cover` value.
-- `background-color`: Specify a color to render **below** the background image. As the image is partially transparent, this color shows through.
-
-There are many other properties too, but we don't need them here.
+We're specifically looking at the state when there is a reputation notification signified by the red dot.
 
 ## Instructions
 
-Firstly, we've removed some hidden styling. You'll need to reimplement that with two steps:
+You can solve this using whichever properties you want.
 
-1. In your HTML, wrap all of the content in a new element.
-2. In the CSS, add some padding to that element.
+**Colors:**
 
-**If you use `padding` or `margin`, use `%` values.**
+There are four colors used:
 
-We've created a very transparent image of some coffee beans. It lives at `/bootcamp/images/coffee-beans.png`. You should set the background of your new element to be this image along with a underlying color of `#e1d3c6`.
+- Dark Blue: `#130b43`
+- Pinky Purple: `rgb(136, 0, 254)`
+- Red: `#EB5757`
+- White: `white`
 
-### Contrast
+**Sizes:**
 
-It's very important when adding background colors or images to consider the level of contrast between the text and the background. While our coffee beans might look nicer than a plain color, they make the text a little harder to read.
+- Everything uses pixels other than one border radiuses and the outermost height of `100%`;
+- Other than the font-size, everything is divisble by 5, except for the dot (see below)
 
-There are lots of tools online to help you understand whether your contrast is ok. They general use the WCAG guidelines - a set of web accessibility guidelines - and measure your performance.
+**Image:**
 
-You can learn more about this at [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Understanding_WCAG/Perceivable/Color_contrast).
+The reputation icon lives at
+`/bootcamp/images/reputation icon.svg`
 
-For now, let's check our contrast using an online tool (e.g. [Webaim's](https://webaim.org/resources/contrastchecker/)). Always input the values for the darkest point of your background (`#D2C1B4`) and the lightest text you use (`#442A12`). See if the tool thinks you're ok!
+**The dot**
+
+The dot is somewhat arbitarily positioned by design. I recommend **not** using transform with the top and instead finding the right manual offsets.

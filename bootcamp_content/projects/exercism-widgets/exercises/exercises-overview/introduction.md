@@ -21,6 +21,7 @@ Here's some notes:
   - The white circle means the exercise is available. It has a `1px` border of `#aaa`.
   - The blue circle means the exercise is in progress. It has a background of `#6A93FF` and a `1px` border of `#2E57E8`.
   - The completed circle uses an image from `/bootcamp/images/check-circle.svg`. I used a background image set to `contain`. It has no border.
+- The progress bar's background color is `#E1EBFF`.
 - The progress bar has a gradient. You can set this using the following property:
 
 ```css

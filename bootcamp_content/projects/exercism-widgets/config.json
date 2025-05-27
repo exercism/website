@@ -1,0 +1,13 @@
+{
+  "slug": "exercism-widgets",
+  "title": "Exercism Widgets",
+  "description": "A selection of widgets from Exercism's site",
+  "exercises": [
+    "journey-button",
+    "track-summary",
+    "reputation-icon",
+    "exercises-overview",
+    "coding-fundamentals-advert",
+    "notifications-icon"
+  ]
+}

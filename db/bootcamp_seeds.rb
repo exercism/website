@@ -76,6 +76,7 @@ projects = %w[
   gridded-glory
   positioned-patterns
   snake
+  exercism-widgets
 ]
 
 projects.each do |project_slug|

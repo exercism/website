@@ -4,6 +4,7 @@
   "language": "css",
   "level": 15,
   "idx": 3,
+  "blocks_level_progression": false,
   "editor_config": {
     "aspect_ratio": 1.5
   }

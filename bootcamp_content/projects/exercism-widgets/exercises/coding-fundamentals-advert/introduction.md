@@ -22,6 +22,8 @@ There are two small details that might be hard to spot:
 - The images have a both purple (`rgb(96 79 205)`) and white lines around them.
 - The button has a border (`rgb(19 11 67)`).
 
+A final technical note for those who are curious or more advanced. Everything in this exercise has `box-sizing` set to `border-box`, primarily to make laying out the images easier.
+
 ### Misbehaving images
 
 One thing that can be a bit confusing is fitting an imagine into a grid slot. If you choose to use grid to solve this exercise, then setting `width: 100%` on the images will mean they obey an grid column instructions you give.

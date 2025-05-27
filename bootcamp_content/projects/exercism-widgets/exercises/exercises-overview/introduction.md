@@ -1,32 +1,28 @@
-# Background
+# Exercises Overview Sample
 
-To add a bit more style - we're going to add a background image to our Coffee Thoughts.
-
-To set backgrounds, we have a number of properties we can use:
-
-- `background-image: url(...)`: Sets the url of a background image.
-- `background-size`: Can be lots of values. In this exercise, we want the image to cover our space, so we use the `cover` value.
-- `background-color`: Specify a color to render **below** the background image. As the image is partially transparent, this color shows through.
-
-There are many other properties too, but we don't need them here.
+In this exercise you're going to recreate the top of a track page, which shows an overview of your progress through all the exercise so far.
 
 ## Instructions
 
-Firstly, we've removed some hidden styling. You'll need to reimplement that with two steps:
+Firstly, ensure that you can see all the elements of the target. You might need to zoom out a little to do this. It should look like the image below. It doesn't matter if it's a little different on your screen as long as you can see all the elements.
 
-1. In your HTML, wrap all of the content in a new element.
-2. In the CSS, add some padding to that element.
+<img src="https://assets.exercism.org/bootcamp/graphics/exercises-overview-sample.png" style="width: 100%; max-width:300px;margin-top:10px;margin-bottom:20px;border:1px solid #ddd;border-radius:5px"/>
 
-**If you use `padding` or `margin`, use `%` values.**
+### Properties
 
-We've created a very transparent image of some coffee beans. It lives at `/bootcamp/images/coffee-beans.png`. You should set the background of your new element to be this image along with a underlying color of `#e1d3c6`.
+You can use whatever properties you feel are appropriate to solve this exercise.
 
-### Contrast
+Here's some notes:
 
-It's very important when adding background colors or images to consider the level of contrast between the text and the background. While our coffee beans might look nicer than a plain color, they make the text a little harder to read.
+- All sizes are pixels, except for the progress of the progress bar, border-sizes and border-radiuses. Except for font-sizes they are all divisible by 5.
+- The percentage in the heading is colored `#604FCD`.
+- The JavaScript logo is at `/bootcamp/images/javascript-tight.svg`.
+- There are three circles.
+  - The white circle means the exercise is available. It has a `1px` border of `#aaa`.
+  - The blue circle means the exercise is in progress. It has a background of `#6A93FF` and a `1px` border of `#2E57E8`.
+  - The completed circle uses an image from `/bootcamp/images/check-circle.svg`. I used a background image set to `contain`. It has no border.
+- The progress bar has a gradient. You can set this using the following property:
 
-There are lots of tools online to help you understand whether your contrast is ok. They general use the WCAG guidelines - a set of web accessibility guidelines - and measure your performance.
-
-You can learn more about this at [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Understanding_WCAG/Perceivable/Color_contrast).
-
-For now, let's check our contrast using an online tool (e.g. [Webaim's](https://webaim.org/resources/contrastchecker/)). Always input the values for the darkest point of your background (`#D2C1B4`) and the lightest text you use (`#442A12`). See if the tool thinks you're ok!
+```css
+background: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
+```

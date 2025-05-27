@@ -2,7 +2,7 @@
   "title": "Track Summary",
   "description": "Recreate the Exercism track summary widget",
   "language": "css",
-  "level": 12,
+  "level": 13,
   "idx": 11,
   "editor_config": {
     "aspect_ratio": 1.5

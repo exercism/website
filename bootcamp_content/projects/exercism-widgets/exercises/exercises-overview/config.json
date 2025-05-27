@@ -1,7 +1,10 @@
 {
-  "title": "Notifications Icon",
-  "description": "Reacreate the Exercism notifications icon",
+  "title": "Exercises Overview",
+  "description": "Reacreate the Exercism exercises overview widget",
   "language": "css",
-  "level": 12,
-  "idx": 5
+  "level": 14,
+  "idx": 9,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
 }

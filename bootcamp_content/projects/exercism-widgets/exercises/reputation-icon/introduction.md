@@ -25,7 +25,7 @@ There are four colors used:
 **Image:**
 
 The reputation icon lives at
-`/bootcamp/images/reputation icon.svg`
+`/bootcamp/images/reputation-icon.svg`
 
 **The dot**
 

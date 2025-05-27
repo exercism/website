@@ -1,0 +1,50 @@
+.track-progress {
+    background: rgb(230, 237, 254);
+  
+    margin: 10px;
+    font-family: sans-serif;
+    padding:20px 20px 20px 16px;
+    
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    
+    .track-icon{
+      height:64px;
+    }  
+    .stats { 
+      flex-grow: 1;
+      display:flex;
+      flex-direction: column;
+      max-width: 250px;
+  
+      .track-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #130b43;
+        margin-bottom:8px;
+      }
+      .progress-bar {
+        height:10px;
+        margin-bottom:6px;
+        border-radius:20px;
+        overflow:hidden;
+        background:white;
+        display:flex;
+        
+        .complete {
+          background:blue;
+          width:20%;
+        }
+      }
+      .exercises {
+        font-size: 16px;
+        font-weight: 500;
+        color: #5c5589;
+      }
+    }
+    .chevron {
+      margin-left: auto;
+      height:20px;
+    }
+  }

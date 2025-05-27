@@ -115,6 +115,10 @@
         color: #aaa;
         font-size: 16px;
 
+        .cm-cursor {
+            border-color: var(--textColor1);
+        }
+
         .cm-scroller {
             font-family: "Source Code Pro", "Courier New", Courier, monospace;
         }

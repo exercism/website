@@ -7,11 +7,21 @@ module ReactComponents
           is_user_active: current_user.github_solution_syncer&.enabled?,
           repo_full_name: current_user.github_solution_syncer&.repo_full_name?,
           is_user_insider: current_user.insider?,
+          tracks:,
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
             settings: Exercism::Routes.settings_github_syncer_path
           }
         })
+      end
+
+      memoize
+      def tracks = ::Track.select(:slug, :title).map do |track|
+        {
+          slug: track.slug,
+          title: track.title,
+          icon_url: track.icon_url
+        }
       end
     end
   end

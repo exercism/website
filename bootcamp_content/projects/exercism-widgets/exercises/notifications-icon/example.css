@@ -4,7 +4,6 @@ main {
     place-items: center;
 
     .notifications {
-        margin: 15px;
         box-shadow: 0px 4px 24px rgb(156, 130, 38);
         background: #fff4e3;
         border-radius: 10px;

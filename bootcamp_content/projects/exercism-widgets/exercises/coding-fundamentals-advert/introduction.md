@@ -39,3 +39,10 @@ A course designed to give you rock-solid programming fundamentals.  Totally new?
 In 12 weeks you'll go from zero to making...
 Explore Coding Fundamentals
 ```
+
+**Images:**
+
+- `/bootcamp/images/space-invaders.png`
+- `/bootcamp/images/tic-tac-toe.png`
+- `/bootcamp/images/breakout.png`
+- `/bootcamp/images/maze.png`

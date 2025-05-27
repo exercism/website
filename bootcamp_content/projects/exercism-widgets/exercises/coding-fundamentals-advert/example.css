@@ -1,0 +1,39 @@
+main {
+    padding: 10px;
+
+    h1 {
+        font-size: 22px;
+    }
+    .subheading {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    p {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    .images {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-bottom: 10px;
+        gap: 5px;
+
+        img {
+            width: 100%;
+            border: 1px solid rgb(96 79 205);
+            padding: 1px;
+            border-radius: 5px;
+        }
+    }
+    .btn {
+        background: rgb(96 79 205);
+        border: 1px solid rgb(19 11 67);
+        border-radius: 5px;
+        padding: 10px 15px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+    }
+}

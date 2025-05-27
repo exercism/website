@@ -24,7 +24,7 @@ export const InstructionsPanel = ({
   return (
     <Tab.Panel id="instructions" context={TabsContext} alwaysAttachToDOM>
       <section className="instructions-pane" ref={ref}>
-        <div className="c-textual-content --small">
+        <div className="c-textual-content --base">
           {tutorial && <HelloWorldVideo />}
           <Introduction introduction={introduction} />
           <Instructions assignment={assignment} />

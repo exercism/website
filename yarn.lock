@@ -1482,10 +1482,10 @@
   resolved "https://registry.yarnpkg.com/@exercism/html-to-image/-/html-to-image-1.11.17.tgz#a5169dd4b586c1b6c0cca4e120e66a92894a551d"
   integrity sha512-Op7NIpWXanCrU6qNI/D8nOMs4HLXlIFE35XDOEVI2qEEZn8FMIoITogr8Xl/FC8HMUhFyyojNwQyWBp9+bObRA==
 
-"@exercism/javascript-browser-test-runner@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@exercism/javascript-browser-test-runner/-/javascript-browser-test-runner-0.3.0.tgz#affbd67663353c4c7116f5b4d7557e73c0864d92"
-  integrity sha512-8od9p+r0po/jmK1aXWGYBm36xYflnbhrLP8UZ5RKoMbPn4lq2bUCCgsF+ONrZngW3ZqpBpbSI5Nrg6BfKNdWHQ==
+"@exercism/javascript-browser-test-runner@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@exercism/javascript-browser-test-runner/-/javascript-browser-test-runner-0.5.0.tgz#7d62fc10b3033535f2be4b1602cef7fc0e4ba337"
+  integrity sha512-awaJgqanZCWwSWUG4N7EIWessbRDsMy2lYo2u3jSCTe1POi6ZEQeALMsZviDnQzkixL0rMuOzNEi5SCZ589nfw==
 
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"

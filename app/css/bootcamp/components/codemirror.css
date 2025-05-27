@@ -116,7 +116,7 @@
         font-size: 16px;
 
         .cm-cursor {
-            border-color: #130b43;
+            border-color: var(--textColor1);
         }
 
         .cm-scroller {

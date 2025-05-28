@@ -15,7 +15,12 @@ export type GithubSyncerSettings = {
 }
 
 export type GitHubSyncerFormProps = {
-  links: { connectToGithub: string; settings: string }
+  links: {
+    connectToGithub: string
+    settings: string
+    syncTrack: string
+    syncEverything: string
+  }
   isUserConnected: boolean
   isUserInsider: boolean
   syncer: GithubSyncerSettings | null

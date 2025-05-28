@@ -14,6 +14,7 @@ class Settings::GithubSyncerController < ApplicationController
           path_template
           commit_message_template
           enabled
+          sync_exercise_files
           sync_on_iteration_creation
         ]
       )
@@ -26,7 +27,7 @@ class Settings::GithubSyncerController < ApplicationController
 
   def sync_track
     user_track = UserTrack.for!(current_user, params[:track_slug])
-    User::GithubSyncer::SyncTrack.defer(user_track)
+    User::GithubSolutionSyncer::SyncTrack.defer(user_track)
   rescue ActiveRecord::RecordNotFound
     render json: {
       error: "We couldn't find data about you solving exercises on this track"

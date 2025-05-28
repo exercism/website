@@ -96,6 +96,7 @@ export function CommitMessageTemplateSection() {
       <input
         type="text"
         value={commitMessageTemplate}
+        style={{ color: !isUserInsider ? '#aaa' : '' }}
         className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
         onChange={(e) => setCommitMessageTemplate(e.target.value)}
       />

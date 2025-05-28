@@ -83,6 +83,7 @@ export function ProcessingMethodSection() {
               <input
                 type="text"
                 className="font-mono font-semibold text-16 leading-140 border border-1"
+                style={{ color: !isUserInsider ? '#aaa' : '' }}
                 value={mainBranchName}
                 onChange={(e) => setMainBranchName(e.target.value)}
               />

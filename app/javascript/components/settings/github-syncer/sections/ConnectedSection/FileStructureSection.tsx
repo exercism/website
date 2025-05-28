@@ -98,6 +98,7 @@ export function FileStructureSection() {
       <input
         type="text"
         value={pathTemplate}
+        style={{ color: !isUserInsider ? '#aaa' : '' }}
         className={assembleClassNames(
           'font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16',
           isTemplateInvalid && '!border-orange'

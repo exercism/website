@@ -3,11 +3,9 @@ module ReactComponents
     class GithubSyncerForm < ReactComponent
       def to_s
         super("settings-github-syncer-form", {
-          is_user_connected: true,
-          # is_user_connected: syncer.present?,
+          is_user_connected: syncer.present?,
           is_user_insider: current_user.insider?,
-          # syncer: syncer_settings,
-          syncer: mock_syncer,
+          syncer: syncer_settings,
           default_commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
           default_path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE,
           tracks:,
@@ -37,7 +35,7 @@ module ReactComponents
       # for visual testing purposes, remove once this is shipped
       def mock_syncer
         {
-          enabled: true,
+          enabled: false,
           repo_full_name: "exercism/example-repo",
           sync_on_iteration_creation: true,
           sync_exercise_files: true,

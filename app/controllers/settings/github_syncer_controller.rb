@@ -13,7 +13,7 @@ class Settings::GithubSyncerController < ApplicationController
           main_branch_name
           path_template
           commit_message_template
-          active
+          enabled
           sync_on_iteration_creation
         ]
       )

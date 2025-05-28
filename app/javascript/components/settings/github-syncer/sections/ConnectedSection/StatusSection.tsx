@@ -1,19 +1,15 @@
 import React, { useCallback, useState } from 'react'
-import { GitHubSyncerContext } from '../../GitHubSyncerForm'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams } from '../../fetchWithParams'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
-import { useLogger } from '@/hooks'
 
 export function StatusSection() {
-  const { syncer, links } = React.useContext(GitHubSyncerContext)
+  const { links, isSyncingEnabled, setIsSyncingEnabled, syncer } =
+    React.useContext(GitHubSyncerContext)
 
-  useLogger('syncer', syncer)
-
-  const isSyncerEnabled = syncer?.enabled || false
-  const color = isSyncerEnabled ? 'var(--successColor)' : '#F69605'
-  const status = isSyncerEnabled ? 'Active' : 'Paused'
+  const color = isSyncingEnabled ? 'var(--successColor)' : '#F69605'
+  const status = isSyncingEnabled ? 'Active' : 'Paused'
 
   const [
     isActivityChangeConfirmationModalOpen,
@@ -23,26 +19,26 @@ export function StatusSection() {
     setActivityChangeConfirmationModalOpen(false)
   }, [])
 
-  const handleToggleActivity = useCallback(() => {
+  const handleEnableSyncing = useCallback(() => {
     fetchWithParams({
       url: links.settings,
-      params: { active: !isSyncerEnabled },
+      params: { enabled: true },
     })
       .then((response) => {
         if (response.ok) {
-          toast.success(
-            isSyncerEnabled
-              ? 'Paused code sync with GitHub.'
-              : 'Resumed code sync with GitHub.'
-          )
+          toast.success('Resumed code sync with GitHub.')
+          setActivityChangeConfirmationModalOpen(false)
+          setIsSyncingEnabled(true)
         } else {
           toast.error(`Failed to change status.`)
+          setActivityChangeConfirmationModalOpen(false)
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        setActivityChangeConfirmationModalOpen(false)
       })
-  }, [isSyncerEnabled, links.settings])
+  }, [links.settings])
 
   return (
     <section style={{ borderColor: color }} className="border-2">
@@ -53,7 +49,7 @@ export function StatusSection() {
         Your GitHub syncer is linked to <code>{syncer?.repoFullName}</code>.
       </p>
 
-      {!isSyncerEnabled && (
+      {!isSyncingEnabled && (
         <>
           <button
             onClick={() => setActivityChangeConfirmationModalOpen(true)}
@@ -65,7 +61,7 @@ export function StatusSection() {
             title="Are you sure you want to resume syncing solutions with GitHub?"
             confirmLabel="Resume"
             declineLabel="Cancel"
-            onConfirm={handleToggleActivity}
+            onConfirm={handleEnableSyncing}
             open={isActivityChangeConfirmationModalOpen}
             onClose={handleActivityChangeConfirmationModalClose}
           />

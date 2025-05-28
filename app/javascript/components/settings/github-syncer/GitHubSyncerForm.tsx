@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { ConnectedSection } from './sections/ConnectedSection'
 import { Toaster } from 'react-hot-toast'
 import { ConnectToGithubSection } from './sections/ConnectToGithubSection'
@@ -24,7 +24,13 @@ export type GitHubSyncerFormProps = {
   defaultCommitMessageTemplate: string
 }
 
-type GitHubSyncerContextType = Omit<GitHubSyncerFormProps, 'isUserConnected'>
+type GitHubSyncerContextType = Omit<
+  GitHubSyncerFormProps,
+  'isUserConnected'
+> & {
+  isSyncingEnabled: boolean
+  setIsSyncingEnabled: React.Dispatch<SetStateAction<boolean>>
+}
 
 export const GitHubSyncerContext = React.createContext<GitHubSyncerContextType>(
   {} as GitHubSyncerContextType
@@ -33,6 +39,9 @@ export const GitHubSyncerContext = React.createContext<GitHubSyncerContextType>(
 export default function GitHubSyncerForm(
   data: GitHubSyncerFormProps
 ): JSX.Element {
+  const [isSyncingEnabled, setIsSyncingEnabled] = useState(
+    data.syncer?.enabled || false
+  )
   return (
     <GitHubSyncerContext.Provider
       value={{
@@ -42,6 +51,8 @@ export default function GitHubSyncerForm(
         tracks: data.tracks,
         defaultCommitMessageTemplate: data.defaultCommitMessageTemplate,
         defaultPathTemplate: data.defaultPathTemplate,
+        isSyncingEnabled,
+        setIsSyncingEnabled,
       }}
     >
       {data.isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}

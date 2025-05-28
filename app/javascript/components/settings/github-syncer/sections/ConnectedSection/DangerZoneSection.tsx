@@ -6,8 +6,8 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { GraphicalIcon } from '@/components/common'
 
 export function DangerZoneSection() {
-  const { links, syncer } = React.useContext(GitHubSyncerContext)
-  const isSyncerEnabled = syncer?.enabled || false
+  const { links, isSyncingEnabled, setIsSyncingEnabled } =
+    React.useContext(GitHubSyncerContext)
 
   const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false)
@@ -26,21 +26,21 @@ export function DangerZoneSection() {
   const handlePauseSyncer = useCallback(() => {
     fetchWithParams({
       url: links.settings,
-      params: { active: false },
+      params: { enabled: false },
     })
       .then((response) => {
         if (response.ok) {
-          toast.success(
-            isSyncerEnabled
-              ? 'Paused code sync with GitHub.'
-              : 'Resumed code sync with GitHub.'
-          )
+          toast.success('Paused code sync with GitHub.')
+          setActivityChangeConfirmationModalOpen(false)
+          setIsSyncingEnabled(false)
         } else {
           toast.error(`Failed to change status.`)
+          setActivityChangeConfirmationModalOpen(false)
         }
       })
       .catch((error) => {
         console.error('Error:', error)
+        setActivityChangeConfirmationModalOpen(false)
       })
   }, [links.settings])
 
@@ -49,6 +49,7 @@ export function DangerZoneSection() {
       .then(async (response) => {
         if (response.ok) {
           toast.success('GitHub sync deleted successfully')
+          setDeleteConfirmationModalOpen(false)
         } else {
           const data = await response.json()
           toast.error(
@@ -67,7 +68,7 @@ export function DangerZoneSection() {
     <section className="danger-zone">
       <div className="flex gap-48 items-start">
         <div>
-          {isSyncerEnabled && (
+          {isSyncingEnabled && (
             <>
               <h2>Pause Syncer</h2>
               <p className="text-16 leading-140 mb-4">

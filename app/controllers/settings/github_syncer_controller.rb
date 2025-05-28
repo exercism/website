@@ -20,9 +20,36 @@ class Settings::GithubSyncerController < ApplicationController
     )
   end
 
+  def sync_everything
+    User::GithubSyncer::SyncEverything.(current_user)
+  end
+
   def sync_track
-    track_slug = params[:track_slug]
-    Track.find_by(slug: track_slug)
+    user_track = UserTrack.for!(current_user, params[:track_slug])
+    User::GithubSyncer::SyncTrack.(user_track)
+  rescue ActiveRecord::RecordNotFound
+    render json: {
+      error: "We couldn't find data about you solving exercises on this track"
+    }, status: :not_found
+  end
+
+  def sync_solution
+    solution = Solution.for!(user, params[:track_slug], params[:exercise_slug])
+    User::GithubSyncer::SyncSolution.(solution)
+  rescue ActiveRecord::RecordNotFound
+    render json: {
+      error: "We couldn't find data about you solving this exercise"
+    }, status: :not_found
+  end
+
+  def sync_iteration
+    solution = Solution.for!(user, params[:track_slug], params[:exercise_slug])
+    iteration = solution.iterations.find_by!(idx: params[:iteration_idx])
+    User::GithubSyncer::SyncIteration.(iteration)
+  rescue ActiveRecord::RecordNotFound
+    render json: {
+      error: "We couldn't find data about this iteration"
+    }, status: :not_found
   end
 
   def callback

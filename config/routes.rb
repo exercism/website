@@ -88,6 +88,10 @@ Rails.application.routes.draw do
 
     resource :github_syncer, only: %i[show update destroy], controller: "settings/github_syncer" do
       get :callback # For GitHub installation callback
+      patch :sync_everything
+      patch :sync_track
+      patch :sync_solution
+      patch :sync_iteration
     end
   end
 

@@ -11,7 +11,9 @@ module ReactComponents
           tracks:,
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
-            settings: Exercism::Routes.settings_github_syncer_path
+            settings: Exercism::Routes.settings_github_syncer_path,
+            sync_track: Exercism::Routes.settings_github_syncer_sync_track_path,
+            sync_everything: Exercism::Routes.settings_github_syncer_sync_everything_path
           }
         })
       end
@@ -49,12 +51,14 @@ module ReactComponents
       def syncer = current_user.github_solution_syncer
 
       memoize
-      def tracks = ::Track.select(:slug, :title).map do |track|
-        {
-          slug: track.slug,
-          title: track.title,
-          icon_url: track.icon_url
-        }
+      def tracks
+        current_user.tracks.select(:slug, :title).map do |track|
+          {
+            slug: track.slug,
+            title: track.title,
+            icon_url: track.icon_url
+          }
+        end
       end
     end
   end

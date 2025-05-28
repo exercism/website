@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { SectionHeader } from '../../common/SectionHeader'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
-import Dropdown from '@/components/dropdowns/Dropdown'
 import { TrackSelect } from '@/components/common/TrackSelect'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
+import toast from 'react-hot-toast'
+import { fetchWithParams } from '../../fetchWithParams'
 
 type Track = {
   title: string
@@ -12,10 +12,39 @@ type Track = {
 }
 
 export function ManualSyncSection() {
-  const { tracks } = useContext(GitHubSyncerContext)
-  useLogger('tracks', tracks)
-
+  const { tracks, isUserInsider, links } = useContext(GitHubSyncerContext)
   const [track, setTrack] = useState<Track>({} as Track)
+
+  const handleBackup = useCallback(() => {
+    if (!isUserInsider) return
+    fetchWithParams({
+      // Use the correct link
+      url: links.settings,
+      // params: {
+      //   commit_message_template: template,
+      // },
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          toast.success(
+            'Sync scheduled successfully! This should complete in the next hour.'
+          )
+        } else {
+          const data = await response.json()
+          toast.error(
+            'Failed to schedule syncing: ' + data.error.message ||
+              'Unknown error'
+          )
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+        toast.error(
+          'Something went wrong while scheduling syncing. Please try again.'
+        )
+      })
+  }, [links.settings, isUserInsider])
+
   return (
     <section id="manual-sync-section">
       <SectionHeader title="Manual Backup" />

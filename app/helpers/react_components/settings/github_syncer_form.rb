@@ -12,8 +12,8 @@ module ReactComponents
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
             settings: Exercism::Routes.settings_github_syncer_path,
-            sync_track: Exercism::Routes.settings_github_syncer_sync_track_path,
-            sync_everything: Exercism::Routes.settings_github_syncer_sync_everything_path
+            sync_track: Exercism::Routes.sync_track_settings_github_syncer_path,
+            sync_everything: Exercism::Routes.sync_everything_settings_github_syncer_path
           }
         })
       end

@@ -24,7 +24,6 @@ main {
         margin-bottom: 5px;
 
         .progress-bar {
-            margin-bottom: 5px;
             flex-grow: 1;
             height: 15px;
             border-radius: 20px 0 0 20px;

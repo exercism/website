@@ -14,7 +14,7 @@ You can use whatever properties you feel are appropriate to solve this exercise.
 
 Here's some notes:
 
-- All sizes are pixels (with one possible exception noted below about making images behave). Except for font-sizes they are all divisible by 5.
+- All sizes are pixels (with one possible exception noted below about making images behave). Nearly all are divisible by 5 (depending on your methodology you might choose to have some single pixel values).
 - There are two purples. A lighter one for the border background (`rgb(96 79 205)`) and a darker one (`rgb(19 11 67)`). The button text is `white`.
 
 There are two small details that might be hard to spot:

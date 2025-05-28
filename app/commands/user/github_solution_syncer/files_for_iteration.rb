@@ -6,13 +6,15 @@ class User::GithubSolutionSyncer
 
     def call
       files.map do |filename, content|
+        next unless content.present?
+
         {
           path: "#{path}/#{filename}",
           mode: "100644",
           type: "blob",
           content:
         }
-      end
+      end.compact
     end
 
     private

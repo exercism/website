@@ -7,6 +7,8 @@ class User::GithubSolutionSyncer
     initialize_with :syncer, :files, :commit_message, :branch_name, token: nil
 
     def call
+      return false unless files.present?
+
       base_branch = client.branch(repo, branch_name.to_s)
       base_commit_sha = base_branch.commit.sha
       base_tree_sha = base_branch.commit.commit.tree.sha

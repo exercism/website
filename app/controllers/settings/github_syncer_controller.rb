@@ -18,6 +18,11 @@ class Settings::GithubSyncerController < ApplicationController
     )
   end
 
+  def sync_track
+    track_slug = params[:track_slug]
+    Track.find_by(slug: track_slug)
+  end
+
   def callback
     installation_id = params[:installation_id]
 

@@ -20,6 +20,8 @@ export type GitHubSyncerFormProps = {
   isUserInsider: boolean
   syncer: GithubSyncerSettings | null
   tracks: readonly { slug: string; title: string; iconUrl: string }[]
+  defaultPathTemplate: string
+  defaultCommitMessageTemplate: string
 }
 
 type GitHubSyncerContextType = Omit<GitHubSyncerFormProps, 'isUserConnected'>
@@ -38,6 +40,8 @@ export default function GitHubSyncerForm(
         isUserInsider: data.isUserInsider,
         syncer: data.syncer,
         tracks: data.tracks,
+        defaultCommitMessageTemplate: data.defaultCommitMessageTemplate,
+        defaultPathTemplate: data.defaultPathTemplate,
       }}
     >
       {data.isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}

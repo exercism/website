@@ -5,22 +5,21 @@ import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useLogger } from '@/hooks'
 
-const DEFAULT = ''
 export function FileStructureSection() {
-  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider, syncer, defaultPathTemplate } =
+    React.useContext(GitHubSyncerContext)
 
-  const [pathTemplate, setPathTemplate] = useState<string>('')
+  const [pathTemplate, setPathTemplate] = useState<string>(
+    syncer?.pathTemplate || defaultPathTemplate
+  )
   const [isRevertPathTemplateModalOpen, setIsRevertPathTemplateModalOpen] =
     useState(false)
 
   const [isTemplateInvalid, setIsTemplateInvalid] = useState<boolean>(false)
 
-  const handleRevertPathTemplate = useCallback(() => {
-    setPathTemplate(DEFAULT)
-    handleSaveChanges()
-    setIsRevertPathTemplateModalOpen(false)
-  }, [])
+  useLogger('PATH TEMPALTE', pathTemplate)
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return
@@ -56,6 +55,12 @@ export function FileStructureSection() {
       })
   }, [pathTemplate, links.settings])
 
+  const handleRevertPathTemplate = useCallback(() => {
+    setPathTemplate(defaultPathTemplate)
+    handleSaveChanges()
+    setIsRevertPathTemplateModalOpen(false)
+  }, [defaultPathTemplate, handleSaveChanges])
+
   return (
     <section>
       <SectionHeader title="File structure" />
@@ -89,6 +94,7 @@ export function FileStructureSection() {
       </ul>
       <input
         type="text"
+        value={pathTemplate}
         className={assembleClassNames(
           'font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16',
           isTemplateInvalid && '!border-orange'

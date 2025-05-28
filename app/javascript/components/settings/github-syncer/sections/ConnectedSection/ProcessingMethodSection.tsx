@@ -45,10 +45,9 @@ export function ProcessingMethodSection() {
 
   return (
     <section>
-      <SectionHeader title="Processing method" />
-
       <div className="flex gap-48 items-start">
         <div>
+          <SectionHeader title="Processing method" />
           <p className="text-16 leading-150 mb-16">
             Our bot can commit directly to your repository for a fully automated
             setup, or create a pull request which you can approve each time.

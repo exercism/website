@@ -65,24 +65,23 @@ export function DangerZoneSection() {
 
   return (
     <section className="danger-zone">
-      <h2>Danger Zone</h2>
       <div className="flex gap-48 items-start">
         <div>
-          <p className="text-16 leading-140 mb-16">
-            <strong>This is a dangerous zone.</strong> Be careful.
-          </p>
-
           {isSyncerEnabled && (
             <>
-              <p className="text-16 leading-140 mb-8">
-                You can pause syncing your solutions.
+              <h2>Pause Syncer</h2>
+              <p className="text-16 leading-140 mb-4">
+                Want to pause your syncer for a while?
+              </p>
+              <p className="text-16 leading-140 mb-12">
+                Use the button below. You can restart it at any time.
               </p>
 
               <button
                 onClick={() => setActivityChangeConfirmationModalOpen(true)}
                 className="btn-m mb-16 btn-warning"
               >
-                Pause
+                Pause Syncer
               </button>
               <ConfirmationModal
                 title="Are you sure you want to pause syncing solutions with GitHub?"
@@ -96,6 +95,7 @@ export function DangerZoneSection() {
             </>
           )}
 
+          <h2>Disconnect Syncer</h2>
           <p className="text-16 leading-140 mb-8">
             Want to disconnect the syncer from your GitHub repository? Use the
             button below.

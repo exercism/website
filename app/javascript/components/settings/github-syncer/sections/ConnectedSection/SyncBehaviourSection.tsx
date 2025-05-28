@@ -40,9 +40,9 @@ export function SyncBehaviourSection() {
 
   return (
     <section>
-      <SectionHeader title="Sync behaviour" />
       <div className="flex gap-48 items-start">
         <div>
+          <SectionHeader title="Sync behaviour" />
           <p className="text-16 leading-150 mb-16">
             Choose whether syncing should happen automatically when you create a
             new iteration, or manually when you trigger it yourself.{' '}
@@ -79,7 +79,7 @@ export function SyncBehaviourSection() {
           </button>
         </div>
         <GraphicalIcon
-          icon="github-syncer-files"
+          icon="github-syncer-automatic"
           category="graphics"
           className="w-[200px] opacity-[0.5]"
         />

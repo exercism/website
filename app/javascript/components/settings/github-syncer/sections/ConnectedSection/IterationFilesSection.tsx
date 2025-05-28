@@ -39,9 +39,9 @@ export function IterationFilesSection() {
 
   return (
     <section>
-      <SectionHeader title="Iteration files" />
       <div className="flex gap-48 items-start">
         <div>
+          <SectionHeader title="Iteration files" />
           <p className="text-16 leading-150 mb-16">
             When syncing, do you want all the files in the exercise (e.g. your
             solution, the tests, the README, the hints, etc) to be synced to

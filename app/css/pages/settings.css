@@ -50,6 +50,7 @@
         }
         & section {
             @apply shadow-lg rounded-8 bg-backgroundColorA;
+            @apply relative;
             @apply py-24 px-32 mb-24;
 
             &.danger {

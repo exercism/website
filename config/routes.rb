@@ -86,7 +86,7 @@ Rails.application.routes.draw do
     delete :destroy_account
     delete :disconnect_discord
 
-    resource :github_syncer, only: %i[show destroy], controller: "settings/github_syncer" do
+    resource :github_syncer, only: %i[show update destroy], controller: "settings/github_syncer" do
       get :callback # For GitHub installation callback
     end
   end

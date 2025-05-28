@@ -1,7 +1,7 @@
 import React from 'react'
 import { CommitMessageTemplateSection } from './CommitMessageTemplateSection'
 import { DangerZoneSection } from './DangerZoneSection'
-import { PathTemplateSection } from './PathTemplateSection'
+import { FileStructureSection } from './FileStructureSection'
 import { ProcessingMethodSection } from './ProcessingMethodSection'
 import { IterationFilesSection } from './IterationFilesSection'
 import { StatusSection } from './StatusSection'
@@ -15,7 +15,7 @@ export function ConnectedSection() {
       <ProcessingMethodSection />
       <SyncBehaviourSection />
       <IterationFilesSection />
-      <PathTemplateSection />
+      <FileStructureSection />
       <CommitMessageTemplateSection />
       <ManualSyncSection />
       <DangerZoneSection />

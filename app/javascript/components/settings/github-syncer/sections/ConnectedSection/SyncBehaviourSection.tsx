@@ -7,10 +7,10 @@ import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
 
 export function SyncBehaviourSection() {
-  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
 
   const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
-    useState(false)
+    useState(syncer?.syncOnIterationCreation ?? true)
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return

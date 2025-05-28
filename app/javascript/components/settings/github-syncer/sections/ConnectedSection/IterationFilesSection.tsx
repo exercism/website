@@ -7,9 +7,9 @@ import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
 
 export function IterationFilesSection() {
-  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [shouldSyncExerciseFiles, setShouldSyncExerciseFiles] =
-    useState<boolean>(false)
+    useState<boolean>(syncer?.syncExerciseFiles ?? true)
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return

@@ -7,7 +7,7 @@ import { SectionHeader } from '../../common/SectionHeader'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
 const DEFAULT = ''
-export function PathTemplateSection() {
+export function FileStructureSection() {
   const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
 
   const [pathTemplate, setPathTemplate] = useState<string>('')

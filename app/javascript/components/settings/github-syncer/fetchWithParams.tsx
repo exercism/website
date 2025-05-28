@@ -9,6 +9,10 @@ export function fetchWithParams({
 }): Promise<Response> {
   return fetch(url, {
     method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
     body: JSON.stringify({
       github_solution_syncer: params,
     }),

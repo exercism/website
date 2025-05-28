@@ -57,6 +57,14 @@
                     @apply text-h5 mb-8;
                 }
             }
+            .toggle-button {
+                @apply btn btn-xs border-1;
+
+                &.selected {
+                    @apply border-midnightBlue;
+                    @apply bg-darkSuccessGreen text-white;
+                }
+            }
 
             & .form-footer {
                 margin-left: -32px;

@@ -4,6 +4,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams } from '../../fetchWithParams'
 import { SectionHeader } from '../../common/SectionHeader'
+import { GraphicalIcon } from '@/components/common'
 
 export function IterationFilesSection() {
   const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
@@ -39,43 +40,48 @@ export function IterationFilesSection() {
   return (
     <section>
       <SectionHeader title="Iteration files" />
-      <p className="text-16 leading-140 mb-16">
-        Do you want to include just your solution files, or all the files in the
-        exercise?
-      </p>
-      <div className="flex gap-8 mb-16">
-        <button
-          onClick={() => setShouldSyncExerciseFiles(false)}
-          className={assembleClassNames(
-            'btn btn-xs border border-1',
-            !shouldSyncExerciseFiles
-              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
-              : ''
-          )}
-        >
-          Only solution files
-        </button>
+      <div className="flex gap-48 items-start">
+        <div>
+          <p className="text-16 leading-150 mb-16">
+            When syncing, do you want all the files in the exercise (e.g. your
+            solution, the tests, the README, the hints, etc) to be synced to
+            GitHub, or only your solution file(s)?
+          </p>
+          <div className="flex gap-8 mb-16">
+            <button
+              onClick={() => setShouldSyncExerciseFiles(true)}
+              className={assembleClassNames(
+                'toggle-button',
+                shouldSyncExerciseFiles ? 'selected' : ''
+              )}
+            >
+              The full exercise
+            </button>
+            <button
+              onClick={() => setShouldSyncExerciseFiles(false)}
+              className={assembleClassNames(
+                'toggle-button',
+                !shouldSyncExerciseFiles ? 'selected' : ''
+              )}
+            >
+              Only my solution file(s)
+            </button>
+          </div>
 
-        <button
-          onClick={() => setShouldSyncExerciseFiles(true)}
-          className={assembleClassNames(
-            'btn btn-xs border border-1',
-            shouldSyncExerciseFiles
-              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
-              : ''
-          )}
-        >
-          All files
-        </button>
+          <button
+            disabled={!isUserInsider}
+            className="btn btn-primary"
+            onClick={handleSaveChanges}
+          >
+            Save changes
+          </button>
+        </div>
+        <GraphicalIcon
+          icon="github-syncer-files"
+          category="graphics"
+          className="w-[200px] opacity-[0.5]"
+        />
       </div>
-
-      <button
-        disabled={!isUserInsider}
-        className="btn btn-primary"
-        onClick={handleSaveChanges}
-      >
-        Save changes
-      </button>
     </section>
   )
 }

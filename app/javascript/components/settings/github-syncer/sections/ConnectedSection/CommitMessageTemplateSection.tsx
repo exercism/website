@@ -62,24 +62,22 @@ export function CommitMessageTemplateSection() {
 
       <ul className="text-16 leading-150 mb-16">
         <li>
-          <code>$track_slug</code> (mandatory): The slug of the track (e.g.
-          "csharp").
+          <code>$track_slug</code>: The slug of the track (e.g. "csharp").
         </li>
         <li>
-          <code>$track_name</code> (mandatory): The name of the track (e.g.
-          "C#")
+          <code>$track_name</code>: The name of the track (e.g. "C#")
         </li>
         <li>
-          <code>$exercise_slug</code> (mandatory): The slug of the exercise
-          (e.g. "hello-world")
+          <code>$exercise_slug</code>: The slug of the exercise (e.g.
+          "hello-world")
         </li>
         <li>
-          <code>$exercise_name</code> (mandatory): The name of the exercise
-          (e.g. "Hello World")
+          <code>$exercise_name</code>: The name of the exercise (e.g. "Hello
+          World")
         </li>
         <li>
-          <code>$iteration_idx</code> (optional): The iteration index of the
-          exercise (e.g. "1")
+          <code>$iteration_idx</code>: The iteration index of the exercise (e.g.
+          "1")
         </li>
         <li>
           <code>$sync_object</code> (optional): One of "Iteration", "Solution",

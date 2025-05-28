@@ -52,70 +52,78 @@ export function ProcessingMethodSection() {
   return (
     <section>
       <SectionHeader title="Processing method" />
-      <p className="text-16 leading-140 mb-16">
-        Do you want to commit directly or create a pull request?
-      </p>
-      <div className="flex gap-8 mb-16">
-        <button
-          onClick={() => setSelectedProcessingMethod('commit')}
-          className={assembleClassNames(
-            'btn btn-xs border border-1',
-            selectedProcessingMethod === 'commit'
-              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
-              : ''
-          )}
-        >
-          Commit directly
-        </button>
 
-        <button
-          onClick={() => setSelectedProcessingMethod('pr')}
-          className={assembleClassNames(
-            'btn btn-xs border border-1',
-            selectedProcessingMethod === 'pr'
-              ? 'bg-[var(--backgroundColorNotificationsUnreadDot)] border-midnightBlue text-backgroundColorA'
-              : ''
-          )}
-        >
-          Create pull request
-        </button>
-      </div>
+      <div className="flex gap-48 items-start">
+        <div>
+          <p className="text-16 leading-150 mb-16">
+            Our bot can commit directly to your repository for a fully automated
+            setup, or create a pull request which you can approve each time.
+            Which method would you prefer?
+          </p>
+          <div className="flex gap-8 mb-16">
+            <button
+              onClick={() => setSelectedProcessingMethod('commit')}
+              className={assembleClassNames(
+                'toggle-button',
+                selectedProcessingMethod === 'commit' ? 'selected' : ''
+              )}
+            >
+              Commit directly
+            </button>
 
-      {selectedProcessingMethod === 'commit' && (
-        <label className="flex flex-col mb-16">
-          <span className="text-16 leading-140 mb-8">
-            What is the name of your main branch?
-          </span>
-          <input
-            type="text"
-            className="font-mono font-semibold text-16 leading-140 border border-1"
-            value={mainBranchName}
-            onChange={(e) => setMainBranchName(e.target.value)}
-          />
-        </label>
-      )}
-
-      <label className="c-checkbox-wrapper mb-16">
-        <input
-          type="checkbox"
-          checked={shouldSyncOnIterationCreation}
-          onChange={() => setShouldSyncOnInterationCreation((s) => !s)}
-        />
-        <div className="row">
-          <div className="c-checkbox">
-            <GraphicalIcon icon="checkmark" />
+            <button
+              onClick={() => setSelectedProcessingMethod('pr')}
+              className={assembleClassNames(
+                'toggle-button',
+                selectedProcessingMethod === 'pr' ? 'selected' : ''
+              )}
+            >
+              Create pull request
+            </button>
           </div>
-          Automatically sync to GitHub every time you create an iteration?
-        </div>
-      </label>
 
-      <button
-        disabled={!isUserInsider}
-        className="btn btn-primary"
-        onClick={handleSaveChanges}
-      >
-        Save changes
-      </button>
+          {selectedProcessingMethod === 'commit' && (
+            <label className="flex flex-col mb-16">
+              <span className="text-16 leading-150 mb-8">
+                What is the name of your main branch?
+              </span>
+              <input
+                type="text"
+                className="font-mono font-semibold text-16 leading-140 border border-1"
+                value={mainBranchName}
+                onChange={(e) => setMainBranchName(e.target.value)}
+              />
+            </label>
+          )}
+
+          <label className="c-checkbox-wrapper mb-16">
+            <input
+              type="checkbox"
+              checked={shouldSyncOnIterationCreation}
+              onChange={() => setShouldSyncOnInterationCreation((s) => !s)}
+            />
+            <div className="row">
+              <div className="c-checkbox">
+                <GraphicalIcon icon="checkmark" />
+              </div>
+              Automatically sync to GitHub every time you create an iteration?
+            </div>
+          </label>
+
+          <button
+            disabled={!isUserInsider}
+            className="btn btn-primary"
+            onClick={handleSaveChanges}
+          >
+            Save changes
+          </button>
+        </div>
+        <GraphicalIcon
+          icon="github-syncer-pr-vs-commit"
+          category="graphics"
+          className="w-[200px] opacity-[0.5]"
+        />
+      </div>
     </section>
   )
 }

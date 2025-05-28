@@ -5,11 +5,11 @@ import { GitHubSyncerContext } from '../GitHubSyncerForm'
 export function SectionHeader({ title }: { title: string }) {
   const { isUserInsider } = useContext(GitHubSyncerContext)
   if (isUserInsider) {
-    return <h2>{title}</h2>
+    return <h2 className="!mb-6">{title}</h2>
   }
   return (
     <div className="flex justify-between items-start">
-      <h2>{title}</h2>
+      <h2 className="!mb-6">{title}</h2>
       <InsiderBubble />
     </div>
   )

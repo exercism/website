@@ -69,24 +69,22 @@ export function PathTemplateSection() {
 
       <ul className="text-16 leading-150 mb-16">
         <li>
-          <code>$track_slug</code> (mandatory): The slug of the track (e.g.
-          "csharp").
+          <code>$track_slug</code>: The slug of the track (e.g. "csharp").
         </li>
         <li>
-          <code>$track_name</code> (mandatory): The name of the track (e.g.
-          "C#")
+          <code>$track_name</code>: The name of the track (e.g. "C#")
         </li>
         <li>
-          <code>$exercise_slug</code> (mandatory): The slug of the exercise
-          (e.g. "hello-world")
+          <code>$exercise_slug</code>: The slug of the exercise (e.g.
+          "hello-world")
         </li>
         <li>
-          <code>$exercise_name</code> (mandatory): The name of the exercise
-          (e.g. "Hello World")
+          <code>$exercise_name</code>: The name of the exercise (e.g. "Hello
+          World")
         </li>
         <li>
-          <code>$iteration_idx</code> (optional): The iteration index of the
-          exercise (e.g. "1")
+          <code>$iteration_idx</code>: The iteration index of the exercise (e.g.
+          "1")
         </li>
       </ul>
       <input
@@ -100,12 +98,18 @@ export function PathTemplateSection() {
           setIsTemplateInvalid(false)
         }}
       />
+      <p className="text-16 leading-150 mb-12">
+        <strong className="font-medium">Note 1:</strong> Your path must contain
+        a track placeholder (<code>$track_slug</code> or{' '}
+        <code>$track_name</code>) and an exercise placeholder (
+        <code>$exercise_slug</code> or <code>$exercise_name</code>.
+      </p>
       <p className="text-16 leading-150 mb-16">
-        <strong className="font-medium">Note:</strong> If you omit the{' '}
-        <code>$iteration_idx</code>, each iteration will override the previous
-        one. This allows you to use Git for version controlling your solutions.
-        Including the iteration index will result in a different folder for
-        every iteration.
+        <strong className="font-medium">Note 2:</strong> The
+        <code>$iteration_idx</code> placeholder is optional, but if you omit it,
+        each iteration will override the previous one. This allows you to use
+        Git for version controlling your solutions. Including the iteration
+        index will result in a different folder for every iteration.
       </p>
 
       {isTemplateInvalid && (

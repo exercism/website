@@ -3,10 +3,11 @@ module ReactComponents
     class GithubSyncerForm < ReactComponent
       def to_s
         super("settings-github-syncer-form", {
-          is_user_connected: current_user.github_solution_syncer.present?,
-          is_user_active: current_user.github_solution_syncer&.enabled?,
-          repo_full_name: current_user.github_solution_syncer&.repo_full_name?,
+          is_user_connected: syncer.present?,
           is_user_insider: current_user.insider?,
+          syncer: syncer_settings,
+          default_commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
+          default_path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE,
           tracks:,
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
@@ -14,6 +15,24 @@ module ReactComponents
           }
         })
       end
+
+      private
+      def syncer_settings
+        return nil unless syncer
+
+        {
+          enabled: syncer.enabled?,
+          repo_full_name: syncer.repo_full_name,
+          sync_on_iteration_creation: syncer.sync_on_iteration_creation?,
+          sync_exercise_files: syncer.sync_exercise_files?,
+          processing_method: syncer.processing_method,
+          main_branch_name: syncer.main_branch_name,
+          commit_message_template: syncer.commit_message_template,
+          path_template: syncer.path_template
+        }
+      end
+
+      def syncer = current_user.github_solution_syncer
 
       memoize
       def tracks = ::Track.select(:slug, :title).map do |track|

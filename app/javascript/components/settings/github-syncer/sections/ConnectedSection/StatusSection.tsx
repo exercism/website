@@ -6,7 +6,7 @@ export function StatusSection() {
   const { repoFullName, isUserActive } = React.useContext(GitHubSyncerContext)
 
   const color = isUserActive ? 'successColor' : 'orange'
-  const status = isUserActive ? 'enabled' : 'paused'
+  const status = isUserActive ? 'Active' : 'Paused'
 
   return (
     <section className={assembleClassNames('border-2', `border-${color}`)}>
@@ -14,11 +14,12 @@ export function StatusSection() {
         Status:{' '}
         <span className={assembleClassNames(`text-${color}`)}>{status}</span>
       </h2>
-      <p className="text-16 leading-140">
-        Your GitHub syncer is{' '}
-        <strong className={`text-${color}`}>{status}</strong>. It is linked to{' '}
-        <code>{repoFullName || 'random-repo-name'}</code>.
+      <p className="text-18 leading-140 mb-16">
+        Your GitHub syncer is linked to <code>{repoFullName}</code>.
       </p>
+      {isUserActive ? null : (
+        <button className="btn btn-primary">Enable Syncer</button>
+      )}
     </section>
   )
 }

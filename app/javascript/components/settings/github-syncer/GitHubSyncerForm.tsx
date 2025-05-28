@@ -3,12 +3,22 @@ import { ConnectedSection } from './sections/ConnectedSection'
 import { Toaster } from 'react-hot-toast'
 import { ConnectToGithubSection } from './sections/ConnectToGithubSection'
 
+export type GithubSyncerSettings = {
+  enabled: boolean
+  repoFullName: string
+  syncOnIterationCreation: boolean
+  syncExerciseFiles: boolean
+  processingMethod: 'commit' | 'pull_request'
+  mainBranchName: string
+  commitMessageTemplate: string
+  pathTemplate: string
+}
+
 export type GitHubSyncerFormProps = {
   links: { connectToGithub: string; settings: string }
   isUserConnected: boolean
-  isUserActive: boolean
-  repoFullName: string
   isUserInsider: boolean
+  syncer: GithubSyncerSettings | null
   tracks: readonly { slug: string; title: string; iconUrl: string }[]
 }
 
@@ -25,9 +35,8 @@ export default function GitHubSyncerForm(
     <GitHubSyncerContext.Provider
       value={{
         links: data.links,
-        isUserActive: data.isUserActive,
-        repoFullName: data.repoFullName,
         isUserInsider: data.isUserInsider,
+        syncer: data.syncer,
         tracks: data.tracks,
       }}
     >

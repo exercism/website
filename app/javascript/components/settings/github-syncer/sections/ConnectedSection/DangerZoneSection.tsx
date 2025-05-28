@@ -23,10 +23,10 @@ export function DangerZoneSection() {
     setActivityChangeConfirmationModalOpen(false)
   }, [])
 
-  const handleToggleActivity = useCallback(() => {
+  const handlePauseSyncer = useCallback(() => {
     fetchWithParams({
       url: links.settings,
-      params: { active: !isSyncerEnabled },
+      params: { active: false },
     })
       .then((response) => {
         if (response.ok) {
@@ -42,7 +42,7 @@ export function DangerZoneSection() {
       .catch((error) => {
         console.error('Error:', error)
       })
-  }, [isSyncerEnabled, links.settings])
+  }, [links.settings])
 
   const handleDelete = useCallback(() => {
     fetchWithParams({ url: links.settings, method: 'DELETE' })
@@ -87,7 +87,7 @@ export function DangerZoneSection() {
                 title="Are you sure you want to pause syncing solutions with GitHub?"
                 confirmLabel="Pause"
                 declineLabel="Cancel"
-                onConfirm={handleToggleActivity}
+                onConfirm={handlePauseSyncer}
                 open={isActivityChangeConfirmationModalOpen}
                 onClose={handleActivityChangeConfirmationModalClose}
               />

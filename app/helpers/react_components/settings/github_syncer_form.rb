@@ -40,8 +40,8 @@ module ReactComponents
           repo_full_name: "exercism/example-repo",
           sync_on_iteration_creation: true,
           sync_exercise_files: true,
-          processing_method: "default",
-          main_branch_name: "main",
+          processing_method: "commit",
+          main_branch_name: "unbroken",
           commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
           path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE
         }

@@ -7,14 +7,14 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 
 export function ProcessingMethodSection() {
-  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [selectedProcessingMethod, setSelectedProcessingMethod] = useState<
-    'commit' | 'pr'
-  >('commit')
+    'commit' | 'pull_request'
+  >(syncer?.processingMethod || 'commit')
 
-  const [mainBranchName, setMainBranchName] = useState<string>('main')
-  const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
-    useState(false)
+  const [mainBranchName, setMainBranchName] = useState<string>(
+    syncer?.mainBranchName || 'main'
+  )
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return
@@ -23,7 +23,6 @@ export function ProcessingMethodSection() {
       params: {
         processing_method: selectedProcessingMethod,
         main_branch_name: mainBranchName,
-        sync_on_iteration_creation: shouldSyncOnIterationCreation,
       },
     })
       .then(async (response) => {
@@ -42,12 +41,7 @@ export function ProcessingMethodSection() {
           'Something went wrong while saving changes. Please try again.'
         )
       })
-  }, [
-    selectedProcessingMethod,
-    links.settings,
-    shouldSyncOnIterationCreation,
-    mainBranchName,
-  ])
+  }, [selectedProcessingMethod, links.settings, mainBranchName])
 
   return (
     <section>
@@ -72,10 +66,10 @@ export function ProcessingMethodSection() {
             </button>
 
             <button
-              onClick={() => setSelectedProcessingMethod('pr')}
+              onClick={() => setSelectedProcessingMethod('pull_request')}
               className={assembleClassNames(
                 'toggle-button',
-                selectedProcessingMethod === 'pr' ? 'selected' : ''
+                selectedProcessingMethod === 'pull_request' ? 'selected' : ''
               )}
             >
               Create pull request
@@ -95,20 +89,6 @@ export function ProcessingMethodSection() {
               />
             </label>
           )}
-
-          <label className="c-checkbox-wrapper mb-16">
-            <input
-              type="checkbox"
-              checked={shouldSyncOnIterationCreation}
-              onChange={() => setShouldSyncOnInterationCreation((s) => !s)}
-            />
-            <div className="row">
-              <div className="c-checkbox">
-                <GraphicalIcon icon="checkmark" />
-              </div>
-              Automatically sync to GitHub every time you create an iteration?
-            </div>
-          </label>
 
           <button
             disabled={!isUserInsider}

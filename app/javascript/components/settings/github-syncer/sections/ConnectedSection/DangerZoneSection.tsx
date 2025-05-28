@@ -6,7 +6,8 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { GraphicalIcon } from '@/components/common'
 
 export function DangerZoneSection() {
-  const { links, isUserActive } = React.useContext(GitHubSyncerContext)
+  const { links, syncer } = React.useContext(GitHubSyncerContext)
+  const isSyncerEnabled = syncer?.enabled || false
 
   const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false)
@@ -23,11 +24,14 @@ export function DangerZoneSection() {
   }, [])
 
   const handleToggleActivity = useCallback(() => {
-    fetchWithParams({ url: links.settings, params: { active: !isUserActive } })
+    fetchWithParams({
+      url: links.settings,
+      params: { active: !isSyncerEnabled },
+    })
       .then((response) => {
         if (response.ok) {
           toast.success(
-            isUserActive
+            isSyncerEnabled
               ? 'Paused code sync with GitHub.'
               : 'Resumed code sync with GitHub.'
           )
@@ -38,7 +42,7 @@ export function DangerZoneSection() {
       .catch((error) => {
         console.error('Error:', error)
       })
-  }, [isUserActive, links.settings])
+  }, [isSyncerEnabled, links.settings])
 
   const handleDelete = useCallback(() => {
     fetchWithParams({ url: links.settings, method: 'DELETE' })
@@ -68,19 +72,29 @@ export function DangerZoneSection() {
             <strong>This is a dangerous zone.</strong> Be careful.
           </p>
 
-          <p className="text-16 leading-140 mb-8">
-            {isUserActive
-              ? 'You can pause syncing your solution.'
-              : "Your syncer is currently disabled. Click 'Resume' to start syncing."}
-          </p>
-          <button
-            onClick={() => setActivityChangeConfirmationModalOpen(true)}
-            className="btn-m mb-16 btn-warning"
-          >
-            {isUserActive ? 'Pause' : 'Resume'}
-          </button>
+          {isSyncerEnabled && (
+            <>
+              <p className="text-16 leading-140 mb-8">
+                You can pause syncing your solutions.
+              </p>
 
-          <div className="border-t-1 border-borderColor6 my-32" />
+              <button
+                onClick={() => setActivityChangeConfirmationModalOpen(true)}
+                className="btn-m mb-16 btn-warning"
+              >
+                Pause
+              </button>
+              <ConfirmationModal
+                title="Are you sure you want to pause syncing solutions with GitHub?"
+                confirmLabel="Pause"
+                declineLabel="Cancel"
+                onConfirm={handleToggleActivity}
+                open={isActivityChangeConfirmationModalOpen}
+                onClose={handleActivityChangeConfirmationModalClose}
+              />
+              <div className="border-t-1 border-borderColor6 my-32" />
+            </>
+          )}
 
           <p className="text-16 leading-140 mb-8">
             Want to disconnect the syncer from your GitHub repository? Use the
@@ -108,18 +122,6 @@ export function DangerZoneSection() {
             onConfirm={handleDelete}
             open={isDeleteConfirmationModalOpen}
             onClose={handleDeleteConfirmationModalClose}
-          />
-
-          {/* ACTIVITY CHANGE CONFIRMATION MODAL */}
-          <ConfirmationModal
-            title={`Are you sure you want to ${
-              isUserActive ? 'pause' : 'resume'
-            } syncing things with GitHub?`}
-            confirmLabel={isUserActive ? 'Pause' : 'Resume'}
-            declineLabel="Cancel"
-            onConfirm={handleToggleActivity}
-            open={isActivityChangeConfirmationModalOpen}
-            onClose={handleActivityChangeConfirmationModalClose}
           />
         </div>
         <GraphicalIcon

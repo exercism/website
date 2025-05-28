@@ -20,7 +20,7 @@ There are four colors used:
 **Sizes:**
 
 - Everything uses pixels other than one border radiuses and the outermost height of `100%`;
-- Other than the font-size, a border-radius and the dot (see below), everything is divisble by 5.
+- Other than the font-size, a border-radius and the dot (see below), everything is divisible by 5.
 
 **Image:**
 

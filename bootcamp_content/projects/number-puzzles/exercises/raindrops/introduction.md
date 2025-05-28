@@ -5,7 +5,7 @@ This is a programming exercise that's been used in interviews forever.
 
 Your task is to convert a number into its corresponding raindrop sounds.
 
-We do this by seeing what the number is divisble by (e.g. the number 10 is divisble by 1, 2, 5 and 10. The number 12 is divisible by 1, 2, 3, 4, 6 and 12).
+We do this by seeing what the number is divisible by (e.g. the number 10 is divisible by 1, 2, 5 and 10. The number 12 is divisible by 1, 2, 3, 4, 6 and 12).
 
 If a given number:
 

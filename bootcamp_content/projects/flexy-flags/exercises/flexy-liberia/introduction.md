@@ -21,7 +21,7 @@ You should **only** use the following properties:
 - `justify-content`: Used to justify content on the main axis.
 - `align-items`: Used to justify content on the secondary axis.
 - `aspect-ratio`: Used to set the aspect ratio of an element. (e.g. `1` makes something square, `1.5` makes something into a rectangle).
-- `width`: You can set the width of the image using this property. It should be a percentage (divisble by 10).
+- `width`: You can set the width of the image using this property. It should be a percentage (divisible by 10).
 - `height`: On some versions of Safari, you must specify a height when using aspect-ratio. If you use `aspect-ratio` but it doesn't behave as you expect, try adding `height: 100%` to the element with the aspect-ratio set. Do not use `height` in any other situation in this exercise.
 
 You might find it helpful to use `nth-child` selectors in this exercise. We looked at these briefly in the teaching video. To target the 3rd div in a section, you could use:

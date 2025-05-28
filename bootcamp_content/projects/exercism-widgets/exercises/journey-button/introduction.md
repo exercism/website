@@ -18,7 +18,7 @@ You can solve this using whichever properties you want. There are few things you
 **Sizes:**
 
 - Everything uses pixels.
-- Other than the font-size, everything is divisble by 5.
+- Other than the font-size, everything is divisible by 5.
 
 **Images:**
 

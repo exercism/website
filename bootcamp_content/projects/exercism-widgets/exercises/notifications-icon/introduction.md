@@ -38,7 +38,7 @@ There are three colors used:
 **Sizes:**
 
 - Everything uses pixels other than the border radiuses and the outermost height of `100%`;
-- Other than the font-size, everything is divisble by 5.
+- Other than the font-size, everything is divisible by 5.
 
 **Image:**
 

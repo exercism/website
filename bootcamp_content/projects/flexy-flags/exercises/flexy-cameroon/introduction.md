@@ -16,7 +16,7 @@ You should **only** use the following properties:
 - `flex-grow`: Used to specify whether an element should grow to fill the remaining space.
 - `justify-content`: Used to justify content on the main axis.
 - `align-items`: Used to justify content on the secondary axis.
-- `width`: You can set the width of the image using this property. It should be a percentage (divisble by 10).
+- `width`: You can set the width of the image using this property. It should be a percentage (divisible by 10).
 
 ### The SVG image
 

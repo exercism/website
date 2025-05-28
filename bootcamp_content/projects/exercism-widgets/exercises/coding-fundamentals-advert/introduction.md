@@ -26,7 +26,7 @@ A final technical note for those who are curious or more advanced. Everything in
 
 ### Misbehaving images
 
-One thing that can be a bit confusing is fitting an imagine into a grid slot. If you choose to use grid to solve this exercise, then setting `width: 100%` on the images will mean they obey an grid column instructions you give.
+One thing that can be a bit confusing is fitting an imagine into a grid slot. If you choose to use grid to solve this exercise, then setting `width: 100%` on the images will mean they obey an grid column instructions you give. This might also be useful in some circumstances with flexbox too!
 
 ### Page Copy
 

@@ -4,14 +4,14 @@ Next up we're looking at the track summary widget. This appears in a few places 
 
 ## Instructions
 
-You can solve this using whichever properties you want. 
+You can solve this using whichever properties you want.
 
-I would recommend **not** using the `<progress>` HTML element at this stage. 
-
+I would recommend **not** using the `<progress>` HTML element at this stage.
 
 There are few things you need to know:
 
 **Colors:**
+
 - Dark gray (title): `#130b43`
 - Light gray (subtext): `#5c5589`
 - Light Blue (background): `rgb(230, 237, 254)`
@@ -19,11 +19,13 @@ There are few things you need to know:
 - White (progress bar) : `white`
 
 **Sizes:**
+
 - Everything uses pixels other than the actual progress on the progress bar.
-- Other than the font-size, everything is divisble by 5.
+- Other than the font-size, everything is divisible by 5.
 - The progress bar part should have a maximum width of 250px.
 
 **Images:**
+
 - `/bootcamp/images/javascript.svg`
 - `/bootcamp/images/chevron-gray.svg`
 

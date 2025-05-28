@@ -8,7 +8,7 @@ If you took part in Coding Fundamentals, try and refine your code to make it a l
 
 Your task is to convert a number into its corresponding sounds.
 
-We do this by seeing what the number is divisble by (e.g. the number 10 is divisble by 1, 2, 5 and 10. The number 12 is divisible by 1, 2, 3, 4, 6 and 12).
+We do this by seeing what the number is divisible by (e.g. the number 10 is divisible by 1, 2, 5 and 10. The number 12 is divisible by 1, 2, 3, 4, 6 and 12).
 
 If a given number:
 

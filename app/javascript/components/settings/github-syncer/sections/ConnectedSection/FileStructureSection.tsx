@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react'
+import { flushSync } from 'react-dom'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { useLogger } from '@/hooks'
 
 export function FileStructureSection() {
   const { links, isUserInsider, syncer, defaultPathTemplate } =
@@ -19,45 +19,48 @@ export function FileStructureSection() {
 
   const [isTemplateInvalid, setIsTemplateInvalid] = useState<boolean>(false)
 
-  useLogger('PATH TEMPALTE', pathTemplate)
+  const handleSaveChanges = useCallback(
+    (template: string) => {
+      if (!isUserInsider) return
 
-  const handleSaveChanges = useCallback(() => {
-    if (!isUserInsider) return
+      if (!isPathTemplateValid(template)) {
+        setIsTemplateInvalid(true)
+        return
+      } else {
+        setIsTemplateInvalid(false)
+      }
 
-    if (!isPathTemplateValid(pathTemplate)) {
-      setIsTemplateInvalid(true)
-      return
-    } else {
-      setIsTemplateInvalid(false)
-    }
-
-    fetchWithParams({
-      url: links.settings,
-      params: {
-        path_template: pathTemplate,
-      },
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          toast.success('Saved changes successfully!')
-        } else {
-          const data = await response.json()
+      fetchWithParams({
+        url: links.settings,
+        params: {
+          path_template: template,
+        },
+      })
+        .then(async (response) => {
+          if (response.ok) {
+            toast.success('Saved changes successfully!')
+          } else {
+            const data = await response.json()
+            toast.error(
+              'Failed to save changes: ' + data.error.message || 'Unknown error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
           toast.error(
-            'Failed to save changes: ' + data.error.message || 'Unknown error'
+            'Something went wrong while saving changes. Please try again.'
           )
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        toast.error(
-          'Something went wrong while saving changes. Please try again.'
-        )
-      })
-  }, [pathTemplate, links.settings])
+        })
+    },
+    [isUserInsider, links.settings]
+  )
 
   const handleRevertPathTemplate = useCallback(() => {
-    setPathTemplate(defaultPathTemplate)
-    handleSaveChanges()
+    flushSync(() => {
+      setPathTemplate(defaultPathTemplate)
+    })
+    handleSaveChanges(defaultPathTemplate)
     setIsRevertPathTemplateModalOpen(false)
   }, [defaultPathTemplate, handleSaveChanges])
 
@@ -130,7 +133,7 @@ export function FileStructureSection() {
         <button
           disabled={!isUserInsider}
           className="btn btn-primary"
-          onClick={handleSaveChanges}
+          onClick={() => handleSaveChanges(pathTemplate)}
         >
           Save changes
         </button>

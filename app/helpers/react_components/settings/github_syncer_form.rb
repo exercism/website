@@ -34,6 +34,7 @@ module ReactComponents
         }
       end
 
+      # for visual testing purposes, remove once this is shipped
       def mock_syncer
         {
           enabled: true,

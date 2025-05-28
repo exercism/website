@@ -4,49 +4,57 @@ import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
+import { flushSync } from 'react-dom'
 
-const DEFAULT = ''
 export function CommitMessageTemplateSection() {
-  const { links, isUserInsider } = React.useContext(GitHubSyncerContext)
+  const { links, isUserInsider, syncer, defaultCommitMessageTemplate } =
+    React.useContext(GitHubSyncerContext)
 
-  const [commitMessageTemplate, setCommitMessageTemplate] = useState<string>('')
+  const [commitMessageTemplate, setCommitMessageTemplate] = useState<string>(
+    syncer?.commitMessageTemplate || defaultCommitMessageTemplate
+  )
 
   const [
     isRevertCommitMessageTemplateModalOpen,
     setIsRevertCommitMessageTemplateModalOpen,
   ] = useState(false)
 
-  const handleSaveChanges = useCallback(() => {
-    if (!isUserInsider) return
-    fetchWithParams({
-      url: links.settings,
-      params: {
-        commit_message_template: commitMessageTemplate,
-      },
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          toast.success('Saved changes successfully!')
-        } else {
-          const data = await response.json()
+  const handleSaveChanges = useCallback(
+    (template: string) => {
+      if (!isUserInsider) return
+      fetchWithParams({
+        url: links.settings,
+        params: {
+          commit_message_template: template,
+        },
+      })
+        .then(async (response) => {
+          if (response.ok) {
+            toast.success('Saved changes successfully!')
+          } else {
+            const data = await response.json()
+            toast.error(
+              'Failed to save changes: ' + data.error.message || 'Unknown error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
           toast.error(
-            'Failed to save changes: ' + data.error.message || 'Unknown error'
+            'Something went wrong while saving changes. Please try again.'
           )
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        toast.error(
-          'Something went wrong while saving changes. Please try again.'
-        )
-      })
-  }, [commitMessageTemplate, links.settings, isUserInsider])
+        })
+    },
+    [links.settings, isUserInsider]
+  )
 
   const handleRevertCommitMessageTemplate = useCallback(() => {
-    setCommitMessageTemplate(DEFAULT)
-    handleSaveChanges()
+    flushSync(() => {
+      setCommitMessageTemplate(defaultCommitMessageTemplate)
+    })
+    handleSaveChanges(defaultCommitMessageTemplate)
     setIsRevertCommitMessageTemplateModalOpen(false)
-  }, [handleSaveChanges])
+  }, [defaultCommitMessageTemplate, handleSaveChanges])
 
   return (
     <section>
@@ -87,6 +95,7 @@ export function CommitMessageTemplateSection() {
       </ul>
       <input
         type="text"
+        value={commitMessageTemplate}
         className="font-mono font-semibold text-16 leading-140 border border-1 w-full mb-16"
         onChange={(e) => setCommitMessageTemplate(e.target.value)}
       />
@@ -101,7 +110,7 @@ export function CommitMessageTemplateSection() {
         <button
           disabled={!isUserInsider}
           className="btn btn-primary"
-          onClick={handleSaveChanges}
+          onClick={() => handleSaveChanges(commitMessageTemplate)}
         >
           Save changes
         </button>

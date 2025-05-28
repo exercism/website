@@ -1,10 +1,12 @@
 class Settings::GithubSyncerController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: %i[update sync_track sync_track sync_solution]
+
   def show
     current_user.github_solution_syncer
   end
 
   def update
-    user.github_solution_syncer.update!(
+    current_user.github_solution_syncer.update!(
       params.require(:github_solution_syncer).permit(
         %w[
           processing_method

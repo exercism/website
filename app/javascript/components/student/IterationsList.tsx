@@ -6,6 +6,7 @@ import { IterationReport } from './iterations-list/IterationReport'
 import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
+import { GithubSyncerSettings } from '../settings/github-syncer/GitHubSyncerForm'
 
 export type Exercise = {
   title: string
@@ -28,6 +29,8 @@ export type Links = {
   startExercise: string
   solvingExercisesLocally: string
   toolingHelp: string
+  githubSyncerSettings: string
+  syncIteartion: string
 }
 
 export type IterationsListRequest = {
@@ -52,12 +55,14 @@ export default function IterationsList({
   exercise,
   track,
   links,
+  syncer,
 }: {
   solutionUuid: string
   request: IterationsListRequest
   exercise: Exercise
   track: Track
   links: Links
+  syncer: GithubSyncerSettings | null
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean[]>([])
 
@@ -156,6 +161,7 @@ export default function IterationsList({
               <IterationReport
                 key={index}
                 iteration={iteration}
+                syncer={syncer}
                 exercise={exercise}
                 track={track}
                 links={links}

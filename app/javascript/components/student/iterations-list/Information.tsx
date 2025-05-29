@@ -6,8 +6,10 @@ import { Exercise, Track, Links } from '../IterationsList'
 import { Tab, TabContext } from '../../common/Tab'
 import { OptionsDropdown } from './OptionsDropdown'
 import { GraphicalIcon } from '../../common'
+import { GithubSyncerWidget } from '@/components/github-syncer-widget/GithubSyncerWidget'
+import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
 
-type TabIndex = 'analysis' | 'tests'
+type TabIndex = 'analysis' | 'tests' | 'backup'
 
 export const TabsContext = createContext<TabContext>({
   current: 'analysis',
@@ -20,12 +22,14 @@ export const Information = ({
   track,
   links,
   onDelete,
+  syncer,
 }: {
   iteration: Iteration
   exercise: Exercise
   track: Track
   links: Links
   onDelete: (iteration: Iteration) => void
+  syncer: GithubSyncerSettings | null
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
 
@@ -36,7 +40,7 @@ export const Information = ({
         switchToTab: (id: string) => setTab(id as TabIndex),
       }}
     >
-      <div className="tabs">
+      <div className="tabs overflow-auto">
         <Tab id="analysis" context={TabsContext} className="--small">
           <GraphicalIcon icon="automation" />
           Analysis
@@ -44,6 +48,10 @@ export const Information = ({
         <Tab id="tests" context={TabsContext} className="--small">
           <GraphicalIcon icon="tests" />
           Tests
+        </Tab>
+        <Tab id="github-backup" context={TabsContext} className="--small">
+          <GraphicalIcon icon="external-site-github" />
+          Backup
         </Tab>
         <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>
@@ -67,6 +75,9 @@ export const Information = ({
               options: { enabled: tab === 'tests' },
             }}
           />
+        </Tab.Panel>
+        <Tab.Panel id="github-backup" context={TabsContext}>
+          <GithubSyncerWidget syncer={syncer} links={links} />
         </Tab.Panel>
       </div>
     </TabsContext.Provider>

@@ -1,16 +1,10 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { sendRequest } from '@/utils/send-request'
-import { SyncIterationData } from './GithubSyncerWidget'
+import { SyncObj } from './GithubSyncerWidget'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
-export function ActiveAutomaticSync({
-  syncIterationLink,
-  iteration,
-}: {
-  syncIterationLink: string
-  iteration: SyncIterationData
-}): JSX.Element {
+export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
   return (
     <div className="flex flex-col items-center py-24">
       <h6 className="font-semibold text-16 mb-16">
@@ -21,9 +15,7 @@ export function ActiveAutomaticSync({
         start the backup.
       </p>
       <button
-        onClick={() =>
-          handleSyncIteration({ endpoint: syncIterationLink, iteration })
-        }
+        onClick={() => handleSyncIteration({ sync })}
         className="btn btn-xs btn-primary"
       >
         Start backup
@@ -32,17 +24,11 @@ export function ActiveAutomaticSync({
   )
 }
 
-export function handleSyncIteration({
-  endpoint,
-  iteration,
-}: {
-  endpoint: string
-  iteration: SyncIterationData
-}) {
+export function handleSyncIteration({ sync }: { sync: SyncObj }) {
   const { fetch } = sendRequest({
-    endpoint,
+    endpoint: sync.endpoint,
     method: 'PATCH',
-    body: JSON.stringify({ iteration }),
+    body: sync.body,
   })
 
   fetch

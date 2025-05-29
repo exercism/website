@@ -5,10 +5,10 @@ import { PausedSync } from './PausedSync'
 import { ActiveAutomaticSync } from './ActiveAutomaticSync'
 import { ActiveManualSync } from './ActiveManualSync'
 
-export type SyncIterationData = {
-  iteration_idx: number
-  exercise_slug: string
-  track_slug: string
+export type SyncObj = {
+  endpoint: string
+  // stringified JSON body of the PATCH request
+  body: string
 }
 // Solutions Page; Add a widget here for "Backup solution". It should have four states:
 // No syncer - advert
@@ -18,31 +18,22 @@ export type SyncIterationData = {
 export function GithubSyncerWidget({
   syncer,
   links,
-  iteration,
+  sync,
 }: {
   syncer: GithubSyncerSettings | null
   links: {
     githubSyncerSettings: string
-    syncIteartion: string
   }
-  iteration: SyncIterationData
+  sync: SyncObj
 }): JSX.Element {
   if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
+
   if (!syncer.enabled)
     return <PausedSync settingsLink={links.githubSyncerSettings} />
-  if (syncer.syncOnIterationCreation)
-    return (
-      <ActiveAutomaticSync
-        iteration={iteration}
-        syncIterationLink={links.syncIteartion}
-      />
-    )
-  return (
-    <ActiveManualSync
-      iteration={iteration}
-      syncIterationLink={links.syncIteartion}
-    />
-  )
+
+  if (syncer.syncOnIterationCreation) return <ActiveAutomaticSync sync={sync} />
+
+  return <ActiveManualSync sync={sync} />
 }
 
 const MOCK_SYNCER: GithubSyncerSettings = {

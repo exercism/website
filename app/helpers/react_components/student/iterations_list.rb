@@ -29,7 +29,7 @@ module ReactComponents
               start_exercise: Exercism::Routes.start_api_track_exercise_url(track, exercise),
               solving_exercises_locally: Exercism::Routes.solving_exercises_locally_path,
               github_syncer_settings: Exercism::Routes.settings_github_syncer_path,
-              sync_iteartion: Exercism::Routes.sync_iteration_settings_github_syncer_path
+              sync_iteration: Exercism::Routes.sync_iteration_settings_github_syncer_path
             },
             syncer:
           }

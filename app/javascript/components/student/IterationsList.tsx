@@ -30,7 +30,7 @@ export type Links = {
   solvingExercisesLocally: string
   toolingHelp: string
   githubSyncerSettings: string
-  syncIteartion: string
+  syncIteration: string
 }
 
 export type IterationsListRequest = {

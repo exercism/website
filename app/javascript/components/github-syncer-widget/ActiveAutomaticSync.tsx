@@ -1,7 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { sendRequest } from '@/utils/send-request'
-import { Iteration } from '../types'
+import { SyncIterationData } from './GithubSyncerWidget'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
 export function ActiveAutomaticSync({
@@ -9,7 +9,7 @@ export function ActiveAutomaticSync({
   iteration,
 }: {
   syncIterationLink: string
-  iteration: Iteration
+  iteration: SyncIterationData
 }): JSX.Element {
   return (
     <div className="flex flex-col items-center py-24">
@@ -37,7 +37,7 @@ export function handleSyncIteration({
   iteration,
 }: {
   endpoint: string
-  iteration: Iteration
+  iteration: SyncIterationData
 }) {
   const { fetch } = sendRequest({
     endpoint,
@@ -49,7 +49,7 @@ export function handleSyncIteration({
     .then(async (response) => {
       if (response.ok) {
         toast.success(
-          `Your backup for all tracks has been queued and should be completed within a few minutes.`,
+          `Your backup has been queued and should be completed within a few minutes.`,
           { duration: 5000 }
         )
       } else {

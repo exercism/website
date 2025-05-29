@@ -4,8 +4,12 @@ import { MiniAdvert } from './MiniAdvert'
 import { PausedSync } from './PausedSync'
 import { ActiveAutomaticSync } from './ActiveAutomaticSync'
 import { ActiveManualSync } from './ActiveManualSync'
-import { Iteration } from '../types'
 
+export type SyncIterationData = {
+  iteration_idx: number
+  exercise_slug: string
+  track_slug: string
+}
 // Solutions Page; Add a widget here for "Backup solution". It should have four states:
 // No syncer - advert
 // Syncer disabled: "Your syncer is currently disabled. Visit your settings (LINK <<) to enable it"
@@ -21,7 +25,7 @@ export function GithubSyncerWidget({
     githubSyncerSettings: string
     syncIteartion: string
   }
-  iteration: Iteration
+  iteration: SyncIterationData
 }): JSX.Element {
   if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
   if (!syncer.enabled)

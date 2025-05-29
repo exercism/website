@@ -1,6 +1,6 @@
 import React from 'react'
-import { Iteration } from '../types'
 import { handleSyncIteration } from './ActiveAutomaticSync'
+import { SyncIterationData } from './GithubSyncerWidget'
 
 // Syncer enabled + manual: Say "You have automatic syncs disabled. Click to back up your solution".
 export function ActiveManualSync({
@@ -8,7 +8,7 @@ export function ActiveManualSync({
   iteration,
 }: {
   syncIterationLink: string
-  iteration: Iteration
+  iteration: SyncIterationData
 }) {
   return (
     <div className="flex flex-col items-center py-24">

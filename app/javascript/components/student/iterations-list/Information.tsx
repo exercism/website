@@ -79,7 +79,11 @@ export const Information = ({
         </Tab.Panel>
         <Tab.Panel id="github-backup" context={TabsContext}>
           <GithubSyncerWidget
-            iteration={iteration}
+            iteration={{
+              iteration_idx: iteration.idx,
+              exercise_slug: exercise.slug,
+              track_slug: track.slug,
+            }}
             syncer={syncer}
             links={links}
           />

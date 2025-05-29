@@ -336,6 +336,13 @@
     "level": 14
   },
   {
+    "slug": "css/positioning",
+    "parent": "CSS",
+    "title": "Positioning",
+    "description": "Learn about static, relative and absolute positioning",
+    "level": 15
+  },
+  {
     "slug": "javascript/basics",
     "parent": "javascript",
     "title": "JavaScript Basics",
@@ -397,5 +404,19 @@
     "title": "Conditionals",
     "description": "Learn how to use conditions in JavaScript",
     "level": 12
+  },
+  {
+    "slug": "javascript/intro-to-the-dom",
+    "parent": "javascript",
+    "title": "Intro to the DOM",
+    "description": "Learn about the DOM and style elements",
+    "level": 15
+  },
+  {
+    "slug": "javascript/game-loop",
+    "parent": "javascript",
+    "title": "The Game Loop",
+    "description": "Learn about the Game Loop and RequestAnimationFrame",
+    "level": 15
   }
 ]

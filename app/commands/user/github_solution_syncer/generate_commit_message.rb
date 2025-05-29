@@ -12,7 +12,7 @@ class User::GithubSolutionSyncer::GenerateCommitMessage
       gsub("$exercise_title", exercise.title).
       gsub("$exercise_slug", exercise.slug).
       gsub("$iteration_idx", iteration.idx.to_s).
-      gsub("$sync_option", "Iteration").
+      gsub("$sync_object", "Iteration").
       gsub("//", "/")
   end
 

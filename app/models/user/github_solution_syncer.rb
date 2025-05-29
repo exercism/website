@@ -8,7 +8,7 @@ class User::GithubSolutionSyncer < ApplicationRecord
   before_create do
     self.commit_message_template = DEFAULT_COMMIT_MESSAGE_TEMPLATE unless self.commit_message_template.present?
     self.path_template = DEFAULT_PATH_TEMPLATE unless self.path_template.present?
-    self.processing_method = :pull_request unless self.processing_method.present?
+    self.processing_method = :pull_request
     self.sync_on_iteration_creation = true unless self.sync_on_iteration_creation == false
     self.sync_exercise_files = false unless self.sync_exercise_files.present?
   end

@@ -1,5 +1,5 @@
 class Settings::GithubSyncerController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[update sync_track sync_track sync_solution]
+  skip_before_action :verify_authenticity_token, only: %i[update sync_everything sync_track sync_solution sync_iteration]
 
   def show
     current_user.github_solution_syncer
@@ -22,7 +22,7 @@ class Settings::GithubSyncerController < ApplicationController
   end
 
   def sync_everything
-    User::GithubSyncer::SyncEverything.defer(current_user)
+    User::GithubSolutionSyncer::SyncEverything.defer(current_user)
   end
 
   def sync_track

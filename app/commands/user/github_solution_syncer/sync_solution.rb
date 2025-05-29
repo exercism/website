@@ -11,7 +11,6 @@ class User::GithubSolutionSyncer
         sync_iterations(syncer.main_branch_name)
       else
         pr_title = GeneratePullRequestTitle.(syncer, "Solution", exercise:)
-        pr_message = "[Exercism] Batch sync of solution #{solution.track.title} | #{solution.exercise.title}"
         CreatePullRequest.(syncer, pr_title, pr_message) do |pr_branch_name, token|
           sync_iterations(pr_branch_name, token)
         end
@@ -36,5 +35,10 @@ class User::GithubSolutionSyncer
 
     memoize
     def syncer = user.github_solution_syncer
+
+    def pr_message
+      desc = "This is a sync of all of %<handle>s's iterations on the [#{exercise.title}](https://exercism.org/tracks/#{track.slug}/exercises/#{exercise.slug}) exercise on [Exercism's](https://exercism.org) [#{track.title} Track](https://exercism.org/tracks/#{track.slug})." # rubocop:disable Layout/LineLength
+      GeneratePullRequestMessage.(user, desc)
+    end
   end
 end

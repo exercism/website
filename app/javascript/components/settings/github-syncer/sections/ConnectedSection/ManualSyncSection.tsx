@@ -77,8 +77,9 @@ export function ManualSyncSection() {
 
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note:</strong> Please use this
-        sparingly, for example when you want to bootstrap a new repo. This is
-        not designed to be part of your normal workflow.
+        sparingly, for example when you want to backup a track for the first
+        time. This is not designed to be part of your normal workflow and will
+        likely hit rate-limits if over-used.
       </p>
 
       <div className="mb-16">

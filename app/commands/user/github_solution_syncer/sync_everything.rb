@@ -10,35 +10,47 @@ class User::GithubSolutionSyncer
       if syncer.commit_to_main?
         sync_everything(syncer.main_branch_name)
       else
-        pr_title = GeneratePullRequestTitle.(syncer, "Solution", exercise:)
-        pr_message = "[Exercism] Batch sync of solution #{solution.track.title} | #{solution.exercise.title}"
+        pr_title = GeneratePullRequestTitle.(syncer, "Everything")
         CreatePullRequest.(syncer, pr_title, pr_message) do |pr_branch_name, token|
           sync_everything(pr_branch_name, token)
         end
       end
     end
 
-    private
     def sync_everything(branch_name, token = nil)
-      # Note if any of these are successful!
-      results = user.user_tracks.map do |user_track|
-        track_results = user_track.solutions.map do |solution|
-          iteration_results = solution.iterations.map do |iteration|
-            files = FilesForIteration.(syncer, iteration)
-            commit_message = GenerateCommitMessage.(syncer, iteration)
+      repo = LocalGitRepo.new(syncer, syncer.main_branch_name, branch_name, token:)
 
-            CreateCommit.(syncer, files, commit_message, branch_name, token:)
+      user_tracks = user.user_tracks.includes(solutions: [:track, {
+        exercise: [:track], iterations: [{ submission: :files }, :exercise, :track]
+      }])
+
+      num_commits = 0
+      repo.update do
+        # Note if any of these are successful!
+        user_tracks.each do |user_track|
+          user_track.solutions.each do |solution|
+            solution.iterations.each do |iteration|
+              files = FilesForIteration.(syncer, iteration)
+              next unless files.any?(&:present?)
+
+              files.each { |f| repo.write_file(f[:path], f[:content]) }
+              commit_message = GenerateCommitMessage.(syncer, iteration)
+              repo.commit_all(commit_message)
+              num_commits += 1
+            end
           end
-          iteration_results.any?
         end
-        track_results.any?
       end
 
-      # Don't inline this else it exits early
-      results.any?
+      num_commits.positive?
     end
 
     memoize
     def syncer = user.github_solution_syncer
+
+    def pr_message
+      desc = "This is a batch sync of all of %<handle>s's solutions on [Exercism](https://exercism.org)."
+      GeneratePullRequestMessage.(user, desc)
+    end
   end
 end

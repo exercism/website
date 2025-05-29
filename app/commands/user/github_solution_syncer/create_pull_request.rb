@@ -2,9 +2,10 @@ class User::GithubSolutionSyncer
   class CreatePullRequest
     include Mandate
 
-    def initialize(syncer, pr_title, _pr_message, &commit_block)
+    def initialize(syncer, pr_title, pr_message, &commit_block)
       @syncer = syncer
       @pr_title = pr_title
+      @pr_message = pr_message
       @commit_block = commit_block
     end
 
@@ -26,12 +27,12 @@ class User::GithubSolutionSyncer
         base_branch,
         new_branch,
         pr_title,
-        "This is an automatic sync from Exercism (https://exercism.org)."
+        pr_message
       )
     end
 
     private
-    attr_reader :syncer, :pr_title, :commit_block
+    attr_reader :syncer, :pr_title, :pr_message, :commit_block
 
     memoize
     def token

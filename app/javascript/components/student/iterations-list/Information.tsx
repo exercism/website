@@ -8,6 +8,7 @@ import { OptionsDropdown } from './OptionsDropdown'
 import { GraphicalIcon } from '../../common'
 import { GithubSyncerWidget } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
+import { Toaster } from 'react-hot-toast'
 
 type TabIndex = 'analysis' | 'tests' | 'backup'
 
@@ -77,8 +78,13 @@ export const Information = ({
           />
         </Tab.Panel>
         <Tab.Panel id="github-backup" context={TabsContext}>
-          <GithubSyncerWidget syncer={syncer} links={links} />
+          <GithubSyncerWidget
+            iteration={iteration}
+            syncer={syncer}
+            links={links}
+          />
         </Tab.Panel>
+        <Toaster position="bottom-right" />
       </div>
     </TabsContext.Provider>
   )

@@ -4,7 +4,7 @@ import { MiniAdvert } from './MiniAdvert'
 import { PausedSync } from './PausedSync'
 import { ActiveAutomaticSync } from './ActiveAutomaticSync'
 import { ActiveManualSync } from './ActiveManualSync'
-import { useLogger } from '../bootcamp/common/hooks/useLogger'
+import { Iteration } from '../types'
 
 // Solutions Page; Add a widget here for "Backup solution". It should have four states:
 // No syncer - advert
@@ -14,19 +14,31 @@ import { useLogger } from '../bootcamp/common/hooks/useLogger'
 export function GithubSyncerWidget({
   syncer,
   links,
+  iteration,
 }: {
   syncer: GithubSyncerSettings | null
   links: {
     githubSyncerSettings: string
     syncIteartion: string
   }
+  iteration: Iteration
 }): JSX.Element {
-  useLogger('syncer', syncer)
-
   if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
-  if (!syncer.enabled) return <PausedSync />
-  if (syncer.syncOnIterationCreation) return <ActiveAutomaticSync />
-  return <ActiveManualSync />
+  if (!syncer.enabled)
+    return <PausedSync settingsLink={links.githubSyncerSettings} />
+  if (syncer.syncOnIterationCreation)
+    return (
+      <ActiveAutomaticSync
+        iteration={iteration}
+        syncIterationLink={links.syncIteartion}
+      />
+    )
+  return (
+    <ActiveManualSync
+      iteration={iteration}
+      syncIterationLink={links.syncIteartion}
+    />
+  )
 }
 
 const MOCK_SYNCER: GithubSyncerSettings = {

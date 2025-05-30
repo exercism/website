@@ -55,7 +55,9 @@ export const scriptPostlude = `
 `
 
 const jsPreludeLines = scriptPrelude.split('\n')
-export const jsLineOffset = jsPreludeLines.length
+// +1 offset because this line got added to the prelude:
+// window.__runId__ = ${jsCodeRunId};
+export const jsLineOffset = jsPreludeLines.length + 1
 
 export function updateIFrame(
   iframeRef:

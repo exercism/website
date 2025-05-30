@@ -1,5 +1,4 @@
 import { EditorView } from 'codemirror'
-import { result } from 'lodash'
 import {
   showInfoWidgetEffect,
   informationWidgetDataEffect,

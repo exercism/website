@@ -6,6 +6,7 @@ import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
 import { Exercise, Track, Links } from '../IterationsList'
 import { GraphicalIcon } from '../../common'
+import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
 
 export const IterationReport = ({
   iteration,
@@ -16,6 +17,7 @@ export const IterationReport = ({
   onExpanded,
   onCompressed,
   onDelete,
+  syncer,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -25,6 +27,7 @@ export const IterationReport = ({
   onExpanded: () => void
   onCompressed: () => void
   onDelete: (iteration: Iteration) => void
+  syncer: GithubSyncerSettings | null
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
@@ -80,6 +83,7 @@ export const IterationReport = ({
               exercise={exercise}
               track={track}
               links={links}
+              syncer={syncer}
               onDelete={onDelete}
             />
           </div>

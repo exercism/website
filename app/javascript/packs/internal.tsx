@@ -129,6 +129,10 @@ const UserPreferencesForm = lazy(
 const InsiderBenefitsForm = lazy(
   () => import('@/components/settings/InsiderBenefitsForm')
 )
+
+const GitHubSyncerForm = lazy(
+  () => import('@/components/settings/github-syncer/GitHubSyncerForm')
+)
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
 )
@@ -225,6 +229,14 @@ import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skel
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
 import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
 import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
+import {
+  GitHubSyncerFormProps,
+  GithubSyncerSettings,
+} from '@/components/settings/github-syncer/GitHubSyncerForm'
+import {
+  GithubSyncerWidget,
+  GithubSyncerWidgetProps,
+} from '@/components/github-syncer-widget/GithubSyncerWidget'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -521,15 +533,10 @@ initReact({
       />
     </Suspense>
   ),
-  'settings-bootcamp-free-coupon-form': (data: any) => (
+
+  'settings-github-syncer-form': (data: GitHubSyncerFormProps) => (
     <Suspense fallback={RenderLoader()}>
-      <BootcampFreeCouponForm
-        bootcampFreeCouponCode={data.bootcamp_free_coupon_code}
-        links={camelizeKeysAs<{
-          insidersPath: string
-          bootcampFreeCouponCode: string
-        }>(data.links)}
-      />
+      <GitHubSyncerForm {...camelizeKeysAs<GitHubSyncerFormProps>(data)} />
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (
@@ -621,6 +628,11 @@ initReact({
       />
     </Suspense>
   ),
+  'student-github-solution-syncer-widget': (data: GithubSyncerWidgetProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <GithubSyncerWidget {...camelizeKeysAs<GithubSyncerWidgetProps>(data)} />
+    </Suspense>
+  ),
   'student-iterations-list': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <StudentIterationsList
@@ -629,6 +641,7 @@ initReact({
         exercise={camelizeKeysAs<IterationsListExercise>(data.exercise)}
         track={camelizeKeysAs<IterationsListTrack>(data.track)}
         links={camelizeKeysAs<IterationsListLinks>(data.links)}
+        syncer={camelizeKeysAs<GithubSyncerSettings | null>(data.syncer)}
       />
     </Suspense>
   ),

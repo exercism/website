@@ -8,7 +8,7 @@ export function useInvalidField() {
   const isInvalid = invalidMessage.length > 0
 
   const applyInvalidClassName = useCallback(() => {
-    return isInvalid ? INVALID_CLASSNAMES : null
+    return isInvalid ? INVALID_INPUT_STYLES : null
   }, [invalidMessage])
 
   const handleInvalid = useCallback((e) => {

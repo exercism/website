@@ -206,6 +206,13 @@ module Git
     end
 
     memoize
+    def cli_files
+      cli_filepaths.each.with_object({}) do |filepath, hash|
+        hash[filepath] = read_file_blob(filepath)
+      end
+    end
+
+    memoize
     def important_filepaths
       [
         instructions_filepath,

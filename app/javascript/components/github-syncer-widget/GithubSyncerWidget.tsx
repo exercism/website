@@ -4,12 +4,22 @@ import { MiniAdvert } from './MiniAdvert'
 import { PausedSync } from './PausedSync'
 import { ActiveAutomaticSync } from './ActiveAutomaticSync'
 import { ActiveManualSync } from './ActiveManualSync'
+import { useLogger } from '@/hooks'
 
 export type SyncObj = {
   endpoint: string
   // stringified JSON body of the PATCH request
   body: string
 }
+
+export type GithubSyncerWidgetProps = {
+  syncer: GithubSyncerSettings | null
+  links: {
+    githubSyncerSettings: string
+  }
+  sync: SyncObj
+}
+
 // Solutions Page; Add a widget here for "Backup solution". It should have four states:
 // No syncer - advert
 // Syncer disabled: "Your syncer is currently disabled. Visit your settings (LINK <<) to enable it"
@@ -19,13 +29,8 @@ export function GithubSyncerWidget({
   syncer,
   links,
   sync,
-}: {
-  syncer: GithubSyncerSettings | null
-  links: {
-    githubSyncerSettings: string
-  }
-  sync: SyncObj
-}): JSX.Element {
+}: GithubSyncerWidgetProps): JSX.Element {
+  useLogger('GithubSyncerWidget', { syncer, links, sync })
   if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
 
   if (!syncer.enabled)

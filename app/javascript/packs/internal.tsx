@@ -233,6 +233,10 @@ import {
   GitHubSyncerFormProps,
   GithubSyncerSettings,
 } from '@/components/settings/github-syncer/GitHubSyncerForm'
+import {
+  GithubSyncerWidget,
+  GithubSyncerWidgetProps,
+} from '@/components/github-syncer-widget/GithubSyncerWidget'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -622,6 +626,11 @@ initReact({
         showTestsStatusAsButton={!!data.show_tests_status_as_button}
         showFeedbackIndicator={!!data.show_feedback_indicator}
       />
+    </Suspense>
+  ),
+  'student-github-solution-syncer-widget': (data: GithubSyncerWidgetProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <GithubSyncerWidget {...camelizeKeysAs<GithubSyncerWidgetProps>(data)} />
     </Suspense>
   ),
   'student-iterations-list': (data: any) => (

@@ -35,7 +35,7 @@ class Settings::GithubSyncerController < ApplicationController
   end
 
   def sync_solution
-    solution = Solution.for!(user, params[:track_slug], params[:exercise_slug])
+    solution = Solution.for!(current_user.handle, params[:track_slug], params[:exercise_slug])
     User::GithubSyncer::SyncSolution.defer(solution)
   rescue ActiveRecord::RecordNotFound
     render json: {
@@ -44,7 +44,7 @@ class Settings::GithubSyncerController < ApplicationController
   end
 
   def sync_iteration
-    solution = Solution.for!(user, params[:track_slug], params[:exercise_slug])
+    solution = Solution.for!(current_user.handle, params[:track_slug], params[:exercise_slug])
     iteration = solution.iterations.find_by!(idx: params[:iteration_idx])
     User::GithubSyncer::SyncIteration.defer(iteration)
   rescue ActiveRecord::RecordNotFound

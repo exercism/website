@@ -21,7 +21,6 @@ export class InformationWidget extends WidgetType {
   private arrowElement: HTMLElement | null = null
   private observer: MutationObserver | null = null
   private autoUpdateCleanup: (() => void) | null = null
-  private scrollContainer: HTMLElement | null = null
 
   constructor(
     private readonly tooltipHtml: string,
@@ -213,29 +212,39 @@ export class InformationWidget extends WidgetType {
 
   private handleScroll?: EventListener
   private handleStorage?: (e: StorageEvent) => void
+  private scrollContainers: HTMLElement[] = []
 
   private setupScrollListener() {
-    const scrollContainer = document.querySelector('.cm-scroller')
-    if (!scrollContainer) {
-      return
-    }
+    const scrollContainers = document.querySelectorAll('.cm-scroller')
+    if (!scrollContainers) return
 
     this.handleScroll = this.positionTooltip.bind(this)
     this.handleStorage = (e: StorageEvent) => {
-      if (e.key === 'solve-exercise-page-lhs') {
+      if (
+        e.key === 'solve-exercise-page-lhs' ||
+        e.key === 'frontend-training-page-size'
+      ) {
         this.positionTooltip()
       }
     }
 
-    scrollContainer.addEventListener('scroll', this.handleScroll)
-    window.addEventListener('storage', this.handleStorage)
+    this.scrollContainers = []
 
-    this.scrollContainer = scrollContainer as HTMLElement
+    for (const scrollContainer of scrollContainers) {
+      if (scrollContainer instanceof HTMLElement) {
+        scrollContainer.addEventListener('scroll', this.handleScroll)
+        this.scrollContainers.push(scrollContainer)
+      }
+    }
+
+    window.addEventListener('storage', this.handleStorage)
   }
 
   private cleanup() {
-    if (this.scrollContainer && this.handleScroll) {
-      this.scrollContainer.removeEventListener('scroll', this.handleScroll)
+    if (this.handleScroll) {
+      for (const container of this.scrollContainers) {
+        container.removeEventListener('scroll', this.handleScroll)
+      }
     }
 
     if (this.handleStorage) {
@@ -256,5 +265,7 @@ export class InformationWidget extends WidgetType {
       this.observer.disconnect()
       this.observer = null
     }
+
+    this.scrollContainers = []
   }
 }

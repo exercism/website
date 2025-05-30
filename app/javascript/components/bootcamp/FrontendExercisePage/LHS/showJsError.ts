@@ -17,7 +17,7 @@ export function showJsError(
 ) {
   if (!view) return
 
-  scrollToLine(view, error.lineNumber)
+  setTimeout(() => scrollToLine(view, error.lineNumber), 50)
 
   const editorLength = view.state.doc.length
   const errorLine = view.state.doc.line(error.lineNumber)

@@ -1,70 +1,72 @@
-const segmentSize = 5
-const margin = 5
-const max = 100 - margin - segmentSize
-const min = margin
-
 const snake = {
   direction: 'left',
-  body: [],
   length: 5,
+  segmentSize: 5,
   elem: document.querySelector('#snake'),
+  segments: [],
 }
 
-// Initialize snake body
+const game = { margin: 5 }
+game.leftEdge = game.margin
+game.topEdge = game.margin
+game.rightEdge = 100 - snake.segmentSize - game.margin
+game.bottomEdge = 100 - snake.segmentSize - game.margin
+
 for (let i = 0; i < snake.length; i++) {
-  snake.body.push({ top: 50, left: 50 + i * segmentSize })
+  snake.segments.push({
+    top: 50,
+    left: 50 + i * snake.segmentSize,
+    elem: snake.elem.children[i],
+  })
 }
 
-// Movement logic
 function updateDirection() {
-  const head = snake.body[0]
-  const { top, left, direction } = snake
-
-  if (snake.direction === 'up' && head.top <= min) {
-    snake.direction = 'left'
-  } else if (snake.direction === 'left' && head.left <= min) {
-    snake.direction = 'down'
-  } else if (snake.direction === 'down' && head.top >= max) {
+  const head = snake.segments[0]
+  if (snake.direction == 'down' && head.top >= game.bottomEdge) {
     snake.direction = 'right'
-  } else if (snake.direction === 'right' && head.left >= max) {
+  } else if (snake.direction == 'right' && head.left >= game.rightEdge) {
     snake.direction = 'up'
+  } else if (snake.direction == 'up' && head.top <= game.topEdge) {
+    snake.direction = 'left'
+  } else if (snake.direction == 'left' && head.left <= game.leftEdge) {
+    snake.direction = 'down'
   }
 }
 
 function moveSnake() {
-  const head = { ...snake.body[0] }
+  moveTail()
+  moveHead()
+}
 
-  switch (snake.direction) {
-    case 'up':
-      head.top -= segmentSize
-      break
-    case 'down':
-      head.top += segmentSize
-      break
-    case 'left':
-      head.left -= segmentSize
-      break
-    case 'right':
-      head.left += segmentSize
-      break
+function moveHead() {
+  if (snake.direction == 'left') {
+    snake.segments[0].left = snake.segments[0].left - snake.segmentSize
   }
+  if (snake.direction == 'right') {
+    snake.segments[0].left = snake.segments[0].left + snake.segmentSize
+  }
+  if (snake.direction == 'down') {
+    snake.segments[0].top = snake.segments[0].top + snake.segmentSize
+  }
+  if (snake.direction == 'up') {
+    snake.segments[0].top = snake.segments[0].top - snake.segmentSize
+  }
+}
 
-  // Add new head, remove tail
-  snake.body.unshift(head)
-  snake.body.pop()
+function moveTail() {
+  for (let i = snake.length - 1; i > 0; i--) {
+    const thisSegment = snake.segments[i]
+    const aheadSegment = snake.segments[i - 1]
+    thisSegment.left = aheadSegment.left
+    thisSegment.top = aheadSegment.top
+  }
 }
 
 function renderSnake() {
-  //log(document.body.children)
-  //log(game.children)
-  for (let i = 0; i < snake.body.length; i++) {
-    const seg = snake.elem.children[i]
-    const { top, left } = snake.body[i]
-    seg.style.top = `${top}%`
-    seg.style.left = `${left}%`
-    seg.style.width = `${segmentSize}%`
-    seg.style.height = `${segmentSize}%`
-  }
+  snake.segments.forEach((segment) => {
+    segment.elem.style.left = `${segment.left}%`
+    segment.elem.style.top = `${segment.top}%`
+  })
 }
 
 let loopsRuns = 0
@@ -79,4 +81,5 @@ function gameLoop() {
   requestAnimationFrame(gameLoop)
 }
 
+renderSnake()
 requestAnimationFrame(gameLoop)

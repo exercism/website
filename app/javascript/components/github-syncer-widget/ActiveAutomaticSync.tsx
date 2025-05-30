@@ -1,5 +1,5 @@
 import React from 'react'
-import toast from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import { sendRequest } from '@/utils/send-request'
 import { SyncObj } from './GithubSyncerWidget'
 
@@ -20,36 +20,45 @@ export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
       >
         Start backup
       </button>
+      <Toaster position="bottom-right" />
     </div>
   )
 }
 
-export function handleSyncIteration({ sync }: { sync: SyncObj }) {
-  const { fetch } = sendRequest({
-    endpoint: sync.endpoint,
-    method: 'PATCH',
-    body: sync.body,
-  })
+export async function handleSyncIteration({ sync }: { sync: SyncObj }) {
+  try {
+    const response = await fetch(sync.endpoint, {
+      method: 'PATCH',
+      body: sync.body,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
 
-  fetch
-    .then(async (response) => {
-      if (response.ok) {
-        toast.success(
-          `Your backup has been queued and should be completed within a few minutes.`,
-          { duration: 5000 }
-        )
-      } else {
-        const data = await response.json()
-        toast.error(
-          'Error queuing backup for all tracks: ' +
-            (data.error?.message || 'Unknown error')
-        )
+    if (!response.ok) {
+      const text = await response.text()
+      let errorMessage = 'Unknown error'
+
+      if (text) {
+        try {
+          const data = JSON.parse(text)
+          errorMessage = data.error?.message || errorMessage
+        } catch {}
       }
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-      toast.error(
-        'Something went wrong while queuing the backup for all tracks. Please try again.'
-      )
-    })
+
+      toast.error(`Error queuing backup for all tracks: ${errorMessage}`)
+      return
+    }
+
+    toast.success(
+      `Your backup has been queued and should be completed within a few minutes.`,
+      { duration: 5000 }
+    )
+  } catch (error) {
+    console.error('Error:', error)
+    toast.error(
+      'Something went wrong while queuing the backup for all tracks. Please try again.'
+    )
+  }
 }

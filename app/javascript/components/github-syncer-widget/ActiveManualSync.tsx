@@ -1,6 +1,7 @@
 import React from 'react'
 import { handleSyncIteration } from './ActiveAutomaticSync'
 import { SyncObj } from './GithubSyncerWidget'
+import { Toaster } from 'react-hot-toast'
 
 // Syncer enabled + manual: Say "You have automatic syncs disabled. Click to back up your solution".
 export function ActiveManualSync({ sync }: { sync: SyncObj }) {
@@ -15,6 +16,7 @@ export function ActiveManualSync({ sync }: { sync: SyncObj }) {
       >
         Click to back up your solution
       </button>
+      <Toaster position="bottom-right" />
     </div>
   )
 }

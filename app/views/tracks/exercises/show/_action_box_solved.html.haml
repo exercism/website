@@ -5,7 +5,4 @@
       You have submitted
       = link_to pluralize(solution.iterations.size, "iteration"), track_exercise_iterations_path(track, exercise)
       for this exercise. You can submit more iterations as you continue you evolve your knowledge or want to experiment with new ideas.
-    .border-1.border-borderColor5.rounded-8.p-4.mb-8
-      = render ReactComponents::Student::GithubSolutionSyncerWidget.new(solution)
     = render ReactComponents::Student::LatestIterationLink.new(solution)
-

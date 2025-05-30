@@ -30,7 +30,6 @@ export function GithubSyncerWidget({
   links,
   sync,
 }: GithubSyncerWidgetProps): JSX.Element {
-  useLogger('GithubSyncerWidget', { syncer, links, sync })
   if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
 
   if (!syncer.enabled)
@@ -39,16 +38,4 @@ export function GithubSyncerWidget({
   if (syncer.syncOnIterationCreation) return <ActiveAutomaticSync sync={sync} />
 
   return <ActiveManualSync sync={sync} />
-}
-
-const MOCK_SYNCER: GithubSyncerSettings = {
-  enabled: true,
-  repoFullName: 'exercism/example-repo',
-  syncOnIterationCreation: true,
-  syncExerciseFiles: true,
-  processingMethod: 'commit',
-  mainBranchName: 'unbroken',
-  commitMessageTemplate:
-    'This is a commit message template for Exercism solutions.',
-  pathTemplate: '/path/to/exercise/files',
 }

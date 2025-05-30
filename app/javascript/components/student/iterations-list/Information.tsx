@@ -91,7 +91,6 @@ export const Information = ({
             links={links}
           />
         </Tab.Panel>
-        <Toaster position="bottom-right" />
       </div>
     </TabsContext.Provider>
   )

@@ -36,7 +36,7 @@ class Settings::GithubSyncerController < ApplicationController
 
   def sync_solution
     solution = Solution.for!(current_user.handle, params[:track_slug], params[:exercise_slug])
-    User::GithubSyncer::SyncSolution.defer(solution)
+    User::GithubSolutionSyncer::SyncSolution.defer(solution)
   rescue ActiveRecord::RecordNotFound
     render json: {
       error: "We couldn't find data about you solving this exercise"
@@ -46,7 +46,7 @@ class Settings::GithubSyncerController < ApplicationController
   def sync_iteration
     solution = Solution.for!(current_user.handle, params[:track_slug], params[:exercise_slug])
     iteration = solution.iterations.find_by!(idx: params[:iteration_idx])
-    User::GithubSyncer::SyncIteration.defer(iteration)
+    User::GithubSolutionSyncer::SyncIteration.defer(iteration)
   rescue ActiveRecord::RecordNotFound
     render json: {
       error: "We couldn't find data about this iteration"

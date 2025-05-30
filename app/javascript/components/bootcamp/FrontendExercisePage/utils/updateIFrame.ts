@@ -34,6 +34,7 @@ window.log = function (...args) {
 
   window.parent.postMessage({
     type: 'iframe-log',
+    runId: window.__runId__,
     logs: [safeArgs],
   }, '*');
 };
@@ -62,7 +63,7 @@ export function updateIFrame(
     | React.ForwardedRef<HTMLIFrameElement>,
   { html, css, script }: { html?: string; css?: string; script?: string },
   code: FrontendExercisePageCode
-): (() => void) | undefined {
+): void {
   let iframeElement: HTMLIFrameElement | null = null
 
   if (iframeRef) {
@@ -92,11 +93,20 @@ export function updateIFrame(
       </body>
     </html>`
 
-  let iframeLoaded = false
-
   try {
     iframeElement.onload = () => {
-      iframeLoaded = true
+      try {
+        const runCode = (
+          iframeElement.contentWindow as Window & { runCode?: () => void }
+        )?.runCode
+        if (typeof runCode === 'function') {
+          runCode()
+        } else {
+          console.warn('runCode is not defined on iframe')
+        }
+      } catch (err) {
+        console.error('Failed to execute runCode:', err)
+      }
     }
     iframeElement.srcdoc = iframeHtml
   } catch (err) {
@@ -108,34 +118,5 @@ export function updateIFrame(
       },
       '*'
     )
-    return
-  }
-
-  return () => {
-    if (!iframeLoaded) {
-      console.warn('iframe not ready yet — retrying shortly')
-      setTimeout(() => {
-        const runCode = (
-          iframeElement?.contentWindow as Window & { runCode?: () => void }
-        )?.runCode
-        if (typeof runCode === 'function') {
-          runCode()
-        }
-      }, 50)
-      return
-    }
-
-    try {
-      const runCode = (
-        iframeElement?.contentWindow as Window & { runCode?: () => void }
-      )?.runCode
-      if (typeof runCode === 'function') {
-        runCode()
-      } else {
-        console.warn('runCode is not defined on iframe')
-      }
-    } catch (err) {
-      console.error('Failed to execute runCode:', err)
-    }
   }
 }

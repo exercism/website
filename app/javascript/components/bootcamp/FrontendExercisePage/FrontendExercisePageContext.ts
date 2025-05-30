@@ -15,6 +15,7 @@ type FrontendExercisePageContextType = {
   htmlEditorRef: React.RefObject<EditorView>
   cssEditorRef: React.RefObject<EditorView>
   jsEditorRef: React.RefObject<EditorView>
+  jsCodeRunId: React.MutableRefObject<number>
   handleHtmlEditorDidMount: (handler: Handler) => void
   handleCssEditorDidMount: (handler: Handler) => void
   handleJsEditorDidMount: (handler: Handler) => void

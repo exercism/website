@@ -28,6 +28,8 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
     defaultCode,
   } = useSetupEditors(data.exercise.slug, data.code, actualIFrameRef)
 
+  const jsCodeRunId = React.useRef(0)
+
   useRestoreIframeScrollAfterResize()
 
   return (
@@ -39,6 +41,7 @@ export default function FrontendExercisePage(data: FrontendExercisePageProps) {
         htmlEditorRef: htmlEditorViewRef,
         cssEditorRef: cssEditorViewRef,
         jsEditorRef: jsEditorViewRef,
+        jsCodeRunId,
         handleCssEditorDidMount,
         handleHtmlEditorDidMount,
         handleJsEditorDidMount,

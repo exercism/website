@@ -36,6 +36,7 @@ export function LHS() {
     exercise,
     code,
     links,
+    jsCodeRunId,
   } = useContext(FrontendExercisePageContext)
 
   const {
@@ -108,7 +109,7 @@ export function LHS() {
       },
       customFunctions: [],
       readonlyRanges: {
-        html: cssReadonlyRanges,
+        html: htmlReadonlyRanges,
         css: cssReadonlyRanges,
         js: jsReadonlyRanges,
       },
@@ -117,12 +118,18 @@ export function LHS() {
     const result = parseJS(jsView.state.doc.toString())
     switch (result.status) {
       case 'success':
-        const fullScript = wrapJSCode(jsCode)
-        const expectedScript = wrapJSCode(exercise.config.expected.js)
+        setLogs([])
+
+        jsCodeRunId.current = (jsCodeRunId.current || 0) + 1
+        const fullScript = wrapJSCode(jsCode, jsCodeRunId.current || 0)
+        const expectedScript = wrapJSCode(
+          exercise.config.expected.js,
+          jsCodeRunId.current || 0
+        )
         // we'll only run the JS code if:
         // 1. someone clicks the `Run Code` button and
         // 2. there are no parsing errors
-        const runCode = updateIFrame(
+        updateIFrame(
           actualIFrameRef,
           {
             script: fullScript,
@@ -132,7 +139,7 @@ export function LHS() {
           code
         )
 
-        const runRefCode = updateIFrame(
+        updateIFrame(
           expectedIFrameRef,
           {
             ...exercise.config.expected,
@@ -140,7 +147,7 @@ export function LHS() {
           },
           code
         )
-        const runExpectedCode = updateIFrame(
+        updateIFrame(
           expectedReferenceIFrameRef,
           {
             ...exercise.config.expected,
@@ -152,10 +159,6 @@ export function LHS() {
         if (RHSActiveTab === 'instructions') {
           setRHSActiveTab('output')
         }
-        setLogs([])
-        runCode?.()
-        runRefCode?.()
-        runExpectedCode?.()
         break
       case 'error':
         setTab('javascript')

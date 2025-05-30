@@ -76,30 +76,29 @@ export function updateIFrame(
 
   if (!iframeElement) return
 
-  const iframeDoc =
-    iframeElement.contentDocument || iframeElement.contentWindow?.document
-  if (!iframeDoc) return
-
   const iframeHtml = `
     <!DOCTYPE html>
     <html>
       <head>
         <style>
         ${code.normalizeCss}
-        ${code.default.css} 
+        ${code.default.css}
         ${css || ''}
         </style>
-        </head>
-        <body>
+      </head>
+      <body>
         ${html || ''}
         ${script || ''}
       </body>
     </html>`
 
+  let iframeLoaded = false
+
   try {
-    iframeDoc.open()
-    iframeDoc.write(iframeHtml)
-    iframeDoc.close()
+    iframeElement.onload = () => {
+      iframeLoaded = true
+    }
+    iframeElement.srcdoc = iframeHtml
   } catch (err) {
     window.postMessage(
       {
@@ -113,9 +112,23 @@ export function updateIFrame(
   }
 
   return () => {
+    if (!iframeLoaded) {
+      console.warn('iframe not ready yet — retrying shortly')
+      setTimeout(() => {
+        const runCode = (
+          iframeElement?.contentWindow as Window & { runCode?: () => void }
+        )?.runCode
+        if (typeof runCode === 'function') {
+          runCode()
+        }
+      }, 50)
+      return
+    }
+
     try {
-      // @ts-ignore
-      const runCode = iframeElement?.contentWindow?.runCode
+      const runCode = (
+        iframeElement?.contentWindow as Window & { runCode?: () => void }
+      )?.runCode
       if (typeof runCode === 'function') {
         runCode()
       } else {

@@ -29,7 +29,7 @@ export function Logger() {
 
     window.addEventListener('message', handleMessage)
     return () => window.removeEventListener('message', handleMessage)
-  }, [jsCodeRunId])
+  }, [])
 
   useEffect(() => {
     const el = document.querySelector('.panels')

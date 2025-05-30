@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useState } from 'react'
 import {
   calculateMaxInputValue,
@@ -11,21 +11,24 @@ import { Icon } from '@/components/common'
 import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
-import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { EditorView } from 'codemirror'
 
 function Scrubber({
   animationTimeline,
   frames,
   context,
+  editorView,
+  isSpotlightActive = false,
 }: {
   animationTimeline: AnimationTimeline
   frames: Frame[]
+  editorView: EditorView | null
   context?: string
+  isSpotlightActive?: boolean
 }) {
   const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
-  const { isSpotlightActive } = useContext(JikiscriptExercisePageContext)
 
   const {
     timelineValue,
@@ -46,6 +49,7 @@ function Scrubber({
     frames,
     hasCodeBeenEdited,
     context,
+    editorView,
   })
 
   const currentFrame = useMemo(

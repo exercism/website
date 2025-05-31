@@ -34,6 +34,7 @@ window.log = function (...args) {
 
   window.parent.postMessage({
     type: 'iframe-log',
+    runId: window.__runId__,
     logs: [safeArgs],
   }, '*');
 };
@@ -54,7 +55,9 @@ export const scriptPostlude = `
 `
 
 const jsPreludeLines = scriptPrelude.split('\n')
-export const jsLineOffset = jsPreludeLines.length
+// +1 offset because this line got added to the prelude:
+// window.__runId__ = ${jsCodeRunId};
+export const jsLineOffset = jsPreludeLines.length + 1
 
 export function updateIFrame(
   iframeRef:
@@ -62,7 +65,7 @@ export function updateIFrame(
     | React.ForwardedRef<HTMLIFrameElement>,
   { html, css, script }: { html?: string; css?: string; script?: string },
   code: FrontendExercisePageCode
-): (() => void) | undefined {
+): void {
   let iframeElement: HTMLIFrameElement | null = null
 
   if (iframeRef) {
@@ -76,30 +79,38 @@ export function updateIFrame(
 
   if (!iframeElement) return
 
-  const iframeDoc =
-    iframeElement.contentDocument || iframeElement.contentWindow?.document
-  if (!iframeDoc) return
-
   const iframeHtml = `
     <!DOCTYPE html>
     <html>
       <head>
         <style>
         ${code.normalizeCss}
-        ${code.default.css} 
+        ${code.default.css}
         ${css || ''}
         </style>
-        </head>
-        <body>
+      </head>
+      <body>
         ${html || ''}
         ${script || ''}
       </body>
     </html>`
 
   try {
-    iframeDoc.open()
-    iframeDoc.write(iframeHtml)
-    iframeDoc.close()
+    iframeElement.onload = () => {
+      try {
+        const runCode = (
+          iframeElement.contentWindow as Window & { runCode?: () => void }
+        )?.runCode
+        if (typeof runCode === 'function') {
+          runCode()
+        } else {
+          console.warn('runCode is not defined on iframe')
+        }
+      } catch (err) {
+        console.error('Failed to execute runCode:', err)
+      }
+    }
+    iframeElement.srcdoc = iframeHtml
   } catch (err) {
     window.postMessage(
       {
@@ -109,20 +120,5 @@ export function updateIFrame(
       },
       '*'
     )
-    return
-  }
-
-  return () => {
-    try {
-      // @ts-ignore
-      const runCode = iframeElement?.contentWindow?.runCode
-      if (typeof runCode === 'function') {
-        runCode()
-      } else {
-        console.warn('runCode is not defined on iframe')
-      }
-    } catch (err) {
-      console.error('Failed to execute runCode:', err)
-    }
   }
 }

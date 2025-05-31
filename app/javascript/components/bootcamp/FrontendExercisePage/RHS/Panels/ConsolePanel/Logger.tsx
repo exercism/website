@@ -1,12 +1,15 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { renderLog } from '@/components/bootcamp/JikiscriptExercisePage/RHS/Logger/renderLog'
 import { useHighlighting } from '@/utils/highlight'
 import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
 
 export function Logger() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { logs, setLogs } = useFrontendExercisePageStore()
+
+  const { jsCodeRunId } = useContext(FrontendExercisePageContext)
 
   const ref = useHighlighting<HTMLDivElement>()
 
@@ -14,7 +17,13 @@ export function Logger() {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'iframe-log') {
         const newLogs = event.data.logs as unknown[][]
-        setLogs((prev) => [...prev, ...newLogs])
+        const logRunId = event.data.runId
+
+        if (logRunId === jsCodeRunId.current) {
+          setLogs((prev) => [...prev, ...newLogs])
+        } else {
+          console.debug('Ignoring stale logs: ', newLogs)
+        }
       }
     }
 

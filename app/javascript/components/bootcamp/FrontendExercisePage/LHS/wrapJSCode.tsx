@@ -1,7 +1,9 @@
 import { scriptPrelude, scriptPostlude } from '../utils/updateIFrame'
 
-export function wrapJSCode(jsCode: string) {
+export function wrapJSCode(jsCode: string, jsCodeRunId: number) {
   return `<script>
-${scriptPrelude}${jsCode || ''}${scriptPostlude}
+window.__runId__ = ${jsCodeRunId};
+${scriptPrelude} ${jsCode || ''} ${scriptPostlude}
+//# sourceURL=exercise.js
 </script>`
 }

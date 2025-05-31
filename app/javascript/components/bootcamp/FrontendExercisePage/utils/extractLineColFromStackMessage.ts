@@ -6,7 +6,8 @@ export function extractLineAndColumnFromStack(stack?: string): {
     return { line: 1, column: 1 }
   }
 
-  const match = stack.match(/<anonymous>:(\d+):(\d+)/)
+  const match = stack.match(/(?:\()?(?:\w+\.js|<anonymous>):(\d+):(\d+)\)?/)
+
   if (match) {
     return {
       line: parseInt(match[1], 10),

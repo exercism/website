@@ -1,14 +1,35 @@
 import React, { useCallback, useContext } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { useAiChatStore } from './store/AiChatStore'
 import { ChatContext } from '.'
+import { useAiChatStore } from './store/aiChatStore'
+
+export const FAKE_LONG_STREAM_MESSAGE = `<h2>Ternaries</h2>
+<p>You can use ternaries in JavaScript.<br>
+They follow the pattern:</p>
+
+<pre><code class="language-javascript">conditional ? trueBranch : falseBranch; </code></pre>
+
+<p>For example, these two pieces of code are identical in meaning:</p>
+
+<pre><code class="language-javascript"> // if/else variant
+let result;
+if (something) {
+  result = "Yes!";
+} else {
+  result = "No!";
+}
+
+// Ternary
+let result = something ? "Yes!" : "No!";
+</code></pre>`
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
 
   const { inputRef } = useContext(ChatContext)
-  const { appendMessage } = useAiChatStore()
+  const { appendMessage, streamMessage, finishStream, isMessageBeingStreamed } =
+    useAiChatStore()
 
   const handleSendOnEnter = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -16,13 +37,44 @@ export function ChatInput() {
         e.preventDefault()
 
         if (value.trim() !== '') {
-          appendMessage(value)
+          appendMessage({
+            id: Date.now().toString(),
+            content: value,
+            sender: 'user',
+            timestamp: new Date().toISOString(),
+          })
           setValue('')
+          demonstrateStream()
         }
       }
     },
     [value, setValue]
   )
+
+  const demonstrateStream = useCallback(() => {
+    if (value.trim() === '') return
+
+    const words = FAKE_LONG_STREAM_MESSAGE.split(' ')
+    let currentIndex = 0
+
+    const minDelay = 100
+    const maxDelay = 300
+
+    const getRandomDelay = () =>
+      Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay
+
+    const streamNext = () => {
+      if (currentIndex < words.length) {
+        streamMessage(words[currentIndex] + ' ')
+        currentIndex++
+        setTimeout(streamNext, getRandomDelay())
+      } else {
+        finishStream()
+      }
+    }
+
+    streamNext()
+  }, [value])
 
   const handleInput = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -40,10 +92,14 @@ export function ChatInput() {
           name="text"
           placeholder="Ask you question here"
           rows={1}
-          className={assembleClassNames('chat-textarea w-full py-16 text-16')}
+          className={assembleClassNames(
+            'chat-textarea w-full py-16 text-16',
+            isMessageBeingStreamed && 'opacity-50'
+          )}
           value={value}
           onInput={handleInput}
           onKeyDown={handleSendOnEnter}
+          disabled={isMessageBeingStreamed}
         />
 
         {value.length > 0 && (
@@ -60,26 +116,6 @@ export function ChatInput() {
           </button>
         )}
       </div>
-    </div>
-  )
-}
-
-function QuickActionButton({ text }: { text: string }) {
-  return (
-    <button className="px-18 py-12 text-14 border border-[#dbdbdb] text-primaryBlue rounded-8 bg-white hover:bg-[#fafaff] leading-6">
-      {text}
-    </button>
-  )
-}
-
-// @ts-ignore
-function QuickActions() {
-  const texts = ["I'd like to learn more about variables", 'Tell me more']
-  return (
-    <div className="flex gap-[14px] mb-[14px]">
-      {texts.map((text, idx) => {
-        return <QuickActionButton text={text} key={idx} />
-      })}
     </div>
   )
 }

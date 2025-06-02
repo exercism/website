@@ -1,6 +1,7 @@
 .chat-textarea {
     margin: auto;
     resize: none;
+    cursor: text;
 }
 
 .ai-chat-container {
@@ -27,11 +28,23 @@
 }
 
 .chat-thread {
-    @apply flex flex-col gap-8 items-end;
+    @apply flex flex-col gap-8;
     @apply max-h-[calc(100vh-200px)] overflow-y-auto;
     @apply px-8 py-6;
 }
 
 .chat-message {
-    @apply bg-textColor6 p-12 rounded-12 text-white font-medium w-fit max-w-[200px];
+    @apply bg-textColor6 px-12 py-8 rounded-12 text-white font-medium w-fit max-w-[200px] text-balance;
+    @apply self-end;
+    @apply leading-140;
+
+    &.ai {
+        @apply bg-bootcamp-light-purple;
+        @apply self-start max-w-[100%];
+        @apply text-textColor1 border-1 border-bootcamp-purple;
+
+        pre {
+            @apply bg-thin-border-blue rounded-8 my-8;
+        }
+    }
 }

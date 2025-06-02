@@ -18,6 +18,7 @@ export const IterationReport = ({
   onCompressed,
   onDelete,
   syncer,
+  isUserLifetimeInsider,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -28,6 +29,7 @@ export const IterationReport = ({
   onCompressed: () => void
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
+  isUserLifetimeInsider: boolean
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
@@ -79,6 +81,7 @@ export const IterationReport = ({
           </div>
           <div className="information">
             <Information
+              isUserLifetimeInsider={isUserLifetimeInsider}
               iteration={iteration}
               exercise={exercise}
               track={track}

@@ -44,12 +44,7 @@ import type { Links as RequestMentoringButtonLinks } from '@/components/student/
 import type { Track as MentoringTestimonialsListTrack } from '@/components/mentoring/TestimonialsList'
 import type { Category as JourneyPageCategory } from '@/components/journey/JourneyPage'
 import type { Links as TrackMenuLinks } from '@/components/dropdowns/TrackMenu'
-import type {
-  Track as IterationsListTrack,
-  Exercise as IterationsListExercise,
-  Links as IterationsListLinks,
-  IterationsListRequest,
-} from '@/components/student/IterationsList'
+import { type IterationsListProps } from '@/components/student/IterationsList'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -633,16 +628,9 @@ initReact({
       <GithubSyncerWidget {...camelizeKeysAs<GithubSyncerWidgetProps>(data)} />
     </Suspense>
   ),
-  'student-iterations-list': (data: any) => (
+  'student-iterations-list': (data: IterationsListProps) => (
     <Suspense fallback={RenderLoader()}>
-      <StudentIterationsList
-        solutionUuid={data.solution_uuid}
-        request={camelizeKeysAs<IterationsListRequest>(data.request)}
-        exercise={camelizeKeysAs<IterationsListExercise>(data.exercise)}
-        track={camelizeKeysAs<IterationsListTrack>(data.track)}
-        links={camelizeKeysAs<IterationsListLinks>(data.links)}
-        syncer={camelizeKeysAs<GithubSyncerSettings | null>(data.syncer)}
-      />
+      <StudentIterationsList {...camelizeKeysAs<IterationsListProps>(data)} />
     </Suspense>
   ),
   'student-latest-iteration-link': (data: any) => (

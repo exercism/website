@@ -22,6 +22,8 @@ module ViewComponents
     end
 
     def item_for(text, route, key)
+      return if key == :github_syncer && !current_user.lifetime_insider?
+
       tag.li do
         key == selected ?
           tag.div(text, class: 'selected') :

@@ -49,6 +49,16 @@ export const getCacheKey = (
   return `iterations-${trackSlug}-${exerciseSlug}`
 }
 
+export type IterationsListProps = {
+  solutionUuid: string
+  request: IterationsListRequest
+  exercise: Exercise
+  track: Track
+  links: Links
+  syncer: GithubSyncerSettings | null
+  isUserLifetimeInsider: boolean
+}
+
 export default function IterationsList({
   solutionUuid,
   request,
@@ -56,14 +66,8 @@ export default function IterationsList({
   track,
   links,
   syncer,
-}: {
-  solutionUuid: string
-  request: IterationsListRequest
-  exercise: Exercise
-  track: Track
-  links: Links
-  syncer: GithubSyncerSettings | null
-}): JSX.Element {
+  isUserLifetimeInsider,
+}: IterationsListProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean[]>([])
 
   const queryClient = useQueryClient()
@@ -163,6 +167,7 @@ export default function IterationsList({
                 iteration={iteration}
                 syncer={syncer}
                 exercise={exercise}
+                isUserLifetimeInsider={isUserLifetimeInsider}
                 track={track}
                 links={links}
                 isOpen={isOpen[index]}

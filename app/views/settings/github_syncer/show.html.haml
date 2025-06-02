@@ -2,8 +2,9 @@
   .lg-container
     = render ViewComponents::SettingsNav.new(:github_syncer)
 
-    %article
-      - if current_user.github_solution_syncer
-        %h1 GitHub Syncer
+    - if current_user.lifetime_insider?
+      %article
+        - if current_user.github_solution_syncer
+          %h1 GitHub Syncer
 
-      = render ReactComponents::Settings::GithubSyncerForm.new
+        = render ReactComponents::Settings::GithubSyncerForm.new

@@ -43,7 +43,7 @@ jobs:
         run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
 
@@ -182,7 +182,7 @@ jobs:
         run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -343,7 +343,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -441,7 +441,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true

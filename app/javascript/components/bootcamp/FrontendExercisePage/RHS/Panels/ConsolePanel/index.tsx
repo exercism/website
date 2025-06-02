@@ -5,7 +5,7 @@ import { Logger } from './Logger'
 
 export function ConsolePanel() {
   return (
-    <Tab.Panel id="console" context={TabsContext}>
+    <Tab.Panel alwaysAttachToDOM id="console" context={TabsContext}>
       <Logger />
     </Tab.Panel>
   )

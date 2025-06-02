@@ -3,6 +3,7 @@ import { InstructionsPanel } from './InstructionsPanel'
 import { StudentOutputPanel } from './StudentOutputPanel'
 import { ExpectedOutputPanel } from './ExpectedOutputPanel'
 import { ConsolePanel } from './ConsolePanel'
+import { ChatPanel } from './ChatPanel'
 
 export function Panels() {
   return (
@@ -11,6 +12,7 @@ export function Panels() {
       <StudentOutputPanel />
       <ExpectedOutputPanel />
       <ConsolePanel />
+      <ChatPanel />
     </div>
   )
 }

@@ -1,6 +1,11 @@
 import { create } from 'zustand'
 
-export type TabIndex = 'instructions' | 'output' | 'expected' | 'console'
+export type TabIndex =
+  | 'instructions'
+  | 'output'
+  | 'expected'
+  | 'console'
+  | 'chat'
 
 type FrontendExercisePageStoreState = {
   logs: unknown[][]
@@ -52,7 +57,8 @@ export const useFrontendExercisePageStore =
       LHSWidth: 800,
       RHSWidth: 800,
     },
-    RHSActiveTab: 'instructions',
+    // TODO: change this back to instructions
+    RHSActiveTab: 'chat',
     setRHSActiveTab: (tab) => set({ RHSActiveTab: tab }),
     setPanelSizes: (panelSizes) => set({ panelSizes }),
     isFinishLessonModalOpen: false,

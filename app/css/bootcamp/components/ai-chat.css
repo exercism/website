@@ -1,0 +1,37 @@
+.chat-textarea {
+    margin: auto;
+    resize: none;
+}
+
+.ai-chat-container {
+    @apply h-100 p-12 content-end;
+}
+
+.chat-input-container {
+    @apply px-16 gap-16;
+    @apply flex items-center hover:cursor-text rounded-8 border-1 border-[#ccc] focus-within:border-[#2e57e8];
+    @apply overflow-hidden;
+
+    textarea {
+        &::placeholder {
+            @apply text-textColor7;
+        }
+
+        &:focus,
+        &:focus-within {
+            @apply border-none shadow-none outline-none;
+        }
+        @apply border-none shadow-none outline-none;
+        @apply outline-none;
+    }
+}
+
+.chat-thread {
+    @apply flex flex-col gap-8 items-end;
+    @apply max-h-[calc(100vh-200px)] overflow-y-auto;
+    @apply px-8 py-6;
+}
+
+.chat-message {
+    @apply bg-textColor6 p-12 rounded-12 text-white font-medium w-fit max-w-[200px];
+}

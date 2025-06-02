@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
 import { TabContext } from '@/components/common/Tab'
 import { Tabs } from './Tabs'
 import { Panels } from './Panels/Panels'
@@ -8,14 +8,14 @@ import {
 } from '../store/frontendExercisePageStore'
 
 export const TabsContext = createContext<TabContext>({
-  current: 'instructions',
+  current: '',
   switchToTab: () => {},
 })
 
 export function RHS() {
-  const { RHSActiveTab: tab, setRHSActiveTab: setTab } =
-    useFrontendExercisePageStore()
   const {
+    RHSActiveTab: tab,
+    setRHSActiveTab: setTab,
     panelSizes: { RHSWidth },
   } = useFrontendExercisePageStore()
 

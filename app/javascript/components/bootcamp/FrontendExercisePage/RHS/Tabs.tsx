@@ -9,6 +9,7 @@ export function Tabs() {
       <OutputTab />
       <ExpectedTab />
       <ConsoleTab />
+      <ChatTab />
     </div>
   )
 }
@@ -41,6 +42,14 @@ function ConsoleTab() {
   return (
     <Tab id="console" context={TabsContext}>
       <span data-text="Console">Console</span>
+    </Tab>
+  )
+}
+
+function ChatTab() {
+  return (
+    <Tab id="chat" context={TabsContext}>
+      <span data-text="Chat">Chat</span>
     </Tab>
   )
 }

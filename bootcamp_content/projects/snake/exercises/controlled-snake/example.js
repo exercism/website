@@ -1,56 +1,74 @@
 const snake = {
   direction: 'left',
-  length: 5,
-  segmentSize: 5,
-  elem: document.querySelector('#snake'),
+  length: 8,
   segments: [],
 }
 
-const game = { margin: 5 }
-game.leftEdge = game.margin
-game.topEdge = game.margin
-game.rightEdge = 100 - snake.segmentSize - game.margin
-game.bottomEdge = 100 - snake.segmentSize - game.margin
+const game = {
+  gridSize: 20,
+  elem: document.querySelector('#game'),
+}
 
+const segments = Array.from(document.querySelectorAll('.snake-segment'))
 for (let i = 0; i < snake.length; i++) {
   snake.segments.push({
-    top: 50,
-    left: 50 + i * snake.segmentSize,
-    elem: snake.elem.children[i],
+    top: 10,
+    left: 10 + i,
+    elem: segments[i],
   })
 }
 
-function updateDirection() {
+window.addEventListener('keydown', (e) => {
+  log(e.key)
   const head = snake.segments[0]
-  if (snake.direction == 'down' && head.top >= game.bottomEdge) {
+  if (e.key == 'ArrowRight') {
     snake.direction = 'right'
-  } else if (snake.direction == 'right' && head.left >= game.rightEdge) {
+  } else if (e.key == 'ArrowUp') {
     snake.direction = 'up'
-  } else if (snake.direction == 'up' && head.top <= game.topEdge) {
+  } else if (e.key == 'ArrowLeft') {
     snake.direction = 'left'
-  } else if (snake.direction == 'left' && head.left <= game.leftEdge) {
+  } else if (e.key == 'ArrowDown') {
     snake.direction = 'down'
   }
-}
+})
 
 function moveSnake() {
   moveTail()
   moveHead()
 }
 
-function moveHead() {
+function newHeadPosition() {
+  const head = snake.segments[0]
   if (snake.direction == 'left') {
-    snake.segments[0].left = snake.segments[0].left - snake.segmentSize
+    return [head.left - 1, head.top]
   }
   if (snake.direction == 'right') {
-    snake.segments[0].left = snake.segments[0].left + snake.segmentSize
+    return [head.left + 1, head.top]
   }
   if (snake.direction == 'down') {
-    snake.segments[0].top = snake.segments[0].top + snake.segmentSize
+    return [head.left, head.top + 1]
   }
   if (snake.direction == 'up') {
-    snake.segments[0].top = snake.segments[0].top - snake.segmentSize
+    return [head.left, head.top - 1]
   }
+}
+
+function snakeWillEatTail() {
+  const head = snake.segments[0]
+  const [left, top] = newHeadPosition()
+  for (const segment of snake.segments) {
+    if (segment.left == left && segment.top == top) {
+      return true
+    }
+  }
+  return false
+}
+
+function moveHead() {
+  const head = snake.segments[0]
+  const [left, top] = newHeadPosition()
+  head.left = left
+  head.top = top
 }
 
 function moveTail() {
@@ -64,15 +82,36 @@ function moveTail() {
 
 function renderSnake() {
   snake.segments.forEach((segment) => {
-    segment.elem.style.left = `${segment.left}%`
-    segment.elem.style.top = `${segment.top}%`
+    segment.elem.style.gridColumn = segment.left
+    segment.elem.style.gridRow = segment.top
   })
+}
+
+function snakeHitEdge() {
+  const head = snake.segments[0]
+  return (
+    head.left <= 0 ||
+    head.left > game.gridSize ||
+    head.top <= 0 ||
+    head.top > game.gridSize
+  )
+}
+
+function renderGameOver() {
+  game.elem.style.backgroundColor = 'darkred'
 }
 
 let loopsRuns = 0
 function gameLoop() {
-  if (loopsRuns % 10 == 0) {
-    updateDirection()
+  if (loopsRuns % 20 == 0) {
+    if (snakeWillEatTail()) {
+      renderGameOver()
+      return
+    }
+    if (snakeHitEdge()) {
+      renderGameOver()
+      return
+    }
     moveSnake()
     renderSnake()
   }

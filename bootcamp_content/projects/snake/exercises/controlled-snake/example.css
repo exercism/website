@@ -7,17 +7,12 @@ body {
     margin: 10vmin auto;
     background: rgb(141, 175, 76);
     position: relative;
-
-    #snake {
-        position: absolute;
-        inset: 0;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 5%);
+    grid-template-rows: repeat(auto-fill, 5%);
 
     .snake-segment {
-        position: absolute;
         background: black;
         border: 2px solid rgb(141, 175, 76);
-        width: 5%;
-        height: 5%;
     }
 }

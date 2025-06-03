@@ -3,6 +3,7 @@ import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { useAiChatStore } from './store/aiChatStore'
+import AudioRecorder from './AudioRecorder/AudioRecorder'
 
 export const FAKE_LONG_STREAM_MESSAGE = `<h2>Ternaries</h2>
 <p>You can use ternaries in JavaScript.<br>
@@ -86,35 +87,38 @@ export function ChatInput() {
   return (
     <div className="bg-white shadow-msg-container relative px-24 py-20 z-5">
       <div className="chat-input-container">
-        <textarea
-          ref={inputRef}
-          id="text"
-          name="text"
-          placeholder="Ask you question here"
-          rows={1}
-          className={assembleClassNames(
-            'chat-textarea w-full py-16 text-16',
-            isMessageBeingStreamed && 'opacity-50'
-          )}
-          value={value}
-          onInput={handleInput}
-          onKeyDown={handleSendOnEnter}
-          disabled={isMessageBeingStreamed}
-        />
+        <div className="flex w-full items-center">
+          <textarea
+            ref={inputRef}
+            id="text"
+            name="text"
+            placeholder="Ask you question here"
+            rows={1}
+            className={assembleClassNames(
+              'chat-textarea w-full text-16',
+              isMessageBeingStreamed && 'opacity-50'
+            )}
+            value={value}
+            onInput={handleInput}
+            onKeyDown={handleSendOnEnter}
+            disabled={isMessageBeingStreamed}
+          />
 
-        {value.length > 0 && (
-          <button
-            className={assembleClassNames('p-2 w-28 h-28 shrink-0')}
-            type="submit"
-          >
-            <GraphicalIcon
-              className="filter-textColor6"
-              icon="enter"
-              height={24}
-              width={24}
-            />
-          </button>
-        )}
+          {value.length > 0 && (
+            <button
+              className={assembleClassNames('p-2 w-28 h-28 shrink-0')}
+              type="submit"
+            >
+              <GraphicalIcon
+                className="filter-textColor6"
+                icon="enter"
+                height={24}
+                width={24}
+              />
+            </button>
+          )}
+        </div>
+        <AudioRecorder />
       </div>
     </div>
   )

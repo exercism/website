@@ -2,15 +2,17 @@
     margin: auto;
     resize: none;
     cursor: text;
+    padding: 6px;
 }
 
 .ai-chat-container {
-    @apply h-100 p-12 content-end;
+    @apply h-100 p-16 content-end;
 }
 
 .chat-input-container {
-    @apply px-16 gap-16;
-    @apply flex items-center hover:cursor-text rounded-8 border-1 border-[#ccc] focus-within:border-[#2e57e8];
+    @apply p-8;
+    @apply flex flex-col items-center hover:cursor-text rounded-12;
+    @apply border-1 border-[#ccc] focus-within:border-[#2e57e8];
     @apply overflow-hidden;
 
     textarea {

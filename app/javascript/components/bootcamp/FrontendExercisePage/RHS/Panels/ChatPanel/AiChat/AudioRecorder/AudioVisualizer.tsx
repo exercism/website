@@ -67,7 +67,9 @@ function AudioVisualizer({ analyser }: AudioVisualizerProps): JSX.Element {
       }
 
       const avgAmplitude = sum / bufferLength
-      const amplified = avgAmplitude * 2.5
+      // tweak this more for drama
+      const dramaMultiplier = 3
+      const amplified = avgAmplitude * dramaMultiplier
       const barHeight = Math.max(1, amplified)
 
       ctx.beginPath()

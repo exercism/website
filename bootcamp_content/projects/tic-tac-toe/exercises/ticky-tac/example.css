@@ -2,7 +2,7 @@
     background: white;
     width: 80vmin;
     height: 80vmin;
-    margin: 10vmin auto;
+    margin: 10vh auto;
     border: 1px solid #aaa;
     display: flex;
     justify-content: stretch;
@@ -19,7 +19,9 @@
             border: 0px solid #aaa;
             display: grid;
             place-items: center;
-            font-size: 5rem;
+            container-type: size;
+            font-size: 20cqmin;
+            line-height: 1;
             cursor: pointer;
 
             &.win {

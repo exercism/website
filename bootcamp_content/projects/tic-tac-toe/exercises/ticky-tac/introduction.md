@@ -21,3 +21,9 @@ If all the squares are taken, the boxes should go grey and faded, and the game s
 Clicking on squares that are already taken should have no impact.
 
 Experiment with the Example implementation, and try and get yours to match it as closely as possible!
+
+### Notes
+
+My implementation is quite straight-forward. The only thing you might find useful to know is that I used `20vmin` units for the font-size of the `x` and `o`.
+
+The colors I used were `#aaa`, `purple`, `#ddd` and `#666`.

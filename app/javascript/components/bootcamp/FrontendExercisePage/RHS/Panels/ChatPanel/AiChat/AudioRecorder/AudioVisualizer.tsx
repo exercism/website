@@ -37,33 +37,49 @@ function AudioVisualizer({ analyser }: AudioVisualizerProps): JSX.Element {
     const bufferLength = analyser.fftSize
     const dataArray = new Uint8Array(bufferLength)
 
-    ctx.lineWidth = 2
+    ctx.lineWidth = 1.5
     ctx.strokeStyle = '#5C5589'
+
+    const scrollSpeed = 1
 
     const draw = () => {
       if (!analyser || !canvasRef.current) return
 
       analyser.getByteTimeDomainData(dataArray)
 
+      const imageData = ctx.getImageData(
+        scrollSpeed,
+        0,
+        canvas.width - scrollSpeed,
+        height
+      )
       ctx.clearRect(0, 0, canvas.width, height)
-      ctx.beginPath()
+      ctx.putImageData(imageData, 0, 0)
 
-      const sliceWidth = canvas.width / bufferLength
-      let x = 0
+      ctx.clearRect(canvas.width - scrollSpeed, 0, scrollSpeed, height)
 
+      const centerY = height / 2
+      let sum = 0
       for (let i = 0; i < bufferLength; i++) {
         const v = dataArray[i] / 128.0
-        const y = (v * height) / 2
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
-        x += sliceWidth
+        const y = v * centerY
+        sum += Math.abs(y - centerY)
       }
 
+      const avgAmplitude = sum / bufferLength
+      const amplified = avgAmplitude * 2.5
+      const barHeight = Math.max(1, amplified)
+
+      ctx.beginPath()
+      ctx.moveTo(canvas.width - 1, centerY - barHeight)
+      ctx.lineTo(canvas.width - 1, centerY + barHeight)
       ctx.stroke()
+
       animationFrameId.current = requestAnimationFrame(draw)
     }
 
-    analyser.fftSize = 1024
-    analyser.smoothingTimeConstant = 0.7
+    analyser.fftSize = 512
+    analyser.smoothingTimeConstant = 0.6
     draw()
 
     return () => {

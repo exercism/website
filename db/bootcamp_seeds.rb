@@ -63,7 +63,7 @@ projects = %w[
   rock-paper-scissors
   number-puzzles
   string-puzzles
-  games-and-apps
+  tic-tac-toe
   breakout
   wordle
   data-puzzles

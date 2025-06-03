@@ -1,0 +1,6 @@
+{
+  "slug": "tic-tac-tac",
+  "title": "Tic Tac Toe",
+  "description": "Build out full games and apps from scratch",
+  "exercises": ["tic-tac-toe", "ticky-tac"]
+}

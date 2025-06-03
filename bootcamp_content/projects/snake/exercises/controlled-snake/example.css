@@ -1,0 +1,18 @@
+body {
+    background: black;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: rgb(141, 175, 76);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 5%);
+    grid-template-rows: repeat(auto-fill, 5%);
+
+    .snake-segment {
+        background: black;
+        border: 2px solid rgb(141, 175, 76);
+    }
+}

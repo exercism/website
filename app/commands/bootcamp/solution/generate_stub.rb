@@ -7,9 +7,19 @@ class Bootcamp::Solution::GenerateStub
     exercise.stub(language).gsub(Regexp.new("{{EXERCISE:([-a-z0-9]+)/([-a-z0-9]+)}}")) do
       project_slug = ::Regexp.last_match(1)
       exercise_slug = ::Regexp.last_match(2)
-      user.bootcamp_solutions.joins(exercise: :project).
+      sol = user.bootcamp_solutions.joins(exercise: :project).
         where('bootcamp_exercises.slug = ? AND bootcamp_projects.slug = ?', exercise_slug, project_slug).
-        first&.code || ""
+        first
+
+      if sol
+        if language == "jikiscript"
+          sol.code
+        else
+          JSON.parse(sol.code)[language]
+        end
+      else
+        ""
+      end
     end
   end
 end

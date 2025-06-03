@@ -1,1 +1,1 @@
-{{EXERCISE:breakout/slithery-snake}}
+{{EXERCISE:snake/slithery-snake}}

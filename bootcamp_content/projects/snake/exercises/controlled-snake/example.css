@@ -1,0 +1,23 @@
+body {
+    background: black;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: rgb(141, 175, 76);
+    position: relative;
+
+    #snake {
+        position: absolute;
+        inset: 0;
+    }
+
+    .snake-segment {
+        position: absolute;
+        background: black;
+        border: 2px solid rgb(141, 175, 76);
+        width: 5%;
+        height: 5%;
+    }
+}

@@ -12,7 +12,7 @@ class Bootcamp::Solution::GenerateStub
         first
 
       if sol
-        if language == "jikiscript"
+        if language == "jikiscript" || language == "jiki"
           sol.code
         else
           JSON.parse(sol.code)[language]

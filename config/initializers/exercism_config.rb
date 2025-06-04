@@ -1,9 +1,16 @@
 if Rails.env.development?
-  Exercism.config.api_host = "http://local.exercism.io:3020/api".freeze
-else
-  # TODO: Change to exercism.org
-  # Exercism.config.api_host = "https://api.exercism.org".freeze
-  Exercism.config.api_host = "https://exercism.org/api".freeze
+  begin
+    YAML.load_file(Rails.root / "config/settings.local.yml").tap do |config|
+      (config["config"] || {}).each do |key, value|
+        Exercism.config.send("#{key}=", value.freeze)
+      end
+      (config["secrets"] || {}).each do |key, value|
+        Exercism.secrets.send("#{key}=", value.freeze)
+      end
+    end
+  rescue Errno::ENOENT
+    # It's ok to not have a local files endpoint
+  end
 end
 
 Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"

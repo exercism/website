@@ -89,7 +89,7 @@ export function ConnectToGithubSection() {
           className="btn btn-l btn-primary w-fit"
           onClick={() => setIsModalOpen(true)}
         >
-          Connect a GitHub repository
+          Setup Backup
         </button>
       </div>
       <ConnectModal onClose={() => setIsModalOpen(false)} open={isModalOpen} />

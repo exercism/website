@@ -2,25 +2,34 @@ import React from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { sendRequest } from '@/utils/send-request'
 import { SyncObj } from './GithubSyncerWidget'
+import { GraphicalIcon } from '../common'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
 export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-24">
-      <h6 className="font-semibold text-16 mb-16">
-        Your solution will auto-backup to GitHub.
-      </h6>
-      <p className="text-center text-balance mb-16">
-        If it does not for some reason, please click this button to manually
-        start the backup.
-      </p>
-      <button
-        onClick={() => handleSyncIteration({ sync })}
-        className="btn btn-xs btn-primary"
-      >
-        Start backup
-      </button>
-      <Toaster position="bottom-right" />
+    <div className="flex gap-24 items-start py-32 px-24">
+      <GraphicalIcon
+        icon="github-syncer"
+        category="graphics"
+        className="w-[72px]"
+      />
+      <div className="flex flex-col items-start ">
+        <h6 className="font-semibold text-textColor1 text-22 mb-12">
+          Auto-backup Enabled
+        </h6>
+        <p className="text-16 leading-150 mb-12">
+          New iterations will automatically backup to GitHub. To manually
+          trigger a backup of all iterations to this solution, please use the
+          button below.
+        </p>
+        <button
+          onClick={() => handleSyncIteration({ sync })}
+          className="btn btn-s btn-secondary"
+        >
+          Trigger solution backup
+        </button>
+        <Toaster position="bottom-right" />
+      </div>
     </div>
   )
 }

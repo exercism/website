@@ -21,6 +21,7 @@ class User < ApplicationRecord
     :omniauthable, omniauth_providers: %i[github discord]
 
   has_many :auth_tokens, dependent: :destroy
+  has_one :github_solution_syncer, dependent: :destroy
 
   has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
   has_one :bootcamp_data, dependent: :destroy, class_name: "User::BootcampData"

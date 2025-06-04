@@ -15,7 +15,7 @@
   - else
     .lg-container.flex.flex-col.lg:flex-row
       .flex-shrink-0.mb-32.lg:mb-0{ class: 'lg:w-[40%]' }
-        .bg-backgroundColorA.shadow-lg.py-20.px-20.rounded-8{ class: "lg:py-24 lg:px-32" }
+        .bg-backgroundColorA.shadow-lg.py-20.px-20.rounded-8.mb-16{ class: "lg:py-24 lg:px-32" }
           - if @solution
             - if @solution.status_completed? || @solution.status_published?
               = render "tracks/exercises/show/timeline_completed", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
@@ -31,6 +31,9 @@
               = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
             - else
               = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
+        - if @solution && current_user.admin?
+          .bg-backgroundColorA.shadow-lg.rounded-8
+            = render ReactComponents::Student::GithubSolutionSyncerWidget.new(@solution)
 
         .mt-28.ml-8
           = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))

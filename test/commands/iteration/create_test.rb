@@ -470,4 +470,33 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
   end
+
+  test "enqueues github sync with syncer" do
+    user = create :user
+    create(:user_github_solution_syncer, user:, sync_on_iteration_creation: true)
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer)
+    Iteration::Create.(solution, submission)
+  end
+
+  test "does not enqueues github sync without syncer" do
+    user = create :user
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "does not enqueues github sync with syncer but disabled" do
+    user = create :user
+    create(:user_github_solution_syncer, user:, sync_on_iteration_creation: false)
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer).never
+    Iteration::Create.(solution, submission)
+  end
 end

@@ -53,3 +53,5 @@ dump.rdb
 /vendor/*mmdb
 
 .npmrc
+
+config/settings.local.yml

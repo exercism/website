@@ -15,6 +15,8 @@ module ReactComponents
               download_cmd: exercise.download_cmd,
               has_test_runner: exercise.has_test_runner?
             },
+            is_user_lifetime_insider: solution.user.lifetime_insider?,
+            is_user_admin: solution.user.admin?,
             track: {
               title: track.title,
               slug: track.slug,
@@ -27,14 +29,19 @@ module ReactComponents
               tooling_help: Exercism::Routes.doc_path('building', 'tooling'),
               automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
               start_exercise: Exercism::Routes.start_api_track_exercise_url(track, exercise),
-              solving_exercises_locally: Exercism::Routes.solving_exercises_locally_path
-            }
+              solving_exercises_locally: Exercism::Routes.solving_exercises_locally_path,
+              github_syncer_settings: Exercism::Routes.settings_github_syncer_path,
+              sync_iteration: Exercism::Routes.sync_iteration_settings_github_syncer_path
+            },
+            syncer:
           }
         )
       end
 
       private
       delegate :exercise, :track, to: :solution
+
+      def syncer = solution.user.github_solution_syncer
 
       def request
         {

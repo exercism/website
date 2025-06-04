@@ -118,6 +118,13 @@ module ViewComponents
       ].freeze
 
       MORE_SUBMENU = [
+        # {
+        #   title: "GitHub Backup",
+        #   description: "Use our automated GitHub Backup system",
+        #   path: Exercism::Routes.settings_github_syncer_path,
+        #   icon: 'github-syncer',
+        #   category: "graphics",
+        # },
 
         {
           title: "Donate",

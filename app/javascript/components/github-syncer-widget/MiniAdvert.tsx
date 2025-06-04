@@ -25,7 +25,7 @@ export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
           className="h-[64px]"
         />
       </div>
-      <h2 className="text-22 text-textColor1 mb-8 font-semibold">
+      <h2 className="text-21 text-textColor1 mb-8 font-semibold">
         Backup your Solutions to GitHub
       </h2>
       <p className="text-16 leading-140 mb-12 text-balance text-center">

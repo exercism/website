@@ -14,19 +14,19 @@ export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
         className="w-[72px]"
       />
       <div className="flex flex-col items-start ">
-        <h6 className="font-semibold text-textColor1 text-22 mb-12">
+        <h6 className="font-semibold text-textColor1 text-21 mb-12">
           Auto-backup Enabled
         </h6>
         <p className="text-16 leading-150 mb-12">
-          New iterations will automatically backup to GitHub. To manually
-          trigger a backup of all iterations to this solution, please use the
-          button below.
+          {sync.type === 'solution'
+            ? 'New iterations will automatically backup to GitHub. To manually trigger a backup of all iterations to this solution, please use the button below.'
+            : 'New iterations for this solution will automatically backup to GitHub. To manually trigger a backup of this iteration, please use the button below.'}
         </p>
         <button
           onClick={() => handleSync({ sync })}
           className="btn btn-s btn-secondary"
         >
-          Trigger solution backup
+          Trigger {sync.type === 'solution' ? 'solution' : 'iteration'} backup
         </button>
         <Toaster position="bottom-right" />
       </div>

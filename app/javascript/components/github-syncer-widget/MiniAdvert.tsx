@@ -4,8 +4,8 @@ import GraphicalIcon from '../common/GraphicalIcon'
 
 export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
   return (
-    <div className="flex flex-col items-center py-24">
-      <div className="flex gap-20 items-center mb-8">
+    <div className="flex flex-col items-stretch py-24 text-center px-40">
+      <div className="flex gap-20 items-center mb-12 mx-auto">
         <Icon
           icon="exercism-face"
           category="icons"
@@ -25,29 +25,15 @@ export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
           className="h-[64px]"
         />
       </div>
-      <h2 className="!text-[18px] !mb-4 font-semibold">
+      <h2 className="text-22 text-textColor1 mb-8 font-semibold">
         Backup your Solutions to GitHub
       </h2>
-      <p className="text-[14px] leading-140 mb-16 text-balance text-center">
+      <p className="text-16 leading-140 mb-12 text-balance text-center">
         Automatically backup your solutions to GitHub with our automated backup
         tool.
       </p>
-      <div className="flex gap-10 text-10 font-semibold mb-16">
-        <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
-          <GraphicalIcon icon="safe-duo" className="h-[12px]" />
-          Safe Backup
-        </div>
-        <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
-          <GraphicalIcon icon="gh-duo" className="h-[12px]" />
-          Green Squares
-        </div>
-        <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
-          <GraphicalIcon icon="free-duo" className="h-[12px]" />
-          Its Free!
-        </div>
-      </div>
-      <a className="btn btn-xs btn-primary" href={settingsLink}>
-        Click for more info
+      <a className="btn btn-m btn-primary mb-24" href={settingsLink}>
+        Configure backups
       </a>
     </div>
   )

@@ -5,7 +5,7 @@ class User::GithubSolutionSyncer
     initialize_with :iteration
 
     def call
-      return unless syncer
+      return unless syncer&.enabled?
 
       files = FilesForIteration.(syncer, iteration)
       commit_message = GenerateCommitMessage.(syncer, iteration)

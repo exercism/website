@@ -5,7 +5,7 @@ class User::GithubSolutionSyncer
     initialize_with :solution
 
     def call
-      return unless syncer
+      return unless syncer&.enabled?
 
       if syncer.commit_to_main?
         sync_iterations(syncer.main_branch_name)

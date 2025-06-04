@@ -4,6 +4,7 @@ import { useAudioRecorder } from './useAudioRecorder'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { formatDuration } from './format-duration'
 import { GraphicalIcon } from '@/components/common'
+import { useAiChatStore } from '../store/aiChatStore'
 
 export default function AudioRecorder() {
   const {
@@ -14,6 +15,7 @@ export default function AudioRecorder() {
     startRecording,
     stopRecording,
   } = useAudioRecorder()
+  const { isResponseBeingGenerated } = useAiChatStore()
   return (
     <div
       className={assembleClassNames(
@@ -55,7 +57,11 @@ export default function AudioRecorder() {
         </button>
       ) : (
         <button
-          className="p-2 w-28 h-28 hover:bg-bootcamp-very-light-purple rounded-8"
+          className={assembleClassNames(
+            'p-2 w-28 h-28 hover:bg-bootcamp-very-light-purple rounded-8',
+            isResponseBeingGenerated && 'opacity-50'
+          )}
+          disabled={isResponseBeingGenerated}
           onClick={startRecording}
         >
           <GraphicalIcon

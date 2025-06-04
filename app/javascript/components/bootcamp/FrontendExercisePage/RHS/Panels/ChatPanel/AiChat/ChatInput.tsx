@@ -4,15 +4,18 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { Message, useAiChatStore } from './store/aiChatStore'
 import AudioRecorder from './AudioRecorder/AudioRecorder'
-import { API_KEY, useGeminiLive } from './useGeminiLive'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-  const { inputRef } = useContext(ChatContext)
-  const { appendMessage, streamMessage, finishStream, isMessageBeingStreamed } =
-    useAiChatStore()
-
-  const { sendMessage, getNextTurn } = useGeminiLive(API_KEY)
+  const { inputRef, geminiText } = useContext(ChatContext)
+  const {
+    appendMessage,
+    streamMessage,
+    finishStream,
+    isMessageBeingStreamed,
+    setIsResponseBeingGenerated,
+    isResponseBeingGenerated,
+  } = useAiChatStore()
 
   const handleSendOnEnter = useCallback(
     async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -32,17 +35,12 @@ export function ChatInput() {
         setValue('')
 
         try {
-          sendMessage(value)
-
-          const turns = await getNextTurn()
-          for (const turn of turns) {
-            console.log('turn', turn)
-            if (turn.text) {
-              streamMessage(turn.text)
-            } else if (turn.data) {
-              streamMessage(turn.data)
-            }
-          }
+          geminiText.sendText(value)
+          setIsResponseBeingGenerated(true)
+          const turns = await geminiText.getNextTurn()
+          turns.forEach((turn) => {
+            if (turn.type === 'text') streamMessage(turn.text)
+          })
 
           finishStream()
         } catch (err) {
@@ -51,7 +49,7 @@ export function ChatInput() {
         }
       }
     },
-    [value, sendMessage, getNextTurn]
+    [value, geminiText]
   )
 
   const handleInput = useCallback(
@@ -69,16 +67,23 @@ export function ChatInput() {
             ref={inputRef}
             id="text"
             name="text"
-            placeholder="Ask your question here"
+            placeholder={
+              isResponseBeingGenerated
+                ? 'Generating response...'
+                : isMessageBeingStreamed
+                ? 'Streaming response...'
+                : 'Ask anything'
+            }
             rows={1}
             className={assembleClassNames(
               'chat-textarea w-full text-16',
-              isMessageBeingStreamed && 'opacity-50'
+              isMessageBeingStreamed && 'opacity-50',
+              isResponseBeingGenerated && 'animate-blink'
             )}
             value={value}
             onInput={handleInput}
             onKeyDown={handleSendOnEnter}
-            disabled={isMessageBeingStreamed}
+            disabled={isMessageBeingStreamed || isResponseBeingGenerated}
           />
 
           {value.length > 0 && (

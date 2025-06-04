@@ -36,6 +36,7 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 0.2s forwards',
+        blink: 'blink 1.5s infinite',
         slideIn: 'slideIn 0.2s forwards',
         slideOut: 'slideOut 0.2s forwards',
         fadeOut: 'fadeOut 0.2s forwards',

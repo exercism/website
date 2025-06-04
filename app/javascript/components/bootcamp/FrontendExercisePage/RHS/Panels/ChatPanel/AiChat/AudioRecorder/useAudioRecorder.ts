@@ -1,12 +1,14 @@
 import { useState, useRef, useContext, useCallback } from 'react'
-import { v4 as uuid } from 'uuid'
 import { ChatContext } from '..'
+import { convertToPCM16, resampleAudioBuffer } from '../utils'
+import { useAiChatStore } from '../store/aiChatStore'
 
 export type AudioRecorderProps = ReturnType<typeof useAudioRecorder>
 
 export function useAudioRecorder() {
   const [isRecording, setIsRecording] = useState(false)
   const [liveDuration, setLiveDuration] = useState(0)
+  const { finishStream, setIsResponseBeingGenerated } = useAiChatStore()
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -14,7 +16,7 @@ export function useAudioRecorder() {
   const streamRef = useRef<MediaStream | null>(null)
   const audioChunksRef = useRef<BlobPart[]>([])
 
-  const { analyserRef } = useContext(ChatContext)
+  const { analyserRef, geminiVoice } = useContext(ChatContext)
 
   const cleanup = useCallback(() => {
     if (timerRef.current) {
@@ -55,20 +57,34 @@ export function useAudioRecorder() {
     }
   }, [])
 
-  const processRecording = useCallback(() => {
+  const processRecording = useCallback(async () => {
     const chunks = audioChunksRef.current
     if (chunks.length === 0) return
 
     const mimeType = mediaRecorderRef.current?.mimeType || 'audio/webm'
     const audioBlob = new Blob(chunks, { type: mimeType })
-    const formData = new FormData()
-    formData.append('audio', audioBlob)
+    const arrayBuffer = await audioBlob.arrayBuffer()
 
-    console.log({
-      audio: formData,
-      uuid: uuid(),
-      size: audioBlob.size,
-      duration: liveDuration,
+    // Decode audio
+    const audioContext = new AudioContext()
+    const decoded = await audioContext.decodeAudioData(arrayBuffer)
+
+    // Downsample to 16kHz mono PCM
+    const resampledBuffer = await resampleAudioBuffer(decoded, 16000)
+    const pcmData = convertToPCM16(resampledBuffer.getChannelData(0))
+
+    // Convert to base64
+    const base64Audio = btoa(
+      String.fromCharCode(...new Uint8Array(pcmData.buffer))
+    )
+
+    console.log('Sending audio to Gemini Voice:', base64Audio)
+    geminiVoice.sendAudio(base64Audio)
+    setIsResponseBeingGenerated(true)
+    const turns = await geminiVoice.getNextTurn()
+    turns.forEach((turn) => {
+      console.log('TURNS', turn)
+      if (turn.type === 'audio') finishStream(turn.audioBlob)
     })
   }, [liveDuration])
 

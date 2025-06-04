@@ -140,7 +140,7 @@ export function FileStructureSection() {
         </button>
 
         <button
-          disabled={!isUserInsider}
+          disabled={!isUserInsider || pathTemplate === defaultPathTemplate}
           className="btn btn-secondary"
           onClick={() => setIsRevertPathTemplateModalOpen(true)}
         >

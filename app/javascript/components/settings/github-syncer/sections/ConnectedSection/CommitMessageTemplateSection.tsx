@@ -117,7 +117,10 @@ export function CommitMessageTemplateSection() {
         </button>
 
         <button
-          disabled={!isUserInsider}
+          disabled={
+            !isUserInsider ||
+            commitMessageTemplate === defaultCommitMessageTemplate
+          }
           className="btn btn-secondary"
           onClick={() => setIsRevertCommitMessageTemplateModalOpen(true)}
         >

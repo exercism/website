@@ -16,6 +16,7 @@ module ReactComponents
               has_test_runner: exercise.has_test_runner?
             },
             is_user_lifetime_insider: solution.user.lifetime_insider?,
+            is_user_admin: solution.user.admin?,
             track: {
               title: track.title,
               slug: track.slug,

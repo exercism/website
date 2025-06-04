@@ -22,7 +22,7 @@ module ViewComponents
     end
 
     def item_for(text, route, key)
-      return if key == :github_syncer && !current_user.lifetime_insider?
+      return if key == :github_syncer && !current_user.admin?
 
       tag.li do
         key == selected ?

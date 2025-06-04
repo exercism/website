@@ -34,20 +34,6 @@ module ReactComponents
         }
       end
 
-      # for visual testing purposes, remove once this is shipped
-      def mock_syncer
-        {
-          enabled: false,
-          repo_full_name: "exercism/example-repo",
-          sync_on_iteration_creation: true,
-          sync_exercise_files: true,
-          processing_method: "commit",
-          main_branch_name: "unbroken",
-          commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
-          path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE
-        }
-      end
-
       def syncer = current_user.github_solution_syncer
 
       memoize

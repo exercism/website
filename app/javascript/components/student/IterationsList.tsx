@@ -57,6 +57,7 @@ export type IterationsListProps = {
   links: Links
   syncer: GithubSyncerSettings | null
   isUserLifetimeInsider: boolean
+  isUserAdmin: boolean
 }
 
 export default function IterationsList({
@@ -67,6 +68,7 @@ export default function IterationsList({
   links,
   syncer,
   isUserLifetimeInsider,
+  isUserAdmin,
 }: IterationsListProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean[]>([])
 
@@ -168,6 +170,7 @@ export default function IterationsList({
                 syncer={syncer}
                 exercise={exercise}
                 isUserLifetimeInsider={isUserLifetimeInsider}
+                isUserAdmin={isUserAdmin}
                 track={track}
                 links={links}
                 isOpen={isOpen[index]}

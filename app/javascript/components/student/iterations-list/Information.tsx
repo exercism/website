@@ -25,6 +25,7 @@ export const Information = ({
   onDelete,
   syncer,
   isUserLifetimeInsider,
+  isUserAdmin,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -33,6 +34,7 @@ export const Information = ({
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
   isUserLifetimeInsider: boolean
+  isUserAdmin: boolean
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
 
@@ -52,7 +54,7 @@ export const Information = ({
           <GraphicalIcon icon="tests" />
           Tests
         </Tab>
-        {isUserLifetimeInsider && (
+        {isUserAdmin && (
           <Tab id="github-backup" context={TabsContext} className="--small">
             <GraphicalIcon icon="external-site-github" />
             Backup

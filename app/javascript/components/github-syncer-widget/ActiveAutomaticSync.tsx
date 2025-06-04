@@ -8,11 +8,7 @@ import { GraphicalIcon } from '../common'
 export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
   return (
     <div className="flex gap-24 items-start py-32 px-24">
-      <GraphicalIcon
-        icon="github-syncer"
-        category="graphics"
-        className="w-[72px]"
-      />
+      <GraphicalIcon icon="github-syncer" className="w-[72px]" />
       <div className="flex flex-col items-start ">
         <h6 className="font-semibold text-textColor1 text-21 mb-12">
           Auto-backup Enabled

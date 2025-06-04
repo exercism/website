@@ -1,9 +1,18 @@
-export const API_KEY = ''
-
 import { useEffect, useRef, useState } from 'react'
 import { GoogleGenAI, Modality } from '@google/genai'
+import { mergeInt16Arrays, encodeWAV } from './utils'
 
-export function useGeminiLive(apiKey: string) {
+type ResponseTurn =
+  | { type: 'text'; text: string }
+  | { type: 'audio'; audioBlob: Blob }
+
+export function useGeminiLive({
+  apiKey,
+  responseModality,
+}: {
+  apiKey: string
+  responseModality: Modality
+}) {
   const responseQueue = useRef<any[]>([])
   const [session, setSession] = useState<any>(null)
 
@@ -14,7 +23,7 @@ export function useGeminiLive(apiKey: string) {
     async function connect() {
       const s = await ai.live.connect({
         model: 'gemini-2.0-flash-live-001',
-        config: { responseModalities: [Modality.TEXT] },
+        config: { responseModalities: [responseModality] },
         callbacks: {
           onopen: () => console.debug('Session opened'),
           onmessage: (message) => responseQueue.current.push(message),
@@ -31,19 +40,53 @@ export function useGeminiLive(apiKey: string) {
       connected = false
       session?.close()
     }
-  }, [apiKey])
+  }, [apiKey, responseModality])
 
-  const sendMessage = (input: string) => {
-    session?.sendClientContent({ turns: input })
+  const sendText = (text: string) => {
+    session?.sendClientContent({ turns: text })
   }
 
-  const getNextTurn = async () => {
-    const turns: any[] = []
+  const sendAudio = (base64: string, sampleRate = 16000) => {
+    session?.sendRealtimeInput({
+      audio: {
+        data: base64,
+        mimeType: `audio/pcm;rate=${sampleRate}`,
+      },
+    })
+  }
+
+  const getNextTurn = async (): Promise<ResponseTurn[]> => {
+    const turns: ResponseTurn[] = []
+    const audioChunks: Int16Array[] = []
+
     while (true) {
       const message = await waitMessage()
-      turns.push(message)
+
+      if (message.text) {
+        turns.push({ type: 'text', text: message.text })
+      }
+
+      if (message.data) {
+        const buffer = Uint8Array.from(atob(message.data), (c) =>
+          c.charCodeAt(0)
+        )
+        const int16 = new Int16Array(buffer.buffer)
+        audioChunks.push(int16)
+      }
+
       if (message.serverContent?.turnComplete) break
     }
+
+    if (audioChunks.length > 0) {
+      const audioBlob = new Blob(
+        [encodeWAV(mergeInt16Arrays(audioChunks), 24000)],
+        {
+          type: 'audio/wav',
+        }
+      )
+      turns.push({ type: 'audio', audioBlob })
+    }
+
     return turns
   }
 
@@ -54,5 +97,10 @@ export function useGeminiLive(apiKey: string) {
     return responseQueue.current.shift()
   }
 
-  return { sendMessage, getNextTurn, session }
+  return {
+    sendText,
+    sendAudio,
+    getNextTurn,
+    session,
+  }
 }

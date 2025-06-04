@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { useAiChatStore } from './store/aiChatStore'
-import { FAKE_LONG_STREAM_MESSAGE } from './ChatInput'
 import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
 
 export function ChatThread() {
@@ -27,11 +26,22 @@ export function ChatThread() {
       {messages.map((message, index) => {
         return (
           <div
-            ref={threadElementRef}
             key={message.id + index}
+            ref={threadElementRef}
             className={assembleClassNames('chat-message', message.sender)}
-            dangerouslySetInnerHTML={{ __html: message.content }}
-          />
+          >
+            {message.content && (
+              <div dangerouslySetInnerHTML={{ __html: message.content }} />
+            )}
+
+            {message.audioUrl && (
+              <audio
+                controls
+                src={message.audioUrl}
+                className="h-32 w-[300px]"
+              />
+            )}
+          </div>
         )
       })}
 

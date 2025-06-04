@@ -6,18 +6,21 @@ class Settings::GithubSyncerController < ApplicationController
   end
 
   def update
+    permitted = current_user.insider? ?
+      %w[
+        processing_method
+        main_branch_name
+        path_template
+        commit_message_template
+        enabled
+        sync_exercise_files
+        sync_on_iteration_creation
+      ] :
+      %w[
+        enabled
+      ]
     current_user.github_solution_syncer.update!(
-      params.require(:github_solution_syncer).permit(
-        %w[
-          processing_method
-          main_branch_name
-          path_template
-          commit_message_template
-          enabled
-          sync_exercise_files
-          sync_on_iteration_creation
-        ]
-      )
+      params.require(:github_solution_syncer).permit(permitted)
     )
   end
 

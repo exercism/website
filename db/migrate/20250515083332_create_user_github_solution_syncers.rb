@@ -1,5 +1,7 @@
 class CreateUserGithubSolutionSyncers < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :user_github_solution_syncers do |t|
       t.references :user, null: false, foreign_key: true, index: { unique: true }
       t.bigint :installation_id, null: false

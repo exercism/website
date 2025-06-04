@@ -23,7 +23,7 @@ export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
           button below.
         </p>
         <button
-          onClick={() => handleSyncIteration({ sync })}
+          onClick={() => handleSync({ sync })}
           className="btn btn-s btn-secondary"
         >
           Trigger solution backup
@@ -34,7 +34,7 @@ export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
   )
 }
 
-export async function handleSyncIteration({ sync }: { sync: SyncObj }) {
+export async function handleSync({ sync }: { sync: SyncObj }) {
   try {
     const response = await fetch(sync.endpoint, {
       method: 'PATCH',

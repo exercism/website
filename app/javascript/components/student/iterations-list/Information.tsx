@@ -90,6 +90,7 @@ export const Information = ({
                 exercise_slug: exercise.slug,
                 track_slug: track.slug,
               }),
+              type: 'iteration',
             }}
             syncer={syncer}
             links={links}

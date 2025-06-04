@@ -4,12 +4,12 @@ import { MiniAdvert } from './MiniAdvert'
 import { PausedSync } from './PausedSync'
 import { ActiveAutomaticSync } from './ActiveAutomaticSync'
 import { ActiveManualSync } from './ActiveManualSync'
-import { useLogger } from '@/hooks'
 
 export type SyncObj = {
   endpoint: string
   // stringified JSON body of the PATCH request
   body: string
+  type: 'solution' | 'iteration'
 }
 
 export type GithubSyncerWidgetProps = {

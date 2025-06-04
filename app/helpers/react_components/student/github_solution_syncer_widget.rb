@@ -13,7 +13,8 @@ module ReactComponents
             syncer:,
             sync: {
               endpoint: Exercism::Routes.sync_solution_settings_github_syncer_path,
-              body: json_body
+              body: json_body,
+              type: "solution"
             }
           }
         )

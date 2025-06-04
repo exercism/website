@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleSyncIteration } from './ActiveAutomaticSync'
+import { handleSync } from './ActiveAutomaticSync'
 import { SyncObj } from './GithubSyncerWidget'
 import { Toaster } from 'react-hot-toast'
 
@@ -11,7 +11,7 @@ export function ActiveManualSync({ sync }: { sync: SyncObj }) {
         You have automatic syncs disabled
       </h6>
       <button
-        onClick={() => handleSyncIteration({ sync })}
+        onClick={() => handleSync({ sync })}
         className="btn btn-xs btn-primary"
       >
         Click to back up your solution

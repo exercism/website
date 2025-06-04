@@ -34,6 +34,7 @@
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@floating-ui/dom": "^1.6.12",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",
+    "@google/genai": "^1.3.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",
     "@juliangarnierorg/anime-beta": "^4.0.0-rc.4",

@@ -6,7 +6,7 @@ export function ConnectToGithubSection() {
   const { links } = React.useContext(GitHubSyncerContext)
   return (
     <section>
-      <div className="flex flex-col items-center max-w-[500px] mx-auto">
+      <div className="flex flex-col items-center max-w-[500px] mx-auto pb-12">
         <div className="flex gap-20 items-center mb-8">
           <Icon
             icon="exercism-face"
@@ -48,36 +48,37 @@ export function ConnectToGithubSection() {
         </div>
         <GraphicalIcon icon="arrow-down-duo" className="h-[32px] my-32" />
 
-        <ol className="text-20 leading-140 mb-16 ml-[40px]">
-          <li className="mb-12 relative">
+        <ol className="text-[18px] leading-140 mb-16 ml-[45px]">
+          <li className="mb-16 relative">
             <GraphicalIcon
               icon="1-duo.svg"
-              className="h-[32px] !absolute left-[-40px] top-[4px]"
+              className="h-[32px] !absolute left-[-45px]"
             />
-            Ensure you have a GitHub repository ready to use.
+            Create a new GitHub repository for your solutions (or reuse an
+            existing one if you were backing up manually)
           </li>
 
-          <li className="mb-12 relative">
+          <li className="mb-16 relative">
             <GraphicalIcon
               icon="2-duo.svg"
-              className="h-[32px] !absolute left-[-40px] top-[4px]"
+              className="h-[32px] !absolute left-[-45px]"
             />
             Click the button below to connect your GitHub account.
           </li>
 
-          <li className="mb-12 relative">
+          <li className="mb-16 relative">
             <GraphicalIcon
               icon="3-duo.svg"
-              className="h-[32px] !absolute left-[-40px] top-[4px]"
+              className="h-[32px] !absolute left-[-45px]"
             />
             Use the "Backup Everything" option to backup all your existing
             solutions.
           </li>
 
-          <li className="mb-12 relative">
+          <li className="mb-16 relative">
             <GraphicalIcon
               icon="4-duo.svg"
-              className="h-[32px] !absolute left-[-40px] top-[4px]"
+              className="h-[32px] !absolute left-[-45px]"
             />
             Future solutions will be automatically backed up as you complete
             exercises.
@@ -87,7 +88,7 @@ export function ConnectToGithubSection() {
           className="btn btn-l btn-primary w-fit"
           href={links?.connectToGithub}
         >
-          Connect a GitHub repo
+          Connect a GitHub repository
         </a>
       </div>
     </section>

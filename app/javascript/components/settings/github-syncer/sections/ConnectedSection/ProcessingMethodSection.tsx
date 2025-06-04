@@ -44,7 +44,7 @@ export function ProcessingMethodSection() {
   }, [selectedProcessingMethod, links.settings, mainBranchName])
 
   return (
-    <section>
+    <section className={isUserInsider ? '' : 'disabled'}>
       <div className="flex gap-48 items-start">
         <div>
           <SectionHeader title="Processing method" />

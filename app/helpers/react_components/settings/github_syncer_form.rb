@@ -4,7 +4,7 @@ module ReactComponents
       def to_s
         super("settings-github-syncer-form", {
           is_user_connected: syncer.present?,
-          is_user_insider: current_user.insider?,
+          is_user_insider: false, # current_user.insider?,
           syncer: syncer_settings,
           default_commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
           default_path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE,

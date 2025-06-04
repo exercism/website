@@ -8,7 +8,11 @@ export function StatusSection() {
   const { links, isSyncingEnabled, setIsSyncingEnabled, syncer } =
     React.useContext(GitHubSyncerContext)
 
-  const color = isSyncingEnabled ? 'var(--successColor)' : '#F69605'
+  const borderColor = isSyncingEnabled ? 'var(--successColor)' : '#F69605'
+  const textColor = isSyncingEnabled ? '#2E8C70' : 'rgb(229, 138, 0)'
+  const bgColor = isSyncingEnabled
+    ? 'rgba(61, 181, 145, 0.1)'
+    : 'rgba(246, 150, 5, 0.1)'
   const status = isSyncingEnabled ? 'Active' : 'Paused'
 
   const [
@@ -41,9 +45,12 @@ export function StatusSection() {
   }, [links.settings])
 
   return (
-    <section style={{ borderColor: color }} className="border-2">
-      <h2>
-        Status: <span style={{ color }}>{status}</span>
+    <section
+      style={{ borderColor: borderColor, backgroundColor: bgColor }}
+      className="border-2"
+    >
+      <h2 className="!mb-6">
+        Status: <span style={{ color: textColor }}>{status}</span>
       </h2>
       <p className="text-18 leading-140">
         Your GitHub syncer is linked to <code>{syncer?.repoFullName}</code>.

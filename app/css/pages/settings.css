@@ -53,6 +53,21 @@
             @apply relative;
             @apply py-24 px-32 mb-24;
 
+            &.disabled {
+                @apply relative;
+                &:after {
+                    content: "";
+                    @apply absolute inset-0 opacity-[0.8] z-[5] cursor-not-allowed;
+
+                    background: rgba(112, 41, 245, 0.05);
+
+                    @apply border-2 border-bootcamp-purple rounded-8;
+                }
+
+                .toggle-button:not(.selected) {
+                    @apply opacity-50;
+                }
+            }
             &.danger {
                 & h2 {
                     @apply text-h5 mb-8;

@@ -57,7 +57,7 @@ export function CommitMessageTemplateSection() {
   }, [defaultCommitMessageTemplate, handleSaveChanges])
 
   return (
-    <section>
+    <section className={isUserInsider ? '' : 'disabled'}>
       <SectionHeader title="Commit message template" />
       <p className="text-18 leading-150 mb-16">
         Use this option to determine what your commit and PR messages should

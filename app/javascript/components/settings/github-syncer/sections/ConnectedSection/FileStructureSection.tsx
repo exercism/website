@@ -65,7 +65,7 @@ export function FileStructureSection() {
   }, [defaultPathTemplate, handleSaveChanges])
 
   return (
-    <section>
+    <section className={isUserInsider ? '' : 'disabled'}>
       <SectionHeader title="File structure" />
       <p className="text-18 leading-150 mb-16">
         Use this option to configure the folder structure for your repository.

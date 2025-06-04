@@ -38,7 +38,7 @@ export function IterationFilesSection() {
   }, [shouldSyncExerciseFiles, links.settings])
 
   return (
-    <section>
+    <section className={isUserInsider ? '' : 'disabled'}>
       <div className="flex gap-48 items-start">
         <div>
           <SectionHeader title="Iteration files" />

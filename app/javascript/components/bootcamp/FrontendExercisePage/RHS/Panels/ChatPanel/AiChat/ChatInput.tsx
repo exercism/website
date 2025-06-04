@@ -2,80 +2,57 @@ import React, { useCallback, useContext } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
-import { useAiChatStore } from './store/aiChatStore'
+import { Message, useAiChatStore } from './store/aiChatStore'
 import AudioRecorder from './AudioRecorder/AudioRecorder'
-
-export const FAKE_LONG_STREAM_MESSAGE = `<h2>Ternaries</h2>
-<p>You can use ternaries in JavaScript.<br>
-They follow the pattern:</p>
-
-<pre><code class="language-javascript">conditional ? trueBranch : falseBranch; </code></pre>
-
-<p>For example, these two pieces of code are identical in meaning:</p>
-
-<pre><code class="language-javascript"> // if/else variant
-let result;
-if (something) {
-  result = "Yes!";
-} else {
-  result = "No!";
-}
-
-// Ternary
-let result = something ? "Yes!" : "No!";
-</code></pre>`
+import { API_KEY, useGeminiLive } from './useGeminiLive'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-
   const { inputRef } = useContext(ChatContext)
   const { appendMessage, streamMessage, finishStream, isMessageBeingStreamed } =
     useAiChatStore()
 
+  const { sendMessage, getNextTurn } = useGeminiLive(API_KEY)
+
   const handleSendOnEnter = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
 
-        if (value.trim() !== '') {
-          appendMessage({
-            id: Date.now().toString(),
-            content: value,
-            sender: 'user',
-            timestamp: new Date().toISOString(),
-          })
-          setValue('')
-          demonstrateStream()
+        if (value.trim() === '') return
+
+        const userMessage: Message = {
+          id: Date.now().toString(),
+          content: value,
+          sender: 'user',
+          timestamp: new Date().toISOString(),
+        }
+
+        appendMessage(userMessage)
+        setValue('')
+
+        try {
+          sendMessage(value)
+
+          const turns = await getNextTurn()
+          for (const turn of turns) {
+            console.log('turn', turn)
+            if (turn.text) {
+              streamMessage(turn.text)
+            } else if (turn.data) {
+              streamMessage(turn.data)
+            }
+          }
+
+          finishStream()
+        } catch (err) {
+          console.error('AI response error:', err)
+          finishStream()
         }
       }
     },
-    [value, setValue]
+    [value, sendMessage, getNextTurn]
   )
-
-  const demonstrateStream = useCallback(() => {
-    if (value.trim() === '') return
-
-    const words = FAKE_LONG_STREAM_MESSAGE.split(' ')
-    let currentIndex = 0
-
-    const minDelay = 100
-    const maxDelay = 300
-
-    const getRandomDelay = () =>
-      Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay
-
-    const streamNext = () => {
-      if (currentIndex < words.length) {
-        streamMessage(words[currentIndex] + ' ')
-        currentIndex++
-        setTimeout(streamNext, getRandomDelay())
-      } else {
-        finishStream()
-      }
-    }
-
-    streamNext()
-  }, [value])
 
   const handleInput = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -92,7 +69,7 @@ export function ChatInput() {
             ref={inputRef}
             id="text"
             name="text"
-            placeholder="Ask you question here"
+            placeholder="Ask your question here"
             rows={1}
             className={assembleClassNames(
               'chat-textarea w-full text-16',

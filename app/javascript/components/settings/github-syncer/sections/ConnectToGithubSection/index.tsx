@@ -1,9 +1,10 @@
 import React from 'react'
-import { GitHubSyncerContext } from '../GitHubSyncerForm'
 import { GraphicalIcon, Icon } from '@/components/common'
+import { ConnectModal } from './ConnectModal'
 
 export function ConnectToGithubSection() {
-  const { links } = React.useContext(GitHubSyncerContext)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+
   return (
     <section>
       <div className="flex flex-col items-center max-w-[500px] mx-auto pb-12">
@@ -84,13 +85,14 @@ export function ConnectToGithubSection() {
             exercises.
           </li>
         </ol>
-        <a
+        <button
           className="btn btn-l btn-primary w-fit"
-          href={links?.connectToGithub}
+          onClick={() => setIsModalOpen(true)}
         >
           Connect a GitHub repository
-        </a>
+        </button>
       </div>
+      <ConnectModal onClose={() => setIsModalOpen(false)} open={isModalOpen} />
     </section>
   )
 }

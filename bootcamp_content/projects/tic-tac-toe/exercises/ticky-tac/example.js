@@ -45,6 +45,15 @@ function checkForDraw() {
   }
 }
 
+function checkForGameOver() {
+  checkForWin()
+  if (gameOver) {
+    return
+  }
+
+  checkForDraw()
+}
+
 function toggleTurn() {
   turn = turn == 'o' ? 'x' : 'o'
 }
@@ -65,7 +74,6 @@ function handlePlacement(event) {
   square.content = turn
   square.elem.innerHTML = turn
 
-  checkForWin()
-  checkForDraw()
+  checkForGameOver()
   toggleTurn()
 }

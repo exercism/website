@@ -1,8 +1,6 @@
 import React, { createContext, useRef } from 'react'
 import { ChatInput } from './ChatInput'
 import { ChatThread } from './ChatThread'
-import AudioRecorder from './AudioRecorder/AudioRecorder'
-import { useAudioRecorder } from './AudioRecorder/useAudioRecorder'
 
 type ChatContextType = {
   inputRef: React.RefObject<HTMLTextAreaElement>

@@ -11,6 +11,10 @@ if Rails.env.development?
   rescue Errno::ENOENT
     # It's ok to not have a local files endpoint
   end
+
+  Exercism.config.api_host = "http://local.exercism.io:3020/api".freeze
+else
+  Exercism.config.api_host = "https://exercism.org/api".freeze
 end
 
 Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"

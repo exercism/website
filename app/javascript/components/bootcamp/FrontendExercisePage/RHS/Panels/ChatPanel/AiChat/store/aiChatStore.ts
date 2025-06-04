@@ -4,6 +4,7 @@ export type Message = {
   id: string
   sender: 'user' | 'ai'
   content: string
+  audioUrl?: string
   timestamp: string
 }
 
@@ -12,8 +13,10 @@ type AiChatStore = {
   appendMessage: (message: Message) => void
   messageStream: string
   streamMessage: (message: string) => void
-  finishStream: () => void
+  finishStream: (audioBlob?: Blob) => void
   isMessageBeingStreamed: boolean
+  isResponseBeingGenerated: boolean
+  setIsResponseBeingGenerated: (isGenerating: boolean) => void
 }
 
 const MOCK_MESSAGES: Message[] = [
@@ -45,23 +48,45 @@ export const useAiChatStore = create<AiChatStore>((set, get) => ({
     }))
   },
   isMessageBeingStreamed: false,
+  isResponseBeingGenerated: false,
+  setIsResponseBeingGenerated: (isGenerating: boolean) => {
+    set({ isResponseBeingGenerated: isGenerating })
+  },
   messageStream: '',
   streamMessage: (message: string) => {
     set((state) => ({
       isMessageBeingStreamed: true,
+      isResponseBeingGenerated: false,
       messageStream: state.messageStream + message,
     }))
   },
-  finishStream: () => {
+  finishStream: (audioBlob?: Blob) => {
     const { messageStream, appendMessage } = get()
-    if (messageStream.trim() === '') return
+
+    const hasText = messageStream.trim() !== ''
+    const hasAudio = !!audioBlob
+
+    if (!hasText && !hasAudio) {
+      set({
+        messageStream: '',
+        isMessageBeingStreamed: false,
+        isResponseBeingGenerated: false,
+      })
+      return
+    }
+
     const newMessage: Message = {
       id: Date.now().toString(),
       sender: 'ai',
-      content: messageStream,
+      content: hasText ? messageStream : '',
+      audioUrl: hasAudio ? URL.createObjectURL(audioBlob) : '',
       timestamp: new Date().toISOString(),
     }
     appendMessage(newMessage)
-    set({ messageStream: '', isMessageBeingStreamed: false })
+    set({
+      messageStream: '',
+      isMessageBeingStreamed: false,
+      isResponseBeingGenerated: false,
+    })
   },
 }))

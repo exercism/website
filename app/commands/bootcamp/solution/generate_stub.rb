@@ -21,5 +21,7 @@ class Bootcamp::Solution::GenerateStub
         ""
       end
     end
+  rescue StandardError
+    ""
   end
 end

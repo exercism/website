@@ -3,21 +3,8 @@ require "test_helper"
 class User::GithubSolutionSyncer
   class CreatePullRequestTest < ActiveSupport::TestCase
     test "creates pull request" do
-      files = [
-        {
-          "path" => "solutions/ruby/two-fer/3/two_fer.rb",
-          "mode" => "100644",
-          "type" => "blob",
-          "content" => "puts 'hi'"
-        },
-        {
-          "path" => "solutions/ruby/two-fer/3/README.md",
-          "mode" => "100644",
-          "type" => "blob",
-          "content" => "# Two Fer"
-        }
-      ]
-      commit_message = "Update Two Fer solution"
+      pr_title = "Some title"
+      pr_body = "Update Two Fer solution"
       syncer = create :user_github_solution_syncer
 
       hex_8 = SecureRandom.hex(8)
@@ -36,22 +23,18 @@ class User::GithubSolutionSyncer
       client.expects(:branch).with(syncer.repo_full_name, base_branch).returns(mock(commit: mock(sha: base_sha)))
       client.expects(:create_ref).with(syncer.repo_full_name, "heads/#{new_branch}", base_sha)
 
-      User::GithubSolutionSyncer::CreateCommit.expects(:call).with(
-        files,
-        commit_message,
-        new_branch,
-        token:
-      )
+      block = ->(_, _) {}
+      block.expects(:call).with(new_branch, token).returns(true)
 
       client.expects(:create_pull_request).with(
         syncer.repo_full_name,
         base_branch,
         new_branch,
-        commit_message,
-        "This is an automatic sync from Exercism (https://exercism.org)."
+        pr_title,
+        pr_body
       )
 
-      User::GithubSolutionSyncer::CreatePullRequest.(syncer, files, commit_message)
+      User::GithubSolutionSyncer::CreatePullRequest.(syncer, pr_title, pr_body, &block)
     end
   end
 end

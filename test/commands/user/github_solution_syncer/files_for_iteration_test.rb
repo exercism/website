@@ -35,6 +35,7 @@ class User::GithubSolutionSyncer
       actual = FilesForIteration.(syncer, iteration)
       assert_equal expected, actual
     end
+
     test "include solution files if requested" do
       user = create(:user)
       exercise = create(:practice_exercise)
@@ -51,10 +52,6 @@ class User::GithubSolutionSyncer
       )
 
       expected = [
-        { path: "solutions/ruby/bob/3/.exercism/config.json", mode: "100644", type: "blob", content: nil },
-        { path: "solutions/ruby/bob/3/README.md", mode: "100644", type: "blob", content: nil },
-        { path: "solutions/ruby/bob/3/HELP.md", mode: "100644", type: "blob", content: nil },
-        { path: "solutions/ruby/bob/3/HINTS.md", mode: "100644", type: "blob", content: nil },
         { path: "solutions/ruby/bob/3/bob.rb", mode: "100644", type: "blob", content: "puts 'hi'" },
         { path: "solutions/ruby/bob/3/bob_test.rb", mode: "100644", type: "blob", content: "test content\n" },
         { path: "solutions/ruby/bob/3/subdir/more_bob.rb", mode: "100644", type: "blob", content: "Some subdir content\n" }

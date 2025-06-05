@@ -2,7 +2,7 @@
   .lg-container
     = render ViewComponents::SettingsNav.new(:github_syncer)
 
-    - if current_user.admin?
+    - if current_user.insider?
       %article
         - if current_user.github_solution_syncer
           %h1 GitHub Syncer

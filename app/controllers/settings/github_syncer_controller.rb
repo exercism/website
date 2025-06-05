@@ -2,7 +2,7 @@ class Settings::GithubSyncerController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[update sync_everything sync_track sync_solution sync_iteration]
 
   def show
-    current_user.github_solution_syncer
+    @just_connected = !!params[:connected]
   end
 
   def update
@@ -68,7 +68,7 @@ class Settings::GithubSyncerController < ApplicationController
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
       redirect_to settings_github_syncer_path, notice: "GitHub connected successfully"
     rescue GithubSolutionSyncerCreationError => e
-      redirect_to settings_github_syncer_path, alert: e.message
+      redirect_to settings_github_syncer_path(connected: true), alert: e.message
     end
   end
 

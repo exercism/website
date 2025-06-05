@@ -10,36 +10,14 @@ class User::GithubSolutionSyncer
     end
 
     def call
-      repo = syncer.repo_full_name
-      client = Octokit::Client.new(access_token: token)
-
       new_branch = "exercism-sync/#{SecureRandom.hex(8)}"
-      base_branch = client.repository(repo).default_branch
-
-      begin
-        # Check branch exists
-        client.branch(repo, base_branch)
-      rescue Octokit::NotFound
-        # If it doesn't, then this is a naked repo, so create it.
-        Dir.mktmpdir do |dir|
-          @path = dir
-
-          # No existing branch so create it
-          git "init", "-b", base_branch
-          git "commit", "--allow-empty", "-m", "Initial empty commit"
-          git "remote", "add", "origin", repo_url
-          git "push", "origin", base_branch
-        end
-      end
-
-      base_sha = client.branch(repo, base_branch).commit.sha
-      client.create_ref(repo, "heads/#{new_branch}", base_sha)
+      client.create_ref(repo_full_name, "heads/#{new_branch}", base_sha)
 
       commits_created = commit_block.(new_branch, token)
       return unless commits_created
 
       client.create_pull_request(
-        repo,
+        repo_full_name,
         base_branch,
         new_branch,
         pr_title,
@@ -52,6 +30,28 @@ class User::GithubSolutionSyncer
 
     delegate :repo_full_name, to: :syncer
 
+    memoize
+    def base_sha
+      # This will raise if the branch doesn't exit
+      client.branch(repo_full_name, base_branch).commit.sha
+    rescue Octokit::NotFound
+      # If it doesn't, then this is a naked repo, so create it.
+      Dir.mktmpdir do |dir|
+        @path = dir
+
+        # No existing branch so create it
+        git "init", "-b", base_branch
+        git "commit", "--allow-empty", "-m", "Initial empty commit"
+        git "remote", "add", "origin", repo_url
+        git "push", "origin", base_branch
+      end
+
+      client.branch(repo_full_name, base_branch).commit.sha
+    end
+
+    memoize
+    def base_branch = client.repository(repo_full_name).default_branch
+
     def git(*args)
       Dir.chdir(@path) do
         system("git", *args, exception: true)
@@ -62,5 +62,8 @@ class User::GithubSolutionSyncer
 
     memoize
     def token = GithubApp.generate_installation_token!(syncer.installation_id)
+
+    memoize
+    def client = Octokit::Client.new(access_token: token)
   end
 end

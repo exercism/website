@@ -15,8 +15,7 @@ module ReactComponents
               download_cmd: exercise.download_cmd,
               has_test_runner: exercise.has_test_runner?
             },
-            is_user_lifetime_insider: solution.user.lifetime_insider?,
-            is_user_admin: solution.user.admin?,
+            is_github_syncer_visible: solution.user.insider?,
             track: {
               title: track.title,
               slug: track.slug,

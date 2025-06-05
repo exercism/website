@@ -8,8 +8,10 @@ module ViewComponents
       items = [
         item_for("Account settings", :settings, :general),
         item_for("API / CLI", :api_cli_settings, :api_cli),
-        item_for("Integrations", :integrations_settings, :integrations),
-        item_for("GitHub Syncer", :settings_github_syncer, :github_syncer),
+        item_for("Integrations", :integrations_settings, :integrations)
+      ]
+      items << item_for("GitHub Syncer", :settings_github_syncer, :github_syncer) if current_user.insider?
+      items += [
         item_for("Preferences", :user_preferences_settings, :preferences),
         item_for("Communication Preferences", :communication_preferences_settings, :communication),
         item_for("Donations", :donations_settings, :donations),

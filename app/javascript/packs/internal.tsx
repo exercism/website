@@ -15,7 +15,6 @@ import type {
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
-  SolutionForStudent,
   CommunitySolution,
   MentoredTrackExercise,
   CommunicationPreferences,
@@ -266,6 +265,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
+          codingFundamentalsCourse: string
         }>(data.links)}
         numTracks={data.num_tracks}
       />
@@ -277,6 +277,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
+          codingFundamentalsCourse: string
         }>(data.links)}
       />
     </Suspense>

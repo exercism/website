@@ -60,7 +60,7 @@ function handleBallPaddleInteraction() {
   const speedYModifier = 0.5 + 1.5 * distancePercentage
 
   ball.velocityY = -Math.max(
-    Math.min(1.5, Math.abs(ball.velocityY) * speedYModifier),
+    Math.min(2, Math.abs(ball.velocityY) * speedYModifier),
     0.5
   )
 

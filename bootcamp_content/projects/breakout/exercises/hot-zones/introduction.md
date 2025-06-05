@@ -22,7 +22,7 @@ In this exercise we start to treat the speed on the x axis (left-right) and on t
 - If the center of the ball hits the center of the paddle, it should reduce its vertical speed by half.
 - If the center of the ball hits the edge of the paddle, it should increase its vertical speed by half.
 - If it hits anywhere between those points, it should change its vertical speed as a percentage of its existing speed in a linear manner (i.e. if it hits half way between center and the left edge, it would keep the same speed. If it hits a little to the left of that, it would speed up slightly. If it hits a little to the right, it would slow down slightly).
-- The vertical speed should never go above 1.5.
+- The vertical speed should never go above 2.
 - The vertical speed should never go below 0.5.
 
 **Horizontal Speeds**

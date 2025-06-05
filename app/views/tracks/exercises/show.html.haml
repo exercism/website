@@ -31,7 +31,7 @@
               = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
             - else
               = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
-        - if @solution && current_user.admin?
+        - if @solution&.iterated? && current_user.insider?
           .bg-backgroundColorA.shadow-lg.rounded-8
             = render ReactComponents::Student::GithubSolutionSyncerWidget.new(@solution)
 

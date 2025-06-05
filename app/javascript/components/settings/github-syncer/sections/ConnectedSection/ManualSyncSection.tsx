@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { TrackSelect } from '@/components/common/TrackSelect'
 import toast from 'react-hot-toast'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { StaticTooltip } from '@/components/bootcamp/JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
 
 type Track = {
@@ -28,10 +28,9 @@ export function ManualSyncSection() {
               { duration: 5000 }
             )
           } else {
-            const data = await response.json()
-            toast.error(
-              'Error queuing backup for the track: ' +
-                (data.error?.message || 'Unknown error')
+            await handleJsonErrorResponse(
+              response,
+              'Error queuing backup for the track.'
             )
           }
         })
@@ -144,10 +143,9 @@ export function handleSyncEverything({
           { duration: 5000 }
         )
       } else {
-        const data = await response.json()
-        toast.error(
-          'Error queuing backup for all tracks: ' +
-            (data.error?.message || 'Unknown error')
+        await handleJsonErrorResponse(
+          response,
+          'Error queuing backup for all tracks.'
         )
       }
     })

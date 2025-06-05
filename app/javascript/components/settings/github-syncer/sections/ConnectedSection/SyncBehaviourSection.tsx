@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
 
@@ -24,10 +24,7 @@ export function SyncBehaviourSection() {
         if (response.ok) {
           toast.success('Saved changes successfully!')
         } else {
-          const data = await response.json()
-          toast.error(
-            'Failed to save changes: ' + data.error.message || 'Unknown error'
-          )
+          await handleJsonErrorResponse(response, 'Failed to save changes.')
         }
       })
       .catch((error) => {

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { flushSync } from 'react-dom'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { assembleClassNames } from '@/utils/assemble-classnames'
@@ -40,10 +40,7 @@ export function FileStructureSection() {
           if (response.ok) {
             toast.success('Saved changes successfully!')
           } else {
-            const data = await response.json()
-            toast.error(
-              'Failed to save changes: ' + data.error.message || 'Unknown error'
-            )
+            await handleJsonErrorResponse(response, 'Failed to save changes.')
           }
         })
         .catch((error) => {

@@ -6,7 +6,7 @@ class User::GithubSolutionSyncer
 
     def call
       files.map do |filename, content|
-        next unless content.present?
+        next unless content.to_s.scrub("").present?
 
         {
           path: "#{path}/#{filename}",

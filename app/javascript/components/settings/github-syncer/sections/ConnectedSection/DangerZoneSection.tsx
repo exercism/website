@@ -51,15 +51,24 @@ export function DangerZoneSection() {
           toast.success('GitHub sync deleted successfully')
           setDeleteConfirmationModalOpen(false)
         } else {
-          const data = await response.json()
-          toast.error(
-            `Failed to delete GitHub sync: ${
-              data.error.message || 'Unknown error'
-            }`
-          )
+          const text = await response.text()
+          try {
+            const data = JSON.parse(text)
+            toast.error(
+              `Failed to delete GitHub sync: ${
+                data.error?.message || 'Unknown error'
+              }`
+            )
+          } catch {
+            console.error('Expected JSON, but received:', text)
+            toast.error('Failed to delete GitHub sync.')
+          }
         }
       })
       .catch((error) => {
+        toast.error(
+          `Oops! We received an unexpected error while deleting the GitHub sync.`
+        )
         console.error('Error:', error)
       })
   }, [links.settings])

@@ -15,7 +15,6 @@ import type {
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
-  SolutionForStudent,
   CommunitySolution,
   MentoredTrackExercise,
   CommunicationPreferences,
@@ -224,14 +223,12 @@ import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skel
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
 import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
 import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
-import {
-  GitHubSyncerFormProps,
-  GithubSyncerSettings,
-} from '@/components/settings/github-syncer/GitHubSyncerForm'
+import { GitHubSyncerFormProps } from '@/components/settings/github-syncer/GitHubSyncerForm'
 import {
   GithubSyncerWidget,
   GithubSyncerWidgetProps,
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
+import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -268,6 +265,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
+          codingFundamentalsCourse: string
         }>(data.links)}
         numTracks={data.num_tracks}
       />
@@ -279,6 +277,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
+          codingFundamentalsCourse: string
         }>(data.links)}
       />
     </Suspense>
@@ -451,6 +450,14 @@ initReact({
         defaultUser={data.user}
         defaultProfile={data.profile}
         links={data.links}
+      />
+    </Suspense>
+  ),
+
+  'settings-bootcamp-free-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampFreeCouponForm
+        {...camelizeKeysAs<BootcampFreeCouponFormProps>(data)}
       />
     </Suspense>
   ),

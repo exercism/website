@@ -52,7 +52,11 @@ export const WelcomeModalContext =
     setOpen: () => null,
     currentView: 'initial',
     setCurrentView: () => null,
-    links: { hideModalEndpoint: '', apiUserEndpoint: '', codingFundamentalsCourse: '' },
+    links: {
+      hideModalEndpoint: '',
+      apiUserEndpoint: '',
+      codingFundamentalsCourse: '',
+    },
   })
 
 export default function WelcomeModal({
@@ -63,7 +67,7 @@ export default function WelcomeModal({
   links: {
     hideModalEndpoint: string
     apiUserEndpoint: string
-    bootcampUrl: string
+    codingFundamentalsCourse: string
   }
   numTracks: number
 }): JSX.Element {

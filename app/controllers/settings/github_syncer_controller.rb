@@ -1,5 +1,5 @@
 class Settings::GithubSyncerController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[update sync_everything sync_track sync_solution sync_iteration]
+  skip_before_action :verify_authenticity_token, only: %i[update sync_everything sync_track sync_solution sync_iteration destroy]
 
   def show
     @just_connected = !!params[:connected]

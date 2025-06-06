@@ -6,13 +6,15 @@ type Links = {
   bootcampFreeCouponCode: string
 }
 
+export type BootcampFreeCouponFormProps = {
+  bootcampFreeCouponCode: string
+  links: Links
+}
+
 export default function BootcampFreeCouponForm({
   bootcampFreeCouponCode,
   links,
-}: {
-  bootcampFreeCouponCode: string
-  links: Links
-}): JSX.Element {
+}: BootcampFreeCouponFormProps): JSX.Element {
   const [couponCode, setCouponCode] = useState(bootcampFreeCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)

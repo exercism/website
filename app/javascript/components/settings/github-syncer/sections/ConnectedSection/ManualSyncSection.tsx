@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { TrackSelect } from '@/components/common/TrackSelect'
 import toast from 'react-hot-toast'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { StaticTooltip } from '@/components/bootcamp/JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
 
 type Track = {
@@ -28,10 +28,9 @@ export function ManualSyncSection() {
               { duration: 5000 }
             )
           } else {
-            const data = await response.json()
-            toast.error(
-              'Error queuing backup for the track: ' +
-                (data.error?.message || 'Unknown error')
+            await handleJsonErrorResponse(
+              response,
+              'Error queuing backup for the track.'
             )
           }
         })
@@ -44,32 +43,6 @@ export function ManualSyncSection() {
     },
     [links.syncTrack]
   )
-
-  const handleSyncEverything = useCallback(() => {
-    fetchWithParams({
-      url: links.syncEverything,
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          toast.success(
-            `Your backup for all tracks has been queued and should be completed within a few minutes.`,
-            { duration: 5000 }
-          )
-        } else {
-          const data = await response.json()
-          toast.error(
-            'Error queuing backup for all tracks: ' +
-              (data.error?.message || 'Unknown error')
-          )
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        toast.error(
-          'Something went wrong while queuing the backup for all tracks. Please try again.'
-        )
-      })
-  }, [links.syncEverything])
 
   return (
     <section
@@ -134,7 +107,11 @@ export function ManualSyncSection() {
       <div className="group relative">
         <button
           disabled={!isSyncingEnabled}
-          onClick={handleSyncEverything}
+          onClick={() =>
+            handleSyncEverything({
+              syncEverythingEndpoint: links.syncEverything,
+            })
+          }
           className="btn btn-primary relative group"
         >
           Backup Everything
@@ -149,4 +126,33 @@ export function ManualSyncSection() {
       </div>
     </section>
   )
+}
+
+export function handleSyncEverything({
+  syncEverythingEndpoint,
+}: {
+  syncEverythingEndpoint: string
+}) {
+  fetchWithParams({
+    url: syncEverythingEndpoint,
+  })
+    .then(async (response) => {
+      if (response.ok) {
+        toast.success(
+          `Your backup for all tracks has been queued and should be completed within a few minutes.`,
+          { duration: 5000 }
+        )
+      } else {
+        await handleJsonErrorResponse(
+          response,
+          'Error queuing backup for all tracks.'
+        )
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+      toast.error(
+        'Something went wrong while queuing the backup for all tracks. Please try again.'
+      )
+    })
 }

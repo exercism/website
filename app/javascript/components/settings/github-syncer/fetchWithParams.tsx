@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast'
+
 export function fetchWithParams({
   url,
   params,
@@ -13,8 +15,26 @@ export function fetchWithParams({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({
-      github_solution_syncer: params,
-    }),
+    body: params
+      ? JSON.stringify({
+          github_solution_syncer: params,
+        })
+      : null,
   })
+}
+
+export async function handleJsonErrorResponse(
+  response: Response,
+  fallbackMessage: string
+) {
+  const text = await response.text()
+
+  try {
+    const data = JSON.parse(text)
+    const message = data?.error?.message || fallbackMessage
+    toast.error(message)
+  } catch {
+    console.error('Expected JSON, but received:', text)
+    toast.error(fallbackMessage)
+  }
 }

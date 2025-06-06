@@ -7,6 +7,7 @@ import { IterationFilesSection } from './IterationFilesSection'
 import { StatusSection } from './StatusSection'
 import { ManualSyncSection } from './ManualSyncSection'
 import { SyncBehaviourSection } from './SyncBehaviourSection'
+import { JustConnectedModal } from './JustConnectedModal'
 
 export function ConnectedSection() {
   return (
@@ -19,6 +20,7 @@ export function ConnectedSection() {
       <CommitMessageTemplateSection />
       <ManualSyncSection />
       <DangerZoneSection />
+      <JustConnectedModal />
     </>
   )
 }

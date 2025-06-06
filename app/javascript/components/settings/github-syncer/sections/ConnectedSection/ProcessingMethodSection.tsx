@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 
@@ -29,10 +29,7 @@ export function ProcessingMethodSection() {
         if (response.ok) {
           toast.success('Saved changes successfully!')
         } else {
-          const data = await response.json()
-          toast.error(
-            'Failed to save changes: ' + data.error.message || 'Unknown error'
-          )
+          await handleJsonErrorResponse(response, 'Failed to save changes.')
         }
       })
       .catch((error) => {

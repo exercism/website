@@ -10,6 +10,7 @@ type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
   onConfirm: () => void
   onDecline?: () => void
   confirmButtonClass?: string
+  isConfirmButtonDisabled?: boolean
 }
 
 export const ConfirmationModal = ({
@@ -21,6 +22,7 @@ export const ConfirmationModal = ({
   onDecline,
   onClose,
   confirmButtonClass = 'btn-warning',
+  isConfirmButtonDisabled = false,
   ...props
 }: ConfirmationModalProps): JSX.Element => {
   const handleClose = useCallback(() => {
@@ -49,6 +51,7 @@ export const ConfirmationModal = ({
         </button>
         <button
           type="button"
+          disabled={isConfirmButtonDisabled}
           className="btn-enhanced btn-s"
           onClick={handleClose}
         >

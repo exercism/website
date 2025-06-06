@@ -74,6 +74,6 @@ class Settings::GithubSyncerController < ApplicationController
 
   def destroy
     current_user.github_solution_syncer&.destroy
-    redirect_to settings_github_syncer_path, notice: "GitHub disconnected"
+    # redirect_to settings_github_syncer_path, notice: "GitHub disconnected"
   end
 end

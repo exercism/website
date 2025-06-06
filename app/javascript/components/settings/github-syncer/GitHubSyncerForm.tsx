@@ -35,6 +35,8 @@ type GitHubSyncerContextType = Omit<
 > & {
   isSyncingEnabled: boolean
   setIsSyncingEnabled: React.Dispatch<SetStateAction<boolean>>
+  isUserConnected: boolean
+  setIsUserConnected: React.Dispatch<SetStateAction<boolean>>
 }
 
 export const GitHubSyncerContext = React.createContext<GitHubSyncerContextType>(
@@ -47,6 +49,7 @@ export default function GitHubSyncerForm(
   const [isSyncingEnabled, setIsSyncingEnabled] = useState(
     data.syncer?.enabled || false
   )
+  const [isUserConnected, setIsUserConnected] = useState(data.isUserConnected)
   return (
     <GitHubSyncerContext.Provider
       value={{
@@ -58,9 +61,11 @@ export default function GitHubSyncerForm(
         defaultPathTemplate: data.defaultPathTemplate,
         isSyncingEnabled,
         setIsSyncingEnabled,
+        isUserConnected,
+        setIsUserConnected,
       }}
     >
-      {data.isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}
+      {isUserConnected ? <ConnectedSection /> : <ConnectToGithubSection />}
       <Toaster position="bottom-right" />
     </GitHubSyncerContext.Provider>
   )

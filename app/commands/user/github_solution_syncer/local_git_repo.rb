@@ -51,7 +51,15 @@ class User::GithubSolutionSyncer
     def repo = syncer.repo_full_name
 
     def clone_repo
-      git("clone", "--depth=1", "--branch=#{base_branch_name}", repo_url, ".")
+      git("clone", "--depth=1", repo_url, ".")
+
+      begin
+        git("checkout", base_branch_name)
+      rescue RuntimeError
+        git "checkout", "-b", base_branch_name
+        git "commit", "--allow-empty", "-m", "Initial empty commit"
+        git "push", "origin", base_branch_name
+      end
     end
 
     def create_branch

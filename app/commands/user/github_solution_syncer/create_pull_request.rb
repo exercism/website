@@ -36,19 +36,18 @@ class User::GithubSolutionSyncer
       client.branch(repo_full_name, base_branch).commit.sha
     rescue Octokit::NotFound
       # If it doesn't, then this is a naked repo, so create it.
-      Dir.mktmpdir do |dir|
-        @path = dir
+      WithGitContext.() do |git|
         # No existing branch so create it
-        git "init", "-b", base_branch
+        git.("init", "-b", base_branch)
 
         # Make sure we have the right user set
-        git "config", "user.name", "Exercism's Solution Syncer Bot"
-        git "config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com"
+        git.("config", "user.name", "Exercism's Solution Syncer Bot")
+        git.("config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com")
 
         # Make an empty commit and push it
-        git "commit", "--allow-empty", "-m", "Initial empty commit"
-        git "remote", "add", "origin", repo_url
-        git "push", "origin", base_branch
+        git.("commit", "--allow-empty", "-m", "Initial empty commit")
+        git.("remote", "add", "origin", repo_url)
+        git.("push", "origin", base_branch)
       end
 
       client.branch(repo_full_name, base_branch).commit.sha
@@ -56,12 +55,6 @@ class User::GithubSolutionSyncer
 
     memoize
     def base_branch = client.repository(repo_full_name).default_branch
-
-    def git(*args)
-      Dir.chdir(@path) do
-        system("git", *args, exception: true)
-      end
-    end
 
     def repo_url = "https://x-access-token:#{token}@github.com/#{repo_full_name}.git"
 

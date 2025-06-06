@@ -14,6 +14,7 @@ class User::GithubSolutionSyncer
 
       Dir.mktmpdir do |dir|
         @path = dir
+
         clone_repo
         create_branch
         yield self if block_given?
@@ -51,7 +52,8 @@ class User::GithubSolutionSyncer
     def repo = syncer.repo_full_name
 
     def clone_repo
-      git("clone", "--depth=1", repo_url, ".")
+      # Manually do this as we don't want the working dir logic
+      system("git", "clone", "--depth=1", repo_url, @path, exception: true)
 
       # Make sure we have the right user set
       git "config", "user.name", "Exercism's Solution Syncer Bot"
@@ -80,9 +82,9 @@ class User::GithubSolutionSyncer
     end
 
     def git(*args)
-      Dir.chdir(@path) do
-        system("git", *args, exception: true)
-      end
+      git_dir = File.join(@path, '.git')
+      work_tree = @path
+      system("git", "--git-dir=#{git_dir}", "--work-tree=#{work_tree}", *args, exception: true)
     end
 
     def repo_url

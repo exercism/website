@@ -70,14 +70,14 @@ export function CommitMessageTemplateSection() {
           <code>$track_slug</code>: The slug of the track (e.g. "csharp").
         </li>
         <li>
-          <code>$track_name</code>: The name of the track (e.g. "C#")
+          <code>$track_title</code>: The name of the track (e.g. "C#")
         </li>
         <li>
           <code>$exercise_slug</code>: The slug of the exercise (e.g.
           "hello-world")
         </li>
         <li>
-          <code>$exercise_name</code>: The name of the exercise (e.g. "Hello
+          <code>$exercise_title</code>: The name of the exercise (e.g. "Hello
           World")
         </li>
         <li>

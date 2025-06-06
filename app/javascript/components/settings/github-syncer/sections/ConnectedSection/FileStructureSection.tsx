@@ -77,14 +77,14 @@ export function FileStructureSection() {
           <code>$track_slug</code>: The slug of the track (e.g. "csharp").
         </li>
         <li>
-          <code>$track_name</code>: The name of the track (e.g. "C#")
+          <code>$track_title</code>: The name of the track (e.g. "C#")
         </li>
         <li>
           <code>$exercise_slug</code>: The slug of the exercise (e.g.
           "hello-world")
         </li>
         <li>
-          <code>$exercise_name</code>: The name of the exercise (e.g. "Hello
+          <code>$exercise_title</code>: The name of the exercise (e.g. "Hello
           World")
         </li>
         <li>
@@ -108,8 +108,8 @@ export function FileStructureSection() {
       <p className="text-16 leading-150 mb-12">
         <strong className="font-medium">Note 1:</strong> Your path must contain
         a track placeholder (<code>$track_slug</code> or{' '}
-        <code>$track_name</code>) and an exercise placeholder (
-        <code>$exercise_slug</code> or <code>$exercise_name</code>.
+        <code>$track_title</code>) and an exercise placeholder (
+        <code>$exercise_slug</code> or <code>$exercise_title</code>.
       </p>
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note 2:</strong> The
@@ -122,8 +122,8 @@ export function FileStructureSection() {
       {isTemplateInvalid && (
         <div className="text-orange font-semibold mb-16">
           Your path template must include either <code>$track_slug</code> or{' '}
-          <code>$track_name</code>, and either <code>$exercise_slug</code> or{' '}
-          <code>$exercise_name</code>.
+          <code>$track_title</code>, and either <code>$exercise_slug</code> or{' '}
+          <code>$exercise_title</code>.
         </div>
       )}
 
@@ -158,11 +158,12 @@ export function FileStructureSection() {
 
 function isPathTemplateValid(pathTemplate: string): boolean {
   const hasTrackPlaceholder =
-    pathTemplate.includes('$track_slug') || pathTemplate.includes('$track_name')
+    pathTemplate.includes('$track_slug') ||
+    pathTemplate.includes('$track_title')
 
   const hasExercisePlaceholder =
     pathTemplate.includes('$exercise_slug') ||
-    pathTemplate.includes('$exercise_name')
+    pathTemplate.includes('$exercise_title')
 
   return hasTrackPlaceholder && hasExercisePlaceholder
 }

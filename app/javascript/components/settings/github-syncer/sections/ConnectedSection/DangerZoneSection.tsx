@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
-import { fetchWithParams } from '../../fetchWithParams'
+import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { GraphicalIcon } from '@/components/common'
 
 export function DangerZoneSection() {
-  const { links, isSyncingEnabled, setIsSyncingEnabled } =
+  const { links, isSyncingEnabled, setIsSyncingEnabled, setIsUserConnected } =
     React.useContext(GitHubSyncerContext)
+
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false)
@@ -45,24 +47,15 @@ export function DangerZoneSection() {
   }, [links.settings])
 
   const handleDelete = useCallback(() => {
+    setIsDeleting(true)
     fetchWithParams({ url: links.settings, method: 'DELETE' })
       .then(async (response) => {
         if (response.ok) {
           toast.success('GitHub sync deleted successfully')
+          setIsUserConnected(false)
           setDeleteConfirmationModalOpen(false)
         } else {
-          const text = await response.text()
-          try {
-            const data = JSON.parse(text)
-            toast.error(
-              `Failed to delete GitHub sync: ${
-                data.error?.message || 'Unknown error'
-              }`
-            )
-          } catch {
-            console.error('Expected JSON, but received:', text)
-            toast.error('Failed to delete GitHub sync.')
-          }
+          handleJsonErrorResponse(response, 'Failed to delete GitHub sync.')
         }
       })
       .catch((error) => {
@@ -71,6 +64,7 @@ export function DangerZoneSection() {
         )
         console.error('Error:', error)
       })
+      .finally(() => setIsDeleting(false))
   }, [links.settings])
 
   return (
@@ -128,6 +122,7 @@ export function DangerZoneSection() {
             description="This action cannot be undone."
             confirmLabel="Disconnect Syncer"
             confirmButtonClass="btn-alert"
+            isConfirmButtonDisabled={isDeleting}
             declineLabel="Cancel"
             onConfirm={handleDelete}
             open={isDeleteConfirmationModalOpen}

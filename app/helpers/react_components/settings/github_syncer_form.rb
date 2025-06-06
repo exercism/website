@@ -38,7 +38,7 @@ module ReactComponents
 
       memoize
       def tracks
-        current_user.tracks.select(:slug, :title).map do |track|
+        current_user.tracks.select(:slug, :title).order(:slug).map do |track|
           {
             slug: track.slug,
             title: track.title,

@@ -38,7 +38,7 @@ export function JustConnectedModal(): JSX.Element {
       onClose={handleCloseModal}
       open={isModalOpen}
     >
-      <div className="flex flex-col items-center max-w-[540px] mx-auto pb-12">
+      <div className="flex flex-col items-start max-w-[540px] mx-auto pb-1">
         <div className="flex gap-20 items-center mb-8">
           <Icon
             icon="exercism-face"
@@ -59,11 +59,16 @@ export function JustConnectedModal(): JSX.Element {
             className="mb-16 h-[64px]"
           />
         </div>
-        <h3 className="!text-[24px] !mb-4">
-          Repository Connected successfully!
+        <h3 className="!text-[24px] !mb-8">
+          Repository connected successfully!
         </h3>
-        <p className="!text-18 leading-140 mb-16 text-balance text-center">
-          Do you want to backup everything now?
+        <p className="!text-18 leading-140 mb-8">
+          We've connected your Exercism account to your chosen repository.
+        </p>
+        <p className="!text-18 leading-140 mb-12">
+          If you're happy with the defaults, you can back everything up now. Or
+          you can tweak your settings, then use the button at the bottom of the
+          settings page to back up later. Do you want to backup everything now?
         </p>
       </div>
 

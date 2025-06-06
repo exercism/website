@@ -53,6 +53,10 @@ class User::GithubSolutionSyncer
     def clone_repo
       git("clone", "--depth=1", repo_url, ".")
 
+      # Make sure we have the right user set
+      git "config", "user.name", "Exercism's Solution Syncer Bot"
+      git "config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com"
+
       begin
         git("checkout", base_branch_name)
       rescue RuntimeError

@@ -24,7 +24,7 @@ class User::GithubSolutionSyncer
       repo = LocalGitRepo.new(syncer, syncer.main_branch_name, branch_name, token:)
 
       solutions = user_track.solutions.
-        includes(:track, exercise: [:track], iterations: [{ submission: :files }, :exercise, :track])
+        includes(:track, exercise: [:track], iterations: [{ submission: :files }, :solution, :exercise, :track])
 
       num_commits = 0
       repo.update do

@@ -205,10 +205,17 @@ module Git
       end
     end
 
-    memoize
-    def cli_files
+    def cli_files(solution)
       cli_filepaths.each.with_object({}) do |filepath, hash|
-        hash[filepath] = read_file_blob(filepath)
+        if filepath == Git::Exercise::SPECIAL_FILEPATHS[:readme]
+          hash[filepath] = Solution::GenerateReadmeFile.(solution)
+        elsif filepath == Git::Exercise::SPECIAL_FILEPATHS[:help]
+          hash[filepath] = Solution::GenerateHelpFile.(solution)
+        elsif filepath == Git::Exercise::SPECIAL_FILEPATHS[:hints]
+          hash[filepath] = Solution::GenerateHintsFile.(solution)
+        else
+          hash[filepath] = read_file_blob(filepath)
+        end
       end
     end
 

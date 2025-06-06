@@ -18,7 +18,7 @@ class User::GithubSolutionSyncer
     end
 
     private
-    delegate :user, :track, :exercise, to: :iteration
+    delegate :user, :solution, :track, :exercise, to: :iteration
 
     def files
       exercise_files.merge(submission_files)
@@ -27,7 +27,7 @@ class User::GithubSolutionSyncer
     def exercise_files
       return {} unless syncer.sync_exercise_files?
 
-      iteration.solution.git_exercise.cli_files
+      solution.git_exercise.cli_files(solution)
     end
 
     def submission_files

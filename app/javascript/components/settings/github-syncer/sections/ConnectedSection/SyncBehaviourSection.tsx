@@ -6,11 +6,22 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
 
+const ITERATIONS_TO_SYNC_OPTIONS = [
+  { label: 'All Iterations', value: 'all' },
+  { label: 'Non-Deleted Iterations', value: 'non_deleted' },
+  { label: 'Published Iterations', value: 'published' },
+] as const
+type IterationsToSyncValue =
+  (typeof ITERATIONS_TO_SYNC_OPTIONS)[number]['value']
+
 export function SyncBehaviourSection() {
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
 
   const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
     useState(syncer?.syncOnIterationCreation ?? true)
+
+  const [iterationsToSync, setIterationsToSync] =
+    useState<IterationsToSyncValue>('all')
 
   const handleSaveChanges = useCallback(() => {
     if (!isUserInsider) return
@@ -66,6 +77,32 @@ export function SyncBehaviourSection() {
               Manual
             </button>
           </div>
+          {shouldSyncOnIterationCreation && (
+            <>
+              <div className="text-16 mb-8 font-medium">
+                Which iterations do you want to sync?
+              </div>
+              <div className="flex gap-8 mb-8">
+                {ITERATIONS_TO_SYNC_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setIterationsToSync(option.value)}
+                    className={assembleClassNames(
+                      'toggle-button',
+                      iterationsToSync === option.value ? 'selected' : ''
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-16 leading-140 mb-16">
+                <strong className="font-medium">Note: </strong> This only
+                applies to bulk backups. Deleting an iteration will{' '}
+                <strong>not</strong> remove it from your repository.
+              </p>
+            </>
+          )}
 
           <button
             disabled={!isUserInsider}

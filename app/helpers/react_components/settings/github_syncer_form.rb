@@ -34,6 +34,19 @@ module ReactComponents
         }
       end
 
+      def mock_syncer
+        {
+          enabled: true,
+          repo_full_name: "exercism/hello-world",
+          sync_on_iteration_creation: true,
+          sync_exercise_files: true,
+          processing_method: "default",
+          main_branch_name: "main",
+          commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
+          path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE
+        }
+      end
+
       def syncer = current_user.github_solution_syncer
 
       memoize

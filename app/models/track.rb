@@ -153,6 +153,7 @@ class Track < ApplicationRecord
     typing: {
       static: "Static",
       dynamic: "Dynamic",
+      gradual: "Gradual",
       strong: "Strong",
       weak: "Weak"
     },

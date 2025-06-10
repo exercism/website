@@ -813,14 +813,14 @@ import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeleton
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
 
+// clear localStorage on logout..
 document.addEventListener('submit', function (event: SubmitEvent) {
   if (
     event &&
     event.target &&
     (event.target as HTMLFormElement).id === 'sign-out-form'
   ) {
-    console.log('LOGGING OUT')
-
+    // ..except for a few keys that we want to keep
     const keysToKeep = [
       'solve-exercise-page-editor-height',
       'solve-exercise-page-lhs',

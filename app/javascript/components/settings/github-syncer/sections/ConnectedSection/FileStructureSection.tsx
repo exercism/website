@@ -108,8 +108,8 @@ export function FileStructureSection() {
       <p className="text-16 leading-150 mb-12">
         <strong className="font-medium">Note 1:</strong> Your path must contain
         a track placeholder (<code>$track_slug</code> or{' '}
-        <code>$track_title</code>) and an exercise placeholder (
-        <code>$exercise_slug</code> or <code>$exercise_title</code>.
+        <code>$track_name</code>) and an exercise placeholder (
+        <code>$exercise_slug</code> or <code>$exercise_name</code>).
       </p>
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">Note 2:</strong> The

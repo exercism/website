@@ -1,5 +1,5 @@
 class Bootcamp::ChatMessage
-  class TriggerLlm
+  class TriggerLLM
     include Mandate
     initialize_with :source_message
 

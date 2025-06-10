@@ -58,6 +58,7 @@ module ReactComponents
 
       {
         uuid: solution.uuid,
+        user_id: solution.user_id,
         status: solution.status,
         passed_basic_tests: solution.passed_basic_tests?
       }

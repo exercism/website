@@ -2,5 +2,5 @@
   "slug": "breakout",
   "title": "Breakout",
   "description": "Recreate the classic game of Breakout",
-  "exercises": ["slithery-snake", "controlled-snake"]
+  "exercises": ["slithery-snake", "controlled-snake", "growing-snake"]
 }

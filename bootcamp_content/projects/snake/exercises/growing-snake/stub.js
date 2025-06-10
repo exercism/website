@@ -1,0 +1,1 @@
+{{EXERCISE:snake/controlled-snake}}

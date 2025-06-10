@@ -1,0 +1,31 @@
+body {
+    background: black;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: rgb(141, 175, 76);
+    position: relative;
+    #snake-grid,
+    #dot-grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 5%);
+        grid-template-rows: repeat(auto-fill, 5%);
+    }
+    #snake-grid {
+        .snake-segment {
+            background: black;
+            border: 2px solid rgb(141, 175, 76);
+        }
+    }
+    #dot-grid {
+        .dot {
+            background: white;
+            border-radius: 100%;
+            border: 3px solid rgb(141, 175, 76);
+        }
+    }
+}

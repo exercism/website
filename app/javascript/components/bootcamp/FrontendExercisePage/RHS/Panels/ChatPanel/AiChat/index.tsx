@@ -13,7 +13,8 @@ type ChatContextType = {
   geminiText: ReturnType<typeof useGeminiLive>
   geminiVoice: ReturnType<typeof useGeminiLive>
   links: { apiBootcampSolutionChat: string }
-  solutionId: string
+  solutionUuid: string
+  userId: number
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -23,28 +24,31 @@ export const ChatContext = createContext<ChatContextType>({
   geminiText: {} as ChatContextType['geminiText'],
   geminiVoice: {} as ChatContextType['geminiVoice'],
   links: { apiBootcampSolutionChat: '' },
-  solutionId: '',
+  solutionUuid: '',
+  userId: 0,
 })
 
 export function Chat({
   links,
-  solutionId,
+  solutionUuid,
+  userId,
 }: {
   links: { apiBootcampSolutionChat: string }
-  solutionId: string
+  solutionUuid: string
+  userId: number
 }) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
 
-  const geminiText = useGeminiLive({
-    apiKey: API_KEY,
-    responseModality: Modality.TEXT,
-  })
-  const geminiVoice = useGeminiLive({
-    apiKey: API_KEY,
-    responseModality: Modality.AUDIO,
-  })
+  // const geminiText = useGeminiLive({
+  //   apiKey: API_KEY,
+  //   responseModality: Modality.TEXT,
+  // })
+  // const geminiVoice = useGeminiLive({
+  //   apiKey: API_KEY,
+  //   responseModality: Modality.AUDIO,
+  // })
 
   return (
     <ChatContext.Provider
@@ -52,10 +56,11 @@ export function Chat({
         inputRef,
         scrollContainerRef,
         analyserRef,
-        geminiText,
-        geminiVoice,
+        geminiText: null,
+        geminiVoice: null,
         links,
-        solutionId,
+        solutionUuid,
+        userId,
       }}
     >
       <div className="ai-chat-container">

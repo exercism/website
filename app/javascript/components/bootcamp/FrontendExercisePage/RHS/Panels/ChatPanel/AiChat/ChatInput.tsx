@@ -4,11 +4,11 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { Message, useAiChatStore } from './store/aiChatStore'
 import AudioRecorder from './AudioRecorder/AudioRecorder'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
+import { useAiStream } from './useAiStream'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-  const { inputRef, links, solutionId } = useContext(ChatContext)
+  const { inputRef, links, solutionUuid, userId } = useContext(ChatContext)
 
   const {
     appendMessage,
@@ -18,6 +18,8 @@ export function ChatInput() {
     setIsResponseBeingGenerated,
     isResponseBeingGenerated,
   } = useAiChatStore()
+
+  useAiStream(streamMessage)
 
   const handleSendOnEnter = useCallback(
     async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -41,11 +43,11 @@ export function ChatInput() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              solution_id: solutionId,
+              solution_uuid: solutionUuid,
               content: value,
             }),
           })
-          setIsResponseBeingGenerated(true)
+          // setIsResponseBeingGenerated(true)
         } catch (err) {
           console.error('AI response error:', err)
           finishStream()

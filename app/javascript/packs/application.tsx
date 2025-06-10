@@ -813,6 +813,34 @@ import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeleton
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
 
+document.addEventListener('submit', function (event: SubmitEvent) {
+  if (
+    event &&
+    event.target &&
+    (event.target as HTMLFormElement).id === 'sign-out-form'
+  ) {
+    console.log('LOGGING OUT')
+
+    const keysToKeep = [
+      'solve-exercise-page-editor-height',
+      'solve-exercise-page-lhs',
+      'solve-exercise-page-rhs-height',
+      'split-pane-editor',
+      'theme-preference',
+      'frontend-training-page-rhs-height',
+      'frontend-training-page-size',
+    ]
+
+    const allKeys = Object.keys(localStorage)
+
+    allKeys.forEach((key) => {
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+  }
+})
+
 document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()

@@ -12,6 +12,8 @@ type ChatContextType = {
   analyserRef: React.MutableRefObject<AnalyserNode | null>
   geminiText: ReturnType<typeof useGeminiLive>
   geminiVoice: ReturnType<typeof useGeminiLive>
+  links: { apiBootcampSolutionChat: string }
+  solutionId: string
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -20,9 +22,17 @@ export const ChatContext = createContext<ChatContextType>({
   analyserRef: {} as ChatContextType['analyserRef'],
   geminiText: {} as ChatContextType['geminiText'],
   geminiVoice: {} as ChatContextType['geminiVoice'],
+  links: { apiBootcampSolutionChat: '' },
+  solutionId: '',
 })
 
-export function Chat() {
+export function Chat({
+  links,
+  solutionId,
+}: {
+  links: { apiBootcampSolutionChat: string }
+  solutionId: string
+}) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
@@ -44,6 +54,8 @@ export function Chat() {
         analyserRef,
         geminiText,
         geminiVoice,
+        links,
+        solutionId,
       }}
     >
       <div className="ai-chat-container">

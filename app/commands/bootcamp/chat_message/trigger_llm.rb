@@ -1,7 +1,6 @@
 class Bootcamp::ChatMessage
-  class TriggerLLM
+  class TriggerLlm
     include Mandate
-
     initialize_with :source_message
 
     def call
@@ -17,12 +16,12 @@ class Bootcamp::ChatMessage
       )
     end
 
-    delegate :solution, :user, to: :source_message
+    delegate :solution, :user, :content, to: :source_message
 
     def stream_channel = "chat_#{user.id}"
 
     def prompt
-      "Hello, what's your name?"
+      content
     end
   end
 end

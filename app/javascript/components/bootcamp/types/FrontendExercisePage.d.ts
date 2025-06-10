@@ -12,6 +12,7 @@ type FrontendExercisePageProps = {
     updateCustomFns?: string
     customFnsDashboard?: string
     deleteCustomFn?: string
+    apiBootcampSolutionChat: string
   }
 }
 

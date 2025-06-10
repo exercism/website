@@ -4,10 +4,12 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { Message, useAiChatStore } from './store/aiChatStore'
 import AudioRecorder from './AudioRecorder/AudioRecorder'
+import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-  const { inputRef, geminiText } = useContext(ChatContext)
+  const { inputRef, links, solutionId } = useContext(ChatContext)
+
   const {
     appendMessage,
     streamMessage,
@@ -35,21 +37,22 @@ export function ChatInput() {
         setValue('')
 
         try {
-          geminiText.sendText(value)
-          setIsResponseBeingGenerated(true)
-          const turns = await geminiText.getNextTurn()
-          turns.forEach((turn) => {
-            if (turn.type === 'text') streamMessage(turn.text)
+          await fetch(links.apiBootcampSolutionChat, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              solution_id: solutionId,
+              content: value,
+            }),
           })
-
-          finishStream()
+          setIsResponseBeingGenerated(true)
         } catch (err) {
           console.error('AI response error:', err)
           finishStream()
         }
       }
     },
-    [value, geminiText]
+    [value]
   )
 
   const handleInput = useCallback(

@@ -2,8 +2,10 @@ import React from 'react'
 import { Tab } from '@/components/common'
 import { TabsContext } from '../../RHS'
 import { Chat } from './AiChat'
+import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
 
 export function ChatPanel() {
+  const { links, solution } = React.useContext(FrontendExercisePageContext)
   return (
     <Tab.Panel
       className="h-full"
@@ -11,7 +13,7 @@ export function ChatPanel() {
       id="chat"
       context={TabsContext}
     >
-      <Chat />
+      <Chat links={links} solutionId={solution.uuid} />
     </Tab.Panel>
   )
 }

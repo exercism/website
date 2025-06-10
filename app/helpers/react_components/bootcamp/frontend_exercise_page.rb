@@ -72,7 +72,9 @@ module ReactComponents
         projects_index: Exercism::Routes.bootcamp_projects_url(only_path: true),
         dashboard_index: Exercism::Routes.bootcamp_dashboard_url(only_path: true),
         bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx"),
-        custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url
+        custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
+        api_bootcamp_solution_chat: Exercism::Routes.api_bootcamp_solution_chat_messages_url(solution_uuid: solution.uuid,
+          only_path: true)
       }
     end
 

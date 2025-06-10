@@ -282,6 +282,7 @@ namespace :api do
           patch :complete
         end
         resources :submissions, param: :uuid, only: [:create]
+        resources :chat_messages, only: [:create]
       end
       resources :drawings, param: :uuid, only: [:update]
       resources :custom_functions, param: :uuid, only: %i[update index destroy]

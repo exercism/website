@@ -2,7 +2,7 @@ class Bootcamp::ChatMessage
   class TriggerLLM
     include Mandate
 
-    initialize_with :solution
+    initialize_with :solution, :student_code
 
     def call
       RestClient.post(
@@ -44,7 +44,7 @@ class Bootcamp::ChatMessage
     end
 
     def code
-      code = JSON.parse(solution.code, symbolize_names: true)
+      code = JSON.parse(student_code, symbolize_names: true)
 
       <<~EOS
         ### HTML

@@ -9,6 +9,13 @@ type ChatContextType = {
   analyserRef: React.MutableRefObject<AnalyserNode | null>
   links: { apiBootcampSolutionChat: string }
   solutionUuid: string
+  code: Partial<Code>
+}
+
+export type Code = {
+  html: string
+  css: string
+  js: string
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -17,16 +24,19 @@ export const ChatContext = createContext<ChatContextType>({
   analyserRef: {} as ChatContextType['analyserRef'],
   links: { apiBootcampSolutionChat: '' },
   solutionUuid: '',
+  code: {} as Code,
 })
 
 export function Chat({
   links,
   solutionUuid,
   messages,
+  code,
 }: {
   links: { apiBootcampSolutionChat: string }
   solutionUuid: string
   messages: Message[]
+  code: Partial<Code>
 }) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -35,7 +45,6 @@ export function Chat({
   const { appendMessage } = useAiChatStore()
 
   useEffect(() => {
-    console.log('MESSAGES', messages)
     for (const message of messages) {
       appendMessage(message)
     }
@@ -49,6 +58,7 @@ export function Chat({
         analyserRef,
         links,
         solutionUuid,
+        code,
       }}
     >
       <div className="ai-chat-container">

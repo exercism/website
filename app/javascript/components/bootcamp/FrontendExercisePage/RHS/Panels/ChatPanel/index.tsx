@@ -13,7 +13,11 @@ export function ChatPanel() {
       id="chat"
       context={TabsContext}
     >
-      <Chat links={links} solutionUuid={solution.uuid} />
+      <Chat
+        links={links}
+        solutionUuid={solution.uuid}
+        messages={solution.messages}
+      />
     </Tab.Panel>
   )
 }

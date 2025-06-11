@@ -62,6 +62,7 @@ module ReactComponents
         passed_basic_tests: solution.passed_basic_tests?,
         messages: solution.messages.map do |message|
           {
+            id: message.id,
             author: message.author,
             content: message.content
           }

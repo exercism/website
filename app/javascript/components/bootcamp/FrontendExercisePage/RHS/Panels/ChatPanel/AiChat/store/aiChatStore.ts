@@ -1,16 +1,9 @@
 import { create } from 'zustand'
 
-export type Message = {
-  id: string
-  sender: 'user' | 'ai'
-  content: string
-  audioUrl?: string
-  timestamp: string
-}
-
+export type AppendedMessage = Message | Omit<Message, 'id'>
 type AiChatStore = {
   messages: Message[]
-  appendMessage: (message: Message) => void
+  appendMessage: (message: AppendedMessage) => void
   messageStream: string
   streamMessage: (message: string) => void
   finishStream: (audioBlob?: Blob) => void
@@ -21,31 +14,34 @@ type AiChatStore = {
 
 const MOCK_MESSAGES: Message[] = [
   {
-    id: '1',
-    sender: 'ai',
+    id: 1,
+    author: 'llm',
     content: 'Hello! How can I assist you today?',
-    timestamp: new Date().toISOString(),
   },
   {
-    id: '2',
-    sender: 'user',
+    id: 2,
+    author: 'user',
     content: 'Can you help me with my coding problem?',
-    timestamp: new Date().toISOString(),
   },
   {
-    id: '3',
-    sender: 'ai',
+    id: 3,
+    author: 'llm',
     content: 'Sure! Please describe your problem in detail.',
-    timestamp: new Date().toISOString(),
   },
 ]
 
 export const useAiChatStore = create<AiChatStore>((set, get) => ({
   messages: MOCK_MESSAGES,
-  appendMessage: (message: Message) => {
-    set((state) => ({
-      messages: [...state.messages, message],
-    }))
+  appendMessage: (message: AppendedMessage) => {
+    set((state) => {
+      const lastId =
+        state.messages.length > 0
+          ? state.messages[state.messages.length - 1].id
+          : 0
+      return {
+        messages: [...state.messages, { ...message, id: lastId + 1 }],
+      }
+    })
   },
   isMessageBeingStreamed: false,
   isResponseBeingGenerated: false,
@@ -75,12 +71,12 @@ export const useAiChatStore = create<AiChatStore>((set, get) => ({
       return
     }
 
+    const messages = get().messages
+    const lastId = messages.length > 0 ? messages[messages.length - 1].id : 0
     const newMessage: Message = {
-      id: Date.now().toString(),
-      sender: 'ai',
+      id: lastId + 1,
+      author: 'llm',
       content: hasText ? messageStream : '',
-      audioUrl: hasAudio ? URL.createObjectURL(audioBlob) : '',
-      timestamp: new Date().toISOString(),
     }
     appendMessage(newMessage)
     set({

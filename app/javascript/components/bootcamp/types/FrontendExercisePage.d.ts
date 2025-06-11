@@ -44,6 +44,13 @@ type FrontendExercisePageSolution = {
   uuid: string
   status: 'completed' | 'in_progress'
   passedBasicTests: boolean
+  messages: Message[]
+}
+
+type Message = {
+  id: number
+  author: 'user' | 'llm'
+  content: string
 }
 
 interface FrontendExercisePageExercise {

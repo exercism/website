@@ -3,6 +3,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
 import { useAiChatStore } from './store/aiChatStore'
 import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
+import { marked } from 'marked'
 
 export function ChatThread() {
   const { messages, messageStream } = useAiChatStore()
@@ -28,19 +29,26 @@ export function ChatThread() {
           <div
             key={message.id + index}
             ref={threadElementRef}
-            className={assembleClassNames('chat-message', message.sender)}
+            className={assembleClassNames(
+              'chat-message c-textual-content',
+              message.author
+            )}
           >
             {message.content && (
-              <div dangerouslySetInnerHTML={{ __html: message.content }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: marked.parse(message.content),
+                }}
+              />
             )}
 
-            {message.audioUrl && (
+            {/* {message.audioUrl && (
               <audio
                 controls
                 src={message.audioUrl}
                 className="h-32 w-[300px]"
               />
-            )}
+            )} */}
           </div>
         )
       })}
@@ -48,8 +56,8 @@ export function ChatThread() {
       {messageStream.length > 0 && (
         <div
           ref={parentRef}
-          className="chat-message ai"
-          dangerouslySetInnerHTML={{ __html: messageStream }}
+          className="chat-message c-textual-content llm"
+          dangerouslySetInnerHTML={{ __html: marked.parse(messageStream) }}
         />
       )}
     </div>

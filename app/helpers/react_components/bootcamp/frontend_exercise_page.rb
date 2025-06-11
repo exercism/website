@@ -59,7 +59,13 @@ module ReactComponents
       {
         uuid: solution.uuid,
         status: solution.status,
-        passed_basic_tests: solution.passed_basic_tests?
+        passed_basic_tests: solution.passed_basic_tests?,
+        messages: solution.messages.map do |message|
+          {
+            author: message.author,
+            content: message.content
+          }
+        end
       }
     end
 

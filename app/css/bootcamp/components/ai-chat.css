@@ -6,7 +6,7 @@
 }
 
 .ai-chat-container {
-    @apply h-100 p-16 content-end;
+    @apply h-100 content-end;
 }
 
 .chat-input-container {
@@ -30,23 +30,23 @@
 }
 
 .chat-thread {
-    @apply flex flex-col gap-8;
+    @apply flex flex-col gap-8 p-16;
     @apply max-h-[calc(100vh-200px)] overflow-y-auto;
-    @apply px-8 py-6;
 }
 
 .chat-message {
-    @apply bg-textColor6 px-12 py-8 rounded-12 text-white font-medium w-fit max-w-[200px] text-balance;
+    @apply text-16;
+    @apply bg-textColor6 px-12 py-8 rounded-12 text-white font-medium w-fit;
     @apply self-end;
-    @apply leading-140;
+    @apply leading-180;
 
     &.llm {
         @apply bg-bootcamp-light-purple;
         @apply self-start max-w-[100%];
         @apply text-textColor1 border-1 border-bootcamp-purple;
 
-        p {
-            @apply inline;
+        p:not(:last-child) {
+            @apply mb-16;
         }
 
         pre {

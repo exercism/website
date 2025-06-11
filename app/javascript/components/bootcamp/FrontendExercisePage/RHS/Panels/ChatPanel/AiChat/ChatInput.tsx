@@ -19,7 +19,7 @@ export function ChatInput() {
     isResponseBeingGenerated,
   } = useAiChatStore()
 
-  useAiStream(solutionUuid, streamMessage)
+  useAiStream(solutionUuid, streamMessage, finishStream)
 
   const handleSendOnEnter = useCallback(
     async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -43,7 +43,6 @@ export function ChatInput() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              solution_uuid: solutionUuid,
               content: value,
             }),
           })

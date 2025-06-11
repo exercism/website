@@ -1,16 +1,21 @@
 import consumer from '../utils/action-cable-consumer'
 
+export type Response = {
+  text: string | null
+  done: boolean
+}
+
 export class BootcampChatChannel {
   subscription: ActionCable.Channel
 
-  constructor(solutionUuid, onReceive: (response: { text: string }) => void) {
+  constructor(solutionUuid, onReceive: (response: Response) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'BootcampChatChannel',
         solution_uuid: solutionUuid,
       },
       {
-        received: (response: { text: string }) => {
+        received: (response: Response) => {
           onReceive(response)
         },
       }

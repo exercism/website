@@ -1,7 +1,4 @@
-import {
-  BootcampChatChannel as BootcampChatChannel,
-  Response,
-} from '@/channels/userBootcampChatChannel'
+import { BootcampChatChannel } from '@/channels/userBootcampChatChannel'
 import { useEffect } from 'react'
 
 export function useAiStream(

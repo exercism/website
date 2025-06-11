@@ -21,7 +21,7 @@ class AssembleCodeTagSamples
     )
   end
 
-  def track = params[:track_slug].present? && Track.find(params[:track_slug])
+  def track = params[:track_slug].present? && Track.cached.find_by!(slug: params[:track_slug])
   def status = params.fetch(:status, :needs_tagging).to_sym
   def page = [params[:page].to_i, 1].max
 end

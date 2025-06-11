@@ -23,7 +23,7 @@ class Mentor::Request::RetrieveExercises
 
   memoize
   def track
-    Track.find(track_slug)
+    Track.cached.find_by!(slug: track_slug)
   end
 
   memoize

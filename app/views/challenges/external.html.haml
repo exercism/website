@@ -8,7 +8,7 @@
     .relative.overflow-hidden
       .p-24.bg-gradient-to-b.absolute.inset-0.flex.items-center.justify-center{ class: "from-[var(--backgroundColorA)] to-[var(--backgroundColorE)] opacity-[0.7]" }
         .flex.flex-wrap.justify-center.gap-2.lg:gap-4.mx-auto
-          - Track.find('csharp').exercises.active.map(&:icon_url).sample(48).each do |icon_url|
+          - Track.cached.find_by!(slug: 'csharp').exercises.active.map(&:icon_url).sample(48).each do |icon_url|
             = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[12%] w-[12%] md:h-[10.8%] md:w-[10.8%] lg:h-[9%] lg:w-[9%] xl:h-[8%] xl:w-[8%]"
 
       .relative.lg-container

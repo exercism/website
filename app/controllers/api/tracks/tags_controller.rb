@@ -25,7 +25,7 @@ class API::Tracks::TagsController < API::BaseController
 
   private
   def use_track
-    @track = Track.find(params[:track_slug])
+    @track = Track.cached.find_by!(slug: params[:track_slug])
   rescue StandardError
     render_404(:track_not_found)
   end

@@ -2,6 +2,7 @@ class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
   include Track::BuildStatus
+  include CachedFind
 
   friendly_id :slug, use: [:history]
 
@@ -53,6 +54,12 @@ class Track < ApplicationRecord
   def self.slug_from_repo(repo)
     name = repo.split('/').last
     TRACK_HELPER_REPOS[name] || name.gsub(TRACK_REPO_PREFIXES, '').gsub(TRACK_REPO_SUFFIXES, '')
+  end
+
+  def self.num_active
+    Rails.cache.fetch("track:num_active", expires_in: 1.hour) do
+      Track.active.count
+    end
   end
 
   def to_param = slug

@@ -1,4 +1,6 @@
 class User::Preferences < ApplicationRecord
+  include CachedFind
+
   belongs_to :user
 
   def self.keys = self.automation_keys + self.general_keys

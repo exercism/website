@@ -10,7 +10,7 @@ class TracksController < ApplicationController
       user: current_user
     )
 
-    @num_tracks = Track.active.count
+    @num_tracks = Track.num_active
 
     # TODO: (Optional) Change this to only select the fields needed for an icon
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
@@ -49,7 +49,7 @@ class TracksController < ApplicationController
 
   private
   def use_track
-    @track = Track.find(params[:id])
+    @track = Track.cached.find_by!(slug: params[:id])
     @user_track = UserTrack.for(current_user, @track)
 
     render_404 unless @track.accessible_by?(current_user)

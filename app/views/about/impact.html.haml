@@ -42,7 +42,7 @@
 
         .bg-backgroundColorB.shadow-base.py-16.px-24
           %p.text-p-large.mb-8
-            %span.text-h5 Exercism teaches #{Track.active.count} programming languages
+            %span.text-h5 Exercism teaches #{Track.num_active} programming languages
             from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
             using a unique blend of learning, practicing, and mentoring.
           %p.text-h5 Everything on Exercism is 100% free.

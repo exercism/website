@@ -550,6 +550,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    xxhash (0.6.0)
     yard (0.9.36)
     zeitwerk (2.6.8)
 
@@ -631,6 +632,7 @@ DEPENDENCIES
   tzinfo-data
   web-console (>= 3.3.0)
   webmock
+  xxhash
 
 RUBY VERSION
    ruby 3.3.0p0

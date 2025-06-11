@@ -5,7 +5,7 @@ class PagesController < ApplicationController
     return redirect_to dashboard_path if user_signed_in?
 
     @tracks = Track.active.order(num_students: :desc).limit(12).to_a
-    @num_tracks = Track.active.count
+    @num_tracks = Track.num_active
 
     @showcase_exercises = [
       {

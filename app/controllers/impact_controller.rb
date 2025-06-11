@@ -2,7 +2,7 @@ class ImpactController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    @track = Track.find(params[:track_slug]) if params[:track_slug].present?
+    @track = Track.cached.find_by!(slug: params[:track_slug]) if params[:track_slug].present?
     @last_24_hours = last_24_hours
     @last_month = last_month
   end

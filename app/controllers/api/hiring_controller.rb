@@ -4,7 +4,7 @@ class API::HiringController < API::BaseController
   def testimonials
     user = User.find_by(handle: 'bobahop')
     testimonials = user.mentor_testimonials.published.joins(solution: { exercise: :track })
-    testimonials = testimonials.where('exercises.track_id': Track.find(params[:track]).id) if params[:track]
+    testimonials = testimonials.where('exercises.track_id': Track.cached.find_by!(slug: params[:track]).id) if params[:track]
     testimonials = testimonials.where('exercises.title LIKE ?', "%#{params[:exercise]}%") if params[:exercise]
     testimonials = testimonials.order(id: params[:order] == "newest_first" ? :desc : :asc)
     testimonials = testimonials.page(params[:page]).per(20)

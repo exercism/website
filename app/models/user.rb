@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   extend Mandate::Memoize
+  include CachedFind
+  include CachedAssociations
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
@@ -23,10 +25,10 @@ class User < ApplicationRecord
   has_many :auth_tokens, dependent: :destroy
   has_one :github_solution_syncer, dependent: :destroy
 
-  has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
+  cached_has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
   has_one :bootcamp_data, dependent: :destroy, class_name: "User::BootcampData"
-  has_one :profile, dependent: :destroy
-  has_one :preferences, dependent: :destroy
+  cached_has_one :profile, dependent: :destroy
+  cached_has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
 
   has_many :course_enrollments, dependent: :nullify
@@ -175,6 +177,15 @@ class User < ApplicationRecord
   after_update_commit do
     reverify_email! if previous_changes.key?('email')
   end
+
+  def self.serialize_from_session(key, salt)
+    record = cached.find(key.first)
+    record if record && record.authenticatable_salt == salt
+  end
+
+  # def profile = Profile.cached.find_by(user_id: id)
+  # def preferences = Preferences.cached.find_by(user_id: id)
+  # def data = Data.cached.find_by(user_id: id)
 
   # If we don't know about this record, maybe the
   # user's data record has it instead?

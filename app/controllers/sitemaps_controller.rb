@@ -74,7 +74,7 @@ class SitemapsController < ApplicationController
   end
 
   def track
-    track = Track.find(params[:track_id])
+    track = Track.cached.find_by!(slug: params[:track_id])
     pages = []
     pages << [track_url(track), track.updated_at, :monthly, 0.9]
     pages << [track_concepts_url(track), track.updated_at, :monthly, 0.85] if track.course?

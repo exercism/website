@@ -93,7 +93,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
 
   memoize
   def csharp_exercises
-    Track.find('csharp').practice_exercises.index_by(&:slug)
+    Track.cached.find_by!(slug: 'csharp').practice_exercises.index_by(&:slug)
   rescue ActiveRecord::RecordNotFound
     {}
   end

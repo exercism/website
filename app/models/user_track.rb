@@ -1,6 +1,7 @@
 class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
+  include CachedAssociations
 
   MIN_REP_TO_TRAIN_ML = 50
 
@@ -10,7 +11,7 @@ class UserTrack < ApplicationRecord
 
   # TODO: (required): Ensure this counter_cache doesn't change updated_at
   # and probably move it to a bg job as it'll be slow
-  belongs_to :track, counter_cache: :num_students
+  cached_belongs_to :track, counter_cache: :num_students
 
   has_many :solutions, # rubocop:disable Rails/HasManyOrHasOneDependent
     lambda { |ut|
@@ -62,6 +63,10 @@ class UserTrack < ApplicationRecord
     rescue ActiveRecord::RecordNotFound
       nil
     end
+  end
+
+  def track
+    @track ||= Track.cached.find(track_id)
   end
 
   memoize
@@ -208,7 +213,7 @@ class UserTrack < ApplicationRecord
     return @summary if @summary
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
-    track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
+    track_updated_at = track.updated_at
     expected_key = "#{track_updated_at.to_f}:#{last_touched_at.to_f}:#{digest}"
 
     if summary_data.nil? || summary_key != expected_key

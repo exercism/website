@@ -7,7 +7,7 @@ class PartnersController < ApplicationController
   end
 
   def gobridge
-    @track = Track.find('go')
+    @track = Track.cached.find_by!(slug: 'go')
     @num_concepts = @track.concepts.count
     @num_exercises = @track.exercises.count
     @num_tasks = @track.tasks.count

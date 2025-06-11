@@ -17,7 +17,7 @@ class API::CommunityVideosController < API::BaseController
   def create
     if params[:track_slug].present?
       begin
-        track = Track.find(params[:track_slug])
+        track = Track.cached.find_by!(slug: params[:track_slug])
       rescue ActiveRecord::RecordNotFound
         return render_track_not_found
       end

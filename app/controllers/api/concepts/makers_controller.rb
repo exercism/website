@@ -28,7 +28,7 @@ class API::Concepts::MakersController < API::BaseController
 
   private
   def use_concept
-    @track = Track.find(params[:track_slug])
+    @track = Track.cached.find_by!(slug: params[:track_slug])
     @concept = @track.concepts.find(params[:concept_slug])
   end
 end

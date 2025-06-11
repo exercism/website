@@ -8,7 +8,7 @@ class Bootcamp::ChatMessage
         ENV.fetch("GEMINI_STREAMER_URL", "http://localhost:8080/chat"),
         {
           user_id: user.id,
-          solution_id: solution.id,
+          solution_uuid: solution.uuid,
           prompt:,
           stream_channel:
         }.to_json,
@@ -18,7 +18,7 @@ class Bootcamp::ChatMessage
 
     delegate :solution, :user, :content, to: :source_message
 
-    def stream_channel = "chat_#{user.id}"
+    def stream_channel = "bootcamp_chat_#{solution.uuid}"
 
     def prompt
       content

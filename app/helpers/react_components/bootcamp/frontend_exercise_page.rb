@@ -41,6 +41,7 @@ module ReactComponents
           code: solution&.code,
           stored_at: submission&.created_at
         },
+        chat_channel_id: "BootcampChatChannel",
         links: solution_links
       }
     end
@@ -58,7 +59,6 @@ module ReactComponents
 
       {
         uuid: solution.uuid,
-        user_id: solution.user_id,
         status: solution.status,
         passed_basic_tests: solution.passed_basic_tests?
       }

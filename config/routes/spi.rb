@@ -8,8 +8,6 @@ namespace :spi do
   patch "unsubscribe_user" => "unsubscribe_users#unsubscribe_by_email", as: "unsubscribe_user"
 
   namespace :bootcamp do
-    namespace :solutions do
-      resources :chat_messages, only: [:create]
-    end
+    resources :chat_messages, only: [:create]
   end
 end

@@ -4,7 +4,7 @@
 development:
   &development # adapter: <%= ENV.fetch("ACTION_CABLE_ADAPTER", "any_cable") %>
   adapter: redis
-  url: redis://localhost:6379/2
+  url: redis://localhost:6379/1
 
 test:
   adapter: test

@@ -43,7 +43,6 @@ type HtmlCssJsReadonlyRanges = {
 type FrontendExercisePageSolution = {
   uuid: string
   status: 'completed' | 'in_progress'
-  userId: number
   passedBasicTests: boolean
 }
 

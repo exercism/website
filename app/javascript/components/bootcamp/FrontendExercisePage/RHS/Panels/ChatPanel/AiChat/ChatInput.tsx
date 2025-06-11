@@ -8,7 +8,7 @@ import { useAiStream } from './useAiStream'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-  const { inputRef, links, solutionUuid, userId } = useContext(ChatContext)
+  const { inputRef, links, solutionUuid } = useContext(ChatContext)
 
   const {
     appendMessage,
@@ -19,7 +19,7 @@ export function ChatInput() {
     isResponseBeingGenerated,
   } = useAiChatStore()
 
-  useAiStream(streamMessage)
+  useAiStream(solutionUuid, streamMessage)
 
   const handleSendOnEnter = useCallback(
     async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

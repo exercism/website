@@ -34,15 +34,30 @@
     @apply max-h-[calc(100vh-200px)] overflow-y-auto;
 }
 
+.chat-message-wrapper {
+    @apply self-end flex flex-col;
+    label {
+        @apply w-fit;
+        @apply text-textColor7 text-12 mb-4;
+        @apply self-end;
+    }
+    &.llm {
+        @apply self-start;
+
+        label {
+            @apply self-start;
+        }
+    }
+}
+
 .chat-message {
     @apply text-16;
     @apply bg-textColor6 px-12 py-8 rounded-12 text-white font-medium w-fit;
-    @apply self-end;
     @apply leading-180;
 
     &.llm {
         @apply bg-bootcamp-light-purple;
-        @apply self-start max-w-[100%];
+        @apply max-w-[100%];
         @apply text-textColor1 border-1 border-bootcamp-purple;
 
         p:not(:last-child) {

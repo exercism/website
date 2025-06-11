@@ -16,12 +16,5 @@ class Partner
 
       true
     end
-
-    def doc
-      {
-        perk_id: perk.id,
-        clicked_at:
-      }
-    end
   end
 end

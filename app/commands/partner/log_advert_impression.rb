@@ -19,22 +19,5 @@ class Partner
 
       true
     end
-
-    def doc
-      {
-        _id: uuid,
-        advert_id: advert.id,
-        user_id: user&.id,
-        ip_address:,
-        track_slug:,
-        shown_on: request_path,
-        shown_at_yearmonth: "#{shown_at.year}#{shown_at.month.to_s.rjust(2, '0')}",
-        shown_at_timestamp: shown_at.to_i
-      }
-    end
-
-    def track_slug
-      %r{^/tracks/([^/]+)}.match(request_path)&.captures&.first
-    end
   end
 end

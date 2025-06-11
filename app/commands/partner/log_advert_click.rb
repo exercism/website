@@ -18,13 +18,5 @@ class Partner
 
       true
     end
-
-    def doc
-      {
-        advert_id: advert.id,
-        impression_uuid:,
-        clicked_at:
-      }
-    end
   end
 end

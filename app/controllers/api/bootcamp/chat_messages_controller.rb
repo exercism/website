@@ -2,13 +2,13 @@ class API::Bootcamp::ChatMessagesController < API::BaseController
   def create
     solution = current_user.bootcamp_solutions.find_by!(uuid: params[:solution_uuid])
 
-    message = Bootcamp::ChatMessage::Create.(
+    Bootcamp::ChatMessage::Create.(
       solution,
       params[:content],
       :user
     )
 
-    Bootcamp::ChatMessage::TriggerLLM.(message)
+    Bootcamp::ChatMessage::TriggerLLM.(solution)
 
     head :accepted
   end

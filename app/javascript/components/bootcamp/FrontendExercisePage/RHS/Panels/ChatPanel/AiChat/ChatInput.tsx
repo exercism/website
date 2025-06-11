@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { ChatContext } from '.'
-import { Message, useAiChatStore } from './store/aiChatStore'
+import { AppendedMessage, useAiChatStore } from './store/aiChatStore'
 import AudioRecorder from './AudioRecorder/AudioRecorder'
 import { useAiStream } from './useAiStream'
 
@@ -28,11 +28,9 @@ export function ChatInput() {
 
         if (value.trim() === '') return
 
-        const userMessage: Message = {
-          id: Date.now().toString(),
+        const userMessage: AppendedMessage = {
           content: value,
-          sender: 'user',
-          timestamp: new Date().toISOString(),
+          author: 'user',
         }
 
         appendMessage(userMessage)

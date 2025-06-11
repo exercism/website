@@ -8,7 +8,7 @@ class API::Bootcamp::ChatMessagesController < API::BaseController
       :user
     )
 
-    Bootcamp::ChatMessage::TriggerLLM.(solution)
+    Bootcamp::ChatMessage::TriggerLLM.(solution, params[:code])
 
     head :accepted
   end

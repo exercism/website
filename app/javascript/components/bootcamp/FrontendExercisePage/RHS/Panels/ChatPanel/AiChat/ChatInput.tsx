@@ -8,7 +8,7 @@ import { useAiStream } from './useAiStream'
 
 export function ChatInput() {
   const [value, setValue] = React.useState('')
-  const { inputRef, links, solutionUuid } = useContext(ChatContext)
+  const { inputRef, links, solutionUuid, code } = useContext(ChatContext)
 
   const {
     appendMessage,
@@ -42,9 +42,10 @@ export function ChatInput() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               content: value,
+              code: JSON.stringify(code),
             }),
           })
-          // setIsResponseBeingGenerated(true)
+          setIsResponseBeingGenerated(true)
         } catch (err) {
           console.error('AI response error:', err)
           finishStream()

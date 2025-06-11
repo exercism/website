@@ -5,6 +5,11 @@ import { useAiChatStore } from './store/aiChatStore'
 import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
 import { marked } from 'marked'
 
+const MESSAGE_LABELS = {
+  user: 'You',
+  llm: 'AI Assistant',
+}
+
 export function ChatThread() {
   const { messages, messageStream } = useAiChatStore()
   const { scrollContainerRef } = useContext(ChatContext)
@@ -27,28 +32,28 @@ export function ChatThread() {
       {messages.map((message, index) => {
         return (
           <div
-            key={message.id + index}
-            ref={threadElementRef}
             className={assembleClassNames(
-              'chat-message c-textual-content',
+              'chat-message-wrapper',
               message.author
             )}
+            key={message.id + index}
           >
-            {message.content && (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: marked.parse(message.content),
-                }}
-              />
-            )}
-
-            {/* {message.audioUrl && (
-              <audio
-                controls
-                src={message.audioUrl}
-                className="h-32 w-[300px]"
-              />
-            )} */}
+            {messages[index - 1] &&
+              messages[index - 1]['author'] !== message.author && (
+                <label>{MESSAGE_LABELS[message.author]}</label>
+              )}
+            <div
+              ref={threadElementRef}
+              className={assembleClassNames('chat-message', message.author)}
+            >
+              {message.content && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(message.content),
+                  }}
+                />
+              )}
+            </div>
           </div>
         )
       })}

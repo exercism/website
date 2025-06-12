@@ -68,7 +68,7 @@ export function usePanel(options?: any) {
     },
     panelAttributes: {
       ref: setPanelElement,
-      style: styles.popper,
+      style: { ...styles.popper, zIndex: 100 },
       ...attributes.popper,
     },
   }

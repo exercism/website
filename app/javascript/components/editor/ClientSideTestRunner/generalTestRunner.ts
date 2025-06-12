@@ -27,16 +27,18 @@ export async function runTestsClientSide({
 
     switch (trackSlug) {
       case 'javascript': {
-        const studentFileMap: FileMap = Object.fromEntries(
-          files
-            .filter(
-              (f): f is File =>
-                !!f.filename &&
-                typeof f.content === 'string' &&
-                f.type !== 'readonly'
-            )
-            .map(({ filename, content }) => [filename, content])
-        )
+        const studentFileMap: FileMap = {}
+        const studentFileNames: string[] = []
+
+        for (const f of files) {
+          if (!f.filename || typeof f.content !== 'string') continue
+
+          studentFileMap[f.filename] = f.content
+
+          if (f.type !== 'readonly') {
+            studentFileNames.push(f.filename)
+          }
+        }
 
         if (Object.keys(studentFileMap).length === 0) {
           console.warn('studentFileMap is empty in runTestsClientSide')
@@ -48,9 +50,7 @@ export async function runTestsClientSide({
           ...studentFileMap,
         }
 
-        const studentFilenames = Object.keys(studentFileMap)
-
-        return await runTests(exerciseSlug, allFiles, studentFilenames)
+        return await runTests(exerciseSlug, allFiles, studentFileNames)
       }
 
       default:

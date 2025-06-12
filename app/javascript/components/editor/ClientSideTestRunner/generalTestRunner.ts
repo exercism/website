@@ -1,6 +1,8 @@
-import { OutputInterface } from '@exercism/javascript-browser-test-runner/src/output'
 import { File } from '../../types'
-import { runTests } from '@exercism/javascript-browser-test-runner'
+import {
+  OutputInterface,
+  runTests,
+} from '@exercism/javascript-browser-test-runner'
 
 type FileMap = Record<string, string>
 
@@ -28,7 +30,10 @@ export async function runTestsClientSide({
         const studentFileMap: FileMap = Object.fromEntries(
           files
             .filter(
-              (f): f is File => !!f.filename && typeof f.content === 'string'
+              (f): f is File =>
+                !!f.filename &&
+                typeof f.content === 'string' &&
+                f.type !== 'readonly'
             )
             .map(({ filename, content }) => [filename, content])
         )

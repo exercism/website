@@ -5,7 +5,11 @@ class User::UpdateFlair
 
   initialize_with :user
 
-  def call = user.update!(flair:)
+  def call 
+    p "In flair job"
+    p user.insiders_status
+    user.update!(flair:)
+  end
 
   private
   memoize

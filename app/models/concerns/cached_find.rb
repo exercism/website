@@ -54,12 +54,13 @@ module CachedFind
       p "LOOKUPF #{cache_key}"
 
       #     Rails.cache.fetch(cache_key, expires_after: 1.hour) do
-      #       super(attributes).attributes
+            super#(attributes)#.attributes
+      #     end.then { |attrs| klass.instantiate(attrs) }
+
       columns = klass.column_names
       row = klass.where(key => value).limit(1).pluck(*columns).first
       attrs = Hash[columns.zip(row)]
       klass.instantiate(attrs)
-      #     end.then { |attrs| klass.instantiate(attrs) }
     end
 
     def find_by(attributes)

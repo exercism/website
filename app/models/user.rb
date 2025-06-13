@@ -183,10 +183,6 @@ class User < ApplicationRecord
     record if record && record.authenticatable_salt == salt
   end
 
-  # def profile = Profile.cached.find_by(user_id: id)
-  # def preferences = Preferences.cached.find_by(user_id: id)
-  # def data = Data.cached.find_by(user_id: id)
-
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)
@@ -199,6 +195,12 @@ class User < ApplicationRecord
 
   def respond_to_missing?(name, *args)
     super || data.respond_to?(name)
+  end
+
+  def reload(*args)
+    super.tap do
+      data.reload
+    end
   end
 
   # Don't rely on respond_to_missing? which n+1s a data record

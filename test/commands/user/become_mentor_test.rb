@@ -21,6 +21,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
 
     User::BecomeMentor.(user, [create(:track).slug])
     assert user.mentor?
+    p '---'
     assert_equal old_time, user.reload.became_mentor_at
   end
 

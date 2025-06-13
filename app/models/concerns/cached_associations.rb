@@ -7,18 +7,19 @@ module CachedAssociations
     def cached_has_one(name, **options)
       has_one name, **options
 
-      define_method(name) do
-        assoc = association(name)
-        return assoc.target if assoc.loaded?
+      #   define_method(name) do
+      #     assoc = association(name)
+      # p "B: #{assoc.target.object_id}"
+      #     return assoc.target if assoc.loaded?
 
-        foreign_key = assoc.reflection.foreign_key
-        klass       = assoc.klass
+      #     foreign_key = assoc.reflection.foreign_key
+      #     klass       = assoc.klass
 
-        klass.cached.find_by(foreign_key => id).tap do |record|
-          assoc.target = record
-          assoc.loaded!
-        end
-      end
+      #     klass.cached.find_by(foreign_key => id).tap do |record|
+      #       assoc.target = record
+      #       assoc.loaded!
+      #     end
+      #   end
     end
 
     def cached_belongs_to(name, **options)

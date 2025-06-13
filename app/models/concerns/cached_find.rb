@@ -57,6 +57,7 @@ module CachedFind
             super#(attributes)#.attributes
       #     end.then { |attrs| klass.instantiate(attrs) }
 
+      Rails.logger.debug "Cached find for #{klass.name} with key #{key} and value #{value}"
       columns = klass.column_names
       row = klass.where(key => value).limit(1).pluck(*columns).first
       attrs = Hash[columns.zip(row)]

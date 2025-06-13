@@ -18,7 +18,7 @@ class User::GithubSolutionSyncer
 
       client.create_pull_request(
         repo_full_name,
-        base_branch,
+        base_branch_name,
         new_branch,
         pr_title,
         pr_message
@@ -31,32 +31,10 @@ class User::GithubSolutionSyncer
     delegate :repo_full_name, to: :syncer
 
     memoize
-    def base_sha
-      # This will raise if the branch doesn't exit
-      client.branch(repo_full_name, base_branch).commit.sha
-    rescue Octokit::NotFound
-      # If it doesn't, then this is a naked repo, so create it.
-      WithGitContext.() do |git|
-        # No existing branch so create it
-        git.("init", "-b", base_branch)
-
-        # Make sure we have the right user set
-        git.("config", "user.name", "Exercism's Solution Syncer Bot")
-        git.("config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com")
-
-        # Make an empty commit and push it
-        git.("commit", "--allow-empty", "-m", "Initial empty commit")
-        git.("remote", "add", "origin", repo_url)
-        git.("push", "origin", base_branch)
-      end
-
-      client.branch(repo_full_name, base_branch).commit.sha
-    end
+    def base_sha = FindOrCreateBranch.(repo_full_name, base_branch_name, token).commit.sha
 
     memoize
-    def base_branch = client.repository(repo_full_name).default_branch
-
-    def repo_url = "https://x-access-token:#{token}@github.com/#{repo_full_name}.git"
+    def base_branch_name = client.repository(repo_full_name).default_branch
 
     memoize
     def token = GithubApp.generate_installation_token!(syncer.installation_id)

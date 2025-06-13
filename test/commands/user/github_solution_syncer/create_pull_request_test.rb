@@ -14,7 +14,7 @@ class User::GithubSolutionSyncer
       GithubApp.expects(:generate_installation_token!).with(syncer.installation_id).returns(token)
 
       client = mock
-      Octokit::Client.expects(:new).with(access_token: token).returns(client)
+      Octokit::Client.expects(:new).with(access_token: token).returns(client).at_least_once
 
       base_branch = "main"
       base_sha = "base-commit-sha"

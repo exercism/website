@@ -65,10 +65,6 @@ class UserTrack < ApplicationRecord
     end
   end
 
-  def track
-    @track ||= Track.cached.find(track_id)
-  end
-
   memoize
   def exercises
     enabled_exercises(track.exercises)

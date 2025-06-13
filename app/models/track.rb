@@ -41,6 +41,8 @@ class Track < ApplicationRecord
   delegate :debugging_instructions, :representer_normalizations, to: :git
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
+  after_save_commit { Rails.cache.delete(CACHE_KEY_NUM_ACTIVE) }
+
   def self.for!(param)
     return param if param.is_a?(Track)
     return find_by!(id: param) if param.is_a?(Numeric)
@@ -57,7 +59,7 @@ class Track < ApplicationRecord
   end
 
   def self.num_active
-    Rails.cache.fetch("track:num_active", expires_in: 1.hour) do
+    Rails.cache.fetch(CACHE_KEY_NUM_ACTIVE, expires_in: 1.hour) do
       Track.active.count
     end
   end
@@ -210,3 +212,5 @@ class Track < ApplicationRecord
     "eslint-config-tooling" => "typescript"
   }.freeze
 end
+
+CACHE_KEY_NUM_ACTIVE = "track:num_active".freeze

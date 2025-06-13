@@ -298,7 +298,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ut.send(:summary)
     track = ut.track
 
-    track.update_column(:updated_at, Time.current + 1.day)
+    track.update(updated_at: Time.current + 1.day)
     ut = UserTrack.find(ut.id)
     UserTrack::GenerateSummaryData.expects(:call).with(track, ut).returns(summary)
     ut.send(:summary)
@@ -633,7 +633,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
 
     # concept exercises are not included when track does not have course
-    track.update(course: false)
+    user_track.track.update!(course: false)
     assert_equal [
       beta_practice_exercise,
       active_practice_exercise
@@ -666,7 +666,7 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:practice_exercise, :random_slug, track:)
 
     # wip exercises and unstarted deprecated exercises are not included
-    track.update(course: true)
+    user_track.track.update(course: true)
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise

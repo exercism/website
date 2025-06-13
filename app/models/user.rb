@@ -182,6 +182,9 @@ class User < ApplicationRecord
   def self.serialize_from_session(key, salt)
     record = cached.find(key.first)
     record if record && record.authenticatable_salt == salt
+  rescue ActiveRecord::RecordNotFound
+    # If there's no user, then don't blow up
+    nil
   end
 
   # If we don't know about this record, maybe the
@@ -198,9 +201,13 @@ class User < ApplicationRecord
     super || data.respond_to?(name)
   end
 
+  # TODO: We probably don't need this?
   def reload(*args)
     super.tap do
       data.reload
+    rescue ActiveRecord::RecordNotFound
+      # This runs on record deletion so data
+      # might not exist at this stage, but that's fine.
     end
   end
 

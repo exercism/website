@@ -306,7 +306,7 @@ class UserTest < ActiveSupport::TestCase
     refute user.blocked?
 
     create :user_block_domain, domain: 'invalid.org'
-    assert user.blocked?
+    assert user.reload.blocked?
   end
 
   test "disabled?" do

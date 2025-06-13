@@ -2,6 +2,7 @@ class User < ApplicationRecord
   extend Mandate::Memoize
   include CachedFind
   include CachedAssociations
+  def self.cached_find_keys = %i[id handle]
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036

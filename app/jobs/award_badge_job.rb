@@ -10,7 +10,6 @@ class AwardBadgeJob < ApplicationJob
   end
 
   def perform(user, badge_slug, send_email: true)
-    p "Starting to perform"
     User::AcquiredBadge::Create.(user, badge_slug, send_email:)
   end
 

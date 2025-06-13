@@ -5,9 +5,7 @@ class User::UpdateFlair
 
   initialize_with :user
 
-  def call 
-    p "In flair job"
-    p user.insiders_status
+  def call
     user.update!(flair:)
   end
 

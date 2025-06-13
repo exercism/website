@@ -6,16 +6,13 @@ class User::AcquiredBadge::Create
   def call
     # Check to see if it exists already before
     # doing any other expensive things
-    p "HERE1"
     acquired_badge = User::AcquiredBadge.find_by(user:, badge:)
     return acquired_badge if acquired_badge
 
-    p "HERE2"
     # Check if the badge should be awarded.
     # Raise an exception if not
     raise BadgeCriteriaNotFulfilledError unless badge.award_to?(user)
 
-    p "HERE3"
     # Build the badge
     begin
       User::AcquiredBadge.create!(
@@ -35,7 +32,6 @@ class User::AcquiredBadge::Create
     # and return the badge if it's been created
     # in parallel to this command
     rescue ActiveRecord::RecordNotUnique
-      p "HERE4"
       User::AcquiredBadge.find_by!(
         user:,
         badge:

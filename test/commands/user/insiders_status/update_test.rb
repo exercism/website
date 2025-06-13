@@ -94,13 +94,9 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :active
     User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
-    User::InsidersStatus::Update.(user)
-    user.reload
-    perform_enqueued_jobs
-    p User.find(user.id).flair
-
-    p User::AcquiredBadge.all
-    p user.reload.badges.map(&:class)
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
 
     assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
     assert_equal :lifetime_insider, user.flair

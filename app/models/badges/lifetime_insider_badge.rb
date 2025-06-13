@@ -6,9 +6,7 @@ module Badges
       'One of the Lifetime Insiders'
 
     def award_to?(user)
-      p user.data
-      p user.reload.data.
-        user.reload.data.insiders_status_active_lifetime?
+      user.reload.data.insiders_status_active_lifetime?
     end
 
     def send_email_on_acquisition? = true

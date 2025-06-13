@@ -12,7 +12,8 @@ module ReactComponents
         super("dropdowns-dropdown", {
           menu_button:,
           menu_items:
-        })
+        },
+        persistent: true)
       end
 
       private

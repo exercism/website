@@ -294,11 +294,11 @@ class UserTest < ActiveSupport::TestCase
     block_domain = create :user_block_domain, domain: 'invalid.org'
     refute user.confirmed?
 
-    block_domain.delete
-    assert user.confirmed?
+    block_domain.destroy
+    assert user.reload.confirmed?
 
     user.update(disabled_at: Time.current)
-    refute user.confirmed?
+    refute user.reload.confirmed?
   end
 
   test "blocked?" do

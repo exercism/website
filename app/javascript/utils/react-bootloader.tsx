@@ -259,13 +259,11 @@ export function renderComponents(
   for (const elem of elems) {
     // dataset doesn't exist on type `Element`
     if (!(elem instanceof HTMLElement)) continue
-    console.log('elem', elem.dataset.reactId)
 
     if (
       elem.dataset.persistent === 'true' &&
       elem.dataset.rendered === 'true'
     ) {
-      console.log('skipping persistent element', elem.dataset.reactId)
       continue
     }
 

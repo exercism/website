@@ -47,7 +47,11 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       User::Notification::Create.expects(:defer).never
       User::UpdateFlair.expects(:defer).with(user)
 
+      user.preferences.theme
       user.preferences.update(theme:)
+
+      assert_equal theme, user.preferences.theme
+      assert_equal theme, user.preferences.reload.theme
 
       User::InsidersStatus::Update.(user)
 
@@ -90,9 +94,13 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :active
     User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
+    User::InsidersStatus::Update.(user)
+    user.reload
+    perform_enqueued_jobs
+    p User.find(user.id).flair
+
+    p User::AcquiredBadge.all
+    p user.reload.badges.map(&:class)
 
     assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
     assert_equal :lifetime_insider, user.flair

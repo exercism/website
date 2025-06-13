@@ -1,6 +1,7 @@
 class User::Data < ApplicationRecord
   include User::Roles
   include CachedFind
+  def self.cached_find_keys = %i[user_id]
 
   scope :donors, -> { where.not(first_donated_at: nil) }
   scope :public_supporter, -> { donors.where(show_on_supporters_page: true) }

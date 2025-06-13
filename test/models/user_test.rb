@@ -285,13 +285,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "confirmed?" do
-    user = create :user, email: 'test@invalid.org', confirmed_at: nil, disabled_at: nil
+    user = create :user, email: 'test@naughty.org', confirmed_at: nil, disabled_at: nil
     refute user.confirmed?
 
     user.update(confirmed_at: Time.current)
     assert user.confirmed?
 
-    block_domain = create :user_block_domain, domain: 'invalid.org'
+    block_domain = create :user_block_domain, domain: 'naughty.org'
     refute user.confirmed?
 
     block_domain.destroy
@@ -302,10 +302,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "blocked?" do
-    user = create :user, email: 'test@invalid.org'
+    user = create :user, email: 'test@notallowed.org'
     refute user.blocked?
 
-    create :user_block_domain, domain: 'invalid.org'
+    create :user_block_domain, domain: 'notallowed.org'
     assert user.reload.blocked?
   end
 

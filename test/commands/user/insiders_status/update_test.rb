@@ -47,11 +47,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       User::Notification::Create.expects(:defer).never
       User::UpdateFlair.expects(:defer).with(user)
 
-      user.preferences.theme
       user.preferences.update(theme:)
-
-      assert_equal theme, user.preferences.theme
-      assert_equal theme, user.preferences.reload.theme
 
       User::InsidersStatus::Update.(user)
 

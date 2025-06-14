@@ -129,10 +129,18 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_inbox_path
   end
 
+  def cache_public_action!
+    return if user_signed_in?
+
+    # Cache for some seconds lasting between 5 and 20 minutes.
+    # Vary this so we don't get spikes of traffic when everything
+    # expires at the same time.
+    expires_in rand(300..1200), public: true
+  end
+
   def stale?(etag:)
     super(
       etag: Cache::GenerateEtag.(etag, current_user),
-      public: !user_signed_in?
     )
   end
 

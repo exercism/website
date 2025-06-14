@@ -3,12 +3,15 @@ class Tracks::ExercisesController < ApplicationController
   before_action :use_track!
   before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
+  before_action :cache_public_action!, only: %i[index show tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   skip_before_action :verify_authenticity_token, only: :start
 
   def index
     @num_completed = @user_track.num_completed_exercises
+
+    return unless stale?(etag: user_signed_in? ? @user_track : @track) # rubocop:disable Style/RedundantReturn
   end
 
   # TODO: (Optional) There is lots of logic in this view
@@ -16,9 +19,13 @@ class Tracks::ExercisesController < ApplicationController
   # to allow for pre-caching of solution data
   def show
     @iteration = @solution.iterations.last if @solution
+
+    return unless stale?(etag: @solution ? [@solution, @iteration] : @exercise) # rubocop:disable Style/RedundantReturn
   end
 
   def tooltip
+    return unless stale?(etag: user_signed_in? ? [@solution, @user_track] : @exercise)
+
     render json: {
       exercise: SerializeExercise.(@exercise, user_track: @user_track),
       solution: (@solution ? SerializeSolution.(@solution, user_track: @user_track) : nil),

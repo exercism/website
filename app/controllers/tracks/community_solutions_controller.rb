@@ -2,11 +2,14 @@ class Tracks::CommunitySolutionsController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution, except: [:show]
   before_action :use_exercise!, only: [:show]
+  before_action :cache_public_action!, only: %i[index show]
 
   skip_before_action :authenticate_user!
 
   def index
     return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
+    return unless stale?(etag: user_signed_in? ? [@solution, @exercise] : @exercise)
 
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
@@ -26,6 +29,8 @@ class Tracks::CommunitySolutionsController < ApplicationController
       # Legacy solutions used uuids here
       @solution = Solution.published.find_by!(uuid: params[:id])
     end
+
+    return unless stale?(etag: user_signed_in? ? [@user_track, @solution] : @solution)
 
     @author = @solution.user
     @comments = @solution.comments

@@ -5,7 +5,9 @@ class User::UpdateFlair
 
   initialize_with :user
 
-  def call = user.update!(flair:)
+  def call
+    user.update!(flair:)
+  end
 
   private
   memoize

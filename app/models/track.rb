@@ -2,6 +2,8 @@ class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
   include Track::BuildStatus
+  include CachedFind
+  def self.cached_find_keys = %i[slug]
 
   friendly_id :slug, use: [:history]
 
@@ -40,6 +42,8 @@ class Track < ApplicationRecord
   delegate :debugging_instructions, :representer_normalizations, to: :git
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
+  after_save_commit { Rails.cache.delete(CACHE_KEY_NUM_ACTIVE) }
+
   def self.for!(param)
     return param if param.is_a?(Track)
     return find_by!(id: param) if param.is_a?(Numeric)
@@ -53,6 +57,12 @@ class Track < ApplicationRecord
   def self.slug_from_repo(repo)
     name = repo.split('/').last
     TRACK_HELPER_REPOS[name] || name.gsub(TRACK_REPO_PREFIXES, '').gsub(TRACK_REPO_SUFFIXES, '')
+  end
+
+  def self.num_active
+    Rails.cache.fetch(CACHE_KEY_NUM_ACTIVE, expires_in: 1.hour) do
+      Track.active.count
+    end
   end
 
   def to_param = slug
@@ -202,4 +212,6 @@ class Track < ApplicationRecord
     "dotnet-tests" => "csharp",
     "eslint-config-tooling" => "typescript"
   }.freeze
+
+  CACHE_KEY_NUM_ACTIVE = "track:num_active".freeze
 end

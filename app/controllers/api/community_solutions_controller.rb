@@ -9,7 +9,7 @@ class API::CommunitySolutionsController < API::BaseController
 
   private
   def use_exercise
-    @track = Track.find(params[:track_slug])
+    @track = Track.cached.find_by!(slug: params[:track_slug])
     @exercise = @track.exercises.find(params[:exercise_slug])
   end
 

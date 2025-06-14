@@ -1,7 +1,9 @@
 class User::Profile < ApplicationRecord
-  MIN_REPUTATION = 5
-
   extend Mandate::Memoize
+  include CachedFind
+  def self.cached_find_keys = %i[id user_id]
+
+  MIN_REPUTATION = 5
 
   belongs_to :user
 

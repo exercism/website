@@ -2,7 +2,7 @@ class API::Mentoring::RequestsController < API::BaseController
   def index
     begin
       if params[:track_slug].present?
-        track_id = Track.find(params[:track_slug]).id
+        track_id = Track.cached.find_by!(slug: params[:track_slug]).id
         current_user.track_mentorships.update_all("last_viewed = (track_id = #{track_id})")
       end
     rescue StandardError

@@ -18,6 +18,7 @@ gem 'aws-sdk-sesv2'
 gem 'anycable-rails', '~> 1.2.0'
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
+gem 'xxhash'
 
 # Serving requests
 gem 'puma', '~> 4.3'

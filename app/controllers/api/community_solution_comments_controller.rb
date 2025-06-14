@@ -60,7 +60,7 @@ class API::CommunitySolutionCommentsController < API::BaseController
 
   private
   def use_solution
-    @track = Track.find(params[:track_slug])
+    @track = Track.cached.find_by!(slug: params[:track_slug])
     @exercise = @track.exercises.find(params[:exercise_slug])
     user = User.find_by!(handle: params[:community_solution_handle])
     @solution = @exercise.solutions.find_by!(user_id: user.id)

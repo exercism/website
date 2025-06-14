@@ -1,4 +1,4 @@
-- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(:track)
+- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3)
 - if user_tracks.present?
   .flex.flex-row.border-b-2.border-backgroundColorNavDropdown.py-12.px-20
     .text-h5 Your recent tracks

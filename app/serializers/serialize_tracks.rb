@@ -29,7 +29,7 @@ class SerializeTracks
 
     query = UserTrack.
       where(user:).
-      includes(:user, track: [:concepts])
+      includes(track: [:concepts])
 
     # Once we hit ~20 tracks, it's quicker just to get them all.
     query = query.where(track: tracks) if tracks.size < 20

@@ -24,6 +24,6 @@ class AssembleCommunityVideos
 
   memoize
   def track
-    Track.find(params[:video_track_slug]) if params[:video_track_slug].present?
+    Track.cached.find_by!(slug: params[:video_track_slug]) if params[:video_track_slug].present?
   end
 end

@@ -20,7 +20,7 @@ class API::ExercisesController < API::BaseController
 
   private
   def use_track
-    @track = Track.find(params[:track_slug])
+    @track = Track.cached.find_by!(slug: params[:track_slug])
   end
 
   def use_exercise

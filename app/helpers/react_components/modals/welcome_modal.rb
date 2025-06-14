@@ -15,7 +15,7 @@ module ReactComponents
         super(
           "modals-welcome-modal",
           {
-            num_tracks: ::Track.active.count,
+            num_tracks: ::Track.num_active,
             links: {
               hide_modal_endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug),
               api_user_endpoint: Exercism::Routes.api_user_url,

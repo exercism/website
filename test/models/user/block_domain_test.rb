@@ -7,15 +7,16 @@ class User::BlockDomainTest < ActiveSupport::TestCase
     refute User::BlockDomain.blocked?(user:)
 
     create :user_block_domain, domain: 'invalid.org'
+
     assert User::BlockDomain.blocked?(user:)
   end
 
   test "blocked? with email" do
-    email = 'test@invalid.org'
+    email = 'test@bad.org'
 
     refute User::BlockDomain.blocked?(email:)
 
-    create :user_block_domain, domain: 'invalid.org'
+    create :user_block_domain, domain: 'bad.org'
     assert User::BlockDomain.blocked?(email:)
   end
 

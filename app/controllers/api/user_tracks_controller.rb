@@ -39,7 +39,7 @@ class API::UserTracksController < API::BaseController
 
   private
   def use_track
-    @track = Track.find(params[:slug])
+    @track = Track.cached.find_by!(slug: params[:slug])
     # TODO: Rescue and handle
     @user_track = UserTrack.for!(current_user, @track)
   end

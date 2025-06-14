@@ -1,13 +1,13 @@
 class API::Tracks::TrophiesController < API::BaseController
   def index
-    track = Track.find(params[:track_slug])
+    track = Track.cached.find_by!(slug: params[:track_slug])
 
     render json: { trophies: SerializeTrackTrophies.(track, current_user) }
   end
 
   def reveal
     begin
-      track = Track.find(params[:track_slug])
+      track = Track.cached.find_by!(slug: params[:track_slug])
     rescue StandardError
       return render_404(:track_not_found, fallback_url: tracks_url)
     end

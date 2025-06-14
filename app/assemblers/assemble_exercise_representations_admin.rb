@@ -31,6 +31,6 @@ class AssembleExerciseRepresentationsAdmin
     )
   end
 
-  def track = Track.find_by(slug: params[:track_slug])
+  def track = Track.cached.find_by(slug: params[:track_slug])
   def representer_version = track.representations.maximum(:representer_version) || 1
 end

@@ -78,7 +78,7 @@ class User::InsidersStatus::Update
 
   def update_to_ineligible
     user.update!(insiders_status: :ineligible)
-    user.preferences.update(theme: DEFAULT_THEME) if uses_insiders_only_theme?
+    user.preferences.update!(theme: DEFAULT_THEME) if uses_insiders_only_theme?
   end
 
   def uses_insiders_only_theme? = INSIDERS_ONLY_THEMES.include?(user.preferences.theme)

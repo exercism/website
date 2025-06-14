@@ -30,6 +30,6 @@ class AssembleTasks
 
   memoize
   def track_id
-    Track.find(params[:track_slug]).id if params[:track_slug].present?
+    Track.cached.find_by!(slug: params[:track_slug]).id if params[:track_slug].present?
   end
 end

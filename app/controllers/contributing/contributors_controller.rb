@@ -6,7 +6,7 @@ module Contributing
     def index
       response.set_header('Link', '<https://exercism.org/profiles>; rel="canonical"')
 
-      nil unless stale?(etag: Time.now.to_i / 300 * 300)
+      return unless stale?(etag: Time.now.to_i / 300 * 300) # rubocop:disable Style/RedundantReturn
 
       # TODO: (Required) Set these correctly
       # @featured_contributor = User.first

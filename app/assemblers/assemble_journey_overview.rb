@@ -28,7 +28,7 @@ class AssembleJourneyOverview
 
   private
   def learning_tracks_data
-    user.user_tracks.includes(:track).map do |user_track|
+    user.user_tracks.map do |user_track|
       track = user_track.track
 
       first_completion = user_track.exercise_completion_dates.min

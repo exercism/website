@@ -4,11 +4,10 @@ module CachedFind
   included do
     # These must be done like this with blocks rather than symbols
     # for reasons I really have no idea about. They're just not called otherwise.
-    after_update_commit { clear_cached_find_cache }
-    after_destroy_commit { clear_cached_find_cache }
+    after_update_commit { clear_cached_find_cache! }
+    after_destroy_commit { clear_cached_find_cache! }
 
-    private
-    def clear_cached_find_cache
+    def clear_cached_find_cache!
       Rails.cache.delete("#{self.class.name.underscore}:id:#{id}")
 
       self.class.cached_find_keys.each do |key|

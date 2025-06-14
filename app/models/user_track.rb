@@ -1,13 +1,14 @@
 class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
+  include CachedFind
   include CachedAssociations
 
   MIN_REP_TO_TRAIN_ML = 50
 
   serialize :summary_data, JSON
 
-  belongs_to :user
+  cached_belongs_to :user
 
   # TODO: (required): Ensure this counter_cache doesn't change updated_at
   # and probably move it to a bg job as it'll be slow
@@ -109,8 +110,7 @@ class UserTrack < ApplicationRecord
     status << :wip if maintainer?
 
     exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
-    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id))).
-      includes(:track)
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
   def course? = track.course? || (maintainer? && track.concept_exercises.exists?)

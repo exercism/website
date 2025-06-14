@@ -3,6 +3,7 @@ class Track < ApplicationRecord
   extend Mandate::Memoize
   include Track::BuildStatus
   include CachedFind
+  def self.cached_find_keys = %i[slug]
 
   friendly_id :slug, use: [:history]
 
@@ -211,6 +212,6 @@ class Track < ApplicationRecord
     "dotnet-tests" => "csharp",
     "eslint-config-tooling" => "typescript"
   }.freeze
-end
 
-CACHE_KEY_NUM_ACTIVE = "track:num_active".freeze
+  CACHE_KEY_NUM_ACTIVE = "track:num_active".freeze
+end

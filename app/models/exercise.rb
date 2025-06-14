@@ -1,6 +1,8 @@
 class Exercise < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include CachedFind
+  def self.cached_find_keys = %i[slug]
 
   friendly_id :slug, use: [:history]
 

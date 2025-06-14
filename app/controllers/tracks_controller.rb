@@ -2,7 +2,7 @@ class TracksController < ApplicationController
   before_action :use_track, except: :index
   skip_before_action :authenticate_user!, only: %i[index show about]
 
-  before_action :cache_public_action!, only: :index
+  before_action :cache_public_action!, only: %i[index show]
 
   def index
     etag = [Track.active.count]
@@ -25,14 +25,16 @@ class TracksController < ApplicationController
 
   def about
     return redirect_to action: :show if @user_track.external?
+    return unless stale?(etag: @track)
 
     setup_about
   end
 
   def show
     if @user_track.external?
-      setup_about
+      return unless stale?(etag: @track)
 
+      setup_about
       return render "tracks/about"
     end
 

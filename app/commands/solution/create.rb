@@ -8,8 +8,8 @@ class Solution::Create
 
     begin
       solution_class.create!(user:, exercise:).tap do |solution|
-        record_activity!(solution)
-        log_metric!(solution)
+        # record_activity!(solution)
+        # log_metric!(solution)
       end
     rescue ActiveRecord::RecordNotUnique
       solution_class.find_by!(

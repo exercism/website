@@ -3,6 +3,11 @@ class TracksController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show about]
 
   def index
+    etag = [Track.active.count]
+    etag << current_user.user_tracks.order(updated_at: :desc).pick(:updated_at) if current_user
+
+    return unless stale?(etag:)
+
     @tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],

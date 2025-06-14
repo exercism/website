@@ -1,5 +1,6 @@
 class InsidersController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :cache_public_action!, only: %i[show]
 
   def show
     return external unless current_user&.insider?
@@ -9,6 +10,8 @@ class InsidersController < ApplicationController
 
   def external
     User::InsidersStatus::TriggerUpdate.(current_user) if user_signed_in? && current_user.insiders_status_unset?
+
+    return unless stale?(etag: VIDEOS.last)
 
     @features = FEATURES
     @videos = VIDEOS

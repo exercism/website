@@ -11,7 +11,7 @@ class Tracks::ExercisesController < ApplicationController
   def index
     @num_completed = @user_track.num_completed_exercises
 
-    nil unless stale?(etag: user_signed_in? ? @user_track : @track)
+    return unless stale?(etag: user_signed_in? ? @user_track : @track) # rubocop:disable Style/RedundantReturn
   end
 
   # TODO: (Optional) There is lots of logic in this view
@@ -20,7 +20,7 @@ class Tracks::ExercisesController < ApplicationController
   def show
     @iteration = @solution.iterations.last if @solution
 
-    nil unless stale?(etag: @solution ? [@solution, @iteration] : @exercise)
+    return unless stale?(etag: @solution ? [@solution, @iteration] : @exercise) # rubocop:disable Style/RedundantReturn
   end
 
   def tooltip

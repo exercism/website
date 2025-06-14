@@ -11,7 +11,9 @@ module ReactComponents
           },
           disabled: !user.insider?,
           default_theme: user.preferences.theme
-        })
+        },
+        persistent: true
+        )
       end
     end
   end

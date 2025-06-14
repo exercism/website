@@ -4,7 +4,8 @@ module ReactComponents
       def to_s
         super(
           "dropdowns-notifications",
-          { endpoint: Exercism::Routes.api_notifications_url(for_header: true) }
+          { endpoint: Exercism::Routes.api_notifications_url(for_header: true) },
+          persistent: true
         )
       end
     end

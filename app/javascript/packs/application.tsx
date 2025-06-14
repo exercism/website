@@ -207,6 +207,32 @@ const PerksExternalModalButton = lazy(
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
 import { QueryClient } from '@tanstack/react-query'
+import { persistQueryClient } from '@tanstack/query-persist-client-core'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+
+if (typeof window !== 'undefined') {
+  const persister = createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'REACT_QUERY_OFFLINE_CACHE',
+  })
+
+  window.queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        // TODO: Fix type error here
+        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+        staleTime: 1000 * 60 * 5, // 5 minutes
+      },
+    },
+  })
+
+  persistQueryClient({
+    // TODO: Here too
+    queryClient: window.queryClient,
+    persister,
+  })
+}
+
 declare global {
   interface Window {
     Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
@@ -214,8 +240,6 @@ declare global {
   }
 }
 // use query client by pulling it out of the provider with useQueryClient hook
-// const queryClient = useQueryClient()
-window.queryClient = new QueryClient()
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components

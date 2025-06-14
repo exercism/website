@@ -1,0 +1,53 @@
+body {
+    background: white;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: rgb(10, 18, 21);
+    position: relative;
+    padding-top: 10vmin;
+    box-sizing: border-box;
+}
+#ball {
+    border-radius: 100%;
+    width: 4%;
+    height: 4%;
+    position: absolute;
+    left: 50%;
+    top: 94%;
+    transform: translateX(-50%) translateY(-50%);
+    background: white;
+}
+
+#paddle {
+    width: 20%;
+    background: white;
+    height: 3%;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 96%;
+    transform: translateX(-50%);
+}
+
+#blocks {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    margin: 0 10%;
+    gap: 1vmin;
+    .block {
+        border-radius: 0.5vmin;
+        height: 3vmin;
+        &:nth-child(-n + 6) {
+            background: red;
+        }
+        &:nth-child(n + 7):nth-child(-n + 12) {
+            background: blueviolet;
+        }
+        &:nth-child(n + 13):nth-child(-n + 18) {
+            background: hotpink;
+        }
+    }
+}

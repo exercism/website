@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :set_request_context
   before_action :set_user_id_cookie
   after_action :set_body_class_header
+  after_action :set_user_id_header
   after_action :set_csp_header
   after_action :set_link_header
   after_action :updated_last_visited_on!
@@ -128,6 +129,13 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_inbox_path
   end
 
+  def stale?(etag:)
+    super(
+      etag: Cache::GenerateEtag.(etag, current_user),
+      public: !user_signed_in?
+    )
+  end
+
   def set_request_context
     Exercism.request_context = { remote_ip: request.remote_ip }
   end
@@ -201,6 +209,14 @@ class ApplicationController < ActionController::Base
       ActiveRecord.verbose_query_logs = false
       Rails.logger.level = :info
     end
+  end
+
+  # This is used by cloudfront to ensure that we never send
+  # publically signed-out cached content to a signed-in user.
+  # If this cookie is set then they should only receive privately
+  # cached versions of pages.
+  def set_user_id_header
+    response.set_header("X-User-Id", current_user.id) if user_signed_in?
   end
 
   def set_csp_header

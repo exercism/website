@@ -30,6 +30,7 @@ module Website
     end
 
     config.middleware.use Rack::CrawlerDetect
+    config.middleware.insert_after ActionDispatch::Static, Rack::ContentLength
     config.middleware.insert_before 0, RestoreIfNoneMatchHeader
 
     # Allow SVGs to render from active storage

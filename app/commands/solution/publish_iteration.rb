@@ -10,7 +10,6 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
-    Solution::InvalidateCloudfrontItem.(solution) if invalidate
   end
 
   private

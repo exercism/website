@@ -227,26 +227,4 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
       track: other_track
     )
   end
-
-  test "invalidates image in cloudfront when user has profile" do
-    user = create :user
-    create(:user_profile, user:)
-    contributorship = create :exercise_contributorship, contributor: user
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).with(
-      :website,
-      ["/profiles/#{user.handle}.jpg"]
-    )
-
-    User::ReputationToken::Create.(user, :exercise_contribution, contributorship:)
-  end
-
-  test "don't invalidate image in cloudfront when user does not have profile" do
-    user = create :user
-    contributorship = create :exercise_contributorship, contributor: user
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).never
-
-    User::ReputationToken::Create.(user, :exercise_contribution, contributorship:)
-  end
 end

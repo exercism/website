@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   after_action :disable_cache_for_redirects
   after_action :set_body_class_header
   after_action :set_csp_header
+  after_action :set_vary_header
   after_action :set_link_header
   after_action :updated_last_visited_on!
 
@@ -247,6 +248,10 @@ class ApplicationController < ActionController::Base
 
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     response.headers["Pragma"] = "no-cache"
+  end
+
+  def set_vary_header
+    response.headers["Vary"] = [response.headers["Vary"], "Accept", "Host", "Turbo-Frame"].compact.uniq.join(", ")
   end
 
   def set_link_header

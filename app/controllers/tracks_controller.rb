@@ -2,7 +2,7 @@ class TracksController < ApplicationController
   before_action :use_track, except: :index
   skip_before_action :authenticate_user!, only: %i[index show about]
 
-  before_action :cache_public_action!, only: %i[index show]
+  before_action :cache_public_action!, only: %i[index show about]
 
   def index
     etag = [Track.active.count]

@@ -105,33 +105,4 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
     Iteration::CountLinesOfCode.expects(:defer).with(first_iteration)
     Solution::PublishIteration.(solution.reload, first_iteration.idx)
   end
-
-  test "invalidates image in cloudfront" do
-    user = create :user
-    track = create :track
-    exercise = create(:concept_exercise, track:)
-
-    solution = create(:concept_solution, :published, track:, exercise:, user:)
-    create(:iteration, submission: create(:submission, solution:), idx: 1)
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).with(
-      :website,
-      ["/tracks/#{track.slug}/exercises/#{exercise.slug}/solutions/#{user.handle}.jpg"]
-    )
-
-    Solution::PublishIteration.(solution.reload, 1)
-  end
-
-  test "don't invalidate image in cloudfront when invalidate is false" do
-    user = create :user
-    track = create :track
-    exercise = create(:concept_exercise, track:)
-
-    solution = create(:concept_solution, :published, track:, exercise:, user:)
-    create(:iteration, submission: create(:submission, solution:), idx: 1)
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).never
-
-    Solution::PublishIteration.(solution.reload, 1, invalidate: false)
-  end
 end

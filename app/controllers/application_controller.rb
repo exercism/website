@@ -138,6 +138,9 @@ class ApplicationController < ActionController::Base
     # Vary this so we don't get spikes of traffic when everything
     # expires at the same time.
     expires_in rand(300..1200), public: true
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
   end
 
   def stale?(etag:)
@@ -146,6 +149,9 @@ class ApplicationController < ActionController::Base
     super(
       etag: Cache::GenerateEtag.(etag, current_user),
     )
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
   end
 
   def set_request_context

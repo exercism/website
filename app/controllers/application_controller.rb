@@ -144,14 +144,18 @@ class ApplicationController < ActionController::Base
   end
 
   def stale?(etag:)
+    etag = Cache::GenerateEtag.(etag, current_user)
+
+    # Do this AFTER we've generated the etag to catch
+    # any errors that might occur in the etag generation.
+    # But we don't actually want to continue here.
     return true if Rails.env.test?
 
-    super(
-      etag: Cache::GenerateEtag.(etag, current_user),
-    )
+    super(etag:)
   rescue StandardError
     # Don't blow up if we get here and something hasn't worked
     # as we're exiting in the tests so don't have coverage.
+    true
   end
 
   def set_request_context

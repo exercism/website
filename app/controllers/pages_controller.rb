@@ -1,11 +1,15 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
 
+  before_action :cache_public_action!, only: %i[index]
+
   def index
     return redirect_to dashboard_path if user_signed_in?
 
-    @tracks = Track.active.order(num_students: :desc).limit(12).to_a
     @num_tracks = Track.active.count
+    return unless stale?(etag: @num_tracks)
+
+    @tracks = Track.active.order(num_students: :desc).limit(12).to_a
 
     @showcase_exercises = [
       {

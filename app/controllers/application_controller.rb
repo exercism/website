@@ -131,18 +131,31 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_public_action!
+    return if Rails.env.test?
     return if user_signed_in?
 
     # Cache for some seconds lasting between 5 and 20 minutes.
     # Vary this so we don't get spikes of traffic when everything
     # expires at the same time.
     expires_in rand(300..1200), public: true
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
   end
 
   def stale?(etag:)
-    super(
-      etag: Cache::GenerateEtag.(etag, current_user),
-    )
+    etag = Cache::GenerateEtag.(etag, current_user)
+
+    # Do this AFTER we've generated the etag to catch
+    # any errors that might occur in the etag generation.
+    # But we don't actually want to continue here.
+    return true if Rails.env.test?
+
+    super(etag:)
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
+    true
   end
 
   def set_request_context

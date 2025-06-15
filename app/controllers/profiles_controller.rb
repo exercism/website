@@ -1,5 +1,7 @@
 class ProfilesController < ApplicationController
   skip_before_action :authenticate_user!, except: %i[intro new create]
+  before_action :cache_public_action!, except: %i[intro new create]
+
   before_action :use_user, except: %i[index intro new create]
   before_action :use_profile, except: %i[index intro new create tooltip]
 
@@ -8,6 +10,8 @@ class ProfilesController < ApplicationController
   end
 
   def show
+    return unless stale?(etag: @profile)
+
     @solutions = Solution::SearchUserSolutions.(@user, status: :published, per: 3)
 
     # TODO: Order by most prominent first (what is the most prominent testimonial?)
@@ -16,6 +20,7 @@ class ProfilesController < ApplicationController
 
   def solutions
     redirect_to profile_path(@user) unless @profile.solutions_tab?
+    return unless stale?(etag: @profile)
 
     @solutions = Solution::SearchUserSolutions.(
       @user,
@@ -25,14 +30,18 @@ class ProfilesController < ApplicationController
 
   def contributions
     redirect_to profile_path(@user) unless @profile.contributions_tab?
+    nil unless stale?(etag: @profile)
   end
 
   # TODO: (Optional) Add tests for published scope
   def testimonials
     redirect_to profile_path(@user) unless @profile.testimonials_tab?
+    nil unless stale?(etag: @profile)
   end
 
   def badges
+    return unless stale?(etag: @profile)
+
     @badges = @user.revealed_badges.ordered_by_rarity
     @rarities = @badges.group(:rarity).count
   end

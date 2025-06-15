@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
   before_action :use_location!, only: %i[show start_enrolling enroll pay]
   before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
   before_action :use_quotes!, only: [:show]
+  before_action :cache_public_action!, only: %i[show]
 
   def course_redirect
     if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
@@ -17,6 +18,8 @@ class CoursesController < ApplicationController
   end
 
   def show
+    return unless stale?(etag: @course)
+
     render action: @course.template_slug
 
     difference_in_seconds = Time.utc(2025, 4, 26, 12, 0o0, 0o0) - Time.current

@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   before_action :set_user_id_cookie
+  after_action :disable_cache_for_redirects
   after_action :set_body_class_header
   after_action :set_user_id_header
   after_action :set_csp_header
@@ -231,6 +232,13 @@ class ApplicationController < ActionController::Base
     return unless Rails.env.production?
 
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
+  end
+
+  def disable_cache_for_redirects
+    return unless response.redirect?
+
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
   end
 
   def set_link_header

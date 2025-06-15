@@ -29,7 +29,7 @@ class DocsController < ApplicationController
   end
 
   def track_index
-    return unless stale?(etag: @track.documents.last.updated_at) # rubocop:disable Style/RedundantReturn
+    return unless stale?(etag: @track.documents.last&.updated_at) # rubocop:disable Style/RedundantReturn
   end
 
   def track_show

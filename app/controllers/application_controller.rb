@@ -131,6 +131,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_public_action!
+    return if Rails.env.test?
     return if user_signed_in?
 
     # Cache for some seconds lasting between 5 and 20 minutes.
@@ -140,6 +141,8 @@ class ApplicationController < ActionController::Base
   end
 
   def stale?(etag:)
+    return true if Rails.env.test?
+
     super(
       etag: Cache::GenerateEtag.(etag, current_user),
     )

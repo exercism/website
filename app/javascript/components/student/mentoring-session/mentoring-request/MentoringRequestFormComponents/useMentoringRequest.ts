@@ -18,8 +18,8 @@ export function useMentoringRequest(
     mutate: mutation,
     status,
     error,
-  } = useMutation<MentorSessionRequest>(
-    async () => {
+  } = useMutation<MentorSessionRequest>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.createMentorRequest,
         method: 'POST',
@@ -33,10 +33,8 @@ export function useMentoringRequest(
         typecheck<MentorSessionRequest>(json, 'mentorRequest')
       )
     },
-    {
-      onSuccess,
-    }
-  )
+    onSuccess,
+  })
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

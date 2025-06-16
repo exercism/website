@@ -23,7 +23,7 @@ const ConfirmButton = ({
       return (
         <button className="confirm-button btn-primary btn-l">Confirm</button>
       )
-    case 'loading':
+    case 'pending':
       return (
         <>
           <div className="confirm-button btn-primary btn-l w-[125px]">
@@ -54,8 +54,8 @@ export const PublishSolutionForm = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<ExerciseCompletion>(
-    async () => {
+  } = useMutation<ExerciseCompletion>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -67,10 +67,8 @@ export const PublishSolutionForm = ({
 
       return fetch
     },
-    {
-      onSuccess: onSuccess,
-    }
-  )
+    onSuccess: onSuccess,
+  })
 
   const handleSubmit = useCallback(
     (e) => {

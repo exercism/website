@@ -78,8 +78,8 @@ export default function WelcomeModal({
     mutate: hideModalMutation,
     status: hideModalMutationStatus,
     error: hideModalMutationError,
-  } = useMutation(
-    () => {
+  } = useMutation({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         // close modal endpoint
         endpoint: links.hideModalEndpoint,
@@ -89,25 +89,25 @@ export default function WelcomeModal({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
+    onSuccess: () => {
+      setOpen(false)
+    },
+  })
 
   const {
     mutate: setSeniorityMutation,
     status: setSeniorityMutationStatus,
     error: setSeniorityMutationError,
-  } = useMutation((seniority: SeniorityLevel) => {
-    const { fetch } = sendRequest({
-      endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
-      method: 'PATCH',
-      body: null,
-    })
+  } = useMutation({
+    mutationFn: (seniority: SeniorityLevel) => {
+      const { fetch } = sendRequest({
+        endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
+        method: 'PATCH',
+        body: null,
+      })
 
-    return fetch
+      return fetch
+    },
   })
 
   return (

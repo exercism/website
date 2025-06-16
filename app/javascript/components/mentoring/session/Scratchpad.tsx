@@ -38,8 +38,8 @@ export const Scratchpad = ({
     setContent(content)
   }, [])
 
-  const { mutate: mutation } = useMutation<ScratchpadPage>(
-    async () => {
+  const { mutate: mutation } = useMutation<ScratchpadPage>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',
@@ -52,15 +52,13 @@ export const Scratchpad = ({
         typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage')
       )
     },
-    {
-      onSuccess: (page) => setPage(page),
-      onError: (err) => {
-        if (err instanceof Response) {
-          err.json().then((res: any) => setError(res.error.message))
-        }
-      },
-    }
-  )
+    onSuccess: (page) => setPage(page),
+    onError: (err) => {
+      if (err instanceof Response) {
+        err.json().then((res: any) => setError(res.error.message))
+      }
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

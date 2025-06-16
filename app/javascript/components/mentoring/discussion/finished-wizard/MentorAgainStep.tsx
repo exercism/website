@@ -32,8 +32,8 @@ export const MentorAgainStep = ({
     mutate: mutate,
     status,
     error,
-  } = useMutation<FavoritableStudent>(
-    async () => {
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
       const { fetch } = sendRequest({
@@ -46,12 +46,10 @@ export const MentorAgainStep = ({
         typecheck<FavoritableStudent>(json, 'student')
       )
     },
-    {
-      onSuccess: (student) => {
-        choice === 'yes' ? onYes(student) : onNo(student)
-      },
-    }
-  )
+    onSuccess: (student) => {
+      choice === 'yes' ? onYes(student) : onNo(student)
+    },
+  })
 
   useEffect(() => {
     if (!choice) {
@@ -68,7 +66,7 @@ export const MentorAgainStep = ({
         <button
           className="btn-small"
           onClick={() => setChoice('yes')}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
           <GraphicalIcon icon="checkmark" />
           <span>Yes</span>
@@ -76,13 +74,13 @@ export const MentorAgainStep = ({
         <button
           className="btn-small"
           onClick={() => setChoice('no')}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
           <GraphicalIcon icon="cross" />
           <span>No</span>
         </button>
       </div>
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />

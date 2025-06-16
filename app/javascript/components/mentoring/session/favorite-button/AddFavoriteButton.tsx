@@ -32,8 +32,8 @@ const Component = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<FavoritableStudent>(
-    async () => {
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',
@@ -44,10 +44,8 @@ const Component = ({
         typecheck<FavoritableStudent>(json, 'student')
       )
     },
-    {
-      onSuccess: (student) => onSuccess(student),
-    }
-  )
+    onSuccess: (student) => onSuccess(student),
+  })
 
   /* TODO: (required) Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })

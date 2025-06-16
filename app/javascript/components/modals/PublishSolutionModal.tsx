@@ -25,8 +25,8 @@ export const PublishSolutionModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -37,12 +37,10 @@ export const PublishSolutionModal = ({
         typecheck<SolutionForStudent>(json, 'solution')
       )
     },
-    {
-      onSuccess: (solution) => {
-        redirectTo(solution.privateUrl)
-      },
-    }
-  )
+    onSuccess: (solution) => {
+      redirectTo(solution.privateUrl)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

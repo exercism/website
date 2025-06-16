@@ -26,8 +26,8 @@ export const ReputationMenu = ({
     ReputationToken,
     unknown,
     ReputationToken
-  >(
-    async (token) => {
+  >({
+    mutationFn: async (token) => {
       if (token.isSeen) {
         return Promise.resolve(token)
       }
@@ -42,23 +42,21 @@ export const ReputationMenu = ({
         typecheck<ReputationToken>(json, 'reputation')
       )
     },
-    {
-      onSuccess: (token) => {
-        const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
+    onSuccess: (token) => {
+      const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
 
-        if (!oldData) {
-          return
-        }
+      if (!oldData) {
+        return
+      }
 
-        queryClient.setQueryData(cacheKey, {
-          ...oldData,
-          results: oldData.results.map((oldToken) => {
-            return oldToken.uuid === token.uuid ? token : oldToken
-          }),
-        })
-      },
-    }
-  )
+      queryClient.setQueryData(cacheKey, {
+        ...oldData,
+        results: oldData.results.map((oldToken) => {
+          return oldToken.uuid === token.uuid ? token : oldToken
+        }),
+      })
+    },
+  })
 
   return (
     <ul {...listAttributes}>

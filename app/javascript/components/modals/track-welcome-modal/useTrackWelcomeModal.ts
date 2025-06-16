@@ -23,8 +23,8 @@ export function useTrackWelcomeModal(
     setShouldShowBootcampRecommendationView(false)
   }, [])
 
-  const { mutate: hideModal, error } = useMutation(
-    () => {
+  const { mutate: hideModal, error } = useMutation({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         endpoint: links.hideModal,
         method: 'PATCH',
@@ -33,31 +33,33 @@ export function useTrackWelcomeModal(
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
-
-  const { mutate: activateLearningMode } = useMutation(() => {
-    const { fetch } = sendRequest({
-      endpoint: links.activateLearningMode,
-      method: 'PATCH',
-      body: null,
-    })
-
-    return fetch
+    onSuccess: () => {
+      setOpen(false)
+    },
   })
 
-  const { mutate: activatePracticeMode } = useMutation(() => {
-    const { fetch } = sendRequest({
-      endpoint: links.activatePracticeMode,
-      method: 'PATCH',
-      body: null,
-    })
+  const { mutate: activateLearningMode } = useMutation({
+    mutationFn: () => {
+      const { fetch } = sendRequest({
+        endpoint: links.activateLearningMode,
+        method: 'PATCH',
+        body: null,
+      })
 
-    return fetch
+      return fetch
+    },
+  })
+
+  const { mutate: activatePracticeMode } = useMutation({
+    mutationFn: () => {
+      const { fetch } = sendRequest({
+        endpoint: links.activatePracticeMode,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
   })
 
   const [currentState, send] = useMachine(machine, {

@@ -32,8 +32,8 @@ export const useSubmissionsList = (
     Submission,
     unknown,
     CreateSubmissionParams
-  >(
-    async ({ files, testResults }) => {
+  >({
+    mutationFn: async ({ files, testResults }) => {
       const testResultsJson = testResults ? JSON.stringify(testResults) : null
       appendFaux()
       const { fetch } = sendRequest({
@@ -45,39 +45,37 @@ export const useSubmissionsList = (
         typecheck<Submission>(response, 'submission')
       )
     },
-    {
-      onSuccess: (submission) => {
-        setList([
-          ...list.filter((s) => s.uuid !== 'faux-submission'),
-          {
-            ...submission,
-            testRun: {
-              uuid: null,
-              submissionUuid: submission.uuid,
-              version: 0,
-              status: TestRunStatus.QUEUED,
-              tests: [],
-              message: '',
-              messageHtml: '',
-              output: '',
-              outputHtml: '',
-              highlightjsLanguage: '',
-              links: {
-                self: submission.links.testRun,
-              },
-              tasks: [],
+    onSuccess: (submission) => {
+      setList([
+        ...list.filter((s) => s.uuid !== 'faux-submission'),
+        {
+          ...submission,
+          testRun: {
+            uuid: null,
+            submissionUuid: submission.uuid,
+            version: 0,
+            status: TestRunStatus.QUEUED,
+            tests: [],
+            message: '',
+            messageHtml: '',
+            output: '',
+            outputHtml: '',
+            highlightjsLanguage: '',
+            links: {
+              self: submission.links.testRun,
             },
+            tasks: [],
           },
-        ])
-      },
+        },
+      ])
+    },
 
-      onError: () => {
-        setList((prevList) => {
-          return prevList.filter((s) => s.uuid !== 'faux-submission')
-        })
-      },
-    }
-  )
+    onError: () => {
+      setList((prevList) => {
+        return prevList.filter((s) => s.uuid !== 'faux-submission')
+      })
+    },
+  })
 
   const set = useCallback(
     (uuid: string, data: Submission) => {

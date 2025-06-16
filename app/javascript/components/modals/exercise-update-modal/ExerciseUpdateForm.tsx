@@ -31,8 +31,8 @@ export const ExerciseUpdateForm = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: diff.links.update,
         method: 'PATCH',
@@ -43,12 +43,10 @@ export const ExerciseUpdateForm = ({
         typecheck<SolutionForStudent>(json, 'solution')
       )
     },
-    {
-      onSuccess: (solution) => {
-        redirectTo(solution.privateUrl)
-      },
-    }
-  )
+    onSuccess: (solution) => {
+      redirectTo(solution.privateUrl)
+    },
+  })
 
   return (
     <>

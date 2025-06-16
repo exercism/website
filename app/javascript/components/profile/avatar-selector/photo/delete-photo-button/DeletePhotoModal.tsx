@@ -22,8 +22,8 @@ export const DeletePhotoModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
@@ -32,12 +32,10 @@ export const DeletePhotoModal = ({
 
       return fetch.then((json) => typecheck<User>(json, 'user'))
     },
-    {
-      onSuccess: (user) => {
-        onSuccess(user)
-      },
-    }
-  )
+    onSuccess: (user) => {
+      onSuccess(user)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -50,7 +48,7 @@ export const DeletePhotoModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

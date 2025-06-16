@@ -18,8 +18,8 @@ export default function WelcomeToInsidersModal({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -28,12 +28,10 @@ export default function WelcomeToInsidersModal({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
+    onSuccess: () => {
+      setOpen(false)
+    },
+  })
 
   const handleClick = useCallback(() => {
     mutation()

@@ -25,8 +25,8 @@ export const ActivateLearningModeModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<UserTrack | undefined>(
-    async () => {
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -40,16 +40,14 @@ export const ActivateLearningModeModal = ({
         return typecheck<UserTrack>(json, 'userTrack')
       })
     },
-    {
-      onSuccess: (track) => {
-        if (!track) {
-          return
-        }
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
 
-        redirectTo(track.links.self)
-      },
-    }
-  )
+      redirectTo(track.links.self)
+    },
+  })
 
   return (
     <Modal className="m-activate-learning-mode" onClose={onClose} {...props}>

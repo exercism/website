@@ -28,8 +28,8 @@ export const FavoriteStep = ({
     mutate: handleFavorite,
     status,
     error,
-  } = useMutation<FavoritableStudent>(
-    async () => {
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: student.links.favorite,
         method: 'POST',
@@ -40,16 +40,14 @@ export const FavoriteStep = ({
         typecheck<FavoritableStudent>(json, 'student')
       )
     },
-    {
-      onSuccess: (student) => {
-        if (!onFavorite) {
-          return
-        }
+    onSuccess: (student) => {
+      if (!onFavorite) {
+        return
+      }
 
-        onFavorite(student)
-      },
-    }
-  )
+      onFavorite(student)
+    },
+  })
 
   return (
     <div>
@@ -59,7 +57,7 @@ export const FavoriteStep = ({
           className="btn-small"
           type="button"
           onClick={() => handleFavorite()}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
           <GraphicalIcon icon="plus" />
           Add to favorites
@@ -68,12 +66,12 @@ export const FavoriteStep = ({
           className="btn-small"
           type="button"
           onClick={() => onSkip()}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
           Skip
         </button>
       </div>
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />

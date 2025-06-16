@@ -68,8 +68,8 @@ export function useChatGptFeedback({
     mutate: mutation,
     status: mutationStatus,
     error: mutationError,
-  } = useMutation<void>(
-    async () => {
+  } = useMutation<void>({
+    mutationFn: async () => {
       if (!submission) return
       const { fetch } = sendRequest({
         endpoint: submission?.links.aiHelp,
@@ -79,8 +79,8 @@ export function useChatGptFeedback({
 
       return fetch.then(() => setStatus('fetching'))
     },
-    { onError }
-  )
+    onError,
+  })
 
   useEffect(() => {
     if (!submission) return

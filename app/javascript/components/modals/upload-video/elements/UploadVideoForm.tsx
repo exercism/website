@@ -47,12 +47,10 @@ export function UploadVideoForm({
     return fetch
   }
 
-  const { mutate: uploadVideo, error } = useMutation(
-    async (body: string) => UploadVideo(body),
-    {
-      onSuccess,
-    }
-  )
+  const { mutate: uploadVideo, error } = useMutation({
+    mutationFn: async (body: string) => UploadVideo(body),
+    onSuccess,
+  })
 
   const handleSubmitVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

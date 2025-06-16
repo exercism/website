@@ -32,8 +32,8 @@ export const UnrevealedTestimonial = ({
     mutate: reveal,
     status,
     error,
-  } = useMutation<Testimonial>(
-    async () => {
+  } = useMutation<Testimonial>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.reveal,
         method: 'PATCH',
@@ -42,17 +42,15 @@ export const UnrevealedTestimonial = ({
 
       return fetch.then((json) => typecheck<Testimonial>(json, 'testimonial'))
     },
-    {
-      onSuccess: (testimonial) => {
-        if (!isMountedRef.current) {
-          return
-        }
+    onSuccess: (testimonial) => {
+      if (!isMountedRef.current) {
+        return
+      }
 
-        setRevealedTestimonial(testimonial)
-        setOpen(true)
-      },
-    }
-  )
+      setRevealedTestimonial(testimonial)
+      setOpen(true)
+    },
+  })
   const updateCache = useCallback(() => {
     const oldData = queryClient.getQueryData<PaginatedResult>(cacheKey)
 

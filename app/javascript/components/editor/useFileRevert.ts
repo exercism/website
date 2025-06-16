@@ -9,36 +9,40 @@ export const useFileRevert = () => {
     File[],
     unknown,
     Submission
-  >(async (submission) => {
-    if (!submission) {
-      throw 'Submission expected'
-    }
+  >({
+    mutationFn: async (submission) => {
+      if (!submission) {
+        throw 'Submission expected'
+      }
 
-    const { fetch } = sendRequest({
-      endpoint: submission.links.lastIterationFiles,
-      body: null,
-      method: 'GET',
-    })
+      const { fetch } = sendRequest({
+        endpoint: submission.links.lastIterationFiles,
+        body: null,
+        method: 'GET',
+      })
 
-    return fetch.then((json) => typecheck<File[]>(json, 'files'))
+      return fetch.then((json) => typecheck<File[]>(json, 'files'))
+    },
   })
 
   const { mutate: revertToExerciseStart } = useMutation<
     File[],
     unknown,
     Submission
-  >(async (submission) => {
-    if (!submission) {
-      throw 'Submission expected'
-    }
+  >({
+    mutationFn: async (submission) => {
+      if (!submission) {
+        throw 'Submission expected'
+      }
 
-    const { fetch } = sendRequest({
-      endpoint: submission.links.initialFiles,
-      body: null,
-      method: 'GET',
-    })
+      const { fetch } = sendRequest({
+        endpoint: submission.links.initialFiles,
+        body: null,
+        method: 'GET',
+      })
 
-    return fetch.then((json) => typecheck<File[]>(json, 'files'))
+      return fetch.then((json) => typecheck<File[]>(json, 'files'))
+    },
   })
 
   return { revertToExerciseStart, revertToLastIteration }

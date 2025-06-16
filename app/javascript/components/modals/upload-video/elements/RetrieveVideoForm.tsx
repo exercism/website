@@ -26,13 +26,11 @@ export function RetrieveVideoForm({
 
   const [retrievalError, setRetrievalError] = useState(false)
 
-  const { mutate: verifyVideo } = useMutation(
-    async (url: any) => VerifyVideo(url),
-    {
-      onSuccess: (data: VideoDataResponse) => onSuccess(data),
-      onError: () => setRetrievalError(true),
-    }
-  )
+  const { mutate: verifyVideo } = useMutation({
+    mutationFn: async (url: any) => VerifyVideo(url),
+    onSuccess: (data: VideoDataResponse) => onSuccess(data),
+    onError: () => setRetrievalError(true),
+  })
 
   const handleRetrieveVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

@@ -23,8 +23,8 @@ export const MarkAllAsSeenModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResult>(
-    async () => {
+  } = useMutation<APIResult>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -33,13 +33,11 @@ export const MarkAllAsSeenModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (result) => {
-        onSuccess(result)
-        onClose()
-      },
-    }
-  )
+    onSuccess: (result) => {
+      onSuccess(result)
+      onClose()
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -51,7 +49,7 @@ export const MarkAllAsSeenModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

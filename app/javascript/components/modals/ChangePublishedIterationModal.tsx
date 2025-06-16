@@ -32,8 +32,8 @@ export const ChangePublishedIterationModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -44,16 +44,14 @@ export const ChangePublishedIterationModal = ({
         typecheck<SolutionForStudent>(response, 'solution')
       )
     },
-    {
-      onSuccess: (solution) => {
-        if (redirectType == 'public') {
-          redirectTo(solution.publicUrl)
-        } else {
-          redirectTo(solution.privateUrl)
-        }
-      },
-    }
-  )
+    onSuccess: (solution) => {
+      if (redirectType == 'public') {
+        redirectTo(solution.publicUrl)
+      } else {
+        redirectTo(solution.privateUrl)
+      }
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

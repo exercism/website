@@ -25,8 +25,8 @@ export const AddTestimonialStep = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -38,12 +38,10 @@ export const AddTestimonialStep = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        value.length === 0 ? onSkip() : onSubmit()
-      },
-    }
-  )
+    onSuccess: () => {
+      value.length === 0 ? onSkip() : onSubmit()
+    },
+  })
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()

@@ -70,8 +70,8 @@ export default function Status({
     setStripeModalOpen(true)
   }, [])
 
-  const { mutate: mutation } = useMutation<Response>(
-    async () => {
+  const { mutate: mutation } = useMutation<Response>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: insidersStatusRequest,
         method: 'GET',
@@ -80,13 +80,11 @@ export default function Status({
 
       return fetch.then((json) => typecheck<Response>(json, 'user'))
     },
-    {
-      onSuccess: (elem) => setInsidersStatus(elem.insidersStatus),
-    }
-  )
+    onSuccess: (elem) => setInsidersStatus(elem.insidersStatus),
+  })
 
-  const { mutate: activateInsider } = useMutation(
-    async () => {
+  const { mutate: activateInsider } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: activateInsiderLink,
         method: 'PATCH',
@@ -95,10 +93,8 @@ export default function Status({
 
       return fetch
     },
-    {
-      onSuccess: (res) => redirectTo(res.links.redirectUrl),
-    }
-  )
+    onSuccess: (res) => redirectTo(res.links.redirectUrl),
+  })
 
   useEffect(() => {
     if (insidersStatus === 'unset') {

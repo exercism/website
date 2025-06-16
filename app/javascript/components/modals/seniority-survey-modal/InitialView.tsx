@@ -43,8 +43,8 @@ export function InitialView() {
     mutate: setSeniorityMutation,
     status: setSeniorityMutationStatus,
     error: setSeniorityMutationError,
-  } = useMutation(
-    (seniority: SeniorityLevel) => {
+  } = useMutation({
+    mutationFn: (seniority: SeniorityLevel) => {
       const { fetch } = sendRequest({
         endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
         method: 'PATCH',
@@ -53,17 +53,15 @@ export function InitialView() {
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        if (selected.includes('beginner')) {
-          setCurrentView('bootcamp-advertisment')
-          return
-        }
+    onSuccess: () => {
+      if (selected.includes('beginner')) {
+        setCurrentView('bootcamp-advertisment')
+        return
+      }
 
-        patchCloseModal.mutate()
-      },
-    }
-  )
+      patchCloseModal.mutate()
+    },
+  })
 
   const handleSaveSeniorityLevel = useCallback(() => {
     if (selected === '') return

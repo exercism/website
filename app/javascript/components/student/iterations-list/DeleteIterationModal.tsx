@@ -22,8 +22,8 @@ export const DeleteIterationModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: iteration.links.delete,
         method: 'DELETE',
@@ -32,8 +32,8 @@ export const DeleteIterationModal = ({
 
       return fetch.then((json) => typecheck<Iteration>(json, 'iteration'))
     },
-    { onSuccess }
-  )
+    onSuccess,
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -45,7 +45,7 @@ export const DeleteIterationModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

@@ -23,8 +23,8 @@ export const UnrevealedBadge = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<BadgeProps>(
-    async () => {
+  } = useMutation<BadgeProps>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: badge.links.reveal,
         method: 'PATCH',
@@ -33,13 +33,11 @@ export const UnrevealedBadge = ({
 
       return fetch.then((json) => typecheck<BadgeProps>(json, 'badge'))
     },
-    {
-      onSuccess: (badge) => {
-        setRevealedBadge(badge)
-        setIsModalOpen(true)
-      },
-    }
-  )
+    onSuccess: (badge) => {
+      setRevealedBadge(badge)
+      setIsModalOpen(true)
+    },
+  })
 
   const updateCache = useCallback(() => {
     const oldData =

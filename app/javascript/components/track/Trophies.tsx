@@ -181,8 +181,8 @@ const UnrevealedTrophy = ({
   updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
   const [showError, setShowError] = useState(false)
-  const { mutate: mutation } = useMutation(
-    async () => {
+  const { mutate: mutation } = useMutation({
+    mutationFn: async () => {
       if (!trophy.links.reveal) {
         throw new Error('Reveal link is not available')
       }
@@ -194,17 +194,15 @@ const UnrevealedTrophy = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        trophy.status = 'revealed'
-        updateTrophy(trophy)
-        setHighlightedTrophy(trophy)
-        setModalOpen(true)
-        setShowError(false)
-      },
-      onError: () => setShowError(true),
-    }
-  )
+    onSuccess: () => {
+      trophy.status = 'revealed'
+      updateTrophy(trophy)
+      setHighlightedTrophy(trophy)
+      setModalOpen(true)
+      setShowError(false)
+    },
+    onError: () => setShowError(true),
+  })
 
   return (
     <button className="trophy revealable" onClick={() => mutation()}>

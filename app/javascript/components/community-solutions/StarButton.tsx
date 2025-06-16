@@ -36,8 +36,8 @@ export default function StarButton({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.star,
         method: state.isStarred ? 'DELETE' : 'POST',
@@ -46,12 +46,10 @@ export default function StarButton({
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'star'))
     },
-    {
-      onSuccess: (response) => {
-        setState(response)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      setState(response)
+    },
+  })
 
   if (!userSignedIn) {
     return (

@@ -34,8 +34,8 @@ export const EmptyIterations = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<Solution>(
-    async () => {
+  } = useMutation<Solution>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.startExercise,
         method: 'PATCH',
@@ -44,16 +44,14 @@ export const EmptyIterations = ({
 
       return fetch
     },
-    {
-      onSuccess: (solution) => {
-        if (!isMountedRef.current) {
-          return
-        }
+    onSuccess: (solution) => {
+      if (!isMountedRef.current) {
+        return
+      }
 
-        redirectTo(solution.links.exercise)
-      },
-    }
-  )
+      redirectTo(solution.links.exercise)
+    },
+  })
 
   return (
     <div className="lg-container container">

@@ -31,8 +31,8 @@ export const ResetTrackModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<UserTrack | undefined>(
-    async () => {
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -47,16 +47,14 @@ export const ResetTrackModal = ({
         return typecheck<UserTrack>(json, 'userTrack')
       })
     },
-    {
-      onSuccess: (track) => {
-        if (!track) {
-          return
-        }
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
 
-        redirectTo(track.links.self)
-      },
-    }
-  )
+      redirectTo(track.links.self)
+    },
+  })
 
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 

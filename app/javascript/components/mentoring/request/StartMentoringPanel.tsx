@@ -29,8 +29,8 @@ export const StartMentoringPanel = ({
     mutate: lock,
     status,
     error,
-  } = useMutation<Request>(
-    async () => {
+  } = useMutation<Request>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.lock,
         body: null,
@@ -39,10 +39,8 @@ export const StartMentoringPanel = ({
 
       return fetch.then((json) => typecheck<Request>(json, 'request'))
     },
-    {
-      onSuccess: (request) => onLock(request),
-    }
-  )
+    onSuccess: (request) => onLock(request),
+  })
 
   return (
     <section className="comment-section --lock">
@@ -56,7 +54,7 @@ export const StartMentoringPanel = ({
       <button
         type="button"
         onClick={() => lock()}
-        disabled={status === 'loading'}
+        disabled={status === 'pending'}
         className="btn-primary btn-m"
       >
         Start mentoring
@@ -65,7 +63,7 @@ export const StartMentoringPanel = ({
         You have 30 minutes until the session returns to the queue for others to
         mentor.
       </div>
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
         <ErrorMessage error={error} />
       </ErrorBoundary>

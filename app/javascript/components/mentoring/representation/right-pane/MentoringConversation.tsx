@@ -44,26 +44,28 @@ export default function MentoringConversation({
     }
   }, [])
 
-  const { mutate: generateHTML } = useMutation(async (markdown: string) => {
-    const { fetch } = sendRequest<{ html: string }>({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // querySelector may return undefined, but not in this case.
-      endpoint: document.querySelector<HTMLMetaElement>(
-        'meta[name="parse-markdown-url"]'
-      )?.content,
-      method: 'POST',
-      body: JSON.stringify({
-        parse_options: {
-          strip_h1: false,
-          lower_heading_levels_by: 2,
-        },
-        markdown,
-      }),
-    })
-    return fetch.then((res) => {
-      setHtml(`<div class="c-textual-content --small">${res.html}</div>`)
-    })
+  const { mutate: generateHTML } = useMutation({
+    mutationFn: async (markdown: string) => {
+      const { fetch } = sendRequest<{ html: string }>({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // querySelector may return undefined, but not in this case.
+        endpoint: document.querySelector<HTMLMetaElement>(
+          'meta[name="parse-markdown-url"]'
+        )?.content,
+        method: 'POST',
+        body: JSON.stringify({
+          parse_options: {
+            strip_h1: false,
+            lower_heading_levels_by: 2,
+          },
+          markdown,
+        }),
+      })
+      return fetch.then((res) => {
+        setHtml(`<div class="c-textual-content --small">${res.html}</div>`)
+      })
+    },
   })
 
   const handlePreviewClick = useCallback(() => {

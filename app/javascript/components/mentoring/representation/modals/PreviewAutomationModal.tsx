@@ -45,7 +45,8 @@ export function PreviewAutomationModal({
     return fetch
   }
 
-  const { mutate: submitFeedback } = useMutation(SubmitFeedback, {
+  const { mutate: submitFeedback } = useMutation({
+    mutationFn: SubmitFeedback,
     onSuccess: onSuccessfulSubmit,
   })
 

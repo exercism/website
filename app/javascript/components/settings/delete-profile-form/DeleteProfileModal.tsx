@@ -19,8 +19,8 @@ export const DeleteProfileModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
@@ -29,10 +29,8 @@ export const DeleteProfileModal = ({
 
       return fetch
     },
-    {
-      onSuccess: () => redirectTo(''),
-    }
-  )
+    onSuccess: () => redirectTo(''),
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -44,7 +42,7 @@ export const DeleteProfileModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

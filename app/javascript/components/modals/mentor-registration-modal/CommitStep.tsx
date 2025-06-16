@@ -31,8 +31,8 @@ export const CommitStep = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.registration,
         method: 'POST',
@@ -44,12 +44,10 @@ export const CommitStep = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        onContinue()
-      },
-    }
-  )
+    onSuccess: () => {
+      onContinue()
+    },
+  })
 
   const [numChecked, setNumChecked] = useState(0)
   const handleChange = useCallback(

@@ -41,8 +41,8 @@ export default function NewProfileForm({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
@@ -51,12 +51,10 @@ export default function NewProfileForm({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.profile)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.profile)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

@@ -36,8 +36,8 @@ export default function ({
     mutate: hideIntroducer,
     status,
     error,
-  } = useMutation(
-    () => {
+  } = useMutation({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         endpoint: links.hideIntroducer,
         method: 'PATCH',
@@ -46,12 +46,10 @@ export default function ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setIsModalOpen(false)
-      },
-    }
-  )
+    onSuccess: () => {
+      setIsModalOpen(false)
+    },
+  })
 
   const handleContinueWithoutDonating = useCallback(() => {
     hideIntroducer()

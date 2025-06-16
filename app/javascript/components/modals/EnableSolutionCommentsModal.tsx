@@ -20,8 +20,8 @@ export const EnableSolutionCommentsModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,13 +30,11 @@ export const EnableSolutionCommentsModal = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        props.onClose()
-        onSuccess()
-      },
-    }
-  )
+    onSuccess: () => {
+      props.onClose()
+      onSuccess()
+    },
+  })
 
   return (
     <Modal {...props} className="m-generic-confirmation">

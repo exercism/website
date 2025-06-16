@@ -30,8 +30,8 @@ export const CropFinishedStep = ({
     mutate: submit,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       if (!state.croppedImage) {
         throw new Error('Cropped image was expected')
       }
@@ -48,17 +48,15 @@ export const CropFinishedStep = ({
           return typecheck<User>(json, 'user')
         })
     },
-    {
-      onSuccess: (user) => {
-        dispatch({
-          type: 'avatar.uploaded',
-          payload: { avatarUrl: user.avatarUrl },
-        })
+    onSuccess: (user) => {
+      dispatch({
+        type: 'avatar.uploaded',
+        payload: { avatarUrl: user.avatarUrl },
+      })
 
-        onUpload(user)
-      },
-    }
-  )
+      onUpload(user)
+    },
+  })
 
   const handleRedo = useCallback(() => {
     dispatch({ type: 'crop.redo' })
@@ -71,8 +69,10 @@ export const CropFinishedStep = ({
   return (
     <>
       <h3>Happy with the result?</h3>
-      <ResultsZone isFetching={status === 'loading'}>
+      <ResultsZone isFetching={status === 'pending'}>
         <img
+          // @ts-expect-error URL.createObjectURL expect File or Blob meanwhile croppedImage can be null
+          // TODO: fix this
           src={URL.createObjectURL(state.croppedImage)}
           className="cropped-image"
         />

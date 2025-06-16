@@ -72,7 +72,11 @@ test('shows results overlay when loading data', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -97,7 +101,11 @@ test('shows results overlay when marking notifications as read', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -140,7 +148,11 @@ test('disables mark as read button when fetching list', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -183,7 +195,11 @@ test('disables checkboxes when fetching list', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -210,7 +226,11 @@ test('disables mark as read button when processing', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -242,7 +262,11 @@ test('disables checkboxes when processing', async () => {
   render(
     <NotificationsList
       request={{ endpoint: 'https://exercism.test/notifications', options: {} }}
-      links={{ markAsRead: 'https://exercism.test/notifications/mark_as_read' }}
+      links={{
+        markAsRead: 'https://exercism.test/notifications/mark_as_read',
+        markAllAsRead: '',
+        markAsUnread: '',
+      }}
     />
   )
 
@@ -282,6 +306,8 @@ test('shows API error when marking notifications as read', async () => {
         }}
         links={{
           markAsRead: 'https://exercism.test/notifications/mark_as_read',
+          markAllAsRead: '',
+          markAsUnread: '',
         }}
       />
     )
@@ -307,7 +333,11 @@ test('shows generic error when marking notifications as read', async () => {
           endpoint: 'https://exercism.test/notifications',
           options: {},
         }}
-        links={{ markAsRead: 'weirdendpoint' }}
+        links={{
+          markAsRead: 'weirdendpoint',
+          markAllAsRead: '',
+          markAsUnread: '',
+        }}
       />
     )
 

@@ -24,7 +24,7 @@ export const DiscussionList = ({
 }): JSX.Element => {
   return (
     <div>
-      {status === 'loading' && <Loading />}
+      {status === 'pending' && <Loading />}
       {status === 'error' && (
         <>
           <p>Something went wrong</p>

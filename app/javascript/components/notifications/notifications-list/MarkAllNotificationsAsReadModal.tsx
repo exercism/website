@@ -19,7 +19,7 @@ export const MarkAllNotificationsAsReadModal = ({
   onSubmit: () => void
 }): JSX.Element => {
   const handleClose = useCallback(() => {
-    if (mutation.status === 'loading') {
+    if (mutation.status === 'pending') {
       return
     }
 

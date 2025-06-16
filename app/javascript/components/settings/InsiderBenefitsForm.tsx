@@ -33,16 +33,18 @@ export default function InsiderBenefitsForm({
     mutate: mutation,
     status,
     error,
-  } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: links.update,
-      method: 'PATCH',
-      body: JSON.stringify({
-        user_preferences: { hide_website_adverts: hideAdverts },
-      }),
-    })
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: links.update,
+        method: 'PATCH',
+        body: JSON.stringify({
+          user_preferences: { hide_website_adverts: hideAdverts },
+        }),
+      })
 
-    return fetch
+      return fetch
+    },
   })
 
   const handleSubmit = useCallback(

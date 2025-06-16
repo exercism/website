@@ -14,12 +14,10 @@ export const ReportStep = ({
   discussion,
   onSubmit,
   onBack,
-  send,
 }: {
   onSubmit: (report: MentorReport) => void
   onBack: () => void
   discussion: MentorDiscussion
-  send: (step: string) => void
 }): JSX.Element => {
   const [state, setState] = useState<MentorReport>({
     requeue: true,

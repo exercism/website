@@ -77,7 +77,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>
@@ -110,6 +110,7 @@ export default function Reputation({
   } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
+    // @ts-ignore
     options: {},
   })
 

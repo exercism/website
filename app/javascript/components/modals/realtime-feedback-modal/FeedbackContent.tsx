@@ -39,6 +39,7 @@ export function FeedbackContent({
 
   switch (checkStatus) {
     case 'loading':
+    case 'pending':
       return (
         <CheckingForAutomatedFeedback
           onClick={onContinue}

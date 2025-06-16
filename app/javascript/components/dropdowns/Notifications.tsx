@@ -68,7 +68,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>

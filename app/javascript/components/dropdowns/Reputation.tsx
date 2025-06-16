@@ -110,8 +110,9 @@ export default function Reputation({
   } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
-    // @ts-ignore
-    options: {},
+    options: {
+      staleTime: 1000 * 60 * 5,
+    },
   })
 
   const {

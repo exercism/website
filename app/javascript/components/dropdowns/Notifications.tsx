@@ -94,7 +94,9 @@ export default function Notifications({
   } = usePaginatedRequestQuery<APIResponse, unknown>([CACHE_KEY], {
     endpoint: endpoint,
     query: { per_page: MAX_NOTIFICATIONS },
-    options: {},
+    options: {
+      staleTime: 1000 * 60 * 5,
+    },
   })
   const {
     buttonAttributes,

@@ -35,7 +35,12 @@ export default ({
     setQuery,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria)
-  const CACHE_KEY = ['track-list', request.endpoint, request.query]
+  const CACHE_KEY = [
+    'track-list',
+    request.endpoint,
+    request.query,
+    request.options.initialData,
+  ]
   const {
     data: resolvedData,
     isError,

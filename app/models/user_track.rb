@@ -49,10 +49,12 @@ class UserTrack < ApplicationRecord
   # of the request cycle.
   def self.for!(user_param, track_param)
     Current.user_track_for(user_param, track_param) do
-      UserTrack.find_by!(
-        user: User.for!(user_param),
-        track: Track.for!(track_param)
-      )
+      user_id = User.for!(user_param).id
+      track_id = Track.for!(track_param).id
+
+      # Rails.cache.fetch("mc:user_track:user_track:#{user_id, track_id}", expires_after: 1.hour) do
+      UserTrack.find_by!(user_id:, track: track_id)
+      # end
     end
   end
 

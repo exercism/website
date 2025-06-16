@@ -9,6 +9,13 @@ export const scriptPrelude = `window.onerror = function(message, source, lineno,
   }, '*');
 };
 
+window.fetchObject = function (url, options, onFulfil, onReject) {
+  fetch(url, options)
+    .then(r => r.json())
+    .then((json) => onFulfil(json))
+    .catch(onReject)
+}
+
 window.log = function (...args) {
   function sanitize(value) {
     if (value instanceof HTMLCollection || value instanceof NodeList) {

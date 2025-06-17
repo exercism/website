@@ -21,7 +21,7 @@ segment.classList.add("segment")
 const snake = document.querySelector("#snake")
 
 // Add the newly created segment to the snake
-snake.appendChild(segmentnewDiv)
+snake.appendChild(segment)
 ```
 
 ## Instructions

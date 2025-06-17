@@ -3,5 +3,7 @@
   "description": "Add some rules to the paddle interactions.",
   "level": 16,
   "idx": 4,
-  "language": "frontend"
+  "language": "frontend",
+  "blocks_level_progression": false,
+  "blocks_project_progression": false
 }

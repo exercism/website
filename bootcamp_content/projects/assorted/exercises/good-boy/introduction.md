@@ -2,7 +2,7 @@
 
 In this exercise, we're going to create a little game where you can select the best dog from a selection of photos!
 
-It'll be your first time using an API for real and also the first time you're making this sort of interactive game, so break it down into small pieces and work at each one at a time.
+This isn't a hard exercise, but it does have lots of moving parts, so break it down into small pieces and work at each one at a time.
 
 ## Instructions
 

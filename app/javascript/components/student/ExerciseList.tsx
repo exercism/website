@@ -181,8 +181,6 @@ export default ({
                     key={result.exercise.slug}
                     exercise={result.exercise}
                     solution={result.solution}
-                    renderBlurb={false}
-                    isSkinny={false}
                   />
                 )
               })}

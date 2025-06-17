@@ -48,7 +48,7 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     queryKey: key,
     queryFn: handleFetch(request),
     refetchOnWindowFocus: false,
-    refetchOnMount: true,
+    refetchOnMount: false,
     placeholderData: keepPreviousData,
     ...camelizeKeys(request.options),
   })

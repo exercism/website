@@ -23,6 +23,5 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
   const query = encodeURIComponent(document.querySelector('#query').value)
   const url = `https://images-api.nasa.gov/search?q=${query}&media_type=image`
-  log(url)
   fetchObject(url, {}, handleResult)
 })

@@ -62,5 +62,9 @@
   {
     "title": "JavaScript Interactions",
     "description": "Learn how to manage mouse and keyboard events in JavaScript."
+  },
+  {
+    "title": "Forms and APIs",
+    "description": "Learn how to build forms and call APIs in JavaScript."
   }
 ]

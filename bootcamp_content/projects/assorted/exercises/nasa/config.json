@@ -3,5 +3,6 @@
   "description": "Query the NASA image database",
   "level": 17,
   "idx": 3,
-  "language": "frontend"
+  "language": "frontend",
+  "blocks_project_progression": false
 }

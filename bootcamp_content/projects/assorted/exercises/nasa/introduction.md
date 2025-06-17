@@ -8,7 +8,7 @@ In this exercise, we're going to make a form that allows users to search the NAS
 
 There are two steps to this exercise:
 
-1. Create the form, and intercept the submit via JavaScript
+1. Create the form, and intercept the `submit` event via JavaScript.
 2. Query the NASA API and update the image and text accordingly.
 
 ## Forms
@@ -33,6 +33,14 @@ A sample URL might look like this:
 ```
 https://images-api.nasa.gov/search?q=curiosity%20surface&media_type=image
 ```
+
+Remember the format for `fetchObject`:
+
+```javascript
+fetchObject(url, options, successFunction, errorFunction);
+```
+
+There are no options needed for this API, so that can always be `{}`.
 
 ## Extending this exercise
 

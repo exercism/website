@@ -10,7 +10,7 @@ To solve this, you will need to use the [`createElement`](https://developer.mozi
 
 You can use it to create a new element, and add it to an existing element like this:
 
-```
+```js
 // Create a new div element
 const segment = document.createElement("div");
 

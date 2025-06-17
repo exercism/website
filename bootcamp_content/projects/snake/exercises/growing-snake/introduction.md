@@ -15,13 +15,13 @@ You can use it to create a new element, and add it to an existing element like t
 const segment = document.createElement("div");
 
 // Add a class
-segment.classList.add("segment")
+segment.classList.add("segment");
 
 // Get an existing element
-const snake = document.querySelector("#snake")
+const snake = document.querySelector("#snake");
 
 // Add the newly created segment to the snake
-snake.appendChild(segment)
+snake.appendChild(segment);
 ```
 
 ## Instructions

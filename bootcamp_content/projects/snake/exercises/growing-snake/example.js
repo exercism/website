@@ -38,6 +38,7 @@ function createDot() {
 }
 
 function renderDot() {
+  log(dot.top)
   dot.elem.style.gridRow = dot.top
   dot.elem.style.gridColumn = dot.left
 }
@@ -57,10 +58,16 @@ window.addEventListener('keydown', (e) => {
 })
 
 function handleDotCollisions() {
-  const head = snake.segments[0]
+  const [head, ...body] = snake.segments
 
   if (head.top != dot.top || head.left != dot.left) {
     return
+  }
+  // Don't allow the body to collect a new dot.
+  for (const segment in body) {
+    if (segment == dot.top && segment == dot.left) {
+      return
+    }
   }
 
   // Add the length, and add the elem

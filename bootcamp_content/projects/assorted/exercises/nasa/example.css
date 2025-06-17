@@ -1,0 +1,85 @@
+#nasa {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+
+    form {
+        padding: 2vh 3vh;
+        background: #000000aa;
+        color: #fafafa;
+        font-size: 18px;
+        border-bottom: 1px solid #333;
+        display: flex;
+        align-items: stretch;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        label {
+            margin-right: 1vw;
+            display: flex;
+            align-items: center;
+        }
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            margin-right: 2vw;
+            flex-grow: 1;
+            background: #0009;
+            outline: none;
+            color: #eee;
+
+            &:focus {
+                border-color: lightblue;
+            }
+        }
+        button {
+            background: purple;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            padding: 0 3vw;
+        }
+    }
+    #result {
+        flex-grow: 1;
+        background-size: cover;
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/2/2f/Hubble_ultra_deep_field.jpg");
+        background-position: center center;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+    h2,
+    p,
+    #byline {
+        background: #000a;
+        border: 1px solid #444a;
+        padding: 2vmin;
+        border-radius: 20px;
+        color: #eee;
+        max-width: 70%;
+    }
+    h2 {
+        margin: 20vh 5vw 1vh;
+        font-weight: 600;
+        font-size: 30px;
+    }
+    p {
+        margin: 0 5vw 1vh;
+        padding: 2vmin;
+        font-size: 20px;
+        line-height: 150%;
+        font-weight: 400;
+    }
+    #byline {
+        margin: 0 5vw;
+        padding: 2vmin;
+        font-size: 18px;
+        line-height: 150%;
+        font-weight: 400;
+    }
+}

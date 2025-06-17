@@ -2,7 +2,7 @@
 
 In this exercise, we're going to make a form that allows users to search the NASA image database and render the result.
 
-**Important Note:** Remember to click "Run Code" each time before submitting the form (both in your code and the example, else the JavaScript won't run).
+**Important Note:** Remember to click "Run Code" each time before submitting the form (both in your code and the example, else the JavaScript won't run and the form submit will just reset the page).
 
 ## Instructions
 

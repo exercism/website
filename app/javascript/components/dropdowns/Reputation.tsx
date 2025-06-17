@@ -112,6 +112,7 @@ export default function Reputation({
     query: { per_page: MAX_TOKENS },
     options: {
       staleTime: 1000 * 60 * 5,
+      refetchOnMount: true,
     },
   })
 

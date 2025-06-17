@@ -96,6 +96,7 @@ export default function Notifications({
     query: { per_page: MAX_NOTIFICATIONS },
     options: {
       staleTime: 1000 * 60 * 5,
+      refetchOnMount: true,
     },
   })
   const {

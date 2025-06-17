@@ -6,6 +6,7 @@ import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { Exercise, SolutionForStudent } from '@/components/types'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
+import { hashQueryKey } from '@/utils/hashQueryKey'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
@@ -95,7 +96,7 @@ export default ({
   request: initialRequest,
   defaultStatus,
 }: {
-  request: Request
+  request: Request & { queryKey: string }
   defaultStatus?: string
 }): JSX.Element => {
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
@@ -112,7 +113,18 @@ export default ({
   } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
     Error | Response
-  >(['exercise-list', request], request)
+  >(
+    [
+      hashQueryKey({
+        prefix: 'exercise-list',
+        data: {
+          initialData: request.options.initialData,
+          query: request.query,
+        },
+      }),
+    ],
+    request
+  )
 
   const results = resolvedData?.exercises.map((exercise) => {
     const solution = resolvedData.solutions.find(

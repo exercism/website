@@ -77,6 +77,7 @@ projects = %w[
   positioned-patterns
   snake
   exercism-widgets
+  games
 ]
 
 projects.each do |project_slug|

@@ -30,12 +30,7 @@ module ReactComponents
           },
           test_results: submission&.test_results
         },
-        solution: {
-          uuid: solution.uuid,
-          status: solution.status,
-          passed_basic_tests: solution.passed_basic_tests?,
-          passed_bonus_tests: solution.passed_bonus_tests?
-        },
+        solution: solution_data,
         test_results: submission&.test_results,
         code: {
           stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user, exercise.language == "jikiscript" ? "jiki" : "js"),
@@ -60,6 +55,24 @@ module ReactComponents
 
     def custom_functions
       ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission&.custom_functions || [])
+    end
+
+    def solution_data
+      return nil unless solution
+
+      {
+        uuid: solution.uuid,
+        status: solution.status,
+        passed_basic_tests: solution.passed_basic_tests?,
+        passed_bonus_tests: solution.passed_bonus_tests?,
+        messages: solution.messages.map do |message|
+          {
+            id: message.id,
+            author: message.author,
+            content: message.content
+          }
+        end
+      }
     end
 
     def readonly_ranges

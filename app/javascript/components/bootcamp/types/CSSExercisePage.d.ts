@@ -12,6 +12,7 @@ type CSSExercisePageProps = {
     updateCustomFns?: string
     customFnsDashboard?: string
     deleteCustomFn?: string
+    apiBootcampSolutionChat: string
   }
 }
 
@@ -43,6 +44,7 @@ type CSSExercisePageSolution = {
   uuid: string
   status: 'completed' | 'in_progress'
   passedBasicTests: boolean
+  messages: Message[]
 }
 
 interface CSSExercisePageExercise {

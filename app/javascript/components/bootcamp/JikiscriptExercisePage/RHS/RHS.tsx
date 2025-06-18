@@ -76,8 +76,6 @@ export function RHS({ width }: { width: number }) {
                 }}
                 links={links}
                 solutionUuid={solution.uuid}
-                // TODO: Pass this down - or is it already coming down?
-                // if yes, the add the type
                 messages={solution.messages}
               />
             </Tab.Panel>

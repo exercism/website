@@ -46,14 +46,16 @@ export function Chat({
   const { appendMessage } = useAiChatStore()
 
   // populates the message-thread
+  const arePrevMessagesLoaded = useRef(false)
 
   useEffect(() => {
-    if (messages && messages.length > 0) {
+    if (!arePrevMessagesLoaded.current && messages && messages.length > 0) {
       for (const message of messages) {
         appendMessage(message)
       }
+      arePrevMessagesLoaded.current = true
     }
-  }, [])
+  }, [messages])
 
   return (
     <ChatContext.Provider

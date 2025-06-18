@@ -229,6 +229,15 @@ if (typeof window !== 'undefined') {
   persistQueryClient({
     queryClient: window.queryClient,
     persister,
+    dehydrateOptions: {
+      shouldDehydrateQuery: (query) => {
+        const [key] = query.queryKey
+        // only persist notifications and reputation in localStorage cache
+        return [NOTIFICATIONS_CACHE_KEY, REPUTATION_CACHE_KEY].includes(
+          key as string
+        )
+      },
+    },
   })
 }
 
@@ -827,6 +836,8 @@ import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/Track
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
+import { NOTIFICATIONS_CACHE_KEY } from '@/components/dropdowns/Notifications'
+import { REPUTATION_CACHE_KEY } from '@/components/dropdowns/Reputation'
 
 // clear localStorage on logout..
 document.addEventListener('submit', function (event: SubmitEvent) {

@@ -96,7 +96,7 @@ export default ({
   request: initialRequest,
   defaultStatus,
 }: {
-  request: Request & { queryKey: string }
+  request: Request
   defaultStatus?: string
 }): JSX.Element => {
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)

@@ -87,7 +87,7 @@ const DropdownContent = ({
 }
 
 const MAX_TOKENS = 5
-const cacheKey = 'reputations'
+export const REPUTATION_CACHE_KEY = 'reputations'
 
 export default function Reputation({
   defaultReputation,
@@ -107,7 +107,7 @@ export default function Reputation({
     error,
     status,
     refetch,
-  } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
+  } = usePaginatedRequestQuery<APIResponse>([REPUTATION_CACHE_KEY], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
     options: {
@@ -176,7 +176,7 @@ export default function Reputation({
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
             data={resolvedData}
-            cacheKey={[cacheKey]}
+            cacheKey={[REPUTATION_CACHE_KEY]}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

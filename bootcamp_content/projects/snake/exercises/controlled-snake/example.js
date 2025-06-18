@@ -19,7 +19,6 @@ for (let i = 0; i < snake.length; i++) {
 }
 
 window.addEventListener('keydown', (e) => {
-  log(e.key)
   const head = snake.segments[0]
   if (e.key == 'ArrowRight') {
     snake.direction = 'right'

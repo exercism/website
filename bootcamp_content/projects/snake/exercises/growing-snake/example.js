@@ -38,13 +38,11 @@ function createDot() {
 }
 
 function renderDot() {
-  log(dot.top)
   dot.elem.style.gridRow = dot.top
   dot.elem.style.gridColumn = dot.left
 }
 
 window.addEventListener('keydown', (e) => {
-  log(e.key)
   const head = snake.segments[0]
   if (e.key == 'ArrowRight') {
     snake.direction = 'right'

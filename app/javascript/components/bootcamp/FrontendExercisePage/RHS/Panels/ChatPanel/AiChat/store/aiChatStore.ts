@@ -10,6 +10,8 @@ type AiChatStore = {
   isMessageBeingStreamed: boolean
   isResponseBeingGenerated: boolean
   setIsResponseBeingGenerated: (isGenerating: boolean) => void
+  scrollBehaviour: 'instant' | 'smooth'
+  setScrollBehaviour: (behaviour: 'instant' | 'smooth') => void
 }
 
 const MOCK_MESSAGES: Message[] = [
@@ -84,5 +86,9 @@ export const useAiChatStore = create<AiChatStore>((set, get) => ({
       isMessageBeingStreamed: false,
       isResponseBeingGenerated: false,
     })
+  },
+  scrollBehaviour: 'instant',
+  setScrollBehaviour: (behaviour: 'instant' | 'smooth') => {
+    set({ scrollBehaviour: behaviour })
   },
 }))

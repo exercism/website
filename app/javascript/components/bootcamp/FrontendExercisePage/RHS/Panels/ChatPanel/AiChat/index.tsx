@@ -44,6 +44,7 @@ export function Chat({
 
   const { appendMessage } = useAiChatStore()
 
+  // populates the message-thread
   useEffect(() => {
     for (const message of messages) {
       appendMessage(message)

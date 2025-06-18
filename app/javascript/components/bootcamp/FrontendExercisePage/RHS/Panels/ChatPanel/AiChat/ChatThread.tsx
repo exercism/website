@@ -11,17 +11,28 @@ const MESSAGE_LABELS = {
 }
 
 export function ChatThread() {
-  const { messages, messageStream } = useAiChatStore()
+  const { messages, messageStream, scrollBehaviour, setScrollBehaviour } =
+    useAiChatStore()
   const { scrollContainerRef } = useContext(ChatContext)
+
+  const [initialScrollDone, setInitialScrollDone] = React.useState(false)
 
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         top: scrollContainerRef.current.scrollHeight,
-        behavior: 'smooth',
+        behavior: scrollBehaviour,
       })
     }
-  }, [messages])
+
+    // we only want to smoothly scroll after the initial render
+    if (!initialScrollDone && scrollBehaviour === 'instant') {
+      requestAnimationFrame(() => {
+        setScrollBehaviour('smooth')
+        setInitialScrollDone(true)
+      })
+    }
+  }, [messages, scrollBehaviour])
 
   const parentRef = useContinuousHighlighting<HTMLDivElement>(messageStream)
   // @ts-ignore

@@ -16,6 +16,7 @@ export type Code = {
   html: string
   css: string
   js: string
+  jiki: string
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -45,9 +46,12 @@ export function Chat({
   const { appendMessage } = useAiChatStore()
 
   // populates the message-thread
+
   useEffect(() => {
-    for (const message of messages) {
-      appendMessage(message)
+    if (messages && messages.length > 0) {
+      for (const message of messages) {
+        appendMessage(message)
+      }
     }
   }, [])
 

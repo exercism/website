@@ -15,6 +15,7 @@ declare global {
       updateCustomFns?: string
       customFnsDashboard?: string
       deleteCustomFn?: string
+      apiBootcampSolutionChat: string
     }
     customFunctions: CustomFunctionsFromServer
   }

@@ -49,10 +49,11 @@ export function ChatThread() {
             )}
             key={message.id + index}
           >
-            {messages[index - 1] &&
-              messages[index - 1]['author'] !== message.author && (
-                <label>{MESSAGE_LABELS[message.author]}</label>
-              )}
+            {(index === 0 ||
+              (messages[index - 1] &&
+                messages[index - 1]['author'] !== message.author)) && (
+              <label>{MESSAGE_LABELS[message.author]}</label>
+            )}
             <div
               ref={threadElementRef}
               className={assembleClassNames('chat-message', message.author)}

@@ -113,18 +113,7 @@ export default ({
   } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
     Error | Response
-  >(
-    [
-      hashQueryKey({
-        prefix: 'exercise-list',
-        data: {
-          initialData: request.options.initialData,
-          query: request.query,
-        },
-      }),
-    ],
-    request
-  )
+  >(['exercise-list', request], request)
 
   const results = resolvedData?.exercises.map((exercise) => {
     const solution = resolvedData.solutions.find(

@@ -17,7 +17,10 @@ class Rack::Attack::Request
     "#{routed_to}|#{request_method}|#{http_auth_token || ip}"
   end
 
-  def http_auth_token = HttpAuthenticationToken.from_header(env['HTTP_AUTHORIZATION'])
+  def http_auth_token
+    auth_header = env['HTTP_AUTHORIZATION']
+    auth_header&.match(/^Bearer\s+(.+)$/)&.captures&.first
+  end
 end
 
 Rack::Attack.throttled_response_retry_after_header = true
@@ -41,6 +44,7 @@ Rack::Attack.throttle("API - GET solution files", limit: 20, period: 1.minute) d
   next unless req.get?
   next unless req.path.starts_with?('/api/v1/solutions')
 
+  Rails.logger.error "Throttle key: #{req.throttle_key}"
   req.throttle_key
 end
 

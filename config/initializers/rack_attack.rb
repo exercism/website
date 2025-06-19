@@ -48,7 +48,6 @@ Rack::Attack.throttle("API - GET solution files", limit: 20, period: 1.minute) d
   next unless req.get?
   next unless req.path.starts_with?('/api/v1/solutions')
 
-  Rails.logger.error "Throttle key: #{req.throttle_key}"
   req.throttle_key
 end
 

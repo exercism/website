@@ -37,17 +37,22 @@ api_non_get_limit_proc = proc do |req|
   5
 end
 
+Rack::Attack.throttle("API - GET solution files", limit: 20, period: 1.minute) do |req|
+  next unless req.get?
+  next unless req.path.starts_with?('/api/v1/solutions')
+
+  req.throttle_key
+end
+
 Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_proc, period: 1.minute) do |req|
   next unless req.post? || req.patch? || req.put? || req.delete?
   next unless req.path.starts_with?('/api')
-  next if req.path.starts_with?('/sidekiq')
 
   req.throttle_key
 end
 
 Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
   next unless req.get?
-  next if req.path.starts_with?('/sidekiq')
   next unless req.routed_to == 'api/export_solutions#index'
 
   req.throttle_key

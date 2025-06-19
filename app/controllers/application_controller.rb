@@ -3,11 +3,13 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
   include BodyClassConcern
+  include UserRateLimitConcern
 
   # around_action :set_log_level
   before_action :store_session_variables
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
+  before_action :rate_limit_for_user!
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
   before_action :set_request_context

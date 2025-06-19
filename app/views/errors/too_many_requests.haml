@@ -1,0 +1,10 @@
+#page-error.pt-60.pt-40
+  .sm-container
+    .flex.items-center
+      .mr-40
+        .text-purple.leading-110{ style: "font-size: 128px" } 429
+        %h1.text-h1.mb-16 Too Many Requests
+        %p.text-textColor6.text-24.leading-150.font-semibold.mb-12 You've done too many things in too short a space of time.
+        %p.text-textColor6.text-24.leading-150.font-regular.mb-12 Exercism gets constantly attacked by bots so we have rate-limits to stop abuse. Please wait one minute then try again (note: hammering refresh will reset the time-out...)
+        %p.text-textColor6.text-24.leading-150.font-regular If you see this frequently, please let us know #{link_to "on the forum", "https://exercism.org/r/forum", class: "text-linkColor font-semibold"}!
+      = graphical_icon "error-429", category: :graphics, css_class: 'ml-auto flex-shrink-0 w-[250px]'

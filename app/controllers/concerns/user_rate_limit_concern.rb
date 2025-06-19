@@ -3,6 +3,7 @@ module UserRateLimitConcern
   extend Mandate::Memoize
 
   def rate_limit_for_user!
+    return if devise_controller?
     return unless user_signed_in?
 
     within = 1.minute

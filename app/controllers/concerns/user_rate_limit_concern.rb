@@ -8,7 +8,7 @@ module UserRateLimitConcern
 
     within = 1.minute
     max = 60
-    key = "rate-limit:#{controller_path}:#{current_user.id}"
+    key = "rate-limit:#{current_user.id}"
     count = Rails.cache.increment(key, 1, expires_in: within)
     return unless count && count > max
 

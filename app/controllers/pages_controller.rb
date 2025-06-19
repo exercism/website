@@ -44,4 +44,11 @@ class PagesController < ApplicationController
   def supporter_gobridge
     @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
   end
+
+  def ihid
+    expires_in 10, public: true
+    stale = stale?(etag: 1)
+    Rails.logger.unknown "|| iHiD: User: #{current_user&.id}, Stale: #{stale}, Time: #{Time.current.to_f}, IP: #{request.remote_ip}, Params: #{params.permit!.to_h}" # rubocop:disable Layout/LineLength
+    render json: { "Hello": "iHiD" } if stale
+  end
 end

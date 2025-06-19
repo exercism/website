@@ -146,13 +146,6 @@ function ballBlockInteraction(block) {
   let horizontalEdge = false
   let verticalEdge = false
 
-  log(
-    ballRect.right - blockRect.left,
-    blockRect.right - ballRect.right,
-    blockRect.bottom - ballRect.top,
-    ballRect.bottom - blockRect.top
-  )
-
   if (ballRect.right - blockRect.left < margin) {
     horizontalEdge = true
   }

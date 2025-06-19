@@ -6,6 +6,7 @@ class Tracks::ExercisesController < ApplicationController
   before_action :cache_public_action!, only: %i[index show tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot
   skip_before_action :verify_authenticity_token, only: :start
 
   def index

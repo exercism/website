@@ -29,8 +29,8 @@ export const UpdatingOption = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       if (amount === '') {
         throw 'cant change to empty amount'
       }
@@ -43,12 +43,10 @@ export const UpdatingOption = ({
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'subscription'))
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.index)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.index)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

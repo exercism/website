@@ -31,7 +31,7 @@ export const FetchingBoundary = ({
   LoadingComponent?: React.ComponentType
 }>): JSX.Element | null => {
   switch (status) {
-    case 'loading':
+    case 'pending':
       return <LoadingComponent />
     case 'success':
       return <React.Fragment>{children}</React.Fragment>

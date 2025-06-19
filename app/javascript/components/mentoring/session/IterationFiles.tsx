@@ -58,7 +58,7 @@ const Component = ({
     setTab(data.files[0].filename)
   }, [data])
 
-  if (status === 'loading') {
+  if (status === 'pending') {
     return (
       <div className="c-iteration-pane">
         <Loading />

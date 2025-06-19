@@ -24,8 +24,8 @@ export const CancellingOption = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: cancelLink,
         method: 'PATCH',
@@ -34,12 +34,10 @@ export const CancellingOption = ({
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'subscription'))
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.index)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.index)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

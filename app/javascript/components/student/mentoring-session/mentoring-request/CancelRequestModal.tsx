@@ -27,8 +27,8 @@ export const CancelRequestModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.cancel,
         method: 'PATCH',
@@ -37,12 +37,10 @@ export const CancelRequestModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.home)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.home)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -54,7 +52,7 @@ export const CancelRequestModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

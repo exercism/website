@@ -23,7 +23,7 @@ export function MentoringDiscussion({
   if (discussion) {
     return (
       <FeedbackDetail open={open} summary="Code Review">
-        {status === 'loading' ? (
+        {status === 'pending' ? (
           <div>Loading…</div>
         ) : (
           <div className="c-discussion-timeline">

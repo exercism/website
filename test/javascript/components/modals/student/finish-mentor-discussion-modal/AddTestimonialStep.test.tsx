@@ -32,6 +32,7 @@ test('button says "Submit testimonial" if text box is populated', async () => {
       onSubmit={jest.fn()}
       onBack={jest.fn()}
       discussion={createMentorDiscussion()}
+      onSkip={jest.fn()}
     />
   )
   userEvent.type(screen.getByLabelText(/Leave mentor a testimonial/), 'Test')
@@ -47,6 +48,7 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
       onSubmit={jest.fn()}
       onBack={jest.fn()}
       discussion={createMentorDiscussion()}
+      onSkip={jest.fn()}
     />
   )
 
@@ -62,6 +64,7 @@ test('disables buttons while loading', async () => {
       posts: '',
       markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
+      tooltipUrl: '',
     },
   })
 
@@ -69,6 +72,7 @@ test('disables buttons while loading', async () => {
     <AddTestimonialStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
+      onSkip={jest.fn()}
       discussion={discussion}
     />
   )
@@ -91,6 +95,7 @@ test('shows loading message', async () => {
       posts: '',
       markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
+      tooltipUrl: '',
     },
   })
 
@@ -99,6 +104,7 @@ test('shows loading message', async () => {
       onSubmit={jest.fn()}
       onBack={jest.fn()}
       discussion={discussion}
+      onSkip={jest.fn()}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Skip' }))
@@ -129,6 +135,7 @@ test('shows error message', async () => {
         posts: '',
         markAsNothingToDo: '',
         finish: 'https://exercism.test/mentor_ratings',
+        tooltipUrl: '',
       },
     })
 
@@ -137,6 +144,7 @@ test('shows error message', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         discussion={discussion}
+        onSkip={jest.fn()}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Skip' }))
@@ -153,6 +161,7 @@ test('shows generic error message', async () => {
         posts: '',
         markAsNothingToDo: '',
         finish: 'weirdendpoint',
+        tooltipUrl: '',
       },
     })
 
@@ -161,6 +170,7 @@ test('shows generic error message', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         discussion={discussion}
+        onSkip={jest.fn()}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Skip' }))

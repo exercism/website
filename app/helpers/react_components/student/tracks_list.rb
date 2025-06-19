@@ -23,7 +23,8 @@ module ReactComponents
           options: {
             initial_data: {
               tracks: SerializeTracks.(tracks, user)
-            }
+            },
+            refetch_on_mount: false
           },
           query: {
             criteria: params[:criteria] || "",

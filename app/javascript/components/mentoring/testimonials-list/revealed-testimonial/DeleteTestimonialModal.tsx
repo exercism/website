@@ -23,8 +23,8 @@ export const DeleteTestimonialModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.delete,
         method: 'DELETE',
@@ -33,26 +33,22 @@ export const DeleteTestimonialModal = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        queryClient.setQueryData<PaginatedResult | undefined>(
-          cacheKey,
-          (result) => {
-            if (!result) {
-              return
-            }
-
-            return {
-              ...result,
-              results: result.results.filter(
-                (t) => t.uuid !== testimonial.uuid
-              ),
-            }
+    onSuccess: () => {
+      queryClient.setQueryData<PaginatedResult | undefined>(
+        cacheKey,
+        (result) => {
+          if (!result) {
+            return
           }
-        )
-      },
-    }
-  )
+
+          return {
+            ...result,
+            results: result.results.filter((t) => t.uuid !== testimonial.uuid),
+          }
+        }
+      )
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -64,7 +60,7 @@ export const DeleteTestimonialModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

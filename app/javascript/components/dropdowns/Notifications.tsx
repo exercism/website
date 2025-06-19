@@ -68,7 +68,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>
@@ -78,7 +78,7 @@ const DropdownContent = ({
 }
 
 const MAX_NOTIFICATIONS = 5
-const CACHE_KEY = 'notifications'
+export const NOTIFICATIONS_CACHE_KEY = 'notifications'
 
 export default function Notifications({
   endpoint,
@@ -91,11 +91,17 @@ export default function Notifications({
     error,
     status,
     refetch,
-  } = usePaginatedRequestQuery<APIResponse, unknown>([CACHE_KEY], {
-    endpoint: endpoint,
-    query: { per_page: MAX_NOTIFICATIONS },
-    options: {},
-  })
+  } = usePaginatedRequestQuery<APIResponse, unknown>(
+    [NOTIFICATIONS_CACHE_KEY],
+    {
+      endpoint: endpoint,
+      query: { per_page: MAX_NOTIFICATIONS },
+      options: {
+        staleTime: 1000 * 60 * 5,
+        refetchOnMount: true,
+      },
+    }
+  )
   const {
     buttonAttributes,
     panelAttributes,

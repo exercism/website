@@ -28,7 +28,7 @@ export const ListContainer = ({
     isFetching,
   } = usePaginatedRequestQuery<APIResponse>([...cacheKey], {
     ...request,
-    options: { ...request.options, staleTime: 1000 },
+    options: { ...request.options },
   })
 
   return (

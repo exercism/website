@@ -61,7 +61,7 @@ export const FinishMentorDiscussionModal = ({
         </FormButton>
       </div>
 
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />

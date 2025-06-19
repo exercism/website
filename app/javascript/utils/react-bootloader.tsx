@@ -238,6 +238,7 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
     </React.StrictMode>
   )
   document.addEventListener('turbo:before-frame-render', () => {
+    if (elem.dataset.persistent === 'true') return
     root.unmount()
     roots.delete(elem)
   })
@@ -259,6 +260,13 @@ export function renderComponents(
     // dataset doesn't exist on type `Element`
     if (!(elem instanceof HTMLElement)) continue
 
+    if (
+      elem.dataset.persistent === 'true' &&
+      elem.dataset.rendered === 'true'
+    ) {
+      continue
+    }
+
     const reactId = elem.dataset['reactId']
     const reactData = elem.dataset.reactData
     const generator = reactId ? mappings[reactId] : null
@@ -266,6 +274,9 @@ export function renderComponents(
     if (reactId && generator && reactData) {
       const data = JSON.parse(reactData)
       render(elem, generator(data, elem))
+      if (elem.dataset.persistent === 'true') {
+        elem.dataset.rendered = 'true'
+      }
     }
   }
 }

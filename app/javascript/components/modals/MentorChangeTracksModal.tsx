@@ -28,8 +28,8 @@ export const MentorChangeTracksModal = ({
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
-  const { mutate: mutation } = useMutation<TrackListAPIResponse>(
-    async () => {
+  const { mutate: mutation } = useMutation<TrackListAPIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.updateTracks,
         method: 'PATCH',
@@ -38,16 +38,14 @@ export const MentorChangeTracksModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        queryClient.setQueryData(cacheKey, response)
-        onSuccess()
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: cacheKey })
-      },
-    }
-  )
+    onSuccess: (response) => {
+      queryClient.setQueryData(cacheKey, response)
+      onSuccess()
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: cacheKey })
+    },
+  })
 
   return (
     <Modal

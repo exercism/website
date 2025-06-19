@@ -40,8 +40,8 @@ export function useLockedSolutionMentoringNote(
     shouldOpenExtendModal(diff, shouldOpenModalAt)
   )
 
-  const { mutate: extendLockedUntil } = useMutation<APIResponse>(
-    () => {
+  const { mutate: extendLockedUntil } = useMutation<APIResponse>({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         endpoint: request.links.extendLock,
         method: 'PATCH',
@@ -50,17 +50,13 @@ export function useLockedSolutionMentoringNote(
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        const lockedUntilResponse = dayjs(
-          response.mentorRequestLock.lockedUntil
-        )
-        setLockedUntil(lockedUntilResponse)
-        setDiff(lockedUntilResponse.diff(dayjs(), 'minute'))
-        setExtendModalOpen(false)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      const lockedUntilResponse = dayjs(response.mentorRequestLock.lockedUntil)
+      setLockedUntil(lockedUntilResponse)
+      setDiff(lockedUntilResponse.diff(dayjs(), 'minute'))
+      setExtendModalOpen(false)
+    },
+  })
 
   useEffect(() => {
     const interval = setInterval(() => {

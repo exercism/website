@@ -20,8 +20,8 @@ export const StartExerciseButton = ({
     error,
   } = useMutation<{
     links: { exercise: string }
-  }>(
-    async () => {
+  }>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,12 +30,10 @@ export const StartExerciseButton = ({
 
       return fetch
     },
-    {
-      onSuccess: (data) => {
-        redirectTo(data.links.exercise)
-      },
-    }
-  )
+    onSuccess: (data) => {
+      redirectTo(data.links.exercise)
+    },
+  })
 
   const handleClick = useCallback(() => {
     mutation()

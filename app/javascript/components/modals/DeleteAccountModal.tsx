@@ -27,8 +27,8 @@ export const DeleteAccountModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
@@ -37,12 +37,10 @@ export const DeleteAccountModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.home)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.home)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

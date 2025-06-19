@@ -66,6 +66,7 @@ test('disables buttons while loading', async () => {
       posts: '',
       markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
+      tooltipUrl: '',
     },
   })
 
@@ -99,6 +100,7 @@ test('shows loading message', async () => {
       posts: '',
       markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
+      tooltipUrl: '',
     },
   })
 
@@ -127,6 +129,7 @@ test('shows error message', async () => {
         posts: '',
         markAsNothingToDo: '',
         finish: 'https://exercism.test/mentor_ratings',
+        tooltipUrl: '',
       },
     })
     server.use(
@@ -164,6 +167,7 @@ test('shows generic error message', async () => {
         posts: '',
         markAsNothingToDo: '',
         finish: 'wrongendpoint',
+        tooltipUrl: '',
       },
     })
 

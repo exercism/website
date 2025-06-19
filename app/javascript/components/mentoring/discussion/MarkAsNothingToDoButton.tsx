@@ -26,14 +26,16 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
     mutate: mutation,
     status,
     error,
-  } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: endpoint,
-      method: 'PATCH',
-      body: null,
-    })
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
 
-    return fetch
+      return fetch
+    },
   })
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -62,7 +64,7 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
           </div>
         </GenericTooltip>
       )
-    case 'loading':
+    case 'pending':
       return <Loading />
     default:
       return null

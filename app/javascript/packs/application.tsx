@@ -207,15 +207,39 @@ const PerksExternalModalButton = lazy(
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
 import { QueryClient } from '@tanstack/react-query'
+import { persistQueryClient } from '@tanstack/query-persist-client-core'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+
 declare global {
   interface Window {
     Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
     queryClient: QueryClient
   }
 }
-// use query client by pulling it out of the provider with useQueryClient hook
-// const queryClient = useQueryClient()
-window.queryClient = new QueryClient()
+
+if (typeof window !== 'undefined') {
+  const persister = createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'REACT_QUERY_OFFLINE_CACHE',
+  })
+
+  // use query client by pulling it out of the provider with useQueryClient hook
+  window.queryClient = new QueryClient()
+
+  persistQueryClient({
+    queryClient: window.queryClient,
+    persister,
+    dehydrateOptions: {
+      shouldDehydrateQuery: (query) => {
+        const [key] = query.queryKey
+        // only persist notifications and reputation in localStorage cache
+        return [NOTIFICATIONS_CACHE_KEY, REPUTATION_CACHE_KEY].includes(
+          key as string
+        )
+      },
+    },
+  })
+}
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -812,6 +836,8 @@ import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/Track
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
+import { NOTIFICATIONS_CACHE_KEY } from '@/components/dropdowns/Notifications'
+import { REPUTATION_CACHE_KEY } from '@/components/dropdowns/Reputation'
 
 // clear localStorage on logout..
 document.addEventListener('submit', function (event: SubmitEvent) {

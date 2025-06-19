@@ -61,8 +61,8 @@ export default function SenioritySurveyModal({
     mutate: hideModalMutation,
     status: hideModalMutationStatus,
     error: hideModalMutationError,
-  } = useMutation(
-    () => {
+  } = useMutation({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         endpoint: links.hideModalEndpoint,
         method: 'PATCH',
@@ -71,12 +71,10 @@ export default function SenioritySurveyModal({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
+    onSuccess: () => {
+      setOpen(false)
+    },
+  })
 
   return (
     <SenioritySurveyModalContext.Provider

@@ -22,8 +22,8 @@ export const SatisfiedStep = ({
     mutate: finish,
     status,
     error,
-  } = useMutation(
-    async (requeue: boolean) => {
+  } = useMutation({
+    mutationFn: async (requeue: boolean) => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -32,12 +32,10 @@ export const SatisfiedStep = ({
 
       return fetch
     },
-    {
-      onSuccess: (data, requeue) => {
-        requeue ? onRequeued() : onNotRequeued()
-      },
-    }
-  )
+    onSuccess: (data, requeue) => {
+      requeue ? onRequeued() : onNotRequeued()
+    },
+  })
   const handleBack = useCallback(() => {
     onBack()
   }, [onBack])

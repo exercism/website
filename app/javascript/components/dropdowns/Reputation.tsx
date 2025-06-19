@@ -3,7 +3,7 @@ import { ReputationIcon } from './reputation/ReputationIcon'
 import { ReputationMenu } from './reputation/ReputationMenu'
 import { ReputationChannel } from '../../channels/reputationChannel'
 import { useDropdown, DropdownAttributes } from './useDropdown'
-import { QueryKey, QueryStatus } from '@tanstack/react-query'
+import { QueryKey, QueryStatus, useQueryClient } from '@tanstack/react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -77,7 +77,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>
@@ -87,6 +87,7 @@ const DropdownContent = ({
 }
 
 const MAX_TOKENS = 5
+export const REPUTATION_CACHE_KEY = 'reputations'
 
 export default function Reputation({
   defaultReputation,
@@ -100,17 +101,21 @@ export default function Reputation({
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
-  const cacheKey = 'reputations'
+
   const {
     data: resolvedData,
     error,
     status,
     refetch,
-  } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
+  } = usePaginatedRequestQuery<APIResponse>([REPUTATION_CACHE_KEY], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
-    options: {},
+    options: {
+      staleTime: 1000 * 60 * 5,
+      refetchOnMount: true,
+    },
   })
+
   const {
     buttonAttributes,
     panelAttributes,
@@ -171,7 +176,7 @@ export default function Reputation({
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
             data={resolvedData}
-            cacheKey={[cacheKey]}
+            cacheKey={[REPUTATION_CACHE_KEY]}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

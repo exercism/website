@@ -20,8 +20,8 @@ export const FinishButton = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<Discussion>(
-    async () => {
+  } = useMutation<Discussion>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,13 +30,11 @@ export const FinishButton = ({
 
       return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
-    {
-      onSuccess: (discussion) => onSuccess(discussion),
-    }
-  )
+    onSuccess: (discussion) => onSuccess(discussion),
+  })
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 

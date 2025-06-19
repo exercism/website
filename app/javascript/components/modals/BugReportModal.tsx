@@ -29,8 +29,8 @@ export const BugReportModal = ({
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const [content, setContent] = useState('')
 
-  const { mutate: mutation } = useMutation(
-    async () => {
+  const { mutate: mutation } = useMutation({
+    mutationFn: async () => {
       if (!url) {
         throw 'No bug report URL found'
       }
@@ -49,12 +49,10 @@ export const BugReportModal = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        setStatus(BugReportModalStatus.SUCCEEDED)
-      },
-    }
-  )
+    onSuccess: () => {
+      setStatus(BugReportModalStatus.SUCCEEDED)
+    },
+  })
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()

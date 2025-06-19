@@ -14,12 +14,10 @@ export const ReportStep = ({
   discussion,
   onSubmit,
   onBack,
-  send,
 }: {
   onSubmit: (report: MentorReport) => void
   onBack: () => void
   discussion: MentorDiscussion
-  send: (step: string) => void
 }): JSX.Element => {
   const [state, setState] = useState<MentorReport>({
     requeue: true,
@@ -32,8 +30,8 @@ export const ReportStep = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -48,15 +46,13 @@ export const ReportStep = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        onSubmit(state)
-      },
-      onError: (e) => {
-        console.error('Error running mutation in ReportStep.tsx', e)
-      },
-    }
-  )
+    onSuccess: () => {
+      onSubmit(state)
+    },
+    onError: (e) => {
+      console.error('Error running mutation in ReportStep.tsx', e)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {

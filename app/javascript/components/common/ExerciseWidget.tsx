@@ -16,8 +16,8 @@ export type Props = {
   track?: Track
   solution?: SolutionForStudent
   links?: Links
-  renderBlurb: boolean
-  isSkinny: boolean
+  renderBlurb?: boolean
+  isSkinny?: boolean
   isStatic?: boolean
 }
 
@@ -54,6 +54,8 @@ const ReferenceElement = forwardRef<
   Omit<Props, 'links'> & {
     onMouseEnter?: () => void
     onMouseLeave?: () => void
+    renderBlurb: boolean
+    isSkinny: boolean
   }
 >(
   (

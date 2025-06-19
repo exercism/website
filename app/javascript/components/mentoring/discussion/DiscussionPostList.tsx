@@ -50,9 +50,11 @@ export const DiscussionPostList = ({
     onScroll: onIterationScroll,
   })
   const iterationsToShow = useListTrimming<IterationWithRef>(iterationsWithRef)
-  useChannel(discussionUuid, () => queryClient.invalidateQueries([cacheKey]))
+  useChannel(discussionUuid, () =>
+    queryClient.invalidateQueries({ queryKey: [cacheKey] })
+  )
 
-  if (status === 'loading') {
+  if (status === 'pending') {
     return (
       <div role="status" aria-label="Discussion post list loading indicator">
         <Loading />

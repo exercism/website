@@ -39,7 +39,8 @@ export function UnlockHelpButton({
     )
   }
 
-  const { mutate: unlockHelp, error } = useMutation(UnlockHelp, {
+  const { mutate: unlockHelp, error } = useMutation({
+    mutationFn: UnlockHelp,
     onSuccess: () => window.location.reload(),
   })
 

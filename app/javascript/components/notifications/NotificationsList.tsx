@@ -115,7 +115,7 @@ export default function NotificationsList({
           {
             onSuccess: () => {
               setSelected([])
-              queryClient.invalidateQueries(cacheKey)
+              queryClient.invalidateQueries({ queryKey: cacheKey })
             },
           }
         )
@@ -124,7 +124,7 @@ export default function NotificationsList({
     [cacheKey, selected, queryClient]
   )
 
-  const disabled = isFetching || mutations.some((m) => m.status === 'loading')
+  const disabled = isFetching || mutations.some((m) => m.status === 'pending')
 
   useHistory({ pushOn: removeEmpty(request.query) })
 

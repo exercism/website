@@ -33,8 +33,8 @@ export const EditListItemForm = <T extends ListItem>({
     mutate: mutation,
     status,
     error,
-  } = useMutation<T, unknown, MutationAction>(
-    async (action) => {
+  } = useMutation<T, unknown, MutationAction>({
+    mutationFn: async (action) => {
       const endpoint = action === 'update' ? item.links.edit : item.links.delete
 
       if (!endpoint) {
@@ -49,31 +49,29 @@ export const EditListItemForm = <T extends ListItem>({
 
       return fetch.then((json) => typecheck<T>(json, 'item'))
     },
-    {
-      onSuccess: (data, action) => {
-        switch (action) {
-          case 'delete': {
-            if (!onDelete) {
-              return
-            }
-
-            onDelete(data)
-
-            break
+    onSuccess: (data, action) => {
+      switch (action) {
+        case 'delete': {
+          if (!onDelete) {
+            return
           }
-          case 'update': {
-            if (!onUpdate) {
-              return
-            }
 
-            onUpdate(data)
+          onDelete(data)
 
-            break
-          }
+          break
         }
-      },
-    }
-  )
+        case 'update': {
+          if (!onUpdate) {
+            return
+          }
+
+          onUpdate(data)
+
+          break
+        }
+      }
+    },
+  })
   const handleSubmit = useCallback(() => {
     mutation('update')
   }, [mutation])

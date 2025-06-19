@@ -7,8 +7,8 @@ import { Iteration } from '../types'
 export const useIteration = (): {
   create: UseMutateFunction<Iteration, unknown, Submission, unknown>
 } => {
-  const { mutate: create } = useMutation<Iteration, unknown, Submission>(
-    async (submission) => {
+  const { mutate: create } = useMutation<Iteration, unknown, Submission>({
+    mutationFn: async (submission) => {
       if (!submission) {
         throw 'Expected submission'
       }
@@ -20,8 +20,8 @@ export const useIteration = (): {
       })
 
       return fetch.then((json) => typecheck<Iteration>(json, 'iteration'))
-    }
-  )
+    },
+  })
 
   return { create }
 }

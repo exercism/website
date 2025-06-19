@@ -6,6 +6,7 @@ import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { Exercise, SolutionForStudent } from '@/components/types'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
+import { hashQueryKey } from '@/utils/hashQueryKey'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 

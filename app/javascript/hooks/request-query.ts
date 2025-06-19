@@ -3,6 +3,7 @@ import {
   type QueryKey,
   type UseQueryResult,
   type UseQueryOptions,
+  keepPreviousData,
 } from '@tanstack/react-query'
 import { camelizeKeys, decamelizeKeys } from 'humps'
 import { sendRequest } from '../utils/send-request'
@@ -12,7 +13,7 @@ import { stringify } from 'qs'
 export type Request<Query = Record<string, any>> = {
   endpoint: string | undefined
   query?: Query
-  options: UseQueryOptions
+  options: Omit<UseQueryOptions, 'queryKey' | 'queryFn'>
 }
 
 function handleFetch(request: Request) {
@@ -48,7 +49,7 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     queryFn: handleFetch(request),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     ...camelizeKeys(request.options),
   })
 }

@@ -36,8 +36,8 @@ export const NewListItemForm = <T extends unknown>({
     mutate: mutation,
     status,
     error,
-  } = useMutation<T>(
-    async () => {
+  } = useMutation<T>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',
@@ -46,10 +46,8 @@ export const NewListItemForm = <T extends unknown>({
 
       return fetch.then((json) => typecheck<T>(json, 'item'))
     },
-    {
-      onSuccess: handleSuccess,
-    }
-  )
+    onSuccess: handleSuccess,
+  })
 
   const handleSubmit = useCallback(() => {
     mutation()

@@ -179,6 +179,6 @@ class RackAttackTest < Webhooks::BaseTestCase
     @current_user.confirm
 
     auth_token = create :user_auth_token, user: @current_user
-    @headers = { 'Authorization' => "Token token=#{auth_token.token}" }
+    @headers = { 'Authorization' => "Bearer #{auth_token.token}" }
   end
 end

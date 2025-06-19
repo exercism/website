@@ -1,4 +1,6 @@
 class API::V1::FilesController < API::BaseController
+  before_action :require_authentication_header!
+
   def show
     begin
       solution = Solution.find_by!(uuid: params[:solution_id])

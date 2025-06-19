@@ -15,6 +15,17 @@ module API
 
     layout false
 
+    def require_authentication_header!
+      header = request.headers['Authorization']
+      return render_403 unless header.present?
+
+      auth_token = header.match(/^Bearer\s+(.+)$/)&.captures&.first
+      return render_403 unless auth_token.present?
+      return render_403 unless current_user.auth_tokens.active.exists?(token: auth_token)
+
+      true
+    end
+
     def authenticate_user
       return if user_signed_in?
 

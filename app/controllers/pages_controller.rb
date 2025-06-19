@@ -46,7 +46,7 @@ class PagesController < ApplicationController
   end
 
   def ihid
-    expires_in 10, public: true
+    expires_in 10, public: true unless user_signed_in?
     stale = stale?(etag: 1)
     Rails.logger.unknown "|| iHiD: User: #{current_user&.id}, Stale: #{stale}, Time: #{Time.current.to_f}, IP: #{request.remote_ip}, Params: #{params.permit!.to_h}" # rubocop:disable Layout/LineLength
     render json: { "Hello": "iHiD" } if stale

@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :rate_limit_for_user!
+  before_action :disable_rails_cache_for_public_requests!
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
@@ -145,7 +146,26 @@ class ApplicationController < ActionController::Base
     # as we're exiting in the tests so don't have coverage.
   end
 
+  # For external users, caching is done via cloudfront
+  # not via Rails, and we want to avoid origin requests
+  # every time, so we disable the If-None-Match header,
+  def disable_rails_cache_for_public_requests!
+    return if user_signed_in?
+
+    # Simulate production setup with cloudfront
+    request.headers['HTTP_X_IF_NONE_MATCH'] = request.headers['HTTP_IF_NONE_MATCH'] if Rails.env.development? || Rails.env.test?
+
+    request.headers['HTTP_IF_NONE_MATCH'] = nil
+  end
+
   def stale?(etag:)
+    # We let Cloudfront handle our caching for public users
+    # so we don't need to do anything here. In reality, what
+    # we probably want to do is retrieve a copy of the file from
+    # s3 here, but we don't have that set up yet.
+    # When we need to, we can use HTTP_X_IF_NONE_MATCH here.
+    return true unless user_signed_in?
+
     etag = Cache::GenerateEtag.(etag, current_user)
 
     # Do this AFTER we've generated the etag to catch

@@ -268,8 +268,14 @@ body.namespace-tracks.controller-exercises.action-show {
         }
 
         &.pending {
-            &:before {
+            &::before {
+                content: "";
+                display: block;
                 background-image: url("graphics/minus.svg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 70% 70%;
+                background-color: #e1ebff;
             }
         }
         &.locked {

@@ -1,14 +1,7 @@
-<svg width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g clip-path="url(#clip0_1_19)">
-    <path
-      d="M32 64C49.6731 64 64 49.6731 64 32C64 14.3269 49.6731 0 32 0C14.3269 0 0 14.3269 0 32C0 49.6731 14.3269 64 32 64Z"
-      fill="#E1EBFF" />
-    <path d="M12 32L52 32.5" stroke="#5C5589" stroke-width="2" stroke-linecap="round" />
-  </g>
-  <defs>
-    <clipPath id="clip0_1_19">
-      <rect width="64" height="64" fill="white" />
-    </clipPath>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 10" id="Minus--Streamline-Micro"
+  height="10" width="10">
+  <desc>Minus Streamline Icon: https://streamlinehq.com</desc>
+  <path fill="#5C5589" fill-rule="evenodd"
+    d="M0 5a0.75 0.75 0 0 1 0.75 -0.75h8.5a0.75 0.75 0 0 1 0 1.5H0.75A0.75 0.75 0 0 1 0 5Z"
+    clip-rule="evenodd" stroke-width="1"></path>
 </svg>
-  

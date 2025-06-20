@@ -2,6 +2,8 @@ require "test_helper"
 
 class Solution::UpdateTagsTest < ActiveSupport::TestCase
   test "update tags" do
+    skip # Tags disabled for now!
+
     exercise = create :practice_exercise
     representation = create(:exercise_representation, exercise:)
 
@@ -26,6 +28,8 @@ class Solution::UpdateTagsTest < ActiveSupport::TestCase
   end
 
   test "update exercise tags" do
+    skip # Tags disabled for now!
+
     exercise = create :practice_exercise
     solution = create(:practice_solution, exercise:)
 

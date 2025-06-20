@@ -3,10 +3,17 @@ class Solution::UpdateTags
 
   initialize_with :solution
 
+  # rubocop:disable Lint/UnreachableCode
   def call
+    # We're not using these tags for now. We can always
+    # recalculate them if we start to, but remove some of the
+    # load in the system for now!
+    return
+
     solution.update(tags:)
     Exercise::UpdateTags.(solution.exercise)
   end
+  # rubocop:enable Lint/UnreachableCode
 
   private
   def tags

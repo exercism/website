@@ -3,11 +3,18 @@ class Exercise::UpdateTags
 
   initialize_with :exercise
 
+  # rubocop:disable Lint/UnreachableCode
   def call
+    # We're not using these tags for now. We can always
+    # recalculate them if we start to, but remove some of the
+    # load in the system for now!
+    return
+
     exercise.update(tags:)
 
     Track::UpdateTags.(exercise.track)
   end
+  # rubocop:enable Lint/UnreachableCode
 
   private
   def tags

@@ -10,8 +10,8 @@ gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2', '~> 0.5.6'
-gem 'redis'
-gem 'redis-clustering'
+gem 'redis', '~> 5.1'
+gem 'redis-clustering', '~> 5.1'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'

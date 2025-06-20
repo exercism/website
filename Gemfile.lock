@@ -619,8 +619,8 @@ DEPENDENCIES
   rails (~> 7.0.1)
   rails-controller-testing
   recursive-open-struct
-  redis
-  redis-clustering
+  redis (~> 5.1)
+  redis-clustering (~> 5.1)
   rest-client
   rubocop
   rubocop-minitest

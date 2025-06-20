@@ -14,9 +14,9 @@ import { showError } from '../utils/showError'
 import type { StaticError } from '@/interpreter/error'
 import { INFO_HIGHLIGHT_COLOR } from '../CodeMirror/extensions/lineHighlighter'
 import useAnimationTimelineStore from '../store/animationTimelineStore'
-import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
 import { scrollToLine } from '../CodeMirror/scrollToLine'
 import { cleanUpEditor } from '../CodeMirror/extensions/clean-up-editor'
+import { EditorView } from 'codemirror'
 
 // Everything is scaled by 100. This allows for us to set
 // frame times in microseconds (e.g. 0.01 ms) but allows the
@@ -31,13 +31,17 @@ export function useScrubber({
   animationTimeline,
   frames,
   hasCodeBeenEdited,
+  editorView,
   context,
+  isSpotlightActive = false,
 }: {
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
   animationTimeline: AnimationTimeline
   frames: Frame[]
   hasCodeBeenEdited: boolean
+  editorView: EditorView | null
   context?: string
+  isSpotlightActive?: boolean
 }) {
   // We start this at -1. That guarantees that something always
   // happens, even if the timeline is one frame long as so has
@@ -53,10 +57,6 @@ export function useScrubber({
     setShouldShowInformationWidget,
     setUnderlineRange,
   } = useEditorStore()
-
-  const { editorView, isSpotlightActive } = useContext(
-    JikiscriptExercisePageContext
-  )
 
   const { setIsTimelineComplete, setShouldAutoplayAnimation } =
     useAnimationTimelineStore()

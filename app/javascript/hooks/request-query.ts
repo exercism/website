@@ -46,7 +46,7 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
   key: QueryKey,
   request: Request
 ): UseQueryResult<TResult, TError> {
-  const { query, options } = request
+  const { query = {}, options = {} } = request
 
   // we are storing the initial query on mount to detect when it changes.
   const initialQueryRef = useRef(query)

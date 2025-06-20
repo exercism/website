@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
-  before_action :set_user_id_cookie
+  after_action :set_user_id_cookie
   after_action :disable_cache_for_redirects
   after_action :set_body_class_header
   after_action :set_csp_header
@@ -193,7 +193,6 @@ class ApplicationController < ActionController::Base
   # If this cookie is set then they should only receive privately
   # cached versions of pages.
   def set_user_id_cookie
-    return if devise_controller?
     return unless user_signed_in?
 
     cookies.signed[:_exercism_user_id] = {

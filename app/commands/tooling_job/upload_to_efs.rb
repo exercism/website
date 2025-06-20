@@ -15,7 +15,5 @@ class ToolingJob::UploadToEFS
 
   private
   memoize
-  def efs_dir
-    [Exercism.config.efs_submissions_mount_point, job_id].join('/')
-  end
+  def efs_dir = Exercism::ToolingJob.efs_full_path(job_id)
 end

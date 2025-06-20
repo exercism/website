@@ -19,7 +19,7 @@ class ToolingJob::Create
       solution.exercise.slug,
       run_in_background:,
       source: {
-        submission_efs_root: job_id,
+        submission_efs_root: Exercism::ToolingJob.efs_job_path(job_id),
         submission_filepaths: valid_filepaths,
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: git_sha,

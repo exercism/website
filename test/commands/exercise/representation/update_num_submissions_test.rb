@@ -65,4 +65,19 @@ class Exercise::Representation::UpdateNumSubmissionsTest < ActiveSupport::TestCa
 
     assert_equal 1, representation.reload.num_submissions
   end
+
+  test "hello-world is always 0" do
+    exercise = create :practice_exercise, slug: 'hello-world'
+    submission = create :submission, solution: (create :practice_solution, exercise:), tests_status: :passed
+    representation = create :exercise_representation, ast_digest: 'foo', exercise:, source_submission: submission
+    create(:submission_representation, ast_digest: 'foo', submission:)
+
+    # Sanity check
+    representation.update_column(:num_submissions, 5)
+    assert_equal 5, representation.num_submissions
+
+    Exercise::Representation::UpdateNumSubmissions.(representation)
+
+    assert_equal 0, representation.reload.num_submissions
+  end
 end

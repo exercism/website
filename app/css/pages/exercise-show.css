@@ -268,8 +268,14 @@ body.namespace-tracks.controller-exercises.action-show {
         }
 
         &.pending {
-            &:before {
-                background-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0ibWludXMtY2lyY2xlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5hIHsKICAgICAgICBmaWxsOiBub25lOwogICAgICAgIHN0cm9rZTogY3VycmVudENvbG9yOwogICAgICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDsKICAgICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICAgIHN0cm9rZS13aWR0aDogMS41cHg7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDx0aXRsZT5zdWJ0cmFjdC1jaXJjbGU8L3RpdGxlPgogIDxsaW5lIGNsYXNzPSJhIiB4MT0iNy41IiB5MT0iMTIiIHgyPSIxNi41IiB5Mj0iMTIiIC8+CiAgPGNpcmNsZSBjbGFzcz0iYSIgY3g9IjEyIiBjeT0iMTIiIHI9IjExLjI1IiAvPgo8L3N2Zz4K");
+            &::before {
+                content: "";
+                display: block;
+                background-image: url("graphics/minus.svg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 70% 70%;
+                background-color: #e1ebff;
             }
         }
         &.locked {

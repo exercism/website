@@ -1,8 +1,6 @@
 class ToolingJob::Create
   include Mandate
 
-  initialize_with :submission, :type
-
   def initialize(submission, type, git_sha: nil, run_in_background: false, context: {})
     @submission = submission
     @type = type.to_sym
@@ -12,14 +10,16 @@ class ToolingJob::Create
   end
 
   def call
+    ToolingJob::UploadToEFS.(job_id, submission)
     Exercism::ToolingJob.create!(
+      job_id,
       type,
       submission.uuid,
       solution.track.slug,
       solution.exercise.slug,
       run_in_background:,
       source: {
-        submission_efs_root: submission.uuid,
+        submission_efs_root: job_id,
         submission_filepaths: valid_filepaths,
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: git_sha,
@@ -35,6 +35,9 @@ class ToolingJob::Create
 
   memoize
   delegate :solution, to: :submission
+
+  memoize
+  def job_id = SecureRandom.uuid.tr('-', '')
 
   def exercise_filepaths
     exercise_repo.tooling_filepaths.reject do |filepath|

@@ -71,13 +71,6 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
-  def write_to_efs!
-    dir = [Exercism.config.efs_submissions_mount_point, uuid].join('/')
-    return if Dir.exist?(dir)
-
-    files.each(&:write_to_efs!)
-  end
-
   def tests_passed?
     tests_status == "passed"
   end

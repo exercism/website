@@ -27,20 +27,6 @@ class Submission::File < ApplicationRecord
         acl: 'private'
       )
     end
-    write_to_efs!
-  end
-
-  def efs_path
-    [
-      Exercism.config.efs_submissions_mount_point,
-      submission.uuid,
-      filename
-    ].join("/")
-  end
-
-  def write_to_efs!
-    FileUtils.mkdir_p(efs_path.split("/").tap(&:pop).join("/"))
-    File.open(efs_path, 'w') { |f| f.write(utf8_content) }
   end
 
   def content

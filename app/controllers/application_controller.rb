@@ -137,6 +137,7 @@ class ApplicationController < ActionController::Base
     return if devise_controller?
     return if Rails.env.test?
     return if user_signed_in?
+    return if cookies.signed[:_exercism_user_id].present?
 
     # Cache for some seconds lasting between 5 and 20 minutes.
     # Vary this so we don't get spikes of traffic when everything

@@ -134,6 +134,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_public_action!
+    return if devise_controller?
     return if Rails.env.test?
     return if user_signed_in?
 
@@ -150,6 +151,7 @@ class ApplicationController < ActionController::Base
   # not via Rails, and we want to avoid origin requests
   # every time, so we disable the If-None-Match header,
   def disable_rails_cache_for_public_requests!
+    return if devise_controller?
     return if user_signed_in?
 
     # Simulate production setup with cloudfront
@@ -164,6 +166,7 @@ class ApplicationController < ActionController::Base
     # we probably want to do is retrieve a copy of the file from
     # s3 here, but we don't have that set up yet.
     # When we need to, we can use HTTP_X_IF_NONE_MATCH here.
+    return true if devise_controller?
     return true unless user_signed_in?
 
     etag = Cache::GenerateEtag.(etag, current_user)

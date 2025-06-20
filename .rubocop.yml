@@ -64,6 +64,9 @@ Metrics/ClassLength:
 Naming/PredicateName:
   Enabled: false
 
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   SingleLineConditionsOnly: false

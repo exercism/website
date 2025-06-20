@@ -6,7 +6,7 @@ class ToolingJob::DeleteFromEFS
   def call
     return unless Dir.exist?(efs_dir)
 
-    FileUtils.rm_rf(efs_path)
+    FileUtils.rm_rf(efs_dir)
   end
 
   private

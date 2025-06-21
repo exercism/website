@@ -10,7 +10,8 @@ gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2', '~> 0.5.6'
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.1'
+gem 'redis-clustering', '~> 5.1'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'
@@ -38,7 +39,8 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.121.0'
+gem 'exercism-config', '>= 0.123.0'
+# gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

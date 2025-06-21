@@ -17,6 +17,8 @@ module ViewComponents
     end
 
     def announcement_bar
+      return downtime_announcement_bar if user_signed_in?
+
       return coding_fundamentals_announcement_bar unless user_signed_in?
       return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner
       return coding_fundamentals_announcement_bar if current_user.junior?
@@ -29,6 +31,17 @@ module ViewComponents
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Enjoying Exercism? We need your help to survive…") +
             tag.strong("Please donate if you can!")
+        end
+      end
+    end
+
+    def downtime_announcement_bar
+      tag.div(class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("⚠️", class: 'emoji mr-6') +
+            tag.span("June 21st: 4am-8am UTC:") +
+            tag.strong("Scheduled Maintenance") +
+            tag.span("will cause disruption to online editor & testing.")
         end
       end
     end

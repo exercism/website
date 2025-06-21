@@ -29,7 +29,7 @@ class User::Update
   end
 
   def user_params
-    (sanitized_params[:user] || {}).slice(:name, :location, :bio, :pronoun_parts, :show_on_supporters_page)
+    (sanitized_params[:user] || {}).slice(:name, :location, :bio, :pronoun_parts, :show_on_supporters_page, :seniority)
   end
 
   def profile_params

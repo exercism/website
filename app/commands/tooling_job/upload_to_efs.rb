@@ -1,7 +1,7 @@
 class ToolingJob::UploadToEFS
   include Mandate
 
-  initialize_with :job_id, :submission
+  initialize_with :efs_dir, :submission
 
   def call
     return if Dir.exist?(efs_dir)
@@ -12,8 +12,4 @@ class ToolingJob::UploadToEFS
       File.open(efs_path, 'w') { |f| f.write(file.utf8_content) }
     end
   end
-
-  private
-  memoize
-  def efs_dir = Exercism::ToolingJob.efs_full_path(job_id)
 end

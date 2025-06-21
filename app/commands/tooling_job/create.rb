@@ -10,16 +10,18 @@ class ToolingJob::Create
   end
 
   def call
-    ToolingJob::UploadToEFS.(job_id, submission)
+    ToolingJob::UploadToEFS.(efs_dir, submission)
+
     Exercism::ToolingJob.create!(
       job_id,
       type,
       submission.uuid,
+      efs_dir,
       solution.track.slug,
       solution.exercise.slug,
       run_in_background:,
       source: {
-        submission_efs_root: Exercism::ToolingJob.efs_job_path(job_id),
+        submission_efs_root: efs_dir,
         submission_filepaths: valid_filepaths,
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: git_sha,
@@ -38,6 +40,12 @@ class ToolingJob::Create
 
   memoize
   def job_id = SecureRandom.uuid.tr('-', '')
+
+  memoize
+  def efs_dir
+    date = Time.current.utc.strftime('%Y/%m/%d')
+    "#{Exercism.config.efs_tooling_jobs_mount_point}/#{date}/#{job_id}"
+  end
 
   def exercise_filepaths
     exercise_repo.tooling_filepaths.reject do |filepath|

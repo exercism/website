@@ -4,7 +4,7 @@ class ToolingJob::Process
   initialize_with :id
 
   def call
-    ToolingJob::DeleteFromEFS.defer(id)
+    ToolingJob::DeleteFromEFS.(job.efs_dir)
 
     send("process_#{job.type}_job!")
     job.processed!

@@ -39,7 +39,8 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.122.0' # path: '../config'
+gem 'exercism-config', '>= 0.123.0'
+# gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

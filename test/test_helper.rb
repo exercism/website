@@ -352,7 +352,7 @@ class ActiveSupport::TestCase
   def generate_reputation_periods!
     # We use reputation periods for the calculation
     # This command should generate them all.
-    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationToken.all.find_each { |t| User::ReputationPeriod::MarkForToken.(t) }
     User::ReputationPeriod::Sweep.()
   end
 

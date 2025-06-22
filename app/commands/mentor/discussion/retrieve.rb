@@ -16,7 +16,6 @@ class Mentor::Discussion::Retrieve
                  track_slug: nil,
                  sorted: true, paginated: true,
                  exclude_uuid: nil)
-
     raise InvalidDiscussionStatusError unless STATUSES.include?(status&.to_sym)
 
     @mentor = mentor

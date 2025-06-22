@@ -64,6 +64,9 @@ Metrics/ClassLength:
 Naming/PredicateName:
   Enabled: false
 
+Style/MultipleComparison:
+  Enabled: false
+
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   SingleLineConditionsOnly: false

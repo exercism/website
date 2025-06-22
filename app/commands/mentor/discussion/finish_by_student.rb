@@ -8,7 +8,6 @@ class Mentor::Discussion::FinishByStudent
                  report_reason: nil,
                  report_message: nil,
                  testimonial: nil)
-
     @discussion = discussion
     @rating = rating
     @should_requeue = requeue

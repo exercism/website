@@ -12,7 +12,7 @@ module API
       post filterable_api_track_tag_path('ruby', 'foo'),
         headers: @headers, as: :json
 
-      assert_response 403
+      assert_response :forbidden
     end
 
     test "filterable: should make filterable" do
@@ -47,7 +47,7 @@ module API
       delete not_filterable_api_track_tag_path('ruby', 'foo'),
         headers: @headers, as: :json
 
-      assert_response 403
+      assert_response :forbidden
     end
 
     test "not_filterable: should make not filterable" do
@@ -70,7 +70,7 @@ module API
       post enabled_api_track_tag_path('ruby', 'foo'),
         headers: @headers, as: :json
 
-      assert_response 403
+      assert_response :forbidden
     end
 
     test "enabled: should make enabled" do
@@ -93,7 +93,7 @@ module API
       delete not_enabled_api_track_tag_path('ruby', 'foo'),
         headers: @headers, as: :json
 
-      assert_response 403
+      assert_response :forbidden
     end
 
     test "not_enabled: should make not enabled" do

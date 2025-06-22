@@ -22,14 +22,4 @@ class User::GithubSolutionSyncer::GeneratePullRequestTitle
   end
 
   delegate :user, :exercise, :track, to: :iteration
-
-  memoize
-  def track
-    @track || exercise&.track
-  end
-
-  memoize
-  def exercise
-    @exercise || iteration&.exercise
-  end
 end

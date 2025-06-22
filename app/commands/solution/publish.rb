@@ -27,7 +27,7 @@ class Solution::Publish
   end
 
   private
-  delegate :user, to: :solution
+  delegate :exercise, :user, to: :solution
 
   def award_reputation!
     level = exercise.concept_exercise? ? :concept : exercise.difficulty_category
@@ -62,8 +62,6 @@ class Solution::Publish
   def update_num_published_solutions_on_exercise!
     Exercise::CacheNumPublishedSolutions.defer(exercise)
   end
-
-  delegate :exercise, :user, to: :solution
 
   BADGES = %i[functional_february mechanical_march analytical_april
               mind_shifting_may summer_of_sexps jurassic_july

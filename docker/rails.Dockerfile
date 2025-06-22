@@ -29,7 +29,7 @@ RUN bundle config set frozen 'true' && \
 
 RUN gem install propshaft -v 0.4.0
 RUN gem install nokogiri -v 1.18.8
-RUN gem install anycable -v 1.2.5
+RUN gem install anycable -v 1.6.0
 RUN gem install oj -v 3.14.3
 RUN gem install rugged -v 1.9.0
 
@@ -39,6 +39,9 @@ RUN bundle install && \
     grpc_path="$(bundle show --paths grpc)/src/ruby/ext/grpc" && \
     make -C "${grpc_path}" clean && \
     rm -rf "${grpc_path}/libs" "${grpc_path}/objs"
+
+RUN gem install mysql2 -v 0.5.6
+RUN gem install commonmarker -v 0.23.8
 
 RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > .npmrc
 

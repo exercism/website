@@ -22,10 +22,12 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
+ENV BUNDLE_PATH=/usr/local/bundle
 RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 RUN bundle config set frozen 'true' && \
-    bundle config set without 'development test'
+    bundle config set without 'development test' && \
+    bundle config set path "${BUNDLE_PATH}"
 
 RUN gem install propshaft -v 0.4.0
 RUN gem install nokogiri -v 1.18.8
@@ -39,7 +41,7 @@ RUN gem install devise -v 4.9.4
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN bundle install --verbose && \
     grpc_path="$(bundle show --paths grpc)/src/ruby/ext/grpc" && \
     make -C "${grpc_path}" clean && \
     rm -rf "${grpc_path}/libs" "${grpc_path}/objs"

@@ -1,4 +1,4 @@
-FROM ruby:3.3.0-bullseye AS build
+FROM ruby:3.4.4-bullseye AS build
 
 ARG GEOIP_ACCOUNT_ID
 ARG GEOIP_LICENSE_KEY
@@ -28,10 +28,10 @@ RUN bundle config set frozen 'true' && \
     bundle config set without 'development test'
 
 RUN gem install propshaft -v 0.4.0
-RUN gem install nokogiri -v 1.15.4
+RUN gem install nokogiri -v 1.18.8
 RUN gem install anycable -v 1.2.5
-RUN gem install oj -v 3.14.2
-RUN gem install rugged -v 1.6.3
+RUN gem install oj -v 3.14.3
+RUN gem install rugged -v 1.9.0
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.3.0'
+ruby '3.4.4'
 
 # Service/framework dependencies
 gem 'rails', '~> 7.0.1'
@@ -8,6 +8,7 @@ gem 'cssbundling-rails'
 gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
+gem 'base64'
 
 gem 'mysql2', '~> 0.5.6'
 gem 'redis', '~> 5.1'
@@ -39,7 +40,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.123.0'
+gem 'exercism-config', '>= 0.124.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies

@@ -36,12 +36,11 @@ module ViewComponents
     end
 
     def downtime_announcement_bar
-      tag.div(class: "announcement-bar md:block hidden") do
+      link_to("https://forum.exercism.org/t/scheduled-maintenance/18062", class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("⚠️", class: 'emoji mr-6') +
-            tag.span("June 21st: 4am-8am UTC:") +
-            tag.strong("Scheduled Maintenance") +
-            tag.span("will cause disruption to online editor & testing.")
+            tag.span("Scheduled Maintenance now: Expect disruption to online editor & testing.") +
+            tag.strong("Read more...")
         end
       end
     end

@@ -39,7 +39,7 @@ module ViewComponents
       link_to("https://forum.exercism.org/t/scheduled-maintenance/18062", class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("⚠️", class: 'emoji mr-6') +
-            tag.span("Scheduled Maintenance now: Expect disruption to online editor & testing.") +
+            tag.span("Server Upgrades: We'll be making infrastructure updates for the next 24 hours.") +
             tag.strong("Read more...")
         end
       end

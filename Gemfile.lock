@@ -402,7 +402,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (4.3.12)
+    puma (6.6.0)
       nio4r (~> 2.0)
     qonfig (0.30.0)
       base64 (>= 0.2)
@@ -683,7 +683,7 @@ DEPENDENCIES
   opensearch-ruby
   propshaft (= 0.4.0)
   public_suffix
-  puma (~> 4.3)
+  puma
   rack-attack (~> 6.6)
   rack-cors
   rails (~> 7.1.0)

@@ -17,8 +17,7 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'
 gem 'aws-sdk-sesv2'
-gem 'anycable-rails', '~> 1.2.0'
-gem "google-protobuf", "~> 3.25.0"
+gem 'anycable-rails'
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
 

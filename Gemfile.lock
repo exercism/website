@@ -88,15 +88,20 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ansi-to-html (0.0.3)
-    anycable (1.2.5)
-      anycable-core (= 1.2.5)
-      grpc (~> 1.37)
-    anycable-core (1.2.5)
-      anyway_config (>= 2.1.0)
-      google-protobuf (>= 3.13)
-    anycable-rails (1.2.1)
-      actioncable (>= 6.0)
-      anycable (~> 1.2.0)
+    anycable (1.6.0)
+      anycable-core (= 1.6.0)
+      grpc (~> 1.6)
+    anycable-core (1.6.0)
+      anyway_config (~> 2.2)
+      base64 (>= 0.2)
+      google-protobuf (~> 4)
+      stringio (~> 3)
+    anycable-rails (1.6.0)
+      anycable
+      anycable-rails-core (= 1.6.0)
+    anycable-rails-core (1.6.0)
+      actioncable (>= 7.0, < 9.0)
+      anycable-core (~> 1.6.0)
       globalid
     anyway_config (2.7.2)
       ruby-next-core (~> 1.0)
@@ -236,7 +241,9 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (3.25.8)
+    google-protobuf (4.31.1)
+      bigdecimal
+      rake (>= 13)
     googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
     grpc (1.73.0)
@@ -636,7 +643,7 @@ PLATFORMS
 DEPENDENCIES
   addressable (~> 2.7)
   ansi-to-html
-  anycable-rails (~> 1.2.0)
+  anycable-rails
   aws-sdk-cloudfront
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
@@ -657,7 +664,6 @@ DEPENDENCIES
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)
-  google-protobuf (~> 3.25.0)
   grpc (>= 1.53.0)
   haml_lint
   hamlit

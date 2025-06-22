@@ -6,7 +6,7 @@ class Submission::File < ApplicationRecord
   URI_REGEX = %r{s3://(?<bucket>[a-z0-9-]+)/(?<key>.*)}
 
   before_create do
-    self.uri = "s3://#{Exercism.config.aws_submissions_bucket}/#{Rails.env}/storage/#{SecureRandom.compact_uuid}"
+    self.uri = generate_uri
   end
 
   # When the object is created we want to save
@@ -19,14 +19,14 @@ class Submission::File < ApplicationRecord
   # and all data that is used is present (no risk of
   # a race condition).
   after_create do
-    if @content
-      Exercism.s3_client.put_object(
-        bucket: s3_bucket,
-        key: s3_key,
-        body: @content,
-        acl: 'private'
-      )
-    end
+    upload_content_to_s3!(content) if @content
+  end
+
+  def upload_to_s3!
+    return if uri
+
+    update(uri: generate_uri) if self.uri.blank?
+    upload_content_to_s3!(@content)
   end
 
   def content
@@ -37,6 +37,20 @@ class Submission::File < ApplicationRecord
 
   def utf8_content
     @utf8_content ||= raw_content.force_encoding('utf-8')
+  end
+
+  private
+  def generate_uri
+    "s3://#{Exercism.config.aws_submissions_bucket}/#{Rails.env}/storage/#{SecureRandom.compact_uuid}"
+  end
+
+  def upload_content_to_s3!(_content)
+    Exercism.s3_client.put_object(
+      bucket: s3_bucket,
+      key: s3_key,
+      body: @content,
+      acl: 'private'
+    )
   end
 
   def raw_content

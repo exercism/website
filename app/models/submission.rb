@@ -71,6 +71,8 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
+  def upload_to_s3! = files.each(:upload_to_s3!)
+
   def tests_passed?
     tests_status == "passed"
   end
@@ -134,6 +136,10 @@ class Submission < ApplicationRecord
         digest: file.digest
       }
     end
+  end
+
+  def s3_uris
+    files.map(&:s3_uri).compact
   end
 
   # We allow repo overriding for when we want to run

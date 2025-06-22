@@ -23,28 +23,28 @@ RUN apt-get update && \
 WORKDIR /opt/exercism/website
 
 ENV BUNDLE_PATH=/usr/local/bundle
+ENV GEM_HOME=$BUNDLE_PATH
+ENV GEM_PATH=$BUNDLE_PATH
+ENV PATH=$BUNDLE_PATH/bin:$PATH
 RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 RUN bundle config set frozen 'true' && \
     bundle config set without 'development test' && \
     bundle config set path "${BUNDLE_PATH}"
 
-RUN gem install propshaft -v 0.4.0
-RUN gem install nokogiri -v 1.18.8
-RUN gem install anycable -v 1.6.0
-RUN gem install oj -v 3.14.3
-RUN gem install rugged -v 1.9.0
-RUN gem install mysql2 -v 0.5.6
-RUN gem install commonmarker -v 0.23.8
-RUN gem install grpc -v 1.73.0
-RUN gem install devise -v 4.9.4
+RUN gem install propshaft -v 0.4.0 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install nokogiri -v 1.18.8 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install anycable -v 1.6.0 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install oj -v 3.14.3 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install rugged -v 1.9.0 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install mysql2 -v 0.5.6 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install commonmarker -v 0.23.8 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install grpc -v 1.73.0 --no-document --install-dir=$BUNDLE_PATH
+RUN gem install devise -v 4.9.4 --no-document --install-dir=$BUNDLE_PATH
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --verbose && \
-    grpc_path="$(bundle show --paths grpc)/src/ruby/ext/grpc" && \
-    make -C "${grpc_path}" clean && \
-    rm -rf "${grpc_path}/libs" "${grpc_path}/objs"
 
 RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > .npmrc
 
@@ -73,7 +73,7 @@ RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
-FROM ruby:3.3.0-bullseye AS runtime
+FROM ruby:3.4.4-bullseye AS runtime
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production

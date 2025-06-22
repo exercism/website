@@ -104,8 +104,8 @@ class Exercise < ApplicationRecord
       Exercise::ProcessGitImportantFilesChanged.defer(
         self,
         previous_changes['git_important_files_hash'][0],
-        (previous_changes.dig('git_sha', 0) || git_sha),
-        (previous_changes.dig('slug', 0) || slug)
+        previous_changes.dig('git_sha', 0) || git_sha,
+        previous_changes.dig('slug', 0) || slug
       )
     end
 
@@ -133,8 +133,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def generic_exercise = GenericExercise.for(slug)
-
-  delegate :has_representer?, to: :track
 
   def to_param = slug
   def download_cmd = "exercism download --track=#{track.slug} --exercise=#{slug}".freeze

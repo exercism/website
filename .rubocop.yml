@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rails
   - rubocop-minitest
   - rubocop-performance
@@ -61,7 +61,7 @@ Metrics/ClassLength:
     - "test/commands/solution/search_user_solutions_test.rb"
     - "test/serializers/serialize_submission_test_run_test.rb"
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Enabled: false
 
 Style/MultipleComparison:

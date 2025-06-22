@@ -18,7 +18,7 @@ namespace :exercism do
 
     class CodeStatistics # rubocop:disable Lint/ConstantDefinitionInBlock
       def calculate_statistics
-        pattern = pattern = /^(?!\.).*?\.(rb|js|ts|jsx|tsx|css|rake|haml)$/
+        pattern = /^(?!\.).*?\.(rb|js|ts|jsx|tsx|css|rake|haml)$/
         Hash[
           @pairs.map do |pair|
             [pair.first, calculate_directory_statistics(pair.last, pattern)]
@@ -27,5 +27,4 @@ namespace :exercism do
       end
     end
   end
-end
-# rubocop:enable Rails/RakeEnvironment
+end # rubocop:enable Rails/RakeEnvironment

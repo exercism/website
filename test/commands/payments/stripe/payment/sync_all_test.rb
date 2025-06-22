@@ -32,7 +32,7 @@ class Payments::Stripe::Payment::SyncAllTest < Payments::TestBase
 
     Payments::Stripe::HandleEvent.expects(:call).with { |event| event.id == events[0].id }.once
     Payments::Stripe::HandleEvent.expects(:call).with { |event| event.id == events[2].id }.once
-    Payments::Stripe::HandleEvent.expects(:call).with { |event| event.id == events[0].id }.never
+    Payments::Stripe::HandleEvent.expects(:call).with { |event| event.id == events[1].id }.never
 
     Payments::Stripe::Payment::SyncAll.()
   end

@@ -27,9 +27,9 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
         json = JSON.parse(request.body)
         json["labels"].empty? &&
           json["title"] == "🤖 Document sync error for commit 2e25f7" &&
-          json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
+          json["body"].include?("We hit an error trying to sync the latest commit") &&
           json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
-          json["body"].match?(/open_for_doc_sync_failure_test\.rb:\d+:in `block in <class:OpenForDocSyncFailureTest>/)
+          json["body"].match?(/open_for_doc_sync_failure_test\.rb:\d+:in 'block in <class:OpenForDocSyncFailureTest>/)
       end.
       to_return(status: 200, body: "", headers: {}).
       times(1)

@@ -7,7 +7,12 @@ begin
   sleep(rand * 30)
 
   migrations = ActiveRecord::Migration.new.migration_context.migrations
-  ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration).migrate
+  ActiveRecord::Migrator.new(
+    :up,
+    migrations,
+    ActiveRecord::Base.connection.schema_migration,
+    ActiveRecord::Base.connection.internal_metadata
+  ).migrate
 
   Rails.logger.info "Migrations ran cleanly"
 rescue ActiveRecord::ConcurrentMigrationError

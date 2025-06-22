@@ -279,8 +279,10 @@ class ActiveSupport::TestCase
 
   def create_tooling_job!(submission, type, params = {})
     Exercism::ToolingJob.create!(
+      SecureRandom.base64(8), # We don't override this anywhere
       type,
       submission.uuid,
+      "opt/efs/somepath",
       submission.track.slug,
       submission.exercise.slug,
       **params

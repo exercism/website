@@ -78,7 +78,15 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
   end
 
   test "handle long snippets" do
-    @snippet += ("x" * 1500)
+    code = "Some source code"
+    snippet = "Some generated snippet#{"x" * 1500}"
+
+    stub_request(:post, Exercism.config.snippet_generator_url).
+      with(
+        body: "{\"language\":\"ruby\",\"source_code\":\"#{code}\"}"
+      ).
+      to_return(status: 200, body: snippet, headers: {})
+
     iteration = create :iteration, submission: @submission
 
     Iteration::GenerateSnippet.(iteration)

@@ -20,14 +20,20 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
+    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
+    job_id = "foobar123asd"
+    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+
     Exercism::ToolingJob.expects(:create!).with(
+      job_id,
       :representer,
       submission.uuid,
+      efs_dir,
       solution.track.slug,
       solution.exercise.slug,
       run_in_background: false,
       source: {
-        submission_efs_root: submission.uuid,
+        submission_efs_root: efs_dir,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: solution.git_sha,
@@ -51,14 +57,20 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
+    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
+    job_id = "foobar123asd"
+    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+
     Exercism::ToolingJob.expects(:create!).with(
+      job_id,
       :representer,
       submission.uuid,
+      efs_dir,
       solution.track.slug,
       solution.exercise.slug,
       run_in_background: true,
       source: {
-        submission_efs_root: submission.uuid,
+        submission_efs_root: efs_dir,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: "foobar",
@@ -81,14 +93,19 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
+    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
+    job_id = "foobar123asd"
+    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
     Exercism::ToolingJob.expects(:create!).with(
+      job_id,
       :representer,
       submission.uuid,
+      efs_dir,
       solution.track.slug,
       solution.exercise.slug,
       run_in_background: false,
       source: {
-        submission_efs_root: submission.uuid,
+        submission_efs_root: efs_dir,
         submission_filepaths: ["isogram.rb", "subdir/new_file.rb"],
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: solution.git_sha,

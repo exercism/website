@@ -1,4 +1,6 @@
 class Submission::File < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :submission
 
   attr_writer :content
@@ -6,7 +8,7 @@ class Submission::File < ApplicationRecord
   URI_REGEX = %r{s3://(?<bucket>[a-z0-9-]+)/(?<key>.*)}
 
   before_create do
-    self.uri = "s3://#{Exercism.config.aws_submissions_bucket}/#{Rails.env}/storage/#{SecureRandom.compact_uuid}"
+    self.uri = generate_uri
   end
 
   # When the object is created we want to save
@@ -19,28 +21,14 @@ class Submission::File < ApplicationRecord
   # and all data that is used is present (no risk of
   # a race condition).
   after_create do
-    if @content
-      Exercism.s3_client.put_object(
-        bucket: s3_bucket,
-        key: s3_key,
-        body: @content,
-        acl: 'private'
-      )
-    end
-    write_to_efs!
+    upload_content_to_s3!(content) if @content
   end
 
-  def efs_path
-    [
-      Exercism.config.efs_submissions_mount_point,
-      submission.uuid,
-      filename
-    ].join("/")
-  end
+  def upload_to_s3!
+    return if uri
 
-  def write_to_efs!
-    FileUtils.mkdir_p(efs_path.split("/").tap(&:pop).join("/"))
-    File.open(efs_path, 'w') { |f| f.write(utf8_content) }
+    update(uri: generate_uri) if self.uri.blank?
+    upload_content_to_s3!(@content)
   end
 
   def content
@@ -49,8 +37,21 @@ class Submission::File < ApplicationRecord
     "[Invalid Unicode]"
   end
 
-  def utf8_content
-    @utf8_content ||= raw_content.force_encoding('utf-8')
+  memoize
+  def utf8_content = String.new(raw_content, encoding: 'utf-8')
+
+  private
+  def generate_uri
+    "s3://#{Exercism.config.aws_submissions_bucket}/#{Rails.env}/storage/#{SecureRandom.compact_uuid}"
+  end
+
+  def upload_content_to_s3!(_content)
+    Exercism.s3_client.put_object(
+      bucket: s3_bucket,
+      key: s3_key,
+      body: @content,
+      acl: 'private'
+    )
   end
 
   def raw_content

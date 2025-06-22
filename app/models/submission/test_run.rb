@@ -2,7 +2,7 @@ class Submission::TestRun < ApplicationRecord
   extend Mandate::Memoize
   include HasToolingJob
 
-  serialize :raw_results, JSON
+  serialize :raw_results, coder: JSON
 
   belongs_to :track
   belongs_to :submission

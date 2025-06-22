@@ -1,26 +1,28 @@
 source 'https://rubygems.org'
 
-ruby '3.3.0'
+ruby '3.4.4'
 
 # Service/framework dependencies
-gem 'rails', '~> 7.0.1'
+gem 'rails', '~> 7.1.0'
 gem 'cssbundling-rails'
 gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
+gem 'base64'
 
 gem 'mysql2', '~> 0.5.6'
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.1'
+gem 'redis-clustering', '~> 5.1'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'
 gem 'aws-sdk-sesv2'
-gem 'anycable-rails', '~> 1.2.0'
+gem 'anycable-rails'
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
 
 # Serving requests
-gem 'puma', '~> 4.3'
+gem 'puma'
 gem 'rack-cors'
 
 # Helper gems for Rails
@@ -38,18 +40,19 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.121.0'
+gem 'exercism-config', '>= 0.125.0'
+# gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
-gem 'sidekiq', '7.1.4'
+gem 'sidekiq', '~> 7.2'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 
 # View-level Dependencies
 gem 'hamlit'
-gem 'commonmarker', '>= 0.23.8'
+gem 'commonmarker', '0.23.8'
 gem 'ansi-to-html'
 gem 'public_suffix'
 gem 'humanize'

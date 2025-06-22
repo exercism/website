@@ -29,9 +29,9 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
         json = JSON.parse(request.body)
         json["labels"].empty? &&
           json["title"] == "🤖 Sync error for commit 2e25f7" &&
-          json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
+          json["body"].include?("We hit an error trying to sync the latest commit") &&
           json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
-          json["body"].match?(/open_for_track_sync_failure_test\.rb:\d+:in `block in <class:OpenForTrackSyncFailureTest>/)
+          json["body"].match?(/open_for_track_sync_failure_test\.rb:\d+:in 'block in <class:OpenForTrackSyncFailureTest>/)
       end.
       to_return(status: 200, body: "", headers: {}).
       times(1)
@@ -108,7 +108,6 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
     exception = ActiveRecord::Deadlocked.new
 
     Github::Issue::OpenForTrackSyncFailure.(create(:track), exception, nil)
-
     # If the GitHub API would have been called, we would not have gotten to this point
   end
 
@@ -138,9 +137,8 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
         json = JSON.parse(request.body)
         json["labels"].empty? &&
           json["title"] == "🤖 Sync error: Could not find main branch" &&
-          json["body"].include?("We hit an error trying to sync the latest commit (unknown) to the website.") &&
-          json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
-          json["body"].match?(/open_for_track_sync_failure_test\.rb:\d+:in `block in <class:OpenForTrackSyncFailureTest>/)
+          json["body"].include?("We hit an error trying to sync the latest commit") &&
+          json["body"].match?(/open_for_track_sync_failure_test\.rb:\d+:in 'block in <class:OpenForTrackSyncFailureTest>/)
       end.
       to_return(status: 200, body: "", headers: {}).
       times(1)

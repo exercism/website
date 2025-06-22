@@ -11,7 +11,7 @@ class API::MarkdownControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :ok
     expected = { html: "<p><em>Hello</em></p>\n" }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end

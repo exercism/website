@@ -29,7 +29,7 @@ class Solution::UpdateNumLoc
   end
 
   def resync_representation_to_search_index!
-    Exercise::Representation.where(oldest_solution: solution).each do |representation|
+    Exercise::Representation.where(oldest_solution: solution).find_each do |representation|
       Exercise::Representation::SyncToSearchIndex.defer(representation)
     end
   end

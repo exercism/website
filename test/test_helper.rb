@@ -279,8 +279,10 @@ class ActiveSupport::TestCase
 
   def create_tooling_job!(submission, type, params = {})
     Exercism::ToolingJob.create!(
+      SecureRandom.base64(8), # We don't override this anywhere
       type,
       submission.uuid,
+      "opt/efs/somepath",
       submission.track.slug,
       submission.exercise.slug,
       **params
@@ -352,7 +354,7 @@ class ActiveSupport::TestCase
   def generate_reputation_periods!
     # We use reputation periods for the calculation
     # This command should generate them all.
-    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationToken.all.find_each { |t| User::ReputationPeriod::MarkForToken.(t) }
     User::ReputationPeriod::Sweep.()
   end
 

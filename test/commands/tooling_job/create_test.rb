@@ -11,12 +11,16 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
 
       refute_equal submission.git_sha, git_sha # Sanity
 
+      SecureRandom.expects(:uuid).returns("foo-bar123-asd")
+      job_id = "foobar123asd"
+      efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+
       job = ToolingJob::Create.(submission, type, git_sha:, run_in_background: false)
 
       redis = Exercism.redis_tooling_client
       expected = {
         source: {
-          submission_efs_root: submission.uuid,
+          submission_efs_root: efs_dir,
           submission_filepaths: [],
           exercise_git_repo: "ruby",
           exercise_git_sha: git_sha,
@@ -32,8 +36,9 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
         },
         context: {},
         id: job.id,
-        submission_uuid: submission.uuid,
         type:,
+        submission_uuid: submission.uuid,
+        efs_dir: efs_dir,
         language: submission.track.slug,
         exercise: submission.exercise.slug,
         created_at: Time.current.utc.to_i

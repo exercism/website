@@ -9,7 +9,7 @@ module CapybaraHelpers
     Rails.application.routes.default_url_options[:port] = Capybara.current_session.server.port
 
     # Regenerate the summaries to avoid n+1 warnings
-    UserTrack.all.each { |ut| ut.send(:summary) }
+    UserTrack.all.find_each { |ut| ut.send(:summary) }
 
     yield()
 

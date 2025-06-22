@@ -100,9 +100,6 @@ class Solution::QueueHeadTestRun
   end
 
   def process_submission!(submission)
-    # Legacy solutions may never have been pushed to EFS, so check that here.
-    submission.write_to_efs!
-
     Submission::TestRun::Init.(
       submission,
       git_sha: exercise.git_sha,

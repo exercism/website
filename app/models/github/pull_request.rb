@@ -1,7 +1,7 @@
 class Github::PullRequest < ApplicationRecord
   extend Mandate::Memoize
 
-  serialize :data, JSON
+  serialize :data, coder: JSON
 
   enum state: {
     open: 0,

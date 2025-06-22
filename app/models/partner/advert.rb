@@ -5,7 +5,7 @@ class Partner::Advert < ApplicationRecord
 
   enum status: { pending: 0, active: 1, out_of_budget: 2, retired: 3 }
 
-  serialize :track_slugs, JSON
+  serialize :track_slugs, coder: JSON
 
   def self.for_track(track)
     candidates = active.to_a.sort_by! { rand }

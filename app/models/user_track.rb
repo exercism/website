@@ -4,7 +4,7 @@ class UserTrack < ApplicationRecord
 
   MIN_REP_TO_TRAIN_ML = 50
 
-  serialize :summary_data, JSON
+  serialize :summary_data, coder: JSON
 
   belongs_to :user
 

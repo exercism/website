@@ -2,7 +2,7 @@ class Bootcamp::CustomFunction::RefreshPredefinedTests
   include Mandate
 
   def call
-    Bootcamp::CustomFunction.where(predefined: true).each do |custom_function|
+    Bootcamp::CustomFunction.where(predefined: true).find_each do |custom_function|
       refresh_function(custom_function)
     end
   end

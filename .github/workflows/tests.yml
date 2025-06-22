@@ -479,5 +479,6 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-        run: bundle exec rails r bin/monitor-manifest
+        run: |
+          bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare

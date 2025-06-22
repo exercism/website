@@ -1,7 +1,7 @@
 class Bootcamp::CustomFunction < ApplicationRecord
   belongs_to :user
-  serialize :tests, JSONWithIndifferentAccess
-  serialize :depends_on, JSONWithIndifferentAccess
+  serialize :tests, coder: JSONWithIndifferentAccess
+  serialize :depends_on, coder: JSONWithIndifferentAccess
 
   scope :active, -> { where(active: true) }
 

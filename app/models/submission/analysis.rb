@@ -2,8 +2,8 @@ class Submission::Analysis < ApplicationRecord
   extend Mandate::Memoize
   include HasToolingJob
 
-  serialize :data, JSON
-  serialize :tags_data, JSON
+  serialize :data, coder: JSON
+  serialize :tags_data, coder: JSON
 
   belongs_to :submission
   belongs_to :track

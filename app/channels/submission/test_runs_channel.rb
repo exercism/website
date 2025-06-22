@@ -11,7 +11,8 @@ class Submission::TestRunsChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(test_run)
-    broadcast_to test_run.submission_id,
+    broadcast_to test_run.submission_id, {
       test_run: SerializeSubmissionTestRun.(test_run)
+    }
   end
 end

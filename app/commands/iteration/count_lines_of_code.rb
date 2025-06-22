@@ -13,17 +13,18 @@ class Iteration::CountLinesOfCode
     # that's probably worth investigating
     return unless iteration
 
-    return unless iteration.submission.valid_filepaths.any?
+    files = submission.valid_files
+    return unless files.any?
 
-    # Legacy solutions may never have been pushed to EFS, so check that here.
-    iteration.submission.write_to_efs!
+    # Upload the files to EFS so that the counter can access them
+    ToolingJob::UploadToEFS.(efs_dir, files)
 
     body = RestClient.post(
       Exercism.config.lines_of_code_counter_url,
       {
         track_slug: iteration.track.slug,
-        submission_uuid: iteration.submission.uuid,
-        submission_filepaths: iteration.submission.valid_filepaths
+        job_dir:,
+        submission_filepaths: filepaths
       }.to_json,
       { content_type: :json, accept: :json }
     ).body
@@ -33,5 +34,25 @@ class Iteration::CountLinesOfCode
 
     iteration.update_column(:num_loc, num_loc)
     Solution::UpdateNumLoc.(iteration.solution)
+  ensure
+    ToolingJob::DeleteFromEFS.(efs_dir)
   end
+
+  private
+  delegate :submission, to: :iteration
+
+  memoize
+  def job_id = SecureRandom.uuid.tr('-', '')
+
+  memoize
+  def job_dir = "#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+
+  memoize
+  def efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{job_dir}"
+
+  memoize
+  def files = submission.valid_files
+
+  memoize
+  def filepaths = files.map(&:filename)
 end

@@ -16,9 +16,6 @@ class Iteration::GenerateSnippet
     file = iteration.submission.files.first
     return unless file
 
-    # Legacy solutions may never have been pushed to EFS, so check that here.
-    iteration.submission.write_to_efs!
-
     snippet = RestClient.post(
       Exercism.config.snippet_generator_url,
       {

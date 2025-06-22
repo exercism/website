@@ -18,7 +18,7 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
       period_begin: "10",
       period_end: "25"
     ), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = { data: [
       { count: 9, track_slug: nil, type: 'request_mentoring_metric', day: 11 },
@@ -31,7 +31,7 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
     setup_user
 
     get api_metrics_periodic_url, headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
   end
 
   test "index returns 400 when passing unknown period type" do
@@ -40,7 +40,7 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
     get api_metrics_periodic_url(
       period_type: "weekly"
     ), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
   end
 
   test "index returns 400 when passing unknown metric type" do
@@ -50,6 +50,6 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
       period_type: "day",
       metric_type: "UnknownMetricType"
     ), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
   end
 end

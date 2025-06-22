@@ -62,8 +62,8 @@ module IsParamaterisedSTI
   extend Mandate::Memoize
 
   included do
-    serialize :params, JSON
-    serialize :rendering_data_cache, JSON
+    serialize :params, coder: JSON
+    serialize :rendering_data_cache, coder: JSON
 
     cattr_accessor :class_suffix, :i18n_category
 

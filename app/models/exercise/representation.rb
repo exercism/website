@@ -1,7 +1,7 @@
 class Exercise::Representation < ApplicationRecord
   OPENSEARCH_INDEX = "#{Rails.env}-exercise-representation".freeze
 
-  serialize :mapping, JSON
+  serialize :mapping, coder: JSON
   has_markdown_field :feedback
 
   belongs_to :exercise

@@ -1,5 +1,5 @@
 class User::BootcampData < ApplicationRecord
-  serialize :utm, JSON
+  serialize :utm, coder: JSON
 
   belongs_to :user, optional: true
 

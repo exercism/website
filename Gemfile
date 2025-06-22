@@ -2,11 +2,8 @@ source 'https://rubygems.org'
 
 ruby '3.4.4'
 
-# Old stdlib gems
-gem 'logger'
-
 # Service/framework dependencies
-gem 'rails', '~> 7.0.1'
+gem 'rails', '~> 7.1.0'
 gem 'cssbundling-rails'
 gem 'jsbundling-rails'
 gem 'turbo-rails'
@@ -21,6 +18,7 @@ gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'
 gem 'aws-sdk-sesv2'
 gem 'anycable-rails', '~> 1.2.0'
+gem "google-protobuf", "~> 3.25.0"
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
 

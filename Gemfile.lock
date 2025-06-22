@@ -243,6 +243,9 @@ GEM
     google-protobuf (4.31.1)
       bigdecimal
       rake (>= 13)
+    google-protobuf (4.31.1-x86_64-linux-gnu)
+      bigdecimal
+      rake (>= 13)
     googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
     grpc (1.73.0)
@@ -353,6 +356,8 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
@@ -561,10 +566,9 @@ GEM
       redis-client (>= 0.22.2)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
-    sidekiq-scheduler (5.0.6)
+    sidekiq-scheduler (6.0.1)
       rufus-scheduler (~> 3.2)
-      sidekiq (>= 6, < 8)
-      tilt (>= 1.4.0, < 3)
+      sidekiq (>= 7.3, < 9)
     skylight (6.0.4)
       activesupport (>= 5.2.0)
     snaky_hash (2.0.3)
@@ -636,6 +640,7 @@ GEM
 PLATFORMS
   ruby
   x64-mingw32
+  x86_64-linux-gnu
 
 DEPENDENCIES
   addressable (~> 2.7)

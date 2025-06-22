@@ -553,11 +553,12 @@ GEM
       websocket (~> 1.0)
     show_me_the_cookies (6.0.0)
       capybara (>= 2, < 4)
-    sidekiq (7.1.4)
-      concurrent-ruby (< 2)
+    sidekiq (7.3.9)
+      base64
       connection_pool (>= 2.3.0)
+      logger
       rack (>= 2.2.4)
-      redis-client (>= 0.14.0)
+      redis-client (>= 0.22.2)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     sidekiq-scheduler (5.0.6)
@@ -701,7 +702,7 @@ DEPENDENCIES
   rugged
   selenium-webdriver
   show_me_the_cookies
-  sidekiq (= 7.1.4)
+  sidekiq (~> 7.2)
   sidekiq-failures
   sidekiq-scheduler
   skylight

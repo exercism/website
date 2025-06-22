@@ -21,5 +21,15 @@ class User::GithubSolutionSyncer::GeneratePullRequestTitle
       gsub(/^-/, "")
   end
 
-  delegate :user, :exercise, :track, to: :iteration
+  delegate :user, to: :iteration
+
+  memoize
+  def track
+    @track || exercise&.track
+  end
+
+  memoize
+  def exercise
+    @exercise || iteration&.exercise
+  end
 end

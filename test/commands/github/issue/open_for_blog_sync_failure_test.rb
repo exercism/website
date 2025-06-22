@@ -31,7 +31,7 @@ class Github::Issue::OpenForBlogSyncFailureTest < ActiveSupport::TestCase
           json["title"] == "🤖 Blog sync error for commit 2e25f7" &&
           json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
           json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
-          json["body"].match?(/open_for_blog_sync_failure_test\.rb:\d+:in `block in <class:OpenForBlogSyncFailureTest>/)
+          json["body"].match?(/open_for_blog_sync_failure_test\.rb:\d+:in 'block in <class:OpenForBlogSyncFailureTest>/)
       end.
       to_return(status: 200, body: "", headers: {}).
       times(1)

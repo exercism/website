@@ -90,8 +90,10 @@ COPY --from=build /usr/share/GeoIP /usr/share/GeoIP
 
 WORKDIR /opt/exercism/website
 
+ENV BUNDLE_PATH=/usr/local/bundle
 RUN bundle config set frozen 'true' && \
     bundle config set without 'development test' && \
+    bundle config set path "${BUNDLE_PATH}" && \
     bundle check
 
 ENTRYPOINT bin/start_webserver

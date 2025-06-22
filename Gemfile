@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 ruby '3.4.4'
 
+# Old stdlib gems
+gem 'logger'
+
 # Service/framework dependencies
 gem 'rails', '~> 7.0.1'
 gem 'cssbundling-rails'

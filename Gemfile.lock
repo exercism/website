@@ -627,6 +627,7 @@ DEPENDENCIES
   jsbundling-rails
   kaminari
   listen (>= 3.0.5, < 4.0)
+  logger
   mandate (~> 2.0)
   maxminddb (~> 0.1.22)
   mini_magick

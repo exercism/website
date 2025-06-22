@@ -27,4 +27,6 @@ namespace :exercism do
       end
     end
   end
-end # rubocop:enable Rails/RakeEnvironment
+end
+
+# rubocop:enable Rails/RakeEnvironment

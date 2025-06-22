@@ -78,7 +78,7 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
   end
 
   test "handle long snippets" do
-    @snippet << ("x" * 1500)
+    @snippet += ("x" * 1500)
     iteration = create :iteration, submission: @submission
 
     Iteration::GenerateSnippet.(iteration)

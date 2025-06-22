@@ -10,7 +10,7 @@ class ToolingJob::Create
   end
 
   def call
-    ToolingJob::UploadToEFS.(efs_dir, submission)
+    ToolingJob::UploadToEFS.(efs_dir, submission.files)
 
     Exercism::ToolingJob.create!(
       job_id,

@@ -138,17 +138,27 @@ class Submission < ApplicationRecord
     end
   end
 
-  def s3_uris
-    files.map(&:s3_uri).compact
+  def s3_filepath_uris
+    files.each_with_object([]) do |file, mapping|
+      next unless exercise_repo.valid_submission_filepath?(file.filename)
+
+      mapping[file.filename] = file.s3_filepath_uri
+    end
   end
 
   # We allow repo overriding for when we want to run
   # a submission against newer tests
-  def valid_filepaths(repo = exercise_repo)
+  def valid_files(repo = exercise_repo)
     repo ||= exercise_repo
-    files.map(&:filename).select do |filepath|
-      repo.valid_submission_filepath?(filepath)
+    files.select do |file|
+      repo.valid_submission_filepath?(file.filename)
     end
+  end
+
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def valid_filepaths(_repo = exercise_repo)
+    valid_files.map(&:filename)
   end
 
   # We allow repo overriding for when we want to run

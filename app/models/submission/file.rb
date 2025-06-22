@@ -1,4 +1,6 @@
 class Submission::File < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :submission
 
   attr_writer :content
@@ -35,9 +37,8 @@ class Submission::File < ApplicationRecord
     "[Invalid Unicode]"
   end
 
-  def utf8_content
-    @utf8_content ||= raw_content.force_encoding('utf-8')
-  end
+  memoize
+  def utf8_content = String.new(raw_content, encoding: 'utf-8')
 
   private
   def generate_uri

@@ -327,13 +327,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     iteration = Iteration::Create.(solution, submission)
@@ -350,13 +343,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
@@ -374,13 +360,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
@@ -400,13 +379,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do

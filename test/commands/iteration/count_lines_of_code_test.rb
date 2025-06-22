@@ -6,12 +6,17 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     create :submission_file, submission:, content: "Some source code"
     iteration = create(:iteration, submission:)
 
+    uuid = "foo-bar-123"
+    SecureRandom.stubs(uuid: uuid)
+    create(:submission_file, submission:)
+    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{uuid.tr('-', '')}"
+
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.submission.uuid,
+          efs_dir:,
           submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
@@ -48,13 +53,6 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: latest_iteration.track.slug,
-          submission_uuid: latest_iteration.submission.uuid,
-          submission_filepaths: latest_iteration.submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
     Iteration::CountLinesOfCode.(latest_iteration)
@@ -73,13 +71,6 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: iteration.track.slug,
-          submission_uuid: iteration.submission.uuid,
-          submission_filepaths: iteration.submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
     Iteration::CountLinesOfCode.(iteration)
@@ -99,13 +90,6 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: iteration.track.slug,
-          submission_uuid: iteration.submission.uuid,
-          submission_filepaths: iteration.submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
     Iteration::CountLinesOfCode.(iteration)
@@ -124,15 +108,7 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     solution.update(published_iteration:, num_loc: published_iteration.num_loc)
 
     num_loc = 24
-    stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: iteration.track.slug,
-          submission_uuid: iteration.submission.uuid,
-          submission_filepaths: iteration.submission.valid_filepaths
-        }.to_json
-      ).
-      to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
     Iteration::CountLinesOfCode.(iteration)
 

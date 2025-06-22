@@ -17,6 +17,6 @@ class IterationChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(iteration)
-    broadcast_to iteration.id, iteration: SerializeIteration.(iteration)
+    broadcast_to iteration.id, { iteration: SerializeIteration.(iteration) }
   end
 end

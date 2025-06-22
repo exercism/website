@@ -23,7 +23,7 @@ class Iteration::CountLinesOfCode
       Exercism.config.lines_of_code_counter_url,
       {
         track_slug: iteration.track.slug,
-        efs_dir:,
+        job_dir:,
         submission_filepaths: filepaths
       }.to_json,
       { content_type: :json, accept: :json }
@@ -45,14 +45,14 @@ class Iteration::CountLinesOfCode
   def job_id = SecureRandom.uuid.tr('-', '')
 
   memoize
+  def job_dir = "#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+
+  memoize
+  def efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{job_dir}"
+
+  memoize
   def files = submission.valid_files
 
   memoize
   def filepaths = files.map(&:filename)
-
-  memoize
-  def efs_dir
-    date = Time.current.utc.strftime('%Y/%m/%d')
-    "#{Exercism.config.efs_tooling_jobs_mount_point}/#{date}/#{job_id}"
-  end
 end

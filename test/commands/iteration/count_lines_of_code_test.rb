@@ -9,14 +9,14 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     uuid = "foo-bar-123"
     SecureRandom.stubs(uuid: uuid)
     create(:submission_file, submission:)
-    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{uuid.tr('-', '')}"
+    job_dir = "#{Time.current.utc.strftime('%Y/%m/%d')}/#{uuid.tr('-', '')}"
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       with(
         body: {
           track_slug: iteration.track.slug,
-          efs_dir:,
+          job_dir:,
           submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).

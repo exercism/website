@@ -30,12 +30,7 @@ module ReactComponents
           },
           test_results: submission&.test_results
         },
-        solution: {
-          uuid: solution.uuid,
-          status: solution.status,
-          passed_basic_tests: solution.passed_basic_tests?,
-          passed_bonus_tests: solution.passed_bonus_tests?
-        },
+        solution: solution_data,
         test_results: submission&.test_results,
         code: {
           stub: ::Bootcamp::Solution::GenerateStub.(exercise, current_user, exercise.language == "jikiscript" ? "jiki" : "js"),
@@ -51,13 +46,33 @@ module ReactComponents
           projects_index: Exercism::Routes.bootcamp_projects_url(only_path: true),
           dashboard_index: Exercism::Routes.bootcamp_dashboard_url(only_path: true),
           bootcamp_level_url: Exercism::Routes.bootcamp_level_url("idx"),
-          custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url
+          custom_fns_dashboard: Exercism::Routes.bootcamp_custom_functions_url,
+          api_bootcamp_solution_chat: Exercism::Routes.api_bootcamp_solution_chat_messages_url(solution_uuid: solution.uuid,
+            only_path: true)
         }
       }
     end
 
     def custom_functions
       ::Bootcamp::CustomFunction::BuildRecursiveList.(current_user, submission&.custom_functions || [])
+    end
+
+    def solution_data
+      return nil unless solution
+
+      {
+        uuid: solution.uuid,
+        status: solution.status,
+        passed_basic_tests: solution.passed_basic_tests?,
+        passed_bonus_tests: solution.passed_bonus_tests?,
+        messages: solution.messages.map do |message|
+          {
+            id: message.id,
+            author: message.author,
+            content: message.content
+          }
+        end
+      }
     end
 
     def readonly_ranges

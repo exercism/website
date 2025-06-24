@@ -17,7 +17,7 @@ module ViewComponents
     end
 
     def announcement_bar
-      return downtime_announcement_bar if user_signed_in?
+      # return downtime_announcement_bar if user_signed_in?
 
       return coding_fundamentals_announcement_bar unless user_signed_in?
       return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner

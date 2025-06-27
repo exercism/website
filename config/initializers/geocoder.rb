@@ -13,6 +13,9 @@ Geocoder.configure(
 
   # Use Rails' own cache
   cache: Geocoder::CacheStore::Generic.new(Rails.cache, {}),
+  cache_options: {
+    expiration: 1.day
+  },
 
   # Lowest possible value; should never be hit due to using file-based lookup
   timeout: 1

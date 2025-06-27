@@ -1,4 +1,4 @@
-= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}/2" do
+= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}/2", expires_in: 1.day do
   .lg-container.container
     .flex.items-center
       .flex-grow.w-100

@@ -3,7 +3,7 @@ module ViewComponents
     extend Mandate::Memoize
 
     def to_s
-      Rails.cache.fetch(cache_key) do
+      Rails.cache.fetch(cache_key, expires_in: 1.day) do
         tag.footer(id: "site-footer") do
           parts = []
           parts << render(template: 'components/footer/external') unless user_signed_in?

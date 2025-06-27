@@ -42,7 +42,7 @@ class User::ReputationToken < ApplicationRecord
     end
 
     # Invalidate reputation cache for this user
-    Exercism.redis_tooling_client.del(self.class.cache_hash_for(user_id))
+    Exercism.redis_cache_client.del(self.class.cache_hash_for(user_id))
   end
 
   def params=(hash)

@@ -4,7 +4,7 @@ require "test_helper"
 class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "creates entry if key does not exists" do
     track = create :track
-    Exercism.redis_tooling_client.del("track:#{track.id}:build_status")
+    Exercism.redis_cache_client.del("track:#{track.id}:build_status")
 
     # Sanity check
     assert_nil track.build_status

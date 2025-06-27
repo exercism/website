@@ -17,5 +17,5 @@ module Track::BuildStatus
   def build_status_key = "track:#{id}:build_status"
 
   memoize
-  def redis = Exercism.redis_tooling_client
+  def redis = Exercism.redis_cache_client
 end

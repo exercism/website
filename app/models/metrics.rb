@@ -12,15 +12,15 @@ module Metrics
       redis_key = Metrics.const_get("num_#{key}_key".upcase)
 
       define_method "num_#{key}" do
-        Exercism.redis_tooling_client.get(redis_key)
+        Exercism.redis_cache_client.get(redis_key)
       end
 
       define_method "increment_num_#{key}!" do
-        Exercism.redis_tooling_client.incr(redis_key)
+        Exercism.redis_cache_client.incr(redis_key)
       end
 
       define_method "set_num_#{key}!" do
-        Exercism.redis_tooling_client.set(redis_key, klass.count)
+        Exercism.redis_cache_client.set(redis_key, klass.count)
       end
     end
   end

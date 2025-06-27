@@ -221,9 +221,10 @@ class ActiveSupport::TestCase
   end
 
   def reset_redis!
-    redis = Exercism.redis_tooling_client
-    keys = redis.keys("#{Exercism.env}:*")
-    redis.del(*keys) if keys.present?
+    [Exercism.redis_tooling_client, Exercism.redis_cache_client].each do |redis|
+      keys = redis.keys("#{Exercism.env}:*")
+      redis.del(*keys) if keys.present?
+    end
   end
 
   def reset_rack_attack!

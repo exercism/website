@@ -7,7 +7,7 @@ class DocsController < ApplicationController
   before_action :cache_public_action!, only: %i[index track_index track_show section show]
 
   def index
-    return unless stale?(etag: Track.active.count) # rubocop:disable Style/RedundantReturn
+    return unless stale?(etag: Track.num_active) # rubocop:disable Style/RedundantReturn
   end
 
   def section
@@ -25,7 +25,7 @@ class DocsController < ApplicationController
   end
 
   def tracks
-    return unless stale?(etag: Track.active.count) # rubocop:disable Style/RedundantReturn
+    return unless stale?(etag: Track.num_active) # rubocop:disable Style/RedundantReturn
   end
 
   def track_index

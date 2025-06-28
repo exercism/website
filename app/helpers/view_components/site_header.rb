@@ -8,6 +8,16 @@ module ViewComponents
       to: :view_context
 
     def to_s
+      return html if user_signed_in?
+
+      # Cache the header for signed-out users to improve performance
+      cache_key = "site-header-1"
+      Rails.cache.fetch(cache_key, expires_in: 1.day) do
+        html
+      end
+    end
+
+    def html
       tag.header(id: "site-header") do
         announcement_bar +
           tag.div(class: "lg-container container") do
@@ -193,17 +203,9 @@ module ViewComponents
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
     end
 
-    memoize
-    def selected_tab
-      if namespace_name == "mentoring"
-        :mentoring
-      elsif namespace_name == "contributing"
-        :contributing
-      elsif controller_name == "dashboard"
-        :dashboard
-      elsif %w[tracks exercises concepts iterations community_solutions mentor_discussions].include?(controller_name)
-        :tracks
-      end
+    private
+    def cache_key
+      Cache::KeyForHeader.(current_user)
     end
   end
 end

@@ -55,6 +55,17 @@ class Track < ApplicationRecord
     TRACK_HELPER_REPOS[name] || name.gsub(TRACK_REPO_PREFIXES, '').gsub(TRACK_REPO_SUFFIXES, '')
   end
 
+  NUM_ACTIVE_TRACKS_CACHE_KEY = 'num_active_tracks'.freeze
+  def self.num_active
+    @num_active ||= Rails.cache.fetch(NUM_ACTIVE_TRACKS_CACHE_KEY, expires_in: 1.hour) do
+      Track.active.count
+    end
+  end
+
+  after_save_commit do
+    Rails.cache.delete(NUM_ACTIVE_TRACKS_CACHE_KEY)
+  end
+
   def to_param = slug
 
   memoize

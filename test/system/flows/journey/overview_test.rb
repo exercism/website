@@ -35,7 +35,7 @@ module Flows
             assert_text "1 Mentoring session completed"
             assert_text "You have 1 discussion in progress and 1 solution in the queue."
 
-            assert_text "You started working through the Ruby Track 8 years ago."
+            assert_text "You started working through the Ruby Track 9 years ago."
           end
         end
       end

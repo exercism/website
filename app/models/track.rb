@@ -62,8 +62,13 @@ class Track < ApplicationRecord
     end
   end
 
-  after_save_commit do
+  def self.reset_num_active!
     Rails.cache.delete(NUM_ACTIVE_TRACKS_CACHE_KEY)
+    @num_active = nil
+  end
+
+  after_save_commit do
+    self.class.reset_num_active!
   end
 
   def to_param = slug

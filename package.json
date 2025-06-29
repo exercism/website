@@ -134,7 +134,7 @@
     "regenerator-runtime": "^0.13.7",
     "rough-notation": "^0.5.1",
     "string-similarity-js": "^2.1.4",
-    "tailwindcss": "latest",
+    "tailwindcss": "^3.4.17",
     "tslib": "^2.8.1",
     "typewriter-effect": "^2.21.0",
     "ua-parser-js": "^1.0.37",

@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   def index
     return redirect_to dashboard_path if user_signed_in?
 
-    @num_tracks = Track.active.count
+    @num_tracks = Track.num_active
     return unless stale?(etag: @num_tracks)
 
     @tracks = Track.active.order(num_students: :desc).limit(12).to_a

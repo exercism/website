@@ -1,6 +1,6 @@
 -# TODO: (Optional) Change this to only select the fields needed for an icon
 - track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
-- num_tracks = Track.active.count
+- num_tracks = Track.num_active
 
 %section.c-tracks-zero-section.c-zero-section
   .track-icons
@@ -14,4 +14,3 @@
     %strong #{num_tracks} language tracks,
     from the every day to downright odd, start your code practice now.
   = link_to "Browse #{num_tracks} language tracks", tracks_path, class: 'btn-primary btn-s'
-

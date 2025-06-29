@@ -5,7 +5,7 @@ class TracksController < ApplicationController
   before_action :cache_public_action!, only: %i[index show about]
 
   def index
-    etag = [Track.active.count]
+    etag = [Track.num_active]
     etag << current_user.user_tracks.order(updated_at: :desc).pick(:updated_at) if current_user
 
     return unless stale?(etag:)
@@ -17,7 +17,7 @@ class TracksController < ApplicationController
       user: current_user
     )
 
-    @num_tracks = Track.active.count
+    @num_tracks = Track.num_active
 
     # TODO: (Optional) Change this to only select the fields needed for an icon
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)

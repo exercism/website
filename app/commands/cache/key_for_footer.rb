@@ -6,7 +6,7 @@ class Cache::KeyForFooter
   def call
     parts = digests
     parts << Date.current.year
-    parts << ::Track.active.count
+    parts << ::Track.num_active
     parts << user_part
     parts << stripe_version
     parts << "v3"

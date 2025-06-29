@@ -21,7 +21,7 @@ class Tracks::ExercisesController < ApplicationController
   def show
     @iteration = @solution.iterations.last if @solution
 
-    return unless stale?(etag: @solution ? [@solution, @iteration] : @exercise) # rubocop:disable Style/RedundantReturn
+    return unless stale?(etag: @solution ? [@solution, @iteration, @user_track] : @exercise) # rubocop:disable Style/RedundantReturn
   end
 
   def tooltip

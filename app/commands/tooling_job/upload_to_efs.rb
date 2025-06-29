@@ -8,7 +8,10 @@ class ToolingJob::UploadToEFS
 
     submission_files.each do |file|
       efs_path = "#{efs_dir}/#{file.filename}"
-      FileUtils.mkdir_p(efs_path.split("/").tap(&:pop).join("/"))
+      FileUtils.mkdir_p(
+        efs_path.split("/").tap(&:pop).join("/"),
+        mode: 0o777
+      )
       File.open(efs_path, 'w') { |f| f.write(file.utf8_content) }
     end
   end

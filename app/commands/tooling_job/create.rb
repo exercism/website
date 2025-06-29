@@ -12,24 +12,34 @@ class ToolingJob::Create
   def call
     ToolingJob::UploadToEFS.(efs_dir, submission.files)
 
-    Exercism::ToolingJob.create!(
-      job_id,
-      type,
-      submission.uuid,
-      efs_dir,
-      solution.track.slug,
-      solution.exercise.slug,
-      run_in_background:,
-      source: {
-        submission_efs_root: efs_dir,
-        submission_filepaths: valid_filepaths,
-        exercise_git_repo: solution.track.slug,
-        exercise_git_sha: git_sha,
-        exercise_git_dir: exercise_repo.dir,
-        exercise_filepaths:
-      },
-      context:
-    )
+    # Deal with redis sometimes being having network spike issue
+    @num_attempts = 0
+    begin
+      Exercism::ToolingJob.create!(
+        job_id,
+        type,
+        submission.uuid,
+        efs_dir,
+        solution.track.slug,
+        solution.exercise.slug,
+        run_in_background:,
+        source: {
+          submission_efs_root: efs_dir,
+          submission_filepaths: valid_filepaths,
+          exercise_git_repo: solution.track.slug,
+          exercise_git_sha: git_sha,
+          exercise_git_dir: exercise_repo.dir,
+          exercise_filepaths:
+        },
+        context:
+      )
+    rescue Redis::Cluster::InitialSetupError => e
+      @num_attempts += 1
+      raise e if @num_attempts > 5
+
+      sleep(1)
+      retry
+    end
   end
 
   private

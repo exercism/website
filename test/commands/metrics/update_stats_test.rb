@@ -19,6 +19,15 @@ class Metrics::UpdateStatsTest < ActiveSupport::TestCase
     assert_equal "7", Metrics.num_solutions
   end
 
+  test "updates num_submissions" do
+    Metrics::UpdateStats.()
+    assert_equal "0", Metrics.num_submissions
+
+    create_list(:submission, 8)
+    Metrics::UpdateStats.()
+    assert_equal "8", Metrics.num_submissions
+  end
+
   test "updates num_discussions" do
     Metrics::UpdateStats.()
     assert_equal "0", Metrics.num_discussions

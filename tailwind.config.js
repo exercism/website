@@ -463,18 +463,18 @@ module.exports = {
       backgroundColor: ['focus-within'],
     },
   },
-  // plugins: [
-  //   [
-  //     'postcss-reuse',
-  //     {
-  //       mode: 'class',
-  //     },
-  //   ],
-  //   function ({ addVariant }) {
-  //     addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
-  //   },
-  // ],
-  // corePlugins: {
-  //   container: false,
-  // },
+  plugins: [
+    [
+      'postcss-reuse',
+      {
+        mode: 'class',
+      },
+    ],
+    function ({ addVariant }) {
+      addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
+    },
+  ],
+  corePlugins: {
+    container: false,
+  },
 }

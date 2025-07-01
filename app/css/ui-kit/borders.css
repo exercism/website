@@ -16,8 +16,8 @@
         border-color: transparent;
         /* TODO: decide its lighttheme color. it was white, now it is FAFAFF */
         background-image: linear-gradient(
-                theme(colors.russianViolet),
-                theme(colors.russianViolet)
+                var(--color-russianViolet),
+                var(--color-russianViolet)
             ),
             linear-gradient(#2200ff, #9e00ff);
         background-origin: border-box;

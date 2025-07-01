@@ -1,4 +1,4 @@
-@import "../components/tag";
+@import "../components/tag.css";
 
 .c-exercise-status-tag {
     @apply c-tag;

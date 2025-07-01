@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-react-wrapper-common-introducer {
     /* We get rid of this parent container when

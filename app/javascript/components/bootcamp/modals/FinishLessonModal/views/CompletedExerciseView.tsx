@@ -26,7 +26,7 @@ export function CompletedExerciseView() {
             </a>
             <a
               href={nextExerciseData.solve_url}
-              className="btn-l btn-primary flex-grow"
+              className="btn-l btn-primary grow"
             >
               Start Next Exercise
             </a>

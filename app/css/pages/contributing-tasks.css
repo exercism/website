@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-task-tooltip {
     @apply hidden md:block;

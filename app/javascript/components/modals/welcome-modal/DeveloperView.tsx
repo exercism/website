@@ -54,7 +54,7 @@ export function SeniorView() {
       <div className="rhs">
         <h2 className="text-h4 mb-12">Start with our welcome video 👇🏽</h2>
         <div
-          className="video relative rounded-8 overflow-hidden !mb-24"
+          className="video relative rounded-8 overflow-hidden mb-24!"
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe

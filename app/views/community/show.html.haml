@@ -15,7 +15,7 @@
 
         .flex.flex-col.sm:flex-row.gap-12.mb-20
           = link_to discord_redirect_path, class: "btn-primary btn-l sm:w-[fit-content]", data: { turbo: false } do
-            = graphical_icon "external-site-discord", css_class: '!filter-none'
+            = graphical_icon "external-site-discord", css_class: 'filter-none!'
             %span Join our Discord Server
 
           = link_to forum_redirect_path, class: "btn-enhanced btn-l sm:w-[fit-content]", data: { turbo: false } do
@@ -37,7 +37,7 @@
               = graphical_icon "message-bubble-square"
               = thread.posts_count
 
-      = image_tag "screenshots/forum.webp", width: 1767, height: 1232, alt: "", class: 'rounded-8 w-fill hidden xl:block w-[45%] flex-shrink-0 max-w-[620px] mt-[-16px]'
+      = image_tag "screenshots/forum.webp", width: 1767, height: 1232, alt: "", class: 'rounded-8 w-fill hidden xl:block w-[45%] shrink-0 max-w-[620px] mt-[-16px]'
 
     .flex.flex-col.lg:flex-row.gap-y-32.gap-x-96.mb-48
       .block
@@ -59,7 +59,7 @@
           = link_to "", class: 'explore-link mt-32' do
             Explore more Community Stories
 
-      .flex.flex-col.bg-backgroundColorA.shadow-baseZ1.sm:p-32.p-24.rounded-8{ class: "shrink-[3] sm:min-w-[440px] w-100", style: 'height: fit-content;' }
+      .flex.flex-col.bg-backgroundColorA.shadow-baseZ1.sm:p-32.p-24.rounded-8{ class: "shrink-3 sm:min-w-[440px] w-100", style: 'height: fit-content;' }
         .flex.flex-wrap.pb-16.mb-24.w-fill
           - @supporter_avatar_urls.each do |supporter_avatar_url|
             = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'

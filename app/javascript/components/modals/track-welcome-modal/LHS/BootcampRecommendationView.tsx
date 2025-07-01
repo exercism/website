@@ -65,7 +65,7 @@ export function BootcampRecommendationView() {
         <a
           href={links.codingFundamentalsCourse}
           data-capy-element="go-to-bootcamp-button"
-          className="btn-m btn-primary flex-grow"
+          className="btn-m btn-primary grow"
         >
           Check out the Course ✨
         </a>

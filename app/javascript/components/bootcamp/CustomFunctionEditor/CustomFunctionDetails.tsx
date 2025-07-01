@@ -29,9 +29,9 @@ export function CustomFunctionDetails() {
       </label>
       <div className="relative">
         <input
-          className={`mb-16 !bg-[#eee] w-fill ${
+          className={`mb-16 bg-[#eee]! w-fill ${
             functionNameEmpty
-              ? '!border-bootcamp-fail-dark !bg-bootcamp-fail-light'
+              ? 'border-bootcamp-fail-dark! bg-bootcamp-fail-light!'
               : ''
           }`}
           name="fn-name"
@@ -56,7 +56,7 @@ export function CustomFunctionDetails() {
           name="description"
           className={assembleClassNames(
             'mb-16 w-fill',
-            isPredefined && '!bg-[#eee] pr-40'
+            isPredefined && 'bg-[#eee]! pr-40'
           )}
           value={customFunctionDescription}
           onChange={(e) => {

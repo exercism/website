@@ -22,7 +22,7 @@ export function SelectedOnlineEdiorStep({
       <div className="flex gap-8">
         <StepButton
           onClick={onContinueToOnlineEditor}
-          className="btn-primary flex-grow"
+          className="btn-primary grow"
         >
           Continue to online editor
         </StepButton>

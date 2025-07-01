@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-docs-side-nav {
     @apply xl:static fixed top-0 left-0 bottom-0;

@@ -48,13 +48,10 @@ export const FeedbackMentoringRequestForm = ({
         <ContinueButton
           type="button"
           text="Cancel"
-          className="!w-auto btn-secondary"
+          className="w-auto! btn-secondary"
           onClick={onContinue}
         />
-        <FormButton
-          status={status}
-          className="!w-auto btn-primary btn-s flex-grow"
-        >
+        <FormButton status={status} className="w-auto! btn-primary btn-s grow">
           Submit for code review
         </FormButton>
       </div>

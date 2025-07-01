@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 label.c-checkbox-wrapper {
     cursor: pointer;

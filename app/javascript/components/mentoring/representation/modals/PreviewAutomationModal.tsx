@@ -56,7 +56,7 @@ export function PreviewAutomationModal({
 
   return (
     <Modal
-      ReactModalClassName="c-mentor-discussion !p-0 !w-[80%] !h-[65vh] flex flex-col"
+      ReactModalClassName="c-mentor-discussion p-0! w-[80%]! h-[65vh]! flex flex-col"
       onClose={onClose}
       open={isOpen}
     >

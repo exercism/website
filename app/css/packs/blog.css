@@ -1,5 +1,5 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
 
-@import "../pages/blog";
-@import "../pages/blog-post";
+@import "../pages/blog.css";
+@import "../pages/blog-post.css";

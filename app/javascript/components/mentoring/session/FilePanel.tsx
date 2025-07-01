@@ -52,7 +52,7 @@ export const FilePanel = ({
     >
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
-          <div className="flex flex-grow relative">
+          <div className="flex grow relative">
             {files.map((file, idx) => (
               <Tab
                 key={file.filename + idx}

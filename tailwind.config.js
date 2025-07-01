@@ -1,5 +1,4 @@
 module.exports = {
-  mode: 'jit',
   options: {
     // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
     defaultExtractor: (line) => {
@@ -464,18 +463,18 @@ module.exports = {
       backgroundColor: ['focus-within'],
     },
   },
-  plugins: [
-    [
-      'postcss-reuse',
-      {
-        mode: 'class',
-      },
-    ],
-    function ({ addVariant }) {
-      addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
-    },
-  ],
-  corePlugins: {
-    container: false,
-  },
+  // plugins: [
+  //   [
+  //     'postcss-reuse',
+  //     {
+  //       mode: 'class',
+  //     },
+  //   ],
+  //   function ({ addVariant }) {
+  //     addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
+  //   },
+  // ],
+  // corePlugins: {
+  //   container: false,
+  // },
 }

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .m-cli-walkthrough.c-modal.--cover {
     & .--modal-container {

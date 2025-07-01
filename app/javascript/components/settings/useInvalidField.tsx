@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
-const INVALID_INPUT_STYLES = '!border-1 !border-orange mb-8'
+const INVALID_INPUT_STYLES = 'border-1! border-orange! mb-8'
 
 export function useInvalidField() {
   const [invalidMessage, setInvalidMessage] = useState<string>('')

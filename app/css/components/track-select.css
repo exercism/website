@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-track-select {
     &.--size-inline {

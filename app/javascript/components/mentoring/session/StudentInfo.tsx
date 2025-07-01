@@ -31,7 +31,7 @@ export const StudentInfo = ({
     return (
       <div className="student-info">
         <div className="flex mb-8">
-          <div className="flex-grow">
+          <div className="grow">
             <div className="subtitle">Who you&apos;re mentoring</div>
             <div className="handle-block">
               <div className="handle">

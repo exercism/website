@@ -88,7 +88,7 @@ export const UpdatingOption = ({
             id="donation_amount"
             value={amount === '' ? amount : amount.value}
             onChange={handleChange}
-            className="!border-l-1 !border-borderColor5 !pl-16"
+            className="border-l-1! !border-borderColor5 pl-16!"
           />
         </label>
         {amount !== '' ? (

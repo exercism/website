@@ -12,7 +12,7 @@
         %p.text-p-xlarge.leading-150.mb-8
           Check out his latest video to the right, or explore the full series below.
 
-      .flex-shrink-0{ class: "lg:w-[400px] w-100" }
+      .shrink-0{ class: "lg:w-[400px] w-100" }
         = render ReactComponents::Common::YoutubePlayer.new(@latest_id, 'brief_introductions')
 
   %hr.border-borderColor6

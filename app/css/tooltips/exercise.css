@@ -1,5 +1,5 @@
-@import "../styles";
-@import "./base";
+@import "../styles.css";
+@import "./base.css";
 
 .c-exercise-tooltip {
     @apply c-tooltip-base;

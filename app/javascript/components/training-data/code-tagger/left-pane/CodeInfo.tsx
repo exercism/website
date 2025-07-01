@@ -12,7 +12,7 @@ export default function CodeInfo({
     <>
       <TrackIcon
         title={track.title}
-        className={'!w-[32px] !h-[32px]'}
+        className={'w-[32px]! h-[32px]!'}
         iconUrl={track.iconUrl}
       />
       <div className="student">

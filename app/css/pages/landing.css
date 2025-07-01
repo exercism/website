@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 #page-landing {
     @apply bg-backgroundColorA;

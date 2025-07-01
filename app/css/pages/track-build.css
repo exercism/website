@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 @layer components {
     .c-build-page-tooling-status {

@@ -13,7 +13,7 @@
 
   .field
     = form.label :description_markdown, "Description (markdown, max 600 chars, don't use headings)"
-    = form.text_area :description_markdown, maxlength: 600, class: '!w-[600px]'
+    = form.text_area :description_markdown, maxlength: 600, class: 'w-[600px]!'
 
   - if update.new_record?
     .field

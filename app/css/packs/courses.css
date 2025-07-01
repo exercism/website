@@ -1,9 +1,9 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
-@import "../tailwind";
-@import "../defaults";
-@import "../fonts";
+@import "../tailwind.css";
+@import "../defaults.css";
+@import "../fonts.css";
 
 /* poppins-200 - latin */
 @font-face {

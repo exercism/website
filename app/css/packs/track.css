@@ -2,45 +2,45 @@
 @import "../ui-kit/minimal.css";
 
 /* Track */
-@import "../components/track-breadcrumbs";
-@import "../components/track/header";
-@import "../components/track/concept-nav";
-@import "../components/track/concept-map";
+@import "../components/track-breadcrumbs.css";
+@import "../components/track/header.css";
+@import "../components/track/concept-nav.css";
+@import "../components/track/concept-map.css";
 
-@import "../pages/track-show";
-@import "../pages/track-about";
-@import "../pages/track-build";
-@import "../pages/track-shared-index";
+@import "../pages/track-show.css";
+@import "../pages/track-about.css";
+@import "../pages/track-build.css";
+@import "../pages/track-shared-index.css";
 
 /* Concepts */
-@import "../pages/concepts-index";
-@import "../pages/concept-show";
-@import "../tooltips/concept";
-@import "../components/unlocked-concept";
-@import "../components/concept";
-@import "../components/concept-icon";
-@import "../components/concept-progress-bar";
+@import "../pages/concepts-index.css";
+@import "../pages/concept-show.css";
+@import "../tooltips/concept.css";
+@import "../components/unlocked-concept.css";
+@import "../components/concept.css";
+@import "../components/concept-icon.css";
+@import "../components/concept-progress-bar.css";
 
 /* Exercise */
-@import "../pages/exercise-show";
-@import "../pages/exercise-generic";
-@import "../pages/exercises-index";
-@import "../pages/iterations-index";
-@import "../pages/community-solutions-index";
-@import "../pages/community-solution-show";
-@import "../components/exercise-status-tag";
-@import "../components/exercise-type-tag";
-@import "../components/exercise-dot";
-@import "../components/widgets/exercise";
-@import "../components/difficulty-tag";
-@import "../components/community-solution";
-@import "../components/community-solutions-list";
-@import "../components/exercise-header";
-@import "../components/completed-exercise-heading";
+@import "../pages/exercise-show.css";
+@import "../pages/exercise-generic.css";
+@import "../pages/exercises-index.css";
+@import "../pages/iterations-index.css";
+@import "../pages/community-solutions-index.css";
+@import "../pages/community-solution-show.css";
+@import "../components/exercise-status-tag.css";
+@import "../components/exercise-type-tag.css";
+@import "../components/exercise-dot.css";
+@import "../components/widgets/exercise.css";
+@import "../components/difficulty-tag.css";
+@import "../components/community-solution.css";
+@import "../components/community-solutions-list.css";
+@import "../components/exercise-header.css";
+@import "../components/completed-exercise-heading.css";
 
 /* General */
-@import "../modals/makers";
-@import "../modals/track-welcome-modal";
-@import "../components/makers-button";
-@import "../components/code-pane";
-@import "../components/flags";
+@import "../modals/makers.css";
+@import "../modals/track-welcome-modal.css";
+@import "../components/makers-button.css";
+@import "../components/code-pane.css";
+@import "../components/flags.css";

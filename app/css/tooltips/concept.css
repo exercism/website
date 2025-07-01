@@ -1,5 +1,5 @@
-@import "../styles";
-@import "./base";
+@import "../styles.css";
+@import "./base.css";
 
 .c-concept-tooltip {
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;

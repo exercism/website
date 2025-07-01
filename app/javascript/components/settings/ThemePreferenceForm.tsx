@@ -37,7 +37,7 @@ export default function ThemePreferenceForm({
 
   return (
     <form data-turbo="false">
-      <h2 className="!mb-4">Theme</h2>
+      <h2 className="mb-4!">Theme</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}

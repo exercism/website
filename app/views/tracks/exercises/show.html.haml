@@ -38,7 +38,7 @@
         .mt-28.ml-8
           = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
 
-      .lg:ml-32.lg:w-arbitary.flex-grow
+      .lg:ml-32.lg:w-arbitary.grow
         - if @exercise.concept_exercise?
           - if @solution&.completed?
             = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution

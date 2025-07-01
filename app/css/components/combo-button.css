@@ -1,4 +1,4 @@
-@import "../ui-kit/buttons";
+@import "../ui-kit/buttons.css";
 
 .c-combo-button {
     @apply btn-primary btn-s;

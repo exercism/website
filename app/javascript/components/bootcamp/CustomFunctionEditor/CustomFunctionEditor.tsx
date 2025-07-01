@@ -175,7 +175,7 @@ export default function CustomFunctionEditor({
 
               <div className="page-lhs-bottom flex items-center gap-8 bg-white">
                 <CheckCodeButton handleRunCode={handleCheckCode} />
-                <div className="flex-grow">
+                <div className="grow">
                   {results &&
                     results[inspectedTest] &&
                     results[inspectedTest].animationTimeline && (

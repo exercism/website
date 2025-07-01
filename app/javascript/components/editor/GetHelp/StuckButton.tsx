@@ -17,7 +17,7 @@ export function StuckButton({
     <button
       type="button"
       disabled={['get-help', 'chat-gpt'].includes(tab)}
-      className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+      className="btn-enhanced btn-s ml-0! mr-auto ask-chatgpt-btn"
       onClick={() => setTab(insider ? 'chat-gpt' : 'get-help')}
     >
       <GraphicalIcon icon="automation" height={16} width={16} />

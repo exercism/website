@@ -2,65 +2,65 @@
 @import "../ui-kit/minimal.css";
 
 /* Journey */
-@import "../pages/journey";
-@import "../pages/journey/overview";
-@import "../pages/journey/solutions";
-@import "../pages/journey/reputation";
-@import "../pages/journey/badges";
-@import "../components/community-rank-tag";
+@import "../pages/journey.css";
+@import "../pages/journey/overview.css";
+@import "../pages/journey/solutions.css";
+@import "../pages/journey/reputation.css";
+@import "../pages/journey/badges.css";
+@import "../components/community-rank-tag.css";
 
 /* Header + Notifications */
-@import "../pages/notifications";
-@import "../dropdowns/notifications";
-@import "../dropdowns/reputation";
-@import "../components/notification";
-@import "../components/notification-dot";
-@import "../components/theme-toggle-button";
+@import "../pages/notifications.css";
+@import "../dropdowns/notifications.css";
+@import "../dropdowns/reputation.css";
+@import "../components/notification.css";
+@import "../components/notification-dot.css";
+@import "../components/theme-toggle-button.css";
 
 /* Track/exercise */
-@import "../modals/activate-track-mode";
-@import "../modals/completed-tutorial-exercise";
-@import "../modals/completed-exercise";
-@import "../modals/publish-exercise";
-@import "../modals/unpublish-solution";
-@import "../modals/change-published-iteration";
-@import "../modals/update-exercise";
-@import "../dropdowns/request-mentoring";
-@import "../dropdowns/open-editor-button";
-@import "../components/mentoring-request-form";
-@import "../components/completed-exercise-progress";
-@import "../pages/exercise-mentoring";
+@import "../modals/activate-track-mode.css";
+@import "../modals/completed-tutorial-exercise.css";
+@import "../modals/completed-exercise.css";
+@import "../modals/publish-exercise.css";
+@import "../modals/unpublish-solution.css";
+@import "../modals/change-published-iteration.css";
+@import "../modals/update-exercise.css";
+@import "../dropdowns/request-mentoring.css";
+@import "../dropdowns/open-editor-button.css";
+@import "../components/mentoring-request-form.css";
+@import "../components/completed-exercise-progress.css";
+@import "../pages/exercise-mentoring.css";
 
 /* Mentoring */
-@import "../components/mentor-discussion-post-editor";
-@import "../modals/mentoring-sessions";
-@import "../modals/confirm-finish-student-mentor-discussion";
-@import "../modals/finish-student-mentor-discussion";
-@import "../modals/become-mentor";
-@import "../modals/change-mentor-tracks";
-@import "../modals/select-exercise-for-mentoring";
-@import "../modals/session-info";
-@import "../components/mentor-discussion-widget";
-@import "../components/mentor-discussion-summary";
-@import "../components/mentor-track-selector";
+@import "../components/mentor-discussion-post-editor.css";
+@import "../modals/mentoring-sessions.css";
+@import "../modals/confirm-finish-student-mentor-discussion.css";
+@import "../modals/finish-student-mentor-discussion.css";
+@import "../modals/become-mentor.css";
+@import "../modals/change-mentor-tracks.css";
+@import "../modals/select-exercise-for-mentoring.css";
+@import "../modals/session-info.css";
+@import "../components/mentor-discussion-widget.css";
+@import "../components/mentor-discussion-summary.css";
+@import "../components/mentor-track-selector.css";
 
 /* Mentoring + Editor */
-@import "../components/discussion-timeline";
+@import "../components/discussion-timeline.css";
 
 /* Mentoring + Editor + Track */
-@import "../modals/automated-feedback";
+@import "../modals/automated-feedback.css";
 
 /* Profile */
-@import "../pages/profile-intro";
-@import "../pages/profile-new";
-@import "../components/avatar-selector";
+@import "../pages/profile-intro.css";
+@import "../pages/profile-new.css";
+@import "../components/avatar-selector.css";
 
 /* Settings */
-@import "../pages/settings";
-@import "../modals/crop-avatar";
+@import "../pages/settings.css";
+@import "../modals/crop-avatar.css";
 
 /* Misc */
-@import "../modals/bug-report";
-@import "../components/markdown-editor";
-@import "../modals/generic-confirmation";
-@import "../modals/generic-destructive";
+@import "../modals/bug-report.css";
+@import "../components/markdown-editor.css";
+@import "../modals/generic-confirmation.css";
+@import "../modals/generic-destructive.css";

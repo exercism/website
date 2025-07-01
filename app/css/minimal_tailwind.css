@@ -1,9 +1,6 @@
-@config "../../tailwind.minimal.config.js";
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind screens;
+@config "../../tailwind.minimal.config.js";
 
 /* This line is used as a flag for post-processing */
 /* Do not change it!! */

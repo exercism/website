@@ -31,7 +31,7 @@ export function CompletedLevelView() {
                 'idx',
                 nextLevelIdx.toString()
               )}
-              className="btn-l btn-primary flex-grow"
+              className="btn-l btn-primary grow"
             >
               Start Level {nextLevelIdx}
             </a>

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .m-welcome.c-modal.--cover {
     background: var(--modalBackgroundColor);

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-community-solutions-list {
     & > .c-search-bar {

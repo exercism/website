@@ -29,7 +29,7 @@ export function StudentTooltipSkeleton() {
       />
 
       <Skeleton.Line
-        className="!rounded-8"
+        className="rounded-8!"
         style={{ width: '100', height: 'calc(1.6em + 16px)' }}
       />
     </Skeleton.Wrapper>

@@ -145,7 +145,7 @@ export const Form = ({
             <Icon
               icon="insiders"
               alt="Eligible for Insiders Access"
-              className="emoji mr-4 !filter-none md:block hidden"
+              className="emoji mr-4 filter-none! md:block hidden"
             ></Icon>
             Monthly Recurring
           </Tab>

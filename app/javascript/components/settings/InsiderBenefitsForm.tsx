@@ -61,7 +61,7 @@ export default function InsiderBenefitsForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2 className="!mb-8">Insider Benefits</h2>
+      <h2 className="mb-8!">Insider Benefits</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}

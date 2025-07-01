@@ -218,8 +218,8 @@ function ModalHeader(): JSX.Element {
     <>
       <div className="flex flex-row items-center gap-32 mb-12">
         <div>
-          <h2 className="text-h2 mb-2 !text-white">Thank you!</h2>
-          <p className="text-p-large !text-white">
+          <h2 className="text-h2 mb-2 text-white!">Thank you!</h2>
+          <p className="text-p-large text-white!">
             Thank you so much for supporting Exercism. It means the world to us!
             💜
           </p>
@@ -230,7 +230,7 @@ function ModalHeader(): JSX.Element {
           className="w-[96px] h-[96px]"
         />
       </div>
-      <p className="text-p-base !text-white mb-20">
+      <p className="text-p-base text-white! mb-20">
         Please use the form below to set up your monthly donation. You can amend
         or cancel your donation at any time in your settings page.
       </p>

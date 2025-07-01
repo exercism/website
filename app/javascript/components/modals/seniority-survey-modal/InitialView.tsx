@@ -105,7 +105,7 @@ export function InitialView() {
       >
         Save my choice
       </FormButton>
-      <p className="!text-14 text-center mt-12">
+      <p className="text-14! text-center mt-12">
         (This can be updated at any time in your settings)
       </p>
       <ErrorBoundary

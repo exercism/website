@@ -209,7 +209,7 @@ function ExpandedView({
                         <input
                           type="text"
                           value={argsValue}
-                          className="!px-6 !flex-grow-0"
+                          className="px-6! grow-0!"
                           onChange={(e) => setArgsValue(e.target.value)}
                         />
                       ) : (
@@ -252,7 +252,7 @@ function ExpandedView({
               e.stopPropagation()
               handleSaveTest()
             }}
-            className="btn btn-primary flex-grow"
+            className="btn btn-primary grow"
           >
             save
           </button>

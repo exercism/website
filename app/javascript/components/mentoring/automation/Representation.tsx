@@ -131,7 +131,7 @@ export function Representations({
             sizeVariant={'automation'}
           />
 
-          <div className="flex flex-row flex-grow justify-between">
+          <div className="flex flex-row grow justify-between">
             <SearchInput
               className="mr-24"
               setFilter={(input) => {

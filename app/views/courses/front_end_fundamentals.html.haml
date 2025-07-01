@@ -15,7 +15,7 @@
     .content
       %strong.font-semibold Exercism
       Bootcamps
-    = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button !ml-auto"
+    = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button ml-auto!"
 #nav-sticky.nav
 
 .hero
@@ -70,7 +70,7 @@
   .md-container
     .flex.flex-col.items-center.gap-40
       .flex.flex-col.items-stretch
-    %h2{ class: "!mb-20" }
+    %h2{ class: "mb-20!" }
       Hi there!
       %span.waving-hand
         👋
@@ -80,7 +80,7 @@
 
     .sm:float-right.sm:ml-24.sm:mb-24{ class: "xl:mr-[-100px] mr-0" }
       %div{ class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
-        = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
+        = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border rounded-[1px]'
         .text-14.text-center.font-normal.pt-8.px-8{ class: "leading-[140%]" }
           %span.lg:hidden.inline 1998: Me making the first website I ever got paid for.
           %span.lg:inline.hidden 1998: Me and Rhodri making the first website we ever got paid for.

@@ -141,7 +141,7 @@
 
     .sm:float-right.mt-20.sm:ml-24.sm:mb-24{ class: "xl:mr-[-100px] mr-0" }
       %div{ class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
-        = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
+        = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border rounded-[1px]'
         .text-14.text-center.font-normal.pt-8.px-8{ class: "leading-[140%]" }
           %span.lg:hidden.inline 1998: Me making the first website I ever got paid for.
           %span.lg:inline.hidden 1998: Me and Rhodri making the first website we ever got paid for.
@@ -226,7 +226,7 @@
 
     .mt-20.mb-20
       %div{ class: 'border-bootcamp-purple border-[8px] rounded-[5px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
-        = image_tag "bootcamp/editor.png", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
+        = image_tag "bootcamp/editor.png", class: 'w-[100%] border-[#aaa] border rounded-[1px]'
         .text-17.text-center.font-medium.pt-16.pb-6.px-8.bg-bootcamp-purple.text-white{ class: "leading-[140%] " }
           %span Our specially designed interface that makes getting started easy!
 
@@ -240,7 +240,7 @@
 
     .sm:float-right.sm:ml-24.sm:mb-24{ class: "xl:mr-[-100px] mr-0" }
       %div{ class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
-        = image_tag "bootcamp/jiki-slide.png", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
+        = image_tag "bootcamp/jiki-slide.png", class: 'w-[100%] border-[#aaa] border rounded-[1px]'
         .text-14.text-center.font-normal.pt-8.px-8{ class: "leading-[140%]" }
           %span This is
           %strong Jiki.
@@ -594,7 +594,7 @@
             %strong Front-End Dev
           %p Learn the fundamentals then specialise in front-end web development.
 
-          -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
+          -# %p.mb-12{class: "font-semibold!"} One-time payment. Lifetime access. Money-back guarantee.
           - if @has_discount
             .price
               %strong $#{@bundle_price}

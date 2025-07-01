@@ -19,7 +19,7 @@
           = succeed('.') do
             = link_to 'Team', team_about_path, class: link_class
 
-    .sm-container{ class: "!pb-28" }
+    .sm-container{ class: "pb-28!" }
       .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.lg:mb-128.mb-32
         .c-progress
           - target = 25_000.0
@@ -48,7 +48,7 @@
           = render "alternatives"
 
       - else
-        %section.form-section.flex-shrink-0{ class: 'md:w-[500px] w-full' }
+        %section.form-section.shrink-0{ class: 'md:w-[500px] w-full' }
           .c-donations-form.p-32.text-center
             %h2.text-h4.mb-8 Please log in to donate using a debit/credit card.
             %p.text-p-base

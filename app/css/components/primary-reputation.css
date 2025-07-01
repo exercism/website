@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-primary-reputation {
     @apply rounded-100 shadow-sm bg-backgroundColorA;

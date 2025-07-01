@@ -7,7 +7,7 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
   return (
     <div className="mentor-info">
       <div className="flex mb-8">
-        <div className="flex-grow">
+        <div className="grow">
           <div className="subtitle">Meet your mentor</div>
           <div className="handle-block">
             <div className="handle">

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .m-finish-student-mentor-discussion.c-modal.--cover {
     & .--modal-container {

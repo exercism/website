@@ -1,15 +1,15 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
 
-@import "../pages/mentoring/inbox";
-@import "../pages/mentoring/queue";
-@import "../pages/mentoring/testimonials";
-@import "../pages/mentoring/automation";
+@import "../pages/mentoring/inbox.css";
+@import "../pages/mentoring/queue.css";
+@import "../pages/mentoring/testimonials.css";
+@import "../pages/mentoring/automation.css";
 
-@import "../components/mentor/header";
-@import "../components/mentor/solution-row";
-@import "../components/mentor/discussion";
-@import "../components/mentor/representer-row";
+@import "../components/mentor/header.css";
+@import "../components/mentor/solution-row.css";
+@import "../components/mentor/discussion.css";
+@import "../components/mentor/representer-row.css";
 
-@import "../tooltips/mentoring-link";
-@import "../tooltips/student";
+@import "../tooltips/mentoring-link.css";
+@import "../tooltips/student.css";

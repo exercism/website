@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-completed-exercise-progress {
     & .progressed-concepts {

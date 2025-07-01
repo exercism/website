@@ -36,12 +36,12 @@ export function ConnectModal({
             className="mb-16 h-[64px]"
           />
         </div>
-        <h3 className="!text-[24px] !mb-4">Connect a Repository</h3>
-        <p className="!text-18 leading-140 mb-16 text-balance text-center">
+        <h3 className="text-[24px]! mb-4!">Connect a Repository</h3>
+        <p className="text-18! leading-140 mb-16 text-balance text-center">
           Before continuing, please ensure you have either created a new GitHub
           repository, or that you have an existing one ready to sync.
         </p>
-        <p className="!text-18 leading-140 mb-16 text-balance text-center">
+        <p className="text-18! leading-140 mb-16 text-balance text-center">
           On the next screen you will be asked to give permission to that
           repository. Please ensure you{' '}
           <strong>select only one repository</strong> (sadly, GitHub doesn't

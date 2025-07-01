@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .m-change-published-iteration {
     & .--modal-content {

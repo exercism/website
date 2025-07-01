@@ -12,7 +12,7 @@ export function SubmittedAutomationModal({
   goBackLink,
 }: AutomationModalProps & { goBackLink: string }): JSX.Element {
   return (
-    <Modal ReactModalClassName="!rounded-24" open={isOpen} onClose={onClose}>
+    <Modal ReactModalClassName="rounded-24!" open={isOpen} onClose={onClose}>
       <div className="flex flex-col items-center rounded-24">
         <GraphicalIcon icon="green-check" className="w-[64px] h-[64px] mb-12" />
         <h2 className="text-h2 mb-12">Thanks for submitting feedback!</h2>

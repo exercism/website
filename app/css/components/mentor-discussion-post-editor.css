@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-mentor-discussion-post-editor {
     @apply shadow-lg rounded-8 bg-backgroundColorA;

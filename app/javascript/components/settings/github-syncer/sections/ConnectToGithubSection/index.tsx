@@ -28,7 +28,7 @@ export function ConnectToGithubSection() {
             className="mb-16 h-[128px]"
           />
         </div>
-        <h2 className="!text-[30px] !mb-4">Backup your Solutions to GitHub</h2>
+        <h2 className="text-[30px]! mb-4!">Backup your Solutions to GitHub</h2>
         <p className="text-[19px] leading-140 mb-16 text-balance text-center">
           Automatically backup your solutions to GitHub with our automated
           backup tool.
@@ -53,7 +53,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="1-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] absolute! left-[-45px]"
             />
             Create a new GitHub repository for your solutions (or reuse an
             existing one if you were backing up manually)
@@ -62,7 +62,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="2-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] absolute! left-[-45px]"
             />
             Click the button below to connect your GitHub account.
           </li>
@@ -70,7 +70,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="3-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] absolute! left-[-45px]"
             />
             Use the "Backup Everything" option to backup all your existing
             solutions.
@@ -79,7 +79,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="4-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] absolute! left-[-45px]"
             />
             Future solutions will be automatically backed up as you complete
             exercises.

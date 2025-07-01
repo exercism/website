@@ -17,9 +17,9 @@ export const ContributorRow = ({
       <div className="rank hidden md:block text-16 md:text-14">
         #{contributor.rank}
       </div>
-      <div className="flex-grow flex md:items-center">
+      <div className="grow flex md:items-center">
         <Avatar src={contributor.avatarUrl} handle={contributor.handle} />
-        <div className="flex-grow flex flex-col md:flex-row items-start md:items-center">
+        <div className="grow flex flex-col md:flex-row items-start md:items-center">
           <div className="info mb-4 md:mb-0">
             <h3 className="mb-4 md:mb-0">
               <HandleWithFlair

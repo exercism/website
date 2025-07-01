@@ -7,13 +7,13 @@
   .header.mb-8.py-8
     .lg-container.flex.items-center.relative
       = exercise_icon @exercise, css_class: "self-start md:self-center w-[80px] h-[80px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
-      .flex-grow
+      .grow
         %h1.text-h1.md:mb-2= @exercise.title
         .text-p-xlarge= @ps_data.blurb
 
   .lg-container
     .flex.flex-col.md:flex-row.gap-48
-      .lhs.flex-grow
+      .lhs.grow
         - if @exercise.deep_dive_youtube_id.present?
           .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!
@@ -25,7 +25,7 @@
         %section.instructions.px-20.lg:px-32.py-20.lg:py-24
           .text-h3.mb-12 Instructions
           .c-textual-content.--large
-            .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
+            .border-b-1.border-borderColor5{ class: "pb-8! mb-32!" }
               = raw @ps_data.description_html
 
             - if @exercise.tutorial?
@@ -46,7 +46,7 @@
                 - else
                   Explore the #{external_link_to 'source of this exercise', source_url}.
 
-      .flex-shrink-0{ class: "md:w-[33%]" }
+      .shrink-0{ class: "md:w-[33%]" }
         - if @featured_in_2024_languages
           .shadow-lg.bg-backgroundColorA.px-20.py-16.mb-24.rounded-8
             .flex.items-center.gap-16

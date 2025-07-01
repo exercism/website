@@ -222,9 +222,10 @@ if (/Chrome/.test(navigator.userAgent)) {
 }
 
 const roots = new WeakMap()
+const eventListeners = new WeakSet()
+
 const render = (elem: HTMLElement, component: React.ReactNode) => {
   let root = roots.get(elem)
-
   if (!root) {
     root = createRoot(elem)
     roots.set(elem, root)
@@ -237,11 +238,20 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
       </QueryClientProvider>
     </React.StrictMode>
   )
-  document.addEventListener('turbo:before-frame-render', () => {
-    if (elem.dataset.persistent === 'true') return
-    root.unmount()
-    roots.delete(elem)
-  })
+
+  // make sure we only add the event listener once per element
+  if (!eventListeners.has(elem)) {
+    eventListeners.add(elem)
+    document.addEventListener('turbo:before-frame-render', () => {
+      if (elem.dataset.persistent === 'true') return
+      const rootToCleanup = roots.get(elem)
+      if (rootToCleanup) {
+        rootToCleanup.unmount()
+        roots.delete(elem)
+        eventListeners.delete(elem)
+      }
+    })
+  }
 }
 
 export function renderComponents(

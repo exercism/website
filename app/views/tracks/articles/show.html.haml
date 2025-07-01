@@ -6,7 +6,7 @@
 #page-articles-show.pb-80
   %header.pt-24.md:pt-32.pb-32{ class: 'md:pb-[158px]' }
     .md-container.flex.flex-col.md:flex-row.items-left.md:items-center
-      .block.flex-grow
+      .block.grow
         %h1.text-h0.mb-8.md:mb-8= @article.title
         .flex.items-center.text-16.font-semibold.leading-150.mb-16.md:mb-0.text-textColor1
           = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor")

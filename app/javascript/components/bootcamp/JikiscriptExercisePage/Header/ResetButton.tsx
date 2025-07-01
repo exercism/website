@@ -51,13 +51,13 @@ export function ResetButton() {
         <div className="flex items-center gap-8 self-stretch">
           <button
             onClick={() => setShouldOpenConfirmationModal(false)}
-            className="btn-l btn-secondary !px-40 flex-shrink-0"
+            className="btn-l btn-secondary px-40! shrink-0"
           >
             Cancel
           </button>
           <button
             onClick={handleResetExercise}
-            className="btn-l btn-primary flex-grow"
+            className="btn-l btn-primary grow"
           >
             Yes, Reset Exercise
           </button>

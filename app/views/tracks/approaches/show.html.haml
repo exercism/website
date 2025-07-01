@@ -6,7 +6,7 @@
 #page-approaches-show.pb-80
   %header.pt-24.md:pt-32.pb-32{ class: 'md:pb-[158px]' }
     .md-container.flex.flex-col.md:flex-row.items-left.md:items-center
-      .flex-grow
+      .grow
         %h1.text-h0.mb-8.md:mb-8= @approach.title
         .flex.md:mb-0.mb-16.items-center.text-16.font-semibold.leading-150.text-textColor1
           = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'md:h-[40px] mr-12')

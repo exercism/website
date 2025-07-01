@@ -13,7 +13,7 @@ export function ReducedStudentInfo({
   return (
     <div className="student-info">
       <div className="flex">
-        <div className="flex-grow">
+        <div className="grow">
           <div className="handle-block">
             <div className="handle">
               <HandleWithFlair

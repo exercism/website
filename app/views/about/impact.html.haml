@@ -13,8 +13,8 @@
       Exercism Impact Report
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
       We&apos;ve provided
-      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } 310,569,762
-      %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } minutes
+      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-size-[100%_100%] text-textColor1NoDark' } 310,569,762
+      %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-size-[100%_100%] text-textColor1NoDark' } minutes
       of free education.
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
       And we provide another ~285,340 minutes every day!
@@ -132,7 +132,7 @@
       And over
       = link_to "700 individuals donors!", individual_supporters_about_path, class: 'underline hover:text-lightBlue'
 
-  .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
+  .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-size-[90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
@@ -187,6 +187,6 @@
       %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }
         Over 85,000 students have left testimonials to thank their mentors.
 
-    .md-container{ class: "bg-[var(--backgroundColorImpactPage)]" }
+    .md-container{ class: "bg-(--backgroundColorImpactPage)" }
       %article.testimonials.pt-40
         = ReactComponents::Impact::TestimonialsList.new(params)

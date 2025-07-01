@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-blog-post {
     @apply block p-16 rounded-8 shadow-base bg-backgroundColorA;

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-avatar-selector {
     @apply ml-auto;

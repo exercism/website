@@ -84,7 +84,7 @@ export function UploadVideoForm({
         onClick={onUseDifferentVideoClick}
         className="btn-m btn-default shadow-xsZ1v2 border-borderLight2 text-textColor6 mb-16"
       >
-        <Icon icon="reset" alt="Reset" className="!ml-0" />
+        <Icon icon="reset" alt="Reset" className="ml-0!" />
         Use different video
       </button>
 

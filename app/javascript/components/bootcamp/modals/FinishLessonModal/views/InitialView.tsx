@@ -56,7 +56,7 @@ export function InitialView() {
         </button>
         <button
           onClick={handleCompleteSolution}
-          className="btn-l btn-primary flex-grow"
+          className="btn-l btn-primary grow"
         >
           Complete Exercise
         </button>

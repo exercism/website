@@ -72,10 +72,7 @@ function CompletedExerciseView({
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
           Go to dashboard
         </a>
-        <a
-          href={nextExerciseData.solve_url}
-          className="btn-l btn-primary flex-grow"
-        >
+        <a href={nextExerciseData.solve_url} className="btn-l btn-primary grow">
           Start Next Exercise
         </a>
       </div>
@@ -103,7 +100,7 @@ function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
       <div className="flex items-center gap-8 self-stretch">
         <a
           href={links.bootcampLevelUrl.replace('idx', nextLevelIdx.toString())}
-          className="btn-l btn-primary flex-grow"
+          className="btn-l btn-primary grow"
         >
           Start Level {nextLevelIdx}
         </a>
@@ -142,10 +139,7 @@ function CompletedAllLevelsView({
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
           Go to dashboard
         </a>
-        <a
-          href={nextExerciseData.solve_url}
-          className="btn-l btn-primary flex-grow"
-        >
+        <a href={nextExerciseData.solve_url} className="btn-l btn-primary grow">
           Start Next Exercise
         </a>
       </div>

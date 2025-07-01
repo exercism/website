@@ -26,7 +26,7 @@
                 = render ViewComponents::Community::Stories::VideoLength.new(@story)
 
           -# = image_tag @story.image_url, class: "w-[280px] h-[280px] shadow-lg"
-          .relative.rounded-8.overflow-hidden.flex-grow{ class: 'w-fill lg:max-w-[510px]' }
+          .relative.rounded-8.overflow-hidden.grow{ class: 'w-fill lg:max-w-[510px]' }
             %iframe{ width: "560", height: "315", src: @story.youtube_embed_url, title: @story.title, frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
         .c-textual-content.--large.rounded-12.py-24.px-24{ class: 'bg-[#5042AD] text-[#F0F3F9]' }
@@ -48,5 +48,3 @@
               - interviewee = community_story.interviewee
               = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
               = interviewee.name
-
-

@@ -34,7 +34,7 @@ export function CompletedBonusTasksView() {
         </button>
         <button
           onClick={handleCompleteSolution}
-          className="btn-l btn-primary flex-grow"
+          className="btn-l btn-primary grow"
         >
           {solution.status === 'completed' ? 'Continue' : 'Complete Exercise'}
         </button>

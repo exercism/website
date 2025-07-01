@@ -1,10 +1,10 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
 
-@import "../pages/contributing-dashboard";
-@import "../pages/contributing-contributors";
-@import "../pages/contributing-tasks";
+@import "../pages/contributing-dashboard.css";
+@import "../pages/contributing-contributors.css";
+@import "../pages/contributing-tasks.css";
 
-@import "../components/contributing/header";
+@import "../components/contributing/header.css";
 
-@import "../tooltips/task";
+@import "../tooltips/task.css";

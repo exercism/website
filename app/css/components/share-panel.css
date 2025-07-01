@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-share-panel {
     @apply py-20 px-24;

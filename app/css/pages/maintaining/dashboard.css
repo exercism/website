@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../../styles.css";
 
 #page-maintaining-dashboard {
     @apply pt-16 pb-48;

@@ -82,7 +82,7 @@
             %span Edit via GitHub
             = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
 
-      .rhs.flex-shrink-0
+      .rhs.shrink-0
         - if @user_track.concept_learnt?(@concept)
           = render "tracks/concepts/show/learnt", concept: @concept, user_track: @user_track, concept_exercises: @concept_exercises, practice_exercises: @practice_exercises, solutions: @solutions
         - elsif @concept_exercises.present?

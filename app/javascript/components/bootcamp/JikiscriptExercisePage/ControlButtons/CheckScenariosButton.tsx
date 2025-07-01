@@ -44,7 +44,7 @@ export function CheckScenariosButton({
         width={20}
         height={20}
         className={assembleClassNames(
-          '!mx-0 !w-[20px]',
+          'mx-0! w-[20px]!',
           shouldAutoRunCode ? 'invert' : ''
         )}
       />

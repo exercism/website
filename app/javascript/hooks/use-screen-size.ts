@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 import { debounce } from '@/utils/debounce'
-import resolveConfig from 'tailwindcss/resolveConfig'
-import tailwindConfig from '../../../tailwind.config'
 
-// @ts-ignore
-const twConfig = resolveConfig(tailwindConfig)
-// @ts-ignore
-const lgBreakpoint = Number(twConfig?.theme?.screens?.lg.replace('px', ''))
+const lgBreakpoint = 1024
 
 export type UseWindowSizeResult = {
   isBelowLgWidth: boolean

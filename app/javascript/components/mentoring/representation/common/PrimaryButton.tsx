@@ -12,7 +12,7 @@ export function PrimaryButton({
   disabled?: boolean
 }): JSX.Element {
   const disabledStyle =
-    'bg-disabledLight text-disabledLabel !border-transparent !shadow-none'
+    'bg-disabledLight text-disabledLabel border-transparent! shadow-none!'
 
   return (
     <button

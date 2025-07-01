@@ -127,7 +127,7 @@ module ViewComponents
         elems = [tag.span(title)]
         # if new
         #   elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
-        #     graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+        #     graphical_icon('sparkle', css_class: '!filter-warning w-[12px]! h-[12px]! mr-4! block!') +
         #     tag.span("New")
         #   end)
         # end

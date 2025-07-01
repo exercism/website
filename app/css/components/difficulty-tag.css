@@ -1,4 +1,5 @@
-@import "../components/tag";
+@import "../components/tag.css";
+
 .c-difficulty-tag {
     @apply c-tag;
 

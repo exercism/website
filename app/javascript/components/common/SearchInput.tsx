@@ -9,9 +9,9 @@ type SearchInputProps = {
 }
 
 const WRAPPER_CLASSNAMES =
-  'bg-backgroundColorD text-textColor6 flex flex-row flex-grow rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 max-w-[420px] focus-within:focused-input hover:cursor-text'
+  'bg-backgroundColorD text-textColor6 flex flex-row grow rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 max-w-[420px] focus-within:focused-input hover:cursor-text'
 
-const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%] portable-input'
+const INPUT_CLASSNAMES = 'border-none bg-inherit w-[100%]! portable-input'
 const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] filter-textColor6'
 
 export function SearchInput({

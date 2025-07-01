@@ -49,7 +49,7 @@ export default function CommentsPreferenceForm({
   return (
     <>
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h2 className="!mb-8">Comments on your solutions</h2>
+        <h2 className="mb-8!">Comments on your solutions</h2>
         <p className="text-p-base mb-12">
           Use this setting to control whether or not people can post comments on{' '}
           <span className="font-medium">future solutions that you publish</span>
@@ -70,7 +70,7 @@ export default function CommentsPreferenceForm({
           </div>
         </label>
 
-        <div className="form-footer !border-0 !pt-0 !mt-0">
+        <div className="form-footer border-0! pt-0! mt-0!">
           <FormButton status={mutationsStatus} className="btn-primary btn-m">
             Update preference
           </FormButton>

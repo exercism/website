@@ -25,7 +25,7 @@ export function TopLearningCountries({
 
 function LearningCountryTag({ country }: { country: LearningCountry }) {
   return (
-    <div className="shadow-sm text-h6 flex flex-row items-center py-4 px-12 !w-fit rounded-16">
+    <div className="shadow-sm text-h6 flex flex-row items-center py-4 px-12 w-fit! rounded-16">
       <span className="mr-10">{country.flag}</span>
       {country.country}{' '}
       <span className="font-normal font-mono text-13 ml-10">

@@ -6,7 +6,7 @@
     .bg-purple.p-32.w-fill.h-fill
       .flex.flex-col.rounded-16.overflow-hidden.shadow-lgv2.bg-backgroundColorB.h-fill
         .flex-grow.relative
-          = image_tag "favicon.png", class: "absolute top-[20px] right-[20px] z-[100] opacity-[0.3] h-[80px]"
+          = image_tag "favicon.png", class: "absolute top-[20px] right-[20px] z-100 opacity-[0.3] h-[80px]"
           = render ReactComponents::Common::SolutionView.new(@solution)
 
         .flex-shrink-0.p-16

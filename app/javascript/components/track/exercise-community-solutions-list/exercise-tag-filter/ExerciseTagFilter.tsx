@@ -44,7 +44,7 @@ export function ExerciseTagFilter({
       {open ? (
         <div
           {...panelAttributes}
-          className="--options flex flex-wrap gap-24 w-[200%] mt-8 !p-16"
+          className="--options flex flex-wrap gap-24 w-[200%] mt-8 p-16!"
         >
           {Object.keys(tags).map((tagCategory: string, index) => {
             return (

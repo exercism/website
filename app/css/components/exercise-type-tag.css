@@ -1,4 +1,5 @@
-@import "../components/tag";
+@import "../components/tag.css";
+
 .c-exercise-type-tag {
     @apply c-tag;
     @apply text-textColor2;

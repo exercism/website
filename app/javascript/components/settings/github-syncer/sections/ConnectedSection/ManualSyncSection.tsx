@@ -51,7 +51,7 @@ export function ManualSyncSection() {
       }}
       id="manual-sync-section"
     >
-      <h2 className="!mb-6">Backup a track</h2>
+      <h2 className="mb-6!">Backup a track</h2>
       <p className="text-16 leading-150 mb-12">
         If you want to backup a track to GitHub, you can use this function.
       </p>
@@ -92,7 +92,7 @@ export function ManualSyncSection() {
         )}
       </div>
       <div className="border-t-1 border-borderColor6 my-32" />
-      <h2 className="!mb-6">Backup everything</h2>
+      <h2 className="mb-6!">Backup everything</h2>
 
       <p className="text-16 leading-150 mb-12">
         If you want to backup all your exercises across all tracks to GitHub,

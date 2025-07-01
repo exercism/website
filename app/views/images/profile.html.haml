@@ -7,7 +7,7 @@
       %header.profile-header.border-b-1.border-borderColor7.px-32.pt-20.pb-20
         .flex.images-center
           = avatar(@user)
-          .flex-grow
+          .grow
             .flex.items-center.mb-4
               %h1.text-h2.mr-20= render ViewComponents::HandleWithFlair.new(@user.handle, @user.flair, size: :xlarge)
               = render ViewComponents::Reputation.new(number_with_delimiter(@user.reputation), flashy: true)
@@ -18,7 +18,7 @@
                 .flex.self-end
                   - @user.featured_badges.each do |badge|
                     .c-badge.ml-8
-                      .c-badge-medallion{ class: "--#{badge.rarity} !w-[40px] !h-[40px]" }
+                      .c-badge-medallion{ class: "--#{badge.rarity} w-[40px]! h-[40px]!" }
                         = icon(badge.icon, "Badge: #{badge.name}")
 
                 - if @header_tags.present? || @user.founder?

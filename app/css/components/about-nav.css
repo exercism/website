@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-about-nav {
     @apply bg-backgroundColorA;

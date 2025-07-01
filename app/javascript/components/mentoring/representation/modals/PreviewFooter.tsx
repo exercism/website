@@ -22,7 +22,7 @@ export function PreviewFooter({
   onSubmit: () => void
 }): JSX.Element {
   return (
-    <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 flex-shrink-0">
+    <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 shrink-0">
       <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
         {examples.map((_: Example, k: number) => {
           return (
@@ -48,7 +48,7 @@ export function PreviewFooter({
           </strong>
         </div>
         <CancelButton onClick={onClose} />
-        <PrimaryButton onClick={onSubmit} className="px-[18px] py-12 !m-0">
+        <PrimaryButton onClick={onSubmit} className="px-[18px] py-12 m-0!">
           Submit
         </PrimaryButton>
       </div>

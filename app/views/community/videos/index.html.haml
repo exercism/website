@@ -2,8 +2,7 @@
 #page-community-videos
   .lg-container{ data: { 'scroll-top-anchor': 'video-grid' } }
     .flex.pt-32.xl:gap-64.lg:gap-32.gap-64.lg:flex-row.flex-col
-      .flex-grow
+      .grow
         = render ReactComponents::Community::VideoGrid.new(params, items_per_row: 3)
       .flex-shrink-0.pt-8{ class: 'max-w-[380px]' }
         = render "rhs", live_event: @live_event, featured_event: @featured_event, scheduled_events: @scheduled_events
-

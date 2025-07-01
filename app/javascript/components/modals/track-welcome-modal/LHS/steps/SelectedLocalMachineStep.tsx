@@ -52,7 +52,7 @@ export function SelectedLocalMachineStep({
       <div className="flex gap-8">
         <StepButton
           onClick={onContinueToLocalMachine}
-          className="btn-primary flex-grow"
+          className="btn-primary grow"
         >
           Continue
         </StepButton>

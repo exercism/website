@@ -11,7 +11,7 @@
             This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
-            .flex-shrink
+            .shrink
               %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
               %p.text-p-base.mb-8
                 We've put together an introductory video to get you started. Its split into two parts. In part 1, we'll tell your what's in store for the month. In part 2 we'll take a brief look at what makes functional programming so interesting!
@@ -108,12 +108,12 @@
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
               = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
-                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = graphical_icon "video-play", css_class: 'absolute! top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://assets.exercism.org/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
                 .text-center.text-h6 Take the #12in23 Challenge
 
               = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
-                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = graphical_icon "video-play", css_class: 'absolute! top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://assets.exercism.org/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
                 .text-center.text-h6 The Official #12in23 Calendar
 
@@ -143,7 +143,7 @@
             = image_tag track.icon_url, alt: '', class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
-              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
+              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "absolute! top-[-12px] right-[-12px]"
               .progress
               .count #{count} exercises completed
             - else

@@ -51,7 +51,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
         <div className="mr-auto ask-chatgpt-btn-wrapper">
           <button
             type="button"
-            className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+            className="btn-enhanced btn-s ml-0! mr-auto ask-chatgpt-btn"
             disabled={isDisabled && insider}
             ref={ref}
             {...props}

@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 body.namespace-auth.user-signed_out {
     turbo-frame {

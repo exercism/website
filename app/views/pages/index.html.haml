@@ -52,7 +52,7 @@
   %section.exercises-section.pb-64
     .lg-container
       .flex.flex-col.lg:flex-row.lg:items-start.mb-48.lg:mb-72
-        .flex-grow{ class: "mr-auto lg:max-w-[640px]" }
+        .grow{ class: "mr-auto lg:max-w-[640px]" }
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
@@ -72,7 +72,7 @@
                   .exercise-info.mb-8.sm:mb-0
                     %h3= sample[:exercise].title
                     %p= sample[:exercise].blurb
-                  .flex.items-center.flex-shrink-0
+                  .flex.items-center.shrink-0
                     .track-icons.sm:ml-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|
                         = track_icon(track)

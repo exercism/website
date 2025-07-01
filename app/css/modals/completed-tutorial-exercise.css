@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-modal.m-completed-tutorial-exercise.c-modal.--cover {
     & .btns {

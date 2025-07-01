@@ -1,5 +1,4 @@
 module.exports = {
-  mode: 'jit',
   options: {
     // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
     defaultExtractor: (line) => {

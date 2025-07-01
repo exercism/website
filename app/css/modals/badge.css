@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .m-badge.c-modal.--cover {
     &.--common {

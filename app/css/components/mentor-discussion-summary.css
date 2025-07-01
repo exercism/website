@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-mentor-discussion-summary {
     @apply flex items-center;

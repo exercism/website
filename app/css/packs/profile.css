@@ -1,12 +1,12 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
 
-@import "../components/profile-header";
+@import "../components/profile-header.css";
 
-@import "../modals/profile-first-time";
+@import "../modals/profile-first-time.css";
 
-@import "../pages/profile";
-@import "../pages/profile-badges";
-@import "../pages/profile-solutions";
-@import "../pages/profile-contributions";
-@import "../pages/profile-testimonials";
+@import "../pages/profile.css";
+@import "../pages/profile-badges.css";
+@import "../pages/profile-solutions.css";
+@import "../pages/profile-contributions.css";
+@import "../pages/profile-testimonials.css";

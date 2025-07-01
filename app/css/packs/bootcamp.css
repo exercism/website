@@ -1,49 +1,49 @@
-@import "../tailwind";
-@import "../defaults";
-@import "../fonts";
-@import "../ui-kit/all";
-@import "../components/tab";
-@import "../components/iteration-pane";
+@import "../tailwind.css";
+@import "../defaults.css";
+@import "../fonts.css";
+@import "../ui-kit/all.css";
+@import "../components/tab.css";
+@import "../components/iteration-pane.css";
 
-@import "../bootcamp/variables";
+@import "../bootcamp/variables.css";
 
-@import "../bootcamp/components/solve-exercise-page";
-@import "../bootcamp/components/frontend-training-page";
-@import "../bootcamp/components/frontend-exercise-page";
-@import "../bootcamp/components/custom-function-selector";
-@import "../bootcamp/components/rhs-list";
-@import "../bootcamp/components/breadcrumbs";
-@import "../bootcamp/components/completed-bar";
-@import "../bootcamp/components/site-header";
-@import "../bootcamp/components/codemirror";
-@import "../bootcamp/components/scrubber";
-@import "../bootcamp/components/prose";
-@import "../bootcamp/components/editor-information-tooltip";
-@import "../bootcamp/components/tasks";
-@import "../bootcamp/components/toggle-switch";
-@import "../bootcamp/components/test-buttons";
-@import "../bootcamp/components/scenario";
-@import "../bootcamp/components/logger";
-@import "../bootcamp/components/modal";
+@import "../bootcamp/components/solve-exercise-page.css";
+@import "../bootcamp/components/frontend-training-page.css";
+@import "../bootcamp/components/frontend-exercise-page.css";
+@import "../bootcamp/components/custom-function-selector.css";
+@import "../bootcamp/components/rhs-list.css";
+@import "../bootcamp/components/breadcrumbs.css";
+@import "../bootcamp/components/completed-bar.css";
+@import "../bootcamp/components/site-header.css";
+@import "../bootcamp/components/codemirror.css";
+@import "../bootcamp/components/scrubber.css";
+@import "../bootcamp/components/prose.css";
+@import "../bootcamp/components/editor-information-tooltip.css";
+@import "../bootcamp/components/tasks.css";
+@import "../bootcamp/components/toggle-switch.css";
+@import "../bootcamp/components/test-buttons.css";
+@import "../bootcamp/components/scenario.css";
+@import "../bootcamp/components/logger.css";
+@import "../bootcamp/components/modal.css";
 
-@import "../bootcamp/components/project-widget";
-@import "../bootcamp/components/exercise-widget";
-@import "../bootcamp/components/concept-widget";
+@import "../bootcamp/components/project-widget.css";
+@import "../bootcamp/components/exercise-widget.css";
+@import "../bootcamp/components/concept-widget.css";
 @import "../components/copy-text-to-clipboard.css";
 
-@import "../bootcamp/pages/dashboard";
-@import "../bootcamp/pages/projects";
-@import "../bootcamp/pages/project";
-@import "../bootcamp/pages/concepts";
-@import "../bootcamp/pages/concept";
-@import "../bootcamp/pages/levels";
-@import "../bootcamp/pages/level";
-@import "../bootcamp/pages/faqs";
-@import "../bootcamp/pages/custom-functions";
-@import "../bootcamp/pages/custom-function-editor";
+@import "../bootcamp/pages/dashboard.css";
+@import "../bootcamp/pages/projects.css";
+@import "../bootcamp/pages/project.css";
+@import "../bootcamp/pages/concepts.css";
+@import "../bootcamp/pages/concept.css";
+@import "../bootcamp/pages/levels.css";
+@import "../bootcamp/pages/level.css";
+@import "../bootcamp/pages/faqs.css";
+@import "../bootcamp/pages/custom-functions.css";
+@import "../bootcamp/pages/custom-function-editor.css";
 
-@import "../bootcamp/pages/admin/base";
-@import "../bootcamp/pages/admin/exercises";
+@import "../bootcamp/pages/admin/base.css";
+@import "../bootcamp/pages/admin/exercises.css";
 
 @import "../bootcamp/exercises/draw.css";
 @import "../bootcamp/exercises/maze.css";
@@ -55,8 +55,8 @@
 @import "../bootcamp/exercises/breakout.css";
 @import "../bootcamp/exercises/weather.css";
 
-@import "../components/textblock";
+@import "../components/textblock.css";
 
-@import "../highlighters/highlightjs-colors";
-@import "../highlighters/highlightjs-jikiscript";
-@import "../highlighters/highlight-links";
+@import "../highlighters/highlightjs-colors.css";
+@import "../highlighters/highlightjs-jikiscript.css";
+@import "../highlighters/highlight-links.css";

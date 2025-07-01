@@ -8,7 +8,7 @@
   %header.pt-24.md:pt-48.pb-64.md:pb-128
     .md-container.flex.flex-col.md:flex-row-reverse
       = avatar(@post.author)
-      .block.flex-grow
+      .block.grow
         %h1.text-h0.mb-12.md:mb-18= @post.title
         = render "info_bar", post: @post
   .md-container.mb-32.md:mb-48.flex.gap-32

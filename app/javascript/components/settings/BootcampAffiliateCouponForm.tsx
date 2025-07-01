@@ -49,7 +49,7 @@ export default function BootcampAffiliateCouponForm({
     case 'settings':
       return (
         <div>
-          <h2 className="!mb-8">Bootcamp Affiliate Coupon</h2>
+          <h2 className="mb-8!">Bootcamp Affiliate Coupon</h2>
           <InfoMessage
             isInsider={isInsider}
             insidersStatus={insidersStatus}

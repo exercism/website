@@ -3,7 +3,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Tag } from './AnalyzerTags.types'
 
 const toggledOnStyle =
-  'border-darkGreen text-everyoneLovesAGreen bg-[var(--backgroundColorConceptMastered)]'
+  'border-darkGreen text-everyoneLovesAGreen bg-(--backgroundColorConceptMastered)'
 const toggledOffStyle =
   'border-red text-red bg-[(var(--backgroundColorExerciseStatusTagLocked)]'
 const readOnlyStyle = 'border-transparent text-textColor6 bg-backgroundColorA'

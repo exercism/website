@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 #page-individual-supporters {
     @apply bg-backgroundColorA;

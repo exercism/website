@@ -59,13 +59,13 @@ export function JustConnectedModal(): JSX.Element {
             className="mb-16 h-[64px]"
           />
         </div>
-        <h3 className="!text-[24px] !mb-8">
+        <h3 className="text-[24px]! mb-8!">
           Repository connected successfully!
         </h3>
-        <p className="!text-18 leading-140 mb-8">
+        <p className="text-18! leading-140 mb-8">
           We've connected your Exercism account to your chosen repository.
         </p>
-        <p className="!text-18 leading-140 mb-12">
+        <p className="text-18! leading-140 mb-12">
           If you're happy with the defaults, you can back everything up now. Or
           you can tweak your settings, then use the button at the bottom of the
           settings page to back up later. Do you want to backup everything now?

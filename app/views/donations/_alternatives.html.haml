@@ -3,7 +3,7 @@
   %p.text-p-base.mb-8 We currently support Paypal and GitHub Sponsors as alternative payment providers. Please contact #{link_to 'Jeremy', 'mailto:jeremy@exercism.org'} if there is another provider you feel we should add.
   .flex.flex-col.items-start.gap-12
     = link_to "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_donation_hosted_button_id}&custom=#{current_user&.id}", class: "btn-m btn-secondary" do
-      = graphical_icon "paypal", category: :graphics, css_class: "!filter-none"
+      = graphical_icon "paypal", category: :graphics, css_class: "filter-none!"
       %span Donate with Paypal
     = link_to "https://github.com/sponsors/exercism", class: "btn-m btn-secondary" do
       = graphical_icon "external-site-github"

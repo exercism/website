@@ -13,7 +13,7 @@ export function BootcampAdvertismentView() {
     <>
       <div className="lhs">
         <header>
-          <h1 className="!font-medium">
+          <h1 className="font-medium!">
             Meet our new{' '}
             <strong className="font-semibold">Coding Fundamentals</strong>{' '}
             course...
@@ -21,7 +21,7 @@ export function BootcampAdvertismentView() {
 
           <p className="mb-8">
             Our{' '}
-            <strong className="!font-semibold text-black">
+            <strong className="font-semibold! text-black">
               Coding Fundamentals
             </strong>{' '}
             course is designed specifically for beginners! It will teach you how
@@ -66,10 +66,10 @@ export function BootcampAdvertismentView() {
             !
           </p>
         </header>
-        <div className="flex gap-12 mt-auto flex-grow">
+        <div className="flex gap-12 mt-auto grow">
           <a
             href={links.codingFundamentalsCourse}
-            className="btn-primary btn-l cursor-pointer flex-grow"
+            className="btn-primary btn-l cursor-pointer grow"
           >
             Learn more ✨
           </a>
@@ -94,7 +94,7 @@ export function BootcampAdvertismentView() {
           Watch the Course Intro 👇
         </div>
         <div
-          className="video relative rounded-8 overflow-hidden !mb-16"
+          className="video relative rounded-8 overflow-hidden mb-16!"
           style={{
             padding: '56.25% 0 0 0',
             position: 'relative',

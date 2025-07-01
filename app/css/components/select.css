@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.css";
 
 .c-select {
     @apply grid items-center;

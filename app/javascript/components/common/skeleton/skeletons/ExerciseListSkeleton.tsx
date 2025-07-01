@@ -16,7 +16,7 @@ export function ExerciseListSkeleton() {
 function SearchBar() {
   return (
     <Skeleton.Line
-      className="!rounded-8 mb-32"
+      className="rounded-8! mb-32"
       style={{ height: 48, width: 440 }}
     />
   )

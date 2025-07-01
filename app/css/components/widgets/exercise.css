@@ -1,5 +1,5 @@
-@import "../../styles";
-@import "../../components/tag";
+@import "../../styles.css";
+@import "../../components/tag.css";
 
 .c-exercise-widget {
     @apply flex items-center;

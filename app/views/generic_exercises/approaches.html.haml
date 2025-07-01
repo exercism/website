@@ -7,7 +7,7 @@
   .header.mb-8.py-8
     .lg-container.flex.items-center.relative
       = exercise_icon @exercise, css_class: "self-start md:self-center w-[68px] h-[68px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
-      .flex-grow
+      .grow
         %h1.text-h1.md:mb-8
           #{@exercise.title} approaches
 
@@ -16,7 +16,7 @@
 
   .lg-container
     .flex.flex-col.md:flex-row.gap-48
-      .lhs.flex-grow
+      .lhs.grow
         %section.approaches
           - @approaches.each do |(slug, track_approaches)|
             .border-1.px-8.py-4.rounded-8.mb-8.border-borderColor5

@@ -64,7 +64,7 @@ export default function ({
         cover
         aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
         className="m-finish-student-mentor-discussion"
-        containerClassName="!p-48"
+        containerClassName="p-48!"
         ReactModalClassName="bg-unnamed15"
         shouldCloseOnOverlayClick={false}
         shouldCloseOnEsc={false}

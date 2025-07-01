@@ -1,13 +1,13 @@
 %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
   - introduction = solution ? solution.introduction : exercise.introduction
   - if introduction.present?
-    .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
+    .border-b-1.border-borderColor5{ class: "pb-8! mb-32!" }
       %h2 Introduction
       .mb-32= raw Markdown::Parse.(introduction)
 
   - if exercise.tutorial?
     %h2 Introduction
-    %section{ class: "!mb-24" }
+    %section{ class: "mb-24!" }
       %p.mb-12
         “Hello, World!” will get you writing some #{track.title} and familiarize yourself with the Exercism workflow.
         %strong Completing it unlocks the rest of the #{track.title} Track.

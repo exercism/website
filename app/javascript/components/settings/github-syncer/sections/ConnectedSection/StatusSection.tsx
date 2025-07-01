@@ -49,7 +49,7 @@ export function StatusSection() {
       style={{ borderColor: borderColor, backgroundColor: bgColor }}
       className="border-2"
     >
-      <h2 className="!mb-6">
+      <h2 className="mb-6!">
         Status: <span style={{ color: textColor }}>{status}</span>
       </h2>
       <p className="text-18 leading-140">

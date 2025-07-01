@@ -148,7 +148,7 @@
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
     --backgroundColorITransparent: rgba(225, 235, 255, 0);
-    --backgroundColorBorderGradientLightPurple: theme(colors.lightPurple);
+    --backgroundColorBorderGradientLightPurple: var(--color-lightPurple);
     --backgroundColorNotifications: linear-gradient(
             180deg,
             rgba(255, 255, 255, 0.5) 0%,
@@ -190,7 +190,7 @@
     --backgroundColorImpactPage: theme(colors.white);
     --backgroundColorNotificationsUnreadDot: theme(colors.lightBlue);
     --backgroundColorBuildToolingStatus: white;
-    --backgroundColorBtnSecondary: theme(colors.lightPurple);
+    --backgroundColorBtnSecondary: var(--color-lightPurple);
     --backgroundColorBtnSecondaryHover: theme(colors.lightPurpleDarkened);
     --backgroundColorMentorTestimonialsNew: theme(colors.lightGold);
     --backgroundColorExternalCTA: theme(colors.randomBlue);
@@ -199,7 +199,7 @@
     --backgroundColorHardTag: theme(colors.hardLight);
     --backgroundColorDangerSection: theme(colors.veryLightRed);
     --backgroundColorDonationsFormSelected: theme(colors.veryLightBlue2);
-    --backgroundColorContributingAdvanced: theme(colors.lightPurple);
+    --backgroundColorContributingAdvanced: var(--color-lightPurple);
     --backgroundColorSummaryStatusFailed: theme(colors.lightRed);
     --backgroundColorSummaryStatusFailedBar: theme(colors.red);
     --backgroundColorReputationInfo: theme(colors.trueDarkGray);
@@ -432,7 +432,7 @@ body.namespace-.controller-insiders.theme-light,
     color-scheme: dark;
 
     /* --backgroundColorA: var(--c-282339); */
-    --backgroundColorA: theme(colors.russianViolet);
+    --backgroundColorA: var(--color-russianViolet);
     --backgroundColorA-RGB: 40 35 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-302B42);
@@ -477,7 +477,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorImpactPage: theme(colors.eerieBlack);
     --backgroundColorNotificationsUnreadDot: theme(colors.seafoamGreen);
     --backgroundColorBuildToolingStatus: none;
-    --backgroundColorBtnSecondary: theme(colors.russianViolet);
+    --backgroundColorBtnSecondary: var(--color-russianViolet);
     --backgroundColorBtnSecondaryHover: theme(colors.eerieBlack);
     --backgroundColorMentorTestimonialsNew: theme(colors.launchingYellow);
     --backgroundColorExternalCTA: none;
@@ -489,7 +489,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorContributingAdvanced: none;
     --backgroundColorSummaryStatusFailed: #f1707026;
     --backgroundColorSummaryStatusFailedBar: #f17070;
-    --backgroundColorReputationInfo: theme(colors.russianViolet);
+    --backgroundColorReputationInfo: var(--color-russianViolet);
     --backgroundColorNavDropdown: theme(colors.eerieBlack);
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
     --backgroundColorHoverMenuTrack: #3a3557;

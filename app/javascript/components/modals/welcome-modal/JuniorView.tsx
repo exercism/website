@@ -17,7 +17,7 @@ export function JuniorView() {
           <h1>A course for you... 🎉</h1>
 
           <p className="mb-8">
-            Our <strong className="!font-semibold">Coding Fundamentals</strong>{' '}
+            Our <strong className="font-semibold!">Coding Fundamentals</strong>{' '}
             course is designed for people who have been coding for less than a
             year!!
           </p>
@@ -64,7 +64,7 @@ export function JuniorView() {
         <div className="flex gap-8 mt-auto">
           <FormButton
             status={patchCloseModal.status}
-            className="btn-primary btn-l cursor-pointer flex-grow"
+            className="btn-primary btn-l cursor-pointer grow"
             type="button"
             onClick={() => {
               patchCloseModal.mutate()
@@ -76,7 +76,7 @@ export function JuniorView() {
 
           <FormButton
             status={patchCloseModal.status}
-            className="btn-secondary btn-l flex-shrink-0 min-w-[140px]"
+            className="btn-secondary btn-l shrink-0 min-w-[140px]"
             type="button"
             onClick={patchCloseModal.mutate}
           >

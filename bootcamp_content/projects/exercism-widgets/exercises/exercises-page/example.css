@@ -1,0 +1,240 @@
+* {
+    box-sizing: border-box;
+}
+
+main {
+    background: linear-gradient(
+        180deg,
+        #e1ebff 70px,
+        rgba(225, 235, 255, 0) 290px
+    );
+    min-height: 100vh;
+    padding: 0 5%;
+    font-family: Poppins;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 32px 0;
+    max-width: 650px;
+    margin: 0 auto;
+
+    img {
+        width: 180px;
+    }
+
+    .text {
+        h1 {
+            font-weight: 600;
+            font-size: 30px;
+            margin-bottom: 10px;
+            line-height: 120%;
+        }
+        p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 150%;
+        }
+    }
+}
+
+form {
+    margin-bottom: 16px;
+
+    input {
+        padding: 12px;
+        width: 100%;
+        max-width: 300px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6bm9uZTtzdHJva2U6Izc2NzA5ZjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLXdpZHRoOjEuNXB4fTwvc3R5bGU+PC9kZWZzPjxjaXJjbGUgY2xhc3M9ImEiIGN4PSI5LjgxMyIgY3k9IjkuODEyIiByPSI5LjA2MyIgdHJhbnNmb3JtPSJyb3RhdGUoLTIzLjAyNSA5LjgxMyA5LjgxMikiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTE2LjIyMSAxNi4yMiA3LjAyOSA3LjAzIi8+PC9zdmc+");
+        background-repeat: no-repeat;
+        background-size: 16px;
+        background-position: 10px center;
+        padding-left: 35px;
+        font-size: 16px;
+        font-weight: 300;
+
+        &::placeholder {
+            font-weight: 300;
+        }
+    }
+}
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .filter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 16px;
+        font-size: 15px;
+        border: 0;
+        background: none;
+        cursor: pointer;
+
+        .icon {
+            border-radius: 100%;
+            aspect-ratio: 1;
+            height: 13px;
+        }
+        .description {
+            font-weight: 400;
+            white-space: nowrap;
+            color: #222;
+        }
+        .count {
+            font-weight: 400;
+            color: #777;
+        }
+        &#completed-filter {
+            .icon {
+                background: forestgreen;
+            }
+        }
+        &#in-progress-filter {
+            .icon {
+                background: blue;
+            }
+        }
+        &#available-filter {
+            .icon {
+                box-shadow: 0 0 6px rgba(0, 0, 255, 0.5);
+                background: white;
+            }
+        }
+        &#locked-filter {
+            .icon {
+                background: #ddd;
+            }
+        }
+        &.selected {
+            background: #e1ebff;
+            .description {
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+#exercises {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    .exercise {
+        background: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 8px;
+        text-decoration: none;
+        color: #333;
+
+        img {
+            height: 80px;
+        }
+        .title {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        .tags {
+            display: flex;
+            flex: flex-wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+
+            .tag {
+                border-radius: 32px;
+                border: 1px solid #aaa;
+                padding: 4px 10px;
+                background: white;
+                font-weight: 500;
+                white-space: nowrap;
+
+                &.status {
+                    display: none;
+                    &.in-progress {
+                        background: #e1ebff;
+                        color: #2e57e8;
+                        border-color: #2e57e8;
+                    }
+                    &.completed,
+                    &.published {
+                        background: #e7fdf6;
+                        border-color: rgb(67 181 147);
+                        color: rgb(67 181 147);
+                    }
+                }
+                &.difficulty {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    &:before {
+                        content: "";
+                        display: block;
+                        width: 8px;
+                        height: 8px;
+                    }
+                    &.easy {
+                        background: #effff1;
+                        border: 1px solid rgb(95 178 104);
+                        color: rgb(95 178 104);
+                        &:before {
+                            background: rgb(95 178 104);
+                        }
+                    }
+                }
+            }
+        }
+        .iterations {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 15px;
+            white-space: nowrap;
+            color: #777;
+            img {
+                height: 16px;
+                filter: invert(35%) sepia(3%) saturate(6422%) hue-rotate(208deg)
+                    brightness(94%) contrast(87%);
+            }
+        }
+        .description {
+            font-size: 15px;
+            line-height: 140%;
+            font-weight: 300;
+            color: #444;
+        }
+
+        &.available {
+            .tag.available {
+                display: block;
+            }
+        }
+        &.published {
+            .tag.published {
+                display: block;
+            }
+        }
+        &.completed {
+            .tag.completed {
+                display: block;
+            }
+        }
+        &.in-progress {
+            .tag.in-progress {
+                display: block;
+            }
+        }
+    }
+}

@@ -66,5 +66,13 @@
   {
     "title": "Forms and APIs",
     "description": "Learn how to build forms and call APIs in JavaScript."
+  },
+  {
+    "title": "Deploying your code via GitHub",
+    "description": "Learn how to use GitHub Pages to deploy your website."
+  },
+  {
+    "title": "Exceptions and Promises",
+    "description": "Learn about the key concepts of exceptions and promises."
   }
 ]

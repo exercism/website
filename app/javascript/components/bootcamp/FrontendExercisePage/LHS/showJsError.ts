@@ -27,7 +27,7 @@ export function showJsError(
   // from < to
   // from > 0
   // to <= editorLength
-  const from = Math.max(1, Math.min(basePos, editorLength - 1))
+  const from = Math.max(0, Math.min(basePos, editorLength - 1))
   const to = Math.min(editorLength, from + 1)
 
   view.dispatch({

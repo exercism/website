@@ -9,6 +9,14 @@ export const scriptPrelude = `window.onerror = function(message, source, lineno,
   }, '*');
 };
 
+window.onunhandledrejection = function(event) {
+  window.parent.postMessage({
+    type: 'iframe-js-error',
+    message: event.reason?.message || String(event.reason),
+    stack: event.reason?.stack || null,
+  }, '*');
+};
+
 window.fetchObject = function (url, options, onFulfil, onReject) {
   fetch(url, options)
     .then(r => r.json())

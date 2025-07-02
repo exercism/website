@@ -1,4 +1,4 @@
-@import "../minimal_tailwind.css";
+@import "tailwindcss";
 @import "../ui-kit/minimal.css";
 
 @import "../pages/about.css";

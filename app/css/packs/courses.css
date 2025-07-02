@@ -1,7 +1,6 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
-@import "tailwindcss";
 @import "../tailwind.css";
 @import "../defaults.css";
 @import "../fonts.css";

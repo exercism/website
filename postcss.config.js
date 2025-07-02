@@ -4,10 +4,10 @@ module.exports = {
     require('postcss-hexrgba'),
     require('postcss-flexbugs-fixes'),
     require('@sector-labs/postcss-inline-class')(),
-    process.env.NODE_ENV === 'production'
-      ? require('cssnano')({
-          preset: 'default',
-        })
-      : null,
+    // process.env.NODE_ENV === 'production'
+    //   ? require('cssnano')({
+    //       preset: 'default',
+    //     })
+    //   : null,
   ],
 }

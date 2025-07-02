@@ -1,14 +1,14 @@
 module.exports = {
-  options: {
-    // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
-    defaultExtractor: (line) => {
-      return [
-        ...(line.match(/[^<>"'`;\s]*[^<>"'`;\s:]/g) || []),
-        ...(line.match(/[^<>"'`;\s.(){}[\]#=%]*[^<>"'`;\s.(){}[\]#=%:]/g) ||
-          []),
-      ]
-    },
-  },
+  // options: {
+  //   // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
+  //   defaultExtractor: (line) => {
+  //     return [
+  //       ...(line.match(/[^<>"'`;\s]*[^<>"'`;\s:]/g) || []),
+  //       ...(line.match(/[^<>"'`;\s.(){}[\]#=%]*[^<>"'`;\s.(){}[\]#=%:]/g) ||
+  //         []),
+  //     ]
+  //   },
+  // },
 
   content: [
     './app/views/**/*.haml',
@@ -463,17 +463,17 @@ module.exports = {
       backgroundColor: ['focus-within'],
     },
   },
-  plugins: [
-    [
-      'postcss-reuse',
-      {
-        mode: 'class',
-      },
-    ],
-    function ({ addVariant }) {
-      addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
-    },
-  ],
+  // plugins: [
+  //   [
+  //     'postcss-reuse',
+  //     {
+  //       mode: 'class',
+  //     },
+  //   ],
+  //   function ({ addVariant }) {
+  //     addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
+  //   },
+  // ],
   corePlugins: {
     container: false,
   },

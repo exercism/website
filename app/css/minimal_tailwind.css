@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@config "../../tailwind.minimal.config.js";
+@config "../../tailwind.config.js";
 
 /* This line is used as a flag for post-processing */
 /* Do not change it!! */

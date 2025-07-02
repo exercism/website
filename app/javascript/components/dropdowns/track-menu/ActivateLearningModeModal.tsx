@@ -55,9 +55,9 @@ export const ActivateLearningModeModal = ({
       <h2>Activate Learning Mode</h2>
       <p>
         Activating Learning Mode will enable Concepts and Learning Exercises on
-        this track, but will lock Exercises that you&apos;ve not yet complete
-        prerequisites for. You will still have access to any exercises you have
-        started.
+        this track. However, it will lock Exercises for which you have not yet
+        completed the prerequisites. You will still have access to any exercises
+        you have already started.
       </p>
       <div className="warning">
         You can switch in and out of Learning Mode at any time.

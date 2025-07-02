@@ -6,11 +6,14 @@ import { FormMessage } from './FormMessage'
 import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
 import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
+import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
+import { SingleSelect } from '../common/SingleSelect'
 
 type User = {
   name: string
   location: string
   bio: string
+  seniority: SeniorityLevel
 }
 
 type Profile = {
@@ -97,6 +100,17 @@ export default function ProfileForm({
           Tell the world about you 🌎. Emojis encouraged!
         </div>
       </div>
+
+      <div className="seniority field">
+        <label htmlFor="user_seniority" className="label">
+          Seniority
+        </label>
+        <SenioritySelect
+          value={user.seniority}
+          setValue={(value) => setUser({ ...user, seniority: value })}
+        />
+      </div>
+
       {profile ? (
         <div className="pt-20 mt-24 border-t-1 border-borderColor6">
           <h2>Your social accounts</h2>
@@ -166,5 +180,39 @@ const SuccessMessage = () => {
       <Icon icon="completed-check-circle" alt="Success" />
       Your profile has been saved
     </div>
+  )
+}
+
+function OptionComponent({ option }: { option: SeniorityLevel }): JSX.Element {
+  switch (option) {
+    case 'absolute_beginner':
+      return <div>Absolute Beginner</div>
+    case 'beginner':
+      return <div>Beginner</div>
+    case 'junior':
+      return <div>Junior Developer</div>
+    case 'mid':
+      return <div>Mid-level Developer</div>
+    case 'senior':
+      return <div>Senior Developer</div>
+  }
+}
+
+function SenioritySelect({
+  value,
+  setValue,
+}: {
+  value: SeniorityLevel
+  setValue: (value: SeniorityLevel) => void
+}): JSX.Element {
+  return (
+    <SingleSelect<SeniorityLevel>
+      className="w-[250px]"
+      options={['absolute_beginner', 'beginner', 'junior', 'mid', 'senior']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
   )
 }

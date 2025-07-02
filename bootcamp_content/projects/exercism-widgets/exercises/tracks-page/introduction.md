@@ -2,7 +2,7 @@
 
 In this exercise, your job is to recreate the Exercism tracks page!
 
-Create a search bar that retrieves data from the Exercism API and renders it beautifully onto a page.
+Retrieve data from the Exercism API and render it beautifully onto a page. Then add a search bar with some added functionality!
 
 ## Instructions
 

@@ -2,7 +2,11 @@
 
 In this exercise, your job is to recreate the Exercism exercises page!
 
-Retrieves the data from the Exercism API, render it beautifully onto a page, and then use JavaScript to add more functionality.
+Retrieve the data from the Exercism API, render it beautifully onto a page, and then use JavaScript to add more functionality.
+
+This is a complex exercise with lots of moving parts.
+As always, take your time and break the problem into small chunks!
+And don't be afraid to ask if you get stuck 🙂
 
 ## Instructions
 

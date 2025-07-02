@@ -132,14 +132,14 @@
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
-              "function": "getCircleAt(86, 83, 3)",
+              "function": "getCircleAt(86, 84, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "function": "getCircleAt(86, 84, 3)",
+              "function": "getCircleAt(86, 83, 3)",
               "matcher": "toBeDefined",
-              "error_html": "The ball doesn't seem to reach the correct finishing point."
+              "error_html": "The ball doesn't seem to sink into the hole."
             },
             {
               "function": "getCircleAt(86, 85, 3)",
@@ -183,14 +183,14 @@
               "error_html": "The ball doesn't seem to roll the correct length."
             },
             {
-              "function": "getCircleAt(93, 83, 3)",
+              "function": "getCircleAt(93, 84, 3)",
               "matcher": "toBeDefined",
               "error_html": "The ball doesn't seem to reach the correct finishing point."
             },
             {
-              "function": "getCircleAt(93, 84, 3)",
+              "function": "getCircleAt(93, 83, 3)",
               "matcher": "toBeDefined",
-              "error_html": "The ball doesn't seem to reach the correct finishing point."
+              "error_html": "The ball doesn't seem to sink into the hole."
             },
             {
               "function": "getCircleAt(93, 85, 3)",

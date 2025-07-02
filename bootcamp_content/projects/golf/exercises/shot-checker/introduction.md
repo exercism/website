@@ -10,7 +10,7 @@ You have two things to achieve:
 
 1. Move the ball as far as golfer hits it.
 2. If the ball lands over the hole (the shot length is `56`, `57`, `58`, `59`, `60`, `61`, `62` or `63`):
-   - Animate the ball dropping down until into the hole its `y` value is `84`
+   - Animate the ball dropping down into the hole until its `y` value is `84`
    - Shoot some fireworks!
 
 ## Your Functions

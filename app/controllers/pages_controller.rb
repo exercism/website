@@ -51,4 +51,10 @@ class PagesController < ApplicationController
     Rails.logger.unknown "|| iHiD: User: #{current_user&.id}, Stale: #{stale}, Time: #{Time.current.to_f}, IP: #{request.remote_ip}, Params: #{params.permit!.to_h}" # rubocop:disable Layout/LineLength
     render json: { "Hello": "iHiD" } if stale
   end
+
+  def javascript_browser_test_runner_worker
+    # TODO: Set the etag to the JS-browser-test-version runner version
+    # stale = stale?(etag: 1)
+    render file: Rails.root / "node_modules/@exercism/javascript-browser-test-runner/output/javascript-browser-test-runner-worker.mjs"
+  end
 end

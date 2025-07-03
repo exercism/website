@@ -1,6 +1,5 @@
 class UserOnboardingController < ApplicationController
   skip_before_action :ensure_onboarded!
-  skip_before_action :store_user_location!
 
   def show
     return redirect_to dashboard_path if user_signed_in? && current_user.onboarded?

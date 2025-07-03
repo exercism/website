@@ -21,7 +21,7 @@
         %h3 Community-sourced #{track.title} exercises
         %p
           The #{track.title} track on Exercism has
-          - if @track.course?
+          - if track.course?
             #{track.num_concepts} concepts and
 
           #{track.num_exercises} exercises to help you write better code.
@@ -35,4 +35,7 @@
       = track_icon(track)
       %h3 Get started with the #{track.title} track
       %p The best part, it’s 100% free for everyone.
-      = button_to "Join the #{track.title} track", join_track_path(track), method: :post, class: 'btn-primary btn-m w-100 sm:w-auto'
+      - url = user_signed_in? ? join_track_path(track) : User::GenerateNewSessionPath.(request, controller)
+      - method = user_signed_in? ? :post : :get
+      - elem = user_signed_in? ? :button_to : :link_to
+      = send(elem, "Join the #{track.title} track", url, method: method, class: 'btn-primary btn-m w-100 sm:w-auto')

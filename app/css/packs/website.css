@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@reference "../tailwind.css";
 @import "../defaults.css";
 @import "../fonts.css";
 @import "../ui-kit/all.css";

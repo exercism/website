@@ -1,4 +1,4 @@
-@import "tailwindcss" body {
+body {
     @apply font-body antialiased;
     line-height: 1;
     font-size: 14px;

@@ -1,4 +1,5 @@
 @import "../ui-kit/buttons.css";
+@import "../tailwind.css";
 
 .c-combo-button {
     @apply btn-primary btn-s;

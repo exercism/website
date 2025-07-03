@@ -1,5 +1,5 @@
-@import "../minimal_tailwind.css";
-@import "../ui-kit/minimal.css";
+@reference "../minimal_tailwind.css";
+@reference "../ui-kit/minimal.css";
 
 /* Track */
 @import "../components/track-breadcrumbs.css";

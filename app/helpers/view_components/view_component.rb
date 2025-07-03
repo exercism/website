@@ -11,7 +11,7 @@ module ViewComponents
       :capture_haml,
       :showing_modal?, :showing_modal!,
       :javascript_include_tag, :request,
-      :session,
+      :session, :controller,
       to: :view_context
 
     # This is called when you called `render SomeComponent.new(...)`

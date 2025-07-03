@@ -8,10 +8,23 @@ module ViewComponents
       to: :view_context
 
     def to_s
+      decorated_cached_html
+    end
+
+    def decorated_cached_html
+      return cached_html if user_signed_in?
+
+      raw cached_html.gsub(
+        Exercism::Routes.new_user_session_path,
+        User::GenerateNewSessionPath.(request, controller)
+      )
+    end
+
+    def cached_html
       return html if user_signed_in?
 
       # Cache the header for signed-out users to improve performance
-      cache_key = "site-header-1"
+      cache_key = "site-header-2"
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
         html
       end

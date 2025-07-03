@@ -73,6 +73,7 @@ module Flows
       use_capybara_host do
         visit track_path(track)
         click_on "Join the Ruby Track"
+        wait_for_websockets
         fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "password"
         click_on "Log In"
@@ -112,6 +113,7 @@ module Flows
       use_capybara_host do
         visit track_path(track)
         click_on "Join the Ruby Track"
+        wait_for_websockets
         fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "password"
         click_on "Log In"

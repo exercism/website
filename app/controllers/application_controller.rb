@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   # around_action :set_log_level
   before_action :store_session_variables
-  before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :rate_limit_for_user!
   before_action :disable_rails_cache_for_public_requests!
@@ -15,6 +14,7 @@ class ApplicationController < ActionController::Base
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   after_action :set_user_id_cookie
+  after_action :skip_empty_session_cookie
   after_action :disable_cache_for_redirects
   after_action :set_body_class_header
   after_action :set_csp_header
@@ -295,18 +295,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def storable_location?
-    request.get? && is_navigational_format? && !devise_controller? && !request.xhr? &&
-      request.fullpath != '/site.webmanifest' &&
-      !request.fullpath.starts_with?('/courses/stripe')
+  def skip_empty_session_cookie
+    return unless session.empty? && flash.empty?
+
+    request.session_options[:skip] = true
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || super
-  end
-
-  def store_user_location!
-    store_location_for(:user, request.fullpath)
+    # Don't use the Devise method, which deletes this
+    session[stored_location_key_for(resource_or_scope)] || super
   end
 
   def updated_last_visited_on!

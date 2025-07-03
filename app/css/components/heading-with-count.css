@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-heading-with-count {
     @apply flex items-center;
     & .--text {

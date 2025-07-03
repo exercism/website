@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-open-editor-button-dropdown {
     @apply shadow-lg rounded-8 bg-backgroundColorA;
     @apply py-16 px-24;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-solution-iterations {
     @apply flex flex-col;
     @apply overflow-hidden;

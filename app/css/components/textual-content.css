@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-textual-content {
     @apply font-body;
 

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-docs-nav {
     @apply bg-backgroundColorA;
     @apply pt-12;

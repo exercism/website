@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-primary-reputation {
     @apply rounded-100 shadow-sm bg-backgroundColorA;
     @apply relative flex px-8 items-center justify-center;

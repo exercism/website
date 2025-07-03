@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-avatar-selector {
     @apply ml-auto;
     @apply flex flex-col items-center;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-crop-avatar {
     & .--modal-content {
         @apply flex flex-col items-center;

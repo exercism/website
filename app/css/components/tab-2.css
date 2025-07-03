@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-tab-2 {
     @apply mr-8;
     @apply px-8 py-16;

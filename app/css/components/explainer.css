@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-explainer {
     @apply flex items-center;
     @apply py-16 px-24;

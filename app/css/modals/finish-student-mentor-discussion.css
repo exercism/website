@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-finish-student-mentor-discussion.c-modal.--cover {
     & .--modal-container {
         @apply pt-80 pb-48 px-48;

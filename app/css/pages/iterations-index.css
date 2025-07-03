@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-iterations-index {
     & section.zero-state {
         @apply flex flex-col items-center;

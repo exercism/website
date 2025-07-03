@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-share-dropdown {
     @apply shadow-lg rounded-8 bg-backgroundColorA;
     @apply relative z-dropdown;

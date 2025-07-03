@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-user-activity {
     @apply shadow-lg py-16 px-24 bg-backgroundColorA rounded-8;
     @apply flex flex-row;

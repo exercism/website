@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 label.c-checkbox-wrapper {
     cursor: pointer;
     @apply flex items-center;

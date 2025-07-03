@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-docs-tracks-list {
     & .tracks {
         @apply lg:flex lg:flex-wrap grid md:grid-cols-4 grid-cols-2 lg:gap-x-0 gap-x-20;

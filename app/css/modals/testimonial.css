@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-modal.m-testimonial {
     & .--modal-container {
         @apply pt-80 pb-48 md:px-48 px-20;

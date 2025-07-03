@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-docs-tracks {
     & .header {
         @apply flex flex-col items-center;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-approaches-show {
     header {
         @apply bg-backgroundColorA shadow-lgZ1;

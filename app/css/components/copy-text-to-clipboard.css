@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 @keyframes copiedFadeOut {
     0% {
         opacity: 1;

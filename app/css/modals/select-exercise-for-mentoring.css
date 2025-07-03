@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-select-exercise-for-mentoring {
     & .wrapper {
         overflow-y: scroll;

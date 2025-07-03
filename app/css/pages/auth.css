@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 body.namespace-auth.user-signed_out {
     turbo-frame {
         @apply flex grow;

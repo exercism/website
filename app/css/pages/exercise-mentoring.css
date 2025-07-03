@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-exercise-mentoring {
     & > .container {
         @apply flex items-start;

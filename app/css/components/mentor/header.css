@@ -1,5 +1,3 @@
-@import "../../styles.css";
-
 .c-mentor-header {
     @apply relative;
     @apply bg-backgroundColorA pt-12 shadow-base;

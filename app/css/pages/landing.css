@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-landing {
     @apply bg-backgroundColorA;
     & header {

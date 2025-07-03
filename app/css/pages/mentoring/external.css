@@ -1,5 +1,3 @@
-@import "../../styles.css";
-
 #mentor-external-page {
     & .top-section {
         @apply bg-backgroundColorA;

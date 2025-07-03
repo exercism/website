@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 button.c-cli-walkthrough-button {
     @apply px-16 py-12;
     @apply flex items-center;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-update-exercise {
     & .--modal-content {
         @apply flex flex-col;

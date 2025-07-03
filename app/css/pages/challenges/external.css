@@ -1,5 +1,3 @@
-@import "../../styles.css";
-
 #challenge-external-page {
     & .top-section {
         @apply bg-backgroundColorA;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-generic-destructive {
     & form {
         @apply flex flex-col;

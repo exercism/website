@@ -1,5 +1,6 @@
+@import "tailwindcss";
 @import "./misc.css";
-@import "./styles.css";
+
 @import "./animations.css";
 @import "./borders.css";
 @import "./buttons.css";

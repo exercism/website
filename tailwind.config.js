@@ -13,7 +13,7 @@ module.exports = {
   content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
-    './app/javascript/**/*',
+    './app/javascript/**/*.tsx',
   ],
   theme: {
     extend: {
@@ -474,7 +474,7 @@ module.exports = {
   //     addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
   //   },
   // ],
-  corePlugins: {
-    container: false,
-  },
+  // corePlugins: {
+  //   container: false,
+  // },
 }

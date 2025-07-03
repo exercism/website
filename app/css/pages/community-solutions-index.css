@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-community-solutions-index {
     h2 {
         @apply text-h3 mb-20;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-onboarding {
     & .faux-site-header {
         @apply bg-backgroundColorA border-b-1 border-borderColor7;

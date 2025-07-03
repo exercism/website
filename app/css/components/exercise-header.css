@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-exercise-header {
     /* is it necessary? it creates a 2px top border (site header has 1px bottom-border)
     while it has a 1px bottom border

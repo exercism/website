@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-cli-walkthrough.c-modal.--cover {
     & .--modal-container {
         @apply pt-96 pb-48 px-48;

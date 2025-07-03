@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .c-contributions-summary {
     @apply flex flex-col lg:flex-row items-center gap-80;
 

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .page-settings {
     & .lg-container {
         @apply flex items-start;

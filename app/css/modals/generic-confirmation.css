@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-generic-confirmation.c-modal:not(.--cover) {
     & .--modal-content {
         max-width: 490px;

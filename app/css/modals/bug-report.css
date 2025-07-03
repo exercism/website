@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-bug-report.c-modal:not(.--cover) {
     & .--modal-content {
         width: 100%;

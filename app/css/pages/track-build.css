@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 @layer components {
     .c-build-page-tooling-status {
         @apply flex items-center border-2 border-black rounded-circle sm:mr-16 mr-0;

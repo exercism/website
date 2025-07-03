@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-confirm-finish-student-mentor-discussion.c-modal {
     & .--modal-content {
         max-width: 490px;

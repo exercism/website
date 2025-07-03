@@ -1,5 +1,3 @@
-@import "../../styles.css";
-
 #page-journey {
     & article.overview-tab {
         @apply bg-backgroundColorA;

@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-perk {
     .logo {
         @apply h-[60px];

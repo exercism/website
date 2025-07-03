@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 .m-badge.c-modal.--cover {
     &.--common {
         --rgb: var(--commonBadge-RGB);

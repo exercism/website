@@ -1,5 +1,3 @@
-@import "../styles.css";
-
 #page-organisation-supporter {
     @apply bg-backgroundColorA;
     & h1 {

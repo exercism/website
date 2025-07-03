@@ -226,6 +226,12 @@ if (typeof window !== 'undefined') {
   // use query client by pulling it out of the provider with useQueryClient hook
   window.queryClient = new QueryClient()
 
+  // use this path to register the worker for the exercism browser test runner
+  globalThis.__exercism ||= {}
+  globalThis.__exercism.workers ||= {}
+  globalThis.__exercism.workers.javascript =
+    '/javascript-browser-test-runner-worker.mjs'
+
   persistQueryClient({
     queryClient: window.queryClient,
     persister,

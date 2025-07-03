@@ -289,6 +289,7 @@ Rails.application.routes.draw do
   get "sitemap-tracks-:track_id" => "sitemaps#track", as: :sitemap_track
 
   get "ihid", to: 'pages#ihid'
+  get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
   root to: "pages#index"
 
   ##############

@@ -24,7 +24,7 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
       content_type = file.content_type
     end
 
-    expires_in 5.years, public: true
+    expires_in 1.day, public: true
     response.set_header("Content-Type", content_type)
     send_data data, type: content_type, disposition: 'inline'
   rescue ActiveRecord::RecordNotFound

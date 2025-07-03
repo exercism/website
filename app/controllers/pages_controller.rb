@@ -1,4 +1,3 @@
-require "json"
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
   protect_from_forgery except: :javascript_browser_test_runner_worker
@@ -60,9 +59,9 @@ class PagesController < ApplicationController
     pkg_path = base_path.join('package.json')
     version = File.exist?(pkg_path) ? JSON.parse(File.read(pkg_path))['version'] : 'dev'
 
-    file_path = base_path.join('output', 'javascript-browser-test-runner-worker.mjs')
-
     return unless stale?(etag: version)
+
+    file_path = base_path.join('output', 'javascript-browser-test-runner-worker.mjs')
 
     render file: file_path, content_type: 'application/javascript'
   end

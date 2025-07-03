@@ -1,5 +1,7 @@
+require "json"
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
+  protect_from_forgery except: :javascript_browser_test_runner_worker
 
   before_action :cache_public_action!, only: %i[index]
 
@@ -53,8 +55,15 @@ class PagesController < ApplicationController
   end
 
   def javascript_browser_test_runner_worker
-    # TODO: Set the etag to the JS-browser-test-version runner version
-    # stale = stale?(etag: 1)
-    render file: Rails.root / "node_modules/@exercism/javascript-browser-test-runner/output/javascript-browser-test-runner-worker.mjs"
+    base_path = Rails.root.join('node_modules', '@exercism', 'javascript-browser-test-runner')
+    # extract version from the installed package.json file
+    pkg_path = base_path.join('package.json')
+    version = File.exist?(pkg_path) ? JSON.parse(File.read(pkg_path))['version'] : 'dev'
+
+    file_path = base_path.join('output', 'javascript-browser-test-runner-worker.mjs')
+
+    return unless stale?(etag: version)
+
+    render file: file_path, content_type: 'application/javascript'
   end
 end

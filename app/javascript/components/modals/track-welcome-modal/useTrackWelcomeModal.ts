@@ -17,7 +17,10 @@ export function useTrackWelcomeModal(
   const [
     shouldShowBootcampRecommendationView,
     setShouldShowBootcampRecommendationView,
-  ] = useState(userSeniority.includes('beginner') && userJoinedDaysAgo >= 7)
+  ] = useState(
+    !userSeniority ||
+      (userSeniority.includes('beginner') && userJoinedDaysAgo >= 7)
+  )
 
   const hideBootcampRecommendationView = useCallback(() => {
     setShouldShowBootcampRecommendationView(false)

@@ -174,6 +174,9 @@ class ApplicationController < ActionController::Base
     end
 
     etag = Cache::GenerateEtag.(etag, current_user)
+    if request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io"
+      response.cache_control[:extras] << "no-transform"
+    end
 
     # Do this AFTER we've generated the etag to catch
     # any errors that might occur in the etag generation.

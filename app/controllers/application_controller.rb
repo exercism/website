@@ -149,9 +149,11 @@ class ApplicationController < ActionController::Base
   end
 
   # For external users, caching is done via cloudfront
+  # For external users, caching is done via cloudfront
   # not via Rails, and we want to avoid origin requests
   # every time, so we disable the If-None-Match header,
   def disable_rails_cache_for_public_requests!
+    return if request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io"
     return if devise_controller?
     return if user_signed_in?
 
@@ -161,16 +163,10 @@ class ApplicationController < ActionController::Base
     request.headers['HTTP_IF_NONE_MATCH'] = nil
   end
 
-  def stale?(etag:, skip_custom_logic: false)
-    # We let Cloudfront handle our caching for public users
-    # so we don't need to do anything here. In reality, what
-    # we probably want to do is retrieve a copy of the file from
-    # s3 here, but we don't have that set up yet.
-    # When we need to, we can use HTTP_X_IF_NONE_MATCH here.
-    unless skip_custom_logic
-      return true if devise_controller?
-      return true unless user_signed_in?
-    end
+  def stale?(etag:)
+    return true if devise_controller?
+
+    return true if !(request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io") && !user_signed_in?
 
     etag = Cache::GenerateEtag.(etag, current_user)
 

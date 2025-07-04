@@ -143,6 +143,9 @@ class ApplicationController < ActionController::Base
     # Vary this so we don't get spikes of traffic when everything
     # expires at the same time.
     expires_in rand(300..1200), public: true
+    if request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io"
+      response.cache_control[:extras] << "no-transform"
+    end
   rescue StandardError
     # Don't blow up if we get here and something hasn't worked
     # as we're exiting in the tests so don't have coverage.
@@ -166,7 +169,9 @@ class ApplicationController < ActionController::Base
   def stale?(etag:)
     return true if devise_controller?
 
-    return true if !(request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io") && !user_signed_in?
+    unless request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io"
+      return true unless user_signed_in?
+    end
 
     etag = Cache::GenerateEtag.(etag, current_user)
 

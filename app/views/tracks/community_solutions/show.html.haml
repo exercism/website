@@ -90,7 +90,7 @@
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
     .rhs.lg:ml-48
-      - if @exercise_representation&.oldest_solution && @exercise_representation.prestigious_solution
+      - if @exercise_representation&.oldest_solution && @exercise_representation&.prestigious_solution
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
             = graphical_icon "stats", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'

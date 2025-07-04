@@ -1,13 +1,13 @@
 class Tracks::ExercisesController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot
+  skip_before_action :verify_authenticity_token, only: :start
+
   include UseTrackExerciseSolutionConcern
   before_action :use_track!
   before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
   before_action :cache_public_action!, only: %i[index show tooltip]
-
-  skip_before_action :authenticate_user!, only: %i[index show tooltip]
-  skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot
-  skip_before_action :verify_authenticity_token, only: :start
 
   def index
     @num_completed = @user_track.num_completed_exercises

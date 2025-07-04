@@ -1,6 +1,6 @@
 - content_for :meta_title, "#{sanitize(@user.handle)}'s profile on Exercism".html_safe
 - content_for :meta_description, "Explore what #{@user.handle} has done on Exercism. Dig into their most interesting solutions, top contributions and most inspiring testimonials."
-- content_for :meta_image, profile_url(@user, format: :jpg)
+- content_for :meta_image, profile_url(@user, format: :jpg, host: 'https://assets.exercism.org')
 - content_for :canonical_url, profile_url(@user)
 - require_stylesheet "profile"
 - require_stylesheet "track"

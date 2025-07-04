@@ -17,9 +17,9 @@ export function YoutubePlayer({
   const playerRef = useRef(null)
   const [player, setPlayer] = useState<any>(null)
 
-  useEffect(() => {
-    if (!id) return
+  if (!id || id.length !== 11) return null
 
+  useEffect(() => {
     if (!window.YT) {
       const tag = document.createElement('script')
       tag.src = 'https://www.youtube.com/iframe_api'

@@ -161,14 +161,16 @@ class ApplicationController < ActionController::Base
     request.headers['HTTP_IF_NONE_MATCH'] = nil
   end
 
-  def stale?(etag:)
+  def stale?(etag:, skip_custom_logic: false)
     # We let Cloudfront handle our caching for public users
     # so we don't need to do anything here. In reality, what
     # we probably want to do is retrieve a copy of the file from
     # s3 here, but we don't have that set up yet.
     # When we need to, we can use HTTP_X_IF_NONE_MATCH here.
-    return true if devise_controller?
-    return true unless user_signed_in?
+    unless skip_custom_logic
+      return true if devise_controller?
+      return true unless user_signed_in?
+    end
 
     etag = Cache::GenerateEtag.(etag, current_user)
 

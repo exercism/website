@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   before_action :store_session_variables
   before_action :authenticate_user!
   before_action :rate_limit_for_user!
-  before_action :disable_rails_cache_for_public_requests!
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
@@ -148,25 +147,8 @@ class ApplicationController < ActionController::Base
     # as we're exiting in the tests so don't have coverage.
   end
 
-  # For external users, caching is done via cloudfront
-  # For external users, caching is done via cloudfront
-  # not via Rails, and we want to avoid origin requests
-  # every time, so we disable the If-None-Match header,
-  def disable_rails_cache_for_public_requests!
-    return if request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io"
-    return if devise_controller?
-    return if user_signed_in?
-
-    # Simulate production setup with cloudfront
-    request.headers['HTTP_X_IF_NONE_MATCH'] = request.headers['HTTP_IF_NONE_MATCH'] if Rails.env.development? || Rails.env.test?
-
-    request.headers['HTTP_IF_NONE_MATCH'] = nil
-  end
-
   def stale?(etag:)
     return true if devise_controller?
-
-    return true if !(request.host == "bootcamp.exercism.org" || request.host == "local.exercism.io") && !user_signed_in?
 
     etag = Cache::GenerateEtag.(etag, current_user)
 

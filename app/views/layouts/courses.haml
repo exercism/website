@@ -45,10 +45,8 @@
 
     = javascript_include_tag('courses', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
 
-    %script{ defer: true, "data-domain": "bootcamp.exercism.org", src: "https://plausible.io/js/script.outbound-links.revenue.tagged-events.js" }
-
     %title= content_for(:title) || "Bootcamp"
-    %meta{ content:  "width=device-width,initial-scale=1", name: "viewport" }/
+    %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }/
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }/
     %meta{ name: "stripe-publishable-key", content: Exercism.secrets.stripe_publishable_key }
 

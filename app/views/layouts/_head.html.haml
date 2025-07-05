@@ -58,7 +58,3 @@
 - if user_signed_in?
   = stylesheet_link_tag "internal", "data-turbo-track": "reload"
   = stylesheet_link_tag "signed-in", "data-turbo-track": "reload"
-
-- if Rails.env.production?
-  %script{ async: true, src: "/usage/js/script.js", data: { domain: "exercism.org", api: "/usage/api/event" } }
-

@@ -1,6 +1,6 @@
 - content_for :meta_title, "#{sanitize(@solution.user.handle)}'s solution for #{@exercise.title} in #{@track.title} on Exercism".html_safe
 - content_for :meta_description, "See how @#{sanitize(@solution.user.handle)} solved #{@exercise.title} in #{@track.title} and get inspired for how you could solve it too! Exercism is 100% free and a great way to level-up your programming skills in over 65 languages."
-- content_for :meta_image, Exercism::Routes.published_solution_url(@solution, format: :jpg, host: 'https://assets.exercism.org')
+- content_for :meta_image, Exercism::Routes.published_solution_url(@solution, format: :jpg, host: 'https://assets.exercism.org').sub(/\.jpg$/, "-#{@solution.updated_at.to_i}.jpg")
 - content_for :canonical_url, Exercism::Routes.published_solution_url(@solution)
 - require_stylesheet "track"
 

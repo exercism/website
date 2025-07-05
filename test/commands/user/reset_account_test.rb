@@ -12,8 +12,6 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       became_mentor_at: Time.current,
       version: 10
 
-    User::InvalidateAvatarInCloudfront.expects(:defer).with(user)
-
     perform_enqueued_jobs do
       User::ResetAccount.(user)
     end

@@ -20,13 +20,15 @@ module Metrics
       end
 
       define_method "set_num_#{key}!" do
-        ActiveRecord::Base.connection.select_value("
+        return if send("num_#{key}").to_i > 350_000
+
+        count = ActiveRecord::Base.connection.select_value("
           SELECT table_rows
           FROM information_schema.tables
           WHERE table_schema = '#{ActiveRecord::Base.connection.current_database}'
             AND table_name = '#{klass.table_name}';
         ")
-        Exercism.redis_cache_client.set(redis_key, klass.count)
+        Exercism.redis_cache_client.set(redis_key, count)
       end
     end
   end

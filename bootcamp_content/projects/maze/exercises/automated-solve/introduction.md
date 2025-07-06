@@ -24,3 +24,13 @@ You can solve all the mazes using the following method (this is what we call an 
 - Otherwise turn around and move forward
 
 This exercise is broken into different tasks. Follow the instructions below and as you completed each task, one or more the scenarios will complete, and more instructions will appear below!
+
+Remember to keep your code wrapped inside the `repeat_until_game_over do` block, and it will run until you hit a wall, finish the game, or do something invalid:
+
+```jikiscript
+repeat_until_game_over do
+  // Your code
+end
+```
+
+Have fun!

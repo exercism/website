@@ -251,6 +251,7 @@
     --borderColorContributorCreditBlock: theme(colors.lavender);
     --borderColorExerciseStatusTagInProgress: theme(colors.lightBlue);
     --borderColorDocsDashed: theme(colors.lavender);
+    /* ON TRACKS */
     --borderColorTracksListV3: var(--textColor2);
     /* textColor1 and textColor2 has different dark-themes */
     --textColor1: var(--c-130B43);
@@ -674,6 +675,315 @@ body.namespace-.controller-insiders.theme-light,
         hue-rotate(340deg) brightness(105%) contrast(101%);
     --dark-green-filter: invert(55%) sepia(64%) saturate(367%)
         hue-rotate(111deg) brightness(99%) contrast(87%);
+    --c-prominent-link-icon-filter: invert(79%) sepia(31%) saturate(572%)
+        hue-rotate(340deg) brightness(105%) contrast(101%);
+    --linkColor-filter: var(--filter-7097FF);
+    /* same as light theme, but becomes black if it is missing */
+    --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
+        hue-rotate(225deg) brightness(94%) contrast(93%);
+    /* --purple-filter: var(--filter-FFFFFF); */
+    --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
+        brightness(97%) contrast(80%);
+
+    --purple-light-white-dark-filter: var(--white-filter);
+
+    /* aliceBlue */
+    --selected-tab-icon-filter: invert(94%) sepia(7%) saturate(129%)
+        hue-rotate(182deg) brightness(102%) contrast(96%);
+
+    --iconFilterMentorDiscussionWidget: invert(94%) sepia(7%) saturate(129%)
+        hue-rotate(182deg) brightness(102%) contrast(96%);
+
+    --iconFilterCommentsCount: invert(57%) sepia(90%) saturate(682%)
+        hue-rotate(354deg) brightness(95%) contrast(104%);
+
+    --iconFilterNotificationsProminentLink: invert(74%) sepia(71%)
+        saturate(309%) hue-rotate(106deg) brightness(89%) contrast(88%);
+    --iconFilterEDConcept: var(--c-prominent-link-icon-filter);
+    --iconFilterCaution: brightness(1.7);
+
+    @apply text-textColor5 bg-backgroundColorB;
+
+    --c-concept-map-line-complete: #64b294;
+    --c-concept-map-line-available: #dce3ef77;
+    --c-concept-map-line-locked: #c9c8d7;
+    --c-concept-map-line-faded: #d2ddf3;
+
+    --lockedColor: var(--backgroundColorEDAvailable);
+
+    img.c-img-invertible {
+        filter: invert(100%);
+    }
+    img.c-img-light-theme {
+        display: none;
+    }
+}
+
+.theme-neon {
+    color-scheme: dark;
+
+    /* --backgroundColorA: var(--c-282339); */
+    --backgroundColorA: theme(colors.russianViolet);
+    /* ON TRACKS (must be rgb) */
+    --backgroundColorA-RGB: 0 155 155;
+    /* ON TRACKS */
+    --backgroundColorB: green;
+    --backgroundColorC: var(--c-302B42);
+    /* ON TRACKS (under --row-selected-background-color) */
+    --backgroundColorD: var(--c-3A3557); /* Confirmed */
+    --backgroundColorE: theme(colors.englishViolet);
+    --backgroundColorF: theme(colors.eerieBlack);
+    --backgroundColorG: var(--c-2F2943);
+    --backgroundColorH: var(--c-F0F3F9);
+    /* ON TRACKS progress bar backgorund */
+    --backgroundColorI: blue;
+    --backgroundColorITransparent: rgba(25, 21, 37, 0);
+    --backgroundColorJ: var(--backgroundColorB);
+    --backgroundColorBorderGradientLightPurple: theme(colors.darkBlueGray);
+    --backgroundColorNotifications: theme(colors.eerieBlack);
+    --backgroundColorNotificationsCount: theme(colors.seafoamGreen);
+    --backgroundColorAnnouncementBar: theme(colors.vividPurple);
+    --backgroundColorSiteFooter: theme(colors.eerieBlack);
+    /* ON TRACKS */
+    --backgroundColorTracksListState: theme(colors.lightGold);
+    --backgroundColorMentoringRequestedStatusInfo: theme(colors.purple);
+    --backgroundColorCAlert: none;
+    --backgroundColorTextblockCautonContent: none;
+    --textColorCAlert: theme(colors.orange);
+    --textColorCAlertLabel: theme(colors.aliceBlue);
+    /* ON TRACKS */
+    --backgroundColorTracksListJoined: pink;
+    --backgroundColorTracksListNew: none;
+    --backgroundColorIterationCommentsUnread: theme(colors.launchingYellow);
+    --borderColorIterationCommentsUnread: theme(colors.launchingYellow);
+    --textColorIterationCommentsUnread: theme(colors.midnightBlue);
+    --borderColorIterationActive: theme(colors.launchingYellow);
+    --textColorIterationActive: theme(colors.launchingYellow);
+    --backgroundColorEDAvailable: theme(colors.eerieBlack);
+    --backgroundColorEDIterated: theme(colors.purple);
+    --backgroundColorMentorTrackSelectorSelected: none;
+    --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
+    --backgroundColorExerciseStatusTagLocked: none;
+    --backgroundColorConceptMastered: none;
+    --backgroundColorConceptLocked: var(--backgroundColorA);
+    --backgroundColorCompletedHeading: none;
+    --backgroundColorCReputation: theme(colors.eerieBlack);
+    --backgroundColorEditorActiveLine: #302b4288;
+    --backgroundColorTeamHeader: theme(colors.darkBlueGray);
+    --backgroundColorTeamInfoBox: theme(colors.eerieBlack);
+    --backgroundColorImpactPage: theme(colors.eerieBlack);
+    --backgroundColorNotificationsUnreadDot: theme(colors.seafoamGreen);
+    --backgroundColorBuildToolingStatus: none;
+    --backgroundColorBtnSecondary: theme(colors.russianViolet);
+    --backgroundColorBtnSecondaryHover: theme(colors.eerieBlack);
+    --backgroundColorMentorTestimonialsNew: theme(colors.launchingYellow);
+    --backgroundColorExternalCTA: none;
+    --backgroundColorEasyTag: none;
+    --backgroundColorMediumTag: none;
+    --backgroundColorHardTag: none;
+    --backgroundColorDangerSection: none;
+    --backgroundColorDonationsFormSelected: none;
+    --backgroundColorContributingAdvanced: none;
+    --backgroundColorSummaryStatusFailed: #f1707026;
+    --backgroundColorSummaryStatusFailedBar: #f17070;
+    --backgroundColorReputationInfo: theme(colors.russianViolet);
+    --backgroundColorNavDropdown: theme(colors.eerieBlack);
+    --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
+    --backgroundColorHoverMenuTrack: #3a3557;
+    --backgroundColorPerkContainer: #103;
+
+    --backgroundImpactPageHeader: theme(colors.eerieBlack);
+
+    --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDkiIGhlaWdodD0iNDkiIHZpZXdCb3g9IjAgMCA0OSA0OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxLjI5MDUgMi4xMzk4QzIzLjEzMTEgMS4wNzcxIDI1LjM5ODkgMS4wNzcxIDI3LjIzOTYgMi4xMzk4TDQxLjg5ODggMTAuNjAzM0M0My43Mzk1IDExLjY2NiA0NC44NzM0IDEzLjYzIDQ0Ljg3MzQgMTUuNzU1NFYzMi42ODI0QzQ0Ljg3MzQgMzQuODA3OCA0My43Mzk1IDM2Ljc3MTggNDEuODk4OCAzNy44MzQ1TDI3LjIzOTYgNDYuMjk4QzI1LjM5ODkgNDcuMzYwNyAyMy4xMzExIDQ3LjM2MDcgMjEuMjkwNSA0Ni4yOThMNi42MzEyNCAzNy44MzQ1QzQuNzkwNTggMzYuNzcxOCAzLjY1NjY4IDM0LjgwNzggMy42NTY2OCAzMi42ODI0VjE1Ljc1NTRDMy42NTY2OCAxMy42MyA0Ljc5MDU4IDExLjY2NiA2LjYzMTI0IDEwLjYwMzNMMjEuMjkwNSAyLjEzOThaIiBmaWxsPSIjMTkxNTI1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDAuNzgzMyAxMi41MzUzTDI2LjEyNDEgNC4wNzE4NEMyNC45NzM3IDMuNDA3NjQgMjMuNTU2MyAzLjQwNzY0IDIyLjQwNTkgNC4wNzE4M0w3Ljc0NjcgMTIuNTM1M0M2LjU5NjI5IDEzLjE5OTUgNS44ODc2IDE0LjQyNyA1Ljg4NzYgMTUuNzU1NFYzMi42ODI0QzUuODg3NiAzNC4wMTA4IDYuNTk2MjkgMzUuMjM4MyA3Ljc0NjcgMzUuOTAyNUwyMi40MDU5IDQ0LjM2NkMyMy41NTYzIDQ1LjAzMDIgMjQuOTczNyA0NS4wMzAyIDI2LjEyNDEgNDQuMzY2TDQwLjc4MzMgMzUuOTAyNUM0MS45MzM4IDM1LjIzODMgNDIuNjQyNCAzNC4wMTA4IDQyLjY0MjQgMzIuNjgyNFYxNS43NTU0QzQyLjY0MjQgMTQuNDI3IDQxLjkzMzggMTMuMTk5NSA0MC43ODMzIDEyLjUzNTNaTTI3LjIzOTYgMi4xMzk4QzI1LjM5ODkgMS4wNzcxIDIzLjEzMTEgMS4wNzcxIDIxLjI5MDUgMi4xMzk4TDYuNjMxMjQgMTAuNjAzM0M0Ljc5MDU4IDExLjY2NiAzLjY1NjY4IDEzLjYzIDMuNjU2NjggMTUuNzU1NFYzMi42ODI0QzMuNjU2NjggMzQuODA3OCA0Ljc5MDU4IDM2Ljc3MTggNi42MzEyNCAzNy44MzQ1TDIxLjI5MDUgNDYuMjk4QzIzLjEzMTEgNDcuMzYwNyAyNS4zOTg5IDQ3LjM2MDcgMjcuMjM5NiA0Ni4yOThMNDEuODk4OCAzNy44MzQ1QzQzLjczOTUgMzYuNzcxOCA0NC44NzM0IDM0LjgwNzggNDQuODczNCAzMi42ODI0VjE1Ljc1NTRDNDQuODczNCAxMy42MyA0My43Mzk1IDExLjY2NiA0MS44OTg4IDEwLjYwMzNMMjcuMjM5NiAyLjEzOThaIiBmaWxsPSIjMTkxNTI1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzkuNTk1IDE0LjA4TDI1LjM4MDUgNS44NzMzMUMyNC42OTAyIDUuNDc0NzkgMjMuODM5OCA1LjQ3NDc5IDIzLjE0OTYgNS44NzMzMUw4LjkzNTEgMTQuMDhDOC4yNDQ4NSAxNC40Nzg2IDcuODE5NjQgMTUuMjE1IDcuODE5NjQgMTYuMDEyMVYzMi40MjU1QzcuODE5NjQgMzMuMjIyNiA4LjI0NDg1IDMzLjk1OSA4LjkzNTEgMzQuMzU3NkwyMy4xNDk2IDQyLjU2NDNDMjMuODM5OCA0Mi45NjI4IDI0LjY5MDIgNDIuOTYyOCAyNS4zODA1IDQyLjU2NDNMMzkuNTk1IDM0LjM1NzZDNDAuMjg1MiAzMy45NTkgNDAuNzEwNCAzMy4yMjI2IDQwLjcxMDQgMzIuNDI1NVYxNi4wMTIxQzQwLjcxMDQgMTUuMjE1IDQwLjI4NTIgMTQuNDc4NiAzOS41OTUgMTQuMDhaTTI2LjQ5NTkgMy45NDEyOEMyNS4xMTU0IDMuMTQ0MjUgMjMuNDE0NiAzLjE0NDI1IDIyLjAzNDEgMy45NDEyOEw3LjgxOTY0IDEyLjE0OEM2LjQzOTE0IDEyLjk0NSA1LjU4ODcyIDE0LjQxOCA1LjU4ODcyIDE2LjAxMjFWMzIuNDI1NUM1LjU4ODcyIDM0LjAxOTYgNi40MzkxNCAzNS40OTI2IDcuODE5NjQgMzYuMjg5NkwyMi4wMzQxIDQ0LjQ5NjNDMjMuNDE0NiA0NS4yOTMzIDI1LjExNTQgNDUuMjkzMyAyNi40OTU5IDQ0LjQ5NjNMNDAuNzEwNCAzNi4yODk2QzQyLjA5MDkgMzUuNDkyNiA0Mi45NDEzIDM0LjAxOTYgNDIuOTQxMyAzMi40MjU1VjE2LjAxMjFDNDIuOTQxMyAxNC40MTggNDIuMDkwOSAxMi45NDUgNDAuNzEwNCAxMi4xNDhMMjYuNDk1OSAzLjk0MTI4WiIgZmlsbD0iIzNGM0E1QSIvPgo8L3N2Zz4K");
+    --textColorCReputation: theme(colors.gray);
+
+    --cmCursorColor: theme(colors.launchingYellow);
+
+    /* --iconfiltermentordiscussionwidget: invert(40%) sepia(48%) saturate(1566%) hue-rotate(221deg)
+            brightness(99%) contrast(94%); */
+
+    /* backgroundColorF's colors */
+    --c-prominent-link-bg: #4a475f;
+
+    --newBadgeIcon: url("icons/new-badge-dark.svg");
+    --newTestimonialIcon: url("icons/new-testimonial-dark.svg");
+
+    --colorPurpleToBrightPurple: theme(colors.brightPurple);
+    --purple-to-bright-purple-filter: invert(68%) sepia(45%) saturate(771%)
+        hue-rotate(201deg) brightness(99%) contrast(80%);
+
+    /* this is used at tiny gradients - needs a proper dark-theme color */
+    --fillColorProgress: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
+    --borderColor3: var(--c-8480A0);
+    --borderColor5: var(--c-433F56); /* Confirmed */
+    --borderColor6: var(--c-433F56);
+    --borderColor7: #433f56;
+    --borderColor8: theme(colors.englishViolet);
+    --borderColorContributionTasksTag: theme(colors.gray);
+    --borderColorContributorCreditBlock: theme(colors.gray);
+    --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
+    --borderColorDocsDashed: theme(colors.aliceBlue);
+    --borderColorTracksListV3: transparent;
+    /* --borderColor7: var(--c-533F56); */
+
+    /* ON TRACKS */
+    --textColor1: salmon;
+    /* --textColor1: var(--c-FFFFFF); */
+    --textColor1-no-dark: var(--c-130B43);
+
+    /* ON TRACKS (used by .text--p) */
+    --textColor2: var(--c-F0F3F9); /* Confirmed */
+    --textColor3: var(--c-8480A0);
+    /* ON TRACKS (used by .text--p) */
+    --textColor5: purple;
+    /* ON TRACKS */
+    --textColor6: aliceblue; /* Confirmed */
+    --textColor7: var(--c-6A6781); /* Confirmed */
+    --textColor9: var(--c-000000);
+    --textColorExerciseStatusTagInProgress: theme(colors.aliceBlue);
+    /* ON TRACKS */
+    --textColorTracksListState: theme(colors.midnightBlue);
+    /* ON TRACKS */
+    --textColorTracksListJoined: black;
+    /* ON TRACKS */
+    --textColorTracksListNew: theme(colors.launchingYellow);
+    --textColorTrackBreadcrumbs: theme(colors.aliceBlue);
+    --textColorLastNavElement: theme(colors.gray);
+    --textColorCommentsCount: theme(colors.orange);
+    --textColorMentorTestimonialsNew: theme(colors.midnightBlue);
+    --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
+    --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
+    --textColorProgressTextCompleted: theme(colors.greenPrompt);
+    --textGradientStart: #8370ff;
+    --textGradientEnd: #b947ff;
+    --textColorSoftEmphasis: #f5f5f5;
+    --textColorPerkCTA: theme(colors.white);
+
+    --c-prominent-link-color: theme(colors.lightGold);
+    --color22: var(--c-533F56);
+
+    --shadowColorED: 40, 35, 57;
+    --shadowColorMain: 0, 0, 0;
+    --shadowColorSecondary: theme(colors.richBlack);
+    --shadowColorNotificationBell: 89, 210, 174;
+    --shadowColorKeystroke: 40, 35, 57;
+
+    --linkColor: var(--c-7097FF);
+    --buttonBorderColor1: var(--c-8480A0);
+
+    /* ON TRACKS */
+    --buttonBorderColor2: red;
+    /* ON TRACKS */
+    --inputBackgroundColor: yellow;
+    --inputBorderColorFocus: var(--c-8480A0);
+    --tabBackgroundColorSelected: theme(colors.purple);
+    --tabBackgroundColorSelectedLocked: theme(colors.purpleDimmed);
+    --successColor: var(--c-4FCDA7);
+    --chartBorderColor: var(--c-6A6781);
+
+    --paginationCurrentBorderColor: var(--c-6A6781);
+    --paginationCurrentBackgroundColor: var(--c-403A66);
+
+    --modalBackgroundColor: rgba(40, 35, 57, 0.7);
+    --box-shadow-sm: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.2);
+    --box-shadow-base: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.4);
+    --box-shadow-lg: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.6);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.9);
+
+    /* -- HLJS dark -- */
+    /* Atom One Dark by Daniel Gamage
+    Original One Dark Syntax theme from https://github& .com/atom/one-dark-syntax */
+
+    --hljs-base: transparent;
+    --hljs-mono-1: #abb2bf;
+    --hljs-mono-2: #818896;
+    --hljs-mono-3: #9aa0ac;
+    --hljs-hue-1: #56b6c2;
+    --hljs-hue-2: #61aeee;
+    --hljs-hue-3: #c678dd;
+    --hljs-hue-4: #98c379;
+    --hljs-hue-5: #e06c75;
+    --hljs-hue-5-2: #be5046;
+    --hljs-hue-6: #d19a66;
+    --hljs-hue-6-2: #e6c07b;
+
+    --diffDarkGreen: #4fcda730;
+    --diffLightGreen: #4fcda730;
+    --diffDarkRed: #f1707030;
+    --diffLightRed: #f1707030;
+
+    --commonBadge-RGB: 240, 243, 249;
+    --commonBadgeFill-RGB: 80, 83, 89;
+    --commonBadgeShadow-RGB: 80, 83, 89; /* TODO */
+    --rareBadge-RGB: 159, 180, 255; /* 219, 240, 255 */
+    --rareBadgeFill-RGB: 0, 20, 75;
+    --rareBadgeShadow-RGB: 219, 240, 255;
+    --ultimateBadge-RGB: 246, 150, 5;
+    --ultimateBadgeFill-RGB: 86, 0, 0;
+    --ultimateBadgeShadow-RGB: 246, 150, 5; /* TODO */
+    --legendaryBadge-RGB: 235, 87, 87;
+    --legendaryBadgeFill-RGB: 75, 0, 0;
+    --legendaryBadgeShadow-RGB: 235, 87, 87; /* TODO */
+
+    --white-filter: var(--filter-FFFFFF);
+
+    /* this only applies if it is dark mode */
+    --white-filter-when-dark: var(--filter-FFFFFF);
+    /* this can be a dark mode filter for all (or most) the black svgs */
+    /* it is only present in the dark-mode block and won't effect the original variant */
+    --svg-darkmode-filter: var(--filter-A9A6BD);
+    /* ##F7B000 */
+    --orange-filter: invert(57%) sepia(60%) saturate(718%) hue-rotate(7deg)
+        brightness(108%) contrast(102%);
+    /* this is the same as light mode */
+    /* --orange-filter: invert(57%) sepia(90%) saturate(682%) hue-rotate(354deg)
+        brightness(95%) contrast(104%); */
+    /* This is yellow */
+    /* --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
+        brightness(106%) contrast(96%); */
+    --processing-orange-filter: invert(57%) sepia(90%) saturate(682%)
+        hue-rotate(354deg) brightness(95%) contrast(104%);
+    --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
+        hue-rotate(236deg) brightness(97%) contrast(80%);
+    --tracks-list-joined-filter: invert(27%) sepia(43%) saturate(4160%)
+        hue-rotate(221deg) brightness(93%) contrast(96%);
+    --red-filter: invert(78%) sepia(76%) saturate(7147%) hue-rotate(332deg)
+        brightness(105%) contrast(84%);
+    /* --tracks-list-joined-filter: invert(31%) sepia(64%) saturate(1659%)
+        hue-rotate(228deg) brightness(89%) contrast(90%); */
+
+    /* white-filter */
+    /* --textColor1-filter: invert(100%) sepia(0%) saturate(7500%)
+        hue-rotate(242deg) brightness(101%) contrast(100%); */
+
+    --notifications-active-filter: invert(40%) sepia(48%) saturate(1566%)
+        hue-rotate(221deg) brightness(99%) contrast(94%);
+    --notifications-inactive-filter: invert(40%) sepia(48%) saturate(1566%)
+        hue-rotate(221deg) brightness(99%) contrast(94%);
+
+    /* aliceBlue-filter */
+    --textColor1-filter: invert(94%) sepia(7%) saturate(129%) hue-rotate(182deg)
+        brightness(102%) contrast(96%);
+    --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
+        hue-rotate(177deg) brightness(100%) contrast(96%);
+    --textColor3-filter: invert(52%) sepia(14%) saturate(586%)
+        hue-rotate(208deg) brightness(97%) contrast(91%);
+    --textColor5-filter: invert(89%) sepia(10%) saturate(255%)
+        hue-rotate(208deg) brightness(94%) contrast(84%);
+    /* ON TRACKS */
+    --textColor6-filter: invert(71%) sepia(18%) saturate(258%)
+        hue-rotate(208deg) brightness(93%) contrast(86%);
+    --textColor7-filter: invert(43%) sepia(4%) saturate(2017%)
+        hue-rotate(207deg) brightness(92%) contrast(86%);
+    --buttonBorderColor1-filter: invert(52%) sepia(9%) saturate(862%)
+        hue-rotate(208deg) brightness(97%) contrast(95%);
+    --primary-reputation-filter: invert(88%) sepia(37%) saturate(870%)
+        hue-rotate(355deg) brightness(90%) contrast(96%);
+    --light-gold-filter: invert(79%) sepia(31%) saturate(572%)
+        hue-rotate(340deg) brightness(105%) contrast(101%);
+    --dark-green-filter: invert(55%) sepia(64%) saturate(367%)
+        hue-rotate(111deg) brightness(99%) contrast(87%);
+    /* ON TRACKS */
     --c-prominent-link-icon-filter: invert(79%) sepia(31%) saturate(572%)
         hue-rotate(340deg) brightness(105%) contrast(101%);
     --linkColor-filter: var(--filter-7097FF);

@@ -30,7 +30,8 @@ module BodyClassConcern
   end
 
   def theme
-    "theme-#{current_user&.preferences&.theme || 'light'}"
+    "theme-neon"
+    # "theme-#{current_user&.preferences&.theme || 'light'}"
   end
 
   included do

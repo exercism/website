@@ -131,7 +131,9 @@ export default function Notifications({
     }
 
     return () => {
-      const sub = consumer.subscriptions.find(identifier)
+      const sub = consumer.subscriptions.subscriptions.find(
+        (sub: any) => sub.identifier === identifier
+      )
       if (sub) sub.unsubscribe()
     }
   }, [])

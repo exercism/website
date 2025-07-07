@@ -111,16 +111,29 @@ export default function Notifications({
   } = useNotificationDropdown(resolvedData)
 
   useEffect(() => {
-    const subscription = consumer.subscriptions.create(
-      { channel: 'NotificationsChannel' },
-      {
-        received: () => {
-          setIsStale(true)
-        },
-      }
+    const identifier = JSON.stringify({ channel: 'NotificationsChannel' })
+
+    const alreadySubscribed = consumer.subscriptions.subscriptions.some(
+      (sub: any) => sub.identifier === identifier
     )
 
-    return () => subscription.unsubscribe()
+    if (!alreadySubscribed) {
+      consumer.subscriptions.create(
+        { channel: 'NotificationsChannel' },
+        {
+          received: () => {
+            setIsStale(true)
+          },
+        }
+      )
+    } else {
+      console.warn('Already subscribed to NotificationsChannel')
+    }
+
+    return () => {
+      const sub = consumer.subscriptions.find(identifier)
+      if (sub) sub.unsubscribe()
+    }
   }, [])
 
   useEffect(() => {

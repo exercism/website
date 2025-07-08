@@ -1,0 +1,37 @@
+en:
+  tracks:
+    show:
+      summary_article:
+        progress_chart:
+          title:
+            just_started: "You've just started the %{track_title} track."
+            good_luck: "Good luck, adventurer!"
+            completed_100_percent: "Amazing - you've completed the track!!"
+            achievement: "What an achievement! 👏"
+            in_progress: "You're %{percentage}% through the %{track_title} track."
+          progress_bar:
+            completed_icon_alt: "Completed"
+          key:
+            completed: "Completed"
+            in_progress: "In-progress"
+            available: "Available"
+            locked: "Locked"
+            total_exercises: "Total Exercises"
+        trophy_cabinet:
+          title: "%{track_title} Trophy Cabinet"
+          description: "Unlock for achievements as you progress through the track."
+          learn_more: "Learn more"
+        rhs:
+          intro_video:
+            title: "A Brief Introduction to %{track_title}"
+            description: "Dig into %{track_title} with Erik as he explores its main features and solves an interesting exercise."
+          forum:
+            title: "From the Forum…"
+            latest_by: "Latest by %{username}"
+            explore_forum: "Explore the %{track_title} Forum"
+          docs:
+            title: "Stuck? Explore our docs…"
+          momentum:
+            title: "Your momentum"
+            description: "Consistency is the key to progress. Set yourself a realistic target to try and aim for each week, then track your last 8 weeks here."
+            avg_exercises_completed: "Avg. exercises completed per week"

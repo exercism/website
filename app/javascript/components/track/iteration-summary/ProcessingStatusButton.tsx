@@ -19,10 +19,16 @@ export const ProcessingStatusButton = ({
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
       return (
         <TestRunStatusButton endpoint={iteration.links.testRun}>
-          <ProcessingStatusSummary iterationStatus={iteration.status} />
+          <ProcessingStatusSummary 
+            iterationStatus={iteration.status} 
+            iterationUuid={iteration.uuid} 
+          />
         </TestRunStatusButton>
       )
     default:
-      return <ProcessingStatusSummary iterationStatus={iteration.status} />
+      return <ProcessingStatusSummary 
+        iterationStatus={iteration.status} 
+        iterationUuid={iteration.uuid} 
+      />
   }
 }

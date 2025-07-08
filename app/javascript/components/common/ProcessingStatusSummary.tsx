@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IterationStatus } from '../types'
 import { GraphicalIcon } from '.'
 
@@ -42,16 +42,64 @@ function transformStatus(iterationStatus: IterationStatus): string {
 
 export function ProcessingStatusSummary({
   iterationStatus,
+  iterationUuid,
 }: {
   iterationStatus: IterationStatus
+  iterationUuid?: string
 }): JSX.Element {
+  const [currentStatus, setCurrentStatus] = useState<IterationStatus>(iterationStatus)
+  
+  // Auto-refresh the status for iterations that are in processing state
+  useEffect(() => {
+    // Update the local state when the prop changes
+    setCurrentStatus(iterationStatus)
+    
+    // Only set up polling for processing statuses
+    const isProcessing = 
+      iterationStatus === IterationStatus.TESTING || 
+      iterationStatus === IterationStatus.ANALYZING
+    
+    if (!isProcessing || !iterationUuid) return
+    
+    // Check status every 5 seconds
+    const intervalId = setInterval(() => {
+      // If we have an iteration UUID, fetch its current status
+      if (iterationUuid) {
+        fetch(`/api/v1/iterations/${iterationUuid}`)
+          .then(response => {
+            if (response.ok) return response.json()
+            throw new Error('Failed to fetch iteration status')
+          })
+          .then(data => {
+            if (data && data.iteration && data.iteration.status) {
+              setCurrentStatus(data.iteration.status)
+              
+              // If status is no longer processing, clear the interval
+              if (
+                data.iteration.status !== IterationStatus.TESTING && 
+                data.iteration.status !== IterationStatus.ANALYZING
+              ) {
+                clearInterval(intervalId)
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error checking iteration status:', error)
+          })
+      }
+    }, 5000) // Poll every 5 seconds
+    
+    return () => clearInterval(intervalId)
+  }, [iterationStatus, iterationUuid])
+  
   if (
-    iterationStatus == IterationStatus.DELETED ||
-    iterationStatus == IterationStatus.UNTESTED
+    currentStatus == IterationStatus.DELETED ||
+    currentStatus == IterationStatus.UNTESTED
   ) {
     return <></>
   }
-  const status = transformStatus(iterationStatus)
+  
+  const status = transformStatus(currentStatus)
 
   return (
     <div

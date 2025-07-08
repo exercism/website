@@ -108,7 +108,10 @@ export function IterationSummary({
       {showTestsStatusAsButton ? (
         <ProcessingStatusButton iteration={iteration} />
       ) : (
-        <ProcessingStatusSummary iterationStatus={iteration.status} />
+        <ProcessingStatusSummary 
+          iterationStatus={iteration.status} 
+          iterationUuid={iteration.uuid} 
+        />
       )}
 
       {showFeedbackIndicator ? (

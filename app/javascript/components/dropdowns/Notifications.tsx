@@ -10,6 +10,7 @@ import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { QueryStatus } from '@tanstack/react-query'
+import { NotificationsChannel } from '@/channels/notificationsChannel'
 
 export type APIResponse = {
   results: NotificationType[]
@@ -111,31 +112,9 @@ export default function Notifications({
   } = useNotificationDropdown(resolvedData)
 
   useEffect(() => {
-    const identifier = JSON.stringify({ channel: 'NotificationsChannel' })
+    const connection = new NotificationsChannel(() => setIsStale(true))
 
-    const alreadySubscribed = consumer.subscriptions.subscriptions.some(
-      (sub: any) => sub.identifier === identifier
-    )
-
-    if (!alreadySubscribed) {
-      consumer.subscriptions.create(
-        { channel: 'NotificationsChannel' },
-        {
-          received: () => {
-            setIsStale(true)
-          },
-        }
-      )
-    } else {
-      console.warn('Already subscribed to NotificationsChannel')
-    }
-
-    return () => {
-      const sub = consumer.subscriptions.subscriptions.find(
-        (sub: any) => sub.identifier === identifier
-      )
-      if (sub) sub.unsubscribe()
-    }
+    return () => connection.disconnect()
   }, [])
 
   useEffect(() => {

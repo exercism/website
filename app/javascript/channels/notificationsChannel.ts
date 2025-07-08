@@ -1,8 +1,8 @@
 import consumer from '../utils/action-cable-consumer'
 
-const CHANNEL = 'ReputationChannel'
+const CHANNEL = 'NotificationsChannel'
 
-export class ReputationChannel {
+export class NotificationsChannel {
   subscription: ActionCable.Channel | null = null
   private identifier: string
 

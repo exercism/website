@@ -2,11 +2,15 @@ import consumer from '../utils/action-cable-consumer'
 
 const CHANNEL = 'NotificationsChannel'
 
+type NotificationMessage =
+  | { type: 'notifications.changed' }
+  | { type: 'notifications.pending' }
+
 export class NotificationsChannel {
   subscription: ActionCable.Channel | null = null
   private identifier: string
 
-  constructor(onReceive: () => void) {
+  constructor(onReceive: (message: NotificationMessage) => void) {
     this.identifier = JSON.stringify({ channel: CHANNEL })
 
     try {

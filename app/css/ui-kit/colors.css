@@ -723,11 +723,11 @@ body.namespace-.controller-insiders.theme-light,
     color-scheme: dark;
 
     /* --backgroundColorA: var(--c-282339); */
-    --backgroundColorA: theme(colors.russianViolet);
+    --backgroundColorA: #060d02;
     /* ON TRACKS (must be rgb) */
-    --backgroundColorA-RGB: 0 155 155;
+    --backgroundColorA-RGB: 6 13 2;
     /* ON TRACKS */
-    --backgroundColorB: green;
+    --backgroundColorB: #1a2515;
     --backgroundColorC: var(--c-302B42);
     /* ON TRACKS (under --row-selected-background-color) */
     --backgroundColorD: var(--c-3A3557); /* Confirmed */
@@ -736,23 +736,25 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
     /* ON TRACKS progress bar backgorund */
-    --backgroundColorI: blue;
+    --backgroundColorI: #174500;
     --backgroundColorITransparent: rgba(25, 21, 37, 0);
     --backgroundColorJ: var(--backgroundColorB);
     --backgroundColorBorderGradientLightPurple: theme(colors.darkBlueGray);
     --backgroundColorNotifications: theme(colors.eerieBlack);
-    --backgroundColorNotificationsCount: theme(colors.seafoamGreen);
+    
+    /* ON TRACKS */
+    --backgroundColorNotificationsCount: #00e9ff;
     --backgroundColorAnnouncementBar: theme(colors.vividPurple);
     --backgroundColorSiteFooter: theme(colors.eerieBlack);
     /* ON TRACKS */
-    --backgroundColorTracksListState: theme(colors.lightGold);
+    --backgroundColorTracksListState: #54e90a;
     --backgroundColorMentoringRequestedStatusInfo: theme(colors.purple);
     --backgroundColorCAlert: none;
     --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
     --textColorCAlertLabel: theme(colors.aliceBlue);
     /* ON TRACKS */
-    --backgroundColorTracksListJoined: pink;
+    --backgroundColorTracksListJoined: #54e90a;
     --backgroundColorTracksListNew: none;
     --backgroundColorIterationCommentsUnread: theme(colors.launchingYellow);
     --borderColorIterationCommentsUnread: theme(colors.launchingYellow);
@@ -813,7 +815,8 @@ body.namespace-.controller-insiders.theme-light,
         hue-rotate(201deg) brightness(99%) contrast(80%);
 
     /* this is used at tiny gradients - needs a proper dark-theme color */
-    --fillColorProgress: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
+    /* ON TRACKS */
+    --fillColorProgress: linear-gradient(to right, #95ff00 0%, #00ff9d 100%);
     --borderColor3: var(--c-8480A0);
     --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);
@@ -827,7 +830,7 @@ body.namespace-.controller-insiders.theme-light,
     /* --borderColor7: var(--c-533F56); */
 
     /* ON TRACKS */
-    --textColor1: salmon;
+    --textColor1: #55ff00;
     /* --textColor1: var(--c-FFFFFF); */
     --textColor1-no-dark: var(--c-130B43);
 
@@ -835,16 +838,17 @@ body.namespace-.controller-insiders.theme-light,
     --textColor2: var(--c-F0F3F9); /* Confirmed */
     --textColor3: var(--c-8480A0);
     /* ON TRACKS (used by .text--p) */
-    --textColor5: purple;
+    --textColor5: #0ed32f;
     /* ON TRACKS */
-    --textColor6: aliceblue; /* Confirmed */
+    --textColor6: #58e113; /* Confirmed */
     --textColor7: var(--c-6A6781); /* Confirmed */
     --textColor9: var(--c-000000);
     --textColorExerciseStatusTagInProgress: theme(colors.aliceBlue);
     /* ON TRACKS */
-    --textColorTracksListState: theme(colors.midnightBlue);
+    --textColorTracksListState: #1a4c00;
     /* ON TRACKS */
-    --textColorTracksListJoined: black;
+    
+    --textColorTracksListJoined: #1a4c00;
     /* ON TRACKS */
     --textColorTracksListNew: theme(colors.launchingYellow);
     --textColorTrackBreadcrumbs: theme(colors.aliceBlue);
@@ -859,7 +863,8 @@ body.namespace-.controller-insiders.theme-light,
     --textColorSoftEmphasis: #f5f5f5;
     --textColorPerkCTA: theme(colors.white);
 
-    --c-prominent-link-color: theme(colors.lightGold);
+    /* ON TRACKS */
+    --c-prominent-link-color: #00e9ff;
     --color22: var(--c-533F56);
 
     --shadowColorED: 40, 35, 57;
@@ -869,12 +874,14 @@ body.namespace-.controller-insiders.theme-light,
     --shadowColorKeystroke: 40, 35, 57;
 
     --linkColor: var(--c-7097FF);
-    --buttonBorderColor1: var(--c-8480A0);
 
     /* ON TRACKS */
-    --buttonBorderColor2: red;
+    --buttonBorderColor1: #108e25;
+
     /* ON TRACKS */
-    --inputBackgroundColor: yellow;
+    --buttonBorderColor2: #0f8222;
+    /* ON TRACKS */
+    --inputBackgroundColor: #0a1303;
     --inputBorderColorFocus: var(--c-8480A0);
     --tabBackgroundColorSelected: theme(colors.purple);
     --tabBackgroundColorSelectedLocked: theme(colors.purpleDimmed);

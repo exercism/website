@@ -9,7 +9,7 @@ import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { QueryStatus } from '@tanstack/react-query'
+import { QueryStatus, useQueryClient } from '@tanstack/react-query'
 import { NotificationsChannel } from '@/channels/notificationsChannel'
 
 export type APIResponse = {
@@ -86,19 +86,18 @@ export default function Notifications({
 }: {
   endpoint: string
 }): JSX.Element {
-  const [isStale, setIsStale] = useState(false)
+  const queryClient = useQueryClient()
   const {
     data: resolvedData,
     error,
     status,
-    refetch,
   } = usePaginatedRequestQuery<APIResponse, unknown>(
     [NOTIFICATIONS_CACHE_KEY],
     {
       endpoint: endpoint,
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
-        staleTime: 1000 * 60 * 5,
+        staleTime: 30 * 1000,
         refetchOnMount: true,
       },
     }
@@ -112,19 +111,24 @@ export default function Notifications({
   } = useNotificationDropdown(resolvedData)
 
   useEffect(() => {
-    const connection = new NotificationsChannel(() => setIsStale(true))
+    const connection = new NotificationsChannel((message) => {
+      if (!message) return
+
+      if (message.type === 'notifications.changed') {
+        console.log('notifications.changed', message)
+
+        queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+      }
+    })
 
     return () => connection.disconnect()
-  }, [])
+  }, [queryClient])
 
   useEffect(() => {
-    if (!listAttributes.hidden || !isStale) {
-      return
+    if (!listAttributes.hidden) {
+      queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
     }
-
-    refetch()
-    setIsStale(false)
-  }, [isStale, listAttributes.hidden, refetch])
+  }, [listAttributes.hidden, queryClient])
 
   return (
     <React.Fragment>

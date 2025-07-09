@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
@@ -110,23 +110,26 @@ export default function Notifications({
     open,
   } = useNotificationDropdown(resolvedData)
 
-  useEffect(() => {
-    const connection = new NotificationsChannel((message) => {
-      if (!message) return
-
-      if (message.type === 'notifications.changed') {
-        console.log('notifications.changed', message)
-
-        queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
-      }
-    })
-
-    return () => connection.disconnect()
-  }, [queryClient])
+  const connectionRef = useRef<NotificationsChannel | null>(null)
 
   useEffect(() => {
+    if (!connectionRef.current) {
+      connectionRef.current = new NotificationsChannel((message) => {
+        if (!message) return
+
+        if (message.type === 'notifications.changed' && listAttributes.hidden) {
+          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+        }
+      })
+    }
+
     if (!listAttributes.hidden) {
       queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+    }
+
+    return () => {
+      connectionRef.current?.disconnect()
+      connectionRef.current = null
     }
   }, [listAttributes.hidden, queryClient])
 

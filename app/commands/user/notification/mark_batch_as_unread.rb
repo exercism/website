@@ -12,7 +12,7 @@ class User::Notification::MarkBatchAsUnread
       return unless ids.present?
 
       User::Notification.where(id: ids).update_all(status: :unread, read_at: nil)
-      NotificationsChannel.broadcast_changed!(user)
     end
+    NotificationsChannel.broadcast_changed!(user)
   end
 end

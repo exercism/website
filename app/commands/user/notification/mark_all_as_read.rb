@@ -4,8 +4,9 @@ class User::Notification::MarkAllAsRead
   initialize_with :user
 
   def call
+    num_changed = 0
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-      user.notifications.pending_or_unread.
+      num_changed = user.notifications.pending_or_unread.
         update_all(status: :read, read_at: Time.current)
     end
     NotificationsChannel.broadcast_changed!(user) if num_changed.positive?

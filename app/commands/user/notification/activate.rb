@@ -7,7 +7,7 @@ class User::Notification::Activate
     notification.with_lock do
       return unless notification.pending?
 
-      notification.update_column(:status, :unread) if pending
+      notification.update_column(:status, :unread)
     end
 
     NotificationsChannel.broadcast_changed!(notification.user)

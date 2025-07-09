@@ -132,13 +132,14 @@
       And over
       = link_to "700 individuals donors!", individual_supporters_about_path, class: 'underline hover:text-lightBlue'
 
+  - num_users_display = number_to_human(Metrics.num_users, units: { million: "M" }, precision: 1, significant: false, format: "%n%u")
   .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
           = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
           %h2.text-h1.leading-128.text-white.mb-16
-            We&apos;ve grown to over 1M students entirely by word of mouth.
+            We&apos;ve grown to over #{num_users_display} students entirely by word of mouth.
           %p.text-gray.text-p-2xlarge
             We work closely with our community to understand how to evolve Exercism
             to be the best it can be, and they reward us by sharing with their
@@ -146,19 +147,6 @@
 
     %div{ class: 'h-[480px]' }
       = render ReactComponents::Impact::Chart.new
-
-  -# .relative{ class: 'h-[900px]' }
-    = ReactComponents::Impact::Chart.new
-    .absolute{ class: 'top-[50px] left-0 right-0' }
-      .flex.flex-col.items-center
-        .flex.flex-col.text-center{ class: "max-w-[927px]" }
-          = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
-          %h2.text-h1.leading-128.text-white.mb-16
-            We&apos;ve grown to over 1M students entirely by word of mouth.
-          %p.text-gray.text-p-2xlarge
-            We work closely with our community to understand how to evolve Exercism
-            to be the best it can be, and they reward us by sharing with their
-            friends.
 
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
     .bg-backgroundColorA.flex.flex-col.text-center.justify-center.rounded-32.pt-24.md:pb-40.pb-24.md:px-48.px-24.shadow-lgv2

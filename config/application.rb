@@ -6,8 +6,6 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require_relative '../app/middleware/restore_if_none_match_header'
-
 module Website
   class Application < Rails::Application
     config.load_defaults 7.0

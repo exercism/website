@@ -97,7 +97,7 @@ export default function Notifications({
       endpoint: endpoint,
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
-        staleTime: 5 * 60 * 1000,
+        staleTime: 30 * 1000,
         refetchOnMount: true,
       },
     }
@@ -112,11 +112,12 @@ export default function Notifications({
 
   useEffect(() => {
     const connection = new NotificationsChannel((message) => {
-      if (message) {
-        if (message.type === 'notifications.changed') {
-          console.log('Response', message)
-          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
-        }
+      if (!message) return
+
+      if (message.type === 'notifications.changed') {
+        console.log('notifications.changed', message)
+
+        queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
       }
     })
 
@@ -127,7 +128,7 @@ export default function Notifications({
     if (!listAttributes.hidden) {
       queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
     }
-  }, [queryClient, listAttributes.hidden])
+  }, [listAttributes.hidden, queryClient])
 
   return (
     <React.Fragment>

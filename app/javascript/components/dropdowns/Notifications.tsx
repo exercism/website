@@ -98,7 +98,7 @@ export default function Notifications({
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
         staleTime: 5 * 60 * 1000,
-        // refetchOnMount: "always",
+        refetchOnMount: true,
       },
     }
   )
@@ -115,13 +115,8 @@ export default function Notifications({
       if (message) {
         if (message.type === 'notifications.changed') {
           console.log('Response', message)
-          // queryClient.removeQueries({queryKey: [NOTIFICATIONS_CACHE_KEY]})
           queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
         }
-
-        // if(message.type === "notifications.mark_all_as_read"){
-        //   console.log("MARKING ALL AS READ", message)
-        // }
       }
     })
 

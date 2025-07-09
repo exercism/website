@@ -229,6 +229,7 @@ module.exports = {
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',
+      // ON TRACKS - Learning Mode backgroundColor
       purple: '#604FCD',
       purpleDimmed: '#604FCD66',
       adaptivePurple: 'var(--colorPurpleToBrightPurple)',

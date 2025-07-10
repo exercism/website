@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
@@ -9,7 +9,8 @@ import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { QueryStatus } from '@tanstack/react-query'
+import { QueryStatus, useQueryClient } from '@tanstack/react-query'
+import { NotificationsChannel } from '@/channels/notificationsChannel'
 
 export type APIResponse = {
   results: NotificationType[]
@@ -85,19 +86,18 @@ export default function Notifications({
 }: {
   endpoint: string
 }): JSX.Element {
-  const [isStale, setIsStale] = useState(false)
+  const queryClient = useQueryClient()
   const {
     data: resolvedData,
     error,
     status,
-    refetch,
   } = usePaginatedRequestQuery<APIResponse, unknown>(
     [NOTIFICATIONS_CACHE_KEY],
     {
       endpoint: endpoint,
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
-        staleTime: 1000 * 60 * 5,
+        staleTime: 30 * 1000,
         refetchOnMount: true,
       },
     }
@@ -110,27 +110,28 @@ export default function Notifications({
     open,
   } = useNotificationDropdown(resolvedData)
 
-  useEffect(() => {
-    const subscription = consumer.subscriptions.create(
-      { channel: 'NotificationsChannel' },
-      {
-        received: () => {
-          setIsStale(true)
-        },
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
+  const connectionRef = useRef<NotificationsChannel | null>(null)
 
   useEffect(() => {
-    if (!listAttributes.hidden || !isStale) {
-      return
+    if (!connectionRef.current) {
+      connectionRef.current = new NotificationsChannel((message) => {
+        if (!message) return
+
+        if (message.type === 'notifications.changed' && listAttributes.hidden) {
+          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+        }
+      })
     }
 
-    refetch()
-    setIsStale(false)
-  }, [isStale, listAttributes.hidden, refetch])
+    if (!listAttributes.hidden) {
+      queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+    }
+
+    return () => {
+      connectionRef.current?.disconnect()
+      connectionRef.current = null
+    }
+  }, [listAttributes.hidden, queryClient])
 
   return (
     <React.Fragment>

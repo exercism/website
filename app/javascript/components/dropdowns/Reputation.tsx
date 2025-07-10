@@ -111,7 +111,7 @@ export default function Reputation({
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
     options: {
-      staleTime: 1000 * 60 * 5,
+      staleTime: 30,
       refetchOnMount: true,
     },
   })

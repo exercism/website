@@ -1,17 +1,22 @@
 import React, { useContext } from 'react'
 import Modal, { ModalProps } from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
-import { GraphicalIcon, Icon } from '@/components/common'
+import { Icon } from '@/components/common'
+import { useTranslation } from 'react-i18next'
+import { initI18n } from '@/i18n'
 
 type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
   confirmButtonClass?: string
 }
+
+initI18n()
 
 export function ConnectModal({
   onClose,
   ...props
 }: ConfirmationModalProps): JSX.Element {
   const { links } = useContext(GitHubSyncerContext)
+  const { t } = useTranslation('settings/github-syncer')
 
   return (
     <Modal className="m-generic-confirmation" onClose={onClose} {...props}>
@@ -36,17 +41,14 @@ export function ConnectModal({
             className="mb-16 h-[64px]"
           />
         </div>
-        <h3 className="!text-[24px] !mb-4">Connect a Repository</h3>
+        <h3 className="!text-[24px] !mb-4">{t('connect_modal.heading')}</h3>
         <p className="!text-18 leading-140 mb-16 text-balance text-center">
-          Before continuing, please ensure you have either created a new GitHub
-          repository, or that you have an existing one ready to sync.
+          {t('connect_modal.intro1')}
         </p>
-        <p className="!text-18 leading-140 mb-16 text-balance text-center">
-          On the next screen you will be asked to give permission to that
-          repository. Please ensure you{' '}
-          <strong>select only one repository</strong> (sadly, GitHub doesn't
-          give us a way to enforce that!)
-        </p>
+        <p
+          className="!text-18 leading-140 mb-16 text-balance text-center"
+          dangerouslySetInnerHTML={{ __html: t('connect_modal.intro2') }}
+        />
       </div>
 
       <div className="flex gap-8 items-center">
@@ -54,10 +56,10 @@ export function ConnectModal({
           className="btn btn-l btn-primary w-fit"
           href={links?.connectToGithub}
         >
-          Connect a GitHub repository
+          {t('connect_modal.connect_button')}
         </a>
         <button className="btn btn-default btn-l" onClick={onClose}>
-          Cancel
+          {t('connect_modal.cancel_button')}
         </button>
       </div>
     </Modal>

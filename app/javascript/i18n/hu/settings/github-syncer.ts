@@ -24,4 +24,30 @@ export default {
     connect_button: 'GitHub tároló csatlakoztatása',
     cancel_button: 'Mégse',
   },
+  commit_template_section: {
+    heading: 'Commit üzenet sablon',
+    intro:
+      'Ezzel a lehetőséggel beállíthatod, hogy nézzenek ki a commit és PR üzeneteid.',
+    placeholder_intro: 'Használhatod a következő helyettesítő változókat:',
+    placeholders: {
+      track_slug: 'A track slug-ja (pl. "csharp")',
+      track_title: 'A track neve (pl. "C#")',
+      exercise_slug: 'A feladat slug-ja (pl. "hello-world")',
+      exercise_title: 'A feladat neve (pl. "Hello World")',
+      iteration_idx: 'A feladat iterációs sorszáma (pl. "1")',
+      sync_object:
+        'Az egyik: "Iteration", "Solution", "Track" vagy "Everything" — attól függően, mit szinkronizálsz.',
+    },
+    note: {
+      note: 'Jegyzet',
+      text: 'A commit üzenet elején vagy végén található perjeleket és kötőjeleket eltávolítjuk. Az egymás utáni ismétlődő perjelek vagy kötőjelek egyetlenre lesznek cserélve.',
+    },
+    save_button: 'Változások mentése',
+    revert_button: 'Alapértelmezett visszaállítása',
+    confirm_modal: {
+      title: 'Biztosan visszaállítod az üzenet sablont az alapértelmezettre?',
+      confirm: 'Visszaállítás',
+      cancel: 'Mégse',
+    },
+  },
 }

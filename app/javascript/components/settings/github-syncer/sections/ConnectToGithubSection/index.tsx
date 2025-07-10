@@ -1,9 +1,14 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { ConnectModal } from './ConnectModal'
+import { useTranslation } from 'react-i18next'
+import { initI18n } from '@/i18n'
+
+initI18n()
 
 export function ConnectToGithubSection() {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const { t } = useTranslation('settings/github-syncer')
 
   return (
     <section>
@@ -28,23 +33,22 @@ export function ConnectToGithubSection() {
             className="mb-16 h-[128px]"
           />
         </div>
-        <h2 className="!text-[30px] !mb-4">Backup your Solutions to GitHub</h2>
+        <h2 className="!text-[30px] !mb-4">{t('connect_section.heading')}</h2>
         <p className="text-[19px] leading-140 mb-16 text-balance text-center">
-          Automatically backup your solutions to GitHub with our automated
-          backup tool.
+          {t('connect_section.description')}
         </p>
         <div className="flex gap-10 text-15 font-semibold">
           <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
             <GraphicalIcon icon="safe-duo" className="h-[20px]" />
-            Safe Backup
+            {t('connect_section.benefits.safe')}
           </div>
           <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
             <GraphicalIcon icon="gh-duo" className="h-[20px]" />
-            Green Squares
+            {t('connect_section.benefits.green')}
           </div>
           <div className="flex items-center rounded-100 font-medium bg-bootcamp-light-purple text-purple border-1 border-purple py-6 px-12 gap-6">
             <GraphicalIcon icon="free-duo" className="h-[20px]" />
-            Its Free!
+            {t('connect_section.benefits.free')}
           </div>
         </div>
         <GraphicalIcon icon="arrow-down-duo" className="h-[32px] my-32" />
@@ -55,8 +59,7 @@ export function ConnectToGithubSection() {
               icon="1-duo.svg"
               className="h-[32px] !absolute left-[-45px]"
             />
-            Create a new GitHub repository for your solutions (or reuse an
-            existing one if you were backing up manually)
+            {t('connect_section.steps.1')}
           </li>
 
           <li className="mb-16 relative">
@@ -64,7 +67,7 @@ export function ConnectToGithubSection() {
               icon="2-duo.svg"
               className="h-[32px] !absolute left-[-45px]"
             />
-            Click the button below to connect your GitHub account.
+            {t('connect_section.steps.2')}
           </li>
 
           <li className="mb-16 relative">
@@ -72,8 +75,7 @@ export function ConnectToGithubSection() {
               icon="3-duo.svg"
               className="h-[32px] !absolute left-[-45px]"
             />
-            Use the "Backup Everything" option to backup all your existing
-            solutions.
+            {t('connect_section.steps.3')}
           </li>
 
           <li className="mb-16 relative">
@@ -81,15 +83,14 @@ export function ConnectToGithubSection() {
               icon="4-duo.svg"
               className="h-[32px] !absolute left-[-45px]"
             />
-            Future solutions will be automatically backed up as you complete
-            exercises.
+            {t('connect_section.steps.4')}
           </li>
         </ol>
         <button
           className="btn btn-l btn-primary w-fit"
           onClick={() => setIsModalOpen(true)}
         >
-          Setup Backup
+          {t('connect_section.button')}
         </button>
       </div>
       <ConnectModal onClose={() => setIsModalOpen(false)} open={isModalOpen} />

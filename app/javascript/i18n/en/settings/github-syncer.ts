@@ -24,4 +24,31 @@ export default {
     connect_button: 'Connect a GitHub repository',
     cancel_button: 'Cancel',
   },
+  commit_message_template_section: {
+    heading: 'Commit message template',
+    intro:
+      'Use this option to determine what your commit and PR messages should look like.',
+    placeholder_intro: 'You can use the following placeholder values:',
+    placeholders: {
+      track_slug: 'The slug of the track (e.g. "csharp")',
+      track_title: 'The name of the track (e.g. "C#")',
+      exercise_slug: 'The slug of the exercise (e.g. "hello-world")',
+      exercise_title: 'The name of the exercise (e.g. "Hello World")',
+      iteration_idx: 'The iteration index of the exercise (e.g. "1")',
+      sync_object:
+        'One of "Iteration", "Solution", "Track", or "Everything" depending on what is syncing.',
+    },
+    note: {
+      note: 'Note',
+      text: 'If your commit message contains leading or trailing slashes or dashes, these will be stripped. Multiple consecutive slashes or dashes will be reduced to single ones.',
+    },
+    save_button: 'Save changes',
+    revert_button: 'Revert to default',
+    confirm_modal: {
+      title:
+        'Are you sure you want to revert your commit message template to default?',
+      confirm: 'Revert',
+      cancel: 'Cancel',
+    },
+  },
 }

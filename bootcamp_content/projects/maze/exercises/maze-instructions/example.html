@@ -1,4 +1,33 @@
 <main>
+  <div id="instructions-pane">
+    <h2>Instructions</h2>
+    <form>
+      <textarea>
+move()
+move()
+turn_left()
+move()
+move()
+turn_left()
+move()
+move()
+turn_right()
+move()
+move()
+turn_right()
+move()
+move()
+move()
+move()
+move()
+move()
+turn_left()
+move()
+move()</textarea
+      >
+      <button>Run Code</button>
+    </form>
+  </div>
   <div id="maze">
     <div class="cell start"></div>
     <div class="cell wall"></div>
@@ -49,7 +78,11 @@
     <div class="cell space"></div>
     <div class="cell space"></div>
     <div class="cell target"></div>
-    <div id="blob"></div>
+    <div id="blob">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+    </div>
+    <div id="won-screen">You won</div>
+    <div id="lost-screen">You lost</div>
   </div>
-  <div id="game-over">Game Over!</div>
 </main>

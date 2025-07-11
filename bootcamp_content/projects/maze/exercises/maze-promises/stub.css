@@ -2,55 +2,37 @@ body {
   background: black;
 }
 main {
-  width: 80vmin;
-  height: 80vmin;
+  background:white;
+  height:80vmin;
+  width:80vmin;
   margin: 10vmin auto;
-  background: white;
+}
+#maze {
+  height:100%;
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
   position: relative;
 }
 
-#maze {
-  display:grid;
-  height:100%;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  .cell {
-      position: relative;
-      border:1px solid black;
-
-      &.wall {
-        background:#666;
-      }
-      &.start {
-        background:pink;
-      }
-      &.target {
-        background:lightgreen;
-      }
+.cell {
+  border:1px solid black;
+  
+  &.start {
+    background: pink;
+  }
+  &.target {
+    background: lightgreen;
+  }
+  &.wall {
+    background: #666;
   }
 }
+
 #blob {
   position:absolute;
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  background:blue;
   border-radius:100%;
-  background: blue;
-
-  top:0; /* Set this using a variable */
-  left:0; /* Set this using a variable */
-  margin:3%; /* Set this using a variable */
-
-  &:before, &:after {
-    content: "";
-    position:absolute;
-    width:30%;
-    height:30%;
-    background:blue;
-    border-radius:100%;
-    bottom:-20%;
-  }
-  &:before {
-    left:10%;
-  }
-  &:after {
-    right:10%;
-  }
 }

@@ -10,7 +10,7 @@
     "emoji-collector",
     "squares-not-strings",
     "omniscience",
-    "maze-creator",
-    "maze-instructions"
+    "maze-promises",
+    "maze-creator"
   ]
 }

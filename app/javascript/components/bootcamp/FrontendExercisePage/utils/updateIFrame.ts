@@ -111,7 +111,7 @@ export function updateIFrame(
     </html>`
 
   try {
-    iframeElement.onload = async () => {
+    iframeElement.onload = () => {
       try {
         const runCode = (
           iframeElement.contentWindow as Window & {
@@ -119,7 +119,7 @@ export function updateIFrame(
           }
         )?.runCode
         if (typeof runCode === 'function') {
-          await runCode()
+          runCode()
         } else {
           console.warn('runCode is not defined on iframe')
         }

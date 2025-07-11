@@ -1,19 +1,16 @@
 # Maze Instructions
 
-In the very first exercise of the Bootcamp, students (maybe you!) had to give instructions to a little blob to solve a maze. You had various commands like `move()` and `turn_left()`. In this exercise, you're going to recreate that whole exericse yourself!
+In the last exercise, you built and solved the exercise yourself, just like you did in the first exercise of Part 1. Now let's take that one step further and add the instructions pane as you had it in part 1. Your job is to interpret the instructions someone gives and run their code!
 
 ## Instructions
 
-Create a maze and a character that can be controlled by writing instructions into a text area and pressing the "Run Code" button.
+You have two tasks:
 
-Note, your not actually intended to run the code in the box, but instead interpret what's there and act upon each line you find.
+1. Add the instructions pane.
+2. Run the code in the instructions box when the Run Code button is added.
 
-You should intepret the following three lines of code and the blob should move accordingly:
+The actual game doesn't need to change much from the previous exercise.
 
-- `move()`
-- `turn_left()`
-- `turn_right()`
+One challenge you might have is chaining the promises. You might like to explore an approach using [`reduce`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) seeded by a `Promise.resolve()` (see [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve)).
 
-The blob you're controlling should move smoothly around the game area and you should inform a user whether their code solved the maze or not!
-
-Check the example for the target maze layout!
+Once you've solved this exercise, you've truly gone from being the student to being the teacher - creating your own exercise that anyone else can solve. Congratulations!

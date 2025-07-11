@@ -1,0 +1,28 @@
+body {
+    background: black;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: white;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 5%);
+    grid-template-rows: repeat(auto-fill, 5%);
+}
+
+#maze {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    .cell {
+        position: relative;
+    }
+    #blob {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        background: blue;
+        background-size: contain;
+    }
+}

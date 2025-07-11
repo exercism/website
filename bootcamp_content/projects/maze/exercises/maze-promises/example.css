@@ -1,0 +1,100 @@
+:root {
+    --num-cols: 7;
+    --cell-size: calc(100% / var(--num-cols));
+}
+
+body {
+    background: black;
+}
+main {
+    background: white;
+    height: 80vmin;
+    width: 80vmin;
+    margin: 10vmin auto;
+}
+#maze {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(var(--num-cols), 1fr);
+    position: relative;
+}
+
+.cell {
+    border: 1px solid black;
+
+    &.start {
+        background: pink;
+    }
+    &.target {
+        background: lightgreen;
+    }
+    &.wall {
+        background: #666;
+    }
+}
+
+#blob {
+    --size: calc(var(--cell-size) / 5 * 3);
+    --spacing: calc(var(--cell-size) / 5 * 1);
+    --cell-row: 0;
+    --cell-col: 0;
+    --rotation: 0deg;
+
+    width: var(--size);
+    height: var(--size);
+    margin: var(--spacing);
+    top: calc(var(--cell-size) * var(--cell-row));
+    left: calc(var(--cell-size) * var(--cell-col));
+    rotate: var(--rotation);
+
+    position: absolute;
+    background: blue;
+    border-radius: 100%;
+
+    transition: all 0.5s;
+
+    .eye {
+        content: "";
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        background: black;
+        border-radius: 100%;
+        bottom: -15%;
+        display: grid;
+        place-items: center;
+
+        &:before {
+            content: "";
+            border-radius: 100%;
+            background: white;
+            width: 25%;
+            height: 25%;
+        }
+
+        &.left {
+            left: 10%;
+        }
+        &.right {
+            right: 10%;
+        }
+    }
+}
+#won-screen,
+#lost-screen {
+    position: absolute;
+    inset: 0;
+    font-size: 20vmin;
+    display: grid;
+    place-items: center;
+    color: black;
+    font-weight: bold;
+}
+#lost-screen {
+    background: rgba(255, 0, 0, 0.5);
+    display: none;
+}
+#won-screen {
+    background: rgba(0, 255, 0, 0.5);
+    display: none;
+}

@@ -74,5 +74,9 @@
   {
     "title": "Exceptions and Promises",
     "description": "Learn about the key concepts of exceptions and promises."
+  },
+  {
+    "title": "Response Web Development",
+    "description": "Learn about topics like CSS Variables and Media Queries"
   }
 ]

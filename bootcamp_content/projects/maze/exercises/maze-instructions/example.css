@@ -1,0 +1,81 @@
+:root {
+    --cell-size: calc(100% / 7);
+}
+body {
+    background: black;
+}
+main {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: white;
+    position: relative;
+}
+
+#maze {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    .cell {
+        position: relative;
+        border: 1px solid black;
+
+        &.wall {
+            background: #666;
+        }
+        &.start {
+            background: pink;
+        }
+        &.target {
+            background: lightgreen;
+        }
+    }
+}
+#blob {
+    --size: calc(var(--cell-size) / 5 * 3);
+    --margin: calc(var(--cell-size) / 5 * 1);
+    --cell-x: 0;
+    --cell-y: 0;
+    --rotation: 0;
+
+    position: absolute;
+    border-radius: 100%;
+    background: blue;
+    height: var(--size);
+    width: var(--size);
+    margin: var(--margin);
+    rotate: var(--rotation);
+    left: calc(var(--cell-x) * var(--cell-size));
+    top: calc(var(--cell-y) * var(--cell-size));
+    transition: all 0.5s;
+    z-index: 1;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        background: blue;
+        border-radius: 100%;
+        bottom: -20%;
+    }
+    &:before {
+        left: 10%;
+    }
+    &:after {
+        right: 10%;
+    }
+}
+#game-over {
+    background: rgba(255, 0, 0, 0.5);
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    place-items: center;
+    font-size: 8vw;
+    color: #fff;
+    font-weight: bold;
+}

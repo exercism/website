@@ -1,28 +1,29 @@
 module UserTracksHelper
   def user_track_completed_percentage_text(user_track)
+    prefix = "tracks.show.summary_article.user_track_completed_percentage_text"
     case user_track.completed_percentage
     when 0...10
-      "Keep up the good work! 🚀"
+      t("#{prefix}.range_0_10")
     when 10...20
-      "That's a great start! 🚀"
+      t("#{prefix}.range_10_20")
     when 20...30
-      "Picking up speed now! 🚀"
+      t("#{prefix}.range_20_30")
     when 30...40
-      "You're really getting somewhere! 🚀"
+      t("#{prefix}.range_30_40")
     when 40...50
-      "Nearly halfway! 🚀"
+      t("#{prefix}.range_40_50")
     when 50...60
-      "Over halfway there! 🚀"
+      t("#{prefix}.range_50_60")
     when 60...70
-      "At this rate, you'll complete it! 🚀"
+      t("#{prefix}.range_60_70")
     when 70...80
-      "Wow - keep going! 🚀"
+      t("#{prefix}.range_70_80")
     when 80...90
-      "Getting really close! 🚀"
+      t("#{prefix}.range_80_90")
     when 90...100
-      "Can see the finish line now! 🚀"
+      t("#{prefix}.range_90_100")
     else
-      "Invalid percentage."
+      t("#{prefix}.invalid_percentage")
     end
   end
 end

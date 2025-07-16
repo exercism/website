@@ -1,0 +1,356 @@
+import fs from 'fs/promises'
+import path from 'path'
+import { GoogleGenAI } from '@google/genai'
+
+const supportedExtensions = ['.tsx', '.jsx']
+
+export async function readFilesInFolder(
+  folder: string
+): Promise<Record<string, string>> {
+  const result: Record<string, string> = {}
+
+  async function readRecursive(currentFolder: string) {
+    const entries = await fs.readdir(currentFolder, { withFileTypes: true })
+
+    for (const entry of entries) {
+      const fullPath = path.join(currentFolder, entry.name)
+
+      if (entry.isDirectory()) {
+        await readRecursive(fullPath)
+      } else if (supportedExtensions.includes(path.extname(entry.name))) {
+        const content = await fs.readFile(fullPath, 'utf8')
+        result[fullPath] = content
+      }
+    }
+  }
+
+  await readRecursive(folder)
+  return result
+}
+
+function toCamelCase(str: string): string {
+  return str
+    .replace(/[-_\s]+(.)?/g, (_, char) => (char ? char.toUpperCase() : ''))
+    .replace(/^[A-Z]/, (char) => char.toLowerCase())
+}
+
+export function buildPrompt(files: Record<string, string>): string {
+  const fileSections = Object.entries(files)
+    .map(([filePath, content]) => {
+      const relativePath = path.relative(process.cwd(), filePath)
+      const withoutExt = relativePath.replace(/\.[jt]sx$/, '')
+      const parts = withoutExt.split(path.sep)
+
+      // Convert each part to camelCase
+      const camelCaseParts = parts.map((part) => toCamelCase(part))
+
+      // Build the full namespace path (this will be used by LLM to determine structure)
+      const keyPrefix = camelCaseParts.join('.')
+
+      return `// file: ${filePath}
+// i18n-key-prefix: ${keyPrefix}
+${content}
+// end file`
+    })
+    .join('\n\n')
+
+  const instructions = `You're given several TypeScript React files (with JSX). Your job is to:
+
+1. Extract all visible UI text meant for display to users.
+2. Replace visible text with i18n \`t('key')\` calls.
+3. Use the \`i18n-key-prefix\` comment above each file to determine the i18n key *namespace*. This is used in:
+   - \`useTranslation('<namespace>')\`
+   - The key path used in the i18n output file.
+4. Replace \`useTranslation()\` with \`useTranslation('<namespace>')\` using the computed namespace.
+5. Ensure the i18n object is valid TypeScript: \`export default { ... }\`
+6. Replace each visible string with a key in camelCase (never use UI text as keys).
+
+---
+
+### CRITICAL RULES FOR TEXT EXTRACTION:
+
+1. **ONLY extract the actual TEXT content, NEVER JSX/HTML markup**
+   - From: \`<div className="icon"></div>Easy\` → Extract: \`"Easy"\`
+   - From: \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\` → Extract: \`"Learning Exercise"\`
+
+2. **Handle JSX components properly:**
+   - JSX components should become placeholders: \`<TrackIcon .../>\` → \`<trackIcon/>\`
+   - Variables should become interpolations: \`{track.title}\` → \`{{trackTitle}}\`
+   - Example: \`<TrackIcon iconUrl={track.iconUrl} title={track.title} /><div className="--track-title">{track.title}</div>\`
+   - Should become: \`"in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"\`
+
+3. **Namespace structure must reflect file hierarchy:**
+   - \`exerciseWidget.info.outdated\` means the key goes under \`info.outdated\` in the output
+   - \`exerciseWidget.info\` means the key goes under \`info\` in the output
+   - Example: If namespace is \`exerciseWidget.info.outdated\`, the structure should be:
+   \`\`\`ts
+   export default {
+     info: {
+       outdated: {
+         keyName: "value"
+       }
+     }
+   }
+   \`\`\`
+
+4. **All folder and file names must be converted to camelCase**
+   - \`exercise-widget/Info\` → \`exerciseWidget.info\`
+   - \`exercise-widget/info/Outdated\` → \`exerciseWidget.info.outdated\`
+
+5. **The root object should NOT include the top-level folder name**
+   - Remove the first part of the namespace from the structure
+   - If namespace is \`exerciseWidget.info.outdated\`, structure becomes \`info.outdated\`
+
+---
+
+### Examples of correct extraction:
+
+**Bad:**
+\`\`\`ts
+difficulty: {
+  easy: "<div className=\\"icon\\"></div>Easy"
+}
+\`\`\`
+
+**Good:**
+\`\`\`ts
+difficulty: {
+  easy: "Easy"
+}
+\`\`\`
+
+**Bad:**
+\`\`\`ts
+exerciseTypeTag: {
+  learningExercise: "<GraphicalIcon icon=\\"concept-exercise\\" /> Learning Exercise"
+}
+\`\`\`
+
+**Good:**
+\`\`\`ts
+exerciseTypeTag: {
+  learningExercise: "Learning Exercise"
+}
+\`\`\`
+
+**Bad:**
+\`\`\`ts
+info: {
+  trackLine: "in <TrackIcon iconUrl={track.iconUrl} title={track.title} /><div className=\\"--track-title\\">{{trackTitle}}</div>"
+}
+\`\`\`
+
+**Good:**
+\`\`\`ts
+info: {
+  trackLine: "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"
+}
+\`\`\`
+
+---
+
+### Namespace rules
+
+- Convert all folder and file names to camelCase.
+- Remove the first part (top-level folder) from the namespace when creating the structure.
+- Examples:
+  - \`i18n-key-prefix: exerciseWidget.info\` → structure: \`info: { ... }\`
+  - \`i18n-key-prefix: exerciseWidget.info.outdated\` → structure: \`info: { outdated: { ... } }\`
+
+---
+
+### Inside components
+
+- Replace any \`useTranslation()\` with:
+  \`\`\`ts
+  const { t } = useTranslation('<computedNamespace>')
+  \`\`\`
+
+- Then call \`t('keyName')\`, not \`t('namespace.keyName')\`.
+
+Correct:
+\`\`\`ts
+const { t } = useTranslation('exerciseWidget.info.outdated')
+return <span>{t('solutionWasSolved')}</span>
+\`\`\`
+
+Wrong:
+\`\`\`ts
+const { t } = useTranslation()
+return <span>{t('exerciseWidget.info.outdated.solutionWasSolved')}</span>
+\`\`\`
+
+---
+
+### Key naming rules
+
+- Use **camelCase** for all keys.
+- NEVER use raw UI strings as keys.
+- NEVER include JSX/HTML markup in translation values.
+- For JSX expressions with:
+  - Interpolation: \`{{variableName}}\`
+  - Component slots: \`<componentName/>\`, or \`<componentName>{{value}}</componentName>\`
+
+---
+
+### Response format
+
+Return your response in this format:
+
+\`\`\`ts
+// i18n
+export default {
+  info: {
+    hasNotifications: "has notifications",
+    trackLine: "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>",
+    outdated: {
+      solutionWasSolved: "This solution was solved against an older version of this exercise"
+    }
+  },
+  difficulty: {
+    easy: "Easy",
+    medium: "Medium",
+    hard: "Hard"
+  }
+}
+
+// modified_files
+// === file: ../components/common/exercise-widget/info/Outdated.tsx ===
+... code ...
+// === end file ===
+\`\`\`
+
+Remember: 
+- NO JSX/HTML markup in translation values!
+- Structure must reflect the namespace hierarchy!
+- Only extract the actual text content!
+- Use {{variables}} for dynamic content!
+`
+
+  return `${instructions}
+
+${fileSections}`
+}
+
+async function runLLM(prompt: string): Promise<string | undefined> {
+  const ai = new GoogleGenAI({
+    apiKey: '[censored]',
+  })
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.0-flash',
+    contents: prompt,
+    config: {},
+  })
+
+  return response.text
+}
+
+function parseLLMOutput(text: string): {
+  translations: string
+  files: Record<string, string>
+} {
+  // More flexible regex to capture the i18n export
+  const i18nMatch = text.match(
+    /\/\/ i18n[\s\S]*?export default\s*({[\s\S]*?})\s*(?:\/\/ modified_files|$)/
+  )
+
+  let translations = i18nMatch?.[1]?.trim() || '{}'
+
+  // Clean up any trailing content after the closing brace
+  const braceCount =
+    (translations.match(/{/g) || []).length -
+    (translations.match(/}/g) || []).length
+  if (braceCount !== 0) {
+    // Find the proper closing brace
+    let openBraces = 0
+    let endIndex = -1
+    for (let i = 0; i < translations.length; i++) {
+      if (translations[i] === '{') openBraces++
+      if (translations[i] === '}') {
+        openBraces--
+        if (openBraces === 0) {
+          endIndex = i
+          break
+        }
+      }
+    }
+    if (endIndex !== -1) {
+      translations = translations.substring(0, endIndex + 1)
+    }
+  }
+
+  const fileSections = text.split(/\/\/ === file: (.*?) ===/g).slice(1)
+  const files: Record<string, string> = {}
+
+  for (let i = 0; i < fileSections.length; i += 2) {
+    const filePath = fileSections[i]?.trim()
+    const content = fileSections[i + 1]?.split('// === end file ===')[0]?.trim()
+    if (filePath && content) {
+      files[filePath] = content
+    } else {
+      console.warn(`Could not parse file section at index ${i}`)
+    }
+  }
+
+  if (Object.keys(files).length === 0) {
+    console.warn('No modified files were parsed from Gemini output.')
+  }
+
+  return {
+    translations,
+    files,
+  }
+}
+
+async function writeRawLLMOutput(content: string, folder: string) {
+  const folderName = path.basename(folder)
+  const outputDir = path.join('./en/debug')
+  const filePath = path.join(outputDir, `${folderName}-llm-output.txt`)
+
+  await fs.mkdir(outputDir, { recursive: true })
+  await fs.writeFile(filePath, content, 'utf8')
+}
+
+async function writeTranslations(jsonString: string, folder: string) {
+  const folderName = path.basename(folder)
+  const outputDir = path.join('./en/common')
+  const filePath = path.join(outputDir, `${folderName}.ts`)
+
+  await fs.mkdir(outputDir, { recursive: true })
+  const content = `export default ${jsonString};\n`
+  await fs.writeFile(filePath, content, 'utf8')
+}
+
+async function writeModifiedFiles(files: Record<string, string>) {
+  for (const [filePath, content] of Object.entries(files)) {
+    await fs.writeFile(filePath, content, 'utf8')
+  }
+}
+
+if (require.main === module) {
+  const folder = process.argv[2]
+
+  if (!folder) {
+    console.error('Please provide a folder path.')
+    process.exit(1)
+  }
+
+  readFilesInFolder(folder)
+    .then(async (files) => {
+      const prompt = buildPrompt(files)
+      const result = await runLLM(prompt)
+      if (!result) {
+        throw new Error('LLM returned no response')
+      }
+      await writeRawLLMOutput(result, folder)
+      const parsed = parseLLMOutput(result)
+      await writeTranslations(parsed.translations, folder)
+      await writeModifiedFiles(parsed.files)
+      console.log('i18n extraction and rewrite complete.')
+    })
+    .catch((err) => {
+      console.error('Error:', err)
+      process.exit(1)
+    })
+}

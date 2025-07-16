@@ -15,6 +15,7 @@ declare global {
       updateCustomFns?: string
       customFnsDashboard?: string
       deleteCustomFn?: string
+      apiBootcampSolutionChat: string
     }
     customFunctions: CustomFunctionsFromServer
   }
@@ -46,6 +47,7 @@ declare global {
     status: 'completed' | 'in_progress'
     passedBasicTests: boolean
     passedBonusTests: boolean
+    messages: Message[]
   }
 
   interface Exercise {

@@ -49,7 +49,12 @@ class Bootcamp::Exercise < ApplicationRecord
 
   memoize
   def introduction_html
-    Markdown::Parse.(file_contents("introduction.md"))
+    Markdown::Parse.(introduction_markdown)
+  end
+
+  memoize
+  def introduction_markdown
+    file_contents("introduction.md")
   end
 
   def stub(type = "jiki")

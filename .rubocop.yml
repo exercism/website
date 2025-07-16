@@ -67,6 +67,9 @@ Naming/PredicatePrefix:
 Style/MultipleComparison:
   Enabled: false
 
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   SingleLineConditionsOnly: false

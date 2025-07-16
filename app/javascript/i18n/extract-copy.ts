@@ -1,3 +1,4 @@
+// extract-and-prepare.ts
 import fs from 'fs/promises'
 import path from 'path'
 import { GoogleGenAI } from '@google/genai'
@@ -34,17 +35,21 @@ function toCamelCase(str: string): string {
     .replace(/^[A-Z]/, (char) => char.toLowerCase())
 }
 
-export function buildPrompt(files: Record<string, string>): string {
+export function buildPrompt(
+  files: Record<string, string>,
+  folder: string
+): string {
   const fileSections = Object.entries(files)
     .map(([filePath, content]) => {
-      const relativePath = path.relative(process.cwd(), filePath)
+      // Get path relative to the target folder, not cwd
+      const relativePath = path.relative(folder, filePath)
       const withoutExt = relativePath.replace(/\.[jt]sx$/, '')
       const parts = withoutExt.split(path.sep)
 
       // Convert each part to camelCase
       const camelCaseParts = parts.map((part) => toCamelCase(part))
 
-      // Build the full namespace path (this will be used by LLM to determine structure)
+      // Build the namespace path relative to the target folder
       const keyPrefix = camelCaseParts.join('.')
 
       return `// file: ${filePath}
@@ -79,11 +84,14 @@ ${content}
    - Example: \`<TrackIcon iconUrl={track.iconUrl} title={track.title} /><div className="--track-title">{track.title}</div>\`
    - Should become: \`"in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"\`
 
-3. **Namespace structure must reflect file hierarchy:**
-   - \`exerciseWidget.info.outdated\` means the key goes under \`info.outdated\` in the output
-   - \`exerciseWidget.info\` means the key goes under \`info\` in the output
-   - Example: If namespace is \`exerciseWidget.info.outdated\`, the structure should be:
+3. **Namespace structure must reflect file hierarchy WITHIN the target folder:**
+   - The \`i18n-key-prefix\` shows the path relative to the folder being processed
+   - If namespace is \`info.outdated\`, the key goes under \`info.outdated\` in the output  
+   - If namespace is \`info\`, the key goes under \`info\` in the output
+   - If namespace is just a filename like \`difficulty\`, the key goes at the root level
+   - Example structures:
    \`\`\`ts
+   // For i18n-key-prefix: info.outdated
    export default {
      info: {
        outdated: {
@@ -91,15 +99,30 @@ ${content}
        }
      }
    }
+   
+   // For i18n-key-prefix: info  
+   export default {
+     info: {
+       keyName: "value"
+     }
+   }
+   
+   // For i18n-key-prefix: difficulty
+   export default {
+     difficulty: {
+       keyName: "value"
+     }
+   }
    \`\`\`
 
 4. **All folder and file names must be converted to camelCase**
    - \`exercise-widget/Info\` → \`exerciseWidget.info\`
-   - \`exercise-widget/info/Outdated\` → \`exerciseWidget.info.outdated\`
+   - \`info/Outdated\` → \`info.outdated\`
+   - \`SolutionStatusTag\` → \`solutionStatusTag\`
 
-5. **The root object should NOT include the top-level folder name**
-   - Remove the first part of the namespace from the structure
-   - If namespace is \`exerciseWidget.info.outdated\`, structure becomes \`info.outdated\`
+5. **The namespace structure directly maps to the output structure**
+   - No top-level folder wrapping
+   - Use the exact namespace path shown in \`i18n-key-prefix\`
 
 ---
 
@@ -152,10 +175,11 @@ info: {
 ### Namespace rules
 
 - Convert all folder and file names to camelCase.
-- Remove the first part (top-level folder) from the namespace when creating the structure.
+- The namespace structure directly maps to the output object structure.
 - Examples:
-  - \`i18n-key-prefix: exerciseWidget.info\` → structure: \`info: { ... }\`
-  - \`i18n-key-prefix: exerciseWidget.info.outdated\` → structure: \`info: { outdated: { ... } }\`
+  - \`i18n-key-prefix: info.outdated\` → structure: \`info: { outdated: { ... } }\`
+  - \`i18n-key-prefix: info\` → structure: \`info: { ... }\`
+  - \`i18n-key-prefix: difficulty\` → structure: \`difficulty: { ... }\`
 
 ---
 
@@ -170,14 +194,14 @@ info: {
 
 Correct:
 \`\`\`ts
-const { t } = useTranslation('exerciseWidget.info.outdated')
+const { t } = useTranslation('info.outdated')
 return <span>{t('solutionWasSolved')}</span>
 \`\`\`
 
 Wrong:
 \`\`\`ts
 const { t } = useTranslation()
-return <span>{t('exerciseWidget.info.outdated.solutionWasSolved')}</span>
+return <span>{t('info.outdated.solutionWasSolved')}</span>
 \`\`\`
 
 ---
@@ -328,6 +352,7 @@ async function writeModifiedFiles(files: Record<string, string>) {
   }
 }
 
+// CLI Entrypoint
 if (require.main === module) {
   const folder = process.argv[2]
 
@@ -338,7 +363,7 @@ if (require.main === module) {
 
   readFilesInFolder(folder)
     .then(async (files) => {
-      const prompt = buildPrompt(files)
+      const prompt = buildPrompt(files, folder)
       const result = await runLLM(prompt)
       if (!result) {
         throw new Error('LLM returned no response')

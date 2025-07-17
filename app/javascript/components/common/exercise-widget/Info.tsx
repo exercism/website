@@ -1,3 +1,5 @@
+// i18n-key-prefix: info
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
@@ -28,7 +30,10 @@ export const Info = ({
         {exercise.title}
         {track && !isSkinny ? (
           <div className="--track">
-            in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+            {t('info.titleInTrack', {
+              trackTitle: track.title,
+            })}{' '}
+            <TrackIcon iconUrl={track.iconUrl} title={track.title} />
             <div className="--track-title">{track.title}</div>
           </div>
         ) : null}
@@ -88,3 +93,5 @@ export const Info = ({
     </div>
   )
 }
+import { useTranslation } from 'react-i18next'
+const { t } = useTranslation('components/common/exercise-widget')

@@ -95,9 +95,39 @@ ${content}
    - From: \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\` → Extract: \`"Learning Exercise"\`
 
 2. **Handle JSX components and variables intelligently:**
-   - JSX components → placeholders: \`<TrackIcon .../>\` → \`<trackIcon/>\`
-   - Simple property access (like \`{exercise.title}\`) should remain as-is.
-   - Only extract complex computed values as variables (e.g., \`{{pluralize}}\`, \`{{count}}\`).
+   - Replace visible text with a \`t()\` call and include dynamic values as:
+     - Component placeholders (e.g., \`<trackIcon/>\`)
+     - Mustache variables (e.g., \`{{trackTitle}}\`)
+   - Do **not** split static and dynamic parts across separate JSX nodes. Include the whole phrase in \`t()\`.
+   - Examples:
+
+     **Original:**
+     \`\`tsx
+     {t('info.titleInTrack')} <TrackIcon ... /> <div>{track.title}</div>
+    \`\`\`
+
+     **Incorrect translation:**
+     \`\`\`ts
+     "info.titleInTrack": "in"
+     \`\`\`
+
+     **Correct result:**
+     \`\`\`tsx
+     {t('info.titleInTrack', {
+       trackTitle: track.title,
+     })}
+     \`\`\`
+
+     **Translation:**
+     \`\`\`ts
+     "info.titleInTrack": "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"
+     \`\`\`
+
+   - You MUST include meaningful dynamic content in the translation string if:
+     - The phrase structure depends on it
+     - The ordering of the phrase might differ between languages
+
+   - Simple property access like \`{exercise.title}\` can stay in the JSX as-is **only when not tied to translatable phrases**.
 
 ---
 
@@ -260,7 +290,7 @@ async function writeRawLLMOutput(content: string, folder: string) {
 async function writeTranslations(jsonString: string, folder: string) {
   const normalizedPath = normalizePathForNamespace(folder)
   const safeName = normalizedPath.replace(/[\/\\]/g, '-')
-  const outputDir = path.join('./en/common')
+  const outputDir = path.join('./en')
   const filePath = path.join(outputDir, `${safeName}.ts`)
 
   await fs.mkdir(outputDir, { recursive: true })

@@ -71,7 +71,7 @@ ${content}
   const instructions = `You're given several TypeScript React files (with JSX). Your job is to:
 
 1. Extract all visible UI text meant for display to users.
-2. Replace visible text with i18n \`t('key')\` calls.
+2. Replace visible text with i18n \`t('<i18n-key-prefix>.<key>')\` calls.
 3. Use the \`i18n-key - prefix\` comment above each file to **prefix ALL keys in that file**.
    - This prefix becomes part of the full key path passed into \`t()\`.
    - Example:

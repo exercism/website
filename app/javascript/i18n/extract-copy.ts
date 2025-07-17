@@ -35,10 +35,18 @@ function toCamelCase(str: string): string {
     .replace(/^[A-Z]/, (char) => char.toLowerCase())
 }
 
+function normalizePathForNamespace(inputPath: string): string {
+  // Remove leading ../ and ./ and normalize separators
+  const normalized = inputPath.replace(/^\.\.?\//g, '').replace(/\\/g, '/')
+  return normalized
+}
+
 export function buildPrompt(
   files: Record<string, string>,
   folder: string
 ): string {
+  const normalizedFolderPath = normalizePathForNamespace(folder)
+
   const fileSections = Object.entries(files)
     .map(([filePath, content]) => {
       // Get path relative to the target folder, not cwd
@@ -54,6 +62,7 @@ export function buildPrompt(
 
       return `// file: ${filePath}
 // i18n-key-prefix: ${keyPrefix}
+// i18n-namespace: ${normalizedFolderPath}
 ${content}
 // end file`
     })
@@ -63,12 +72,11 @@ ${content}
 
 1. Extract all visible UI text meant for display to users.
 2. Replace visible text with i18n \`t('key')\` calls.
-3. Use the \`i18n-key-prefix\` comment above each file to determine the i18n key *namespace*. This is used in:
-   - \`useTranslation('<namespace>')\`
-   - The key path used in the i18n output file.
-4. Replace \`useTranslation()\` with \`useTranslation('<namespace>')\` using the computed namespace.
-5. Ensure the i18n object is valid TypeScript: \`export default { ... }\`
-6. Replace each visible string with a key in camelCase (never use UI text as keys).
+3. Use the \`i18n-key-prefix\` comment above each file to determine the i18n key *namespace*. This is used in the key path used in the i18n output file.
+4. Use the \`i18n-namespace\` comment above each file for the \`useTranslation('<namespace>')\` call. This is the full path to avoid collisions.
+5. Replace \`useTranslation()\` with \`useTranslation('<i18n-namespace>')\` using the i18n-namespace value.
+6. Ensure the i18n object is valid TypeScript: \`export default { ... }\`
+7. Replace each visible string with a key in camelCase (never use UI text as keys).
 
 ---
 
@@ -78,11 +86,40 @@ ${content}
    - From: \`<div className="icon"></div>Easy\` → Extract: \`"Easy"\`
    - From: \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\` → Extract: \`"Learning Exercise"\`
 
-2. **Handle JSX components properly:**
+2. **Handle JSX components and variables intelligently:**
    - JSX components should become placeholders: \`<TrackIcon .../>\` → \`<trackIcon/>\`
-   - Variables should become interpolations: \`{track.title}\` → \`{{trackTitle}}\`
-   - Example: \`<TrackIcon iconUrl={track.iconUrl} title={track.title} /><div className="--track-title">{track.title}</div>\`
-   - Should become: \`"in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"\`
+   - **Only create variables for truly dynamic content, not simple property access**
+   - Simple property access like \`{exercise.title}\` should be kept as-is in the component, not turned into a variable
+   - Only create variables when the content is computed or transformed
+   
+   **Examples:**
+   - \`{exercise.title}\` → Keep as \`{exercise.title}\` in component, translation is just the static text
+   - \`{pluralize('iteration', solution.numIterations)}\` → This should become \`{{pluralize}}\` because it's computed
+   - \`{solution.numIterations}\` → This can stay as-is or become variable, depends on context
+   
+   **Good transformation:**
+   \`\`\`jsx
+   // Original:
+   <span>Exercise: {exercise.title}</span>
+   
+   // Should become:
+   <span>{t('exerciseLabel')}: {exercise.title}</span>
+   
+   // Translation:
+   exerciseLabel: "Exercise"
+  \`\`\`
+   
+   **Bad transformation:**
+   \`\`\`jsx
+   // Original:
+   <span>Exercise: {exercise.title}</span>
+   
+   // Should NOT become:
+   <span>{t('exerciseWithTitle', { exerciseTitle: exercise.title })}</span>
+   
+   // Translation:
+   exerciseWithTitle: "Exercise: {{exerciseTitle}}"
+   \`\`\`
 
 3. **Namespace structure must reflect file hierarchy WITHIN the target folder:**
    - The \`i18n-key-prefix\` shows the path relative to the folder being processed
@@ -124,50 +161,59 @@ ${content}
    - No top-level folder wrapping
    - Use the exact namespace path shown in \`i18n-key-prefix\`
 
+6. **IMPORTANT: Use the i18n-namespace for useTranslation calls**
+   - Always use the full \`i18n-namespace\` value in \`useTranslation('<i18n-namespace>')\`
+   - This prevents collisions between different components with the same name
+
 ---
 
 ### Examples of correct extraction:
 
-**Bad:**
-\`\`\`ts
-difficulty: {
-  easy: "<div className=\\"icon\\"></div>Easy"
-}
+**Good - Simple property access stays in component:**
+\`\`\`jsx
+// Original:
+<div className="--title">{exercise.title}</div>
+
+// Should become:
+<div className="--title">{exercise.title}</div>
+
+// Translation: (no change needed, no translatable text)
 \`\`\`
 
-**Good:**
-\`\`\`ts
-difficulty: {
-  easy: "Easy"
-}
+**Good - Only extract the translatable text:**
+\`\`\`jsx
+// Original:
+<span>Exercise: {exercise.title}</span>
+
+// Should become:
+<span>{t('exerciseLabel')}: {exercise.title}</span>
+
+// Translation:
+exerciseLabel: "Exercise"
 \`\`\`
 
-**Bad:**
-\`\`\`ts
-exerciseTypeTag: {
-  learningExercise: "<GraphicalIcon icon=\\"concept-exercise\\" /> Learning Exercise"
-}
+**Good - Variables for computed/complex content:**
+\`\`\`jsx
+// Original:
+<span>{solution.numIterations} {pluralize('iteration', solution.numIterations)}</span>
+
+// Should become:
+<span>{t('iterationsCount', { count: solution.numIterations, pluralize: pluralize('iteration', solution.numIterations) })}</span>
+
+// Translation:
+iterationsCount: "{{count}} {{pluralize}}"
 \`\`\`
 
-**Good:**
-\`\`\`ts
-exerciseTypeTag: {
-  learningExercise: "Learning Exercise"
-}
-\`\`\`
+**Bad - Unnecessary variable creation:**
+\`\`\`jsx
+// Original:
+<div className="--title">{exercise.title}</div>
 
-**Bad:**
-\`\`\`ts
-info: {
-  trackLine: "in <TrackIcon iconUrl={track.iconUrl} title={track.title} /><div className=\\"--track-title\\">{{trackTitle}}</div>"
-}
-\`\`\`
+// Should NOT become:
+<div className="--title">{t('title', { exerciseTitle: exercise.title })}</div>
 
-**Good:**
-\`\`\`ts
-info: {
-  trackLine: "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"
-}
+// Translation:
+title: "{{exerciseTitle}}"
 \`\`\`
 
 ---
@@ -187,14 +233,15 @@ info: {
 
 - Replace any \`useTranslation()\` with:
   \`\`\`ts
-  const { t } = useTranslation('<computedNamespace>')
+  const { t } = useTranslation('<i18n-namespace>')
   \`\`\`
 
 - Then call \`t('keyName')\`, not \`t('namespace.keyName')\`.
 
 Correct:
 \`\`\`ts
-const { t } = useTranslation('info.outdated')
+// If i18n-namespace is "components/common/exercise-widget"
+const { t } = useTranslation('components/common/exercise-widget')
 return <span>{t('solutionWasSolved')}</span>
 \`\`\`
 
@@ -204,6 +251,12 @@ const { t } = useTranslation()
 return <span>{t('info.outdated.solutionWasSolved')}</span>
 \`\`\`
 
+Wrong:
+\`\`\`ts
+const { t } = useTranslation('info.outdated')
+return <span>{t('solutionWasSolved')}</span>
+\`\`\`
+
 ---
 
 ### Key naming rules
@@ -211,9 +264,19 @@ return <span>{t('info.outdated.solutionWasSolved')}</span>
 - Use **camelCase** for all keys.
 - NEVER use raw UI strings as keys.
 - NEVER include JSX/HTML markup in translation values.
-- For JSX expressions with:
-  - Interpolation: \`{{variableName}}\`
-  - Component slots: \`<componentName/>\`, or \`<componentName>{{value}}</componentName>\`
+- **Be conservative with variable creation:**
+  - Only create variables (\`{{variableName}}\`) when the content is computed, transformed, or when multiple dynamic pieces need to be combined
+  - Simple property access like \`{exercise.title}\` should usually stay in the component
+  - Component slots: \`<componentName/>\`, or \`<componentName>{{value}}</componentName>\` for truly dynamic content
+  
+**When to use variables:**
+- ✅ Computed values: \`{pluralize('iteration', count)}\` → \`{{pluralize}}\`
+- ✅ Complex expressions: \`{formatDate(solution.createdAt)}\` → \`{{formattedDate}}\`
+- ✅ When text and variables are tightly coupled: \`"in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"\`
+
+**When NOT to use variables:**
+- ❌ Simple property access: \`{exercise.title}\` → Keep in component
+- ❌ Basic values that don't change the sentence structure
 
 ---
 
@@ -249,6 +312,7 @@ Remember:
 - Structure must reflect the namespace hierarchy!
 - Only extract the actual text content!
 - Use {{variables}} for dynamic content!
+- Always use the full i18n-namespace in useTranslation calls!
 `
 
   return `${instructions}
@@ -328,18 +392,20 @@ function parseLLMOutput(text: string): {
 }
 
 async function writeRawLLMOutput(content: string, folder: string) {
-  const folderName = path.basename(folder)
+  const normalizedPath = normalizePathForNamespace(folder)
+  const safeName = normalizedPath.replace(/[\/\\]/g, '-')
   const outputDir = path.join('./en/debug')
-  const filePath = path.join(outputDir, `${folderName}-llm-output.txt`)
+  const filePath = path.join(outputDir, `${safeName}-llm-output.txt`)
 
   await fs.mkdir(outputDir, { recursive: true })
   await fs.writeFile(filePath, content, 'utf8')
 }
 
 async function writeTranslations(jsonString: string, folder: string) {
-  const folderName = path.basename(folder)
+  const normalizedPath = normalizePathForNamespace(folder)
+  const safeName = normalizedPath.replace(/[\/\\]/g, '-')
   const outputDir = path.join('./en/common')
-  const filePath = path.join(outputDir, `${folderName}.ts`)
+  const filePath = path.join(outputDir, `${safeName}.ts`)
 
   await fs.mkdir(outputDir, { recursive: true })
   const content = `export default ${jsonString};\n`
@@ -373,6 +439,7 @@ if (require.main === module) {
       await writeTranslations(parsed.translations, folder)
       await writeModifiedFiles(parsed.files)
       console.log('i18n extraction and rewrite complete.')
+      console.log(`Translation namespace: ${normalizePathForNamespace(folder)}`)
     })
     .catch((err) => {
       console.error('Error:', err)

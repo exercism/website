@@ -49,15 +49,10 @@ export function buildPrompt(
 
   const fileSections = Object.entries(files)
     .map(([filePath, content]) => {
-      // Get path relative to the target folder, not cwd
       const relativePath = path.relative(folder, filePath)
       const withoutExt = relativePath.replace(/\.[jt]sx$/, '')
       const parts = withoutExt.split(path.sep)
-
-      // Convert each part to camelCase
       const camelCaseParts = parts.map((part) => toCamelCase(part))
-
-      // Build the namespace path relative to the target folder
       const keyPrefix = camelCaseParts.join('.')
 
       return `// file: ${filePath}
@@ -72,200 +67,72 @@ ${content}
 
 1. Extract all visible UI text meant for display to users.
 2. Replace visible text with i18n \`t('<i18n-key-prefix>.<key>')\` calls.
-3. Use the \`i18n-key - prefix\` comment above each file to **prefix ALL keys in that file**.
+3. Use the \`i18n-key-prefix\` comment above each file to **prefix ALL keys in that file**.
    - This prefix becomes part of the full key path passed into \`t()\`.
    - Example:
-     - If \`i18n - key - prefix: info.outdated\` and a key is \`solutionWasSolvedAgainstOlderVersion\`
-     - Then the call should be: \`t('info.outdated.solutionWasSolvedAgainstOlderVersion')\`
+     - If \`i18n-key-prefix: info.outdated\` and a key is \`solutionWasSolved\`
+     - Then the call should be: \`t('info.outdated.solutionWasSolved')\`
      - And the translation output should be:
        \`\`\`ts
-  export default {
-    "info.outdated.solutionWasSolvedAgainstOlderVersion": "This solution was solved against an older version of this exercise"
-  }
-    \`\`\`
-- You MUST build the output structure to reflect the full nesting from this prefix.
-4. Use the \`i18n-namespace\` comment above each file for the \`useTranslation('<namespace>')\` call. This is the full path to avoid collisions.
-5. Replace \`useTranslation()\` with \`useTranslation('<i18n-namespace>')\` using the i18n-namespace value.
-6. Ensure the i18n object is valid TypeScript: \`export default { ... }\`
-7. Replace each visible string with a key in camelCase (never use UI text as keys).
+       export default {
+         "info.outdated.solutionWasSolved": "This solution was solved against an older version of this exercise"
+       }
+       \`\`\`
+   - Do **not** use nested objects in the output. All translation keys must be flat strings.
+
+4. Use the \`i18n-namespace\` comment above each file for the \`useTranslation('<namespace>')\` call.
+   - This ensures the correct namespace is passed to React-i18next and avoids collisions.
+5. Replace all \`useTranslation()\` calls with \`useTranslation('<i18n-namespace>')\`.
+6. Ensure the i18n output is valid TypeScript: \`export default { ... }\`
+7. All keys must use camelCase. Never use the original UI string as a key.
 
 ---
 
 ### CRITICAL RULES FOR TEXT EXTRACTION:
 
-1. **ONLY extract the actual TEXT content, NEVER JSX/HTML markup**
+1. **ONLY extract the visible text. NEVER extract JSX or HTML markup.**
    - From: \`<div className="icon"></div>Easy\` → Extract: \`"Easy"\`
    - From: \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\` → Extract: \`"Learning Exercise"\`
 
 2. **Handle JSX components and variables intelligently:**
-   - JSX components should become placeholders: \`<TrackIcon .../>\` → \`<trackIcon/>\`
-   - **Only create variables for truly dynamic content, not simple property access**
-   - Simple property access like \`{exercise.title}\` should be kept as-is in the component, not turned into a variable
-   - Only create variables when the content is computed or transformed
-   
-   **Examples:**
-   - \`{exercise.title}\` → Keep as \`{exercise.title}\` in component, translation is just the static text
-   - \`{pluralize('iteration', solution.numIterations)}\` → This should become \`{{pluralize}}\` because it's computed
-   - \`{solution.numIterations}\` → This can stay as-is or become variable, depends on context
-   
-   **Good transformation:**
-   \`\`\`jsx
-   // Original:
-   <span>Exercise: {exercise.title}</span>
-   
-   // Should become:
-   <span>{t('exerciseLabel')}: {exercise.title}</span>
-   
-   // Translation:
-   exerciseLabel: "Exercise"
-  \`\`\`
-   
-   **Bad transformation:**
-   \`\`\`jsx
-   // Original:
-   <span>Exercise: {exercise.title}</span>
-   
-   // Should NOT become:
-   <span>{t('exerciseWithTitle', { exerciseTitle: exercise.title })}</span>
-   
-   // Translation:
-   exerciseWithTitle: "Exercise: {{exerciseTitle}}"
-   \`\`\`
-
-3. **Namespace structure must reflect file hierarchy WITHIN the target folder:**
-   - The \`i18n-key-prefix\` shows the path relative to the folder being processed
-   - If namespace is \`info.outdated\`, the key goes under \`info.outdated\` in the output  
-   - If namespace is \`info\`, the key goes under \`info\` in the output
-   - If namespace is just a filename like \`difficulty\`, the key goes at the root level
-   - Example structures:
-   \`\`\`ts
-   // For i18n-key-prefix: info.outdated
-   export default {
-     info: {
-       outdated: {
-         keyName: "value"
-       }
-     }
-   }
-   
-   // For i18n-key-prefix: info  
-   export default {
-     info: {
-       keyName: "value"
-     }
-   }
-   
-   // For i18n-key-prefix: difficulty
-   export default {
-     difficulty: {
-       keyName: "value"
-     }
-   }
-   \`\`\`
-
-4. **All folder and file names must be converted to camelCase**
-   - \`exercise-widget/Info\` → \`exerciseWidget.info\`
-   - \`info/Outdated\` → \`info.outdated\`
-   - \`SolutionStatusTag\` → \`solutionStatusTag\`
-
-5. **The namespace structure directly maps to the output structure**
-   - No top-level folder wrapping
-   - Use the exact namespace path shown in \`i18n-key-prefix\`
-
-6. **IMPORTANT: Use the i18n-namespace for useTranslation calls**
-   - Always use the full \`i18n-namespace\` value in \`useTranslation('<i18n-namespace>')\`
-   - This prevents collisions between different components with the same name
-
----
-
-### Examples of correct extraction:
-
-**Good - Simple property access stays in component:**
-\`\`\`jsx
-// Original:
-<div className="--title">{exercise.title}</div>
-
-// Should become:
-<div className="--title">{exercise.title}</div>
-
-// Translation: (no change needed, no translatable text)
-\`\`\`
-
-**Good - Only extract the translatable text:**
-\`\`\`jsx
-// Original:
-<span>Exercise: {exercise.title}</span>
-
-// Should become:
-<span>{t('exerciseLabel')}: {exercise.title}</span>
-
-// Translation:
-exerciseLabel: "Exercise"
-\`\`\`
-
-**Good - Variables for computed/complex content:**
-\`\`\`jsx
-// Original:
-<span>{solution.numIterations} {pluralize('iteration', solution.numIterations)}</span>
-
-// Should become:
-<span>{t('iterationsCount', { count: solution.numIterations, pluralize: pluralize('iteration', solution.numIterations) })}</span>
-
-// Translation:
-iterationsCount: "{{count}} {{pluralize}}"
-\`\`\`
-
-**Bad - Unnecessary variable creation:**
-\`\`\`jsx
-// Original:
-<div className="--title">{exercise.title}</div>
-
-// Should NOT become:
-<div className="--title">{t('title', { exerciseTitle: exercise.title })}</div>
-
-// Translation:
-title: "{{exerciseTitle}}"
-\`\`\`
-
----
-
-### Namespace rules
-
-- Convert all folder and file names to camelCase.
-- The namespace structure directly maps to the output object structure.
-- Examples:
-  - \`i18n-key-prefix: info.outdated\` → structure: \`info: { outdated: { ... } }\`
-  - \`i18n-key-prefix: info\` → structure: \`info: { ... }\`
-  - \`i18n-key-prefix: difficulty\` → structure: \`difficulty: { ... }\`
+   - JSX components → placeholders: \`<TrackIcon .../>\` → \`<trackIcon/>\`
+   - Simple property access (like \`{exercise.title}\`) should remain as-is.
+   - Only extract complex computed values as variables (e.g., \`{{pluralize}}\`, \`{{count}}\`).
 
 ---
 
 ### Inside components
 
-- Replace any \`useTranslation()\` with:
-  \`\`\`ts
-  const { t } = useTranslation('<i18n-namespace>')
-  \`\`\`
-
-- Then call \`t('keyName')\`, not \`t('namespace.keyName')\`.
-
-Correct:
+Use:
 \`\`\`ts
-// If i18n-namespace is "components/common/exercise-widget"
-const { t } = useTranslation('components/common/exercise-widget')
-return <span>{t('solutionWasSolved')}</span>
+const { t } = useTranslation('<i18n-namespace>')
+t('<i18n-key-prefix>.<key>')
 \`\`\`
 
-Wrong:
-\`\`\`ts
+---
+
+### Example of correct transformation
+
+**Original:**
+\`\`\`tsx
+// i18n-key-prefix: info.outdated
+// i18n-namespace: components/common/exercise-widget
+
 const { t } = useTranslation()
-return <span>{t('info.outdated.solutionWasSolved')}</span>
+return <Icon alt="This solution was solved against an older version of this exercise" />
 \`\`\`
 
-Wrong:
+**Should become:**
+\`\`\`tsx
+const { t } = useTranslation('components/common/exercise-widget')
+return <Icon alt={t('info.outdated.solutionWasSolved')} />
+\`\`\`
+
+**Translation file:**
 \`\`\`ts
-const { t } = useTranslation('info.outdated')
-return <span>{t('solutionWasSolved')}</span>
+export default {
+  "info.outdated.solutionWasSolved": "This solution was solved against an older version of this exercise"
+}
 \`\`\`
 
 ---
@@ -275,19 +142,10 @@ return <span>{t('solutionWasSolved')}</span>
 - Use **camelCase** for all keys.
 - NEVER use raw UI strings as keys.
 - NEVER include JSX/HTML markup in translation values.
-- **Be conservative with variable creation:**
-  - Only create variables (\`{{variableName}}\`) when the content is computed, transformed, or when multiple dynamic pieces need to be combined
-  - Simple property access like \`{exercise.title}\` should usually stay in the component
-  - Component slots: \`<componentName/>\`, or \`<componentName>{{value}}</componentName>\` for truly dynamic content
-  
-**When to use variables:**
-- ✅ Computed values: \`{pluralize('iteration', count)}\` → \`{{pluralize}}\`
-- ✅ Complex expressions: \`{formatDate(solution.createdAt)}\` → \`{{formattedDate}}\`
-- ✅ When text and variables are tightly coupled: \`"in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"\`
-
-**When NOT to use variables:**
-- ❌ Simple property access: \`{exercise.title}\` → Keep in component
-- ❌ Basic values that don't change the sentence structure
+- Only use variables when necessary:
+  - ✅ Computed or dynamic expressions
+  - ✅ Combining strings + variables
+  - ❌ Simple property access like \`{user.name}\`
 
 ---
 
@@ -298,37 +156,24 @@ Return your response in this format:
 \`\`\`ts
 // i18n
 export default {
-  info: {
-    hasNotifications: "has notifications",
-    trackLine: "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>",
-    outdated: {
-      solutionWasSolved: "This solution was solved against an older version of this exercise"
-    }
-  },
-  difficulty: {
-    easy: "Easy",
-    medium: "Medium",
-    hard: "Hard"
-  }
+  "info.outdated.solutionWasSolved": "This solution was solved against an older version of this exercise",
+  "difficulty.easy": "Easy",
+  "exerciseTypeTag.learningExercise": "Learning Exercise"
 }
 
 // modified_files
 // === file: ../components/common/exercise-widget/info/Outdated.tsx ===
-... code ...
+... updated code ...
 // === end file ===
 \`\`\`
 
-Remember: 
-- NO JSX/HTML markup in translation values!
-- Structure must reflect the namespace hierarchy!
-- Only extract the actual text content!
-- Use {{variables}} for dynamic content!
-- Always use the full i18n-namespace in useTranslation calls!
+Remember:
+- Output must be a **flat object with dot-separated keys**
+- Use the correct \`i18n-key-prefix\` for all keys
+- Use the correct \`i18n-namespace\` for \`useTranslation()\`
 `
 
-  return `${instructions}
-
-${fileSections}`
+  return `${instructions}\n\n${fileSections}`
 }
 
 async function runLLM(prompt: string): Promise<string | undefined> {

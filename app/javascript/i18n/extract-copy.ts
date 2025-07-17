@@ -72,11 +72,17 @@ ${content}
 
 1. Extract all visible UI text meant for display to users.
 2. Replace visible text with i18n \`t('key')\` calls.
-3. Use the \`i18n-key-prefix\` comment above each file to determine the FULL nested i18n key path inside the translation object. 
-
-- This is NOT a flat key or label — it defines the full object nesting.
-- For example: \`i18n-key-prefix: info.outdated\` means the key should be placed as \`info: { outdated: { ... } }\` in the output.
-- \`i18n-key-prefix: difficulty\` means \`difficulty: { ... }\`.
+3. Use the \`i18n-key - prefix\` comment above each file to **prefix ALL keys in that file**.
+   - This prefix becomes part of the full key path passed into \`t()\`.
+   - Example:
+     - If \`i18n - key - prefix: info.outdated\` and a key is \`solutionWasSolvedAgainstOlderVersion\`
+     - Then the call should be: \`t('info.outdated.solutionWasSolvedAgainstOlderVersion')\`
+     - And the translation output should be:
+       \`\`\`ts
+  export default {
+    "info.outdated.solutionWasSolvedAgainstOlderVersion": "This solution was solved against an older version of this exercise"
+  }
+    \`\`\`
 - You MUST build the output structure to reflect the full nesting from this prefix.
 4. Use the \`i18n-namespace\` comment above each file for the \`useTranslation('<namespace>')\` call. This is the full path to avoid collisions.
 5. Replace \`useTranslation()\` with \`useTranslation('<i18n-namespace>')\` using the i18n-namespace value.

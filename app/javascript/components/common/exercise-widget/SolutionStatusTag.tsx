@@ -1,5 +1,9 @@
+// i18n-key-prefix: solutionStatusTag
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import { SolutionStatus, Size } from '../../types'
+import { useTranslation } from 'react-i18next'
+const { t } = useTranslation('components/common/exercise-widget')
 
 export const SolutionStatusTag = ({
   status,
@@ -14,20 +18,20 @@ export const SolutionStatusTag = ({
     case 'published':
       return (
         <div className={`c-exercise-status-tag --published ${sizeClassName}`}>
-          Published
+          {t('solutionStatusTag.published')}
         </div>
       )
     case 'completed':
       return (
         <div className={`c-exercise-status-tag --completed ${sizeClassName}`}>
-          Completed
+          {t('solutionStatusTag.completed')}
         </div>
       )
     case 'started':
     case 'iterated':
       return (
         <div className={`c-exercise-status-tag --in-progress ${sizeClassName}`}>
-          In-progress
+          {t('solutionStatusTag.inProgress')}
         </div>
       )
   }

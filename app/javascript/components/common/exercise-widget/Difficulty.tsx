@@ -1,5 +1,9 @@
+// i18n-key-prefix: difficulty
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import { ExerciseDifficulty, Size } from '../../types'
+import { useTranslation } from 'react-i18next'
+const { t } = useTranslation('components/common/exercise-widget')
 
 export const Difficulty = ({
   difficulty,
@@ -14,7 +18,8 @@ export const Difficulty = ({
     case 'easy':
       return (
         <div className={`c-difficulty-tag --easy ${sizeClassName}`}>
-          <div className="icon"></div>Easy
+          <div className="icon"></div>
+          {t('difficulty.easy')}
         </div>
       )
     case 'medium':
@@ -26,7 +31,8 @@ export const Difficulty = ({
     case 'hard':
       return (
         <div className={`c-difficulty-tag --hard ${sizeClassName}`}>
-          <div className="icon"></div>Hard
+          <div className="icon"></div>
+          {t('difficulty.hard')}
         </div>
       )
   }

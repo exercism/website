@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 import { IConcept, ConceptStatus, ExerciseData } from './concept-map-types'
 
@@ -33,6 +34,7 @@ export const Concept = ({
   exercisesData,
   isActive,
 }: ConceptProps): JSX.Element => {
+  const { t } = useAppTranslation('components/concept-map')
   const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')
@@ -81,7 +83,7 @@ export const Concept = ({
             onMouseLeave={wrapAnimationFrame(handleLeave)}
           >
             <ConceptIcon name={name} size="medium" />
-            <span className="name" aria-label={getAriaLabel(status)}>
+            <span className="name" aria-label={getAriaLabel(status, t)}>
               {name}
             </span>
           </a>
@@ -98,17 +100,17 @@ export function conceptSlugToId(slug: string): string {
   return `concept-${slug}`
 }
 
-const getAriaLabel = (status: ConceptStatus): string => {
+const getAriaLabel = (status: ConceptStatus, t: any): string => {
   switch (status) {
     case 'available':
-      return 'Available Concept:'
+      return t('concept.availableConcept')
     case 'learned':
-      return 'Learned Concept:'
+      return t('concept.learnedConcept')
     case 'mastered':
-      return 'Mastered Concept:'
+      return t('concept.masteredConcept')
     case 'locked':
-      return 'Locked Concept:'
+      return t('concept.lockedConcept')
     default:
-      return 'Concept:'
+      return t('concept.concept')
   }
 }

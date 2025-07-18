@@ -1,0 +1,456 @@
+```ts
+// i18n
+export default {
+  "feedbackPanelRequestMentoring.takeSolutionToNextLevel": "Take your solution to the next level",
+  "feedbackPanelRequestMentoring.getFeedbackOnSolution": "Get feedback on your solution to {{exerciseTitle}} by a {{trackTitle}} mentor and discover new ways to approach the problem, and expand and deepen your {{trackTitle}} knowledge.",
+  "feedbackPanelRequestMentoring.submitForCodeReview": "Submit for code review",
+  "feedbackPanelRequestMentoring.free": "It's 100% free! 😲",
+  "feedbackPanelRequestMentoring.whyGetFeedback": "Why get feedback?",
+  "feedbackPanelRequestMentoring.attainRealFluency": "Attain real fluency in {{trackTitle}}",
+  "feedbackPanelRequestMentoring.learningALanguage": "Learning a language is more than being able to use it, it's about being able to <strong className=\"font-semibold\">think</strong> in it. Our mentors will help develop your perceptions.",
+  "feedbackPanelRequestMentoring.youDontKnowWhatYouDontKnow": "You don't know what you don't know",
+  "feedbackPanelRequestMentoring.hardToProgress": "It's hard to progress when you don't know what's missing. Our mentors will help you discover the gaps in your {{trackTitle}} knowledge.",
+  "feedbackPanelRequestMentoring.getYourQuestionsAnswered": "Get your questions answered",
+  "feedbackPanelRequestMentoring.whateverYourQuestions": "Whatever your questions, our mentors will be able to help you. Make sure you ask what's on your mind when requesting a mentor.",
+  "feedbackPanelRequestMentoring.pushYourself": "Push yourself",
+  "feedbackPanelRequestMentoring.confidentFeelIn": "However confident you feel in {{trackTitle}}, there will always be more to learn. Push yourself further with an Exercism mentor.",
+  "feedbackPanel.codeReview": "Code Review",
+  "feedbackPanel.codeReviewPending": "Code Review (Pending)",
+  "feedbackPanelMentoringDiscussion.readonlyIterationMarker.iteration": "Iteration {{idx}}",
+  "feedbackPanelMentoringDiscussion.pendingMentoringRequest.youveSubmittedSolution": "You've submitted your solution for Code Review.",
+  "feedbackPanelMentoringDiscussion.pendingMentoringRequest.mentorWillProvideFeedback": "A mentor will (hopefully) provide you with feedback soon. You'll recieve a notification and email when this happens.",
+  "feedbackPanelMentoringDiscussion.pendingMentoringRequest.viewYourRequest": "View your request",
+  "feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.loading": "Loading…",
+  "feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSession": "This is your latest code review session for this exercise. To continue the discussion, switch to <a className=\"font-semibold text-blue\" href=\"mentor_discussions\">mentoring mode</a>.",
+  "feedbackDetail.automatedFeedback": "Automated Feedback",
+}
+
+// modified_files
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelRequestMentoring.tsx ===
+// i18n-key-prefix: feedbackPanelRequestMentoring
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { FeedbackPanelProps } from './FeedbackPanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function RequestMentoring({
+  exercise,
+  track,
+  mentorDiscussionsLink,
+}: Pick<
+  FeedbackPanelProps,
+  'exercise' | 'track' | 'mentorDiscussionsLink'
+>): JSX.Element {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  return (
+    <section className="pt-10">
+      <div className="pb-20 mb-20 border-b-1 border-borderColor5">
+        <div className="flex items-start">
+          <div>
+            <h2 className="text-h4 mb-4">
+              {t('feedbackPanelRequestMentoring.takeSolutionToNextLevel')}
+            </h2>
+            <p className="text-p-base mb-16">
+              {t('feedbackPanelRequestMentoring.getFeedbackOnSolution', {
+                exerciseTitle: exercise.title,
+                trackTitle: track.title,
+              })}
+            </p>
+          </div>
+          <GraphicalIcon
+            icon="mentoring-prompt"
+            category="graphics"
+            height={110}
+            width={110}
+            className="ml-48 mt-20"
+          />
+        </div>
+        <div className="flex">
+          <a className="btn-primary btn-m mb-8" href={mentorDiscussionsLink}>
+            {t('feedbackPanelRequestMentoring.submitForCodeReview')}
+          </a>
+          <div className="ml-16 px-16 text-midnightBlue bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
+            {t('feedbackPanelRequestMentoring.free')}
+          </div>
+        </div>
+      </div>
+
+      <h3 className="text-h4 mb-8">
+        {t('feedbackPanelRequestMentoring.whyGetFeedback')}
+      </h3>
+      <div className="mb-12">
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.attainRealFluency', {
+            trackTitle: track.title,
+          })}
+        </h4>
+        <p className="text-p-base">
+          {t('feedbackPanelRequestMentoring.learningALanguage')}
+        </p>
+      </div>
+
+      <div className="mb-12">
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.youDontKnowWhatYouDontKnow')}
+        </h4>
+        <p className="text-p-base">
+          {t('feedbackPanelRequestMentoring.hardToProgress', {
+            trackTitle: track.title,
+          })}
+        </p>
+      </div>
+
+      <div className="mb-12">
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.getYourQuestionsAnswered')}
+        </h4>
+        <p className="text-p-base">
+          {t('feedbackPanelRequestMentoring.whateverYourQuestions')}
+        </p>
+      </div>
+
+      <div className="mb-12">
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.pushYourself')}
+        </h4>
+        <p className="text-p-base">
+          {t('feedbackPanelRequestMentoring.confidentFeelIn', {
+            trackTitle: track.title,
+          })}
+        </p>
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanel.tsx ===
+// i18n-key-prefix: feedbackPanel
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { Tab } from '@/components/common'
+import { TabsContext } from '../../Editor'
+import { Iteration, MentorDiscussion, Exercise, Track } from '../../types'
+import { AutomatedFeedback } from './FeedbackPanelAutomatedFeedback'
+import { MentoringDiscussion } from './FeedbackPanelMentoringDiscussion/FeedbackPanelMentoringDiscussion'
+import { RequestMentoring } from './FeedbackPanelRequestMentoring'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type FeedbackPanelProps = {
+  iteration?: Pick<Iteration, 'analyzerFeedback' | 'representerFeedback'>
+  exercise: Pick<Exercise, 'title'>
+  track: Pick<Track, 'title' | 'iconUrl'>
+  mentoringRequestLink: string
+  automatedFeedbackInfoLink: string
+  mentorDiscussionsLink: string
+  discussion?: MentorDiscussion
+  requestedMentoring: boolean
+}
+export const FeedbackPanel = ({
+  iteration,
+  exercise,
+  track,
+  automatedFeedbackInfoLink,
+  mentorDiscussionsLink,
+  mentoringRequestLink,
+  requestedMentoring,
+  discussion,
+}: FeedbackPanelProps): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  const AutomatedFeedbackProps = { iteration, track, automatedFeedbackInfoLink }
+  const MentoringDiscussionProps = {
+    mentoringRequestLink,
+    discussion,
+    requestedMentoring,
+  }
+  const RequestMentoringProps = { track, exercise, mentorDiscussionsLink }
+
+  const hasFeedback =
+    discussion ||
+    iteration?.analyzerFeedback ||
+    iteration?.representerFeedback ||
+    requestedMentoring
+
+  const automatedFeedbackOpenByDefault = !discussion
+
+  return (
+    <Tab.Panel id="feedback" context={TabsContext}>
+      <section className="feedback-pane">
+        {hasFeedback ? (
+          <>
+            <MentoringDiscussion open {...MentoringDiscussionProps} />
+            <AutomatedFeedback
+              open={automatedFeedbackOpenByDefault}
+              {...AutomatedFeedbackProps}
+            />
+          </>
+        ) : (
+          <RequestMentoring {...RequestMentoringProps} />
+        )}
+      </section>
+    </Tab.Panel>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelMentoringDiscussion/ReadonlyIterationMarker.tsx ===
+// i18n-key-prefix: feedbackPanelMentoringDiscussion.readonlyIterationMarker
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { Iteration } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ReadonlyIterationMarker({
+  idx,
+}: Pick<Iteration, 'idx'>): JSX.Element {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  return (
+    <div className="timeline-entry iteration-entry">
+      <div className="timeline-marker">
+        <GraphicalIcon icon="iteration" />
+      </div>
+      <div className="timeline-content">
+        <div className="timeline-entry-header">
+          <div className="info">
+            <strong>{t('feedbackPanelMentoringDiscussion.readonlyIterationMarker.iteration', {
+              idx,
+            })}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelMentoringDiscussion/ReadonlyDiscussionPostView.tsx ===
+// i18n-key-prefix: feedbackPanelMentoringDiscussion.readonlyDiscussionPostView
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { shortFromNow } from '@/utils/time'
+import { Avatar } from '@/components/common'
+import { DiscussionPostContent } from '@/components/mentoring/discussion/discussion-post/DiscussionPostContent'
+import { DiscussionPostProps } from '@/components/mentoring/discussion/DiscussionPost'
+import { ReadonlyIterationMarker } from '.'
+
+export function ReadonlyDiscussionPostView({
+  post,
+  className = '',
+  prevIterationIdx,
+}: {
+  post: DiscussionPostProps
+  className?: string
+  prevIterationIdx: number
+}): JSX.Element {
+  const classNames = ['post', 'timeline-entry', className].filter(
+    (c) => c.length > 0
+  )
+
+  return (
+    <>
+      {prevIterationIdx === post.iterationIdx ? null : (
+        <ReadonlyIterationMarker idx={post.iterationIdx} />
+      )}
+      <div className={classNames.join(' ')}>
+        <Avatar
+          handle={post.authorHandle}
+          src={post.authorAvatarUrl}
+          className="timeline-marker"
+        />
+        <div className="timeline-content">
+          <header className="timeline-entry-header">
+            <div className="author">{post.authorHandle}</div>
+            <time>{shortFromNow(post.updatedAt)}</time>
+          </header>
+          <DiscussionPostContent contentHtml={post.contentHtml} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelMentoringDiscussion/PendingMentoringRequest.tsx ===
+// i18n-key-prefix: feedbackPanelMentoringDiscussion.pendingMentoringRequest
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { FeedbackPanelProps } from '../FeedbackPanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function PendingMentoringRequest({
+  mentoringRequestLink,
+}: Pick<FeedbackPanelProps, 'mentoringRequestLink'>): JSX.Element {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  return (
+    <div className="flex flex-col">
+      <p className="text-p-base mb-8">
+        <strong className="font-semibold text-textColor2">
+          {t('feedbackPanelMentoringDiscussion.pendingMentoringRequest.youveSubmittedSolution')}
+        </strong>{' '}
+        {t('feedbackPanelMentoringDiscussion.pendingMentoringRequest.mentorWillProvideFeedback')}
+      </p>
+      <a className="btn-enhanced btn-s mr-auto" href={mentoringRequestLink}>
+        {t('feedbackPanelMentoringDiscussion.pendingMentoringRequest.viewYourRequest')}
+      </a>
+    </div>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelMentoringDiscussion/FeedbackPanelMentoringDiscussion.tsx ===
+// i18n-key-prefix: feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { useRequestQuery } from '@/hooks/request-query'
+import { DiscussionPostProps } from '@/components/mentoring/discussion/DiscussionPost'
+import { FeedbackPanelProps } from '../FeedbackPanel'
+import { FeedbackDetail } from '../FeedbackDetail'
+import { PendingMentoringRequest, ReadonlyDiscussionPostView } from '.'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function MentoringDiscussion({
+  discussion,
+  requestedMentoring,
+  mentoringRequestLink,
+  open,
+}: Pick<
+  FeedbackPanelProps,
+  'discussion' | 'requestedMentoring' | 'mentoringRequestLink'
+> & {
+  open?: boolean
+}): JSX.Element | null {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
+    [`posts-discussion-${discussion?.uuid}`],
+    { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
+  )
+  if (discussion) {
+    return (
+      <FeedbackDetail open={open} summary={t('feedbackPanel.codeReview')}>
+        {status === 'pending' ? (
+          <div>{t('feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.loading')}</div>
+        ) : (
+          <div className="c-discussion-timeline">
+            <p className="text-p-base">
+              {t('feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSession')}
+            </p>
+            {data?.items?.map((post, index) => {
+              return (
+                <ReadonlyDiscussionPostView
+                  key={post.uuid}
+                  prevIterationIdx={
+                    index === 0
+                      ? 0
+                      : data.items[index >= 1 ? index - 1 : 0].iterationIdx
+                  }
+                  post={post}
+                />
+              )
+            })}
+          </div>
+        )}
+      </FeedbackDetail>
+    )
+  } else if (requestedMentoring) {
+    return (
+      <FeedbackDetail open={open} summary={t('feedbackPanel.codeReviewPending')}>
+        <PendingMentoringRequest mentoringRequestLink={mentoringRequestLink} />
+      </FeedbackDetail>
+    )
+  } else return null
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackDetail.tsx ===
+// i18n-key-prefix: feedbackDetail
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function FeedbackDetail({
+  summary,
+  children,
+  open,
+}: {
+  summary: string
+  children: React.ReactNode
+  open?: boolean
+}): JSX.Element {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  return (
+    <details open={open} className="c-details feedback">
+      <summary className="--summary select-none text-textColor1">
+        <div className="--summary-inner">
+          <span className="summary-title">{summary}</span>
+          <span className="--closed-icon">
+            <GraphicalIcon icon="chevron-right" />
+          </span>
+          <span className="--open-icon">
+            <GraphicalIcon icon="chevron-down" />
+          </span>
+        </div>
+      </summary>
+      {children}
+    </details>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/FeedbackPanel/FeedbackPanelAutomatedFeedback.tsx ===
+// i18n-key-prefix: feedbackPanelAutomatedFeedback
+// i18n-namespace: components/editor/FeedbackPanel
+import React from 'react'
+import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
+import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
+import { FeedbackDetail } from './FeedbackDetail'
+import { FeedbackPanelProps } from './FeedbackPanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function AutomatedFeedback({
+  iteration,
+  track,
+  automatedFeedbackInfoLink,
+  open,
+}: Pick<
+  FeedbackPanelProps,
+  'iteration' | 'automatedFeedbackInfoLink' | 'track'
+> & { open?: boolean }): JSX.Element | null {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
+  if (
+    iteration &&
+    (iteration.analyzerFeedback || iteration.representerFeedback)
+  ) {
+    return (
+      <FeedbackDetail open={open} summary={t('feedbackDetail.automatedFeedback')}>
+        <>
+          {iteration.representerFeedback ? (
+            <RepresenterFeedback {...iteration.representerFeedback} />
+          ) : null}
+          {iteration.representerFeedback && iteration.analyzerFeedback && (
+            <hr className="border-t-2 border-borderColor6 my-16" />
+          )}
+          {iteration.analyzerFeedback ? (
+            <AnalyzerFeedback
+              {...iteration.analyzerFeedback}
+              track={track}
+              automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+            />
+          ) : null}
+        </>
+      </FeedbackDetail>
+    )
+  } else return null
+}
+
+// === end file ===
+```

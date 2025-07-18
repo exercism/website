@@ -1,11 +1,15 @@
+// i18n-key-prefix: tasksList.resetButton
+// i18n-namespace: components/contributing
 import React from 'react'
 import { GraphicalIcon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ResetButton = ({
   onClick,
 }: {
   onClick: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
   return (
     <button
       type="button"
@@ -13,7 +17,7 @@ export const ResetButton = ({
       className="btn-m btn-link reset-btn"
     >
       <GraphicalIcon icon="reset" />
-      <span>Reset Filters</span>
+      <span>{t('tasksList.resetFilters')}</span>
     </button>
   )
 }

@@ -7,6 +7,7 @@ import componentsdonationssubscriptionform from './components-donations-subscrip
 import componentsconceptmap from './components-concept-map'
 import componentscontributing from './components-contributing'
 import componentscontributingtaskslisttask from './components-contributing-tasks-list-task'
+import componentseditorGetHelp from './components-editor-GetHelp'
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
@@ -25,6 +26,7 @@ export default {
   'components/contributing': componentscontributing,
   'components/contributing/tasks-list/task':
     componentscontributingtaskslisttask,
+  'components/editor/GetHelp': componentseditorGetHelp,
   'components/dropdowns/track-menu': componentsdropdownstrackmenu,
   'components/community-solutions': componentscommunitysolutions,
   'components/dropdowns/reputation': componentsdropdownsreputation,

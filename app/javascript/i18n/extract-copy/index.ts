@@ -105,7 +105,7 @@ async function writeTranslations(jsonString: string, folder: string) {
   const filePath = path.join(outputDir, `${safeName}.ts`)
 
   await fs.mkdir(outputDir, { recursive: true })
-  const content = `export default ${jsonString};\n`
+  const content = `// namespace: ${normalizedPath}\nexport default ${jsonString};\n`
   await fs.writeFile(filePath, content, 'utf8')
 }
 

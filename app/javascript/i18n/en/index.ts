@@ -1,3 +1,4 @@
+import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
@@ -11,6 +12,7 @@ import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
 
 export default {
+  'components/donations': componentsdonations,
   'components/community': componentscommunity,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/donations/subscription-form': componentsdonationssubscriptionform,

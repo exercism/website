@@ -1,3 +1,4 @@
+// namespace: components/common/share-panel
 export default {
   'platformButton.devToButton.devTo': 'DEV.to',
   'platformButton.facebookButton.facebook': 'Facebook',

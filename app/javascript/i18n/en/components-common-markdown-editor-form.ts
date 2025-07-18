@@ -1,3 +1,4 @@
+// namespace: components/common/markdown-editor-form
 export default {
   'mobileIdleFormFooter.send': 'Send',
   'newFormFooter.cancel': 'Cancel',

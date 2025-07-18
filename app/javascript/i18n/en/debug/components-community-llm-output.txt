@@ -1,0 +1,612 @@
+```ts
+// i18n
+export default {
+  "storiesGrid.index.moreStories": "More Stories from our community",
+  "storiesGrid.index.listenLearn": "Listen, learn and be inspired by our community members.",
+  "videoGrid.index.searchCommunity": "Search community content",
+  "videoGrid.index.learnWithCommunity": "Learn with our community",
+  "videoGrid.index.walkthroughsTutorials": "Walkthroughs, tutorials and livestreams from our community.",
+  "videoGrid.index.noVideosFound": "No videos found.",
+  "videoGrid.index.tryChangingFilters": "Try changing your filters to find the video you are looking for.",
+  "videoGrid.index.thereAreNoVideos": "There are currently no videos.",
+  "videoGrid.index.checkBackLater": "Check back here later for more!",
+  "videoGrid.trackFilterList.openTrackFilter": "Open the track filter",
+  "videoGrid.trackFilterList.clickToChange": "Click to change",
+  "videoGrid.useVideoGrid.video": "video"
+}
+
+// modified_files
+// === file: ../components/community/stories-grid/index.tsx ===
+import React, { useState } from 'react'
+import { Avatar, GraphicalIcon, Pagination } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type StoriesGridProps = {
+  data: any
+}
+
+export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
+  const { t } = useAppTranslation('components/community')
+  const [page, setPage] = useState<number>(1)
+
+  if (data.request.options.initialData.meta.totalCount === 0) {
+    return null
+  }
+
+  return (
+    <div className="p-40 bg-backgroundColorA shadow-lgZ1 rounded-16 mb-64">
+      <StoriesGridHeader t={t} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
+        {data.request.options.initialData.results.map((story: StoryProps) => (
+          <Story key={story.title} {...story} />
+        ))}
+      </div>
+      <Pagination
+        current={page}
+        total={data.request.options.initialData.meta.totalCount}
+        setPage={setPage}
+      />
+    </div>
+  )
+}
+
+function StoriesGridHeader({ t }: { t: any }): JSX.Element {
+  return (
+    <div className="flex mb-24">
+      <GraphicalIcon
+        icon="podcast-gradient"
+        height={48}
+        width={48}
+        className="mr-24 self-start"
+      />
+      <div className="grid gap-8 mr-auto">
+        <h2 className="text-h2">{t('storiesGrid.index.moreStories')}</h2>
+        <p className="text-p-large">
+          {t('storiesGrid.index.listenLearn')}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+type StoryProps = {
+  title: string
+  thumbnailUrl: string
+  interviewee: {
+    name: string
+    handle: string
+    avatarUrl: string
+  }
+  links: {
+    self: string
+  }
+}
+function Story({ title, interviewee, links }: StoryProps): JSX.Element {
+  return (
+    <a href={links.self}>
+      <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
+        <div className="self-center bg-borderLight rounded-8 mb-12 max-w-[100%] pb-[46.25%]"></div>
+        <h5 className="text-h5 mb-8">{title}</h5>
+        <div className="flex items-center text-left text-textColor6 font-semibold">
+          <Avatar
+            className="h-[24px] w-[24px] mr-8"
+            src={interviewee.avatarUrl}
+          />
+          {interviewee.name}
+        </div>
+      </button>
+    </a>
+  )
+}
+export default StoriesGrid
+
+// === end file ===
+
+// === file: ../components/community/video-grid/index.tsx ===
+import React, { useCallback, useRef, useState } from 'react'
+import { ResultsZone } from '@/components/ResultsZone'
+import {
+  Avatar,
+  FilterFallback,
+  GraphicalIcon,
+  Pagination,
+} from '@/components/common'
+import { CommunityVideoModal } from '@/components/track/dig-deeper-components/community-videos/CommunityVideoModal'
+import { TrackFilterList } from './TrackFilterList'
+import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
+import { type Request } from '@/hooks/request-query'
+import type { VideoTrack } from '@/components/types'
+import type { CommunityVideoType } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type VideoGridProps = {
+  tracks: VideoTrack[]
+  itemsPerRow: number
+  request: Request
+}
+
+export function VideoGrid({
+  tracks,
+  itemsPerRow,
+  request,
+}: VideoGridProps): JSX.Element {
+  const { t } = useAppTranslation('components/community')
+  const {
+    resolvedData,
+    page,
+    setPage,
+    handleTrackChange,
+    isFetching,
+    selectedTrack,
+    criteria,
+    setCriteria,
+  } = useVideoGrid(request, tracks)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timer = useRef<any>()
+
+  const handlePageResetOnInputChange = useCallback(
+    (input: string) => {
+      //clears it on any input
+      clearTimeout(timer.current)
+      if (criteria && (input.length > 2 || input.length === 0)) {
+        timer.current = setTimeout(() => setPage(1), 500)
+      }
+    },
+
+    [criteria, setPage]
+  )
+
+  return (
+    <>
+      <VideoGridHeader
+        tracks={tracks}
+        handleTrackChange={handleTrackChange}
+        selectedTrack={selectedTrack}
+        t={t}
+      />
+
+      <div className="flex mb-32 c-search-bar">
+        <input
+          className="grow --search --right"
+          placeholder={t('videoGrid.index.searchCommunity')}
+          value={criteria || ''}
+          onChange={(e) => {
+            setCriteria(e.target.value)
+            handlePageResetOnInputChange(e.target.value)
+          }}
+        />
+      </div>
+
+      <ResultsZone isFetching={isFetching}>
+        <div
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${itemsPerRow} gap-16`}
+        >
+          {resolvedData && resolvedData.results.length > 0 ? (
+            resolvedData.results.map((video) => (
+              <Video key={video.id} video={video} />
+            ))
+          ) : resolvedData?.meta.unscopedTotal === 0 ? (
+            <NoResultsYet />
+          ) : (
+            <NoResultsOfQuery />
+          )}
+        </div>
+        {resolvedData && (
+          <Pagination
+            current={page}
+            total={resolvedData.meta.totalPages}
+            setPage={(p) => {
+              setPage(p)
+              scrollToTop('video-grid')
+            }}
+          />
+        )}
+      </ResultsZone>
+    </>
+  )
+}
+
+function VideoGridHeader({
+  tracks,
+  handleTrackChange,
+  selectedTrack,
+  t,
+}: {
+  tracks: VideoTrack[]
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
+  t: any
+}): JSX.Element {
+  return (
+    <div className="flex mb-24 sm:flex-row flex-col">
+      <GraphicalIcon
+        icon="community-video-gradient"
+        height={48}
+        width={48}
+        className="mr-24 self-start"
+      />
+      <div className="mr-auto sm:mb-0 mb-24">
+        <h2 className="text-h2 mb-4">{t('videoGrid.index.learnWithCommunity')}</h2>
+        <p className="text-p-large">
+          {t('videoGrid.index.walkthroughsTutorials')}
+        </p>
+      </div>
+
+      <TrackFilterList
+        isFetching={false}
+        value={selectedTrack}
+        tracks={tracks}
+        setValue={handleTrackChange}
+        sizeVariant="automation"
+        status={'success'}
+        error={undefined}
+        countText={'video'}
+      />
+    </div>
+  )
+}
+
+type VideoProps = {
+  video: CommunityVideoType
+}
+function Video({ video }: VideoProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="flex flex-col shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-left"
+      >
+        <img
+          style={{ objectFit: 'cover', width: '100%', height: '150px' }}
+          className="rounded-8 self-center mb-12"
+          src={video.thumbnailUrl}
+          alt="thumbnail"
+        />
+        <h5 className="text-h5">{video.title}</h5>
+        {video.author && (
+          <div className="mt-auto pt-8 flex items-center text-left text-textColor6 font-semibold">
+            <Avatar
+              className="h-[24px] w-[24px] mr-8"
+              src={video.author && video.author.avatarUrl}
+            />
+            {video.author && video.author.name}
+          </div>
+        )}
+      </button>
+      <CommunityVideoModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        video={video}
+      />
+    </>
+  )
+}
+
+function NoResultsOfQuery() {
+  const { t } = useAppTranslation('components/community')
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="no-result-magnifier"
+        title={t('videoGrid.index.noVideosFound')}
+        description={t('videoGrid.index.tryChangingFilters')}
+      />
+    </div>
+  )
+}
+
+function NoResultsYet() {
+  const { t } = useAppTranslation('components/community')
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="automation"
+        svgFilter="filter-textColor6"
+        title={t('videoGrid.index.thereAreNoVideos')}
+        description={t('videoGrid.index.checkBackLater')}
+      />
+    </div>
+  )
+}
+
+export default VideoGrid
+
+// === end file ===
+
+// === file: ../components/community/video-grid/useVideoGrid.tsx ===
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList, ListState } from '@/hooks/use-list'
+import { useQueryParams } from '@/hooks/use-query-params'
+import type { CommunityVideoType, VideoTrack } from '@/components/types'
+
+export type APIResponse = {
+  results: CommunityVideoType[]
+  meta: {
+    currentPage: number
+    totalCount: number
+    totalPages: number
+    unscopedTotal: number
+  }
+}
+
+export type HandleTrackChangeType = (track: VideoTrack) => void
+
+export type UseVideoGridReturnType = {
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
+  resolvedData: APIResponse | undefined
+  isFetching: boolean
+  page: number
+  setPage: (page: number) => void
+  criteria: string
+  setCriteria: (criteria: string) => void
+  request: ListState
+}
+
+export function useVideoGrid(
+  videoRequest: Request,
+  tracks: VideoTrack[]
+): UseVideoGridReturnType {
+  const initialTrack =
+    tracks.find((t) => t.slug === videoRequest.query?.videoTrackSlug) ||
+    tracks[0]
+
+  const [criteria, setCriteria] = useState(videoRequest.query?.criteria)
+  const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
+
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setQuery,
+  } = useList(videoRequest)
+
+  const { data: resolvedData, isFetching } =
+    usePaginatedRequestQuery<APIResponse>(
+      [
+        'community-video-grid-key',
+        request.query.criteria,
+        request.query.videoTrackSlug,
+        request.query.videoPage,
+      ],
+      request
+    )
+
+  const handlePageChange = useCallback(
+    (page) => {
+      setPage(page, 'videoPage')
+      const queryObject = Object.assign(request.query, { videoPage: page })
+      setQuery(queryObject)
+    },
+    [request.query, setPage, setQuery]
+  )
+
+  // don't refetch everything with an empty criteria after mounting
+  const didMount = useRef(false)
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+
+    const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
+      if (criteria.length > 2 || criteria === '') {
+        setRequestCriteria(criteria)
+        setQuery({ ...request.query, criteria })
+      }
+    }, 500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criteria])
+
+  const handleTrackChange = useCallback(
+    (track: VideoTrack) => {
+      handlePageChange(1)
+      setCriteria('')
+      setSelectedTrack(track)
+
+      setQuery({
+        ...request.query,
+        videoTrackSlug: track.slug,
+        videoPage: 1,
+      })
+    },
+    [handlePageChange, setQuery, request.query]
+  )
+
+  useQueryParams(request.query)
+
+  return {
+    handleTrackChange,
+    selectedTrack,
+    resolvedData,
+    isFetching,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    page: request.query.videoPage!,
+    setPage: handlePageChange,
+    criteria,
+    setCriteria,
+    request,
+  }
+}
+
+// === end file ===
+
+// === file: ../components/community/video-grid/TrackFilterList.tsx ===
+import React, { useCallback, useRef } from 'react'
+import { QueryStatus } from '@tanstack/react-query'
+import type { VideoTrack } from '@/components/types'
+import { TrackIcon, Icon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { useDropdown } from '@/components/dropdowns/useDropdown'
+import { ResultsZone } from '@/components/ResultsZone'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type TrackFilterProps = VideoTrack & {
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+  countText: string
+}
+
+const TrackFilter = ({
+  title,
+  iconUrl,
+  checked,
+  onChange,
+}: TrackFilterProps): JSX.Element => {
+  return (
+    <label className="c-radio-wrapper">
+      <input
+        type="radio"
+        onChange={onChange}
+        checked={checked}
+        name="queue_track"
+      />
+      <div className="row">
+        <TrackIcon iconUrl={iconUrl} title={title} />
+        <div className="title">{title}</div>
+        {/* TODO: Add video counts here */}
+        {/* <div className="count">{pluralizeWithNumber(numVideos, countText)}</div> */}
+      </div>
+    </label>
+  )
+}
+
+const DEFAULT_ERROR = new Error('Unable to fetch tracks')
+
+export const TrackFilterList = ({
+  status,
+  error,
+  children,
+  ...props
+}: React.PropsWithChildren<
+  Props & { status: QueryStatus; error: unknown }
+>): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props}>{children}</Component>
+    </FetchingBoundary>
+  )
+}
+
+type Props = {
+  tracks: VideoTrack[] | undefined
+  isFetching: boolean
+  value: VideoTrack
+  setValue: (value: VideoTrack) => void
+  sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
+  countText: string
+  // TODO this is present in the design but not yet implemented
+  numVideos?: number
+}
+
+const Component = ({
+  sizeVariant = 'large',
+  tracks,
+  isFetching,
+  value,
+  setValue,
+  countText,
+}: Props): JSX.Element | null => {
+  const { t } = useAppTranslation('components/community')
+  const changeTracksRef = useRef<HTMLButtonElement>(null)
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    setOpen,
+    open,
+  } = useDropdown((tracks?.length || 0) + 1, (i) => handleItemSelect(i), {
+    placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
+  const handleItemSelect = useCallback(
+    (index) => {
+      if (!tracks) {
+        return
+      }
+
+      const track = tracks[index]
+
+      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
+      setOpen(false)
+    },
+    [setValue, tracks, setOpen]
+  )
+
+  if (!tracks) {
+    return null
+  }
+
+  return (
+    <div
+      className={`flex items-end sm:ml-24 ml-0 c-single-select c-track-select --size-${sizeVariant}`}
+    >
+      <ResultsZone isFetching={isFetching} className="sm:grow-0 grow">
+        <button
+          className="current-track !shadow-xsZ1v2"
+          aria-label={t('videoGrid.trackFilterList.openTrackFilter')}
+          {...buttonAttributes}
+        >
+          <TrackIcon iconUrl={value.iconUrl} title={value.title} />
+          <div className="track-title">{value.title}</div>
+          <div className="count">
+            {/* TODO same as above */}
+            {/* {pluralizeWithNumber(numVideos, countText)} */}
+          </div>
+          <Icon
+            icon="chevron-down"
+            alt={t('videoGrid.trackFilterList.clickToChange')}
+            className="action-icon"
+          />
+        </button>
+      </ResultsZone>
+      {open ? (
+        <div {...panelAttributes} className="--options">
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.slug} {...itemAttributes(i)}>
+                  <TrackFilter
+                    numVideos={Math.round(Math.random() * 100)}
+                    countText={countText}
+                    onChange={() => {
+                      setValue(track)
+                      setOpen(false)
+                    }}
+                    checked={value.slug === track.slug}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+// === end file ===
+```

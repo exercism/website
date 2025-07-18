@@ -1,19 +1,23 @@
+// i18n-key-prefix: tasksList.sorter
+// i18n-namespace: components/contributing
 import React from 'react'
 import { TasksListOrder } from '../TasksList'
 import { SingleSelect } from '../../common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({
   option: order,
 }: {
   option: TasksListOrder
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
   switch (order) {
     case 'newest':
-      return <div>Sort by most recent</div>
+      return <div>{t('tasksList.sorter.sortByMostRecent')}</div>
     case 'oldest':
-      return <div>Sort by oldest</div>
+      return <div>{t('tasksList.sorter.sortByOldest')}</div>
     case 'track':
-      return <div>Sort by track</div>
+      return <div>{t('tasksList.sorter.sortByTrack')}</div>
   }
 }
 

@@ -1,5 +1,8 @@
+// i18n-key-prefix: platformButton.twitterButton
+// i18n-namespace: components/common/share-panel
 import React from 'react'
 import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const shareLink = ({ url, title }: { url: string; title: string }) => {
   return encodeURI(`https://twitter.com/intent/tweet?url=${url}&title=${title}`)
@@ -12,6 +15,7 @@ export const TwitterButton = ({
   url: string
   title: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
   return (
     <a
       href={shareLink({ url, title: title })}
@@ -20,7 +24,7 @@ export const TwitterButton = ({
       rel="noreferrer"
     >
       <GraphicalIcon icon="external-site-twitter" />
-      Twitter
+      {t('platformButton.twitterButton.twitter')}
     </a>
   )
 }

@@ -1,5 +1,8 @@
+// i18n-key-prefix: platformButton.linkedinButton
+// i18n-namespace: components/common/share-panel
 import React from 'react'
 import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const shareLink = ({ url, title }: { url: string; title: string }) => {
   return encodeURI(
@@ -14,6 +17,7 @@ export const LinkedinButton = ({
   url: string
   title: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
   return (
     <a
       href={shareLink({ url, title })}
@@ -22,7 +26,7 @@ export const LinkedinButton = ({
       rel="noreferrer"
     >
       <GraphicalIcon icon="external-site-linkedin" />
-      LinkedIn
+      {t('platformButton.linkedinButton.linkedIn')}
     </a>
   )
 }

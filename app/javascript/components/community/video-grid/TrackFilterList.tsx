@@ -5,6 +5,7 @@ import { TrackIcon, Icon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { useDropdown } from '@/components/dropdowns/useDropdown'
 import { ResultsZone } from '@/components/ResultsZone'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type TrackFilterProps = VideoTrack & {
   checked: boolean
@@ -76,6 +77,7 @@ const Component = ({
   setValue,
   countText,
 }: Props): JSX.Element | null => {
+  const { t } = useAppTranslation('components/community')
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const {
     buttonAttributes,
@@ -120,7 +122,7 @@ const Component = ({
       <ResultsZone isFetching={isFetching} className="sm:grow-0 grow">
         <button
           className="current-track !shadow-xsZ1v2"
-          aria-label="Open the track filter"
+          aria-label={t('videoGrid.trackFilterList.openTrackFilter')}
           {...buttonAttributes}
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
@@ -131,7 +133,7 @@ const Component = ({
           </div>
           <Icon
             icon="chevron-down"
-            alt="Click to change"
+            alt={t('videoGrid.trackFilterList.clickToChange')}
             className="action-icon"
           />
         </button>

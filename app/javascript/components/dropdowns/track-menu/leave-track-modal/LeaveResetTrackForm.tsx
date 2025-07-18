@@ -8,6 +8,7 @@ import { Track } from '../../../types'
 import { UserTrack } from '../LeaveTrackModal'
 import { useConfirmation } from '../../../../hooks/use-confirmation'
 import { redirectTo } from '../../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to leave and reset track')
 
@@ -20,6 +21,7 @@ export const LeaveResetTrackForm = ({
   track: Track
   onCancel: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const confirmation = `reset ${track.slug}`
   const {
     mutate: mutation,
@@ -66,30 +68,38 @@ export const LeaveResetTrackForm = ({
     <form onSubmit={handleSubmit}>
       <div className="info">
         <p>
-          <strong>By leaving and resetting this track, you will:</strong>
+          <strong>{t('leaveTrackModal.leaveResetTrackForm.strongText')}</strong>
         </p>
         <ul>
           <li>
-            Lose access to all solutions you have submitted in {track.title}
+            {t('leaveTrackModal.leaveResetTrackForm.listItem1', {
+              trackTitle: track.title,
+            })}
           </li>
           <li>
-            Lose access to all mentoring you have received in {track.title}
+            {t('leaveTrackModal.leaveResetTrackForm.listItem2', {
+              trackTitle: track.title,
+            })}
           </li>
           <li>
-            Lose any reputation you have earned for publishing solutions in{' '}
-            {track.title}
+            {t('leaveTrackModal.leaveResetTrackForm.listItem3', {
+              trackTitle: track.title,
+            })}
           </li>
-          <li>Remove {track.title} from your active tracks list</li>
+          <li>
+            {t('leaveTrackModal.leaveResetTrackForm.listItem4', {
+              trackTitle: track.title,
+            })}
+          </li>
         </ul>
 
-        <p>
-          This is <em>irreversible</em> and will mean you’ll lose everything
-          you’ve done on this track.
-        </p>
+        <p>{t('leaveTrackModal.leaveResetTrackForm.irreversibleText')}</p>
       </div>
       <hr />
       <label htmlFor="confirmation">
-        To confirm, write <pre>{confirmation}</pre> in the box below:
+        {t('leaveTrackModal.leaveResetTrackForm.confirmationLabel', {
+          confirmation,
+        })}
       </label>
 
       <input
@@ -106,14 +116,14 @@ export const LeaveResetTrackForm = ({
           status={status}
           className="btn-default btn-m"
         >
-          Cancel
+          {t('leaveTrackModal.leaveResetTrackForm.cancel')}
         </FormButton>
         <FormButton
           status={status}
           disabled={!isAttemptPass}
           className="btn-primary btn-m"
         >
-          Leave + Reset
+          {t('leaveTrackModal.leaveResetTrackForm.leaveReset')}
         </FormButton>
       </div>
       <ErrorBoundary>

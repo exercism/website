@@ -80,9 +80,13 @@ ${content}
        \`\`\`
    - Do **not** use nested objects in the output. All translation keys must be flat strings.
 
-4. Use the \`i18n-namespace\` comment above each file for the \`useTranslation('<namespace>')\` call.
-   - This ensures the correct namespace is passed to React-i18next and avoids collisions.
-5. Replace all \`useTranslation()\` calls with \`useTranslation('<i18n-namespace>')\`.
+4. Use the \`i18n-namespace\` comment above each file for the \`useAppTranslation('<namespace>')\` call.
+   - You MUST import it like this at the top of the file:
+     \`\`\`ts
+     import { useAppTranslation } from '@/i18n/useAppTranslation'
+     \`\`\`
+   - This ensures i18n is initialized globally and avoids repeating \`initI18n()\` per file.
+5. Do NOT import from \`react-i18next\` directly — always use \`useAppTranslation\`.
 6. Ensure the i18n output is valid TypeScript: \`export default { ... }\`
 7. All keys must use camelCase. Never use the original UI string as a key.
 
@@ -131,12 +135,24 @@ ${content}
 
 ---
 
-### Inside components
+### CRITICAL: React Hook Rules
 
-Use:
-\`\`\`ts
-const { t } = useTranslation('<i18n-namespace>')
-t('<i18n-key-prefix>.<key>')
+**ALWAYS place the \`useAppTranslation\` hook INSIDE the React component function, never outside.**
+
+**Correct:**
+\`\`\`tsx
+export const MyComponent = () => {
+  const { t } = useAppTranslation('<i18n-namespace>')
+  return <div>{t('key')}</div>
+}
+\`\`\`
+
+**WRONG - Never do this:**
+\`\`\`tsx
+const { t } = useAppTranslation('<i18n-namespace>') // ← WRONG: Outside component
+export const MyComponent = () => {
+  return <div>{t('key')}</div>
+}
 \`\`\`
 
 ---
@@ -148,14 +164,18 @@ t('<i18n-key-prefix>.<key>')
 // i18n-key-prefix: info.outdated
 // i18n-namespace: components/common/exercise-widget
 
-const { t } = useTranslation()
-return <Icon alt="This solution was solved against an older version of this exercise" />
+const { t } = useAppTranslation()
+export const OutdatedComponent = () => {
+  return <Icon alt="This solution was solved against an older version of this exercise" />
+}
 \`\`\`
 
 **Should become:**
 \`\`\`tsx
-const { t } = useTranslation('components/common/exercise-widget')
-return <Icon alt={t('info.outdated.solutionWasSolved')} />
+export const OutdatedComponent = () => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
+  return <Icon alt={t('info.outdated.solutionWasSolved')} />
+}
 \`\`\`
 
 **Translation file:**
@@ -200,7 +220,8 @@ export default {
 Remember:
 - Output must be a **flat object with dot-separated keys**
 - Use the correct \`i18n-key-prefix\` for all keys
-- Use the correct \`i18n-namespace\` for \`useTranslation()\`
+- Use the correct \`i18n-namespace\` for \`useAppTranslation()\`
+- **ALWAYS place \`useAppTranslation\` hook INSIDE the React component function**
 `
 
   return `${instructions}\n\n${fileSections}`

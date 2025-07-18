@@ -1,6 +1,10 @@
+// i18n-key-prefix: feedbackPanelRequestMentoring
+// i18n-namespace: components/editor/FeedbackPanel
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { FeedbackPanelProps } from './FeedbackPanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function RequestMentoring({
   exercise,
@@ -10,18 +14,21 @@ export function RequestMentoring({
   FeedbackPanelProps,
   'exercise' | 'track' | 'mentorDiscussionsLink'
 >): JSX.Element {
+  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+
   return (
     <section className="pt-10">
       <div className="pb-20 mb-20 border-b-1 border-borderColor5">
         <div className="flex items-start">
           <div>
             <h2 className="text-h4 mb-4">
-              Take your solution to the next level
+              {t('feedbackPanelRequestMentoring.takeSolutionToNextLevel')}
             </h2>
             <p className="text-p-base mb-16">
-              Get feedback on your solution to {exercise.title} by a{' '}
-              {track.title} mentor and discover new ways to approach the
-              problem, and expand and deepen your {track.title} knowledge.
+              {t('feedbackPanelRequestMentoring.getFeedbackOnSolution', {
+                exerciseTitle: exercise.title,
+                trackTitle: track.title,
+              })}
             </p>
           </div>
           <GraphicalIcon
@@ -34,51 +41,59 @@ export function RequestMentoring({
         </div>
         <div className="flex">
           <a className="btn-primary btn-m mb-8" href={mentorDiscussionsLink}>
-            Submit for code review
+            {t('feedbackPanelRequestMentoring.submitForCodeReview')}
           </a>
           <div className="ml-16 px-16 text-midnightBlue bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
-            It&apos;s 100% free! 😲
+            {t('feedbackPanelRequestMentoring.free')}
           </div>
         </div>
       </div>
 
-      <h3 className="text-h4 mb-8">Why get feedback?</h3>
+      <h3 className="text-h4 mb-8">
+        {t('feedbackPanelRequestMentoring.whyGetFeedback')}
+      </h3>
       <div className="mb-12">
-        <h4 className="text-h6 mb-4">Attain real fluency in {track.title}</h4>
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.attainRealFluency', {
+            trackTitle: track.title,
+          })}
+        </h4>
         <p className="text-p-base">
-          Learning a language is more than being able to use it, it&apos;s about
-          being able to <strong className="font-semibold">think</strong> in it.
-          Our mentors will help develop your perceptions.
+          <Trans
+            i18nKey="feedbackPanelRequestMentoring.feedbackPanelRequestMentoring.whyGetFeedbackDescription"
+            components={{ bold: <strong className="font-semibold" /> }}
+          />
         </p>
       </div>
 
       <div className="mb-12">
         <h4 className="text-h6 mb-4">
-          {' '}
-          You don&apos;t know what you don&apos;t know
+          {t('feedbackPanelRequestMentoring.youDontKnowWhatYouDontKnow')}
         </h4>
         <p className="text-p-base">
-          It&apos;s hard to progress when you don&apos;t know what&apos;s
-          missing. Our mentors will help you discover the gaps in your{' '}
-          {track.title} knowledge.
+          {t('feedbackPanelRequestMentoring.hardToProgress', {
+            trackTitle: track.title,
+          })}
         </p>
       </div>
 
       <div className="mb-12">
-        <h4 className="text-h6 mb-4">Get your questions answered</h4>
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.getYourQuestionsAnswered')}
+        </h4>
         <p className="text-p-base">
-          {' '}
-          Whatever your questions, our mentors will be able to help you. Make
-          sure you ask what&apos;s on your mind when requesting a mentor.
+          {t('feedbackPanelRequestMentoring.whateverYourQuestions')}
         </p>
       </div>
 
       <div className="mb-12">
-        <h4 className="text-h6 mb-4"> Push yourself</h4>
+        <h4 className="text-h6 mb-4">
+          {t('feedbackPanelRequestMentoring.pushYourself')}
+        </h4>
         <p className="text-p-base">
-          {' '}
-          However confident you feel in {track.title}, there will always be more
-          to learn. Push yourself further with an Exercism mentor.
+          {t('feedbackPanelRequestMentoring.confidentFeelIn', {
+            trackTitle: track.title,
+          })}
         </p>
       </div>
     </section>

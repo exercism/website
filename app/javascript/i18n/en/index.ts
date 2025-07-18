@@ -1,5 +1,6 @@
 import componentscommunity from './components-community'
 import componentscommonexercisewidget from './components-common-exercise-widget'
+import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsconceptmap from './components-concept-map'
 import componentscontributing from './components-contributing'
 import componentscontributingtaskslisttask from './components-contributing-tasks-list-task'
@@ -10,6 +11,7 @@ import componentscommonmarkdowneditorform from './components-common-markdown-edi
 export default {
   'components/community': componentscommunity,
   'components/common/exercise-widget': componentscommonexercisewidget,
+  'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/concept-map': componentsconceptmap,
   'components/contributing': componentscontributing,
   'components/contributing/tasks-list/task':

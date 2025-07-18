@@ -6,6 +6,8 @@ import { ActivatePracticeModeModal } from './track-menu/ActivatePracticeModeModa
 import { ActivateLearningModeModal } from './track-menu/ActivateLearningModeModal'
 import { ResetTrackModal } from './track-menu/ResetTrackModal'
 import { LeaveTrackModal } from './track-menu/LeaveTrackModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type Links = {
   repo: string
@@ -27,6 +29,7 @@ export default function TrackMenu({
   links: Links
   ariaHideApp?: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('components/dropdowns')
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
@@ -57,34 +60,44 @@ export default function TrackMenu({
             <li {...itemAttributes(0)}>
               <a href={links.repo} target="_blank" rel="noreferrer">
                 <GraphicalIcon icon="external-site-github" />
-                See {track.title} track on Github
-                <GraphicalIcon icon="external-link" className="external-link" />
+                <Trans
+                  i18nKey="trackMenu.seeTrackOnGithub"
+                  values={{ trackTitle: track.title }}
+                  components={{
+                    icon: (
+                      <GraphicalIcon
+                        icon="external-link"
+                        className="external-link"
+                      />
+                    ),
+                  }}
+                />
               </a>
             </li>
             <li {...itemAttributes(1)}>
               <a href={links.documentation} target="_blank" rel="noreferrer">
                 <GraphicalIcon icon="docs" />
-                {track.title} documentation
+                {t('trackMenu.documentation', { trackTitle: track.title })}
               </a>
             </li>
             <li {...itemAttributes(2)}>
               <a href={links.buildStatus}>
                 <GraphicalIcon icon="building" />
-                Track Build Status
+                {t('trackMenu.trackBuildStatus')}
               </a>
             </li>
             {links.activatePracticeMode ? (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('practice')}>
                   <GraphicalIcon icon="practice-mode" />
-                  Disable Learning Mode…
+                  {t('trackMenu.disableLearningMode')}
                 </button>
               </li>
             ) : links.activateLearningMode ? (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('learning')}>
                   <GraphicalIcon icon="concepts" />
-                  Enable Learning Mode…
+                  {t('trackMenu.enableLearningMode')}
                 </button>
               </li>
             ) : null}
@@ -92,7 +105,7 @@ export default function TrackMenu({
               <li {...itemAttributes(3)}>
                 <button type="button" onClick={() => setModal('reset')}>
                   <GraphicalIcon icon="reset" />
-                  Reset track…
+                  {t('trackMenu.resetTrack')}
                 </button>
               </li>
             ) : null}
@@ -100,7 +113,7 @@ export default function TrackMenu({
               <li {...itemAttributes(4)}>
                 <button type="button" onClick={() => setModal('leave')}>
                   <div className="emoji">👋</div>
-                  Leave track…
+                  {t('trackMenu.leaveTrack')}
                 </button>
               </li>
             ) : null}

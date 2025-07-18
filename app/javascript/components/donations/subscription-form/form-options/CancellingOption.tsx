@@ -4,6 +4,7 @@ import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type APIResponse = {
   links: {
@@ -20,6 +21,7 @@ export const CancellingOption = ({
   cancelLink: string
   onClose: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/donations/subscription-form')
   const {
     mutate: mutation,
     status,
@@ -51,12 +53,12 @@ export const CancellingOption = ({
   return (
     <div className="expanded-option">
       <p className="text-p-base">
-        Are you sure you want to cancel your recurring donation?
+        {t('formOptions.cancellingOption.areYouSure')}
       </p>
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="flex">
           <FormButton status={status} className="btn-xs btn-primary mr-12">
-            Yes - please cancel it.
+            {t('formOptions.cancellingOption.yesPleaseCancel')}
           </FormButton>
           <FormButton
             type="button"
@@ -64,7 +66,7 @@ export const CancellingOption = ({
             status={status}
             className="btn-xs btn-enhanced"
           >
-            No, close this.
+            {t('formOptions.cancellingOption.noCloseThis')}
           </FormButton>
         </div>
       </form>

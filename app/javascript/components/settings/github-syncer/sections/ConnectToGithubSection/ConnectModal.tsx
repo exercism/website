@@ -2,21 +2,18 @@ import React, { useContext } from 'react'
 import Modal, { ModalProps } from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { Icon } from '@/components/common'
-import { useTranslation } from 'react-i18next'
-import { initI18n } from '@/i18n'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
   confirmButtonClass?: string
 }
-
-initI18n()
 
 export function ConnectModal({
   onClose,
   ...props
 }: ConfirmationModalProps): JSX.Element {
   const { links } = useContext(GitHubSyncerContext)
-  const { t } = useTranslation('settings/github-syncer')
+  const { t } = useAppTranslation('settings/github-syncer')
 
   return (
     <Modal className="m-generic-confirmation" onClose={onClose} {...props}>

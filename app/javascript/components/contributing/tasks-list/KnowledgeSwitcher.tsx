@@ -1,14 +1,18 @@
+// i18n-key-prefix: tasksList.knowledgeSwitcher
+// i18n-namespace: components/contributing
 import React from 'react'
 import { TaskKnowledge } from '@/components/types'
 import { GraphicalIcon } from '@/components/common'
 import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { KnowledgeIcon } from './task/KnowledgeIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const KnowledgeOption = ({
   option: knowledge,
 }: {
   option: TaskKnowledge
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
   switch (knowledge) {
     case 'none':
       return (
@@ -17,7 +21,7 @@ const KnowledgeOption = ({
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
-            <div className="title">None</div>
+            <div className="title">{t('tasksList.knowledgeSwitcher.none')}</div>
             <div className="description">
               No existing Exercism knowledge required
             </div>
@@ -31,7 +35,9 @@ const KnowledgeOption = ({
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
-            <div className="title">Elementary</div>
+            <div className="title">
+              {t('tasksList.knowledgeSwitcher.elementary')}
+            </div>
             <div className="description">
               Little Exercism knowledge required
             </div>
@@ -45,7 +51,9 @@ const KnowledgeOption = ({
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
-            <div className="title">Intermediate</div>
+            <div className="title">
+              {t('tasksList.knowledgeSwitcher.intermediate')}
+            </div>
             <div className="description">
               Quite a bit of Exercism knowledge required
             </div>
@@ -59,7 +67,9 @@ const KnowledgeOption = ({
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
-            <div className="title">Advanced</div>
+            <div className="title">
+              {t('tasksList.knowledgeSwitcher.advanced')}
+            </div>
             <div className="description">
               Comprehensive Exercism knowledge required
             </div>
@@ -74,25 +84,27 @@ const SelectedComponent = ({
 }: {
   value: TaskKnowledge[]
 }) => {
+  const { t } = useAppTranslation('components/contributing')
   if (knowledge.length > 1) {
     return <>Multiple</>
   }
 
   switch (knowledge[0]) {
     case 'none':
-      return <>None</>
+      return <>{t('tasksList.knowledgeSwitcher.none')}</>
     case 'elementary':
-      return <>Elementary</>
+      return <>{t('tasksList.knowledgeSwitcher.elementary')}</>
     case 'intermediate':
-      return <>Intermediate</>
+      return <>{t('tasksList.knowledgeSwitcher.intermediate')}</>
     case 'advanced':
-      return <>Advanced</>
+      return <>{t('tasksList.knowledgeSwitcher.advanced')}</>
     case undefined:
-      return <>Any</>
+      return <>{t('tasksList.knowledgeSwitcher.anyKnowledge')}</>
   }
 }
 
 const ResetComponent = () => {
+  const { t } = useAppTranslation('components/contributing')
   return (
     <React.Fragment>
       <GraphicalIcon
@@ -100,7 +112,9 @@ const ResetComponent = () => {
         className="task-icon knowledge-reset"
       />
       <div className="info">
-        <div className="title">Any knowledge</div>
+        <div className="title">
+          {t('tasksList.knowledgeSwitcher.anyKnowledge')}
+        </div>
       </div>
     </React.Fragment>
   )

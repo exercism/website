@@ -1,3 +1,5 @@
+// i18n-key-prefix: knowledgeTag
+// i18n-namespace: components/contributing/tasks-list/task
 import React from 'react'
 import { TaskKnowledge } from '../../../types'
 import { GraphicalIcon } from '../../../common'

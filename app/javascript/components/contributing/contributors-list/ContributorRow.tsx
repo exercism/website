@@ -1,3 +1,5 @@
+// i18n-key-prefix: contributorsList.contributorRow
+// i18n-namespace: components/contributing
 import React from 'react'
 import { Contributor } from '../../types'
 import {

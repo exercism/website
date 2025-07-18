@@ -1,0 +1,380 @@
+```ts
+// i18n
+export default {
+  "getHelpPanelComponents.getHelpPanelTrackHelp.trackHelp": "{{trackTitle}} help",
+  "getHelpPanelComponents.getHelpPanelHints.stuckHintsWillGive": "Stuck? These hints will give you nudges to the right direction to get you unblocked. Use them wisely though - remember that wrestling with a problem is where the learning occurs!",
+  "getHelpPanelComponents.getHelpPanelHints.clickHeadingExpand": "Click a heading to expand the hints:",
+  "getHelpPanelComponents.getHelpPanelHints.general": "General",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.dontStruggleAlone": "Don't struggle on alone! Our community is always here to help.",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.cantSubmitMentoringRequest": "Although you can't submit a mentoring requests until you get the tests passing, you can ask for help on Discord or our Forum. Use the links below to get started:",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.discord": "Discord",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.discordDescription": "Get real time help in the #support channel on our Discord server.",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.forum": "Forum",
+  "getHelpPanelComponents.getHelpPanelCommunityHelp.forumDescription": "Dig deeper into topics and ideas on our forum.",
+  "getHelpPanelComponents.getHelpAccordionSkeleton.getHelp": "Get help",
+  "stuckButton.stuckAskChatGpt": "Stuck? Ask ChatGPT",
+  "stuckButton.stuckGetHelp": "Stuck? Get help",
+  "getHelpTab.getHelp": "Get help"
+}
+
+// modified_files
+// === file: ../components/editor/GetHelp/GetHelpPanel.tsx ===
+// i18n-key-prefix: getHelpPanel
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { TabsContext } from '@/components/Editor'
+import { Tab } from '@/components/common'
+import * as Component from './GetHelpPanelComponents'
+import type { Assignment } from '../types'
+import { Track } from '@/components/types'
+
+export type GetHelpPanelProps = {
+  helpHtml: string
+  assignment: Assignment
+  links: Record<'discordRedirectPath' | 'forumRedirectPath', string>
+  track: Pick<Track, 'title' | 'iconUrl'>
+}
+
+export function GetHelpPanel({
+  helpHtml,
+  assignment,
+  links,
+  track,
+}: GetHelpPanelProps): JSX.Element {
+  return (
+    <Tab.Panel id="get-help" context={TabsContext}>
+      <div className="pb-12 flex flex-col">
+        <Component.Hints assignment={assignment} />
+        <Component.CommunityHelp links={links} />
+        <Component.TrackHelp helpHtml={helpHtml} track={track} />
+      </div>
+    </Tab.Panel>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpPanelComponents/GetHelpPanelTrackHelp.tsx ===
+// i18n-key-prefix: getHelpPanelComponents.getHelpPanelTrackHelp
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { GetHelpPanelProps } from '../GetHelpPanel'
+import { GetHelpAccordionSkeleton } from './GetHelpAccordionSkeleton'
+import { TrackIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function GetHelpPanelTrackHelp({
+  helpHtml,
+  track,
+}: Pick<GetHelpPanelProps, 'helpHtml' | 'track'>): JSX.Element {
+  const { t } = useAppTranslation('components/editor/GetHelp')
+  return (
+    <GetHelpAccordionSkeleton
+      title={t('getHelpPanelComponents.getHelpPanelTrackHelp.trackHelp', {
+        trackTitle: track.title,
+      })}
+      icon={
+        <TrackIcon
+          title={track.title}
+          iconUrl={track.iconUrl}
+          className="w-[24px] h-[24px] mr-16"
+        />
+      }
+    >
+      <div
+        className="c-textual-content --base pt-16"
+        dangerouslySetInnerHTML={{ __html: helpHtml }}
+      />
+    </GetHelpAccordionSkeleton>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpPanelComponents/Hints.tsx ===
+// i18n-key-prefix: getHelpPanelComponents.hints
+// i18n-namespace: components/editor/GetHelp
+import { GraphicalIcon } from '@/components/common'
+import React from 'react'
+export const Hints = ({
+  heading,
+  hints,
+  expanded,
+  collapsable,
+}: {
+  heading: string
+  hints: string[] | undefined
+  expanded: boolean
+  collapsable: boolean
+}): JSX.Element | null => {
+  if (hints === undefined || hints.length === 0) {
+    return null
+  }
+
+  return (
+    <details className="c-details" open={expanded}>
+      <summary className="--summary">
+        <div className="--summary-inner">
+          {heading}
+          {collapsable ? (
+            <>
+              <GraphicalIcon icon="plus-circle" className="--closed-icon" />
+              <GraphicalIcon icon="minus-circle" className="--open-icon" />
+            </>
+          ) : null}
+        </div>
+      </summary>
+      {hints.map((hint, idx) => (
+        <div
+          className="c-textual-content --small"
+          key={idx}
+          dangerouslySetInnerHTML={{ __html: hint }}
+        ></div>
+      ))}
+    </details>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpPanelComponents/GetHelpPanelHints.tsx ===
+// i18n-key-prefix: getHelpPanelComponents.getHelpPanelHints
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { GetHelpPanelProps } from '../GetHelpPanel'
+import { GetHelpAccordionSkeleton } from './GetHelpAccordionSkeleton'
+import { Hints } from './Hints'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function GetHelpPanelHints({
+  assignment,
+}: Pick<GetHelpPanelProps, 'assignment'>): JSX.Element | null {
+  const { t } = useAppTranslation('components/editor/GetHelp')
+  if (assignment.generalHints.length === 0 && assignment.tasks.length === 0) {
+    return null
+  }
+
+  return (
+    <GetHelpAccordionSkeleton title="Hints and Tips" className="hints">
+      <>
+        <div className="pt-8 flex flex-col gap-2">
+          <p className="text-p-base text-color-2 mb-8">
+            {t('getHelpPanelComponents.getHelpPanelHints.stuckHintsWillGive')}
+          </p>
+          <p className="text-p-base text-color-2">
+            {t('getHelpPanelComponents.getHelpPanelHints.clickHeadingExpand')}
+          </p>
+        </div>
+        <Hints
+          hints={assignment.generalHints}
+          heading={t('getHelpPanelComponents.getHelpPanelHints.general')}
+          expanded={assignment.tasks.length === 0}
+          collapsable={assignment.tasks.length > 0}
+        />
+        {assignment.tasks.map((task, idx) => (
+          <Hints
+            key={idx}
+            hints={task.hints}
+            heading={`Task ${idx + 1}. ${task.title}`}
+            expanded={false}
+            collapsable={true}
+          />
+        ))}
+      </>
+    </GetHelpAccordionSkeleton>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpPanelComponents/GetHelpPanelCommunityHelp.tsx ===
+// i18n-key-prefix: getHelpPanelComponents.getHelpPanelCommunityHelp
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { GetHelpAccordionSkeleton } from './GetHelpAccordionSkeleton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function GetHelpPanelCommunityHelp({
+  links,
+}: Record<
+  'links',
+  Record<'forumRedirectPath' | 'discordRedirectPath', string>
+>): JSX.Element {
+  const { t } = useAppTranslation('components/editor/GetHelp')
+  return (
+    <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
+      <div className="pt-8 flex flex-col gap-2">
+        <p className="text-p-base text-color-2 mb-8">
+          {t('getHelpPanelComponents.getHelpPanelCommunityHelp.dontStruggleAlone')}
+        </p>
+        <p className="text-p-base text-color-2 mb-8">
+          {t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.cantSubmitMentoringRequest'
+          )}
+        </p>
+        <CommunityOpportunity
+          name="Discord"
+          description={t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.discordDescription'
+          )}
+          icon="external-site-discord-blue"
+          link={links.discordRedirectPath}
+        />
+        <CommunityOpportunity
+          name="Forum"
+          description={t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.forumDescription'
+          )}
+          icon="discourser"
+          link={links.forumRedirectPath}
+        />
+      </div>
+    </GetHelpAccordionSkeleton>
+  )
+}
+
+function CommunityOpportunity({
+  name,
+  description,
+  icon,
+  link,
+}: Record<'link' | 'name' | 'description' | 'icon', string>) {
+  return (
+    <a
+      href={link}
+      target="_blank"
+      rel="noreferrer"
+      className="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+    >
+      <GraphicalIcon icon={icon} width={32} height={32} />
+      <div>
+        <h6 className="text-h6 text-textColor1 mb-2">{name}</h6>
+        <p className="text-p-base text-textColor5">{description}</p>
+      </div>
+    </a>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpPanelComponents/GetHelpAccordionSkeleton.tsx ===
+// i18n-key-prefix: getHelpPanelComponents.getHelpAccordionSkeleton
+// i18n-namespace: components/editor/GetHelp
+import { GraphicalIcon } from '@/components/common'
+import React from 'react'
+
+type GetHelpAccordionSkeletonProps = {
+  title: string
+  children: React.ReactElement
+  icon?: React.ReactElement
+  iconSlug?: string
+  className?: string
+}
+
+export function GetHelpAccordionSkeleton({
+  title,
+  icon,
+  iconSlug,
+  children,
+  className,
+}: GetHelpAccordionSkeletonProps): JSX.Element {
+  return (
+    <details
+      className={`c-details border-t-1 border-borderColor6 py-16 px-24 ${
+        className ?? ''
+      }`}
+      open
+    >
+      <summary className="flex items-center">
+        {icon || (
+          <GraphicalIcon
+            icon={iconSlug || 'help'}
+            width={24}
+            height={24}
+            className="mr-16 filter-textColor6"
+          />
+        )}
+        <div className="flex items-center justify-between w-100">
+          <span className="text-h4">{title}</span>
+          <span className="--closed-icon">
+            <GraphicalIcon
+              icon="chevron-right"
+              className="filter-textColor6"
+              height={12}
+              width={12}
+            />
+          </span>
+          <span className="--open-icon">
+            <GraphicalIcon
+              icon="chevron-down"
+              className="filter-textColor6"
+              height={12}
+              width={12}
+            />
+          </span>
+        </div>
+      </summary>
+      {children}
+    </details>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/StuckButton.tsx ===
+// i18n-key-prefix: stuckButton
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { TabIndex } from '@/components/Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type StuckButtonProps = {
+  insider: boolean
+  tab: TabIndex
+  setTab: React.Dispatch<React.SetStateAction<TabIndex>>
+}
+
+export function StuckButton({
+  insider,
+  setTab,
+  tab,
+}: StuckButtonProps): JSX.Element {
+  const { t } = useAppTranslation('components/editor/GetHelp')
+  return (
+    <button
+      type="button"
+      disabled={['get-help', 'chat-gpt'].includes(tab)}
+      className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+      onClick={() => setTab(insider ? 'chat-gpt' : 'get-help')}
+    >
+      <GraphicalIcon icon="automation" height={16} width={16} />
+      <span>{t(insider ? 'stuckButton.stuckAskChatGpt' : 'stuckButton.stuckGetHelp')}</span>
+    </button>
+  )
+}
+
+// end file
+
+// === file: ../components/editor/GetHelp/GetHelpTab.tsx ===
+// i18n-key-prefix: getHelpTab
+// i18n-namespace: components/editor/GetHelp
+import React from 'react'
+import { Tab } from '../../common/Tab'
+import { TabsContext } from '../../Editor'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const GetHelpTab = (): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/GetHelp')
+  return (
+    <Tab id="get-help" context={TabsContext}>
+      <GraphicalIcon icon="help" />
+      <span data-text="Get Help">{t('getHelpTab.getHelp')}</span>
+    </Tab>
+  )
+}
+
+// end file
+```

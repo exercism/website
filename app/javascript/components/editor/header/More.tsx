@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { BugReportModal } from '../../modals/BugReportModal'
 import { useDropdown } from '../../dropdowns/useDropdown'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const More = ({
   onRevertToLastIteration,
@@ -14,6 +15,7 @@ export const More = ({
   trackSlug: string
   exerciseSlug: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/header')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     buttonAttributes,
@@ -60,7 +62,7 @@ export const More = ({
         exerciseSlug={exerciseSlug}
       />
       <button {...buttonAttributes} className="more-btn">
-        <Icon icon="more-horizontal" alt="Open more options" />
+        <Icon icon="more-horizontal" alt={t('more.openMoreOptions')} />
       </button>
       {open ? (
         <div
@@ -71,19 +73,19 @@ export const More = ({
             <li {...itemAttributes(0)}>
               <button type="button" onClick={handleRevertToExerciseStart}>
                 <GraphicalIcon icon="reset" />
-                Revert to exercise start
+                {t('more.revertToExerciseStart')}
               </button>
             </li>
             <li {...itemAttributes(1)}>
               <button onClick={handleRevertToLastIteration} type="button">
                 <GraphicalIcon icon="reset" />
-                Revert to last iteration
+                {t('more.revertToLastIteration')}
               </button>
             </li>
             <li {...itemAttributes(2)}>
               <button type="button" onClick={handleOpenReport}>
                 <GraphicalIcon icon="bug" />
-                Report a bug
+                {t('more.reportABug')}
               </button>
             </li>
           </ul>

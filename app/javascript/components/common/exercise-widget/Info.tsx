@@ -10,6 +10,7 @@ import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
 import { Outdated } from './info/Outdated'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Info = ({
   exercise,
@@ -24,6 +25,7 @@ export const Info = ({
   renderBlurb: boolean
   isSkinny: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
   return (
     <div className="--info">
       <div className="--title">
@@ -93,5 +95,3 @@ export const Info = ({
     </div>
   )
 }
-import { useTranslation } from 'react-i18next'
-const { t } = useTranslation('components/common/exercise-widget')

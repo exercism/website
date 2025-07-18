@@ -1,0 +1,184 @@
+```ts
+// i18n
+export default {
+  "reputationMenuItem.earnedOn": "Earned on",
+  "reputationMenu.seeHowYouEarned": "See how you earned all your reputation",
+  "reputationIcon.reputationAriaLabel": "{{reputation}} reputation"
+}
+
+// modified_files
+// === file: ../components/dropdowns/reputation/ReputationMenuItem.tsx ===
+import React from 'react'
+import { fromNow } from '@/utils/time'
+import { GraphicalIcon, Reputation } from '@/components/common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
+import { ReputationToken } from '../Reputation'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ReputationMenuItem = ({
+  internalUrl,
+  externalUrl,
+  iconUrl,
+  text,
+  createdAt,
+  value,
+  isSeen,
+}: ReputationToken): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/reputation')
+  const url = internalUrl ? internalUrl : externalUrl
+  const icon = internalUrl ? (
+    <GraphicalIcon icon="chevron-right" className="action-icon" />
+  ) : (
+    <GraphicalIcon icon="external-link" className="action-icon" />
+  )
+
+  return (
+    <a href={url} className="token">
+      <img
+        alt=""
+        src={iconUrl}
+        className="reason-icon"
+        onError={missingExerciseIconErrorHandler}
+      />
+      <div className="content">
+        <div
+          className="description"
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
+        <div className="earned-on">{t('reputationMenuItem.earnedOn')}: {fromNow(createdAt)}</div>
+      </div>
+      <Reputation value={`+${value}`} />
+      <div className={'indicator ' + (isSeen ? 'seen' : 'unseen')} />
+      {icon}
+    </a>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/reputation/ReputationMenu.tsx ===
+import React from 'react'
+import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
+import { ReputationMenuItem } from './ReputationMenuItem'
+import { GraphicalIcon } from '../../common'
+import { ReputationToken, APIResponse } from '../Reputation'
+import { DropdownAttributes } from '../useDropdown'
+import { sendRequest } from '../../../utils/send-request'
+import { typecheck } from '../../../utils/typecheck'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ReputationMenu = ({
+  tokens,
+  listAttributes,
+  cacheKey,
+  itemAttributes,
+  links,
+}: {
+  tokens: ReputationToken[]
+  links: { tokens: string }
+  cacheKey: QueryKey
+} & Pick<
+  DropdownAttributes,
+  'listAttributes' | 'itemAttributes'
+>): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/reputation')
+  const queryClient = useQueryClient()
+  const { mutate: markAsSeen } = useMutation<
+    ReputationToken,
+    unknown,
+    ReputationToken
+  >({
+    mutationFn: async (token) => {
+      if (token.isSeen) {
+        return Promise.resolve(token)
+      }
+
+      const { fetch } = sendRequest({
+        endpoint: token.links.markAsSeen,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch.then((json) =>
+        typecheck<ReputationToken>(json, 'reputation')
+      )
+    },
+    onSuccess: (token) => {
+      const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
+
+      if (!oldData) {
+        return
+      }
+
+      queryClient.setQueryData(cacheKey, {
+        ...oldData,
+        results: oldData.results.map((oldToken) => {
+          return oldToken.uuid === token.uuid ? token : oldToken
+        }),
+      })
+    },
+  })
+
+  return (
+    <ul {...listAttributes}>
+      {tokens.map((token, i) => {
+        return (
+          <li
+            key={token.uuid}
+            {...itemAttributes(i)}
+            onMouseEnter={() => {
+              markAsSeen(token)
+            }}
+            onFocus={() => {
+              markAsSeen(token)
+            }}
+          >
+            <ReputationMenuItem {...token} />
+          </li>
+        )
+      })}
+      <li {...itemAttributes(tokens.length)}>
+        <a href={links.tokens} className="c-prominent-link">
+          {t('reputationMenu.seeHowYouEarned')}
+          <GraphicalIcon icon="arrow-right" />
+        </a>
+      </li>
+    </ul>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/reputation/ReputationIcon.tsx ===
+import React, { forwardRef } from 'react'
+import { Icon } from '../../common/Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type ReputationIconProps = {
+  reputation: number
+  isSeen: boolean
+}
+
+export const ReputationIcon = forwardRef<
+  HTMLButtonElement,
+  ReputationIconProps
+>((props, ref) => {
+  const { t } = useAppTranslation('components/dropdowns/reputation')
+  const { reputation, isSeen, ...buttonProps } = props
+
+  return (
+    <button
+      ref={ref}
+      className="c-primary-reputation"
+      aria-label={t('reputationIcon.reputationAriaLabel', { reputation: reputation })}
+      {...buttonProps}
+    >
+      <Icon icon="reputation" alt="Reputation" />
+      <span>{reputation}</span>
+      <div className={'--notification ' + (isSeen ? '' : 'unseen')} />
+    </button>
+  )
+})
+
+// === end file ===
+```

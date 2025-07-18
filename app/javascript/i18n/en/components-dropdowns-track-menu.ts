@@ -20,7 +20,7 @@ export default {
   'leaveTrackModal.leaveResetTrackForm.irreversibleText':
     'This is irreversible and will mean you’ll lose everything you’ve done on this track.',
   'leaveTrackModal.leaveResetTrackForm.confirmationLabel':
-    'To confirm, write <confirmation>{{confirmation}}</confirmation> in the box below:',
+    'To confirm, write {{confirmation}} in the box below:',
   'leaveTrackModal.leaveResetTrackForm.cancel': 'Cancel',
   'leaveTrackModal.leaveResetTrackForm.leaveReset': 'Leave + Reset',
   'leaveTrackModal.leaveTrackForm.strongText':
@@ -58,7 +58,7 @@ export default {
   'resetTrackModal.listItem5':
     'You will keep any badges earned as a result of your work on the {{trackTitle}} track',
   'resetTrackModal.confirmationLabel':
-    'To confirm, write <confirmation>{{confirmation}}</confirmation> in the box below:',
+    'To confirm, write {{confirmation}} in the box below:',
   'resetTrackModal.cancel': 'Cancel',
   'resetTrackModal.resetTrack': 'Reset track',
   'activateLearningModeModal.activateLearningMode': 'Activate Learning Mode',

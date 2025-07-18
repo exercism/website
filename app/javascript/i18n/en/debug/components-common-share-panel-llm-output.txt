@@ -1,0 +1,214 @@
+```ts
+// i18n
+export default {
+  "platformButton.devToButton.devTo": "DEV.to",
+  "platformButton.facebookButton.facebook": "Facebook",
+  "platformButton.twitterButton.twitter": "Twitter",
+  "platformButton.redditButton.reddit": "Reddit",
+  "platformButton.linkedinButton.linkedIn": "LinkedIn"
+}
+
+// modified_files
+// === file: ../components/common/share-panel/PlatformButton.tsx ===
+// i18n-key-prefix: platformButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { SharePlatform } from '../../types'
+import { DevToButton } from './platform-button/DevToButton'
+import { LinkedinButton } from './platform-button/LinkedinButton'
+import { RedditButton } from './platform-button/RedditButton'
+import { FacebookButton } from './platform-button/FacebookButton'
+import { TwitterButton } from './platform-button/TwitterButton'
+
+export const PlatformButton = ({
+  platform,
+  ...props
+}: {
+  platform: SharePlatform
+  title: string
+  url: string
+}): JSX.Element => {
+  switch (platform) {
+    case 'devto':
+      return <DevToButton {...props} />
+    case 'linkedin':
+      return <LinkedinButton {...props} />
+    case 'reddit':
+      return <RedditButton {...props} />
+    case 'facebook':
+      return <FacebookButton {...props} />
+    case 'twitter':
+      return <TwitterButton {...props} />
+  }
+}
+
+// === end file ===
+// === file: ../components/common/share-panel/platform-button/DevToButton.tsx ===
+// i18n-key-prefix: platformButton.devToButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const shareLink = ({ url, title }: { url: string; title: string }) => {
+  const markdown = `
+    ---
+    title: ${title}
+    ---
+    ${url}
+  `
+
+  return `https://dev.to/new?prefill=${encodeURI(markdown)}`
+}
+
+export const DevToButton = ({
+  url,
+  title,
+}: {
+  url: string
+  title: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
+  return (
+    <a
+      href={shareLink({ url, title })}
+      className="devto"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GraphicalIcon icon="external-site-devto" />
+      {t('platformButton.devToButton.devTo')}
+    </a>
+  )
+}
+
+// === end file ===
+// === file: ../components/common/share-panel/platform-button/FacebookButton.tsx ===
+// i18n-key-prefix: platformButton.facebookButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const shareLink = ({ url }: { url: string }) => {
+  return encodeURI(`https://www.facebook.com/share.php?u=${url}`)
+}
+
+export const FacebookButton = ({ url }: { url: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
+  return (
+    <a
+      href={shareLink({ url })}
+      className="facebook"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GraphicalIcon icon="external-site-facebook" />
+      {t('platformButton.facebookButton.facebook')}
+    </a>
+  )
+}
+
+// === end file ===
+// === file: ../components/common/share-panel/platform-button/TwitterButton.tsx ===
+// i18n-key-prefix: platformButton.twitterButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const shareLink = ({ url, title }: { url: string; title: string }) => {
+  return encodeURI(`https://twitter.com/intent/tweet?url=${url}&title=${title}`)
+}
+
+export const TwitterButton = ({
+  url,
+  title,
+}: {
+  url: string
+  title: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
+  return (
+    <a
+      href={shareLink({ url, title: title })}
+      className="twitter"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GraphicalIcon icon="external-site-twitter" />
+      {t('platformButton.twitterButton.twitter')}
+    </a>
+  )
+}
+
+// === end file ===
+// === file: ../components/common/share-panel/platform-button/RedditButton.tsx ===
+// i18n-key-prefix: platformButton.redditButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const shareLink = ({ url, title }: { url: string; title: string }) => {
+  return encodeURI(`http://www.reddit.com/submit?url=${url}&title=${title}`)
+}
+
+export const RedditButton = ({
+  url,
+  title,
+}: {
+  url: string
+  title: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
+  return (
+    <a
+      href={shareLink({ url, title })}
+      className="reddit"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GraphicalIcon icon="external-site-reddit" />
+      {t('platformButton.redditButton.reddit')}
+    </a>
+  )
+}
+
+// === end file ===
+// === file: ../components/common/share-panel/platform-button/LinkedinButton.tsx ===
+// i18n-key-prefix: platformButton.linkedinButton
+// i18n-namespace: components/common/share-panel
+import React from 'react'
+import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const shareLink = ({ url, title }: { url: string; title: string }) => {
+  return encodeURI(
+    `https://www.linkedin.com/shareArticle?url=${url}&title=${title}`
+  )
+}
+
+export const LinkedinButton = ({
+  url,
+  title,
+}: {
+  url: string
+  title: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
+  return (
+    <a
+      href={shareLink({ url, title })}
+      className="linkedin"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GraphicalIcon icon="external-site-linkedin" />
+      {t('platformButton.linkedinButton.linkedIn')}
+    </a>
+  )
+}
+
+// === end file ===
+```

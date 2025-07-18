@@ -1,0 +1,158 @@
+```ts
+// i18n
+export default {
+  "mobileIdleFormFooter.send": "Send",
+  "newFormFooter.cancel": "Cancel",
+  "newFormFooter.send": "Send",
+  "editFormFooter.cancel": "Cancel",
+  "editFormFooter.delete": "Delete",
+  "editFormFooter.update": "Update"
+}
+
+// modified_files
+// === file: ../components/common/markdown-editor-form/FormFooter.tsx ===
+import React from 'react'
+import { MutationStatus } from '@tanstack/react-query'
+import { MarkdownEditorFormAction } from '../MarkdownEditorForm'
+import { EditFormFooter } from './EditFormFooter'
+import { NewFormFooter } from './NewFormFooter'
+
+export const FormFooter = ({
+  action,
+  ...props
+}: {
+  status: MutationStatus
+  value: string
+  onDelete?: (e: React.FormEvent) => void
+  onCancel?: (e: React.FormEvent) => void
+  action: MarkdownEditorFormAction
+}): JSX.Element => {
+  switch (action) {
+    case 'new':
+      return <NewFormFooter {...props} />
+    case 'edit':
+      return <EditFormFooter {...props} />
+  }
+}
+
+// === end file ===
+// === file: ../components/common/markdown-editor-form/MobileIdleFormFooter.tsx ===
+import React from 'react'
+import GraphicalIcon from '../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function MobileIdleFormFooter(): JSX.Element {
+  const { t } = useAppTranslation('components/common/markdown-editor-form')
+  return (
+    <footer className="editor-footer">
+      <button className="btn-primary btn-xs" type="button" disabled>
+        <GraphicalIcon icon="send" />
+        <span>{t('mobileIdleFormFooter.send')}</span>
+      </button>
+    </footer>
+  )
+}
+
+// === end file ===
+// === file: ../components/common/markdown-editor-form/NewFormFooter.tsx ===
+import React from 'react'
+import { MutationStatus } from '@tanstack/react-query'
+import { GraphicalIcon } from '..'
+import { FormButton } from '../FormButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const NewFormFooter = ({
+  status,
+  value,
+  onCancel,
+}: {
+  status: MutationStatus
+  value: string
+  onCancel?: (e: React.FormEvent) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/markdown-editor-form')
+
+  if (onCancel && value.length === 0) {
+    return (
+      <footer className="editor-footer">
+        <button type="button" className="btn-default btn-xs" onClick={onCancel}>
+          {t('newFormFooter.cancel')}
+        </button>
+      </footer>
+    )
+  } else {
+    return (
+      <footer className="editor-footer">
+        <FormButton
+          className="btn-primary btn-xs"
+          type="submit"
+          status={status}
+          disabled={value.length === 0}
+        >
+          <GraphicalIcon icon="send" />
+          <span>{t('newFormFooter.send')}</span>
+        </FormButton>
+      </footer>
+    )
+  }
+}
+
+// === end file ===
+// === file: ../components/common/markdown-editor-form/EditFormFooter.tsx ===
+import React from 'react'
+import { MutationStatus } from '@tanstack/react-query'
+import { GraphicalIcon } from '..'
+import { FormButton } from '../FormButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const EditFormFooter = ({
+  status,
+  value,
+  onCancel,
+  onDelete,
+}: {
+  status: MutationStatus
+  value: string
+  onCancel?: (e: React.FormEvent) => void
+  onDelete?: (e: React.FormEvent) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/common/markdown-editor-form')
+  return (
+    <footer className="editor-footer">
+      {onCancel ? (
+        <FormButton
+          type="button"
+          className="btn-default btn-xs"
+          onClick={onCancel}
+          status={status}
+        >
+          {t('editFormFooter.cancel')}
+        </FormButton>
+      ) : null}
+      {value.length === 0 ? (
+        onDelete ? (
+          <FormButton
+            className="btn-alert btn-xs"
+            type="button"
+            status={status}
+            onClick={onDelete}
+          >
+            <span>{t('editFormFooter.delete')}</span>
+          </FormButton>
+        ) : null
+      ) : (
+        <FormButton
+          className="btn-primary btn-xs"
+          type="submit"
+          status={status}
+        >
+          <GraphicalIcon icon="send" />
+          <span>{t('editFormFooter.update')}</span>
+        </FormButton>
+      )}
+    </footer>
+  )
+}
+
+// === end file ===
+```

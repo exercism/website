@@ -10,6 +10,7 @@ import componentscontributingtaskslisttask from './components-contributing-tasks
 import componentseditorGetHelp from './components-editor-GetHelp'
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
+import componentseditorheader from './components-editor-header'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
 import componentscommonsharepanel from './components-common-share-panel'
@@ -29,6 +30,7 @@ export default {
   'components/editor/GetHelp': componentseditorGetHelp,
   'components/dropdowns/track-menu': componentsdropdownstrackmenu,
   'components/community-solutions': componentscommunitysolutions,
+  'components/editor/header': componentseditorheader,
   'components/dropdowns/reputation': componentsdropdownsreputation,
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
   'components/common/share-panel': componentscommonsharepanel,

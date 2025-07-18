@@ -3,8 +3,7 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
 import { Size, ExerciseType } from '../../types'
-import { useTranslation } from 'react-i18next'
-const { t } = useTranslation('components/common/exercise-widget')
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ExerciseTypeTag = ({
   type,
@@ -13,6 +12,7 @@ export const ExerciseTypeTag = ({
   type: ExerciseType
   size?: Size
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
   const sizeClassName = size ? `--${size}` : ''
 
   switch (type) {

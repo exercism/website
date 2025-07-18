@@ -1,14 +1,11 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { ConnectModal } from './ConnectModal'
-import { useTranslation } from 'react-i18next'
-import { initI18n } from '@/i18n'
-
-initI18n()
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ConnectToGithubSection() {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const { t } = useTranslation('settings/github-syncer')
+  const { t } = useAppTranslation('settings/github-syncer')
 
   return (
     <section>

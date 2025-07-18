@@ -5,10 +5,7 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { flushSync } from 'react-dom'
-import { useTranslation } from 'react-i18next'
-import { initI18n } from '@/i18n'
-
-initI18n()
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommitMessageTemplateSection() {
   const { links, isUserInsider, syncer, defaultCommitMessageTemplate } =
@@ -18,7 +15,7 @@ export function CommitMessageTemplateSection() {
     syncer?.commitMessageTemplate || defaultCommitMessageTemplate
   )
 
-  const { t } = useTranslation('settings/github-syncer')
+  const { t } = useAppTranslation('settings/github-syncer')
 
   const [
     isRevertCommitMessageTemplateModalOpen,

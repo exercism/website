@@ -1,3 +1,4 @@
+// i18n-namespace: components/contributing
 import React, { useCallback } from 'react'
 import { Pagination } from '@/components/common'
 import { TrackSelect } from '@/components/common/TrackSelect'
@@ -14,6 +15,7 @@ import {
   PeriodButton,
   CategorySwitcher,
 } from './contributors-list'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -38,6 +40,8 @@ export default function ContributorsList({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/contributing')
+
   const { request, setPage, setQuery } = useList(initialRequest)
   const {
     status,
@@ -71,28 +75,36 @@ export default function ContributorsList({
             setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
-            <span data-text="This week">This week</span>
+            <span data-text={t('contributorsList.thisWeek')}>
+              {t('contributorsList.thisWeek')}
+            </span>
           </PeriodButton>
           <PeriodButton
             period="month"
             setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
-            <span data-text="Last 30 days">Last 30 days</span>
+            <span data-text={t('contributorsList.last30Days')}>
+              {t('contributorsList.last30Days')}
+            </span>
           </PeriodButton>
           <PeriodButton
             period="year"
             setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
-            <span data-text="Last year">Last year</span>
+            <span data-text={t('contributorsList.lastYear')}>
+              {t('contributorsList.lastYear')}
+            </span>
           </PeriodButton>
           <PeriodButton
             period={undefined}
             setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
-            <span data-text="All time">All time</span>
+            <span data-text={t('contributorsList.allTime')}>
+              {t('contributorsList.allTime')}
+            </span>
           </PeriodButton>
         </div>
         <div className="hidden lg:flex items-center ml-auto">

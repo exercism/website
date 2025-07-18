@@ -40,6 +40,7 @@ ${content}
        }
        \`\`\`
    - Do **not** use nested objects in the output. All translation keys must be flat strings.
+   - This key prefix should be concise and descriptive, like \`info.outdated\`, \`difficulty.easy\`, or \`exerciseTypeTag.learningExercise\`. Don't concatenate the whole text into one string as use it as a key!!
 
 4. Use the \`i18n-namespace\` comment above each file for the \`useAppTranslation('<namespace>')\` call.
    - You MUST import it like this at the top of the file:

@@ -10,6 +10,7 @@ import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { QueryStatus } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type APIResponse = {
   results: NotificationType[]
@@ -45,6 +46,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
+  const { t } = useAppTranslation('components/dropdowns')
   if (data) {
     return (
       <ul {...listAttributes}>
@@ -57,8 +59,11 @@ const DropdownContent = ({
         })}
         <li {...itemAttributes(data.results.length)}>
           <a href={data.meta.links.all} className="c-prominent-link">
-            <span>See all your notifications</span>
-            <GraphicalIcon icon="arrow-right" />
+            <span>
+              {t('notifications.seeAllYourNotifications', {
+                icon: <GraphicalIcon icon="arrow-right" />,
+              })}
+            </span>
           </a>
         </li>
       </ul>

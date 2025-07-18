@@ -1,5 +1,6 @@
 import path from 'path'
 import { normalizePathForNamespace } from './normalizePathForNamespace'
+import { toCamelCase } from './toCamelCase'
 
 export function buildPrompt(
   files: Record<string, string>,

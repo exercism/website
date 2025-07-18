@@ -8,7 +8,7 @@ function toSafeIdentifier(input: string): string {
   return input.replace(/[^a-zA-Z0-9]/g, '')
 }
 
-async function generateEnIndex() {
+export async function generateEnIndex() {
   const entries = await fs.readdir(EN_FOLDER)
 
   const index: { importName: string; importPath: string; namespace: string }[] =
@@ -53,8 +53,3 @@ async function generateEnIndex() {
   await fs.writeFile(OUTPUT_FILE, output)
   console.log('Generated en/index.ts with', index.length, 'entries.')
 }
-
-generateEnIndex().catch((err) => {
-  console.error('Failed to generate en/index.ts:', err)
-  process.exit(1)
-})

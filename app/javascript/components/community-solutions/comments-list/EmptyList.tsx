@@ -1,13 +1,15 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const EmptyList = (): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
   return (
     <div className="flex flex-col lg:items-center lg:center">
       <h3 className="text-h5 text-textColor6 mb-2">
-        No one has commented on this solution.
+        {t('commentsList.emptyList.noComments')}
       </h3>
       <p className="text-p-base.text-textColor6">
-        Be the first to add your comment!
+        {t('commentsList.emptyList.beFirst')}
       </p>
     </div>
   )

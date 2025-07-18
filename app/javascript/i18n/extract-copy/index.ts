@@ -4,6 +4,7 @@ import path from 'path'
 import { normalizePathForNamespace } from './normalizePathForNamespace'
 import { buildPrompt } from './buildPrompt'
 import { runLLM } from './runLLM'
+import { generateEnIndex } from '../generateIndexFile'
 
 const supportedExtensions = ['.tsx', '.jsx']
 
@@ -135,6 +136,10 @@ if (require.main === module) {
       const parsed = parseLLMOutput(result)
       await writeTranslations(parsed.translations, folder)
       await writeModifiedFiles(parsed.files)
+      generateEnIndex().catch((err) => {
+        console.error('Failed to generate en/index.ts:', err)
+        process.exit(1)
+      })
       console.log('i18n extraction and rewrite complete.')
       console.log(`Translation namespace: ${normalizePathForNamespace(folder)}`)
     })

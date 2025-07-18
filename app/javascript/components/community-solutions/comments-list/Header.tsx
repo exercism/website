@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Options } from './Options'
 
 type Links = {
@@ -21,9 +22,10 @@ export const Header = ({
   onCommentsEnabled: () => void
   onCommentsDisabled: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
   return (
     <header className="flex lg:items-center mb-12">
-      <h2 className="text-h4">Write a comment</h2>
+      <h2 className="text-h4">{t('commentsList.header.writeComment')}</h2>
       {isAuthor ? (
         <Options
           allowComments={allowComments}

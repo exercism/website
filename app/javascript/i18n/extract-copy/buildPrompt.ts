@@ -40,7 +40,7 @@ ${content}
        }
        \`\`\`
    - Do **not** use nested objects in the output. All translation keys must be flat strings.
-   - This key prefix should be concise and descriptive, like \`info.outdated\`, \`difficulty.easy\`, or \`exerciseTypeTag.learningExercise\`. Don't concatenate the whole text into one string as use it as a key!!
+   - This key prefix should be CONCISE!!! and SHORT!!! and DESCRIPTIVE, like \`info.outdated\`, \`difficulty.easy\`, or \`exerciseTypeTag.learningExercise\`. Don't concatenate the whole text into one string as use it as a key!!
 
 4. Use the \`i18n-namespace\` comment above each file for the \`useAppTranslation('<namespace>')\` call.
    - You MUST import it like this at the top of the file:
@@ -56,38 +56,56 @@ ${content}
 
 ### CRITICAL RULES FOR TEXT EXTRACTION:
 
-1. **ONLY extract the visible text. NEVER extract JSX or HTML markup.**
-   - From: \`<div className="icon"></div>Easy\` → Extract: \`"Easy"\`
-   - From: \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\` → Extract: \`"Learning Exercise"\`
+1. **ONLY extract visible text meant for users. NEVER extract JSX or HTML markup unless it's required for the phrase.**
+   - ✅ Extract: \\"Easy\\" from \`<div className="icon"></div>Easy\`
+   - ✅ Extract: \\"Learning Exercise\\" from \`<GraphicalIcon icon="concept-exercise" /> Learning Exercise\`
 
-2. **Handle JSX components and variables intelligently:**
-   - Replace visible text with a \`t()\` call and include dynamic values as:
-     - Component placeholders (e.g., \`<trackIcon/>\`)
-     - Mustache variables (e.g., \`{{trackTitle}}\`)
-   - Do **not** split static and dynamic parts across separate JSX nodes. Include the whole phrase in \`t()\`.
-   - Examples:
-
-     **Original:**
-     \`\`tsx
-     {t('info.titleInTrack')} <TrackIcon ... /> <div>{track.title}</div>
-    \`\`\`
-
-     **Incorrect translation:**
-     \`\`\`ts
-     "info.titleInTrack": "in"
-     \`\`\`
-
-     **Correct result:**
+2. **Use \`t()\` for plain strings or those with mustache-style dynamic values.**
+   - ✅ Example:
      \`\`\`tsx
-     {t('info.titleInTrack', {
-       trackTitle: track.title,
-     })}
+     t('info.messageWithName', { name: user.name })
+     \`\`\`
+     with translation:
+     \`\`\`ts
+     "info.messageWithName": "Hello {{name}}"
      \`\`\`
 
-     **Translation:**
+3. **Use \`<Trans>\` when the translated text includes embedded components (like icons, buttons, or spans).**
+   - ✅ Correct:
      \`\`\`ts
-     "info.titleInTrack": "in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>"
+     "trackMenu.seeTrackOnGithub": "See {{trackTitle}} track on Github <icon/>"
      \`\`\`
+
+     \`\`\`tsx
+     <Trans
+       i18nKey="trackMenu.seeTrackOnGithub"
+       values={{ trackTitle: track.title }}
+       components={{ icon: <GraphicalIcon icon="external-link" /> }}
+     />
+     \`\`\`
+
+   - ❌ Do **not** attempt this with \`t()\`, because JSX elements like \`<GraphicalIcon />\` cannot be rendered inside a string returned from \`t()\`.
+
+4. **If the tag in the translation string is not a simple, valid static HTML tag (like \`<strong>\` or \`<b>\`), you MUST use \`<Trans>\` and register the tag as a component.**
+   - ✅ Valid: \`<strong>\`, \`<b>\` → still prefer \`<Trans>\` if classNames or nesting are present.
+   - ❌ Avoid embedding JSX directly in the translation string with \`t()\`.
+
+5. **Always include the entire user-facing phrase in a single translation unit.**  
+   Do NOT split strings across multiple \`t()\` or \`Trans()\` calls. Include dynamic values and embedded components inline.
+
+   ✅ Correct:
+   \`\`\`tsx
+   <Trans
+     i18nKey="info.titleInTrack"
+     values={{ trackTitle: track.title }}
+     components={{ icon: <TrackIcon /> }}
+   />
+   \`\`\`
+
+   With:
+   \`\`\`ts
+   "info.titleInTrack": "In <icon/> {{trackTitle}}"
+   \`\`\`
 
    - You MUST include meaningful dynamic content in the translation string if:
      - The phrase structure depends on it

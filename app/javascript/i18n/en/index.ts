@@ -9,6 +9,7 @@ import componentscontributingtaskslisttask from './components-contributing-tasks
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
+import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
 import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
 
@@ -25,6 +26,7 @@ export default {
   'components/dropdowns/track-menu': componentsdropdownstrackmenu,
   'components/community-solutions': componentscommunitysolutions,
   'components/dropdowns/reputation': componentsdropdownsreputation,
+  'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
   'components/common/share-panel': componentscommonsharepanel,
   'components/common/markdown-editor-form': componentscommonmarkdowneditorform,
 }

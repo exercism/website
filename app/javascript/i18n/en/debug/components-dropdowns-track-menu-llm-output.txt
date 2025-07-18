@@ -1,0 +1,705 @@
+```ts
+// i18n
+export default {
+  "activatePracticeModeModal.disableLearningMode": "Disable Learning Mode",
+  "activatePracticeModeModal.paragraph1": "Disabling Learning Mode will unlock all the Practice Exercises on this track, but will disable Concepts and Learning Exercises.",
+  "activatePracticeModeModal.warning": "You can switch in and out of Practice Mode at any time.",
+  "activatePracticeModeModal.disableLearningModeButton": "Disable Learning Mode",
+  "leaveTrackModal.leaveResetTrackForm.strongText": "By leaving and resetting this track, you will:",
+  "leaveTrackModal.leaveResetTrackForm.listItem1": "Lose access to all solutions you have submitted in {{trackTitle}}",
+  "leaveTrackModal.leaveResetTrackForm.listItem2": "Lose access to all mentoring you have received in {{trackTitle}}",
+  "leaveTrackModal.leaveResetTrackForm.listItem3": "Lose any reputation you have earned for publishing solutions in {{trackTitle}}",
+  "leaveTrackModal.leaveResetTrackForm.listItem4": "Remove {{trackTitle}} from your active tracks list",
+  "leaveTrackModal.leaveResetTrackForm.irreversibleText": "This is irreversible and will mean you’ll lose everything you’ve done on this track.",
+  "leaveTrackModal.leaveResetTrackForm.confirmationLabel": "To confirm, write <confirmation>{{confirmation}}</confirmation> in the box below:",
+  "leaveTrackModal.leaveResetTrackForm.cancel": "Cancel",
+  "leaveTrackModal.leaveResetTrackForm.leaveReset": "Leave + Reset",
+  "leaveTrackModal.leaveTrackForm.strongText": "When you leave the track, you still keep:",
+  "leaveTrackModal.leaveTrackForm.listItem1": "All solutions you have submitted in {{trackTitle}}",
+  "leaveTrackModal.leaveTrackForm.listItem2": "All mentoring you have received in {{trackTitle}}",
+  "leaveTrackModal.leaveTrackForm.howeverWeWill": "However, we will:",
+  "leaveTrackModal.leaveTrackForm.listItem3": "End all mentoring discussions in {{trackTitle}}",
+  "leaveTrackModal.leaveTrackForm.listItem4": "Remove {{trackTitle}} from your active tracks list",
+  "leaveTrackModal.leaveTrackForm.infoBoxText": "You’re free to join back at anytime and return to where you left off.",
+  "leaveTrackModal.leaveTrackForm.cancel": "Cancel",
+  "leaveTrackModal.leaveTrackForm.leaveTrack": "Leave track",
+  "resetTrackModal.heading": "You’re about to reset all your {{trackTitle}} progress.",
+  "resetTrackModal.pleaseReadCarefully": "Please read this carefully before continuing.",
+  "resetTrackModal.irreversible": "This is irreversible and will mean you’ll lose everything you’ve done on this track.",
+  "resetTrackModal.byResettingThisTrack": "By resetting this track, you will lose access to:",
+  "resetTrackModal.listItem1": "All solutions you have submitted in {{trackTitle}}",
+  "resetTrackModal.listItem2": "All mentoring you have received in {{trackTitle}}",
+  "resetTrackModal.listItem3": "Lose any reputation you have earned for publishing solutions in {{trackTitle}}",
+  "resetTrackModal.however": "However:",
+  "resetTrackModal.listItem4": "Any local versions of solutions stored on your machine will be unaffected",
+  "resetTrackModal.listItem5": "You will keep any badges earned as a result of your work on the {{trackTitle}} track",
+  "resetTrackModal.confirmationLabel": "To confirm, write <confirmation>{{confirmation}}</confirmation> in the box below:",
+  "resetTrackModal.cancel": "Cancel",
+  "resetTrackModal.resetTrack": "Reset track",
+  "activateLearningModeModal.activateLearningMode": "Activate Learning Mode",
+  "activateLearningModeModal.paragraph1": "Activating Learning Mode will enable Concepts and Learning Exercises on this track. However, it will lock Exercises for which you have not yet completed the prerequisites. You will still have access to any exercises you have already started.",
+  "activateLearningModeModal.warning": "You can switch in and out of Learning Mode at any time.",
+  "activateLearningModeModal.activateLearningModeButton": "Activate Learning Mode",
+  "leaveTrackModal.youreAboutToLeave": "You’re about to leave the {{trackTitle}} track.",
+  "leaveTrackModal.noLongerInterested": "No longer interested in learning {{trackTitle}}? No problem!",
+  "leaveTrackModal.leave": "Leave",
+  "leaveTrackModal.leavePlusReset": "Leave + Reset"
+}
+
+// modified_files
+// === file: ../components/dropdowns/track-menu/ActivatePracticeModeModal.tsx ===
+import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { GraphicalIcon } from '@/components/common'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { FormButton } from '@/components/common/FormButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type UserTrack = {
+  links: {
+    self: string
+  }
+}
+
+const DEFAULT_ERROR = new Error('Unable to switch to practice mode')
+
+export const ActivatePracticeModeModal = ({
+  endpoint,
+  onClose,
+  redirectToOnSuccessUrl,
+  ...props
+}: Omit<ModalProps, 'className'> & {
+  endpoint: string
+  redirectToOnSuccessUrl?: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<UserTrack>(json, 'userTrack')
+      })
+    },
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
+
+      redirectTo(redirectToOnSuccessUrl || track.links.self)
+    },
+  })
+
+  return (
+    <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
+      <GraphicalIcon icon="practice-mode" category="graphics" />
+      <h2>{t('activatePracticeModeModal.disableLearningMode')}</h2>
+      <p>
+        {t('activatePracticeModeModal.paragraph1')}
+      </p>
+      <div className="warning">
+        {t('activatePracticeModeModal.warning')}
+      </div>
+
+      <FormButton
+        onClick={() => mutation()}
+        status={status}
+        className="btn-primary btn-m"
+      >
+        {t('activatePracticeModeModal.disableLearningModeButton')}
+      </FormButton>
+      <ErrorBoundary>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/track-menu/leave-track-modal/LeaveResetTrackForm.tsx ===
+import React, { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '../../../../utils/send-request'
+import { typecheck } from '../../../../utils/typecheck'
+import { FormButton } from '../../../common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { Track } from '../../../types'
+import { UserTrack } from '../LeaveTrackModal'
+import { useConfirmation } from '../../../../hooks/use-confirmation'
+import { redirectTo } from '../../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to leave and reset track')
+
+export const LeaveResetTrackForm = ({
+  endpoint,
+  track,
+  onCancel,
+}: {
+  endpoint: string
+  track: Track
+  onCancel: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const confirmation = `reset ${track.slug}`
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: JSON.stringify({ reset: true }),
+      })
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<UserTrack>(json, 'userTrack')
+      })
+    },
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
+
+      redirectTo(track.links.self)
+    },
+  })
+  const handleCancel = useCallback(() => {
+    onCancel()
+  }, [onCancel])
+  const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="info">
+        <p>
+          <strong>{t('leaveTrackModal.leaveResetTrackForm.strongText')}</strong>
+        </p>
+        <ul>
+          <li>
+            {t('leaveTrackModal.leaveResetTrackForm.listItem1', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>
+            {t('leaveTrackModal.leaveResetTrackForm.listItem2', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>
+            {t('leaveTrackModal.leaveResetTrackForm.listItem3', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>{t('leaveTrackModal.leaveResetTrackForm.listItem4', {trackTitle: track.title})}</li>
+        </ul>
+
+        <p>
+          {t('leaveTrackModal.leaveResetTrackForm.irreversibleText')}
+        </p>
+      </div>
+      <hr />
+      <label htmlFor="confirmation">
+        {t('leaveTrackModal.leaveResetTrackForm.confirmationLabel', {
+          confirmation,
+        })}
+      </label>
+
+      <input
+        id="confirmation"
+        type="text"
+        autoComplete="off"
+        value={attempt}
+        onChange={(e) => setAttempt(e.target.value)}
+      />
+      <hr />
+      <div className="btns">
+        <FormButton
+          onClick={handleCancel}
+          status={status}
+          className="btn-default btn-m"
+        >
+          {t('leaveTrackModal.leaveResetTrackForm.cancel')}
+        </FormButton>
+        <FormButton
+          status={status}
+          disabled={!isAttemptPass}
+          className="btn-primary btn-m"
+        >
+          {t('leaveTrackModal.leaveResetTrackForm.leaveReset')}
+        </FormButton>
+      </div>
+      <ErrorBoundary>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </form>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/track-menu/leave-track-modal/LeaveTrackForm.tsx ===
+import React, { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '../../../../utils/send-request'
+import { typecheck } from '../../../../utils/typecheck'
+import { FormButton } from '../../../common/FormButton'
+import { Icon } from '../../../common'
+import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { Track } from '../../../types'
+import { UserTrack } from '../LeaveTrackModal'
+import { redirectTo } from '../../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to leave track')
+
+export const LeaveTrackForm = ({
+  endpoint,
+  track,
+  onCancel,
+}: {
+  endpoint: string
+  track: Track
+  onCancel: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<UserTrack>(json, 'userTrack')
+      })
+    },
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
+
+      redirectTo(track.links.self)
+    },
+  })
+  const handleCancel = useCallback(() => {
+    onCancel()
+  }, [onCancel])
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="info">
+        <p>
+          <strong>{t('leaveTrackModal.leaveTrackForm.strongText')}</strong>
+        </p>
+        <ul>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem1', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem2', {
+              trackTitle: track.title,
+            })}
+          </li>
+        </ul>
+        <p>
+          <strong>{t('leaveTrackModal.leaveTrackForm.howeverWeWill')}</strong>
+        </p>
+        <ul>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem3', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>{t('leaveTrackModal.leaveTrackForm.listItem4', {trackTitle: track.title})}</li>
+        </ul>
+        <div className="info-box">
+          <Icon icon="info-circle" alt="Info" />
+          {t('leaveTrackModal.leaveTrackForm.infoBoxText')}
+        </div>
+      </div>
+      <div className="btns">
+        <FormButton
+          onClick={handleCancel}
+          status={status}
+          className="btn-default btn-m"
+        >
+          {t('leaveTrackModal.leaveTrackForm.cancel')}
+        </FormButton>
+        <FormButton status={status} className="btn-primary btn-m">
+          {t('leaveTrackModal.leaveTrackForm.leaveTrack')}
+        </FormButton>
+      </div>
+      <ErrorBoundary>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </form>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/track-menu/ResetTrackModal.tsx ===
+import React, { useCallback } from 'react'
+import { Modal, ModalProps } from '../../modals/Modal'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '../../../utils/send-request'
+import { typecheck } from '../../../utils/typecheck'
+import { FormButton } from '../../common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { useConfirmation } from '../../../hooks/use-confirmation'
+import { Track } from '../../types'
+import { redirectTo } from '../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type UserTrack = {
+  links: {
+    self: string
+  }
+}
+
+const DEFAULT_ERROR = new Error('Unable to reset track')
+
+export const ResetTrackModal = ({
+  endpoint,
+  track,
+  onClose,
+  ...props
+}: Omit<ModalProps, 'className'> & {
+  endpoint: string
+  track: Track
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const confirmation = `reset ${track.slug}`
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<UserTrack>(json, 'userTrack')
+      })
+    },
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
+
+      redirectTo(track.links.self)
+    },
+  })
+
+  const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  return (
+    <Modal
+      className="m-reset-track m-generic-destructive"
+      onClose={onClose}
+      {...props}
+    >
+      <form onSubmit={handleSubmit}>
+        <div className="info">
+          <h2>{t('resetTrackModal.heading', {trackTitle: track.title})}</h2>
+          <p>
+            {t('resetTrackModal.pleaseReadCarefully')}
+          </p>
+          <p>
+            {t('resetTrackModal.irreversible')}
+          </p>
+          <hr />
+          <p>
+            <strong>{t('resetTrackModal.byResettingThisTrack')}</strong>
+          </p>
+          <ul>
+            <li>{t('resetTrackModal.listItem1', {trackTitle: track.title})}</li>
+            <li>{t('resetTrackModal.listItem2', {trackTitle: track.title})}</li>
+            <li>
+              {t('resetTrackModal.listItem3')}
+            </li>
+          </ul>
+          <p>
+            <strong>{t('resetTrackModal.however')}</strong>
+          </p>
+          <ul>
+            <li>
+              {t('resetTrackModal.listItem4')}
+            </li>
+            <li>
+              {t('resetTrackModal.listItem5', {trackTitle: track.title})}
+            </li>
+          </ul>
+        </div>
+        <hr />
+        <label htmlFor="confirmation">
+          {t('resetTrackModal.confirmationLabel', {
+            confirmation,
+          })}
+        </label>
+
+        <input
+          id="confirmation"
+          type="text"
+          autoComplete="off"
+          value={attempt}
+          onChange={(e) => setAttempt(e.target.value)}
+        />
+        <hr />
+        <div className="btns">
+          <FormButton
+            onClick={() => onClose()}
+            status={status}
+            type="button"
+            className="btn-default btn-m"
+          >
+            {t('resetTrackModal.cancel')}
+          </FormButton>
+          <FormButton
+            status={status}
+            disabled={!isAttemptPass}
+            className="btn-primary btn-m"
+          >
+            {t('resetTrackModal.resetTrack')}
+          </FormButton>
+        </div>
+        <ErrorBoundary>
+          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        </ErrorBoundary>
+      </form>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/track-menu/ActivateLearningModeModal.tsx ===
+import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
+import { GraphicalIcon } from '@/components/common'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type UserTrack = {
+  links: {
+    self: string
+  }
+}
+
+const DEFAULT_ERROR = new Error('Unable to switch to learning mode')
+
+export const ActivateLearningModeModal = ({
+  endpoint,
+  onClose,
+  ...props
+}: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<UserTrack>(json, 'userTrack')
+      })
+    },
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
+
+      redirectTo(track.links.self)
+    },
+  })
+
+  return (
+    <Modal className="m-activate-learning-mode" onClose={onClose} {...props}>
+      <GraphicalIcon icon="learning-mode" category="graphics" />
+      <h2>{t('activateLearningModeModal.activateLearningMode')}</h2>
+      <p>
+        {t('activateLearningModeModal.paragraph1')}
+      </p>
+      <div className="warning">
+        {t('activateLearningModeModal.warning')}
+      </div>
+
+      <FormButton
+        onClick={() => mutation()}
+        status={status}
+        className="btn-primary btn-m"
+      >
+        {t('activateLearningModeModal.activateLearningModeButton')}
+      </FormButton>
+      <ErrorBoundary>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/dropdowns/track-menu/LeaveTrackModal.tsx ===
+import React, { createContext, useState } from 'react'
+import { Modal, ModalProps } from '../../modals/Modal'
+import { Track } from '../../types'
+import { LeaveTrackForm } from './leave-track-modal/LeaveTrackForm'
+import { LeaveResetTrackForm } from './leave-track-modal/LeaveResetTrackForm'
+import { Tab, TabContext } from '../../common/Tab'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const TabsContext = createContext<TabContext>({
+  current: 'leave',
+  switchToTab: () => {},
+})
+
+export type UserTrack = {
+  links: {
+    self: string
+  }
+}
+
+type TabIndex = 'leave' | 'reset'
+
+export const LeaveTrackModal = ({
+  endpoint,
+  onClose,
+  track,
+  ...props
+}: Omit<ModalProps, 'className'> & {
+  endpoint: string
+  track: Track
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const [tab, setTab] = useState<TabIndex>('leave')
+
+  return (
+    <Modal
+      className="m-leave-track m-generic-destructive"
+      onClose={onClose}
+      {...props}
+    >
+      <div className="info">
+        <h2>{t('leaveTrackModal.youreAboutToLeave', {trackTitle: track.title})}</h2>
+        <p className="large">
+          {t('leaveTrackModal.noLongerInterested', {trackTitle: track.title})}
+        </p>
+      </div>
+
+      <TabsContext.Provider
+        value={{
+          current: tab,
+          switchToTab: (id: string) => setTab(id as TabIndex),
+        }}
+      >
+        <div className="tabs">
+          <Tab context={TabsContext} id="leave">
+            {t('leaveTrackModal.leave')}
+          </Tab>
+          <Tab context={TabsContext} id="reset">
+            {t('leaveTrackModal.leavePlusReset')}
+          </Tab>
+        </div>
+        <Tab.Panel context={TabsContext} id="leave">
+          <LeaveTrackForm
+            endpoint={endpoint}
+            track={track}
+            onCancel={onClose}
+          />
+        </Tab.Panel>
+        <Tab.Panel context={TabsContext} id="reset">
+          <LeaveResetTrackForm
+            endpoint={endpoint}
+            track={track}
+            onCancel={onClose}
+          />
+        </Tab.Panel>
+      </TabsContext.Provider>
+    </Modal>
+  )
+}
+
+// === end file ===
+```

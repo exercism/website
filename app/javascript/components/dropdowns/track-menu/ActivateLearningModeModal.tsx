@@ -7,6 +7,7 @@ import { GraphicalIcon } from '@/components/common'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type UserTrack = {
   links: {
@@ -21,6 +22,7 @@ export const ActivateLearningModeModal = ({
   onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const {
     mutate: mutation,
     status,
@@ -52,23 +54,16 @@ export const ActivateLearningModeModal = ({
   return (
     <Modal className="m-activate-learning-mode" onClose={onClose} {...props}>
       <GraphicalIcon icon="learning-mode" category="graphics" />
-      <h2>Activate Learning Mode</h2>
-      <p>
-        Activating Learning Mode will enable Concepts and Learning Exercises on
-        this track. However, it will lock Exercises for which you have not yet
-        completed the prerequisites. You will still have access to any exercises
-        you have already started.
-      </p>
-      <div className="warning">
-        You can switch in and out of Learning Mode at any time.
-      </div>
+      <h2>{t('activateLearningModeModal.activateLearningMode')}</h2>
+      <p>{t('activateLearningModeModal.paragraph1')}</p>
+      <div className="warning">{t('activateLearningModeModal.warning')}</div>
 
       <FormButton
         onClick={() => mutation()}
         status={status}
         className="btn-primary btn-m"
       >
-        Activate Learning Mode
+        {t('activateLearningModeModal.activateLearningModeButton')}
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

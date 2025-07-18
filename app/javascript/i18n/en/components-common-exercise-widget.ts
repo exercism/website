@@ -1,3 +1,4 @@
+// namespace: components/common/exercise-widget
 export default {
   'info.titleInTrack':
     'in <trackIcon/> <trackTitle>{{trackTitle}}</trackTitle>',

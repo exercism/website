@@ -3,6 +3,7 @@ import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
+import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsconceptmap from './components-concept-map'
 import componentscontributing from './components-contributing'
@@ -22,6 +23,7 @@ export default {
   'components/community': componentscommunity,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
+  'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,
   'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/concept-map': componentsconceptmap,
   'components/contributing': componentscontributing,

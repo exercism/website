@@ -116,32 +116,88 @@ async function writeModifiedFiles(files: Record<string, string>) {
   }
 }
 
-// CLI Entrypoint
-if (require.main === module) {
-  const folder = process.argv[2]
+// extract-and-prepare.ts (changes only below the helper functions)
 
-  if (!folder) {
-    console.error('Please provide a folder path.')
+async function readFilesInFolderNonRecursive(
+  folder: string
+): Promise<Record<string, string>> {
+  const result: Record<string, string> = {}
+  const entries = await fs.readdir(folder, { withFileTypes: true })
+
+  for (const entry of entries) {
+    if (
+      entry.isFile() &&
+      supportedExtensions.includes(path.extname(entry.name))
+    ) {
+      const fullPath = path.join(folder, entry.name)
+      const content = await fs.readFile(fullPath, 'utf8')
+      result[fullPath] = content
+    }
+  }
+
+  return result
+}
+
+async function readSingleFile(
+  filePath: string
+): Promise<Record<string, string>> {
+  if (!supportedExtensions.includes(path.extname(filePath))) {
+    throw new Error(`Unsupported file type: ${filePath}`)
+  }
+  const content = await fs.readFile(filePath, 'utf8')
+  return { [filePath]: content }
+}
+
+// CLI Entrypoint
+// # Non-recursive (default if no flag is passed)
+// bun ./extract-copy/index.ts path/to/folder
+
+// # Recursive
+// bun ./extract-copy/index.ts path/to/folder --recursive
+
+// # Single file
+// bun ./extract-copy/index.ts path/to/file.tsx --single
+if (require.main === module) {
+  const args = process.argv.slice(2)
+  const folderOrFile = args.find((arg) => !arg.startsWith('--'))
+  const isRecursive = args.includes('--recursive')
+  const isSingleFile = args.includes('--single')
+
+  if (!folderOrFile) {
+    console.error('Please provide a file or folder path.')
     process.exit(1)
   }
 
-  readFilesInFolder(folder)
+  let readFilesPromise: Promise<Record<string, string>>
+
+  if (isSingleFile) {
+    readFilesPromise = readSingleFile(folderOrFile)
+  } else if (isRecursive) {
+    readFilesPromise = readFilesInFolder(folderOrFile)
+  } else {
+    readFilesPromise = readFilesInFolderNonRecursive(folderOrFile)
+  }
+
+  readFilesPromise
     .then(async (files) => {
-      const prompt = buildPrompt(files, folder)
+      const prompt = buildPrompt(files, folderOrFile)
       const result = await runLLM(prompt)
-      if (!result) {
-        throw new Error('LLM returned no response')
-      }
-      await writeRawLLMOutput(result, folder)
+      if (!result) throw new Error('LLM returned no response')
+
+      await writeRawLLMOutput(result, folderOrFile)
       const parsed = parseLLMOutput(result)
-      await writeTranslations(parsed.translations, folder)
+      await writeTranslations(parsed.translations, folderOrFile)
       await writeModifiedFiles(parsed.files)
+
       generateEnIndex().catch((err) => {
         console.error('Failed to generate en/index.ts:', err)
         process.exit(1)
       })
+
       console.log('i18n extraction and rewrite complete.')
-      console.log(`Translation namespace: ${normalizePathForNamespace(folder)}`)
+      console.log(
+        `Translation namespace: ${normalizePathForNamespace(folderOrFile)}`
+      )
     })
     .catch((err) => {
       console.error('Error:', err)

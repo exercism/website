@@ -5,6 +5,7 @@ import { PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
 import { generateStripeButtonText } from './stripe-form/utils'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -31,6 +32,7 @@ export function StripeForm({
   confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
+  const { t } = useAppTranslation('components/donations')
   const {
     cardValid,
     error,
@@ -66,7 +68,9 @@ export function StripeForm({
     <form data-turbo="false" onSubmit={handlePaymentSubmit}>
       {!userSignedIn ? (
         <div className="email-container">
-          <label htmlFor="email">Your email address (for receipts):</label>
+          <label htmlFor="email">
+            {t('stripeForm.yourEmailAddressForReceipts')}:
+          </label>
           <input
             type="email"
             id="email"
@@ -85,17 +89,18 @@ export function StripeForm({
             onErrored={handleCaptchaFailure}
           />
           <div className="ml-16 text-textColor6 leading-tight">
-            Due to frequent{' '}
+            {t('stripeForm.dueToFrequent')}{' '}
             <a
               href="https://stripe.com/docs/disputes/prevention/card-testing"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              card testing attacks
+              {t('stripeForm.cardTestingAttacks')}
             </a>
-            , we need to check you are not a bot before we can accept a
-            donation.
+            {t(
+              'stripeForm.weNeedToCheckYouAreNotABotBeforeWeCanAcceptADonation'
+            )}
           </div>
         </div>
       ) : null}

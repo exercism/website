@@ -13,6 +13,7 @@ import { type Request } from '@/hooks/request-query'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type VideoGridProps = {
   tracks: VideoTrack[]
@@ -25,6 +26,7 @@ export function VideoGrid({
   itemsPerRow,
   request,
 }: VideoGridProps): JSX.Element {
+  const { t } = useAppTranslation('components/community')
   const {
     resolvedData,
     page,
@@ -57,12 +59,13 @@ export function VideoGrid({
         tracks={tracks}
         handleTrackChange={handleTrackChange}
         selectedTrack={selectedTrack}
+        t={t}
       />
 
       <div className="flex mb-32 c-search-bar">
         <input
           className="grow --search --right"
-          placeholder="Search community content"
+          placeholder={t('videoGrid.index.searchCommunity')}
           value={criteria || ''}
           onChange={(e) => {
             setCriteria(e.target.value)
@@ -104,10 +107,12 @@ function VideoGridHeader({
   tracks,
   handleTrackChange,
   selectedTrack,
+  t,
 }: {
   tracks: VideoTrack[]
   handleTrackChange: HandleTrackChangeType
   selectedTrack: VideoTrack
+  t: any
 }): JSX.Element {
   return (
     <div className="flex mb-24 sm:flex-row flex-col">
@@ -118,9 +123,11 @@ function VideoGridHeader({
         className="mr-24 self-start"
       />
       <div className="mr-auto sm:mb-0 mb-24">
-        <h2 className="text-h2 mb-4">Learn with our community</h2>
+        <h2 className="text-h2 mb-4">
+          {t('videoGrid.index.learnWithCommunity')}
+        </h2>
         <p className="text-p-large">
-          Walkthroughs, tutorials and livestreams from our community.
+          {t('videoGrid.index.walkthroughsTutorials')}
         </p>
       </div>
 
@@ -177,25 +184,27 @@ function Video({ video }: VideoProps): JSX.Element {
 }
 
 function NoResultsOfQuery() {
+  const { t } = useAppTranslation('components/community')
   return (
     <div className="col-span-4">
       <FilterFallback
         icon="no-result-magnifier"
-        title="No videos found."
-        description="Try changing your filters to find the video you are looking for."
+        title={t('videoGrid.index.noVideosFound')}
+        description={t('videoGrid.index.tryChangingFilters')}
       />
     </div>
   )
 }
 
 function NoResultsYet() {
+  const { t } = useAppTranslation('components/community')
   return (
     <div className="col-span-4">
       <FilterFallback
         icon="automation"
         svgFilter="filter-textColor6"
-        title="There are currently no videos."
-        description="Check back here later for more!"
+        title={t('videoGrid.index.thereAreNoVideos')}
+        description={t('videoGrid.index.checkBackLater')}
       />
     </div>
   )

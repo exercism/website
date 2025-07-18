@@ -1,0 +1,681 @@
+```ts
+// i18n
+export default {
+  "commentsList.reminder.rememberComments": "Remember! Comments are for asking questions or applauding a solution. <strong>Do not use them</strong> for mentoring or giving feedback.",
+  "commentsList.commentView.edit": "Edit",
+  "commentsList.count.numberOfComments": "{{number}} {{pluralize}}",
+  "commentsList.emptyList.noComments": "No one has commented on this solution.",
+  "commentsList.emptyList.beFirst": "Be the first to add your comment!",
+  "commentsList.options.disableComments": "Disable comments…",
+  "commentsList.options.enableComments": "Enable comments…",
+  "commentsList.header.writeComment": "Write a comment",
+  "commentsList.listDisabled.disabledCommentsAuthor": "You have disabled comments on this solution. Use the \"Options\" cog above to toggle this option.",
+  "commentsList.listDisabled.disabledComments": "Comments have been disabled",
+  "starButton.numberOfStars": "{{stateNumStars}}",
+  "commentsList.header.writeAComment": "Write a comment"
+}
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/Reminder.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const Reminder = (): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  return (
+    <p className="text-p-small text-text-textColor6 mt-16 mb-32">
+      {t('commentsList.reminder.rememberComments')}
+    </p>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/CommentView.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { fromNow } from '../../../utils/time'
+import { Avatar, Reputation, Icon, HandleWithFlair } from '../../common'
+import { ViewingComponentType } from '../../common/ListItem'
+import { SolutionComment } from '../../types'
+
+export const CommentView = ({
+  item: comment,
+  onEdit,
+}: ViewingComponentType<SolutionComment>): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  const isEditable = comment.links.edit
+
+  return (
+    <div className="comment">
+      <header className="flex items-center mb-16">
+        <Avatar src={comment.author.avatarUrl} handle={comment.author.handle} />
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <div className="text-h6 mr-8">
+              <HandleWithFlair
+                handle={comment.author.handle}
+                flair={comment.author.flair}
+              />
+            </div>
+            <Reputation value={comment.author.reputation} size="small" />
+          </div>
+          <div className="text-tetColor6 leading-160">
+            {fromNow(comment.updatedAt)}
+          </div>
+        </div>
+        {isEditable ? (
+          <button type="button" className="edit-button" onClick={onEdit}>
+            <Icon icon="edit" alt="Edit" />
+            <span>{t('commentsList.commentView.edit')}</span>
+          </button>
+        ) : null}
+      </header>
+      <div
+        className="c-textual-content --small"
+        dangerouslySetInnerHTML={{ __html: comment.contentHtml }}
+      />
+    </div>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/ListContainer.tsx ===
+import React from 'react'
+import { EmptyList } from './EmptyList'
+import { List } from './List'
+import { Count } from './Count'
+import { ResultsZone } from '../../ResultsZone'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
+import { SolutionComment } from '../../types'
+import { QueryKey } from '@tanstack/react-query'
+
+const DEFAULT_ERROR = new Error('Unable to load comments')
+
+export type APIResponse = {
+  items: readonly SolutionComment[]
+}
+
+export const ListContainer = ({
+  request,
+  cacheKey,
+}: {
+  request: Request
+  cacheKey: QueryKey
+}): JSX.Element => {
+  const {
+    data: resolvedData,
+    status,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>([...cacheKey], {
+    ...request,
+    options: { ...request.options },
+  })
+
+  return (
+    <ResultsZone isFetching={isFetching}>
+      <FetchingBoundary
+        error={error}
+        status={status}
+        defaultError={DEFAULT_ERROR}
+      >
+        {resolvedData ? (
+          <React.Fragment>
+            <Count number={resolvedData.items.length} />
+            {resolvedData.items.length !== 0 ? (
+              <List cacheKey={cacheKey} comments={resolvedData.items} />
+            ) : (
+              <EmptyList />
+            )}
+          </React.Fragment>
+        ) : null}
+      </FetchingBoundary>
+    </ResultsZone>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/List.tsx ===
+import React from 'react'
+import { QueryKey } from '@tanstack/react-query'
+import { SolutionComment } from '../../types'
+import { Comment } from './Comment'
+import { useItemList } from '../../common/use-item-list'
+
+export const List = ({
+  comments,
+  cacheKey,
+}: {
+  comments: readonly SolutionComment[]
+  cacheKey: QueryKey
+}): JSX.Element => {
+  const {
+    getItemAction,
+    handleEdit,
+    handleEditCancel,
+    handleUpdate,
+    handleDelete,
+  } = useItemList<SolutionComment>(cacheKey)
+
+  return (
+    <React.Fragment>
+      {comments.map((comment) => {
+        return (
+          <Comment
+            key={comment.uuid}
+            comment={comment}
+            action={getItemAction(comment)}
+            onEdit={handleEdit(comment)}
+            onEditCancel={handleEditCancel}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )
+      })}
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/CommentEdit.tsx ===
+import React from 'react'
+import { Avatar } from '../../common/Avatar'
+import { EditingComponentType } from '../../common/ListItem'
+import { SolutionComment } from '../../types'
+import { HandleWithFlair, Reputation } from '../../common'
+import { fromNow } from '../../../utils/time'
+import { EditListItemForm } from '../../common/EditListItemForm'
+
+const DEFAULT_ERROR = new Error('Unable to edit comment')
+
+export const CommentEdit = ({
+  item: comment,
+  onUpdate,
+  onDelete,
+  onCancel,
+}: EditingComponentType<SolutionComment>): JSX.Element => {
+  return (
+    <div className="comment">
+      <header className="flex items-center mb-16">
+        <Avatar src={comment.author.avatarUrl} handle={comment.author.handle} />
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <div className="text-h6 mr-8">
+              <HandleWithFlair
+                handle={comment.author.handle}
+                flair={comment.author.flair}
+              />
+            </div>
+            <Reputation value={comment.author.reputation} size="small" />
+          </div>
+          <div className="text-tetColor6 leading-160">
+            {fromNow(comment.updatedAt)}
+          </div>
+        </div>
+      </header>
+      <EditListItemForm<SolutionComment>
+        item={comment}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onCancel={onCancel}
+        defaultError={DEFAULT_ERROR}
+      />
+    </div>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/Comment.tsx ===
+import React from 'react'
+import { CommentView } from './CommentView'
+import { CommentEdit } from './CommentEdit'
+import { ListItem, ListItemProps } from '../../common/ListItem'
+import { SolutionComment } from '../../types'
+
+type Props = { comment: SolutionComment } & Omit<
+  ListItemProps<SolutionComment>,
+  'item' | 'ViewingComponent' | 'EditingComponent'
+>
+
+export const Comment = ({ comment, ...props }: Props): JSX.Element => {
+  return (
+    <ListItem<SolutionComment>
+      item={comment}
+      ViewingComponent={CommentView}
+      EditingComponent={CommentEdit}
+      {...props}
+    />
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/Count.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import pluralize from 'pluralize'
+
+export const Count = ({ number }: { number: number }): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  return (
+    <h2 className="text-h4 mb-24">
+      {t('commentsList.count.numberOfComments', {
+        number: number,
+        pluralize: pluralize('comment', number),
+      })}
+    </h2>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/EmptyList.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const EmptyList = (): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  return (
+    <div className="flex flex-col lg:items-center lg:center">
+      <h3 className="text-h5 text-textColor6 mb-2">
+        {t('commentsList.emptyList.noComments')}
+      </h3>
+      <p className="text-p-base.text-textColor6">
+        {t('commentsList.emptyList.beFirst')}
+      </p>
+    </div>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/Options.tsx ===
+import React, { useState } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { EnableSolutionCommentsModal } from '../../modals/EnableSolutionCommentsModal'
+import { DisableSolutionCommentsModal } from '../../modals/DisableSolutionCommentsModal'
+import { GraphicalIcon } from '../../common'
+
+type Links = {
+  enable: string
+  disable: string
+}
+
+type ModalId = 'enableComments' | 'disableComments'
+
+export const Options = ({
+  allowComments,
+  links,
+  onCommentsEnabled,
+  onCommentsDisabled,
+}: {
+  allowComments: boolean
+  links: Links
+  onCommentsEnabled: () => void
+  onCommentsDisabled: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    open,
+  } = useDropdown(3, undefined, {
+    placement: 'top-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [10, 8],
+        },
+      },
+    ],
+  })
+
+  return (
+    <React.Fragment>
+      <button
+        {...buttonAttributes}
+        className="btn-s text-14 text-textColor6 ml-auto"
+      >
+        <GraphicalIcon icon="settings" className="filter-textColor6" />
+        <span>Options</span>
+      </button>
+      {open ? (
+        <div {...panelAttributes} className="c-dropdown-generic-menu">
+          <ul {...listAttributes}>
+            <li {...itemAttributes(1)}>
+              {allowComments ? (
+                <button
+                  type="button"
+                  onClick={() => setOpenedModal('disableComments')}
+                >
+                  {t('commentsList.options.disableComments')}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setOpenedModal('enableComments')}
+                >
+                  {t('commentsList.options.enableComments')}
+                </button>
+              )}
+            </li>
+          </ul>
+        </div>
+      ) : null}
+      <EnableSolutionCommentsModal
+        endpoint={links.enable}
+        open={openedModal === 'enableComments'}
+        onClose={() => setOpenedModal(null)}
+        onSuccess={onCommentsEnabled}
+      />
+      <DisableSolutionCommentsModal
+        endpoint={links.disable}
+        open={openedModal === 'disableComments'}
+        onClose={() => setOpenedModal(null)}
+        onSuccess={onCommentsDisabled}
+      />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/Header.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Options } from './Options'
+
+type Links = {
+  changeIteration: string
+  unpublish: string
+  enable: string
+  disable: string
+}
+
+export const Header = ({
+  links,
+  isAuthor,
+  allowComments,
+  onCommentsEnabled,
+  onCommentsDisabled,
+}: {
+  links: Links
+  isAuthor: boolean
+  allowComments: boolean
+  onCommentsEnabled: () => void
+  onCommentsDisabled: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  return (
+    <header className="flex lg:items-center mb-12">
+      <h2 className="text-h4">{t('commentsList.header.writeComment')}</h2>
+      {isAuthor ? (
+        <Options
+          allowComments={allowComments}
+          links={links}
+          onCommentsEnabled={onCommentsEnabled}
+          onCommentsDisabled={onCommentsDisabled}
+        />
+      ) : null}
+    </header>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/NewCommentForm.tsx ===
+import React, { useCallback } from 'react'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
+import { SolutionComment } from '../../types'
+import { APIResponse } from './ListContainer'
+import { NewListItemForm } from '../../common/NewListItemForm'
+
+const DEFAULT_ERROR = new Error('Unable to post comment')
+
+export const NewCommentForm = ({
+  endpoint,
+  cacheKey,
+}: {
+  endpoint: string
+  cacheKey: QueryKey
+}): JSX.Element => {
+  const queryClient = useQueryClient()
+  const handleSuccess = useCallback(
+    (comment) => {
+      const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
+      if (!oldData) {
+        return [comment]
+      }
+
+      queryClient.setQueryData(cacheKey, {
+        ...oldData,
+        items: [comment, ...oldData.items],
+      })
+    },
+    [cacheKey, queryClient]
+  )
+
+  return (
+    <NewListItemForm<SolutionComment>
+      endpoint={endpoint}
+      expanded
+      contextId={endpoint}
+      onSuccess={handleSuccess}
+      defaultError={DEFAULT_ERROR}
+    />
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/comments-list/ListDisabled.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ListDisabled = ({
+  isAuthor,
+}: {
+  isAuthor: boolean
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
+  if (isAuthor) {
+    return (
+      <p className="text-16 leading-150 text-textColor6">
+        {t('commentsList.listDisabled.disabledCommentsAuthor')}
+      </p>
+    )
+  } else {
+    return <p>{t('commentsList.listDisabled.disabledComments')}</p>
+  }
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/StarButton.tsx ===
+import React, { useState } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useMutation } from '@tanstack/react-query'
+import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
+
+type Links = {
+  star: string
+}
+
+type APIResponse = {
+  isStarred: boolean
+  numStars: number
+}
+
+const DEFAULT_ERROR = new Error('Unable to update stars')
+
+export default function StarButton({
+  userSignedIn,
+  defaultNumStars,
+  defaultIsStarred,
+  links,
+}: {
+  userSignedIn: boolean
+  defaultNumStars: number
+  defaultIsStarred: boolean
+  links: Links
+}): JSX.Element {
+  const { t } = useAppTranslation('components/community-solutions')
+  const [state, setState] = useState({
+    numStars: defaultNumStars,
+    isStarred: defaultIsStarred,
+  })
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: links.star,
+        method: state.isStarred ? 'DELETE' : 'POST',
+        body: null,
+      })
+
+      return fetch.then((json) => typecheck<APIResponse>(json, 'star'))
+    },
+    onSuccess: (response) => {
+      setState(response)
+    },
+  })
+
+  if (!userSignedIn) {
+    return (
+      <div className="btn-enhanced btn-s star-button --unstarred">
+        <Icon icon="star" alt="Number of stars" />
+        <span>{state.numStars}</span>
+      </div>
+    )
+  }
+
+  return (
+    <React.Fragment>
+      <FormButton
+        className={`btn-enhanced btn-s star-button --${
+          state.isStarred ? 'starred' : 'unstarred'
+        }`}
+        type="button"
+        onClick={() => mutation()}
+        status={status}
+      >
+        <Icon
+          icon={state.isStarred ? 'starred' : 'star'}
+          alt="Number of stars"
+        />
+        <span>{t('starButton.numberOfStars', { stateNumStars: state.numStars })}</span>
+      </FormButton>
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        </ErrorBoundary>
+      ) : null}
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/community-solutions/CommentsList.tsx ===
+import React, { useState, useCallback } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Header } from './comments-list/Header'
+import { NewCommentForm } from './comments-list/NewCommentForm'
+import { Reminder } from './comments-list/Reminder'
+import { ListContainer } from './comments-list/ListContainer'
+import { ListDisabled } from './comments-list/ListDisabled'
+import type { Request } from '@/hooks/request-query'
+
+export type Links = {
+  create: string
+  changeIteration: string
+  unpublish: string
+  enable: string
+  disable: string
+}
+
+export default function CommentsList({
+  defaultAllowComments,
+  isAuthor,
+  userSignedIn,
+  request,
+  links,
+}: {
+  defaultAllowComments: boolean
+  isAuthor: boolean
+  userSignedIn: boolean
+  request: Request
+  links: Links
+}): JSX.Element {
+  const { t } = useAppTranslation('components/community-solutions')
+  const [allowComments, setAllowComments] = useState(defaultAllowComments)
+
+  const handleCommentsEnabled = useCallback(() => {
+    setAllowComments(true)
+  }, [])
+
+  const handleCommentsDisabled = useCallback(() => {
+    setAllowComments(false)
+  }, [])
+
+  return (
+    <section className="comments mt-40">
+      {userSignedIn ? (
+        <React.Fragment>
+          <Header
+            links={links}
+            isAuthor={isAuthor}
+            allowComments={allowComments}
+            onCommentsEnabled={handleCommentsEnabled}
+            onCommentsDisabled={handleCommentsDisabled}
+          />
+          {allowComments ? (
+            <React.Fragment>
+              <NewCommentForm cacheKey={[request]} endpoint={links.create} />
+              <Reminder />
+            </React.Fragment>
+          ) : null}
+        </React.Fragment>
+      ) : null}
+      {allowComments ? (
+        <ListContainer cacheKey={[request]} request={request} />
+      ) : (
+        <ListDisabled isAuthor={isAuthor} />
+      )}
+    </section>
+  )
+}
+
+// === end file ===
+```

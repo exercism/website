@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { fromNow } from '../../../utils/time'
 import { Avatar, Reputation, Icon, HandleWithFlair } from '../../common'
 import { ViewingComponentType } from '../../common/ListItem'
@@ -8,6 +9,7 @@ export const CommentView = ({
   item: comment,
   onEdit,
 }: ViewingComponentType<SolutionComment>): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
   const isEditable = comment.links.edit
 
   return (
@@ -31,7 +33,7 @@ export const CommentView = ({
         {isEditable ? (
           <button type="button" className="edit-button" onClick={onEdit}>
             <Icon icon="edit" alt="Edit" />
-            <span>Edit</span>
+            <span>{t('commentsList.commentView.edit')}</span>
           </button>
         ) : null}
       </header>

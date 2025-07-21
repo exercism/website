@@ -4,8 +4,15 @@ import path from 'path'
 const EN_FOLDER = path.resolve('./en')
 const OUTPUT_FILE = path.join(EN_FOLDER, 'index.ts')
 
-function toSafeIdentifier(input: string): string {
-  return input.replace(/[^a-zA-Z0-9]/g, '')
+function toShortId(index: number): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let id = ''
+  do {
+    id = chars[index % chars.length] + id
+    index = Math.floor(index / chars.length)
+  } while (index > 0)
+
+  return id.padStart(2, 'a')
 }
 
 export async function generateEnIndex() {
@@ -13,6 +20,8 @@ export async function generateEnIndex() {
 
   const index: { importName: string; importPath: string; namespace: string }[] =
     []
+
+  let counter = 0
 
   for (const entry of entries) {
     if (!entry.endsWith('.ts') || entry === 'index.ts') continue
@@ -27,7 +36,7 @@ export async function generateEnIndex() {
     }
 
     const namespace = namespaceMatch[1].trim()
-    const importName = toSafeIdentifier(entry.replace(/\.ts$/, ''))
+    const importName = toShortId(counter++)
     const importPath = `./${entry.replace(/\.ts$/, '')}`
 
     index.push({ importName, importPath, namespace })

@@ -14,6 +14,7 @@ import componentseditorpanels from './components-editor-panels'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsimpactTopLearningCountriestsx from './components-impact-TopLearningCountries.tsx'
 import componentsconceptmap from './components-concept-map'
+import componentsjourneyoverviewlearningsection from './components-journey-overview-learning-section'
 import componentscontributing from './components-contributing'
 import componentseditorEditorStatusSummarytsx from './components-editor-EditorStatusSummary.tsx'
 import componentscontributingtaskslisttask from './components-contributing-tasks-list-task'
@@ -54,6 +55,8 @@ export default {
   'components/impact/TopLearningCountries.tsx':
     componentsimpactTopLearningCountriestsx,
   'components/concept-map': componentsconceptmap,
+  'components/journey/overview/learning-section':
+    componentsjourneyoverviewlearningsection,
   'components/contributing': componentscontributing,
   'components/editor/EditorStatusSummary.tsx':
     componentseditorEditorStatusSummarytsx,

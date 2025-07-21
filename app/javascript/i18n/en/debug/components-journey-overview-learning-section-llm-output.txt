@@ -1,0 +1,348 @@
+```ts
+// i18n
+export default {
+  "exercisesCompletedSummary.exerciseCompleted": "{{count}} Exercise completed",
+  "exercisesCompletedSummary.exercisesCompleted": "{{count}} Exercises completed",
+  "conceptsLearntSummary.conceptLearnt": "{{count}} Concept learnt",
+  "conceptsLearntSummary.conceptsLearnt": "{{count}} Concepts learnt",
+  "headerSummary.youVeProgressed": "You've progressed the furthest in ",
+  "learningStats.youVeWritten": "You've written ",
+  "learningStats.lineOfCode": "{{count}} line of code",
+  "learningStats.linesOfCode": "{{count}} lines of code",
+  "learningStats.across": "across ",
+  "learningStats.solution": "{{count}} solution",
+  "learningStats.solutions": "{{count}} solutions",
+  "learningStats.approximatelyEquivalent": "That's approximately equivalent to the length of an ",
+  "tracksEnrolledSummary.trackEnrolled": "{{count}} Track enrolled",
+  "tracksEnrolledSummary.tracksEnrolled": "{{count}} Tracks enrolled",
+  "trackSummary.exercisesCompleted": "{{completed}} / {{total}} ({{percent}}%) exercises completed",
+  "trackSummary.whenYouJoined": "When you joined the {{trackTitle}} Track",
+  "trackSummary.youStartedWorking": "You started working through the {{trackTitle}} Track ",
+  "trackSummary.mentoringSessionCompleted": "{{count}} Mentoring session completed",
+  "trackSummary.mentoringSessionsCompleted": "{{count}} Mentoring sessions completed",
+  "trackSummary.none": "none",
+  "trackSummary.discussion": "{{count}} discussion",
+  "trackSummary.discussions": "{{count}} discussions",
+  "trackSummary.inProgressAnd": "in progress and ",
+  "trackSummary.queueSolution": "{{count}} solution",
+  "trackSummary.queueSolutions": "{{count}} solutions",
+  "trackSummary.inTheQueue": "in the queue.",
+  "trackSummary.progressionVelocity": "Progression Velocity",
+  "trackSummary.avgOnExercism": "Avg. on Exercism = {{avgVelocity}}",
+  "trackSummary.measureOfHowQuickly": "This is a measure of how quickly you've progressed through the track in the last 6 months",
+  "learningOverview.youReThrough": "You're ",
+  "learningOverview.throughYourEnrolledTracks": "through your enrolled {{count}}.",
+  "learningOverview.keepItUp": "Keep it up! 🚀",
+  "learningOverview.exercisesCompleted": "{{completed}} / {{total}} exercises completed"
+}
+
+// modified_files
+// === file: ../components/journey/overview/learning-section/ExercisesCompletedSummary.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
+import { TrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ExercisesCompletedSummary = ({
+  tracks,
+}: {
+  tracks: TrackProgressList
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+
+  return (
+    <div className="box">
+      <div className="journey-h3">{tracks.numCompletedExercises}</div>
+      <div className="journey-label">
+        {pluralize('Exercise', tracks.numCompletedExercises)} completed
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/ConceptsLearntSummary.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
+import { TrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ConceptsLearntSummary = ({
+  tracks,
+}: {
+  tracks: TrackProgressList
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+
+  return (
+    <div className="box">
+      <div className="journey-h3">{tracks.numConceptsLearnt}</div>
+      <div className="journey-label">
+        {pluralize('Concept', tracks.numConceptsLearnt)} learnt
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/HeaderSummary.tsx ===
+import React from 'react'
+import { TrackProgress, TrackProgressList } from '../../types'
+import { TrackHeaderSpan } from '../TrackHeaderSpan'
+import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const MAX_TRACKS = 4
+
+export const HeaderSummary = ({
+  tracks,
+}: {
+  tracks: TrackProgressList
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+  const tracksToDisplay = tracks.sort().items.slice(0, MAX_TRACKS)
+
+  return (
+    <p>
+      {t('headerSummary.youVeProgressed')}
+      <TrackHeaderSummaryText<TrackProgress>
+        tracks={tracksToDisplay}
+        SpanComponent={TrackSummary}
+      />
+    </p>
+  )
+}
+
+const TrackSummary = ({ track }: { track: TrackProgress }): JSX.Element => {
+  return (
+    <TrackHeaderSpan slug={track.slug}>
+      {track.title} ({track.completion.toFixed(2)}%)
+    </TrackHeaderSpan>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/LearningStats.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
+import { TrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Links = {
+  solutions: string
+  fable: string
+}
+
+export const LearningStats = ({
+  tracks,
+  links,
+}: {
+  tracks: TrackProgressList
+  links: Links
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+
+  return (
+    <div className="stats">
+      <h3>Did you know?</h3>
+      <div className="stat">
+        {t('learningStats.youVeWritten')}
+        <strong>
+          {tracks.numLines.toLocaleString()}{' '}
+          {pluralize('line', tracks.numLines)}
+        </strong>{' '}
+        {t('learningStats.across')}
+        <a href={links.solutions}>
+          {tracks.numSolutions} {pluralize('solution', tracks.numSolutions)}
+        </a>
+      </div>
+      <div className="stat">
+        {t('learningStats.approximatelyEquivalent')}
+        <a href={links.fable}>Aesop&apos;s Fable!</a>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/TracksEnrolledSummary.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
+import { TrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const TracksEnrolledSummary = ({
+  tracks,
+}: {
+  tracks: TrackProgressList
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+
+  return (
+    <div className="box">
+      <div className="journey-h3">{tracks.length}</div>
+      <div className="journey-label">
+        {pluralize('Track', tracks.length)} enrolled
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/TrackSummary.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
+import { timeFormat, fromNow } from '@/utils/time'
+import { GraphicalIcon } from '@/components/common'
+import ProgressGraph from '@/components/common/ProgressGraph'
+import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
+import type { TrackProgress } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const TrackSummary = ({
+  track,
+  expanded,
+  avgVelocity,
+}: {
+  track: TrackProgress
+  expanded: boolean
+  avgVelocity: number | null
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+
+  return (
+    <details className="c-details track" open={expanded}>
+      <summary className="--summary">
+        <TrackSummaryHeader track={track} />
+      </summary>
+      <div className="track-details">
+        <div className="time-area">
+          <ProgressGraph
+            data={track.progressChart.data}
+            height={120}
+            width={300}
+          />
+          <div className="info">
+            <h4>{track.progressChart.period}</h4>
+            <p>
+              {t('trackSummary.exercisesCompleted', {
+                completed: track.numCompletedExercises,
+                total: track.numExercises,
+                percent: track.completion.toFixed(2),
+              })}
+            </p>
+          </div>
+        </div>
+        <div className="date-area">
+          <GraphicalIcon icon="entry" />
+          <h4 className="journey-h3">
+            {timeFormat(track.startedAt, 'DD MMM YYYY')}
+          </h4>
+          <h5 className="text-h6">
+            {t('trackSummary.whenYouJoined', { trackTitle: track.title })}
+          </h5>
+          <p>
+            {t('trackSummary.youStartedWorking', { trackTitle: track.title })}
+            <strong>{fromNow(track.startedAt)}</strong>.
+          </p>
+        </div>
+        <div className="mentor-history-area">
+          <GraphicalIcon icon="mentoring" />
+          <h4 className="journey-h3">
+            {track.numCompletedMentoringDiscussions}
+          </h4>
+          <h5 className="text-h6">
+            Mentoring{' '}
+            {pluralize('session', track.numCompletedMentoringDiscussions)}{' '}
+            completed
+          </h5>
+
+          <p>
+            You have{' '}
+            <strong>
+              {track.numInProgressMentoringDiscussions === 0
+                ? t('trackSummary.none')
+                : `${track.numInProgressMentoringDiscussions} ${pluralize(
+                    'discussion',
+                    track.numInProgressMentoringDiscussions
+                  )}`}
+            </strong>{' '}
+            {t('trackSummary.inProgressAnd')}
+            <strong>
+              {track.numQueuedMentoringRequests === 0
+                ? t('trackSummary.none')
+                : `${track.numQueuedMentoringRequests} ${pluralize(
+                    'solution',
+                    track.numQueuedMentoringRequests
+                  )}`}
+            </strong>{' '}
+            {t('trackSummary.inTheQueue')}
+          </p>
+        </div>
+        {track.velocity ? (
+          <div className="velocity-area">
+            <GraphicalIcon icon="velocity" />
+            <div className="journey-h3">{track.velocity}</div>
+            <h4>{t('trackSummary.progressionVelocity')}</h4>
+            {avgVelocity ? (
+              <div className="note">
+                {t('trackSummary.avgOnExercism', { avgVelocity })}
+              </div>
+            ) : null}
+            <div className="info">
+              {t('trackSummary.measureOfHowQuickly')}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </details>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/learning-section/LearningOverview.tsx ===
+import pluralize from 'pluralize'
+import React from 'react'
+import { TrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const LearningOverview = ({
+  tracks,
+}: {
+  tracks: TrackProgressList
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/learning-section')
+  return (
+    <div className="overview">
+      <h3>
+        {t('learningOverview.youReThrough')}
+        <em className="text-gradient">{tracks.completion.toFixed(2)}%</em>{' '}
+        {t('learningOverview.throughYourEnrolledTracks', {
+          count: pluralize('Track', tracks.length),
+        })}
+        .{' '}
+        {tracks.completion > 1 ? (
+          <strong>{t('learningOverview.keepItUp')}</strong>
+        ) : null}
+      </h3>
+      <div className="c-progress --large">
+        <div className="bar" style={{ width: `${tracks.completion}%` }} />
+      </div>
+      <div className="count">
+        {t('learningOverview.exercisesCompleted', {
+          completed: tracks.numCompletedExercises,
+          total: tracks.numExercises,
+        })}
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

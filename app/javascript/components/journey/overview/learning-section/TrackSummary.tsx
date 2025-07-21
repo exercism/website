@@ -1,9 +1,11 @@
 import React from 'react'
 import pluralize from 'pluralize'
+import { Trans } from 'react-i18next'
 import { timeFormat, fromNow } from '@/utils/time'
 import { GraphicalIcon } from '@/components/common'
 import ProgressGraph from '@/components/common/ProgressGraph'
 import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import type { TrackProgress } from '../../types'
 
 export const TrackSummary = ({
@@ -15,6 +17,10 @@ export const TrackSummary = ({
   expanded: boolean
   avgVelocity: number | null
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/learning-section'
+  )
+
   return (
     <details className="c-details track" open={expanded}>
       <summary className="--summary">
@@ -30,67 +36,98 @@ export const TrackSummary = ({
           <div className="info">
             <h4>{track.progressChart.period}</h4>
             <p>
-              {track.numCompletedExercises} / {track.numExercises} (
-              {track.completion.toFixed(2)}%) exercises completed
+              <Trans
+                i18nKey="trackSummary.exercisesCompleted"
+                values={{
+                  completed: track.numCompletedExercises,
+                  total: track.numExercises,
+                  percent: track.completion.toFixed(2),
+                }}
+              />
             </p>
           </div>
         </div>
+
         <div className="date-area">
           <GraphicalIcon icon="entry" />
           <h4 className="journey-h3">
             {timeFormat(track.startedAt, 'DD MMM YYYY')}
           </h4>
-          <h5 className="text-h6">When you joined the {track.title} Track</h5>
+          <h5 className="text-h6">
+            <Trans
+              i18nKey="trackSummary.joinedTrack"
+              values={{ title: track.title }}
+            />
+          </h5>
           <p>
-            You started working through the {track.title} Track{' '}
-            <strong>{fromNow(track.startedAt)}</strong>.
+            <Trans
+              i18nKey="trackSummary.startedTrackAgo"
+              values={{
+                title: track.title,
+                since: fromNow(track.startedAt),
+              }}
+              components={{ strong: <strong /> }}
+            />
           </p>
         </div>
+
         <div className="mentor-history-area">
           <GraphicalIcon icon="mentoring" />
           <h4 className="journey-h3">
             {track.numCompletedMentoringDiscussions}
           </h4>
           <h5 className="text-h6">
-            Mentoring{' '}
-            {pluralize('session', track.numCompletedMentoringDiscussions)}{' '}
-            completed
+            <Trans
+              i18nKey="trackSummary.mentoringSessionsCompleted"
+              values={{
+                count: track.numCompletedMentoringDiscussions,
+                label: pluralize(
+                  'session',
+                  track.numCompletedMentoringDiscussions
+                ),
+              }}
+            />
           </h5>
-
           <p>
-            You have{' '}
-            <strong>
-              {track.numInProgressMentoringDiscussions === 0
-                ? 'none'
-                : `${track.numInProgressMentoringDiscussions} ${pluralize(
-                    'discussion',
-                    track.numInProgressMentoringDiscussions
-                  )}`}
-            </strong>{' '}
-            in progress and{' '}
-            <strong>
-              {track.numQueuedMentoringRequests === 0
-                ? 'none'
-                : `${track.numQueuedMentoringRequests} ${pluralize(
-                    'solution',
-                    track.numQueuedMentoringRequests
-                  )}`}
-            </strong>{' '}
-            in the queue.
+            <Trans
+              i18nKey="trackSummary.mentoringStatus"
+              values={{
+                inProgress:
+                  track.numInProgressMentoringDiscussions === 0
+                    ? t('trackSummary.none')
+                    : `${track.numInProgressMentoringDiscussions} ${pluralize(
+                        'discussion',
+                        track.numInProgressMentoringDiscussions
+                      )}`,
+                queued:
+                  track.numQueuedMentoringRequests === 0
+                    ? t('trackSummary.none')
+                    : `${track.numQueuedMentoringRequests} ${pluralize(
+                        'solution',
+                        track.numQueuedMentoringRequests
+                      )}`,
+              }}
+              components={{
+                strong: <strong />,
+              }}
+            />
           </p>
         </div>
+
         {track.velocity ? (
           <div className="velocity-area">
             <GraphicalIcon icon="velocity" />
             <div className="journey-h3">{track.velocity}</div>
-            <h4>Progression Velocity</h4>
+            <h4>{t('trackSummary.progressionVelocity')}</h4>
             {avgVelocity ? (
-              <div className="note">Avg. on Exercism = {avgVelocity}</div>
+              <div className="note">
+                <Trans
+                  i18nKey="trackSummary.avgVelocity"
+                  values={{ avg: avgVelocity }}
+                />
+              </div>
             ) : null}
-            <div className="info">
-              This is a measure of how quickly you&apos;ve progressed through
-              the track in the last 6 months
-            </div>
+            <div className="info">{t('trackSummary.velocityExplanation')}</div>
           </div>
         ) : null}
       </div>

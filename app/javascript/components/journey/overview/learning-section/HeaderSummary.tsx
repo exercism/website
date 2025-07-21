@@ -2,6 +2,7 @@ import React from 'react'
 import { TrackProgress, TrackProgressList } from '../../types'
 import { TrackHeaderSpan } from '../TrackHeaderSpan'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const MAX_TRACKS = 4
 
@@ -10,11 +11,14 @@ export const HeaderSummary = ({
 }: {
   tracks: TrackProgressList
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/learning-section'
+  )
   const tracksToDisplay = tracks.sort().items.slice(0, MAX_TRACKS)
 
   return (
     <p>
-      You&apos;ve progressed the furthest in{' '}
+      {t('headerSummary.youVeProgressed')}
       <TrackHeaderSummaryText<TrackProgress>
         tracks={tracksToDisplay}
         SpanComponent={TrackSummary}

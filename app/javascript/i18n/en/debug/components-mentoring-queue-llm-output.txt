@@ -1,0 +1,742 @@
+```ts
+// i18n
+export default {
+  "exerciseFilterList.allExercises": "All exercises",
+  "exerciseFilterList.searchByExerciseName": "Search by Exercise name",
+  "exerciseFilterList.onlyShowExercisesThatNeedMentoring": "Only show exercises that need mentoring",
+  "exerciseFilterList.onlyShowExercisesIHaveCompleted": "Only show exercises I've completed",
+  "solutionList.noDiscussionsFound": "No discussions found",
+  "solution.favoriteStudent": "Favorite student",
+  "solution.mentoredPreviously": "Mentored previously",
+  "trackFilterList.clickToChange": "Click to change",
+  "trackFilterList.changeTheTracksYouMentor": "Change the tracks you mentor"
+}
+
+// modified_files
+// === file: ../components/mentoring/queue/ExerciseFilterList.tsx ===
+// i18n-key-prefix: exerciseFilterList
+// i18n-namespace: components/mentoring/queue
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import { ExerciseIcon, GraphicalIcon } from '../../common'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { MentoredTrackExercise } from '../../types'
+import { QueryStatus } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  exercises: MentoredTrackExercise[] | undefined
+  value: MentoredTrackExercise | null
+  setValue: (value: MentoredTrackExercise | null) => void
+}
+
+const AllExerciseFilter = ({
+  count,
+  checked,
+  onChange,
+}: {
+  count: number
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  return (
+    <label className="c-radio-wrapper">
+      <input type="radio" onChange={onChange} checked={checked} />
+      <div className="row">
+        <div className="c-radio" />
+        <GraphicalIcon icon="exercise" category="graphics" />
+        <div className="title">{t('exerciseFilterList.allExercises')}</div>
+        <div className="count">{count}</div>
+      </div>
+    </label>
+  )
+}
+
+const ExerciseFilter = ({
+  title,
+  iconUrl,
+  count,
+  checked,
+  onChange,
+}: MentoredTrackExercise & {
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+}): JSX.Element => {
+  const classNames = `c-radio-wrapper ${count == 0 ? 'zero' : null}`
+  return (
+    <label className={classNames}>
+      <input type="radio" onChange={onChange} checked={checked} />
+      <div className="row">
+        <div className="c-radio" />
+        <ExerciseIcon iconUrl={iconUrl} />
+        <div className="title">{title}</div>
+        <div className="count">{count}</div>
+      </div>
+    </label>
+  )
+}
+
+const DEFAULT_ERROR = new Error('Unable to fetch exercises')
+
+export const ExerciseFilterList = ({
+  status,
+  error,
+  ...props
+}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] =
+    useState(true)
+  const [isShowingExercisesCompleted, setIsShowingExercisesCompleted] =
+    useState(false)
+
+  const exercisesToShow = useMemo(() => {
+    if (!exercises) {
+      return []
+    }
+
+    return exercises
+      .filter((exercise) => {
+        if (exercise.slug === value?.slug) {
+          return true
+        }
+
+        return isShowingExercisesToMentor ? exercise.count !== 0 : true
+      })
+      .filter((exercise) => {
+        if (exercise.slug === value?.slug) {
+          return true
+        }
+
+        return isShowingExercisesCompleted ? exercise.completedByMentor : true
+      })
+      .filter((exercise) =>
+        exercise.title.match(new RegExp(`^${searchQuery}`, 'i'))
+      )
+  }, [
+    exercises,
+    isShowingExercisesCompleted,
+    isShowingExercisesToMentor,
+    searchQuery,
+    value?.slug,
+  ])
+
+  const handleChange = useCallback(
+    (e, optionValue) => {
+      setSearchQuery('')
+      setValue(optionValue)
+    },
+    [setValue]
+  )
+
+  const handleShowCompletedExercises = useCallback(
+    (e) => {
+      if (!exercises) {
+        return
+      }
+
+      setIsShowingExercisesCompleted(e.target.checked)
+      setValue(null)
+    },
+    [exercises, setValue]
+  )
+
+  const handleSearchBarChange = useCallback((e) => {
+    setSearchQuery(e.target.value)
+  }, [])
+
+  useEffect(() => {
+    setSearchQuery('')
+    setIsShowingExercisesToMentor(true)
+    setIsShowingExercisesCompleted(false)
+  }, [JSON.stringify(exercises)])
+
+  return (
+    <>
+      <div className="exercise-filter">
+        <div className="c-search-bar">
+          <input
+            value={searchQuery}
+            onChange={handleSearchBarChange}
+            className="--search"
+            placeholder={t('exerciseFilterList.searchByExerciseName')}
+          />
+        </div>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesToMentor}
+            onChange={() =>
+              setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
+            }
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            {t('exerciseFilterList.onlyShowExercisesThatNeedMentoring')}
+          </div>
+        </label>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesCompleted}
+            onChange={handleShowCompletedExercises}
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            {t('exerciseFilterList.onlyShowExercisesIHaveCompleted')}
+          </div>
+        </label>
+      </div>
+      <div className="exercises">
+        <AllExerciseFilter
+          key="all"
+          onChange={(e) => handleChange(e, null)}
+          checked={value === null}
+          count={
+            exercises?.reduce((sum, exercise) => sum + exercise.count, 0) || 0
+          }
+        />
+        {exercisesToShow.map((exercise) => (
+          <ExerciseFilter
+            key={exercise.slug}
+            onChange={(e) => handleChange(e, exercise)}
+            checked={value?.slug === exercise.slug}
+            {...exercise}
+          />
+        ))}
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/SolutionList.tsx ===
+// i18n-key-prefix: solutionList
+// i18n-namespace: components/mentoring/queue
+import React from 'react'
+import { QueryStatus } from '@tanstack/react-query'
+import { Pagination } from '@/components/common/Pagination'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { Solution } from './Solution'
+import type { APIResponse } from './useMentoringQueue'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to fetch queue')
+
+type Props = {
+  resolvedData: APIResponse | undefined
+  page: number
+  setPage: (page: number) => void
+}
+
+export const SolutionList = ({
+  status,
+  error,
+  ...props
+}: { status: QueryStatus; error: unknown } & Props): JSX.Element => {
+  return (
+    <FetchingBoundary
+      status={status}
+      error={error}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+const Component = ({ resolvedData, page, setPage }: Props) => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  return (
+    <>
+      {resolvedData && resolvedData.results.length > 0 ? (
+        <React.Fragment>
+          <div className="--solutions">
+            {resolvedData.results.length > 0
+              ? resolvedData.results.map((solution, key) => (
+                  <Solution key={key} {...solution} />
+                ))
+              : t('solutionList.noDiscussionsFound')}
+          </div>
+          <footer>
+            <Pagination
+              disabled={resolvedData === undefined}
+              current={page}
+              total={resolvedData.meta.totalPages}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
+            />
+          </footer>
+        </React.Fragment>
+      ) : null}
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/useMentoringQueue.tsx ===
+// i18n-key-prefix: useMentoringQueue
+// i18n-namespace: components/mentoring/queue
+import { useMemo } from 'react'
+import { QueryStatus } from '@tanstack/react-query'
+import { useDebounce } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type MentoringRequest = {
+  uuid: string
+  track: { title: string }
+  exercise: { title: string; iconUrl: string }
+  student: { handle: string; avatarUrl: string }
+  solution: { uuid: string }
+  updatedAt: string
+  isFavorited: boolean
+  haveMentoredPreviously: boolean
+  status: string
+  tooltipUrl: string
+  url: string
+}
+
+export type APIResponse = {
+  results: MentoringRequest[]
+  meta: {
+    currentPage: number
+    totalCount: number
+    totalPages: number
+    unscopedTotal: number
+  }
+}
+
+export const useMentoringQueue = ({
+  request: initialRequest,
+  track,
+  exercise,
+}: {
+  request: Request
+  track: MentoredTrack | null
+  exercise: MentoredTrackExercise | null
+}): {
+  criteria?: string
+  setCriteria: (criteria: string) => void
+  order: string
+  setOrder: (order: string) => void
+  page: number
+  setPage: (page: number) => void
+  resolvedData: APIResponse | undefined
+  isFetching: boolean
+  status: QueryStatus
+  error: unknown
+} => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
+  const trackSlug = track?.slug
+  const exerciseSlug = exercise?.slug
+  const query = useMemo(() => {
+    return {
+      ...request.query,
+      trackSlug: trackSlug,
+      exerciseSlug: exerciseSlug,
+    }
+  }, [exerciseSlug, request.query, trackSlug])
+  const debouncedQuery = useDebounce(query, 500)
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentoring-request', debouncedQuery, request],
+    {
+      ...request,
+      query: debouncedQuery,
+      options: {
+        ...request.options,
+        enabled: !!track,
+      },
+    }
+  )
+
+  useHistory({ pushOn: debouncedQuery })
+
+  return {
+    resolvedData,
+    status,
+    isFetching,
+    criteria: request.query.criteria,
+    setCriteria,
+    order: request.query.order,
+    setOrder,
+    page: request.query.page || 1,
+    setPage,
+    error,
+  }
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/useTrackList.tsx ===
+// i18n-key-prefix: useTrackList
+// i18n-namespace: components/mentoring/queue
+import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
+import { MentoredTrack } from '../../types'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type APIResponse = {
+  tracks: MentoredTrack[]
+}
+
+export const useTrackList = ({
+  cacheKey,
+  request,
+}: {
+  cacheKey: QueryKey
+  request: Request
+}): {
+  tracks: MentoredTrack[]
+  status: QueryStatus
+  error: unknown
+  isFetching: boolean
+  resolvedData: any
+} => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(cacheKey, request)
+
+  return {
+    tracks: resolvedData ? resolvedData.tracks : [],
+    status,
+    error,
+    isFetching,
+    resolvedData,
+  }
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/useExerciseList.tsx ===
+// i18n-key-prefix: useExerciseList
+// i18n-namespace: components/mentoring/queue
+import { QueryStatus } from '@tanstack/react-query'
+import { MentoredTrack, MentoredTrackExercise } from '../../types'
+import { usePaginatedRequestQuery } from '../../../hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const useExerciseList = ({
+  track,
+}: {
+  track: MentoredTrack | null
+}): {
+  exercises: MentoredTrackExercise[] | undefined
+  status: QueryStatus
+  isFetching: boolean
+  error: unknown
+} => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const {
+    data: exercises,
+    status,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<MentoredTrackExercise[]>(
+    ['mentored-exercises', track?.slug],
+    {
+      endpoint: track?.links.exercises,
+      options: {
+        enabled: !!track,
+        initialData: track?.exercises ? track.exercises : undefined,
+      },
+    }
+  )
+
+  return {
+    exercises,
+    status,
+    isFetching,
+    error,
+  }
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/Solution.tsx ===
+// i18n-key-prefix: solution
+// i18n-namespace: components/mentoring/queue
+import React from 'react'
+import { fromNow } from '../../../utils/time'
+import { ExerciseIcon } from '../../common/ExerciseIcon'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Icon } from '../../common/Icon'
+import { Avatar } from '../../common/Avatar'
+import { StudentTooltip } from '../../tooltips'
+import { MentoringRequest } from './useMentoringQueue'
+import { ExercismTippy } from '../../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const Solution = ({
+  student,
+  exercise,
+  isFavorited,
+  haveMentoredPreviously,
+  status,
+  updatedAt,
+  url,
+  tooltipUrl,
+}: MentoringRequest): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  return (
+    <ExercismTippy content={<StudentTooltip endpoint={tooltipUrl} />}>
+      <a href={url} className="--solution">
+        <ExerciseIcon title={exercise.title} iconUrl={exercise.iconUrl} />
+        <Avatar src={student.avatarUrl} handle={student.handle} />
+        <div className="--info">
+          <div className="--handle">
+            {student.handle}
+            {isFavorited ? (
+              <Icon
+                icon="gold-star"
+                alt={t('solution.favoriteStudent')}
+                className="favorited"
+              />
+            ) : haveMentoredPreviously ? (
+              <Icon
+                icon="mentoring"
+                alt={t('solution.mentoredPreviously')}
+                className="previously-mentored"
+              />
+            ) : null}
+          </div>
+          <div className="--exercise-title">on {exercise.title}</div>
+        </div>
+        {status ? <div className="--status">{status}</div> : null}
+        <time className="-updated-at">{fromNow(updatedAt)}</time>
+        <GraphicalIcon icon="chevron-right" className="action-icon" />
+      </a>
+    </ExercismTippy>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/queue/TrackFilterList.tsx ===
+// i18n-key-prefix: trackFilterList
+// i18n-namespace: components/mentoring/queue
+import React, { useCallback, useRef, useState } from 'react'
+import { TrackIcon, Icon, GraphicalIcon } from '../../common'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { MentoredTrack } from '../../types'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { ResultsZone } from '../../ResultsZone'
+import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const TrackFilter = ({
+  title,
+  iconUrl,
+  numSolutionsQueued,
+  checked,
+  onChange,
+}: MentoredTrack & {
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+}): JSX.Element => {
+  return (
+    <label className="c-radio-wrapper">
+      <input
+        type="radio"
+        onChange={onChange}
+        checked={checked}
+        name="queue_track"
+      />
+      <div className="row">
+        <TrackIcon iconUrl={iconUrl} title={title} />
+        <div className="title">{title}</div>
+        <div className="count">{numSolutionsQueued}</div>
+      </div>
+    </label>
+  )
+}
+
+const DEFAULT_ERROR = new Error('Unable to fetch tracks')
+
+export const TrackFilterList = ({
+  status,
+  error,
+  children,
+  ...props
+}: React.PropsWithChildren<
+  Props & { status: QueryStatus; error: unknown }
+>): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props}>{children}</Component>
+    </FetchingBoundary>
+  )
+}
+
+type Props = {
+  tracks: MentoredTrack[] | undefined
+  isFetching: boolean
+  value: MentoredTrack
+  setValue: (value: MentoredTrack) => void
+  cacheKey: QueryKey
+  links: {
+    tracks: string
+    updateTracks: string
+  }
+  sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
+  countText?: string
+}
+
+const Component = ({
+  sizeVariant = 'large',
+  tracks,
+  isFetching,
+  value,
+  countText,
+  setValue,
+  cacheKey,
+  links,
+}: Props): JSX.Element | null => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const changeTracksRef = useRef<HTMLButtonElement>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    setOpen,
+    open,
+  } = useDropdown((tracks?.length || 0) + 1, (i) => handleItemSelect(i), {
+    placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
+  const handleItemSelect = useCallback(
+    (index) => {
+      if (!tracks) {
+        return
+      }
+
+      const track = tracks[index]
+
+      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
+      setOpen(false)
+    },
+    [setValue, tracks, setOpen]
+  )
+
+  if (!tracks) {
+    return null
+  }
+
+  return (
+    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
+      <ResultsZone isFetching={isFetching}>
+        <button
+          className="current-track"
+          aria-label="Open the track filter"
+          {...buttonAttributes}
+        >
+          <TrackIcon iconUrl={value.iconUrl} title={value.title} />
+          <div className="track-title">{value.title}</div>
+          <div className="count">
+            {value.numSolutionsQueued} {countText}
+          </div>
+          <Icon
+            icon="chevron-down"
+            alt={t('trackFilterList.clickToChange')}
+            className="action-icon"
+          />
+        </button>
+      </ResultsZone>
+      {open ? (
+        <div {...panelAttributes} className="--options">
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.slug} {...itemAttributes(i)}>
+                  <TrackFilter
+                    onChange={() => {
+                      setValue(track)
+                      setOpen(false)
+                    }}
+                    checked={value.slug === track.slug}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+            <li key="change-tracks" {...itemAttributes(tracks.length)}>
+              <button
+                ref={changeTracksRef}
+                type="button"
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setOpen(false)
+                }}
+              >
+                <GraphicalIcon icon="reset" />
+                {t('trackFilterList.changeTheTracksYouMentor')}
+              </button>
+            </li>
+          </ul>
+        </div>
+      ) : null}
+      <MentorChangeTracksModal
+        open={isModalOpen}
+        tracks={tracks}
+        cacheKey={cacheKey}
+        links={links}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => {
+          setIsModalOpen(false)
+          setOpen(false)
+        }}
+      />
+    </div>
+  )
+}
+
+// === end file ===
+```

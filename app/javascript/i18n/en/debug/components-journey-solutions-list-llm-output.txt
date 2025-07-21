@@ -1,0 +1,526 @@
+```ts
+// i18n
+export default {
+  "headTestsStatusSelect.passed": "Passed",
+  "headTestsStatusSelect.failed": "Failed",
+  "headTestsStatusSelect.errored": "Errored",
+  "headTestsStatusSelect.exceptioned": "Exceptioned",
+  "headTestsStatusSelect.all": "All",
+  "headTestsStatusSelect.latestTestsStatus": "Latest Tests status",
+  "orderSwitcher.oldestFirst": "Oldest First",
+  "orderSwitcher.newestFirst": "Newest First",
+  "mentoringStatusSelect.noMentoring": "No mentoring",
+  "mentoringStatusSelect.mentoringRequested": "Mentoring Requested",
+  "mentoringStatusSelect.mentoringInProgress": "Mentoring in progress",
+  "mentoringStatusSelect.mentoringCompleted": "Mentoring Completed",
+  "mentoringStatusSelect.any": "Any",
+  "mentoringStatusSelect.mentoringStatus": "Mentoring status",
+  "syncStatusSelect.upToDate": "Up-to-date",
+  "syncStatusSelect.outOfDate": "Out-of-date",
+  "syncStatusSelect.all": "All",
+  "syncStatusSelect.syncStatus": "Sync status",
+  "testsStatusSelect.passed": "Passed",
+  "testsStatusSelect.failed": "Failed",
+  "testsStatusSelect.errored": "Errored",
+  "testsStatusSelect.exceptioned": "Exceptioned",
+  "testsStatusSelect.all": "All",
+  "testsStatusSelect.testsStatus": "Tests status",
+  "exerciseStatusSelect.started": "Started",
+  "exerciseStatusSelect.iterated": "Iterated",
+  "exerciseStatusSelect.completed": "Completed",
+  "exerciseStatusSelect.published": "Published",
+  "exerciseStatusSelect.all": "All",
+  "exerciseStatusSelect.exerciseStatus": "Exercise status",
+  "solutionFilter.filterBy": "Filter by",
+  "solutionFilter.applyFilters": "Apply filters",
+  "solutionFilter.close": "Close"
+}
+
+// modified_files
+// === file: ../components/journey/solutions-list/HeadTestsStatusSelect.tsx ===
+import React from 'react'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type HeadTestsStatus =
+  | undefined
+  | 'passed'
+  | 'failed'
+  | 'errored'
+  | 'exceptioned'
+
+const OptionComponent = ({
+  option: status,
+}: {
+  option: HeadTestsStatus
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (status) {
+    case 'passed':
+      return <>{t('headTestsStatusSelect.passed')}</>
+    case 'failed':
+      return <>{t('headTestsStatusSelect.failed')}</>
+    case 'errored':
+      return <>{t('headTestsStatusSelect.errored')}</>
+    case 'exceptioned':
+      return <>{t('headTestsStatusSelect.exceptioned')}</>
+    case undefined:
+      return <>{t('headTestsStatusSelect.all')}</>
+  }
+}
+
+const SelectedComponent = ({ option }: { option: HeadTestsStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (option) {
+    case undefined:
+      return <>{t('headTestsStatusSelect.latestTestsStatus')}</>
+    default:
+      return <OptionComponent option={option} />
+  }
+}
+
+export const HeadTestsStatusSelect = ({
+  value,
+  setValue,
+}: {
+  value: HeadTestsStatus
+  setValue: (value: HeadTestsStatus) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<HeadTestsStatus>
+      options={[undefined, 'passed', 'failed', 'errored', 'exceptioned']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/OrderSwitcher.tsx ===
+import React from 'react'
+import { SingleSelect } from '../../common/SingleSelect'
+import { Order } from '../SolutionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+  switch (order) {
+    case 'oldest_first':
+      return <>{t('orderSwitcher.oldestFirst')}</>
+    case 'newest_first':
+      return <>{t('orderSwitcher.newestFirst')}</>
+  }
+}
+
+export const OrderSwitcher = ({
+  value,
+  setValue,
+}: {
+  value: Order
+  setValue: (value: Order) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<Order>
+      options={['newest_first', 'oldest_first']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/MentoringStatusSelect.tsx ===
+import React from 'react'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type MentoringStatus =
+  | undefined
+  | 'none'
+  | 'requested'
+  | 'in_progress'
+  | 'finished'
+
+const OptionComponent = ({
+  option: status,
+}: {
+  option: MentoringStatus
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (status) {
+    case 'none':
+      return <>{t('mentoringStatusSelect.noMentoring')}</>
+    case 'requested':
+      return <>{t('mentoringStatusSelect.mentoringRequested')}</>
+    case 'in_progress':
+      return <>{t('mentoringStatusSelect.mentoringInProgress')}</>
+    case 'finished':
+      return <>{t('mentoringStatusSelect.mentoringCompleted')}</>
+    case undefined:
+      return <>{t('mentoringStatusSelect.any')}</>
+  }
+}
+
+const SelectedComponent = ({ option }: { option: MentoringStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+  switch (option) {
+    case undefined:
+      return <>{t('mentoringStatusSelect.mentoringStatus')}</>
+    default:
+      return <OptionComponent option={option} />
+  }
+}
+
+export const MentoringStatusSelect = ({
+  value,
+  setValue,
+}: {
+  value: MentoringStatus
+  setValue: (value: MentoringStatus) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<MentoringStatus>
+      options={[undefined, 'none', 'requested', 'in_progress', 'finished']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/SyncStatusSelect.tsx ===
+import React from 'react'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
+
+const OptionComponent = ({
+  option: status,
+}: {
+  option: SyncStatus
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+  switch (status) {
+    case 'up_to_date':
+      return <>{t('syncStatusSelect.upToDate')}</>
+    case 'out_of_date':
+      return <>{t('syncStatusSelect.outOfDate')}</>
+    case undefined:
+      return <>{t('syncStatusSelect.all')}</>
+  }
+}
+
+const SelectedComponent = ({ option }: { option: SyncStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+  switch (option) {
+    case undefined:
+      return <>{t('syncStatusSelect.syncStatus')}</>
+    default:
+      return <OptionComponent option={option} />
+  }
+}
+
+export const SyncStatusSelect = ({
+  value,
+  setValue,
+}: {
+  value: SyncStatus
+  setValue: (value: SyncStatus) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<SyncStatus>
+      options={[undefined, 'up_to_date', 'out_of_date']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/TestsStatusSelect.tsx ===
+import React from 'react'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type TestsStatus =
+  | undefined
+  | 'passed'
+  | 'failed'
+  | 'errored'
+  | 'exceptioned'
+
+const OptionComponent = ({
+  option: status,
+}: {
+  option: TestsStatus
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (status) {
+    case 'passed':
+      return <>{t('testsStatusSelect.passed')}</>
+    case 'failed':
+      return <>{t('testsStatusSelect.failed')}</>
+    case 'errored':
+      return <>{t('testsStatusSelect.errored')}</>
+    case 'exceptioned':
+      return <>{t('testsStatusSelect.exceptioned')}</>
+    case undefined:
+      return <>{t('testsStatusSelect.all')}</>
+  }
+}
+
+const SelectedComponent = ({ option }: { option: TestsStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (option) {
+    case undefined:
+      return <>{t('testsStatusSelect.testsStatus')}</>
+    default:
+      return <OptionComponent option={option} />
+  }
+}
+
+export const TestsStatusSelect = ({
+  value,
+  setValue,
+}: {
+  value: TestsStatus
+  setValue: (value: TestsStatus) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<TestsStatus>
+      options={[undefined, 'passed', 'failed', 'errored', 'exceptioned']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/ExerciseStatusSelect.tsx ===
+import React from 'react'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type ExerciseStatus =
+  | undefined
+  | 'started'
+  | 'iterated'
+  | 'completed'
+  | 'published'
+
+const OptionComponent = ({
+  option: status,
+}: {
+  option: ExerciseStatus
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+  switch (status) {
+    case 'started':
+      return <>{t('exerciseStatusSelect.started')}</>
+    case 'iterated':
+      return <>{t('exerciseStatusSelect.iterated')}</>
+    case 'completed':
+      return <>{t('exerciseStatusSelect.completed')}</>
+    case 'published':
+      return <>{t('exerciseStatusSelect.published')}</>
+    case undefined:
+      return <>{t('exerciseStatusSelect.all')}</>
+  }
+}
+
+const SelectedComponent = ({ option }: { option: ExerciseStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  switch (option) {
+    case undefined:
+      return <>{t('exerciseStatusSelect.exerciseStatus')}</>
+    default:
+      return <OptionComponent option={option} />
+  }
+}
+
+export const ExerciseStatusSelect = ({
+  value,
+  setValue,
+}: {
+  value: ExerciseStatus
+  setValue: (value: ExerciseStatus) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<ExerciseStatus>
+      options={[undefined, 'started', 'iterated', 'completed', 'published']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+// === end file ===
+// === file: ../components/journey/solutions-list/SolutionFilter.tsx ===
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { ExerciseStatus, ExerciseStatusSelect } from './ExerciseStatusSelect'
+import { HeadTestsStatus, HeadTestsStatusSelect } from './HeadTestsStatusSelect'
+import { MentoringStatus, MentoringStatusSelect } from './MentoringStatusSelect'
+import { SyncStatus, SyncStatusSelect } from './SyncStatusSelect'
+import { TestsStatus, TestsStatusSelect } from './TestsStatusSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const SolutionFilter = ({
+  request,
+  onApply,
+}: {
+  request: any
+  onApply: (
+    status: ExerciseStatus,
+    mentoringStatus: MentoringStatus,
+    syncStatus: SyncStatus,
+    testsStatus: TestsStatus,
+    headTestsStatus: HeadTestsStatus
+  ) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
+  const [status, setStatus] = useState<ExerciseStatus>(request.query.status)
+  const [mentoringStatus, setMentoringStatus] = useState<MentoringStatus>(
+    request.query.mentoringStatus
+  )
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(
+    request.query.syncStatus
+  )
+  const [testsStatus, setTestsStatus] = useState<TestsStatus>(
+    request.query.testsStatus
+  )
+  const [headTestsStatus, setHeadTestsStatus] = useState<HeadTestsStatus>(
+    request.query.headTestsStatus
+  )
+
+  const [expanded, setExpanded] = useState(false)
+  const [hasExpandedEver, markAsExpanded] = useState(false)
+
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const filterButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (expanded) {
+      if (!dialogRef.current) {
+        return
+      }
+
+      dialogRef.current.focus()
+      markAsExpanded(true)
+    } else if (hasExpandedEver) {
+      if (!filterButtonRef.current) {
+        return
+      }
+
+      filterButtonRef.current.focus()
+    }
+  }, [expanded, hasExpandedEver])
+
+  useEffect(() => {
+    if (!expanded) {
+      return
+    }
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') {
+        return
+      }
+
+      e.stopPropagation()
+      setExpanded(false)
+    }
+
+    document.addEventListener('keyup', handleEscape)
+    return () => {
+      document.removeEventListener('keyup', handleEscape)
+    }
+  }, [expanded])
+
+  const handleApply = useCallback(
+    (e) => {
+      e.preventDefault()
+      onApply(status, mentoringStatus, syncStatus, testsStatus, headTestsStatus)
+      setExpanded(false)
+    },
+    [
+      setExpanded,
+      status,
+      mentoringStatus,
+      syncStatus,
+      testsStatus,
+      headTestsStatus,
+      onApply,
+    ]
+  )
+
+  const handleClose = useCallback(
+    (e) => {
+      e.preventDefault()
+      setExpanded(false)
+    },
+    [setExpanded]
+  )
+
+  return (
+    <>
+      <button
+        ref={filterButtonRef}
+        onClick={() => setExpanded(!expanded)}
+        className="--filter-btn"
+        aria-haspopup="true"
+        aria-expanded={expanded}
+      >
+        <span className="hidden sm:block sm:mr-12">{t('solutionFilter.filterBy')}</span>
+        <GraphicalIcon icon="chevron-down" />
+      </button>
+      <div
+        className="filter-options"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-label="A series of options to filter Exercism tracks"
+        {...(expanded ? {} : { hidden: true })}
+      >
+        <div className="md-container container">
+          <div className="options">
+            <ExerciseStatusSelect value={status} setValue={setStatus} />
+            <MentoringStatusSelect
+              value={mentoringStatus}
+              setValue={setMentoringStatus}
+            />
+            <SyncStatusSelect value={syncStatus} setValue={setSyncStatus} />
+            <TestsStatusSelect value={testsStatus} setValue={setTestsStatus} />
+            <HeadTestsStatusSelect
+              value={headTestsStatus}
+              setValue={setHeadTestsStatus}
+            />
+          </div>
+          <footer className="buttons">
+            <button className="btn-primary btn-m" onClick={handleApply}>
+              {t('solutionFilter.applyFilters')}
+            </button>
+            <button className="btn-default btn-m" onClick={handleClose}>
+              {t('solutionFilter.close')}
+            </button>
+          </footer>
+        </div>
+      </div>
+    </>
+  )
+}
+// === end file ===
+```

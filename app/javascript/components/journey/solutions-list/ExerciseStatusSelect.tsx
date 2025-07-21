@@ -1,5 +1,6 @@
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type ExerciseStatus =
   | undefined
@@ -13,24 +14,27 @@ const OptionComponent = ({
 }: {
   option: ExerciseStatus
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
   switch (status) {
     case 'started':
-      return <>Started</>
+      return <>{t('exerciseStatusSelect.started')}</>
     case 'iterated':
-      return <>Iterated</>
+      return <>{t('exerciseStatusSelect.iterated')}</>
     case 'completed':
-      return <>Completed</>
+      return <>{t('exerciseStatusSelect.completed')}</>
     case 'published':
-      return <>Published</>
+      return <>{t('exerciseStatusSelect.published')}</>
     case undefined:
-      return <>All</>
+      return <>{t('exerciseStatusSelect.all')}</>
   }
 }
 
 const SelectedComponent = ({ option }: { option: ExerciseStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
   switch (option) {
     case undefined:
-      return <>Exercise status</>
+      return <>{t('exerciseStatusSelect.exerciseStatus')}</>
     default:
       return <OptionComponent option={option} />
   }

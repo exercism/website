@@ -12,6 +12,7 @@ import { SolutionsList } from './SolutionsList'
 import { BadgesList } from './BadgesList'
 import { Overview } from './Overview'
 import type { Request } from '@/hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type CategoryId = 'solutions' | 'reputation'
 
@@ -35,6 +36,7 @@ export default function JourneyPage({
   defaultCategory: CategoryId
   categories: readonly Category[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/journey')
   const isMounted = useRef(false)
   const [currentCategory, setCurrentCategory] = useState<Category>(() => {
     const category = categories.find((c) => c.id === defaultCategory)
@@ -77,7 +79,9 @@ export default function JourneyPage({
           return (
             <Tab key={category.id} context={TabsContext} id={category.id}>
               <GraphicalIcon icon={category.icon} />
-              {category.title}
+              {t('journeyPage.categoryTitle', {
+                categoryTitle: category.title,
+              })}
             </Tab>
           )
         })}

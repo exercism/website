@@ -3,6 +3,7 @@ import { fromNow } from '@/utils/date'
 import { GraphicalIcon, TrackIcon, Reputation } from '@/components/common'
 import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 import { Contribution as ContributionProps } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Contribution = ({
   value,
@@ -15,6 +16,7 @@ export const Contribution = ({
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
+  const { t } = useAppTranslation('components/journey')
 
   return (
     <a href={url} className="reputation-token">
@@ -38,7 +40,7 @@ export const Contribution = ({
               <div className="name">{track.title}</div>
             </div>
           ) : (
-            <div className="generic">Generic</div>
+            <div className="generic">{t('contribution.generic')}</div>
           )}
           <time dateTime={createdAt}>{fromNow(createdAt)}</time>
         </div>

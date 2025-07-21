@@ -1,0 +1,80 @@
+```ts
+// i18n
+export default {
+  "testsTab.tests": "Tests",
+  "feedbackTab.feedback": "Feedback",
+  "instructionsTab.instructions": "Instructions",
+  "resultsTab.results": "Results"
+}
+
+// modified_files
+// === file: ../components/editor/tabs/TestsTab.tsx ===
+import React from 'react'
+import { Tab } from '../../common/Tab'
+import { TabsContext } from '../../Editor'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const TestsTab = () => {
+  const { t } = useAppTranslation('components/editor/tabs')
+  return (
+    <Tab id="tests" context={TabsContext}>
+      <GraphicalIcon icon="tests" />
+      <span data-text="Tests">{t('testsTab.tests')}</span>
+    </Tab>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/tabs/FeedbackTab.tsx ===
+import React from 'react'
+import { Tab, GraphicalIcon } from '@/components/common'
+import { TabsContext } from '@/components/Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const FeedbackTab = (): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/tabs')
+  return (
+    <Tab id="feedback" context={TabsContext}>
+      <GraphicalIcon icon="conversation-chat" />
+      <span data-text="Feedback">{t('feedbackTab.feedback')}</span>
+    </Tab>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/tabs/InstructionsTab.tsx ===
+import React from 'react'
+import { Tab, GraphicalIcon } from '@/components/common'
+import { TabsContext } from '@/components/Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const InstructionsTab = () => {
+  const { t } = useAppTranslation('components/editor/tabs')
+  return (
+    <Tab id="instructions" context={TabsContext}>
+      <GraphicalIcon icon="instructions" />
+      <span data-text="Instructions">{t('instructionsTab.instructions')}</span>
+    </Tab>
+  )
+}
+
+// === end file ===
+// === file: ../components/editor/tabs/ResultsTab.tsx ===
+import React from 'react'
+import { Tab, GraphicalIcon } from '@/components/common'
+import { TabsContext } from '@/components/Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ResultsTab = (): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/tabs')
+  return (
+    <Tab id="results" context={TabsContext}>
+      <GraphicalIcon icon="test-results" />
+      <span data-text="Results">{t('resultsTab.results')}</span>
+    </Tab>
+  )
+}
+
+// === end file ===
+```

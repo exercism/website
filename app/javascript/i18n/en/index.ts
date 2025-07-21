@@ -1,3 +1,4 @@
+import componentseditortabs from './components-editor-tabs'
 import componentseditorFeedbackPanel from './components-editor-FeedbackPanel'
 import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
@@ -19,6 +20,7 @@ import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
 
 export default {
+  'components/editor/tabs': componentseditortabs,
   'components/editor/FeedbackPanel': componentseditorFeedbackPanel,
   'components/donations': componentsdonations,
   'components/community': componentscommunity,

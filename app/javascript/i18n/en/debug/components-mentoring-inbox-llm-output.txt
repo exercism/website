@@ -1,0 +1,315 @@
+```ts
+// i18n
+export default {
+  "discussionList.somethingWentWrong": "Something went wrong",
+  "discussionList.retry": "Retry",
+  "discussionList.noMentoringDiscussions": "No mentoring discussions",
+  "discussionList.mentorNewSolution": "Mentor a new solution",
+  "discussion.favoriteStudent": "Favorite student",
+  "discussion.comments": "{{discussion.postsCount}} comments",
+  "trackFilter.somethingWentWrong": "Something went wrong"
+}
+
+// modified_files
+// === file: ../components/mentoring/inbox/DiscussionList.tsx ===
+import React from 'react'
+import { QueryStatus, UseQueryResult } from '@tanstack/react-query'
+import { Pagination, Loading, GraphicalIcon } from '@/components/common'
+import { Discussion } from './Discussion'
+import type { APIResponse } from '../Inbox'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Links = {
+  queue: string
+}
+
+export const DiscussionList = ({
+  resolvedData,
+  refetch,
+  status,
+  setPage,
+  links,
+}: {
+  resolvedData: APIResponse | undefined
+  status: QueryStatus
+  setPage: (page: number) => void
+  links: Links
+  refetch: () => Promise<UseQueryResult<APIResponse, unknown>>
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/inbox')
+
+  return (
+    <div>
+      {status === 'pending' && <Loading />}
+      {status === 'error' && (
+        <>
+          <p>{t('discussionList.somethingWentWrong')}</p>
+          <button onClick={() => refetch()} aria-label="Retry">
+            {t('discussionList.retry')}
+          </button>
+        </>
+      )}
+      {status === 'success' &&
+        (resolvedData && resolvedData.results.length === 0 ? (
+          <>
+            <div className="--no-results">
+              <GraphicalIcon icon="mentoring" category="graphics" />
+              <h3>{t('discussionList.noMentoringDiscussions')}</h3>
+              <a href={links.queue} className="btn-simple">
+                {t('discussionList.mentorNewSolution')}
+              </a>
+            </div>
+          </>
+        ) : (
+          <div className="--conversations">
+            {resolvedData && (
+              <React.Fragment>
+                {resolvedData.results.map((discussion, key) => (
+                  <Discussion key={key} discussion={discussion} />
+                ))}
+                <footer>
+                  <Pagination
+                    disabled={resolvedData === undefined}
+                    current={resolvedData.meta.currentPage}
+                    total={resolvedData.meta.totalPages}
+                    setPage={(p) => {
+                      setPage(p)
+                      scrollToTop()
+                    }}
+                  />
+                </footer>
+              </React.Fragment>
+            )}
+          </div>
+        ))}
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/inbox/StatusTab.tsx ===
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import React, { useCallback } from 'react'
+
+type StatusTabProps<S> = React.PropsWithChildren<{
+  status: S
+  currentStatus: S
+  setStatus: (status: S) => void
+}>
+
+type StatusTabLinkProps<S> = React.PropsWithChildren<{
+  status: S
+  currentStatus: S
+  href: string
+}>
+
+export function StatusTab<T>({
+  status,
+  currentStatus,
+  setStatus,
+  children,
+}: StatusTabProps<T>): JSX.Element {
+  const handleClick = useCallback(() => {
+    setStatus(status)
+  }, [setStatus, status])
+
+  const selected = currentStatus === status
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={selected}
+      className={assembleClassNames('c-tab', selected ? 'selected' : null)}
+    >
+      {children}
+    </button>
+  )
+}
+
+export function StatusTabLink<T>({
+  status,
+  currentStatus,
+  children,
+  href,
+}: StatusTabLinkProps<T> & { href: string }): JSX.Element {
+  const selected = currentStatus === status
+
+  return (
+    <a
+      href={href}
+      onClick={(e) => selected && e.preventDefault()}
+      className={assembleClassNames('c-tab', selected ? 'selected' : null)}
+    >
+      {children}
+    </a>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/inbox/Discussion.tsx ===
+import React from 'react'
+import { fromNow } from '@/utils/date'
+import {
+  TrackIcon,
+  ExerciseIcon,
+  GraphicalIcon,
+  Avatar,
+  Icon,
+} from '@/components/common'
+import { ExercismTippy } from '@/components/misc/ExercismTippy'
+import { StudentTooltip } from '@/components/tooltips'
+import type { MentorDiscussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const Discussion = ({
+  discussion,
+}: {
+  discussion: MentorDiscussion
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/inbox')
+
+  return (
+    <ExercismTippy
+      content={<StudentTooltip endpoint={discussion.links.tooltipUrl} />}
+    >
+      <a className="--solution" href={discussion.links.self}>
+        <TrackIcon
+          title={discussion.track.title}
+          iconUrl={discussion.track.iconUrl}
+        />
+        <ExerciseIcon
+          title={discussion.exercise.title}
+          iconUrl={discussion.exercise.iconUrl}
+        />
+        <Avatar
+          src={discussion.student.avatarUrl}
+          handle={discussion.student.handle}
+        />
+        <div className="--info">
+          <div className="--handle">
+            {discussion.student.handle}
+            {discussion.student.isFavorited ? (
+              <Icon
+                icon="gold-star"
+                alt={t('discussion.favoriteStudent')}
+                className="favorited"
+              />
+            ) : null}
+          </div>
+          <div className="--exercise-title">on {discussion.exercise.title}</div>
+        </div>
+        <div className="--comments-count">
+          <Icon icon="comment" alt={t('discussion.comments', {discussion})} />
+          {discussion.postsCount}
+        </div>
+        <time className="-updated-at">{fromNow(discussion.updatedAt)}</time>
+        <GraphicalIcon icon="chevron-right" className="action-icon" />
+      </a>
+    </ExercismTippy>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/inbox/TrackList.tsx ===
+import React, { useCallback } from 'react'
+import { TrackSelect, TrackLogo } from '@/components/common/TrackSelect'
+
+export type Track = {
+  slug: string
+  title: string
+  iconUrl: string
+  count?: number
+}
+
+const OptionComponent = ({ option: track }: { option: Track }) => {
+  return (
+    <React.Fragment>
+      <TrackLogo track={track} />
+      <div className="title">{track.title}</div>
+      <div className="count">{track.count}</div>
+      {/* TODO: {track.count && <div className="count">{track.count}</div>} */}
+    </React.Fragment>
+  )
+}
+
+const SelectedComponent = ({ option: track }: { option: Track }) => {
+  return (
+    <div>
+      <TrackLogo track={track} />
+      <div className="sr-only">{track.title}</div>
+    </div>
+  )
+}
+
+export const TrackList = ({
+  tracks,
+  value,
+  setTrack,
+}: {
+  tracks: Track[]
+  value: string | null
+  setTrack: (value: string | null) => void
+}): JSX.Element => {
+  const track = tracks.find((t) => t.slug === value) || tracks[0]
+
+  const handleSet = useCallback(
+    (track: Track) => {
+      setTrack(track.slug)
+    },
+    [setTrack]
+  )
+
+  return (
+    <TrackSelect<Track>
+      tracks={tracks}
+      value={track}
+      setValue={handleSet}
+      OptionComponent={OptionComponent}
+      SelectedComponent={SelectedComponent}
+      size="inline"
+    />
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/inbox/TrackFilter.tsx ===
+import React from 'react'
+import { useRequestQuery, Request } from '../../../hooks/request-query'
+import { Loading } from '../../common/Loading'
+import { TrackList, Track } from './TrackList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const TrackFilter = ({
+  request,
+  value,
+  setTrack,
+}: {
+  request: Request
+  value: string | null
+  setTrack: (track: string | null) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/inbox')
+
+  const { isLoading, isError, data: tracks } = useRequestQuery<Track[]>(
+    ['track-filter', request.query],
+    request
+  )
+
+  return (
+    <div className="c-track-filter">
+      {isLoading && <Loading />}
+      {isError && <p>{t('trackFilter.somethingWentWrong')}</p>}
+      {tracks && (
+        <TrackList tracks={tracks} setTrack={setTrack} value={value} />
+      )}
+    </div>
+  )
+}
+
+// === end file ===
+```

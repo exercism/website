@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "legacyFileBanner.fileUnexpected": "This file is unexpected. Did you upload it via the CLI by accident?",
+  "legacyFileBanner.deleteFile": "Delete file…",
+  "legacyFileBanner.learnMore": "Learn More"
+}
+
+// modified_files
+// === file: ../components/editor/LegacyFileBanner.tsx ===
 import React, { useState, useCallback } from 'react'
 import { DeleteFileModal } from './legacy-file-banner/DeleteFileModal'
 import { ProminentLink, GraphicalIcon } from '../common'
@@ -47,3 +57,6 @@ export const LegacyFileBanner = ({
     </React.Fragment>
   )
 }
+
+// === end file ===
+```

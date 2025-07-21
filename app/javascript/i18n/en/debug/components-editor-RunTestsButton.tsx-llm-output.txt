@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "runTestsButton.youHaveNotMadeChanges": "You have not made any changes since you last ran the tests",
+  "runTestsButton.runTests": "Run Tests"
+}
+
+// modified_files
+// === file: ../components/editor/RunTestsButton.tsx ===
 import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { GenericTooltip } from '../misc/ExercismTippy'
@@ -34,3 +43,6 @@ export const RunTestsButton = forwardRef<HTMLButtonElement, Props>(
     )
   }
 )
+
+// end file ===
+```

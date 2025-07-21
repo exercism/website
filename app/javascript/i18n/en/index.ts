@@ -3,6 +3,7 @@ import componentseditorFeedbackPanel from './components-editor-FeedbackPanel'
 import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
 import componentseditortestComponents from './components-editor-testComponents'
+import componentseditorRunTestsButtontsx from './components-editor-RunTestsButton.tsx'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
 import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
@@ -18,6 +19,8 @@ import componentscommunitysolutions from './components-community-solutions'
 import componentseditorheader from './components-editor-header'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
+import componentseditorSubmitButtontsx from './components-editor-SubmitButton.tsx'
+import componentseditorLegacyFileBannertsx from './components-editor-LegacyFileBanner.tsx'
 import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
 
@@ -27,6 +30,7 @@ export default {
   'components/donations': componentsdonations,
   'components/community': componentscommunity,
   'components/editor/testComponents': componentseditortestComponents,
+  'components/editor/RunTestsButton.tsx': componentseditorRunTestsButtontsx,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
   'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,
@@ -44,6 +48,8 @@ export default {
   'components/editor/header': componentseditorheader,
   'components/dropdowns/reputation': componentsdropdownsreputation,
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
+  'components/editor/SubmitButton.tsx': componentseditorSubmitButtontsx,
+  'components/editor/LegacyFileBanner.tsx': componentseditorLegacyFileBannertsx,
   'components/common/share-panel': componentscommonsharepanel,
   'components/common/markdown-editor-form': componentscommonmarkdowneditorform,
 }

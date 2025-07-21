@@ -1,0 +1,238 @@
+```ts
+// i18n
+export default {
+  "favoriteStep.addToFavorites": "Add to favorites",
+  "favoriteStep.addStudentToFavorites": "Add {{studentHandle}} to your favorites?",
+  "favoriteStep.skip": "Skip",
+  "finishStep.isOneOfYourFavorites": "{{studentHandle}} is one of your favorites.",
+  "finishStep.willNotSeeFutureRequests": "You will not see future mentor requests from {{studentHandle}}.",
+  "finishStep.thanksForMentoring": "Thanks for mentoring {{studentHandle}}.",
+  "finishStep.changePreferences": "Change preferences",
+  "mentorAgainStep.mentorAgain": "Do you want to mentor {{studentHandle}} again?",
+  "mentorAgainStep.yes": "Yes",
+  "mentorAgainStep.no": "No"
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/finished-wizard/FavoriteStep.tsx ===
+import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '../../../../utils/send-request'
+import { typecheck } from '../../../../utils/typecheck'
+import { Loading } from '../../../common'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { FavoritableStudent } from '../../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
+
+const ErrorHandler = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+export const FavoriteStep = ({
+  student,
+  onFavorite,
+  onSkip,
+}: {
+  student: FavoritableStudent
+  onFavorite: (student: FavoritableStudent) => void
+  onSkip: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/discussion/finished-wizard')
+  const {
+    mutate: handleFavorite,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: student.links.favorite,
+        method: 'POST',
+        body: null,
+      })
+
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
+    },
+    onSuccess: (student) => {
+      if (!onFavorite) {
+        return
+      }
+
+      onFavorite(student)
+    },
+  })
+
+  return (
+    <div>
+      <p>{t('favoriteStep.addStudentToFavorites', { studentHandle: student.handle })}</p>
+      <div className="buttons">
+        <button
+          className="btn-small"
+          type="button"
+          onClick={() => handleFavorite()}
+          disabled={status === 'pending'}
+        >
+          <GraphicalIcon icon="plus" />
+          {t('favoriteStep.addToFavorites')}
+        </button>
+        <button
+          className="btn-small"
+          type="button"
+          onClick={() => onSkip()}
+          disabled={status === 'pending'}
+        >
+          {t('favoriteStep.skip')}
+        </button>
+      </div>
+      {status === 'pending' ? <Loading /> : null}
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorHandler error={error} />
+        </ErrorBoundary>
+      ) : null}
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/finished-wizard/FinishStep.tsx ===
+import React from 'react'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
+import { Student } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const FinishStep = ({
+  student,
+  onReset,
+}: {
+  student: Student
+  onReset: () => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/discussion/finished-wizard')
+  return (
+    <div>
+      {student.isFavorited ? (
+        <p>{t('finishStep.isOneOfYourFavorites', { studentHandle: student.handle })}</p>
+      ) : student.isBlocked ? (
+        <p>{t('finishStep.willNotSeeFutureRequests', { studentHandle: student.handle })}</p>
+      ) : (
+        <p>{t('finishStep.thanksForMentoring', { studentHandle: student.handle })}</p>
+      )}
+      <button
+        className="btn-link-legacy"
+        type="button"
+        onClick={() => onReset()}
+      >
+        <GraphicalIcon icon="reset" />
+        <span>{t('finishStep.changePreferences')}</span>
+      </button>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/finished-wizard/MentorAgainStep.tsx ===
+import React, { useState, useEffect } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '../../../../utils/send-request'
+import { typecheck } from '../../../../utils/typecheck'
+import { Loading } from '../../../common'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { FavoritableStudent } from '../../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type SuccessFn = (student: FavoritableStudent) => void
+type Choice = 'yes' | 'no'
+
+const DEFAULT_ERROR = new Error('Unable to update student')
+
+const ErrorHandler = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+export const MentorAgainStep = ({
+  student,
+  onYes,
+  onNo,
+}: {
+  student: FavoritableStudent
+  onYes: SuccessFn
+  onNo: SuccessFn
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/discussion/finished-wizard')
+  const [choice, setChoice] = useState<Choice | null>(null)
+  const {
+    mutate: mutate,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
+      const method = choice === 'yes' ? 'DELETE' : 'POST'
+
+      const { fetch } = sendRequest({
+        endpoint: student.links.block,
+        method: method,
+        body: null,
+      })
+
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
+    },
+    onSuccess: (student) => {
+      choice === 'yes' ? onYes(student) : onNo(student)
+    },
+  })
+
+  useEffect(() => {
+    if (!choice) {
+      return
+    }
+
+    mutate()
+  }, [choice, mutate])
+
+  return (
+    <div>
+      <p>{t('mentorAgainStep.mentorAgain', { studentHandle: student.handle })}</p>
+      <div className="buttons">
+        <button
+          className="btn-small"
+          onClick={() => setChoice('yes')}
+          disabled={status === 'pending'}
+        >
+          <GraphicalIcon icon="checkmark" />
+          <span>{t('mentorAgainStep.yes')}</span>
+        </button>
+        <button
+          className="btn-small"
+          onClick={() => setChoice('no')}
+          disabled={status === 'pending'}
+        >
+          <GraphicalIcon icon="cross" />
+          <span>{t('mentorAgainStep.no')}</span>
+        </button>
+      </div>
+      {status === 'pending' ? <Loading /> : null}
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorHandler error={error} />
+        </ErrorBoundary>
+      ) : null}
+    </div>
+  )
+}
+
+// === end file ===
+```

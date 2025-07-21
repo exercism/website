@@ -5,6 +5,7 @@ import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { APIResult } from '../ContributionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to mark all as seen')
 
@@ -19,6 +20,7 @@ export const MarkAllAsSeenModal = ({
   onSuccess: (response: APIResult) => void
   unseenTotal: number
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/contribution-results')
   const {
     mutate: mutation,
     status,
@@ -63,14 +65,11 @@ export const MarkAllAsSeenModal = ({
       onClose={handleClose}
       {...props}
     >
-      <h3>Mark all as seen?</h3>
-      <p>
-        Are you sure you want to mark all {unseenTotal} contributions as seen?
-        Note that these contributions may span multiple pages.
-      </p>
+      <h3>{t('markAllAsSeenModal.markAllAsSeenQuestion')}</h3>
+      <p>{t('markAllAsSeenModal.confirmationMessage', { unseenTotal })}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-primary btn-s">
-          Continue
+          {t('markAllAsSeenModal.continue')}
         </FormButton>
         <FormButton
           type="button"
@@ -78,7 +77,7 @@ export const MarkAllAsSeenModal = ({
           onClick={handleClose}
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('markAllAsSeenModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

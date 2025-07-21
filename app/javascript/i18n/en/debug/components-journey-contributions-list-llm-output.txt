@@ -1,3 +1,18 @@
+```ts
+// i18n
+export default {
+  "categorySelect.contributingToExercises": "Contributing to Exercises",
+  "categorySelect.buildingExercism": "Building Exercism",
+  "categorySelect.maintaining": "Maintaining",
+  "categorySelect.mentoring": "Mentoring",
+  "categorySelect.publishing": "Publishing",
+  "categorySelect.other": "Other",
+  "categorySelect.anyCategory": "Any category",
+  "categorySelect.category": "Category"
+}
+
+// modified_files
+// === file: ../components/journey/contributions-list/CategorySelect.tsx ===
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
 import { ContributionCategoryId } from '@/components/types'
@@ -14,9 +29,7 @@ const OptionComponent = ({
     case 'authoring':
       return (
         <div className="info">
-          <div className="title">
-            {t('categorySelect.contributingToExercises')}
-          </div>
+          <div className="title">{t('categorySelect.contributingToExercises')}</div>
         </div>
       )
     case 'building':
@@ -88,3 +101,5 @@ export const CategorySelect = ({
     />
   )
 }
+// === end file ===
+```

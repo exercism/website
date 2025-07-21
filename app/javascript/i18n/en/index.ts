@@ -21,9 +21,11 @@ import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
 import componentseditorheader from './components-editor-header'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
+import componentsjourneycontributionresults from './components-journey-contribution-results'
 import componentsimpactImpactTestimonialtsx from './components-impact-ImpactTestimonial.tsx'
 import componentsjourney from './components-journey'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
+import componentsjourneycontributionslist from './components-journey-contributions-list'
 import componentseditorSubmitButtontsx from './components-editor-SubmitButton.tsx'
 import componentseditorLegacyFileBannertsx from './components-editor-LegacyFileBanner.tsx'
 import componentscommonsharepanel from './components-common-share-panel'
@@ -57,10 +59,13 @@ export default {
   'components/community-solutions': componentscommunitysolutions,
   'components/editor/header': componentseditorheader,
   'components/dropdowns/reputation': componentsdropdownsreputation,
+  'components/journey/contribution-results':
+    componentsjourneycontributionresults,
   'components/impact/ImpactTestimonial.tsx':
     componentsimpactImpactTestimonialtsx,
   'components/journey': componentsjourney,
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
+  'components/journey/contributions-list': componentsjourneycontributionslist,
   'components/editor/SubmitButton.tsx': componentseditorSubmitButtontsx,
   'components/editor/LegacyFileBanner.tsx': componentseditorLegacyFileBannertsx,
   'components/common/share-panel': componentscommonsharepanel,

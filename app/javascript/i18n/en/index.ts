@@ -5,6 +5,7 @@ import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
 import componentseditortestComponents from './components-editor-testComponents'
 import componentseditorRunTestsButtontsx from './components-editor-RunTestsButton.tsx'
+import componentsjourneyoverviewmentoringsection from './components-journey-overview-mentoring-section'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
 import componentsgithubsyncerwidget from './components-github-syncer-widget'
@@ -44,6 +45,8 @@ export default {
   'components/community': componentscommunity,
   'components/editor/testComponents': componentseditortestComponents,
   'components/editor/RunTestsButton.tsx': componentseditorRunTestsButtontsx,
+  'components/journey/overview/mentoring-section':
+    componentsjourneyoverviewmentoringsection,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
   'components/github-syncer-widget': componentsgithubsyncerwidget,

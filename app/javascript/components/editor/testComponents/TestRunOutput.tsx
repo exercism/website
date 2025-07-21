@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRun } from './types'
+import { TestRun } from '../types'
 import { TestsGroupedByStatusList } from './TestsGroupedByStatusList'
 import { TestsGroupedByTaskList } from './TestsGroupedByTaskList'
 

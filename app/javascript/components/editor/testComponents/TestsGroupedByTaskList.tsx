@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { TestStatus, Test, AssignmentTask } from './types'
-import { GraphicalIcon } from '../common/GraphicalIcon'
+import { TestStatus, Test, AssignmentTask } from '../types'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 import { TestSummary } from './TestSummary'
-import { TasksContext } from '../Editor'
+import { TasksContext } from '../../Editor'
 
 type TaskWithTestsWithToggle = AssignmentTask & {
   id: number

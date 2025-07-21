@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRunSummaryContainer } from '../TestRunSummaryContainer'
+import { TestRunSummaryContainer } from '../testComponents/TestRunSummaryContainer'
 import { Submission, TestRun, TestRunner } from '../types'
 import { GraphicalIcon, Tab } from '../../common'
 import { TabsContext } from '../../Editor'

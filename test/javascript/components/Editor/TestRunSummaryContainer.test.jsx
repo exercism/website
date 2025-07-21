@@ -2,7 +2,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { render } from '../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
-import { TestRunSummaryContainer } from '../../../../app/javascript/components/editor/TestRunSummaryContainer'
+import { TestRunSummaryContainer } from '../../../../app/javascript/components/editor/testComponents/TestRunSummaryContainer'
 import {
   TestRunStatus,
   TestStatus,

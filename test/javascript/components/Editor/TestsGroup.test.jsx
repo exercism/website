@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestsGroup } from '../../../../app/javascript/components/editor/TestsGroup'
+import { TestsGroup } from '../../../../app/javascript/components/editor/testComponents/TestsGroup'
 
 test('hides group if no tests', async () => {
   render(

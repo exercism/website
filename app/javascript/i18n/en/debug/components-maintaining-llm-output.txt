@@ -1,3 +1,16 @@
+```ts
+// i18n
+export default {
+  "submissionsSummaryTable.id": "ID",
+  "submissionsSummaryTable.track": "Track",
+  "submissionsSummaryTable.exercise": "Exercise",
+  "submissionsSummaryTable.testStatus": "Test status",
+  "submissionsSummaryTable.representationStatus": "Representation status",
+  "submissionsSummaryTable.analysesStatus": "Analyses status"
+}
+
+// modified_files
+// === file: ../components/maintaining/SubmissionsSummaryTable.tsx ===
 import React, { useState, useEffect } from 'react'
 import 'actioncable'
 
@@ -96,3 +109,6 @@ export function SubmissionsSummaryTable({
     </table>
   )
 }
+
+// end file ===
+```

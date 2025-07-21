@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "finishedWizard.incorrectState": "Incorrect state: {{step}}"
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/FinishedWizard.tsx ===
 import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
@@ -63,9 +71,7 @@ export const FinishedWizard = ({
   defaultStep,
   timelineContent,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/FinishedWizard.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/discussion/FinishedWizard.tsx')
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     student: student,
@@ -135,3 +141,6 @@ export const FinishedWizard = ({
     </div>
   )
 }
+
+// === end file ===
+```

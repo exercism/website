@@ -21,6 +21,7 @@ import componentseditorGetHelp from './components-editor-GetHelp'
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
 import componentseditorheader from './components-editor-header'
+import componentsjourneyoverviewcontributingsection from './components-journey-overview-contributing-section'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentsjourneycontributionresults from './components-journey-contribution-results'
 import componentsimpactImpactTestimonialtsx from './components-impact-ImpactTestimonial.tsx'
@@ -62,6 +63,8 @@ export default {
   'components/dropdowns/track-menu': componentsdropdownstrackmenu,
   'components/community-solutions': componentscommunitysolutions,
   'components/editor/header': componentseditorheader,
+  'components/journey/overview/contributing-section':
+    componentsjourneyoverviewcontributingsection,
   'components/dropdowns/reputation': componentsdropdownsreputation,
   'components/journey/contribution-results':
     componentsjourneycontributionresults,

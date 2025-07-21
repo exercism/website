@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "headerSummary.youHaveContributedMostTo": "You've contributed most to ",
+  "headerSummary.noSummaryForTrack": "No summary for track"
+}
+
+// modified_files
+// === file: ../components/journey/overview/contributing-section/HeaderSummary.tsx ===
 import React from 'react'
 import { TrackContribution } from '../../../types'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
@@ -33,9 +42,7 @@ export const HeaderSummary = ({
 }: {
   tracks: readonly TrackContribution[]
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/contributing-section'
-  )
+  const { t } = useAppTranslation('components/journey/overview/contributing-section')
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
@@ -67,9 +74,7 @@ const TrackSummary = ({
 }: {
   track: TrackContributionWithPercentage
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/contributing-section'
-  )
+  const { t } = useAppTranslation('components/journey/overview/contributing-section')
   if (!track.slug) {
     throw new Error(t('headerSummary.noSummaryForTrack'))
   }
@@ -80,3 +85,6 @@ const TrackSummary = ({
     </TrackHeaderSpan>
   )
 }
+
+// end file ===
+```

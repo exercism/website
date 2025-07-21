@@ -4,51 +4,52 @@ import ac from './components-insiders'
 import ad from './components-donations'
 import ae from './discussion-batch'
 import af from './components-mentoring-discussion-discussion-post'
-import ag from './components-community'
-import ah from './components-editor-testComponents'
-import ai from './components-editor-RunTestsButton.tsx'
-import aj from './components-journey-overview-mentoring-section'
-import ak from './components-common-exercise-widget'
-import al from './components-dropdowns'
-import am from './components-github-syncer-widget'
-import an from './components-mentoring-automation-Representation.tsx'
-import ao from './components-editor-legacy-file-banner'
-import ap from './components-journey-overview-badges-section'
-import aq from './components-editor-panels'
-import ar from './components-mentoring-discussion-finished-wizard'
-import as from './automation-batch'
-import at from './components-donations-subscription-form'
-import au from './components-impact-TopLearningCountries.tsx'
-import av from './components-journey-solutions-list'
-import aw from './components-concept-map'
-import ax from './components-journey-overview-learning-section'
-import ay from './components-contributing'
-import az from './components-mentoring-discussion-FinishedWizard.tsx'
-import a0 from './components-editor-EditorStatusSummary.tsx'
-import a1 from './components-contributing-tasks-list-task'
-import a2 from './components-editor-GetHelp'
-import a3 from './components-dropdowns-track-menu'
-import a4 from './components-community-solutions'
-import a5 from './components-editor-header'
-import a6 from './components-mentoring-inbox'
-import a7 from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
-import a8 from './components-journey-overview-contributing-section'
-import a9 from './components-mentoring-discussion-NewMessageAlert.tsx'
-import ba from './components-dropdowns-reputation'
-import bb from './components-journey-contribution-results'
-import bc from './components-impact-ImpactTestimonial.tsx'
-import bd from './components-journey'
-import be from './components-journey-overview'
-import bf from './components-editor-ChatGptFeedback'
-import bg from './components-journey-contributions-list'
-import bh from './components-editor-SubmitButton.tsx'
-import bi from './components-mentoring-automation-AutomationListElement.tsx'
-import bj from './components-editor-LegacyFileBanner.tsx'
-import bk from './components-mentoring-automation-RepresentationList.tsx'
-import bl from './components-common-share-panel'
-import bm from './components-common-markdown-editor-form'
-import bn from './components-maintaining'
-import bo from './components-journey-badges-list'
+import ag from './components-mentoring-queue'
+import ah from './components-community'
+import ai from './components-editor-testComponents'
+import aj from './components-editor-RunTestsButton.tsx'
+import ak from './components-journey-overview-mentoring-section'
+import al from './components-common-exercise-widget'
+import am from './components-dropdowns'
+import an from './components-github-syncer-widget'
+import ao from './components-mentoring-automation-Representation.tsx'
+import ap from './components-editor-legacy-file-banner'
+import aq from './components-journey-overview-badges-section'
+import ar from './components-editor-panels'
+import as from './components-mentoring-discussion-finished-wizard'
+import at from './automation-batch'
+import au from './components-donations-subscription-form'
+import av from './components-impact-TopLearningCountries.tsx'
+import aw from './components-journey-solutions-list'
+import ax from './components-concept-map'
+import ay from './components-journey-overview-learning-section'
+import az from './components-contributing'
+import a0 from './components-mentoring-discussion-FinishedWizard.tsx'
+import a1 from './components-editor-EditorStatusSummary.tsx'
+import a2 from './components-contributing-tasks-list-task'
+import a3 from './components-editor-GetHelp'
+import a4 from './components-dropdowns-track-menu'
+import a5 from './components-community-solutions'
+import a6 from './components-editor-header'
+import a7 from './components-mentoring-inbox'
+import a8 from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
+import a9 from './components-journey-overview-contributing-section'
+import ba from './components-mentoring-discussion-NewMessageAlert.tsx'
+import bb from './components-dropdowns-reputation'
+import bc from './components-journey-contribution-results'
+import bd from './components-impact-ImpactTestimonial.tsx'
+import be from './components-journey'
+import bf from './components-journey-overview'
+import bg from './components-editor-ChatGptFeedback'
+import bh from './components-journey-contributions-list'
+import bi from './components-editor-SubmitButton.tsx'
+import bj from './components-mentoring-automation-AutomationListElement.tsx'
+import bk from './components-editor-LegacyFileBanner.tsx'
+import bl from './components-mentoring-automation-RepresentationList.tsx'
+import bm from './components-common-share-panel'
+import bn from './components-common-markdown-editor-form'
+import bo from './components-maintaining'
+import bp from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': aa,
@@ -57,49 +58,50 @@ export default {
   'components/donations': ad,
   'discussion-batch': ae,
   'components/mentoring/discussion/discussion-post': af,
-  'components/community': ag,
-  'components/editor/testComponents': ah,
-  'components/editor/RunTestsButton.tsx': ai,
-  'components/journey/overview/mentoring-section': aj,
-  'components/common/exercise-widget': ak,
-  'components/dropdowns': al,
-  'components/github-syncer-widget': am,
-  'components/mentoring/automation/Representation.tsx': an,
-  'components/editor/legacy-file-banner': ao,
-  'components/journey/overview/badges-section': ap,
-  'components/editor/panels': aq,
-  'components/mentoring/discussion/finished-wizard': ar,
-  'automation-batch': as,
-  'components/donations/subscription-form': at,
-  'components/impact/TopLearningCountries.tsx': au,
-  'components/journey/solutions-list': av,
-  'components/concept-map': aw,
-  'components/journey/overview/learning-section': ax,
-  'components/contributing': ay,
-  'components/mentoring/discussion/FinishedWizard.tsx': az,
-  'components/editor/EditorStatusSummary.tsx': a0,
-  'components/contributing/tasks-list/task': a1,
-  'components/editor/GetHelp': a2,
-  'components/dropdowns/track-menu': a3,
-  'components/community-solutions': a4,
-  'components/editor/header': a5,
-  'components/mentoring/inbox': a6,
-  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': a7,
-  'components/journey/overview/contributing-section': a8,
-  'components/mentoring/discussion/NewMessageAlert.tsx': a9,
-  'components/dropdowns/reputation': ba,
-  'components/journey/contribution-results': bb,
-  'components/impact/ImpactTestimonial.tsx': bc,
-  'components/journey': bd,
-  'components/journey/overview': be,
-  'components/editor/ChatGptFeedback': bf,
-  'components/journey/contributions-list': bg,
-  'components/editor/SubmitButton.tsx': bh,
-  'components/mentoring/automation/AutomationListElement.tsx': bi,
-  'components/editor/LegacyFileBanner.tsx': bj,
-  'components/mentoring/automation/RepresentationList.tsx': bk,
-  'components/common/share-panel': bl,
-  'components/common/markdown-editor-form': bm,
-  'components/maintaining': bn,
-  'components/journey/badges-list': bo,
+  'components/mentoring/queue': ag,
+  'components/community': ah,
+  'components/editor/testComponents': ai,
+  'components/editor/RunTestsButton.tsx': aj,
+  'components/journey/overview/mentoring-section': ak,
+  'components/common/exercise-widget': al,
+  'components/dropdowns': am,
+  'components/github-syncer-widget': an,
+  'components/mentoring/automation/Representation.tsx': ao,
+  'components/editor/legacy-file-banner': ap,
+  'components/journey/overview/badges-section': aq,
+  'components/editor/panels': ar,
+  'components/mentoring/discussion/finished-wizard': as,
+  'automation-batch': at,
+  'components/donations/subscription-form': au,
+  'components/impact/TopLearningCountries.tsx': av,
+  'components/journey/solutions-list': aw,
+  'components/concept-map': ax,
+  'components/journey/overview/learning-section': ay,
+  'components/contributing': az,
+  'components/mentoring/discussion/FinishedWizard.tsx': a0,
+  'components/editor/EditorStatusSummary.tsx': a1,
+  'components/contributing/tasks-list/task': a2,
+  'components/editor/GetHelp': a3,
+  'components/dropdowns/track-menu': a4,
+  'components/community-solutions': a5,
+  'components/editor/header': a6,
+  'components/mentoring/inbox': a7,
+  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': a8,
+  'components/journey/overview/contributing-section': a9,
+  'components/mentoring/discussion/NewMessageAlert.tsx': ba,
+  'components/dropdowns/reputation': bb,
+  'components/journey/contribution-results': bc,
+  'components/impact/ImpactTestimonial.tsx': bd,
+  'components/journey': be,
+  'components/journey/overview': bf,
+  'components/editor/ChatGptFeedback': bg,
+  'components/journey/contributions-list': bh,
+  'components/editor/SubmitButton.tsx': bi,
+  'components/mentoring/automation/AutomationListElement.tsx': bj,
+  'components/editor/LegacyFileBanner.tsx': bk,
+  'components/mentoring/automation/RepresentationList.tsx': bl,
+  'components/common/share-panel': bm,
+  'components/common/markdown-editor-form': bn,
+  'components/maintaining': bo,
+  'components/journey/badges-list': bp,
 }

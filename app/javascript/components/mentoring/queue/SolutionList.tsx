@@ -1,3 +1,5 @@
+// i18n-key-prefix: solutionList
+// i18n-namespace: components/mentoring/queue
 import React from 'react'
 import { QueryStatus } from '@tanstack/react-query'
 import { Pagination } from '@/components/common/Pagination'
@@ -5,6 +7,7 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Solution } from './Solution'
 import type { APIResponse } from './useMentoringQueue'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -31,6 +34,7 @@ export const SolutionList = ({
 }
 
 const Component = ({ resolvedData, page, setPage }: Props) => {
+  const { t } = useAppTranslation('components/mentoring/queue')
   return (
     <>
       {resolvedData && resolvedData.results.length > 0 ? (
@@ -40,7 +44,7 @@ const Component = ({ resolvedData, page, setPage }: Props) => {
               ? resolvedData.results.map((solution, key) => (
                   <Solution key={key} {...solution} />
                 ))
-              : 'No discussions found'}
+              : t('solutionList.noDiscussionsFound')}
           </div>
           <footer>
             <Pagination

@@ -1,3 +1,5 @@
+// i18n-key-prefix: trackFilterList
+// i18n-namespace: components/mentoring/queue
 import React, { useCallback, useRef, useState } from 'react'
 import { TrackIcon, Icon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
@@ -6,6 +8,7 @@ import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
 import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const TrackFilter = ({
   title,
@@ -79,6 +82,7 @@ const Component = ({
   cacheKey,
   links,
 }: Props): JSX.Element | null => {
+  const { t } = useAppTranslation('components/mentoring/queue')
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
@@ -132,7 +136,7 @@ const Component = ({
           </div>
           <Icon
             icon="chevron-down"
-            alt="Click to change"
+            alt={t('trackFilterList.clickToChange')}
             className="action-icon"
           />
         </button>
@@ -164,7 +168,7 @@ const Component = ({
                 }}
               >
                 <GraphicalIcon icon="reset" />
-                Change the tracks you mentor
+                {t('trackFilterList.changeTheTracksYouMentor')}
               </button>
             </li>
           </ul>

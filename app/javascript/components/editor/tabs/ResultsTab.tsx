@@ -1,7 +1,6 @@
 import React from 'react'
-import { Tab } from '../common/Tab'
-import { TabsContext } from '../Editor'
-import { GraphicalIcon } from '../common/GraphicalIcon'
+import { Tab, GraphicalIcon } from '@/components/common'
+import { TabsContext } from '@/components/Editor'
 
 export const ResultsTab = (): JSX.Element => (
   <Tab id="results" context={TabsContext}>

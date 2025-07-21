@@ -1,8 +1,9 @@
 import React from 'react'
-import { TestRunSummaryContainer } from './TestRunSummaryContainer'
-import { Submission, TestRun, TestRunner } from './types'
-import { GraphicalIcon, Tab } from '../common'
-import { TabsContext } from '../Editor'
+import { TestRunSummaryContainer } from '../TestRunSummaryContainer'
+import { Submission, TestRun, TestRunner } from '../types'
+import { GraphicalIcon, Tab } from '../../common'
+import { TabsContext } from '../../Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ResultsPanel = ({
   submission,
@@ -23,12 +24,13 @@ export const ResultsPanel = ({
   testRunner: TestRunner
   hasCancelled: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/panels')
   return (
     <Tab.Panel id="results" context={TabsContext}>
       {hasCancelled ? (
         <div className="c-toast cancelled">
           <GraphicalIcon icon="completed-check-circle" />
-          <span>Test run cancelled</span>
+          <span>{t('resultsPanel.testRunCancelled')}</span>
         </div>
       ) : null}
       {submission && submission.testRun ? (
@@ -52,14 +54,11 @@ export const ResultsPanel = ({
               type="button"
               onClick={onRunTests}
             >
-              <span>Run tests </span>
+              <span>{t('resultsPanel.runTestsToCheck')} </span>
             </button>{' '}
-            to check your code
+            {t('resultsPanel.toCheckYourCode')}
           </h2>
-          <p>
-            We&apos;ll run your code against tests to check whether it works,
-            then give you the results here.
-          </p>
+          <p>{t('resultsPanel.wellRunYourCode')}</p>
         </section>
       )}
     </Tab.Panel>

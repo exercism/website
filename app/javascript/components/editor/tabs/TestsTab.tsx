@@ -1,7 +1,7 @@
 import React from 'react'
-import { Tab } from '../common/Tab'
-import { TabsContext } from '../Editor'
-import { GraphicalIcon } from '../common/GraphicalIcon'
+import { Tab } from '../../common/Tab'
+import { TabsContext } from '../../Editor'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const TestsTab = () => (
   <Tab id="tests" context={TabsContext}>

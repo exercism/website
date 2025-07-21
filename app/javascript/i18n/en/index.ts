@@ -31,22 +31,23 @@ import a3 from './components-dropdowns-track-menu'
 import a4 from './components-community-solutions'
 import a5 from './components-editor-header'
 import a6 from './components-mentoring-inbox'
-import a7 from './components-journey-overview-contributing-section'
-import a8 from './components-dropdowns-reputation'
-import a9 from './components-journey-contribution-results'
-import ba from './components-impact-ImpactTestimonial.tsx'
-import bb from './components-journey'
-import bc from './components-journey-overview'
-import bd from './components-editor-ChatGptFeedback'
-import be from './components-journey-contributions-list'
-import bf from './components-editor-SubmitButton.tsx'
-import bg from './components-mentoring-automation-AutomationListElement.tsx'
-import bh from './components-editor-LegacyFileBanner.tsx'
-import bi from './components-mentoring-automation-RepresentationList.tsx'
-import bj from './components-common-share-panel'
-import bk from './components-common-markdown-editor-form'
-import bl from './components-maintaining'
-import bm from './components-journey-badges-list'
+import a7 from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
+import a8 from './components-journey-overview-contributing-section'
+import a9 from './components-dropdowns-reputation'
+import ba from './components-journey-contribution-results'
+import bb from './components-impact-ImpactTestimonial.tsx'
+import bc from './components-journey'
+import bd from './components-journey-overview'
+import be from './components-editor-ChatGptFeedback'
+import bf from './components-journey-contributions-list'
+import bg from './components-editor-SubmitButton.tsx'
+import bh from './components-mentoring-automation-AutomationListElement.tsx'
+import bi from './components-editor-LegacyFileBanner.tsx'
+import bj from './components-mentoring-automation-RepresentationList.tsx'
+import bk from './components-common-share-panel'
+import bl from './components-common-markdown-editor-form'
+import bm from './components-maintaining'
+import bn from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': aa,
@@ -82,20 +83,21 @@ export default {
   'components/community-solutions': a4,
   'components/editor/header': a5,
   'components/mentoring/inbox': a6,
-  'components/journey/overview/contributing-section': a7,
-  'components/dropdowns/reputation': a8,
-  'components/journey/contribution-results': a9,
-  'components/impact/ImpactTestimonial.tsx': ba,
-  'components/journey': bb,
-  'components/journey/overview': bc,
-  'components/editor/ChatGptFeedback': bd,
-  'components/journey/contributions-list': be,
-  'components/editor/SubmitButton.tsx': bf,
-  'components/mentoring/automation/AutomationListElement.tsx': bg,
-  'components/editor/LegacyFileBanner.tsx': bh,
-  'components/mentoring/automation/RepresentationList.tsx': bi,
-  'components/common/share-panel': bj,
-  'components/common/markdown-editor-form': bk,
-  'components/maintaining': bl,
-  'components/journey/badges-list': bm,
+  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': a7,
+  'components/journey/overview/contributing-section': a8,
+  'components/dropdowns/reputation': a9,
+  'components/journey/contribution-results': ba,
+  'components/impact/ImpactTestimonial.tsx': bb,
+  'components/journey': bc,
+  'components/journey/overview': bd,
+  'components/editor/ChatGptFeedback': be,
+  'components/journey/contributions-list': bf,
+  'components/editor/SubmitButton.tsx': bg,
+  'components/mentoring/automation/AutomationListElement.tsx': bh,
+  'components/editor/LegacyFileBanner.tsx': bi,
+  'components/mentoring/automation/RepresentationList.tsx': bj,
+  'components/common/share-panel': bk,
+  'components/common/markdown-editor-form': bl,
+  'components/maintaining': bm,
+  'components/journey/badges-list': bn,
 }

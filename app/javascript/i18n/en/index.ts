@@ -2,6 +2,7 @@ import componentseditortabs from './components-editor-tabs'
 import componentseditorFeedbackPanel from './components-editor-FeedbackPanel'
 import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
+import componentseditortestComponents from './components-editor-testComponents'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
 import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
@@ -24,6 +25,7 @@ export default {
   'components/editor/FeedbackPanel': componentseditorFeedbackPanel,
   'components/donations': componentsdonations,
   'components/community': componentscommunity,
+  'components/editor/testComponents': componentseditortestComponents,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
   'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,

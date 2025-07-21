@@ -1,9 +1,12 @@
+// i18n-key-prefix: testsGroupedByStatusList
+// i18n-namespace: components/editor/testComponents
 import React from 'react'
 import { TestStatus, Test } from '../types'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 import pluralize from 'pluralize'
 import { TestSummary } from './TestSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const Tests = ({
   tests,
@@ -33,9 +36,13 @@ const Title = ({
   status: string
   tests: TestWithToggle[]
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   return (
     <>
-      {tests.length} {pluralize('test', tests.length)} {status}
+      {tests.length}{' '}
+      {pluralize(t('testsGroupedByStatusList.test'), tests.length)}{' '}
+      {t(`testsGroupedByStatusList.${status}`)}
     </>
   )
 }

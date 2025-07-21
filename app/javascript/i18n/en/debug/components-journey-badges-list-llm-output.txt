@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "orderSwitcher.sortByUnrevealedFirst": "Sort by Unrevealed First",
+  "orderSwitcher.sortByNewestFirst": "Sort by Newest First",
+  "orderSwitcher.sortByOldestFirst": "Sort by Oldest First"
+}
+
+// modified_files
+// === file: ../components/journey/badges-list/OrderSwitcher.tsx ===
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Order } from '../BadgeResults'
@@ -8,19 +18,11 @@ const OptionComponent = ({ option: order }: { option: Order }) => {
 
   switch (order) {
     case 'unrevealed_first':
-      return (
-        <React.Fragment>
-          {t('orderSwitcher.sortByUnrevealedFirst')}
-        </React.Fragment>
-      )
+      return <React.Fragment>{t('orderSwitcher.sortByUnrevealedFirst')}</React.Fragment>
     case 'newest_first':
-      return (
-        <React.Fragment>{t('orderSwitcher.sortByNewestFirst')}</React.Fragment>
-      )
+      return <React.Fragment>{t('orderSwitcher.sortByNewestFirst')}</React.Fragment>
     case 'oldest_first':
-      return (
-        <React.Fragment>{t('orderSwitcher.sortByOldestFirst')}</React.Fragment>
-      )
+      return <React.Fragment>{t('orderSwitcher.sortByOldestFirst')}</React.Fragment>
   }
 }
 
@@ -41,3 +43,5 @@ export const OrderSwitcher = ({
     />
   )
 }
+// === end file ===
+```

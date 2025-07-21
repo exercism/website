@@ -28,6 +28,7 @@ import componentseditorSubmitButtontsx from './components-editor-SubmitButton.ts
 import componentseditorLegacyFileBannertsx from './components-editor-LegacyFileBanner.tsx'
 import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
+import componentsjourneybadgeslist from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': componentseditortabs,
@@ -64,4 +65,5 @@ export default {
   'components/editor/LegacyFileBanner.tsx': componentseditorLegacyFileBannertsx,
   'components/common/share-panel': componentscommonsharepanel,
   'components/common/markdown-editor-form': componentscommonmarkdowneditorform,
+  'components/journey/badges-list': componentsjourneybadgeslist,
 }

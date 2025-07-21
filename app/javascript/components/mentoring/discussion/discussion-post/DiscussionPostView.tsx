@@ -1,3 +1,5 @@
+// i18n-key-prefix: discussionPostView
+// i18n-namespace: components/mentoring/discussion/discussion-post
 import React from 'react'
 import { DiscussionPostProps } from '../DiscussionPost'
 import { shortFromNow } from '../../../../utils/time'
@@ -6,6 +8,7 @@ import { Icon } from '../../../common/Icon'
 import { ViewingComponentType } from '../../../common/ListItem'
 import { DiscussionPostContent } from './DiscussionPostContent'
 import { HandleWithFlair } from '@/components/common/HandleWithFlair'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const DiscussionPostView = ({
   onEdit,
@@ -13,6 +16,9 @@ export const DiscussionPostView = ({
   className = '',
   itemRef,
 }: ViewingComponentType<DiscussionPostProps>): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/discussion-post'
+  )
   const isEditable = post.links.edit
 
   const classNames = [
@@ -41,7 +47,7 @@ export const DiscussionPostView = ({
 
           {isEditable ? (
             <button type="button" className="edit-button" onClick={onEdit}>
-              <Icon icon="edit" alt="Edit" />
+              <Icon icon="edit" alt={t('discussionPostView.edit')} />
             </button>
           ) : null}
         </header>

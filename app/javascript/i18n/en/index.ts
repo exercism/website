@@ -2,6 +2,7 @@ import componentseditortabs from './components-editor-tabs'
 import componentseditorFeedbackPanel from './components-editor-FeedbackPanel'
 import componentsinsiders from './components-insiders'
 import componentsdonations from './components-donations'
+import componentsmentoringdiscussiondiscussionpost from './components-mentoring-discussion-discussion-post'
 import componentscommunity from './components-community'
 import componentseditortestComponents from './components-editor-testComponents'
 import componentseditorRunTestsButtontsx from './components-editor-RunTestsButton.tsx'
@@ -49,6 +50,8 @@ export default {
   'components/editor/FeedbackPanel': componentseditorFeedbackPanel,
   'components/insiders': componentsinsiders,
   'components/donations': componentsdonations,
+  'components/mentoring/discussion/discussion-post':
+    componentsmentoringdiscussiondiscussionpost,
   'components/community': componentscommunity,
   'components/editor/testComponents': componentseditortestComponents,
   'components/editor/RunTestsButton.tsx': componentseditorRunTestsButtontsx,

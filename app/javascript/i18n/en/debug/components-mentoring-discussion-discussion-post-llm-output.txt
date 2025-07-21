@@ -1,0 +1,147 @@
+```ts
+// i18n
+export default {
+  "discussionPostView.edit": "Edit",
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/discussion-post/DiscussionPostView.tsx ===
+// i18n-key-prefix: discussionPostView
+// i18n-namespace: components/mentoring/discussion/discussion-post
+import React from 'react'
+import { DiscussionPostProps } from '../DiscussionPost'
+import { shortFromNow } from '../../../../utils/time'
+import { Avatar } from '../../../common/Avatar'
+import { Icon } from '../../../common/Icon'
+import { ViewingComponentType } from '../../../common/ListItem'
+import { DiscussionPostContent } from './DiscussionPostContent'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const DiscussionPostView = ({
+  onEdit,
+  item: post,
+  className = '',
+  itemRef,
+}: ViewingComponentType<DiscussionPostProps>): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/discussion/discussion-post')
+  const isEditable = post.links.edit
+
+  const classNames = [
+    'post',
+    'timeline-entry',
+    isEditable ? '--editable' : '',
+    className,
+  ].filter((c) => c.length > 0)
+
+  return (
+    <div ref={itemRef} className={classNames.join(' ')}>
+      <Avatar
+        handle={post.authorHandle}
+        src={post.authorAvatarUrl}
+        className="timeline-marker"
+      />
+      <div className="timeline-content">
+        <header className="timeline-entry-header">
+          <div className="author">
+            <HandleWithFlair
+              handle={post.authorHandle}
+              flair={post.authorFlair}
+            />
+          </div>
+          <time>{shortFromNow(post.updatedAt)}</time>
+
+          {isEditable ? (
+            <button type="button" className="edit-button" onClick={onEdit}>
+              <Icon icon="edit" alt={t('discussionPostView.edit')} />
+            </button>
+          ) : null}
+        </header>
+        <DiscussionPostContent contentHtml={post.contentHtml} />
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/discussion-post/DiscussionPostContent.tsx ===
+// i18n-key-prefix: discussionPostContent
+// i18n-namespace: components/mentoring/discussion/discussion-post
+import React, { useEffect, useRef } from 'react'
+import { highlightAll } from '../../../../utils/highlight'
+
+export const DiscussionPostContent = ({
+  contentHtml,
+}: {
+  contentHtml: string
+}): JSX.Element => {
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!contentRef.current) {
+      return
+    }
+
+    highlightAll(contentRef.current)
+  }, [contentHtml])
+
+  return (
+    <div
+      className="post-content c-textual-content --small"
+      ref={contentRef}
+      dangerouslySetInnerHTML={{ __html: contentHtml }}
+    />
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/discussion-post/DiscussionPostEdit.tsx ===
+// i18n-key-prefix: discussionPostEdit
+// i18n-namespace: components/mentoring/discussion/discussion-post
+import React from 'react'
+import { DiscussionPostProps } from '../DiscussionPost'
+import { Avatar } from '../../../common/Avatar'
+import { EditingComponentType } from '../../../common/ListItem'
+import { EditListItemForm } from '../../../common/EditListItemForm'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
+
+const DEFAULT_ERROR = new Error('Unable to edit post')
+
+export const DiscussionPostEdit = ({
+  item: post,
+  onUpdate,
+  onDelete,
+  onCancel,
+}: EditingComponentType<DiscussionPostProps>): JSX.Element => {
+  return (
+    <div className={`post timeline-entry`}>
+      <Avatar
+        handle={post.authorHandle}
+        src={post.authorAvatarUrl}
+        className="timeline-marker"
+      />
+      <div className="timeline-content">
+        <header className="timeline-entry-header">
+          <div className="author">
+            <HandleWithFlair
+              handle={post.authorHandle}
+              flair={post.authorFlair}
+            />
+          </div>
+        </header>
+        <EditListItemForm<DiscussionPostProps>
+          item={post}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+          onCancel={onCancel}
+          defaultError={DEFAULT_ERROR}
+        />
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

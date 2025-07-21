@@ -26,6 +26,7 @@ import componentseditorGetHelp from './components-editor-GetHelp'
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
 import componentscommunitysolutions from './components-community-solutions'
 import componentseditorheader from './components-editor-header'
+import componentsmentoringinbox from './components-mentoring-inbox'
 import componentsjourneyoverviewcontributingsection from './components-journey-overview-contributing-section'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentsjourneycontributionresults from './components-journey-contribution-results'
@@ -79,6 +80,7 @@ export default {
   'components/dropdowns/track-menu': componentsdropdownstrackmenu,
   'components/community-solutions': componentscommunitysolutions,
   'components/editor/header': componentseditorheader,
+  'components/mentoring/inbox': componentsmentoringinbox,
   'components/journey/overview/contributing-section':
     componentsjourneyoverviewcontributingsection,
   'components/dropdowns/reputation': componentsdropdownsreputation,

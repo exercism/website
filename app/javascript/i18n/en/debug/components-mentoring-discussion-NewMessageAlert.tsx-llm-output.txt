@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "newMessage": "New Message"
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/NewMessageAlert.tsx ===
 import React, { useContext } from 'react'
 import { PostsContext } from './PostsContext'
 import { GraphicalIcon } from '../../common'
@@ -8,9 +16,7 @@ export const NewMessageAlert = ({
 }: {
   onClick?: () => void
 }): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/NewMessageAlert.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/discussion/NewMessageAlert.tsx')
   const { hasNewMessages, highlightedPostRef } = useContext(PostsContext)
 
   if (!hasNewMessages) {
@@ -31,3 +37,6 @@ export const NewMessageAlert = ({
     </button>
   )
 }
+
+// === end file ===
+```

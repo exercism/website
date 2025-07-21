@@ -22,6 +22,7 @@ import componentscommunitysolutions from './components-community-solutions'
 import componentseditorheader from './components-editor-header'
 import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentsimpactImpactTestimonialtsx from './components-impact-ImpactTestimonial.tsx'
+import componentsjourney from './components-journey'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
 import componentseditorSubmitButtontsx from './components-editor-SubmitButton.tsx'
 import componentseditorLegacyFileBannertsx from './components-editor-LegacyFileBanner.tsx'
@@ -57,6 +58,7 @@ export default {
   'components/dropdowns/reputation': componentsdropdownsreputation,
   'components/impact/ImpactTestimonial.tsx':
     componentsimpactImpactTestimonialtsx,
+  'components/journey': componentsjourney,
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
   'components/editor/SubmitButton.tsx': componentseditorSubmitButtontsx,
   'components/editor/LegacyFileBanner.tsx': componentseditorLegacyFileBannertsx,

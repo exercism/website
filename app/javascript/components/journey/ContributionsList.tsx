@@ -10,6 +10,7 @@ import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type { Contribution } from '@/components/types'
 import { CategorySelect } from './contributions-list/CategorySelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load contributions list')
 
@@ -33,6 +34,7 @@ export function ContributionsList({
   request: Request
   isEnabled: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('components/journey')
   const {
     request,
     setPage,
@@ -90,7 +92,7 @@ export function ContributionsList({
               setCriteria(e.target.value)
             }}
             value={criteria || ''}
-            placeholder="Search by contribution name"
+            placeholder={t('contributionsList.searchByContributionName')}
           />
           <CategorySelect
             value={request.query.category}

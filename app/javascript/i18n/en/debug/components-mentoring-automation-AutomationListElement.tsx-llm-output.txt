@@ -1,3 +1,17 @@
+```ts
+// i18n
+export default {
+  "adminTab.lastShown": "Last shown",
+  "adminTab.lastOccurence": "Last occurence",
+  "automationListElement.shownTime": "Shown {{number}} time",
+  "automationListElement.shownTimes": "Shown {{number}} times",
+  "automationListElement.occurenceTime": "occurrence {{number}} time",
+  "automationListElement.occurenceTimes": "occurrence {{number}} times",
+  "automationListElement.inTrackId": "in {{trackTitle}} (#{{id}})"
+}
+
+// modified_files
+// === file: ../components/mentoring/automation/AutomationListElement.tsx ===
 import React, { useMemo } from 'react'
 import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
 import { fromNow } from '@/utils/date'
@@ -143,3 +157,6 @@ export const AutomationListElement = ({
     </a>
   )
 }
+
+// === end file ===
+```

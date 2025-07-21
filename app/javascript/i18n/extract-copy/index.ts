@@ -157,50 +157,101 @@ async function readSingleFile(
 
 // # Single file
 // bun ./extract-copy/index.ts path/to/file.tsx --single
+
+// # Batch mode
+// bun ./extract-copy/index.ts --batch ./a/file1.tsx ./a/file2.tsx ./b/file3.tsx
+
 if (require.main === module) {
   const args = process.argv.slice(2)
-  const folderOrFile = args.find((arg) => !arg.startsWith('--'))
+  const paths = args.filter((arg) => !arg.startsWith('--'))
+  const folderOrFile = paths[0]
   const isRecursive = args.includes('--recursive')
   const isSingleFile = args.includes('--single')
+  const isBatchMode = args.includes('--batch')
 
-  if (!folderOrFile) {
+  if (!folderOrFile && !isBatchMode) {
     console.error('Please provide a file or folder path.')
     process.exit(1)
   }
 
-  let readFilesPromise: Promise<Record<string, string>>
+  if (isBatchMode) {
+    console.log('BATCH MODE')
+    if (paths.length === 0) {
+      console.error('Please provide one or more file paths for batch mode.')
+      process.exit(1)
+    }
 
-  if (isSingleFile) {
-    readFilesPromise = readSingleFile(folderOrFile)
-  } else if (isRecursive) {
-    readFilesPromise = readFilesInFolder(folderOrFile)
-  } else {
-    readFilesPromise = readFilesInFolderNonRecursive(folderOrFile)
-  }
+    // Group files by their parent folder name
+    const batches: Record<string, string[]> = {}
+    for (const filePath of paths) {
+      const parentDir = path.basename(path.dirname(filePath))
+      if (!supportedExtensions.includes(path.extname(filePath))) continue
+      if (!batches[parentDir]) batches[parentDir] = []
+      batches[parentDir].push(filePath)
+    }
 
-  readFilesPromise
-    .then(async (files) => {
-      const prompt = buildPrompt(files, folderOrFile)
-      const result = await runLLM(prompt)
-      if (!result) throw new Error('LLM returned no response')
+    void (async () => {
+      for (const [parentDir, files] of Object.entries(batches)) {
+        const fileContents: Record<string, string> = {}
+        for (const file of files) {
+          fileContents[file] = await fs.readFile(file, 'utf8')
+        }
 
-      await writeRawLLMOutput(result, folderOrFile)
-      const parsed = parseLLMOutput(result)
-      await writeTranslations(parsed.translations, folderOrFile)
-      await writeModifiedFiles(parsed.files)
+        const prompt = buildPrompt(fileContents, parentDir)
+        const result = await runLLM(prompt)
+        if (!result)
+          throw new Error(`LLM returned no response for batch ${parentDir}`)
 
-      generateEnIndex().catch((err) => {
-        console.error('Failed to generate en/index.ts:', err)
-        process.exit(1)
-      })
+        await writeRawLLMOutput(result, parentDir + '-batch')
+        const parsed = parseLLMOutput(result)
+        await writeTranslations(parsed.translations, parentDir + '-batch')
+        await writeModifiedFiles(parsed.files)
 
-      console.log('i18n extraction and rewrite complete.')
-      console.log(
-        `Translation namespace: ${normalizePathForNamespace(folderOrFile)}`
-      )
-    })
-    .catch((err) => {
-      console.error('Error:', err)
+        console.log(
+          `Batch "${parentDir}" complete. Output in en/${parentDir}-batch.ts`
+        )
+      }
+
+      await generateEnIndex()
+    })().catch((err) => {
+      console.error('Batch processing error:', err)
       process.exit(1)
     })
+  } else {
+    let readFilesPromise: Promise<Record<string, string>>
+
+    if (isSingleFile) {
+      readFilesPromise = readSingleFile(folderOrFile)
+    } else if (isRecursive) {
+      readFilesPromise = readFilesInFolder(folderOrFile)
+    } else {
+      readFilesPromise = readFilesInFolderNonRecursive(folderOrFile)
+    }
+
+    readFilesPromise
+      .then(async (files) => {
+        const prompt = buildPrompt(files, folderOrFile)
+        const result = await runLLM(prompt)
+        if (!result) throw new Error('LLM returned no response')
+
+        await writeRawLLMOutput(result, folderOrFile)
+        const parsed = parseLLMOutput(result)
+        await writeTranslations(parsed.translations, folderOrFile)
+        await writeModifiedFiles(parsed.files)
+
+        generateEnIndex().catch((err) => {
+          console.error('Failed to generate en/index.ts:', err)
+          process.exit(1)
+        })
+
+        console.log('i18n extraction and rewrite complete.')
+        console.log(
+          `Translation namespace: ${normalizePathForNamespace(folderOrFile)}`
+        )
+      })
+      .catch((err) => {
+        console.error('Error:', err)
+        process.exit(1)
+      })
+  }
 }

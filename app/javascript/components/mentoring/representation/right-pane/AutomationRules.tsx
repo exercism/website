@@ -1,9 +1,15 @@
 import React from 'react'
 import { CompleteRepresentationData } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane'
+  )
+
   const prLink = (
     <a
       href={guidance.links.improveRepresenterGuidance}
@@ -17,17 +23,16 @@ export default function AutomationRules({
   if (!guidance.representations) {
     return (
       <p className="px-24 mb-16 text-p-base">
-        This representer doesn&apos;t have any guidance yet. Guidance notes are
-        written by our maintainers to explain what normalizations occur during
-        the representation process. If you are a maintainer, please help get
-        them started for this representer by sending a {prLink}.
+        <Trans i18nKey="automationRules.noGuidance" values={{ prLink }} />
       </p>
     )
   }
 
   return (
     <div className="px-24 shadow-xsZ1v2 pt-12 pb-24">
-      <h2 className="text-h4 mb-12">Please read before giving feedback</h2>
+      <h2 className="text-h4 mb-12">
+        {t('automationRules.pleaseReadBeforeGivingFeedback')}
+      </h2>
       <div
         dangerouslySetInnerHTML={{
           __html: `<div class="c-textual-content --base">${guidance.representations}</div>`,

@@ -1,3 +1,22 @@
+```ts
+// i18n
+export default {
+  "radioGroup.essential": "Essential",
+  "radioGroup.recommended": "Recommended",
+  "radioGroup.optional": "Optional",
+  "radioGroup.celebratory": "Celebratory",
+  "radioGroup.essentialTooltipTitle": "If you mark this as Essential",
+  "radioGroup.essentialTooltipBody": "Student is prompted heavily to action this before proceeding. Essential enhancement.",
+  "radioGroup.recommendedTooltipTitle": "If you mark this as Recommended",
+  "radioGroup.recommendedTooltipBody": "Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.",
+  "radioGroup.optionalTooltipTitle": "If you mark this as Optional",
+  "radioGroup.optionalTooltipBody": "Student is not prompted to action this before proceeding, entirely a low-value enhancement.",
+  "radioGroup.celebratoryTooltipTitle": "If you mark this as Celebratory",
+  "radioGroup.celebratoryTooltipBody": "Student is not prompted to action this before proceeding, congratulates the student on their solution."
+}
+
+// modified_files
+// === file: ../components/mentoring/representation/right-pane/RadioGroup.tsx ===
 import React, { useCallback } from 'react'
 import { HowImportantProps } from './HowImportant'
 import RadioButton from './RadioButton'
@@ -41,9 +60,7 @@ export default function RadioGroup({
   feedbackType,
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane/RadioGroup.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/representation/right-pane/RadioGroup.tsx')
   const handleRadioCheck = useCallback(
     (e) => {
       setFeedbackType(e.target.value)
@@ -69,3 +86,6 @@ export default function RadioGroup({
     </div>
   )
 }
+
+// === end file ===
+```

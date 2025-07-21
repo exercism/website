@@ -4,6 +4,7 @@ import { StatusTab } from '../../inbox/StatusTab'
 import { CancelButton } from '../common/CancelButton'
 import { PrimaryButton } from '../common/PrimaryButton'
 import type { RepresentationData } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Example = Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>
 export function PreviewFooter({
@@ -21,6 +22,8 @@ export function PreviewFooter({
   onClose: () => void
   onSubmit: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/representation/modals')
+
   return (
     <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 flex-shrink-0">
       <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
@@ -32,7 +35,7 @@ export function PreviewFooter({
               status={k}
               setStatus={setSelectedExample}
             >
-              Example {k + 1}
+              {t('previewFooter.example')} {k + 1}
             </StatusTab>
           )
         })}
@@ -40,16 +43,16 @@ export function PreviewFooter({
 
       <div className="flex flex-row items-center">
         <div className="mr-32 text-right leading-150 text-15 text-textColor6">
-          You can edit this feedback anytime.
+          {t('previewFooter.youCanEditFeedback')}
           <br />
-          Your feedback will appear on{' '}
+          {t('previewFooter.feedbackWillAppearOn')}{' '}
           <strong className="font-medium text-textColor1">
             {pluralizeWithNumber(numOfSolutions, 'solution')}
           </strong>
         </div>
         <CancelButton onClick={onClose} />
         <PrimaryButton onClick={onSubmit} className="px-[18px] py-12 !m-0">
-          Submit
+          {t('previewFooter.submit')}
         </PrimaryButton>
       </div>
     </div>

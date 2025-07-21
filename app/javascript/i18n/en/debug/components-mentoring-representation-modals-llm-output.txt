@@ -1,0 +1,296 @@
+```ts
+// i18n
+export default {
+  "previewAutomationModal.modalTitle": "Thanks for submitting feedback!",
+  "submittedAutomationModal.thanksForFeedback": "Thanks for submitting feedback!",
+  "submittedAutomationModal.shownToStudents": "This will get shown to the relevant students on their solutions as they work through exercises.",
+  "submittedAutomationModal.solutionShownTimes": "We'll show you how many times your solution gets shown to students too.",
+  "submittedAutomationModal.continueToSolutions": "Continue to solutions requiring feedback",
+  "submittedAutomationModal.right": "right",
+  "submittedAutomationModal.earnedReputation": "You earned",
+  "submittedAutomationModal.reputationForFeedback": "Reputation for providing this feedback 😊",
+  "previewFooter.youCanEditFeedback": "You can edit this feedback anytime.",
+  "previewFooter.feedbackWillAppearOn": "Your feedback will appear on",
+  "previewFooter.submit": "Submit",
+  "previewFooter.example": "Example",
+  "previewFeedbackComment.gaveThisFeedback": "<0>{mentorName}</0> gave this feedback on a solution exactly like yours:",
+  "previewFeedbackComment.commentedOn": "Commented on {{date}}",
+}
+
+// modified_files
+// === file: ../components/mentoring/representation/modals/PreviewAutomationModal.tsx ===
+import React, { useCallback, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import {
+  CompleteRepresentationData,
+  RepresentationFeedbackType,
+} from '@/components/types'
+import { SplitPane } from '@/components/common/SplitPane'
+import { Modal } from '@/components/modals'
+import { sendRequest } from '@/utils/send-request'
+import { IterationView } from '../left-pane/RepresentationIterationView'
+import { PreviewFeedbackComment } from './PreviewFeedbackComment'
+import { PreviewFooter } from './PreviewFooter'
+import { AutomationModalProps } from './SubmittedAutomationModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type PreviewAutomationModalProps = AutomationModalProps & {
+  data: CompleteRepresentationData
+  html: string
+  markdown: string
+  feedbackType: RepresentationFeedbackType
+  onSuccessfulSubmit: () => void
+}
+
+export function PreviewAutomationModal({
+  data,
+  onClose,
+  isOpen,
+  html,
+  markdown,
+  feedbackType,
+  onSuccessfulSubmit,
+}: PreviewAutomationModalProps): JSX.Element {
+  const [selectedExample, setSelectedExample] = useState<number>(0)
+
+  async function SubmitFeedback() {
+    const { fetch } = sendRequest<{ html: string }>({
+      endpoint: data.representation.links.update!,
+      method: 'PATCH',
+      body: JSON.stringify({
+        representation: {
+          feedback_type: feedbackType,
+          feedback_markdown: markdown,
+        },
+      }),
+    })
+    return fetch
+  }
+
+  const { mutate: submitFeedback } = useMutation({
+    mutationFn: SubmitFeedback,
+    onSuccess: onSuccessfulSubmit,
+  })
+
+  const handleSubmit = useCallback(() => {
+    submitFeedback()
+  }, [submitFeedback])
+
+  return (
+    <Modal
+      ReactModalClassName="c-mentor-discussion !p-0 !w-[80%] !h-[65vh] flex flex-col"
+      onClose={onClose}
+      open={isOpen}
+    >
+      <SplitPane
+        id="automation-preview"
+        rightMinWidth={350}
+        leftMinWidth={550}
+        defaultLeftWidth="100%"
+        left={
+          <IterationView
+            representationData={{
+              ...data.representation,
+              ...data.examples[selectedExample],
+            }}
+          />
+        }
+        right={
+          <PreviewFeedbackComment
+            feedbackType={feedbackType}
+            mentor={data.mentor}
+            html={html}
+          />
+        }
+      />
+      <PreviewFooter
+        onSubmit={handleSubmit}
+        examples={data.examples}
+        selectedExample={selectedExample}
+        setSelectedExample={setSelectedExample}
+        numOfSolutions={data.representation.numSubmissions}
+        onClose={onClose}
+      />
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/mentoring/representation/modals/SubmittedAutomationModal.tsx ===
+import React from 'react'
+import { Modal } from '@/components/modals/Modal'
+import { GraphicalIcon, Icon, Reputation } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export type AutomationModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+export function SubmittedAutomationModal({
+  isOpen,
+  onClose,
+  goBackLink,
+}: AutomationModalProps & { goBackLink: string }): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/representation/modals')
+
+  return (
+    <Modal ReactModalClassName="!rounded-24" open={isOpen} onClose={onClose}>
+      <div className="flex flex-col items-center rounded-24">
+        <GraphicalIcon icon="green-check" className="w-[64px] h-[64px] mb-12" />
+        <h2 className="text-h2 mb-12">{t('submittedAutomationModal.thanksForFeedback')}</h2>
+        <p className="w-[640px] text-18 leading-paragraph text-center mb-20">
+          {t('submittedAutomationModal.shownToStudents')}{' '}
+          <strong className="font-medium">
+            {t('submittedAutomationModal.solutionShownTimes')}
+          </strong>
+        </p>
+
+        <a href={goBackLink} className="btn-m btn-primary">
+          <div className="flex flex-row justify-center text-18">
+            {t('submittedAutomationModal.continueToSolutions')}{' '}
+            <Icon
+              alt={t('submittedAutomationModal.right')}
+              icon="arrow-right"
+              className="w-[16px] h-[16px] filter-white ml-12"
+            />
+          </div>
+        </a>
+        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-backgroundColorE border-borderColor6 border-t-1">
+          <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-16 border border-4 rounded-12  px-24 py-8 child:mx-6">
+            {t('submittedAutomationModal.earnedReputation')}{' '}
+            <Reputation value="+3" type="primary" size="small" />
+            {t('submittedAutomationModal.reputationForFeedback')}
+          </div>
+        </div>
+      </div>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/mentoring/representation/modals/PreviewFooter.tsx ===
+import React, { SetStateAction } from 'react'
+import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
+import { StatusTab } from '../../inbox/StatusTab'
+import { CancelButton } from '../common/CancelButton'
+import { PrimaryButton } from '../common/PrimaryButton'
+import type { RepresentationData } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Example = Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>
+export function PreviewFooter({
+  numOfSolutions,
+  examples,
+  selectedExample,
+  setSelectedExample,
+  onClose,
+  onSubmit,
+}: {
+  numOfSolutions: number
+  examples: Example[]
+  selectedExample: number
+  setSelectedExample: React.Dispatch<SetStateAction<number>>
+  onClose: () => void
+  onSubmit: () => void
+}): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/representation/modals')
+
+  return (
+    <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 flex-shrink-0">
+      <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
+        {examples.map((_: Example, k: number) => {
+          return (
+            <StatusTab
+              key={`example-tab-${k}`}
+              currentStatus={selectedExample}
+              status={k}
+              setStatus={setSelectedExample}
+            >
+              {t('previewFooter.example')} {k + 1}
+            </StatusTab>
+          )
+        })}
+      </div>
+
+      <div className="flex flex-row items-center">
+        <div className="mr-32 text-right leading-150 text-15 text-textColor6">
+          {t('previewFooter.youCanEditFeedback')}
+          <br />
+          {t('previewFooter.feedbackWillAppearOn')}{' '}
+          <strong className="font-medium text-textColor1">
+            {pluralizeWithNumber(numOfSolutions, 'solution')}
+          </strong>
+        </div>
+        <CancelButton onClick={onClose} />
+        <PrimaryButton onClick={onSubmit} className="px-[18px] py-12 !m-0">
+          {t('previewFooter.submit')}
+        </PrimaryButton>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/mentoring/representation/modals/PreviewFeedbackComment.tsx ===
+import React from 'react'
+import dayjs from 'dayjs'
+import { Avatar } from '@/components/common'
+import { RepresentationFeedbackType, User } from '@/components/types'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import { CommentTag } from '../common/CommentTag'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export type PreviewFeedbackCommentProps = {
+  html: string
+  feedbackType: RepresentationFeedbackType
+  mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
+}
+
+export function PreviewFeedbackComment({
+  html,
+  mentor,
+  feedbackType,
+}: PreviewFeedbackCommentProps): JSX.Element {
+  const htmlRef = useHighlighting<HTMLDivElement>(html)
+  const { t } = useAppTranslation('components/mentoring/representation/modals')
+
+  return (
+    <div className="px-24 py-16 leading-160 overflow-auto">
+      <div className="flex flex-row items-center mb-12">
+        <Avatar className="w-[32px] h-[32px] mr-16" src={mentor.avatarUrl} />
+        <div className="text-15 text-textColor6 font-medium">
+          <Trans
+            i18nKey="previewFeedbackComment.gaveThisFeedback"
+            values={{ mentorName: mentor.name }}
+            components={[<span className="text-textColor1" />]}
+          />
+        </div>{' '}
+      </div>
+
+      <div className="flex flex-start">
+        <CommentTag type={feedbackType} />
+      </div>
+      <div
+        className="mb-4"
+        ref={htmlRef}
+        dangerouslySetInnerHTML={{ __html: html }}
+      ></div>
+      <div className="text-textColor6 font-medium">
+        {t('previewFeedbackComment.commentedOn', {
+          date: dayjs(Date.now()).format('D MMM YYYY'),
+        })}
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

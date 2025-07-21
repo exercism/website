@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "impactTestimonial.saidThisAbout": "said this about",
+  "impactTestimonial.on": "on"
+}
+
+// modified_files
+// === file: ../components/impact/ImpactTestimonial.tsx ===
 import React from 'react'
 import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
@@ -41,8 +50,7 @@ const ImpactTestimonial = ({
         </div>
         <div className="content">{testimonial.content}</div>
         <div className="inline-flex flex-wrap items-center gap-x-4 text-16 text-textColor2 leading-160">
-          <span className="font-medium">{testimonial.student.handle}</span>{' '}
-          {t('impactTestimonial.saidThisAbout')}{' '}
+          <span className="font-medium">{testimonial.student.handle}</span> {t('impactTestimonial.saidThisAbout')}{' '}
           <span className="font-medium">{testimonial.mentor.handle}</span>
         </div>
         <div className="exercise">
@@ -67,3 +75,5 @@ const ImpactTestimonial = ({
 }
 
 export default ImpactTestimonial
+// === end file ===
+```

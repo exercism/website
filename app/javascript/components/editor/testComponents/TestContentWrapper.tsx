@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, createContext } from 'react'
-import { TabContext, Tab } from '../common'
-import { TestFile } from '../types'
-import { TabsContext } from './FileEditorCodeMirror'
+import { TabContext, Tab } from '../../common'
+import { TestFile } from '../../types'
+import { TabsContext } from '../FileEditorCodeMirror'
 
 export const TestTabContext = createContext<TabContext>({
   current: '',

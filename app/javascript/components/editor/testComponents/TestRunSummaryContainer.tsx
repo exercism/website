@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useRef } from 'react'
-import { TestRun, TestRunner, TestRunStatus } from './types'
-import { TestRunChannel } from '../../channels/testRunChannel'
-import { fetchJSON } from '../../utils/fetch-json'
-import { useRequestQuery } from '../../hooks/request-query'
+import { TestRun, TestRunner, TestRunStatus } from '../types'
+import { TestRunChannel } from '../../../channels/testRunChannel'
+import { fetchJSON } from '../../../utils/fetch-json'
+import { useRequestQuery } from '../../../hooks/request-query'
 import { TestRunSummary } from './TestRunSummary'
 
 const REFETCH_INTERVAL = 2000

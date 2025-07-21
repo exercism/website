@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestRunOutput } from '../../../../app/javascript/components/editor/TestRunOutput'
+import { TestRunOutput } from '../../../../app/javascript/components/editor/testComponents/TestRunOutput'
 import {
   TestRun,
   TestRunStatus,

@@ -1,6 +1,6 @@
 import React from 'react'
-import { TestStatus, Test } from './types'
-import { GraphicalIcon } from '../common/GraphicalIcon'
+import { TestStatus, Test } from '../types'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 import pluralize from 'pluralize'
 import { TestSummary } from './TestSummary'

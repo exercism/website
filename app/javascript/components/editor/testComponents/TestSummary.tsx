@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { TestStatus, Test } from './types'
-import { GraphicalIcon } from '../common/GraphicalIcon'
-import { useHighlighting } from '../../utils/highlight'
+import { TestStatus, Test } from '../types'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { useHighlighting } from '../../../utils/highlight'
 
 const statusLabels = {
   [TestStatus.PASS]: 'Passed',

@@ -1,10 +1,10 @@
 import React from 'react'
-import { TestRun, TestRunner, TestRunStatus, TestStatus } from './types'
+import { TestRun, TestRunner, TestRunStatus, TestStatus } from '../types'
 import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
-import { SubmitButton } from './SubmitButton'
-import { GraphicalIcon } from '../common'
-import { LoadingBar } from '../common/LoadingBar'
+import { SubmitButton } from '../SubmitButton'
+import { GraphicalIcon } from '../../common'
+import { LoadingBar } from '../../common/LoadingBar'
 
 export const TestRunSummary = ({
   testRun,

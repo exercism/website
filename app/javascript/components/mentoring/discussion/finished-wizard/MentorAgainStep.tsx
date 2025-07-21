@@ -6,6 +6,7 @@ import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
 import { FavoritableStudent } from '../../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type SuccessFn = (student: FavoritableStudent) => void
 type Choice = 'yes' | 'no'
@@ -27,6 +28,9 @@ export const MentorAgainStep = ({
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/finished-wizard'
+  )
   const [choice, setChoice] = useState<Choice | null>(null)
   const {
     mutate: mutate,
@@ -61,7 +65,9 @@ export const MentorAgainStep = ({
 
   return (
     <div>
-      <p>Do you want to mentor {student.handle} again?</p>
+      <p>
+        {t('mentorAgainStep.mentorAgain', { studentHandle: student.handle })}
+      </p>
       <div className="buttons">
         <button
           className="btn-small"
@@ -69,7 +75,7 @@ export const MentorAgainStep = ({
           disabled={status === 'pending'}
         >
           <GraphicalIcon icon="checkmark" />
-          <span>Yes</span>
+          <span>{t('mentorAgainStep.yes')}</span>
         </button>
         <button
           className="btn-small"
@@ -77,7 +83,7 @@ export const MentorAgainStep = ({
           disabled={status === 'pending'}
         >
           <GraphicalIcon icon="cross" />
-          <span>No</span>
+          <span>{t('mentorAgainStep.no')}</span>
         </button>
       </div>
       {status === 'pending' ? <Loading /> : null}

@@ -6,6 +6,7 @@ import componentseditortestComponents from './components-editor-testComponents'
 import componentseditorRunTestsButtontsx from './components-editor-RunTestsButton.tsx'
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
+import componentsgithubsyncerwidget from './components-github-syncer-widget'
 import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
 import componentseditorpanels from './components-editor-panels'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
@@ -33,6 +34,7 @@ export default {
   'components/editor/RunTestsButton.tsx': componentseditorRunTestsButtontsx,
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
+  'components/github-syncer-widget': componentsgithubsyncerwidget,
   'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,
   'components/editor/panels': componentseditorpanels,
   'components/donations/subscription-form': componentsdonationssubscriptionform,

@@ -1,0 +1,242 @@
+```ts
+// i18n
+export default {
+  "miniAdvert.backupYourSolutionsToGitHub": "Backup your Solutions to GitHub",
+  "miniAdvert.automaticallyBackupSolutions": "Automatically backup your solutions to GitHub with our automated backup tool.",
+  "miniAdvert.configureBackups": "Configure backups",
+  "activeAutomaticSync.autoBackupEnabled": "Auto-backup Enabled",
+  "activeAutomaticSync.newIterationsAutoBackupSolution": "New iterations will automatically backup to GitHub. To manually trigger a backup of all iterations to this solution, please use the button below.",
+  "activeAutomaticSync.newIterationsAutoBackupIteration": "New iterations for this solution will automatically backup to GitHub. To manually trigger a backup of this iteration, please use the button below.",
+  "activeAutomaticSync.triggerSolutionBackup": "Trigger solution backup",
+  "activeAutomaticSync.triggerIterationBackup": "Trigger iteration backup",
+  "pausedSync.yourSyncerCurrentlyPaused": "Your syncer is currently paused.",
+  "pausedSync.visitSettingsToResumeSyncing": "Visit your <0>settings</0> to resume syncing.",
+  "activeManualSync.automaticSyncsDisabled": "You have automatic syncs disabled",
+  "activeManualSync.clickToBackupSolution": "Click to back up your solution"
+}
+
+// modified_files
+// === file: ../components/github-syncer-widget/MiniAdvert.tsx ===
+import React from 'react'
+import Icon from '../common/Icon'
+import GraphicalIcon from '../common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
+  const { t } = useAppTranslation('components/github-syncer-widget')
+  return (
+    <div className="flex flex-col items-stretch py-24 text-center px-40">
+      <div className="flex gap-20 items-center mb-12 mx-auto">
+        <Icon
+          icon="exercism-face"
+          category="icons"
+          alt="Exercism"
+          className="h-[64px]"
+        />
+        <Icon
+          icon="sync"
+          category="graphics"
+          alt="Sync with"
+          className="h-[45px]"
+        />
+        <Icon
+          icon="external-site-github"
+          category="icons"
+          alt="Github"
+          className="h-[64px]"
+        />
+      </div>
+      <h2 className="text-21 text-textColor1 mb-8 font-semibold">
+        {t('miniAdvert.backupYourSolutionsToGitHub')}
+      </h2>
+      <p className="text-16 leading-140 mb-12 text-balance text-center">
+        {t('miniAdvert.automaticallyBackupSolutions')}
+      </p>
+      <a className="btn btn-m btn-primary mb-24" href={settingsLink}>
+        {t('miniAdvert.configureBackups')}
+      </a>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/github-syncer-widget/ActiveAutomaticSync.tsx ===
+import React from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import { sendRequest } from '@/utils/send-request'
+import { SyncObj } from './GithubSyncerWidget'
+import { GraphicalIcon } from '../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
+export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
+  const { t } = useAppTranslation('components/github-syncer-widget')
+  return (
+    <div className="flex gap-24 items-start py-32 px-24">
+      <GraphicalIcon icon="github-syncer" className="w-[72px]" />
+      <div className="flex flex-col items-start ">
+        <h6 className="font-semibold text-textColor1 text-21 mb-12">
+          {t('activeAutomaticSync.autoBackupEnabled')}
+        </h6>
+        <p className="text-16 leading-150 mb-12">
+          {sync.type === 'solution'
+            ? t('activeAutomaticSync.newIterationsAutoBackupSolution')
+            : t('activeAutomaticSync.newIterationsAutoBackupIteration')}
+        </p>
+        <button
+          onClick={() => handleSync({ sync })}
+          className="btn btn-s btn-secondary"
+        >
+          {sync.type === 'solution'
+            ? t('activeAutomaticSync.triggerSolutionBackup')
+            : t('activeAutomaticSync.triggerIterationBackup')}
+        </button>
+        <Toaster position="bottom-right" />
+      </div>
+    </div>
+  )
+}
+
+export async function handleSync({ sync }: { sync: SyncObj }) {
+  try {
+    const response = await fetch(sync.endpoint, {
+      method: 'PATCH',
+      body: sync.body,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const text = await response.text()
+      let errorMessage = 'Unknown error'
+
+      if (text) {
+        try {
+          const data = JSON.parse(text)
+          errorMessage = data.error?.message || errorMessage
+        } catch {}
+      }
+
+      toast.error(`Error queuing backup for all tracks: ${errorMessage}`)
+      return
+    }
+
+    toast.success(
+      `Your backup has been queued and should be completed within a few minutes.`,
+      { duration: 5000 }
+    )
+  } catch (error) {
+    console.error('Error:', error)
+    toast.error(
+      'Something went wrong while queuing the backup for all tracks. Please try again.'
+    )
+  }
+}
+
+// === end file ===
+
+// === file: ../components/github-syncer-widget/PausedSync.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+// Syncer disabled: "Your syncer is currently disabled. Visit your settings (LINK <<) to enable it"
+export function PausedSync({
+  settingsLink,
+}: {
+  settingsLink: string
+}): JSX.Element {
+  const { t } = useAppTranslation('components/github-syncer-widget')
+  return (
+    <div className="flex flex-col items-center py-24">
+      <h6 className="font-semibold text-16 mb-16">
+        {t('pausedSync.yourSyncerCurrentlyPaused')}{' '}
+      </h6>
+      <p className="text-center text-balance">
+        <Trans
+          i18nKey="pausedSync.visitSettingsToResumeSyncing"
+          components={[<a href={settingsLink} className="text-prominentLinkColor" />]}
+        />
+      </p>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/github-syncer-widget/GithubSyncerWidget.tsx ===
+import React from 'react'
+import { GithubSyncerSettings } from '../settings/github-syncer/GitHubSyncerForm'
+import { MiniAdvert } from './MiniAdvert'
+import { PausedSync } from './PausedSync'
+import { ActiveAutomaticSync } from './ActiveAutomaticSync'
+import { ActiveManualSync } from './ActiveManualSync'
+
+export type SyncObj = {
+  endpoint: string
+  // stringified JSON body of the PATCH request
+  body: string
+  type: 'solution' | 'iteration'
+}
+
+export type GithubSyncerWidgetProps = {
+  syncer: GithubSyncerSettings | null
+  links: {
+    githubSyncerSettings: string
+  }
+  sync: SyncObj
+}
+
+// Solutions Page; Add a widget here for "Backup solution". It should have four states:
+// No syncer - advert
+// Syncer disabled: "Your syncer is currently disabled. Visit your settings (LINK <<) to enable it"
+// Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
+// Syncer enabled + manual: Say "You have automatic syncs disabled. Click to back up your solution".
+export function GithubSyncerWidget({
+  syncer,
+  links,
+  sync,
+}: GithubSyncerWidgetProps): JSX.Element {
+  if (!syncer) return <MiniAdvert settingsLink={links.githubSyncerSettings} />
+
+  if (!syncer.enabled)
+    return <PausedSync settingsLink={links.githubSyncerSettings} />
+
+  if (syncer.syncOnIterationCreation) return <ActiveAutomaticSync sync={sync} />
+
+  return <ActiveManualSync sync={sync} />
+}
+
+// === end file ===
+
+// === file: ../components/github-syncer-widget/ActiveManualSync.tsx ===
+import React from 'react'
+import { handleSync } from './ActiveAutomaticSync'
+import { SyncObj } from './GithubSyncerWidget'
+import { Toaster } from 'react-hot-toast'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// Syncer enabled + manual: Say "You have automatic syncs disabled. Click to back up your solution".
+export function ActiveManualSync({ sync }: { sync: SyncObj }) {
+  const { t } = useAppTranslation('components/github-syncer-widget')
+  return (
+    <div className="flex flex-col items-center py-24">
+      <h6 className="font-semibold text-16 mb-16">
+        {t('activeManualSync.automaticSyncsDisabled')}
+      </h6>
+      <button
+        onClick={() => handleSync({ sync })}
+        className="btn btn-xs btn-primary"
+      >
+        {t('activeManualSync.clickToBackupSolution')}
+      </button>
+      <Toaster position="bottom-right" />
+    </div>
+  )
+}
+
+// === end file ===
+```

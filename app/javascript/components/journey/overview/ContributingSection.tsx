@@ -3,6 +3,7 @@ import { TrackContribution } from '@/components/types'
 import { ContributionsSummary } from '@/components/profile'
 import { GraphicalIcon } from '@/components/common'
 import { HeaderSummary } from './contributing-section/HeaderSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   tracks: readonly TrackContribution[]
@@ -19,6 +20,7 @@ export const ContributingSection = ({
   handle,
   links,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
@@ -30,11 +32,11 @@ export const ContributingSection = ({
       <section className="empty-section">
         <GraphicalIcon icon="mentoring" hex />
         <h3 className="journey-h3 mb-24">
-          You haven&apos;t contributed to Exercism yet
+          {t('contributingSection.youHaventContributed')}
         </h3>
         {/* TODO get link from rails */}
         <a href="/contributing" className="btn-l btn-primary">
-          See how you can contribute
+          {t('contributingSection.seeHowYouCanContribute')}
         </a>
       </section>
     )
@@ -43,7 +45,9 @@ export const ContributingSection = ({
     <section className="contributing-section">
       <header className="section-header">
         <GraphicalIcon icon="contribute" hex />
-        <h2 className="journey-h2">Your contributions</h2>
+        <h2 className="journey-h2">
+          {t('contributingSection.yourContributions')}
+        </h2>
         <HeaderSummary tracks={tracks} />
         <hr className="c-divider" />
       </header>

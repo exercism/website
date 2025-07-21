@@ -7,6 +7,7 @@ import { SessionsMentoredSummary } from './mentoring-section/SessionsMentoredSum
 import { StudentsMentoredSummary } from './mentoring-section/StudentsMentoredSummary'
 import { SessionRatioSummary } from './mentoring-section/SessionRatioSummary'
 import { TrackSummary } from './mentoring-section/TrackSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   tracks: MentoredTrackProgressList
@@ -14,16 +15,17 @@ export type Props = {
 }
 
 export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
   if (tracks.length === 0) {
     return (
       <section className="empty-section">
         <GraphicalIcon icon="mentoring" hex />
         <h3 className="journey-h3 mb-24">
-          You haven&apos;t mentored anyone yet
+          {t('mentoringSection.youHaventMentoredAnyone')}
         </h3>
         {/* TODO get link from rails */}
         <a href="/mentoring" className="btn-l btn-primary">
-          Try mentoring
+          {t('mentoringSection.tryMentoring')}
         </a>
       </section>
     )
@@ -33,7 +35,7 @@ export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
     <section className="mentoring-section">
       <header className="section-header">
         <GraphicalIcon icon="mentoring" hex />
-        <h2 className="journey-h2">Your mentoring</h2>
+        <h2 className="journey-h2">{t('mentoringSection.yourMentoring')}</h2>
         <HeaderSummary tracks={tracks} />
       </header>
       <div className="content">

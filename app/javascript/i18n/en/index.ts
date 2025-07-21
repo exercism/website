@@ -1,5 +1,6 @@
 import componentseditortabs from './components-editor-tabs'
 import componentseditorFeedbackPanel from './components-editor-FeedbackPanel'
+import componentsinsiders from './components-insiders'
 import componentsdonations from './components-donations'
 import componentscommunity from './components-community'
 import componentseditortestComponents from './components-editor-testComponents'
@@ -30,6 +31,7 @@ import componentscommonmarkdowneditorform from './components-common-markdown-edi
 export default {
   'components/editor/tabs': componentseditortabs,
   'components/editor/FeedbackPanel': componentseditorFeedbackPanel,
+  'components/insiders': componentsinsiders,
   'components/donations': componentsdonations,
   'components/community': componentscommunity,
   'components/editor/testComponents': componentseditortestComponents,

@@ -1,0 +1,324 @@
+```ts
+// i18n
+export default {
+  "contributingSection.youHaventContributed": "You haven't contributed to Exercism yet",
+  "contributingSection.seeHowYouCanContribute": "See how you can contribute",
+  "contributingSection.yourContributions": "Your contributions",
+  "learningSection.youHaventJoinedTracks": "You haven't joined any tracks yet",
+  "learningSection.chooseTrackToGetStarted": "Choose a track to get started.",
+  "learningSection.yourLearning": "Your learning",
+  "mentoringSection.youHaventMentoredAnyone": "You haven't mentored anyone yet",
+  "mentoringSection.tryMentoring": "Try mentoring",
+  "mentoringSection.yourMentoring": "Your mentoring",
+  "badgesSection.aGlimpseOfBadges": "A glimpse of your badges collection",
+  "badgesSection.seeEntireBadgeCollection": "See your entire badge collection"
+}
+
+// modified_files
+// === file: ../components/journey/overview/ContributingSection.tsx ===
+import React from 'react'
+import { TrackContribution } from '@/components/types'
+import { ContributionsSummary } from '@/components/profile'
+import { GraphicalIcon } from '@/components/common'
+import { HeaderSummary } from './contributing-section/HeaderSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  tracks: readonly TrackContribution[]
+  handle: string
+  links: Links
+}
+
+type Links = {
+  contributions: string
+}
+
+export const ContributingSection = ({
+  tracks,
+  handle,
+  links,
+}: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
+  const allTrack = tracks.find((track) => track.slug === null)
+
+  if (!allTrack) {
+    throw new Error('No data found for all track')
+  }
+
+  if (allTrack.totalReputation === 0) {
+    return (
+      <section className="empty-section">
+        <GraphicalIcon icon="mentoring" hex />
+        <h3 className="journey-h3 mb-24">
+          {t('contributingSection.youHaventContributed')}
+        </h3>
+        {/* TODO get link from rails */}
+        <a href="/contributing" className="btn-l btn-primary">
+          {t('contributingSection.seeHowYouCanContribute')}
+        </a>
+      </section>
+    )
+  }
+  return (
+    <section className="contributing-section">
+      <header className="section-header">
+        <GraphicalIcon icon="contribute" hex />
+        <h2 className="journey-h2">{t('contributingSection.yourContributions')}</h2>
+        <HeaderSummary tracks={tracks} />
+        <hr className="c-divider" />
+      </header>
+      <div className="content">
+        <ContributionsSummary
+          tracks={tracks}
+          handle={handle}
+          links={links}
+          showHeader={false}
+        />
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/LearningSection.tsx ===
+import React from 'react'
+import { GraphicalIcon } from '../../common'
+import { TrackProgressList } from '../types'
+import { HeaderSummary } from './learning-section/HeaderSummary'
+import { TracksEnrolledSummary } from './learning-section/TracksEnrolledSummary'
+import { ExercisesCompletedSummary } from './learning-section/ExercisesCompletedSummary'
+import { ConceptsLearntSummary } from './learning-section/ConceptsLearntSummary'
+import { LearningOverview } from './learning-section/LearningOverview'
+import { TrackSummary } from './learning-section/TrackSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  tracks: TrackProgressList
+  links: Links
+}
+
+type Links = {
+  solutions: string
+  fable: string
+}
+
+export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
+  if (tracks.length === 0) {
+    return (
+      <section className="empty-section">
+        <GraphicalIcon icon="exercises" hex />
+        <h3 className="journey-h3 mb-24">
+          {t('learningSection.youHaventJoinedTracks')}
+        </h3>
+        {/* TODO get link from rails */}
+        <a href="/tracks" className="btn-l btn-primary">
+          {t('learningSection.chooseTrackToGetStarted')}
+        </a>
+      </section>
+    )
+  }
+
+  return (
+    <section className="learning-section">
+      <header className="section-header">
+        <GraphicalIcon icon="exercises" hex />
+        <h2 className="journey-h2">{t('learningSection.yourLearning')}</h2>
+        <HeaderSummary tracks={tracks} />
+      </header>
+      <div className="summary-boxes">
+        <TracksEnrolledSummary tracks={tracks} />
+        <ExercisesCompletedSummary tracks={tracks} />
+        <ConceptsLearntSummary tracks={tracks} />
+      </div>
+      <LearningOverview tracks={tracks} />
+      <div className="tracks">
+        {tracks.sort().items.map((track, idx) => (
+          <TrackSummary
+            key={track.slug}
+            track={track}
+            avgVelocity={null}
+            expanded={idx == 0}
+          />
+        ))}
+      </div>
+      {/*<LearningStats tracks={tracks} links={links} />*/}
+    </section>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/TrackHeaderSummaryText.tsx ===
+import React from 'react'
+
+export const TrackHeaderSummaryText = <T extends unknown>({
+  tracks,
+  SpanComponent,
+}: {
+  tracks: readonly T[]
+  SpanComponent: React.ComponentType<{ track: T }>
+}): JSX.Element | null => {
+  switch (tracks.length) {
+    case 4:
+      return (
+        <React.Fragment>
+          <SpanComponent track={tracks[0]} />
+          {', '} followed by <SpanComponent track={tracks[1]} />
+          {', '}
+          <SpanComponent track={tracks[2]} />
+          {' and '}
+          <SpanComponent track={tracks[3]} />.
+        </React.Fragment>
+      )
+    case 3:
+      return (
+        <React.Fragment>
+          <SpanComponent track={tracks[0]} />
+          {', '} followed by <SpanComponent track={tracks[1]} />
+          {' and '}
+          <SpanComponent track={tracks[2]} />.
+        </React.Fragment>
+      )
+    case 2:
+      return (
+        <React.Fragment>
+          <SpanComponent track={tracks[0]} /> followed by{' '}
+          <SpanComponent track={tracks[1]} />.
+        </React.Fragment>
+      )
+    case 1:
+      return (
+        <React.Fragment>
+          <SpanComponent track={tracks[0]} />.
+        </React.Fragment>
+      )
+    default:
+      return null
+  }
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/MentoringSection.tsx ===
+import React from 'react'
+import { GraphicalIcon } from '../../common'
+import { MentoredTrackProgressList, MentoringRanks } from '../types'
+import { HeaderSummary } from './mentoring-section/HeaderSummary'
+import { MentoringChart } from './mentoring-section/MentoringChart'
+import { SessionsMentoredSummary } from './mentoring-section/SessionsMentoredSummary'
+import { StudentsMentoredSummary } from './mentoring-section/StudentsMentoredSummary'
+import { SessionRatioSummary } from './mentoring-section/SessionRatioSummary'
+import { TrackSummary } from './mentoring-section/TrackSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  tracks: MentoredTrackProgressList
+  ranks: MentoringRanks
+}
+
+export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
+  if (tracks.length === 0) {
+    return (
+      <section className="empty-section">
+        <GraphicalIcon icon="mentoring" hex />
+        <h3 className="journey-h3 mb-24">
+          {t('mentoringSection.youHaventMentoredAnyone')}
+        </h3>
+        {/* TODO get link from rails */}
+        <a href="/mentoring" className="btn-l btn-primary">
+          {t('mentoringSection.tryMentoring')}
+        </a>
+      </section>
+    )
+  }
+
+  return (
+    <section className="mentoring-section">
+      <header className="section-header">
+        <GraphicalIcon icon="mentoring" hex />
+        <h2 className="journey-h2">{t('mentoringSection.yourMentoring')}</h2>
+        <HeaderSummary tracks={tracks} />
+      </header>
+      <div className="content">
+        <div className="info">
+          <div className="summary-boxes">
+            <SessionsMentoredSummary tracks={tracks} rank={ranks.discussions} />
+            <StudentsMentoredSummary tracks={tracks} rank={ranks.students} />
+            <SessionRatioSummary tracks={tracks} />
+          </div>
+          <div className="track-metrics">
+            {tracks.sort().items.map((track) => (
+              <TrackSummary key={track.slug} track={track} />
+            ))}
+          </div>
+        </div>
+        <MentoringChart tracks={tracks} />
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/BadgesSection.tsx ===
+import React from 'react'
+import { ProminentLink } from '../../common'
+import { BadgeMedallion } from '../../common/BadgeMedallion'
+import { BadgeList } from '../../types'
+import { BadgeSummary } from './badges-section/BadgeSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  badges: BadgeList
+  links: Links
+}
+
+type Links = {
+  badges: string
+}
+
+const MAX_BADGES = 4
+
+export const BadgesSection = ({ badges, links }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
+  const badgesToShow = badges.sort().items.slice(0, MAX_BADGES)
+
+  return (
+    <section className="badges-section">
+      <div className="info">
+        <div className="journey-h3">{t('badgesSection.aGlimpseOfBadges')}</div>
+        <BadgeSummary badges={badges} />
+        <ProminentLink
+          link={links.badges}
+          text={t('badgesSection.seeEntireBadgeCollection')}
+          withBg
+        />
+      </div>
+      <div className="badges">
+        {badgesToShow.map((badge) => (
+          <BadgeMedallion key={badge.uuid} badge={badge} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/journey/overview/TrackHeaderSpan.tsx ===
+import React from 'react'
+
+export const TrackHeaderSpan = ({
+  slug,
+  children,
+}: React.PropsWithChildren<{ slug: string }>): JSX.Element => {
+  const classNames = ['track', `t-b-${slug}`]
+
+  return <span className={classNames.join(' ')}>{children}</span>
+}
+
+// === end file ===
+```

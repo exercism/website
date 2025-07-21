@@ -9,6 +9,7 @@ import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
 import componentsgithubsyncerwidget from './components-github-syncer-widget'
 import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
+import componentsjourneyoverviewbadgessection from './components-journey-overview-badges-section'
 import componentseditorpanels from './components-editor-panels'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsimpactTopLearningCountriestsx from './components-impact-TopLearningCountries.tsx'
@@ -24,6 +25,7 @@ import componentsdropdownsreputation from './components-dropdowns-reputation'
 import componentsjourneycontributionresults from './components-journey-contribution-results'
 import componentsimpactImpactTestimonialtsx from './components-impact-ImpactTestimonial.tsx'
 import componentsjourney from './components-journey'
+import componentsjourneyoverview from './components-journey-overview'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
 import componentsjourneycontributionslist from './components-journey-contributions-list'
 import componentseditorSubmitButtontsx from './components-editor-SubmitButton.tsx'
@@ -44,6 +46,8 @@ export default {
   'components/dropdowns': componentsdropdowns,
   'components/github-syncer-widget': componentsgithubsyncerwidget,
   'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,
+  'components/journey/overview/badges-section':
+    componentsjourneyoverviewbadgessection,
   'components/editor/panels': componentseditorpanels,
   'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/impact/TopLearningCountries.tsx':
@@ -64,6 +68,7 @@ export default {
   'components/impact/ImpactTestimonial.tsx':
     componentsimpactImpactTestimonialtsx,
   'components/journey': componentsjourney,
+  'components/journey/overview': componentsjourneyoverview,
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
   'components/journey/contributions-list': componentsjourneycontributionslist,
   'components/editor/SubmitButton.tsx': componentseditorSubmitButtontsx,

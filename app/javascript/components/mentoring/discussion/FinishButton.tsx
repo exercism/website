@@ -5,7 +5,10 @@ import { typecheck } from '@/utils/typecheck'
 import { FinishMentorDiscussionModal } from '@/components/modals/mentor/FinishMentorDiscussionModal'
 import { ModalProps } from '@/components/modals/Modal'
 import type { MentorDiscussion as Discussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
+// i18n-key-prefix: ......components.mentoring.discussion.finishButton
+// i18n-namespace: discussion
 export const FinishButton = ({
   endpoint,
   modalProps,
@@ -15,6 +18,7 @@ export const FinishButton = ({
   modalProps?: ModalProps
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('discussion-batch')
   const [open, setOpen] = useState(false)
   const {
     mutate: mutation,
@@ -50,7 +54,7 @@ export const FinishButton = ({
           setOpen(true)
         }}
       >
-        <div className="--hint">End discussion</div>
+        {t('components.mentoring.discussion.finishButton.endDiscussion')}
       </button>
       <FinishMentorDiscussionModal
         endpoint={endpoint}

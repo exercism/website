@@ -1,0 +1,332 @@
+```ts
+// i18n
+export default {
+  "components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded": "<strong>This discussion has ended.</strong> Have more to say? You can <em>still post</em>.",
+  "components.mentoring.discussion.discussionActions.ended": "Ended",
+  "components.mentoring.discussion.finishButton.endDiscussion": "<div className=\"--hint\">End discussion</div>",
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/AddDiscussionPost.tsx ===
+import React, { useCallback, useState } from 'react'
+import { MentorDiscussion } from '../../types'
+import { AddDiscussionPostForm } from './AddDiscussionPostForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+// i18n-key-prefix: ......components.mentoring.discussion.addDiscussionPost
+// i18n-namespace: discussion
+export const AddDiscussionPost = ({
+  discussion,
+  children,
+  onSuccess = () => null,
+}: React.PropsWithChildren<{
+  discussion: MentorDiscussion
+  onSuccess?: () => void
+}>): JSX.Element => {
+  const { t } = useAppTranslation('discussion')
+  const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
+
+  const handleSuccess = useCallback(() => {
+    onSuccess()
+  }, [onSuccess])
+
+  const handleContinue = useCallback(() => {
+    setStillPosting(true)
+  }, [])
+
+  if (stillPosting) {
+    return (
+      <React.Fragment>
+        <AddDiscussionPostForm
+          discussion={discussion}
+          onSuccess={handleSuccess}
+        />
+        {children}
+      </React.Fragment>
+    )
+  } else {
+    return (
+      <button
+        onClick={handleContinue}
+        className="continuation-btn"
+        type="button"
+      >
+        <Trans i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded"/>
+      </button>
+    )
+  }
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/DiscussionActions.tsx ===
+import React, { useCallback } from 'react'
+import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
+import { FinishButton } from './FinishButton'
+import { GraphicalIcon } from '../../common'
+import { SessionProps } from '../Session'
+import { MentorDiscussion as Discussion } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: ......components.mentoring.discussion.discussionActions
+// i18n-namespace: discussion
+export const DiscussionActions = ({
+  status,
+  links,
+  session,
+  setSession,
+  isFinished,
+}: Discussion & {
+  session: SessionProps
+  setSession: (session: SessionProps) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('discussion')
+  const handleSuccess = useCallback(
+    (discussion) => {
+      const { student, ...discussionProps } = discussion
+
+      setSession({
+        ...session,
+        discussion: discussionProps,
+        student: student,
+      })
+    },
+    [setSession, session]
+  )
+
+  return (
+    <>
+      {status === 'awaiting_mentor' ? (
+        <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
+      ) : null}
+
+      {isFinished ? (
+        <div className="finished">
+          <GraphicalIcon icon="completed-check-circle" />
+          {t('components.mentoring.discussion.discussionActions.ended')}
+        </div>
+      ) : links.finish ? (
+        <FinishButton endpoint={links.finish} onSuccess={handleSuccess} />
+      ) : null}
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/FinishButton.tsx ===
+import React, { useState, useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { FinishMentorDiscussionModal } from '@/components/modals/mentor/FinishMentorDiscussionModal'
+import { ModalProps } from '@/components/modals/Modal'
+import type { MentorDiscussion as Discussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: ......components.mentoring.discussion.finishButton
+// i18n-namespace: discussion
+export const FinishButton = ({
+  endpoint,
+  modalProps,
+  onSuccess,
+}: {
+  endpoint: string
+  modalProps?: ModalProps
+  onSuccess: (discussion: Discussion) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('discussion')
+  const [open, setOpen] = useState(false)
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<Discussion>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
+    },
+    onSuccess: (discussion) => onSuccess(discussion),
+  })
+
+  const handleClose = useCallback(() => {
+    if (status === 'pending') {
+      return
+    }
+
+    setOpen(false)
+  }, [status])
+
+  return (
+    <React.Fragment>
+      <button
+        type="button"
+        className="btn-xs btn-enhanced finish-button ml-12"
+        onClick={() => {
+          setOpen(true)
+        }}
+      >
+        {t('components.mentoring.discussion.finishButton.endDiscussion')}
+      </button>
+      <FinishMentorDiscussionModal
+        endpoint={endpoint}
+        open={open}
+        onFinish={() => mutation()}
+        onCancel={handleClose}
+        status={status}
+        error={error}
+        {...modalProps}
+      />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/discussion/FinishedWizard.tsx ===
+import React, { useReducer, useEffect, useRef } from 'react'
+import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
+import { FavoriteStep } from './finished-wizard/FavoriteStep'
+import { FinishStep } from './finished-wizard/FinishStep'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { FavoritableStudent } from '../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: ......components.mentoring.discussion.finishedWizard
+// i18n-namespace: discussion
+type State = {
+  student: FavoritableStudent
+  step: ModalStep
+}
+
+export type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
+
+type Action =
+  | {
+      type: 'MENTOR_AGAIN'
+      payload: { student: FavoritableStudent }
+    }
+  | {
+      type: 'WONT_MENTOR_AGAIN'
+      payload: { student: FavoritableStudent }
+    }
+  | { type: 'FAVORITED'; payload: { student: FavoritableStudent } }
+  | { type: 'SKIP_FAVORITE' }
+  | { type: 'RESET' }
+
+type Props = {
+  student: FavoritableStudent
+  setStudent: (student: FavoritableStudent) => void
+  defaultStep: ModalStep
+  timelineContent: string
+}
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'MENTOR_AGAIN':
+      return {
+        student: action.payload.student,
+        step: 'favorite',
+      }
+    case 'WONT_MENTOR_AGAIN':
+      return {
+        student: action.payload.student,
+        step: 'finish',
+      }
+    case 'FAVORITED':
+      return {
+        student: action.payload.student,
+        step: 'finish',
+      }
+    case 'SKIP_FAVORITE':
+      return { ...state, step: 'finish' }
+    case 'RESET':
+      return { ...state, step: 'mentorAgain' }
+  }
+}
+
+export const FinishedWizard = ({
+  student,
+  setStudent,
+  defaultStep,
+  timelineContent,
+}: Props): JSX.Element => {
+  const { t } = useAppTranslation('discussion')
+  const finishedWizardRef = useRef<HTMLDivElement>(null)
+  const [state, dispatch] = useReducer(reducer, {
+    student: student,
+    step: defaultStep,
+  })
+
+  useEffect(() => {
+    if (!finishedWizardRef.current) {
+      return
+    }
+
+    finishedWizardRef.current.scrollIntoView()
+  }, [student])
+
+  return (
+    <div ref={finishedWizardRef} className="finished-wizard timeline-entry">
+      <GraphicalIcon
+        icon="completed-check-circle"
+        className="timeline-marker"
+      />
+      <div className="--details timeline-content">
+        <h3>{timelineContent}</h3>
+        <div className="--step">
+          {state.step === 'mentorAgain' ? (
+            <MentorAgainStep
+              student={state.student}
+              onYes={(student) => {
+                dispatch({
+                  type: 'MENTOR_AGAIN',
+                  payload: { student: student },
+                })
+              }}
+              onNo={(student) => {
+                dispatch({
+                  type: 'WONT_MENTOR_AGAIN',
+                  payload: { student: student },
+                })
+              }}
+            />
+          ) : state.step === 'favorite' ? (
+            <FavoriteStep
+              student={state.student}
+              onFavorite={(student) => {
+                dispatch({
+                  type: 'FAVORITED',
+                  payload: { student: student },
+                })
+
+                setStudent(student)
+              }}
+              onSkip={() => {
+                dispatch({ type: 'SKIP_FAVORITE' })
+              }}
+            />
+          ) : state.step === 'finish' ? (
+            <FinishStep
+              student={state.student}
+              onReset={() => {
+                dispatch({ type: 'RESET' })
+              }}
+            />
+          ) : (
+            <>Incorrect state: {state.step} </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

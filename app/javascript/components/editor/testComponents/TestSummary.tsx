@@ -1,7 +1,10 @@
+// i18n-key-prefix: testSummary
+// i18n-namespace: components/editor/testComponents
 import React, { useCallback } from 'react'
 import { TestStatus, Test } from '../types'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useHighlighting } from '../../../utils/highlight'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const statusLabels = {
   [TestStatus.PASS]: 'Passed',
@@ -23,6 +26,8 @@ export function TestSummary({
   defaultOpen: boolean
   language: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   const isPresent = useCallback((str) => {
     return str !== undefined && str !== null && str !== ''
   }, [])
@@ -38,10 +43,14 @@ export function TestSummary({
         <div className="--summary-inner">
           <div className="--status">
             <div className="--dot" />
-            <span>{statusLabels[test.status]}</span>
+            <span>
+              {t(`testSummary.${statusLabels[test.status].toLowerCase()}`)}
+            </span>
           </div>
           <div className="--summary-details">
-            <div className="--summary-idx">Test {test.index}</div>
+            <div className="--summary-idx">
+              {t('testSummary.test')} {test.index}
+            </div>
             <div className="--summary-name">{test.name}</div>
           </div>
           <GraphicalIcon icon="chevron-right" className="--closed-icon" />
@@ -51,7 +60,7 @@ export function TestSummary({
       <div className="--explanation">
         {isPresent(test.testCode) ? (
           <div className="--info">
-            <h3>Code Run</h3>
+            <h3>{t('testSummary.codeRun')}</h3>
             <pre ref={testCodeRef}>
               <code className={language}>{test.testCode}</code>
             </pre>
@@ -65,7 +74,7 @@ export function TestSummary({
         ) : null}
         {isPresent(test.output) ? (
           <div className="--info">
-            <h3>Your Output</h3>
+            <h3>{t('testSummary.yourOutput')}</h3>
             <pre dangerouslySetInnerHTML={{ __html: test.outputHtml }} />
           </div>
         ) : null}

@@ -1,3 +1,5 @@
+// i18n-key-prefix: testRunSummary
+// i18n-namespace: components/editor/testComponents
 import React from 'react'
 import { TestRun, TestRunner, TestRunStatus, TestStatus } from '../types'
 import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
@@ -5,6 +7,7 @@ import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from '../SubmitButton'
 import { GraphicalIcon } from '../../common'
 import { LoadingBar } from '../../common/LoadingBar'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestRunSummary = ({
   testRun,
@@ -21,6 +24,8 @@ export const TestRunSummary = ({
   onCancel?: () => void
   showSuccessBox: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   if (testRun) {
     return (
       <div className="c-test-run">
@@ -40,8 +45,8 @@ export const TestRunSummary = ({
   if (testRunner.status && !testRunner.status.track) {
     return (
       <div className="test-runner-disabled">
-        <h3>No test results</h3>
-        <p>This track does not support automatically running exercise tests.</p>
+        <h3>{t('testRunSummary.noTestResults')}</h3>
+        <p>{t('testRunSummary.trackNotSupportTests')}</p>
       </div>
     )
   }
@@ -49,8 +54,8 @@ export const TestRunSummary = ({
   if (testRunner.status && !testRunner.status.exercise) {
     return (
       <div className="test-runner-disabled">
-        <h3>No test results</h3>
-        <p>This exercise does not support automatically running its tests.</p>
+        <h3>{t('testRunSummary.noTestResults')}</h3>
+        <p>{t('testRunSummary.exerciseNotSupportTests')}</p>
       </div>
     )
   }
@@ -58,10 +63,12 @@ export const TestRunSummary = ({
   return (
     <div className="automated-feedback-pending">
       <GraphicalIcon icon="spinner" className="animate-spin-slow" />
-      <h3>We&apos;re testing your code to check it works</h3>
+      <h3>{t('testRunSummary.testingCode')}</h3>
       <p>
-        This usually takes {testRunner.averageTestDuration}-
-        {testRunner.averageTestDuration * 4} seconds.
+        {t('testRunSummary.usuallyTakes', {
+          averageTestDuration: testRunner.averageTestDuration,
+          averageTestDurationMultiplied: testRunner.averageTestDuration * 4,
+        })}
       </p>
     </div>
   )
@@ -89,6 +96,8 @@ const TestRunSummaryStatus = ({
 }
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   const hasTasks =
     testRun.version >= 3 &&
     testRun.tasks.length > 0 &&
@@ -116,8 +125,10 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
               100
             }
           >
-            {testRun.tasks.length - numFailedTasks} / {testRun.tasks.length}{' '}
-            Tasks Completed
+            {t('testRunSummary.tasksCompleted', {
+              completedTasks: testRun.tasks.length - numFailedTasks,
+              totalTasks: testRun.tasks.length,
+            })}
           </TestRunSummaryStatus>
         )
       }
@@ -141,27 +152,27 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
       if (hasTasks) {
         return (
           <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
-            All tasks passed
+            {t('testRunSummary.allTasksPassed')}
           </TestRunSummaryStatus>
         )
       }
 
       return (
         <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
-          All tests passed
+          {t('testRunSummary.allTestsPassed')}
         </TestRunSummaryStatus>
       )
     case TestRunStatus.ERROR:
     case TestRunStatus.OPS_ERROR:
       return (
         <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
-          An error occurred
+          {t('testRunSummary.anErrorOccurred')}
         </TestRunSummaryStatus>
       )
     case TestRunStatus.TIMEOUT:
       return (
         <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
-          Your tests timed out
+          {t('testRunSummary.yourTestsTimedOut')}
         </TestRunSummaryStatus>
       )
     default:
@@ -184,6 +195,8 @@ const TestRunSummaryContent = ({
   onCancel?: () => void
   showSuccessBox: boolean
 }) => {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   switch (testRun.status) {
     case TestRunStatus.PASS: {
       return (
@@ -192,12 +205,8 @@ const TestRunSummaryContent = ({
             <div className="success-box">
               <GraphicalIcon icon="balloons" category="graphics" />
               <div className="content">
-                <h3>Sweet. Looks like you&apos;ve solved the exercise!</h3>
-                <p>
-                  Good job! You can continue to improve your code or, if
-                  you&apos;re done, submit an iteration to get automated
-                  feedback and optionally request mentoring.
-                </p>
+                <h3>{t('testRunSummary.sweetLooksLike')}</h3>
+                <p>{t('testRunSummary.goodJobContinueImprove')}</p>
                 {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
                   <SubmitButton
                     onClick={onSubmit}
@@ -218,7 +227,7 @@ const TestRunSummaryContent = ({
     case TestRunStatus.ERROR:
       return (
         <div className="error-message">
-          <h3>We received the following error when we ran your code:</h3>
+          <h3>{t('testRunSummary.weReceivedError')}</h3>
           <pre>
             <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
           </pre>
@@ -227,30 +236,17 @@ const TestRunSummaryContent = ({
     case TestRunStatus.OPS_ERROR:
       return (
         <div className="ops-error">
-          <p>
-            An error occurred while running your tests. This might mean that
-            there was an issue in our infrastructure, or it might mean that you
-            have something in your code that&apos;s causing our systems to
-            break.
-          </p>
-          <p>
-            Please check your code, and if nothing seems to be wrong, try
-            running the tests again.
-          </p>
+          <p>{t('testRunSummary.errorOccurredWhileRunningTests')}</p>
+          <p>{t('testRunSummary.pleaseCheckCode')}</p>
         </div>
       )
     case TestRunStatus.TIMEOUT:
       return (
         <div className="ops-error">
           <p>
-            Your tests timed out. This might mean that there was an issue in our
-            infrastructure, but more likely it suggests that your code is
-            running slowly. Is there an infinite loop or something similar?
+            {t('testRunSummary.yourTestsTimedOutSuggestsCodeRunningSlowly')}
           </p>
-          <p>
-            Please check your code, and if nothing seems to be wrong, try
-            running the tests again.
-          </p>
+          <p>{t('testRunSummary.pleaseCheckCode')}</p>
         </div>
       )
     case TestRunStatus.QUEUED: {
@@ -259,9 +255,11 @@ const TestRunSummaryContent = ({
           <GraphicalIcon icon="spinner" className="animate-spin-slow" />
           <LoadingBar animationDuration={testRunner.averageTestDuration} />
           <p>
-            <strong>Running tests…</strong>&nbsp;
+            <strong>{t('testRunSummary.runningTests')}</strong>&nbsp;
             <span>
-              Estimated running time ~ {testRunner.averageTestDuration}s
+              {t('testRunSummary.estimatedRunningTime', {
+                averageTestDuration: testRunner.averageTestDuration,
+              })}
             </span>
           </p>
           {onCancel !== undefined &&
@@ -271,7 +269,7 @@ const TestRunSummaryContent = ({
               onClick={() => onCancel()}
               className="btn-default btn-xs"
             >
-              Cancel
+              {t('testRunSummary.cancel')}
             </button>
           ) : null}
         </div>

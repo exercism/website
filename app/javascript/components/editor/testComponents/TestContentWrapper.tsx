@@ -1,7 +1,10 @@
+// i18n-key-prefix: testContentWrapper
+// i18n-namespace: components/editor/testComponents
 import React, { useState, useContext, useCallback, createContext } from 'react'
 import { TabContext, Tab } from '../../common'
 import { TestFile } from '../../types'
 import { TabsContext } from '../FileEditorCodeMirror'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestTabContext = createContext<TabContext>({
   current: '',
@@ -47,6 +50,8 @@ export function TestContentWrapper({
 }
 
 function TabContextWrapper({ children }: { children: React.ReactNode }) {
+  const { t } = useAppTranslation('components/editor/testComponents')
+
   const { testTab, setTestTab, tabContext, testFiles, testTabGroupCss } =
     useContext(TestContentContext)
   const { current: currentTab } = useContext(tabContext)
@@ -55,12 +60,12 @@ function TabContextWrapper({ children }: { children: React.ReactNode }) {
     (filename: string) => {
       const testFile = testFiles.find((f) => f.filename === filename)
       if (!testFile) {
-        throw new Error('File not found')
+        throw new Error(t('testContentWrapper.fileNotFound'))
       } else {
         setTestTab(testFile)
       }
     },
-    [setTestTab, testFiles]
+    [setTestTab, testFiles, t]
   )
 
   return (

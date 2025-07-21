@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Tab } from '../common/Tab'
-import { TabsContext, TasksContext } from '../Editor'
-import { Assignment, AssignmentTask } from './types'
-import { TaskHintsModal } from '../modals/TaskHintsModal'
-import { GraphicalIcon, Icon } from '../common'
-import { useHighlighting } from '../../utils/highlight'
-import { useReducedMotion } from '../../hooks/use-reduced-motion'
-import VimeoEmbed from '../common/VimeoEmbed'
+import { Tab } from '../../common/Tab'
+import { TabsContext, TasksContext } from '../../Editor'
+import { Assignment, AssignmentTask } from '../types'
+import { TaskHintsModal } from '../../modals/TaskHintsModal'
+import { GraphicalIcon, Icon } from '../../common'
+import { useHighlighting } from '../../../utils/highlight'
+import { useReducedMotion } from '../../../hooks/use-reduced-motion'
+import VimeoEmbed from '../../common/VimeoEmbed'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const InstructionsPanel = ({
   introduction,
@@ -19,6 +20,7 @@ export const InstructionsPanel = ({
   debuggingInstructions?: string
   tutorial?: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/panels')
   const ref = useHighlighting<HTMLDivElement>()
 
   return (
@@ -36,18 +38,18 @@ export const InstructionsPanel = ({
 }
 
 function HelloWorldVideo() {
+  const { t } = useAppTranslation('components/editor/panels')
   return (
     <>
-      <h2>Introduction</h2>
-      <p className="mb-20">
-        Watch our "Introduction to Hello, World" video to get started 👇
-      </p>
+      <h2>{t('instructionsPanel.introduction')}</h2>
+      <p className="mb-20">{t('instructionsPanel.watchOurVideo')}</p>
       <VimeoEmbed id="853440496?h=6abbdfc68f" className="rounded-5" />
     </>
   )
 }
 
 const Introduction = ({ introduction }: { introduction: string }) => {
+  const { t } = useAppTranslation('components/editor/panels')
   if (
     introduction === undefined ||
     introduction === null ||
@@ -58,7 +60,7 @@ const Introduction = ({ introduction }: { introduction: string }) => {
 
   return (
     <div className="introduction">
-      <h2>Introduction</h2>
+      <h2>{t('instructionsPanel.introduction')}</h2>
       <div
         className="content"
         dangerouslySetInnerHTML={{ __html: introduction }}
@@ -68,9 +70,11 @@ const Introduction = ({ introduction }: { introduction: string }) => {
 }
 
 const Instructions = ({ assignment }: { assignment: Assignment }) => {
+  const { t } = useAppTranslation('components/editor/panels')
+
   return (
     <div className="instructions">
-      <h2>Instructions</h2>
+      <h2>{t('instructionsPanel.instructions')}</h2>
       <div
         className="content"
         dangerouslySetInnerHTML={{ __html: assignment.overview }}
@@ -90,6 +94,7 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
   const detailsProps =
     (current === null && idx === 0) || current === task.id ? { open: true } : {}
   const reducedMotion = useReducedMotion()
+  const { t } = useAppTranslation('components/editor/panels')
 
   useEffect(() => {
     if (detailsRef?.current && current === task.id) {
@@ -103,7 +108,9 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
     <details ref={detailsRef} className="c-details task" {...detailsProps}>
       <summary className="--summary">
         <div className="--summary-inner">
-          <div className="task-marker">Task {idx + 1}</div>
+          <div className="task-marker">
+            {t('instructionsPanel.task', { n: idx + 1 })}
+          </div>
           <span className="summary-title">{task.title}</span>
           <span className="--closed-icon">
             <GraphicalIcon icon="chevron-right" />
@@ -127,8 +134,8 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
             setIsModalOpen(true)
           }}
         >
-          <span>Stuck? Reveal Hints</span>
-          <Icon icon="modal" alt="Opens in a modal" />
+          <span>{t('instructionsPanel.stuckRevealHints')}</span>
+          <Icon icon="modal" alt={t('instructionsPanel.opensInAModal')} />
         </button>
       </div>
     </details>
@@ -140,6 +147,8 @@ const Debug = ({
 }: {
   debuggingInstructions?: string
 }) => {
+  const { t } = useAppTranslation('components/editor/panels')
+
   if (
     debuggingInstructions === undefined ||
     debuggingInstructions === null ||
@@ -150,7 +159,7 @@ const Debug = ({
 
   return (
     <div className="debug-info">
-      <h2>How to debug</h2>
+      <h2>{t('instructionsPanel.howToDebug')}</h2>
       <div dangerouslySetInnerHTML={{ __html: debuggingInstructions }} />
     </div>
   )

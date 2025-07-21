@@ -1,4 +1,5 @@
 import React from 'react'
+import { Test } from './types'
 
 export function TestsList({ tests }: { tests: Test[] }) {
   return (

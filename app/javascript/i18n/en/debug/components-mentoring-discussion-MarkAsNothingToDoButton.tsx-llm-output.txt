@@ -1,3 +1,17 @@
+```ts
+// i18n
+export default {
+  "markAsNothingToDoButton.studentsTurn": "This button allows you to remove this discussion from your Inbox and return it to the student's Inbox. Use it when it's the student's turn but the system incorrectly thinks its yours.",
+  "markAsNothingToDoButton.itsTheStudentsTurn": "It's the student's turn…",
+  "markAsNothingToDoButton.passDiscussionBack": "Pass this discussion back to the student?",
+  "markAsNothingToDoButton.continuingWillRemove": "Continuing will remove this from your Inbox and return it to the student's Inbox. This feature is intended for when a student has left a message for you such as \"Sure, I'll do that\" and the system now needs to be told it's still the student's turn to act.",
+  "markAsNothingToDoButton.addCommentToDiscussion": "If it may not be clear to the student that it's their turn to act, please add a comment to the discussion in addition to using this button.",
+  "markAsNothingToDoButton.continue": "Continue",
+  "markAsNothingToDoButton.cancel": "Cancel"
+}
+
+// modified_files
+// === file: ../components/mentoring/discussion/MarkAsNothingToDoButton.tsx ===
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -22,9 +36,7 @@ export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
 const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/discussion/MarkAsNothingToDoButton.tsx')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     mutate: mutation,
@@ -47,16 +59,18 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
   switch (status) {
     case 'idle':
       return (
-        <GenericTooltip content={t('markAsNothingToDoButton.studentsTurn')}>
+        <GenericTooltip
+          content={
+            t('markAsNothingToDoButton.studentsTurn')
+          }
+        >
           <div>
             <button
               onClick={() => setIsModalOpen(true)}
               type="button"
               className="btn-xs btn-enhanced"
             >
-              <div className="--hint">
-                {t('markAsNothingToDoButton.itsTheStudentsTurn')}
-              </div>
+              <div className="--hint">{t('markAsNothingToDoButton.itsTheStudentsTurn')}</div>
             </button>
             <ConfirmationModal
               isOpen={isModalOpen}
@@ -82,9 +96,7 @@ function ConfirmationModal({
   onClose: () => void
   onConfirm: () => void
 }) {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/discussion/MarkAsNothingToDoButton.tsx')
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -108,3 +120,6 @@ function ConfirmationModal({
     </Modal>
   )
 }
+
+// end file ===
+```

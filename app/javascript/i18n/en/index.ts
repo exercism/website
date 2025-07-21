@@ -10,6 +10,7 @@ import componentseditorpanels from './components-editor-panels'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsconceptmap from './components-concept-map'
 import componentscontributing from './components-contributing'
+import componentseditorEditorStatusSummarytsx from './components-editor-EditorStatusSummary.tsx'
 import componentscontributingtaskslisttask from './components-contributing-tasks-list-task'
 import componentseditorGetHelp from './components-editor-GetHelp'
 import componentsdropdownstrackmenu from './components-dropdowns-track-menu'
@@ -33,6 +34,8 @@ export default {
   'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/concept-map': componentsconceptmap,
   'components/contributing': componentscontributing,
+  'components/editor/EditorStatusSummary.tsx':
+    componentseditorEditorStatusSummarytsx,
   'components/contributing/tasks-list/task':
     componentscontributingtaskslisttask,
   'components/editor/GetHelp': componentseditorGetHelp,

@@ -8,6 +8,7 @@ import { Guidance } from '../../session/Guidance'
 import { Scratchpad } from '../../session/Scratchpad'
 import AutomationRules from './AutomationRules'
 import Considerations from './Considerations'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type RepresentationTabIndex = 'information' | 'scratchpad' | 'guidance'
 
@@ -16,6 +17,9 @@ export function UtilityTabs({
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane'
+  )
   const [tab, setTab] = useState<RepresentationTabIndex>('information')
 
   return (
@@ -28,15 +32,15 @@ export function UtilityTabs({
       <div className="tabs" role="tablist">
         <Tab id="information" context={TabsContext}>
           <GraphicalIcon icon="comment" />
-          <Tab.Title text="Information" />
+          <Tab.Title text={t('utilityTabs.information')} />
         </Tab>
         <Tab id="scratchpad" context={TabsContext}>
           <GraphicalIcon icon="scratchpad" />
-          <Tab.Title text="Scratchpad" />
+          <Tab.Title text={t('utilityTabs.scratchpad')} />
         </Tab>
         <Tab id="guidance" context={TabsContext}>
           <GraphicalIcon icon="guidance" />
-          <Tab.Title text="Guidance" />
+          <Tab.Title text={t('utilityTabs.guidance')} />
         </Tab>
       </div>
       <Tab.Panel id="information" context={TabsContext}>

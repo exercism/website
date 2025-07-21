@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "submitButton.submit": "Submit",
+  "submitButton.testsPassingRequired": "You need to get the tests passing before you can submit your solution"
+}
+
+// modified_files
+// === file: ../components/editor/SubmitButton.tsx ===
 import React, { forwardRef } from 'react'
 import { GenericTooltip } from '../misc/ExercismTippy'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -10,7 +19,9 @@ export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
     return (
       <GenericTooltip
         disabled={!disabled}
-        content={t('submitButton.testsPassingRequired')}
+        content={
+          t('submitButton.testsPassingRequired')
+        }
       >
         <div className="submit-btn">
           <button
@@ -27,3 +38,6 @@ export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
     )
   }
 )
+
+// === end file ===
+```

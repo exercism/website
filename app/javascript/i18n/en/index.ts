@@ -14,6 +14,7 @@ import componentsjourneyoverviewbadgessection from './components-journey-overvie
 import componentseditorpanels from './components-editor-panels'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsimpactTopLearningCountriestsx from './components-impact-TopLearningCountries.tsx'
+import componentsjourneysolutionslist from './components-journey-solutions-list'
 import componentsconceptmap from './components-concept-map'
 import componentsjourneyoverviewlearningsection from './components-journey-overview-learning-section'
 import componentscontributing from './components-contributing'
@@ -57,6 +58,7 @@ export default {
   'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/impact/TopLearningCountries.tsx':
     componentsimpactTopLearningCountriestsx,
+  'components/journey/solutions-list': componentsjourneysolutionslist,
   'components/concept-map': componentsconceptmap,
   'components/journey/overview/learning-section':
     componentsjourneyoverviewlearningsection,

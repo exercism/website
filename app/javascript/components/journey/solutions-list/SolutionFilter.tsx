@@ -5,6 +5,7 @@ import { HeadTestsStatus, HeadTestsStatusSelect } from './HeadTestsStatusSelect'
 import { MentoringStatus, MentoringStatusSelect } from './MentoringStatusSelect'
 import { SyncStatus, SyncStatusSelect } from './SyncStatusSelect'
 import { TestsStatus, TestsStatusSelect } from './TestsStatusSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SolutionFilter = ({
   request,
@@ -19,6 +20,8 @@ export const SolutionFilter = ({
     headTestsStatus: HeadTestsStatus
   ) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
   const [status, setStatus] = useState<ExerciseStatus>(request.query.status)
   const [mentoringStatus, setMentoringStatus] = useState<MentoringStatus>(
     request.query.mentoringStatus
@@ -89,6 +92,7 @@ export const SolutionFilter = ({
       syncStatus,
       testsStatus,
       headTestsStatus,
+      onApply,
     ]
   )
 
@@ -109,7 +113,9 @@ export const SolutionFilter = ({
         aria-haspopup="true"
         aria-expanded={expanded}
       >
-        <span className="hidden sm:block sm:mr-12">Filter by</span>
+        <span className="hidden sm:block sm:mr-12">
+          {t('solutionFilter.filterBy')}
+        </span>
         <GraphicalIcon icon="chevron-down" />
       </button>
       <div
@@ -136,10 +142,10 @@ export const SolutionFilter = ({
           </div>
           <footer className="buttons">
             <button className="btn-primary btn-m" onClick={handleApply}>
-              Apply filters
+              {t('solutionFilter.applyFilters')}
             </button>
             <button className="btn-default btn-m" onClick={handleClose}>
-              Close
+              {t('solutionFilter.close')}
             </button>
           </footer>
         </div>

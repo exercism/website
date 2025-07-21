@@ -1,5 +1,6 @@
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
 
@@ -8,20 +9,22 @@ const OptionComponent = ({
 }: {
   option: SyncStatus
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
   switch (status) {
     case 'up_to_date':
-      return <>Up-to-date</>
+      return <>{t('syncStatusSelect.upToDate')}</>
     case 'out_of_date':
-      return <>Out-of-date</>
+      return <>{t('syncStatusSelect.outOfDate')}</>
     case undefined:
-      return <>All</>
+      return <>{t('syncStatusSelect.all')}</>
   }
 }
 
 const SelectedComponent = ({ option }: { option: SyncStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
   switch (option) {
     case undefined:
-      return <>Sync status</>
+      return <>{t('syncStatusSelect.syncStatus')}</>
     default:
       return <OptionComponent option={option} />
   }

@@ -1,5 +1,17 @@
+```ts
+// i18n
+export default {
+  "representationList.noSolutionsFound": "No solutions found.",
+  "representationList.tryChangingFilters": "Try changing your filters to find solutions that need feedback.",
+  "representationList.noSolutionsNeedFeedback": "There are currently no solutions that need feedback.",
+  "representationList.checkBackLater": "Check back here later for more!"
+}
+
+// modified_files
+// === file: ../components/mentoring/automation/RepresentationList.tsx ===
 import React from 'react'
 import type { QueryStatus } from '@tanstack/react-query'
+import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
@@ -72,9 +84,7 @@ function Component({ resolvedData, page, setPage, selectedTab }: Props) {
 }
 
 function NoResultsOfQuery() {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/RepresentationList.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/automation/RepresentationList.tsx')
   return (
     <FilterFallback
       icon="no-result-magnifier"
@@ -85,9 +95,7 @@ function NoResultsOfQuery() {
 }
 
 function NoResultsYet() {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/RepresentationList.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/automation/RepresentationList.tsx')
   return (
     <FilterFallback
       icon="automation"
@@ -97,3 +105,6 @@ function NoResultsYet() {
     />
   )
 }
+
+// end file ===
+```

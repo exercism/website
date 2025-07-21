@@ -9,9 +9,11 @@ import componentsjourneyoverviewmentoringsection from './components-journey-over
 import componentscommonexercisewidget from './components-common-exercise-widget'
 import componentsdropdowns from './components-dropdowns'
 import componentsgithubsyncerwidget from './components-github-syncer-widget'
+import componentsmentoringautomationRepresentationtsx from './components-mentoring-automation-Representation.tsx'
 import componentseditorlegacyfilebanner from './components-editor-legacy-file-banner'
 import componentsjourneyoverviewbadgessection from './components-journey-overview-badges-section'
 import componentseditorpanels from './components-editor-panels'
+import automationbatch from './automation-batch'
 import componentsdonationssubscriptionform from './components-donations-subscription-form'
 import componentsimpactTopLearningCountriestsx from './components-impact-TopLearningCountries.tsx'
 import componentsjourneysolutionslist from './components-journey-solutions-list'
@@ -33,7 +35,9 @@ import componentsjourneyoverview from './components-journey-overview'
 import componentseditorChatGptFeedback from './components-editor-ChatGptFeedback'
 import componentsjourneycontributionslist from './components-journey-contributions-list'
 import componentseditorSubmitButtontsx from './components-editor-SubmitButton.tsx'
+import componentsmentoringautomationAutomationListElementtsx from './components-mentoring-automation-AutomationListElement.tsx'
 import componentseditorLegacyFileBannertsx from './components-editor-LegacyFileBanner.tsx'
+import componentsmentoringautomationRepresentationListtsx from './components-mentoring-automation-RepresentationList.tsx'
 import componentscommonsharepanel from './components-common-share-panel'
 import componentscommonmarkdowneditorform from './components-common-markdown-editor-form'
 import componentsmaintaining from './components-maintaining'
@@ -52,10 +56,13 @@ export default {
   'components/common/exercise-widget': componentscommonexercisewidget,
   'components/dropdowns': componentsdropdowns,
   'components/github-syncer-widget': componentsgithubsyncerwidget,
+  'components/mentoring/automation/Representation.tsx':
+    componentsmentoringautomationRepresentationtsx,
   'components/editor/legacy-file-banner': componentseditorlegacyfilebanner,
   'components/journey/overview/badges-section':
     componentsjourneyoverviewbadgessection,
   'components/editor/panels': componentseditorpanels,
+  'automation-batch': automationbatch,
   'components/donations/subscription-form': componentsdonationssubscriptionform,
   'components/impact/TopLearningCountries.tsx':
     componentsimpactTopLearningCountriestsx,
@@ -84,7 +91,11 @@ export default {
   'components/editor/ChatGptFeedback': componentseditorChatGptFeedback,
   'components/journey/contributions-list': componentsjourneycontributionslist,
   'components/editor/SubmitButton.tsx': componentseditorSubmitButtontsx,
+  'components/mentoring/automation/AutomationListElement.tsx':
+    componentsmentoringautomationAutomationListElementtsx,
   'components/editor/LegacyFileBanner.tsx': componentseditorLegacyFileBannertsx,
+  'components/mentoring/automation/RepresentationList.tsx':
+    componentsmentoringautomationRepresentationListtsx,
   'components/common/share-panel': componentscommonsharepanel,
   'components/common/markdown-editor-form': componentscommonmarkdowneditorform,
   'components/maintaining': componentsmaintaining,

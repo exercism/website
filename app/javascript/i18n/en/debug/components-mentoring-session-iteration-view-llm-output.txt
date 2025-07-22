@@ -1,0 +1,191 @@
+```ts
+// i18n
+export default {
+  "iterationHeader.downloadButton.downloadThisSolutionViaCli": "Download this solution via the CLI",
+  "iterationHeader.downloadButton.solutionDownloadedIntoSubdirectory": "This solution will be downloaded into a subdirectory specifically for this student.",
+  "iterationHeader.copyButton.copied": "Copied",
+  "iterationHeader.outOfDateNotice.exerciseUpdated": "This exercise has been updated since the student submitted this\n        iteration. It might not pass the most recent set of tests. Exercises\n        can be updated by students by clicking on the yellow bar in the main\n        exercise page.",
+  "iterationHeader.downloadButton.downloadSolution": "Download solution",
+  "iterationHeader.copyButton.copySolution": "Copy solution"
+}
+
+// modified_files
+// === file: ../components/mentoring/session/iteration-view/iteration-header/DownloadButton.tsx ===
+// i18n-key-prefix: iterationHeader.downloadButton
+// i18n-namespace: components/mentoring/session/iteration-view
+import React, { useState, useCallback } from 'react'
+import { LazyTippy } from '@/components/misc/LazyTippy'
+import { Icon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const DownloadButton = ({
+  command,
+}: {
+  command: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
+
+  const handlePanelToggle = useCallback(() => {
+    setIsPanelOpen(!isPanelOpen)
+  }, [isPanelOpen])
+
+  const handlePanelClose = useCallback(() => {
+    setIsPanelOpen(false)
+  }, [])
+
+  return (
+    <LazyTippy
+      content={<DownloadPanel command={command} />}
+      interactive={true}
+      visible={isPanelOpen}
+      maxWidth="none"
+      onClickOutside={handlePanelClose}
+    >
+      <button
+        className="btn-s btn-default download-btn"
+        type="button"
+        onClick={handlePanelToggle}
+      >
+        <Icon icon="download" alt={t('iterationHeader.downloadButton.downloadSolution')} />
+      </button>
+    </LazyTippy>
+  )
+}
+
+{
+  /*TODO: Style dropdown */
+}
+const DownloadPanel = ({ command }: { command: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  return (
+    <div className="z-tooltip bg-backgroundColorA shadow-lgZ1 py-24 px-24 rounded-8">
+      <h3 className="text-h5 mb-8">{t('iterationHeader.downloadButton.downloadThisSolutionViaCli')}</h3>
+      <p className="text-p-base mb-8">
+        {t('iterationHeader.downloadButton.solutionDownloadedIntoSubdirectory')}
+      </p>
+      <CopyToClipboardButton textToCopy={command} />
+    </div>
+  )
+}
+
+// === end file ===
+// === file: ../components/mentoring/session/iteration-view/iteration-header/CopyButton.tsx ===
+// i18n-key-prefix: iterationHeader.copyButton
+// i18n-namespace: components/mentoring/session/iteration-view
+import React, { useState, useCallback, useEffect } from 'react'
+import { copyToClipboard } from '@/utils/copyToClipboard'
+import { Icon } from '@/components/common'
+import type { File } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const formatForClipboard = (
+  files: readonly File[],
+  separator = '\n\n\n\n\n'
+): string => {
+  return files.map((f) => f.content).join(separator)
+}
+
+const JUST_COPIED_TIMEOUT = 1000
+
+export const CopyButton = ({
+  files,
+}: {
+  files: readonly File[]
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const [justCopied, setJustCopied] = useState(false)
+  const textToCopy = formatForClipboard(files)
+  const classNames = [
+    'c-copy-text-to-clipboard',
+    justCopied ? '--copied' : '',
+  ].filter((c) => c.length > 0)
+
+  const handleCopy = useCallback(
+    async (e) => {
+      e.stopPropagation()
+      await copyToClipboard(textToCopy)
+
+      setJustCopied(true)
+    },
+    [textToCopy]
+  )
+  useEffect(() => {
+    if (!justCopied) {
+      return
+    }
+
+    const timer = setTimeout(() => setJustCopied(false), JUST_COPIED_TIMEOUT)
+
+    return () => clearTimeout(timer)
+  }, [justCopied, setJustCopied])
+
+  return (
+    <button type="button" className={classNames.join(' ')} onClick={handleCopy}>
+      <Icon icon="clipboard" alt={t('iterationHeader.copyButton.copySolution')} />
+      {justCopied ? <span className="message">{t('iterationHeader.copyButton.copied')}</span> : null}
+      <span data-test-clipboard data-content={textToCopy} />
+    </button>
+  )
+}
+
+// === end file ===
+// === file: ../components/mentoring/session/iteration-view/IterationHeader.tsx ===
+// i18n-key-prefix: iterationHeader
+// i18n-namespace: components/mentoring/session/iteration-view
+import React from 'react'
+import {
+  default as IterationSummaryWithWebsockets,
+  IterationSummary,
+} from '@/components/track/IterationSummary'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
+import { DownloadButton } from './iteration-header/DownloadButton'
+import { CopyButton } from './iteration-header/CopyButton'
+import type { Iteration, File } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type Props = {
+  iteration: Iteration
+  isOutOfDate: boolean
+  downloadCommand: string
+  files: readonly File[] | undefined
+}
+
+export const IterationHeader = ({
+  iteration,
+  isOutOfDate,
+  downloadCommand,
+  files,
+}: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  return (
+    <header className="iteration-header">
+      <IterationSummaryWithWebsockets
+        iteration={iteration}
+        showSubmissionMethod={false}
+        OutOfDateNotice={isOutOfDate ? <OutOfDateNotice /> : null}
+        showTestsStatusAsButton={true}
+        showFeedbackIndicator={false}
+      />
+      <DownloadButton command={downloadCommand} />
+      {files ? <CopyButton files={files} /> : null}
+    </header>
+  )
+}
+
+const OutOfDateNotice = () => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  return (
+    <GenericTooltip
+      content={t('iterationHeader.outOfDateNotice.exerciseUpdated')}
+    >
+      <div>
+        <IterationSummary.OutOfDateNotice />
+      </div>
+    </GenericTooltip>
+  )
+}
+
+// === end file ===
+```

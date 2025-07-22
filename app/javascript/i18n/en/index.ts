@@ -129,10 +129,11 @@ import du from './components-settings-github-syncer-common'
 import dv from './components-settings-github-syncer-sections-ConnectedSection'
 import dw from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
 import dx from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
-import dy from './discussion-batch'
-import dz from './session-batch-1'
-import d0 from './session-batch-2'
-import d1 from './session-batch-3'
+import dy from './components-settings-theme-preference-form'
+import dz from './discussion-batch'
+import d0 from './session-batch-1'
+import d1 from './session-batch-2'
+import d2 from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -271,8 +272,9 @@ export default {
     dw,
   'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx':
     dx,
-  'discussion-batch': dy,
-  'session-batch-1': dz,
-  'session-batch-2': d0,
-  'session-batch-3': d1,
+  'components/settings/theme-preference-form': dy,
+  'discussion-batch': dz,
+  'session-batch-1': d0,
+  'session-batch-2': d1,
+  'session-batch-3': d2,
 }

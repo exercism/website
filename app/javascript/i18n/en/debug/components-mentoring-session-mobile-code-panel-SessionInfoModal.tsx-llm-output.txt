@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "sessionInfoModal.onExerciseInTrack": "on {{exerciseTitle}} in {{trackTitle}}",
+}
+
+// modified_files
+// === file: ../components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx ===
 import React from 'react'
 import { TrackIcon, Avatar } from '@/components/common'
 import { Modal } from '@/components/modals'
@@ -24,9 +32,7 @@ export function SessionInfoModal({
   session,
   setSession,
 }: SessionInfoModalProps) {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx')
   return (
     <Modal open={open} onClose={onClose} className="m-session-info">
       <div className="session-info-header">
@@ -36,10 +42,7 @@ export function SessionInfoModal({
           <div className="info">
             <div className="handle">{student.handle}</div>
             <div className="exercise">
-              {t('sessionInfoModal.onExerciseInTrack', {
-                exerciseTitle: exercise.title,
-                trackTitle: track.title,
-              })}
+              {t('sessionInfoModal.onExerciseInTrack', { exerciseTitle: exercise.title, trackTitle: track.title })}
             </div>
           </div>
         </div>
@@ -56,3 +59,6 @@ export function SessionInfoModal({
     </Modal>
   )
 }
+
+// === end file ===
+```

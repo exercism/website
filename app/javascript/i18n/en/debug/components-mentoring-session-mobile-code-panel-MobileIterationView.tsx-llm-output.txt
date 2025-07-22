@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "mobileIterationView.thisIterationHasBeenDeleted": "This iteration has been deleted"
+}
+
+// modified_files
+// === file: ../components/mentoring/session/mobile-code-panel/MobileIterationView.tsx ===
 import React from 'react'
 import {
   Iteration,
@@ -54,9 +62,7 @@ export const MobileIterationView = ({
   student,
   track,
 }: MobileIterationViewProps): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/session/mobile-code-panel/MobileIterationView.tsx')
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,
@@ -85,9 +91,7 @@ export const MobileIterationView = ({
         track={track}
       />
       {currentIteration.status == IterationStatus.DELETED ? (
-        <div className="deleted">
-          {t('mobileIterationView.thisIterationHasBeenDeleted')}
-        </div>
+        <div className="deleted">{t('mobileIterationView.thisIterationHasBeenDeleted')}</div>
       ) : (
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary
@@ -122,3 +126,6 @@ export const MobileIterationView = ({
     </React.Fragment>
   )
 }
+
+// === end file ===
+```

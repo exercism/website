@@ -71,10 +71,11 @@ import b7 from './components-mentoring-testimonials-list'
 import b8 from './components-mentoring-testimonials-list-revealed-testimonial'
 import b9 from './components-mentoring-TestimonialsList.tsx'
 import ca from './components-mentoring-track-selector'
-import cb from './discussion-batch'
-import cc from './session-batch-1'
-import cd from './session-batch-2'
-import ce from './session-batch'
+import cb from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
+import cc from './discussion-batch'
+import cd from './session-batch-1'
+import ce from './session-batch-2'
+import cf from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -150,8 +151,10 @@ export default {
   'components/mentoring/testimonials-list/revealed-testimonial': b8,
   'components/mentoring/TestimonialsList.tsx': b9,
   'components/mentoring/track-selector': ca,
-  'discussion-batch': cb,
-  'session-batch-1': cc,
-  'session-batch-2': cd,
-  'session-batch-3': ce,
+  'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
+    cb,
+  'discussion-batch': cc,
+  'session-batch-1': cd,
+  'session-batch-2': ce,
+  'session-batch-3': cf,
 }

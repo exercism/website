@@ -3,6 +3,8 @@ import { Testimonial } from '../../types'
 import { Modal, ModalProps } from '../../modals/Modal'
 import { Avatar, GraphicalIcon, TrackIcon } from '../../common'
 import { fromNow } from '../../../utils/time'
+import { Trans } from 'react-i18next'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestimonialModal = ({
   testimonial,
@@ -10,6 +12,8 @@ export const TestimonialModal = ({
 }: Omit<ModalProps, 'className'> & {
   testimonial: Testimonial
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/testimonials-list')
+
   return (
     <Modal cover={true} celebratory className="m-testimonial" {...props}>
       <div className="avatar-group">
@@ -30,23 +34,38 @@ export const TestimonialModal = ({
           className="h-[48px] w-[48px]"
         />
       </div>
+
       <div className="testimonial-section">
         <div className="content">{testimonial.content}</div>
+
         <div className="inline-flex flex-wrap items-center gap-x-4 text-16 text-textColor2 leading-160">
-          <div className="user-name">
-            <span className="font-medium">{testimonial.student.handle}</span>{' '}
-            said this about{' '}
-            <span className="font-medium">{testimonial.mentor.handle}</span>
-          </div>
+          <Trans
+            i18nKey="attribution"
+            ns="components/profile/testimonials-list"
+            values={{
+              student: testimonial.student.handle,
+              mentor: testimonial.mentor.handle,
+            }}
+            components={{
+              student: <span className="font-medium" />,
+              mentor: <span className="font-medium" />,
+            }}
+          />
         </div>
+
         <div className="exercise">
-          on <strong>{testimonial.exercise.title}</strong> in
+          <Trans
+            i18nKey="exerciseTrack"
+            values={{ title: testimonial.exercise.title }}
+            components={{ strong: <strong /> }}
+          />
           <TrackIcon
             iconUrl={testimonial.track.iconUrl}
             title={testimonial.track.title}
           />
           <div className="track-title">{testimonial.track.title}</div>
         </div>
+
         <time dateTime={testimonial.createdAt}>
           {fromNow(testimonial.createdAt)}
         </time>

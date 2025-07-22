@@ -1,0 +1,64 @@
+```ts
+// i18n
+export default {
+  "checkbox.checkmark": "checkmark",
+  "reputationInfo.reputationAndTestimonials": "Reputation & testimonials",
+  "reputationInfo.gainReputation": "You'll gain <strong>6 reputation</strong> for each successful mentoring session. At the end of every discussion, students are invited to leave you a testimonial."
+}
+
+// modified_files
+// === file: ../components/modals/mentor-registration-modal/commit-step/Checkbox.tsx ===
+// i18n-key-prefix: checkbox
+// i18n-namespace: components/modals/mentor-registration-modal/commit-step
+import React from 'react'
+import { GraphicalIcon } from '../../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const Checkbox = ({
+  children,
+  onChange,
+}: {
+  children: React.ReactNode
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/mentor-registration-modal/commit-step')
+  return (
+    <label className="c-checkbox-wrapper">
+      <input onChange={onChange} required type="checkbox" />
+      <div className="row">
+        <div className="c-checkbox">
+          <GraphicalIcon icon={t('checkbox.checkmark')} />
+        </div>
+        {children}
+      </div>
+    </label>
+  )
+}
+
+// === end file ===
+// === file: ../components/modals/mentor-registration-modal/commit-step/ReputationInfo.tsx ===
+// i18n-key-prefix: reputationInfo
+// i18n-namespace: components/modals/mentor-registration-modal/commit-step
+import React from 'react'
+import { GraphicalIcon } from '../../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const ReputationInfo = (): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/mentor-registration-modal/commit-step')
+  return (
+    <div className="reputation-info">
+      <div className="inner">
+        <GraphicalIcon icon="reputation" />
+        <div className="info">
+          <h3>{t('reputationInfo.reputationAndTestimonials')}</h3>
+          <p>
+            {t('reputationInfo.gainReputation')}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

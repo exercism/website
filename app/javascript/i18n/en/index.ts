@@ -69,11 +69,12 @@ import b5 from './components-mentoring-session-student-info'
 import b6 from './components-mentoring-session-StudentInfo.tsx'
 import b7 from './components-mentoring-testimonials-list'
 import b8 from './components-mentoring-testimonials-list-revealed-testimonial'
-import b9 from './components-mentoring-track-selector'
-import ca from './discussion-batch'
-import cb from './session-batch-1'
-import cc from './session-batch-2'
-import cd from './session-batch'
+import b9 from './components-mentoring-TestimonialsList.tsx'
+import ca from './components-mentoring-track-selector'
+import cb from './discussion-batch'
+import cc from './session-batch-1'
+import cd from './session-batch-2'
+import ce from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -147,9 +148,10 @@ export default {
   'components/mentoring/session/StudentInfo.tsx': b6,
   'components/mentoring/testimonials-list': b7,
   'components/mentoring/testimonials-list/revealed-testimonial': b8,
-  'components/mentoring/track-selector': b9,
-  'discussion-batch': ca,
-  'session-batch-1': cb,
-  'session-batch-2': cc,
-  'session-batch-3': cd,
+  'components/mentoring/TestimonialsList.tsx': b9,
+  'components/mentoring/track-selector': ca,
+  'discussion-batch': cb,
+  'session-batch-1': cc,
+  'session-batch-2': cd,
+  'session-batch-3': ce,
 }

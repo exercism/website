@@ -1,3 +1,17 @@
+```ts
+// i18n
+export default {
+  "reportABug": "Report a bug",
+  "bugReportSubmittedThankYou": "Bug report submitted. Thank you!",
+  "close": "Close",
+  "thanksForReportingPleaseTellUsWhatIsWrong": "Thanks for reporting. Please tell us what is wrong.",
+  "pleaseProvideAsMuchDetailAsPossible": "Please provide as much detail as possible",
+  "submitBugReport": "Submit bug report",
+  "cancel": "Cancel"
+}
+
+// modified_files
+// === file: ../components/modals/BugReportModal.tsx ===
 import React, { useState, useCallback, useEffect } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Modal } from './Modal'
@@ -137,3 +151,6 @@ export const BugReportModal = ({
     </Modal>
   )
 }
+
+// end file ===
+```

@@ -48,9 +48,9 @@ import bk from './components-mentoring-discussion-FinishedWizard.tsx'
 import bl from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
 import bm from './components-mentoring-discussion-NewMessageAlert.tsx'
 import bn from './components-mentoring-inbox'
-import bo from './components-mentoring-Inbox.tsx'
+import bo from './components-mentoring-Inboxtsx'
 import bp from './components-mentoring-queue'
-import bq from './components-mentoring-Queue.tsx'
+import bq from './components-mentoring-Queuetsx'
 import br from './components-mentoring-representation-common'
 import bs from './components-mentoring-representation-left-pane'
 import bt from './components-mentoring-representation-modals'
@@ -71,11 +71,12 @@ import b7 from './components-mentoring-testimonials-list'
 import b8 from './components-mentoring-testimonials-list-revealed-testimonial'
 import b9 from './components-mentoring-TestimonialsList.tsx'
 import ca from './components-mentoring-track-selector'
-import cb from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
-import cc from './discussion-batch'
-import cd from './session-batch-1'
-import ce from './session-batch-2'
-import cf from './session-batch'
+import cb from './components-modals-complete-exercise-modal'
+import cc from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
+import cd from './discussion-batch'
+import ce from './session-batch-1'
+import cf from './session-batch-2'
+import cg from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -151,10 +152,11 @@ export default {
   'components/mentoring/testimonials-list/revealed-testimonial': b8,
   'components/mentoring/TestimonialsList.tsx': b9,
   'components/mentoring/track-selector': ca,
+  'components/modals/complete-exercise-modal': cb,
   'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
-    cb,
-  'discussion-batch': cc,
-  'session-batch-1': cd,
-  'session-batch-2': ce,
-  'session-batch-3': cf,
+    cc,
+  'discussion-batch': cd,
+  'session-batch-1': ce,
+  'session-batch-2': cf,
+  'session-batch-3': cg,
 }

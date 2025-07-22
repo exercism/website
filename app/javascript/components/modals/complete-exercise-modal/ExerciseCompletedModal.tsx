@@ -6,6 +6,7 @@ import { Unlocks } from './exercise-completed-modal/Unlocks'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { redirectTo } from '../../../utils/redirect-to'
 import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ExerciseCompletedModal = ({
   open,
@@ -15,6 +16,7 @@ export const ExerciseCompletedModal = ({
   open: boolean
   completion: ExerciseCompletion
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
   const {
     track,
     exercise,
@@ -31,22 +33,24 @@ export const ExerciseCompletedModal = ({
     exercise.type == 'concept' ? (
       <>
         <h3>
-          Awesome work. You’re one step closer to learning {track.title} 🚀
+          {t('exerciseCompletedModal.awesomeWorkLearning', {
+            trackTitle: track.title,
+          })}
         </h3>
         {conceptProgressions.length > 0 ? (
           <div className="info">
-            You’ve learnt{' '}
+            {t('exerciseCompletedModal.learntConcepts')}
             <strong>
               {conceptProgressions.length}{' '}
-              {pluralize('concept', conceptProgressions.length)}
+              {t('exerciseCompletedModal.conceptsCount', {
+                count: conceptProgressions.length,
+              })}
             </strong>
             {unlockedExercises.length > 0
-              ? ` and unlocked ${unlockedExercises.length} ${pluralize(
-                  'exercise',
-                  unlockedExercises.length
-                )}`
+              ? t('exerciseCompletedModal.unlockedExercises', {
+                  unlockedExercisesCount: unlockedExercises.length,
+                }) + t('exerciseCompletedModal.byCompleting')
               : null}{' '}
-            by completing this exercise.
           </div>
         ) : null}
         <div className="progressed-concepts">
@@ -64,26 +68,30 @@ export const ExerciseCompletedModal = ({
         <div className="btns">
           {track.numConcepts > 0 ? (
             <a href={track.links.concepts} className="btn-primary btn-m">
-              Show me more concepts
+              {t('exerciseCompletedModal.showMeMoreConcepts')}
             </a>
           ) : null}
           <button onClick={handleContinue} className="btn">
-            Return to the exercise
+            {t('exerciseCompletedModal.returnToExercise')}
           </button>
         </div>
       </>
     ) : (
       <>
         <h3>
-          Awesome work. You’re one step closer to mastering {track.title} 🚀
+          {t('exerciseCompletedModal.awesomeWorkMastering', {
+            trackTitle: track.title,
+          })}
         </h3>
         {conceptProgressions.length > 0 ? (
           <>
             <div className="info">
-              You’ve progressed with{' '}
+              {t('exerciseCompletedModal.progressedWith')}
               <strong>
                 {conceptProgressions.length}{' '}
-                {pluralize('concept', conceptProgressions.length)}
+                {t('exerciseCompletedModal.conceptsCount', {
+                  count: conceptProgressions.length,
+                })}
               </strong>{' '}
               by completing this exercise.
             </div>
@@ -95,17 +103,18 @@ export const ExerciseCompletedModal = ({
           </>
         ) : (
           <div className="info">
-            Once you&apos;ve practiced some more {track.title}, come back to
-            this exercise and see if you can make it even better.
+            {t('exerciseCompletedModal.oncePracticedMore', {
+              trackTitle: track.title,
+            })}
           </div>
         )}
 
         <div className="btns">
           <a href={track.links.exercises} className="btn-primary btn-m">
-            Show me more exercises
+            {t('exerciseCompletedModal.showMeMoreExercises')}
           </a>
           <button onClick={handleContinue} className="btn">
-            Return to the exercise
+            {t('exerciseCompletedModal.returnToExercise')}
           </button>
         </div>
       </>
@@ -119,7 +128,11 @@ export const ExerciseCompletedModal = ({
       {...props}
     >
       <ExerciseIcon iconUrl={exercise.iconUrl} />
-      <h2>You&apos;ve completed {exercise.title}!</h2>
+      <h2>
+        {t('exerciseCompletedModal.youCompleted', {
+          exerciseTitle: exercise.title,
+        })}
+      </h2>
       {content}
     </Modal>
   )

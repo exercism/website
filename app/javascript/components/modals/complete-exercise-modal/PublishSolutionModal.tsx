@@ -5,6 +5,7 @@ import { PublishSolutionForm } from './PublishSolutionForm'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { Iteration } from '../../types'
 import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const PublishSolutionModal = ({
   open,
@@ -18,6 +19,7 @@ export const PublishSolutionModal = ({
   endpoint: string
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
   const ariaObject = generateAriaFieldIds('publish-code')
   return (
     <Modal
@@ -31,12 +33,10 @@ export const PublishSolutionModal = ({
       <div className="content">
         <GraphicalIcon icon="publish" className="publish-icon" />
         <h2 id={ariaObject.labelledby} className="title">
-          Publish your code and share your knowledge
+          {t('publishSolutionModal.publishKnowledge')}
         </h2>
         <p id={ariaObject.describedby}>
-          By publishing your code, you&apos;ll help others learn from your work.
-          You can choose which iterations you publish, add more iterations once
-          it&apos;s published, and unpublish it at any time.
+          {t('publishSolutionModal.publishHelpOthers')}
         </p>
         <PublishSolutionForm
           endpoint={endpoint}

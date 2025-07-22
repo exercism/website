@@ -1,4 +1,4 @@
-// namespace: components/mentoring/Inbox.tsx
+// namespace: components/mentoring/Inboxtsx
 export default {
   'inbox.inbox': 'Inbox',
   'inbox.awaitingStudent': 'Awaiting student',

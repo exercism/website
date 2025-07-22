@@ -1,6 +1,7 @@
 import React from 'react'
 import pluralize from 'pluralize'
 import { Iteration } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 class IterationWithCount {
   iteration: Iteration
@@ -45,9 +46,10 @@ const CommentsCount = ({
 }
 
 const NewLabel = (): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-2')
   return (
     <div className="new" aria-hidden={true}>
-      New
+      {t('components.mentoring.session.iterationButton.new')}
     </div>
   )
 }
@@ -61,8 +63,13 @@ export const IterationButton = ({
   selected: boolean
   onClick: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-2')
   const classNames = ['iteration']
-  const label = [`Go to iteration ${iteration.idx}`]
+  const label = [
+    `${t('components.mentoring.session.iterationButton.goToIteration', {
+      idx: iteration.idx,
+    })}`,
+  ]
   const iterationWithCount = new IterationWithCount(iteration)
 
   if (selected) {
@@ -71,9 +78,11 @@ export const IterationButton = ({
 
   if (iterationWithCount.numComments > 0) {
     label.push(
-      `${formatCommentCount(iterationWithCount.numComments)} ${pluralize(
-        'comment',
-        iterationWithCount.numComments
+      `${formatCommentCount(iterationWithCount.numComments)} ${
+        iterationWithCount.numComments > 1
+          ? t('components.mentoring.session.iterationButton.comments')
+          : t('components.mentoring.session.iterationButton.comment')
+      }
       )}`
     )
   }

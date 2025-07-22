@@ -128,10 +128,11 @@ import dt from './components-settings-delete-profile-form'
 import du from './components-settings-github-syncer-common'
 import dv from './components-settings-github-syncer-sections-ConnectedSection'
 import dw from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
-import dx from './discussion-batch'
-import dy from './session-batch-1'
-import dz from './session-batch-2'
-import d0 from './session-batch-3'
+import dx from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
+import dy from './discussion-batch'
+import dz from './session-batch-1'
+import d0 from './session-batch-2'
+import d1 from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -268,8 +269,10 @@ export default {
   'components/settings/github-syncer/sections/ConnectedSection': dv,
   'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx':
     dw,
-  'discussion-batch': dx,
-  'session-batch-1': dy,
-  'session-batch-2': dz,
-  'session-batch-3': d0,
+  'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx':
+    dx,
+  'discussion-batch': dy,
+  'session-batch-1': dz,
+  'session-batch-2': d0,
+  'session-batch-3': d1,
 }

@@ -1,5 +1,8 @@
+// i18n-key-prefix: congratulationsStep
+// i18n-namespace: components/modals/mentor-registration-modal
 import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Links = {
   video: string
@@ -11,21 +14,21 @@ export const CongratulationsStep = ({
 }: {
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
   return (
     <section className="celebrate-section">
       <GraphicalIcon icon="confetti" category="graphics" />
-      <h2>You’re now a mentor!</h2>
-      <h3>Thank you - we’re so grateful for your commitment 🙏</h3>
+      <h2>{t('congratulationsStep.youAreNowMentor')}</h2>
+      <h3>{t('congratulationsStep.thankYouGrateful')}</h3>
       <p className="welcome">
-        We want to make getting started with mentoring as easy as possible.
-        Watch the video below to learn how to get started.
+        {t('congratulationsStep.makeGettingStartedEasy')}
       </p>
       <div className="video-frame">
         <header className="video-header">
           <Icon icon="video" alt="This is a video" />
           <div className="info">
-            <h3>Welcome to the Mentor Team!</h3>
-            <p>Video · 0:24</p>
+            <h3>{t('congratulationsStep.welcomeToMentorTeam')}</h3>
+            <p>{t('congratulationsStep.video')}</p>
           </div>
         </header>
         <div
@@ -49,7 +52,7 @@ export const CongratulationsStep = ({
         <script src="https://player.vimeo.com/api/player.js"></script>
       </div>
       <a href={links.dashboard} className="btn-primary btn-m">
-        I&apos;m ready to get started!
+        {t('congratulationsStep.readyToGetStarted')}
       </a>
     </section>
   )

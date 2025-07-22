@@ -73,10 +73,11 @@ import b9 from './components-mentoring-TestimonialsList.tsx'
 import ca from './components-mentoring-track-selector'
 import cb from './components-modals-complete-exercise-modal'
 import cc from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
-import cd from './discussion-batch'
-import ce from './session-batch-1'
-import cf from './session-batch-2'
-import cg from './session-batch'
+import cd from './components-modals-exercise-update-modal'
+import ce from './discussion-batch'
+import cf from './session-batch-1'
+import cg from './session-batch-2'
+import ch from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -129,9 +130,9 @@ export default {
   'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': bl,
   'components/mentoring/discussion/NewMessageAlert.tsx': bm,
   'components/mentoring/inbox': bn,
-  'components/mentoring/Inbox.tsx': bo,
+  'components/mentoring/Inboxtsx': bo,
   'components/mentoring/queue': bp,
-  'components/mentoring/Queue.tsx': bq,
+  'components/mentoring/Queuetsx': bq,
   'components/mentoring/representation/common': br,
   'components/mentoring/representation/left-pane': bs,
   'components/mentoring/representation/modals': bt,
@@ -155,8 +156,9 @@ export default {
   'components/modals/complete-exercise-modal': cb,
   'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
     cc,
-  'discussion-batch': cd,
-  'session-batch-1': ce,
-  'session-batch-2': cf,
-  'session-batch-3': cg,
+  'components/modals/exercise-update-modal': cd,
+  'discussion-batch': ce,
+  'session-batch-1': cf,
+  'session-batch-2': cg,
+  'session-batch-3': ch,
 }

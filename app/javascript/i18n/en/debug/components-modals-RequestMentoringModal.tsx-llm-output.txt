@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "selectExercise.title": "Select an exercise to request mentoring on",
+  "selectExercise.searchPlaceholder": "Search exercise by name",
+  "exercise.numberOfIterations": "Number of iterations"
+}
+
+// modified_files
+// === file: ../components/modals/RequestMentoringModal.tsx ===
 import React from 'react'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
@@ -84,10 +94,7 @@ export const RequestMentoringModal = ({
                         {solution.exercise.title}
                       </div>
                       <div className="num-iterations">
-                        <Icon
-                          icon="iteration"
-                          alt={t('exercise.numberOfIterations')}
-                        />
+                        <Icon icon="iteration" alt={t('exercise.numberOfIterations')} />
                         {solution.numIterations}
                       </div>
                       <div className="last-touched">
@@ -117,3 +124,5 @@ export const RequestMentoringModal = ({
     </Modal>
   )
 }
+// === end file ===
+```

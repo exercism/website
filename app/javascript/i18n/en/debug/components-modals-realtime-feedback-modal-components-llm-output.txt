@@ -1,0 +1,71 @@
+```ts
+// i18n
+export default {
+  "feedbackContentButtons.goBackToEditor": "Go back to editor",
+  "feedbackContentButtons.continue": "Continue"
+}
+
+// modified_files
+// === file: ../components/modals/realtime-feedback-modal/components/FeedbackContentButtons.tsx ===
+// i18n-key-prefix: feedbackContentButtons
+// i18n-namespace: components/modals/realtime-feedback-modal/components
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import React from 'react'
+
+type ReactButton = React.ButtonHTMLAttributes<HTMLButtonElement>
+
+export function GoBackToExercise({ ...props }: ReactButton): JSX.Element {
+  const { t } = useAppTranslation('components/modals/realtime-feedback-modal/components')
+  return (
+    <button {...props} className="btn-s btn-primary">
+      {t('feedbackContentButtons.goBackToEditor')}
+    </button>
+  )
+}
+
+export function ContinueButton({
+  text = 'Continue',
+  className,
+  ...props
+}: {
+  text?: string
+  className?: string
+} & ReactButton): JSX.Element {
+  const { t } = useAppTranslation('components/modals/realtime-feedback-modal/components')
+  return (
+    <button
+      {...props}
+      className={assembleClassNames('btn-primary btn-s', className)}
+    >
+      {t('feedbackContentButtons.continue')}
+    </button>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/modals/realtime-feedback-modal/components/FooterButtonContainer.tsx ===
+// i18n-key-prefix: footerButtonContainer
+// i18n-namespace: components/modals/realtime-feedback-modal/components
+import React from 'react'
+
+export function FooterButtonContainer({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode
+  className?: string
+}): JSX.Element {
+  return (
+    <div
+      className={`flex gap-16 mt-0 -mx-48 -mb-32 py-16 px-48 border-t-1 border-borderColor6 ${className}`}
+    >
+      {children}
+    </div>
+  )
+}
+
+// === end file ===
+```

@@ -78,10 +78,11 @@ import ce from './components-modals-mentor'
 import cf from './components-modals-mentor-registration-modal'
 import cg from './components-modals-mentor-registration-modal-commit-step'
 import ch from './components-modals-profile'
-import ci from './discussion-batch'
-import cj from './session-batch-1'
-import ck from './session-batch-2'
-import cl from './session-batch'
+import ci from './components-modals-realtime-feedback-modal-components'
+import cj from './discussion-batch'
+import ck from './session-batch-1'
+import cl from './session-batch-2'
+import cm from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -165,8 +166,9 @@ export default {
   'components/modals/mentor-registration-modal': cf,
   'components/modals/mentor-registration-modal/commit-step': cg,
   'components/modals/profile': ch,
-  'discussion-batch': ci,
-  'session-batch-1': cj,
-  'session-batch-2': ck,
-  'session-batch-3': cl,
+  'components/modals/realtime-feedback-modal/components': ci,
+  'discussion-batch': cj,
+  'session-batch-1': ck,
+  'session-batch-2': cl,
+  'session-batch-3': cm,
 }

@@ -115,11 +115,13 @@ import df from './components-modals-WelcomeToInsidersModal.tsx'
 import dg from './components-notifications-'
 import dh from './components-notifications-notifications-list'
 import di from './components-perks'
-import dj from './components-profile-avatar-selector-cropping-modal'
-import dk from './discussion-batch'
-import dl from './session-batch-1'
-import dm from './session-batch-2'
-import dn from './session-batch'
+import dj from './components-profile-avatar-selector'
+import dk from './components-profile-avatar-selector-cropping-modal'
+import dl from './components-profile-avatar-selector-photo'
+import dm from './discussion-batch'
+import dn from './session-batch-1'
+import dq from './session-batch-2'
+import dp from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -242,9 +244,11 @@ export default {
   'components/notifications/': dg,
   'components/notifications/notifications-list': dh,
   'components/perks': di,
-  'components/profile/avatar-selector/cropping-modal': dj,
-  'discussion-batch': dk,
-  'session-batch-1': dl,
-  'session-batch-2': dm,
-  'session-batch-3': dn,
+  'components/profile/avatar-selector': dj,
+  'components/profile/avatar-selector/cropping-modal': dk,
+  'components/profile/avatar-selector/photo': dl,
+  'discussion-batch': dm,
+  'session-batch-1': dn,
+  'session-batch-2': dq,
+  'session-batch-3': dp,
 }

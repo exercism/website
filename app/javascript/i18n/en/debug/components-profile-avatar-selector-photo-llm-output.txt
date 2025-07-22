@@ -1,3 +1,60 @@
+```ts
+// i18n
+export default {
+  "deletePhotoButton.deleteYourPicture": "delete your picture",
+  "deletePhotoButton.deletePhotoModal.deleteYourProfilePicture": "Delete your profile picture?",
+  "deletePhotoButton.deletePhotoModal.areYouSure": "Are you sure you want to delete your photo? Other users will see a placeholder picture instead. You can upload a new picture at any time.",
+  "deletePhotoButton.deletePhotoModal.deletePicture": "Delete picture",
+  "deletePhotoButton.deletePhotoModal.cancel": "Cancel"
+}
+
+// modified_files
+// === file: ../components/profile/avatar-selector/photo/DeletePhotoButton.tsx ===
+import React, { useState, useCallback } from 'react'
+import { DeletePhotoModal } from './delete-photo-button/DeletePhotoModal'
+import { User } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Links = {
+  delete: string
+}
+
+export const DeletePhotoButton = ({
+  onDelete,
+  links,
+}: {
+  onDelete: (user: User) => void
+  links: Links
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/avatar-selector/photo')
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false)
+  }, [])
+
+  return (
+    <React.Fragment>
+      <button type="button" onClick={handleModalOpen}>
+        {t('deletePhotoButton.deleteYourPicture')}
+      </button>
+      <DeletePhotoModal
+        endpoint={links.delete}
+        open={modalOpen}
+        onClose={handleModalClose}
+        onSuccess={onDelete}
+      />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/profile/avatar-selector/photo/delete-photo-button/DeletePhotoModal.tsx ===
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Modal, ModalProps } from '@/components/modals/Modal'
@@ -59,10 +116,10 @@ export const DeletePhotoModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>
-        {t('deletePhotoButton.deletePhotoModal.deleteYourProfilePicture')}
-      </h3>
-      <p>{t('deletePhotoButton.deletePhotoModal.areYouSure')}</p>
+      <h3>{t('deletePhotoButton.deletePhotoModal.deleteYourProfilePicture')}</h3>
+      <p>
+        {t('deletePhotoButton.deletePhotoModal.areYouSure')}
+      </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton status={status} type="submit" className="btn-primary btn-s">
           {t('deletePhotoButton.deletePhotoModal.deletePicture')}
@@ -82,3 +139,6 @@ export const DeletePhotoModal = ({
     </Modal>
   )
 }
+
+// === end file ===
+```

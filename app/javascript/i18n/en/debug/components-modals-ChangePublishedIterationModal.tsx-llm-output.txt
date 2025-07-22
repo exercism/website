@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "changePublishedIterationsModal.changePublishedIterations": "Change published iterations",
+  "changePublishedIterationsModal.recommendPublishing": "We recommend publishing all iterations to help others learn from your journey, but you can also choose just your favourite iteration to showcase instead.",
+  "changePublishedIterationsModal.updatePublishedSolution": "Update published solution",
+  "changePublishedIterationsModal.cancel": "Cancel",
+  "changePublishedIterationsModal.unableToChangePublishedIteration": "Unable to change published iteration"
+}
+
+// modified_files
+// === file: ../components/modals/ChangePublishedIterationModal.tsx ===
 import React, { useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { ModalProps, Modal } from './Modal'
@@ -26,9 +38,7 @@ export const ChangePublishedIterationModal = ({
   defaultIterationIdx: number | null
   iterations: readonly Iteration[]
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/ChangePublishedIterationModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/ChangePublishedIterationModal.tsx')
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
@@ -70,9 +80,7 @@ export const ChangePublishedIterationModal = ({
 
   return (
     <Modal aria={ariaObject} {...props}>
-      <h3 id={ariaObject.labelledby}>
-        {t('changePublishedIterationsModal.changePublishedIterations')}
-      </h3>
+      <h3 id={ariaObject.labelledby}>{t('changePublishedIterationsModal.changePublishedIterations')}</h3>
       <p id={ariaObject.describedby}>
         {t('changePublishedIterationsModal.recommendPublishing')}
       </p>
@@ -106,3 +114,6 @@ export const ChangePublishedIterationModal = ({
     </Modal>
   )
 }
+
+// end file ===
+```

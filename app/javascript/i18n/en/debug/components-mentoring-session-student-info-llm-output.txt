@@ -1,0 +1,154 @@
+```ts
+// i18n
+export default {
+  "toggleMoreInformationButton.expand": "expand",
+  "studentTrackObjectives.exploreTrackGoals": "Explore {{handle}}'s track goal(s)",
+}
+
+// modified_files
+// === file: ../components/mentoring/session/student-info/ToggleMoreInformationButton.tsx ===
+// i18n-key-prefix: toggleMoreInformationButton
+// i18n-namespace: components/mentoring/session/student-info
+import React from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import Icon from '@/components/common/Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ToggleMoreInformationButton({
+  onClick,
+  rotate,
+}: {
+  onClick: () => void
+  rotate?: boolean
+}) {
+  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  return (
+    <button
+      className="self-stretch flex justify-center items-center mt-8 -mx-24 -mb-16 py-4 bg-backgroundColorD"
+      onClick={onClick}
+    >
+      <Icon
+        icon="chevron-down"
+        alt={t('toggleMoreInformationButton.expand')}
+        height={16}
+        width={16}
+        className={assembleClassNames(
+          rotate ? 'rotate-180' : '',
+          'filter-textColor6'
+        )}
+      />
+    </button>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/student-info/StudentTrackObjectives.tsx ===
+// i18n-key-prefix: studentTrackObjectives
+// i18n-namespace: components/mentoring/session/student-info
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import type { Student } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function StudentTrackObjectives({
+  student,
+}: {
+  student: Student
+}): JSX.Element | null {
+  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  if (!student.trackObjectives) return null
+
+  return (
+    <details className="track-objectives c-details">
+      <summary>
+        <div className="--summary-inner justify-between select-none">
+          {t('studentTrackObjectives.exploreTrackGoals', { handle: student.handle })}
+          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+          <GraphicalIcon icon="chevron-down" className="--open-icon" />
+        </div>
+      </summary>
+      <p>{student.trackObjectives}</p>
+    </details>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/student-info/StudentInfoActions.tsx ===
+// i18n-key-prefix: studentInfoActions
+// i18n-namespace: components/mentoring/session/student-info
+import React from 'react'
+import { Student } from '@/components/types'
+import { FavoriteButton, FavoritableStudent } from '../FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function StudentInfoActions({
+  student,
+  setStudent,
+}: {
+  student: Student
+  setStudent: (student: Student) => void
+}) {
+  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  return (
+    <React.Fragment>
+      {student.links.favorite ? (
+        <FavoriteButton
+          student={student as FavoritableStudent}
+          onSuccess={(student) => setStudent(student)}
+        />
+      ) : null}
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/student-info/ReducedStudentInfo.tsx ===
+// i18n-key-prefix: reducedStudentInfo
+// i18n-namespace: components/mentoring/session/student-info
+import React from 'react'
+import { HandleWithFlair, Reputation, Avatar } from '@/components/common'
+import { Student } from '@/components/types'
+import { ToggleMoreInformationButton } from './ToggleMoreInformationButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ReducedStudentInfo({
+  student,
+  onClick,
+}: {
+  student: Student
+  onClick: () => void
+}): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  return (
+    <div className="student-info">
+      <div className="flex">
+        <div className="flex-grow">
+          <div className="handle-block">
+            <div className="handle">
+              <HandleWithFlair
+                handle={student.handle}
+                flair={student.flair}
+                size="medium"
+              />
+            </div>
+            <Reputation
+              value={student.reputation.toString()}
+              type="primary"
+              size="small"
+            />
+          </div>
+          <div className="name">{student.name}</div>
+        </div>
+        <Avatar src={student.avatarUrl} handle={student.handle} />
+      </div>
+
+      <ToggleMoreInformationButton onClick={onClick} />
+    </div>
+  )
+}
+
+// === end file ===
+```

@@ -1,11 +1,21 @@
+```ts
+// i18n
+export default {
+  "testimonialModal.shareYourTestimonial": "Share your testimonial with the world",
+  "testimonialModal.viewTestimonialOnExercism": "View this testimonial on Exercism"
+}
+
+// modified_files
+// === file: ../components/modals/TestimonialModal.tsx ===
+// i18n-key-prefix: testimonialModal
+// i18n-namespace: components/modals/TestimonialModal.tsx
 import React from 'react'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { Trans } from 'react-i18next'
 import { SharePlatform, Testimonial } from '../types'
 import { Modal, ModalProps } from './Modal'
 import { Avatar, HandleWithFlair, TrackIcon } from '../common'
 import { fromNow } from '../../utils/time'
 import { SharePanel } from '../common/SharePanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestimonialModal = ({
   testimonial,
@@ -29,58 +39,39 @@ export const TestimonialModal = ({
         src={testimonial.student.avatarUrl}
         handle={testimonial.student.handle}
       />
-
       <div className="testimonial-section">
         <div className="content">{testimonial.content}</div>
-
         <div className="student">
-          <Trans
-            i18nKey="byLine"
-            values={{ handle: testimonial.student.handle }}
-            components={{
-              strong: <strong />,
-              flair: (
-                <HandleWithFlair
-                  handle={testimonial.student.handle}
-                  flair={testimonial.student.flair}
-                  size="large"
-                />
-              ),
-            }}
-          />
+          by&nbsp;
+          <strong>
+            <HandleWithFlair
+              handle={testimonial.student.handle}
+              flair={testimonial.student.flair}
+              size="large"
+            />
+          </strong>
         </div>
-
         <div className="exercise">
-          <Trans
-            i18nKey="exerciseLine"
-            values={{
-              exercise: testimonial.exercise.title,
-              track: testimonial.track.title,
-            }}
-            components={{
-              strong: <strong />,
-              trackIcon: (
-                <TrackIcon
-                  iconUrl={testimonial.track.iconUrl}
-                  title={testimonial.track.title}
-                />
-              ),
-              trackTitle: <div className="track-title" />,
-            }}
+          on <strong>{testimonial.exercise.title}</strong> in
+          <TrackIcon
+            iconUrl={testimonial.track.iconUrl}
+            title={testimonial.track.title}
           />
+          <div className="track-title">{testimonial.track.title}</div>
         </div>
-
         <time dateTime={testimonial.createdAt}>
           {fromNow(testimonial.createdAt)}
         </time>
       </div>
-
       <SharePanel
-        title={t('sharePanel.title')}
+        title={t('testimonialModal.shareYourTestimonial')}
         url={testimonial.links.self}
-        shareTitle={t('sharePanel.shareTitle')}
+        shareTitle={t('testimonialModal.viewTestimonialOnExercism')}
         platforms={platforms}
       />
     </Modal>
   )
 }
+
+// === end file ===
+```

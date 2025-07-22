@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "taskHintsModal.hintsAndTips": "Hints and Tips"
+}
+
+// modified_files
+// === file: ../components/modals/TaskHintsModal.tsx ===
 // i18n-key-prefix: taskHintsModal
 // i18n-namespace: components/modals/TaskHintsModal.tsx
 import React from 'react'
@@ -48,3 +56,6 @@ export const TaskHintsModal = ({
     </Modal>
   )
 }
+
+// === end file ===
+```

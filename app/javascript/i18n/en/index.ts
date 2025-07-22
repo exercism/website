@@ -102,16 +102,18 @@ import c2 from './components-modals-ResetAccountModal.tsx'
 import c3 from './components-modals-seniority-survey-modal'
 import c4 from './components-modals-student'
 import c5 from './components-modals-student-finish-mentor-discussion-modal'
-import c6 from './components-modals-track-welcome-modal-LHS-steps'
-import c7 from './components-modals-track-welcome-modal-LHS-steps-components'
-import c8 from './components-modals-track-welcome-modal-RHS'
-import c9 from './components-modals-upload-video'
-import da from './components-modals-upload-video-elements'
-import db from './components-modals-welcome-modal'
-import dc from './discussion-batch'
-import dd from './session-batch-1'
-import de from './session-batch-2'
-import df from './session-batch'
+import c6 from './components-modals-TaskHintsModal.tsx'
+import c7 from './components-modals-TestimonialModal.tsx'
+import c8 from './components-modals-track-welcome-modal-LHS-steps'
+import c9 from './components-modals-track-welcome-modal-LHS-steps-components'
+import da from './components-modals-track-welcome-modal-RHS'
+import db from './components-modals-upload-video'
+import dc from './components-modals-upload-video-elements'
+import dd from './components-modals-welcome-modal'
+import de from './discussion-batch'
+import df from './session-batch-1'
+import dg from './session-batch-2'
+import dh from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -221,14 +223,16 @@ export default {
   'components/modals/seniority-survey-modal': c3,
   'components/modals/student': c4,
   'components/modals/student/finish-mentor-discussion-modal': c5,
-  'components/modals/track-welcome-modal/LHS/steps': c6,
-  'components/modals/track-welcome-modal/LHS/steps/components': c7,
-  'components/modals/track-welcome-modal/RHS': c8,
-  'components/modals/upload-video': c9,
-  'components/modals/upload-video/elements': da,
-  'components/modals/welcome-modal': db,
-  'discussion-batch': dc,
-  'session-batch-1': dd,
-  'session-batch-2': de,
-  'session-batch-3': df,
+  'components/modals/TaskHintsModal.tsx': c6,
+  'components/modals/TestimonialModal.tsx': c7,
+  'components/modals/track-welcome-modal/LHS/steps': c8,
+  'components/modals/track-welcome-modal/LHS/steps/components': c9,
+  'components/modals/track-welcome-modal/RHS': da,
+  'components/modals/upload-video': db,
+  'components/modals/upload-video/elements': dc,
+  'components/modals/welcome-modal': dd,
+  'discussion-batch': de,
+  'session-batch-1': df,
+  'session-batch-2': dg,
+  'session-batch-3': dh,
 }

@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "queue.filterByStudentHandle": "Filter by student handle"
+}
+
+// modified_files
+// === file: ../components/mentoring/Queue.tsx ===
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useTrackList } from './queue/useTrackList'
 import { useExerciseList } from './queue/useExerciseList'
@@ -164,3 +172,6 @@ export default function Queue({
     </div>
   )
 }
+
+// === end file ===
+```

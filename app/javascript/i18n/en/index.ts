@@ -50,28 +50,30 @@ import bm from './components-mentoring-discussion-NewMessageAlert.tsx'
 import bn from './components-mentoring-inbox'
 import bo from './components-mentoring-Inbox.tsx'
 import bp from './components-mentoring-queue'
-import bq from './components-mentoring-representation-common'
-import br from './components-mentoring-representation-left-pane'
-import bs from './components-mentoring-representation-modals'
-import bt from './components-mentoring-representation-right-pane'
-import bu from './components-mentoring-representation-right-pane-RadioGroup.tsx'
-import bv from './components-mentoring-request-locked-solution-mentoring-note'
-import bw from './components-mentoring-request-StartMentoringPanel.tsx'
-import bx from './components-mentoring-session-favorite-button'
-import by from './components-mentoring-session-iteration-view'
-import bz from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
-import b0 from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
-import b1 from './components-mentoring-session-Scratchpad.tsx'
-import b2 from './components-mentoring-session-SessionInfo.tsx'
-import b3 from './components-mentoring-session-student-info'
-import b4 from './components-mentoring-session-StudentInfo.tsx'
-import b5 from './components-mentoring-testimonials-list'
-import b6 from './components-mentoring-testimonials-list-revealed-testimonial'
-import b7 from './components-mentoring-track-selector'
-import b8 from './discussion-batch'
-import b9 from './session-batch-1'
-import ca from './session-batch-2'
-import cb from './session-batch'
+import bq from './components-mentoring-Queue.tsx'
+import br from './components-mentoring-representation-common'
+import bs from './components-mentoring-representation-left-pane'
+import bt from './components-mentoring-representation-modals'
+import bu from './components-mentoring-representation-right-pane'
+import bv from './components-mentoring-representation-right-pane-RadioGroup.tsx'
+import bw from './components-mentoring-request-locked-solution-mentoring-note'
+import bx from './components-mentoring-request-StartMentoringPanel.tsx'
+import by from './components-mentoring-Session.tsx'
+import bz from './components-mentoring-session-favorite-button'
+import b0 from './components-mentoring-session-iteration-view'
+import b1 from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
+import b2 from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
+import b3 from './components-mentoring-session-Scratchpad.tsx'
+import b4 from './components-mentoring-session-SessionInfo.tsx'
+import b5 from './components-mentoring-session-student-info'
+import b6 from './components-mentoring-session-StudentInfo.tsx'
+import b7 from './components-mentoring-testimonials-list'
+import b8 from './components-mentoring-testimonials-list-revealed-testimonial'
+import b9 from './components-mentoring-track-selector'
+import ca from './discussion-batch'
+import cb from './session-batch-1'
+import cc from './session-batch-2'
+import cd from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -126,26 +128,28 @@ export default {
   'components/mentoring/inbox': bn,
   'components/mentoring/Inbox.tsx': bo,
   'components/mentoring/queue': bp,
-  'components/mentoring/representation/common': bq,
-  'components/mentoring/representation/left-pane': br,
-  'components/mentoring/representation/modals': bs,
-  'components/mentoring/representation/right-pane': bt,
-  'components/mentoring/representation/right-pane/RadioGroup.tsx': bu,
-  'components/mentoring/request/locked-solution-mentoring-note': bv,
-  'components/mentoring/request/StartMentoringPanel.tsx': bw,
-  'components/mentoring/session/favorite-button': bx,
-  'components/mentoring/session/iteration-view': by,
-  'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': bz,
-  'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': b0,
-  'components/mentoring/session/Scratchpad.tsx': b1,
-  'components/mentoring/session/SessionInfo.tsx': b2,
-  'components/mentoring/session/student-info': b3,
-  'components/mentoring/session/StudentInfo.tsx': b4,
-  'components/mentoring/testimonials-list': b5,
-  'components/mentoring/testimonials-list/revealed-testimonial': b6,
-  'components/mentoring/track-selector': b7,
-  'discussion-batch': b8,
-  'session-batch-1': b9,
-  'session-batch-2': ca,
-  'session-batch-3': cb,
+  'components/mentoring/Queue.tsx': bq,
+  'components/mentoring/representation/common': br,
+  'components/mentoring/representation/left-pane': bs,
+  'components/mentoring/representation/modals': bt,
+  'components/mentoring/representation/right-pane': bu,
+  'components/mentoring/representation/right-pane/RadioGroup.tsx': bv,
+  'components/mentoring/request/locked-solution-mentoring-note': bw,
+  'components/mentoring/request/StartMentoringPanel.tsx': bx,
+  'components/mentoring/Session.tsx': by,
+  'components/mentoring/session/favorite-button': bz,
+  'components/mentoring/session/iteration-view': b0,
+  'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': b1,
+  'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': b2,
+  'components/mentoring/session/Scratchpad.tsx': b3,
+  'components/mentoring/session/SessionInfo.tsx': b4,
+  'components/mentoring/session/student-info': b5,
+  'components/mentoring/session/StudentInfo.tsx': b6,
+  'components/mentoring/testimonials-list': b7,
+  'components/mentoring/testimonials-list/revealed-testimonial': b8,
+  'components/mentoring/track-selector': b9,
+  'discussion-batch': ca,
+  'session-batch-1': cb,
+  'session-batch-2': cc,
+  'session-batch-3': cd,
 }

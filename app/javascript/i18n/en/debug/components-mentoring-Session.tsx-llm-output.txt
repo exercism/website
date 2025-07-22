@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "session.code": "Code",
+  "session.discussion": "Discussion",
+  "session.scratchpad": "Scratchpad",
+  "session.guidance": "Guidance"
+}
+
+// modified_files
+// === file: ../components/mentoring/Session.tsx ===
 import React, {
   useState,
   createContext,
@@ -318,3 +329,6 @@ export default function Session(props: SessionProps): JSX.Element {
     </div>
   )
 }
+
+// end file
+```

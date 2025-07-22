@@ -2,12 +2,14 @@ import React from 'react'
 import { CATEGORY_ICONS, CATEGORY_TITLES } from '../ContributionsSummary'
 import { ContributionCategory } from '../../types'
 import { GraphicalIcon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const CategorySummary = ({
   category,
 }: {
   category: ContributionCategory
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/contributions-summary')
   return (
     <div className="category">
       <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
@@ -19,8 +21,10 @@ export const CategorySummary = ({
       </div>
       <div className="reputation">
         {category.reputation === 0
-          ? 'No rep'
-          : `${category.reputation.toLocaleString()} rep`}
+          ? t('categorySummary.noRep')
+          : t('categorySummary.rep', {
+              reputation: category.reputation.toLocaleString(),
+            })}
       </div>
     </div>
   )

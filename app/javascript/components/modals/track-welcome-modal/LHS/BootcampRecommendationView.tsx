@@ -1,34 +1,42 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../TrackWelcomeModal'
 import { Icon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function BootcampRecommendationView() {
   const { hideBootcampRecommendationView, links } = useContext(TrackContext)
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/LHS')
+
   return (
     <>
       <h4
         data-capy-element="bootcamp-recommendation-header"
         className="text-h4 mb-8"
       >
-        Coding Fundamentals might be better for you…
+        {t('bootcampRecommendation.header')}
       </h4>
 
       <p className="mb-8">
-        Exercism's tracks are designed for people who{' '}
-        <strong className="font-semibold text-black">
-          already know how to code
-        </strong>{' '}
-        and are practicing or learning new languages.
+        <Trans
+          i18nKey="bootcampRecommendation.tracksAudience"
+          components={{
+            strong: <strong className="font-semibold text-black" />,
+          }}
+        />
       </p>
+
       <p className="mb-8">
-        If you're just starting out on your coding journey,{' '}
-        <strong className="font-semibold text-black">
-          our Coding Fundamentals Course might be a better fit for you.
-        </strong>{' '}
+        <Trans
+          i18nKey="bootcampRecommendation.codingJourney"
+          components={{
+            strong: <strong className="font-semibold text-black" />,
+          }}
+        />
       </p>
-      <p className="mb-6">
-        In 12 weeks, you'll go from zero to making these...
-      </p>
+
+      <p className="mb-6">{t('bootcampRecommendation.youllBuildGames')}</p>
+
       <div className="grid grid-cols-4 gap-10 mb-16">
         <Icon
           category="bootcamp"
@@ -55,10 +63,14 @@ export function BootcampRecommendationView() {
           className="w-full"
         />
       </div>
+
       <p className="mb-12">
-        It's self-paced and <strong>priced affordably</strong>, with discounts
-        available for students, people who are unemployed, and those living in
-        emerging economies.
+        <Trans
+          i18nKey="bootcampRecommendation.selfPaced"
+          components={{
+            strong: <strong />,
+          }}
+        />
       </p>
 
       <div className="flex gap-12 items-center w-full">
@@ -67,14 +79,14 @@ export function BootcampRecommendationView() {
           data-capy-element="go-to-bootcamp-button"
           className="btn-m btn-primary flex-grow"
         >
-          Check out the Course ✨
+          {t('bootcampRecommendation.cta.checkOutCourse')}
         </a>
         <button
           onClick={hideBootcampRecommendationView}
           className="btn-m btn-secondary"
           data-capy-element="continue-anyway-button"
         >
-          Continue anyway
+          {t('bootcampRecommendation.cta.continueAnyway')}
         </button>
       </div>
     </>

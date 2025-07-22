@@ -86,12 +86,13 @@ import cm from './components-modals-realtime-feedback-modal-feedback-content-no-
 import cn from './components-modals-seniority-survey-modal'
 import co from './components-modals-student'
 import cp from './components-modals-student-finish-mentor-discussion-modal'
-import cq from './components-modals-track-welcome-modal-LHS-steps'
-import cr from './components-modals-track-welcome-modal-LHS-steps-components'
-import cs from './discussion-batch'
-import ct from './session-batch-1'
-import cu from './session-batch-2'
-import cv from './session-batch'
+import cq from './components-modals-track-welcome-modal-LHS'
+import cr from './components-modals-track-welcome-modal-LHS-steps'
+import cs from './components-modals-track-welcome-modal-LHS-steps-components'
+import ct from './discussion-batch'
+import cu from './session-batch-1'
+import cv from './session-batch-2'
+import cw from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -185,10 +186,11 @@ export default {
   'components/modals/seniority-survey-modal': cn,
   'components/modals/student': co,
   'components/modals/student/finish-mentor-discussion-modal': cp,
-  'components/modals/track-welcome-modal/LHS/steps': cq,
-  'components/modals/track-welcome-modal/LHS/steps/components': cr,
-  'discussion-batch': cs,
-  'session-batch-1': ct,
-  'session-batch-2': cu,
-  'session-batch-3': cv,
+  'components/modals/track-welcome-modal/LHS': cq,
+  'components/modals/track-welcome-modal/LHS/steps': cr,
+  'components/modals/track-welcome-modal/LHS/steps/components': cs,
+  'discussion-batch': ct,
+  'session-batch-1': cu,
+  'session-batch-2': cv,
+  'session-batch-3': cw,
 }

@@ -1,0 +1,169 @@
+```ts
+// i18n
+export default {
+  "trackWelcomeModalLHS.steps.hasLearningMode.selectLearningMode": "Select Learning Mode",
+  "trackWelcomeModalLHS.steps.hasLearningMode.selectPracticeMode": "Select Practice Mode",
+  "trackWelcomeModalLHS.steps.hasNoLearningMode.continue": "Continue",
+  "trackWelcomeModalLHS.steps.learningEnvironmentSelector.selectLocalMachine": "Select Local Machine",
+  "trackWelcomeModalLHS.steps.learningEnvironmentSelector.selectOnlineEditor": "Select Online Editor",
+  "trackWelcomeModalLHS.steps.selectedLocalMachine.continue": "Continue",
+  "trackWelcomeModalLHS.steps.selectedOnlineEditor.continue": "Continue",
+  "trackWelcomeModalLHS.steps.openModal.hasLearningMode": "HAS_LEARNING_MODE",
+  "trackWelcomeModalLHS.steps.openModal.hasNoLearningMode": "HAS_NO_LEARNING_MODE",
+  "bootcampRecommendationView.header": "Coding Fundamentals might be better for you…",
+  "bootcampRecommendationView.tracksDesignedFor": "Exercism's tracks are designed for people who <strong className=\"font-semibold text-black\">already know how to code</strong> and are practicing or learning new languages.",
+  "bootcampRecommendationView.codingFundamentalsBetterFit": "If you're just starting out on your coding journey, <strong className=\"font-semibold text-black\">our Coding Fundamentals Course might be a better fit for you.</strong>",
+  "bootcampRecommendationView.inWeeksYoullGoFromZero": "In 12 weeks, you'll go from zero to making these...",
+  "bootcampRecommendationView.selfPacedAndPricedAffordably": "It's self-paced and <strong>priced affordably</strong>, with discounts available for students, people who are unemployed, and those living in emerging economies.",
+  "bootcampRecommendationView.checkOutTheCourse": "Check out the Course ✨",
+  "bootcampRecommendationView.continueAnyway": "Continue anyway"
+}
+
+// modified_files
+// === file: ../components/modals/track-welcome-modal/LHS/TrackWelcomeModalLHS.tsx ===
+// i18n-key-prefix: trackWelcomeModalLHS
+// i18n-namespace: components/modals/track-welcome-modal/LHS
+import React, { useContext } from 'react'
+import * as STEPS from './steps'
+import { StateValue } from './TrackWelcomeModal.machine'
+import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
+import { TrackContext } from '../TrackWelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function TrackWelcomeModalLHS(): JSX.Element {
+  return (
+    <div className="lhs">
+      <WelcomeToTrack />
+      <Steps />
+    </div>
+  )
+}
+
+function Steps() {
+  const { send, currentState } = useContext(TrackContext)
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/LHS')
+
+  switch (currentState.value as StateValue) {
+    case 'hasLearningMode':
+      return (
+        <STEPS.HasLearningModeStep
+          onSelectLearningMode={() => send('SELECT_LEARNING_MODE')}
+          onSelectPracticeMode={() => send('SELECT_PRACTICE_MODE')}
+        />
+      )
+    case 'hasNoLearningMode':
+      return <STEPS.HasNoLearningModeStep onContinue={() => send('CONTINUE')} />
+
+    case 'learningEnvironmentSelector':
+      return (
+        <STEPS.LearningEnvironmentSelectorStep
+          onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
+          onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
+        />
+      )
+
+    case 'selectedLocalMachine':
+      return (
+        <STEPS.SelectedLocalMachineStep
+          onContinueToLocalMachine={() => send('CONTINUE')}
+        />
+      )
+    case 'selectedOnlineEditor':
+      return (
+        <STEPS.SelectedOnlineEdiorStep
+          onContinueToOnlineEditor={() => send('CONTINUE')}
+        />
+      )
+
+    default:
+      return (
+        <STEPS.OpenModalStep
+          onHasLearningMode={() => send('HAS_LEARNING_MODE')}
+          onHasNoLearningMode={() => send('HAS_NO_LEARNING_MODE')}
+        />
+      )
+  }
+}
+
+// === end file ===
+// === file: ../components/modals/track-welcome-modal/LHS/BootcampRecommendationView.tsx ===
+// i18n-key-prefix: bootcampRecommendationView
+// i18n-namespace: components/modals/track-welcome-modal/LHS
+import React, { useContext } from 'react'
+import { TrackContext } from '../TrackWelcomeModal'
+import { Icon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function BootcampRecommendationView() {
+  const { hideBootcampRecommendationView, links } = useContext(TrackContext)
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/LHS')
+  return (
+    <>
+      <h4
+        data-capy-element="bootcamp-recommendation-header"
+        className="text-h4 mb-8"
+      >
+        {t('bootcampRecommendationView.header')}
+      </h4>
+
+      <p className="mb-8">
+        {t('bootcampRecommendationView.tracksDesignedFor')}
+      </p>
+      <p className="mb-8">
+        {t('bootcampRecommendationView.codingFundamentalsBetterFit')}
+      </p>
+      <p className="mb-6">
+        {t('bootcampRecommendationView.inWeeksYoullGoFromZero')}
+      </p>
+      <div className="grid grid-cols-4 gap-10 mb-16">
+        <Icon
+          category="bootcamp"
+          alt="Image of a space invaders game"
+          icon="space-invaders.gif"
+          className="w-full"
+        />
+        <Icon
+          category="bootcamp"
+          alt="Image of a tic-tac-toe game"
+          icon="tic-tac-toe.gif"
+          className="w-full"
+        />
+        <Icon
+          category="bootcamp"
+          alt="Image of a breakout game"
+          icon="breakout.gif"
+          className="w-full"
+        />
+        <Icon
+          category="bootcamp"
+          alt="Image of a maze game"
+          icon="maze.gif"
+          className="w-full"
+        />
+      </div>
+      <p className="mb-12">
+        {t('bootcampRecommendationView.selfPacedAndPricedAffordably')}
+      </p>
+
+      <div className="flex gap-12 items-center w-full">
+        <a
+          href={links.codingFundamentalsCourse}
+          data-capy-element="go-to-bootcamp-button"
+          className="btn-m btn-primary flex-grow"
+        >
+          {t('bootcampRecommendationView.checkOutTheCourse')}
+        </a>
+        <button
+          onClick={hideBootcampRecommendationView}
+          className="btn-m btn-secondary"
+          data-capy-element="continue-anyway-button"
+        >
+          {t('bootcampRecommendationView.continueAnyway')}
+        </button>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+```

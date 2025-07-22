@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "startMentoringPanel.helpStudentWriteBetter": "Help {{studentHandle}} write better {{trackTitle}}?",
+  "startMentoringPanel.showThemWayToCodeBliss": "Feel you can help {{studentHandle}} approach this in a better way? Start mentoring and show them the way to code bliss.",
+  "startMentoringPanel.startMentoring": "Start mentoring",
+  "startMentoringPanel.sessionReturnsToQueue": "You have 30 minutes until the session returns to the queue for others to mentor.",
+  "startMentoringPanel.unableToLockSolution": "Unable to lock solution"
+}
+
+// modified_files
+// === file: ../components/mentoring/request/StartMentoringPanel.tsx ===
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
@@ -26,9 +38,7 @@ export const StartMentoringPanel = ({
   request: Request
   onLock: (request: Request) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/request/StartMentoringPanel.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/request/StartMentoringPanel.tsx')
   const {
     mutate: lock,
     status,
@@ -49,15 +59,10 @@ export const StartMentoringPanel = ({
   return (
     <section className="comment-section --lock">
       <h2>
-        {t('startMentoringPanel.helpStudentWriteBetter', {
-          studentHandle: request.student.handle,
-          trackTitle: request.track.title,
-        })}
+        {t('startMentoringPanel.helpStudentWriteBetter', { studentHandle: request.student.handle, trackTitle: request.track.title })}
       </h2>
       <p>
-        {t('startMentoringPanel.showThemWayToCodeBliss', {
-          studentHandle: request.student.handle,
-        })}
+        {t('startMentoringPanel.showThemWayToCodeBliss', { studentHandle: request.student.handle })}
       </p>
       <button
         type="button"
@@ -72,14 +77,11 @@ export const StartMentoringPanel = ({
       </div>
       {status === 'pending' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
-        <ErrorMessage
-          error={
-            error
-              ? new Error(t('startMentoringPanel.unableToLockSolution'))
-              : null
-          }
-        />
+        <ErrorMessage error={error ? new Error(t('startMentoringPanel.unableToLockSolution')) : null} />
       </ErrorBoundary>
     </section>
   )
 }
+
+// === end file ===
+```

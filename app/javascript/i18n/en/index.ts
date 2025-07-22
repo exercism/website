@@ -75,11 +75,12 @@ import cb from './components-modals-complete-exercise-modal'
 import cc from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
 import cd from './components-modals-exercise-update-modal'
 import ce from './components-modals-mentor'
-import cf from './components-modals-mentor-registration-modal-commit-step'
-import cg from './discussion-batch'
-import ch from './session-batch-1'
-import ci from './session-batch-2'
-import cj from './session-batch'
+import cf from './components-modals-mentor-registration-modal'
+import cg from './components-modals-mentor-registration-modal-commit-step'
+import ci from './discussion-batch'
+import cj from './session-batch-1'
+import ck from './session-batch-2'
+import cl from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -160,9 +161,10 @@ export default {
     cc,
   'components/modals/exercise-update-modal': cd,
   'components/modals/mentor': ce,
-  'components/modals/mentor-registration-modal/commit-step': cf,
-  'discussion-batch': cg,
-  'session-batch-1': ch,
-  'session-batch-2': ci,
-  'session-batch-3': cj,
+  'components/modals/mentor-registration-modal': cf,
+  'components/modals/mentor-registration-modal/commit-step': cg,
+  'discussion-batch': ci,
+  'session-batch-1': cj,
+  'session-batch-2': ck,
+  'session-batch-3': cl,
 }

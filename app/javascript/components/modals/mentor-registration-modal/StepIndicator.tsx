@@ -1,5 +1,8 @@
+// i18n-key-prefix: stepIndicator
+// i18n-namespace: components/modals/mentor-registration-modal
 import React from 'react'
 import { StepProps, ModalStep } from '../MentorRegistrationModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const Step = ({
   num,
@@ -10,7 +13,8 @@ const Step = ({
   label: string
   selected: boolean
 }) => {
-  const srText = `Step ${num}: ${label}`
+  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const srText = t('stepIndicator.step', { num: num, label: label })
 
   const classNames = ['step', selected ? 'selected' : '']
 

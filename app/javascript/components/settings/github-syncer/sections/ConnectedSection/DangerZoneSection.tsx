@@ -1,11 +1,17 @@
+// i18n-key-prefix: dangerZoneSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function DangerZoneSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links, isSyncingEnabled, setIsSyncingEnabled, setIsUserConnected } =
     React.useContext(GitHubSyncerContext)
 
@@ -73,19 +79,19 @@ export function DangerZoneSection() {
         <div>
           {isSyncingEnabled && (
             <>
-              <h2>Pause Syncer</h2>
+              <h2>{t('dangerZoneSection.pauseSyncer')}</h2>
               <p className="text-16 leading-140 mb-4">
-                Want to pause your syncer for a while?
+                {t('dangerZoneSection.wantToPause')}
               </p>
               <p className="text-16 leading-140 mb-12">
-                Use the button below. You can restart it at any time.
+                {t('dangerZoneSection.useButtonBelow')}
               </p>
 
               <button
                 onClick={() => setActivityChangeConfirmationModalOpen(true)}
                 className="btn-m mb-16 btn-warning"
               >
-                Pause Syncer
+                {t('dangerZoneSection.pauseSyncer')}
               </button>
               <ConfirmationModal
                 title="Are you sure you want to pause syncing solutions with GitHub?"
@@ -99,31 +105,32 @@ export function DangerZoneSection() {
             </>
           )}
 
-          <h2>Disconnect Syncer</h2>
+          <h2>{t('dangerZoneSection.disconnectSyncer')}</h2>
           <p className="text-16 leading-140 mb-8">
-            Want to disconnect the syncer from your GitHub repository? Use the
-            button below.
+            {t('dangerZoneSection.wantToDisconnect')}
           </p>
           <p className="text-16 leading-140 mb-8">
-            <strong className="font-medium">Note: </strong> This will also
-            delete all settings on this page, so please manually save any
-            settings you might wish to reuse in the future (e.g. your path
-            template).
+            <strong
+              className="font-medium"
+              dangerouslySetInnerHTML={{
+                __html: t('dangerZoneSection.noteWillDeleteSettings'),
+              }}
+            />
           </p>
           <button
             onClick={() => setDeleteConfirmationModalOpen(true)}
             className="btn-m btn-alert"
           >
-            Disconnect GitHub
+            {t('dangerZoneSection.disconnectGithub')}
           </button>
           {/* DELETE CONFIRMATION MODAL */}
           <ConfirmationModal
-            title="Are you sure you want to disconnect your GitHub repository?"
-            description="This action cannot be undone."
-            confirmLabel="Disconnect Syncer"
+            title={t('dangerZoneSection.areYouSureDisconnect')}
+            description={t('dangerZoneSection.thisActionCannotUndone')}
+            confirmLabel={t('dangerZoneSection.disconnectSyncerConfirm')}
             confirmButtonClass="btn-alert"
             isConfirmButtonDisabled={isDeleting}
-            declineLabel="Cancel"
+            declineLabel={t('dangerZoneSection.cancel')}
             onConfirm={handleDelete}
             open={isDeleteConfirmationModalOpen}
             onClose={handleDeleteConfirmationModalClose}

@@ -1,3 +1,5 @@
+// i18n-key-prefix: commitMessageTemplateSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
@@ -15,7 +17,9 @@ export function CommitMessageTemplateSection() {
     syncer?.commitMessageTemplate || defaultCommitMessageTemplate
   )
 
-  const { t } = useAppTranslation('settings/github-syncer')
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
 
   const [
     isRevertCommitMessageTemplateModalOpen,
@@ -58,38 +62,38 @@ export function CommitMessageTemplateSection() {
 
   return (
     <section className={isUserInsider ? '' : 'disabled'}>
-      <SectionHeader title={t('commit_template_section.heading')} />
+      <SectionHeader title={t('commitMessageTemplateSection.heading')} />
       <p className="text-18 leading-150 mb-16">
-        {t('commit_template_section.intro')}
+        {t('commitMessageTemplateSection.intro')}
       </p>
       <p className="text-16 leading-150 mb-12">
-        {t('commit_template_section.placeholder_intro')}
+        {t('commitMessageTemplateSection.placeholder_intro')}
       </p>
 
       <ul className="text-16 leading-150 mb-16">
         <li>
           <code>$track_slug</code>:{' '}
-          {t('commit_template_section.placeholders.track_slug')}
+          {t('commitMessageTemplateSection.placeholders.track_slug')}
         </li>
         <li>
           <code>$track_title</code>:{' '}
-          {t('commit_template_section.placeholders.track_title')}
+          {t('commitMessageTemplateSection.placeholders.track_title')}
         </li>
         <li>
           <code>$exercise_slug</code>:{' '}
-          {t('commit_template_section.placeholders.exercise_slug')}
+          {t('commitMessageTemplateSection.placeholders.exercise_slug')}
         </li>
         <li>
           <code>$exercise_title</code>:{' '}
-          {t('commit_template_section.placeholders.exercise_title')}
+          {t('commitMessageTemplateSection.placeholders.exercise_title')}
         </li>
         <li>
           <code>$iteration_idx</code>:{' '}
-          {t('commit_template_section.placeholders.iteration_idx')}
+          {t('commitMessageTemplateSection.placeholders.iteration_idx')}
         </li>
         <li>
           <code>$sync_object</code>:{' '}
-          {t('commit_template_section.placeholders.sync_object')}
+          {t('commitMessageTemplateSection.placeholders.sync_object')}
         </li>
       </ul>
 
@@ -102,9 +106,9 @@ export function CommitMessageTemplateSection() {
       />
       <p className="text-16 leading-150 mb-16">
         <strong className="font-medium">
-          {t('commit_template_section.note.note')}:
+          {t('commitMessageTemplateSection.note.note')}:
         </strong>{' '}
-        {t('commit_template_section.note.text')}
+        {t('commitMessageTemplateSection.note.text')}
       </p>
 
       <div className="flex gap-8">
@@ -113,7 +117,7 @@ export function CommitMessageTemplateSection() {
           className="btn btn-primary"
           onClick={() => handleSaveChanges(commitMessageTemplate)}
         >
-          {t('commit_template_section.save_button')}
+          {t('commitMessageTemplateSection.save_button')}
         </button>
 
         <button
@@ -124,14 +128,14 @@ export function CommitMessageTemplateSection() {
           className="btn btn-secondary"
           onClick={() => setIsRevertCommitMessageTemplateModalOpen(true)}
         >
-          {t('commit_template_section.revert_button')}
+          {t('commitMessageTemplateSection.revert_button')}
         </button>
       </div>
 
       <ConfirmationModal
-        title={t('commit_template_section.confirm_modal.title')}
-        confirmLabel={t('commit_template_section.confirm_modal.confirm')}
-        declineLabel={t('commit_template_section.confirm_modal.cancel')}
+        title={t('commitMessageTemplateSection.confirm_modal.title')}
+        confirmLabel={t('commitMessageTemplateSection.confirm_modal.confirm')}
+        declineLabel={t('commitMessageTemplateSection.confirm_modal.cancel')}
         onConfirm={handleRevertCommitMessageTemplate}
         open={isRevertCommitMessageTemplateModalOpen}
         onClose={() => setIsRevertCommitMessageTemplateModalOpen(false)}

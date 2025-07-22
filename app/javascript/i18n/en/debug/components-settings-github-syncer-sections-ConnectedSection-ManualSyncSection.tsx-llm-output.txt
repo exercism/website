@@ -1,3 +1,27 @@
+```ts
+// i18n
+export default {
+  "backupATrack": "Backup a track",
+  "syncingIsPausedEnableItToBackUpThisTrack": "Syncing is paused. Enable it to back up this track.",
+  "selectTrackToBackup": "Select track to backup",
+  "backupTrack": "Backup Track",
+  "notePleaseUseThisSparing": "<strong>Note:</strong> Please use this sparingly, for example when you want to backup a track for the first time. This is not designed to be part of your normal workflow and will likely hit rate-limits if over-used.",
+  "ifYouWantToBackupATrackToGithubYouCanUseThisFunction": "If you want to backup a track to GitHub, you can use this function.",
+  "backupEverything": "Backup everything",
+  "ifYouWantToBackupAllYourExercisesAcrossAllTracksToGithubYouCanUseThisFunction": "If you want to backup all your exercises across all tracks to GitHub, you can use this function.",
+  "notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow": "<strong>Note:</strong> Please use this sparingly, for example when you want to bootstrap a new repo. This is not designed to be part of your normal workflow.",
+  "backupEverythingLabel": "Backup Everything",
+  "syncingIsPausedEnableItToBackUpEverything": "Syncing is paused. Enable it to back up everything.",
+  "yourBackupForTheTrackHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes": "Your backup for the {{trackSlug}} track has been queued and should be completed within a few minutes.",
+  "errorQueuingBackupForTheTrack": "Error queuing backup for the track.",
+  "somethingWentWrongWhileQueuingTheBackupPleaseTryAgain": "Something went wrong while queuing the backup. Please try again.",
+  "yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes": "Your backup for all tracks has been queued and should be completed within a few minutes.",
+  "errorQueuingBackupForAllTracks": "Error queuing backup for all tracks.",
+  "somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain": "Something went wrong while queuing the backup for all tracks. Please try again."
+}
+
+// modified_files
+// === file: ../components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx ===
 import React, { useCallback, useContext, useState } from 'react'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { TrackSelect } from '@/components/common/TrackSelect'
@@ -14,9 +38,7 @@ type Track = {
 }
 
 export function ManualSyncSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation('components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx')
   const { tracks, links, isSyncingEnabled } = useContext(GitHubSyncerContext)
   const [track, setTrack] = useState<Track>({} as Track)
 
@@ -29,10 +51,7 @@ export function ManualSyncSection() {
         .then(async (response) => {
           if (response.ok) {
             toast.success(
-              t(
-                'yourBackupForTheTrackHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes',
-                { trackSlug }
-              ),
+              t('yourBackupForTheTrackHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes', { trackSlug }),
               { duration: 5000 }
             )
           } else {
@@ -65,11 +84,12 @@ export function ManualSyncSection() {
       </p>
 
       <p className="text-16 leading-150 mb-16">
-        <Trans
-          i18nKey="notePleaseUseThisSparing"
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
-          components={{ strong: <strong className="font-medium" /> }}
-        />
+        <Trans i18nKey="notePleaseUseThisSparing">
+          <strong className="font-medium">Note:</strong> Please use this
+          sparingly, for example when you want to backup a track for the first
+          time. This is not designed to be part of your normal workflow and will
+          likely hit rate-limits if over-used.
+        </Trans>
       </p>
 
       <div className="mb-16">
@@ -104,17 +124,14 @@ export function ManualSyncSection() {
       <h2 className="!mb-6">{t('backupEverything')}</h2>
 
       <p className="text-16 leading-150 mb-12">
-        {t(
-          'ifYouWantToBackupAllYourExercisesAcrossAllTracksToGithubYouCanUseThisFunction'
-        )}
+        {t('ifYouWantToBackupAllYourExercisesAcrossAllTracksToGithubYouCanUseThisFunction')}
       </p>
 
       <p className="text-16 leading-150 mb-16">
-        <Trans
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
-          components={{ strong: <strong className="font-medium" /> }}
-          i18nKey="notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow"
-        />
+        <Trans i18nKey="notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow">
+          <strong className="font-medium">Note:</strong> Please use this sparingly, for example when you want to bootstrap a new repo. This is
+          not designed to be part of your normal workflow.
+        </Trans>
       </p>
       <div className="group relative">
         <button
@@ -145,18 +162,14 @@ export function handleSyncEverything({
 }: {
   syncEverythingEndpoint: string
 }) {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation('components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx')
   fetchWithParams({
     url: syncEverythingEndpoint,
   })
     .then(async (response) => {
       if (response.ok) {
         toast.success(
-          t(
-            'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
-          ),
+          t('yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'),
           { duration: 5000 }
         )
       } else {
@@ -173,3 +186,5 @@ export function handleSyncEverything({
       )
     })
 }
+// === end file ===
+```

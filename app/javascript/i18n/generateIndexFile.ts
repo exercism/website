@@ -4,15 +4,70 @@ import path from 'path'
 const EN_FOLDER = path.resolve('./en')
 const OUTPUT_FILE = path.join(EN_FOLDER, 'index.ts')
 
-function toShortId(index: number): string {
+const RESERVED_WORDS = new Set([
+  'do',
+  'if',
+  'for',
+  'let',
+  'var',
+  'const',
+  'class',
+  'return',
+  'function',
+  'default',
+  'import',
+  'export',
+  'switch',
+  'case',
+  'while',
+  'break',
+  'continue',
+  'try',
+  'catch',
+  'finally',
+  'throw',
+  'new',
+  'in',
+  'typeof',
+  'instanceof',
+  'delete',
+  'void',
+  'with',
+  'yield',
+  'await',
+  'this',
+  'super',
+  'extends',
+  'static',
+  'enum',
+  'implements',
+  'interface',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'null',
+  'true',
+  'false',
+])
+
+function toShortIdRaw(index: number): string {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
   let id = ''
   do {
     id = chars[index % chars.length] + id
     index = Math.floor(index / chars.length)
   } while (index > 0)
-
   return id.padStart(2, 'a')
+}
+
+function toShortId(index: number): string {
+  let i = index
+  while (true) {
+    const id = toShortIdRaw(i)
+    if (!RESERVED_WORDS.has(id)) return id
+    i++
+  }
 }
 
 export async function generateEnIndex() {
@@ -42,7 +97,7 @@ export async function generateEnIndex() {
 
   const index = rawIndex.map((entry, i) => ({
     ...entry,
-    importName: toShortId(i), // aa, ab, ac, ...
+    importName: toShortId(i), // aa, ab, ac, etc., skipping reserved words
   }))
 
   const importLines = index.map(

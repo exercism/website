@@ -115,6 +115,64 @@ ${content}
 
 ---
 
+### 🔢 Pluralization Rules (with \`count\`)
+
+When extracting a phrase that involves a number (like “1 comment” or “2 comments”), you MUST:
+
+1. Use \`t('key', { count })\` for pluralized values.
+2. Define multiple translation keys in the output using suffixes:
+   - \`key_one\`: used when \`count === 1\`
+   - \`key_other\`: used for \`count !== 1\`
+   - \`key_zero\` is optional — use it if English or your design requires “No X”
+
+---
+
+#### ✅ Example with \`t()\`:
+
+**Original JSX:**
+\`\`\`tsx
+{commentCount} {pluralize('comment', commentCount)}
+\`\`\`
+
+**Becomes:**
+\`\`\`tsx
+t('stats.commentCount', { count: commentCount })
+\`\`\`
+
+**With i18n output:**
+\`\`\`ts
+export default {
+  "stats.commentCount_one": "{{count}} comment",
+  "stats.commentCount_other": "{{count}} comments"
+}
+\`\`\`
+
+---
+
+#### ✅ Example with \`<Trans>\`:
+
+**JSX:**
+\`\`\`tsx
+<Trans
+  i18nKey="stats.commentCount"
+  count={count}
+  values={{ count }}
+  components={{ icon: <CommentIcon /> }}
+/>
+\`\`\`
+
+**Translation:**
+\`\`\`ts
+"stats.commentCount_one": "<icon/> {{count}} comment",
+"stats.commentCount_other": "<icon/> {{count}} comments"
+\`\`\`
+
+---
+
+### 🚫 DO NOT:
+- Manually call \`pluralize()\`, \`Intl.PluralRules\`, or write \`count === 1 ? ... : ...\` logic.
+- Use a single string like \`"{{count}} comments"\` for all counts.
+
 ### CRITICAL: React Hook Rules
 
 **ALWAYS place the \`useAppTranslation\` hook INSIDE the React component function, never outside.**

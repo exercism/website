@@ -1,9 +1,22 @@
+```ts
+// i18n
+export default {
+  "badgeModal.newBadgeEarned": "New Badge Earned",
+  "badgeModal.earnedOn": "Earned on ",
+  "badgeModal.membersHaveEarned": "{{count}} member has earned this badge.",
+  "badgeModal.membersHaveEarned_plural": "{{count}} members have earned this badge.",
+  "badgeModal.percentageOfUsers": "That's {{percentage}}% of all Exercism users"
+}
+
+// modified_files
+// === file: ../components/modals/BadgeModal.tsx ===
 import React from 'react'
 import { Badge as BadgeProps } from '../types'
 import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '@/utils/time'
+import pluralize from 'pluralize'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const BadgeModal = ({
@@ -54,3 +67,6 @@ export const BadgeModal = ({
     </Modal>
   )
 }
+
+// end file ===
+```

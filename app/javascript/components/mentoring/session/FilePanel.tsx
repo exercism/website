@@ -8,6 +8,7 @@ import {
 } from '@/components/editor/index'
 import { File, TestFile } from '../../types'
 import { CopyButton } from './iteration-view/iteration-header/CopyButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -29,6 +30,7 @@ export const FilePanel = ({
   testFiles?: readonly TestFile[]
   showCopyButton?: boolean
 }): JSX.Element | null => {
+  const { t } = useAppTranslation('session-batch')
   const [tab, setTab] = useState<string>('')
 
   useEffect(() => {
@@ -65,13 +67,13 @@ export const FilePanel = ({
 
             {instructions ? (
               <Tab key="instructions" id="instructions" context={TabsContext}>
-                Instructions
+                {t('components.mentoring.session.filePanel.instructions')}
               </Tab>
             ) : null}
 
             {testFiles ? (
               <Tab key="tests" id="tests" context={TabsContext}>
-                Tests
+                {t('components.mentoring.session.filePanel.tests')}
               </Tab>
             ) : null}
           </div>

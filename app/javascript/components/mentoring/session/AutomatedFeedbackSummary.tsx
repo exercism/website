@@ -3,6 +3,7 @@ import { Icon } from '../../common'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Iteration } from '../../types'
 import { AutomatedFeedbackModal } from './AutomatedFeedbackModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const AutomatedFeedbackSummary = ({
   userIsStudent,
@@ -11,7 +12,7 @@ export const AutomatedFeedbackSummary = ({
   userIsStudent: boolean
   iteration: Iteration
 }): JSX.Element => {
-  const addressedTo = userIsStudent ? 'You' : 'Student'
+  const { t } = useAppTranslation('session-batch')
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -27,8 +28,20 @@ export const AutomatedFeedbackSummary = ({
     <React.Fragment>
       <button className="auto-feedback" onClick={handleModalOpen} type="button">
         <GraphicalIcon icon="automation" className="info-icon" />
-        <div className="info">{addressedTo} received automated feedback</div>
-        <Icon icon="modal" alt="Opens in a modal" className="modal-icon" />
+        <div className="info">
+          {t(
+            userIsStudent
+              ? 'components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback'
+              : 'components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback'
+          )}
+        </div>
+        <Icon
+          icon="modal"
+          alt={t(
+            'components.mentoring.session.automatedFeedbackSummary.opensInAModal'
+          )}
+          className="modal-icon"
+        />
       </button>
       <AutomatedFeedbackModal
         iteration={iteration}

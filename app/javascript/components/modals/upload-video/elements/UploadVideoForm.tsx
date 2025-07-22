@@ -7,6 +7,7 @@ import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type UploadVideoFormProps = {
   data: CommunityVideoType
@@ -38,6 +39,8 @@ export function UploadVideoForm({
   onSuccess,
 }: UploadVideoFormProps): JSX.Element {
   const { links, track, exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/modals/upload-video/elements')
+
   async function UploadVideo(body: string) {
     const { fetch } = sendRequest({
       endpoint: links.video.create,
@@ -85,39 +88,39 @@ export function UploadVideoForm({
         className="btn-m btn-default shadow-xsZ1v2 border-borderLight2 text-textColor6 mb-16"
       >
         <Icon icon="reset" alt="Reset" className="!ml-0" />
-        Use different video
+        {t('uploadVideoForm.useDifferentVideo')}
       </button>
 
       <UploadVideoTextInput
         name="video_url"
-        label="PASTE YOUR VIDEO URL (YOUTUBE)"
+        label={t('uploadVideoTextInput.pasteYourVideoUrlYoutube')}
         defaultValue={data.url}
         readOnly
       />
 
       <UploadVideoTextInput
         name="title"
-        label="Video title"
-        placeholder="Enter the video title"
+        label={t('uploadVideoTextInput.videoTitle')}
+        placeholder={t('uploadVideoTextInput.enterTheVideoTitle')}
         className="mb-24"
         defaultValue={data.title}
       />
 
       <fieldset className="flex flex-row font-body mb-32">
         <legend className="text-label text-btnBorder mb-16">
-          IS THE VIDEO YOURS OR SOMEONE ELSE&apos;S?
+          {t('uploadVideoForm.isTheVideoYoursOrSomeoneElses')}
         </legend>
         <RadioButton
           className="mr-24"
           labelClassName="text-16"
           name="submitter_is_author"
-          label="Mine"
+          label={t('uploadVideoForm.mine')}
           value="true"
           defaultChecked
         />
         <RadioButton
           name="submitter_is_author"
-          label="Someone else"
+          label={t('uploadVideoForm.someoneElse')}
           value="false"
           labelClassName="text-16"
         />
@@ -129,7 +132,7 @@ export function UploadVideoForm({
 
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
-          Submit video
+          {t('uploadVideoForm.submitVideo')}
         </button>
       </div>
     </form>

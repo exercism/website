@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "deleteProfileModal.deleteProfile": "Delete profile?",
+  "deleteProfileModal.areYouSure": "Are you sure you want to delete your profile?",
+  "deleteProfileModal.continue": "Continue",
+  "deleteProfileModal.cancel": "Cancel"
+}
+
+// modified_files
+// === file: ../components/settings/delete-profile-form/DeleteProfileModal.tsx ===
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { redirectTo } from '@/utils/redirect-to'
@@ -74,3 +85,6 @@ export const DeleteProfileModal = ({
     </Modal>
   )
 }
+
+// === end file ===
+```

@@ -1,0 +1,168 @@
+```ts
+// i18n
+export default {
+  "orderSelect.sortByNewestFirst": "Sort by Newest First",
+  "orderSelect.sortByOldestFirst": "Sort by Oldest First",
+  "orderSelect.sortByMostStarred": "Sort by Most Starred"
+}
+
+// modified_files
+// === file: ../components/profile/community-solutions-list/OrderSelect.tsx ===
+// i18n-key-prefix: orderSelect
+// i18n-namespace: components/profile/community-solutions-list
+import React from 'react'
+import { SingleSelect } from '../../common/SingleSelect'
+import { Order } from '../CommunitySolutionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/profile/community-solutions-list')
+
+  switch (order) {
+    case 'newest_first':
+      return <React.Fragment>{t('orderSelect.sortByNewestFirst')}</React.Fragment>
+    case 'oldest_first':
+      return <React.Fragment>{t('orderSelect.sortByOldestFirst')}</React.Fragment>
+    case 'most_starred':
+      return <React.Fragment>{t('orderSelect.sortByMostStarred')}</React.Fragment>
+  }
+}
+
+export const OrderSelect = ({
+  value,
+  setValue,
+}: {
+  value: Order
+  setValue: (value: Order) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<Order>
+      options={['most_starred', 'newest_first', 'oldest_first']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+
+// === end file ===
+
+// i18n
+export default {
+  "orderSelect.sortByNewestFirst": "Sort by Newest First",
+  "orderSelect.sortByOldestFirst": "Sort by Oldest First",
+  "orderSelect.sortByMostStarred": "Sort by Most Starred"
+}
+
+// modified_files
+// === file: ../components/profile/community-solutions-list/OrderSelect.tsx ===
+// i18n-key-prefix: orderSelect
+// i18n-namespace: components/profile/community-solutions-list
+import React from 'react'
+import { SingleSelect } from '../../common/SingleSelect'
+import { Order } from '../CommunitySolutionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/profile/community-solutions-list')
+
+  switch (order) {
+    case 'newest_first':
+      return <React.Fragment>{t('orderSelect.sortByNewestFirst')}</React.Fragment>
+    case 'oldest_first':
+      return <React.Fragment>{t('orderSelect.sortByOldestFirst')}</React.Fragment>
+    case 'most_starred':
+      return <React.Fragment>{t('orderSelect.sortByMostStarred')}</React.Fragment>
+  }
+}
+
+export const OrderSelect = ({
+  value,
+  setValue,
+}: {
+  value: Order
+  setValue: (value: Order) => void
+}): JSX.Element => {
+  return (
+    <SingleSelect<Order>
+      options={['most_starred', 'newest_first', 'oldest_first']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/profile/community-solutions-list/TrackDropdown.tsx ===
+// i18n-key-prefix: trackDropdown
+// i18n-namespace: components/profile/community-solutions-list
+import React, { useCallback } from 'react'
+import { TrackData } from '../CommunitySolutionsList'
+import { TrackSelect, TrackLogo } from '@/components/common/TrackSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const OptionComponent = ({
+  option: track,
+}: {
+  option: TrackData
+}): JSX.Element => {
+  return (
+    <React.Fragment>
+      <TrackLogo track={track} />
+      <div className="title">{track.title}</div>
+      <div className="count">{track.numSolutions}</div>
+    </React.Fragment>
+  )
+}
+
+const SelectedComponent = ({
+  option: track,
+}: {
+  option: TrackData
+}): JSX.Element => {
+  return (
+    <React.Fragment>
+      <TrackLogo track={track} />
+      <div className="track-title">{track.title}</div>
+      <div className="count">{track.numSolutions}</div>
+    </React.Fragment>
+  )
+}
+
+export const TrackDropdown = ({
+  tracks,
+  value,
+  setValue,
+}: {
+  tracks: TrackData[]
+  value: string
+  setValue: (slug: string | null) => void
+}): JSX.Element | null => {
+  const { t } = useAppTranslation('components/profile/community-solutions-list')
+  const track = tracks.find((track) => track.slug === value) || tracks[0]
+  const handleSet = useCallback(
+    (track: TrackData) => {
+      setValue(track.slug)
+    },
+    [setValue]
+  )
+
+  return (
+    <TrackSelect<TrackData>
+      tracks={tracks}
+      value={track}
+      setValue={handleSet}
+      OptionComponent={OptionComponent}
+      SelectedComponent={SelectedComponent}
+      size="single"
+    />
+  )
+}
+
+// === end file ===
+```

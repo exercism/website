@@ -1,4 +1,4 @@
-// namespace: session-batch
+// namespace: session-batch-1
 export default {
   'components.mentoring.session.automatedFeedbackModal.automatedAnalysis':
     'Automated Analysis',

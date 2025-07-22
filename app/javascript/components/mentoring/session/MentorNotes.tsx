@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MentorNotes = ({
   notes,
@@ -9,6 +10,7 @@ export const MentorNotes = ({
   improveUrl: string
   guidanceType: 'track' | 'exercise' | 'representer'
 }): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-3')
   const prLink = (
     <a href={improveUrl} target="_blank" rel="noreferrer">
       Pull Request on GitHub
@@ -18,9 +20,10 @@ export const MentorNotes = ({
   if (!notes) {
     return (
       <p className="text-p-base">
-        This {guidanceType} doesn&apos;t have any mentoring notes yet. Mentoring
-        notes are written by our community. Please help get them started for
-        this exercise by sending a {prLink}.
+        {t('components.mentoring.session.mentorNotes.noNotesYet', {
+          guidanceType: guidanceType,
+          prLink: prLink,
+        })}
       </p>
     )
   }
@@ -32,10 +35,13 @@ export const MentorNotes = ({
         dangerouslySetInnerHTML={{ __html: notes }}
       />
       <hr className="c-divider --small my-16" />
-      <h3 className="text-h5 mb-4">Improve these notes</h3>
+      <h3 className="text-h5 mb-4">
+        {t('components.mentoring.session.mentorNotes.improveNotes')}
+      </h3>
       <p className="text-p-base">
-        These notes are written by our community. Please help improve them by
-        sending a {prLink}.
+        {t('components.mentoring.session.mentorNotes.communityNotes', {
+          prLink: prLink,
+        })}
       </p>
     </React.Fragment>
   )

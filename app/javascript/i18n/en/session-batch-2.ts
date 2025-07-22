@@ -1,4 +1,4 @@
-// namespace: session-batch
+// namespace: session-batch-2
 export default {
   'components.mentoring.session.guidance.theExemplarSolution':
     'The exemplar solution',

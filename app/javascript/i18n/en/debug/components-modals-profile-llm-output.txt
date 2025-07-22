@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "firstTimeModal.havePublicProfile": "You now have a public profile!",
+  "firstTimeModal.goodJob": "Good job!",
+  "firstTimeModal.seeSolutions": "You'll now see your published solutions, mentoring testimonials, contributions and badges on your public profile.",
+  "firstTimeModal.shareProfile": "You can share your profile with others too!"
+}
+
+// modified_files
+// === file: ../components/modals/profile/FirstTimeModal.tsx ===
 // i18n-key-prefix: firstTimeModal
 // i18n-namespace: components/modals/profile
 import React, { useState } from 'react'
@@ -30,8 +41,7 @@ export default function FirstTimeModal({
         <GraphicalIcon icon="confetti" category="graphics" />
         <h2>{t('firstTimeModal.havePublicProfile')}</h2>
         <p>
-          <strong>{t('firstTimeModal.goodJob')}</strong>{' '}
-          {t('firstTimeModal.seeSolutions')}
+          <strong>{t('firstTimeModal.goodJob')}</strong> {t('firstTimeModal.seeSolutions')}
         </p>
       </header>
       <div className="copy-section">
@@ -41,3 +51,6 @@ export default function FirstTimeModal({
     </Modal>
   )
 }
+
+// end file ===
+```

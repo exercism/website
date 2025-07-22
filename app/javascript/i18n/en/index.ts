@@ -77,6 +77,7 @@ import cd from './components-modals-exercise-update-modal'
 import ce from './components-modals-mentor'
 import cf from './components-modals-mentor-registration-modal'
 import cg from './components-modals-mentor-registration-modal-commit-step'
+import ch from './components-modals-profile'
 import ci from './discussion-batch'
 import cj from './session-batch-1'
 import ck from './session-batch-2'
@@ -163,6 +164,7 @@ export default {
   'components/modals/mentor': ce,
   'components/modals/mentor-registration-modal': cf,
   'components/modals/mentor-registration-modal/commit-step': cg,
+  'components/modals/profile': ch,
   'discussion-batch': ci,
   'session-batch-1': cj,
   'session-batch-2': ck,

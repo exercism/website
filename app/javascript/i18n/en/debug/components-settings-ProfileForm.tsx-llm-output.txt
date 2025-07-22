@@ -1,3 +1,30 @@
+```ts
+// i18n
+export default {
+  "profileForm.profile": "Profile",
+  "profileForm.name": "Name",
+  "profileForm.location": "Location",
+  "profileForm.bio": "Bio",
+  "profileForm.tellTheWorldAboutYouEmojisEncouraged": "Tell the world about you 🌎. Emojis encouraged!",
+  "profileForm.seniority": "Seniority",
+  "profileForm.yourSocialAccounts": "Your social accounts",
+  "profileForm.githubHandle": "Github (Handle)",
+  "profileForm.yourGitHubHandle": "Your GitHub handle",
+  "profileForm.twitterHandle": "Twitter (Handle)",
+  "profileForm.yourTwitterHandle": "Your Twitter handle",
+  "profileForm.linkedInFullURL": "LinkedIn (Full URL)",
+  "profileForm.yourLinkedInProfileUrl": "Your LinkedIn profile url",
+  "profileForm.saveProfileData": "Save profile data",
+  "profileForm.yourProfileHasBeenSaved": "Your profile has been saved",
+  "profileForm.absoluteBeginner": "Absolute Beginner",
+  "profileForm.beginner": "Beginner",
+  "profileForm.juniorDeveloper": "Junior Developer",
+  "profileForm.midLevelDeveloper": "Mid-level Developer",
+  "profileForm.seniorDeveloper": "Senior Developer"
+}
+
+// modified_files
+// === file: ../components/settings/ProfileForm.tsx ===
 // i18n-key-prefix: profileForm
 // i18n-namespace: components/settings/ProfileForm.tsx
 import React, { useState, useCallback } from 'react'
@@ -75,7 +102,7 @@ export default function ProfileForm({
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
             required
-            {...createMaxLengthAttributes('Name', 255, t)}
+            {...createMaxLengthAttributes('Name', 255)}
           />
         </div>
         <div className="location field">
@@ -87,7 +114,7 @@ export default function ProfileForm({
             value={user.location || ''}
             onChange={(e) => setUser({ ...user, location: e.target.value })}
             icon="location"
-            {...createMaxLengthAttributes('Location', 255, t)}
+            {...createMaxLengthAttributes('Location', 255)}
           />
         </div>
       </div>
@@ -129,7 +156,7 @@ export default function ProfileForm({
               onChange={(e) =>
                 setProfile({ ...profile, github: e.target.value })
               }
-              {...createMaxLengthAttributes('GitHub handle', 190, t)}
+              {...createMaxLengthAttributes('GitHub handle', 190)}
             />
           </div>
           <div className="field">
@@ -144,7 +171,7 @@ export default function ProfileForm({
               onChange={(e) =>
                 setProfile({ ...profile, twitter: e.target.value })
               }
-              {...createMaxLengthAttributes('Twitter handle', 190, t)}
+              {...createMaxLengthAttributes('Twitter handle', 190)}
             />
           </div>
           <div className="field">
@@ -222,3 +249,6 @@ function SenioritySelect({
     />
   )
 }
+
+// === end file ===
+```

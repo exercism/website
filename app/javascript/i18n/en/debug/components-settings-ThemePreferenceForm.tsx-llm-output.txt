@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "themePreferenceForm.theme": "Theme"
+}
+
+// modified_files
+// === file: ../components/settings/ThemePreferenceForm.tsx ===
 // i18n-key-prefix: themePreferenceForm
 // i18n-namespace: components/settings/ThemePreferenceForm.tsx
 import React from 'react'
@@ -63,3 +71,6 @@ export default function ThemePreferenceForm({
     </form>
   )
 }
+
+// === end file ===
+```

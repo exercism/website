@@ -1,0 +1,76 @@
+```ts
+// i18n
+export default {
+}
+
+// modified_files
+// === file: ../components/settings/useSettingsMutation.tsx ===
+// i18n-key-prefix: 
+// i18n-namespace: components/settings/useSettingsMutation.tsx
+import { useEffect, useCallback } from 'react'
+import { sendRequest } from '../../utils/send-request'
+import { MutationStatus, useMutation } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const useSettingsMutation = <
+  T extends unknown,
+  U extends unknown = void
+>({
+  endpoint,
+  method,
+  body,
+  timeout = 4000,
+  onSuccess = () => null,
+  onError,
+}: {
+  endpoint: string
+  method: 'POST' | 'PATCH'
+  body: T
+  timeout?: number
+  onSuccess?: (params: U) => void
+  onError?: (error: unknown) => void
+}): {
+  status: MutationStatus
+  mutation: () => void
+  error: unknown
+} => {
+  const { t } = useAppTranslation('components/settings/useSettingsMutation.tsx')
+  const {
+    mutate: baseMutation,
+    status,
+    error,
+    reset,
+  } = useMutation<U>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: method,
+        body: JSON.stringify(body),
+      })
+
+      return fetch
+    },
+    onSuccess,
+    onError,
+  })
+
+  const mutation = useCallback(() => {
+    reset()
+    baseMutation()
+  }, [baseMutation, reset])
+
+  useEffect(() => {
+    if (status !== 'success' && status !== 'error') {
+      return
+    }
+
+    const timer = setTimeout(reset, timeout)
+
+    return () => clearTimeout(timer)
+  }, [reset, status, timeout])
+
+  return { status, mutation, error }
+}
+
+// === end file ===
+```

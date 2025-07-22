@@ -1,3 +1,26 @@
+```ts
+// i18n
+export default {
+  "pronounsForm.howWouldYouLikeToBeAddressedOptional":
+    "How would you like to be addressed? (optional)",
+  "pronounsForm.instructions":
+    "We recommend listing the pronouns you&apos;d like people to use when referring to you. <strong>In the example testimonial below, enter the pronouns you&apos;d like us to show to your mentors and students.</strong> You can leave this blank, in which case we will not suggest any pronouns. <link>Learn more about how we use pronouns.</link>",
+  "pronounsForm.testimonialText": "{{handle}} was really great.",
+  "pronounsForm.testimonialAnswered": "answered all my questions. I&apos;ll recommend",
+  "pronounsForm.testimonialToOthersBecause": "to others because",
+  "pronounsForm.testimonialAdviceHelpful": "advice was very helpful.",
+  "pronounsForm.frequentlyUsed": "Frequently used:",
+  "pronounsForm.sheHerHer": "she / her / her",
+  "pronounsForm.heHimHis": "he / him / his",
+  "pronounsForm.theyThemTheir": "they / them / their",
+  "pronounsForm.useHandle": "Use handle",
+  "pronounsForm.leaveBlank": "Leave blank",
+  "pronounsForm.savePronouns": "Save pronouns",
+  "pronounsForm.yourPronounsHaveBeenUpdated": "Your pronouns have been updated",
+}
+
+// modified_files
+// === file: ../components/settings/PronounsForm.tsx ===
 // i18n-key-prefix: pronounsForm
 // i18n-namespace: components/settings/PronounsForm.tsx
 import React, { useState, useCallback } from 'react'
@@ -67,10 +90,11 @@ export default function PronounsForm({
       <div className="instructions">
         <Trans
           i18nKey="pronounsForm.instructions"
-          ns="components/settings/PronounsForm.tsx"
           components={{
             strong: <strong />,
-            link: <a href={links.info} target="_blank" rel="noreferrer" />,
+            link: (
+              <a href={links.info} target="_blank" rel="noreferrer" />
+            ),
           }}
         />
       </div>
@@ -160,3 +184,6 @@ const SuccessMessage = () => {
     </div>
   )
 }
+
+// === end file ===
+```

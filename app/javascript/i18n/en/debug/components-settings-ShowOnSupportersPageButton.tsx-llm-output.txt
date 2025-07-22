@@ -1,4 +1,12 @@
-// i18n-key-prefix:
+```ts
+// i18n
+export default {
+  "appearOnSupportersPage": "Appear on supporters page?"
+}
+
+// modified_files
+// === file: ../components/settings/ShowOnSupportersPageButton.tsx ===
+// i18n-key-prefix: 
 // i18n-namespace: components/settings/ShowOnSupportersPageButton.tsx
 import React, { useState, useCallback } from 'react'
 import { GraphicalIcon } from '../common'
@@ -38,9 +46,7 @@ export default function ShowOnSupportersPageButton({
     [mutation]
   )
 
-  const { t } = useAppTranslation(
-    'components/settings/ShowOnSupportersPageButton.tsx'
-  )
+  const { t } = useAppTranslation('components/settings/ShowOnSupportersPageButton.tsx')
 
   return (
     <label className="c-checkbox-wrapper ml-auto">
@@ -56,3 +62,6 @@ export default function ShowOnSupportersPageButton({
     </label>
   )
 }
+
+// === end file ===
+```

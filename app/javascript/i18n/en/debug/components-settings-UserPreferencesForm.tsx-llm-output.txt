@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "automation.title": "Automation",
+  "automation.changePreferences": "Change preferences",
+  "automation.successMessage": "Your preferences have been updated"
+}
+
+// modified_files
+// === file: ../components/settings/UserPreferencesForm.tsx ===
 // i18n-key-prefix: automation
 // i18n-namespace: components/settings/UserPreferencesForm.tsx
 import React, { useState, useCallback } from 'react'
@@ -107,3 +117,6 @@ const SuccessMessage = () => {
     </div>
   )
 }
+
+// === end file ===
+```

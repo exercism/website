@@ -1,3 +1,16 @@
+```ts
+// i18n
+export default {
+  "handleForm.changeYourHandle": "Change your handle",
+  "handleForm.yourHandle": "Your handle",
+  "handleForm.confirmYourPassword": "Confirm your password",
+  "handleForm.handleChangeRecommendation": "We recommend only changing your handle in rare circumstances as public solution links will break, and it is confusing for mentors.",
+  "handleForm.changeHandle": "Change handle",
+  "handleForm.success": "Your handle has been changed"
+}
+
+// modified_files
+// === file: ../components/settings/HandleForm.tsx ===
 import React, { useState, useCallback } from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
@@ -63,7 +76,7 @@ export default function HandleForm({
           value={state.handle}
           onChange={(e) => setState({ ...state, handle: e.target.value })}
           required
-          {...createMaxLengthAttributes('Handle', 190, t)}
+          {...createMaxLengthAttributes('Handle', 190)}
         />
       </div>
       <div className="field">
@@ -77,7 +90,9 @@ export default function HandleForm({
           onChange={(e) => setState({ ...state, password: e.target.value })}
           required
         />
-        <p className="info">{t('handleForm.handleChangeRecommendation')}</p>
+        <p className="info">
+          {t('handleForm.handleChangeRecommendation')}
+        </p>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
@@ -103,3 +118,6 @@ const SuccessMessage = () => {
     </div>
   )
 }
+
+// === end file ===
+```

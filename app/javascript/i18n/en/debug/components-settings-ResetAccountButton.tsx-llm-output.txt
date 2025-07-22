@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "resetAccount": "Reset account"
+}
+
+// modified_files
+// === file: ../components/settings/ResetAccountButton.tsx ===
 import React, { useState } from 'react'
 import { ResetAccountModal } from '../modals/ResetAccountModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -34,3 +42,6 @@ export default function ResetAccountButton({
     </React.Fragment>
   )
 }
+
+// === end file ===
+```

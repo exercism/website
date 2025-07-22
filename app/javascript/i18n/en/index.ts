@@ -123,17 +123,37 @@ import dn from './components-profile-community-solutions-list'
 import dp from './components-profile-contributions-list'
 import dq from './components-profile-contributions-summary'
 import dr from './components-profile-testimonials-list'
-import ds from './components-settings-comments-preference-form'
-import dt from './components-settings-delete-profile-form'
-import du from './components-settings-github-syncer-common'
-import dv from './components-settings-github-syncer-sections-ConnectedSection'
-import dw from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
-import dx from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
-import dy from './components-settings-theme-preference-form'
-import dz from './discussion-batch'
-import d0 from './session-batch-1'
-import d1 from './session-batch-2'
-import d2 from './session-batch-3'
+import ds from './components-settings-BootcampAffiliateCouponForm.tsx'
+import dt from './components-settings-BootcampFreeCouponForm.tsx'
+import du from './components-settings-comments-preference-form'
+import dv from './components-settings-CommunicationPreferencesForm.tsx'
+import dw from './components-settings-delete-profile-form'
+import dx from './components-settings-DeleteAccountButton.tsx'
+import dy from './components-settings-DeleteProfileForm.tsx'
+import dz from './components-settings-EmailForm.tsx'
+import d0 from './components-settings-FormMessage.tsx'
+import d1 from './components-settings-github-syncer-common'
+import d2 from './components-settings-github-syncer-sections-ConnectedSection'
+import d3 from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
+import d4 from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
+import d5 from './components-settings-HandleForm.tsx'
+import d6 from './components-settings-InsiderBenefitsForm.tsx'
+import d7 from './components-settings-PasswordForm.tsx'
+import d8 from './components-settings-PhotoForm.tsx'
+import d9 from './components-settings-ProfileForm.tsx'
+import ea from './components-settings-PronounsForm.tsx'
+import eb from './components-settings-ResetAccountButton.tsx'
+import ec from './components-settings-ShowOnSupportersPageButton.tsx'
+import ed from './components-settings-theme-preference-form'
+import ee from './components-settings-ThemePreferenceForm.tsx'
+import ef from './components-settings-TokenForm.tsx'
+import eg from './components-settings-useInvalidField.tsx'
+import eh from './components-settings-UserPreferencesForm.tsx'
+import ei from './components-settings-useSettingsMutation.tsx'
+import ej from './discussion-batch'
+import ek from './session-batch-1'
+import el from './session-batch-2'
+import em from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -264,17 +284,37 @@ export default {
   'components/profile/contributions-list': dp,
   'components/profile/contributions-summary': dq,
   'components/profile/testimonials-list': dr,
-  'components/settings/comments-preference-form': ds,
-  'components/settings/delete-profile-form': dt,
-  'components/settings/github-syncer/common': du,
-  'components/settings/github-syncer/sections/ConnectedSection': dv,
+  'components/settings/BootcampAffiliateCouponForm.tsx': ds,
+  'components/settings/BootcampFreeCouponForm.tsx': dt,
+  'components/settings/comments-preference-form': du,
+  'components/settings/CommunicationPreferencesForm.tsx': dv,
+  'components/settings/delete-profile-form': dw,
+  'components/settings/DeleteAccountButton.tsx': dx,
+  'components/settings/DeleteProfileForm.tsx': dy,
+  'components/settings/EmailForm.tsx': dz,
+  'components/settings/FormMessage.tsx': d0,
+  'components/settings/github-syncer/common': d1,
+  'components/settings/github-syncer/sections/ConnectedSection': d2,
   'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx':
-    dw,
+    d3,
   'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx':
-    dx,
-  'components/settings/theme-preference-form': dy,
-  'discussion-batch': dz,
-  'session-batch-1': d0,
-  'session-batch-2': d1,
-  'session-batch-3': d2,
+    d4,
+  'components/settings/HandleForm.tsx': d5,
+  'components/settings/InsiderBenefitsForm.tsx': d6,
+  'components/settings/PasswordForm.tsx': d7,
+  'components/settings/PhotoForm.tsx': d8,
+  'components/settings/ProfileForm.tsx': d9,
+  'components/settings/PronounsForm.tsx': ea,
+  'components/settings/ResetAccountButton.tsx': eb,
+  'components/settings/ShowOnSupportersPageButton.tsx': ec,
+  'components/settings/theme-preference-form': ed,
+  'components/settings/ThemePreferenceForm.tsx': ee,
+  'components/settings/TokenForm.tsx': ef,
+  'components/settings/useInvalidField.tsx': eg,
+  'components/settings/UserPreferencesForm.tsx': eh,
+  'components/settings/useSettingsMutation.tsx': ei,
+  'discussion-batch': ej,
+  'session-batch-1': ek,
+  'session-batch-2': el,
+  'session-batch-3': em,
 }

@@ -1,4 +1,17 @@
-// i18n-key-prefix:
+```ts
+// i18n
+export default {
+  "changeYourEmail": "Change your email",
+  "yourEmailAddress": "Your email address",
+  "confirmYourPassword": "Confirm your password",
+  "info.changeEmailConfirmation": "You can change your email using the form above. We will send you a new confirmation email for you to accept.",
+  "changeEmail": "Change email",
+  "success.confirmationEmailSent": "We've sent a confirmation email to {{email}}"
+}
+
+// modified_files
+// === file: ../components/settings/EmailForm.tsx ===
+// i18n-key-prefix: 
 // i18n-namespace: components/settings/EmailForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon } from '@/components/common'
@@ -65,7 +78,7 @@ export default function EmailForm({
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
           required
-          {...createMaxLengthAttributes('Email', 255, t)}
+          {...createMaxLengthAttributes('Email', 255)}
         />
       </div>
       <div className="field">
@@ -79,7 +92,9 @@ export default function EmailForm({
           onChange={(e) => setState({ ...state, password: e.target.value })}
           required
         />
-        <p className="info">{t('info.changeEmailConfirmation')}</p>
+        <p className="info">
+          {t('info.changeEmailConfirmation')}
+        </p>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
@@ -105,3 +120,5 @@ const SuccessMessage = ({ email }: { email: string }) => {
     </div>
   )
 }
+// === end file ===
+```

@@ -1,9 +1,20 @@
-// i18n-key-prefix: automation
-// i18n-namespace: components/settings/UserPreferencesForm.tsx
+```ts
+// i18n
+export default {
+  "mentoring.title": "Mentoring",
+  "product.title": "Product",
+  "formButton.changePreferences": "Change preferences",
+  "successMessage.updatedPreferences": "Your preferences have been updated"
+}
+
+// modified_files
+// === file: ../components/settings/CommunicationPreferencesForm.tsx ===
+// i18n-key-prefix: 
+// i18n-namespace: components/settings/CommunicationPreferencesForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
-import { UserPreference } from '@/components/types'
+import { CommunicationPreferences } from '@/components/types'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -12,29 +23,27 @@ type Links = {
   update: string
 }
 
-export type UserPreferences = {
-  automation: readonly UserPreference[]
-}
-
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
-export default function UserPreferencesForm({
+export default function CommunicationPreferencesForm({
   defaultPreferences,
   links,
 }: {
-  defaultPreferences: UserPreferences
+  defaultPreferences: CommunicationPreferences
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/UserPreferencesForm.tsx')
+  const { t } = useAppTranslation('components/settings/CommunicationPreferencesForm.tsx')
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,
     method: 'PATCH',
     body: {
-      user_preferences: [...preferences.automation].reduce<
-        Record<string, boolean>
-      >((data, p) => {
+      communication_preferences: [
+        ...preferences.mentoring,
+        ...preferences.product,
+      ].reduce<Record<string, boolean>>((data, p) => {
         data[p.key] = p.value
+
         return data
       }, {}),
     },
@@ -50,7 +59,7 @@ export default function UserPreferencesForm({
   )
 
   const handlePreferenceChange = useCallback(
-    (changedPreference, key: keyof UserPreferences) => {
+    (changedPreference, key: keyof CommunicationPreferences) => {
       return (e: React.ChangeEvent<HTMLInputElement>) => {
         setPreferences({
           ...preferences,
@@ -67,13 +76,29 @@ export default function UserPreferencesForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>{t('automation.title')}</h2>
-      {preferences.automation.map((p) => (
+      <h2>{t('mentoring.title')}</h2>
+      {preferences.mentoring.map((p) => (
         <label className="c-checkbox-wrapper" key={p.key}>
           <input
             type="checkbox"
             checked={p.value}
-            onChange={handlePreferenceChange(p, 'automation')}
+            onChange={handlePreferenceChange(p, 'mentoring')}
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            {p.label}
+          </div>
+        </label>
+      ))}
+      <h2>{t('product.title')}</h2>
+      {preferences.product.map((p) => (
+        <label className="c-checkbox-wrapper" key={p.key}>
+          <input
+            type="checkbox"
+            checked={p.value}
+            onChange={handlePreferenceChange(p, 'product')}
           />
           <div className="row">
             <div className="c-checkbox">
@@ -85,7 +110,7 @@ export default function UserPreferencesForm({
       ))}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          {t('automation.changePreferences')}
+          {t('formButton.changePreferences')}
         </FormButton>
         <FormMessage
           status={status}
@@ -99,11 +124,14 @@ export default function UserPreferencesForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/UserPreferencesForm.tsx')
+  const { t } = useAppTranslation('components/settings/CommunicationPreferencesForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      {t('automation.successMessage')}
+      {t('successMessage.updatedPreferences')}
     </div>
   )
 }
+
+// === end file ===
+```

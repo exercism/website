@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "deleteProfile.deletePublicProfile": "Delete your public profile",
+  "deleteProfile.deleteProfileDescription": "This will delete your public profile from the website. You can recreate your profile at any time, and the only data that will be deleted is links to your social profiles.",
+  "deleteProfile.deleteYourProfile": "Delete your profile"
+}
+
+// modified_files
+// === file: ../components/settings/DeleteProfileForm.tsx ===
 // i18n-key-prefix: deleteProfile
 // i18n-namespace: components/settings/DeleteProfileForm.tsx
 import React, { useState, useCallback } from 'react'
@@ -45,3 +55,6 @@ export default function DeleteProfileForm({
     </React.Fragment>
   )
 }
+
+// === end file ===
+```

@@ -1,4 +1,12 @@
-// i18n-key-prefix:
+```ts
+// i18n
+export default {
+  "photoForm.changeYourPhoto": "Change your photo"
+}
+
+// modified_files
+// === file: ../components/settings/PhotoForm.tsx ===
+// i18n-key-prefix: 
 // i18n-namespace: components/settings/PhotoForm.tsx
 import React from 'react'
 import { User } from '../types'
@@ -26,3 +34,6 @@ export default function PhotoForm({
     </div>
   )
 }
+
+// === end file ===
+```

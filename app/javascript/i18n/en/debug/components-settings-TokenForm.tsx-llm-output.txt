@@ -1,4 +1,16 @@
-// i18n-key-prefix:
+```ts
+// i18n
+export default {
+  "tokenForm.apiCliToken": "API / CLI Token",
+  "tokenForm.yourAuthenticationTokenIs": "Your authentication token is:",
+  "tokenForm.whereDoIUseThis": "Where do I use this?",
+  "tokenForm.resetToken": "Reset token",
+  "tokenForm.yourTokenHasBeenReset": "Your token has been reset"
+}
+
+// modified_files
+// === file: ../components/settings/TokenForm.tsx ===
+// i18n-key-prefix: 
 // i18n-namespace: components/settings/TokenForm.tsx
 import React, { useState, useCallback } from 'react'
 import { FormButton } from '@/components/common/FormButton'
@@ -77,3 +89,6 @@ const SuccessMessage = () => {
     </div>
   )
 }
+
+// end file ===
+```

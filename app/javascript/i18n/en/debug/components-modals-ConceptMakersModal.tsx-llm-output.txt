@@ -1,3 +1,17 @@
+```ts
+// i18n
+export default {
+  "conceptMakersModal.seeFullHistoryOnGithub": "See the full history of this concept on GitHub",
+  "conceptMakersModal.authors": "Authors <span className=\"count\">{{authorsLength}}</span>",
+  "conceptMakersModal.peopleWhoWroteTheConcept": "People who wrote the concept",
+  "conceptMakersModal.contributors": "Contributors <span className=\"count\">{{contributorsLength}}</span>",
+  "conceptMakersModal.peopleWhoUpdatedTheConcept": "People who updated the concept"
+}
+
+// modified_files
+// === file: ../components/modals/ConceptMakersModal.tsx ===
+// i18n-key-prefix: conceptMakersModal
+// i18n-namespace: components/modals/ConceptMakersModal.tsx
 import React from 'react'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
@@ -5,6 +19,7 @@ import { ModalProps, Modal } from './Modal'
 import { ProminentLink, Avatar, GraphicalIcon, Reputation } from '../common'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { User } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load concept makers')
 
@@ -49,20 +64,17 @@ const Maker = ({ maker }: { maker: User }): JSX.Element => {
   )
 }
 
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-
 const Content = ({
   authors,
   contributors,
   links,
 }: APIResponse): JSX.Element => {
   const { t } = useAppTranslation('components/modals/ConceptMakersModal.tsx')
-
   return (
     <>
       <ProminentLink
         link={links.github}
-        text={t('seeOnGithub')}
+        text={t('conceptMakersModal.seeFullHistoryOnGithub')}
         withBg={true}
         external
       />
@@ -70,10 +82,12 @@ const Content = ({
         <div className="authors">
           <div className="heading">
             <h3>
-              {t('authors.heading')}{' '}
-              <span className="count">{authors.length}</span>
+              {t('conceptMakersModal.authors', {
+                authorsLength: authors.length,
+                ns: 'components/modals/ConceptMakersModal.tsx',
+              })}
             </h3>
-            <div className="subtitle">{t('authors.subtitle')}</div>
+            <div className="subtitle">{t('conceptMakersModal.peopleWhoWroteTheConcept')}</div>
           </div>
 
           {authors.map((author) => (
@@ -86,10 +100,12 @@ const Content = ({
         <div className="contributors">
           <div className="heading">
             <h3>
-              {t('contributors.heading')}{' '}
-              <span className="count">{contributors.length}</span>
+              {t('conceptMakersModal.contributors', {
+                contributorsLength: contributors.length,
+                ns: 'components/modals/ConceptMakersModal.tsx',
+              })}
             </h3>
-            <div className="subtitle">{t('contributors.subtitle')}</div>
+            <div className="subtitle">{t('conceptMakersModal.peopleWhoUpdatedTheConcept')}</div>
           </div>
           {contributors.map((contributor) => (
             <Maker maker={contributor} key={contributor.handle} />
@@ -113,6 +129,7 @@ export const ConceptMakersModal = ({
     endpoint: endpoint,
     options: { enabled: props.open },
   })
+  const { t } = useAppTranslation('components/modals/ConceptMakersModal.tsx')
 
   return (
     <Modal {...props} className="m-makers">
@@ -128,3 +145,6 @@ export const ConceptMakersModal = ({
     </Modal>
   )
 }
+
+// end file
+```

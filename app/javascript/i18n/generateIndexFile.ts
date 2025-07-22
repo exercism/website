@@ -104,9 +104,10 @@ export async function generateEnIndex() {
 
   rawIndex.sort((a, b) => a.namespace.localeCompare(b.namespace))
 
+  const uniqueIds = generateUniqueShortIds(rawIndex.length)
   const index = rawIndex.map((entry, i) => ({
     ...entry,
-    importName: generateUniqueShortIds(i), // aa, ab, ac, etc., skipping reserved words
+    importName: uniqueIds[i],
   }))
 
   const importLines = index.map(

@@ -119,10 +119,12 @@ import dj from './components-profile-avatar-selector'
 import dk from './components-profile-avatar-selector-cropping-modal'
 import dl from './components-profile-avatar-selector-photo'
 import dm from './components-profile-community-solutions-list'
-import dn from './discussion-batch'
-import dp from './session-batch-1'
-import dp from './session-batch-2'
-import dq from './session-batch-3'
+import dn from './components-profile-contributions-list'
+import dp from './components-profile-contributions-summary'
+import dq from './discussion-batch'
+import dr from './session-batch-1'
+import ds from './session-batch-2'
+import dt from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -249,8 +251,10 @@ export default {
   'components/profile/avatar-selector/cropping-modal': dk,
   'components/profile/avatar-selector/photo': dl,
   'components/profile/community-solutions-list': dm,
-  'discussion-batch': dn,
-  'session-batch-1': dp,
-  'session-batch-2': dp,
-  'session-batch-3': dq,
+  'components/profile/contributions-list': dn,
+  'components/profile/contributions-summary': dp,
+  'discussion-batch': dq,
+  'session-batch-1': dr,
+  'session-batch-2': ds,
+  'session-batch-3': dt,
 }

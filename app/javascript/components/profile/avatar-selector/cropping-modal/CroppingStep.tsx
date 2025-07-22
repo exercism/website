@@ -1,7 +1,10 @@
+// i18n-key-prefix: croppingStep
+// i18n-namespace: components/profile/avatar-selector/cropping-modal
 import React, { useCallback, useRef } from 'react'
 import ReactCrop from 'react-image-crop'
 import { State, Action } from '../use-image-crop'
 import { cropImage } from './cropImage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const CroppingStep = ({
   state,
@@ -10,6 +13,10 @@ export const CroppingStep = ({
   state: State
   dispatch: React.Dispatch<Action>
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/profile/avatar-selector/cropping-modal'
+  )
+
   if (!state.imageToCrop) {
     throw new Error('Cropped image was expected to exist')
   }
@@ -57,7 +64,7 @@ export const CroppingStep = ({
 
   return (
     <>
-      <h3>Crop your photo</h3>
+      <h3>{t('croppingStep.cropYourPhoto')}</h3>
       <ReactCrop
         src={state.imageToCrop}
         crop={state.cropSettings}
@@ -74,14 +81,14 @@ export const CroppingStep = ({
           onClick={handleCropCancel}
           className="btn-default btn-s"
         >
-          Cancel
+          {t('croppingStep.cancel')}
         </button>
         <button
           type="button"
           onClick={handleCropFinish}
           className="btn-primary btn-s"
         >
-          Crop
+          {t('croppingStep.crop')}
         </button>
       </div>
     </>

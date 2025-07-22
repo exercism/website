@@ -107,13 +107,15 @@ import c7 from './components-modals-TestimonialModal.tsx'
 import c8 from './components-modals-track-welcome-modal-LHS-steps'
 import c9 from './components-modals-track-welcome-modal-LHS-steps-components'
 import da from './components-modals-track-welcome-modal-RHS'
-import db from './components-modals-upload-video'
-import dc from './components-modals-upload-video-elements'
-import dd from './components-modals-welcome-modal'
-import de from './discussion-batch'
-import df from './session-batch-1'
-import dg from './session-batch-2'
-import dh from './session-batch'
+import db from './components-modals-UnpublishSolutionModal.tsx'
+import dc from './components-modals-upload-video'
+import dd from './components-modals-upload-video-elements'
+import de from './components-modals-welcome-modal'
+import df from './components-modals-WelcomeToInsidersModal.tsx'
+import dg from './discussion-batch'
+import dh from './session-batch-1'
+import di from './session-batch-2'
+import dj from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -228,11 +230,13 @@ export default {
   'components/modals/track-welcome-modal/LHS/steps': c8,
   'components/modals/track-welcome-modal/LHS/steps/components': c9,
   'components/modals/track-welcome-modal/RHS': da,
-  'components/modals/upload-video': db,
-  'components/modals/upload-video/elements': dc,
-  'components/modals/welcome-modal': dd,
-  'discussion-batch': de,
-  'session-batch-1': df,
-  'session-batch-2': dg,
-  'session-batch-3': dh,
+  'components/modals/UnpublishSolutionModal.tsx': db,
+  'components/modals/upload-video': dc,
+  'components/modals/upload-video/elements': dd,
+  'components/modals/welcome-modal': de,
+  'components/modals/WelcomeToInsidersModal.tsx': df,
+  'discussion-batch': dg,
+  'session-batch-1': dh,
+  'session-batch-2': di,
+  'session-batch-3': dj,
 }

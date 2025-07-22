@@ -26,38 +26,39 @@ import ay from './components-impact-TopLearningCountries.tsx'
 import az from './components-journey-solutions-list'
 import a0 from './components-mentoring-representation-modals'
 import a1 from './components-concept-map'
-import a2 from './components-journey-overview-learning-section'
-import a3 from './components-contributing'
-import a4 from './components-mentoring-discussion-FinishedWizard.tsx'
-import a5 from './components-editor-EditorStatusSummary.tsx'
-import a6 from './components-contributing-tasks-list-task'
-import a7 from './components-editor-GetHelp'
-import a8 from './components-mentoring-representation-left-pane'
-import a9 from './components-dropdowns-track-menu'
-import ba from './components-community-solutions'
-import bb from './components-editor-header'
-import bc from './components-mentoring-inbox'
-import bd from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
-import be from './components-mentoring-request-StartMentoringPanel.tsx'
-import bf from './components-journey-overview-contributing-section'
-import bg from './components-mentoring-discussion-NewMessageAlert.tsx'
-import bh from './components-dropdowns-reputation'
-import bi from './components-journey-contribution-results'
-import bj from './components-mentoring-session-favorite-button'
-import bk from './components-impact-ImpactTestimonial.tsx'
-import bl from './components-journey'
-import bm from './components-journey-overview'
-import bn from './components-editor-ChatGptFeedback'
-import bo from './components-journey-contributions-list'
-import bp from './components-editor-SubmitButton.tsx'
-import bq from './components-mentoring-automation-AutomationListElement.tsx'
-import br from './components-editor-LegacyFileBanner.tsx'
-import bs from './components-mentoring-automation-RepresentationList.tsx'
-import bt from './components-mentoring-request-locked-solution-mentoring-note'
-import bu from './components-common-share-panel'
-import bv from './components-common-markdown-editor-form'
-import bw from './components-maintaining'
-import bx from './components-journey-badges-list'
+import a2 from './components-mentoring-session-iteration-view'
+import a3 from './components-journey-overview-learning-section'
+import a4 from './components-contributing'
+import a5 from './components-mentoring-discussion-FinishedWizard.tsx'
+import a6 from './components-editor-EditorStatusSummary.tsx'
+import a7 from './components-contributing-tasks-list-task'
+import a8 from './components-editor-GetHelp'
+import a9 from './components-mentoring-representation-left-pane'
+import ba from './components-dropdowns-track-menu'
+import bb from './components-community-solutions'
+import bc from './components-editor-header'
+import bd from './components-mentoring-inbox'
+import be from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
+import bf from './components-mentoring-request-StartMentoringPanel.tsx'
+import bg from './components-journey-overview-contributing-section'
+import bh from './components-mentoring-discussion-NewMessageAlert.tsx'
+import bi from './components-dropdowns-reputation'
+import bj from './components-journey-contribution-results'
+import bk from './components-mentoring-session-favorite-button'
+import bl from './components-impact-ImpactTestimonial.tsx'
+import bm from './components-journey'
+import bn from './components-journey-overview'
+import bo from './components-editor-ChatGptFeedback'
+import bp from './components-journey-contributions-list'
+import bq from './components-editor-SubmitButton.tsx'
+import br from './components-mentoring-automation-AutomationListElement.tsx'
+import bs from './components-editor-LegacyFileBanner.tsx'
+import bt from './components-mentoring-automation-RepresentationList.tsx'
+import bu from './components-mentoring-request-locked-solution-mentoring-note'
+import bv from './components-common-share-panel'
+import bw from './components-common-markdown-editor-form'
+import bx from './components-maintaining'
+import by from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': aa,
@@ -88,36 +89,37 @@ export default {
   'components/journey/solutions-list': az,
   'components/mentoring/representation/modals': a0,
   'components/concept-map': a1,
-  'components/journey/overview/learning-section': a2,
-  'components/contributing': a3,
-  'components/mentoring/discussion/FinishedWizard.tsx': a4,
-  'components/editor/EditorStatusSummary.tsx': a5,
-  'components/contributing/tasks-list/task': a6,
-  'components/editor/GetHelp': a7,
-  'components/mentoring/representation/left-pane': a8,
-  'components/dropdowns/track-menu': a9,
-  'components/community-solutions': ba,
-  'components/editor/header': bb,
-  'components/mentoring/inbox': bc,
-  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': bd,
-  'components/mentoring/request/StartMentoringPanel.tsx': be,
-  'components/journey/overview/contributing-section': bf,
-  'components/mentoring/discussion/NewMessageAlert.tsx': bg,
-  'components/dropdowns/reputation': bh,
-  'components/journey/contribution-results': bi,
-  'components/mentoring/session/favorite-button': bj,
-  'components/impact/ImpactTestimonial.tsx': bk,
-  'components/journey': bl,
-  'components/journey/overview': bm,
-  'components/editor/ChatGptFeedback': bn,
-  'components/journey/contributions-list': bo,
-  'components/editor/SubmitButton.tsx': bp,
-  'components/mentoring/automation/AutomationListElement.tsx': bq,
-  'components/editor/LegacyFileBanner.tsx': br,
-  'components/mentoring/automation/RepresentationList.tsx': bs,
-  'components/mentoring/request/locked-solution-mentoring-note': bt,
-  'components/common/share-panel': bu,
-  'components/common/markdown-editor-form': bv,
-  'components/maintaining': bw,
-  'components/journey/badges-list': bx,
+  'components/mentoring/session/iteration-view': a2,
+  'components/journey/overview/learning-section': a3,
+  'components/contributing': a4,
+  'components/mentoring/discussion/FinishedWizard.tsx': a5,
+  'components/editor/EditorStatusSummary.tsx': a6,
+  'components/contributing/tasks-list/task': a7,
+  'components/editor/GetHelp': a8,
+  'components/mentoring/representation/left-pane': a9,
+  'components/dropdowns/track-menu': ba,
+  'components/community-solutions': bb,
+  'components/editor/header': bc,
+  'components/mentoring/inbox': bd,
+  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': be,
+  'components/mentoring/request/StartMentoringPanel.tsx': bf,
+  'components/journey/overview/contributing-section': bg,
+  'components/mentoring/discussion/NewMessageAlert.tsx': bh,
+  'components/dropdowns/reputation': bi,
+  'components/journey/contribution-results': bj,
+  'components/mentoring/session/favorite-button': bk,
+  'components/impact/ImpactTestimonial.tsx': bl,
+  'components/journey': bm,
+  'components/journey/overview': bn,
+  'components/editor/ChatGptFeedback': bo,
+  'components/journey/contributions-list': bp,
+  'components/editor/SubmitButton.tsx': bq,
+  'components/mentoring/automation/AutomationListElement.tsx': br,
+  'components/editor/LegacyFileBanner.tsx': bs,
+  'components/mentoring/automation/RepresentationList.tsx': bt,
+  'components/mentoring/request/locked-solution-mentoring-note': bu,
+  'components/common/share-panel': bv,
+  'components/common/markdown-editor-form': bw,
+  'components/maintaining': bx,
+  'components/journey/badges-list': by,
 }

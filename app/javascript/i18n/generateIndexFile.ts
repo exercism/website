@@ -41,6 +41,7 @@ export async function generateEnIndex() {
 
     index.push({ importName, importPath, namespace })
   }
+  index.sort((a, b) => a.namespace.localeCompare(b.namespace))
 
   const importLines = index.map(
     ({ importName, importPath }) => `import ${importName} from '${importPath}'`

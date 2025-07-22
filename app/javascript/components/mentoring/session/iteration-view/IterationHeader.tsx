@@ -1,3 +1,5 @@
+// i18n-key-prefix: iterationHeader
+// i18n-namespace: components/mentoring/session/iteration-view
 import React from 'react'
 import {
   default as IterationSummaryWithWebsockets,
@@ -7,6 +9,7 @@ import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { DownloadButton } from './iteration-header/DownloadButton'
 import { CopyButton } from './iteration-header/CopyButton'
 import type { Iteration, File } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   iteration: Iteration
@@ -21,6 +24,7 @@ export const IterationHeader = ({
   downloadCommand,
   files,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
@@ -37,12 +41,10 @@ export const IterationHeader = ({
 }
 
 const OutOfDateNotice = () => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
   return (
     <GenericTooltip
-      content={`This exercise has been updated since the student submitted this
-        iteration. It might not pass the most recent set of tests. Exercises
-        can be updated by students by clicking on the yellow bar in the main
-        exercise page.`}
+      content={t('iterationHeader.outOfDateNotice.exerciseUpdated')}
     >
       <div>
         <IterationSummary.OutOfDateNotice />

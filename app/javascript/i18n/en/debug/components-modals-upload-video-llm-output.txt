@@ -1,0 +1,129 @@
+```ts
+// i18n
+export default {
+  "thanksForSubmitting.thanksForSubmitting": "✨ Thanks for submitting!",
+  "thanksForSubmitting.approvedVideoMessage": "If your video gets approved, it&apos;ll show up in the Approaches section for the exercise.",
+  "thanksForSubmitting.noProblemImDone": "No problem. I&apos;m done here.",
+  "uploadVideoModal.retrieve": "RETRIEVE",
+  "uploadVideoModal.upload": "UPLOAD",
+  "uploadVideoModal.success": "SUCCESS"
+}
+
+// modified_files
+// === file: ../components/modals/upload-video/ThanksForSubmitting.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ThanksForSubmitting({
+  onClick,
+}: {
+  onClick: () => void
+}): JSX.Element {
+  const { t } = useAppTranslation('components/modals/upload-video')
+  return (
+    <>
+      <h2 className="text-h2 mb-12">{t('thanksForSubmitting.thanksForSubmitting')}</h2>
+      <p className="text-prose mb-24">
+        {t('thanksForSubmitting.approvedVideoMessage')}
+      </p>
+
+      <div className="flex">
+        <button onClick={onClick} className="w-full btn-primary btn-l grow">
+          {t('thanksForSubmitting.noProblemImDone')}
+        </button>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/modals/upload-video/UploadVideoModal.tsx ===
+import React, { useCallback, useState } from 'react'
+import { Modal } from '../Modal'
+import {
+  UploadVideoForm,
+  RetrieveVideoForm,
+  UploadVideoModalHeader,
+  VideoDataResponse,
+} from './elements'
+import { ThanksForSubmitting } from './ThanksForSubmitting'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type UploadVideoModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+enum UploadSteps {
+  RETRIEVE,
+  UPLOAD,
+  SUCCESS,
+}
+
+type UploadStatus = keyof typeof UploadSteps
+
+export function UploadVideoModal({
+  isOpen,
+  onClose,
+}: UploadVideoModalProps): JSX.Element {
+  const { t } = useAppTranslation('components/modals/upload-video')
+  const [videoData, setVideoData] = useState<VideoDataResponse>(null)
+  const [videoUploadStep, setVideoUploadStep] =
+    useState<UploadStatus>('RETRIEVE')
+
+  const handleClearRetrievedVideo = useCallback(() => {
+    setVideoUploadStep('RETRIEVE')
+    setVideoData(null)
+  }, [])
+
+  function renderUploadSteps() {
+    switch (videoUploadStep) {
+      case t('uploadVideoModal.retrieve'):
+        return (
+          <>
+            <UploadVideoModalHeader />
+            <RetrieveVideoForm
+              onSuccess={(data) => {
+                setVideoData(data)
+                setVideoUploadStep(t('uploadVideoModal.upload') as UploadStatus)
+              }}
+            />
+          </>
+        )
+      case t('uploadVideoModal.upload'):
+        return (
+          <>
+            <UploadVideoModalHeader videoRetrieved />
+            {videoData && (
+              <UploadVideoForm
+                onSuccess={() => setVideoUploadStep(t('uploadVideoModal.success') as UploadStatus)}
+                onUseDifferentVideoClick={handleClearRetrievedVideo}
+                data={videoData.communityVideo}
+              />
+            )}
+          </>
+        )
+
+      case t('uploadVideoModal.success'):
+        return <ThanksForSubmitting onClick={onClose} />
+    }
+  }
+
+  return (
+    <Modal
+      open={isOpen}
+      onClose={() => {
+        onClose()
+        handleClearRetrievedVideo()
+      }}
+      closeButton
+      ReactModalClassName="max-w-[780px]"
+    >
+      {renderUploadSteps()}
+    </Modal>
+  )
+}
+
+// === end file ===
+```

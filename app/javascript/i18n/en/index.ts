@@ -89,11 +89,12 @@ import cp from './components-modals-student-finish-mentor-discussion-modal'
 import cq from './components-modals-track-welcome-modal-LHS-steps'
 import cr from './components-modals-track-welcome-modal-LHS-steps-components'
 import cs from './components-modals-track-welcome-modal-RHS'
-import ct from './components-modals-upload-video-elements'
-import cu from './discussion-batch'
-import cv from './session-batch-1'
-import cw from './session-batch-2'
-import cx from './session-batch'
+import ct from './components-modals-upload-video'
+import cu from './components-modals-upload-video-elements'
+import cv from './discussion-batch'
+import cw from './session-batch-1'
+import cx from './session-batch-2'
+import cy from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -190,9 +191,10 @@ export default {
   'components/modals/track-welcome-modal/LHS/steps': cq,
   'components/modals/track-welcome-modal/LHS/steps/components': cr,
   'components/modals/track-welcome-modal/RHS': cs,
-  'components/modals/upload-video/elements': ct,
-  'discussion-batch': cu,
-  'session-batch-1': cv,
-  'session-batch-2': cw,
-  'session-batch-3': cx,
+  'components/modals/upload-video': ct,
+  'components/modals/upload-video/elements': cu,
+  'discussion-batch': cv,
+  'session-batch-1': cw,
+  'session-batch-2': cx,
+  'session-batch-3': cy,
 }

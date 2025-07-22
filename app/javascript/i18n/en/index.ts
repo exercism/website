@@ -51,10 +51,11 @@ import bn from './components-editor-SubmitButton.tsx'
 import bo from './components-mentoring-automation-AutomationListElement.tsx'
 import bp from './components-editor-LegacyFileBanner.tsx'
 import bq from './components-mentoring-automation-RepresentationList.tsx'
-import br from './components-common-share-panel'
-import bs from './components-common-markdown-editor-form'
-import bt from './components-maintaining'
-import bu from './components-journey-badges-list'
+import br from './components-mentoring-request-locked-solution-mentoring-note'
+import bs from './components-common-share-panel'
+import bt from './components-common-markdown-editor-form'
+import bu from './components-maintaining'
+import bv from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': aa,
@@ -110,8 +111,9 @@ export default {
   'components/mentoring/automation/AutomationListElement.tsx': bo,
   'components/editor/LegacyFileBanner.tsx': bp,
   'components/mentoring/automation/RepresentationList.tsx': bq,
-  'components/common/share-panel': br,
-  'components/common/markdown-editor-form': bs,
-  'components/maintaining': bt,
-  'components/journey/badges-list': bu,
+  'components/mentoring/request/locked-solution-mentoring-note': br,
+  'components/common/share-panel': bs,
+  'components/common/markdown-editor-form': bt,
+  'components/maintaining': bu,
+  'components/journey/badges-list': bv,
 }

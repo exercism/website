@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "exerciseUpdateForm.header": "See what's changed on <ExerciseIcon iconUrl=\"{{iconUrl}}\" />{{exerciseTitle}}",
+  "exerciseUpdateForm.warning": "By updating to the latest version, your solution may fail the tests and need to be updated.",
+  "exerciseUpdateForm.updateExercise": "Update exercise",
+  "exerciseUpdateForm.dismiss": "Dismiss",
+  "diffViewer.errorMessage": "Unable to render diff",
+}
+
+// modified_files
+// === file: ../components/modals/exercise-update-modal/ExerciseUpdateForm.tsx ===
 import React, { createContext, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -11,7 +23,6 @@ import { Tab, TabContext } from '@/components/common/Tab'
 import { ExerciseDiff } from '../ExerciseUpdateModal'
 import { DiffViewer } from './DiffViewer'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to update exercise')
 
@@ -55,13 +66,10 @@ export const ExerciseUpdateForm = ({
     <>
       <header className="header">
         <h2>
-          <Trans
-            i18nKey={'exerciseUpdateForm.header'}
-            components={{
-              icon: <ExerciseIcon iconUrl={diff.exercise.iconUrl} />,
-            }}
-            values={{ exerciseTitle: diff.exercise.title }}
-          />
+          {t('exerciseUpdateForm.header', {
+            exerciseTitle: diff.exercise.title,
+            iconUrl: diff.exercise.iconUrl,
+          })}
         </h2>
       </header>
       <TabsContext.Provider
@@ -92,7 +100,9 @@ export const ExerciseUpdateForm = ({
           </Tab.Panel>
         ))}
       </TabsContext.Provider>
-      <div className="warning">{t('exerciseUpdateForm.warning')}</div>
+      <div className="warning">
+        {t('exerciseUpdateForm.warning')}
+      </div>
       <form data-turbo="false">
         <FormButton
           type="button"
@@ -118,3 +128,46 @@ export const ExerciseUpdateForm = ({
     </>
   )
 }
+
+// === end file ===
+
+// === file: ../components/modals/exercise-update-modal/DiffViewer.tsx ===
+import React, { useEffect, useRef } from 'react'
+import { Diff2HtmlUI } from 'diff2html/lib/ui/js/diff2html-ui-base.js'
+import HighlightJS from 'highlight.js'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const DiffViewer = ({ diff }: { diff: string }): JSX.Element => {
+  const contentRef = useRef<HTMLDivElement>(null)
+  const { t } = useAppTranslation('components/modals/exercise-update-modal')
+
+  useEffect(() => {
+    if (!contentRef.current) {
+      return
+    }
+
+    const configuration = {
+      drawFileList: false,
+      fileListToggle: false,
+      fileListStartVisible: false,
+      fileContentToggle: false,
+    }
+
+    const diff2htmlUi = new Diff2HtmlUI(
+      contentRef.current,
+      diff,
+      configuration,
+      HighlightJS
+    )
+    try {
+      diff2htmlUi.draw()
+    } catch (error) {
+      console.error(t('diffViewer.errorMessage'), error)
+    }
+  }, [diff, t])
+
+  return <div className="c-diff" ref={contentRef} />
+}
+
+// === end file ===
+```

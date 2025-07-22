@@ -21,7 +21,7 @@ export function GetHelpPanelCommunityHelp({
         </p>
         <CommunityOpportunity
           name="Discord"
-          description="Get real time help in the #support channel on our Discord server."
+          description="Get real time help in the #get-help channel on our Discord server."
           icon="external-site-discord-blue"
           link={links.discordRedirectPath}
         />

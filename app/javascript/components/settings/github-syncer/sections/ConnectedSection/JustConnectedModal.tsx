@@ -3,8 +3,12 @@ import Modal from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { Icon } from '@/components/common'
 import { handleSyncEverything } from './ManualSyncSection'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function JustConnectedModal(): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links } = React.useContext(GitHubSyncerContext)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
@@ -60,24 +64,22 @@ export function JustConnectedModal(): JSX.Element {
           />
         </div>
         <h3 className="!text-[24px] !mb-8">
-          Repository connected successfully!
+          {t('justConnectedModal.repositoryConnected')}
         </h3>
         <p className="!text-18 leading-140 mb-8">
-          We've connected your Exercism account to your chosen repository.
+          {t('justConnectedModal.accountConnected')}
         </p>
         <p className="!text-18 leading-140 mb-12">
-          If you're happy with the defaults, you can back everything up now. Or
-          you can tweak your settings, then use the button at the bottom of the
-          settings page to back up later. Do you want to backup everything now?
+          {t('justConnectedModal.happyWithDefaults')}
         </p>
       </div>
 
       <div className="flex gap-8 items-center">
         <button className="btn btn-l btn-primary w-fit" onClick={handleSync}>
-          Back up everything now
+          {t('justConnectedModal.backUpEverythingNow')}
         </button>
         <button className="btn btn-default btn-l" onClick={handleCloseModal}>
-          Back up later
+          {t('justConnectedModal.backUpLater')}
         </button>
       </div>
     </Modal>

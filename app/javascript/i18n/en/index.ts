@@ -126,10 +126,12 @@ import dr from './components-profile-testimonials-list'
 import ds from './components-settings-comments-preference-form'
 import dt from './components-settings-delete-profile-form'
 import du from './components-settings-github-syncer-common'
-import dv from './discussion-batch'
-import dw from './session-batch-1'
-import dx from './session-batch-2'
-import dy from './session-batch-3'
+import dv from './components-settings-github-syncer-sections-ConnectedSection'
+import dw from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
+import dx from './discussion-batch'
+import dy from './session-batch-1'
+import dz from './session-batch-2'
+import d0 from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -263,8 +265,11 @@ export default {
   'components/settings/comments-preference-form': ds,
   'components/settings/delete-profile-form': dt,
   'components/settings/github-syncer/common': du,
-  'discussion-batch': dv,
-  'session-batch-1': dw,
-  'session-batch-2': dx,
-  'session-batch-3': dy,
+  'components/settings/github-syncer/sections/ConnectedSection': dv,
+  'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx':
+    dw,
+  'discussion-batch': dx,
+  'session-batch-1': dy,
+  'session-batch-2': dz,
+  'session-batch-3': d0,
 }

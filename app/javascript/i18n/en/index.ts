@@ -125,10 +125,11 @@ import dq from './components-profile-contributions-summary'
 import dr from './components-profile-testimonials-list'
 import ds from './components-settings-comments-preference-form'
 import dt from './components-settings-delete-profile-form'
-import du from './discussion-batch'
-import dv from './session-batch-1'
-import dw from './session-batch-2'
-import dx from './session-batch-3'
+import du from './components-settings-github-syncer-common'
+import dv from './discussion-batch'
+import dw from './session-batch-1'
+import dx from './session-batch-2'
+import dy from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -261,8 +262,9 @@ export default {
   'components/profile/testimonials-list': dr,
   'components/settings/comments-preference-form': ds,
   'components/settings/delete-profile-form': dt,
-  'discussion-batch': du,
-  'session-batch-1': dv,
-  'session-batch-2': dw,
-  'session-batch-3': dx,
+  'components/settings/github-syncer/common': du,
+  'discussion-batch': dv,
+  'session-batch-1': dw,
+  'session-batch-2': dx,
+  'session-batch-3': dy,
 }

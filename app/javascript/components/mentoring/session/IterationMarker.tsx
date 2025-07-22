@@ -4,6 +4,7 @@ import { shortFromNow } from '../../../utils/time'
 import { Iteration } from '../../types'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 import { iterationId } from '../session/useIterationScrolling'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Props = {
   iteration: Iteration
@@ -12,6 +13,7 @@ type Props = {
 
 export const IterationMarker = forwardRef<HTMLDivElement, Props>(
   ({ iteration, userIsStudent }, ref) => {
+    const { t } = useAppTranslation('session-batch-2')
     return (
       <a id={iterationId(iteration)} className="timeline-entry iteration-entry">
         <div className="timeline-marker">
@@ -20,8 +22,12 @@ export const IterationMarker = forwardRef<HTMLDivElement, Props>(
         <div className="timeline-content">
           <div className="timeline-entry-header" ref={ref}>
             <div className="info">
-              <strong>Iteration {iteration.idx}</strong>
-              was submitted
+              <strong>
+                {t('components.mentoring.session.iterationMarker.iteration', {
+                  idx: iteration.idx,
+                })}
+              </strong>
+              {t('components.mentoring.session.iterationMarker.wasSubmitted')}
             </div>
             <time>{shortFromNow(iteration.createdAt)}</time>
           </div>

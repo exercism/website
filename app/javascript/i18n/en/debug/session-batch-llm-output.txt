@@ -1,352 +1,455 @@
 ```ts
 // i18n
 export default {
-  "components.mentoring.session.automatedFeedbackModal.automatedAnalysis": "Automated Analysis",
-  "components.mentoring.session.automatedFeedbackModal.forIteration": "for Iteration {{iteration}}",
-  "components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback": "Loading automated feedback",
-  "components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback": "You received automated feedback",
-  "components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback": "Student received automated feedback",
-  "components.mentoring.session.automatedFeedbackSummary.opensInAModal": "Opens in a modal",
-  "components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled": "Mentoring request cancelled",
-  "components.mentoring.session.cancelledRequestModal.studentCancelledRequest": "The student has cancelled this mentoring request. We know this is extremely frustrating once you&apos;ve started responding 😞 Sorry for the annoyance!",
-  "components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor": "Thank you for being a mentor at Exercism 💙",
-  "components.mentoring.session.cancelledRequestModal.backToMentorRequests": "Back to mentor requests",
-  "components.mentoring.session.cancelledRequestModal.closeThisModal": "Close this modal",
-  "components.mentoring.session.filePanel.instructions": "Instructions",
-  "components.mentoring.session.filePanel.tests": "Tests"
+  "components.mentoring.session.guidance.theExemplarSolution": "The exemplar solution",
+  "components.mentoring.session.guidance.tryAndGuideStudent": "Try and guide the student towards this solution. It is the best place for them to reach at this point during the Track.",
+  "components.mentoring.session.guidance.exerciseNotes": "Exercise notes",
+  "components.mentoring.session.guidance.trackNotes": "Track notes",
+  "components.mentoring.session.guidance.howYouSolvedExercise": "How you solved the exercise",
+  "components.mentoring.session.guidance.automatedFeedback": "Automated feedback",
+  "components.mentoring.session.iterationButton.new": "New",
+  "components.mentoring.session.iterationButton.comment": "comment",
+  "components.mentoring.session.iterationButton.goToIteration": "Go to iteration {{idx}}",
+  "components.mentoring.session.iterationMarker.wasSubmitted": "was submitted",
+  "components.mentoring.session.iterationMarker.iteration": "Iteration {{idx}}",
+  "components.mentoring.session.iterationsList.goToPreviousIteration": "Go to previous iteration",
+  "components.mentoring.session.iterationsList.previous": "Previous",
+  "components.mentoring.session.iterationsList.goToNextIteration": "Go to next iteration",
+  "components.mentoring.session.iterationsList.next": "Next"
 }
 
 // modified_files
-// === file: ../components/mentoring/session/AutomatedFeedbackModal.tsx ===
-import React from 'react'
-import { useRequestQuery } from '@/hooks/request-query'
-import { FetchingBoundary } from '@/components/FetchingBoundary'
-import { Modal, ModalProps } from '@/components/modals/Modal'
-import { Icon, GraphicalIcon } from '@/components/common'
-import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
-import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
-import type {
-  AnalyzerFeedback as AnalyzerFeedbackProps,
-  Iteration,
-  MentorSessionTrack,
-  RepresenterFeedback as RepresenterFeedbackProps,
-} from '@/components/types'
+// === file: ../components/mentoring/session/Guidance.tsx ===
+import React, { useState, useCallback } from 'react'
+import { Accordion } from '../../common/Accordion'
+import { MentorNotes } from './MentorNotes'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  GuidanceLinks,
+  MentoringSessionExemplarFile,
+} from '../../types'
+import { GraphicalIcon } from '../../common'
+import CommunitySolution from '@/components/common/CommunitySolution'
+import { useHighlighting } from '../../../utils/highlight'
+import { ExemplarFilesList } from './guidance/ExemplarFilesList'
+import { SessionGuidance } from '../Session'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
-const DEFAULT_ERROR = new Error('Unable to load automated feedback')
-
-type APIResponse = {
-  automatedFeedback: {
-    representerFeedback?: RepresenterFeedbackProps
-    analyzerFeedback?: AnalyzerFeedbackProps
-    links: {
-      info: string
-    }
-    track: MentorSessionTrack
-  }
-}
-
-export const AutomatedFeedbackModal = ({
-  iteration,
-  ...props
-}: Omit<ModalProps, 'className'> & { iteration: Iteration }): JSX.Element => {
-  const { t } = useAppTranslation('session')
-  const { data, status, error } = useRequestQuery<APIResponse>(
-    ['automated-feedback', iteration.links.automatedFeedback],
-    { endpoint: iteration.links.automatedFeedback, options: {} }
-  )
+const AccordionHeader = ({
+  isOpen,
+  title,
+}: {
+  isOpen: boolean
+  title: string
+}) => {
   return (
-    <Modal {...props} className="m-automated-feedback">
-      <FetchingBoundary
-        LoadingComponent={LoadingComponent}
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      >
-        <header>
-          <GraphicalIcon icon="automation" />
-          <div className="info">
-            <h2 className="text-h5">{t('......components.mentoring.session.automatedFeedbackModal.automatedAnalysis')}</h2>
-            <div className="text-textColor6 text-15 leading-150">
-              {t('......components.mentoring.session.automatedFeedbackModal.forIteration', {iteration: iteration.idx})}
-            </div>
-          </div>
-        </header>
-        {data ? (
-          <div className="feedback">
-            {data.automatedFeedback.analyzerFeedback ? (
-              <AnalyzerFeedback
-                track={data.automatedFeedback.track}
-                {...data.automatedFeedback.analyzerFeedback}
-                automatedFeedbackInfoLink={data.automatedFeedback.links.info}
-              />
-            ) : null}
-            {data.automatedFeedback.representerFeedback ? (
-              <RepresenterFeedback
-                {...data.automatedFeedback.representerFeedback}
-              />
-            ) : null}
-          </div>
-        ) : null}
-      </FetchingBoundary>
-    </Modal>
+    <Accordion.Header>
+      {isOpen ? (
+        <GraphicalIcon icon="minus-circle" />
+      ) : (
+        <GraphicalIcon icon="plus-circle" />
+      )}
+      <div className="--title">{title}</div>
+    </Accordion.Header>
   )
 }
 
-const LoadingComponent = (): JSX.Element => {
+export type Props = {
+  guidance: SessionGuidance
+  mentorSolution?: CommunitySolutionProps
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
+  links: GuidanceLinks
+  language: string
+  feedback?: any
+}
+
+export const Guidance = ({
+  guidance,
+  mentorSolution,
+  exemplarFiles,
+  links,
+  language,
+  feedback = false,
+}: Props): JSX.Element => {
   const { t } = useAppTranslation('session')
-  return <Icon icon="spinner" alt={t('......components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback')} />
+  const ref = useHighlighting<HTMLDivElement>()
+  const [accordionState, setAccordionState] = useState([
+    {
+      id: 'exemplar-files',
+      isOpen: exemplarFiles.length !== 0,
+    },
+    {
+      id: 'exercise-guidance',
+      isOpen: exemplarFiles.length === 0,
+    },
+    {
+      id: 'track-guidance',
+      isOpen: false,
+    },
+    {
+      id: 'mentor-solution',
+      isOpen: false,
+    },
+    {
+      id: 'feedback',
+      isOpen: false,
+    },
+  ])
+
+  const handleClick = useCallback(
+    (id: string) => {
+      setAccordionState(
+        accordionState.map((state) => {
+          const isOpen = id === state.id && !state.isOpen
+          return {
+            id: state.id,
+            isOpen: isOpen,
+          }
+        })
+      )
+    },
+    [accordionState]
+  )
+
+  const isOpen = useCallback(
+    (id: string) => {
+      const state = accordionState.find((state) => state.id === id)
+
+      if (!state) {
+        throw new Error('Accordion id not found')
+      }
+
+      return state.isOpen
+    },
+    [accordionState]
+  )
+
+  return (
+    <div ref={ref}>
+      {exemplarFiles.length !== 0 ? (
+        <Accordion
+          id="exemplar-files"
+          isOpen={isOpen('exemplar-files')}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('exemplar-files')}
+            title={t('components.mentoring.session.guidance.theExemplarSolution')}
+          />
+          <Accordion.Panel>
+            <div className="c-textual-content --small">
+              <p>
+                {t('components.mentoring.session.guidance.tryAndGuideStudent')}
+              </p>
+              <ExemplarFilesList files={exemplarFiles} language={language} />
+            </div>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
+      <Accordion
+        id="exercise-guidance"
+        isOpen={isOpen('exercise-guidance')}
+        onClick={handleClick}
+      >
+        <AccordionHeader
+          isOpen={isOpen('exercise-guidance')}
+          title={t('components.mentoring.session.guidance.exerciseNotes')}
+        />
+        <Accordion.Panel>
+          <MentorNotes
+            notes={guidance.exercise}
+            guidanceType="exercise"
+            improveUrl={links.improveExerciseGuidance}
+          />
+        </Accordion.Panel>
+      </Accordion>
+      <Accordion
+        id="track-guidance"
+        isOpen={isOpen('track-guidance')}
+        onClick={handleClick}
+      >
+        <AccordionHeader
+          isOpen={isOpen('track-guidance')}
+          title={t('components.mentoring.session.guidance.trackNotes')}
+        />
+        <Accordion.Panel>
+          <MentorNotes
+            notes={guidance.track}
+            guidanceType="track"
+            improveUrl={links.improveTrackGuidance}
+          />
+        </Accordion.Panel>
+      </Accordion>
+      {mentorSolution ? (
+        <Accordion
+          id="mentor-solution"
+          isOpen={isOpen('mentor-solution')}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('mentor-solution')}
+            title={t('components.mentoring.session.guidance.howYouSolvedExercise')}
+          />
+          <Accordion.Panel>
+            <CommunitySolution context="mentoring" solution={mentorSolution} />
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
+      {feedback ? (
+        <Accordion
+          id="feedback"
+          isOpen={isOpen('feedback')}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('feedback')}
+            title={t('components.mentoring.session.guidance.automatedFeedback')}
+          />
+          <Accordion.Panel>
+            <p>Feedback here</p>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
+    </div>
+  )
 }
 
 // === end file ===
 
-// === file: ../components/mentoring/session/AutomatedFeedbackSummary.tsx ===
-import React, { useState, useCallback } from 'react'
-import { Icon } from '../../common'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+// === file: ../components/mentoring/session/IterationButton.tsx ===
+import React from 'react'
+import pluralize from 'pluralize'
 import { Iteration } from '../../types'
-import { AutomatedFeedbackModal } from './AutomatedFeedbackModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
-export const AutomatedFeedbackSummary = ({
-  userIsStudent,
+class IterationWithCount {
+  iteration: Iteration
+
+  constructor(iteration: Iteration) {
+    this.iteration = iteration
+  }
+
+  get numComments(): number {
+    if (!this.iteration.posts) {
+      return 0
+    }
+
+    return this.iteration.posts.length
+  }
+
+  get unread() {
+    return this.iteration.unread
+  }
+}
+
+const formatCommentCount = (count: number) => {
+  return count > 9 ? '9+' : count
+}
+
+const CommentsCount = ({
   iteration,
 }: {
-  userIsStudent: boolean
+  iteration: IterationWithCount
+}): JSX.Element => {
+  const classNames = ['comments']
+
+  if (iteration.unread) {
+    classNames.push('unread')
+  }
+
+  return (
+    <div className={classNames.join(' ')} aria-hidden={true}>
+      {formatCommentCount(iteration.numComments)}
+    </div>
+  )
+}
+
+const NewLabel = (): JSX.Element => {
+  const { t } = useAppTranslation('session')
+  return (
+    <div className="new" aria-hidden={true}>
+      {t('components.mentoring.session.iterationButton.new')}
+    </div>
+  )
+}
+
+export const IterationButton = ({
+  iteration,
+  selected,
+  onClick,
+}: {
   iteration: Iteration
+  selected: boolean
+  onClick: () => void
 }): JSX.Element => {
   const { t } = useAppTranslation('session')
-  const addressedTo = userIsStudent ? 'You' : 'Student'
+  const classNames = ['iteration']
+  const label = [`${t('components.mentoring.session.iterationButton.goToIteration', { idx: iteration.idx })}`]
+  const iterationWithCount = new IterationWithCount(iteration)
 
-  const [modalOpen, setModalOpen] = useState(false)
+  if (selected) {
+    classNames.push('active')
+  }
 
-  const handleModalOpen = useCallback(() => {
-    setModalOpen(true)
-  }, [])
+  if (iterationWithCount.numComments > 0) {
+    label.push(
+      `${formatCommentCount(iterationWithCount.numComments)} ${pluralize(
+        t('components.mentoring.session.iterationButton.comment'),
+        iterationWithCount.numComments
+      )}`
+    )
+  }
 
-  const handleModalClose = useCallback(() => {
-    setModalOpen(false)
-  }, [])
+  return (
+    <button
+      type="button"
+      className={classNames.join(' ')}
+      aria-current={selected}
+      aria-label={label.join(', ')}
+      disabled={selected}
+      onClick={onClick}
+    >
+      {iteration.idx}
+      {iteration.new && iterationWithCount.numComments === 0 && <NewLabel />}
+      {iterationWithCount.numComments > 0 ? (
+        <CommentsCount iteration={iterationWithCount} />
+      ) : null}
+    </button>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/IterationMarker.tsx ===
+import React, { forwardRef } from 'react'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { shortFromNow } from '../../../utils/time'
+import { Iteration } from '../../types'
+import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
+import { iterationId } from '../session/useIterationScrolling'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Props = {
+  iteration: Iteration
+  userIsStudent: boolean
+}
+
+export const IterationMarker = forwardRef<HTMLDivElement, Props>(
+  ({ iteration, userIsStudent }, ref) => {
+    const { t } = useAppTranslation('session')
+    return (
+      <a id={iterationId(iteration)} className="timeline-entry iteration-entry">
+        <div className="timeline-marker">
+          <GraphicalIcon icon="iteration" />
+        </div>
+        <div className="timeline-content">
+          <div className="timeline-entry-header" ref={ref}>
+            <div className="info">
+              <strong>{t('components.mentoring.session.iterationMarker.iteration', { idx: iteration.idx })}</strong>
+              {t('components.mentoring.session.iterationMarker.wasSubmitted')}
+            </div>
+            <time>{shortFromNow(iteration.createdAt)}</time>
+          </div>
+          {iteration.numActionableAutomatedComments !== 0 ||
+          iteration.numEssentialAutomatedComments !== 0 ||
+          iteration.numNonActionableAutomatedComments !== 0 ? (
+            <AutomatedFeedbackSummary
+              userIsStudent={userIsStudent}
+              iteration={iteration}
+            />
+          ) : null}
+        </div>
+      </a>
+    )
+  }
+)
+IterationMarker.displayName = 'IterationMarker'
+
+// === end file ===
+
+// === file: ../components/mentoring/session/IterationsList.tsx ===
+import React, { useContext } from 'react'
+import { Iteration } from '../../types'
+import { IterationButton } from './IterationButton'
+import { Icon } from '../../common/Icon'
+import { ScreenSizeContext } from './ScreenSizeContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const NavigationButtons = ({
+  iterations,
+  current,
+  onClick,
+}: {
+  iterations: readonly Iteration[]
+  current: Iteration
+  onClick: (iteration: Iteration) => void
+}) => {
+  const { t } = useAppTranslation('session')
+  const currentIndex = iterations.findIndex((i) => i.idx === current.idx)
 
   return (
     <React.Fragment>
-      <button className="auto-feedback" onClick={handleModalOpen} type="button">
-        <GraphicalIcon icon="automation" className="info-icon" />
-        <div className="info">
-          {t(
-            userIsStudent
-              ? '......components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback'
-              : '......components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback'
-          )}
+      <button
+        type="button"
+        aria-label={t('components.mentoring.session.iterationsList.goToPreviousIteration')}
+        onClick={() => onClick(iterations[currentIndex - 1])}
+        disabled={iterations[0].idx === current.idx}
+        className="btn-keyboard-shortcut previous"
+      >
+        <div className="--kb">
+          <Icon icon="arrow-left" alt="Left arrow" />
         </div>
-        <Icon
-          icon="modal"
-          alt={t('......components.mentoring.session.automatedFeedbackSummary.opensInAModal')}
-          className="modal-icon"
-        />
+        <div className="--hint">{t('components.mentoring.session.iterationsList.previous')}</div>
       </button>
-      <AutomatedFeedbackModal
-        iteration={iteration}
-        open={modalOpen}
-        onClose={handleModalClose}
-      />
+      <button
+        type="button"
+        aria-label={t('components.mentoring.session.iterationsList.goToNextIteration')}
+        onClick={() => onClick(iterations[currentIndex + 1])}
+        disabled={iterations[iterations.length - 1].idx === current.idx}
+        className="btn-keyboard-shortcut next"
+      >
+        <div className="--hint">{t('components.mentoring.session.iterationsList.next')}</div>
+        <div className="--kb">
+          <Icon icon="arrow-right" alt="Right arrow" />
+        </div>
+      </button>
     </React.Fragment>
   )
 }
 
-// === end file ===
-
-// === file: ../components/mentoring/session/CancelledRequestModal.tsx ===
-import { Modal } from '@/components/modals'
-import React from 'react'
-import { Links } from '../Session'
-import { GraphicalIcon } from '@/components/common'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-
-export function CancelledRequestModal({
-  open,
-  onClose,
-  links,
-  isLocked,
+export const IterationsList = ({
+  iterations,
+  current,
+  onClick,
 }: {
-  open: boolean
-  onClose: () => void
-  links: Links
-  isLocked: boolean
-}): JSX.Element {
-  const { t } = useAppTranslation('session')
+  iterations: readonly Iteration[]
+  current: Iteration
+  onClick: (iteration: Iteration) => void
+}): JSX.Element => {
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   return (
-    <Modal
-      onClose={onClose}
-      style={{ content: { width: '740px' } }}
-      open={open}
-      shouldCloseOnEsc={false}
-      shouldCloseOnOverlayClick={false}
-      aria={{
-        modal: true,
-        describedby: 'cancelled-mentoring-request-description',
-        labelledby: 'cancelled-mentoring-request-label',
-      }}
-    >
-      <div className="flex items-start">
-        <div className="flex flex-col mr-32">
-          <h3 id="cancelled-mentoring-request-label" className="text-h3 mb-6">
-            {t('......components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled')}
-          </h3>
-          <p
-            id="cancelled-mentoring-request-description"
-            className="text-p-large mb-8"
-          >
-            {t('......components.mentoring.session.cancelledRequestModal.studentCancelledRequest')}
-          </p>
-          <p className="text-p-large mb-16">
-            {t('......components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor')}
-          </p>
-          <div className="flex gap-16">
-            <a href={links.mentorQueue} className="btn-m btn-primary">
-              {t('......components.mentoring.session.cancelledRequestModal.backToMentorRequests')}
-            </a>
-            {isLocked && (
-              <button className="btn-m btn-secondary" onClick={onClose}>
-                {t('......components.mentoring.session.cancelledRequestModal.closeThisModal')}
-              </button>
-            )}
-          </div>
-        </div>
-        <GraphicalIcon
-          icon="cancelled"
-          category="graphics"
-          className="ml-auto"
-          height={128}
-          width={128}
+    <>
+      <nav className="iterations">
+        {iterations.map((iteration) => (
+          <IterationButton
+            key={iteration.idx}
+            iteration={iteration}
+            onClick={() => onClick(iteration)}
+            selected={current.idx === iteration.idx}
+          />
+        ))}
+      </nav>
+
+      {/* TODO: (optional) Move this into a component that can take either an icon or a character as the contents of --kb */}
+      {iterations.length > 1 && !isBelowLgWidth ? (
+        <NavigationButtons
+          iterations={iterations}
+          current={current}
+          onClick={onClick}
         />
-      </div>
-    </Modal>
-  )
-}
-
-// === end file ===
-
-// === file: ../components/mentoring/session/FilePanel.tsx ===
-import React, { createContext, useState, useEffect } from 'react'
-import { Tab, TabContext } from '../../common/Tab'
-import { FileViewer } from './FileViewer'
-import {
-  TestContentWrapper,
-  TestPanel,
-  TestsPanel,
-} from '@/components/editor/index'
-import { File, TestFile } from '../../types'
-import { CopyButton } from './iteration-view/iteration-header/CopyButton'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-
-const TabsContext = createContext<TabContext>({
-  current: '',
-  switchToTab: () => null,
-})
-
-export const FilePanel = ({
-  files,
-  language,
-  indentSize,
-  instructions,
-  testFiles,
-  showCopyButton = false,
-}: {
-  files: readonly File[]
-  language: string
-  indentSize: number
-  instructions?: string
-  testFiles?: readonly TestFile[]
-  showCopyButton?: boolean
-}): JSX.Element | null => {
-  const { t } = useAppTranslation('session')
-  const [tab, setTab] = useState<string>('')
-
-  useEffect(() => {
-    if (files.length === 0) {
-      return
-    }
-
-    setTab(files[0].filename + 0)
-  }, [files])
-
-  if (files.length === 0) {
-    return null
-  }
-
-  return (
-    <TabsContext.Provider
-      value={{
-        current: tab,
-        switchToTab: (filename: string) => setTab(filename),
-      }}
-    >
-      <div className="c-iteration-pane">
-        <div className="tabs" role="tablist">
-          <div className="flex flex-grow relative">
-            {files.map((file, idx) => (
-              <Tab
-                key={file.filename + idx}
-                id={file.filename + idx}
-                context={TabsContext}
-              >
-                {file.filename}
-              </Tab>
-            ))}
-
-            {instructions ? (
-              <Tab key="instructions" id="instructions" context={TabsContext}>
-                {t('......components.mentoring.session.filePanel.instructions')}
-              </Tab>
-            ) : null}
-
-            {testFiles ? (
-              <Tab key="tests" id="tests" context={TabsContext}>
-                {t('......components.mentoring.session.filePanel.tests')}
-              </Tab>
-            ) : null}
-          </div>
-          {files && showCopyButton && <CopyButton files={files} />}
-        </div>
-
-        <div className="c-code-pane">
-          {files.map((file, idx) => (
-            <Tab.Panel
-              key={file.filename + idx}
-              id={file.filename + idx}
-              context={TabsContext}
-            >
-              <FileViewer
-                file={file}
-                language={language}
-                indentSize={indentSize}
-              />
-            </Tab.Panel>
-          ))}
-        </div>
-        {instructions ? (
-          <Tab.Panel
-            key="instructions"
-            id="instructions"
-            context={TabsContext}
-            className="overflow-auto"
-          >
-            <div
-              className="p-16 c-textual-content --small"
-              dangerouslySetInnerHTML={{ __html: instructions }}
-            />
-          </Tab.Panel>
-        ) : null}
-        {testFiles ? (
-          <TestsPanel context={TabsContext}>
-            <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
-              <TestPanel highlightjsLanguage={language} />
-            </TestContentWrapper>
-          </TestsPanel>
-        ) : null}
-      </div>
-    </TabsContext.Provider>
+      ) : null}
+    </>
   )
 }
 

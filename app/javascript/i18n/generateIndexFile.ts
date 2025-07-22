@@ -18,10 +18,7 @@ function toShortId(index: number): string {
 export async function generateEnIndex() {
   const entries = await fs.readdir(EN_FOLDER)
 
-  const index: { importName: string; importPath: string; namespace: string }[] =
-    []
-
-  let counter = 0
+  const rawIndex: { importPath: string; namespace: string }[] = []
 
   for (const entry of entries) {
     if (!entry.endsWith('.ts') || entry === 'index.ts') continue
@@ -36,12 +33,17 @@ export async function generateEnIndex() {
     }
 
     const namespace = namespaceMatch[1].trim()
-    const importName = toShortId(counter++)
     const importPath = `./${entry.replace(/\.ts$/, '')}`
 
-    index.push({ importName, importPath, namespace })
+    rawIndex.push({ importPath, namespace })
   }
-  index.sort((a, b) => a.namespace.localeCompare(b.namespace))
+
+  rawIndex.sort((a, b) => a.namespace.localeCompare(b.namespace))
+
+  const index = rawIndex.map((entry, i) => ({
+    ...entry,
+    importName: toShortId(i), // aa, ab, ac, ...
+  }))
 
   const importLines = index.map(
     ({ importName, importPath }) => `import ${importName} from '${importPath}'`

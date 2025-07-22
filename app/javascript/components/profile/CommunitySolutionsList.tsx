@@ -12,6 +12,10 @@ import type {
   PaginatedResult,
 } from '../types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: communitySolutionsList
+// i18n-namespace: components/profile
 
 export type TrackData = {
   iconUrl: string
@@ -32,6 +36,7 @@ export default function CommunitySolutionsList({
   request: Request
   tracks: TrackData[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -90,7 +95,7 @@ export default function CommunitySolutionsList({
             setCriteria(e.target.value)
           }}
           value={criteria || ''}
-          placeholder="Filter by exercise"
+          placeholder={t('communitySolutionsList.filterByExercise')}
         />
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}

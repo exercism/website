@@ -115,17 +115,18 @@ import df from './components-modals-WelcomeToInsidersModal.tsx'
 import dg from './components-notifications-'
 import dh from './components-notifications-notifications-list'
 import di from './components-perks'
-import dj from './components-profile-avatar-selector'
-import dk from './components-profile-avatar-selector-cropping-modal'
-import dl from './components-profile-avatar-selector-photo'
-import dm from './components-profile-community-solutions-list'
-import dn from './components-profile-contributions-list'
-import dp from './components-profile-contributions-summary'
-import dq from './components-profile-testimonials-list'
-import dr from './discussion-batch'
-import ds from './session-batch-1'
-import dt from './session-batch-2'
-import du from './session-batch-3'
+import dj from './components-profile'
+import dk from './components-profile-avatar-selector'
+import dl from './components-profile-avatar-selector-cropping-modal'
+import dm from './components-profile-avatar-selector-photo'
+import dn from './components-profile-community-solutions-list'
+import dp from './components-profile-contributions-list'
+import dq from './components-profile-contributions-summary'
+import dr from './components-profile-testimonials-list'
+import ds from './discussion-batch'
+import dt from './session-batch-1'
+import du from './session-batch-2'
+import dv from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -248,15 +249,16 @@ export default {
   'components/notifications/': dg,
   'components/notifications/notifications-list': dh,
   'components/perks': di,
-  'components/profile/avatar-selector': dj,
-  'components/profile/avatar-selector/cropping-modal': dk,
-  'components/profile/avatar-selector/photo': dl,
-  'components/profile/community-solutions-list': dm,
-  'components/profile/contributions-list': dn,
-  'components/profile/contributions-summary': dp,
-  'components/profile/testimonials-list': dq,
-  'discussion-batch': dr,
-  'session-batch-1': ds,
-  'session-batch-2': dt,
-  'session-batch-3': du,
+  'components/profile': dj,
+  'components/profile/avatar-selector': dk,
+  'components/profile/avatar-selector/cropping-modal': dl,
+  'components/profile/avatar-selector/photo': dm,
+  'components/profile/community-solutions-list': dn,
+  'components/profile/contributions-list': dp,
+  'components/profile/contributions-summary': dq,
+  'components/profile/testimonials-list': dr,
+  'discussion-batch': ds,
+  'session-batch-1': dt,
+  'session-batch-2': du,
+  'session-batch-3': dv,
 }

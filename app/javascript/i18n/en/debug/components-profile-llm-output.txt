@@ -1,0 +1,893 @@
+```ts
+// i18n
+export default {
+  "contributionsSummary.contributions": "Contributions",
+  "contributionsSummary.seeYourContributions": "See your contributions",
+  "contributionsSummary.seeHandleContributions": "See {{handle}}'s contributions",
+  "testimonialsSummary.solutionsMentored": "Solutions mentored",
+  "testimonialsSummary.studentsHelped": "Students helped",
+  "testimonialsSummary.testimonialsReceived": "Testimonials received",
+  "testimonialsSummary.seeAllOfHandleTestimonials": "See all of {{handle}}'s testimonials",
+  "newProfileForm.fullName": "Full Name",
+  "newProfileForm.howDoYouWantToBeKnown": "How do you want to be known?",
+  "newProfileForm.locationOptional": "Location (optional)",
+  "newProfileForm.whereDoYouCurrentlyLive": "Where do you currently live?",
+  "newProfileForm.exercismIsMadeUpOfPeople": "Exercism is made up of people from all over the world 🌎",
+  "newProfileForm.bioOptional": "Bio (optional)",
+  "newProfileForm.tellEveryoneABitMore": "Tell everyone a bit more about who you are, and what you're in to. e.g. I'm a Rails dev who loves bouldering and coffee",
+  "newProfileForm.characters": "{{length}} / 160 characters",
+  "newProfileForm.createProfile": "Create profile",
+  "contributionsList.building": "Building",
+  "contributionsList.maintaining": "Maintaining",
+  "contributionsList.authoring": "Authoring",
+  "contributionsList.other": "Other",
+  "communitySolutionsList.filterByExercise": "Filter by exercise",
+  "avatarSelector.uploadNewPhoto": "Upload new photo",
+  "avatarSelector.deletePhoto": "Delete photo",
+  "testimonialsList.unableToLoadTestimonials": "Unable to load testimonials"
+}
+
+// modified_files
+// === file: ../components/profile/ContributionsSummary.tsx ===
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  createRef,
+} from 'react'
+import { GraphicalIcon, ProminentLink } from '../common'
+import { useChart } from './contributions-summary/use-chart'
+import { TotalReputation } from './contributions-summary/TotalReputation'
+import { CategorySummary } from './contributions-summary/CategorySummary'
+import { TrackSelect } from './contributions-summary/TrackSelect'
+import { TrackContribution, ContributionCategory } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: contributionsSummary
+// i18n-namespace: components/profile
+
+const leftMargin = 100
+const topMargin = 150
+const buffer = 8
+
+type Links = {
+  contributions: string
+}
+
+export const CATEGORY_TITLES = {
+  publishing: 'Publishing',
+  mentoring: 'Mentoring',
+  authoring: 'Authoring',
+  building: 'Building',
+  maintaining: 'Maintaining',
+  other: 'Other',
+}
+
+export const CATEGORY_ICONS = {
+  publishing: 'community-solutions',
+  mentoring: 'mentoring',
+  authoring: 'authoring',
+  building: 'building',
+  maintaining: 'maintaining',
+  other: 'more-horizontal',
+}
+
+export default function ContributionsSummary({
+  tracks,
+  handle,
+  links,
+  showHeader = true,
+}: {
+  tracks: readonly TrackContribution[]
+  handle?: string
+  links: Links
+  showHeader?: boolean
+}): JSX.Element | null {
+  const { t } = useAppTranslation('components/profile')
+  const allTrack = tracks.find((track) => track.slug === null)
+
+  if (!allTrack) {
+    throw new Error('No data found for all track')
+  }
+
+  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
+  const [currentTrack, setCurrentTrack] = useState(tracks[0])
+  const labelRefs = useRef(
+    currentTrack.categories.map(() => createRef<HTMLDivElement>())
+  )
+  const trackColor =
+    currentTrack.slug !== 'all'
+      ? getComputedStyle(document.documentElement).getPropertyValue(
+          `--track-color-${currentTrack.slug}`
+        )
+      : undefined
+
+  const { chart } = useChart(
+    canvas,
+    currentTrack.categories.map((category) => category.reputation),
+    trackColor
+  )
+
+  useEffect(() => {
+    if (!canvas || !chart) {
+      return
+    }
+    const timeout = setTimeout(() => {
+      const containerHeight = (canvas.parentNode as HTMLElement).offsetHeight
+
+      const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
+      const label0 = labelRefs.current[0].current
+      if (!label0) {
+        return
+      }
+      label0.style.left = `${point0.left + leftMargin}px`
+      label0.style.marginLeft = `${-(label0.offsetWidth / 2)}px`
+      label0.style.bottom = `${containerHeight - point0.bottom + topMargin}px`
+      label0.style.visibility = 'visible'
+
+      const point1 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(1)
+      const label1 = labelRefs.current[1].current
+      if (!label1) {
+        return
+      }
+      label1.style.left = `${point1.left + leftMargin + buffer}px`
+      label1.style.bottom = `${
+        containerHeight - point1.bottom + topMargin - label1.offsetHeight / 2
+      }px`
+      label1.style.visibility = 'visible'
+
+      const point2 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(2)
+      const label2 = labelRefs.current[2].current
+      if (!label2) {
+        return
+      }
+      label2.style.left = `${point2.left + leftMargin + buffer}px`
+      label2.style.bottom = `${
+        containerHeight - point2.bottom + topMargin - label2.offsetHeight / 2
+      }px`
+      label2.style.visibility = 'visible'
+
+      const point3 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(3)
+      const label3 = labelRefs.current[3].current
+      if (!label3) {
+        return
+      }
+      label3.style.left = `${point3.left + leftMargin}px`
+      label3.style.marginLeft = `${-(label3.offsetWidth / 2)}px`
+      label3.style.bottom = `${
+        containerHeight - point3.bottom + topMargin - label3.offsetHeight
+      }px`
+      label3.style.visibility = 'visible'
+
+      const point4 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(4)
+      const label4 = labelRefs.current[4].current
+      if (!label4) {
+        return
+      }
+      label4.style.left = `${
+        point4.left + leftMargin - label4.offsetWidth - buffer
+      }px`
+      label4.style.bottom = `${
+        containerHeight - point4.bottom + topMargin - label4.offsetHeight / 2
+      }px`
+      label4.style.visibility = 'visible'
+
+      const point5 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(5)
+      const label5 = labelRefs.current[5].current
+      if (!label5) {
+        return
+      }
+      label5.style.left = `${
+        point5.left + leftMargin - label5.offsetWidth - buffer
+      }px`
+      label5.style.bottom = `${
+        containerHeight - point5.bottom + topMargin - label5.offsetHeight / 2
+      }px`
+      label5.style.visibility = 'visible'
+    }, 250)
+
+    return () => clearTimeout(timeout)
+  }, [canvas, chart])
+
+  return (
+    <div className="lg-container container">
+      <section className="contributions-section c-contributions-summary">
+        <div className="summary">
+          {showHeader ? (
+            <header className="section-header">
+              <GraphicalIcon icon="contribute" hex={true} />
+              <h2>{t('contributionsSummary.contributions')}</h2>
+            </header>
+          ) : null}
+          <TotalReputation
+            handle={handle}
+            reputation={allTrack.totalReputation}
+          />
+          <TrackSelect
+            tracks={tracks}
+            value={currentTrack}
+            setValue={setCurrentTrack}
+          />
+
+          {currentTrack.categories.map((category) => (
+            <CategorySummary key={category.id} category={category} />
+          ))}
+
+          <ProminentLink
+            link={links.contributions}
+            text={
+              handle
+                ? t('contributionsSummary.seeHandleContributions', { handle })
+                : t('contributionsSummary.seeYourContributions')
+            }
+            withBg
+          />
+        </div>
+
+        <div className="chart-container">
+          {currentTrack.categories.map((category, i) => {
+            return (
+              <CategoryLabel
+                key={category.id}
+                ref={labelRefs.current[i]}
+                category={category}
+              />
+            )
+          })}
+          <div className="chart">
+            <canvas id="contributions-chart" ref={setCanvas} />
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+const CategoryLabel = forwardRef<
+  HTMLDivElement,
+  { category: ContributionCategory }
+>(({ category }, ref) => {
+  return (
+    <div className="label" ref={ref}>
+      <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
+      <div className="title">{CATEGORY_TITLES[category.id]}</div>
+      {category.metricShort ? (
+        <div className="subtitle">{category.metricShort}</div>
+      ) : null}
+    </div>
+  )
+})
+CategoryLabel.displayName = 'CategoryLabel'
+
+// === end file ===
+
+// === file: ../components/profile/TestimonialsSummary.tsx ===
+import React, { useState } from 'react'
+import {
+  Avatar,
+  GraphicalIcon,
+  HandleWithFlair,
+  ProminentLink,
+} from '../common'
+import { Testimonial } from '../types'
+import { Flair } from '../common/HandleWithFlair'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: testimonialsSummary
+// i18n-namespace: components/profile
+
+type Props = {
+  handle: string
+  flair: Flair
+  numTestimonials: number
+  numSolutionsMentored: number
+  numStudentsHelped: number
+  numTestimonialsReceived: number
+  testimonials: readonly Testimonial[]
+  links: {
+    all: string
+  }
+}
+export default function TestimonialsSummary({
+  handle,
+  flair,
+  numSolutionsMentored,
+  numStudentsHelped,
+  numTestimonialsReceived,
+  testimonials,
+  links,
+}: Props): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
+
+  return (
+    <section className="testimonials-section">
+      <div className="md-container container">
+        <header className="section-header">
+          <GraphicalIcon icon="testimonials" hex />
+          <h2>Testimonials</h2>
+          <hr className="c-divider" />
+        </header>
+        <div className="testimonials">
+          <div className="stats">
+            <div className="stat">
+              <div className="number">
+                {numSolutionsMentored.toLocaleString()}
+              </div>
+              <div className="metric">
+                {t('testimonialsSummary.solutionsMentored')}
+              </div>
+            </div>
+            <div className="stat">
+              <div className="number">{numStudentsHelped.toLocaleString()}</div>
+              <div className="metric">
+                {t('testimonialsSummary.studentsHelped')}
+              </div>
+            </div>
+            <div className="stat">
+              <div className="number">
+                {numTestimonialsReceived.toLocaleString()}
+              </div>
+              <div className="metric">
+                {t('testimonialsSummary.testimonialsReceived')}
+              </div>
+            </div>
+          </div>
+          <div className="testimonial">{currentTestimonial.content}</div>
+          <div className="stars">
+            <GraphicalIcon icon="gold-star" />
+            <GraphicalIcon icon="gold-star" />
+            <GraphicalIcon icon="gold-star" />
+            <GraphicalIcon icon="gold-star" />
+            <GraphicalIcon icon="gold-star" />
+            <GraphicalIcon icon="gold-star" />
+          </div>
+          <div className="bylines">
+            {testimonials.map((testimonial, i) => {
+              const classNames = [
+                'byline',
+                testimonial === currentTestimonial ? 'active' : 'unactive',
+              ].filter((className) => className.length > 0)
+
+              return (
+                <button
+                  type="button"
+                  onClick={() => setCurrentTestimonial(testimonials[i])}
+                  className={classNames.join(' ')}
+                  key={i}
+                >
+                  <Avatar
+                    src={testimonial.student.avatarUrl}
+                    handle={testimonial.student.handle}
+                  />
+                  <div className="info">
+                    <div className="student">
+                      <HandleWithFlair
+                        flair={testimonial.student.flair}
+                        handle={testimonial.student.handle}
+                      />
+                    </div>
+                    <div className="mentored-by">
+                      Mentored by&nbsp;
+                      <HandleWithFlair handle={handle} flair={flair} />
+                    </div>
+                    <div className="exercise">
+                      <strong>{testimonial.exercise.title}</strong> in{' '}
+                      <strong>{testimonial.track.title}</strong>
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+        {links.all ? (
+          <ProminentLink
+            link={links.all}
+            text={t('testimonialsSummary.seeAllOfHandleTestimonials', {
+              handle,
+            })}
+          />
+        ) : null}
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/profile/NewProfileForm.tsx ===
+import React, { useState, useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { User } from '@/components/types'
+import { default as AvatarSelector } from './AvatarSelector'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: newProfileForm
+// i18n-namespace: components/profile
+
+type Links = {
+  create: string
+  update: string
+  delete: string
+}
+
+type APIResponse = {
+  links: {
+    profile: string
+  }
+}
+
+type Fields = {
+  name: string
+  bio: string
+  location: string
+}
+
+const DEFAULT_ERROR = new Error('Unable to create profile')
+
+export default function NewProfileForm({
+  user,
+  defaultFields,
+  links,
+}: {
+  user: User
+  defaultFields: Fields
+  links: Links
+}): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const [fields, setFields] = useState<Fields>(defaultFields)
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: links.create,
+        method: 'POST',
+        body: JSON.stringify({ user: fields }),
+      })
+
+      return fetch
+    },
+    onSuccess: (response) => {
+      redirectTo(response.links.profile)
+    },
+  })
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+  return (
+    <React.Fragment>
+      <section className="form-section">
+        <form onSubmit={handleSubmit} data-turbo="false">
+          <div className="field">
+            <label htmlFor="name">{t('newProfileForm.fullName')}</label>
+            <input
+              id="name"
+              type="text"
+              placeholder={t('newProfileForm.howDoYouWantToBeKnown')}
+              required
+              onChange={(e) => setFields({ ...fields, name: e.target.value })}
+              value={fields.name}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="location">{t('newProfileForm.locationOptional')}</label>
+            <input
+              id="location"
+              type="text"
+              placeholder={t('newProfileForm.whereDoYouCurrentlyLive')}
+              onChange={(e) =>
+                setFields({ ...fields, location: e.target.value })
+              }
+              value={fields.location}
+            />
+            <div className="note">
+              {t('newProfileForm.exercismIsMadeUpOfPeople')}
+            </div>
+          </div>
+          <div className="field">
+            <label htmlFor="bio">{t('newProfileForm.bioOptional')}</label>
+            <textarea
+              id="bio"
+              placeholder={t('newProfileForm.tellEveryoneABitMore')}
+              onChange={(e) => setFields({ ...fields, bio: e.target.value })}
+              value={fields.bio}
+              maxLength={160}
+            />
+            <div className="character-count">
+              {t('newProfileForm.characters', { length: fields.bio.length })}
+            </div>
+          </div>
+          <FormButton className="btn-primary btn-m" status={status}>
+            {t('newProfileForm.createProfile')}
+          </FormButton>
+          <ErrorBoundary resetKeys={[status]}>
+            <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+          </ErrorBoundary>
+        </form>
+        <AvatarSelector defaultUser={user} links={links} />
+      </section>
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/profile/ContributionsList.tsx ===
+import React, { useState } from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { BuildingContributionsList } from './contributions-list/BuildingContributionsList'
+import { MaintainingContributionsList } from './contributions-list/MaintainingContributionsList'
+import { AuthoringContributionsList } from './contributions-list/AuthoringContributionsList'
+import { OtherContributionsList } from './contributions-list/OtherContributionsList'
+import type { Request } from '@/hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: contributionsList
+// i18n-namespace: components/profile
+
+export type Category = {
+  title: 'Building' | 'Maintaining' | 'Authoring' | 'Other'
+  count: number
+  request: Request
+  icon: string
+}
+
+export default function ContributionsList({
+  categories,
+}: {
+  categories: readonly Category[]
+}): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const [currentCategory, setCurrentCategory] = useState(categories[0])
+
+  return (
+    <React.Fragment>
+      <div className="tabs scroll-x-hidden">
+        {categories.map((category) => {
+          const classNames = [
+            'c-tab',
+            currentCategory === category ? 'selected' : '',
+          ].filter((className) => className.length > 0)
+
+          return (
+            <button
+              key={category.title}
+              onClick={() => setCurrentCategory(category)}
+              className={classNames.join(' ')}
+            >
+              <GraphicalIcon icon={category.icon} hex />
+              {t(`contributionsList.${category.title.toLowerCase()}`)}
+              <div className="count">{category.count.toLocaleString()}</div>
+            </button>
+          )
+        })}
+      </div>
+      <ContributionsContent category={currentCategory} />
+    </React.Fragment>
+  )
+}
+
+const ContributionsContent = ({ category }: { category: Category }) => {
+  switch (category.title) {
+    case 'Building':
+      return <BuildingContributionsList request={category.request} />
+    case 'Maintaining':
+      return <MaintainingContributionsList request={category.request} />
+    case 'Authoring':
+      return <AuthoringContributionsList request={category.request} />
+    case 'Other':
+      return <OtherContributionsList request={category.request} />
+    default:
+      return null
+  }
+}
+
+// === end file ===
+
+// === file: ../components/profile/AvatarSelector.tsx ===
+import React, { useState, useCallback } from 'react'
+import { Photo } from './avatar-selector/Photo'
+import { CroppingModal } from './avatar-selector/CroppingModal'
+import { useImageCrop } from './avatar-selector/use-image-crop'
+import { User } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: avatarSelector
+// i18n-namespace: components/profile
+
+type Links = {
+  update: string
+  delete: string
+}
+
+export default function AvatarSelector({
+  defaultUser,
+  links,
+}: {
+  defaultUser: User
+  links: Links
+}): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const [user, setUser] = useState(defaultUser)
+  const { handleAttach, ...modalProps } = useImageCrop()
+
+  const handleUpdate = useCallback((user: User) => {
+    setUser(user)
+  }, [])
+
+  return (
+    <React.Fragment>
+      <Photo
+        user={user}
+        onAttach={handleAttach}
+        onDelete={handleUpdate}
+        links={links}
+      />
+      <CroppingModal links={links} onUpload={handleUpdate} {...modalProps} />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/profile/TestimonialsList.tsx ===
+import React, { useState, useCallback, cloneElement, ReactElement } from 'react'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type {
+  PaginatedResult,
+  Testimonial as TestimonialProps,
+} from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: testimonialsList
+// i18n-namespace: components/profile
+
+const DEFAULT_ERROR = new Error('Unable to load testimonials')
+
+export default function TestimonialsList({
+  request: initialRequest,
+  defaultSelected,
+  children,
+}: {
+  request: Request
+  defaultSelected: string | null
+  children: ReactElement<
+    Partial<{
+      testimonial: TestimonialProps
+      open: boolean
+      onClick: () => void
+      onClose: () => void
+    }>
+  >
+}): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const [selected, setSelected] = useState<string | null>(defaultSelected)
+
+  const { request, setPage } = useList(initialRequest)
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
+    ['profile-testimonials-list-key', request.endpoint, request.query],
+    request
+  )
+
+  const handleTestimonialOpen = useCallback(
+    (uuid: string) => {
+      return () => {
+        setSelected(uuid)
+      }
+    },
+    [setSelected]
+  )
+
+  const handleTestimonialClose = useCallback(() => {
+    setSelected(null)
+  }, [setSelected])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  return (
+    <ResultsZone isFetching={isFetching}>
+      <FetchingBoundary
+        status={status}
+        error={error}
+        defaultError={t('testimonialsList.unableToLoadTestimonials')}
+      >
+        {resolvedData ? (
+          <>
+            <div className="testimonials">
+              {resolvedData.results.map((t) => {
+                return cloneElement(children, {
+                  testimonial: t,
+                  open: t.uuid === selected,
+                  onClick: handleTestimonialOpen(t.uuid),
+                  onClose: handleTestimonialClose,
+                  key: t.uuid,
+                })
+              })}
+            </div>
+            <Pagination
+              disabled={resolvedData === undefined}
+              current={request.query.page || 1}
+              total={resolvedData.meta.totalPages}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop('profile-testimonials', 32)
+              }}
+            />
+          </>
+        ) : null}
+      </FetchingBoundary>
+    </ResultsZone>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/profile/CommunitySolutionsList.tsx ===
+import React, { useEffect, useState, useCallback } from 'react'
+import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { Pagination } from '../common'
+import CommunitySolution from '../common/CommunitySolution'
+import { FetchingBoundary } from '../FetchingBoundary'
+import { ResultsZone } from '../ResultsZone'
+import { TrackDropdown, OrderSelect } from './community-solutions-list'
+import type {
+  CommunitySolution as CommunitySolutionProps,
+  PaginatedResult,
+} from '../types'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: communitySolutionsList
+// i18n-namespace: components/profile
+
+export type TrackData = {
+  iconUrl: string
+  title: string
+  slug: string | null
+  numSolutions: number
+}
+
+export type Order = 'most_starred' | 'newest_first' | 'oldest_first'
+
+const DEFAULT_ERROR = new Error('Unable to pull solutions')
+const DEFAULT_ORDER = 'most_starred'
+
+export default function CommunitySolutionsList({
+  request: initialRequest,
+  tracks,
+}: {
+  request: Request
+  tracks: TrackData[]
+}): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setOrder,
+    setQuery,
+  } = useList(initialRequest)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<CommunitySolutionProps[]>,
+    Error | Response
+  >(
+    ['profile-community-solution-list', request.endpoint, request.query],
+    request
+  )
+  const [criteria, setCriteria] = useState(request.query?.criteria)
+
+  const setTrack = useCallback(
+    (slug) => {
+      setQuery({ ...request.query, trackSlug: slug, page: undefined })
+    },
+    [request.query, setQuery]
+  )
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  return (
+    <div
+      data-scroll-top-anchor="community-solutions-list"
+      className="lg-container"
+    >
+      <div className="c-search-bar">
+        <TrackDropdown
+          tracks={tracks}
+          value={request.query.trackSlug || ''}
+          setValue={setTrack}
+        />
+        <input
+          className="--search"
+          onChange={(e) => {
+            setCriteria(e.target.value)
+          }}
+          value={criteria || ''}
+          placeholder={t('communitySolutionsList.filterByExercise')}
+        />
+        <OrderSelect
+          value={request.query.order || DEFAULT_ORDER}
+          setValue={setOrder}
+        />
+      </div>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
+          {resolvedData ? (
+            <React.Fragment>
+              <div className="solutions">
+                {resolvedData.results.map((solution) => {
+                  return (
+                    <CommunitySolution
+                      key={solution.uuid}
+                      solution={solution}
+                      context="profile"
+                    />
+                  )
+                })}
+              </div>
+              <Pagination
+                disabled={resolvedData === undefined}
+                current={request.query.page || 1}
+                total={resolvedData.meta.totalPages}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('community-solutions-list', 32)
+                }}
+              />
+            </React.Fragment>
+          ) : null}
+        </FetchingBoundary>
+      </ResultsZone>
+    </div>
+  )
+}
+
+// === end file ===
+```

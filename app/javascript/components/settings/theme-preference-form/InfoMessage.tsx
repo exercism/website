@@ -1,4 +1,8 @@
+// i18n-key-prefix: infoMessage
+// i18n-namespace: components/settings/theme-preference-form
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function InfoMessage({
   insidersStatus,
@@ -9,12 +13,11 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
   if (isInsider) {
     return (
       <p className="text-p-base mb-16">
-        As an Exercism Insider, you have access to Dark Mode. Choose between
-        light, dark, or automatically update based on your system preferences.
-        Enjoy! 💎
+        {t('infoMessage.insiderAccessToDarkMode')}
       </p>
     )
   }
@@ -24,21 +27,25 @@ export function InfoMessage({
     case 'eligible_lifetime':
       return (
         <p className="text-p-base mb-16">
-          You&apos;re eligible to join Insiders.{' '}
-          <a href={insidersPath}>Get started here.</a>
+          <Trans
+            i18nKey="infoMessage.eligibleToJoinInsiders"
+            ns="components/settings/theme-preference-form"
+            components={{ 0: <a href={insidersPath}></a> }}
+          />
         </p>
       )
     default:
       return (
         <p className="text-p-base mb-16">
-          Dark Mode is only available to Exercism Insiders.&nbsp;
-          <strong>
-            <a className="text-prominentLinkColor" href={insidersPath}>
-              Donate to Exercism
-            </a>
-          </strong>{' '}
-          and become an Insider to access Dark Mode, ChatGPT integration and
-          more.
+          <Trans
+            i18nKey="infoMessage.darkModeOnlyAvailableToInsiders"
+            ns="components/settings/theme-preference-form"
+            components={{
+              0: (
+                <a className="text-prominentLinkColor" href={insidersPath}></a>
+              ),
+            }}
+          />
         </p>
       )
   }

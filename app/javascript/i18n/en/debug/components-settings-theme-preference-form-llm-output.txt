@@ -1,0 +1,240 @@
+```ts
+// i18n
+export default {
+  "infoMessage.insiderAccessToDarkMode": "As an Exercism Insider, you have access to Dark Mode. Choose between light, dark, or automatically update based on your system preferences. Enjoy! 💎",
+  "infoMessage.eligibleToJoinInsiders": "You're eligible to join Insiders. <0>Get started here.</0>",
+  "infoMessage.darkModeOnlyAvailableToInsiders": "Dark Mode is only available to Exercism Insiders.&nbsp;<0>Donate to Exercism</0>&nbsp;and become an Insider to access Dark Mode, ChatGPT integration and more.",
+  "themeButton.themeLabel": "{{themeLabel}}",
+  "disabledTooltip.mustBeExercismInsider": "You must be an&nbsp;<0>Exercism Insider&nbsp;<1/></0>&nbsp;to unlock this theme."
+}
+
+// modified_files
+// === file: ../components/settings/theme-preference-form/InfoMessage.tsx ===
+// i18n-key-prefix: infoMessage
+// i18n-namespace: components/settings/theme-preference-form
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function InfoMessage({
+  insidersStatus,
+  insidersPath,
+  isInsider,
+}: {
+  insidersStatus: string
+  insidersPath: string
+  isInsider: boolean
+}): JSX.Element {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  if (isInsider) {
+    return (
+      <p className="text-p-base mb-16">
+        {t('infoMessage.insiderAccessToDarkMode')}
+      </p>
+    )
+  }
+
+  switch (insidersStatus) {
+    case 'eligible':
+    case 'eligible_lifetime':
+      return (
+        <p className="text-p-base mb-16">
+          {t('infoMessage.eligibleToJoinInsiders', { ns: 'components/settings/theme-preference-form',  components: { 0: <a href={insidersPath}></a> }})}
+        </p>
+      )
+    default:
+      return (
+        <p className="text-p-base mb-16">
+          {t('infoMessage.darkModeOnlyAvailableToInsiders', { ns: 'components/settings/theme-preference-form', components: { 0: <a className="text-prominentLinkColor" href={insidersPath}></a> } })}
+        </p>
+      )
+  }
+}
+
+// === end file ===
+
+// === file: ../components/settings/theme-preference-form/ThemeButton.tsx ===
+// i18n-key-prefix: themeButton
+// i18n-namespace: components/settings/theme-preference-form
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
+import { isButtonDisabled } from './utils'
+import type { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'
+import { DisabledThemeSelectorTooltip } from '@/components/common/ThemeToggleButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const THEME_BUTTON_SIZE = 130
+export function ThemeButton({
+  theme,
+  currentTheme,
+  onClick,
+  disabledInfo,
+  links,
+}: {
+  theme: Theme
+  onClick: React.MouseEventHandler<HTMLButtonElement>
+  currentTheme: string
+  disabledInfo: isButtonDisabled
+  links: ThemePreferenceLinks
+}): JSX.Element {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  const selected = theme.value === currentTheme
+
+  const nonInsider = disabledInfo.level === 'non-insider'
+  const { disabled } = disabledInfo
+
+  return (
+    <GenericTooltip
+      interactive
+      disabled={!nonInsider}
+      content={
+        nonInsider && (
+          <DisabledThemeSelectorTooltip insidersLink={links.insidersPath} />
+        )
+      }
+    >
+      <div className="flex flex-col gap-16 items-center">
+        <button
+          type="submit"
+          disabled={disabled}
+          value={theme.value}
+          id={`${theme.value}-theme`}
+          style={{
+            height: `${THEME_BUTTON_SIZE}px`,
+            width: `${THEME_BUTTON_SIZE}px`,
+            background: `${theme.background}`,
+            filter: nonInsider ? 'grayscale(0.9)' : '',
+            opacity: nonInsider ? '60%' : '100%',
+          }}
+          className={`theme-preference-form-button flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
+            selected && '--selected-theme'
+          } ${theme.value === 'sepia' && 'sepia'}`}
+          onClick={onClick}
+        >
+          <GraphicalIcon
+            icon={nonInsider ? 'lock-circle' : theme.icon}
+            height={64}
+            width={64}
+          />
+        </button>
+        <label
+          className="text-p text-15 font-semibold"
+          style={{ filter: nonInsider ? 'grayscale(0.9)' : '' }}
+          htmlFor={`${theme.value}-theme`}
+        >
+          {t('themeButton.themeLabel', { themeLabel: theme.label })}
+        </label>
+      </div>
+    </GenericTooltip>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/settings/theme-preference-form/useTheme.tsx ===
+// i18n-key-prefix: useTheme
+// i18n-namespace: components/settings/theme-preference-form
+import { useCallback, useEffect, useState } from 'react'
+import { MutationStatus } from '@tanstack/react-query'
+import { useDebounce } from '@/hooks'
+import { useSettingsMutation } from '../useSettingsMutation'
+import { setThemeClassName } from './utils'
+import { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'
+import { useLocalStorage } from '@/utils/use-storage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type RequestBody = {
+  user_preferences: {
+    theme: string
+  }
+}
+
+type useThemeReturns = {
+  handleThemeUpdate: (
+    t: Pick<Theme, 'value'>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void
+  status: MutationStatus
+  error: unknown
+  theme: string
+}
+export function useTheme(
+  defaultThemePreference: string,
+  links: Pick<ThemePreferenceLinks, 'update'>
+): useThemeReturns {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  const [hasBeenUpdated, setHasBeenUpdated] = useState(false)
+  const [storedTheme, setStoredTheme] = useLocalStorage<{
+    theme: string
+    time: number
+  }>('theme-preference', {
+    theme: defaultThemePreference,
+    time: Date.now(),
+  })
+  const [theme, setTheme] = useState<string>(storedTheme.theme || '')
+  const debouncedTheme = useDebounce(theme, 500)
+
+  useEffect(() => {
+    if (hasFiveMinElapsed(storedTheme.time)) {
+      setStoredTheme({ theme: defaultThemePreference, time: Date.now() })
+    }
+  }, [])
+
+  const { mutation, status, error } = useSettingsMutation<RequestBody>({
+    endpoint: links.update,
+    method: 'PATCH',
+    body: { user_preferences: { theme: debouncedTheme } },
+    onSuccess: () => setHasBeenUpdated(true),
+  })
+
+  useEffect(() => {
+    if (
+      debouncedTheme &&
+      (debouncedTheme !== defaultThemePreference || hasBeenUpdated)
+    ) {
+      mutation()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTheme])
+
+  const handleThemeUpdate = useCallback((t, e) => {
+    e.preventDefault()
+    setTheme(t.value)
+    setStoredTheme({ theme: t.value, time: Date.now() })
+    setThemeClassName(t.value)
+  }, [])
+
+  return { handleThemeUpdate, status, error, theme }
+}
+
+function hasFiveMinElapsed(startTimestampMs: number): boolean {
+  const oneMinuteMs = 60000
+  return Date.now() - startTimestampMs >= 5 * oneMinuteMs
+}
+
+// === end file ===
+
+// === file: ../components/settings/theme-preference-form/DisabledTooltip.tsx ===
+// i18n-key-prefix: disabledTooltip
+// i18n-namespace: components/settings/theme-preference-form
+import { GraphicalIcon } from '@/components/common'
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+export function DisabledTooltip(): JSX.Element {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  return (
+    <div className="flex items-center bg-russianViolet rounded-16 py-8 px-12 text-p-base text-aliceBlue">
+      <Trans
+          i18nKey="disabledTooltip.mustBeExercismInsider"
+          components={{
+            0: <strong style={{ color: 'inherit' }} className="flex items-center" />,
+            1: <GraphicalIcon icon="insiders" height={24} width={24} />
+          }}
+        />
+    </div>
+  )
+}
+
+// === end file ===
+```

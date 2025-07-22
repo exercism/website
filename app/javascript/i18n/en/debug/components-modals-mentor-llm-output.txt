@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "finishMentorDiscussionModal.areYouSure": "Are you sure you want to end this discussion?",
+  "finishMentorDiscussionModal.explanation": "It's normally time to end a discussion when the student has got what they wanted from the conversation, or you have taken the conversation as far as you like. It's generally polite to leave the student a final goodbye.",
+  "finishMentorDiscussionModal.cancel": "Cancel",
+  "finishMentorDiscussionModal.endDiscussion": "End discussion"
+}
+
+// modified_files
+// === file: ../components/modals/mentor/FinishMentorDiscussionModal.tsx ===
 import React from 'react'
 import { MutationStatus } from '@tanstack/react-query'
 import { Loading } from '@/components/common'
@@ -39,7 +50,9 @@ export const FinishMentorDiscussionModal = ({
       {...props}
     >
       <h3>{t('finishMentorDiscussionModal.areYouSure')}</h3>
-      <p>{t('finishMentorDiscussionModal.explanation')}</p>
+      <p>
+        {t('finishMentorDiscussionModal.explanation')}
+      </p>
       <div className="buttons">
         <FormButton
           type="button"
@@ -68,3 +81,5 @@ export const FinishMentorDiscussionModal = ({
     </Modal>
   )
 }
+// === end file ===
+```

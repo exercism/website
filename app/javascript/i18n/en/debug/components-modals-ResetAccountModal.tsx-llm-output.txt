@@ -1,3 +1,22 @@
+```ts
+// i18n
+export default {
+  "youAreAboutToReset": "You're about to reset your Exercism account",
+  "pleaseReadCarefully": "Please read this carefully before commiting to reset your account.",
+  "thisIsIrreversible": "This is <em>irreversible</em> and will mean you’ll lose everything you’ve done on your account.",
+  "byResettingAccount": "<strong>By resetting your account, you will lose:</strong>",
+  "allSolutionsSubmitted": "All solutions you have submitted",
+  "allMentoringReceived": "All mentoring you have received",
+  "allMentoringGiven": "All mentoring you have given and any testimonials received.",
+  "anyReputationEarned": "Any reputation you have earned through mentoring or publishing solutions.",
+  "toConfirmWriteHandle": "To confirm, write your handle <pre>{{handle}}</pre> in the box below:",
+  "cancel": "Cancel",
+  "resetAccount": "Reset account",
+  "unableToResetAccount": "Unable to reset account"
+}
+
+// modified_files
+// === file: ../components/modals/ResetAccountModal.tsx ===
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -62,10 +81,15 @@ export const ResetAccountModal = ({
         <div className="info">
           <h2>{t('youAreAboutToReset')}</h2>
           <p>
-            <strong>{t('pleaseReadCarefully')}</strong>
+            <strong>
+              {t('pleaseReadCarefully')}
+            </strong>
           </p>
           <p>
-            <Trans i18nKey="thisIsIrreversible" components={{ em: <em /> }} />
+            <Trans
+              i18nKey="thisIsIrreversible"
+              components={{ em: <em /> }}
+            />
           </p>
           <hr />
           <p>
@@ -78,7 +102,9 @@ export const ResetAccountModal = ({
             <li>{t('allSolutionsSubmitted')}</li>
             <li>{t('allMentoringReceived')}</li>
             <li>{t('allMentoringGiven')}</li>
-            <li>{t('anyReputationEarned')}</li>
+            <li>
+              {t('anyReputationEarned')}
+            </li>
           </ul>
         </div>
         <hr />
@@ -117,12 +143,12 @@ export const ResetAccountModal = ({
           </FormButton>
         </div>
         <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage
-            error={error}
-            defaultError={DEFAULT_ERROR || new Error(t('unableToResetAccount'))}
-          />
+          <ErrorMessage error={error} defaultError={DEFAULT_ERROR || new Error(t('unableToResetAccount'))} />
         </ErrorBoundary>
       </form>
     </Modal>
   )
 }
+
+// end file
+```

@@ -115,10 +115,11 @@ import df from './components-modals-WelcomeToInsidersModal.tsx'
 import dg from './components-notifications-'
 import dh from './components-notifications-notifications-list'
 import di from './components-perks'
-import dj from './discussion-batch'
-import dk from './session-batch-1'
-import dl from './session-batch-2'
-import dm from './session-batch'
+import dj from './components-profile-avatar-selector-cropping-modal'
+import dk from './discussion-batch'
+import dl from './session-batch-1'
+import dm from './session-batch-2'
+import dn from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -241,8 +242,9 @@ export default {
   'components/notifications/': dg,
   'components/notifications/notifications-list': dh,
   'components/perks': di,
-  'discussion-batch': dj,
-  'session-batch-1': dk,
-  'session-batch-2': dl,
-  'session-batch-3': dm,
+  'components/profile/avatar-selector/cropping-modal': dj,
+  'discussion-batch': dk,
+  'session-batch-1': dl,
+  'session-batch-2': dm,
+  'session-batch-3': dn,
 }

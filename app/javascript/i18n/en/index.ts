@@ -38,24 +38,25 @@ import ba from './components-community-solutions'
 import bb from './components-editor-header'
 import bc from './components-mentoring-inbox'
 import bd from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
-import be from './components-journey-overview-contributing-section'
-import bf from './components-mentoring-discussion-NewMessageAlert.tsx'
-import bg from './components-dropdowns-reputation'
-import bh from './components-journey-contribution-results'
-import bi from './components-impact-ImpactTestimonial.tsx'
-import bj from './components-journey'
-import bk from './components-journey-overview'
-import bl from './components-editor-ChatGptFeedback'
-import bm from './components-journey-contributions-list'
-import bn from './components-editor-SubmitButton.tsx'
-import bo from './components-mentoring-automation-AutomationListElement.tsx'
-import bp from './components-editor-LegacyFileBanner.tsx'
-import bq from './components-mentoring-automation-RepresentationList.tsx'
-import br from './components-mentoring-request-locked-solution-mentoring-note'
-import bs from './components-common-share-panel'
-import bt from './components-common-markdown-editor-form'
-import bu from './components-maintaining'
-import bv from './components-journey-badges-list'
+import be from './components-mentoring-request-StartMentoringPanel.tsx'
+import bf from './components-journey-overview-contributing-section'
+import bg from './components-mentoring-discussion-NewMessageAlert.tsx'
+import bh from './components-dropdowns-reputation'
+import bi from './components-journey-contribution-results'
+import bj from './components-impact-ImpactTestimonial.tsx'
+import bk from './components-journey'
+import bl from './components-journey-overview'
+import bm from './components-editor-ChatGptFeedback'
+import bn from './components-journey-contributions-list'
+import bo from './components-editor-SubmitButton.tsx'
+import bp from './components-mentoring-automation-AutomationListElement.tsx'
+import bq from './components-editor-LegacyFileBanner.tsx'
+import br from './components-mentoring-automation-RepresentationList.tsx'
+import bs from './components-mentoring-request-locked-solution-mentoring-note'
+import bt from './components-common-share-panel'
+import bu from './components-common-markdown-editor-form'
+import bv from './components-maintaining'
+import bw from './components-journey-badges-list'
 
 export default {
   'components/editor/tabs': aa,
@@ -98,22 +99,23 @@ export default {
   'components/editor/header': bb,
   'components/mentoring/inbox': bc,
   'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': bd,
-  'components/journey/overview/contributing-section': be,
-  'components/mentoring/discussion/NewMessageAlert.tsx': bf,
-  'components/dropdowns/reputation': bg,
-  'components/journey/contribution-results': bh,
-  'components/impact/ImpactTestimonial.tsx': bi,
-  'components/journey': bj,
-  'components/journey/overview': bk,
-  'components/editor/ChatGptFeedback': bl,
-  'components/journey/contributions-list': bm,
-  'components/editor/SubmitButton.tsx': bn,
-  'components/mentoring/automation/AutomationListElement.tsx': bo,
-  'components/editor/LegacyFileBanner.tsx': bp,
-  'components/mentoring/automation/RepresentationList.tsx': bq,
-  'components/mentoring/request/locked-solution-mentoring-note': br,
-  'components/common/share-panel': bs,
-  'components/common/markdown-editor-form': bt,
-  'components/maintaining': bu,
-  'components/journey/badges-list': bv,
+  'components/mentoring/request/StartMentoringPanel.tsx': be,
+  'components/journey/overview/contributing-section': bf,
+  'components/mentoring/discussion/NewMessageAlert.tsx': bg,
+  'components/dropdowns/reputation': bh,
+  'components/journey/contribution-results': bi,
+  'components/impact/ImpactTestimonial.tsx': bj,
+  'components/journey': bk,
+  'components/journey/overview': bl,
+  'components/editor/ChatGptFeedback': bm,
+  'components/journey/contributions-list': bn,
+  'components/editor/SubmitButton.tsx': bo,
+  'components/mentoring/automation/AutomationListElement.tsx': bp,
+  'components/editor/LegacyFileBanner.tsx': bq,
+  'components/mentoring/automation/RepresentationList.tsx': br,
+  'components/mentoring/request/locked-solution-mentoring-note': bs,
+  'components/common/share-panel': bt,
+  'components/common/markdown-editor-form': bu,
+  'components/maintaining': bv,
+  'components/journey/badges-list': bw,
 }

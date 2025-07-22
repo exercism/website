@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "exerciseUpdateModal.loadingExerciseDiff": "Loading exercise diff",
+  "exerciseUpdateModal.sorryCantWorkOutWhatNeedsUpdating": "Sorry - it seems that we can't work out what needs updating for this exercise. We've been alerted and will have a look."
+}
+
+// modified_files
+// === file: ../components/modals/ExerciseUpdateModal.tsx ===
 // i18n-key-prefix: exerciseUpdateModal
 // i18n-namespace: components/modals/ExerciseUpdateModal.tsx
 import React from 'react'
@@ -56,3 +65,5 @@ const LoadingComponent = () => {
     <Icon icon="spinner" alt={t('exerciseUpdateModal.loadingExerciseDiff')} />
   )
 }
+// === end file ===
+```

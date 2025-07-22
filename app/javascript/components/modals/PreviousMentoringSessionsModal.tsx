@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
+import { Trans } from 'react-i18next'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import pluralize from 'pluralize'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
-import { fromNow } from '@/utils/date'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 import {
   Avatar,
   GraphicalIcon,
@@ -22,10 +25,7 @@ import type {
   MentorDiscussion,
   Student,
 } from '@/components/types'
-import { scrollToTop } from '@/utils/scroll-to-top'
-import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
-
-const DEFAULT_ERROR = new Error('Unable to load discussions')
+import { fromNow } from '@/utils/time'
 
 export const PreviousMentoringSessionsModal = ({
   onClose,
@@ -36,10 +36,14 @@ export const PreviousMentoringSessionsModal = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/PreviousMentoringSessionsModal.tsx'
+  )
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
     options: {},
   })
+
   const {
     status,
     data: resolvedData,
@@ -51,8 +55,8 @@ export const PreviousMentoringSessionsModal = ({
   >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
-
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   if (isBelowLgWidth) {
     return (
       <Modal
@@ -62,20 +66,24 @@ export const PreviousMentoringSessionsModal = ({
         className="m-mentoring-sessions mobile"
       >
         <header>
-          {student.handle} and You have
-          <strong>
-            {numPrevious} previous {pluralize('discussion', numPrevious)}
-          </strong>
+          <Trans
+            i18nKey="headerMobile"
+            count={numPrevious}
+            values={{ count: numPrevious, studentHandle: student.handle }}
+            components={{
+              strong: <strong />,
+            }}
+          />
         </header>
         <div className="discussions">
           <ResultsZone isFetching={isFetching}>
             <FetchingBoundary
               status={status}
               error={error}
-              defaultError={DEFAULT_ERROR}
+              defaultError={new Error('Unable to load discussions')}
             >
               {resolvedData ? (
-                <React.Fragment>
+                <>
                   {resolvedData.results.map((discussion: MentorDiscussion) => (
                     <MobileDiscussionLink
                       discussion={discussion}
@@ -91,67 +99,71 @@ export const PreviousMentoringSessionsModal = ({
                       scrollToTop()
                     }}
                   />
-                </React.Fragment>
+                </>
               ) : null}
             </FetchingBoundary>
           </ResultsZone>
         </div>
       </Modal>
     )
-  } else
-    return (
-      <Modal
-        {...props}
-        closeButton
-        onClose={onClose}
-        className="m-mentoring-sessions"
-      >
-        <header>
-          <strong>
-            You have {numPrevious} previous{' '}
-            {pluralize('discussion', numPrevious)}
-          </strong>
-          with
-          <Avatar src={student.avatarUrl} handle={student.handle} />
-          <div className="student-name">{student.handle}</div>
-          {student.links.favorite ? (
-            <FavoriteButton
-              student={student as FavoritableStudent}
-              onSuccess={(student) => setStudent(student)}
-            />
-          ) : null}
-        </header>
-        <div className="discussions">
-          <ResultsZone isFetching={isFetching}>
-            <FetchingBoundary
-              status={status}
-              error={error}
-              defaultError={DEFAULT_ERROR}
-            >
-              {resolvedData ? (
-                <React.Fragment>
-                  {resolvedData.results.map((discussion: MentorDiscussion) => (
-                    <DiscussionLink
-                      discussion={discussion}
-                      key={discussion.uuid}
-                    />
-                  ))}
-                  <Pagination
-                    disabled={resolvedData === undefined}
-                    current={request.query.page || 1}
-                    total={resolvedData.meta.totalPages}
-                    setPage={(p) => {
-                      setPage(p)
-                      scrollToTop()
-                    }}
+  }
+
+  return (
+    <Modal
+      {...props}
+      closeButton
+      onClose={onClose}
+      className="m-mentoring-sessions"
+    >
+      <header>
+        <Trans
+          i18nKey="header"
+          count={numPrevious}
+          values={{ count: numPrevious, studentHandle: student.handle }}
+          components={{
+            strong: <strong />,
+            avatar: <Avatar src={student.avatarUrl} handle={student.handle} />,
+            name: <div className="student-name" />,
+          }}
+        />
+        {student.links.favorite ? (
+          <FavoriteButton
+            student={student as FavoritableStudent}
+            onSuccess={(student) => setStudent(student)}
+          />
+        ) : null}
+      </header>
+      <div className="discussions">
+        <ResultsZone isFetching={isFetching}>
+          <FetchingBoundary
+            status={status}
+            error={error}
+            defaultError={new Error('Unable to load discussions')}
+          >
+            {resolvedData ? (
+              <>
+                {resolvedData.results.map((discussion: MentorDiscussion) => (
+                  <DiscussionLink
+                    discussion={discussion}
+                    key={discussion.uuid}
                   />
-                </React.Fragment>
-              ) : null}
-            </FetchingBoundary>
-          </ResultsZone>
-        </div>
-      </Modal>
-    )
+                ))}
+                <Pagination
+                  disabled={resolvedData === undefined}
+                  current={request.query.page || 1}
+                  total={resolvedData.meta.totalPages}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop()
+                  }}
+                />
+              </>
+            ) : null}
+          </FetchingBoundary>
+        </ResultsZone>
+      </div>
+    </Modal>
+  )
 }
 
 function DiscussionLink({

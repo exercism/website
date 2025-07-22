@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "chooseTrackStep.selectTracks": "Select the tracks you want to mentor",
+  "commitStep.commitToBeGoodMentor": "Commit to being a good mentor",
+  "congratulationsStep.congratulations": "Congratulations"
+}
+
+// modified_files
+// === file: ../components/modals/MentorRegistrationModal.tsx ===
 import React, { useState, useCallback } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { StepIndicator } from './mentor-registration-modal/StepIndicator'
@@ -50,9 +60,7 @@ const ModalBody = ({
   onBack: () => void
 }): JSX.Element => {
   const [selected, setSelected] = useState<string[]>([])
-  const { t } = useAppTranslation(
-    'components/modals/MentorRegistrationModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/MentorRegistrationModal.tsx')
 
   switch (currentStep) {
     case 'CHOOSE_TRACK':
@@ -84,9 +92,7 @@ export const MentorRegistrationModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & { links: Links }): JSX.Element => {
   const [currentStep, setCurrentStep] = useState<ModalStep>('CHOOSE_TRACK')
-  const { t } = useAppTranslation(
-    'components/modals/MentorRegistrationModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/MentorRegistrationModal.tsx')
 
   const moveForward = useCallback(() => {
     const nextStep = STEPS.findIndex((step) => step.id === currentStep) + 1
@@ -126,3 +132,6 @@ export const MentorRegistrationModal = ({
     </Modal>
   )
 }
+
+// === end file ===
+```

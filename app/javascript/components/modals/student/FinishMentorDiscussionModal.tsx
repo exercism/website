@@ -1,3 +1,5 @@
+// i18n-key-prefix: finishMentorDiscussionModal
+// i18n-namespace: components/modals/student
 import React, { useEffect, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
@@ -7,6 +9,7 @@ import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 import currency from 'currency.js'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -54,6 +57,7 @@ const Inner = ({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/student')
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
   const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))
@@ -133,7 +137,7 @@ const Inner = ({
       )
     case 'unhappy': {
       if (!report) {
-        throw new Error('Report should not be null')
+        throw new Error(t('finishMentorDiscussionModal.reportShouldNotBeNull'))
       }
 
       return <Step.UnhappyStep report={report} links={links} />

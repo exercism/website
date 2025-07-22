@@ -1,9 +1,15 @@
+// i18n-key-prefix: iterationSelect
+// i18n-namespace: components/modals/student
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Iteration } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: idx }: { option: number }) => {
-  return <React.Fragment>Iteration {idx}</React.Fragment>
+  const { t } = useAppTranslation('components/modals/student')
+  return (
+    <React.Fragment>{t('iterationSelect.iteration', { idx })}</React.Fragment>
+  )
 }
 
 export const IterationSelect = ({

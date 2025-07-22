@@ -4,6 +4,7 @@ import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { MentorDiscussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -18,6 +19,9 @@ export const SatisfiedStep = ({
   onNotRequeued: () => void
   onBack: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   const {
     mutate: finish,
     status,
@@ -42,11 +46,8 @@ export const SatisfiedStep = ({
 
   return (
     <section className="acceptable-decision-step">
-      <h2>Sorry that this mentoring wasn&apos;t great.</h2>
-      <p className="explanation">
-        Would you like to put this exercise back in the queue for another mentor
-        to look at?
-      </p>
+      <h2>{t('satisfiedStep.sorryMentoringWasntGreat')}</h2>
+      <p className="explanation">{t('satisfiedStep.putExerciseBack')}</p>
 
       <div className="form-buttons">
         <FormButton
@@ -55,7 +56,7 @@ export const SatisfiedStep = ({
           status={status}
           className="btn-default btn-m"
         >
-          Back
+          {t('satisfiedStep.back')}
         </FormButton>
         <FormButton
           type="button"
@@ -63,7 +64,7 @@ export const SatisfiedStep = ({
           status={status}
           className="btn-enhanced btn-m"
         >
-          No thanks
+          {t('satisfiedStep.noThanks')}
         </FormButton>
         <FormButton
           type="button"
@@ -71,7 +72,7 @@ export const SatisfiedStep = ({
           status={status}
           className="btn-enhanced btn-m"
         >
-          Yes please
+          {t('satisfiedStep.yesPlease')}
         </FormButton>
         <FetchingBoundary
           status={status}

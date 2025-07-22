@@ -68,6 +68,7 @@ export const PreviousMentoringSessionsModal = ({
         <header>
           <Trans
             i18nKey="headerMobile"
+            ns="components/modals/PreviousMentoringSessionsModal.tsx"
             count={numPrevious}
             values={{ count: numPrevious, studentHandle: student.handle }}
             components={{
@@ -118,6 +119,7 @@ export const PreviousMentoringSessionsModal = ({
       <header>
         <Trans
           i18nKey="header"
+          ns="components/modals/PreviousMentoringSessionsModal.tsx"
           count={numPrevious}
           values={{ count: numPrevious, studentHandle: student.handle }}
           components={{

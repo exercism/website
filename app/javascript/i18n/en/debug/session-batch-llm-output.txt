@@ -1,0 +1,354 @@
+```ts
+// i18n
+export default {
+  "components.mentoring.session.automatedFeedbackModal.automatedAnalysis": "Automated Analysis",
+  "components.mentoring.session.automatedFeedbackModal.forIteration": "for Iteration {{iteration}}",
+  "components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback": "Loading automated feedback",
+  "components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback": "You received automated feedback",
+  "components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback": "Student received automated feedback",
+  "components.mentoring.session.automatedFeedbackSummary.opensInAModal": "Opens in a modal",
+  "components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled": "Mentoring request cancelled",
+  "components.mentoring.session.cancelledRequestModal.studentCancelledRequest": "The student has cancelled this mentoring request. We know this is extremely frustrating once you&apos;ve started responding 😞 Sorry for the annoyance!",
+  "components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor": "Thank you for being a mentor at Exercism 💙",
+  "components.mentoring.session.cancelledRequestModal.backToMentorRequests": "Back to mentor requests",
+  "components.mentoring.session.cancelledRequestModal.closeThisModal": "Close this modal",
+  "components.mentoring.session.filePanel.instructions": "Instructions",
+  "components.mentoring.session.filePanel.tests": "Tests"
+}
+
+// modified_files
+// === file: ../components/mentoring/session/AutomatedFeedbackModal.tsx ===
+import React from 'react'
+import { useRequestQuery } from '@/hooks/request-query'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
+import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
+import type {
+  AnalyzerFeedback as AnalyzerFeedbackProps,
+  Iteration,
+  MentorSessionTrack,
+  RepresenterFeedback as RepresenterFeedbackProps,
+} from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to load automated feedback')
+
+type APIResponse = {
+  automatedFeedback: {
+    representerFeedback?: RepresenterFeedbackProps
+    analyzerFeedback?: AnalyzerFeedbackProps
+    links: {
+      info: string
+    }
+    track: MentorSessionTrack
+  }
+}
+
+export const AutomatedFeedbackModal = ({
+  iteration,
+  ...props
+}: Omit<ModalProps, 'className'> & { iteration: Iteration }): JSX.Element => {
+  const { t } = useAppTranslation('session')
+  const { data, status, error } = useRequestQuery<APIResponse>(
+    ['automated-feedback', iteration.links.automatedFeedback],
+    { endpoint: iteration.links.automatedFeedback, options: {} }
+  )
+  return (
+    <Modal {...props} className="m-automated-feedback">
+      <FetchingBoundary
+        LoadingComponent={LoadingComponent}
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+      >
+        <header>
+          <GraphicalIcon icon="automation" />
+          <div className="info">
+            <h2 className="text-h5">{t('......components.mentoring.session.automatedFeedbackModal.automatedAnalysis')}</h2>
+            <div className="text-textColor6 text-15 leading-150">
+              {t('......components.mentoring.session.automatedFeedbackModal.forIteration', {iteration: iteration.idx})}
+            </div>
+          </div>
+        </header>
+        {data ? (
+          <div className="feedback">
+            {data.automatedFeedback.analyzerFeedback ? (
+              <AnalyzerFeedback
+                track={data.automatedFeedback.track}
+                {...data.automatedFeedback.analyzerFeedback}
+                automatedFeedbackInfoLink={data.automatedFeedback.links.info}
+              />
+            ) : null}
+            {data.automatedFeedback.representerFeedback ? (
+              <RepresenterFeedback
+                {...data.automatedFeedback.representerFeedback}
+              />
+            ) : null}
+          </div>
+        ) : null}
+      </FetchingBoundary>
+    </Modal>
+  )
+}
+
+const LoadingComponent = (): JSX.Element => {
+  const { t } = useAppTranslation('session')
+  return <Icon icon="spinner" alt={t('......components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback')} />
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/AutomatedFeedbackSummary.tsx ===
+import React, { useState, useCallback } from 'react'
+import { Icon } from '../../common'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Iteration } from '../../types'
+import { AutomatedFeedbackModal } from './AutomatedFeedbackModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const AutomatedFeedbackSummary = ({
+  userIsStudent,
+  iteration,
+}: {
+  userIsStudent: boolean
+  iteration: Iteration
+}): JSX.Element => {
+  const { t } = useAppTranslation('session')
+  const addressedTo = userIsStudent ? 'You' : 'Student'
+
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false)
+  }, [])
+
+  return (
+    <React.Fragment>
+      <button className="auto-feedback" onClick={handleModalOpen} type="button">
+        <GraphicalIcon icon="automation" className="info-icon" />
+        <div className="info">
+          {t(
+            userIsStudent
+              ? '......components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback'
+              : '......components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback'
+          )}
+        </div>
+        <Icon
+          icon="modal"
+          alt={t('......components.mentoring.session.automatedFeedbackSummary.opensInAModal')}
+          className="modal-icon"
+        />
+      </button>
+      <AutomatedFeedbackModal
+        iteration={iteration}
+        open={modalOpen}
+        onClose={handleModalClose}
+      />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/CancelledRequestModal.tsx ===
+import { Modal } from '@/components/modals'
+import React from 'react'
+import { Links } from '../Session'
+import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function CancelledRequestModal({
+  open,
+  onClose,
+  links,
+  isLocked,
+}: {
+  open: boolean
+  onClose: () => void
+  links: Links
+  isLocked: boolean
+}): JSX.Element {
+  const { t } = useAppTranslation('session')
+  return (
+    <Modal
+      onClose={onClose}
+      style={{ content: { width: '740px' } }}
+      open={open}
+      shouldCloseOnEsc={false}
+      shouldCloseOnOverlayClick={false}
+      aria={{
+        modal: true,
+        describedby: 'cancelled-mentoring-request-description',
+        labelledby: 'cancelled-mentoring-request-label',
+      }}
+    >
+      <div className="flex items-start">
+        <div className="flex flex-col mr-32">
+          <h3 id="cancelled-mentoring-request-label" className="text-h3 mb-6">
+            {t('......components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled')}
+          </h3>
+          <p
+            id="cancelled-mentoring-request-description"
+            className="text-p-large mb-8"
+          >
+            {t('......components.mentoring.session.cancelledRequestModal.studentCancelledRequest')}
+          </p>
+          <p className="text-p-large mb-16">
+            {t('......components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor')}
+          </p>
+          <div className="flex gap-16">
+            <a href={links.mentorQueue} className="btn-m btn-primary">
+              {t('......components.mentoring.session.cancelledRequestModal.backToMentorRequests')}
+            </a>
+            {isLocked && (
+              <button className="btn-m btn-secondary" onClick={onClose}>
+                {t('......components.mentoring.session.cancelledRequestModal.closeThisModal')}
+              </button>
+            )}
+          </div>
+        </div>
+        <GraphicalIcon
+          icon="cancelled"
+          category="graphics"
+          className="ml-auto"
+          height={128}
+          width={128}
+        />
+      </div>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/mentoring/session/FilePanel.tsx ===
+import React, { createContext, useState, useEffect } from 'react'
+import { Tab, TabContext } from '../../common/Tab'
+import { FileViewer } from './FileViewer'
+import {
+  TestContentWrapper,
+  TestPanel,
+  TestsPanel,
+} from '@/components/editor/index'
+import { File, TestFile } from '../../types'
+import { CopyButton } from './iteration-view/iteration-header/CopyButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const TabsContext = createContext<TabContext>({
+  current: '',
+  switchToTab: () => null,
+})
+
+export const FilePanel = ({
+  files,
+  language,
+  indentSize,
+  instructions,
+  testFiles,
+  showCopyButton = false,
+}: {
+  files: readonly File[]
+  language: string
+  indentSize: number
+  instructions?: string
+  testFiles?: readonly TestFile[]
+  showCopyButton?: boolean
+}): JSX.Element | null => {
+  const { t } = useAppTranslation('session')
+  const [tab, setTab] = useState<string>('')
+
+  useEffect(() => {
+    if (files.length === 0) {
+      return
+    }
+
+    setTab(files[0].filename + 0)
+  }, [files])
+
+  if (files.length === 0) {
+    return null
+  }
+
+  return (
+    <TabsContext.Provider
+      value={{
+        current: tab,
+        switchToTab: (filename: string) => setTab(filename),
+      }}
+    >
+      <div className="c-iteration-pane">
+        <div className="tabs" role="tablist">
+          <div className="flex flex-grow relative">
+            {files.map((file, idx) => (
+              <Tab
+                key={file.filename + idx}
+                id={file.filename + idx}
+                context={TabsContext}
+              >
+                {file.filename}
+              </Tab>
+            ))}
+
+            {instructions ? (
+              <Tab key="instructions" id="instructions" context={TabsContext}>
+                {t('......components.mentoring.session.filePanel.instructions')}
+              </Tab>
+            ) : null}
+
+            {testFiles ? (
+              <Tab key="tests" id="tests" context={TabsContext}>
+                {t('......components.mentoring.session.filePanel.tests')}
+              </Tab>
+            ) : null}
+          </div>
+          {files && showCopyButton && <CopyButton files={files} />}
+        </div>
+
+        <div className="c-code-pane">
+          {files.map((file, idx) => (
+            <Tab.Panel
+              key={file.filename + idx}
+              id={file.filename + idx}
+              context={TabsContext}
+            >
+              <FileViewer
+                file={file}
+                language={language}
+                indentSize={indentSize}
+              />
+            </Tab.Panel>
+          ))}
+        </div>
+        {instructions ? (
+          <Tab.Panel
+            key="instructions"
+            id="instructions"
+            context={TabsContext}
+            className="overflow-auto"
+          >
+            <div
+              className="p-16 c-textual-content --small"
+              dangerouslySetInnerHTML={{ __html: instructions }}
+            />
+          </Tab.Panel>
+        ) : null}
+        {testFiles ? (
+          <TestsPanel context={TabsContext}>
+            <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
+              <TestPanel highlightjsLanguage={language} />
+            </TestContentWrapper>
+          </TestsPanel>
+        ) : null}
+      </div>
+    </TabsContext.Provider>
+  )
+}
+
+// === end file ===
+```

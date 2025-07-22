@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "inbox.inbox": "Inbox",
+  "inbox.awaitingStudent": "Awaiting student",
+  "inbox.finished": "Finished",
+  "inbox.filterByStudentOrExerciseName": "Filter by student or exercise name"
+}
+
+// modified_files
+// === file: ../components/mentoring/Inbox.tsx ===
 import React, { useState, useEffect } from 'react'
 import { DiscussionList } from './inbox/DiscussionList'
 import { StatusTab } from './inbox/StatusTab'
@@ -165,3 +176,6 @@ export default function Inbox({
     </div>
   )
 }
+
+// end file
+```

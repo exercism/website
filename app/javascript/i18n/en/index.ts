@@ -74,10 +74,11 @@ import ca from './components-mentoring-track-selector'
 import cb from './components-modals-complete-exercise-modal'
 import cc from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
 import cd from './components-modals-exercise-update-modal'
-import ce from './discussion-batch'
-import cf from './session-batch-1'
-import cg from './session-batch-2'
-import ch from './session-batch'
+import ce from './components-modals-mentor'
+import cf from './discussion-batch'
+import cg from './session-batch-1'
+import ch from './session-batch-2'
+import ci from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -157,8 +158,9 @@ export default {
   'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
     cc,
   'components/modals/exercise-update-modal': cd,
-  'discussion-batch': ce,
-  'session-batch-1': cf,
-  'session-batch-2': cg,
-  'session-batch-3': ch,
+  'components/modals/mentor': ce,
+  'discussion-batch': cf,
+  'session-batch-1': cg,
+  'session-batch-2': ch,
+  'session-batch-3': ci,
 }

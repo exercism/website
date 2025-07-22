@@ -80,10 +80,11 @@ import cg from './components-modals-mentor-registration-modal-commit-step'
 import ch from './components-modals-profile'
 import ci from './components-modals-realtime-feedback-modal-components'
 import cj from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
-import ck from './discussion-batch'
-import cl from './session-batch-1'
-import cm from './session-batch-2'
-import cn from './session-batch'
+import ck from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
+import cl from './discussion-batch'
+import cm from './session-batch-1'
+import cn from './session-batch-2'
+import co from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -170,8 +171,10 @@ export default {
   'components/modals/realtime-feedback-modal/components': ci,
   'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback':
     cj,
-  'discussion-batch': ck,
-  'session-batch-1': cl,
-  'session-batch-2': cm,
-  'session-batch-3': cn,
+  'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
+    ck,
+  'discussion-batch': cl,
+  'session-batch-1': cm,
+  'session-batch-2': cn,
+  'session-batch-3': co,
 }

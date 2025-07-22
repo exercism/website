@@ -123,10 +123,11 @@ import dn from './components-profile-community-solutions-list'
 import dp from './components-profile-contributions-list'
 import dq from './components-profile-contributions-summary'
 import dr from './components-profile-testimonials-list'
-import ds from './discussion-batch'
-import dt from './session-batch-1'
-import du from './session-batch-2'
-import dv from './session-batch-3'
+import ds from './components-settings-comments-preference-form'
+import dt from './discussion-batch'
+import du from './session-batch-1'
+import dv from './session-batch-2'
+import dw from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -257,8 +258,9 @@ export default {
   'components/profile/contributions-list': dp,
   'components/profile/contributions-summary': dq,
   'components/profile/testimonials-list': dr,
-  'discussion-batch': ds,
-  'session-batch-1': dt,
-  'session-batch-2': du,
-  'session-batch-3': dv,
+  'components/settings/comments-preference-form': ds,
+  'discussion-batch': dt,
+  'session-batch-1': du,
+  'session-batch-2': dv,
+  'session-batch-3': dw,
 }

@@ -1,7 +1,9 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { ExtendLockedUntilModal } from './ExtendLockedUntilModal'
 import type { MentorSessionRequest } from '@/components/types'
 import { useLockedSolutionMentoringNote } from './useLockedSolutionMentoringNote'
+import { Trans } from 'react-i18next'
 
 type Links = {
   mentoringDocs: string
@@ -14,6 +16,9 @@ export const LockedSolutionMentoringNote = ({
   links: Links
   request: MentorSessionRequest
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/request/locked-solution-mentoring-note'
+  )
   const {
     lockedUntil,
     diff,
@@ -28,14 +33,15 @@ export const LockedSolutionMentoringNote = ({
   return (
     <>
       <div className="note">
-        Check out our{' '}
-        <a href={links.mentoringDocs} target="_blank" rel="noreferrer">
-          mentoring docs
-        </a>{' '}
-        for more information.{' '}
-        {diff > 0
-          ? `This solution is locked until ${lockedUntil} (${diffMins} from now).`
-          : 'This solution is no longer locked and another mentor may pick it up'}
+        <Trans
+          i18nKey={diff > 0 ? 'lockedNote.stillLocked' : 'lockedNote.unlocked'}
+          values={{ lockedUntil, diffMins }}
+          components={{
+            a: (
+              <a href={links.mentoringDocs} target="_blank" rel="noreferrer" />
+            ),
+          }}
+        />
       </div>
       <ExtendLockedUntilModal
         open={extendModalOpen}

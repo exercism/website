@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal } from '@/components/modals'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ExtendLockedUntilModal({
   open,
@@ -15,6 +16,10 @@ export function ExtendLockedUntilModal({
   diffMinutes: string
   adjustOpenModalAt: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/request/locked-solution-mentoring-note'
+  )
+
   return (
     <Modal
       onClose={onClose}
@@ -31,19 +36,20 @@ export function ExtendLockedUntilModal({
       <div className="flex items-start">
         <div className="flex flex-col mr-32">
           <h3 id="extend-mentoring-request-lock-label" className="text-h3 mb-6">
-            Mentor Lock close to expiring
+            {t('extendLockedUntilModal.mentorLockExpiring')}
           </h3>
           <p
             className="text-p-large mb-8"
             id="extend-mentoring-request-lock-description"
           >
-            You only have {diffMinutes} remaining to submit your comment before
-            this mentor request is unlocked for other mentors to reply to.
+            {t('extendLockedUntilModal.timeRemaining', { diffMinutes })}
           </p>
-          <p className="text-p-large mb-20">Would you like more time?</p>
+          <p className="text-p-large mb-20">
+            {t('extendLockedUntilModal.wouldLikeMoreTime')}
+          </p>
           <div className="flex gap-16">
             <button onClick={onExtend} className="btn-m btn-primary">
-              Yes, extend for 30 minutes
+              {t('extendLockedUntilModal.yesExtend')}
             </button>
             <button
               className="btn-m btn-secondary"
@@ -52,7 +58,7 @@ export function ExtendLockedUntilModal({
                 adjustOpenModalAt()
               }}
             >
-              No, thank you
+              {t('extendLockedUntilModal.noThankYou')}
             </button>
           </div>
         </div>

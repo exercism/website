@@ -78,29 +78,30 @@ import ce from './components-modals-ChangePublishedIterationModal.tsx'
 import cf from './components-modals-complete-exercise-modal'
 import cg from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
 import ch from './components-modals-ConceptMakersModal.tsx'
-import ci from './components-modals-exercise-update-modal'
-import cj from './components-modals-mentor'
-import ck from './components-modals-mentor-registration-modal'
-import cl from './components-modals-mentor-registration-modal-commit-step'
-import cm from './components-modals-profile'
-import cn from './components-modals-realtime-feedback-modal'
-import co from './components-modals-realtime-feedback-modal-components'
-import cp from './components-modals-realtime-feedback-modal-feedback-content'
-import cq from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
-import cr from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
-import cs from './components-modals-seniority-survey-modal'
-import ct from './components-modals-student'
-import cu from './components-modals-student-finish-mentor-discussion-modal'
-import cv from './components-modals-track-welcome-modal-LHS-steps'
-import cw from './components-modals-track-welcome-modal-LHS-steps-components'
-import cx from './components-modals-track-welcome-modal-RHS'
-import cy from './components-modals-upload-video'
-import cz from './components-modals-upload-video-elements'
-import c0 from './components-modals-welcome-modal'
-import c1 from './discussion-batch'
-import c2 from './session-batch-1'
-import c3 from './session-batch-2'
-import c4 from './session-batch'
+import ci from './components-modals-DeleteAccountModal.tsx'
+import cj from './components-modals-exercise-update-modal'
+import ck from './components-modals-mentor'
+import cl from './components-modals-mentor-registration-modal'
+import cm from './components-modals-mentor-registration-modal-commit-step'
+import cn from './components-modals-profile'
+import co from './components-modals-realtime-feedback-modal'
+import cp from './components-modals-realtime-feedback-modal-components'
+import cq from './components-modals-realtime-feedback-modal-feedback-content'
+import cr from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
+import cs from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
+import ct from './components-modals-seniority-survey-modal'
+import cu from './components-modals-student'
+import cv from './components-modals-student-finish-mentor-discussion-modal'
+import cw from './components-modals-track-welcome-modal-LHS-steps'
+import cx from './components-modals-track-welcome-modal-LHS-steps-components'
+import cy from './components-modals-track-welcome-modal-RHS'
+import cz from './components-modals-upload-video'
+import c0 from './components-modals-upload-video-elements'
+import c1 from './components-modals-welcome-modal'
+import c2 from './discussion-batch'
+import c3 from './session-batch-1'
+import c4 from './session-batch-2'
+import c5 from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -184,29 +185,30 @@ export default {
   'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
     cg,
   'components/modals/ConceptMakersModal.tsx': ch,
-  'components/modals/exercise-update-modal': ci,
-  'components/modals/mentor': cj,
-  'components/modals/mentor-registration-modal': ck,
-  'components/modals/mentor-registration-modal/commit-step': cl,
-  'components/modals/profile': cm,
-  'components/modals/realtime-feedback-modal': cn,
-  'components/modals/realtime-feedback-modal/components': co,
-  'components/modals/realtime-feedback-modal/feedback-content': cp,
+  'components/modals/DeleteAccountModal.tsx': ci,
+  'components/modals/exercise-update-modal': cj,
+  'components/modals/mentor': ck,
+  'components/modals/mentor-registration-modal': cl,
+  'components/modals/mentor-registration-modal/commit-step': cm,
+  'components/modals/profile': cn,
+  'components/modals/realtime-feedback-modal': co,
+  'components/modals/realtime-feedback-modal/components': cp,
+  'components/modals/realtime-feedback-modal/feedback-content': cq,
   'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback':
-    cq,
-  'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
     cr,
-  'components/modals/seniority-survey-modal': cs,
-  'components/modals/student': ct,
-  'components/modals/student/finish-mentor-discussion-modal': cu,
-  'components/modals/track-welcome-modal/LHS/steps': cv,
-  'components/modals/track-welcome-modal/LHS/steps/components': cw,
-  'components/modals/track-welcome-modal/RHS': cx,
-  'components/modals/upload-video': cy,
-  'components/modals/upload-video/elements': cz,
-  'components/modals/welcome-modal': c0,
-  'discussion-batch': c1,
-  'session-batch-1': c2,
-  'session-batch-2': c3,
-  'session-batch-3': c4,
+  'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
+    cs,
+  'components/modals/seniority-survey-modal': ct,
+  'components/modals/student': cu,
+  'components/modals/student/finish-mentor-discussion-modal': cv,
+  'components/modals/track-welcome-modal/LHS/steps': cw,
+  'components/modals/track-welcome-modal/LHS/steps/components': cx,
+  'components/modals/track-welcome-modal/RHS': cy,
+  'components/modals/upload-video': cz,
+  'components/modals/upload-video/elements': c0,
+  'components/modals/welcome-modal': c1,
+  'discussion-batch': c2,
+  'session-batch-1': c3,
+  'session-batch-2': c4,
+  'session-batch-3': c5,
 }

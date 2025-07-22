@@ -6,6 +6,7 @@ import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { IterationSelector } from '../student/IterationSelector'
 import { Iteration } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to complete exercise')
 
@@ -18,10 +19,14 @@ const ConfirmButton = ({
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+
   switch (status) {
     case 'idle':
       return (
-        <button className="confirm-button btn-primary btn-l">Confirm</button>
+        <button className="confirm-button btn-primary btn-l">
+          {t('publishSolutionForm.confirm')}
+        </button>
       )
     case 'pending':
       return (
@@ -46,6 +51,7 @@ export const PublishSolutionForm = ({
   iterations: readonly Iteration[]
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
   const [toPublish, setToPublish] = useState(true)
   const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
     number | null
@@ -91,7 +97,7 @@ export const PublishSolutionForm = ({
         <div className="row">
           <div className="c-radio" />
           <div className="label">
-            Yes, I'd like to share my solution with the community.
+            {t('publishSolutionForm.yesShareSolution')}
           </div>
         </div>
       </label>
@@ -111,9 +117,7 @@ export const PublishSolutionForm = ({
         />
         <div className="row">
           <div className="c-radio" />
-          <div className="label">
-            No, I just want to mark the exercise as complete.
-          </div>
+          <div className="label">{t('publishSolutionForm.noMarkComplete')}</div>
         </div>
       </label>
       <ErrorBoundary

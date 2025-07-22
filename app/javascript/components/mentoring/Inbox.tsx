@@ -53,7 +53,7 @@ export default function Inbox({
   sortOptions: readonly SortOption[]
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/Inbox.tsx')
+  const { t } = useAppTranslation('components/mentoring/Inboxtsx')
   const [criteria, setCriteria] = useState(discussionsRequest.query?.criteria)
   const {
     request,

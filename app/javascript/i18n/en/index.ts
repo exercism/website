@@ -66,10 +66,11 @@ import b2 from './components-mentoring-session-student-info'
 import b3 from './components-mentoring-session-StudentInfo.tsx'
 import b4 from './components-mentoring-testimonials-list'
 import b5 from './components-mentoring-testimonials-list-revealed-testimonial'
-import b6 from './discussion-batch'
-import b7 from './session-batch-1'
-import b8 from './session-batch-2'
-import b9 from './session-batch'
+import b6 from './components-mentoring-track-selector'
+import b7 from './discussion-batch'
+import b8 from './session-batch-1'
+import b9 from './session-batch-2'
+import ca from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -140,8 +141,9 @@ export default {
   'components/mentoring/session/StudentInfo.tsx': b3,
   'components/mentoring/testimonials-list': b4,
   'components/mentoring/testimonials-list/revealed-testimonial': b5,
-  'discussion-batch': b6,
-  'session-batch-1': b7,
-  'session-batch-2': b8,
-  'session-batch-3': b9,
+  'components/mentoring/track-selector': b6,
+  'discussion-batch': b7,
+  'session-batch-1': b8,
+  'session-batch-2': b9,
+  'session-batch-3': ca,
 }

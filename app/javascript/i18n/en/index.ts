@@ -60,7 +60,8 @@ import bw from './components-mentoring-session-favorite-button'
 import bx from './components-mentoring-session-iteration-view'
 import by from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
 import bz from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
-import b0 from './discussion-batch'
+import b0 from './components-mentoring-session-student-info'
+import b1 from './discussion-batch'
 
 export default {
   'automation-batch': aa,
@@ -125,5 +126,6 @@ export default {
   'components/mentoring/session/iteration-view': bx,
   'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': by,
   'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': bz,
-  'discussion-batch': b0,
+  'components/mentoring/session/student-info': b0,
+  'discussion-batch': b1,
 }

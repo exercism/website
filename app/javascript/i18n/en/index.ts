@@ -121,10 +121,11 @@ import dl from './components-profile-avatar-selector-photo'
 import dm from './components-profile-community-solutions-list'
 import dn from './components-profile-contributions-list'
 import dp from './components-profile-contributions-summary'
-import dq from './discussion-batch'
-import dr from './session-batch-1'
-import ds from './session-batch-2'
-import dt from './session-batch-3'
+import dq from './components-profile-testimonials-list'
+import dr from './discussion-batch'
+import ds from './session-batch-1'
+import dt from './session-batch-2'
+import du from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -253,8 +254,9 @@ export default {
   'components/profile/community-solutions-list': dm,
   'components/profile/contributions-list': dn,
   'components/profile/contributions-summary': dp,
-  'discussion-batch': dq,
-  'session-batch-1': dr,
-  'session-batch-2': ds,
-  'session-batch-3': dt,
+  'components/profile/testimonials-list': dq,
+  'discussion-batch': dr,
+  'session-batch-1': ds,
+  'session-batch-2': dt,
+  'session-batch-3': du,
 }

@@ -1,5 +1,7 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const EmptyList = (): JSX.Element => {
-  return <div>You have no notifications</div>
+  const { t } = useAppTranslation('components/notifications/notifications-list')
+  return <div>{t('list.youHaveNoNotifications')}</div>
 }

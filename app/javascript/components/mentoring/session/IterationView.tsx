@@ -8,6 +8,7 @@ import { FetchingBoundary } from '../../FetchingBoundary'
 import { File, TestFile } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
 import { LinkButton } from './LinkButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -38,6 +39,7 @@ export const IterationView = ({
   discussion?: MentorDiscussion
   downloadCommand: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-3')
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,
@@ -60,7 +62,9 @@ export const IterationView = ({
         files={resolvedData?.files}
       />
       {currentIteration.status == IterationStatus.DELETED ? (
-        <div className="deleted">This iteration has been deleted</div>
+        <div className="deleted">
+          {t('components.mentoring.session.iterationView.iterationDeleted')}
+        </div>
       ) : (
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary

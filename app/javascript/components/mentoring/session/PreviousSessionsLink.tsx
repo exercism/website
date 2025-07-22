@@ -3,6 +3,7 @@ import { Icon } from '../../common/Icon'
 import pluralize from 'pluralize'
 import { PreviousMentoringSessionsModal } from '../../modals/PreviousMentoringSessionsModal'
 import { Student } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const PreviousSessionsLink = ({
   student,
@@ -11,6 +12,7 @@ export const PreviousSessionsLink = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element | null => {
+  const { t } = useAppTranslation('session-batch-3')
   const [open, setOpen] = useState(false)
 
   if (student.numDiscussionsWithMentor < 2) {
@@ -26,8 +28,19 @@ export const PreviousSessionsLink = ({
         className="previous-sessions"
         onClick={() => setOpen(true)}
       >
-        See {numPrevious} previous {pluralize('session', numPrevious)}
-        <Icon icon="modal" alt="Opens in modal" />
+        {t(
+          'components.mentoring.session.previousSessionsLink.seePreviousSessions',
+          {
+            numPrevious: numPrevious,
+            sessions: pluralize('session', numPrevious),
+          }
+        )}
+        <Icon
+          icon="modal"
+          alt={t(
+            'components.mentoring.session.previousSessionsLink.opensInModal'
+          )}
+        />
       </button>
       {open ? (
         <PreviousMentoringSessionsModal

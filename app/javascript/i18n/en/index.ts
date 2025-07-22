@@ -62,7 +62,9 @@ import by from './components-mentoring-session-mobile-code-panel-MobileIteration
 import bz from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
 import b0 from './components-mentoring-session-student-info'
 import b1 from './discussion-batch'
-import b2 from './session-batch-1'
+import b2 from './session-batch-2'
+import b3 from './session-batch-1'
+import b4 from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -130,4 +132,6 @@ export default {
   'components/mentoring/session/student-info': b0,
   'discussion-batch': b1,
   'session-batch': b2,
+  'session-batch': b3,
+  'session-batch': b4,
 }

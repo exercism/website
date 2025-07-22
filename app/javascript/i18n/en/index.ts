@@ -78,14 +78,15 @@ import ce from './components-modals-mentor'
 import cf from './components-modals-mentor-registration-modal'
 import cg from './components-modals-mentor-registration-modal-commit-step'
 import ch from './components-modals-profile'
-import ci from './components-modals-realtime-feedback-modal-components'
-import cj from './components-modals-realtime-feedback-modal-feedback-content'
-import ck from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
-import cl from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
-import cm from './discussion-batch'
-import cn from './session-batch-1'
-import co from './session-batch-2'
-import cp from './session-batch'
+import ci from './components-modals-realtime-feedback-modal'
+import cj from './components-modals-realtime-feedback-modal-components'
+import ck from './components-modals-realtime-feedback-modal-feedback-content'
+import cl from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
+import cm from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
+import cn from './discussion-batch'
+import co from './session-batch-1'
+import cp from './session-batch-2'
+import cq from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -169,14 +170,15 @@ export default {
   'components/modals/mentor-registration-modal': cf,
   'components/modals/mentor-registration-modal/commit-step': cg,
   'components/modals/profile': ch,
-  'components/modals/realtime-feedback-modal/components': ci,
-  'components/modals/realtime-feedback-modal/feedback-content': cj,
+  'components/modals/realtime-feedback-modal': ci,
+  'components/modals/realtime-feedback-modal/components': cj,
+  'components/modals/realtime-feedback-modal/feedback-content': ck,
   'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback':
-    ck,
-  'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
     cl,
-  'discussion-batch': cm,
-  'session-batch-1': cn,
-  'session-batch-2': co,
-  'session-batch-3': cp,
+  'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
+    cm,
+  'discussion-batch': cn,
+  'session-batch-1': co,
+  'session-batch-2': cp,
+  'session-batch-3': cq,
 }

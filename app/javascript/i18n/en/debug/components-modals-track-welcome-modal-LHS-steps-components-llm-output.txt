@@ -1,0 +1,61 @@
+```ts
+// i18n
+export default {
+  "welcomeToTrack.welcomeTo": "Welcome to {{trackTitle}}! 🎉"
+}
+
+// modified_files
+// === file: ../components/modals/track-welcome-modal/LHS/steps/components/WelcomeToTrack.tsx ===
+// i18n-key-prefix: welcomeToTrack
+// i18n-namespace: components/modals/track-welcome-modal/LHS/steps/components
+import React, { useContext } from 'react'
+import { TrackContext } from '../../../TrackWelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+export function WelcomeToTrack(): JSX.Element {
+  const { track } = useContext(TrackContext)
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/LHS/steps/components')
+  return <h1 className="text-h1 mb-8">{t('welcomeToTrack.welcomeTo', { trackTitle: track.title })}</h1>
+}
+
+// end file
+
+// === file: ../components/modals/track-welcome-modal/LHS/steps/components/ButtonContainer.tsx ===
+// i18n-key-prefix: buttonContainer
+// i18n-namespace: components/modals/track-welcome-modal/LHS/steps/components
+import React from 'react'
+
+export function ButtonContainer({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element {
+  return (
+    <div className="flex gap-12 items-center content-stretch">{children}</div>
+  )
+}
+
+// end file
+
+// === file: ../components/modals/track-welcome-modal/LHS/steps/components/StepButton.tsx ===
+// i18n-key-prefix: stepButton
+// i18n-namespace: components/modals/track-welcome-modal/LHS/steps/components
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import React, { ButtonHTMLAttributes } from 'react'
+
+interface StepButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode
+}
+export function StepButton({
+  children,
+  className,
+  ...props
+}: StepButtonProps): JSX.Element {
+  return (
+    <button {...props} className={assembleClassNames('btn-m', className)}>
+      {children}
+    </button>
+  )
+}
+
+// end file
+```

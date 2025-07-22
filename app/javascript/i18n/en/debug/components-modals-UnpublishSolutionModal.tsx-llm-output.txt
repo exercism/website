@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "unpublishSolutionModal.title": "Do you want to unpublish your solution?",
+  "unpublishSolutionModal.body": "Unpublishing your solution will mean it no longer appears on your profile and can no longer be viewed under Community Solutions. All stars and comments will be lost, and any associated reputation will be removed.",
+  "unpublishSolutionModal.unpublishButton": "Unpublish solution",
+  "unpublishSolutionModal.cancelButton": "Cancel"
+}
+
+// modified_files
+// === file: ../components/modals/UnpublishSolutionModal.tsx ===
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -15,9 +26,7 @@ export const UnpublishSolutionModal = ({
   endpoint,
   ...props
 }: ModalProps & { endpoint: string }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/UnpublishSolutionModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/UnpublishSolutionModal.tsx')
   const {
     mutate: mutation,
     status,
@@ -42,7 +51,9 @@ export const UnpublishSolutionModal = ({
   return (
     <Modal {...props} className="m-unpublish-solution">
       <h3>{t('unpublishSolutionModal.title')}</h3>
-      <p>{t('unpublishSolutionModal.body')}</p>
+      <p>
+        {t('unpublishSolutionModal.body')}
+      </p>
 
       <div className="btns">
         <FormButton
@@ -68,3 +79,5 @@ export const UnpublishSolutionModal = ({
     </Modal>
   )
 }
+// === end file ===
+```

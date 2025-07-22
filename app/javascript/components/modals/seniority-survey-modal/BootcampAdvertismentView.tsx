@@ -3,34 +3,37 @@ import { GraphicalIcon, Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function BootcampAdvertismentView() {
   const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
+  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
 
   return (
     <>
       <div className="lhs">
         <header>
           <h1 className="!font-medium">
-            Meet our new{' '}
-            <strong className="font-semibold">Coding Fundamentals</strong>{' '}
-            course...
+            <Trans
+              i18nKey="bootcampAd.heading"
+              components={{ strong: <strong className="font-semibold" /> }}
+            />
           </h1>
 
           <p className="mb-8">
-            Our{' '}
-            <strong className="!font-semibold text-black">
-              Coding Fundamentals
-            </strong>{' '}
-            course is designed specifically for beginners! It will teach you how
-            to <strong>think like a coder</strong> by solving puzzles and
-            building games.
+            <Trans
+              i18nKey="bootcampAd.description"
+              components={{
+                strong: <strong className="!font-semibold text-black" />,
+              }}
+            />
           </p>
-          <p className="mb-6">
-            In 12 weeks, you'll go from zero to making these...
-          </p>
+
+          <p className="mb-6">{t('bootcampAd.timeline')}</p>
+
           <div className="grid grid-cols-4 gap-10 mb-12">
             <Icon
               category="bootcamp"
@@ -57,21 +60,23 @@ export function BootcampAdvertismentView() {
               className="w-full"
             />
           </div>
+
           <p className="mb-8">
-            This is a course for anyone that wants to get really good at coding.
-            It's affordable. It's fun. And most importantly, it's{' '}
-            <strong className="text-black font-semibold">
-              incredibly effective
-            </strong>
-            !
+            <Trans
+              i18nKey="bootcampAd.punchline"
+              components={{
+                strong: <strong className="text-black font-semibold" />,
+              }}
+            />
           </p>
         </header>
+
         <div className="flex gap-12 mt-auto flex-grow">
           <a
             href={links.codingFundamentalsCourse}
             className="btn-primary btn-l cursor-pointer flex-grow"
           >
-            Learn more ✨
+            {t('bootcampAd.learnMore')}
           </a>
           <FormButton
             status={patchCloseModal.status}
@@ -79,9 +84,10 @@ export function BootcampAdvertismentView() {
             type="button"
             onClick={patchCloseModal.mutate}
           >
-            Close
+            {t('bootcampAd.close')}
           </FormButton>
         </div>
+
         <ErrorBoundary resetKeys={[patchCloseModal.status]}>
           <ErrorMessage
             error={patchCloseModal.error}
@@ -89,10 +95,12 @@ export function BootcampAdvertismentView() {
           />
         </ErrorBoundary>
       </div>
+
       <div className="rhs">
         <div className="font-semibold text-18 text-center mb-16">
-          Watch the Course Intro 👇
+          {t('bootcampAd.videoIntro')}
         </div>
+
         <div
           className="video relative rounded-8 overflow-hidden !mb-16"
           style={{
@@ -109,26 +117,39 @@ export function BootcampAdvertismentView() {
             allowFullScreen
           />
         </div>
+
         <div className="bubbles">
           <div className="bubble">
             <Icon category="bootcamp" alt="wave-icon" icon="video-tutorial" />
             <div className="text">
-              <strong>Video</strong> tutorials
+              <Trans
+                i18nKey="bootcampAd.feature.video"
+                components={{ strong: <strong /> }}
+              />
             </div>
           </div>
+
           <div className="bubble">
             <Icon category="bootcamp" alt="fun-icon" icon="fun" />
             <div className="text">
-              <strong>Fun</strong> projects
+              <Trans
+                i18nKey="bootcampAd.feature.fun"
+                components={{ strong: <strong /> }}
+              />
             </div>
           </div>
+
           <div className="bubble">
             <Icon category="bootcamp" alt="help-icon" icon="help" />
             <div className="text">
-              Helpful <strong>mentors</strong>
+              <Trans
+                i18nKey="bootcampAd.feature.mentors"
+                components={{ strong: <strong /> }}
+              />
             </div>
           </div>
         </div>
+
         <div className="quote">
           <div className="words">
             <GraphicalIcon
@@ -138,12 +159,11 @@ export function BootcampAdvertismentView() {
             />
             <span>
               <p>
-                I was brand new to coding and this course{' '}
-                <strong>exceeded my wildest expectations</strong>. In my humble
-                opinion, it will be{' '}
-                <strong>one of the best choices you will ever make!</strong>
+                <Trans
+                  i18nKey="bootcampAd.quote"
+                  components={{ strong: <strong /> }}
+                />
               </p>
-
               <GraphicalIcon
                 category="bootcamp"
                 icon="quote.png"
@@ -151,11 +171,14 @@ export function BootcampAdvertismentView() {
               />
             </span>
           </div>
+
           <div className="person">
             <div className="flex flex-row items-center justify-end gap-8">
               <div className="text">
-                <div className="name">Shaun</div>
-                <div className="description">Absolute Beginner</div>
+                <div className="name">{t('bootcampAd.quote.name')}</div>
+                <div className="description">
+                  {t('bootcampAd.quote.description')}
+                </div>
               </div>
               <Icon
                 category="bootcamp/testimonials"

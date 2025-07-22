@@ -63,10 +63,11 @@ import bz from './components-mentoring-session-mobile-code-panel-SessionInfoModa
 import b0 from './components-mentoring-session-Scratchpad.tsx'
 import b1 from './components-mentoring-session-SessionInfo.tsx'
 import b2 from './components-mentoring-session-student-info'
-import b3 from './discussion-batch'
-import b4 from './session-batch-1'
-import b5 from './session-batch-2'
-import b6 from './session-batch'
+import b3 from './components-mentoring-session-StudentInfo.tsx'
+import b4 from './discussion-batch'
+import b5 from './session-batch-1'
+import b6 from './session-batch-2'
+import b7 from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -134,8 +135,9 @@ export default {
   'components/mentoring/session/Scratchpad.tsx': b0,
   'components/mentoring/session/SessionInfo.tsx': b1,
   'components/mentoring/session/student-info': b2,
-  'discussion-batch': b3,
-  'session-batch-1': b4,
-  'session-batch-2': b5,
-  'session-batch-3': b6,
+  'components/mentoring/session/StudentInfo.tsx': b3,
+  'discussion-batch': b4,
+  'session-batch-1': b5,
+  'session-batch-2': b6,
+  'session-batch-3': b7,
 }

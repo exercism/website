@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "studentInfo.whoYoureMentoring": "Who you're mentoring"
+}
+
+// modified_files
+// === file: ../components/mentoring/session/StudentInfo.tsx ===
 // i18n-key-prefix: studentInfo
 // i18n-namespace: components/mentoring/session/StudentInfo.tsx
 import React, { useContext, useState } from 'react'
@@ -20,9 +28,7 @@ export const StudentInfo = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/StudentInfo.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/session/StudentInfo.tsx')
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   const [showMoreInformation, setShowMoreInformation] = useState(false)
 
@@ -78,3 +84,6 @@ export const StudentInfo = ({
       </div>
     )
 }
+
+// end file
+```

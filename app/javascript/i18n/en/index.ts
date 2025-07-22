@@ -60,11 +60,12 @@ import bw from './components-mentoring-session-favorite-button'
 import bx from './components-mentoring-session-iteration-view'
 import by from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
 import bz from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
-import b0 from './components-mentoring-session-student-info'
-import b1 from './discussion-batch'
-import b2 from './session-batch-2'
+import b0 from './components-mentoring-session-Scratchpad.tsx'
+import b1 from './components-mentoring-session-student-info'
+import b2 from './discussion-batch'
 import b3 from './session-batch-1'
-import b4 from './session-batch'
+import b4 from './session-batch-2'
+import b5 from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -129,9 +130,10 @@ export default {
   'components/mentoring/session/iteration-view': bx,
   'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': by,
   'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': bz,
-  'components/mentoring/session/student-info': b0,
-  'discussion-batch': b1,
-  'session-batch': b2,
-  'session-batch': b3,
-  'session-batch': b4,
+  'components/mentoring/session/Scratchpad.tsx': b0,
+  'components/mentoring/session/student-info': b1,
+  'discussion-batch': b2,
+  'session-batch-1': b3,
+  'session-batch-2': b4,
+  'session-batch-3': b5,
 }

@@ -1,0 +1,568 @@
+```ts
+// i18n
+export default {
+  "welcomeModal.helloFellowDeveloper": "Hello fellow developer 👋",
+  "welcomeModal.exercismDeepenSkills": "Exercism is the place to deepen your programming skills and explore over {{numTracks}} programming languages. It&apos;s 100% free.",
+  "welcomeModal.thanksForJoining": "Thanks for joining!",
+  "welcomeModal.madeByThousands": "Exercism has been made by thousands of people who want to create a fun, powerful educational platform that makes it easy to learn and deepen your programming skills. We&apos;re really glad you&apos;ve joined us for the ride! Check our forums, Youtube and Twitch to explore everything Exercism has to offer 🎉",
+  "welcomeModal.watchWelcomeVideo": "To get started, watch the welcome video on the right then head to the Tracks page and choose the language you want to explore first. Solve the classic &quot;Hello World&quot; exercise to familiarize yourself with the platform, then start solving exercises for real.",
+  "welcomeModal.gotItCloseModal": "Got it! Close this modal.",
+  "welcomeModal.startWithWelcomeVideo": "Start with our welcome video 👇🏽",
+  "welcomeModal.whereCanIJoin": "Where can I join #48in24?",
+  "welcomeModal.discoveredExercism": "Discovered Exercism because of #48in24 or one of our featured months? Good stuff! Once you&apos;ve watched the video above, close this modal and you&apos;ll see a big graphic on the right-hand side advertising #48in24. Click on that and follow the instructions to get started!",
+  "initialView.welcomeToExercism": "Welcome to Exercism! 💙",
+  "initialView.letsMakeSure": "Let's make sure that you get the most out of Exercism.",
+  "initialView.howExperienced": "How experienced a developer are you?",
+  "initialView.absoluteBeginner": "Absolute Beginner",
+  "initialView.beginner": "Beginner",
+  "initialView.juniorDeveloper": "Junior Developer",
+  "initialView.midLevelDeveloper": "Mid-level Developer",
+  "initialView.seniorDeveloper": "Senior Developer",
+  "juniorView.aCourseForYou": "A course for you... 🎉",
+  "juniorView.codingFundamentalsDesigned": "Our <strong className=\"!font-semibold\">Coding Fundamentals</strong> course is designed for people who have been coding for less than a year!!",
+  "juniorView.itWillTeach": "It will teach you how to <strong>think like a coder</strong> by solving puzzles and building games. In only 12 weeks, you'll go from zero to making these...",
+  "juniorView.thisIsCourseAnyone": "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong className=\"text-black font-semibold\">incredibly effective</strong>!",
+  "juniorView.learnMore": "Learn More ✨",
+  "juniorView.skip": "Skip",
+  "juniorView.exercismsCodingFundamentals": "Exercism's<strong className=\"font-semibold\"> Coding Fundamentals</strong>",
+  "juniorView.theCourseOffers": "The course offers:",
+  "juniorView.expertTeaching": "<strong className=\"font-semibold\">Expert teaching</strong> and mentoring support.",
+  "juniorView.overHoursHandsOn": "Over <strong className=\"font-semibold\">100 hours of hands-on project based learning</strong>, making games and solving puzzles.",
+  "juniorView.aCompleteCoding": "A complete Coding Fundamentals <strong className=\"font-semibold\">syllabus</strong> designed to build knowledge & confidence.",
+  "juniorView.aFormalCertificate": "A formal <strong className=\"font-semibold\">certificate</strong> on completion."
+}
+
+// modified_files
+// === file: ../components/modals/welcome-modal/WelcomeModal.tsx ===
+import React, { useContext, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '../Modal'
+import { InitialView } from './InitialView'
+import { SeniorView } from './DeveloperView'
+import { JuniorView } from './JuniorView'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type ViewVariant = 'initial' | 'beginner' | 'developer'
+
+type WelcomeModalContextProps = {
+  patchCloseModal: {
+    mutate: () => void
+  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
+  patchUserSeniority: {
+    mutate: (seniority: SeniorityLevel) => void
+  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
+  numTracks: number
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  currentView: ViewVariant
+  setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
+  links: {
+    hideModalEndpoint: string
+    apiUserEndpoint: string
+    codingFundamentalsCourse: string
+  }
+}
+
+export type SeniorityLevel =
+  | 'absolute_beginner'
+  | 'beginner'
+  | 'junior'
+  | 'mid'
+  | 'senior'
+
+export const WelcomeModalContext =
+  React.createContext<WelcomeModalContextProps>({
+    patchCloseModal: {
+      mutate: () => null,
+      status: 'idle',
+      error: null,
+    },
+    patchUserSeniority: {
+      mutate: () => null,
+      status: 'idle',
+      error: null,
+    },
+
+    numTracks: 0,
+    open: false,
+    setOpen: () => null,
+    currentView: 'initial',
+    setCurrentView: () => null,
+    links: {
+      hideModalEndpoint: '',
+      apiUserEndpoint: '',
+      codingFundamentalsCourse: '',
+    },
+  })
+
+export default function WelcomeModal({
+  links,
+  numTracks,
+  ...props
+}: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
+  links: {
+    hideModalEndpoint: string
+    apiUserEndpoint: string
+    codingFundamentalsCourse: string
+  }
+  numTracks: number
+}): JSX.Element {
+  const [open, setOpen] = useState(true)
+  const [currentView, setCurrentView] = useState<ViewVariant>('initial')
+
+  const {
+    mutate: hideModalMutation,
+    status: hideModalMutationStatus,
+    error: hideModalMutationError,
+  } = useMutation({
+    mutationFn: () => {
+      const { fetch } = sendRequest({
+        // close modal endpoint
+        endpoint: links.hideModalEndpoint,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    onSuccess: () => {
+      setOpen(false)
+    },
+  })
+
+  const {
+    mutate: setSeniorityMutation,
+    status: setSeniorityMutationStatus,
+    error: setSeniorityMutationError,
+  } = useMutation({
+    mutationFn: (seniority: SeniorityLevel) => {
+      const { fetch } = sendRequest({
+        endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+  })
+
+  return (
+    <WelcomeModalContext.Provider
+      value={{
+        patchCloseModal: {
+          mutate: hideModalMutation,
+          status: hideModalMutationStatus,
+          error: hideModalMutationError,
+        },
+        patchUserSeniority: {
+          mutate: setSeniorityMutation,
+          status: setSeniorityMutationStatus,
+          error: setSeniorityMutationError,
+        },
+        open,
+        setOpen,
+        numTracks,
+        currentView,
+        setCurrentView,
+        links,
+      }}
+    >
+      <Modal
+        cover={true}
+        open={open}
+        style={
+          currentView === 'initial' ? { content: { maxWidth: '590px' } } : {}
+        }
+        {...props}
+        onClose={() => null}
+        className="m-welcome"
+      >
+        <Inner />
+      </Modal>
+    </WelcomeModalContext.Provider>
+  )
+}
+
+function Inner() {
+  const { currentView } = useContext(WelcomeModalContext)
+  switch (currentView) {
+    case 'initial':
+      return <InitialView />
+    case 'beginner':
+      return <JuniorView />
+    case 'developer':
+      return <SeniorView />
+    default:
+      return null
+  }
+}
+
+// === end file ===
+// === file: ../components/modals/welcome-modal/JuniorView.tsx ===
+import React, { useContext } from 'react'
+import { GraphicalIcon, Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { WelcomeModalContext } from './WelcomeModal'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { redirectTo } from '@/utils'
+import VimeoEmbed from '@/components/common/VimeoEmbed'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to dismiss modal')
+
+export function JuniorView() {
+  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { patchCloseModal, links } = useContext(WelcomeModalContext)
+  return (
+    <>
+      <div className="lhs flex flex-col">
+        <header>
+          <h1>{t('juniorView.aCourseForYou')}</h1>
+
+          <p className="mb-8">
+            {t('juniorView.codingFundamentalsDesigned')}
+          </p>
+          <p className="mb-8">
+            {t('juniorView.itWillTeach')}
+          </p>
+          <div className="grid grid-cols-4 gap-10 mb-12">
+            <Icon
+              category="bootcamp"
+              alt="Image of a space invaders game"
+              icon="space-invaders.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a tic-tac-toe game"
+              icon="tic-tac-toe.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a breakout game"
+              icon="breakout.gif"
+              className="w-full"
+            />
+            <Icon
+              category="bootcamp"
+              alt="Image of a maze game"
+              icon="maze.gif"
+              className="w-full"
+            />
+          </div>
+          <p>
+            {t('juniorView.thisIsCourseAnyone')}
+          </p>
+        </header>
+        <div className="flex gap-8 mt-auto">
+          <FormButton
+            status={patchCloseModal.status}
+            className="btn-primary btn-l cursor-pointer flex-grow"
+            type="button"
+            onClick={() => {
+              patchCloseModal.mutate()
+              redirectTo(links.codingFundamentalsCourse)
+            }}
+          >
+            {t('juniorView.learnMore')}
+          </FormButton>
+
+          <FormButton
+            status={patchCloseModal.status}
+            className="btn-secondary btn-l flex-shrink-0 min-w-[140px]"
+            type="button"
+            onClick={patchCloseModal.mutate}
+          >
+            {t('juniorView.skip')}
+          </FormButton>
+        </div>
+        <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+          <ErrorMessage
+            error={patchCloseModal.error}
+            defaultError={DEFAULT_ERROR}
+          />
+        </ErrorBoundary>
+      </div>
+      <div className="rhs">
+        <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7">
+          <div className="flex flex-row gap-8 items-center justify-center text-16 text-textColor1 mb-16">
+            <Icon
+              icon="exercism-face"
+              className="filter-textColor1"
+              alt="exercism-face"
+              height={16}
+              width={16}
+            />
+            <div>
+              {t('juniorView.exercismsCodingFundamentals')}
+            </div>
+          </div>
+          <VimeoEmbed
+            className="rounded-8 mb-16"
+            id="1068683543?h=2de237a304"
+          />
+          <div className="text-16 leading-150 text-textColor2">
+            <p className="mb-8 text-17 font-semibold">
+              {t('juniorView.theCourseOffers')}
+            </p>
+            <ul className="flex flex-col gap-6 text-16 font-regular">
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="wave"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  {t('juniorView.expertTeaching')}
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="fun"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  {t('juniorView.overHoursHandsOn')}
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="complete"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  {t('juniorView.aCompleteCoding')}
+                </span>
+              </li>
+              <li className="flex items-start">
+                <GraphicalIcon
+                  icon="certificate"
+                  category="bootcamp"
+                  className="mr-8 w-[20px]"
+                />
+                <span>
+                  {t('juniorView.aFormalCertificate')}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/*
+        <div className="bubbles">
+          <div className="bubble">
+            <Icon category="bootcamp" alt="wave-icon" icon="video-tutorial" />
+            <div className="text">
+              <strong>Video</strong> tutorials
+            </div>
+          </div>
+          <div className="bubble">
+            <Icon category="bootcamp" alt="fun-icon" icon="fun" />
+            <div className="text">
+              <strong>Fun</strong> projects
+            </div>
+          </div>
+          <div className="bubble">
+            <Icon category="bootcamp" alt="help-icon" icon="help" />
+            <div className="text">
+              Helpful <strong>mentors</strong>
+            </div>
+          </div>
+        </div>
+        <div className="quote">
+          <div className="words">
+            <GraphicalIcon
+              category="bootcamp"
+              icon="quote.png"
+              className="mark left-mark"
+            />
+            <span>
+              <p>
+                I was brand new to coding and this course{' '}
+                <strong>exceeded my wildest expectations</strong>. In my humble
+                opinion, it will be{' '}
+                <strong>one of the best choices you will ever make!</strong>
+              </p>
+
+              <GraphicalIcon
+                category="bootcamp"
+                icon="quote.png"
+                className="mark right-mark"
+              />
+            </span>
+          </div>
+          <div className="person">
+            <div className="flex flex-row items-center justify-end gap-8">
+              <div className="text">
+                <div className="name">Shaun</div>
+                <div className="description">Absolute Beginner</div>
+              </div>
+              <Icon
+                category="bootcamp/testimonials"
+                alt="Picture of shaun"
+                icon="shaun.jpg"
+              />
+            </div>
+          </div>
+        </div>*/}
+        </div>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+// === file: ../components/modals/welcome-modal/DeveloperView.tsx ===
+import React, { useContext } from 'react'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { WelcomeModalContext } from './WelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to dismiss modal')
+
+export function SeniorView() {
+  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { numTracks, patchCloseModal } = useContext(WelcomeModalContext)
+
+  return (
+    <>
+      <div className="lhs">
+        <header>
+          <h1>{t('welcomeModal.helloFellowDeveloper')}</h1>
+
+          <p className="">
+            {t('welcomeModal.exercismDeepenSkills', { numTracks })}
+          </p>
+        </header>
+
+        <h2>{t('welcomeModal.thanksForJoining')}</h2>
+        <p className="mb-12">
+          {t('welcomeModal.madeByThousands')}
+        </p>
+
+        <p className="mb-12">
+          {t('welcomeModal.watchWelcomeVideo')}
+        </p>
+
+        <FormButton
+          status={patchCloseModal.status}
+          className="btn-primary btn-l"
+          type="button"
+          onClick={patchCloseModal.mutate}
+        >
+          {t('welcomeModal.gotItCloseModal')}
+        </FormButton>
+        <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+          <ErrorMessage
+            error={patchCloseModal.error}
+            defaultError={DEFAULT_ERROR}
+          />
+        </ErrorBoundary>
+      </div>
+      <div className="rhs">
+        <h2 className="text-h4 mb-12">
+          {t('welcomeModal.startWithWelcomeVideo')}
+        </h2>
+        <div
+          className="video relative rounded-8 overflow-hidden !mb-24"
+          style={{ padding: '56.25% 0 0 0', position: 'relative' }}
+        >
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/8rmbTWAncb8"
+            title="Introducing the 'Community' tab"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+        <h2 className="text-h4 mb-4">
+          {t('welcomeModal.whereCanIJoin')}
+        </h2>
+        <p className="text-p-base mb-8">
+          {t('welcomeModal.discoveredExercism')}
+        </p>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+// === file: ../components/modals/welcome-modal/InitialView.tsx ===
+import React, { useContext } from 'react'
+import { WelcomeModalContext } from './WelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function InitialView() {
+  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { setCurrentView, patchUserSeniority } = useContext(WelcomeModalContext)
+  return (
+    <div className="lhs">
+      <header>
+        <h1 className="text-center">{t('initialView.welcomeToExercism')}</h1>
+
+        <p className="text-center">{t('initialView.letsMakeSure')}</p>
+        <p className="text-center">{t('initialView.howExperienced')}</p>
+      </header>
+
+      <div className="flex flex-col items-stretch gap-8">
+        <button
+          type="button"
+          className="view-changer-btn"
+          onClick={() => {
+            setCurrentView('beginner')
+            patchUserSeniority.mutate('absolute_beginner')
+          }}
+        >
+          {t('initialView.absoluteBeginner')}
+        </button>
+        <button
+          type="button"
+          className="view-changer-btn"
+          onClick={() => {
+            setCurrentView('beginner')
+            patchUserSeniority.mutate('beginner')
+          }}
+        >
+          {t('initialView.beginner')}
+        </button>
+        <button
+          type="button"
+          className="view-changer-btn"
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('junior')
+          }}
+        >
+          {t('initialView.juniorDeveloper')}
+        </button>
+        <button
+          type="button"
+          className="view-changer-btn"
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('mid')
+          }}
+        >
+          {t('initialView.midLevelDeveloper')}
+        </button>{' '}
+        <button
+          type="button"
+          className="view-changer-btn"
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('senior')
+          }}
+        >
+          {t('initialView.seniorDeveloper')}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+```

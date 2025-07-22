@@ -97,19 +97,20 @@ import cx from './components-modals-realtime-feedback-modal-components'
 import cy from './components-modals-realtime-feedback-modal-feedback-content'
 import cz from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
 import c0 from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
-import c1 from './components-modals-seniority-survey-modal'
-import c2 from './components-modals-student'
-import c3 from './components-modals-student-finish-mentor-discussion-modal'
-import c4 from './components-modals-track-welcome-modal-LHS-steps'
-import c5 from './components-modals-track-welcome-modal-LHS-steps-components'
-import c6 from './components-modals-track-welcome-modal-RHS'
-import c7 from './components-modals-upload-video'
-import c8 from './components-modals-upload-video-elements'
-import c9 from './components-modals-welcome-modal'
-import da from './discussion-batch'
-import db from './session-batch-1'
-import dc from './session-batch-2'
-import dd from './session-batch'
+import c1 from './components-modals-RequestMentoringModal.tsx'
+import c2 from './components-modals-seniority-survey-modal'
+import c3 from './components-modals-student'
+import c4 from './components-modals-student-finish-mentor-discussion-modal'
+import c5 from './components-modals-track-welcome-modal-LHS-steps'
+import c6 from './components-modals-track-welcome-modal-LHS-steps-components'
+import c7 from './components-modals-track-welcome-modal-RHS'
+import c8 from './components-modals-upload-video'
+import c9 from './components-modals-upload-video-elements'
+import da from './components-modals-welcome-modal'
+import db from './discussion-batch'
+import dc from './session-batch-1'
+import dd from './session-batch-2'
+import de from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -214,17 +215,18 @@ export default {
     cz,
   'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
     c0,
-  'components/modals/seniority-survey-modal': c1,
-  'components/modals/student': c2,
-  'components/modals/student/finish-mentor-discussion-modal': c3,
-  'components/modals/track-welcome-modal/LHS/steps': c4,
-  'components/modals/track-welcome-modal/LHS/steps/components': c5,
-  'components/modals/track-welcome-modal/RHS': c6,
-  'components/modals/upload-video': c7,
-  'components/modals/upload-video/elements': c8,
-  'components/modals/welcome-modal': c9,
-  'discussion-batch': da,
-  'session-batch-1': db,
-  'session-batch-2': dc,
-  'session-batch-3': dd,
+  'components/modals/RequestMentoringModal.tsx': c1,
+  'components/modals/seniority-survey-modal': c2,
+  'components/modals/student': c3,
+  'components/modals/student/finish-mentor-discussion-modal': c4,
+  'components/modals/track-welcome-modal/LHS/steps': c5,
+  'components/modals/track-welcome-modal/LHS/steps/components': c6,
+  'components/modals/track-welcome-modal/RHS': c7,
+  'components/modals/upload-video': c8,
+  'components/modals/upload-video/elements': c9,
+  'components/modals/welcome-modal': da,
+  'discussion-batch': db,
+  'session-batch-1': dc,
+  'session-batch-2': dd,
+  'session-batch-3': de,
 }

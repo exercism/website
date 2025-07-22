@@ -61,13 +61,22 @@ function toShortIdRaw(index: number): string {
   return id.padStart(2, 'a')
 }
 
-function toShortId(index: number): string {
-  let i = index
-  while (true) {
+function generateUniqueShortIds(count: number): string[] {
+  const used = new Set<string>()
+  const ids: string[] = []
+  let i = 0
+
+  while (ids.length < count) {
     const id = toShortIdRaw(i)
-    if (!RESERVED_WORDS.has(id)) return id
     i++
+
+    if (RESERVED_WORDS.has(id) || used.has(id)) continue
+
+    used.add(id)
+    ids.push(id)
   }
+
+  return ids
 }
 
 export async function generateEnIndex() {
@@ -97,7 +106,7 @@ export async function generateEnIndex() {
 
   const index = rawIndex.map((entry, i) => ({
     ...entry,
-    importName: toShortId(i), // aa, ab, ac, etc., skipping reserved words
+    importName: generateUniqueShortIds(i), // aa, ab, ac, etc., skipping reserved words
   }))
 
   const importLines = index.map(

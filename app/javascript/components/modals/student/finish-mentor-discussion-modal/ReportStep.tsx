@@ -7,6 +7,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { MentorReport } from '../FinishMentorDiscussionModal'
 import { ReasonSelect } from './ReasonSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -19,6 +20,9 @@ export const ReportStep = ({
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   const [state, setState] = useState<MentorReport>({
     requeue: true,
     report: false,
@@ -68,16 +72,12 @@ export const ReportStep = ({
 
   return (
     <section className="report-step">
-      <h2>How can we help?</h2>
+      <h2>{t('reportStep.howCanWeHelp')}</h2>
       <div className="container">
         <div className="lhs">
-          <p className="explanation">
-            We’re really sorry that you experienced a problematic mentoring
-            discussion, and would like to help ensure your next experience is a
-            positive one.
-          </p>
+          <p className="explanation">{t('reportStep.explanation')}</p>
           <form data-turbo="false" onSubmit={handleSubmit}>
-            <h3>How would you like to resolve the issue?</h3>
+            <h3>{t('reportStep.resolveIssue')}</h3>
 
             <label className="c-checkbox-wrapper">
               <input type="checkbox" checked={true} disabled={true} />
@@ -85,7 +85,7 @@ export const ReportStep = ({
                 <div className="c-checkbox">
                   <GraphicalIcon icon="checkmark" />
                 </div>
-                Block further interactions with this mentor
+                {t('reportStep.blockMentor')}
               </div>
             </label>
             <label htmlFor="requeue" className="c-checkbox-wrapper">
@@ -99,7 +99,7 @@ export const ReportStep = ({
                 <div className="c-checkbox">
                   <GraphicalIcon icon="checkmark" />
                 </div>
-                Put your solution back in the queue for mentoring
+                {t('reportStep.requeueSolution')}
               </div>
             </label>
             <label htmlFor="report" className="c-checkbox-wrapper">
@@ -113,16 +113,14 @@ export const ReportStep = ({
                 <div className="c-checkbox">
                   <GraphicalIcon icon="checkmark" />
                 </div>
-                Report this discussion to an admin
+                {t('reportStep.reportDiscussion')}
               </div>
             </label>
 
             {state.report ? (
               <div className="report">
                 <div className="field">
-                  <label htmlFor="reason">
-                    Why are you reporting this conversation?
-                  </label>
+                  <label htmlFor="reason">{t('reportStep.whyReporting')}</label>
                   <ReasonSelect
                     value={state.reason}
                     setValue={(reason) =>
@@ -132,7 +130,9 @@ export const ReportStep = ({
                 </div>
 
                 <div className="field">
-                  <label htmlFor="message">What went wrong?</label>
+                  <label htmlFor="message">
+                    {t('reportStep.whatWentWrong')}
+                  </label>
                   <textarea
                     required
                     ref={messageRef}
@@ -141,8 +141,7 @@ export const ReportStep = ({
                   />
                 </div>
                 <div className="assurance">
-                  Your report will be sent to our adminstrators who will
-                  investigate further
+                  {t('reportStep.reportAssurance')}
                 </div>
               </div>
             ) : null}
@@ -155,14 +154,14 @@ export const ReportStep = ({
                 className="btn-default btn-m"
               >
                 <GraphicalIcon icon="arrow-left" />
-                <span>Back</span>
+                <span>{t('reportStep.back')}</span>
               </FormButton>
               <FormButton
                 status={status}
                 type="submit"
                 className="btn-primary btn-m"
               >
-                Finish
+                {t('reportStep.finish')}
               </FormButton>
             </div>
           </form>

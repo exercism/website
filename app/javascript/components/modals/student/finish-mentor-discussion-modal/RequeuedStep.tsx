@@ -1,22 +1,22 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   exercise: string
 }
 
 export const RequeuedStep = ({ links }: { links: Links }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   return (
     <section className="acceptable-final-step">
-      <h2>Your solution has been requeued.</h2>
-      <p className="explanation">
-        Your solution has been put back in the queue and another mentor will
-        hopefully pick it up soon. We hope you have a positive mentoring session
-        on this solution next time!
-      </p>
+      <h2>{t('requeuedStep.solutionRequeued')}</h2>
+      <p className="explanation">{t('requeuedStep.requedExplanation')}</p>
 
       <div className="form-buttons">
         <a href={links.exercise} className="btn-primary btn-m">
-          Go back to your solution
+          {t('requeuedStep.goToSolution')}
         </a>
       </div>
     </section>

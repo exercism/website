@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "disableSolutionCommentsModal.confirmationTitle": "Do you want to disable comments?",
+  "disableSolutionCommentsModal.confirmationDescription": "Disabling comments stops people from publically posting questions and thoughts on your solution. You can reenable this at any time.",
+  "disableSolutionCommentsModal.disableComments": "Disable comments",
+  "disableSolutionCommentsModal.cancel": "Cancel"
+}
+
+// modified_files
+// === file: ../components/modals/DisableSolutionCommentsModal.tsx ===
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -7,9 +18,9 @@ import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
-const DEFAULT_ERROR = new Error('Unable to enable comments')
+const DEFAULT_ERROR = new Error('Unable to disable comments')
 
-export const EnableSolutionCommentsModal = ({
+export const DisableSolutionCommentsModal = ({
   endpoint,
   onSuccess,
   ...props
@@ -17,9 +28,7 @@ export const EnableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/EnableSolutionCommentsModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/DisableSolutionCommentsModal.tsx')
   const {
     mutate: mutation,
     status,
@@ -42,8 +51,10 @@ export const EnableSolutionCommentsModal = ({
 
   return (
     <Modal {...props} className="m-generic-confirmation">
-      <h3>{t('enableSolutionCommentsModal.enableComments')}</h3>
-      <p>{t('enableSolutionCommentsModal.enablingCommentsAllows')}</p>
+      <h3>{t('disableSolutionCommentsModal.confirmationTitle')}</h3>
+      <p>
+        {t('disableSolutionCommentsModal.confirmationDescription')}
+      </p>
 
       <div className="buttons">
         <FormButton
@@ -52,7 +63,7 @@ export const EnableSolutionCommentsModal = ({
           status={status}
           className="btn-primary btn-m"
         >
-          {t('enableSolutionCommentsModal.enableCommentsButton')}
+          {t('disableSolutionCommentsModal.disableComments')}
         </FormButton>
         <FormButton
           type="button"
@@ -60,18 +71,15 @@ export const EnableSolutionCommentsModal = ({
           status={status}
           className="btn-default btn-m"
         >
-          {t('enableSolutionCommentsModal.cancel')}
+          {t('disableSolutionCommentsModal.cancel')}
         </FormButton>
       </div>
       <ErrorBoundary>
-        <ErrorMessage
-          error={error}
-          defaultError={
-            DEFAULT_ERROR ||
-            new Error(t('enableSolutionCommentsModal.unableToEnableComments'))
-          }
-        />
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
       </ErrorBoundary>
     </Modal>
   )
 }
+
+// end file ===
+```

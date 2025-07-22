@@ -1,6 +1,9 @@
+// i18n-key-prefix: perksModalButton
+// i18n-namespace: components/perks
 import React, { useCallback, useState } from 'react'
 import { Modal } from '@/components/modals'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type PerkKeys = 'claimUrl' | 'offerSummaryHtml' | 'offerDetails' | 'voucherCode'
 export type PerksModalButtonProps = {
@@ -43,6 +46,8 @@ type PerkModalProps = Pick<PerksModalButtonProps, 'perk' | 'partner'> & {
 }
 
 function PerkModal({ perk, partner, onClose }: PerkModalProps) {
+  const { t } = useAppTranslation('components/perks')
+
   return (
     <div className="max-w-[500px]">
       <h2
@@ -56,10 +61,12 @@ function PerkModal({ perk, partner, onClose }: PerkModalProps) {
 
       <div className="flex gap-12">
         <a href={perk.claimUrl} className="btn-m btn-primary">
-          Continue to {partner.websiteDomain}
+          {t('perksModalButton.continueToPartner', {
+            websiteDomain: partner.websiteDomain,
+          })}
         </a>
         <button className="btn-m btn-enhanced" onClick={onClose}>
-          Close
+          {t('perksModalButton.close')}
         </button>
       </div>
     </div>

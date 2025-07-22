@@ -1,5 +1,8 @@
+// i18n-key-prefix: perksExternalModalButton
+// i18n-namespace: components/perks
 import React, { useCallback, useState } from 'react'
 import { Modal } from '../modals'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type PerkKeys = 'offerSummaryHtml' | 'offerDetails'
 type Links = 'logIn' | 'signUp'
@@ -46,22 +49,21 @@ type PerkExternalModalProps = Pick<
 }
 
 function PerkExternalModal({ links }: PerkExternalModalProps) {
+  const { t } = useAppTranslation('components/perks')
   return (
     <div className="max-w-[500px] flex flex-col items-center text-center">
       <h2 className="text-p-xlarge font-semibold mb-8">
-        Claim this Perk with an Exercism account!
+        {t('perksExternalModalButton.claimPerk')}
       </h2>
       <p className="text-p-base mb-20">
-        Exercism is a not-for-profit organisation. We provide world-class
-        education, a great community, and Perks from our partners. Join Exercism
-        today. It&apos;s free!
+        {t('perksExternalModalButton.exercismIsNonProfit')}
       </p>
       <div className="flex gap-12">
         <a href={links.signUp} className="btn-m btn-primary">
-          Sign up
+          {t('perksExternalModalButton.signUp')}
         </a>
         <a href={links.logIn} className="btn-m btn-enhanced">
-          Log in
+          {t('perksExternalModalButton.logIn')}
         </a>
       </div>
     </div>

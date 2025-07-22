@@ -114,10 +114,11 @@ import de from './components-modals-welcome-modal'
 import df from './components-modals-WelcomeToInsidersModal.tsx'
 import dg from './components-notifications-'
 import dh from './components-notifications-notifications-list'
-import di from './discussion-batch'
-import dj from './session-batch-1'
-import dk from './session-batch-2'
-import dl from './session-batch'
+import di from './components-perks'
+import dj from './discussion-batch'
+import dk from './session-batch-1'
+import dl from './session-batch-2'
+import dm from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -239,8 +240,9 @@ export default {
   'components/modals/WelcomeToInsidersModal.tsx': df,
   'components/notifications/': dg,
   'components/notifications/notifications-list': dh,
-  'discussion-batch': di,
-  'session-batch-1': dj,
-  'session-batch-2': dk,
-  'session-batch-3': dl,
+  'components/perks': di,
+  'discussion-batch': dj,
+  'session-batch-1': dk,
+  'session-batch-2': dl,
+  'session-batch-3': dm,
 }

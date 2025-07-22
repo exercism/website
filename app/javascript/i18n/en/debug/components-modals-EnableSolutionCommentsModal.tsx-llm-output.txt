@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "enableSolutionCommentsModal.enableComments": "Enable comments?",
+  "enableSolutionCommentsModal.enablingCommentsAllows": "Enabling comments allows people to publically post questions and thoughts on your solution. You can disable this at any time.",
+  "enableSolutionCommentsModal.enableCommentsButton": "Enable comments",
+  "enableSolutionCommentsModal.cancel": "Cancel",
+  "enableSolutionCommentsModal.unableToEnableComments": "Unable to enable comments"
+}
+
+// modified_files
+// === file: ../components/modals/EnableSolutionCommentsModal.tsx ===
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -17,9 +29,7 @@ export const EnableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/EnableSolutionCommentsModal.tsx'
-  )
+  const { t } = useAppTranslation('components/modals/EnableSolutionCommentsModal.tsx')
   const {
     mutate: mutation,
     status,
@@ -43,7 +53,9 @@ export const EnableSolutionCommentsModal = ({
   return (
     <Modal {...props} className="m-generic-confirmation">
       <h3>{t('enableSolutionCommentsModal.enableComments')}</h3>
-      <p>{t('enableSolutionCommentsModal.enablingCommentsAllows')}</p>
+      <p>
+        {t('enableSolutionCommentsModal.enablingCommentsAllows')}
+      </p>
 
       <div className="buttons">
         <FormButton
@@ -64,14 +76,11 @@ export const EnableSolutionCommentsModal = ({
         </FormButton>
       </div>
       <ErrorBoundary>
-        <ErrorMessage
-          error={error}
-          defaultError={
-            DEFAULT_ERROR ||
-            new Error(t('enableSolutionCommentsModal.unableToEnableComments'))
-          }
-        />
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR || new Error(t('enableSolutionCommentsModal.unableToEnableComments'))} />
       </ErrorBoundary>
     </Modal>
   )
 }
+
+// end file
+```

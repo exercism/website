@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "exerciseMakersModal.seeFullHistoryOnGithub": "See the full history of this exercise on GitHub",
+  "exerciseMakersModal.authors": "Authors",
+  "exerciseMakersModal.peopleWhoWroteExercise": "People who wrote the exercise",
+  "exerciseMakersModal.contributors": "Contributors",
+  "exerciseMakersModal.peopleWhoUpdatedExercise": "People who updated the exercise"
+}
+
+// modified_files
+// === file: ../components/modals/ExerciseMakersModal.tsx ===
 // i18n-key-prefix: exerciseMakersModal
 // i18n-namespace: components/modals/ExerciseMakersModal.tsx
 import React from 'react'
@@ -79,12 +91,9 @@ const Content = ({
         <div className="authors">
           <div className="heading">
             <h3>
-              {t('exerciseMakersModal.authors')}{' '}
-              <span className="count">{authors.length}</span>
+              {t('exerciseMakersModal.authors')} <span className="count">{authors.length}</span>
             </h3>
-            <div className="subtitle">
-              {t('exerciseMakersModal.peopleWhoWroteExercise')}
-            </div>
+            <div className="subtitle">{t('exerciseMakersModal.peopleWhoWroteExercise')}</div>
           </div>
 
           {authors.map((author) => (
@@ -97,12 +106,9 @@ const Content = ({
         <div className="contributors">
           <div className="heading">
             <h3>
-              {t('exerciseMakersModal.contributors')}{' '}
-              <span className="count">{contributors.length}</span>
+              {t('exerciseMakersModal.contributors')} <span className="count">{contributors.length}</span>
             </h3>
-            <div className="subtitle">
-              {t('exerciseMakersModal.peopleWhoUpdatedExercise')}
-            </div>
+            <div className="subtitle">{t('exerciseMakersModal.peopleWhoUpdatedExercise')}</div>
           </div>
           {contributors.map((contributor) => (
             <Maker maker={contributor} key={contributor.handle} />
@@ -141,3 +147,5 @@ export const ExerciseMakersModal = ({
     </Modal>
   )
 }
+// === end file ===
+```

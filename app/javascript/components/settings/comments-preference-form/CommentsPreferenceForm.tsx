@@ -4,6 +4,8 @@ import { FormButton } from '@/components/common/FormButton'
 import { FormMessage } from '../FormMessage'
 import { useCommentsPreferenceForm } from './useCommentsPreferenceForm'
 import { ManageExistingSolution } from './ManageExistingSolutions'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = Record<
   'update' | 'enableCommentsOnAllSolutions' | 'disableCommentsOnAllSolutions',
@@ -27,6 +29,9 @@ export default function CommentsPreferenceForm({
   numPublishedSolutions,
   numSolutionsWithCommentsEnabled,
 }: CommentsPreferenceFormProps): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/comments-preference-form'
+  )
   const {
     handleSubmit,
     commentStatusPhrase,
@@ -49,12 +54,15 @@ export default function CommentsPreferenceForm({
   return (
     <>
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h2 className="!mb-8">Comments on your solutions</h2>
+        <h2 className="!mb-8">
+          {t('commentsPreferenceForm.commentsOnYourSolutions')}
+        </h2>
         <p className="text-p-base mb-12">
-          Use this setting to control whether or not people can post comments on{' '}
-          <span className="font-medium">future solutions that you publish</span>
-          . This can be overriden on a per-solution basis and you can update all
-          existing solutions below.
+          <Trans
+            i18nKey="commentsPreferenceForm.settingToControlComments"
+            ns="components/settings/comments-preference-form"
+            components={[<span className="font-medium" />]}
+          />
         </p>
         <label className="c-checkbox-wrapper">
           <input
@@ -72,7 +80,7 @@ export default function CommentsPreferenceForm({
 
         <div className="form-footer !border-0 !pt-0 !mt-0">
           <FormButton status={mutationsStatus} className="btn-primary btn-m">
-            Update preference
+            {t('commentsPreferenceForm.updatePreference')}
           </FormButton>
           <FormMessage
             key={successId}
@@ -95,10 +103,13 @@ export default function CommentsPreferenceForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation(
+    'components/settings/comments-preference-form'
+  )
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your preferences have been updated
+      {t('commentsPreferenceForm.yourPreferencesHaveBeenUpdated')}
     </div>
   )
 }

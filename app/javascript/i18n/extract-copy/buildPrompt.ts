@@ -113,6 +113,55 @@ ${content}
 
    - Simple property access like \`{exercise.title}\` can stay in the JSX as-is **only when not tied to translatable phrases**.
 
+
+   ### 🧩 Sentences Must Remain Intact — Do NOT Slice Text Across \`t()\` Calls
+
+Translations only make sense when full human-readable sentences are preserved.  
+**Do NOT split sentences across multiple \`t()\` calls** — especially not between plain text and dynamic content or links.
+
+---
+
+#### ❌ Bad example — sliced into fragments:
+\`\`\`tsx
+<p>
+  {t('tutorialCompletedModal.readyToGetStuck')}
+  <a href={link}>{t('tutorialCompletedModal.realExercises')}</a>
+  {t('tutorialCompletedModal.weHaveAlsoRevealed', { trackTitle })}
+  {conceptCount} {t('tutorialCompletedModal.conceptCountPlural')}
+</p>
+\`\`\`
+
+This is bad because:
+- Each part is treated as a separate translation fragment.
+- The sentence cannot be rearranged or translated correctly in non-English languages.
+- It's unmaintainable for translators and results in awkward phrasing.
+
+---
+
+#### ✅ Correct — full sentence wrapped with variables/components:
+\`\`\`tsx
+<Trans
+  i18nKey="tutorialCompletedModal.revealMessage"
+  values={{ trackTitle, conceptCount }}
+  components={{
+    br: <br />,
+    a: <a href={link} />,
+  }}
+/>
+\`\`\`
+
+\`\`\`ts
+export default {
+  "tutorialCompletedModal.revealMessage":
+    "You're ready to get stuck in! <a>Start solving real exercises</a>.<br/>We've also revealed {{conceptCount}} new concepts in {{trackTitle}}."
+}
+\`\`\`
+
+---
+
+✅ This allows translators to re-order and translate the entire thought accurately.
+
+🚫 Never break a single sentence across multiple \`t()\` or \`Trans\` calls — **treat each human sentence as one unit**.
 ---
 
 ### 🔢 Pluralization Rules (with \`count\`)

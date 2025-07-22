@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "testimonialsList.searchPlaceholder": "Search by student name or testimonial",
+  "testimonialsList.noTestimonialsTitle": "You currently have no testimonials",
+  "testimonialsList.noTestimonialsDescription": "Testimonials are left by students on ending successful mentoring discussions."
+}
+
+// modified_files
+// === file: ../components/mentoring/TestimonialsList.tsx ===
 import React, { useCallback, useState, useEffect } from 'react'
 import {
   usePaginatedRequestQuery,
@@ -128,7 +138,9 @@ export default function TestimonialsList({
                 <div className="no-testimonials">
                   <GraphicalIcon icon="testimonials" />
                   <h2>{t('testimonialsList.noTestimonialsTitle')}</h2>
-                  <p>{t('testimonialsList.noTestimonialsDescription')}</p>
+                  <p>
+                    {t('testimonialsList.noTestimonialsDescription')}
+                  </p>
                 </div>
               ) : (
                 <React.Fragment>
@@ -180,3 +192,6 @@ export default function TestimonialsList({
     </div>
   )
 }
+
+// end file
+```

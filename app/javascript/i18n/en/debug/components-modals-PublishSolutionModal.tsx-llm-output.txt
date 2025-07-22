@@ -1,3 +1,15 @@
+```ts
+// i18n
+export default {
+  "publishSolutionModal.publishYourSolution": "Publish your solution",
+  "publishSolutionModal.recommendPublishing": "We recommend publishing all iterations to help others learn from your journey, but you can also choose just your favourite iteration to showcase instead.",
+  "publishSolutionModal.publish": "Publish",
+  "publishSolutionModal.cancel": "Cancel",
+  "publishSolutionModal.unableToPublishSolution": "Unable to publish solution"
+}
+
+// modified_files
+// === file: ../components/modals/PublishSolutionModal.tsx ===
 import React, { useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Iteration, SolutionForStudent } from '@/components/types'
@@ -10,6 +22,8 @@ import { ModalProps, Modal } from './Modal'
 import { IterationSelector } from './student/IterationSelector'
 import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to publish solution')
 
 export const PublishSolutionModal = ({
   endpoint,
@@ -60,9 +74,7 @@ export const PublishSolutionModal = ({
       className="m-change-published-iteration"
     >
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h3 id={ariaObject.labelledby}>
-          {t('publishSolutionModal.publishYourSolution')}
-        </h3>
+        <h3 id={ariaObject.labelledby}>{t('publishSolutionModal.publishYourSolution')}</h3>
         <p id={ariaObject.describedby}>
           {t('publishSolutionModal.recommendPublishing')}
         </p>
@@ -89,14 +101,12 @@ export const PublishSolutionModal = ({
           </FormButton>
         </div>
         <ErrorBoundary>
-          <ErrorMessage
-            error={error}
-            defaultError={
-              new Error(t('publishSolutionModal.unableToPublishSolution'))
-            }
-          />
+          <ErrorMessage error={error} defaultError={new Error(t('publishSolutionModal.unableToPublishSolution'))} />
         </ErrorBoundary>
       </form>
     </Modal>
   )
 }
+
+// end file
+```

@@ -2,8 +2,12 @@ import React from 'react'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
 import { Icon } from '@/components/common'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function WhoIsThisTrackForRHS(): JSX.Element {
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/RHS')
+
   return (
     <div className="rhs" data-capy-element="who-is-this-track-for-rhs">
       <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7 mb-16">
@@ -16,13 +20,17 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
             width={16}
           />
           <div>
-            Exercism's
-            <strong className="font-semibold"> Coding Fundamentals</strong>
+            <Trans
+              i18nKey="whoIsThisTrackFor.courseName"
+              components={{ strong: <strong className="font-semibold" /> }}
+            />
           </div>
         </div>
         <VimeoEmbed className="rounded-8 mb-16" id="1068683543?h=2de237a304" />
         <div className="text-16 leading-150 text-textColor2">
-          <p className="mb-12 text-17 font-semibold">The course offers:</p>
+          <p className="mb-12 text-17 font-semibold">
+            {t('whoIsThisTrackFor.courseOffersHeading')}
+          </p>
           <ul className="flex flex-col gap-8 text-16 font-regular">
             <li className="flex items-start">
               <GraphicalIcon
@@ -30,10 +38,10 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 category="bootcamp"
                 className="mr-8 w-[20px]"
               />
-              <span>
-                <strong className="font-semibold">Expert teaching</strong> and
-                mentoring support.
-              </span>
+              <Trans
+                i18nKey="whoIsThisTrackFor.courseOffers.expertTeaching"
+                components={{ strong: <strong className="font-semibold" /> }}
+              />
             </li>
             <li className="flex items-start">
               <GraphicalIcon
@@ -41,13 +49,10 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 category="bootcamp"
                 className="mr-8 w-[20px]"
               />
-              <span>
-                Over{' '}
-                <strong className="font-semibold">
-                  100 hours of hands-on project based learning
-                </strong>
-                , making games and solving puzzles.
-              </span>
+              <Trans
+                i18nKey="whoIsThisTrackFor.courseOffers.handsOnProjects"
+                components={{ strong: <strong className="font-semibold" /> }}
+              />
             </li>
             <li className="flex items-start">
               <GraphicalIcon
@@ -55,14 +60,10 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 category="bootcamp"
                 className="mr-8 w-[20px]"
               />
-              <span>
-                A{' '}
-                <strong className="font-semibold">
-                  complete Learn to Code syllabus
-                </strong>{' '}
-                covering coding basics, functions, object oriented programming,
-                and the coder's mindset.
-              </span>
+              <Trans
+                i18nKey="whoIsThisTrackFor.courseOffers.completeSyllabus"
+                components={{ strong: <strong className="font-semibold" /> }}
+              />
             </li>
             <li className="flex items-start">
               <GraphicalIcon
@@ -70,10 +71,10 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 category="bootcamp"
                 className="mr-8 w-[20px]"
               />
-              <span>
-                A formal <strong className="font-semibold">certificate</strong>{' '}
-                on completion.
-              </span>
+              <Trans
+                i18nKey="whoIsThisTrackFor.courseOffers.certificate"
+                components={{ strong: <strong className="font-semibold" /> }}
+              />
             </li>
           </ul>
         </div>

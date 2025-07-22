@@ -64,10 +64,12 @@ import b0 from './components-mentoring-session-Scratchpad.tsx'
 import b1 from './components-mentoring-session-SessionInfo.tsx'
 import b2 from './components-mentoring-session-student-info'
 import b3 from './components-mentoring-session-StudentInfo.tsx'
-import b4 from './discussion-batch'
-import b5 from './session-batch-1'
-import b6 from './session-batch-2'
-import b7 from './session-batch'
+import b4 from './components-mentoring-testimonials-list'
+import b5 from './components-mentoring-testimonials-list-revealed-testimonial'
+import b6 from './discussion-batch'
+import b7 from './session-batch-1'
+import b8 from './session-batch-2'
+import b9 from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -136,8 +138,10 @@ export default {
   'components/mentoring/session/SessionInfo.tsx': b1,
   'components/mentoring/session/student-info': b2,
   'components/mentoring/session/StudentInfo.tsx': b3,
-  'discussion-batch': b4,
-  'session-batch-1': b5,
-  'session-batch-2': b6,
-  'session-batch-3': b7,
+  'components/mentoring/testimonials-list': b4,
+  'components/mentoring/testimonials-list/revealed-testimonial': b5,
+  'discussion-batch': b6,
+  'session-batch-1': b7,
+  'session-batch-2': b8,
+  'session-batch-3': b9,
 }

@@ -1,12 +1,16 @@
 import React, { useCallback } from 'react'
 import { TrackSelect, TrackLogo } from '@/components/common/TrackSelect'
 import { Track } from '../TestimonialsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: track }: { option: Track }) => {
+  const { t } = useAppTranslation('components/mentoring/testimonials-list')
   return (
     <React.Fragment>
       <TrackLogo track={track} />
-      <div className="title">{track.title}</div>
+      <div className="title">
+        {t('trackDropdown.title', { title: track.title })}
+      </div>
     </React.Fragment>
   )
 }

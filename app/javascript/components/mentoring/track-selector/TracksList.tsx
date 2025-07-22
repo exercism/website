@@ -3,9 +3,11 @@ import { QueryStatus } from '@tanstack/react-query'
 import { APIResponse, Track } from '../TrackSelector'
 import { TrackCheckbox } from './TrackCheckbox'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const NoTracksFoundMessage = () => {
-  return <p>No tracks found</p>
+  const { t } = useAppTranslation('components/mentoring/track-selector')
+  return <p>{t('tracksList.noTracksFound')}</p>
 }
 
 const TrackOptions = ({

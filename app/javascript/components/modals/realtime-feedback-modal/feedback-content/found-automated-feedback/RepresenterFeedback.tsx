@@ -3,12 +3,17 @@ import { Avatar } from '@/components/common'
 import { EditedBy } from '@/components/student/iterations-list/RepresenterFeedback'
 import { BLOCKQUOTE } from './AnalyzerFeedback'
 import type { RepresenterFeedback as Props } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const RepresenterFeedback = ({
   html,
   author,
   editor,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback'
+  )
   return (
     <div className="c-automated-feedback representer-feedback">
       <div className={`comment ${BLOCKQUOTE}`}>
@@ -25,7 +30,10 @@ export const RepresenterFeedback = ({
         />
         <div className="info">
           <strong className="inline-block">{author.name}</strong>
-          &nbsp;gave this feedback on a solution very similar to yours
+          <Trans
+            i18nKey="representerFeedback.gaveFeedbackSimilarSolution"
+            components={{ strong: <strong className="inline-block" /> }}
+          />
           <EditedBy editor={editor} author={author} />.
         </div>
       </div>

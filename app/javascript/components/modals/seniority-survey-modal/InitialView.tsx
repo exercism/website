@@ -1,3 +1,5 @@
+// i18n-key-prefix: initialView
+// i18n-namespace: components/modals/seniority-survey-modal
 import React, { useContext, useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -7,6 +9,7 @@ import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 import type { SeniorityLevel } from '../welcome-modal/WelcomeModal'
 import { ErrorFallback } from '@/components/common/ErrorFallback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to save seniority level.')
 
@@ -34,6 +37,7 @@ export const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
 ]
 
 export function InitialView() {
+  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
   const { links, setCurrentView, patchCloseModal } = useContext(
     SenioritySurveyModalContext
   )
@@ -71,13 +75,9 @@ export function InitialView() {
   return (
     <div className="lhs">
       <header>
-        <h1>Hey there 👋</h1>
-        <p className="mb-16">
-          We're expanding Exercism to add content relevant to a wide range of
-          abilities. To ensure Exercism shows you the right content, please tell
-          us how experienced you are.
-        </p>
-        <h2>How experienced a developer are you?</h2>
+        <h1>{t('initialView.heyThere')}</h1>
+        <p className="mb-16">{t('initialView.expandingExercism')}</p>
+        <h2>{t('initialView.howExperiencedAreYou')}</h2>
       </header>
       <div className="flex flex-col flex-wrap gap-8 mb-16 text-18">
         {SENIORITIES.map((seniority) => (
@@ -91,7 +91,7 @@ export function InitialView() {
             )}
             onClick={() => setSelected(seniority.value)}
           >
-            {seniority.label}
+            {t(`initialView.${seniority.label.replace(' ', '')}`)}
           </button>
         ))}
       </div>
@@ -103,10 +103,10 @@ export function InitialView() {
         type="button"
         onClick={handleSaveSeniorityLevel}
       >
-        Save my choice
+        {t('initialView.saveMyChoice')}
       </FormButton>
       <p className="!text-14 text-center mt-12">
-        (This can be updated at any time in your settings)
+        {t('initialView.canBeUpdatedInSettings')}
       </p>
       <ErrorBoundary
         FallbackComponent={ErrorFallback}

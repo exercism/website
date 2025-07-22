@@ -1,3 +1,5 @@
+// i18n-key-prefix: senioritySurveyModal
+// i18n-namespace: components/modals/seniority-survey-modal
 import React, {
   createContext,
   Dispatch,
@@ -10,6 +12,7 @@ import { InitialView } from './InitialView'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { BootcampAdvertismentView } from './BootcampAdvertismentView'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ViewVariant = 'initial' | 'thanks' | 'bootcamp-advertisment'
 
@@ -54,6 +57,7 @@ export default function SenioritySurveyModal({
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
   const [open, setOpen] = useState(true)
   const [currentView, setCurrentView] = useState<ViewVariant>(DEFAULT_VIEW)
 
@@ -110,6 +114,7 @@ export default function SenioritySurveyModal({
 }
 
 function Inner() {
+  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
   const { currentView } = useContext(SenioritySurveyModalContext)
   switch (currentView) {
     case 'initial':

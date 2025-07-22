@@ -83,10 +83,11 @@ import cj from './components-modals-realtime-feedback-modal-components'
 import ck from './components-modals-realtime-feedback-modal-feedback-content'
 import cl from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
 import cm from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
-import cn from './discussion-batch'
-import co from './session-batch-1'
-import cp from './session-batch-2'
-import cq from './session-batch'
+import cn from './components-modals-seniority-survey-modal'
+import co from './discussion-batch'
+import cp from './session-batch-1'
+import cq from './session-batch-2'
+import cr from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -177,8 +178,9 @@ export default {
     cl,
   'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
     cm,
-  'discussion-batch': cn,
-  'session-batch-1': co,
-  'session-batch-2': cp,
-  'session-batch-3': cq,
+  'components/modals/seniority-survey-modal': cn,
+  'discussion-batch': co,
+  'session-batch-1': cp,
+  'session-batch-2': cq,
+  'session-batch-3': cr,
 }

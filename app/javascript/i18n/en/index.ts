@@ -112,11 +112,12 @@ import dc from './components-modals-upload-video'
 import dd from './components-modals-upload-video-elements'
 import de from './components-modals-welcome-modal'
 import df from './components-modals-WelcomeToInsidersModal.tsx'
-import dg from './components-notifications-notifications-list'
-import dh from './discussion-batch'
-import di from './session-batch-1'
-import dj from './session-batch-2'
-import dk from './session-batch'
+import dg from './components-notifications-'
+import dh from './components-notifications-notifications-list'
+import di from './discussion-batch'
+import dj from './session-batch-1'
+import dk from './session-batch-2'
+import dl from './session-batch'
 
 export default {
   'automation-batch': aa,
@@ -236,9 +237,10 @@ export default {
   'components/modals/upload-video/elements': dd,
   'components/modals/welcome-modal': de,
   'components/modals/WelcomeToInsidersModal.tsx': df,
-  'components/notifications/notifications-list': dg,
-  'discussion-batch': dh,
-  'session-batch-1': di,
-  'session-batch-2': dj,
-  'session-batch-3': dk,
+  'components/notifications/': dg,
+  'components/notifications/notifications-list': dh,
+  'discussion-batch': di,
+  'session-batch-1': dj,
+  'session-batch-2': dk,
+  'session-batch-3': dl,
 }

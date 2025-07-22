@@ -1,4 +1,11 @@
-import { useAppTranslation } from '@/i18n/useAppTranslation'
+```ts
+// i18n
+export default {
+  "sessionInfo.onExerciseInTrack": "on {{exerciseTitle}} in {{trackTitle}}"
+}
+
+// modified_files
+// === file: ../components/mentoring/session/SessionInfo.tsx ===
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Avatar } from '../../common/Avatar'
@@ -8,7 +15,7 @@ import {
   MentorSessionExercise as Exercise,
 } from '../../types'
 import { Links } from '../Session'
-import { Trans } from 'react-i18next'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SessionInfo = ({
   student,
@@ -21,9 +28,7 @@ export const SessionInfo = ({
   exercise: Exercise
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/SessionInfo.tsx'
-  )
+  const { t } = useAppTranslation('components/mentoring/session/SessionInfo.tsx')
 
   return (
     <>
@@ -33,24 +38,20 @@ export const SessionInfo = ({
         <div className="info">
           <div className="handle">{student.handle}</div>
           <div className="exercise">
-            <Trans
-              i18nKey="exerciseInTrack"
-              values={{
-                exerciseTitle: exercise.title,
-                trackTitle: track.title,
-              }}
-              components={{
-                a: (
-                  <a
-                    href={links.exercise}
-                    className="hover:text-prominentLinkColor font-semibold"
-                  />
-                ),
-              }}
-            />
+            on{' '}
+            <a
+              href={links.exercise}
+              className="hover:text-prominentLinkColor font-semibold"
+            >
+              {exercise.title}
+            </a>{' '}
+            in {track.title}{' '}
           </div>
         </div>
       </div>
     </>
   )
 }
+
+// === end file ===
+```

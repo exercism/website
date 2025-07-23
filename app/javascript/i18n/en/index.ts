@@ -181,11 +181,12 @@ import fa from './components-track-dig-deeper-components'
 import fb from './components-track-dig-deeper-components-community-videos'
 import fc from './components-track-dig-deeper-components-no-content-yet'
 import fd from './components-track-exercise-community-solutions-list'
-import fe from './components-track-iteration-summary'
-import ff from './discussion-batch'
-import fg from './session-batch-1'
-import fh from './session-batch-2'
-import fi from './session-batch-3'
+import fe from './components-track-ExerciseCommunitySolutionsList.tsx'
+import ff from './components-track-iteration-summary'
+import fg from './discussion-batch'
+import fh from './session-batch-1'
+import fi from './session-batch-2'
+import fj from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -377,9 +378,10 @@ export default {
   'components/track/dig-deeper-components/community-videos': fb,
   'components/track/dig-deeper-components/no-content-yet': fc,
   'components/track/exercise-community-solutions-list': fd,
-  'components/track/iteration-summary': fe,
-  'discussion-batch': ff,
-  'session-batch-1': fg,
-  'session-batch-2': fh,
-  'session-batch-3': fi,
+  'components/track/ExerciseCommunitySolutionsList.tsx': fe,
+  'components/track/iteration-summary': ff,
+  'discussion-batch': fg,
+  'session-batch-1': fh,
+  'session-batch-2': fi,
+  'session-batch-3': fj,
 }

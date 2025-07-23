@@ -2,6 +2,7 @@ import React from 'react'
 import { TextFilter } from '@/components/mentoring/TextFilter'
 import { DashboardHeaderProps } from './Dashboard.types'
 import { TrackList } from '@/components/mentoring/inbox/TrackList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function DashboardHeader({
   tracks,
@@ -10,6 +11,7 @@ export function DashboardHeader({
   criteria,
   setCriteria,
 }: DashboardHeaderProps) {
+  const { t } = useAppTranslation('components/training-data/dashboard')
   return (
     <header className="c-search-bar inbox-header">
       <div className="c-track-filter">
@@ -23,7 +25,7 @@ export function DashboardHeader({
         filter={criteria}
         setFilter={setCriteria}
         id="discussion-filter"
-        placeholder="Filter exercise name"
+        placeholder={t('dashboardHeader.filterExerciseName')}
       />
     </header>
   )

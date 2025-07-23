@@ -187,10 +187,11 @@ import fg from './components-track-IterationSummary.tsx'
 import fh from './components-track-Trophies.tsx'
 import fi from './components-track-UnlockHelpButton.tsx'
 import fj from './components-training-data-code-tagger'
-import fk from './discussion-batch'
-import fl from './session-batch-1'
-import fm from './session-batch-2'
-import fn from './session-batch-3'
+import fk from './components-training-data-dashboard'
+import fl from './discussion-batch'
+import fm from './session-batch-1'
+import fn from './session-batch-2'
+import fo from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -388,8 +389,9 @@ export default {
   'components/track/Trophies.tsx': fh,
   'components/track/UnlockHelpButton.tsx': fi,
   'components/training-data/code-tagger': fj,
-  'discussion-batch': fk,
-  'session-batch-1': fl,
-  'session-batch-2': fm,
-  'session-batch-3': fn,
+  'components/training-data/dashboard': fk,
+  'discussion-batch': fl,
+  'session-batch-1': fm,
+  'session-batch-2': fn,
+  'session-batch-3': fo,
 }

@@ -1,3 +1,14 @@
+```ts
+// i18n
+export default {
+  "trophy.awardedOn": "Awarded on ",
+  "trophy.clickToReveal": "Click to Reveal",
+  "trophy.failedToReveal": "Failed to reveal trophy",
+  "trophy.locked": "Locked"
+}
+
+// modified_files
+// === file: ../components/track/Trophies.tsx ===
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -158,6 +169,7 @@ const RevealedTrophy = ({
   setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
   setModalOpen: Dispatch<SetStateAction<boolean>>
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/track/Trophies.tsx')
   const onClick = useCallback(() => {
     setHighlightedTrophy(trophy)
     setModalOpen(true)
@@ -237,3 +249,5 @@ const NotEarnedTrophy = ({ trophy }: { trophy: Trophy }): JSX.Element => {
     </GenericTooltip>
   )
 }
+// === end file ===
+```

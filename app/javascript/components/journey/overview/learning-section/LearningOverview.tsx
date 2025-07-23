@@ -21,6 +21,7 @@ export const LearningOverview = ({
               ? 'learningOverview.youReThroughMultiple'
               : 'learningOverview.youReThroughSingle'
           }
+          ns="components/journey/overview/learning-section"
           values={{ percentage: tracks.completion.toFixed(2) }}
           components={{
             em: <em className="text-gradient" />,

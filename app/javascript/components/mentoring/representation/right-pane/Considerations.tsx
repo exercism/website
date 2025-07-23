@@ -14,6 +14,7 @@ export default function Considerations({
     <p className="flex items-center justify-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16 mx-24">
       <Trans
         i18nKey="considerations.readThisBeforeGivingFeedback"
+        ns="components/mentoring/representation/right-pane"
         components={{
           link: (
             <a

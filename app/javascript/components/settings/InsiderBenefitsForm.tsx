@@ -140,6 +140,7 @@ export function InfoMessage({
       return (
         <p className="text-p-base mb-16">
           <Trans
+            ns="components/settings/InsiderBenefitsForm.tsx"
             i18nKey="insiderBenefits.eligibleToJoin"
             components={{ link: <a href={insidersPath} /> }}
           />

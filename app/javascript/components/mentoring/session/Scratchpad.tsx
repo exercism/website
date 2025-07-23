@@ -131,6 +131,7 @@ export const Scratchpad = ({
           <h2>{t('scratchpad.introducingYourScratchpad')}</h2>
           <p>
             <Trans
+              ns="components/mentoring/session/Scratchpad.tsx"
               i18nKey="scratchpad.markdownSupportedPlace"
               components={[
                 <a
@@ -146,6 +147,7 @@ export const Scratchpad = ({
       <div className="flex flex-row justify-between mb-12 items-center">
         <div className="title">
           <Trans
+            ns="components/mentoring/session/Scratchpad.tsx"
             i18nKey="scratchpad.yourNotesForExerciseInTrack"
             values={{
               exerciseTitle: exercise.title,

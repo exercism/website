@@ -56,6 +56,7 @@ export const TestimonialModal = ({
         <div className="exercise">
           <Trans
             i18nKey="exerciseTrack"
+            ns="components/profile/testimonials-list"
             values={{ title: testimonial.exercise.title }}
             components={{ strong: <strong /> }}
           />

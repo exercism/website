@@ -20,6 +20,7 @@ export function HasNoLearningModeStep({
 
       <p className="mb-12">
         <Trans
+          ns="components/modals/track-welcome-modal/LHS/steps"
           i18nKey="noLearningModeStep.description"
           values={{
             trackTitle: track.title,
@@ -30,6 +31,7 @@ export function HasNoLearningModeStep({
 
       <p className="mb-12">
         <Trans
+          ns="components/modals/track-welcome-modal/LHS/steps"
           i18nKey="noLearningModeStep.resources"
           values={{ trackTitle: track.title }}
           components={{

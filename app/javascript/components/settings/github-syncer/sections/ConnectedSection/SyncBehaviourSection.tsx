@@ -48,6 +48,7 @@ export function SyncBehaviourSection() {
           <SectionHeader title={t('syncBehaviour.syncBehaviour')} />
           <p className="text-16 leading-150 mb-16">
             <Trans
+              ns="components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx"
               i18nKey="syncBehaviour.syncingOptionDescription"
               components={{
                 strong: <strong />,

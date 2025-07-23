@@ -58,6 +58,7 @@ export const AnalysisInformation = ({
           <p>{t('analysisInformation.passingTestsNeeded')}</p>
           <div className="upsell">
             <Trans
+              ns="components/student/iterations-list"
               i18nKey="analysisInformation.interestedInImprovingTooling"
               components={{
                 helpLink: <a href={links.toolingHelp} />,

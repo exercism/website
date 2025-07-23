@@ -35,6 +35,7 @@ export const TestimonialModal = ({
 
         <div className="student">
           <Trans
+            ns="components/modals/TestimonialModal.tsx"
             i18nKey="byLine"
             values={{ handle: testimonial.student.handle }}
             components={{
@@ -52,6 +53,7 @@ export const TestimonialModal = ({
 
         <div className="exercise">
           <Trans
+            ns="components/modals/TestimonialModal.tsx"
             i18nKey="exerciseLine"
             values={{
               exercise: testimonial.exercise.title,

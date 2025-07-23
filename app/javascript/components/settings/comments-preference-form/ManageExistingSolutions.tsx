@@ -29,6 +29,7 @@ export function ManageExistingSolution({
         </h3>
         <p className="text-p-base mb-12">
           <Trans
+            ns="components/settings/comments-preference-form"
             i18nKey="manageExistingSolutions.canCommentOnPublishedSolutions"
             values={{ commentStatusPhrase }}
             components={[<span className="font-medium" />]}

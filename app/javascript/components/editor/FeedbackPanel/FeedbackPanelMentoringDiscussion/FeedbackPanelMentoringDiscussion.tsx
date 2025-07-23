@@ -40,6 +40,7 @@ export function MentoringDiscussion({
             <p className="text-p-base">
               <Trans
                 i18nKey="feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSessionDescription"
+                ns="components/editor/FeedbackPanel"
                 components={{
                   link: (
                     <a

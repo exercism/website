@@ -1,0 +1,369 @@
+```ts
+// i18n
+export default {
+  "deepDiveVideo.deepDiveInto": "Deep Dive into {{exerciseTitle}}!",
+  "approaches.approaches": "Approaches",
+  "approaches.otherWaysCommunitySolved": "Other ways our community solved this exercise",
+  "approaches.noApproaches": "There are no Approaches for {{exerciseTitle}}.",
+  "approachSnippet.author": "author",
+  "approachSnippet.contributor": "contributor",
+  "sectionHeader.articles": "Articles",
+  "sectionHeader.exploreMoreIdeas": "Explore more ideas about this exercise",
+  "sectionHeader.noArticles": "There are no Articles for {{exerciseTitle}}.",
+  "diggingDeeper.digDeeper": "Dig deeper",
+  "diggingDeeper.author": "author",
+  "diggingDeeper.contributor": "contributor",
+  "diggingDeeper.lastUpdated": "Last updated {{date}}",
+  "diggingDeeper.editViaGitHub": "Edit via GitHub",
+  "diggingDeeper.linkOpensInNewTab": "The link opens in a new window or tab"
+}
+
+// modified_files
+// === file: ../components/track/dig-deeper-components/DeepDiveVideo.tsx ===
+// i18n-key-prefix: deepDiveVideo
+// i18n-namespace: components/track/dig-deeper-components
+import React, { useContext } from 'react'
+import { DigDeeperDataContext } from '../DigDeeper'
+import YoutubePlayerWithMutation from '@/components/common/YoutubePlayerWithMutation'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function DeepDiveVideo() {
+  const { exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  if (!exercise || !exercise.deepDiveYoutubeId) {
+    return null
+  }
+
+  return (
+    <div className="mb-32 bg-backgroundColorA shadow-lg rounded-8 px-20 lg:px-32 py-20 lg:py-24">
+      <h3 className="text-h3 mb-8">
+        {t('deepDiveVideo.deepDiveInto', { exerciseTitle: exercise.title })}
+      </h3>
+      <p className="text-p-large mb-16">{exercise.deepDiveBlurb}</p>
+      <div className="w-[100%]">
+        <YoutubePlayerWithMutation
+          id={exercise.deepDiveYoutubeId}
+          markAsSeenEndpoint={exercise.deepDiveMarkAsSeenEndpoint}
+        />
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/Approaches.tsx ===
+// i18n-key-prefix: approaches
+// i18n-namespace: components/track/dig-deeper-components
+import React, { useContext } from 'react'
+import { ApproachSnippet, SectionHeader } from '.'
+import { Approach, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function Approaches({
+  approaches,
+}: {
+  approaches: Approach[]
+}): JSX.Element {
+  const { exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  return (
+    <div className="lg:flex lg:flex-col mb-24">
+      <SectionHeader
+        title={t('approaches.approaches')}
+        description={
+          approaches.length > 0
+            ? t('approaches.otherWaysCommunitySolved')
+            : t('approaches.noApproaches', { exerciseTitle: exercise.title })
+        }
+        icon="dig-deeper-gradient"
+        className="mb-16"
+      />
+
+      <div className="lg:flex lg:flex-col grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-[unset]">
+        {approaches.length > 0 &&
+          approaches.map((i) => {
+            return <ApproachSnippet key={i.title} approach={i} />
+          })}
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/ApproachSnippet.tsx ===
+// i18n-key-prefix: approachSnippet
+// i18n-namespace: components/track/dig-deeper-components
+import React, { useContext } from 'react'
+import Credits from '@/components/common/Credits'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import { Approach, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ApproachSnippet({
+  approach,
+}: {
+  approach: Approach
+}): JSX.Element {
+  const codeBlockRef = useHighlighting<HTMLPreElement>(approach.snippet)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  const { track } = useContext(DigDeeperDataContext)
+
+  return (
+    <a
+      href={approach.links.self}
+      className="dig-deeper-snippet bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16"
+    >
+      <pre
+        className="border-1 border-borderColor7 rounded-8 p-16 mb-16"
+        ref={codeBlockRef}
+      >
+        {/* 
+        show 8 lines of code in code block:
+        (14 * 1.6) * 8 = 
+        179.20000000000002 
+        */}
+        <code
+          className={`${track.slug} block max-h-[180px] overflow-hidden `}
+          style={{ textOverflow: 'ellipsis' }}
+        >
+          {approach.snippet}
+        </code>
+      </pre>
+      <h5 className="text-h5 mb-2">{approach.title}</h5>
+      <p className="text-p-base text-textColor6 mb-12">{approach.blurb}</p>
+      <Credits
+        topLabel={t('approachSnippet.author')}
+        topCount={approach.numAuthors}
+        bottomLabel={t('approachSnippet.contributor')}
+        bottomCount={approach.numContributors}
+        users={approach.users}
+        className="text-textColor1 font-semibold text-14"
+      />
+    </a>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/ArticleSnippet.tsx ===
+// i18n-key-prefix: articleSnippet
+// i18n-namespace: components/track/dig-deeper-components
+import React from 'react'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import Credits from '@/components/common/Credits'
+import { Article } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
+  const codeBlockRef = useHighlighting<HTMLPreElement>(article.snippetHtml)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  return (
+    <a
+      href={article.links.self}
+      className="dig-deeper-snippet bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16"
+    >
+      <pre
+        className="border-1 border-borderColor7 rounded-8 p-16 mb-16"
+        ref={codeBlockRef}
+      >
+        <div
+          className="overflow-hidden block"
+          dangerouslySetInnerHTML={{ __html: article.snippetHtml }}
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        />
+      </pre>
+      <h5 className="text-h5 mb-2">{article.title}</h5>
+      <p className="text-p-base text-textColor6 mb-12">{article.blurb}</p>
+      <Credits
+        topLabel={t('approachSnippet.author')}
+        topCount={article.numAuthors}
+        bottomLabel={t('approachSnippet.contributor')}
+        bottomCount={article.numContributors}
+        users={article.users}
+        className="text-textColor1 font-semibold text-14"
+      />
+    </a>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/SectionHeader.tsx ===
+// i18n-key-prefix: sectionHeader
+// i18n-namespace: components/track/dig-deeper-components
+import React from 'react'
+import { GraphicalIcon } from '@/components/common'
+
+export function SectionHeader({
+  title,
+  description,
+  icon,
+  className,
+}: {
+  title: string
+  className?: string
+  description: string
+  icon: string
+}): JSX.Element {
+  return (
+    <div className={`flex flex-row items-start ${className}`}>
+      <div className="p-8 mr-16">
+        <GraphicalIcon height={32} width={32} icon={icon} />
+      </div>
+      <div>
+        <h3 className="text-h3 font-bold">{title}</h3>
+        <div className="text-p-base text-textColor6">{description}</div>
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/Articles.tsx ===
+// i18n-key-prefix: articles
+// i18n-namespace: components/track/dig-deeper-components
+import React, { useContext } from 'react'
+import { ArticleSnippet, SectionHeader } from '.'
+import { Article, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function Articles({ articles }: { articles: Article[] }): JSX.Element {
+  const { exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  return (
+    <div className="flex flex-col">
+      <SectionHeader
+        title={t('sectionHeader.articles')}
+        description={
+          articles.length > 0
+            ? t('sectionHeader.exploreMoreIdeas')
+            : t('sectionHeader.noArticles', { exerciseTitle: exercise.title })
+        }
+        icon="dig-deeper-gradient"
+        className="mb-16"
+      />
+
+      <div className="lg:flex lg:flex-col grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-[unset]">
+        {articles.length > 0 &&
+          articles.map((i) => {
+            return <ArticleSnippet key={i.title} article={i} />
+          })}
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/DiggingDeeper.tsx ===
+// i18n-key-prefix: diggingDeeper
+// i18n-namespace: components/track/dig-deeper-components
+import React from 'react'
+import dayjs from 'dayjs'
+import { GraphicalIcon, Icon } from '@/components/common'
+import Credits from '@/components/common/Credits'
+import { User } from '@/components/types'
+import { NoIntroductionYet } from '.'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export type ApproachIntroduction = {
+  html: string
+  users: User[]
+  links: {
+    edit: string
+  }
+  numAuthors: number
+  numContributors: number
+  updatedAt: string
+}
+
+export function DiggingDeeper({
+  introduction,
+}: {
+  introduction: ApproachIntroduction
+}): JSX.Element {
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  return (
+    <div className="mb-48">
+      {introduction.html.length > 0 ? (
+        <>
+          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 lg:py-24 bg-backgroundColorA">
+            <h2 className="mb-8 text-h2">{t('diggingDeeper.digDeeper')}</h2>
+            <div
+              className="c-textual-content --base dig-deeper-introduction"
+              dangerouslySetInnerHTML={{ __html: introduction.html }}
+            />
+          </section>
+
+          <DiggingDeeperFooter introduction={introduction} />
+        </>
+      ) : (
+        <NoIntroductionYet introduction={introduction} />
+      )}
+    </div>
+  )
+}
+
+function DiggingDeeperFooter({
+  introduction,
+}: {
+  introduction: ApproachIntroduction
+}): JSX.Element {
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
+  return (
+    <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">
+      <div className="flex items-center">
+        <Credits
+          topCount={introduction.numAuthors}
+          topLabel={t('diggingDeeper.author')}
+          bottomCount={introduction.numContributors}
+          bottomLabel={t('diggingDeeper.contributor')}
+          className="text-textColor1 font-semibold leading-150"
+          users={introduction.users}
+        />
+        {introduction.updatedAt && (
+          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium hidden sm:block">
+            {t('diggingDeeper.lastUpdated', {
+              date: dayjs(introduction.updatedAt).format('D MMM YYYY'),
+            })}
+          </div>
+        )}
+      </div>
+      <a
+        href={introduction.links.edit}
+        target="_blank"
+        rel="noreferrer"
+        className="xs:flex hidden items-center text-black filter-textColor6 leading-160 font-medium"
+      >
+        <GraphicalIcon
+          height={24}
+          width={24}
+          icon="external-site-github"
+          className="mr-12"
+        />
+        {t('diggingDeeper.editViaGitHub')}
+        <Icon
+          className="action-icon h-[13px] ml-12"
+          icon="new-tab"
+          alt={t('diggingDeeper.linkOpensInNewTab')}
+        />
+      </a>
+    </footer>
+  )
+}
+
+// === end file ===
+```

@@ -177,12 +177,13 @@ import e6 from './components-tooltips-studentTooltip'
 import e7 from './components-tooltips-task-tooltip'
 import e8 from './components-track-activity-ticker'
 import e9 from './components-track-build-analyzer-tags'
-import fa from './components-track-dig-deeper-components-community-videos'
-import fb from './components-track-dig-deeper-components-no-content-yet'
-import fc from './discussion-batch'
-import fd from './session-batch-1'
-import fe from './session-batch-2'
-import ff from './session-batch-3'
+import fa from './components-track-dig-deeper-components'
+import fb from './components-track-dig-deeper-components-community-videos'
+import fc from './components-track-dig-deeper-components-no-content-yet'
+import fd from './discussion-batch'
+import fe from './session-batch-1'
+import ff from './session-batch-2'
+import fg from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -370,10 +371,11 @@ export default {
   'components/tooltips/task-tooltip': e7,
   'components/track/activity-ticker': e8,
   'components/track/build/analyzer-tags': e9,
-  'components/track/dig-deeper-components/community-videos': fa,
-  'components/track/dig-deeper-components/no-content-yet': fb,
-  'discussion-batch': fc,
-  'session-batch-1': fd,
-  'session-batch-2': fe,
-  'session-batch-3': ff,
+  'components/track/dig-deeper-components': fa,
+  'components/track/dig-deeper-components/community-videos': fb,
+  'components/track/dig-deeper-components/no-content-yet': fc,
+  'discussion-batch': fd,
+  'session-batch-1': fe,
+  'session-batch-2': ff,
+  'session-batch-3': fg,
 }

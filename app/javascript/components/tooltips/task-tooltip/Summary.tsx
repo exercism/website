@@ -1,6 +1,7 @@
 import React from 'react'
 import { Task, TaskAction, TaskModule } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const Summary = ({ task }: { task: Task }): JSX.Element => {
   return (
@@ -71,9 +72,16 @@ export const SummaryDetails = ({ task }: { task: Task }) => {
 
   return (
     <h3>
-      {t('summary.workingOn')} {verb ? verb : t('summary.workingOn')} {module}{' '}
-      {task.tags.type ? task.tags.type : 'changes'}
-      {task.track ? ` for the ${task.track.title} Track` : null}.
+      <Trans
+        i18nKey="summary.workingOn"
+        ns="components/tooltips/task-tooltip"
+        values={{
+          verb: verb || 'working on',
+          module,
+          type: task.tags.type || 'changes',
+          trackSuffix: task.track ? ` for the ${task.track.title} Track` : '',
+        }}
+      />
     </h3>
   )
 }

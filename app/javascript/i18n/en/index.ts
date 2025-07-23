@@ -176,10 +176,11 @@ import e5 from './components-tooltips-ExerciseTooltip.tsx'
 import e6 from './components-tooltips-studentTooltip'
 import e7 from './components-tooltips-task-tooltip'
 import e8 from './components-track-activity-ticker'
-import e9 from './discussion-batch'
-import fa from './session-batch-1'
-import fb from './session-batch-2'
-import fc from './session-batch-3'
+import e9 from './components-track-build-analyzer-tags'
+import fa from './discussion-batch'
+import fb from './session-batch-1'
+import fc from './session-batch-2'
+import fd from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -366,8 +367,9 @@ export default {
   'components/tooltips/student-tooltip': e6,
   'components/tooltips/task-tooltip': e7,
   'components/track/activity-ticker': e8,
-  'discussion-batch': e9,
-  'session-batch-1': fa,
-  'session-batch-2': fb,
-  'session-batch-3': fc,
+  'components/track/build/analyzer-tags': e9,
+  'discussion-batch': fa,
+  'session-batch-1': fb,
+  'session-batch-2': fc,
+  'session-batch-3': fd,
 }

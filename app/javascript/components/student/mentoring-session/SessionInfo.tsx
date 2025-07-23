@@ -5,6 +5,8 @@ import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
 } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const SessionInfo = ({
   mentor,
@@ -15,6 +17,7 @@ export const SessionInfo = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   return (
     <>
       <TrackIcon title={track.title} iconUrl={track.iconUrl} />
@@ -22,26 +25,38 @@ export const SessionInfo = ({
       <div className="info-for-student">
         {mentor ? (
           <React.Fragment>
-            <div className="flex items-center">
-              You&apos;re being mentored by&nbsp;
-              <strong className="flex">
-                {
-                  <HandleWithFlair
-                    handle={mentor.handle}
-                    flair={mentor.flair}
-                    size="small"
-                  />
-                }
-                &nbsp;
-              </strong>
-              on
-            </div>{' '}
-            <div className="exercise-title">{exercise.title}</div>
+            <Trans
+              ns="components/student/mentoring-session"
+              i18nKey="sessionInfo.youreBeingMentoredByOn"
+              values={{ exerciseTitle: exercise.title }}
+              components={{
+                handleWithFlair: (
+                  <strong className="flex">
+                    {
+                      <HandleWithFlair
+                        handle={mentor.handle}
+                        flair={mentor.flair}
+                        size="small"
+                      />
+                    }
+                    &nbsp;
+                  </strong>
+                ),
+                divFlex: <div className="flex items-center" />,
+                divExerciseTitle: <div className="exercise-title" />,
+              }}
+            />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            Get mentoring on
-            <div className="exercise-title">{exercise.title}</div>
+            <Trans
+              i18nKey="sessionInfo.getMentoringOn"
+              ns="components/student/mentoring-session"
+              values={{ exerciseTitle: exercise.title }}
+              components={{
+                divExerciseTitle: <div className="exercise-title" />,
+              }}
+            />
           </React.Fragment>
         )}
       </div>

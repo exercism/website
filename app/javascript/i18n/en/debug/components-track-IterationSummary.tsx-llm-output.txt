@@ -1,3 +1,16 @@
+```ts
+// i18n
+export default {
+  "iterationSummary.iteration": "Iteration {{idx}}",
+  "iterationSummary.latest": "Latest",
+  "iterationSummary.published": "Published",
+  "iterationSummary.submitted": "Submitted ",
+  "iterationSummary.viaCli": "via CLI",
+  "iterationSummary.viaEditor": "via Editor"
+}
+
+// modified_files
+// === file: ../components/track/IterationSummary.tsx ===
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
@@ -140,3 +153,5 @@ export function IterationSummary({
 }
 
 IterationSummary.OutOfDateNotice = OutOfDateNotice
+// === end file ===
+```

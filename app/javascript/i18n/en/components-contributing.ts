@@ -43,6 +43,7 @@ export default {
   'tasksList.sorter.sortByOldest': 'Sort by oldest',
   'tasksList.sorter.sortByTrack': 'Sort by track',
   'tasksList.task.new': 'New',
+  'tasksList.sizeSwitcher.allSizes': 'All sizes',
   'tasksList.sizeSwitcher.tiny.title': 'Tiny',
   'tasksList.sizeSwitcher.tiny.description': 'A quick amount of work',
   'tasksList.sizeSwitcher.small.title': 'Small',

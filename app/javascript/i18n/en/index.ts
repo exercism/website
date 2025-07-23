@@ -152,13 +152,14 @@ import eh from './components-settings-UserPreferencesForm.tsx'
 import ei from './components-settings-useSettingsMutation.tsx'
 import ej from './components-student-iterations-list'
 import ek from './components-student-mentoring-dropdown'
-import el from './components-student-mentoring-session-iteration-view'
-import em from './components-student-mentoring-session-mentoring-request'
-import en from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import eo from './discussion-batch'
-import ep from './session-batch-1'
-import eq from './session-batch-2'
-import er from './session-batch-3'
+import el from './components-student-mentoring-session'
+import em from './components-student-mentoring-session-iteration-view'
+import en from './components-student-mentoring-session-mentoring-request'
+import eo from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
+import ep from './discussion-batch'
+import eq from './session-batch-1'
+import er from './session-batch-2'
+import es from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -320,12 +321,13 @@ export default {
   'components/settings/useSettingsMutation.tsx': ei,
   'components/student/iterations-list': ej,
   'components/student/mentoring-dropdown': ek,
-  'components/student/mentoring-session/iteration-view': el,
-  'components/student/mentoring-session/mentoring-request/': em,
+  'components/student/mentoring-session': el,
+  'components/student/mentoring-session/iteration-view': em,
+  'components/student/mentoring-session/mentoring-request': en,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
-    en,
-  'discussion-batch': eo,
-  'session-batch-1': ep,
-  'session-batch-2': eq,
-  'session-batch-3': er,
+    eo,
+  'discussion-batch': ep,
+  'session-batch-1': eq,
+  'session-batch-2': er,
+  'session-batch-3': es,
 }

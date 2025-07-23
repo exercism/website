@@ -13,6 +13,7 @@ import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
 import { LinkButton } from '../../mentoring/session/LinkButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -41,6 +42,7 @@ export const IterationView = ({
   setIsLinked: (linked: boolean) => void
   discussion?: MentorDiscussion
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,
@@ -59,7 +61,9 @@ export const IterationView = ({
       <IterationHeader iteration={currentIteration} isOutOfDate={isOutOfDate} />
 
       {currentIteration.status == IterationStatus.DELETED ? (
-        <div className="deleted">This iteration has been deleted</div>
+        <div className="deleted">
+          {t('iterationView.thisIterationHasBeenDeleted')}
+        </div>
       ) : (
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary

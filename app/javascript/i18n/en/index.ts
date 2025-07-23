@@ -173,12 +173,13 @@ import e2 from './components-student-TracksList.tsx'
 import e3 from './components-student-UpdateExerciseNotice.tsx'
 import e4 from './components-test'
 import e5 from './components-tooltips-ExerciseTooltip.tsx'
-import e6 from './components-tooltips-StudentTooltip.tsx'
+import e6 from './components-tooltips-studentTooltip'
 import e7 from './components-tooltips-task-tooltip'
-import e8 from './discussion-batch'
-import e9 from './session-batch-1'
-import fa from './session-batch-2'
-import fb from './session-batch-3'
+import e8 from './components-track-activity-ticker'
+import e9 from './discussion-batch'
+import fa from './session-batch-1'
+import fb from './session-batch-2'
+import fc from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -362,10 +363,11 @@ export default {
   'components/student/UpdateExerciseNotice.tsx': e3,
   'components/test': e4,
   'components/tooltips/ExerciseTooltip.tsx': e5,
-  'components/tooltips/StudentTooltip.tsx': e6,
+  'components/tooltips/student-tooltip': e6,
   'components/tooltips/task-tooltip': e7,
-  'discussion-batch': e8,
-  'session-batch-1': e9,
-  'session-batch-2': fa,
-  'session-batch-3': fb,
+  'components/track/activity-ticker': e8,
+  'discussion-batch': e9,
+  'session-batch-1': fa,
+  'session-batch-2': fb,
+  'session-batch-3': fc,
 }

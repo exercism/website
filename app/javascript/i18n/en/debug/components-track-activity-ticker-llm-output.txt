@@ -1,0 +1,190 @@
+```ts
+// i18n
+export default {
+  "publishedSolutionLink.newSolution": "new solution",
+  "exerciseWidget.exerciseTitle": "{{exerciseTitle}}",
+  "handle.someoneInCountry": "Someone in {{countryName}}",
+  "handle.someone": "Someone",
+  "userAvatar.userAvatar": "{{handle}}'s avatar",
+  "pullRequestLink.pullRequest": "Pull Request"
+}
+
+// modified_files
+// === file: ../components/track/activity-ticker/PublishedSolutionLink.tsx ===
+// i18n-key-prefix: publishedSolutionLink
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function PublishedSolutionLink({
+  publishedSolutionUrl,
+}: {
+  publishedSolutionUrl: string
+}) {
+  const { t } = useAppTranslation('components/track/activity-ticker')
+  return (
+    <span className="inline-flex">
+      {' '}
+      <a
+        href={publishedSolutionUrl}
+        className="flex flex-row items-center font-semibold text-prominentLinkColor"
+      >
+        {t('publishedSolutionLink.newSolution')}
+      </a>
+      &nbsp;for&nbsp;
+    </span>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/track/activity-ticker/Flag.tsx ===
+// i18n-key-prefix: flag
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+
+export function Flag({
+  countryCode,
+}: {
+  countryCode?: string
+}): JSX.Element | null {
+  return (
+    <span
+      className={`fi fi-${countryCode} shadow-smZ1 h-[24px] w-[32px] mr-12 flex-shrink-0 rounded-3 mt-6`}
+    />
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/track/activity-ticker/ExerciseWidget.tsx ===
+// i18n-key-prefix: exerciseWidget
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+export function ExerciseWidget({
+  exercise,
+}: {
+  exercise: Record<'exerciseUrl' | 'iconUrl' | 'title', string>
+}) {
+  const { t } = useAppTranslation('components/track/activity-ticker')
+
+  return (
+    <span className="inline-flex">
+      <a
+        href={exercise.exerciseUrl}
+        className="flex flex-row items-center font-semibold text-prominentLinkColor"
+      >
+        {t('exerciseWidget.exerciseTitle', { exerciseTitle: exercise.title })}
+      </a>
+      .
+    </span>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/track/activity-ticker/Handle.tsx ===
+// i18n-key-prefix: handle
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+import type { MetricUser } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function Handle({
+  user,
+  countryName,
+}: {
+  user?: MetricUser
+  countryName: string
+}) {
+  const { t } = useAppTranslation('components/track/activity-ticker')
+  if (!user)
+    return countryName
+      ? t('handle.someoneInCountry', { countryName })
+      : t('handle.someone')
+
+  const { handle, links } = user
+
+  return links?.self ? (
+    <a href={links.self} className="text-prominentLinkColor font-semibold">
+      {handle}
+    </a>
+  ) : (
+    <span className="font-semibold">{handle}</span>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/track/activity-ticker/UserAvatar.tsx ===
+// i18n-key-prefix: userAvatar
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+import type { MetricUser } from '@/components/types'
+import GraphicalIcon from '@/components/common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function UserAvatar({
+  user,
+}: {
+  user?: MetricUser
+}): JSX.Element | null {
+  const { t } = useAppTranslation('components/track/activity-ticker')
+  if (!user)
+    return (
+      <div className="w-[36px] h-[36px] mr-12 mt-6">
+        <GraphicalIcon
+          icon="avatar-placeholder"
+          className="c-avatar"
+          width={36}
+          height={36}
+        />
+      </div>
+    )
+  return (
+    <div className="w-[36px] h-[36px] mr-12 mt-6">
+      <img
+        src={user.avatarUrl}
+        alt={t('userAvatar.userAvatar', { handle: user.handle })}
+        className="w-[36px] h-[36px] rounded-circle"
+      />
+    </div>
+  )
+}
+
+// === end file ===
+
+// modified_files
+// === file: ../components/track/activity-ticker/PullRequestLink.tsx ===
+// i18n-key-prefix: pullRequestLink
+// i18n-namespace: components/track/activity-ticker
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function PullRequestLink({
+  pullRequest,
+}: {
+  pullRequest: Record<'htmlUrl', string>
+}) {
+  const { t } = useAppTranslation('components/track/activity-ticker')
+  return (
+    <span className="inline-flex">
+      &nbsp;
+      <a
+        href={pullRequest.htmlUrl}
+        className="flex flex-row items-center font-semibold text-prominentLinkColor"
+      >
+        {t('pullRequestLink.pullRequest')}
+      </a>
+      .
+    </span>
+  )
+}
+
+// === end file ===
+```

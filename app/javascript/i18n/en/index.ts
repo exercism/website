@@ -178,10 +178,11 @@ import e7 from './components-tooltips-task-tooltip'
 import e8 from './components-track-activity-ticker'
 import e9 from './components-track-build-analyzer-tags'
 import fa from './components-track-dig-deeper-components-community-videos'
-import fb from './discussion-batch'
-import fc from './session-batch-1'
-import fd from './session-batch-2'
-import fe from './session-batch-3'
+import fb from './components-track-dig-deeper-components-no-content-yet'
+import fc from './discussion-batch'
+import fd from './session-batch-1'
+import fe from './session-batch-2'
+import ff from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -370,8 +371,9 @@ export default {
   'components/track/activity-ticker': e8,
   'components/track/build/analyzer-tags': e9,
   'components/track/dig-deeper-components/community-videos': fa,
-  'discussion-batch': fb,
-  'session-batch-1': fc,
-  'session-batch-2': fd,
-  'session-batch-3': fe,
+  'components/track/dig-deeper-components/no-content-yet': fb,
+  'discussion-batch': fc,
+  'session-batch-1': fd,
+  'session-batch-2': fe,
+  'session-batch-3': ff,
 }

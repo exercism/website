@@ -1,0 +1,80 @@
+```ts
+// i18n
+export default {
+  "noContentYet.thereAreNoContentTypeForExerciseTitle": "There are no {{contentType}} for {{exerciseTitle}}.",
+  "noIntroductionYet.digDeeper": "Dig deeper",
+  "noIntroductionYet.thereAreNoIntroductionNotesForExerciseTitle": "There are no Introduction notes for {{exerciseTitle}}.",
+  "noIntroductionYet.wantToContribute": "Want to contribute?",
+  "noIntroductionYet.youCanDoItHere": "You can do it here."
+}
+
+// modified_files
+// === file: ../components/track/dig-deeper-components/no-content-yet/NoContentYet.tsx ===
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type NoContentYetProps = {
+  exerciseTitle: string
+  contentType: string
+  children: React.ReactNode
+}
+export function NoContentYet({
+  exerciseTitle,
+  contentType,
+  children,
+}: NoContentYetProps): JSX.Element {
+  const { t } = useAppTranslation('components/track/dig-deeper-components/no-content-yet')
+  return (
+    <div className="text-textColor6 flex flex-col items-left bg-backgroundColorB rounded-8">
+      <div className="text-label-timestamp text-16 mb-4 font-semibold">
+        {t('noContentYet.thereAreNoContentTypeForExerciseTitle', { contentType, exerciseTitle })}
+      </div>
+      <div className="flex md:flex-row flex-col text-15 leading-150">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/track/dig-deeper-components/no-content-yet/NoIntroductionYet.tsx ===
+import React, { useContext } from 'react'
+import { Icon } from '@/components/common'
+import { ApproachIntroduction } from '../DiggingDeeper'
+import { DigDeeperDataContext } from '../../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export function NoIntroductionYet({
+  introduction,
+}: {
+  introduction: ApproachIntroduction
+}): JSX.Element {
+  const { t } = useAppTranslation('components/track/dig-deeper-components/no-content-yet')
+  const { exercise } = useContext(DigDeeperDataContext)
+  return (
+    <section className="shadow-lgZ1 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-backgroundColorA">
+      <h2 className="mb-8 text-h2">{t('noIntroductionYet.digDeeper')}</h2>
+
+      <div className="text-textColor6 text-20 mb-16 font-normal leading-150">
+        {t('noIntroductionYet.thereAreNoIntroductionNotesForExerciseTitle', {
+          exerciseTitle: exercise.title,
+        })}
+      </div>
+      <div className="flex text-textColor6 text-14 leading-140">
+        {t('noIntroductionYet.wantToContribute')}&nbsp;
+        <a className="flex" href={introduction.links.edit}>
+          <span className="underline">{t('noIntroductionYet.youCanDoItHere')}</span>&nbsp;
+          <Icon
+            className="filter-textColor6"
+            icon={'new-tab'}
+            alt={'open in a new tab'}
+          />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+// === end file ===
+```

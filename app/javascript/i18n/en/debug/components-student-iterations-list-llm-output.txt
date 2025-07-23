@@ -1,0 +1,824 @@
+```ts
+// i18n
+export default {
+  "analyzerFeedback.analyzerGeneratedFeedback": "Our <strong>{{trackTitle}} Analyzer</strong> generated this feedback when analyzing your solution.",
+  "analyzerFeedback.learnMore": "Learn more",
+  "comment.essential": "Essential",
+  "comment.recommended": "Recommended",
+  "analysisInformation.analyzingCode": "We&apos;re analysing your code for suggestions",
+  "analysisInformation.analysisTime": "This usually takes 10-30 seconds.",
+  "analysisInformation.noAutoSuggestions": "No auto suggestions? Try human mentoring.",
+  "analysisInformation.getHumanMentoring": "Get real 1-to-1 human mentoring on the {{exerciseTitle}} exercise and start writing better {{trackTitle}}.",
+  "analysisInformation.getMentoring": "Get mentoring",
+  "analysisInformation.testFailed": "Beep boop bob a hop, could not compute…",
+  "analysisInformation.passingTestsNeeded": "In order for our systems to analyze your code, the tests must be passing.",
+  "analysisInformation.interestedInImprovingTooling": "Interested in improving Exercism&apos;s automated tooling? <helpLink>We need your help</helpLink>.",
+  "information.analysis": "Analysis",
+  "information.tests": "Tests",
+  "information.backup": "Backup",
+  "representerFeedback.gaveFeedback": "{{authorName}} gave this feedback on a solution very similar to yours",
+  "representerFeedback.editedBy": "(edited by <strong>{{editorName}}</strong>)",
+  "testsInformation.unableToFetchTestRun": "Unable to fetch test run",
+  "emptyIterations.noIterations": "You haven&apos;t submitted any iterations yet.",
+  "emptyIterations.iterationsWillAppear": "You&apos;ll get to see all your iterations with test results and automated feedback once you submit a solution.",
+  "emptyIterations.viaExercismEditor": "Via Exercism Editor",
+  "emptyIterations.startInEditor": "Start in Editor",
+  "emptyIterations.unableToStartExercise": "Unable to start exercise",
+  "emptyIterations.workLocally": "Work locally (via CLI)",
+  "emptyIterations.learnMoreSolvingExercisesLocally": "Learn more about solving exercises locally",
+  "optionsDropdown.optionsForIteration": "Options for iteration {{iterationIdx}}",
+  "optionsDropdown.deleteIteration": "Delete iteration",
+  "deleteIterationModal.areYouSure": "Are you sure you want to delete Iteration {{iterationIdx}}?",
+  "deleteIterationModal.deletedIterationsRemoved": "Deleted iterations are also removed from published solutions and mentoring discussions. <strong>This is irreversible.</strong>",
+  "deleteIterationModal.deleteIteration": "Delete iteration",
+  "deleteIterationModal.cancel": "Cancel",
+  "deleteIterationModal.unableToDeleteIteration": "Unable to delete iteration",
+  "iterationReport.thisIterationHasBeenDeleted": "This iteration has been deleted"
+}
+
+// modified_files
+// === file: ../components/student/iterations-list/AnalyzerFeedback.tsx ===
+// i18n-key-prefix: analyzerFeedback
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { useHighlighting } from '@/utils/highlight'
+import { Icon, TrackIcon } from '@/components/common'
+import type {
+  AnalyzerFeedback as Props,
+  AnalyzerFeedbackComment,
+} from '@/components/types'
+import type { Track } from '../IterationsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export const AnalyzerFeedback = ({
+  summary,
+  comments,
+  track,
+  automatedFeedbackInfoLink,
+}: Props & {
+  track: Pick<Track, 'title' | 'iconUrl'>
+  automatedFeedbackInfoLink: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  return (
+    <div className="c-automated-feedback analyzer-feedback">
+      <div className="feedback-header">
+        <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+        <div className="info">
+          <Trans
+            i18nKey="analyzerFeedback.analyzerGeneratedFeedback"
+            values={{ trackTitle: track.title }}
+            components={{ strong: <strong /> }}
+          />
+        </div>
+      </div>
+      {summary ? <div className="summary">{summary}</div> : null}
+      {comments.map((comment, i) => {
+        return <Comment key={i} {...comment} />
+      })}
+      <div className="explanation">
+        Exercism provides automated feedback using a number of intelligent tools
+        and systems developed by our community.{' '}
+        <a href={automatedFeedbackInfoLink}>
+          <Trans i18nKey="analyzerFeedback.learnMore">
+            Learn more
+          </Trans>
+          <Icon
+            icon="external-link"
+            alt="Opens in a new tab"
+            className="filter-lightBlue"
+          />
+        </a>
+      </div>
+    </div>
+  )
+}
+
+export const Comment = ({
+  type,
+  html,
+}: AnalyzerFeedbackComment): JSX.Element => {
+  const ref = useHighlighting<HTMLDivElement>()
+
+  return (
+    <div className="comment" ref={ref}>
+      <CommentTag type={type} />
+      <div
+        className="c-textual-content --small"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </div>
+  )
+}
+
+const CommentTag = ({ type }: Pick<AnalyzerFeedbackComment, 'type'>) => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  switch (type) {
+    case 'essential':
+      return <div className="tag essential">{t('comment.essential')}</div>
+    case 'actionable':
+      return <div className="tag recommended">{t('comment.recommended')}</div>
+    default:
+      return null
+  }
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/AnalysisInformation.tsx ===
+// i18n-key-prefix: analysisInformation
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { GraphicalIcon } from '../../common'
+import { Iteration, IterationStatus } from '../../types'
+import { Exercise, Track, Links } from '../IterationsList'
+import { RepresenterFeedback } from './RepresenterFeedback'
+import { AnalyzerFeedback } from './AnalyzerFeedback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export const AnalysisInformation = ({
+  iteration,
+  exercise,
+  track,
+  links,
+}: {
+  iteration: Iteration
+  exercise: Exercise
+  track: Track
+  links: Links
+}): JSX.Element | null => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  switch (iteration.status) {
+    case IterationStatus.DELETED:
+    case IterationStatus.TESTING:
+    case IterationStatus.ANALYZING:
+      return (
+        <div className="automated-feedback-pending">
+          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+          <h3>{t('analysisInformation.analyzingCode')}</h3>
+          <p>{t('analysisInformation.analysisTime')}</p>
+        </div>
+      )
+    case IterationStatus.UNTESTED:
+    case IterationStatus.NO_AUTOMATED_FEEDBACK:
+      return (
+        <div className="automated-feedback-absent">
+          <GraphicalIcon icon="mentoring" category="graphics" />
+          <h3>{t('analysisInformation.noAutoSuggestions')}</h3>
+          <p>
+            <Trans
+              i18nKey="analysisInformation.getHumanMentoring"
+              values={{ exerciseTitle: exercise.title, trackTitle: track.title }}
+            />
+          </p>
+          <a href={links.getMentoring} className="btn-secondary btn-m">
+            {t('analysisInformation.getMentoring')}
+          </a>
+        </div>
+      )
+    case IterationStatus.TESTS_FAILED:
+      return (
+        <div className="automated-feedback-absent">
+          <GraphicalIcon icon="tests-failed" category="graphics" />
+          <h3>{t('analysisInformation.testFailed')}</h3>
+          <p>
+            {t('analysisInformation.passingTestsNeeded')}
+          </p>
+          <div className="upsell">
+            <Trans
+              i18nKey="analysisInformation.interestedInImprovingTooling"
+              components={{
+                helpLink: <a href={links.toolingHelp} />,
+              }}
+            />
+          </div>
+        </div>
+      )
+    default: {
+      return (
+        <React.Fragment>
+          {iteration.representerFeedback ? (
+            <RepresenterFeedback {...iteration.representerFeedback} />
+          ) : null}
+          {iteration.analyzerFeedback ? (
+            <AnalyzerFeedback
+              {...iteration.analyzerFeedback}
+              track={track}
+              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+            />
+          ) : null}
+        </React.Fragment>
+      )
+    }
+  }
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/Information.tsx ===
+// i18n-key-prefix: information
+// i18n-namespace: components/student/iterations-list
+import React, { useState, createContext } from 'react'
+import { AnalysisInformation } from './AnalysisInformation'
+import { TestsInformation } from './TestsInformation'
+import { Iteration } from '../../types'
+import { Exercise, Track, Links } from '../IterationsList'
+import { Tab, TabContext } from '../../common/Tab'
+import { OptionsDropdown } from './OptionsDropdown'
+import { GraphicalIcon } from '../../common'
+import { GithubSyncerWidget } from '@/components/github-syncer-widget/GithubSyncerWidget'
+import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
+import { Toaster } from 'react-hot-toast'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type TabIndex = 'analysis' | 'tests' | 'backup'
+
+export const TabsContext = createContext<TabContext>({
+  current: 'analysis',
+  switchToTab: () => null,
+})
+
+export const Information = ({
+  iteration,
+  exercise,
+  track,
+  links,
+  onDelete,
+  syncer,
+  isGithubSyncerVisible,
+}: {
+  iteration: Iteration
+  exercise: Exercise
+  track: Track
+  links: Links
+  onDelete: (iteration: Iteration) => void
+  syncer: GithubSyncerSettings | null
+  isGithubSyncerVisible: boolean
+}): JSX.Element | null => {
+  const [tab, setTab] = useState<TabIndex>('analysis')
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  return (
+    <TabsContext.Provider
+      value={{
+        current: tab,
+        switchToTab: (id: string) => setTab(id as TabIndex),
+      }}
+    >
+      <div className="tabs overflow-auto">
+        <Tab id="analysis" context={TabsContext} className="--small">
+          <GraphicalIcon icon="automation" />
+          {t('information.analysis')}
+        </Tab>
+        <Tab id="tests" context={TabsContext} className="--small">
+          <GraphicalIcon icon="tests" />
+          {t('information.tests')}
+        </Tab>
+        {isGithubSyncerVisible && (
+          <Tab id="github-backup" context={TabsContext} className="--small">
+            <GraphicalIcon icon="external-site-github" />
+            {t('information.backup')}
+          </Tab>
+        )}
+        <OptionsDropdown iteration={iteration} onDelete={onDelete} />
+      </div>
+      <div className="panels">
+        <Tab.Panel
+          id="analysis"
+          context={TabsContext}
+          className="analysis-panel"
+        >
+          <AnalysisInformation
+            iteration={iteration}
+            exercise={exercise}
+            track={track}
+            links={links}
+          />
+        </Tab.Panel>
+        <Tab.Panel id="tests" context={TabsContext} className="tests-panel">
+          <TestsInformation
+            request={{
+              endpoint: iteration.links.testRun,
+              options: { enabled: tab === 'tests' },
+            }}
+          />
+        </Tab.Panel>
+        <Tab.Panel id="github-backup" context={TabsContext}>
+          <GithubSyncerWidget
+            sync={{
+              endpoint: links.syncIteration,
+              body: JSON.stringify({
+                iteration_idx: iteration.idx,
+                exercise_slug: exercise.slug,
+                track_slug: track.slug,
+              }),
+              type: 'iteration',
+            }}
+            syncer={syncer}
+            links={links}
+          />
+        </Tab.Panel>
+      </div>
+    </TabsContext.Provider>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/RepresenterFeedback.tsx ===
+// i18n-key-prefix: representerFeedback
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { Avatar } from '@/components/common'
+import type { RepresenterFeedback as Props } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export const RepresenterFeedback = ({
+  html,
+  author,
+  editor,
+}: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  return (
+    <div className="c-automated-feedback representer-feedback">
+      <div className="feedback-header">
+        <Avatar
+          src={author.avatarUrl}
+          handle={author.name}
+          className="place-self-start"
+        />
+        <div className="info">
+          <strong className="inline-block">{author.name}</strong>
+          <Trans
+            i18nKey="representerFeedback.gaveFeedback"
+            values={{ authorName: author.name }}
+          />
+          <EditedBy editor={editor} author={author} />:
+        </div>
+      </div>
+      <div className="comment">
+        <div
+          className="c-textual-content --small"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
+    </div>
+  )
+}
+
+export function EditedBy({
+  author,
+  editor,
+}: Pick<Props, 'author' | 'editor'>): JSX.Element | null {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  if (!editor || editor.name === author.name) return null
+
+  return (
+    <em>
+      &nbsp;(<Trans
+        i18nKey="representerFeedback.editedBy"
+        values={{ editorName: editor.name }}
+        components={{ strong: <strong /> }}
+      />)
+    </em>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/TestsInformation.tsx ===
+// i18n-key-prefix: testsInformation
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { ResultsZone } from '../../ResultsZone'
+import { TestRunSummary } from '../../editor/testComponents/TestRunSummary'
+import { TestRun, TestRunner } from '../../editor/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+const DEFAULT_ERROR = new Error('Unable to fetch test run')
+
+type APIResponse = {
+  testRun: TestRun
+  testRunner: TestRunner
+}
+
+export const TestsInformation = ({
+  request,
+}: {
+  request: Request
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+  const {
+    data: resolvedData,
+    status,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['test-run', request.endpoint],
+    request
+  )
+
+  return (
+    <ResultsZone isFetching={isFetching}>
+      <FetchingBoundary
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+      >
+        {resolvedData ? (
+          <TestRunSummary
+            testRun={resolvedData.testRun}
+            testRunner={resolvedData.testRunner}
+            showSuccessBox={false}
+          />
+        ) : null}
+      </FetchingBoundary>
+    </ResultsZone>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/EmptyIterations.tsx ===
+// i18n-key-prefix: emptyIterations
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { useIsMounted } from 'use-is-mounted'
+import { redirectTo } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
+import { ProminentLink, GraphicalIcon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { Exercise } from '../IterationsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type Links = {
+  startExercise: string
+  solvingExercisesLocally: string
+}
+
+type Solution = {
+  links: {
+    exercise: string
+  }
+}
+
+const DEFAULT_ERROR = new Error('Unable to start exercise')
+
+export const EmptyIterations = ({
+  exercise,
+  links,
+}: {
+  exercise: Exercise
+  links: Links
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+  const isMountedRef = useIsMounted()
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<Solution>({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: links.startExercise,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    onSuccess: (solution) => {
+      if (!isMountedRef.current) {
+        return
+      }
+
+      redirectTo(solution.links.exercise)
+    },
+  })
+
+  return (
+    <div className="lg-container container">
+      <section className="zero-state">
+        <h2>{t('emptyIterations.noIterations')}</h2>
+        <p>
+          {t('emptyIterations.iterationsWillAppear')}
+        </p>
+        <div className="box">
+          {exercise.hasTestRunner ? (
+            <div className="editor">
+              <h4>{t('emptyIterations.viaExercismEditor')}</h4>
+              <FormButton
+                status={status}
+                onClick={() => mutation()}
+                type="button"
+                className="editor-btn btn-primary btn-m"
+              >
+                <GraphicalIcon icon="editor" />
+                <span>{t('emptyIterations.startInEditor')}</span>
+              </FormButton>
+              <FetchingBoundary
+                status={status}
+                error={error}
+                defaultError={DEFAULT_ERROR}
+              />
+            </div>
+          ) : null}
+          <div className="cli">
+            <h4>{t('emptyIterations.workLocally')}</h4>
+            <CopyToClipboardButton textToCopy={exercise.downloadCmd} />
+          </div>
+        </div>
+        <ProminentLink
+          link={links.solvingExercisesLocally}
+          text={t('emptyIterations.learnMoreSolvingExercisesLocally')}
+        />
+      </section>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/OptionsDropdown.tsx ===
+// i18n-key-prefix: optionsDropdown
+// i18n-namespace: components/student/iterations-list
+import React, { useState, useCallback } from 'react'
+import { Icon } from '../../common'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { Iteration } from '../../types'
+import { DeleteIterationModal } from './DeleteIterationModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const OptionsDropdown = ({
+  iteration,
+  onDelete,
+}: {
+  iteration: Iteration
+  onDelete: (iteration: Iteration) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    setOpen,
+    open,
+  } = useDropdown(1)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleDelete = useCallback(() => {
+    setOpen(false)
+    setIsModalOpen(true)
+  }, [setOpen])
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false)
+  }, [])
+
+  return (
+    <React.Fragment>
+      <button className="options-button" {...buttonAttributes}>
+        <Icon
+          icon="more-horizontal"
+          alt={t('optionsDropdown.optionsForIteration', {
+            iterationIdx: iteration.idx,
+          })}
+        />
+      </button>
+      {open ? (
+        <div {...panelAttributes} className="c-dropdown-generic-menu">
+          <ul {...listAttributes}>
+            <li {...itemAttributes(0)}>
+              <button onClick={handleDelete}>{t('optionsDropdown.deleteIteration')}</button>
+            </li>
+          </ul>
+        </div>
+      ) : null}
+      <DeleteIterationModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        iteration={iteration}
+        onSuccess={onDelete}
+      />
+    </React.Fragment>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/DeleteIterationModal.tsx ===
+// i18n-key-prefix: deleteIterationModal
+// i18n-namespace: components/student/iterations-list
+import React, { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Iteration } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+const DEFAULT_ERROR = new Error('Unable to delete iteration')
+
+export const DeleteIterationModal = ({
+  iteration,
+  onClose,
+  onSuccess,
+  ...props
+}: Omit<ModalProps, 'className'> & {
+  iteration: Iteration
+  onSuccess: (iteration: Iteration) => void
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: iteration.links.delete,
+        method: 'DELETE',
+        body: null,
+      })
+
+      return fetch.then((json) => typecheck<Iteration>(json, 'iteration'))
+    },
+    onSuccess,
+  })
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  const handleClose = useCallback(() => {
+    if (status === 'pending') {
+      return
+    }
+
+    onClose()
+  }, [onClose, status])
+
+  return (
+    <Modal
+      className="m-generic-confirmation"
+      shouldCloseOnEsc={false}
+      onClose={handleClose}
+      {...props}
+    >
+      <h3>{t('deleteIterationModal.areYouSure', { iterationIdx: iteration.idx })}</h3>
+      <p>
+        <Trans i18nKey="deleteIterationModal.deletedIterationsRemoved">
+          Deleted iterations are also removed from published solutions and
+          mentoring discussions. <strong>This is irreversible.</strong>
+        </Trans>
+      </p>
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
+        <FormButton type="submit" status={status} className="btn-warning btn-s">
+          {t('deleteIterationModal.deleteIteration')}
+        </FormButton>
+        <FormButton
+          type="button"
+          status={status}
+          onClick={handleClose}
+          className="btn-enhanced btn-s"
+        >
+          {t('deleteIterationModal.cancel')}
+        </FormButton>
+      </form>
+      <ErrorBoundary resetKeys={[status]}>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </Modal>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/iterations-list/IterationReport.tsx ===
+// i18n-key-prefix: iterationReport
+// i18n-namespace: components/student/iterations-list
+import React from 'react'
+import { IterationSummary } from '../../track/IterationSummary'
+import { Iteration, IterationStatus } from '../../types'
+import { FilePanel } from '../../mentoring/session/FilePanel'
+import { IterationFiles } from '../../mentoring/session/IterationFiles'
+import { Information } from './Information'
+import { Exercise, Track, Links } from '../IterationsList'
+import { GraphicalIcon } from '../../common'
+import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const IterationReport = ({
+  iteration,
+  exercise,
+  track,
+  links,
+  isOpen,
+  onExpanded,
+  onCompressed,
+  onDelete,
+  syncer,
+  isGithubSyncerVisible,
+}: {
+  iteration: Iteration
+  exercise: Exercise
+  track: Track
+  links: Links
+  isOpen: boolean
+  onExpanded: () => void
+  onCompressed: () => void
+  onDelete: (iteration: Iteration) => void
+  syncer: GithubSyncerSettings | null
+  isGithubSyncerVisible: boolean
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
+  return (
+    <details open={isOpen} className="iteration c-details">
+      <summary
+        className="header"
+        role="button"
+        onClick={(e) => {
+          e.preventDefault()
+
+          isOpen ? onCompressed() : onExpanded()
+        }}
+      >
+        <div className="--summary-inner">
+          <IterationSummary
+            iteration={iteration}
+            showSubmissionMethod={true}
+            showTestsStatusAsButton={false}
+            showFeedbackIndicator={true}
+          />
+          <div className="opener">
+            <div className="--closed-icon">
+              <GraphicalIcon icon="chevron-right" />
+            </div>
+            <div className="--open-icon">
+              <GraphicalIcon icon="chevron-down" />
+            </div>
+          </div>
+        </div>
+      </summary>
+      {iteration.status == IterationStatus.DELETED ? (
+        <div className="deleted">{t('iterationReport.thisIterationHasBeenDeleted')}</div>
+      ) : (
+        <div className="content">
+          <div className="files">
+            {iteration.files ? (
+              <FilePanel
+                files={iteration.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+                showCopyButton
+              />
+            ) : (
+              <IterationFiles
+                endpoint={iteration.links.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+              />
+            )}
+          </div>
+          <div className="information">
+            <Information
+              isGithubSyncerVisible={isGithubSyncerVisible}
+              iteration={iteration}
+              exercise={exercise}
+              track={track}
+              links={links}
+              syncer={syncer}
+              onDelete={onDelete}
+            />
+          </div>
+        </div>
+      )}
+    </details>
+  )
+}
+
+// === end file ===
+```

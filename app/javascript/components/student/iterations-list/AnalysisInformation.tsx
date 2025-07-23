@@ -1,9 +1,13 @@
+// i18n-key-prefix: analysisInformation
+// i18n-namespace: components/student/iterations-list
 import React from 'react'
 import { GraphicalIcon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { Exercise, Track, Links } from '../IterationsList'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const AnalysisInformation = ({
   iteration,
@@ -16,6 +20,8 @@ export const AnalysisInformation = ({
   track: Track
   links: Links
 }): JSX.Element | null => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
   switch (iteration.status) {
     case IterationStatus.DELETED:
     case IterationStatus.TESTING:
@@ -23,8 +29,8 @@ export const AnalysisInformation = ({
       return (
         <div className="automated-feedback-pending">
           <GraphicalIcon icon="spinner" className="animate-spin-slow" />
-          <h3>We&apos;re analysing your code for suggestions</h3>
-          <p>This usually takes 10-30 seconds.</p>
+          <h3>{t('analysisInformation.analyzingCode')}</h3>
+          <p>{t('analysisInformation.analysisTime')}</p>
         </div>
       )
     case IterationStatus.UNTESTED:
@@ -32,13 +38,15 @@ export const AnalysisInformation = ({
       return (
         <div className="automated-feedback-absent">
           <GraphicalIcon icon="mentoring" category="graphics" />
-          <h3>No auto suggestions? Try human mentoring.</h3>
+          <h3>{t('analysisInformation.noAutoSuggestions')}</h3>
           <p>
-            Get real 1-to-1 human mentoring on the {exercise.title} exercise and
-            start writing better {track.title}.
+            {t('analysisInformation.getHumanMentoring', {
+              exerciseTitle: exercise.title,
+              trackTitle: track.title,
+            })}
           </p>
           <a href={links.getMentoring} className="btn-secondary btn-m">
-            Get mentoring
+            {t('analysisInformation.getMentoring')}
           </a>
         </div>
       )
@@ -46,14 +54,15 @@ export const AnalysisInformation = ({
       return (
         <div className="automated-feedback-absent">
           <GraphicalIcon icon="tests-failed" category="graphics" />
-          <h3>Beep boop bob a hop, could not compute…</h3>
-          <p>
-            In order for our systems to analyze your code, the tests must be
-            passing.
-          </p>
+          <h3>{t('analysisInformation.testFailed')}</h3>
+          <p>{t('analysisInformation.passingTestsNeeded')}</p>
           <div className="upsell">
-            Interested in improving Exercism&apos;s automated tooling?{' '}
-            <a href={links.toolingHelp}>We need your help</a>.
+            <Trans
+              i18nKey="analysisInformation.interestedInImprovingTooling"
+              components={{
+                helpLink: <a href={links.toolingHelp} />,
+              }}
+            />
           </div>
         </div>
       )

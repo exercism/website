@@ -150,10 +150,11 @@ import ef from './components-settings-TokenForm.tsx'
 import eg from './components-settings-useInvalidField.tsx'
 import eh from './components-settings-UserPreferencesForm.tsx'
 import ei from './components-settings-useSettingsMutation.tsx'
-import ej from './discussion-batch'
-import ek from './session-batch-1'
-import el from './session-batch-2'
-import em from './session-batch-3'
+import ej from './components-student-iterations-list'
+import ek from './discussion-batch'
+import el from './session-batch-1'
+import em from './session-batch-2'
+import en from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -313,8 +314,9 @@ export default {
   'components/settings/useInvalidField.tsx': eg,
   'components/settings/UserPreferencesForm.tsx': eh,
   'components/settings/useSettingsMutation.tsx': ei,
-  'discussion-batch': ej,
-  'session-batch-1': ek,
-  'session-batch-2': el,
-  'session-batch-3': em,
+  'components/student/iterations-list': ej,
+  'discussion-batch': ek,
+  'session-batch-1': el,
+  'session-batch-2': em,
+  'session-batch-3': en,
 }

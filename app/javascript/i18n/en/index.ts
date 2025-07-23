@@ -172,10 +172,11 @@ import e1 from './components-student-tracks-list'
 import e2 from './components-student-TracksList.tsx'
 import e3 from './components-student-UpdateExerciseNotice.tsx'
 import e4 from './components-test'
-import e5 from './discussion-batch'
-import e6 from './session-batch-1'
-import e7 from './session-batch-2'
-import e8 from './session-batch-3'
+import e5 from './components-tooltips-task-tooltip'
+import e6 from './discussion-batch'
+import e7 from './session-batch-1'
+import e8 from './session-batch-2'
+import e9 from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -358,8 +359,9 @@ export default {
   'components/student/TracksList.tsx': e2,
   'components/student/UpdateExerciseNotice.tsx': e3,
   'components/test': e4,
-  'discussion-batch': e5,
-  'session-batch-1': e6,
-  'session-batch-2': e7,
-  'session-batch-3': e8,
+  'components/tooltips/task-tooltip': e5,
+  'discussion-batch': e6,
+  'session-batch-1': e7,
+  'session-batch-2': e8,
+  'session-batch-3': e9,
 }

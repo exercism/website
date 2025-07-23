@@ -2,6 +2,7 @@ import React from 'react'
 import { KnowledgeTag } from '../../contributing/tasks-list/task/KnowledgeTag'
 import { TaskKnowledge, TaskModule } from '../../types'
 import { descriptionForModule } from './Summary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const KnowledgeInfo = ({
   knowledge,
@@ -29,59 +30,42 @@ const KnowledgeDetails = ({
   knowledge: TaskKnowledge
   module?: TaskModule
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
   const desc = descriptionForModule(module)
   switch (knowledge) {
     case 'none':
       return (
         <>
-          <h3>
-            This task requires <strong>no</strong> existing Exercism knowledge.
-          </h3>
-          <p>
-            This task is perfect for people making their first contribution to
-            Exercism. If you&apos;ve been around a while, considering leaving
-            this for someone new 🙂
-          </p>
+          <h3>{t('knowledgeInfo.noExistingKnowledge')}</h3>
+          <p>{t('knowledgeInfo.perfectForFirstContribution')}</p>
         </>
       )
     case 'elementary':
       return (
         <>
-          <h3>
-            This task requires <strong>elementary</strong> Exercism knowledge.
-          </h3>
-          <p>
-            You&apos;ll need to know a little bit about how Exercism works, but
-            you can work it out during this task. Perfect for first-time
-            contributors.
-          </p>
+          <h3>{t('knowledgeInfo.elementaryKnowledge')}</h3>
+          <p>{t('knowledgeInfo.littleBitAboutExercism')}</p>
         </>
       )
     case 'intermediate':
       return (
         <>
-          <h3>
-            This task requires <strong>intermediate</strong> Exercism knowledge.
-          </h3>
+          <h3>{t('knowledgeInfo.intermediateKnowledge')}</h3>
           <p>
-            You&apos;ll need to know the key principles of{' '}
-            {desc ? desc : 'this area'} to work on this task. If you&apos;re not
-            familiar, you can learn while doing the task but you might need to
-            put in a couple of hours of reading the docs to get up to speed.
+            {t('knowledgeInfo.keyPrinciplesOfArea', {
+              desc: desc ? desc : t('summary.exercism'),
+            })}
           </p>
         </>
       )
     case 'advanced':
       return (
         <>
-          <h3>
-            This task requires <strong>advanced</strong> Exercism knowledge.
-          </h3>
+          <h3>{t('knowledgeInfo.advancedKnowledge')}</h3>
           <p>
-            You&apos;ll need to have a solid understanding of
-            {desc ? desc : 'this area'} to work on this task. If you don&apos;t,
-            you&apos;ll probably need to pair up with someone more experienced
-            to work on it.
+            {t('knowledgeInfo.solidUnderstandingOfArea', {
+              desc: desc ? desc : t('summary.exercism'),
+            })}
           </p>
         </>
       )

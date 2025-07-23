@@ -1,19 +1,25 @@
+// i18n-key-prefix: communityVideos
+// i18n-namespace: components/track/dig-deeper-components/community-videos
 import React, { useContext, useState } from 'react'
 import { UploadVideoModal } from '@/components/modals'
 import type { CommunityVideosProps } from '@/components/types'
 import { NoContentYet, SectionHeader } from '..'
 import { DigDeeperDataContext } from '../../DigDeeper'
 import { CommunityVideo, CommunityVideosFooter } from './CommunityVideo'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const { t } = useAppTranslation(
+    'components/track/dig-deeper-components/community-videos'
+  )
 
   const { exercise } = useContext(DigDeeperDataContext)
   return (
     <div>
       <SectionHeader
-        title="Community Videos"
-        description=" Walkthroughs from people using Exercism "
+        title={t('communityVideos.communityVideos')}
+        description={t('communityVideos.walkthroughsFromPeople')}
         icon="community-video-gradient"
         className="mb-24"
       />
@@ -33,9 +39,12 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
             exerciseTitle={exercise.title}
             contentType="Community Videos"
           >
-            Want your video featured here?&nbsp;
+            {t('communityVideos.wantYourVideoFeatured')}&nbsp;
             <button onClick={() => setUploadModalOpen(true)} className="flex">
-              <span className="underline">Submit it here.</span>&nbsp;
+              <span className="underline">
+                {t('communityVideos.submitItHere')}.
+              </span>
+              &nbsp;
             </button>
           </NoContentYet>
         </div>

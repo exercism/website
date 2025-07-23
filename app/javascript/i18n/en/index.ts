@@ -177,10 +177,11 @@ import e6 from './components-tooltips-studentTooltip'
 import e7 from './components-tooltips-task-tooltip'
 import e8 from './components-track-activity-ticker'
 import e9 from './components-track-build-analyzer-tags'
-import fa from './discussion-batch'
-import fb from './session-batch-1'
-import fc from './session-batch-2'
-import fd from './session-batch-3'
+import fa from './components-track-dig-deeper-components-community-videos'
+import fb from './discussion-batch'
+import fc from './session-batch-1'
+import fd from './session-batch-2'
+import fe from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -368,8 +369,9 @@ export default {
   'components/tooltips/task-tooltip': e7,
   'components/track/activity-ticker': e8,
   'components/track/build/analyzer-tags': e9,
-  'discussion-batch': fa,
-  'session-batch-1': fb,
-  'session-batch-2': fc,
-  'session-batch-3': fd,
+  'components/track/dig-deeper-components/community-videos': fa,
+  'discussion-batch': fb,
+  'session-batch-1': fc,
+  'session-batch-2': fd,
+  'session-batch-3': fe,
 }

@@ -1,8 +1,11 @@
+// i18n-key-prefix: communityVideoModal
+// i18n-namespace: components/track/dig-deeper-components/community-videos
 import React from 'react'
 import dayjs from 'dayjs'
 import { Modal } from '@/components/modals'
 import type { CommunityVideoType } from '@/components/types'
 import { VideoCredits } from './VideoCredits'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommunityVideoModal({
   isOpen,
@@ -13,6 +16,10 @@ export function CommunityVideoModal({
   onClose: () => void
   video: CommunityVideoType
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/track/dig-deeper-components/community-videos'
+  )
+
   return (
     <Modal
       open={isOpen}
@@ -39,7 +46,7 @@ export function CommunityVideoModal({
         <VideoCredits links={video.links} author={video.author} />
       )}
       <div className="text-center text-textColor6 leading-160 text-16">
-        Posted by{' '}
+        {t('communityVideoModal.postedBy')}{' '}
         {video.submittedBy.links.profile ? (
           <a href={video.submittedBy.links.profile} className="underline">
             @{video.submittedBy.handle}

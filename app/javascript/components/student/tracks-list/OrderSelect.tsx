@@ -1,11 +1,17 @@
+// i18n-key-prefix: orderSelect
+// i18n-namespace: components/student/tracks-list
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Order } from '../TracksList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/student/tracks-list')
   switch (order) {
     case 'last_touched_first':
-      return <React.Fragment>Sort by last touched</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByLastTouched')}</React.Fragment>
+      )
   }
 }
 

@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "startExerciseButton.startInEditor": "Start in editor"
+}
+
+// modified_files
+// === file: ../components/student/open-editor-button/StartExerciseButton.tsx ===
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -54,3 +62,5 @@ export const StartExerciseButton = ({
     </React.Fragment>
   )
 }
+// === end file ===
+```

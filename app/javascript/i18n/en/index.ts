@@ -156,10 +156,11 @@ import el from './components-student-mentoring-session'
 import em from './components-student-mentoring-session-iteration-view'
 import en from './components-student-mentoring-session-mentoring-request'
 import eo from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import ep from './discussion-batch'
-import eq from './session-batch-1'
-import er from './session-batch-2'
-import es from './session-batch-3'
+import ep from './components-student-open-editor-button'
+import eq from './discussion-batch'
+import er from './session-batch-1'
+import es from './session-batch-2'
+import et from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -326,8 +327,9 @@ export default {
   'components/student/mentoring-session/mentoring-request': en,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
     eo,
-  'discussion-batch': ep,
-  'session-batch-1': eq,
-  'session-batch-2': er,
-  'session-batch-3': es,
+  'components/student/open-editor-button': ep,
+  'discussion-batch': eq,
+  'session-batch-1': er,
+  'session-batch-2': es,
+  'session-batch-3': et,
 }

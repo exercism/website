@@ -1,5 +1,8 @@
+// i18n-key-prefix: leftPane.codeInfo
+// i18n-namespace: components/training-data/code-tagger
 import React from 'react'
 import { TrackIcon, Avatar } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function CodeInfo({
   track,
@@ -8,6 +11,8 @@ export default function CodeInfo({
   track: any
   exercise: any
 }): JSX.Element {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
+
   return (
     <>
       <TrackIcon
@@ -18,9 +23,11 @@ export default function CodeInfo({
       <div className="student">
         <Avatar src={exercise.iconUrl} />
         <div className="info">
-          <div className="exercise">You are assigning tags for</div>
+          <div className="exercise">
+            {t('leftPane.codeInfo.youAreAssigningTags')}
+          </div>
           <div className="handle">
-            {exercise.title} in {track.title}
+            {exercise.title} {t('leftPane.codeInfo.in')} {track.title}
           </div>
         </div>
       </div>

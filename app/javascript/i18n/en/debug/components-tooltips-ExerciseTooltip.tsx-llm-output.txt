@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "exerciseTooltip.unableToLoadInformation": "Unable to load information"
+}
+
+// modified_files
+// === file: ../components/tooltips/ExerciseTooltip.tsx ===
 // i18n-key-prefix: exerciseTooltip
 // i18n-namespace: components/tooltips/ExerciseTooltip.tsx
 import React from 'react'
@@ -46,3 +54,6 @@ const ExerciseTooltip = React.forwardRef<
 })
 
 export default ExerciseTooltip
+
+// === end file ===
+```

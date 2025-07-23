@@ -155,28 +155,27 @@ import ek from './components-student-ExerciseList.tsx'
 import el from './components-student-ExerciseStatusChart.tsx'
 import em from './components-student-ExerciseStatusDot.tsx'
 import en from './components-student-iterations-list'
-import eo from './components-student-IterationsList.tsx'
-import ep from './components-student-mentoring-dropdown'
-import eq from './components-student-mentoring-session'
-import er from './components-student-mentoring-session-iteration-view'
-import es from './components-student-mentoring-session-mentoring-request'
-import et from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import eu from './components-student-MentoringComboButton.tsx'
-import ev from './components-student-MentoringDropdown.tsx'
-import ew from './components-student-MentoringSession.tsx'
-import ex from './components-student-open-editor-button'
-import ey from './components-student-OpenEditorButton.tsx'
-import ez from './components-student-published-solution'
-import e0 from './components-student-PublishSolutionButton.tsx'
-import e1 from './components-student-RequestMentoringButton.tsx'
-import e2 from './components-student-solution-summary'
-import e3 from './components-student-tracks-list'
-import e4 from './components-student-TracksList.tsx'
-import e5 from './components-student-UpdateExerciseNotice.tsx'
-import e6 from './discussion-batch'
-import e7 from './session-batch-1'
-import e8 from './session-batch-2'
-import e9 from './session-batch-3'
+import eo from './components-student-mentoring-dropdown'
+import ep from './components-student-mentoring-session'
+import eq from './components-student-mentoring-session-iteration-view'
+import er from './components-student-mentoring-session-mentoring-request'
+import es from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
+import et from './components-student-MentoringComboButton.tsx'
+import eu from './components-student-MentoringSession.tsx'
+import ev from './components-student-open-editor-button'
+import ew from './components-student-OpenEditorButton.tsx'
+import ex from './components-student-published-solution'
+import ey from './components-student-PublishSolutionButton.tsx'
+import ez from './components-student-RequestMentoringButton.tsx'
+import e0 from './components-student-solution-summary'
+import e1 from './components-student-tracks-list'
+import e2 from './components-student-TracksList.tsx'
+import e3 from './components-student-UpdateExerciseNotice.tsx'
+import e4 from './components-test'
+import e5 from './discussion-batch'
+import e6 from './session-batch-1'
+import e7 from './session-batch-2'
+import e8 from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -341,27 +340,26 @@ export default {
   'components/student/ExerciseStatusChart.tsx': el,
   'components/student/ExerciseStatusDot.tsx': em,
   'components/student/iterations-list': en,
-  'components/student/IterationsList.tsx': eo,
-  'components/student/mentoring-dropdown': ep,
-  'components/student/mentoring-session': eq,
-  'components/student/mentoring-session/iteration-view': er,
-  'components/student/mentoring-session/mentoring-request': es,
+  'components/student/mentoring-dropdown': eo,
+  'components/student/mentoring-session': ep,
+  'components/student/mentoring-session/iteration-view': eq,
+  'components/student/mentoring-session/mentoring-request': er,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
-    et,
-  'components/student/MentoringComboButton.tsx': eu,
-  'components/student/MentoringDropdown.tsx': ev,
-  'components/student/MentoringSession.tsx': ew,
-  'components/student/open-editor-button': ex,
-  'components/student/OpenEditorButton.tsx': ey,
-  'components/student/published-solution': ez,
-  'components/student/PublishSolutionButton.tsx': e0,
-  'components/student/RequestMentoringButton.tsx': e1,
-  'components/student/solution-summary': e2,
-  'components/student/tracks-list': e3,
-  'components/student/TracksList.tsx': e4,
-  'components/student/UpdateExerciseNotice.tsx': e5,
-  'discussion-batch': e6,
-  'session-batch-1': e7,
-  'session-batch-2': e8,
-  'session-batch-3': e9,
+    es,
+  'components/student/MentoringComboButton.tsx': et,
+  'components/student/MentoringSession.tsx': eu,
+  'components/student/open-editor-button': ev,
+  'components/student/OpenEditorButton.tsx': ew,
+  'components/student/published-solution': ex,
+  'components/student/PublishSolutionButton.tsx': ey,
+  'components/student/RequestMentoringButton.tsx': ez,
+  'components/student/solution-summary': e0,
+  'components/student/tracks-list': e1,
+  'components/student/TracksList.tsx': e2,
+  'components/student/UpdateExerciseNotice.tsx': e3,
+  'components/test': e4,
+  'discussion-batch': e5,
+  'session-batch-1': e6,
+  'session-batch-2': e7,
+  'session-batch-3': e8,
 }

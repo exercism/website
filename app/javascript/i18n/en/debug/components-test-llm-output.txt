@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "loadingOverlay.redirect": "Redirect"
+}
+
+// modified_files
+// === file: ../components/test/LoadingOverlay.tsx ===
 // i18n-key-prefix: loadingOverlay
 // i18n-namespace: components/test
 import React, { useCallback } from 'react'
@@ -12,3 +20,6 @@ export const LoadingOverlay = ({ url }: { url: string }): JSX.Element => {
 
   return <button onClick={handleClick}>{t('loadingOverlay.redirect')}</button>
 }
+
+// === end file ===
+```

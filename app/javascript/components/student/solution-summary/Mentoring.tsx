@@ -2,6 +2,7 @@ import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
 import { MentoringComboButton } from '../MentoringComboButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   learnMoreAboutMentoringArticle: string
@@ -24,6 +25,7 @@ export const Mentoring = ({
   isTutorial: boolean
   trackTitle: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/solution-summary')
   return (
     <div className="mentoring">
       <GraphicalIcon
@@ -31,24 +33,21 @@ export const Mentoring = ({
         className="header-icon"
         category="graphics"
       />
-      <h3>Get mentored by a human</h3>
+      <h3>{t('mentoring.getMentoredByAHuman')}</h3>
       {isTutorial ? (
         <p>
-          You also get the opportunity to be mentored by {trackTitle} experts.
+          {t('mentoring.youAlsoGetTheOpportunityToBeMentored', { trackTitle })}
         </p>
       ) : (
         <>
-          <p>
-            On average, students iterate a further 3.5 times when mentored on a
-            solution.
-          </p>
+          <p>{t('mentoring.onAverageStudentsIterate')}</p>
           <MentoringComboButton
             mentoringStatus={mentoringStatus}
             discussions={discussions}
             links={links}
           />
           <a href={links.learnMoreAboutMentoringArticle} className="learn-more">
-            Learn more
+            {t('mentoring.learnMore')}
             <Icon icon="external-link" alt="Opens in new tab" />
           </a>
         </>

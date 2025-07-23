@@ -3,6 +3,8 @@ import pluralize from 'pluralize'
 import { GraphicalIcon, Icon } from '../../common'
 import { toSentence } from '../../../utils/toSentence'
 import { ExerciseType, Iteration, IterationStatus } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -13,16 +15,21 @@ export type Exercise = {
   type: ExerciseType
 }
 const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
+  const { t } = useAppTranslation('components/student/solution-summary')
+
   return (
     <header>
       <div className="info">
-        <h2>Your solution looks good!</h2>
+        <h2>{t('header.yourSolutionLooksGood')}</h2>
         <p>
-          <strong>Good job.</strong> Your solution to &quot;{exercise.title}
-          !&quot; has passed all the tests 😊
+          <Trans
+            i18nKey="header.goodJobYourSolutionHasPassedAllTests"
+            values={{ exerciseTitle: exercise.title }}
+            components={{ strong: <strong /> }}
+          />
         </p>
       </div>
-      <div className="status passed">Tests Passed</div>
+      <div className="status passed">{t('header.testsPassed')}</div>
     </header>
   )
 }
@@ -36,6 +43,7 @@ export const Header = ({
   exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/solution-summary')
   switch (iteration.status) {
     case IterationStatus.DELETED:
     case IterationStatus.UNTESTED:
@@ -45,12 +53,8 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution is being processed…</h2>
-            <p>
-              Your solution is currently being tested, analysed, and compared to
-              other solutions to find potential improvements. This should only
-              take a few seconds.
-            </p>
+            <h2>{t('header.yourSolutionIsBeingProcessed')}</h2>
+            <p>{t('header.yourSolutionIsCurrentlyBeingTested')}</p>
           </div>
           <GraphicalIcon icon="spinner" className="spinner" />
         </header>
@@ -59,22 +63,24 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution failed the tests.</h2>
+            <h2>{t('header.yourSolutionFailedTheTests')}</h2>
             <p>
-              Hmmm, it looks like your solution isn&apos;t working. Please check
-              that the tests pass locally on your machine. If they do pass for
-              you, please read{' '}
-              <a
-                href={links.testsPassLocallyArticle}
-                rel="noreferrer"
-                target="_blank"
-              >
-                this article{' '}
-                <Icon icon="external-link" alt="Opens in a new tab" />
-              </a>
+              <Trans
+                i18nKey="header.hmmmItLooksLikeYourSolutionIsntWorking"
+                components={{
+                  articleLink: (
+                    <a
+                      href={links.testsPassLocallyArticle}
+                      rel="noreferrer"
+                      target="_blank"
+                    />
+                  ),
+                  icon: <Icon icon="external-link" alt="Opens in a new tab" />,
+                }}
+              />
             </p>
           </div>
-          <div className="status failed">Tests Failed</div>
+          <div className="status failed">{t('header.testsFailed')}</div>
         </header>
       )
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK: {
@@ -108,13 +114,10 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution worked, but you can take it further…</h2>
-            <p>
-              We’ve analysed your solution and have {toSentence(comments)}.
-              Address the essential improvements before proceeding.
-            </p>
+            <h2>{t('header.yourSolutionWorkedButYouCanTakeItFurther')}</h2>
+            <p>{t('header.weveAnalysedYourSolutionAndHave', { comments })}</p>
           </div>
-          <div className="status passed">Tests Passed</div>
+          <div className="status passed">{t('header.testsPassed')}</div>
         </header>
       )
     }
@@ -126,17 +129,17 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution looks great!</h2>
+            <h2>{t('header.yourSolutionLooksGreat')}</h2>
             <p>
-              Your solution passed the tests and we don&apos;t have any
-              recommendations.{' '}
-              {exercise.type === 'practice'
-                ? 'You might want to work with a mentor to make it even better.'
-                : null}{' '}
-              <strong>Great Job! 🎉</strong>
+              {t('header.yourSolutionPassedTheTestsAndWeDontHave', {
+                mentorOffer:
+                  exercise.type === 'practice'
+                    ? t('header.youMightWantToWorkWithAMentor')
+                    : null,
+              })}
             </p>
           </div>
-          <div className="status passed">Tests Passed</div>
+          <div className="status passed">{t('header.testsPassed')}</div>
         </header>
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
@@ -148,28 +151,30 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution looks great!</h2>
+            <h2>{t('header.yourSolutionLooksGreat')}</h2>
             <p>
-              We’ve analysed your solution and not found anything that needs
-              changing. We do have{' '}
-              <span className="non-actionable">
-                {iteration.numNonActionableAutomatedComments +
-                  iteration.numCelebratoryAutomatedComments}{' '}
-                additional{' '}
-                {pluralize(
-                  'comment',
+              <Trans
+                i18nKey="header.weveAnalysedYourSolutionAndNotFundAnythingThatNeedsChanging"
+                values={{
+                  commentCount:
+                    iteration.numNonActionableAutomatedComments +
+                    iteration.numCelebratoryAutomatedComments,
+                  mentorOffer:
+                    exercise.type === 'practice'
+                      ? t('header.considerWorkingWithAMentor')
+                      : ' ',
+                }}
+                components={{
+                  comments: <span className="non-actionable" />,
+                }}
+                count={
                   iteration.numNonActionableAutomatedComments +
-                    iteration.numCelebratoryAutomatedComments
-                )}
-              </span>{' '}
-              that you might like to check.{' '}
-              {exercise.type === 'practice'
-                ? 'Consider working with a mentor to make it even better. '
-                : ' '}
-              <strong>Great Job! 🎉</strong>
+                  iteration.numCelebratoryAutomatedComments
+                }
+              />
             </p>
           </div>
-          <div className="status passed">Tests Passed</div>
+          <div className="status passed">{t('header.testsPassed')}</div>
         </header>
       )
     case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK: {
@@ -199,36 +204,35 @@ export const Header = ({
           return (
             <header>
               <div className="info">
-                <h2>Your solution is good enough to continue!</h2>
+                <h2>{t('header.yourSolutionIsGoodEnoughToContinue')}</h2>
                 <p>
-                  We’ve analysed your solution and have {toSentence(comments)}.
-                  You can either continue or address the{' '}
-                  {pluralize(
-                    'recommendation',
-                    iteration.numActionableAutomatedComments
-                  )}{' '}
-                  first - your choice!
+                  {t('header.weveAnalysedYourSolutionAndHaveComments', {
+                    comments,
+                    recommendationPlural: pluralize(
+                      'recommendation',
+                      iteration.numActionableAutomatedComments
+                    ),
+                  })}
                 </p>
               </div>
-              <div className="status passed">Tests Passed</div>
+              <div className="status passed">{t('header.testsPassed')}</div>
             </header>
           )
         case 'practice':
           return (
             <header>
               <div className="info">
-                <h2>Your solution worked, but you can take it further…</h2>
+                <h2>{t('header.yourSolutionWorkedButYouCanTakeItFurther')}</h2>
                 <p>
-                  We’ve analysed your solution and have {toSentence(comments)}.
-                  We suggest addressing the{' '}
-                  {pluralize(
-                    'recommendation',
-                    iteration.numActionableAutomatedComments
-                  )}{' '}
-                  before proceeding.
+                  {t('header.weSuggestAddressingTheRecommendations', {
+                    recommendationPlural: pluralize(
+                      'recommendation',
+                      iteration.numActionableAutomatedComments
+                    ),
+                  })}
                 </p>
               </div>
-              <div className="status passed">Tests Passed</div>
+              <div className="status passed">{t('header.testsPassed')}</div>
             </header>
           )
       }

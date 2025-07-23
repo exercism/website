@@ -1,0 +1,301 @@
+```ts
+// i18n
+export default {
+  "rightPane.automationRules.theseTagsUsedToTrain": "These tags will be used to train neural networks to correct identify student's solutions. Thanks for helping out!",
+  "rightPane.automationRules.heresSomeNotes": "Here's some notes to help you:",
+  "rightPane.automationRules.ifUnclearAskOnForum": "If you are unclear on whether a tag should be added (or removed) please ask on <0>the forum</0>. The knowledge sharing helps everyone.",
+  "rightPane.automationRules.stickToOfficialList": "Please try to stick to the official list of tags in the select dropdown. If you need to add a new tag, you can do so by typing a new tag, but please consider discussing it on <0>the forum</0>.",
+  "rightPane.considerations.pleaseReadDocs": "Please&nbsp;<0>read the docs</0>&nbsp;before tagging solutions.",
+  "rightPane.rightPane.saveAndTagAnother": "Save and tag another…",
+  "leftPane.codeInfo.youAreAssigningTags": "You are assigning tags for",
+  "leftPane.codeInfo.in": "in"
+}
+
+// modified_files
+// === file: ../components/training-data/code-tagger/right-pane/AutomationRules.tsx ===
+// i18n-key-prefix: rightPane.automationRules
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+export default function AutomationRules(): JSX.Element | null {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
+
+  return (
+    <>
+      <p className="text-p-base mb-12">
+        {t('rightPane.automationRules.theseTagsUsedToTrain')}
+      </p>
+      <p className="text-p-base mb-4">{t('rightPane.automationRules.heresSomeNotes')}</p>
+      <ul className="text-p-base list-disc ml-20">
+        <li className="mb-2">
+          <Trans
+            i18nKey="rightPane.automationRules.ifUnclearAskOnForum"
+            components={[<a href="https://forum.exercism.org" />]}
+          />
+        </li>
+        <li>
+          <Trans
+            i18nKey="rightPane.automationRules.stickToOfficialList"
+            components={[<a href="https://forum.exercism.org" />]}
+          />
+        </li>
+      </ul>
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/right-pane/Considerations.tsx ===
+// i18n-key-prefix: rightPane.considerations
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import { Trans } from 'react-i18next'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export default function Considerations(): JSX.Element | null {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
+
+  return (
+    <p className="flex items-center justify-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16">
+      <Trans
+        i18nKey="rightPane.considerations.pleaseReadDocs"
+        components={[
+          <a
+            href="/docs/building/tooling/analyzers/tags"
+            target="_blank"
+            rel="noreferrer"
+            className="!text-textCAlertLabel underline"
+          />,
+        ]}
+      />
+    </p>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/right-pane/TaggerInformation.tsx ===
+// i18n-key-prefix: rightPane.taggerInformation
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import AutomationRules from './AutomationRules'
+import Considerations from './Considerations'
+
+export function TaggerInformation(): JSX.Element {
+  return (
+    <div className="flex flex-col mb-20">
+      <Considerations />
+      <AutomationRules />
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/right-pane/RightPane.tsx ===
+// i18n-key-prefix: rightPane.rightPane
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import { TaggerInformation } from './TaggerInformation'
+import { TagSelector } from './TagSelector'
+import { CodeTaggerProps, Tags } from '../CodeTagger.types'
+import { useSelectTag } from './useSelectTag'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { ErrorFallback } from '@/components/common/ErrorFallback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+type RightPaneProps = Pick<CodeTaggerProps, 'links'> &
+  Record<'tags' | 'allEnabledTrackTags', Tags>
+
+const defaultError = new Error('Unable to confirm tags')
+
+export function RightPane({
+  tags,
+  allEnabledTrackTags,
+  links,
+}: RightPaneProps): JSX.Element {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
+  const { confirmTags, setSelectedTags, error } = useSelectTag({
+    links,
+    defaultSelectedTags: tags,
+  })
+
+  return (
+    <div className="px-24 h-100 flex flex-col">
+      <TaggerInformation />
+      <TagSelector
+        tags={tags || []}
+        allEnabledTrackTags={allEnabledTrackTags || []}
+        setSelectedTags={setSelectedTags}
+      />
+      <button onClick={() => confirmTags()} className="btn-m btn-primary mb-32">
+        {t('rightPane.rightPane.saveAndTagAnother')}
+      </button>
+      <ErrorBoundary
+        FallbackComponent={(props) => (
+          <ErrorFallback error={props.error} className="mb-12" />
+        )}
+      >
+        <ErrorMessage error={error} defaultError={defaultError} />
+      </ErrorBoundary>
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/right-pane/TagSelector.tsx ===
+// i18n-key-prefix: rightPane.tagSelector
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import CreatableSelect from 'react-select/creatable'
+import { Tags } from '../CodeTagger.types'
+
+export function TagSelector({
+  tags,
+  allEnabledTrackTags,
+  setSelectedTags,
+}: {
+  tags: Tags
+  allEnabledTrackTags: Tags
+  setSelectedTags: React.Dispatch<React.SetStateAction<Tags>>
+}): JSX.Element | null {
+  if (!tags) return null
+  return (
+    <CreatableSelect
+      className="creatable-select-component text-p-base mt-auto mb-20"
+      isMulti
+      defaultValue={formatTags(tags)}
+      options={formatTags(allEnabledTrackTags)}
+      isClearable={false}
+      maxMenuHeight={100}
+      styles={{
+        valueContainer: (base) => ({
+          ...base,
+          padding: '8px',
+        }),
+
+        indicatorSeparator: (base) => ({
+          ...base,
+          display: 'none',
+        }),
+        indicatorsContainer: (base) => ({
+          ...base,
+          display: 'none',
+        }),
+
+        multiValue: (base) => ({
+          ...base,
+          borderRadius: '8px',
+          overflow: 'hidden',
+          backgroundColor: 'var(--backgroundColorI)',
+          border: '1px solid',
+          borderColor: '#2E57E8',
+          margin: '4px',
+        }),
+        multiValueLabel: (base) => ({
+          ...base,
+          fontSize: '16px',
+          padding: '4px',
+          paddingLeft: '8px',
+        }),
+        multiValueRemove: (base) => ({
+          ...base,
+          paddingRight: '8px',
+          color: 'var(--textColor6)',
+          '&:hover': {
+            background: '#E27979',
+            color: 'var(--textColor1)',
+          },
+        }),
+      }}
+      onChange={(selected): void =>
+        setSelectedTags(selected.map((s) => s.label))
+      }
+    />
+  )
+}
+
+function formatTags(tags: Tags) {
+  return tags.map((tag) => ({
+    label: tag,
+    value: tag,
+  }))
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/left-pane/CodeInfo.tsx ===
+// i18n-key-prefix: leftPane.codeInfo
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import { TrackIcon, Avatar } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export default function CodeInfo({
+  track,
+  exercise,
+}: {
+  track: any
+  exercise: any
+}): JSX.Element {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
+
+  return (
+    <>
+      <TrackIcon
+        title={track.title}
+        className={'!w-[32px] !h-[32px]'}
+        iconUrl={track.iconUrl}
+      />
+      <div className="student">
+        <Avatar src={exercise.iconUrl} />
+        <div className="info">
+          <div className="exercise">{t('leftPane.codeInfo.youAreAssigningTags')}</div>
+          <div className="handle">
+            {exercise.title} {t('leftPane.codeInfo.in')} {track.title}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/training-data/code-tagger/left-pane/LeftPane.tsx ===
+// i18n-key-prefix: leftPane.leftPane
+// i18n-namespace: components/training-data/code-tagger
+import React from 'react'
+import CodeInfo from './CodeInfo'
+import { FilePanel } from '@/components/mentoring/session/FilePanel'
+import { CloseButton } from '@/components/mentoring/session/CloseButton'
+import { CodeTaggerProps } from '../CodeTagger.types'
+import { ResultsZone } from '@/components/ResultsZone'
+
+export function LeftPane({
+  code,
+  links,
+}: Pick<CodeTaggerProps, 'code' | 'links'>): JSX.Element {
+  return (
+    <>
+      <header className="discussion-header">
+        <CloseButton url={links.trainingDataDashboard} />
+        <CodeInfo exercise={code.exercise} track={code.track} />
+      </header>
+      <ResultsZone isFetching={false}>
+        <FilePanel
+          files={code.files}
+          language={code.track.highlightjsLanguage}
+          indentSize={2}
+        />
+      </ResultsZone>
+    </>
+  )
+}
+
+// === end file ===
+```

@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "exerciseCommunitySolutions.exploreSolutions": "Explore how others solved this exercise",
+  "exerciseCommunitySolutions.searchPlaceholder": "Search by code (min 3 chars)"
+}
+
+// modified_files
+// === file: ../components/track/ExerciseCommunitySolutionsList.tsx ===
 // i18n-key-prefix: exerciseCommunitySolutions
 // i18n-namespace: components/track/ExerciseCommunitySolutionsList.tsx
 import React, { useState, useEffect } from 'react'
@@ -5,7 +14,7 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Pagination } from '@/components/common'
+import { Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -47,9 +56,7 @@ export function ExerciseCommunitySolutionsList({
   request: Request
   tags: any
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/ExerciseCommunitySolutionsList.tsx'
-  )
+  const { t } = useAppTranslation('components/track/ExerciseCommunitySolutionsList.tsx')
   const {
     request,
     setPage,
@@ -98,9 +105,7 @@ export function ExerciseCommunitySolutionsList({
       data-scroll-top-anchor="exercise-community-solutions-list"
       className="lg-container c-community-solutions-list"
     >
-      {resolvedData ? (
-        <h2>{t('exerciseCommunitySolutions.exploreSolutions')}</h2>
-      ) : null}
+      {resolvedData ? <h2>{t('exerciseCommunitySolutions.exploreSolutions')}</h2> : null}
       <div className="c-search-bar lg:flex-row flex-col gap-24">
         <input
           className="--search"
@@ -162,3 +167,6 @@ export function ExerciseCommunitySolutionsList({
 }
 
 export default ExerciseCommunitySolutionsList
+
+// === end file ===
+```

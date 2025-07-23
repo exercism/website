@@ -107,5 +107,6 @@ export default {
   'summary.practiceExercises': 'Practice Exercises',
   'summary.representers': 'Representers',
   'summary.testRunners': 'Test Runners',
-  'summary.workingOn': 'working on',
+  'summary.workingOn':
+    'For this task you will be {{verb}} {{module}} {{type}}{{trackSuffix}}.',
 }

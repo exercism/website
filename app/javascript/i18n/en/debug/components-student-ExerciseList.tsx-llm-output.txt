@@ -1,3 +1,17 @@
+```ts
+// i18n
+export default {
+  "allExercises": "All Exercises",
+  "completed": "Completed",
+  "inProgress": "In Progress",
+  "available": "Available",
+  "locked": "Locked",
+  "searchByTitle": "Search by title",
+  "noExercisesFound": "No exercises found"
+}
+
+// modified_files
+// === file: ../components/student/ExerciseList.tsx ===
 import React, { useState, useEffect } from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
@@ -197,3 +211,6 @@ export default ({
     </div>
   )
 }
+
+// end file
+```

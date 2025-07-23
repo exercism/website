@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "tracksList.searchLanguageTracks": "Search language tracks",
+  "tracksList.somethingWentWrong": "Something went wrong"
+}
+
+// modified_files
+// === file: ../components/student/TracksList.tsx ===
 import React, { useCallback, useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
@@ -110,3 +119,6 @@ export default ({
     </div>
   )
 }
+
+// === end file ===
+```

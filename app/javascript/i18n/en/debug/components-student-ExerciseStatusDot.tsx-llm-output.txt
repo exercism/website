@@ -1,0 +1,66 @@
+```ts
+// i18n
+export default {
+
+}
+
+// modified_files
+// === file: ../components/student/ExerciseStatusDot.tsx ===
+// i18n-key-prefix: 
+// i18n-namespace: components/student/ExerciseStatusDot.tsx
+import React, { forwardRef } from 'react'
+import { ExerciseStatus } from '../types'
+import { ExerciseTooltip } from '../tooltips'
+import { ExercismTippy } from '../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export default function ExerciseStatusDot({
+  exerciseStatus,
+  type,
+  links,
+}: {
+  exerciseStatus: ExerciseStatus
+  type: string
+  links: {
+    tooltip: string
+    exercise?: string
+  }
+}): JSX.Element {
+  const { t } = useAppTranslation('components/student/ExerciseStatusDot.tsx')
+  return (
+    <ExercismTippy content={<ExerciseTooltip endpoint={links.tooltip} />}>
+      <ReferenceElement
+        className={`c-ed --${exerciseStatus} --${type}`}
+        link={links.exercise}
+        status={exerciseStatus}
+      />
+    </ExercismTippy>
+  )
+}
+
+const ReferenceElement = forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLDivElement> &
+    React.HTMLProps<HTMLAnchorElement> & {
+      link?: string
+      status: ExerciseStatus
+    }
+>(({ link, status, ...props }, ref) => {
+  return link ? (
+    <a
+      href={link}
+      onClick={(e) => {
+        if (status === 'locked') {
+          e.preventDefault()
+        }
+      }}
+      ref={ref as React.RefObject<HTMLAnchorElement>}
+      {...props}
+    />
+  ) : (
+    <div ref={ref as React.RefObject<HTMLDivElement>} {...props} />
+  )
+})
+
+// === end file ===
+```

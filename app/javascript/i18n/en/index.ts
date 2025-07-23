@@ -152,10 +152,11 @@ import eh from './components-settings-UserPreferencesForm.tsx'
 import ei from './components-settings-useSettingsMutation.tsx'
 import ej from './components-student-iterations-list'
 import ek from './components-student-mentoring-dropdown'
-import el from './discussion-batch'
-import em from './session-batch-1'
-import en from './session-batch-2'
-import eo from './session-batch-3'
+import el from './components-student-mentoring-session-iteration-view'
+import em from './discussion-batch'
+import en from './session-batch-1'
+import eo from './session-batch-2'
+import ep from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -317,8 +318,9 @@ export default {
   'components/settings/useSettingsMutation.tsx': ei,
   'components/student/iterations-list': ej,
   'components/student/mentoring-dropdown': ek,
-  'discussion-batch': el,
-  'session-batch-1': em,
-  'session-batch-2': en,
-  'session-batch-3': eo,
+  'components/student/mentoring-session/iteration-view': el,
+  'discussion-batch': em,
+  'session-batch-1': en,
+  'session-batch-2': eo,
+  'session-batch-3': ep,
 }

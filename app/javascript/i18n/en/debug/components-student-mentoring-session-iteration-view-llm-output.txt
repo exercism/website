@@ -1,3 +1,12 @@
+```ts
+// i18n
+export default {
+  "iterationHeader.thisExerciseHasBeenUpdated": "This exercise has been updated since this iteration was submitted.",
+  "iterationHeader.youCanUpdateToLatestVersion": "You can update to the latest version by clicking on the yellow bar at the top of the main exercise page."
+}
+
+// modified_files
+// === file: ../components/student/mentoring-session/iteration-view/IterationHeader.tsx ===
 import React from 'react'
 import { Iteration } from '@/components/types'
 import {
@@ -16,9 +25,7 @@ export const IterationHeader = ({
   iteration,
   isOutOfDate,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/iteration-view'
-  )
+  const { t } = useAppTranslation('components/student/mentoring-session/iteration-view')
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
@@ -33,9 +40,7 @@ export const IterationHeader = ({
 }
 
 const OutOfDateNotice = () => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/iteration-view'
-  )
+  const { t } = useAppTranslation('components/student/mentoring-session/iteration-view')
   return (
     <GenericTooltip
       content={`
@@ -48,3 +53,6 @@ const OutOfDateNotice = () => {
     </GenericTooltip>
   )
 }
+
+// === end file ===
+```

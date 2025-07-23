@@ -1,0 +1,81 @@
+```ts
+// i18n
+export default {
+  "discussionList.codeReviewSessions": "Code Review Sessions",
+  "discussionList.appearHereOnceStarted": "Your code review discussions with mentors for this exercise will appear here once started.",
+  "discussionList.mentoringDiscussions": "Mentoring discussions",
+  "header.mentoringCurrentlyInProgress": "Mentoring currently in progress",
+  "header.shareLinksNotAvailable": "Share links aren&apos;t available with active mentoring",
+  "header.wantToGetMentored": "Want to get mentored by a friend?",
+  "header.inviteFriendsColleagues": "Use this share link to invite friends, colleagues or personal mentors directly to mentor your solution."
+}
+
+// modified_files
+// === file: ../components/student/mentoring-dropdown/DiscussionList.tsx ===
+import React from 'react'
+import { MentorDiscussion } from '../../types'
+import { MentorDiscussionSummary } from '../../common/MentorDiscussionSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const DiscussionList = ({
+  discussions,
+}: {
+  discussions: readonly MentorDiscussion[]
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-dropdown')
+  if (discussions.length === 0) {
+    return (
+      <div className="no-discussions">
+        <h3>{t('discussionList.codeReviewSessions')}</h3>
+        <p>
+          {t('discussionList.appearHereOnceStarted')}
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="discussions">
+      <h3>{t('discussionList.mentoringDiscussions')}</h3>
+      {discussions.map((discussion) => (
+        <MentorDiscussionSummary key={discussion.uuid} {...discussion} />
+      ))}
+    </div>
+  )
+}
+
+// === end file ===
+
+// === file: ../components/student/mentoring-dropdown/Header.tsx ===
+import React from 'react'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import type { SolutionMentoringStatus } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+export const Header = ({
+  mentoringStatus,
+  shareLink,
+}: {
+  mentoringStatus: SolutionMentoringStatus
+  shareLink: string
+}): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-dropdown')
+
+  return mentoringStatus === 'in_progress' ? (
+    <div className="discussion-in-progress">
+      <h3>{t('header.mentoringCurrentlyInProgress')}</h3>
+      <p>{t('header.shareLinksNotAvailable')}</p>
+    </div>
+  ) : (
+    <div className="mentoring-request">
+      <h3>{t('header.wantToGetMentored')}</h3>
+      <p>
+        {t('header.inviteFriendsColleagues')}
+      </p>
+      <CopyToClipboardButton textToCopy={shareLink} />
+    </div>
+  )
+}
+
+// === end file ===
+```

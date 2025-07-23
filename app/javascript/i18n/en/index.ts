@@ -180,10 +180,11 @@ import e9 from './components-track-build-analyzer-tags'
 import fa from './components-track-dig-deeper-components'
 import fb from './components-track-dig-deeper-components-community-videos'
 import fc from './components-track-dig-deeper-components-no-content-yet'
-import fd from './discussion-batch'
-import fe from './session-batch-1'
-import ff from './session-batch-2'
-import fg from './session-batch-3'
+import fd from './components-track-exercise-community-solutions-list'
+import fe from './discussion-batch'
+import ff from './session-batch-1'
+import fg from './session-batch-2'
+import fh from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -374,8 +375,9 @@ export default {
   'components/track/dig-deeper-components': fa,
   'components/track/dig-deeper-components/community-videos': fb,
   'components/track/dig-deeper-components/no-content-yet': fc,
-  'discussion-batch': fd,
-  'session-batch-1': fe,
-  'session-batch-2': ff,
-  'session-batch-3': fg,
+  'components/track/exercise-community-solutions-list': fd,
+  'discussion-batch': fe,
+  'session-batch-1': ff,
+  'session-batch-2': fg,
+  'session-batch-3': fh,
 }

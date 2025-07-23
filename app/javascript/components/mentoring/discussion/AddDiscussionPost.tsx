@@ -42,7 +42,10 @@ export const AddDiscussionPost = ({
         className="continuation-btn"
         type="button"
       >
-        <Trans i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded" />
+        <Trans
+          ns="discussion-batch"
+          i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded"
+        />
       </button>
     )
   }

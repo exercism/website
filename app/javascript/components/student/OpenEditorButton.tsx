@@ -118,14 +118,12 @@ const DropdownPanel = ({
   return (
     <div className="c-open-editor-button-dropdown">
       <h3>{t('openEditor.downloadAndWorkLocally')}</h3>
-      <p>
-        {downloadPrompt} You can download this exercise and work on it locally,
-        then submit it when you&apos;re happy.
-      </p>
+      <p>{t('openEditor.youCanWorkLocally', { downloadPrompt })}</p>
       <CopyToClipboardButton textToCopy={command} />
 
       <p>
         <Trans
+          ns="components/student/OpenEditorButton.tsx"
           i18nKey="openEditor.firstTimeUsingSetup"
           components={{
             link: <a href={links.local} target="_blank" rel="noreferrer" />,

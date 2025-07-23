@@ -6,6 +6,8 @@ export default {
   'openEditor.downloadAndWorkLocally': 'Download and work locally',
   'openEditor.downloadPrompt':
     "Prefer to use the tools you're familiar with, than our online editor? No problem!",
+  'openEditor.youCanWorkLocally':
+    "{{downloadPrompt}} You can download this exercise and work on it locally, then submit it when you're happy.",
   'openEditor.exerciseNotAvailable':
     'This exercise is not available using the online editor.',
   'openEditor.firstTimeUsingSetup':

@@ -129,6 +129,7 @@ export const ChatGptDialog = ({
         {t('chatGptDialog.noteChatGPT4IsSignificantlyBetter')}
         <Trans
           i18nKey="chatGptDialog.noteChatGPT4IsSignificantlyBetter"
+          ns="components/editor/ChatGptFeedback"
           components={{
             bold: <strong className="font-semibold" />,
           }}

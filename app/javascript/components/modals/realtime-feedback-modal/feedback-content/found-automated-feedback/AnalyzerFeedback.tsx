@@ -31,6 +31,7 @@ export const AnalyzerFeedback = ({
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <div className="info">
           <Trans
+            ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="analyzerFeedback.generatedFeedback"
             values={{ trackTitle: track.title }}
             components={{ strong: <strong /> }}

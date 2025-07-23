@@ -31,6 +31,7 @@ export const RepresenterFeedback = ({
         <div className="info">
           <strong className="inline-block">{author.name}</strong>
           <Trans
+            ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="representerFeedback.gaveFeedbackSimilarSolution"
             components={{ strong: <strong className="inline-block" /> }}
           />

@@ -23,7 +23,11 @@ export default function AutomationRules({
   if (!guidance.representations) {
     return (
       <p className="px-24 mb-16 text-p-base">
-        <Trans i18nKey="automationRules.noGuidance" values={{ prLink }} />
+        <Trans
+          ns="components/mentoring/representation/right-pane"
+          i18nKey="automationRules.noGuidance"
+          values={{ prLink }}
+        />
       </p>
     )
   }

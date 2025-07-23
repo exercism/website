@@ -61,6 +61,7 @@ export function RequestMentoring({
         <p className="text-p-base">
           <Trans
             i18nKey="feedbackPanelRequestMentoring.feedbackPanelRequestMentoring.whyGetFeedbackDescription"
+            ns="components/editor/FeedbackPanel"
             components={{ bold: <strong className="font-semibold" /> }}
           />
         </p>

@@ -179,6 +179,7 @@ export function InfoMessage({
         <p className="text-p-base mb-16">
           <Trans
             i18nKey="bootcampAffiliateCouponForm.insidersCanAccessDiscount"
+            ns="components/settings/BootcampAffiliateCouponForm.tsx"
             components={{
               link: (
                 <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>

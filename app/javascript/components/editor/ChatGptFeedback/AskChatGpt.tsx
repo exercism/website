@@ -57,6 +57,7 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
           <div className="c-textblock-content c-textblock-content text-16 leading-150">
             <Trans
               i18nKey="askChatGpt.reminderUseThisAdviceWiselyContent"
+              ns="components/editor/ChatGptFeedback"
               components={{ bold: <strong className="font-semibold" /> }}
             />
           </div>

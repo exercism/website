@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "publishSolutionButton.publishSolution": "Publish solution"
+}
+
+// modified_files
+// === file: ../components/student/PublishSolutionButton.tsx ===
 // i18n-key-prefix: publishSolutionButton
 // i18n-namespace: components/student/PublishSolutionButton.tsx
 import React, { useState } from 'react'
@@ -13,9 +21,7 @@ export default function PublishSolutionButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/student/PublishSolutionButton.tsx'
-  )
+  const { t } = useAppTranslation('components/student/PublishSolutionButton.tsx')
 
   return (
     <>
@@ -35,3 +41,6 @@ export default function PublishSolutionButton({
     </>
   )
 }
+
+// === end file ===
+```

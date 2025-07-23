@@ -1,3 +1,11 @@
+```ts
+// i18n
+export default {
+  "markAsComplete": "Mark as complete"
+}
+
+// modified_files
+// === file: ../components/student/CompleteExerciseButton.tsx ===
 import React, { useState, useCallback } from 'react'
 import { GraphicalIcon } from '../common'
 import { CompleteExerciseModal } from '../modals/CompleteExerciseModal'
@@ -12,9 +20,7 @@ export default function CompleteExerciseButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/student/CompleteExerciseButton.tsx'
-  )
+  const { t } = useAppTranslation('components/student/CompleteExerciseButton.tsx')
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false)
@@ -38,3 +44,6 @@ export default function CompleteExerciseButton({
     </React.Fragment>
   )
 }
+
+// === end file ===
+```

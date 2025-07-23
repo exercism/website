@@ -1,3 +1,13 @@
+```ts
+// i18n
+export default {
+  "mentoringComboButton.continueCodeReview": "Continue code review",
+  "mentoringComboButton.viewRequest": "View request",
+  "mentoringComboButton.submitForCodeReview": "Submit for Code Review"
+}
+
+// modified_files
+// === file: ../components/student/MentoringComboButton.tsx ===
 import React from 'react'
 import { MentoringDropdown } from './MentoringDropdown'
 import { MentorDiscussion, SolutionMentoringStatus } from '../types'
@@ -31,17 +41,11 @@ export const MentoringComboButton = ({
     <ComboButton className={className}>
       <PrimarySegment>
         {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
-          <a href={links.inProgressDiscussion}>
-            {t('mentoringComboButton.continueCodeReview')}
-          </a>
+          <a href={links.inProgressDiscussion}>{t('mentoringComboButton.continueCodeReview')}</a>
         ) : mentoringStatus === 'requested' ? (
-          <a href={links.pendingMentorRequest}>
-            {t('mentoringComboButton.viewRequest')}
-          </a>
+          <a href={links.pendingMentorRequest}>{t('mentoringComboButton.viewRequest')}</a>
         ) : (
-          <a href={links.requestMentoring}>
-            {t('mentoringComboButton.submitForCodeReview')}
-          </a>
+          <a href={links.requestMentoring}>{t('mentoringComboButton.submitForCodeReview')}</a>
         )}
       </PrimarySegment>
       <DropdownSegment>
@@ -54,3 +58,6 @@ export const MentoringComboButton = ({
     </ComboButton>
   )
 }
+
+// === end file ===
+```

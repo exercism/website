@@ -55,7 +55,7 @@ export default {
   'addTestimonialStep.mentorsVolunteerTime':
     'Mentors volunteer their time for free. A nice testimonial is a great way of thanking them, and encouraging them to continue helping others.',
   'addTestimonialStep.leaveTestimonial':
-    'Leave {mentorHandle} a testimonial (optional)',
+    'Leave {{mentorHandle}} a testimonial (optional)',
   'addTestimonialStep.back': 'Back',
   'addTestimonialStep.skip': 'Skip',
   'addTestimonialStep.finish': 'Finish',

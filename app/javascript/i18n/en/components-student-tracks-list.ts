@@ -1,7 +1,9 @@
 // namespace: components/student/tracks-list
 export default {
   'orderSelect.sortByLastTouched': 'Sort by last touched',
+  'track.learningMode': 'Learning Mode',
   'track.thisTrackIsNew': 'This track is new',
+  'track.new': 'New',
   'track.joined': 'Joined',
   'track.numberOfExercises': '{{count}} exercise',
   'track.numberOfExercises_one': '{{count}} exercise',

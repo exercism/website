@@ -1,7 +1,6 @@
 // i18n-key-prefix: track
 // i18n-namespace: components/student/tracks-list
 import React from 'react'
-import pluralize from 'pluralize'
 import { TrackIcon } from '@/components/common/TrackIcon'
 import { Icon } from '@/components/common/Icon'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
@@ -31,11 +30,11 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           {!track.isJoined && (
             <div className="items-center hidden md:flex">
               {track.course ? (
-                <div className="--v3"> Learning Mode </div>
+                <div className="--v3">{t('track.learningMode')}</div>
               ) : track.isNew ? (
                 <div className="--new">
                   <Icon icon="stars" alt={t('track.thisTrackIsNew')} />
-                  {t('track.thisTrackIsNew')}
+                  {t('track.new')}
                 </div>
               ) : null}
             </div>
@@ -54,7 +53,6 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
             {track.numCompletedExercises == undefined
               ? null
               : `${track.numCompletedExercises}/`}
-            {track.numExercises}{' '}
             {t('track.numberOfExercises', { count: track.numExercises })}
           </li>
 
@@ -64,7 +62,6 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
               {track.numCompletedConcepts == undefined
                 ? null
                 : `${track.numCompletedConcepts}/`}
-              {track.numConcepts}{' '}
               {t('track.numberOfConcepts', { count: track.numConcepts })}
             </li>
           )}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { SizeTag } from '../../contributing/tasks-list/task/SizeTag'
 import { TaskSize } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SizeInfo = ({ size }: { size: TaskSize }): JSX.Element => {
   return (
@@ -16,66 +17,42 @@ export const SizeInfo = ({ size }: { size: TaskSize }): JSX.Element => {
 }
 
 const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
   switch (size) {
     case 'tiny':
       return (
         <>
-          <h3>
-            This is a <strong>tiny task</strong>.
-          </h3>
-          <p>
-            Depending on your experience, you should be able to complete it in a
-            few minutes.
-          </p>
+          <h3>{t('sizeInfo.tinyTask')}</h3>
+          <p>{t('sizeInfo.completeInMinutes')}</p>
         </>
       )
     case 'small':
       return (
         <>
-          <h3>
-            This is a <strong>small task</strong>.
-          </h3>
-          <p>
-            Depending on your experience, you should be able to complete it
-            under an hour.
-          </p>
+          <h3>{t('sizeInfo.smallTask')}</h3>
+          <p>{t('sizeInfo.completeInHour')}</p>
         </>
       )
     case 'medium':
       return (
         <>
-          <h3>
-            This is <strong>medium sized task</strong>.
-          </h3>
-          <p>
-            Depending on your experience, you should be able to complete it in a
-            few hours. This is a great task to deepen your knowledge of working
-            on Exercism and make a sigificant contribution.
-          </p>
+          <h3>{t('sizeInfo.mediumSizedTask')}</h3>
+          <p>{t('sizeInfo.deepenKnowledge')}</p>
         </>
       )
     case 'large':
       return (
         <>
-          <h3>
-            This is a <strong>large task</strong>.
-          </h3>
-          <p>
-            This will take you many hours to complete. It's a great task to get
-            your teeth into and will be a big contribution to Exercism.
-          </p>
+          <h3>{t('sizeInfo.largeTask')}</h3>
+          <p>{t('sizeInfo.bigContribution')}</p>
         </>
       )
     case 'massive':
       return (
         <>
-          <h3>
-            This task is <strong>a project</strong>.
-          </h3>
-          <p>
-            This will take you days to complete, even if you are experienced
-            with contributing to Exercism.
-          </p>
+          <h3>{t('sizeInfo.project')}</h3>
+          <p>{t('sizeInfo.daysToComplete')}</p>
         </>
       )
   }

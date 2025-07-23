@@ -1,6 +1,9 @@
+// i18n-key-prefix: approaches
+// i18n-namespace: components/track/dig-deeper-components
 import React, { useContext } from 'react'
 import { ApproachSnippet, SectionHeader } from '.'
 import { Approach, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Approaches({
   approaches,
@@ -8,14 +11,16 @@ export function Approaches({
   approaches: Approach[]
 }): JSX.Element {
   const { exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
   return (
     <div className="lg:flex lg:flex-col mb-24">
       <SectionHeader
-        title="Approaches"
+        title={t('approaches.approaches')}
         description={
           approaches.length > 0
-            ? 'Other ways our community solved this exercise'
-            : `There are no Approaches for ${exercise.title}.`
+            ? t('approaches.otherWaysCommunitySolved')
+            : t('approaches.noApproaches', { exerciseTitle: exercise.title })
         }
         icon="dig-deeper-gradient"
         className="mb-16"

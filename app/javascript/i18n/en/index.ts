@@ -185,10 +185,11 @@ import fe from './components-track-ExerciseCommunitySolutionsList.tsx'
 import ff from './components-track-iteration-summary'
 import fg from './components-track-IterationSummary.tsx'
 import fh from './components-track-Trophies.tsx'
-import fi from './discussion-batch'
-import fj from './session-batch-1'
-import fk from './session-batch-2'
-import fl from './session-batch-3'
+import fi from './components-track-UnlockHelpButton.tsx'
+import fj from './discussion-batch'
+import fk from './session-batch-1'
+import fl from './session-batch-2'
+import fm from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -384,8 +385,9 @@ export default {
   'components/track/iteration-summary': ff,
   'components/track/IterationSummary.tsx': fg,
   'components/track/Trophies.tsx': fh,
-  'discussion-batch': fi,
-  'session-batch-1': fj,
-  'session-batch-2': fk,
-  'session-batch-3': fl,
+  'components/track/UnlockHelpButton.tsx': fi,
+  'discussion-batch': fj,
+  'session-batch-1': fk,
+  'session-batch-2': fl,
+  'session-batch-3': fm,
 }

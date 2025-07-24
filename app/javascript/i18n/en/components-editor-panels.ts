@@ -4,7 +4,7 @@ export default {
   'resultsPanel.runTestsToCheck': 'Run tests ',
   'resultsPanel.toCheckYourCode': 'to check your code',
   'resultsPanel.wellRunYourCode':
-    'We&apos;ll run your code against tests to check whether it works,\nthen give you the results here.',
+    "We'll run your code against tests to check whether it works,\nthen give you the results here.",
   'instructionsPanel.introduction': 'Introduction',
   'instructionsPanel.watchOurVideo':
     'Watch our "Introduction to Hello, World" video to get started 👇',

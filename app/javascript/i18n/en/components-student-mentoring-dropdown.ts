@@ -6,7 +6,7 @@ export default {
   'discussionList.mentoringDiscussions': 'Mentoring discussions',
   'header.mentoringCurrentlyInProgress': 'Mentoring currently in progress',
   'header.shareLinksNotAvailable':
-    'Share links aren&apos;t available with active mentoring',
+    "Share links aren't available with active mentoring",
   'header.wantToGetMentored': 'Want to get mentored by a friend?',
   'header.inviteFriendsColleagues':
     'Use this share link to invite friends, colleagues or personal mentors directly to mentor your solution.',

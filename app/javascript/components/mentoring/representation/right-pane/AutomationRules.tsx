@@ -10,23 +10,19 @@ export default function AutomationRules({
     'components/mentoring/representation/right-pane'
   )
 
-  const prLink = (
-    <a
-      href={guidance.links.improveRepresenterGuidance}
-      target="_blank"
-      rel="noreferrer"
-    >
-      Pull Request on GitHub
-    </a>
-  )
-
   if (!guidance.representations) {
     return (
       <p className="px-24 mb-16 text-p-base">
         <Trans
           ns="components/mentoring/representation/right-pane"
           i18nKey="automationRules.noGuidance"
-          values={{ prLink }}
+          components={[
+            <a
+              href={guidance.links.improveRepresenterGuidance}
+              target="_blank"
+              rel="noreferrer"
+            />,
+          ]}
         />
       </p>
     )

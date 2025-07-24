@@ -17,13 +17,11 @@ export default {
   'components.mentoring.session.mentoringNote.mentoringDocs':
     'Check out our <a>mentoring docs</a> for more information.',
   'components.mentoring.session.mentorNotes.noNotesYet':
-    "This {{guidanceType}} doesn't have any mentoring notes yet. Mentoring notes are written by our community. Please help get them started for this exercise by sending a <prLink/>.",
-  'components.mentoring.session.mentorNotes.pullRequestOnGithub':
-    'Pull request on GitHub',
+    "This {{guidanceType}} doesn't have any mentoring notes yet. Mentoring notes are written by our community. Please help get them started for this exercise by sending a <0>Pull Request on GitHub</0>.",
   'components.mentoring.session.mentorNotes.improveNotes':
     'Improve these notes',
   'components.mentoring.session.mentorNotes.communityNotes':
-    'These notes are written by our community. Please help improve them by sending a <prLink/>.',
+    'These notes are written by our community. Please help improve them by sending a <0>Pull Request on GitHub</0>.',
   'components.mentoring.session.previousSessionsLink.opensInModal':
     'Opens in modal',
   'components.mentoring.session.previousSessionsLink.seePreviousSessions':

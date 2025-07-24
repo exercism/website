@@ -154,7 +154,13 @@ export function InfoMessage({
           />
         </p>
         <p className="text-p-base mb-12">
-          {t('bootcampAffiliateCouponForm.codeGivesDiscountBootcamp')}
+          <Trans
+            ns="components/settings/BootcampAffiliateCouponForm.tsx"
+            i18nKey="bootcampAffiliateCouponForm.codeGivesDiscountBootcamp"
+            components={{
+              strong: <strong className="font-semibold" />,
+            }}
+          />
         </p>
         <p className="text-p-base mb-16">
           {t('bootcampAffiliateCouponForm.pleaseHelpUsSpreadWord')}

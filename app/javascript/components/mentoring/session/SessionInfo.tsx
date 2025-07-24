@@ -34,7 +34,7 @@ export const SessionInfo = ({
           <div className="handle">{student.handle}</div>
           <div className="exercise">
             <Trans
-              ns="components/mentoring/session/Scratchpad.tsx"
+              ns="components/mentoring/session/SessionInfo.tsx"
               i18nKey="exerciseInTrack"
               values={{
                 exerciseTitle: exercise.title,

@@ -114,11 +114,7 @@ export const TagsFilter = ({
         </div>
       </div>
       <div className="--state">
-        <p>
-          {t('tagsFilter.showingAll')}
-          {value === undefined || value.length == 0 ? '' : ' '}
-          {numTracks} {t('tagsFilter.numberOfTracks', { count: numTracks })}
-        </p>
+        <p>{t('tagsFilter.showingAll', { count: numTracks })}</p>
         {value !== undefined && value.length > 0 ? (
           <button onClick={handleReset} className="--reset-btn">
             <GraphicalIcon icon="reset" />

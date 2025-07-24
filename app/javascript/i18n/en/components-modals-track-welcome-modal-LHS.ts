@@ -1,3 +1,4 @@
+// namespace: components/modals/track-welcome-modal/LHS
 export default {
   'bootcampRecommendation.header':
     'Coding Fundamentals might be better for you…',

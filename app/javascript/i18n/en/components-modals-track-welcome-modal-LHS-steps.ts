@@ -33,7 +33,7 @@ export default {
   'noLearningModeStep.description':
     "The {{trackTitle}} track is designed to help you practice the language. Unlike some tracks, {{trackTitle}} doesn't have a Learning Mode yet, so you'll be completing the track's {{numExercises}} exercises in Practice Mode.",
   'noLearningModeStep.resources':
-    "If you'd like to learn {{trackTitle}} from scratch, take a look at <link>these supplementary resources</link> that we've collated for you.",
+    "If you'd like to learn {{trackTitle}} from scratch, take a look at <0>these supplementary resources</0> that we've collated for you.",
   'noLearningModeStep.continue': 'Continue',
   'hasLearningModeStep.hereToLearnOrPractice': 'Here to learn or practice?',
   'hasLearningModeStep.trackCanBeUsedForLearningOrPracticing':

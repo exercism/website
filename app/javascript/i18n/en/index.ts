@@ -192,6 +192,7 @@ import fl from './discussion-batch'
 import fm from './session-batch-1'
 import fn from './session-batch-2'
 import fo from './session-batch-3'
+import bootcampRecommendation from './components-modals-track-welcome-modal-LHS'
 
 export default {
   'automation-batch': aa,
@@ -303,6 +304,7 @@ export default {
   'components/modals/student/finish-mentor-discussion-modal': c5,
   'components/modals/TaskHintsModal.tsx': c6,
   'components/modals/TestimonialModal.tsx': c7,
+  'components/modals/track-welcome-modal/LHS': bootcampRecommendation,
   'components/modals/track-welcome-modal/LHS/steps': c8,
   'components/modals/track-welcome-modal/LHS/steps/components': c9,
   'components/modals/track-welcome-modal/RHS': da,

@@ -24,5 +24,5 @@ export default {
     'We want to make getting started with mentoring as easy as possible. Watch the video below to learn how to get started.',
   'congratulationsStep.welcomeToMentorTeam': 'Welcome to the Mentor Team!',
   'congratulationsStep.video': 'Video · 0:24',
-  'congratulationsStep.readyToGetStarted': 'I&apos;m ready to get started!',
+  'congratulationsStep.readyToGetStarted': "I'm ready to get started!",
 }

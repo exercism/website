@@ -15,7 +15,7 @@ export default {
   'components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled':
     'Mentoring request cancelled',
   'components.mentoring.session.cancelledRequestModal.studentCancelledRequest':
-    'The student has cancelled this mentoring request. We know this is extremely frustrating once you&apos;ve started responding 😞 Sorry for the annoyance!',
+    "The student has cancelled this mentoring request. We know this is extremely frustrating once you've started responding 😞 Sorry for the annoyance!",
   'components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor':
     'Thank you for being a mentor at Exercism 💙',
   'components.mentoring.session.cancelledRequestModal.backToMentorRequests':

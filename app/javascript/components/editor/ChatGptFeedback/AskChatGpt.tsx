@@ -30,7 +30,7 @@ export function AskChatGpt({
       break
     }
     default: {
-      content = <div>Couldn&apos;t receive feedback</div>
+      content = <div>{t('askChatGpt.couldntReceiveFeedback')}</div>
     }
   }
   return <div className="c-chatgpt">{content} </div>

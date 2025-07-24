@@ -2,7 +2,7 @@
 export default {
   'transactionForm.orSpecifyCustomAmount': 'Or specify a custom amount:',
   'subscriptionForm.youReCurrentlyDonatingEachMonthToExercism':
-    'You&apos;re currently donating {{amount}} each month to Exercism.',
+    "You're currently donating {{amount}} each month to Exercism.",
   'subscriptionForm.thankYou': 'Thank you!',
   'subscriptionForm.regularDonationsLikeYoursAllowUsToAnticipateOurCashflowAndMakeResponsibleDecisionsAboutHiringAndGrowingExercism':
     'Regular donations like yours allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.',
@@ -24,13 +24,13 @@ export default {
   'stripeForm.weNeedToCheckYouAreNotABotBeforeWeCanAcceptADonation':
     ', we need to check you are not a bot before we can accept a donation.',
   'formWithModal.youVeDonatedSuccessfullyThankYou':
-    'You&apos;ve donated {{amount}} successfully - thank you 💙',
+    "You've donated {{amount}} successfully - thank you 💙",
   'formWithModal.weTrulyAppreciateYourSupportExercismWouldNotBePossibleWithoutAwesomeContributorsLikeYourselfYouLlBeSentAnEmailShortlyWithYourDonationConfirmationAndReceipt':
-    'We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You&apos;ll be sent an email shortly with your donation confirmation and receipt.',
-  'formWithModal.youVeEarnedTheBadge': 'You&apos;ve earned the',
+    "We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You'll be sent an email shortly with your donation confirmation and receipt.",
+  'formWithModal.youVeEarnedTheBadge': "You've earned the",
   'formWithModal.supporter': ' Supporter',
   'formWithModal.badge': ' badge!',
-  'formWithModal.happyToHelpImDoneHere': 'Happy to help! I&apos;m done here 👍',
+  'formWithModal.happyToHelpImDoneHere': "Happy to help! I'm done here 👍",
   'footerForm.customAmount': 'Custom amount',
   'footerForm.continue': 'Continue',
   'form.monthlyRecurring': 'Monthly Recurring',

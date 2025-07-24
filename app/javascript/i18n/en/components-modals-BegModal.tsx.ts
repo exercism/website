@@ -4,7 +4,7 @@ export default {
   'begModal.weNeedYourHelp': 'We need your help!',
   'begModal.cantAffordIt': "Can't afford it?",
   'begModal.shareExercism':
-    'If you can&apos;t afford to donate, but would like to help in some other way, please share Exercism with your friends and colleagues, and shout about us on social media. The more people that use us, the more donations we get!',
+    "If you can't afford to donate, but would like to help in some other way, please share Exercism with your friends and colleagues, and shout about us on social media. The more people that use us, the more donations we get!",
   'begModal.wantToKnowMore': 'Want to know more?',
   'begModal.explainsWhyWeNeedDonations':
     'I put together a short video that explains why we need donations and how we use them 👇',

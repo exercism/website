@@ -6,8 +6,9 @@ import { FinishMentorDiscussionModal } from '@/components/modals/mentor/FinishMe
 import { ModalProps } from '@/components/modals/Modal'
 import type { MentorDiscussion as Discussion } from '@/components/types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
-// i18n-key-prefix: ......components.mentoring.discussion.finishButton
+// i18n-key-prefix: components.mentoring.discussion.finishButton
 // i18n-namespace: discussion
 export const FinishButton = ({
   endpoint,
@@ -54,7 +55,11 @@ export const FinishButton = ({
           setOpen(true)
         }}
       >
-        {t('components.mentoring.discussion.finishButton.endDiscussion')}
+        <Trans
+          ns="discussion-batch"
+          i18nKey="components.mentoring.discussion.finishButton.endDiscussion"
+          components={{ hint: <div className="--hint" /> }}
+        />
       </button>
       <FinishMentorDiscussionModal
         endpoint={endpoint}

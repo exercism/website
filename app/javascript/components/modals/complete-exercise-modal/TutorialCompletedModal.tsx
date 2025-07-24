@@ -22,8 +22,8 @@ export const TutorialCompletedModal = ({
     >
       <GraphicalIcon icon="hello-world" category="graphics" />
       <h2>
-        {t('tutorialCompletedModal.journeyStart', {
-          trackTitle: completion.exercise.title,
+        {t('tutorialCompletedModal.youHaveCompleted', {
+          exerciseTitle: completion.exercise.title,
         })}
       </h2>
       <h3>
@@ -42,9 +42,6 @@ export const TutorialCompletedModal = ({
             <br />
             {t('tutorialCompletedModal.weHaveAlsoRevealed', {
               trackTitle: completion.track.title,
-            })}
-            {completion.track.numConcepts}{' '}
-            {t('tutorialCompletedModal.conceptCount', {
               conceptCount: completion.track.numConcepts,
             })}
           </>

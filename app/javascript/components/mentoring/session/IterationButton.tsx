@@ -83,7 +83,7 @@ export const IterationButton = ({
           ? t('components.mentoring.session.iterationButton.comments')
           : t('components.mentoring.session.iterationButton.comment')
       }
-      )}`
+      `
     )
   }
 

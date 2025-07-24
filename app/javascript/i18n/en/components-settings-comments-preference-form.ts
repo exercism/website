@@ -10,7 +10,7 @@ export default {
   'manageExistingSolutions.manageExistingSolutions':
     'Manage existing solutions',
   'manageExistingSolutions.canCommentOnPublishedSolutions':
-    'Currently, people can comment on {commentStatusPhrase} of your published solutions. Use the buttons below to <span className="font-medium">enable or disable comments on all your existing solutions.</span>.',
+    'Currently, people can comment on {{commentStatusPhrase}} of your published solutions. Use the buttons below to <0>enable or disable comments on all your existing solutions.</0>.',
   'manageExistingSolutions.allowCommentsOnExistingSolutions':
     'Allow comments on all existing solutions',
   'manageExistingSolutions.disableCommentsOnExistingSolutions':

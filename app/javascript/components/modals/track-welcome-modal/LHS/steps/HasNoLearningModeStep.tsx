@@ -31,19 +31,18 @@ export function HasNoLearningModeStep({
 
       <p className="mb-12">
         <Trans
+          t={t}
           ns="components/modals/track-welcome-modal/LHS/steps"
           i18nKey="noLearningModeStep.resources"
           values={{ trackTitle: track.title }}
-          components={{
-            link: (
-              <a
-                className="font-semibold text-prominentLinkColor"
-                href={links.learningResources}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-            ),
-          }}
+          components={[
+            <a
+              className="font-semibold text-prominentLinkColor"
+              href={links.learningResources}
+              target="_blank"
+              rel="noopener noreferrer"
+            />,
+          ]}
         />
       </p>
 

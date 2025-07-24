@@ -32,13 +32,12 @@ export const SessionInfo = ({
               components={{
                 handleWithFlair: (
                   <strong className="flex">
-                    {
-                      <HandleWithFlair
-                        handle={mentor.handle}
-                        flair={mentor.flair}
-                        size="small"
-                      />
-                    }
+                    &nbsp;
+                    <HandleWithFlair
+                      handle={mentor.handle}
+                      flair={mentor.flair}
+                      size="small"
+                    />
                     &nbsp;
                   </strong>
                 ),

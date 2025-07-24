@@ -34,7 +34,7 @@ export const LockedSolutionMentoringNote = ({
     <>
       <div className="note">
         <Trans
-          i18nKey={diff > 0 ? 'lockedNote.stillLocked' : 'lockedNote.unlocked'}
+          i18nKey={diff > 0 ? 'locked.stillLocked' : 'locked.unlocked'}
           ns="components/mentoring/request/locked-solution-mentoring-note"
           values={{ lockedUntil, diffMins }}
           components={{

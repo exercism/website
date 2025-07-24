@@ -15,7 +15,7 @@ export function CancelledRequestModal({
   links: Links
   isLocked: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('session-batch')
+  const { t } = useAppTranslation('session-batch-1')
   return (
     <Modal
       onClose={onClose}

@@ -28,9 +28,9 @@ export const MentorNotes = ({
         <Trans
           ns="session-batch-3"
           i18nKey="components.mentoring.session.mentorNotes.noNotesYet"
-          components={{
-            prLink: <PrLink improveUrl={improveUrl} />,
-          }}
+          components={[
+            <a href={improveUrl} target="_blank" rel="noreferrer" />,
+          ]}
           values={{ guidanceType }}
         />
       </p>
@@ -51,9 +51,9 @@ export const MentorNotes = ({
         <Trans
           ns="session-batch-3"
           i18nKey="components.mentoring.session.mentorNotes.communityNotes"
-          components={{
-            prLink: <PrLink improveUrl={improveUrl} />,
-          }}
+          components={[
+            <a href={improveUrl} target="_blank" rel="noreferrer" />,
+          ]}
         />
       </p>
     </React.Fragment>

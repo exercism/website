@@ -12,7 +12,7 @@ export const AutomatedFeedbackSummary = ({
   userIsStudent: boolean
   iteration: Iteration
 }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch')
+  const { t } = useAppTranslation('session-batch-1')
 
   const [modalOpen, setModalOpen] = useState(false)
 

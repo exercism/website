@@ -1,3 +1,5 @@
+// i18n-key-prefix: rightPane.rightPane
+// i18n-namespace: components/training-data/code-tagger
 import React from 'react'
 import { TaggerInformation } from './TaggerInformation'
 import { TagSelector } from './TagSelector'
@@ -5,6 +7,7 @@ import { CodeTaggerProps, Tags } from '../CodeTagger.types'
 import { useSelectTag } from './useSelectTag'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { ErrorFallback } from '@/components/common/ErrorFallback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type RightPaneProps = Pick<CodeTaggerProps, 'links'> &
   Record<'tags' | 'allEnabledTrackTags', Tags>
@@ -16,6 +19,7 @@ export function RightPane({
   allEnabledTrackTags,
   links,
 }: RightPaneProps): JSX.Element {
+  const { t } = useAppTranslation('components/training-data/code-tagger')
   const { confirmTags, setSelectedTags, error } = useSelectTag({
     links,
     defaultSelectedTags: tags,
@@ -30,7 +34,7 @@ export function RightPane({
         setSelectedTags={setSelectedTags}
       />
       <button onClick={() => confirmTags()} className="btn-m btn-primary mb-32">
-        Save and tag another…
+        {t('rightPane.rightPane.saveAndTagAnother')}
       </button>
       <ErrorBoundary
         FallbackComponent={(props) => (

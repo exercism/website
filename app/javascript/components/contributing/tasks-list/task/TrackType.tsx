@@ -1,3 +1,5 @@
+// i18n-key-prefix: trackType
+// i18n-namespace: components/contributing/tasks-list/task
 import React from 'react'
 import { Task, TaskType as TaskTypeProps } from '../../../types'
 import { TrackInfo } from './TrackInfo'

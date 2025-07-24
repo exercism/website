@@ -1,3 +1,5 @@
+// i18n-key-prefix: exerciseUpdateModal
+// i18n-namespace: components/modals/ExerciseUpdateModal.tsx
 import React from 'react'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
@@ -5,6 +7,7 @@ import { Icon } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
 import { ExerciseUpdateForm } from './exercise-update-modal/ExerciseUpdateForm'
 import { Exercise } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ExerciseDiffFile = {
   relativePath: string
@@ -26,6 +29,7 @@ export const ExerciseUpdateModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
   const { data, status, error } = useRequestQuery<{ diff: ExerciseDiff }>(
     ['exercise-update', endpoint],
     { endpoint: endpoint, options: {} }
@@ -46,6 +50,9 @@ export const ExerciseUpdateModal = ({
   )
 }
 
-const LoadingComponent = () => (
-  <Icon icon="spinner" alt="Loading exercise diff" />
-)
+const LoadingComponent = () => {
+  const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
+  return (
+    <Icon icon="spinner" alt={t('exerciseUpdateModal.loadingExerciseDiff')} />
+  )
+}

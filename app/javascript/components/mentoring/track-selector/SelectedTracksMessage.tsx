@@ -1,18 +1,20 @@
 import React from 'react'
-import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SelectedTracksMessage = ({
   numSelected,
 }: {
   numSelected: number
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/track-selector')
+
   const classNames = ['selected', numSelected === 0 ? 'none' : ''].filter(
-    (name) => name !== ''
+    Boolean
   )
-  const message =
-    numSelected === 0
-      ? 'No tracks selected'
-      : `${numSelected} ${pluralize('track', numSelected)} selected`
+
+  const message = t('selectedTracks', {
+    count: numSelected,
+  })
 
   return <div className={classNames.join(' ')}>{message}</div>
 }

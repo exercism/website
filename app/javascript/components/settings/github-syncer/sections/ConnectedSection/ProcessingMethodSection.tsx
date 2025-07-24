@@ -1,3 +1,5 @@
+// i18n-key-prefix: processingMethodSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useState, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
@@ -5,8 +7,12 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ProcessingMethodSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [selectedProcessingMethod, setSelectedProcessingMethod] = useState<
     'commit' | 'pull_request'
@@ -44,11 +50,11 @@ export function ProcessingMethodSection() {
     <section className={isUserInsider ? '' : 'disabled'}>
       <div className="flex gap-48 items-start">
         <div>
-          <SectionHeader title="Processing method" />
+          <SectionHeader
+            title={t('processingMethodSection.processingMethod')}
+          />
           <p className="text-16 leading-150 mb-16">
-            Our bot can commit directly to your repository for a fully automated
-            setup, or create a pull request which you can approve each time.
-            Which method would you prefer?
+            {t('processingMethodSection.ourBot')}
           </p>
           <div className="flex gap-8 mb-16">
             <button
@@ -58,7 +64,7 @@ export function ProcessingMethodSection() {
                 selectedProcessingMethod === 'commit' ? 'selected' : ''
               )}
             >
-              Commit directly
+              {t('processingMethodSection.commitDirectly')}
             </button>
 
             <button
@@ -68,14 +74,14 @@ export function ProcessingMethodSection() {
                 selectedProcessingMethod === 'pull_request' ? 'selected' : ''
               )}
             >
-              Create pull request
+              {t('processingMethodSection.createPullRequest')}
             </button>
           </div>
 
           {selectedProcessingMethod === 'commit' && (
             <label className="flex flex-col mb-16">
               <span className="text-16 leading-150 mb-8">
-                What is the name of your main branch?
+                {t('processingMethodSection.whatIsTheName')}
               </span>
               <input
                 type="text"
@@ -92,7 +98,7 @@ export function ProcessingMethodSection() {
             className="btn btn-primary"
             onClick={handleSaveChanges}
           >
-            Save changes
+            {t('processingMethodSection.saveChange')}
           </button>
         </div>
         <GraphicalIcon

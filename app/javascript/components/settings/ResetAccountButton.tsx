@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ResetAccountModal } from '../modals/ResetAccountModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   reset: string
@@ -13,6 +14,7 @@ export default function ResetAccountButton({
   links: Links
 }): JSX.Element {
   const [open, setOpen] = useState(false)
+  const { t } = useAppTranslation('components/settings/ResetAccountButton.tsx')
 
   return (
     <React.Fragment>
@@ -21,7 +23,7 @@ export default function ResetAccountButton({
         className="c-reset-account-button btn-alert btn-m"
         onClick={() => setOpen(!open)}
       >
-        Reset account
+        {t('resetAccount')}
       </button>
       <ResetAccountModal
         open={open}

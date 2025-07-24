@@ -2,6 +2,7 @@ import { Modal } from '@/components/modals'
 import React from 'react'
 import { Links } from '../Session'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CancelledRequestModal({
   open,
@@ -14,6 +15,7 @@ export function CancelledRequestModal({
   links: Links
   isLocked: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('session-batch-1')
   return (
     <Modal
       onClose={onClose}
@@ -30,26 +32,34 @@ export function CancelledRequestModal({
       <div className="flex items-start">
         <div className="flex flex-col mr-32">
           <h3 id="cancelled-mentoring-request-label" className="text-h3 mb-6">
-            Mentoring request cancelled
+            {t(
+              'components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled'
+            )}
           </h3>
           <p
             id="cancelled-mentoring-request-description"
             className="text-p-large mb-8"
           >
-            The student has cancelled this mentoring request. We know this is
-            extremely frustrating once you&apos;ve started responding 😞 Sorry
-            for the annoyance!
+            {t(
+              'components.mentoring.session.cancelledRequestModal.studentCancelledRequest'
+            )}
           </p>
           <p className="text-p-large mb-16">
-            Thank you for being a mentor at Exercism 💙
+            {t(
+              'components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor'
+            )}
           </p>
           <div className="flex gap-16">
             <a href={links.mentorQueue} className="btn-m btn-primary">
-              Back to mentor requests
+              {t(
+                'components.mentoring.session.cancelledRequestModal.backToMentorRequests'
+              )}
             </a>
             {isLocked && (
               <button className="btn-m btn-secondary" onClick={onClose}>
-                Close this modal
+                {t(
+                  'components.mentoring.session.cancelledRequestModal.closeThisModal'
+                )}
               </button>
             )}
           </div>

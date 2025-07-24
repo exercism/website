@@ -7,6 +7,7 @@ import { ExercisesCompletedSummary } from './learning-section/ExercisesCompleted
 import { ConceptsLearntSummary } from './learning-section/ConceptsLearntSummary'
 import { LearningOverview } from './learning-section/LearningOverview'
 import { TrackSummary } from './learning-section/TrackSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   tracks: TrackProgressList
@@ -19,16 +20,17 @@ type Links = {
 }
 
 export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
   if (tracks.length === 0) {
     return (
       <section className="empty-section">
         <GraphicalIcon icon="exercises" hex />
         <h3 className="journey-h3 mb-24">
-          You haven&apos;t joined any tracks yet
+          {t('learningSection.youHaventJoinedTracks')}
         </h3>
         {/* TODO get link from rails */}
         <a href="/tracks" className="btn-l btn-primary">
-          Choose a track to get started.
+          {t('learningSection.chooseTrackToGetStarted')}
         </a>
       </section>
     )
@@ -38,7 +40,7 @@ export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
     <section className="learning-section">
       <header className="section-header">
         <GraphicalIcon icon="exercises" hex />
-        <h2 className="journey-h2">Your learning</h2>
+        <h2 className="journey-h2">{t('learningSection.yourLearning')}</h2>
         <HeaderSummary tracks={tracks} />
       </header>
       <div className="summary-boxes">

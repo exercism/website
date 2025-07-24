@@ -1,12 +1,16 @@
 import React, { useContext } from 'react'
 import { PostsContext } from './PostsContext'
 import { GraphicalIcon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const NewMessageAlert = ({
   onClick = () => {},
 }: {
   onClick?: () => void
 }): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/NewMessageAlert.tsx'
+  )
   const { hasNewMessages, highlightedPostRef } = useContext(PostsContext)
 
   if (!hasNewMessages) {
@@ -23,7 +27,7 @@ export const NewMessageAlert = ({
       }}
     >
       <GraphicalIcon icon="comment" />
-      <span>New Message</span>
+      <span>{t('newMessage')}</span>
     </button>
   )
 }

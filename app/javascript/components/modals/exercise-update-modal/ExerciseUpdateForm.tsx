@@ -10,6 +10,8 @@ import { SolutionForStudent } from '@/components/types'
 import { Tab, TabContext } from '@/components/common/Tab'
 import { ExerciseDiff } from '../ExerciseUpdateModal'
 import { DiffViewer } from './DiffViewer'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to update exercise')
 
@@ -26,6 +28,7 @@ export const ExerciseUpdateForm = ({
   onCancel: () => void
 }): JSX.Element => {
   const [tab, setTab] = useState(diff.files[0].relativePath)
+  const { t } = useAppTranslation('components/modals/exercise-update-modal')
 
   const {
     mutate: mutation,
@@ -52,9 +55,14 @@ export const ExerciseUpdateForm = ({
     <>
       <header className="header">
         <h2>
-          See what&apos;s changed on
-          <ExerciseIcon iconUrl={diff.exercise.iconUrl} />
-          {diff.exercise.title}
+          <Trans
+            ns="components/modals/exercise-update-modal"
+            i18nKey={'exerciseUpdateForm.header'}
+            components={{
+              icon: <ExerciseIcon iconUrl={diff.exercise.iconUrl} />,
+            }}
+            values={{ exerciseTitle: diff.exercise.title }}
+          />
         </h2>
       </header>
       <TabsContext.Provider
@@ -85,10 +93,7 @@ export const ExerciseUpdateForm = ({
           </Tab.Panel>
         ))}
       </TabsContext.Provider>
-      <div className="warning">
-        By updating to the latest version, your solution may fail the tests and
-        need to be updated.
-      </div>
+      <div className="warning">{t('exerciseUpdateForm.warning')}</div>
       <form data-turbo="false">
         <FormButton
           type="button"
@@ -97,7 +102,7 @@ export const ExerciseUpdateForm = ({
           className="btn-primary btn-m"
         >
           <GraphicalIcon icon="reset" />
-          <span>Update exercise</span>
+          <span>{t('exerciseUpdateForm.updateExercise')}</span>
         </FormButton>
         <FormButton
           type="button"
@@ -105,7 +110,7 @@ export const ExerciseUpdateForm = ({
           status={status}
           className="dismiss-btn"
         >
-          Dismiss
+          {t('exerciseUpdateForm.dismiss')}
         </FormButton>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

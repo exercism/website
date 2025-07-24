@@ -1,7 +1,10 @@
+// i18n-key-prefix: approachSnippet
+// i18n-namespace: components/track/dig-deeper-components
 import React, { useContext } from 'react'
 import Credits from '@/components/common/Credits'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { Approach, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ApproachSnippet({
   approach,
@@ -9,6 +12,7 @@ export function ApproachSnippet({
   approach: Approach
 }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>(approach.snippet)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
 
   const { track } = useContext(DigDeeperDataContext)
 
@@ -36,9 +40,9 @@ export function ApproachSnippet({
       <h5 className="text-h5 mb-2">{approach.title}</h5>
       <p className="text-p-base text-textColor6 mb-12">{approach.blurb}</p>
       <Credits
-        topLabel={'author'}
+        topLabel={t('approachSnippet.author')}
         topCount={approach.numAuthors}
-        bottomLabel={'contributor'}
+        bottomLabel={t('approachSnippet.contributor')}
         bottomCount={approach.numContributors}
         users={approach.users}
         className="text-textColor1 font-semibold text-14"

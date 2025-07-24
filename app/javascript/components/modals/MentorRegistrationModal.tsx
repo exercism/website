@@ -6,6 +6,7 @@ import { ChooseTrackStep } from './mentor-registration-modal/ChooseTrackStep'
 import { CommitStep } from './mentor-registration-modal/CommitStep'
 import { CongratulationsStep } from './mentor-registration-modal/CongratulationsStep'
 import { Links } from '../mentoring/TryMentoringButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type ModalStep = 'CHOOSE_TRACK' | 'COMMIT' | 'CONGRATULATIONS'
 
@@ -49,6 +50,9 @@ const ModalBody = ({
   onBack: () => void
 }): JSX.Element => {
   const [selected, setSelected] = useState<string[]>([])
+  const { t } = useAppTranslation(
+    'components/modals/MentorRegistrationModal.tsx'
+  )
 
   switch (currentStep) {
     case 'CHOOSE_TRACK':
@@ -80,6 +84,9 @@ export const MentorRegistrationModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & { links: Links }): JSX.Element => {
   const [currentStep, setCurrentStep] = useState<ModalStep>('CHOOSE_TRACK')
+  const { t } = useAppTranslation(
+    'components/modals/MentorRegistrationModal.tsx'
+  )
 
   const moveForward = useCallback(() => {
     const nextStep = STEPS.findIndex((step) => step.id === currentStep) + 1
@@ -92,6 +99,10 @@ export const MentorRegistrationModal = ({
 
     setCurrentStep(STEPS[prevStep].id)
   }, [currentStep])
+
+  STEPS[0].label = t('chooseTrackStep.selectTracks')
+  STEPS[1].label = t('commitStep.commitToBeGoodMentor')
+  STEPS[2].label = t('congratulationsStep.congratulations')
 
   return (
     <Modal

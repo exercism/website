@@ -1,9 +1,12 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/CommunicationPreferencesForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { CommunicationPreferences } from '@/components/types'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -18,6 +21,9 @@ export default function CommunicationPreferencesForm({
   defaultPreferences: CommunicationPreferences
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/CommunicationPreferencesForm.tsx'
+  )
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,
@@ -61,7 +67,7 @@ export default function CommunicationPreferencesForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Mentoring</h2>
+      <h2>{t('mentoring.title')}</h2>
       {preferences.mentoring.map((p) => (
         <label className="c-checkbox-wrapper" key={p.key}>
           <input
@@ -77,7 +83,7 @@ export default function CommunicationPreferencesForm({
           </div>
         </label>
       ))}
-      <h2>Product</h2>
+      <h2>{t('product.title')}</h2>
       {preferences.product.map((p) => (
         <label className="c-checkbox-wrapper" key={p.key}>
           <input
@@ -95,7 +101,7 @@ export default function CommunicationPreferencesForm({
       ))}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Change preferences
+          {t('formButton.changePreferences')}
         </FormButton>
         <FormMessage
           status={status}
@@ -109,10 +115,13 @@ export default function CommunicationPreferencesForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation(
+    'components/settings/CommunicationPreferencesForm.tsx'
+  )
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your preferences have been updated
+      {t('successMessage.updatedPreferences')}
     </div>
   )
 }

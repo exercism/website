@@ -5,8 +5,13 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function SyncBehaviourSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx'
+  )
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
 
   const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
@@ -22,29 +27,33 @@ export function SyncBehaviourSection() {
     })
       .then(async (response) => {
         if (response.ok) {
-          toast.success('Saved changes successfully!')
+          toast.success(t('syncBehaviour.savedChangesSuccessfully'))
         } else {
-          await handleJsonErrorResponse(response, 'Failed to save changes.')
+          await handleJsonErrorResponse(
+            response,
+            t('syncBehaviour.failedToSaveChanges')
+          )
         }
       })
       .catch((error) => {
         console.error('Error:', error)
-        toast.error(
-          'Something went wrong while saving changes. Please try again.'
-        )
+        toast.error(t('syncBehaviour.somethingWentWrongWhileSaving'))
       })
-  }, [shouldSyncOnIterationCreation, links.settings])
+  }, [shouldSyncOnIterationCreation, links.settings, t])
 
   return (
     <section className={isUserInsider ? '' : 'disabled'}>
       <div className="flex gap-48 items-start">
         <div>
-          <SectionHeader title="Sync behaviour" />
+          <SectionHeader title={t('syncBehaviour.syncBehaviour')} />
           <p className="text-16 leading-150 mb-16">
-            Choose whether syncing should happen automatically when you create a
-            new iteration, or manually when you trigger it yourself.{' '}
-            <strong>Automatic</strong> keeps your GitHub repo up to date, while{' '}
-            <strong>manual</strong> gives you full control.
+            <Trans
+              ns="components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx"
+              i18nKey="syncBehaviour.syncingOptionDescription"
+              components={{
+                strong: <strong />,
+              }}
+            />
           </p>
           <div className="flex gap-8 mb-16">
             <button
@@ -54,7 +63,7 @@ export function SyncBehaviourSection() {
                 shouldSyncOnIterationCreation ? 'selected' : ''
               )}
             >
-              Automatic
+              {t('syncBehaviour.automatic')}
             </button>
             <button
               onClick={() => setShouldSyncOnInterationCreation(false)}
@@ -63,7 +72,7 @@ export function SyncBehaviourSection() {
                 !shouldSyncOnIterationCreation ? 'selected' : ''
               )}
             >
-              Manual
+              {t('syncBehaviour.manual')}
             </button>
           </div>
 
@@ -72,7 +81,7 @@ export function SyncBehaviourSection() {
             className="btn btn-primary"
             onClick={handleSaveChanges}
           >
-            Save changes
+            {t('syncBehaviour.saveChanges')}
           </button>
         </div>
         <GraphicalIcon

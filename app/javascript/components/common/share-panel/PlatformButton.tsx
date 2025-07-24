@@ -1,3 +1,5 @@
+// i18n-key-prefix: platformButton
+// i18n-namespace: components/common/share-panel
 import React from 'react'
 import { SharePlatform } from '../../types'
 import { DevToButton } from './platform-button/DevToButton'

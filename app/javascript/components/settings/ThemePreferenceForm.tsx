@@ -1,3 +1,5 @@
+// i18n-key-prefix: themePreferenceForm
+// i18n-namespace: components/settings/ThemePreferenceForm.tsx
 import React from 'react'
 import {
   InfoMessage,
@@ -7,6 +9,7 @@ import {
   useTheme,
 } from './theme-preference-form'
 import { useThemeObserver } from '@/hooks/use-theme-observer'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type ThemePreferenceLinks = {
   update: string
@@ -29,6 +32,7 @@ export default function ThemePreferenceForm({
   insidersStatus: string
   links: ThemePreferenceLinks
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/ThemePreferenceForm.tsx')
   const { handleThemeUpdate } = useTheme(defaultThemePreference, links)
   const { theme } = useThemeObserver()
 
@@ -37,7 +41,7 @@ export default function ThemePreferenceForm({
 
   return (
     <form data-turbo="false">
-      <h2 className="!mb-4">Theme</h2>
+      <h2 className="!mb-4">{t('themePreferenceForm.theme')}</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}

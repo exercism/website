@@ -1,6 +1,10 @@
+// i18n-key-prefix: bootcampFreeCouponForm
+// i18n-namespace: components/settings/BootcampFreeCouponForm.tsx
 import React, { useState, useCallback } from 'react'
 import { fetchJSON } from '@/utils/fetch-json'
 import CopyToClipboardButton from '../common/CopyToClipboardButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   bootcampFreeCouponCode: string
@@ -15,6 +19,9 @@ export default function BootcampFreeCouponForm({
   bootcampFreeCouponCode,
   links,
 }: BootcampFreeCouponFormProps): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/BootcampFreeCouponForm.tsx'
+  )
   const [couponCode, setCouponCode] = useState(bootcampFreeCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -33,27 +40,34 @@ export default function BootcampFreeCouponForm({
       setError(null)
     } catch (err) {
       console.error('Error generating coupon code:', err)
-      setError('Failed to generate coupon code. Please try again.')
+      setError(t('bootcampFreeCouponForm.failedToGenerateCouponCode'))
     } finally {
       setLoading(false)
     }
-  }, [links])
+  }, [links, t])
 
   return (
     <div>
-      <h2 className="!mb-8">Free Seat on the Bootcamp</h2>
+      <h2 className="!mb-8">
+        {t('bootcampFreeCouponForm.freeSeatOnBootcamp')}
+      </h2>
       <p className="text-p-base mb-12">
-        As a lifetime insider you're eligible for a free seat on Exercism's{' '}
-        <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings">
-          Learn to Code Bootcamp
-        </a>
-        .
+        <Trans
+          i18nKey="bootcampFreeCouponForm.lifetimeInsiderEligible"
+          ns="components/settings/BootcampFreeCouponForm.tsx"
+          components={{
+            link: (
+              <a
+                href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings"
+                className="font-bold"
+              />
+            ),
+          }}
+        />
+        {t('bootcampFreeCouponForm.lifetimeInsiderEligible')}{' '}
       </p>
       <p className="text-p-base mb-16">
-        To claim your free seat, we're providing you with a discount code that
-        you can use at the checkout for a 100% discount. You can use it for
-        yourself, give it to a friend, offer it to a charity, post it on social
-        media, or anything else you feel appropriate.
+        {t('bootcampFreeCouponForm.claimFreeSeat')}
       </p>
 
       {couponCode ? (
@@ -65,7 +79,9 @@ export default function BootcampFreeCouponForm({
           type="button"
           className="btn btn-primary"
         >
-          {loading ? 'Generating code...' : 'Click to generate code'}
+          {loading
+            ? t('bootcampFreeCouponForm.generatingCode')
+            : t('bootcampFreeCouponForm.clickToGenerateCode')}
         </button>
       )}
       <ErrorMessage error={error} />

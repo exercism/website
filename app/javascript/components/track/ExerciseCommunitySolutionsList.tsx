@@ -1,3 +1,5 @@
+// i18n-key-prefix: exerciseCommunitySolutions
+// i18n-namespace: components/track/ExerciseCommunitySolutionsList.tsx
 import React, { useState, useEffect } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
@@ -16,6 +18,7 @@ import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useLocalStorage } from '@/utils/use-storage'
 import { LayoutSelect } from './exercise-community-solutions-list/LayoutSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Order =
   | 'most_popular'
@@ -44,6 +47,9 @@ export function ExerciseCommunitySolutionsList({
   request: Request
   tags: any
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/track/ExerciseCommunitySolutionsList.tsx'
+  )
   const {
     request,
     setPage,
@@ -92,7 +98,9 @@ export function ExerciseCommunitySolutionsList({
       data-scroll-top-anchor="exercise-community-solutions-list"
       className="lg-container c-community-solutions-list"
     >
-      {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
+      {resolvedData ? (
+        <h2>{t('exerciseCommunitySolutions.exploreSolutions')}</h2>
+      ) : null}
       <div className="c-search-bar lg:flex-row flex-col gap-24">
         <input
           className="--search"
@@ -100,7 +108,7 @@ export function ExerciseCommunitySolutionsList({
             setCriteria(e.target.value)
           }}
           value={criteria || ''}
-          placeholder="Search by code (min 3 chars)"
+          placeholder={t('exerciseCommunitySolutions.searchPlaceholder')}
         />
         <div className="flex gap-24 md:flex-row flex-col place-self-start">
           <ExerciseTagFilter

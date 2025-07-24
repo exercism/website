@@ -20,6 +20,7 @@ import type {
   Testimonial,
 } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type PaginatedResult = DefaultPaginatedResult<Testimonial[]>
 export type Track = {
@@ -49,6 +50,7 @@ export default function TestimonialsList({
   tracks: readonly Track[]
   platforms: readonly SharePlatform[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/TestimonialsList.tsx')
   const {
     request,
     setQuery,
@@ -104,7 +106,7 @@ export default function TestimonialsList({
           />
           <input
             className="--search"
-            placeholder="Search by student name or testimonial"
+            placeholder={t('testimonialsList.searchPlaceholder')}
             value={criteria || ''}
             onChange={(e) => {
               setCriteria(e.target.value)
@@ -125,11 +127,8 @@ export default function TestimonialsList({
               resolvedData.results.length == 0 ? (
                 <div className="no-testimonials">
                   <GraphicalIcon icon="testimonials" />
-                  <h2>You currently have no testimonials</h2>
-                  <p>
-                    Testimonials are left by students on ending successful
-                    mentoring discussions.
-                  </p>
+                  <h2>{t('testimonialsList.noTestimonialsTitle')}</h2>
+                  <p>{t('testimonialsList.noTestimonialsDescription')}</p>
                 </div>
               ) : (
                 <React.Fragment>

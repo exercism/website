@@ -4,7 +4,8 @@ import { UnlockedExercise } from './UnlockedExercise'
 import { Concept } from '../../CompleteExerciseModal'
 import { GraphicalIcon } from '../../../common'
 import { Exercise } from '../../../types'
-import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const Unlocks = ({
   unlockedConcepts,
@@ -13,15 +14,24 @@ export const Unlocks = ({
   unlockedConcepts: Concept[]
   unlockedExercises: Exercise[]
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx'
+  )
+
   return (
     <div className="unlocks" data-testid="unlocks">
-      {unlockedConcepts.length > 0 ? (
+      {unlockedConcepts.length > 0 && (
         <div className="unlocked-concepts">
           <h3>
-            You&apos;ve unlocked
-            <GraphicalIcon icon="concepts" />
-            {unlockedConcepts.length}{' '}
-            {pluralize('concept', unlockedConcepts.length)}
+            <Trans
+              ns="components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx"
+              i18nKey="unlocks.conceptsUnlocked"
+              count={unlockedConcepts.length}
+              values={{ count: unlockedConcepts.length }}
+              components={{
+                icon: <GraphicalIcon icon="concepts" />,
+              }}
+            />
           </h3>
           <div className="list">
             {unlockedConcepts.map((concept) => (
@@ -29,14 +39,19 @@ export const Unlocks = ({
             ))}
           </div>
         </div>
-      ) : null}
-      {unlockedExercises.length > 0 ? (
+      )}
+      {unlockedExercises.length > 0 && (
         <div className="unlocked-exercises">
           <h3>
-            You&apos;ve unlocked
-            <GraphicalIcon icon="exercises" />
-            {unlockedExercises.length}{' '}
-            {pluralize('exercise', unlockedExercises.length)}
+            <Trans
+              ns="components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx"
+              i18nKey="unlocks.exercisesUnlocked"
+              count={unlockedExercises.length}
+              values={{ count: unlockedExercises.length }}
+              components={{
+                icon: <GraphicalIcon icon="exercises" />,
+              }}
+            />
           </h3>
           <div className="list">
             {unlockedExercises.map((exercise) => (
@@ -44,7 +59,7 @@ export const Unlocks = ({
             ))}
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   )
 }

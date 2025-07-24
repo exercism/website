@@ -1,3 +1,5 @@
+// i18n-key-prefix: openEditor
+// i18n-namespace: components/student/OpenEditorButton.tsx
 import React, { JSXElementConstructor } from 'react'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import {
@@ -7,6 +9,8 @@ import {
 } from '@/components/common/ComboButton'
 import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { StartExerciseButton } from './open-editor-button/StartExerciseButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Props =
   | {
@@ -50,13 +54,15 @@ export default function OpenEditorButton(props: Props): JSX.Element | null {
 }
 
 const Button = (props: Props & { className?: string }) => {
+  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+
   switch (props.status) {
     case 'locked':
       return props.editorEnabled ? (
-        <div className={props.className}>Open in editor</div>
+        <div className={props.className}>{t('openEditor.openInEditor')}</div>
       ) : (
         <button className={`${props.className} --disabled`}>
-          Open in editor
+          {t('openEditor.openInEditor')}
         </button>
       )
     case 'available':
@@ -67,28 +73,28 @@ const Button = (props: Props & { className?: string }) => {
         />
       ) : (
         <button className={`${props.className} --disabled`}>
-          Start in editor
+          {t('openEditor.startInEditor')}
         </button>
       )
     case 'published':
     case 'completed':
       return props.editorEnabled ? (
         <a href={props.links.exercise} className={props.className}>
-          Open in editor
+          {t('openEditor.openInEditor')}
         </a>
       ) : (
         <button className={`${props.className} --disabled`}>
-          Open in editor
+          {t('openEditor.openInEditor')}
         </button>
       )
     default:
       return props.editorEnabled ? (
         <a href={props.links.exercise} className={props.className}>
-          Continue in editor
+          {t('openEditor.continueInEditor')}
         </a>
       ) : (
         <button className={`${props.className} --disabled`}>
-          Continue in editor
+          {t('openEditor.continueInEditor')}
         </button>
       )
   }
@@ -103,26 +109,26 @@ const DropdownPanel = ({
   command: string
   links: { local: string }
 }) => {
+  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+
   const downloadPrompt = editorEnabled
-    ? `Prefer to use the tools you're familiar with, than our online editor? No problem!`
-    : 'This exercise is not available using the online editor.'
+    ? t('openEditor.downloadPrompt')
+    : t('openEditor.exerciseNotAvailable')
 
   return (
     <div className="c-open-editor-button-dropdown">
-      <h3>Download and work locally</h3>
-      <p>
-        {downloadPrompt} You can download this exercise and work on it locally,
-        then submit it when you&apos;re happy.
-      </p>
+      <h3>{t('openEditor.downloadAndWorkLocally')}</h3>
+      <p>{t('openEditor.youCanWorkLocally', { downloadPrompt })}</p>
       <CopyToClipboardButton textToCopy={command} />
 
       <p>
-        First time using our local setup? Read our{' '}
-        <a href={links.local} target="_blank" rel="noreferrer">
-          guide to solving exercises locally
-        </a>{' '}
-        to understand the flow and install Exercism locally. Then come back here
-        and use the command above to start the exercise.
+        <Trans
+          ns="components/student/OpenEditorButton.tsx"
+          i18nKey="openEditor.firstTimeUsingSetup"
+          components={{
+            link: <a href={links.local} target="_blank" rel="noreferrer" />,
+          }}
+        />
       </p>
     </div>
   )
@@ -139,14 +145,13 @@ const ButtonTooltip = ({
     | React.ReactElement<any, string | JSXElementConstructor<any>>
     | undefined
 }): JSX.Element | null => {
+  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+
   if (!editorEnabled) {
     const content = (
       <>
-        <p>
-          The online editor is not available for this exercise. Solve this
-          exercise locally and submit it via the CLI.
-        </p>
-        <p>Click the arrow to the right for more information.</p>
+        <p>{t('openEditor.onlineEditorNotAvailable')}</p>
+        <p>{t('openEditor.clickArrowForMoreInfo')}</p>
       </>
     )
     return <GenericTooltip content={content}>{children}</GenericTooltip>
@@ -154,7 +159,7 @@ const ButtonTooltip = ({
 
   if (status === 'locked') {
     return (
-      <GenericTooltip content="This exercise is currently locked">
+      <GenericTooltip content={t('openEditor.exerciseCurrentlyLocked')}>
         {children}
       </GenericTooltip>
     )

@@ -3,6 +3,7 @@ import currency from 'currency.js'
 import { GraphicalIcon } from '@/components/common'
 import { BadgeMedallion } from '@/components/common/BadgeMedallion'
 import type { BadgeRarity } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
@@ -13,6 +14,9 @@ export function SuccessfulDonationStep({
   amount: currency | null
   closeLink: string
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   return (
     <div className="successful-donation-step flex flex-col items-center text-center">
       <GraphicalIcon
@@ -22,23 +26,26 @@ export function SuccessfulDonationStep({
         className="mb-20"
       />
       <h2 className="text-h3 mb-8">
-        You&apos;ve donated {amount?.format()} successfully - thank you 💙
+        {t('successfulDonationStep.youveDonatedSuccessfully', {
+          amount: amount?.format(),
+        })}
       </h2>
       <p className="text-p-large mb-24">
-        We truly appreciate your support. Exercism would not be possible without
-        awesome contributors like yourself. You&apos;ll be sent an email shortly
-        with your donation confirmation and receipt.
+        {t('successfulDonationStep.trulyAppreciateSupport')}
       </p>
       <div className="badge-container">
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
-          You&apos;ve earned the{' '}
-          <strong className="font-medium"> Supporter</strong> badge!
+          {t('successfulDonationStep.youveEarnedBadge')}
+          <strong className="font-medium">
+            {t('successfulDonationStep.supporter')}
+          </strong>
+          {t('successfulDonationStep.badge')}
         </div>
       </div>
 
       <a href={closeLink} className="btn-primary btn-l w-[50%]">
-        Continue to Exercise
+        {t('successfulDonationStep.continueToExercise')}
       </a>
     </div>
   )

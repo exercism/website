@@ -11,6 +11,7 @@ import { SortOption } from '../Inbox'
 import type { Request } from '@/hooks/request-query'
 import type { AutomationStatus, AutomationTrack } from '@/components/types'
 import { QueryKey } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -43,6 +44,9 @@ export function Representations({
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/Representation.tsx'
+  )
   const withFeedback = selectedTab === 'with_feedback'
   const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
     ? 'submission'
@@ -77,7 +81,7 @@ export function Representations({
             currentStatus={selectedTab}
             href={links.withoutFeedback!}
           >
-            Need feedback
+            {t('needFeedback')}
             {resolvedData ? (
               <div className="count">
                 {counts.withoutFeedback.toLocaleString()}
@@ -89,7 +93,7 @@ export function Representations({
             currentStatus={selectedTab}
             href={links.withFeedback!}
           >
-            Feedback submitted
+            {t('feedbackSubmitted')}
             {resolvedData ? (
               <div className="count">
                 {counts.withFeedback.toLocaleString()}
@@ -101,7 +105,7 @@ export function Representations({
             currentStatus={selectedTab}
             href={links.admin!}
           >
-            Admin
+            {t('admin')}
             {resolvedData ? (
               <div className="count">{counts.admin.toLocaleString()}</div>
             ) : null}
@@ -113,7 +117,7 @@ export function Representations({
             checked={checked}
             setChecked={handleOnlyMentoredSolutions}
           >
-            Only show solutions I&apos;ve mentored before
+            {t('onlyShowSolutions')}
           </Checkbox>
         )}
       </div>
@@ -139,7 +143,7 @@ export function Representations({
                 handlePageResetOnInputChange(input)
               }}
               filter={criteria || ''}
-              placeholder="Filter by exercise (min 3 chars)"
+              placeholder={t('filterByExercise')}
             />
             <Sorter
               className="automation-sorter"
@@ -165,3 +169,5 @@ export function Representations({
     </div>
   )
 }
+
+// end file

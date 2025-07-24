@@ -1,15 +1,26 @@
+// i18n-key-prefix: orderSelect
+// i18n-namespace: components/profile/community-solutions-list
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Order } from '../CommunitySolutionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/profile/community-solutions-list')
+
   switch (order) {
     case 'newest_first':
-      return <React.Fragment>Sort by Newest First</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByNewestFirst')}</React.Fragment>
+      )
     case 'oldest_first':
-      return <React.Fragment>Sort by Oldest First</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByOldestFirst')}</React.Fragment>
+      )
     case 'most_starred':
-      return <React.Fragment>Sort by Most Starred</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByMostStarred')}</React.Fragment>
+      )
   }
 }
 

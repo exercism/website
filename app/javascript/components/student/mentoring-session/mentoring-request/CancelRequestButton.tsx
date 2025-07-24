@@ -1,12 +1,16 @@
 import React, { useState, useCallback } from 'react'
 import { MentorSessionRequest } from '../../../types'
 import { CancelRequestModal } from './CancelRequestModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const CancelRequestButton = ({
   request,
 }: {
   request: MentorSessionRequest
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/mentoring-request'
+  )
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {
@@ -20,7 +24,7 @@ export const CancelRequestButton = ({
   return (
     <React.Fragment>
       <button type="button" onClick={handleModalOpen}>
-        Cancel Request
+        {t('cancelRequestButton.cancelRequest')}
       </button>
       <CancelRequestModal
         open={modalOpen}

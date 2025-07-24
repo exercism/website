@@ -1,3 +1,5 @@
+// i18n-key-prefix: sectionHeader
+// i18n-namespace: components/settings/github-syncer/common
 import React from 'react'
 import { InsiderBubble } from './InsiderBubble'
 

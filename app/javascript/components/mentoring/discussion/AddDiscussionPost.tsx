@@ -1,7 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { MentorDiscussion } from '../../types'
 import { AddDiscussionPostForm } from './AddDiscussionPostForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
+// i18n-key-prefix: ......components.mentoring.discussion.addDiscussionPost
+// i18n-namespace: discussion
 export const AddDiscussionPost = ({
   discussion,
   children,
@@ -10,6 +14,7 @@ export const AddDiscussionPost = ({
   discussion: MentorDiscussion
   onSuccess?: () => void
 }>): JSX.Element => {
+  const { t } = useAppTranslation('discussion-batch')
   const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
 
   const handleSuccess = useCallback(() => {
@@ -37,8 +42,11 @@ export const AddDiscussionPost = ({
         className="continuation-btn"
         type="button"
       >
-        <strong>This discussion has ended.</strong> Have more to say? You can{' '}
-        <em>still post</em>.
+        <Trans
+          ns="discussion-batch"
+          i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded"
+          components={{ em: <em /> }}
+        />
       </button>
     )
   }

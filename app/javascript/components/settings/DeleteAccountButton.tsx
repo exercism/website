@@ -1,5 +1,8 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/DeleteAccountButton.tsx
 import React, { useState } from 'react'
 import { DeleteAccountModal } from '../modals/DeleteAccountModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   delete: string
@@ -13,6 +16,7 @@ export default function DeleteAccountButton({
   links: Links
 }): JSX.Element {
   const [open, setOpen] = useState(false)
+  const { t } = useAppTranslation('components/settings/DeleteAccountButton.tsx')
 
   return (
     <React.Fragment>
@@ -21,7 +25,7 @@ export default function DeleteAccountButton({
         className="c-delete-account-button btn-alert btn-m"
         onClick={() => setOpen(!open)}
       >
-        Delete account
+        {t('deleteAccount')}
       </button>
       <DeleteAccountModal
         open={open}

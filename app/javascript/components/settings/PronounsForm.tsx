@@ -1,8 +1,12 @@
+// i18n-key-prefix: pronounsForm
+// i18n-namespace: components/settings/PronounsForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   update: string
@@ -26,6 +30,7 @@ export default function PronounsForm({
   defaultPronounParts: readonly string[]
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/PronounsForm.tsx')
   const [pronounParts, setPronounParts] = useState<readonly string[]>(
     defaultPronounParts || ['', '', '']
   )
@@ -57,24 +62,21 @@ export default function PronounsForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>How would you like to be addressed? (optional)</h2>
+      <h2>{t('pronounsForm.howWouldYouLikeToBeAddressedOptional')}</h2>
       <hr className="c-divider --small" />
       <div className="instructions">
-        We recommend listing the pronouns you&apos;d like people to use when
-        referring to you.{' '}
-        <strong>
-          In the example testimonial below, enter the pronouns you&apos;d like
-          us to show to your mentors and students.
-        </strong>{' '}
-        You can leave this blank, in which case we will not suggest any
-        pronouns.{' '}
-        <a href={links.info} target="_blank" rel="noreferrer">
-          Learn more about how we use pronouns.
-        </a>
+        <Trans
+          i18nKey="pronounsForm.instructions"
+          ns="components/settings/PronounsForm.tsx"
+          components={{
+            strong: <strong />,
+            link: <a href={links.info} target="_blank" rel="noreferrer" />,
+          }}
+        />
       </div>
       <div className="testimonial">
         <div className="text">
-          {handle} was really great.
+          {t('pronounsForm.testimonialText', { handle })}
           <input
             type="text"
             value={pronounParts[0] || ''}
@@ -83,7 +85,7 @@ export default function PronounsForm({
             placeholder="e.g. They"
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
-          answered all my questions. I&apos;ll recommend
+          {t('pronounsForm.testimonialAnswered')}
           <input
             type="text"
             value={pronounParts[1] || ''}
@@ -92,7 +94,7 @@ export default function PronounsForm({
             placeholder="e.g. them"
             onChange={(e) => setPronounPart(e.target.value, 1)}
           />
-          to others because
+          {t('pronounsForm.testimonialToOthersBecause')}
           <input
             type="text"
             value={pronounParts[2] || ''}
@@ -101,42 +103,42 @@ export default function PronounsForm({
             placeholder="e.g. their"
             onChange={(e) => setPronounPart(e.target.value, 2)}
           />
-          advice was very helpful.
+          {t('pronounsForm.testimonialAdviceHelpful')}
         </div>
         <div className="commonly-used">
-          <div className="info">Frequently used:</div>
+          <div className="info">{t('pronounsForm.frequentlyUsed')}</div>
           <button
             type="button"
             onClick={() => setPronounParts(['She', 'her', 'her'])}
           >
-            she / her / her
+            {t('pronounsForm.sheHerHer')}
           </button>
           <button
             type="button"
             onClick={() => setPronounParts(['He', 'him', 'his'])}
           >
-            he / him / his
+            {t('pronounsForm.heHimHis')}
           </button>
           <button
             type="button"
             onClick={() => setPronounParts(['They', 'them', 'their'])}
           >
-            they / them / their
+            {t('pronounsForm.theyThemTheir')}
           </button>
           <button
             type="button"
             onClick={() => setPronounParts([handle, handle, handle])}
           >
-            Use handle
+            {t('pronounsForm.useHandle')}
           </button>
           <button type="button" onClick={() => setPronounParts(['', '', ''])}>
-            Leave blank
+            {t('pronounsForm.leaveBlank')}
           </button>
         </div>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Save pronouns
+          {t('pronounsForm.savePronouns')}
         </FormButton>
         <FormMessage
           status={status}
@@ -150,10 +152,11 @@ export default function PronounsForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/PronounsForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your pronouns have been updated
+      {t('pronounsForm.yourPronounsHaveBeenUpdated')}
     </div>
   )
 }

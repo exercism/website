@@ -1,7 +1,10 @@
+// i18n-key-prefix: iterationHeader.copyButton
+// i18n-namespace: components/mentoring/session/iteration-view
 import React, { useState, useCallback, useEffect } from 'react'
 import { copyToClipboard } from '@/utils/copyToClipboard'
 import { Icon } from '@/components/common'
 import type { File } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const formatForClipboard = (
   files: readonly File[],
@@ -17,6 +20,7 @@ export const CopyButton = ({
 }: {
   files: readonly File[]
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
   const [justCopied, setJustCopied] = useState(false)
   const textToCopy = formatForClipboard(files)
   const classNames = [
@@ -45,8 +49,15 @@ export const CopyButton = ({
 
   return (
     <button type="button" className={classNames.join(' ')} onClick={handleCopy}>
-      <Icon icon="clipboard" alt="Copy solution" />
-      {justCopied ? <span className="message">Copied</span> : null}
+      <Icon
+        icon="clipboard"
+        alt={t('iterationHeader.copyButton.copySolution')}
+      />
+      {justCopied ? (
+        <span className="message">
+          {t('iterationHeader.copyButton.copied')}
+        </span>
+      ) : null}
       <span data-test-clipboard data-content={textToCopy} />
     </button>
   )

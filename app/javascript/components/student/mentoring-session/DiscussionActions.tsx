@@ -6,6 +6,7 @@ import {
 } from '@/components/types'
 import { FinishButton } from './FinishButton'
 import GraphicalIcon from '@/components/common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type DiscussionActionsProps = {
   discussion: MentorDiscussion
@@ -22,6 +23,7 @@ export const DiscussionActions = ({
   links,
   donation,
 }: DiscussionActionsProps): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   const timedOut =
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
@@ -29,7 +31,7 @@ export const DiscussionActions = ({
   return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">
       <GraphicalIcon icon="completed-check-circle" />
-      Ended
+      {t('discussionActions.ended')}
     </div>
   ) : (
     <FinishButton
@@ -41,7 +43,9 @@ export const DiscussionActions = ({
       } finish-button`}
     >
       <div className="--hint">
-        {timedOut ? 'Review discussion' : 'End discussion'}
+        {timedOut
+          ? t('discussionActions.reviewDiscussion')
+          : t('discussionActions.endDiscussion')}
       </div>
     </FinishButton>
   )

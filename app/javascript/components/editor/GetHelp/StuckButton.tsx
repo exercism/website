@@ -1,6 +1,9 @@
+// i18n-key-prefix: stuckButton
+// i18n-namespace: components/editor/GetHelp
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { TabIndex } from '@/components/Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type StuckButtonProps = {
   insider: boolean
@@ -13,6 +16,7 @@ export function StuckButton({
   setTab,
   tab,
 }: StuckButtonProps): JSX.Element {
+  const { t } = useAppTranslation('components/editor/GetHelp')
   return (
     <button
       type="button"
@@ -21,7 +25,13 @@ export function StuckButton({
       onClick={() => setTab(insider ? 'chat-gpt' : 'get-help')}
     >
       <GraphicalIcon icon="automation" height={16} width={16} />
-      <span>Stuck? {insider ? 'Ask ChatGPT' : 'Get help'}</span>
+      <span>
+        {t(
+          insider ? 'stuckButton.stuckAskChatGpt' : 'stuckButton.stuckGetHelp'
+        )}
+      </span>
     </button>
   )
 }
+
+// end file

@@ -1,5 +1,6 @@
 import React from 'react'
 import { ContinueButton } from '../../components/FeedbackContentButtons'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function PendingMentoringRequest({
   mentoringRequestLink,
@@ -8,21 +9,20 @@ export function PendingMentoringRequest({
   mentoringRequestLink: string
   onContinue: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
+  )
   return (
     <div className="flex flex-col items-start">
-      <h3 className="text-h4 mb-12">
-        You&apos;ve submitted your solution for Code Review.
-      </h3>
+      <h3 className="text-h4 mb-12">{t('index.youveSubmittedSolution')}</h3>
 
       <p className="text-16 mb-16 leading-150">
-        A mentor will take a look at your solution and (hopefully) provide you
-        with useful feedback soon. You&apos;ll receive a notification and email
-        when this happens.
+        {t('index.mentorWillTakeLook')}
       </p>
       <div className="flex gap-12">
         <ContinueButton onClick={onContinue} className="btn-primary" />
         <a className="btn-secondary btn-s mr-auto" href={mentoringRequestLink}>
-          View your request
+          {t('index.viewYourRequest')}
         </a>
       </div>
     </div>

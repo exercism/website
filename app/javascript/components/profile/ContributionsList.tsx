@@ -5,6 +5,10 @@ import { MaintainingContributionsList } from './contributions-list/MaintainingCo
 import { AuthoringContributionsList } from './contributions-list/AuthoringContributionsList'
 import { OtherContributionsList } from './contributions-list/OtherContributionsList'
 import type { Request } from '@/hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: contributionsList
+// i18n-namespace: components/profile
 
 export type Category = {
   title: 'Building' | 'Maintaining' | 'Authoring' | 'Other'
@@ -18,6 +22,7 @@ export default function ContributionsList({
 }: {
   categories: readonly Category[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
   const [currentCategory, setCurrentCategory] = useState(categories[0])
 
   return (
@@ -36,7 +41,7 @@ export default function ContributionsList({
               className={classNames.join(' ')}
             >
               <GraphicalIcon icon={category.icon} hex />
-              {category.title}
+              {t(`contributionsList.${category.title.toLowerCase()}`)}
               <div className="count">{category.count.toLocaleString()}</div>
             </button>
           )

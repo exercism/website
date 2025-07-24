@@ -6,6 +6,7 @@ import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { sendRequest } from '@/utils/send-request'
 import { FavoritableStudent } from '../FavoriteButton'
 import { typecheck } from '@/utils/typecheck'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ComponentProps = {
   endpoint: string
@@ -31,6 +32,9 @@ const Component = ({
   setIsRemoveButtonHoverable,
   ...props
 }: ComponentProps): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/session/favorite-button'
+  )
   const [isHovering, setIsHovering] = useState(false)
 
   const {
@@ -82,11 +86,11 @@ const Component = ({
       status={status}
     >
       {isHovering ? (
-        'Unfavorite?'
+        t('removeFavoriteButton.unfavorite')
       ) : (
         <>
           <GraphicalIcon icon="star" />
-          <span>Favorited</span>
+          <span>{t('removeFavoriteButton.favorited')}</span>
         </>
       )}
     </FormButton>

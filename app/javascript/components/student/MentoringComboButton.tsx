@@ -6,6 +6,7 @@ import {
   PrimarySegment,
   DropdownSegment,
 } from '../common/ComboButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   requestMentoring: string
@@ -25,15 +26,22 @@ export const MentoringComboButton = ({
   className?: string
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/MentoringComboButton.tsx')
   return (
     <ComboButton className={className}>
       <PrimarySegment>
         {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
-          <a href={links.inProgressDiscussion}>Continue code review</a>
+          <a href={links.inProgressDiscussion}>
+            {t('mentoringComboButton.continueCodeReview')}
+          </a>
         ) : mentoringStatus === 'requested' ? (
-          <a href={links.pendingMentorRequest}>View request</a>
+          <a href={links.pendingMentorRequest}>
+            {t('mentoringComboButton.viewRequest')}
+          </a>
         ) : (
-          <a href={links.requestMentoring}>Submit for Code Review</a>
+          <a href={links.requestMentoring}>
+            {t('mentoringComboButton.submitForCodeReview')}
+          </a>
         )}
       </PrimarySegment>
       <DropdownSegment>

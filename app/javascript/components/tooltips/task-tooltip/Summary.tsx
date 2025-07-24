@@ -1,5 +1,7 @@
 import React from 'react'
 import { Task, TaskAction, TaskModule } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const Summary = ({ task }: { task: Task }): JSX.Element => {
   return (
@@ -15,57 +17,71 @@ export const Summary = ({ task }: { task: Task }): JSX.Element => {
 }
 
 const SummaryTag = () => {
-  return <div className="task-icon">Task</div>
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  return <div className="task-icon">{t('summary.task')}</div>
 }
 
 export function verbForAction(action?: TaskAction) {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
   switch (action) {
     case 'create':
-      return 'creating'
+      return t('summary.creating')
     case 'fix':
-      return 'fixing'
+      return t('summary.fixing')
     case 'improve':
-      return 'improving'
+      return t('summary.improving')
     case 'proofread':
-      return 'proofreading'
+      return t('summary.proofreading')
     case 'sync':
-      return 'syncing'
+      return t('summary.syncing')
     default:
       return null
   }
 }
 
 export function descriptionForModule(module?: TaskModule) {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
   switch (module) {
     case 'analyzer':
-      return 'Analyzers'
+      return t('summary.analyzers')
     case 'concept':
-      return 'Concepts'
+      return t('summary.concepts')
     case 'concept-exercise':
-      return 'Learning Exercises'
+      return t('summary.learningExercises')
     case 'generator':
-      return 'Generators'
+      return t('summary.generators')
     case 'practice-exercise':
-      return 'Practice Exercises'
+      return t('summary.practiceExercises')
     case 'representer':
-      return 'Representers'
+      return t('summary.representers')
     case 'test-runner':
-      return 'Test Runners'
+      return t('summary.testRunners')
     default:
       return null
   }
 }
 
 export const SummaryDetails = ({ task }: { task: Task }) => {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
   let module = descriptionForModule(task.tags.module)
   module = module ? module.replace(/s$/, '') : 'Exercism'
   const verb = verbForAction(task.tags.action)
 
   return (
     <h3>
-      For this task you will be {verb ? verb : 'working on'} {module}{' '}
-      {task.tags.type ? task.tags.type : 'changes'}
-      {task.track ? ` for the ${task.track.title} Track` : null}.
+      <Trans
+        i18nKey="summary.workingOn"
+        ns="components/tooltips/task-tooltip"
+        values={{
+          verb: verb || 'working on',
+          module,
+          type: task.tags.type || 'changes',
+          trackSuffix: task.track ? ` for the ${task.track.title} Track` : '',
+        }}
+      />
     </h3>
   )
 }

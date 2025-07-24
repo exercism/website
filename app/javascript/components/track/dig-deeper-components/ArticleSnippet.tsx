@@ -1,10 +1,14 @@
+// i18n-key-prefix: articleSnippet
+// i18n-namespace: components/track/dig-deeper-components
 import React from 'react'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import Credits from '@/components/common/Credits'
 import { Article } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>(article.snippetHtml)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
 
   return (
     <a
@@ -27,9 +31,9 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
       <h5 className="text-h5 mb-2">{article.title}</h5>
       <p className="text-p-base text-textColor6 mb-12">{article.blurb}</p>
       <Credits
-        topLabel={'author'}
+        topLabel={t('approachSnippet.author')}
         topCount={article.numAuthors}
-        bottomLabel={'contributor'}
+        bottomLabel={t('approachSnippet.contributor')}
         bottomCount={article.numContributors}
         users={article.users}
         className="text-textColor1 font-semibold text-14"

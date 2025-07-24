@@ -1,3 +1,5 @@
+// i18n-key-prefix: buildingContributionsList
+// i18n-namespace: components/profile/contributions-list
 import React from 'react'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
@@ -16,6 +18,7 @@ import type {
   Contribution as ContributionProps,
   PaginatedResult,
 } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load building contributions')
 
@@ -74,6 +77,7 @@ const Contribution = ({
   createdAt,
   track,
 }: ContributionProps): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/contributions-list')
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 
@@ -109,7 +113,9 @@ const Contribution = ({
               <div className="name">{track.title}</div>
             </div>
           ) : (
-            <div className="generic">Generic</div>
+            <div className="generic">
+              {t('buildingContributionsList.generic')}
+            </div>
           )}
           <time className="sm:block hidden" dateTime={createdAt}>
             {fromNow(createdAt)}

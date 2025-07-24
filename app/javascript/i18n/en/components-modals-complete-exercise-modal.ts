@@ -25,15 +25,15 @@ export default {
     'Publish your code and share your knowledge',
   'publishSolutionModal.publishHelpOthers':
     "By publishing your code, you'll help others learn from your work. You can choose which iterations you publish, add more iterations once it's published, and unpublish it at any time.",
+  'tutorialCompletedModal.youHaveCompleted':
+    "You've completed “{{exerciseTitle}}”",
   'tutorialCompletedModal.journeyStart':
     'This is just the start of your journey on the {{trackTitle}} track 🚀',
   'tutorialCompletedModal.readyToGetStuck':
     'You’re now ready to get stuck into some ',
   'tutorialCompletedModal.realExercises': 'real exercises',
   'tutorialCompletedModal.weHaveAlsoRevealed':
-    'We’ve also revealed {{trackTitle}}’s ',
-  'tutorialCompletedModal.conceptCount':
-    '{{conceptCount}} concepts for you to take a look at.',
+    'We’ve also revealed {{trackTitle}}’s {{conceptCount}} concepts for you to take a look at.',
   'tutorialCompletedModal.accessToMentoring':
     'Once you start your next exercise, you’ll have access to the mentoring section on your track too.',
   'tutorialCompletedModal.showMeConcepts': 'Show me the Concepts',

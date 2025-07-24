@@ -34,7 +34,7 @@ export default {
     'View your request',
   'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.loading':
     'Loading…',
-  'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSession':
+  'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSessionDescription':
     'This is your latest code review session for this exercise. To continue the discussion, switch to <link>mentoring mode</link>.',
   'feedbackDetail.automatedFeedback': 'Automated Feedback',
 }

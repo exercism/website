@@ -45,6 +45,7 @@ export const AddDiscussionPost = ({
         <Trans
           ns="discussion-batch"
           i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded"
+          components={{ em: <em /> }}
         />
       </button>
     )

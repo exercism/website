@@ -4,5 +4,5 @@ export default {
     '<strong>This discussion has ended.</strong> Have more to say? You can <em>still post</em>.',
   'components.mentoring.discussion.discussionActions.ended': 'Ended',
   'components.mentoring.discussion.finishButton.endDiscussion':
-    '<div className="--hint">End discussion</div>',
+    '<hint>End discussion</hint>',
 }

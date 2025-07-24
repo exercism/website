@@ -40,8 +40,7 @@ const Title = ({
 
   return (
     <>
-      {tests.length}{' '}
-      {pluralize(t('testsGroupedByStatusList.test'), tests.length)}{' '}
+      {t('testsGroupedByStatusList.test', { count: tests.length })}{' '}
       {t(`testsGroupedByStatusList.${status}`)}
     </>
   )

@@ -188,8 +188,11 @@ if (require.main === module) {
 
       const prompt = buildPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
+      console.log('\n🔍 Raw LLM output:\n', result)
 
       const parsed = parseLLMOutputHaml(result)
+      console.log('\n🧪 Parsed output:')
+      console.dir(parsed, { depth: null })
       await writeTranslationYaml(
         stringify(parsed.translations),
         parsed.namespace || 'no-namespace'

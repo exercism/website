@@ -3,12 +3,11 @@ import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
 import { buildPrompt } from './buildPromptHaml'
 import { parseLLMOutputHaml } from './parseLLMOutputHaml'
-import { stringify } from 'yaml'
 
 const HAML_EXT = '.html.haml'
 const MAX_CHARS = 16000
 const TMP_DIR = './tmp/i18n-extraction'
-const OUTPUT_DIR = './en'
+const OUTPUT_DIR = './en-yaml'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
 const DONE_PATH = path.join(TMP_DIR, 'done.json')
 const SKIPPED_PATH = path.join(TMP_DIR, 'too-large.json')
@@ -115,6 +114,27 @@ async function writeTranslationYaml(yamlString: string, namespace: string) {
   await fs.writeFile(outputPath, yamlString, 'utf8')
 }
 
+function getLocalesOutputPath(inputPath: string): string {
+  const absInput = path.resolve(inputPath)
+  const absRoot = path.resolve('../../views')
+  if (!absInput.startsWith(absRoot)) {
+    throw new Error('Input path must be under ../../views')
+  }
+  const relative = path.relative(absRoot, absInput)
+  return path.join('config/locales/views', relative)
+}
+
+async function writeTranslationJson(
+  translations: Record<string, string>,
+  inputPath: string,
+  namespace: string
+) {
+  const folderPath = getLocalesOutputPath(inputPath)
+  const outputPath = path.join(folderPath, `${namespace}.json`)
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, JSON.stringify(translations, null, 2), 'utf8')
+}
+
 async function writeModifiedFiles(files: Record<string, string>) {
   for (const [filePath, content] of Object.entries(files)) {
     await fs.writeFile(filePath, content, 'utf8')
@@ -193,8 +213,9 @@ if (require.main === module) {
       const parsed = parseLLMOutputHaml(result)
       console.log('\n🧪 Parsed output:')
       console.dir(parsed, { depth: null })
-      await writeTranslationYaml(
-        stringify(parsed.translations),
+      await writeTranslationJson(
+        parsed.translations,
+        inputPath || '.',
         parsed.namespace || 'no-namespace'
       )
       await writeModifiedFiles(parsed.modifiedFiles)

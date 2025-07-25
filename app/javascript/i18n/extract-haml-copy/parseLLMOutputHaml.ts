@@ -1,5 +1,3 @@
-import yaml from 'yaml'
-
 export type ParsedLLMResult = {
   translations: Record<string, string>
   modifiedFiles: Record<string, string>
@@ -7,37 +5,35 @@ export type ParsedLLMResult = {
 }
 
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {
-  const translations: Record<string, string> = {}
-  const modifiedFiles: Record<string, string> = {}
+  let parsed: unknown
 
-  const translationMatch = output.match(/```yaml\s*([\s\S]+?)```/)
-  if (translationMatch) {
-    try {
-      const parsed = yaml.parse(translationMatch[1])
-      Object.assign(translations, parsed?.en || parsed)
-    } catch (err) {
-      console.error('❌ Failed to parse translation block:', err)
-      throw err
-    }
+  try {
+    parsed = JSON.parse(output)
+  } catch (err) {
+    console.error('❌ Failed to parse LLM JSON output:', err)
+    throw err
   }
 
-  const fileBlocks = output.split(/\n+# === file: (.+?) ===\n/).slice(1)
-  for (let i = 0; i < fileBlocks.length; i += 2) {
-    const filePath = fileBlocks[i].trim()
-    const content = fileBlocks[i + 1]
-      .replace(/^# end file.*$/m, '')
-      .replace(/^# i18n-key-prefix:/gm, '-# i18n-key-prefix:')
-      .replace(/^# i18n-namespace:/gm, '-# i18n-namespace:')
-
-    modifiedFiles[filePath] = content.trim()
+  if (
+    typeof parsed !== 'object' ||
+    parsed === null ||
+    !('translations' in parsed) ||
+    !('modifiedFiles' in parsed)
+  ) {
+    throw new Error(
+      '❌ Invalid LLM output format. Expected JSON with translations and modifiedFiles.'
+    )
   }
 
-  const sampleNamespace =
-    Object.keys(translations)[0]?.split('.')[0] || undefined
+  const { translations, modifiedFiles, namespace } = parsed as {
+    translations: Record<string, string>
+    modifiedFiles: Record<string, string>
+    namespace: string | undefined
+  }
 
   return {
     translations,
     modifiedFiles,
-    namespace: sampleNamespace,
+    namespace,
   }
 }

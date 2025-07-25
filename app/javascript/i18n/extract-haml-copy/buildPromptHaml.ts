@@ -1,4 +1,3 @@
-// buildPromptHaml.ts
 import path from 'path'
 import { toCamelCase } from '../extract-jsx-copy/toCamelCase'
 import { normalizePathForNamespace } from '../extract-jsx-copy/normalizePathForNamespace'
@@ -25,50 +24,41 @@ ${content}
     })
     .join('\n\n')
 
-  const instructions = `You're given several Ruby on Rails view files written in HAML. Your task is to:
+  const instructions = `You're given Ruby on Rails view files written in HAML. Your task is to:
 
-1. Extract all user-facing visible text.
-2. Replace it with i18n calls using \`= t('<i18n-key-prefix>.<key>')\` or \`= t('<key>', count: ...)\`.
-3. Use the provided \`i18n-key-prefix\` as a flat dot-separated prefix for all keys in that file.
-4. Use Rails' pluralization system properly (e.g., key_one, key_other).
-5. Preserve the original indentation and formatting of the HAML.
-6. Output translations as a flat YAML object under \`en:\`.
+1. Extract all user-visible strings and replace them with appropriate \`= t('...')\` i18n calls.
+2. Use the \`i18n-key-prefix\` comment as the flat dot-separated key prefix for each file.
+3. Respect pluralization conventions (e.g., \`key_one\`, \`key_other\`).
+4. Preserve all indentation and formatting of the HAML.
+5. Replace interpolated Ruby like \`"Welcome #{user.name}"\` with:
+   - \`= t('some.key', user_name: user.name)\`
+   - and in translations: \`some.key: "Welcome %{user_name}"\`
 
 ---
 
-Output format must include:
+💡 Output must be valid **JSON**, not YAML, and must follow this exact structure:
 
-1. A valid YAML export starting with:
-   
-   \`\`\`yaml
-  en:
-  some.key: "Some value"
-  another.key_one: "1 item"
-  another.key_other: "%{count} items"
-    \`\`\`
-
-2. Then list of modified files like this:
-
+\`\`\`json
+{
+  "translations": {
+    "some.key": "Some translation",
+    "some.other_key_one": "One item",
+    "some.other_key_other": "%{count} items"
+  },
+  "modifiedFiles": {
+    "path/to/file.html.haml": "...translated haml content..."
+  },
+  "namespace": "views.about"
+}
 \`\`\`
-# === file: path / to / file.html.haml ===
-...updated haml content...
-# === end file ===
-    \`\`\`
 
----
+❌ DO NOT wrap the response in triple backticks — just return raw JSON.
 
-Rules:
-- DO NOT use nested keys — only flat dot-separated keys.
-- DO NOT translate variable names (e.g., %{name}, %{count})
-- DO NOT translate markup or Rails helpers — only user-visible text.
-- Detect pluralizations and dynamic variables properly.
-- NEVER break full sentences into multiple keys.
-- ALWAYS preserve the indentation in the HAML output.
-- 🔄 Interpolated Ruby strings like \`"Welcome #{user.name}"\` must be rewritten to:
-  - \`= t('some.key', user_name: user.name)\`
-  - with YAML: \`some.key: "Welcome %{user_name}"\`
+✅ DO NOT nest translation keys. Only use flat keys like \`some.key\`.
 
-Begin now.
+🛑 DO NOT modify any file paths or names — return exactly what was passed in.
+
+Begin processing:
 `
 
   return `${instructions}\n\n${fileSections}`

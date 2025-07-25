@@ -4,6 +4,12 @@ export type ParsedLLMResult = {
   namespace: string | undefined
 }
 
+function sanitizeBadJsonEscapes(jsonStr: string): string {
+  // Removes any backslash that is not followed by a valid JSON escape character
+  // Valid escapes: \", \\, \/, \b, \f, \n, \r, \t, \u
+  return jsonStr.replace(/\\(?!["\\/bfnrtu])/g, '')
+}
+
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {
   let jsonStr = output.trim()
 
@@ -13,16 +19,18 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
       jsonStr = match[1].trim()
     } else {
       throw new Error(
-        '❌ Output starts with ``` but no matching closing ``` found'
+        'Output starts with ``` but no matching closing ``` found'
       )
     }
   }
+
+  jsonStr = sanitizeBadJsonEscapes(jsonStr)
 
   let parsed: unknown
   try {
     parsed = JSON.parse(jsonStr)
   } catch (err) {
-    console.error('❌ Failed to parse LLM JSON output:', err)
+    console.error('Failed to parse LLM JSON output:', err)
     throw err
   }
 

@@ -12,6 +12,9 @@ export function sanitizeBadJsObject(input: string): string {
     .replace(/\\(?!["'\\bfnrtu])/g, '\\\\') // escape bad backslashes
     .replace(/\\…/g, '…') // common LLM bug
     .replace(/[\u0000-\u001F]+/g, '') // remove control chars
+    .replace(/^```(?:javascript|js)?\s*/i, '') // remove ```javascript or ```js
+    .replace(/^javascript\s*{/i, '{') // remove accidental "javascript" label
+    .replace(/```$/, '')
     .trim()
 }
 

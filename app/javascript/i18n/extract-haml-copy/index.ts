@@ -12,9 +12,11 @@ const OUTPUT_DIR = './en'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
 const DONE_PATH = path.join(TMP_DIR, 'done.json')
 const SKIPPED_PATH = path.join(TMP_DIR, 'too-large.json')
+const PROCESSED_PATH = path.join(TMP_DIR, 'processed.json')
 
 export async function readHamlFilesInFolder(
-  folder: string
+  folder: string,
+  processedPaths: Set<string>
 ): Promise<Record<string, string>> {
   const result: Record<string, string> = {}
 
@@ -24,7 +26,11 @@ export async function readHamlFilesInFolder(
       const fullPath = path.join(current, entry.name)
       if (entry.isDirectory()) {
         await walk(fullPath)
-      } else if (entry.isFile() && entry.name.endsWith(HAML_EXT)) {
+      } else if (
+        entry.isFile() &&
+        entry.name.endsWith(HAML_EXT) &&
+        !processedPaths.has(fullPath)
+      ) {
         const content = await fs.readFile(fullPath, 'utf8')
         result[fullPath] = content
       }
@@ -85,7 +91,7 @@ async function resetAllQueues() {
   await fs.rm(TMP_DIR, { recursive: true, force: true })
 }
 
-async function runLLMWithRetry(prompt: string, retries = 6): Promise<string> {
+async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
   for (let i = 0; i < retries; i++) {
     try {
       const result = await runLLM(prompt)
@@ -136,13 +142,18 @@ if (require.main === module) {
     let queue: Record<string, string>[] = []
     let done: number[] = []
     let skipped: string[] = []
+    let processedPaths: string[] = []
 
     if (resume) {
       queue = await loadJSON(QUEUE_PATH)
       done = await loadJSON(DONE_PATH)
       skipped = await loadJSON(SKIPPED_PATH)
+      processedPaths = await loadJSON(PROCESSED_PATH)
     } else {
-      const files = await readHamlFilesInFolder(inputPath!)
+      processedPaths = await loadJSON(PROCESSED_PATH)
+      const processedSet = new Set(processedPaths)
+      const files = await readHamlFilesInFolder(inputPath!, processedSet)
+
       skipped = Object.entries(files)
         .filter(([_, content]) => content.length > MAX_CHARS)
         .map(([path]) => path)
@@ -182,8 +193,14 @@ if (require.main === module) {
       await writeTranslations(parsed.translations, inputPath || '.')
       await writeModifiedFiles(parsed.files)
 
+      // Track completed batch
       done.push(i)
       await persistJSON(DONE_PATH, done)
+
+      // Track processed files globally
+      const existing = await loadJSON<string[]>(PROCESSED_PATH)
+      const updated = [...new Set([...existing, ...Object.keys(parsed.files)])]
+      await persistJSON(PROCESSED_PATH, updated)
     }
   })()
 }

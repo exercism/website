@@ -5,15 +5,18 @@ export type ParsedLLMResult = {
 }
 
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {
+  let jsonStr: string | null = null
+
+  const fencedMatch = output.match(/```json\s*([\s\S]+?)\s*```/i)
+  if (fencedMatch) {
+    jsonStr = fencedMatch[1].trim()
+  } else {
+    jsonStr = output.trim()
+  }
+
   let parsed: unknown
-
-  const cleaned = output
-    .trim()
-    .replace(/^```json\s*/, '')
-    .replace(/```$/, '')
-
   try {
-    parsed = JSON.parse(cleaned)
+    parsed = JSON.parse(jsonStr)
   } catch (err) {
     console.error('❌ Failed to parse LLM JSON output:', err)
     throw err
@@ -25,7 +28,7 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
     !('translations' in parsed) ||
     !('modifiedFiles' in parsed)
   ) {
-    throw new Error('Invalid parsed structure from LLM')
+    throw new Error('Invalid LLM output shape')
   }
 
   const { translations, modifiedFiles, namespace } = parsed as {

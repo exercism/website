@@ -1,9 +1,9 @@
-// extract-haml-copy.ts
 import fs from 'fs/promises'
 import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
 import { buildPrompt } from './buildPromptHaml'
-import { parseLLMOutput } from './parseLLMOutputHaml'
+import { parseLLMOutputHaml } from './parseLLMOutputHaml'
+import { stringify } from 'yaml'
 
 const HAML_EXT = '.html.haml'
 const MAX_CHARS = 16000
@@ -108,8 +108,8 @@ async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
   throw new Error('LLM failed after maximum retries.')
 }
 
-async function writeTranslations(yamlString: string, folder: string) {
-  const safeName = folder.replace(/[\/\\]/g, '-')
+async function writeTranslationYaml(yamlString: string, namespace: string) {
+  const safeName = namespace.replace(/[\/\\]/g, '-')
   const outputPath = path.join(OUTPUT_DIR, `${safeName}.yml`)
   await fs.mkdir(path.dirname(outputPath), { recursive: true })
   await fs.writeFile(outputPath, yamlString, 'utf8')
@@ -189,9 +189,12 @@ if (require.main === module) {
       const prompt = buildPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
 
-      const parsed = parseLLMOutput(result)
-      await writeTranslations(parsed.translations, inputPath || '.')
-      await writeModifiedFiles(parsed.files)
+      const parsed = parseLLMOutputHaml(result)
+      await writeTranslationYaml(
+        stringify(parsed.translations),
+        parsed.namespace || 'no-namespace'
+      )
+      await writeModifiedFiles(parsed.modifiedFiles)
 
       // Track completed batch
       done.push(i)
@@ -199,7 +202,9 @@ if (require.main === module) {
 
       // Track processed files globally
       const existing = await loadJSON<string[]>(PROCESSED_PATH)
-      const updated = [...new Set([...existing, ...Object.keys(parsed.files)])]
+      const updated = [
+        ...new Set([...existing, ...Object.keys(parsed.modifiedFiles)]),
+      ]
       await persistJSON(PROCESSED_PATH, updated)
     }
   })()

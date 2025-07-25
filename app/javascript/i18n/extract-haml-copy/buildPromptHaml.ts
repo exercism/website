@@ -78,9 +78,23 @@ ${content}
     - Escape any inner double quotes with \\" inside translation values.
     - Do NOT include unescaped newlines or tab characters.
     - Strings must always be double-quoted and valid per JSON rules.
+
+    You MUST output only raw, valid JSON. Follow these rules strictly:
+
+    1. DO NOT wrap your response in triple backticks like \`\`\`json or \`\`\` — just return plain raw JSON.
+    2. DO NOT include any comments or explanation.
+    3. DO NOT include Markdown, YAML, or HTML. Only raw JSON is allowed.
+    4. JSON MUST start with \`{\` and end with \`}\`.
+    5. All string values and keys MUST be enclosed in double quotes.
+    6. NO trailing commas are allowed.
+    7. NO unescaped double quotes (\`"\`) inside strings.
+      8. Keys must be valid JSON strings(letters, digits, underscores, and dots).
+    9. The output will be parsed by\`JSON.parse\`.If the JSON is invalid, the process will fail.
+
+    If you break these rules, the system will crash.
     
     Begin processing:
-    `
+  `
 
-  return `${instructions}\n\n${fileSections}`
+  return `${instructions} \n\n${fileSections} `
 }

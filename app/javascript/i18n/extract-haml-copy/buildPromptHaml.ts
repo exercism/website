@@ -24,39 +24,48 @@ ${content}
     })
     .join('\n\n')
 
-  const instructions = `You're given Ruby on Rails view files written in HAML. Your task is to:
+  const instructions = `You are given one or more Ruby on Rails view files written in HAML.
 
-1. Extract all user-visible strings and replace them with appropriate \`= t('...')\` i18n calls.
-2. Use the \`i18n-key-prefix\` comment as the flat dot-separated key prefix for each file.
-3. Respect pluralization conventions (e.g., \`key_one\`, \`key_other\`).
-4. Preserve all indentation and formatting of the HAML.
-5. Replace interpolated Ruby like \`"Welcome #{user.name}"\` with:
-   - \`= t('some.key', user_name: user.name)\`
-   - and in translations: \`some.key: "Welcome %{user_name}"\`
+Your task is to:
+
+1. Extract all **user-visible strings** and replace them with \`= t('...')\` translation calls.
+2. Use the \`# i18n-key-prefix\` as the prefix for all translation keys in that file.
+3. Add a \`# i18n-namespace\` and other comments (already shown above each file) at the top of each returned HAML string.
+4. Replace interpolated Ruby (e.g. \`"Hello \#{user.name}"\`) with:
+   - \`= t('some.key', user_name: user.name)\` in HAML
+   - \`some.key: "Hello %{user_name}"\` in the translation output.
+5. Handle pluralization properly by using keys like \`key_one\` and \`key_other\`.
 
 ---
 
-💡 Output must be valid **JSON**, not YAML, and must follow this exact structure:
+The final result must be valid **raw JSON** following this exact structure:
 
-\`\`\`json
 {
   "translations": {
-    "some.key": "Some translation",
-    "some.other_key_one": "One item",
-    "some.other_key_other": "%{count} items"
+    "some.key": "Translation here",
+    "some.key_one": "1 item",
+    "some.key_other": "%{count} items"
   },
   "modifiedFiles": {
-    "path/to/file.html.haml": "...translated haml content..."
+    "relative/path/to/file.html.haml": "# i18n-key-prefix: ...\\n# i18n-namespace: ...\\n...translated HAML here..."
   },
-  "namespace": "views.about"
+  "namespace": "${namespace}"
 }
-\`\`\`
 
-❌ DO NOT wrap the response in triple backticks — just return raw JSON.
+---
 
-✅ DO NOT nest translation keys. Only use flat keys like \`some.key\`.
+DO NOT:
+- Do **not** wrap the JSON in \`\`\`json or \`\`\` — just return valid raw JSON.
+- Do **not** output YAML, Markdown, or commentary.
+- Do **not** nest translation keys — all keys must be **flat** (e.g. \`a.b.c\`, not \`a: { b: { c: ... } }\`).
+- Do **not** include extra comments or explanations outside the JSON.
+- Do **not** change any filenames or paths — return exactly what was passed in.
 
-🛑 DO NOT modify any file paths or names — return exactly what was passed in.
+The output will be parsed **automatically** as JSON, so:
+- Escape double quotes properly.
+- Ensure all strings are valid JSON strings.
+- Avoid trailing commas.
+- Make sure the entire output is syntactically valid JSON.
 
 Begin processing:
 `

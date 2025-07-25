@@ -4,10 +4,15 @@ export type ParsedLLMResult = {
   namespace: string | undefined
 }
 
-function sanitizeBadJsonEscapes(jsonStr: string): string {
-  // Removes any backslash that is not followed by a valid JSON escape character
-  // Valid escapes: \", \\, \/, \b, \f, \n, \r, \t, \u
-  return jsonStr.replace(/\\(?!["\\/bfnrtu])/g, '')
+export function sanitizeBadJsonEscapes(input: string): string {
+  return input
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/```$/, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\\(?!["\\/bfnrtu])/g, '\\\\')
+    .replace(/[\u0000-\u0019]+/g, '')
+    .trim()
 }
 
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {

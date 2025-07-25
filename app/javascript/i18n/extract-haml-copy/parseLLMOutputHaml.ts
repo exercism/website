@@ -4,25 +4,24 @@ export type ParsedLLMResult = {
   namespace: string | undefined
 }
 
-export function sanitizeBadJsonEscapes(input: string): string {
+export function sanitizeBadJsObject(input: string): string {
   return input
-    .replace(/^```json\s*/i, '')
-    .replace(/^```\s*/i, '')
+    .replace(/^```(json|js)?\s*/i, '')
     .replace(/```$/, '')
     .replace(/\r\n/g, '\n')
-    .replace(/\\(?!["\\/bfnrtu])/g, '\\\\')
-    .replace(/\\…/g, '…')
-    .replace(/[\u0000-\u001F]+/g, '')
+    .replace(/\\(?!["'\\bfnrtu])/g, '\\\\') // escape bad backslashes
+    .replace(/\\…/g, '…') // common LLM bug
+    .replace(/[\u0000-\u001F]+/g, '') // remove control chars
     .trim()
 }
 
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {
-  let jsonStr = output.trim()
+  let jsStr = output.trim()
 
-  if (jsonStr.startsWith('```')) {
-    const match = jsonStr.match(/```(?:json)?\s*([\s\S]+?)\s*```/)
+  if (jsStr.startsWith('```')) {
+    const match = jsStr.match(/```(?:json|js)?\s*([\s\S]+?)\s*```/)
     if (match) {
-      jsonStr = match[1].trim()
+      jsStr = match[1].trim()
     } else {
       throw new Error(
         'Output starts with ``` but no matching closing ``` found'
@@ -30,14 +29,15 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
     }
   }
 
-  jsonStr = sanitizeBadJsonEscapes(jsonStr)
+  jsStr = sanitizeBadJsObject(jsStr)
 
   let parsed: unknown
   try {
-    parsed = JSON.parse(jsonStr)
+    // Use Function constructor to safely evaluate the object literal
+    parsed = Function(`"use strict"; return (${jsStr})`)()
   } catch (err) {
-    console.error('Failed to parse LLM JSON output:', err)
-    console.error('RAW broken JSON:\n', jsonStr.slice(0, 1000))
+    console.error('Failed to parse LLM JS object output:', err)
+    console.error('RAW broken JS object:\n', jsStr.slice(0, 1000))
     throw err
   }
 

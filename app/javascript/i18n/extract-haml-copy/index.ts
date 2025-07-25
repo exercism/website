@@ -1,0 +1,235 @@
+import fs from 'fs/promises'
+import path from 'path'
+import { runLLM } from '../extract-jsx-copy/runLLM'
+import { buildPrompt } from './buildPromptHaml'
+import { parseLLMOutputHaml } from './parseLLMOutputHaml'
+
+const HAML_EXT = '.html.haml'
+const MAX_CHARS = 16000
+const TMP_DIR = './tmp/i18n-extraction'
+const OUTPUT_DIR = './en-yaml'
+const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
+const DONE_PATH = path.join(TMP_DIR, 'done.json')
+const SKIPPED_PATH = path.join(TMP_DIR, 'too-large.json')
+const PROCESSED_PATH = path.join(TMP_DIR, 'processed.json')
+
+export async function readHamlFilesInFolder(
+  folder: string,
+  processedPaths: Set<string>
+): Promise<Record<string, string>> {
+  const result: Record<string, string> = {}
+
+  async function walk(current: string) {
+    const entries = await fs.readdir(current, { withFileTypes: true })
+    for (const entry of entries) {
+      const fullPath = path.join(current, entry.name)
+      if (entry.isDirectory()) {
+        await walk(fullPath)
+      } else if (
+        entry.isFile() &&
+        entry.name.endsWith(HAML_EXT) &&
+        !processedPaths.has(fullPath)
+      ) {
+        const content = await fs.readFile(fullPath, 'utf8')
+        result[fullPath] = content
+      }
+    }
+  }
+
+  await walk(folder)
+  return result
+}
+
+export function groupByCharLimit(
+  files: Record<string, string>,
+  maxChars: number = MAX_CHARS
+): Record<string, string>[] {
+  const batches: Record<string, string>[] = []
+  let currentBatch: Record<string, string> = {}
+  let currentSize = 0
+
+  for (const [filePath, content] of Object.entries(files)) {
+    const contentLength = content.length
+
+    if (contentLength > maxChars) {
+      continue // will be handled elsewhere
+    }
+
+    if (currentSize + contentLength > maxChars) {
+      batches.push(currentBatch)
+      currentBatch = {}
+      currentSize = 0
+    }
+
+    currentBatch[filePath] = content
+    currentSize += contentLength
+  }
+
+  if (Object.keys(currentBatch).length > 0) {
+    batches.push(currentBatch)
+  }
+
+  return batches
+}
+
+async function persistJSON(filePath: string, data: any) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true })
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8')
+}
+
+async function loadJSON<T>(filePath: string): Promise<T> {
+  try {
+    const raw = await fs.readFile(filePath, 'utf8')
+    return JSON.parse(raw)
+  } catch {
+    return [] as unknown as T
+  }
+}
+
+async function resetAllQueues() {
+  await fs.rm(TMP_DIR, { recursive: true, force: true })
+}
+
+async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await runLLM(prompt)
+      if (result) return result
+    } catch (err: any) {
+      if (err.message?.includes('503') || err.message?.includes('overloaded')) {
+        console.warn(`Gemini overloaded. Retry ${i + 1}/${retries}...`)
+        await new Promise((res) => setTimeout(res, 2000 * (i + 1)))
+        continue
+      }
+      throw err
+    }
+  }
+  throw new Error('LLM failed after maximum retries.')
+}
+
+async function writeTranslationYaml(yamlString: string, namespace: string) {
+  const safeName = namespace.replace(/[\/\\]/g, '-')
+  const outputPath = path.join(OUTPUT_DIR, `${safeName}.yml`)
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, yamlString, 'utf8')
+}
+
+function getLocalesOutputPath(inputPath: string): string {
+  const absInput = path.resolve(inputPath)
+  const absRoot = path.resolve('../../views')
+  if (!absInput.startsWith(absRoot)) {
+    throw new Error('Input path must be under ../../views')
+  }
+  const relative = path.relative(absRoot, absInput)
+  return path.join('config/locales/views', relative)
+}
+
+async function writeTranslationJson(
+  translations: Record<string, string>,
+  inputPath: string,
+  namespace: string
+) {
+  const folderPath = getLocalesOutputPath(inputPath)
+  const outputPath = path.join(folderPath, `${namespace}.json`)
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, JSON.stringify(translations, null, 2), 'utf8')
+}
+
+async function writeModifiedFiles(files: Record<string, string>) {
+  for (const [filePath, content] of Object.entries(files)) {
+    await fs.writeFile(filePath, content, 'utf8')
+  }
+}
+
+// CLI runner
+if (require.main === module) {
+  const args = process.argv.slice(2)
+  const inputPath = args.find((a) => !a.startsWith('--'))
+  const resume = args.includes('--resume')
+  const reset = args.includes('--reset')
+
+  if (!inputPath && !resume) {
+    console.error('Please provide a folder path or use --resume.')
+    process.exit(1)
+  }
+
+  ;(async () => {
+    if (reset) {
+      await resetAllQueues()
+      console.log('Cleared previous queue state.')
+    }
+
+    let queue: Record<string, string>[] = []
+    let done: number[] = []
+    let skipped: string[] = []
+    let processedPaths: string[] = []
+
+    if (resume) {
+      queue = await loadJSON(QUEUE_PATH)
+      done = await loadJSON(DONE_PATH)
+      skipped = await loadJSON(SKIPPED_PATH)
+      processedPaths = await loadJSON(PROCESSED_PATH)
+    } else {
+      processedPaths = await loadJSON(PROCESSED_PATH)
+      const processedSet = new Set(processedPaths)
+      const files = await readHamlFilesInFolder(inputPath!, processedSet)
+
+      skipped = Object.entries(files)
+        .filter(([_, content]) => content.length > MAX_CHARS)
+        .map(([path]) => path)
+
+      queue = groupByCharLimit(files)
+      done = []
+
+      await persistJSON(QUEUE_PATH, queue)
+      await persistJSON(DONE_PATH, done)
+      await persistJSON(SKIPPED_PATH, skipped)
+    }
+
+    console.log(
+      `Queue has ${queue.length} batches. ${done.length} already completed.`
+    )
+    if (skipped.length)
+      console.log(`${skipped.length} files too large and skipped.`)
+
+    for (let i = 0; i < queue.length; i++) {
+      if (done.includes(i)) continue
+
+      const batch = queue[i]
+      const totalChars = Object.values(batch).reduce(
+        (sum, v) => sum + v.length,
+        0
+      )
+      console.log(
+        `\nBatch ${i + 1}/${queue.length} (${
+          Object.keys(batch).length
+        } files, ${totalChars} chars)`
+      )
+
+      const prompt = buildPrompt(batch, inputPath || '.')
+      const result = await runLLMWithRetry(prompt)
+      console.log('\n🔍 Raw LLM output:\n', result)
+
+      const parsed = parseLLMOutputHaml(result)
+      console.log('\n🧪 Parsed output:')
+      console.dir(parsed, { depth: null })
+      await writeTranslationJson(
+        parsed.translations,
+        inputPath || '.',
+        parsed.namespace || 'no-namespace'
+      )
+      await writeModifiedFiles(parsed.modifiedFiles)
+
+      // Track completed batch
+      done.push(i)
+      await persistJSON(DONE_PATH, done)
+
+      // Track processed files globally
+      const existing = await loadJSON<string[]>(PROCESSED_PATH)
+      const updated = [
+        ...new Set([...existing, ...Object.keys(parsed.modifiedFiles)]),
+      ]
+      await persistJSON(PROCESSED_PATH, updated)
+    }
+  })()
+}

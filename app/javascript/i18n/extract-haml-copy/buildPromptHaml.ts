@@ -73,6 +73,11 @@ ${content}
     - Ensure all strings are valid JSON strings.
     - Avoid trailing commas.
     - Make sure the entire output is syntactically valid JSON.
+
+     IMPORTANT!! When building JSON:
+    - Escape any inner double quotes with \\" inside translation values.
+    - Do NOT include unescaped newlines or tab characters.
+    - Strings must always be double-quoted and valid per JSON rules.
     
     Begin processing:
     `

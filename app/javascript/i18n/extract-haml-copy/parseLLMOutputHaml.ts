@@ -5,13 +5,17 @@ export type ParsedLLMResult = {
 }
 
 export function parseLLMOutputHaml(output: string): ParsedLLMResult {
-  let jsonStr: string | null = null
+  let jsonStr = output.trim()
 
-  const fencedMatch = output.match(/```json\s*([\s\S]+?)\s*```/i)
-  if (fencedMatch) {
-    jsonStr = fencedMatch[1].trim()
-  } else {
-    jsonStr = output.trim()
+  if (jsonStr.startsWith('```')) {
+    const match = jsonStr.match(/```(?:json)?\s*([\s\S]+?)\s*```/)
+    if (match) {
+      jsonStr = match[1].trim()
+    } else {
+      throw new Error(
+        '❌ Output starts with ``` but no matching closing ``` found'
+      )
+    }
   }
 
   let parsed: unknown
@@ -22,20 +26,7 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
     throw err
   }
 
-  if (
-    typeof parsed !== 'object' ||
-    !parsed ||
-    !('translations' in parsed) ||
-    !('modifiedFiles' in parsed)
-  ) {
-    throw new Error('Invalid LLM output shape')
-  }
-
-  const { translations, modifiedFiles, namespace } = parsed as {
-    translations: Record<string, string>
-    modifiedFiles: Record<string, string>
-    namespace?: string
-  }
+  const { translations, modifiedFiles, namespace } = parsed as ParsedLLMResult
 
   return {
     translations,

@@ -17,8 +17,8 @@ export function buildPrompt(
       const keyPrefix = camelParts.join('.')
 
       return `# file: ${filePath}
-# i18n-key-prefix: ${keyPrefix}
-# i18n-namespace: ${namespace}
+-# i18n-key-prefix: ${keyPrefix}
+-# i18n-namespace: ${namespace}
 ${content}
 # end file`
     })
@@ -56,6 +56,9 @@ The final result must be valid **raw JSON** following this exact structure:
 
 DO NOT:
 - Do **not** wrap the JSON in \`\`\`json or \`\`\` — just return valid raw JSON.
+DO NOT wrap your JSON response in triple backticks like \`\`\`json or \`\`\`.
+This breaks JSON parsing and will make your response unusable.
+Just return raw JSON only — no Markdown formatting, no comments, no decoration.
 - Do **not** output YAML, Markdown, or commentary.
 - Do **not** nest translation keys — all keys must be **flat** (e.g. \`a.b.c\`, not \`a: { b: { c: ... } }\`).
 - Do **not** include extra comments or explanations outside the JSON.

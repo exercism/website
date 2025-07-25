@@ -10,24 +10,22 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
   const translations: Record<string, string> = {}
   const modifiedFiles: Record<string, string> = {}
 
-  const translationMatch = output.match(
-    /```ts\s*export default ({[\s\S]+?})\s*```/
-  )
+  const translationMatch = output.match(/```yaml\s*([\s\S]+?)```/)
   if (translationMatch) {
     try {
       const parsed = yaml.parse(translationMatch[1])
-      Object.assign(translations, parsed)
+      Object.assign(translations, parsed?.en || parsed)
     } catch (err) {
       console.error('❌ Failed to parse translation block:', err)
       throw err
     }
   }
 
-  const fileBlocks = output.split(/\n+\/\/ === file: (.+?) ===\n/).slice(1)
+  const fileBlocks = output.split(/\n+# === file: (.+?) ===\n/).slice(1)
   for (let i = 0; i < fileBlocks.length; i += 2) {
     const filePath = fileBlocks[i].trim()
     const content = fileBlocks[i + 1]
-      .replace(/# end file.*$/, '')
+      .replace(/^# end file.*$/m, '')
       .replace(/^# i18n-key-prefix:/gm, '-# i18n-key-prefix:')
       .replace(/^# i18n-namespace:/gm, '-# i18n-namespace:')
 

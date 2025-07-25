@@ -1,9 +1,14 @@
+// extract-haml-copy.ts
 import fs from 'fs/promises'
 import path from 'path'
+import { runLLM } from '../extract-jsx-copy/runLLM'
+import { buildPrompt } from './buildPromptHaml'
+import { parseLLMOutput } from './parseLLMOutputHaml'
 
 const HAML_EXT = '.html.haml'
 const MAX_CHARS = 16000
 const TMP_DIR = './tmp/i18n-extraction'
+const OUTPUT_DIR = './en'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
 const DONE_PATH = path.join(TMP_DIR, 'done.json')
 const SKIPPED_PATH = path.join(TMP_DIR, 'too-large.json')
@@ -42,7 +47,7 @@ export function groupByCharLimit(
     const contentLength = content.length
 
     if (contentLength > maxChars) {
-      continue
+      continue // will be handled elsewhere
     }
 
     if (currentSize + contentLength > maxChars) {
@@ -80,6 +85,37 @@ async function resetAllQueues() {
   await fs.rm(TMP_DIR, { recursive: true, force: true })
 }
 
+async function runLLMWithRetry(prompt: string, retries = 6): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await runLLM(prompt)
+      if (result) return result
+    } catch (err: any) {
+      if (err.message?.includes('503') || err.message?.includes('overloaded')) {
+        console.warn(`Gemini overloaded. Retry ${i + 1}/${retries}...`)
+        await new Promise((res) => setTimeout(res, 2000 * (i + 1)))
+        continue
+      }
+      throw err
+    }
+  }
+  throw new Error('LLM failed after maximum retries.')
+}
+
+async function writeTranslations(yamlString: string, folder: string) {
+  const safeName = folder.replace(/[\/\\]/g, '-')
+  const outputPath = path.join(OUTPUT_DIR, `${safeName}.yml`)
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, yamlString, 'utf8')
+}
+
+async function writeModifiedFiles(files: Record<string, string>) {
+  for (const [filePath, content] of Object.entries(files)) {
+    await fs.writeFile(filePath, content, 'utf8')
+  }
+}
+
+// CLI runner
 if (require.main === module) {
   const args = process.argv.slice(2)
   const inputPath = args.find((a) => !a.startsWith('--'))
@@ -139,7 +175,13 @@ if (require.main === module) {
         } files, ${totalChars} chars)`
       )
 
-      // TODO: add runLLM
+      const prompt = buildPrompt(batch, inputPath || '.')
+      const result = await runLLMWithRetry(prompt)
+
+      const parsed = parseLLMOutput(result)
+      await writeTranslations(parsed.translations, inputPath || '.')
+      await writeModifiedFiles(parsed.files)
+
       done.push(i)
       await persistJSON(DONE_PATH, done)
     }

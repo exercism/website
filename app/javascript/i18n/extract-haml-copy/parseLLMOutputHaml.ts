@@ -11,7 +11,8 @@ export function sanitizeBadJsonEscapes(input: string): string {
     .replace(/```$/, '')
     .replace(/\r\n/g, '\n')
     .replace(/\\(?!["\\/bfnrtu])/g, '\\\\')
-    .replace(/[\u0000-\u0019]+/g, '')
+    .replace(/\\…/g, '…')
+    .replace(/[\u0000-\u001F]+/g, '')
     .trim()
 }
 
@@ -36,6 +37,7 @@ export function parseLLMOutputHaml(output: string): ParsedLLMResult {
     parsed = JSON.parse(jsonStr)
   } catch (err) {
     console.error('Failed to parse LLM JSON output:', err)
+    console.error('RAW broken JSON:\n', jsonStr.slice(0, 1000))
     throw err
   }
 

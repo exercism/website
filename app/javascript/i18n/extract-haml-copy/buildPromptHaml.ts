@@ -24,100 +24,125 @@ ${content}
   const instructions = `
     You are given one or more Ruby on Rails view files written in HAML.
     
-    Your task is to extract **all user-visible strings** and generate a JSON object mapping translation keys to their corresponding text.
+    Your task is to extract **all user-visible strings** and return a flat JSON object that maps translation keys to their corresponding full-text values.
     
     ---
     
-    ## What counts as a user-visible string?
+    ## ✅ What counts as a user-visible string?
     
-    Extract all static text that would be shown to an end user in the browser. This includes:
+    You must extract **every** static string that will appear to the user in the UI, including but not limited to:
     
-    - Text after HAML tags (e.g., \`%h1 Welcome!\`)
-    - Strings in Ruby helpers like:
-      - \`link_to 'Dashboard', ...\`
-      - \`button_to 'Click me', ...\`
-      - \`content_tag :p, 'Some text'\`
-      - \`form_for ... do |f| ... f.label 'Email' ... f.submit 'Send'\`
-    - Text in attributes (e.g., \`placeholder: 'Enter name'\`, \`title: 'Tooltip text'\`)
-    - Strings used in conditionals that would be rendered (e.g. \`= flash[:notice]\`)
-    - Interpolated strings like \`"Hello #{user.name}"\`, which should become \`"Hello %{user_name}"\`
+    - Text in HAML tags (e.g., \`%h1 Welcome!\`, \`%p.text-body Hello there\`)
+    - Strings in \`link_to\`, \`button_to\`, \`content_tag\`, \`submit_tag\`, \`label_tag\`, etc.
+    - Inline text after tags (e.g., \`.label Some visible text\`)
+    - Text inside blocks (e.g., \`= link_to do ... 'Back to All Jobs'\`)
+    - Attribute values like \`placeholder: 'Enter name'\`, \`title: 'Tooltip text'\`
+    - Strings with interpolation: \`"Hello \#{user.name}"\` → \`"Hello %{user_name}"\`
     
-    Do **NOT** extract:
-    - Class or id names
-    - Internal Ruby code or logic
-    - Dynamic values (e.g., variables or method calls without static text)
+    Do NOT extract:
+    - Class names, IDs, or internal logic
+    - Ruby code that does not produce visible text
+    - Comments
     
     ---
     
     ## Extract full logical blocks as one string
     
-    If multiple lines together form a single user-visible paragraph or unit of thought, extract them as a **single translation value**, even if the text spans multiple lines or is split by interpolation.
+    When multiple lines form a single cohesive message or paragraph, **combine them into a single translation**.
     
-    Group them when:
-    - They are part of a longer message or paragraph
-    - They appear consecutively within the same indentation level
-    - They form one cohesive block a user would read as a whole
+    Extract them as a single key **even if they span multiple lines or use inline tags like \`%strong\`**.
     
-    Good example (should be extracted as **one translation**):
+    Example block (HAML):
     
     \`\`\`haml
-    = t('hiringContent.summary.paragraph1')
-    Our online platform is centred around self-directed learning and volunteer mentoring, and has nearly one million members.
-    Over the next 5 years, we want to become the defacto programming education platform that anyone, anywhere can use for free.
-    Through our work we aim to improve the global standard of programming and increase participation in tech from under-represented groups.
-    You can learn more about Exercism in our #{link_to 't("hiringContent.summary.aboutExercismPagesLinkText")', 'https://exercism.org/about'}
+    %p.text-large
+      %strong Become Exercism's new Rails developer!
+      We're looking for someone who loves working with Ruby and Rails.
+      Do you enjoy building well-architected, readable Rails code?
+      If so, this role might be perfect for you.
     \`\`\`
     
-    Extract this entire block as:
+    Extracted translation:
     
     \`\`\`json
     {
-      "hiringContent.summary.paragraph1": "Our online platform is centred around self-directed learning and volunteer mentoring, and has nearly one million members. Over the next 5 years, we want to become the defacto programming education platform that anyone, anywhere can use for free. Through our work we aim to improve the global standard of programming and increase participation in tech from under-represented groups. You can learn more about Exercism in our %{about_exercism_pages_link_text}."
+      "hiringRailsDeveloper.intro": "Become Exercism's new Rails developer! We're looking for someone who loves working with Ruby and Rails. Do you enjoy building well-architected, readable Rails code? If so, this role might be perfect for you."
     }
     \`\`\`
     
-    Make sure to replace embedded calls like \`#{link_to ...}\` with placeholders such as \`%{about_exercism_pages_link_text}\` and generate a separate key for the embedded link text:
+    Another example with interpolation:
+    
+    \`\`\`haml
+    %p.text-body
+      Learn more on our \#{link_to 'About Exercism', 'https://exercism.org/about'}.
+    \`\`\`
+    
+    Extracted translation:
     
     \`\`\`json
     {
-      "hiringContent.summary.aboutExercismPagesLinkText": "About Exercism pages"
+      "hiringRailsDeveloper.learnMore": "Learn more on our %{about_exercism_link}."
     }
     \`\`\`
     
-    Do **not** split each sentence into separate keys.  
-    Do **not** exclude follow-up sentences that belong to the same logical block.
+    And also extract:
+    
+    \`\`\`json
+    {
+      "hiringRailsDeveloper.aboutExercismLink": "About Exercism"
+    }
+    \`\`\`
     
     ---
     
-    ## For interpolated or pluralized text:
+    ## Interpolation and pluralization
     
-    - Replace interpolations like \`#{user.name}\` with \`%{user_name}\` (snake_case)
-    - For pluralization, create both \`_one\` and \`_other\` variants if the string includes a count (e.g. \`"1 comment"\`, \`"%{count} comments"\`)
-    
-    ---
-    
-    ## Translation keys format
-    
-    - Use the provided \`i18n-key-prefix\` (e.g., \`adminDashboard\`) as a base
-    - Generate readable and descriptive keys
-    - Use dot-separated lowercase words
-    - Allowed suffixes: \`_one\`, \`_other\`
-    - Do not use underscores (except for _one/_other), numbers, or special characters
-    
-    Examples:
-    
-    - \`adminDashboard.title\`: "Admin Dashboard"
-    - \`userForm.placeholderName\`: "Enter your name"
-    - \`notifications.commentCount_one\`: "1 comment"
-    - \`notifications.commentCount_other\`: "%{count} comments"
+    - Interpolations like \`Hello \#{user.name}\` → \`Hello %{user_name}\` (snake_case)
+    - For counts: provide \`_one\` and \`_other\` keys  
+      - Example: \`"1 comment"\` / \`"%{count} comments"\`
     
     ---
     
-    ## Output format:
+    ## Key format
     
-    Output **ONLY** a single valid JSON object, with all extracted key-value pairs.
+    - Use the given \`i18n-key-prefix\` (e.g., \`hiringRailsDeveloper\`)
+    - Use only lowercase dot-separated words
+    - No nested JSON (output must be flat)
+    - Do not use numbers, symbols, or camelCase
     
-    NO code blocks, NO explanations, NO extra text. Use **double quotes** and **no trailing commas**.
+    Good keys:
+    
+    - \`hiringRailsDeveloper.title\`
+    - \`hiringRailsDeveloper.summary.aboutExercismLink\`
+    - \`notifications.count_one\`, \`notifications.count_other\`
+    
+    ---
+    
+    ## Output format
+    
+    Output must be:
+    
+    - **A single flat JSON object**
+    - **Double-quoted keys and values**
+    - **No nesting**
+    - **No code blocks**
+    - **No explanations or comments**
+    - **No trailing commas**
+    
+    Correct:
+    
+    {
+      "hiringRailsDeveloper.summary": "Our platform is centred around self-directed learning and mentoring.",
+      "hiringRailsDeveloper.linkLabel": "About Exercism"
+    }
+    
+    Incorrect (nested):
+    
+    {
+      "hiringRailsDeveloper": {
+        "summary": "..."
+      }
+    }
     
     ---
     `

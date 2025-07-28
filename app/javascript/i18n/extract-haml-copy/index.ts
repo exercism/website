@@ -3,6 +3,8 @@ import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
 import { buildPrompt } from './buildPromptHaml'
 import { parseLLMOutputHaml } from './parseLLMOutputHaml'
+import { toCamelCase } from '../extract-jsx-copy/toCamelCase'
+import { normalizePathForNamespace } from '../extract-jsx-copy/normalizePathForNamespace'
 
 const HAML_EXT = '.html.haml'
 const MAX_CHARS = 16000
@@ -72,6 +74,127 @@ export function groupByCharLimit(
   return batches
 }
 
+function escapeRegex(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function extractInterpolationVars(text: string): string {
+  // Extract variables from %{var_name} format and convert to hash syntax
+  const matches = text.match(/%\{(\w+)\}/g)
+  if (!matches) return ''
+
+  const vars = matches.map((match) => {
+    const varName = match.slice(2, -1) // Remove %{ and }
+    // Convert snake_case to the most likely Ruby variable
+    return `${varName}: ${varName.replace(/_/g, '.')}`
+  })
+
+  return vars.join(', ')
+}
+
+function replaceStringsWithI18nKeys(
+  hamlContent: string,
+  translations: Record<string, string>,
+  keyPrefix: string
+): string {
+  let modifiedContent = hamlContent
+
+  const valueToKey: Record<string, string> = {}
+  for (const [key, value] of Object.entries(translations)) {
+    if (key.startsWith(keyPrefix)) {
+      valueToKey[value] = key
+    }
+  }
+
+  const sortedEntries = Object.entries(valueToKey).sort(
+    (a, b) => b[0].length - a[0].length
+  )
+
+  for (const [originalText, i18nKey] of sortedEntries) {
+    // Skip if already processed (contains t('...'))
+    if (originalText.includes("t('")) continue
+
+    const hasInterpolation = originalText.includes('%{')
+    const tCall = hasInterpolation
+      ? `t('${i18nKey}', ${extractInterpolationVars(originalText)})`
+      : `t('${i18nKey}')`
+
+    // Handle different HAML patterns
+    const patterns = [
+      // Quoted strings in content_for
+      {
+        regex: new RegExp(
+          `(\\s*-\\s*content_for\\s+[^,]+,\\s*)["']${escapeRegex(
+            originalText
+          )}["']`,
+          'g'
+        ),
+        replacement: `$1${tCall}`,
+      },
+      // Quoted strings after =
+      {
+        regex: new RegExp(`(=\\s*)["']${escapeRegex(originalText)}["']`, 'g'),
+        replacement: `$1${tCall}`,
+      },
+      // Text after HAML tags (like %h1 Some text)
+      {
+        regex: new RegExp(
+          `^(\\s*%\\w+(?:\\.[\\w.-]+)*(?:\\{[^}]*\\})?\\s+)${escapeRegex(
+            originalText
+          )}$`,
+          'gm'
+        ),
+        replacement: `$1= ${tCall}`,
+      },
+      // Text after class/id selectors (like .title Some text)
+      {
+        regex: new RegExp(
+          `^(\\s*[.#][\\w.-]+\\s+)${escapeRegex(originalText)}$`,
+          'gm'
+        ),
+        replacement: `$1= ${tCall}`,
+      },
+      // Link text: link_to "text", path
+      {
+        regex: new RegExp(
+          `(link_to\\s+)["']${escapeRegex(originalText)}["']`,
+          'g'
+        ),
+        replacement: `$1${tCall}`,
+      },
+      // Quoted strings in attributes like placeholder: "text"
+      {
+        regex: new RegExp(
+          `(\\w+:\\s*)["']${escapeRegex(originalText)}["']`,
+          'g'
+        ),
+        replacement: `$1${tCall}`,
+      },
+      // Plain quoted strings (fallback)
+      {
+        regex: new RegExp(`["']${escapeRegex(originalText)}["']`, 'g'),
+        replacement: tCall,
+      },
+    ]
+
+    for (const pattern of patterns) {
+      const newContent = modifiedContent.replace(
+        pattern.regex,
+        pattern.replacement
+      )
+      if (newContent !== modifiedContent) {
+        modifiedContent = newContent
+        break // Only apply first matching pattern
+      }
+    }
+  }
+
+  // Clean up any double equals (= = t('...') -> = t('...'))
+  modifiedContent = modifiedContent.replace(/=\s*=\s*t\(/g, '= t(')
+
+  return modifiedContent
+}
+
 async function persistJSON(filePath: string, data: any) {
   await fs.mkdir(path.dirname(filePath), { recursive: true })
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8')
@@ -105,13 +228,6 @@ async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
     }
   }
   throw new Error('LLM failed after maximum retries.')
-}
-
-async function writeTranslationYaml(yamlString: string, namespace: string) {
-  const safeName = namespace.replace(/[\/\\]/g, '-')
-  const outputPath = path.join(OUTPUT_DIR, `${safeName}.yml`)
-  await fs.mkdir(path.dirname(outputPath), { recursive: true })
-  await fs.writeFile(outputPath, yamlString, 'utf8')
 }
 
 function getLocalesOutputPath(inputPath: string): string {
@@ -192,6 +308,8 @@ if (require.main === module) {
     if (skipped.length)
       console.log(`${skipped.length} files too large and skipped.`)
 
+    const namespace = normalizePathForNamespace(inputPath || '.')
+
     for (let i = 0; i < queue.length; i++) {
       if (done.includes(i)) continue
 
@@ -208,17 +326,33 @@ if (require.main === module) {
 
       const prompt = buildPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
-      console.log('\n🔍 Raw LLM output:\n', result)
+      console.log('\n🔍 Raw LLM output:\n', result.slice(0, 500) + '...')
 
-      const parsed = parseLLMOutputHaml(result)
-      console.log('\n🧪 Parsed output:')
-      console.dir(parsed, { depth: null })
-      await writeTranslationJson(
-        parsed.translations,
-        inputPath || '.',
-        parsed.namespace || 'no-namespace'
-      )
-      await writeModifiedFiles(parsed.modifiedFiles)
+      const translations = parseLLMOutputHaml(result)
+      console.log('\n🧪 Parsed translations:')
+      console.dir(translations, { depth: null })
+
+      // Write the translations JSON
+      await writeTranslationJson(translations, inputPath || '.', namespace)
+
+      // Modify the HAML files to use i18n keys
+      const modifiedFiles: Record<string, string> = {}
+      for (const [filePath, originalContent] of Object.entries(batch)) {
+        const relativePath = path.relative(inputPath || '.', filePath)
+        const withoutExt = relativePath.replace(/\.html\.haml$/, '')
+        const parts = withoutExt.split(path.sep)
+        const camelParts = parts.map(toCamelCase)
+        const keyPrefix = camelParts.join('.')
+
+        const modifiedContent = replaceStringsWithI18nKeys(
+          originalContent,
+          translations,
+          keyPrefix
+        )
+        modifiedFiles[filePath] = modifiedContent
+      }
+
+      await writeModifiedFiles(modifiedFiles)
 
       // Track completed batch
       done.push(i)
@@ -226,9 +360,7 @@ if (require.main === module) {
 
       // Track processed files globally
       const existing = await loadJSON<string[]>(PROCESSED_PATH)
-      const updated = [
-        ...new Set([...existing, ...Object.keys(parsed.modifiedFiles)]),
-      ]
+      const updated = [...new Set([...existing, ...Object.keys(modifiedFiles)])]
       await persistJSON(PROCESSED_PATH, updated)
     }
   })()

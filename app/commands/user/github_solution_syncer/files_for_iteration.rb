@@ -7,6 +7,7 @@ class User::GithubSolutionSyncer
     def call
       files.map do |filename, content|
         next unless content.to_s.scrub("").present?
+        next unless content.to_s.force_encoding("UTF-8").valid_encoding?
 
         {
           path: "#{path}/#{filename}",

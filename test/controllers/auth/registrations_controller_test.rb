@@ -18,7 +18,8 @@ module Auth
           email: "user@exercism.org",
           password: "password",
           password_confirmation: "password"
-        }
+        },
+        "cf-turnstile-response": "valid_turnstile_response"
       }
     end
   end

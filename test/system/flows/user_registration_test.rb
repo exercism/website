@@ -33,6 +33,8 @@ module Flows
     end
 
     test "user sees captcha errors" do
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+
       expecting_errors do
         allow_captcha_request do
           stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
@@ -43,6 +45,9 @@ module Flows
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
+
+          sleep(2) # Allow captcha to load to enable signup button
+
           click_on "Sign Up"
 
           assert_text "Captcha verification failed. Please try again."

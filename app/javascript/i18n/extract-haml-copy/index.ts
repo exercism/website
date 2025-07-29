@@ -3,74 +3,35 @@ import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
 import { buildPrompt } from './buildPromptHaml'
 import { parseLLMOutput } from './parseLLMOutputHaml'
-import { normalizePathForNamespace } from '../extract-jsx-copy/normalizePathForNamespace'
 
-const HAML_EXT = '.html.haml'
 const MAX_CHARS = 16000
 const TMP_DIR = './tmp/i18n-extraction'
-const OUTPUT_DIR = './en-yaml'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
-const DONE_PATH = path.join(TMP_DIR, 'done.json')
-const SKIPPED_PATH = path.join(TMP_DIR, 'too-large.json')
-const PROCESSED_PATH = path.join(TMP_DIR, 'processed.json')
 
-export async function readHamlFilesInFolder(
-  folder: string,
-  processedPaths: Set<string>
-): Promise<Record<string, string>> {
+const HAML_EXT = '.html.haml'
+
+async function readHamlFiles(folder: string): Promise<Record<string, string>> {
   const result: Record<string, string> = {}
 
-  async function walk(current: string) {
-    const entries = await fs.readdir(current, { withFileTypes: true })
+  async function walk(dir: string) {
+    const entries = await fs.readdir(dir, { withFileTypes: true })
     for (const entry of entries) {
-      const fullPath = path.join(current, entry.name)
+      const fullPath = path.join(dir, entry.name)
       if (entry.isDirectory()) {
         await walk(fullPath)
-      } else if (
-        entry.isFile() &&
-        entry.name.endsWith(HAML_EXT) &&
-        !processedPaths.has(fullPath)
-      ) {
+      } else if (entry.isFile() && entry.name.endsWith(HAML_EXT)) {
         const content = await fs.readFile(fullPath, 'utf8')
-        result[fullPath] = content
+        if (content.length <= MAX_CHARS) {
+          result[fullPath] = content
+        } else {
+          console.warn(`Skipped oversized file: ${fullPath}`)
+        }
       }
     }
   }
 
   await walk(folder)
   return result
-}
-
-export function groupByCharLimit(
-  files: Record<string, string>,
-  maxChars: number = MAX_CHARS
-): Record<string, string>[] {
-  const batches: Record<string, string>[] = []
-  let currentBatch: Record<string, string> = {}
-  let currentSize = 0
-
-  for (const [filePath, content] of Object.entries(files)) {
-    const contentLength = content.length
-
-    if (contentLength > maxChars) {
-      continue // will be handled elsewhere
-    }
-
-    if (currentSize + contentLength > maxChars) {
-      batches.push(currentBatch)
-      currentBatch = {}
-      currentSize = 0
-    }
-
-    currentBatch[filePath] = content
-    currentSize += contentLength
-  }
-
-  if (Object.keys(currentBatch).length > 0) {
-    batches.push(currentBatch)
-  }
-
-  return batches
 }
 
 async function persistJSON(filePath: string, data: any) {
@@ -87,8 +48,9 @@ async function loadJSON<T>(filePath: string): Promise<T> {
   }
 }
 
-async function resetAllQueues() {
+async function resetQueue() {
   await fs.rm(TMP_DIR, { recursive: true, force: true })
+  console.log('Reset: cleared queue and tmp dir.')
 }
 
 async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
@@ -100,33 +62,12 @@ async function runLLMWithRetry(prompt: string, retries = 3): Promise<string> {
       if (err.message?.includes('503') || err.message?.includes('overloaded')) {
         console.warn(`Gemini overloaded. Retry ${i + 1}/${retries}...`)
         await new Promise((res) => setTimeout(res, 2000 * (i + 1)))
-        continue
+      } else {
+        throw err
       }
-      throw err
     }
   }
   throw new Error('LLM failed after maximum retries.')
-}
-
-function getLocalesOutputPath(inputPath: string): string {
-  const absInput = path.resolve(inputPath)
-  const absRoot = path.resolve('../../views')
-  if (!absInput.startsWith(absRoot)) {
-    throw new Error('Input path must be under ../../views')
-  }
-  const relative = path.relative(absRoot, absInput)
-  return path.join('config/locales/views', relative)
-}
-
-async function writeTranslationJson(
-  translations: Record<string, string>,
-  inputPath: string,
-  namespace: string
-) {
-  const folderPath = getLocalesOutputPath(inputPath)
-  const outputPath = path.join(folderPath, `${namespace}.json`)
-  await fs.mkdir(path.dirname(outputPath), { recursive: true })
-  await fs.writeFile(outputPath, JSON.stringify(translations, null, 2), 'utf8')
 }
 
 async function writeModifiedFiles(files: Record<string, string>) {
@@ -135,7 +76,6 @@ async function writeModifiedFiles(files: Record<string, string>) {
   }
 }
 
-// CLI runner
 if (require.main === module) {
   const args = process.argv.slice(2)
   const inputPath = args.find((a) => !a.startsWith('--'))
@@ -148,48 +88,31 @@ if (require.main === module) {
   }
 
   ;(async () => {
-    if (reset) {
-      await resetAllQueues()
-      console.log('Cleared previous queue state.')
-    }
+    if (reset) await resetQueue()
 
-    let queue: Record<string, string>[] = []
-    let done: number[] = []
-    let skipped: string[] = []
-    let processedPaths: string[] = []
+    let queue: Record<string, string>[]
+    const debugDir = path.join(TMP_DIR, 'llm-debug')
+    await fs.mkdir(debugDir, { recursive: true })
 
     if (resume) {
       queue = await loadJSON(QUEUE_PATH)
-      done = await loadJSON(DONE_PATH)
-      skipped = await loadJSON(SKIPPED_PATH)
-      processedPaths = await loadJSON(PROCESSED_PATH)
+      console.log('Resumed from existing queue.')
     } else {
-      processedPaths = await loadJSON(PROCESSED_PATH)
-      const processedSet = new Set(processedPaths)
-      const files = await readHamlFilesInFolder(inputPath!, processedSet)
-
-      skipped = Object.entries(files)
-        .filter(([_, content]) => content.length > MAX_CHARS)
-        .map(([path]) => path)
-
-      queue = groupByCharLimit(files)
-      done = []
-
+      const files = await readHamlFiles(inputPath!)
+      queue = groupByCharLimit(files, MAX_CHARS)
       await persistJSON(QUEUE_PATH, queue)
-      await persistJSON(DONE_PATH, done)
-      await persistJSON(SKIPPED_PATH, skipped)
+      console.log(`Created ${queue.length} batches.`)
     }
 
-    console.log(
-      `Queue has ${queue.length} batches. ${done.length} already completed.`
-    )
-    if (skipped.length)
-      console.log(`${skipped.length} files too large and skipped.`)
-
-    const namespace = normalizePathForNamespace(inputPath || '.')
-
     for (let i = 0; i < queue.length; i++) {
-      if (done.includes(i)) continue
+      const debugPath = path.join(debugDir, `batch-${i + 1}.txt`)
+      try {
+        await fs.access(debugPath)
+        console.log(`⏭ Batch ${i + 1} already processed.`)
+        continue
+      } catch {
+        // continue to process
+      }
 
       const batch = queue[i]
       const totalChars = Object.values(batch).reduce(
@@ -204,31 +127,42 @@ if (require.main === module) {
 
       const prompt = buildPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
-      console.log('\nRaw LLM output:\n', result.slice(0, 500) + '...')
 
-      for (const filePath of Object.keys(batch)) {
-        const relativePath = path.relative(inputPath || '.', filePath)
-        const debugPath = path.join(TMP_DIR, 'llm-debug', `${relativePath}.txt`)
-        await fs.mkdir(path.dirname(debugPath), { recursive: true })
-        await fs.writeFile(debugPath, result, 'utf8')
-      }
-
-      const translations = parseLLMOutput(result)
-      console.log('\n🧪 Parsed translations:')
+      await fs.writeFile(debugPath, result, 'utf8')
+      const translations = await parseLLMOutput(result)
+      console.log('Parsed translations:')
       console.dir(translations, { depth: null })
 
-      // await writeTranslationJson(translations, inputPath || '.', namespace)
-
-      const modifiedFiles = batch
-
-      await writeModifiedFiles(modifiedFiles)
-
-      done.push(i)
-      await persistJSON(DONE_PATH, done)
-
-      const existing = await loadJSON<string[]>(PROCESSED_PATH)
-      const updated = [...new Set([...existing, ...Object.keys(modifiedFiles)])]
-      await persistJSON(PROCESSED_PATH, updated)
+      await writeModifiedFiles(batch)
     }
+
+    console.log('\nAll batches completed.')
   })()
+}
+
+export function groupByCharLimit(
+  files: Record<string, string>,
+  maxChars: number
+): Record<string, string>[] {
+  const batches: Record<string, string>[] = []
+  let current: Record<string, string> = {}
+  let size = 0
+
+  for (const [filePath, content] of Object.entries(files)) {
+    const len = content.length
+    if (size + len > maxChars) {
+      batches.push(current)
+      current = {}
+      size = 0
+    }
+
+    current[filePath] = content
+    size += len
+  }
+
+  if (Object.keys(current).length) {
+    batches.push(current)
+  }
+
+  return batches
 }

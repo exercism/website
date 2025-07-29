@@ -35,11 +35,17 @@ export const useSubmissionsList = (
   >({
     mutationFn: async ({ files, testResults }) => {
       const testResultsJson = testResults ? JSON.stringify(testResults) : null
+      const nonReadonlyFiles = files.filter(
+        (file) => file.type !== 'readonly' && file.type !== 'legacy'
+      )
       appendFaux()
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
-        body: JSON.stringify({ files, test_results_json: testResultsJson }),
+        body: JSON.stringify({
+          files: nonReadonlyFiles,
+          test_results_json: testResultsJson,
+        }),
       })
       return fetch.then((response) =>
         typecheck<Submission>(response, 'submission')

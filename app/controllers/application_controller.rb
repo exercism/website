@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
   after_action :set_link_header
   after_action :updated_last_visited_on!
 
+  # It's worth having this in case it ever gets overriden
+  # by a gem, which can cause chaos with devise etc.
+  protect_from_forgery with: :exception, prepend: true
+
   def process_action(*args)
     super
   rescue ActionDispatch::Http::MimeNegotiation::InvalidType,
@@ -276,6 +280,7 @@ class ApplicationController < ActionController::Base
   end
 
   def skip_empty_session_cookie
+    return if devise_controller?
     return unless session.empty? && flash.empty?
 
     request.session_options[:skip] = true

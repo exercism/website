@@ -2,8 +2,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
 import { buildPrompt } from './buildPromptHaml'
-import { parseLLMOutputHaml } from './parseLLMOutputHaml'
-import { toCamelCase } from '../extract-jsx-copy/toCamelCase'
+import { parseLLMOutput } from './parseLLMOutputHaml'
 import { normalizePathForNamespace } from '../extract-jsx-copy/normalizePathForNamespace'
 
 const HAML_EXT = '.html.haml'
@@ -205,7 +204,7 @@ if (require.main === module) {
 
       const prompt = buildPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
-      console.log('\n🔍 Raw LLM output:\n', result.slice(0, 500) + '...')
+      console.log('\nRaw LLM output:\n', result.slice(0, 500) + '...')
 
       for (const filePath of Object.keys(batch)) {
         const relativePath = path.relative(inputPath || '.', filePath)
@@ -214,11 +213,11 @@ if (require.main === module) {
         await fs.writeFile(debugPath, result, 'utf8')
       }
 
-      const translations = parseLLMOutputHaml(result)
+      const translations = parseLLMOutput(result)
       console.log('\n🧪 Parsed translations:')
       console.dir(translations, { depth: null })
 
-      await writeTranslationJson(translations, inputPath || '.', namespace)
+      // await writeTranslationJson(translations, inputPath || '.', namespace)
 
       const modifiedFiles = batch
 

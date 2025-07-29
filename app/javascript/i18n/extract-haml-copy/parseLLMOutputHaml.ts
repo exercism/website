@@ -1,50 +1,66 @@
-export function parseLLMOutputHaml(output: string): Record<string, string> {
-  let jsonStr = output.trim()
+import fs from 'fs/promises'
+import path from 'path'
+import yaml from 'yaml'
 
-  // Remove any code block markers if present
-  if (jsonStr.startsWith('```')) {
-    const match = jsonStr.match(/```(?:json)?\s*([\s\S]+?)\s*```/)
-    if (match) {
-      jsonStr = match[1].trim()
-    } else {
-      // Try to find JSON object even if closing ``` is missing
-      jsonStr = jsonStr.replace(/^```(?:json)?\s*/, '').trim()
-    }
+export async function parseLLMOutput(llmOutput: string) {
+  // Step 1: Split into HAML content and YAML content
+  const enStart = llmOutput.indexOf('\nen:')
+  if (enStart === -1) {
+    throw new Error('Could not find `en:` root in the LLM output.')
   }
 
-  // Clean up common LLM output issues
-  jsonStr = jsonStr
-    .replace(/^(?:json\s*)?{/, '{') // Remove "json" prefix
-    .replace(/```$/, '') // Remove trailing ```
-    .replace(/\r\n/g, '\n') // Normalize line endings
-    .trim()
+  const hamlPart = llmOutput.slice(0, enStart).trim()
+  const yamlPart = llmOutput.slice(enStart).trim()
 
+  // Step 2: Clean and parse YAML
+  const yamlWithoutRoot = yamlPart
+    .split('\n')
+    .slice(1) // Remove the 'en:' line
+    .join('\n')
+
+  let parsedYaml: Record<string, any>
   try {
-    const parsed = JSON.parse(jsonStr)
-
-    // Validate that it's a flat object with string values
-    if (
-      typeof parsed !== 'object' ||
-      parsed === null ||
-      Array.isArray(parsed)
-    ) {
-      throw new Error('Expected a JSON object')
-    }
-
-    for (const [key, value] of Object.entries(parsed)) {
-      if (typeof key !== 'string' || typeof value !== 'string') {
-        throw new Error(`Invalid key-value pair: ${key} -> ${value}`)
-      }
-    }
-
-    return parsed as Record<string, string>
+    parsedYaml = yaml.parse(yamlWithoutRoot)
   } catch (err) {
-    console.error('Failed to parse LLM JSON output:', err)
-    console.error('RAW output (first 500 chars):\n', jsonStr.slice(0, 500))
-    throw new Error(
-      `JSON parsing failed: ${
-        err instanceof Error ? err.message : 'Unknown error'
-      }`
-    )
+    console.error('YAML parsing failed:')
+    console.error(yamlWithoutRoot.slice(0, 500))
+    throw new Error(err instanceof Error ? err.message : String(err))
+  }
+
+  if (!parsedYaml || typeof parsedYaml !== 'object') {
+    throw new Error('Parsed YAML was not an object.')
+  }
+
+  const firstKey = Object.keys(parsedYaml)[0]
+  const secondKeys = Object.keys(parsedYaml[firstKey])
+  const fileName = `${secondKeys.join('_')}.yml`
+  const yamlOutputPath = path.join(process.cwd(), 'config', 'locales', firstKey)
+
+  await fs.mkdir(yamlOutputPath, { recursive: true })
+
+  const yamlFullPath = path.join(yamlOutputPath, fileName)
+  const yamlDoc = new yaml.Document({ en: parsedYaml })
+  const yamlContent = yamlDoc.toString()
+
+  await fs.writeFile(yamlFullPath, yamlContent)
+  console.log(`Saved YAML: ${yamlFullPath}`)
+
+  // Step 3: Parse HAML sections
+  const sections = hamlPart.split(/# file: (.+)/g)
+  const fileMap = new Map<string, string>()
+
+  for (let i = 1; i < sections.length; i += 2) {
+    const filePath = sections[i].trim()
+    const content = sections[i + 1]?.trim()
+    if (!filePath || !content) continue
+    fileMap.set(filePath, content.replace(/^# end file\s*/gm, '').trim())
+  }
+
+  // Step 4: Write HAML files
+  for (const [relPath, content] of fileMap) {
+    const fullPath = path.join(process.cwd(), relPath)
+    await fs.mkdir(path.dirname(fullPath), { recursive: true })
+    await fs.writeFile(fullPath, content + '\n')
+    console.log(`Saved HAML: ${fullPath}`)
   }
 }

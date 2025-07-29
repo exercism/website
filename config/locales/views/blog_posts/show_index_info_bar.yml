@@ -1,0 +1,33 @@
+en:
+  blog_posts:
+    show:
+      share_bar:
+        useful_short_question: Find this post useful?
+        useful_short_prompt: Share it around!
+        useful_long_question: Find the post interesting or useful?
+        useful_long_prompt: Share it around and have others benefit too!
+      content:
+        useful_cta: Found it useful?
+      byline:
+        published_by: Published by
+      other_posts:
+        more_from_blog: More from our blog
+        community_posts: Other community posts
+        view_all: View all community blog posts
+    index:
+      header:
+        title: Community Blog
+        description_prefix: Videos and articles from the
+        description_link: Exercism community
+        socials:
+          github: GitHub
+          twitter: Twitter
+          youtube: YouTube
+      highlighted_post:
+        view_more: View More
+        read_more: Read more
+      other_posts:
+        title: More posts from the community
+    info_bar:
+      time_ago: "%{time_ago_value} ago"
+      video_label: Video

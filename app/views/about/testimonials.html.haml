@@ -1,5 +1,5 @@
-- content_for :meta_title, "Exercism's Testimonials".html_safe
-- content_for :meta_description, "Over 85,000 testimonials from students to our mentors".html_safe
+- content_for :meta_title, t('.meta_title').html_safe
+- content_for :meta_description, t('.meta_description').html_safe
 - content_for :canonical_url, testimonials_about_url
 - require_stylesheet "about"
 
@@ -8,8 +8,7 @@
 #impact-page.pt-32
   .lg-container.mb-64
     .c-shapes-impact.c-shapes-1
-      %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }
-        Over 85,000 students have left testimonials about their mentors.
+      %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }= t('.heading')
 
     .md-container
       %article.testimonials.pt-40

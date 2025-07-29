@@ -12,7 +12,7 @@ class AssembleFavorites
       solutions,
       serializer: SerializeCommunitySolutions,
       meta: {
-        unscoped_total: user.favorites.count
+        unscoped_total: user.solution_stars.count
       }
     )
   end

@@ -1,0 +1,16 @@
+- require_stylesheet "about"
+
+#page-partners
+  %nav.c-header-with-bg.mb-32
+    .lg-container.flex.mt-24.mb-24
+      .content{ class: "max-w-[820px]" }
+        = graphical_icon "favorites", css_class: 'w-[64px] h-[64px] mb-16'
+        %h1.text-h1.mb-12 Your Favorites
+        %p.text-p-large.mb-16
+          Star your favorite solutions as you use Exercism, then come back here to learn from them at any time.
+          What solutions can you find that
+          %strong.font-semibold impress, inspire or excite you?
+      = graphical_icon "favorites", css_class: "w-[220px] h-[220px] ml-auto hidden md:block", category: :graphics
+      .decorations
+
+= render ReactComponents::Student::FavoritesList.new(current_user, params)

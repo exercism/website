@@ -120,6 +120,7 @@ namespace :api do
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
     patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
 
+    resources :favorites, only: %i[index]
     resources :bug_reports, only: %i[create]
 
     resources :notifications, only: [:index] do

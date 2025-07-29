@@ -17,8 +17,6 @@ else
   Exercism.config.api_host = "https://exercism.org/api".freeze
 end
 
-Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"
-
 module Exercism
   # We'll store the request context for easy access from commands
   # without having to pass it all the way down from the controller

@@ -35,7 +35,7 @@ module Flows
     test "user sees captcha errors" do
       expecting_errors do
         allow_captcha_request do
-          stub_request(:post, "https://hcaptcha.com/siteverify").
+          stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
             to_return(body: { success: false }.to_json)
 
           visit new_user_registration_path
@@ -192,7 +192,7 @@ module Flows
 
     private
     def allow_captcha_request
-      stub_request(:post, "https://hcaptcha.com/siteverify").
+      stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
         to_return(body: { success: true }.to_json)
 
       yield

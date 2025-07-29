@@ -4,7 +4,7 @@ module Auth
   class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     test "bootstraps new users" do
       RestClient.unstub(:post)
-      stub_request(:post, "https://hcaptcha.com/siteverify").
+      stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
         to_return(body: { success: true }.to_json)
 
       User::Bootstrap.expects(:call).with do |user|

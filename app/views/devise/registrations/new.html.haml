@@ -23,22 +23,22 @@
       = form_for(resource, as: resource_name, url: registration_path(resource_name), 'data-turbo': false, html: { 'data-turbo': false }) do |f|
         .field
           = f.label :handle, "Username"
-          = f.text_field :handle, placeholder: 'Choose a unique username'
+          = f.text_field :handle, placeholder: 'Choose a unique username', required: true
         .field
           = f.label :email
-          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address"
+          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", required: true
         .field
           = f.label :password
-          = f.password_field :password, autocomplete: "new-password", placeholder: "Choose a password (min #{@minimum_password_length} chars)"
+          = f.password_field :password, autocomplete: "new-password", placeholder: "Choose a password (min #{@minimum_password_length} chars)", required: true
         .field
           = f.label :password_confirmation
-          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password"
+          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password", required: true
 
         .field
-          = f.label :bot_check, "Confirm you're not a bot"
+          .label Confirm you're not a bot
           = render ViewComponents::Captcha.new
 
-        = f.button "Sign Up", class: "btn-primary btn-l"
+        = f.button "Sign Up", class: "btn-primary btn-l", disabled: true
 
       = render "devise/shared/links"
 

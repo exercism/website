@@ -63,6 +63,9 @@ module Flows
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
+
+          sleep(2) # Allow captcha to load to enable signup button
+
           click_on "Sign Up"
 
           assert_text "Handle must have only letters, numbers, or hyphens"

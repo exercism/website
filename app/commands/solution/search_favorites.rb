@@ -23,7 +23,9 @@ class Solution::SearchFavorites
     filter_criteria!
     filter_track!
 
-    @favorites.page(page).per(per).map(&:solution).to_active_relation
+    solutions = @favorites.page(page).per(per).map(&:solution)
+
+    Kaminari.paginate_array(solutions, total_count: @favorites.count).page(page).per(per)
   end
 
   private

@@ -1,6 +1,6 @@
 @import "../styles";
 
-#page-perks {
+#page-favorites {
     nav {
         & .decorations {
             @apply flex-shrink-0;

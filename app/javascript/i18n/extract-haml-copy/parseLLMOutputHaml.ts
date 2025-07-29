@@ -34,7 +34,14 @@ export async function parseLLMOutput(llmOutput: string) {
   const firstKey = Object.keys(parsedYaml)[0]
   const secondKeys = Object.keys(parsedYaml[firstKey])
   const fileName = `${secondKeys.join('_')}.yml`
-  const yamlOutputPath = path.join(process.cwd(), 'config', 'locales', firstKey)
+  const yamlOutputPath = path.join(
+    process.cwd(),
+    '../../..',
+    'config',
+    'locales',
+    'views',
+    firstKey
+  )
 
   await fs.mkdir(yamlOutputPath, { recursive: true })
 

@@ -1,0 +1,117 @@
+- content_for :meta_title, t('.meta_title')
+- content_for :meta_description, t('.meta_description')
+- require_stylesheet "about"
+
+= render ViewComponents::AboutNav.new(:hiring)
+
+#page-hiring-job.bg-backgroundColorA.pb-16
+  %header.c-shapes
+    .md-container
+      = link_to hiring_about_path, class: "c-prominent-link" do
+        = graphical_icon "arrow-left"
+        = t('.back_to_job_listings')
+
+      .role
+        = graphical_icon "hiring-front-end-developer", category: 'graphics', css_class: 'graphic'
+        .information
+          %h1.text-h0.mb-12= t('.role_title')
+          .details
+            .remote-tag
+              = graphical_icon "stars"
+              = t('.remote_tag')
+            .salary= t('.salary_info')
+
+  %article
+    .sm-container
+      %p.text-p-2xlarge.mb-40= t('.introduction_text_html')
+
+      %h2.text-h2.mb-12= t('.summary_heading')
+      %p.text-p-xlarge.mb-16= t('.summary_paragraph_1', about_exercism_link: link_to(t('.about_exercism_link_text'), 'https://exercism.org/about', target: '_blank', rel: :noreferrer))
+      %p.text-p-xlarge.mb-16= t('.summary_paragraph_2')
+      %p.text-p-xlarge.mb-40= t('.summary_paragraph_3')
+
+      %h2.text-h2.mb-12= t('.responsibilities_heading')
+      %p.text-p-xlarge.mb-16= t('.responsibilities_intro')
+      %ul.text-p-xlarge.mb-16
+        %li= t('.responsibility_item_1')
+        %li= t('.responsibility_item_2')
+      %p.text-p-xlarge.mb-16= t('.responsibilities_first_year_intro')
+      %ul.text-p-xlarge.mb-20
+        %li= t('.first_year_item_1')
+        %li= t('.first_year_item_2')
+        %li= t('.first_year_item_3')
+        %li= t('.first_year_item_4')
+        %li= t('.first_year_item_5')
+        %li= t('.first_year_item_6', open_issues_link: link_to(t('.open_issues_link_text'), 'https://github.com/exercism/exercism/issues'))
+      %p.text-p-xlarge.mb-16= t('.tech_stack_info')
+      %p.text-p-xlarge.mb-40= t('.team_collaboration_info')
+
+      %h2.text-h2.mb-12= t('.right_for_you_heading')
+
+      %p.text-p-xlarge.mb-12= t('.right_for_you_paragraph_1')
+      %p.text-p-xlarge.mb-12= t('.right_for_you_paragraph_2')
+      %ul.text-p-xlarge.mb-16
+        %li= t('.fit_question_1')
+        %li= t('.fit_question_2')
+      %p.text-p-xlarge.mb-12= t('.fit_questions_conclusion')
+      %ul.text-p-xlarge.mb-16
+        %li= t('.work_principle_1')
+        %li= t('.work_principle_2')
+        %li= t('.work_principle_3')
+        %li= t('.work_principle_4')
+        %li= t('.work_principle_5')
+
+      %p.text-p-xlarge.mb-12= t('.values_commitment')
+      %p.text-p-xlarge.mb-40= t('.passion_for_exercism')
+
+      %h2.text-h2.mb-12= t('.other_requirements_heading')
+      %p.text-p-xlarge.mb-16= t('.remote_team_intro')
+
+      %p.text-p-xlarge.mb-16= t('.extra_requirements_intro')
+
+      %ul.text-p-xlarge.mb-16
+        %li= t('.requirement_item_1')
+        %li= t('.requirement_item_2')
+        %li= t('.requirement_item_3', example_link: link_to(t('.example_link_text'), 'https://github.com/exercism/elixir/blob/main/exercises/concept/lasagna/.docs/introduction.md', target: '_blank', rel: :noreferrer))
+        %li= t('.requirement_item_4')
+
+      %p.text-p-xlarge.mb-40
+        %em= t('.underrepresented_groups_note_html')
+
+      %h2.text-h2.mb-12= t('.benefits_heading')
+      %p.text-p-xlarge.mb-16= t('.benefits_intro')
+
+      %ul.text-p-xlarge.mb-16
+        %li= t('.benefit_item_1')
+        %li= t('.benefit_item_2')
+        %li= t('.benefit_item_3')
+        %li= t('.benefit_item_4')
+        %li= t('.benefit_item_5')
+        %li= t('.benefit_item_6')
+
+      %p.text-p-xlarge.mb-40= t('.working_hours_note')
+
+      %h2.text-h2.mb-12= t('.how_to_apply_heading')
+      %p.text-p-xlarge.mb-16= t('.apply_intro_1')
+      %p.text-p-xlarge.mb-16= t('.apply_challenge_info', challenge_details_link: link_to(t('.challenge_details_link_text'), 'https://github.com/exercism/hiring-frontend-developer'))
+      %p.text-p-xlarge.mb-16
+        = t('.apply_email_intro')
+        = link_to "jobs@exercism.org", "mailto:jobs@exercism.org"
+        = t('.apply_email_outro') # Adding this to split the string for interpolation, though it was empty
+
+      %ul.text-p-xlarge.mb-24
+        %li= t('.email_subject_item')
+        %li= t('.email_content_item_1')
+        %li= t('.email_content_item_2', loom_link: link_to(t('.loom_link_text'), 'https://www.loom.com'))
+        %li= t('.email_content_item_3')
+        %li= t('.email_content_item_4')
+
+      %p.text-p-xlarge.mb-16= t('.application_process_intro')
+
+      %ul.text-p-xlarge.mb-16
+        %li= t('.process_step_1')
+        %li= t('.process_step_2')
+        %li= t('.process_step_3')
+        %li= t('.process_step_4')
+        %li= t('.process_step_5')
+        %li= t('.process_step_6')

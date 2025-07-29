@@ -8,13 +8,20 @@ class Solution::SearchFavorites
     DEFAULT_PER
   end
 
-  def initialize(user, page: nil, per: nil, order: nil, criteria: nil, track_slug: nil)
+  def initialize(user, page: nil, per: nil, criteria: nil, track_slug: nil)
     @user = user
-    @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
-    @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
-    @order = order&.to_sym
-    @criteria = criteria
-    @track_slug = track_slug
+
+    if user.insider?
+      @criteria = criteria
+      @track_slug = track_slug
+      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
+      @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
+    else
+      @criteria = nil
+      @track_slug = nil
+      @page = 1
+      @per = 10
+    end
   end
 
   def call
@@ -29,7 +36,7 @@ class Solution::SearchFavorites
   end
 
   private
-  attr_reader :user, :per, :page, :order, :criteria, :track_slug, :solutions
+  attr_reader :user, :per, :page, :criteria, :track_slug, :solutions
 
   def filter_track!
     return unless track

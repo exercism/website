@@ -2,6 +2,7 @@
 - content_for :meta_description, "See how #{@user.handle} has contributed to Exercism"
 - content_for :canonical_url, contributions_profile_url(@user, order: params[:order].presence, page: params[:page].to_i > 1 ? params[:page] : nil)
 - require_stylesheet "profile"
+- require_stylesheet "track"
 
 #page-profile-contributions
   = render ViewComponents::Profile::Header.new(@user, @profile, :contributions)

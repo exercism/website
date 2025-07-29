@@ -10,21 +10,21 @@
           Star your favorite solutions as you use Exercism, then come back here to learn from them at any time.
           What solutions can you find that
           %strong.font-semibold impress, inspire or excite you?
-        - if !current_user.insider?
+        - if current_user.insider?
           %p.text-p-large.mb-16
             Favorites is one of the benefits of your
             = link_to "Exercism Insiders", insiders_path, class: "!font-semibold"
-            membership.
+            membership. Thanks for supporting Exercism!
         - else
           .border-1.border-purple.bg-lightPurpleDarkened.rounded-8.p-16.mb-16.flex.items-center.gap-16
             = graphical_icon "insiders-lock", css_class: 'w-[48px] h-[48px]'
             .flex.flex-col.gap-4.text-p-large
               %p
-                Favourites is an add-on feature for
+                Unlock the full Favorites functionality with
                 = succeed(".") do
                   = link_to "Exercism Insiders", insiders_path, class: "!font-semibold"
                 = link_to "Upgrade your account", insiders_path, class: "!font-semibold"
-                to get access to this and lots more fun &amp; useful features!
+                to store more than 10 favourites and add searching and filtering!
 
       = graphical_icon "favorites", css_class: "w-[220px] h-[220px] ml-auto hidden md:block", category: :graphics
       .decorations

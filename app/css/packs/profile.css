@@ -10,7 +10,3 @@
 @import "../pages/profile-solutions";
 @import "../pages/profile-contributions";
 @import "../pages/profile-testimonials";
-
-/* Exercise */
-@import "../components/widgets/exercise";
-@import "../components/difficulty-tag";

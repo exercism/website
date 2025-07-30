@@ -22,10 +22,6 @@ class Mentoring::RequestsController < ApplicationController
     end
   end
 
-  def unavailable
-    render status: :not_found
-  end
-
   private
   def use_mentor_request
     @mentor_request = Mentor::Request.find_by!(uuid: params[:uuid])

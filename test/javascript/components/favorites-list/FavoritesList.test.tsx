@@ -184,7 +184,7 @@ test('can change search input value', () => {
 
   render(<FavoritesList tracks={tracks} request={initialRequest} />)
 
-  const input = screen.getByPlaceholderText(/search by code/i)
+  const input = screen.getByPlaceholderText(/search by author name/i)
   fireEvent.change(input, { target: { value: 'lasagna' } })
   expect(input).toHaveValue('lasagna')
 })

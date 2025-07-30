@@ -98,7 +98,7 @@ export default function FavoritesList({
           className="--search"
           onChange={(e) => setCriteria(e.target.value)}
           value={criteria}
-          placeholder="Search by code (min 3 chars)"
+          placeholder="Search by author name"
         />
         <LayoutSelect layout={layout} setLayout={setLayout} />
       </div>

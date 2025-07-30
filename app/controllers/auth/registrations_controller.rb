@@ -33,6 +33,7 @@ module Auth
         secret: Exercism.secrets.turnstile_secret,
         response: params['cf-turnstile-response']
       }
+      Rails.logger.error "Turnstile payload: #{payload.to_json}"
 
       response = RestClient.post(url, payload.to_json, { content_type: :json, accept: :json })
       outcome = JSON.parse(response.body)

@@ -53,7 +53,7 @@ module Flows
 
           click_on "Sign Up", class: "test-sign-up-btn", wait: 5
 
-          assert_text "Captcha verification failed. Please try again."
+          assert_text "CAPTCHA verification failed. Please try again."
         end
       end
     end

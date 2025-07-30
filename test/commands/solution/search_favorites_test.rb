@@ -2,7 +2,7 @@ require "test_helper"
 
 class Solution::SearchFavoritesTest < ActiveSupport::TestCase
   test "no options returns all starred" do
-    user = create :user
+    user = create :user, :insider
     solution_1 = create :practice_solution
     solution_2 = create :practice_solution
 
@@ -15,7 +15,7 @@ class Solution::SearchFavoritesTest < ActiveSupport::TestCase
   end
 
   test "criteria: search for user handle" do
-    user = create :user
+    user = create :user, :insider
     user_1 = create :user, handle: 'amy'
     user_2 = create :user, handle: 'chris'
     solution_1 = create :practice_solution, user: user_1
@@ -30,7 +30,7 @@ class Solution::SearchFavoritesTest < ActiveSupport::TestCase
   end
 
   test "track" do
-    user = create :user
+    user = create :user, :insider
     track_1 = create :track, slug: "ruby"
     track_2 = create :track, slug: "javascript"
     exercise_1 = create :practice_exercise, track: track_1
@@ -48,7 +48,7 @@ class Solution::SearchFavoritesTest < ActiveSupport::TestCase
   end
 
   test "pagination" do
-    user = create :user
+    user = create :user, :insider
     solution_1 = create :practice_solution
     solution_2 = create :practice_solution
     create :solution_star, user: user, solution: solution_1
@@ -56,5 +56,16 @@ class Solution::SearchFavoritesTest < ActiveSupport::TestCase
 
     assert_equal [solution_1], Solution::SearchFavorites.(user, page: 1, per: 1)
     assert_equal [solution_2], Solution::SearchFavorites.(user, page: 2, per: 1)
+  end
+
+  test "pagination isn't allowed for non-insiders" do
+    user = create :user
+    solution_1 = create :practice_solution
+    solution_2 = create :practice_solution
+    create :solution_star, user: user, solution: solution_1
+    create :solution_star, user: user, solution: solution_2
+
+    assert_equal [solution_1, solution_2], Solution::SearchFavorites.(user, page: 1, per: 1)
+    assert_equal [solution_1, solution_2], Solution::SearchFavorites.(user, page: 2, per: 1)
   end
 end

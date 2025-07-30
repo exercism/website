@@ -1,6 +1,7 @@
 - require_stylesheet "about"
+- require_stylesheet "track"
 
-#page-partners
+#page-favorites
   %nav.c-header-with-bg.mb-32
     .lg-container.flex.mt-24.mb-24
       .content{ class: "max-w-[820px]" }
@@ -29,4 +30,4 @@
       = graphical_icon "favorites", css_class: "w-[220px] h-[220px] ml-auto hidden md:block", category: :graphics
       .decorations
 
-= render ReactComponents::Student::FavoritesList.new(current_user, params)
+  = render ReactComponents::Student::FavoritesList.new(current_user, params)

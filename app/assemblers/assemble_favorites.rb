@@ -23,7 +23,7 @@ class AssembleFavorites
       user,
       criteria: params[:criteria],
       track_slug: params[:track_slug],
-      order: params[:order],
+      # order: params[:order],
       page: params[:page]
     )
   end

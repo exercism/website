@@ -18,7 +18,7 @@ module Flows
           sign_in!
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
 
-          within(".star-button") { assert_text "3" }
+          within(".star-button") { assert_text "Favorite" }
         end
       end
 
@@ -34,7 +34,7 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           find(".star-button").click
 
-          within(".star-button") { assert_text "1" }
+          within(".star-button") { assert_text "Favorited" }
         end
       end
 
@@ -52,7 +52,7 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           find(".star-button").click
 
-          within(".star-button") { assert_text "0" }
+          within(".star-button") { assert_text "Favorite" }
         end
       end
     end

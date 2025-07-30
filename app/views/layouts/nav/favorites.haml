@@ -8,7 +8,7 @@
     %p.text-p-base.mb-12 You haven't added any favorites yet. Start exploring community solutions and add some interesting ones to your favorites!
     = link_to "Get started", favorites_path, class: 'btn-primary btn-s mb-6'
   - else
-    .flex.gap.8.mb-12
+    .flex.flex-col.gap-8.mb-12
       - current_user.starred_solutions.limit(3).includes(exercise: :track).each do |solution|
         = link_to Exercism::Routes.published_solution_path(solution), class: 'c-community-solution flex-grow !py-12' do
           %header.--header{ class: "!mb-0" }

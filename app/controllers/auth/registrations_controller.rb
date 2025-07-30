@@ -47,8 +47,9 @@ module Auth
       Rails.logger.error "Turnstile error: #{e.class} - #{e.message}"
       Rails.logger.error "Turnstile Response body: #{e.response.body}" if e.respond_to?(:response) && e.response&.body
 
-      set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
-      redirect_to new_user_registration_path
+      flash.now[:alert] = "CAPTCHA verification failed. Please try again."
+      self.resource = build_resource(sign_up_params)
+      render :new, status: :unprocessable_entity
     end
   end
 end

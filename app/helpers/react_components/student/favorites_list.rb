@@ -21,7 +21,7 @@ module ReactComponents
 
       def tracks_data
         # This is 2 OOM faster than using select or a join
-        counts = Exercise.group('exercises.track_id').where(id: user.solutions.published.pluck(:exercise_id)).count
+        counts = Exercise.group('exercises.track_id').where(id: user.starred_solutions.pluck(:exercise_id)).count
         tracks = ::Track.where(id: counts.keys).order(:title)
 
         [

@@ -8,7 +8,7 @@ class User
     initialize_with :user
 
     def call
-      return unless course_enrollments.any?
+      return unless course_enrollments.paid.any?
 
       new_sub = add_subscriber!
       add_to_form! if new_sub

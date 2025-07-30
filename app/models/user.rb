@@ -107,6 +107,7 @@ class User < ApplicationRecord
 
   has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
   has_many :solution_stars, dependent: :destroy, class_name: "Solution::Star"
+  has_many :starred_solutions, through: :solution_stars, source: :solution
   has_many :solution_tags, dependent: :destroy, class_name: "Solution::Tag"
 
   has_many :viewed_community_solutions, class_name: "UserTrack::ViewedCommunitySolution", dependent: :destroy

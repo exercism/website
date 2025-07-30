@@ -78,13 +78,13 @@
                     }
                 }
                 & .star-button {
-                    @apply ml-24;
-
+                    border: 2px solid #daa425;
                     & span {
                         min-width: 10px;
                     }
 
                     &.--starred {
+                        background: #fbf6e9;
                         & .c-icon {
                             filter: none;
                         }

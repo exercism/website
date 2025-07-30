@@ -1,6 +1,7 @@
 @import "../styles";
 
-#page-community-solutions-index {
+#page-community-solutions-index,
+#page-favorites {
     h2 {
         @apply text-h3 mb-20;
     }

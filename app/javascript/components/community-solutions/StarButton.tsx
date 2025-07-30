@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { Icon } from '@/components/common'
+import { GraphicalIcon, Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { typecheck } from '@/utils'
@@ -55,7 +55,7 @@ export default function StarButton({
     return (
       <div className="btn-enhanced btn-s star-button --unstarred">
         <Icon icon="star" alt="Number of stars" />
-        <span>{state.numStars}</span>
+        <span>Favorite</span>
       </div>
     )
   }
@@ -70,11 +70,8 @@ export default function StarButton({
         onClick={() => mutation()}
         status={status}
       >
-        <Icon
-          icon={state.isStarred ? 'starred' : 'star'}
-          alt="Number of stars"
-        />
-        <span>{state.numStars}</span>
+        <GraphicalIcon icon={state.isStarred ? 'starred' : 'star'} />
+        <span>{state.isStarred ? 'Favorited' : 'Favorite'}</span>
       </FormButton>
       {status === 'error' ? (
         <ErrorBoundary>

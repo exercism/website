@@ -53,15 +53,9 @@
             in
             = link_to @track.title, @track
 
-      .buttons.lg:ml-auto.mt-24.lg:mt-0
-        = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
-
+      .buttons.lg:ml-auto.mt-24.lg:mt-0.gap-8
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
-
-        - if @solution.allow_comments?
-          = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
-            = icon "comment", "Number of comment"
-            %span= @solution.num_comments
+        = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
 
   %article.lg-container.container.flex.flex-col.lg:flex-row.items-stretch
     .lhs.mb-40.lg:mb-0.lg:w-arbitary

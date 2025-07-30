@@ -216,6 +216,8 @@ const UnpublishSolutionModalButton = lazy(
     )
 )
 
+const FavoritesList = lazy(() => import('@/components/favorites-list'))
+
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
@@ -229,6 +231,7 @@ import {
   GithubSyncerWidgetProps,
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
+import { FavoritesListProps } from '@/components/favorites-list'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -256,6 +259,12 @@ initReact({
         {...camelizeKeysAs<EditorProps>(data)}
         localTestRunner={data.local_test_runner}
       />
+    </Suspense>
+  ),
+
+  'favorites-list': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <FavoritesList {...camelizeKeysAs<FavoritesListProps>(data)} />
     </Suspense>
   ),
 

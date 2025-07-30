@@ -38,9 +38,11 @@ module Auth
       outcome = JSON.parse(response.body)
 
       raise unless outcome['success']
-    rescue StandardError
-      set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
-      redirect_to new_user_registration_path
+    rescue StandardError => e
+      Rails.logger.error "Turnstile verification failed: #{e.message}"
+
+      # set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
+      # redirect_to new_user_registration_path
     end
   end
 end

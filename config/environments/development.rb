@@ -80,7 +80,7 @@ Rails.application.configure do
   ENV['EXERCISM_DOCKER'] ? config.file_watcher = ActiveSupport::FileUpdateChecker : config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # TODO: Change to exercism on launch
-  config.session_store :cookie_store, key: "_exercism", domain: :all
+  config.session_store :cookie_store, key: "_exercism"
 
   config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']

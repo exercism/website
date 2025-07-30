@@ -37,7 +37,12 @@ module Auth
       response = RestClient.post(url, payload.to_json, { content_type: :json, accept: :json })
       outcome = JSON.parse(response.body)
 
-      raise unless outcome['success']
+      # If we've got a success, then we're done here.
+      return if outcome['success']
+
+      Rails.logger.error "Turnstile verification not successful"
+      Rails.logger.error outcome
+      raise
     rescue StandardError => e
       Rails.logger.error "Turnstile verification failed: #{e.message}"
 

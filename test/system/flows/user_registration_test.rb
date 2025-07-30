@@ -10,6 +10,9 @@ module Flows
     end
 
     test "user registers successfully" do
+      # Always pass the captcha verification
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+
       User::Notification::CreateEmailOnly.expects(:call).never
 
       allow_captcha_request do
@@ -18,7 +21,8 @@ module Flows
         fill_in "Username", with: "user22"
         fill_in "Password", with: "password"
         fill_in "Password confirmation", with: "password"
-        click_on "Sign Up"
+
+        click_on "Sign Up", class: "test-sign-up-btn", wait: 5
 
         assert_text "Check your email"
       end
@@ -33,9 +37,12 @@ module Flows
     end
 
     test "user sees captcha errors" do
+      # Always pass the captcha verification
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+
       expecting_errors do
         allow_captcha_request do
-          stub_request(:post, "https://hcaptcha.com/siteverify").
+          stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
             to_return(body: { success: false }.to_json)
 
           visit new_user_registration_path
@@ -43,7 +50,8 @@ module Flows
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
-          click_on "Sign Up"
+
+          click_on "Sign Up", class: "test-sign-up-btn", wait: 5
 
           assert_text "Captcha verification failed. Please try again."
         end
@@ -51,6 +59,9 @@ module Flows
     end
 
     test "user sees registration errors" do
+      # Always pass the captcha verification
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+
       expecting_errors do
         allow_captcha_request do
           visit new_user_registration_path
@@ -58,7 +69,8 @@ module Flows
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
-          click_on "Sign Up"
+
+          click_on "Sign Up", class: "test-sign-up-btn", wait: 5
 
           assert_text "Handle must have only letters, numbers, or hyphens"
         end
@@ -192,7 +204,7 @@ module Flows
 
     private
     def allow_captcha_request
-      stub_request(:post, "https://hcaptcha.com/siteverify").
+      stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
         to_return(body: { success: true }.to_json)
 
       yield

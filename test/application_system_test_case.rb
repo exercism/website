@@ -45,7 +45,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     errors.to_a.each do |error|
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
-      next if error.to_s.include?("hcaptcha")
       next if error.to_s.include?("js.stripe.com")
       next if error.to_s.include?("https://test.exercism.org/rails/active_storage/representations/redirect")
 

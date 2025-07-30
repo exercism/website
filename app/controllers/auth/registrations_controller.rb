@@ -1,10 +1,8 @@
-require "hcaptcha"
-
 module Auth
   class RegistrationsController < Devise::RegistrationsController
     skip_before_action :authenticate_user!
     before_action :configure_permitted_parameters
-    before_action :verify_captcha!, only: [:create]
+    before_action :verify_turnstile!, only: [:create]
 
     def create
       super do |user|
@@ -26,14 +24,22 @@ module Auth
     end
 
     private
-    def verify_captcha!
-      return true if Rails.env.development?
+    def verify_turnstile!
+      raise unless params['cf-turnstile-response'].present?
 
-      verification = HCaptcha.verify(params["h-captcha-response"])
-      return if verification.succeeded?
+      # Validate the token using Cloudflare Turnstile API
+      url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'.freeze
+      payload = {
+        secret: Exercism.secrets.turnstile_secret,
+        response: params['cf-turnstile-response']
+      }
 
+      response = RestClient.post(url, payload.to_json, { content_type: :json, accept: :json })
+      outcome = JSON.parse(response.body)
+
+      raise unless outcome['success']
+    rescue StandardError
       set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
-
       redirect_to new_user_registration_path
     end
   end

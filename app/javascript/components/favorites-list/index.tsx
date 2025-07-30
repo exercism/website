@@ -34,6 +34,7 @@ export default function FavoritesList({
     setPage,
     setQuery,
   } = useList(initialRequest)
+
   const {
     status,
     data: resolvedData,
@@ -47,7 +48,7 @@ export default function FavoritesList({
     request
   )
 
-  const [criteria, setCriteria] = useState(request.query?.criteria)
+  const [criteria, setCriteria] = useState(request.query?.criteria ?? '')
   const [layout, setLayout] = useLocalStorage<`${'grid' | 'lines'}-layout`>(
     'community-solutions-layout',
     'grid-layout'
@@ -66,20 +67,16 @@ export default function FavoritesList({
       setRequestCriteria(criteria)
     }, 200)
 
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [setRequestCriteria, criteria])
+    return () => clearTimeout(handler)
+  }, [criteria, setRequestCriteria])
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
   if (
-    typeof request.options.initialData === 'object' &&
-    request.options.initialData !== null &&
-    'meta' in request.options.initialData &&
-    typeof (request.options.initialData as any).meta?.unscopedTotal ===
-      'number' &&
-    (request.options.initialData as any).meta.unscopedTotal === 0
+    resolvedData?.meta?.unscopedTotal === 0 &&
+    Array.isArray(resolvedData.results) &&
+    resolvedData.results.length === 0 &&
+    !isFetching
   ) {
     return <NoFavoritesYet />
   }
@@ -90,17 +87,17 @@ export default function FavoritesList({
       data-scroll-top-anchor="favorite-community-solutions-list"
     >
       <div className="c-search-bar lg:flex-row flex-col gap-24 mb-16">
-        <TrackDropdown
-          tracks={tracks}
-          value={request.query.trackSlug || ''}
-          setValue={setTrack}
-        />
+        {tracks.length > 0 && (
+          <TrackDropdown
+            tracks={tracks}
+            value={request.query?.trackSlug || ''}
+            setValue={setTrack}
+          />
+        )}
         <input
           className="--search"
-          onChange={(e) => {
-            setCriteria(e.target.value)
-          }}
-          value={criteria || ''}
+          onChange={(e) => setCriteria(e.target.value)}
+          value={criteria}
           placeholder="Search by code (min 3 chars)"
         />
         <LayoutSelect layout={layout} setLayout={setLayout} />
@@ -111,31 +108,30 @@ export default function FavoritesList({
           error={error}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData &&
-          resolvedData.results &&
+          {Array.isArray(resolvedData?.results) &&
           resolvedData.results.length > 0 ? (
-            <React.Fragment>
+            <>
               <div className={assembleClassNames('solutions', layout)}>
-                {resolvedData.results.map((solution) => {
-                  return (
-                    <CommunitySolution
-                      key={solution.uuid}
-                      solution={solution}
-                      context="exercise"
-                    />
-                  )
-                })}
+                {resolvedData.results.map((solution) => (
+                  <CommunitySolution
+                    key={solution.uuid}
+                    solution={solution}
+                    context="exercise"
+                  />
+                ))}
               </div>
-              <Pagination
-                disabled={resolvedData === undefined}
-                current={request.query.page || 1}
-                total={resolvedData.meta.totalPages}
-                setPage={(p) => {
-                  setPage(p)
-                  scrollToTop('favorite-community-solutions-list', 32)
-                }}
-              />
-            </React.Fragment>
+              {typeof resolvedData.meta?.totalPages === 'number' && (
+                <Pagination
+                  disabled={resolvedData === undefined}
+                  current={request.query?.page || 1}
+                  total={resolvedData.meta.totalPages}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('favorite-community-solutions-list', 32)
+                  }}
+                />
+              )}
+            </>
           ) : (
             <NoResults />
           )}

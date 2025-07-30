@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
 
   def cache_public_action!
     return if devise_controller?
-    return if Rails.env.test?
+    return if Rails.env.test? || Rails.env.development?
     return if user_signed_in?
     return if cookies.signed[:_exercism_user_id].present?
 
@@ -153,6 +153,7 @@ class ApplicationController < ActionController::Base
 
   def stale?(etag:)
     return true if devise_controller?
+    return true if Rails.env.development? || Rails.env.test?
 
     etag = Cache::GenerateEtag.(etag, current_user)
 

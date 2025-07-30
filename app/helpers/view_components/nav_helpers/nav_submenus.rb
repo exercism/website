@@ -29,6 +29,13 @@ module ViewComponents
           path: Exercism::Routes.journey_path,
           icon: 'nav-journey',
           view: :journey
+        },
+        {
+          title: "Your Favorites",
+          description: "Revisit your favorite solutions",
+          path: Exercism::Routes.favorites_path,
+          icon: 'nav-favorites',
+          view: :favorites
         }
       ].freeze
 

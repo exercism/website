@@ -38,7 +38,10 @@ module Auth
       outcome = JSON.parse(response.body)
 
       # If we've got a success, then we're done here.
-      return if outcome['success']
+      if outcome['success']
+        Rails.logger.error "Turnstile verification successful"
+        return
+      end
 
       Rails.logger.error "Turnstile verification not successful"
       Rails.logger.error outcome

@@ -137,9 +137,6 @@
         %h2
           Other solutions to
           = @exercise.title
-          .light in
-          = track_icon @track
-          .track-title= @track.title
 
         - @other_solutions.each do |solution|
           = render ReactComponents::Common::CommunitySolution.new(solution, context: :exercise)

@@ -44,8 +44,14 @@ module Auth
       end
 
       Rails.logger.error "Turnstile verification not successful"
-      Rails.logger.error outcome
+      Rails.logger.error "Turnstile: #{outcome}"
       raise
+    rescue RestClient::BadRequest => e
+      Rails.logger.error "Turnstile Bad request error (400): #{e.response.code}"
+      Rails.logger.error "Turnstile Response body: #{e.response.body}"
+    rescue RestClient::ExceptionWithResponse => e
+      Rails.logger.error "Turnstile HTTP error: #{e.response.code}"
+      Rails.logger.error "Turnstile Response body: #{e.response.body}"
     rescue StandardError => e
       Rails.logger.error "Turnstile verification failed: #{e.message}"
 

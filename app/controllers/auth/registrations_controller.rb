@@ -25,7 +25,7 @@ module Auth
 
     private
     def verify_turnstile!
-      raise unless params['cf-turnstile-response'].present?
+      raise "Turnstile: No response token" unless params['cf-turnstile-response'].present?
 
       # Validate the token using Cloudflare Turnstile API
       url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'.freeze
@@ -33,31 +33,22 @@ module Auth
         secret: Exercism.secrets.turnstile_secret,
         response: params['cf-turnstile-response']
       }
-      Rails.logger.error "Turnstile payload: #{payload.to_json}"
 
       response = RestClient.post(url, payload.to_json, { content_type: :json, accept: :json })
       outcome = JSON.parse(response.body)
 
       # If we've got a success, then we're done here.
-      if outcome['success']
-        Rails.logger.error "Turnstile verification successful"
-        return
-      end
+      return if outcome['success']
 
       Rails.logger.error "Turnstile verification not successful"
       Rails.logger.error "Turnstile: #{outcome}"
-      raise
-    rescue RestClient::BadRequest => e
-      Rails.logger.error "Turnstile Bad request error (400): #{e.response.code}"
-      Rails.logger.error "Turnstile Response body: #{e.response.body}"
-    rescue RestClient::ExceptionWithResponse => e
-      Rails.logger.error "Turnstile HTTP error: #{e.response.code}"
-      Rails.logger.error "Turnstile Response body: #{e.response.body}"
+      raise "Turnstile: verification unsuccessful"
     rescue StandardError => e
-      Rails.logger.error "Turnstile verification failed: #{e.message}"
+      Rails.logger.error "Turnstile error: #{e.class} - #{e.message}"
+      Rails.logger.error "Turnstile Response body: #{e.response.body}" if e.respond_to?(:response) && e.response&.body
 
-      # set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
-      # redirect_to new_user_registration_path
+      set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
+      redirect_to new_user_registration_path
     end
   end
 end

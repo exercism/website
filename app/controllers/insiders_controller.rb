@@ -45,16 +45,18 @@ class InsidersController < ApplicationController
 
   # rubocop:disable Layout/LineLength
   FEATURES = [
-    { icon: 'feature-youtube', title: 'Behind-the-scenes content',
-      desc: "Keep up to date with what we're planning and building with private Insiders livestreams (rewatchable on demand) and technical deep-dives into Exercism's stack. See below for more!", filter: true },
     { icon: 'moon', title: 'Dark Mode',
       desc: "Our most requested feature is available exclusive for Insiders. Our slick dark theme elevates the Exercism experience and gives your eyes an easier time while coding into the night.", filter: true },
     { icon: 'feature-favorites', title: 'Favorites',
       desc: "See a solution that inspires or intrigues you? Save it to your Favorites and then go back and learn from it later! Insiders unlocks unlimited favorites and filtering options.", filter: true },
+    { icon: 'feature-ad-free', title: 'Ad-Free Experience',
+      desc: "Don't like adverts? Prefer an even calmer educational environment? Insiders can turn off all adverts across the platform for a totally uninterupted learning experience!", filter: true },
     { icon: 'feature-github-sync', title: 'GitHub Sync Options',
       desc: "Want to skip pull requests? Want to change commit messages? Want to configure your own file paths? Insiders unlocks advanced customization options for GitHub Sync. Make it right for you!", filter: true },
     { icon: 'insiders', title: 'Name tag flair',
       desc: "Show off your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Let everyone know you're supporting us!" },
+    { icon: 'feature-youtube', title: 'Behind-the-scenes content',
+      desc: "Keep up to date with what we're planning and building with private Insiders livestreams (rewatchable on demand) and technical deep-dives into Exercism's stack. See below for more!", filter: true },
     { icon: 'feature-discord', title: 'Private Discord channel',
       desc: "Hang out with our staff and other Insiders in our private Discord channel. Get the inside scoop on what we\'re working on and bounce ideas in realtime with us.", filter: true },
     { icon: 'robot', title: 'ChatGPT Help Integration',

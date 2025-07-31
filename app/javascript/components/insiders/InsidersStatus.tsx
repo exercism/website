@@ -136,17 +136,11 @@ export default function Status({
         <>
           <button
             onClick={handleModalOpen}
-            className="flex get-insiders-link grow mb-12 w-fill lg:w-auto"
+            className="flex get-insiders-link grow w-fill lg:w-auto"
           >
             <span>Donate to Exercism to access Insiders</span>
             <GraphicalIcon icon="arrow-right" />
           </button>
-
-          <p className="text-p-base italic">
-            Exercism is an independent, registered not-for-profit organisation
-            (UK #11733062) with a tiny team. All donations are used to run and
-            improve the platform.
-          </p>
         </>
       )}
 

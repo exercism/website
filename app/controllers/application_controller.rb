@@ -282,6 +282,7 @@ class ApplicationController < ActionController::Base
 
   def skip_empty_session_cookie
     return if devise_controller?
+    return if controller_name == "unsubscribe"
     return unless session.empty? && flash.empty?
 
     request.session_options[:skip] = true

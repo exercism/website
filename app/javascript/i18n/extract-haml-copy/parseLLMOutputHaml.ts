@@ -34,34 +34,43 @@ export async function parseLLMOutput(llmOutput: string) {
   const firstKey = Object.keys(parsedYaml)[0] // e.g. blog_posts
   const secondLevel = parsedYaml[firstKey] // e.g. { show: ..., index: ..., info_bar: ... }
 
-  for (const secondKey of Object.keys(secondLevel)) {
-    const perFileYaml = {
-      en: {
-        [firstKey]: {
-          [secondKey]: secondLevel[secondKey],
-        },
-      },
-    }
+  const outputByFile: Record<string, Record<string, any>> = {}
 
-    const fileName = `${secondKey}.yml` // e.g. show.yml, index.yml, info_bar.yml
-
-    const yamlOutputPath = path.join(
+  for (const [secondKey, value] of Object.entries(secondLevel)) {
+    const filePath = path.join(
       process.cwd(),
       '../../..',
       'config',
       'locales',
       'views',
-      firstKey // still use blog_posts directory
+      firstKey,
+      `${secondKey}.yml`
     )
 
-    await fs.mkdir(yamlOutputPath, { recursive: true })
+    if (!outputByFile[filePath]) {
+      outputByFile[filePath] = {}
+    }
 
-    const yamlFullPath = path.join(yamlOutputPath, fileName)
-    const yamlDoc = new yaml.Document(perFileYaml)
-    const yamlContent = yamlDoc.toString()
+    // Merge this secondKey's value into the existing structure
+    outputByFile[filePath] = {
+      ...outputByFile[filePath],
+      ...(value as Record<string, any>),
+    }
+  }
 
-    await fs.writeFile(yamlFullPath, yamlContent)
-    console.log(`Saved YAML: ${yamlFullPath}`)
+  // Write out the merged results
+  for (const [filePath, data] of Object.entries(outputByFile)) {
+    const namespace = path.basename(filePath, '.yml') // e.g. "show"
+    const yamlDoc = new yaml.Document({
+      en: {
+        [firstKey]: {
+          [namespace]: data,
+        },
+      },
+    })
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+    await fs.writeFile(filePath, yamlDoc.toString())
+    console.log(`Saved YAML: ${filePath}`)
   }
 
   // Step 3: Parse HAML sections

@@ -154,6 +154,13 @@ module ViewComponents
           icon: :report,
           icon_filter: "textColor6"
         },
+        {
+          title: "GitHub Syncer",
+          description: "Backup your solutions to GitHub",
+          path: Exercism::Routes.settings_github_syncer_path,
+          icon: 'feature-github-sync',
+          icon_filter: "textColor6"
+        },
 
         {
           title: "Insiders",

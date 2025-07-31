@@ -1,7 +1,7 @@
 %section.tracks-section
   .c-heading-with-count
-    %h3.--text.text-h3 Your Tracks
-    .--count{ 'aria-label': pluralize(num_user_tracks, 'Track') }= num_user_tracks
+    %h3.--text.text-h3= t('.title')
+    .--count{ 'aria-label': t('.track_count_aria_label', count: num_user_tracks) }= num_user_tracks
 
   .tracks
     - user_tracks.each do |user_track|
@@ -11,10 +11,10 @@
           .title= user_track.track.title
           .progress
             %progress.progress-bar{ value: user_track.num_completed_exercises, max: user_track.num_exercises }
-          .counts #{user_track.num_completed_exercises} / #{user_track.num_exercises} exercises completed
+          .counts= t('.exercises_completed', completed: user_track.num_completed_exercises, total: user_track.num_exercises)
         = graphical_icon :"chevron-right", css_class: "action-icon"
 
   - if num_user_tracks > user_tracks.size
-    = render ViewComponents::ProminentLink.new("View all your tracks", tracks_path)
+    = render ViewComponents::ProminentLink.new(t('.view_all_tracks_link'), tracks_path)
   - else
-    = render ViewComponents::ProminentLink.new("Discover more tracks", tracks_path)
+    = render ViewComponents::ProminentLink.new(t('.discover_more_tracks_link'), tracks_path)

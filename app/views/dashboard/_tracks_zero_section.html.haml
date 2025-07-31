@@ -7,10 +7,10 @@
     - track_icon_urls.each do |icon_url|
       = image_tag icon_url, alt: '', class: "c-icon c-track-icon"
 
-  %h3 You've not joined a track yet.
+  %h3= t('.title')
 
   %p
-    Choose from over
-    %strong #{num_tracks} language tracks,
-    from the every day to downright odd, start your code practice now.
-  = link_to "Browse #{num_tracks} language tracks", tracks_path, class: 'btn-primary btn-s'
+    = t('.description_part_1')
+    %strong= t('.description_part_2', num_tracks: num_tracks)
+    = t('.description_part_3')
+  = link_to t('.browse_tracks_link', num_tracks: num_tracks), tracks_path, class: 'btn-primary btn-s'

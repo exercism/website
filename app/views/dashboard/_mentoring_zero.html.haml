@@ -1,9 +1,9 @@
 %section.mentoring-zero-section.c-zero-section
   = graphical_icon "mentoring", category: :graphics
 
-  %h3 Become a mentor
-  %p Mentoring is a great way to reinforce your own learning, and help students learn and discover the things they don&apos;t know.
+  %h3= t('.title')
+  %p= t('.description')
 
   .grid.grid-cols-2.gap-20
-    = link_to "Try mentoring now", mentoring_path, class: 'btn-primary btn-s'
-    = link_to "Learn more", mentoring_path, class: 'btn-default btn-s'
+    = link_to t('.try_mentoring_now_link'), mentoring_path, class: 'btn-primary btn-s'
+    = link_to t('.learn_more_link'), mentoring_path, class: 'btn-default btn-s'

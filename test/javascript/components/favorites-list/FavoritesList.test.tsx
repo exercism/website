@@ -113,7 +113,11 @@ test('renders solutions and pagination from initial data', () => {
   })
 
   render(
-    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+    <FavoritesList
+      isUserInsider={true}
+      tracks={tracks}
+      request={initialRequest}
+    />
   )
 
   expect(screen.getByText(/Lucian's Luscious Lasagna/i)).toBeInTheDocument()
@@ -151,7 +155,11 @@ test('shows NoFavoritesYet if unscopedTotal is 0 and no results', () => {
   })
 
   render(
-    <FavoritesList isUserInsider tracks={tracks} request={requestWith0Total} />
+    <FavoritesList
+      isUserInsider={true}
+      tracks={tracks}
+      request={requestWith0Total}
+    />
   )
 
   expect(screen.getByText('No favorites yet.')).toBeInTheDocument()
@@ -168,7 +176,11 @@ test('shows NoResults when no results returned from API', () => {
   })
 
   render(
-    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+    <FavoritesList
+      isUserInsider={true}
+      tracks={tracks}
+      request={initialRequest}
+    />
   )
 
   expect(screen.getByText('No solutions found.')).toBeInTheDocument()
@@ -181,7 +193,11 @@ test('shows default error if query fails', () => {
   })
 
   render(
-    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+    <FavoritesList
+      isUserInsider={true}
+      tracks={tracks}
+      request={initialRequest}
+    />
   )
 
   expect(screen.getByText('Unable to pull solutions')).toBeInTheDocument()
@@ -191,7 +207,11 @@ test('can change search input value', () => {
   setupMocks()
 
   render(
-    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+    <FavoritesList
+      isUserInsider={true}
+      tracks={tracks}
+      request={initialRequest}
+    />
   )
 
   const input = screen.getByPlaceholderText(/search by author name/i)
@@ -201,7 +221,9 @@ test('can change search input value', () => {
 
 test('does not crash if tracks array is empty', () => {
   setupMocks()
-  render(<FavoritesList isUserInsider tracks={[]} request={initialRequest} />)
+  render(
+    <FavoritesList isUserInsider={true} tracks={[]} request={initialRequest} />
+  )
   expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
 })
 

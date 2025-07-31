@@ -112,7 +112,9 @@ test('renders solutions and pagination from initial data', () => {
     data: initialRequest.options.initialData,
   })
 
-  render(<FavoritesList tracks={tracks} request={initialRequest} />)
+  render(
+    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+  )
 
   expect(screen.getByText(/Lucian's Luscious Lasagna/i)).toBeInTheDocument()
   expect(screen.getByText(/JavaScript/i)).toBeInTheDocument()
@@ -148,7 +150,9 @@ test('shows NoFavoritesYet if unscopedTotal is 0 and no results', () => {
     isFetching: false,
   })
 
-  render(<FavoritesList tracks={tracks} request={requestWith0Total} />)
+  render(
+    <FavoritesList isUserInsider tracks={tracks} request={requestWith0Total} />
+  )
 
   expect(screen.getByText('No favorites yet.')).toBeInTheDocument()
 })
@@ -163,7 +167,9 @@ test('shows NoResults when no results returned from API', () => {
     isFetching: false,
   })
 
-  render(<FavoritesList tracks={tracks} request={initialRequest} />)
+  render(
+    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+  )
 
   expect(screen.getByText('No solutions found.')).toBeInTheDocument()
 })
@@ -174,7 +180,9 @@ test('shows default error if query fails', () => {
     error: new Error('Failure'),
   })
 
-  render(<FavoritesList tracks={tracks} request={initialRequest} />)
+  render(
+    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+  )
 
   expect(screen.getByText('Unable to pull solutions')).toBeInTheDocument()
 })
@@ -182,7 +190,9 @@ test('shows default error if query fails', () => {
 test('can change search input value', () => {
   setupMocks()
 
-  render(<FavoritesList tracks={tracks} request={initialRequest} />)
+  render(
+    <FavoritesList isUserInsider tracks={tracks} request={initialRequest} />
+  )
 
   const input = screen.getByPlaceholderText(/search by author name/i)
   fireEvent.change(input, { target: { value: 'lasagna' } })
@@ -191,6 +201,18 @@ test('can change search input value', () => {
 
 test('does not crash if tracks array is empty', () => {
   setupMocks()
-  render(<FavoritesList tracks={[]} request={initialRequest} />)
+  render(<FavoritesList isUserInsider tracks={[]} request={initialRequest} />)
   expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+})
+
+test('disables filter input for non-insiders', () => {
+  setupMocks()
+  render(
+    <FavoritesList
+      tracks={tracks}
+      request={initialRequest}
+      isUserInsider={false}
+    />
+  )
+  expect(screen.getByPlaceholderText(/search by author name/i)).toBeDisabled()
 })

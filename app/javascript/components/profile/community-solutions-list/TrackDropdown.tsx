@@ -34,10 +34,12 @@ export const TrackDropdown = ({
   tracks,
   value,
   setValue,
+  disabled,
 }: {
   tracks: TrackData[]
   value: string
   setValue: (slug: string | null) => void
+  disabled?: boolean
 }): JSX.Element | null => {
   const track = tracks.find((track) => track.slug === value) || tracks[0]
   const handleSet = useCallback(
@@ -52,6 +54,7 @@ export const TrackDropdown = ({
       tracks={tracks}
       value={track}
       setValue={handleSet}
+      disabled={disabled}
       OptionComponent={OptionComponent}
       SelectedComponent={SelectedComponent}
       size="single"

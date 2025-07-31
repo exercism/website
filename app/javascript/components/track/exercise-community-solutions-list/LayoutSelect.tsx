@@ -2,9 +2,22 @@ import React from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Icon } from '@/components/common'
 
-export function LayoutSelect({ layout, setLayout }) {
+export function LayoutSelect({
+  layout,
+  setLayout,
+  className = '',
+}: {
+  layout: `${'grid' | 'lines'}-layout`
+  setLayout: (layout: `${'grid' | 'lines'}-layout`) => void
+  className?: string
+}) {
   return (
-    <div className="md:flex hidden shrink-0 border-1 border-buttonBorderColor2 rounded-8 overflow-hidden">
+    <div
+      className={assembleClassNames(
+        'md:flex hidden shrink-0 border-1 border-buttonBorderColor2 rounded-8 overflow-hidden',
+        className
+      )}
+    >
       <LayoutButton
         setLayout={setLayout}
         currentLayout={layout}

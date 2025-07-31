@@ -28,6 +28,11 @@
 }
 
 .c-single-select {
+    button:disabled {
+        @apply cursor-not-allowed;
+        filter: blur(1px);
+    }
+
     & > button,
     & > .c-results-zone > button {
         height: 48px;

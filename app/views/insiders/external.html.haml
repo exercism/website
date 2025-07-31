@@ -10,46 +10,38 @@
             Exercism Insiders
             = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
           %h3.text-h3.mb-16.leading-140
-            Enjoying Exercism?
-            We rely on donations from people like you to survive &amp; grow!
+            %span.font-bold Donate to Exercism
+            and get
+            %span.underline bonus features
+            and
+            %span.underline behind-the-scenes content.
+          %p.text-p-xlarge.mb-12
+            %span.text-textColor1
+              We rely on donations from
+              %strong people like you
+              to survive &amp; grow!
+              Insiders is our way of thanking you for supporting us!
           %p.text-p-xlarge.mb-24
-            %strong.text-textColor1
-              Insiders is our way of saying thank you for supporting us.
-              %br
-            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism 🎉
+            Get behind-the-scenes access,
+            %strong Dark Mode,
+            exclusive badges,
+            %strong advanced GitHub Sync and Favorites,
+            ChatGPT integration,
+            %strong extra mentoring slots,
+            private Discord channel,
+            %strong an ad-free experience,
+            and more when you donate to Exercism 🎉
 
           - if current_user.present?
             = render ReactComponents::Insiders::InsidersStatus.new
 
-        .top-rhs
+        .top-rhs.self-center
           = vimeo_embed("855534271?h=97d3a4c8c2")
 
-  .gradient-container.py-32
-    .sm-container
-      %h2.text-center.text-h2 Road to Sustainability
-      %p.text-center.text-p-large.mb-16
-        We need
-        %span.font-medium.text-white $25,000 in donations
-        each month to become sustainable.
-        %span.font-medium.text-white Please help us get there.
-      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
-        .c-progress
-          - target = 25_000.0
-          - actual = Payments::Subscription.active_total_per_month_in_dollars
-          - progress = [1,  actual / target].min * 100
-          .bar{ style: "width:#{progress}%" }
-
-          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
-          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
-            Monthly donations:
-            %span.font-semibold= number_to_currency(actual.round, precision: 0)
-
-          .target-icon
-            = graphical_icon "party-popper"
-          .goal
-            Sustainable at
-            %span.font-semibold $25,000
-
+          %p.text-p-base.italic.mt-8
+            Exercism is an independent, registered not-for-profit organisation
+            (UK #11733062) with a tiny team. All donations are used to run and
+            improve the platform.
 
   .gradient-container.py-56
     .lg-container
@@ -69,6 +61,33 @@
       .grid.grid-cols-3.gap-32
         - @videos.each do |_, _, img|
           = image_tag "https://assets.exercism.org/images/thumbnails/#{img}", class: 'block w-100 shadow-md rounded-8 border-1 border-purple'
+
+  .gradient-container.py-32
+    .sm-container
+      %h2.text-center.text-h2 Help Support Exercism
+      %p.text-center.text-p-large.mb-2
+        We need
+        %span.font-medium.text-white $25,000 in donations
+        each month to become sustainable.
+      %p.text-p-large.text-center.font-medium.text-white.mb-16
+        Please help us get there by joining Insiders!
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+        .c-progress
+          - target = 25_000.0
+          - actual = Payments::Subscription.active_total_per_month_in_dollars
+          - progress = [1, actual / target].min * 100
+          .bar{ style: "width:#{progress}%" }
+
+          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
+          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
+            Monthly donations:
+            %span.font-semibold= number_to_currency(actual.round, precision: 0)
+
+          .target-icon
+            = graphical_icon "party-popper"
+          .goal
+            Sustainable at
+            %span.font-semibold $25,000
 
   .gradient-container.faqs.py-56
     .lg-container
@@ -120,4 +139,3 @@
           You can also earn reputation by publishing your solutions, but that does not count towards Insiders access.
           You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
           Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
-

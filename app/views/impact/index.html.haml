@@ -2,26 +2,26 @@
   .lg-container
     %header.py-32
       %h1.text-h2
-        See how Exercism impacts the world
+        = t('.page_title')
       - if @track
-        %h2.text-h4 Track: #{@track.title}
+        %h2.text-h4= t('.track_heading', track_title: @track.title)
 
     %article
       %section
         %table
           %tr
-            %th Metric
-            %th Last 24 hours
-            %th Last month
+            %th= t('.table_headers.metric')
+            %th= t('.table_headers.last_24_hours')
+            %th= t('.table_headers.last_month')
           %tr
-            %td # Submitted solutions
+            %td= t('.table_data_labels.solutions_submitted')
             %td= @last_24_hours[:num_solutions_submitted]
             %td= @last_month[:num_solutions_submitted]
           %tr
-            %td # Completed solutions
+            %td= t('.table_data_labels.solutions_completed')
             %td= @last_24_hours[:num_solutions_completed]
             %td= @last_month[:num_solutions_completed]
           %tr
-            %td # Opened PRs
+            %td= t('.table_data_labels.prs_opened')
             %td= @last_24_hours[:num_opened_pull_requests]
             %td= @last_month[:num_opened_pull_requests]

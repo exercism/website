@@ -79,6 +79,33 @@ en:
 - Use \`t('.key', variable: ...) \` syntax when interpolating
 - For \`link_to\` or \`button_to\`, move the string into \`t() \`
 
+When converting \`pluralize(count, "word")\` into i18n, use Rails' pluralization format. Define the key in the YAML with both \`one\` and \`other\` forms, like this:
+
+key_name:
+  one: "1 word"
+  other: "%{count} words"
+
+Then, in the HAML file, call the translation like this:
+
+= t('.key_name', count: count)
+
+For example, the following original code:
+
+#{pluralize count, 'issue'} need help
+
+Should be transformed into:
+
+tasks_section:
+  issues_needed_help:
+    one: "1 issue needs help"
+    other: "%{count} issues need help"
+
+And in HAML:
+
+= t('.issues_needed_help', count: count)
+
+This allows Rails to automatically handle singular and plural forms based on the count.
+
 ---
 
 ## Output format

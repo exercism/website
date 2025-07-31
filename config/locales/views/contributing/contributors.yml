@@ -1,0 +1,9 @@
+en:
+  contributing:
+    contributors:
+      index:
+        featured_contributor:
+          title: Featured contributor
+        new_contributor:
+          new_label: New
+          title: New contributor

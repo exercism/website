@@ -8,16 +8,14 @@
     -# .highlights.grid-cols-1.md:grid-cols-2
       = link_to profile_path(@featured_contributor), class: "featured-contributor highlight" do
         .emoji 🚀
-        = avatar(@featured_contributor)
         .info
-          .title Featured contributor
+          .title= t('.featured_contributor.title')
           .handle= @featured_contributor.handle
 
       = link_to profile_path(@latest_contributor), class: "new-contributor highlight" do
-        .new New
-        = avatar(@latest_contributor)
+        .new= t('.new_contributor.new_label')
         .info
-          .title New contributor
+          .title= t('.new_contributor.title')
           .handle= @latest_contributor.handle
 
     = render ReactComponents::Contributing::ContributorsList.new(params)

@@ -1,0 +1,58 @@
+en:
+  contributing:
+    dashboard:
+      show:
+        methods_section:
+          header:
+            title: How you can help us build Exercism
+          method:
+            proofread_and_update:
+              title: Proofread and update
+              tag: Beginner
+              description:
+                Never contributed to an open source project? Give this a go. We'll
+                help you submit your first pull request.
+            improve_content:
+              title: Improve a concept or exercise
+              tag: Intermediary
+              description:
+                Fix bugs and make improvements to concepts and exercise across
+                Exercism. Help students have a smooth and error-free experience.
+            create_new_content:
+              title: Create a new exercise or concept
+              tag: Advanced
+              description:
+                Build out a new exercise or concept based on a track's roadmap.
+                Have fun making interactive content that millions of people will
+                use.
+            develop_test_runner:
+              title: Develop a test runner
+              tag: Project
+              description:
+                Test runners power our online editor. All tracks have basic test
+                runners, but many need more advanced features and functionality
+                adding.
+            develop_analyzer:
+              title: Develop an analyzer
+              tag: Project
+              description:
+                Analyzers give automated feedback to students through ASTs
+                analysis. These are complex and deeply interesting pieces of
+                software to develop.
+            develop_representer:
+              title: Develop a representer
+              tag: Project
+              description:
+                Representers help us spot identical solutions so that we can reuse
+                feedback. Simpler than analyzers but fun and interesting to
+                reason about.
+      tasks_section:
+        issues_needed_help:
+          one: "1 issue needs help"
+          other: "%{count} issues need help"
+        tracks_list:
+          more_tracks: "+ %{count} more"
+          needs_help: "need help"
+        explore_issues:
+          one: "Explore 1 issue"
+          other: "Explore %{count} issues"

@@ -1,7 +1,7 @@
 - count = track_counts.values.sum
 .issues
   = graphical_icon 'info-circle'
-  #{pluralize count, 'issue'} need help
+  = t('.issues_needed_help', count: count)
 
 - if track_counts.keys.any?
   - ids = track_counts.keys.compact
@@ -13,10 +13,10 @@
     - if ids.size > 4
       = ids[0, 4].map { |id| tracks[id].title }.join(', ')
       - if ids.size > 4
-        + #{ids.size - 4} more
+        = t('.tracks_list.more_tracks', count: ids.size - 4)
     - else
       = ids.map { |id| tracks[id].title }.to_sentence
 
-    need help
+    = t('.tracks_list.needs_help')
 
-= render ViewComponents::ProminentLink.new("Explore #{pluralize count, 'issue'}", contributing_tasks_path(filters))
+= render ViewComponents::ProminentLink.new(t('.explore_issues', count: count), contributing_tasks_path(filters))

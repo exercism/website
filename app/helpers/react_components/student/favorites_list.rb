@@ -6,7 +6,8 @@ module ReactComponents
       def to_s
         super("favorites-list", {
           request:,
-          tracks: tracks_data
+          tracks: tracks_data,
+          is_user_insider: user.insider?
         })
       end
 

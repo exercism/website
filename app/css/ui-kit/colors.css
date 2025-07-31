@@ -207,6 +207,7 @@
     --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
     --backgroundColorHoverMenuTrack: #fafaff;
     --backgroundColorPerkContainer: #f8f5ff;
+    --backgroundColorStarButtonStarred: #fbf6e9;
 
     --backgroundImpactPageHeader: linear-gradient(
             180deg,
@@ -494,6 +495,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
     --backgroundColorHoverMenuTrack: #3a3557;
     --backgroundColorPerkContainer: #103;
+    --backgroundColorStarButtonStarred: #564210;
 
     --backgroundImpactPageHeader: theme(colors.eerieBlack);
 

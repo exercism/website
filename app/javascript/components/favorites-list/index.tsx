@@ -16,10 +16,12 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '../types'
+import { TooltipContent, TooltipWrapper } from '../common/FollowTooltip'
 
 export type FavoritesListProps = {
   tracks: TrackData[]
   request: Request
+  isUserInsider: boolean
 }
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
@@ -27,6 +29,7 @@ const DEFAULT_ERROR = new Error('Unable to pull solutions')
 export default function FavoritesList({
   tracks,
   request: initialRequest,
+  isUserInsider,
 }: FavoritesListProps) {
   const {
     request,
@@ -86,21 +89,36 @@ export default function FavoritesList({
       className="lg-container favorite-community-solutions-list"
       data-scroll-top-anchor="favorite-community-solutions-list"
     >
-      <div className="c-search-bar lg:flex-row flex-col gap-24 mb-16">
-        {tracks.length > 0 && (
-          <TrackDropdown
-            tracks={tracks}
-            value={request.query?.trackSlug || ''}
-            setValue={setTrack}
+      <div className="flex lg:flex-row flex-col items-start">
+        <TooltipWrapper className="c-search-bar w-full lg:flex-row flex-col gap-24 relative group">
+          {!isUserInsider && (
+            <TooltipContent>
+              <span className="rounded-8 px-8 py-2 bg-backgroundColorH text-backgroundColorA text-xs shadow whitespace-nowrap">
+                Filtering restricted to Insiders
+              </span>
+            </TooltipContent>
+          )}
+          {tracks.length > 0 && (
+            <TrackDropdown
+              tracks={tracks}
+              value={request.query?.trackSlug || ''}
+              setValue={setTrack}
+              disabled={!isUserInsider}
+            />
+          )}
+          <input
+            className="--search"
+            onChange={(e) => setCriteria(e.target.value)}
+            value={criteria}
+            placeholder="Search by author name"
+            disabled={!isUserInsider}
           />
-        )}
-        <input
-          className="--search"
-          onChange={(e) => setCriteria(e.target.value)}
-          value={criteria}
-          placeholder="Search by author name"
+        </TooltipWrapper>
+        <LayoutSelect
+          className="mb-32 h-full"
+          layout={layout}
+          setLayout={setLayout}
         />
-        <LayoutSelect layout={layout} setLayout={setLayout} />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

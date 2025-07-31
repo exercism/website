@@ -9,6 +9,7 @@ export const SingleSelect = <T extends unknown>({
   SelectedComponent,
   OptionComponent,
   className = '',
+  disabled = false,
 }: {
   value: T
   options: readonly T[]
@@ -16,6 +17,7 @@ export const SingleSelect = <T extends unknown>({
   SelectedComponent: React.ComponentType<{ option: T }>
   OptionComponent: React.ComponentType<{ option: T }>
   className?: string
+  disabled?: boolean
 }): JSX.Element => {
   const {
     buttonAttributes,
@@ -61,7 +63,7 @@ export const SingleSelect = <T extends unknown>({
 
   return (
     <div className={classNames.join(' ')}>
-      <button type="button" {...buttonAttributes}>
+      <button disabled={disabled} type="button" {...buttonAttributes}>
         <div className="value">
           <SelectedComponent option={value} />
         </div>

@@ -84,7 +84,7 @@
                     }
 
                     &.--starred {
-                        background: #fbf6e9;
+                        background: var(--backgroundColorStarButtonStarred);
                         & .c-icon {
                             filter: none;
                         }

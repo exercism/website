@@ -1,0 +1,19 @@
+en:
+  community:
+    videos:
+      rhs:
+        live_event:
+          status: Live now
+          watch_on: Watch on
+          or: or
+          arrow: 👇🏽
+        featured_event:
+          status: Coming soon
+          live_at: Live at
+          save_date: Save the date!
+        scheduled_events:
+          title: Upcoming Streaming Schedule
+          description_one: This schedule is regularly updated. All events stream on our
+          twitch_channel: Twitch Channel
+          description_two: Subscribe and don't miss out!
+          description_three: All times are in UTC.

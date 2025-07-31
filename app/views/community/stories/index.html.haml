@@ -1,5 +1,5 @@
-%h2.text-h2.mb-8 Hear our Community's Stories
-%p.mb-24.text-p-large.text-textColor5 Listen to the stories of those who have built, contributed to, and learnt from Exercism.
+%h2.text-h2.mb-8= t('.title')
+%p.mb-24.text-p-large.text-textColor5= t('.description')
 
 .grid.grid-cols-1.lg:grid-cols-3.gap-16
   - @community_stories.each do |community_story|

@@ -7,7 +7,7 @@
     .md-container
       = link_to Exercism::Routes.community_path, class: "back-link" do
         = graphical_icon "arrow-left", css_class: "w-[16px] h-[16px] mr-12 filter-white"
-        Back to Community
+        = t('.back_to_community')
       .relative
         .grid.grid-cols-1.lg:grid-cols-2.gap-64.mb-48
           .block
@@ -19,7 +19,7 @@
             %p.text-p-large.mb-28.theme-dark= @story.blurb
             .flex.items-center
               = link_to @story.youtube_external_url, target: "_blank", rel: "noreferrer", class: 'youtube-link mr-32' do
-                Watch on Youtube
+                = t('.watch_on_youtube')
                 = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
 
               .text-label-code-caps.text-lightGold.whitespace-nowrap
@@ -37,8 +37,8 @@
       .flex.flex-row.mb-24
         = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mr-12"
         .flex.flex-col
-          %h2.text-h2.mb-8 More Stories from our community
-          %p.text-p-large Listen, learn and be inspired by our community members.
+          %h2.text-h2.mb-8= t('.more_stories.title')
+          %p.text-p-large= t('.more_stories.description')
       .grid.grid-cols-1.lg:grid-cols-3.gap-16
         - @other_stories.each do |community_story|
           = link_to community_story_path(community_story), class: 'flex flex-col grid shadow-smZ1 p-16 bg-backgroundColorA rounded-8' do
@@ -48,5 +48,3 @@
               - interviewee = community_story.interviewee
               = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
               = interviewee.name
-
-

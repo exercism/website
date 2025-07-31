@@ -52,7 +52,7 @@ class InsidersController < ApplicationController
     { icon: 'feature-favorites', title: 'Favorites',
       desc: "See a solution that inspires or intrigues you? Save it to your Favorites and then go back and learn from it later! Insiders unlocks unlimited favorites and filtering options.", filter: true },
     { icon: 'feature-github-sync', title: 'GitHub Sync Options',
-      desc: "Want to skip pull requests? Want to change commit messages? Want to configure your own file paths? Insiders unlocks advanced customisation options for GitHub Sync. Make it right for you!", filter: true },
+      desc: "Want to skip pull requests? Want to change commit messages? Want to configure your own file paths? Insiders unlocks advanced customization options for GitHub Sync. Make it right for you!", filter: true },
     { icon: 'insiders', title: 'Name tag flair',
       desc: "Show off your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Let everyone know you're supporting us!" },
     { icon: 'feature-discord', title: 'Private Discord channel',

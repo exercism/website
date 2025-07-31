@@ -133,7 +133,7 @@ if (require.main === module) {
       console.log('Parsed translations:')
       console.dir(translations, { depth: null })
 
-      await writeModifiedFiles(batch)
+      // await writeModifiedFiles(batch)
     }
 
     console.log('\nAll batches completed.')

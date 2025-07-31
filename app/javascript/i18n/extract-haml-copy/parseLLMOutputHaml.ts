@@ -64,8 +64,12 @@ export async function parseLLMOutput(llmOutput: string) {
   }
 
   // Step 4: Write HAML files
+  // Step 4: Write HAML files
+  const viewsPath = path.join(process.cwd(), '../../..', 'app', 'views')
+
   for (const [relPath, content] of fileMap) {
-    const fullPath = path.join(process.cwd(), relPath)
+    const relativeViewPath = relPath.replace(/^(\.\.\/)*views\//, '')
+    const fullPath = path.join(viewsPath, relativeViewPath)
     await fs.mkdir(path.dirname(fullPath), { recursive: true })
     await fs.writeFile(fullPath, content + '\n')
     console.log(`Saved HAML: ${fullPath}`)

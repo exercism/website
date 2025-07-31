@@ -24,7 +24,6 @@ export const Information = ({
   links,
   onDelete,
   syncer,
-  isGithubSyncerVisible,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -32,7 +31,6 @@ export const Information = ({
   links: Links
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
-  isGithubSyncerVisible: boolean
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
 
@@ -52,12 +50,10 @@ export const Information = ({
           <GraphicalIcon icon="tests" />
           Tests
         </Tab>
-        {isGithubSyncerVisible && (
-          <Tab id="github-backup" context={TabsContext} className="--small">
-            <GraphicalIcon icon="external-site-github" />
-            Backup
-          </Tab>
-        )}
+        <Tab id="github-backup" context={TabsContext} className="--small">
+          <GraphicalIcon icon="external-site-github" />
+          Backup
+        </Tab>
         <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>
       <div className="panels">

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  def insider? = false
+
   extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1

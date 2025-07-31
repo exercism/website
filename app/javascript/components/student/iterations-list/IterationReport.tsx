@@ -18,7 +18,6 @@ export const IterationReport = ({
   onCompressed,
   onDelete,
   syncer,
-  isGithubSyncerVisible,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -29,7 +28,6 @@ export const IterationReport = ({
   onCompressed: () => void
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
-  isGithubSyncerVisible: boolean
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
@@ -81,7 +79,6 @@ export const IterationReport = ({
           </div>
           <div className="information">
             <Information
-              isGithubSyncerVisible={isGithubSyncerVisible}
               iteration={iteration}
               exercise={exercise}
               track={track}

@@ -116,12 +116,11 @@ module ViewComponents
     end
 
     def signed_in_nav
-      learn_submenu = current_user.insider? ? LEARN_SUBMENU : LEARN_SUBMENU[0..-2]
       tag.nav(class: 'signed-in', role: 'navigation') do
         tag.ul do
           safe_join(
             [
-              generic_nav("Learn", submenu: learn_submenu, path: Exercism::Routes.tracks_path, has_view: true),
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path, has_view: true),
               generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
               generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
               generic_nav("More", submenu: MORE_SUBMENU, offset: 0),

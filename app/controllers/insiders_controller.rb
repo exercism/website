@@ -50,7 +50,7 @@ class InsidersController < ApplicationController
     { icon: 'moon', title: 'Dark Mode',
       desc: "Our most requested feature is available exclusive for Insiders. Our slick dark theme elevates the Exercism experience and gives your eyes an easier time while coding into the night.", filter: true },
     { icon: 'feature-favorites', title: 'Favorites',
-      desc: "See a solution you inspires or intrigues you? Save it to your Favorites and then go back and learn from it later! Insiders unlocks unlimited favorites and filtering options.", filter: true },
+      desc: "See a solution that inspires or intrigues you? Save it to your Favorites and then go back and learn from it later! Insiders unlocks unlimited favorites and filtering options.", filter: true },
     { icon: 'feature-github-sync', title: 'GitHub Sync Options',
       desc: "Want to skip pull requests? Want to change commit messages? Want to configure your own file paths? Insiders unlocks advanced customisation options for GitHub Sync. Make it right for you!", filter: true },
     { icon: 'insiders', title: 'Name tag flair',

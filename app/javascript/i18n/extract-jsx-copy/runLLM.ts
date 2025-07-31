@@ -7,7 +7,11 @@ export async function runLLM(prompt: string): Promise<string | undefined> {
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
     contents: prompt,
-    config: {},
+    config: {
+      thinkingConfig: {
+        thinkingBudget: 0,
+      },
+    },
   })
 
   return response.text

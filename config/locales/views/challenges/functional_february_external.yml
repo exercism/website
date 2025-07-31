@@ -1,0 +1,132 @@
+en:
+  challenges:
+    functional_february:
+      month_header: "Month 2 of #12in23"
+      title: It's Functional February! ✨
+      intro_paragraph:
+        "This month for #12in23 we're exploring functional languages.
+        We've got interviews with language creators, lots of live streaming,
+        exclusive functional swag and more."
+      overview_video:
+        heading: Start by watching our Functional February overview video  👉
+        description_part1:
+          We've put together an introductory video to get you started.
+          Its split into two parts. In part 1, we'll tell your what's in store
+          for the month. In part 2 we'll take a brief look at what makes
+          functional programming so interesting!
+        description_part2: Take a watch and leave a comment!
+      learn_earn:
+        heading: Learn and Earn (the badge)!
+        description:
+          Earn the Functional February badge for completing and publishing 5
+          exercises in one of the following languages.
+      recommended_challenges:
+        intro:
+          "You can solve any exercises in these tracks to get the badge, but we
+          recommend the following as interesting challenges to approach from a
+          functional perspective:"
+        hamming_title: "Hamming:"
+        hamming_description: Explore higher order functions
+        collatz_conjecture_title: "Collatz Conjecture:"
+        collatz_conjecture_description: Try out recursion
+        robot_simulator_title: "Robot Simulator:"
+        robot_simulator_description: Explore immutability, records, pattern matching
+        yacht_title: "Yacht:"
+        yacht_description: Practice pattern-matching and higher-order functions
+        protein_translation_title: "Protein Translation:"
+        protein_translation_description: Practice higher-order functions and pattern matching further
+      learn_from_others:
+        heading: Learn from others… 🎥
+        description:
+          Throughout the month we'll have interviews — including Jose Valim,
+          the creator of Elixir, and Louis Pilfold, the creator or Gleam —
+          walkthroughs from Exercism track contributors, and live streams of the
+          community solving exercises. Subscribe to our %{twitch_channel} and
+          %{youtube_channel} to not miss out!
+        twitch_channel_link: Twitch Channel
+        youtube_channel_link: YouTube Channel
+        schedule_note: There is a schedule at the top right of this page.
+      join_conversation:
+        heading: Join the conversation… 💬
+        resource_list:
+          Help us compile the %{resource_link} for learning and mastering
+          functional programming languages in our dedicated forum thread.
+        resource_list_link: definitive list of great resources
+        hashtag_note: Join in the conversation by using the %{tag_link} or the
+          %{hashtag_bold} hashtag around social media!
+        hashtag_link: "#12in23 tag on our forums"
+        hashtag_bold: "#12in23"
+        swag_note:
+          We have exclusive "functional" swag that will only be available this
+          month coming soon. Keep an eye on the swag store for details!
+      streaming_schedule:
+        heading: Upcoming Streaming Schedule
+        description:
+          This schedule is regularly updated. All events will stream on our
+          %{twitch_channel} - subscribe so not to miss out!
+        twitch_channel_link: Twitch Channel
+        all_times_utc: All times in UTC.
+      how_it_works:
+        heading: "How does #12in23 work?"
+        description:
+          Each month has a different theme and featured languages. Solve
+          exercises in a featured language during that month. Check out our two
+          introductory videos for more details!
+        video1_title: "Take the #12in23 Challenge"
+        video2_title: "The Official #12in23 Calendar"
+        track_progress_note: You can track your progress at the bottom of the page.
+      donate:
+        heading: "Enjoying #12in23? Please donate 🙏"
+        description:
+          "We keep Exercism free so that anyone can use it. But we rely on
+          the generosity of people that could afford it to make that possible.
+          If you're enjoying #12in23 and are financially able, please consider
+          donating to keep Exercism going!"
+        button: Donate now
+      progress:
+        heading: "Your #12in23 Progress"
+        description_part1:
+          Below you'll see a list of all the languages you've used
+          during 2023. Aim to complete 12 languages by the end of the year!
+        description_part2:
+          Submit 5 exercises (not including "Hello World") in a track
+          to tick off that language!
+        completed_badge: Completed
+        exercises_completed: "%{count} exercises completed"
+        exercises_count: "%{count} / 5 exercises completed"
+    external:
+      meta_title: "The #48in24 Challenge"
+      meta_description:
+        Try out a new programming challenge each week. Broaden your
+        horizons and level up your programming skills as your explore the varied
+        paradigms and ideas that different languages embrace. It's free, fun,
+        and useful!
+      main_heading: "The #48in24 Challenge"
+      intro_paragraph1_part1: Improve your programming skills by digging deep into a
+      intro_paragraph1_part2: different programming challenge
+      intro_paragraph1_part3: every week during 2024.
+      intro_paragraph2: Each week, solve a different exercise, explore different
+        approaches and paradigms, try new languages, get mentored by experts,
+        and join in with the community.
+      free_fun_invaluable: 100% free, fun and invaluable!
+      get_started_button: Get started!
+      signup_button: Sign up to get started
+      login_button: Log in
+      why_take_part_heading: Why take part?
+      expand_knowledge:
+        heading: Expand your knowledge
+        description: Learning new languages is a great way to explore different
+          paradigms, concepts and ideas. Learning different ways to solve
+          problems is a guaranteed way to make you a better developer.
+      learn_together:
+        heading: Learn together
+        description:
+          The Challenge is a great way of connecting with other developers.
+          Chat to others on our forums, watch streamers on YouTube or Twitch, or
+          bounce solutions on social media.
+      have_fun:
+        heading: Have fun!
+        description:
+          Coding should be fun! When we get stuck in the same patterns every
+          day it can feel monotonous and boring. Solving challenges in different
+          languages is a great way to reignite your spark.

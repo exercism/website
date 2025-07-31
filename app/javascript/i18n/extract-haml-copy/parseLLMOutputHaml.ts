@@ -31,26 +31,38 @@ export async function parseLLMOutput(llmOutput: string) {
     throw new Error('Parsed YAML was not an object.')
   }
 
-  const firstKey = Object.keys(parsedYaml)[0]
-  const secondKeys = Object.keys(parsedYaml[firstKey])
-  const fileName = `${secondKeys.join('_')}.yml`
-  const yamlOutputPath = path.join(
-    process.cwd(),
-    '../../..',
-    'config',
-    'locales',
-    'views',
-    firstKey
-  )
+  const firstKey = Object.keys(parsedYaml)[0] // e.g. blog_posts
+  const secondLevel = parsedYaml[firstKey] // e.g. { show: ..., index: ..., info_bar: ... }
 
-  await fs.mkdir(yamlOutputPath, { recursive: true })
+  for (const secondKey of Object.keys(secondLevel)) {
+    const perFileYaml = {
+      en: {
+        [firstKey]: {
+          [secondKey]: secondLevel[secondKey],
+        },
+      },
+    }
 
-  const yamlFullPath = path.join(yamlOutputPath, fileName)
-  const yamlDoc = new yaml.Document({ en: parsedYaml })
-  const yamlContent = yamlDoc.toString()
+    const fileName = `${secondKey}.yml` // e.g. show.yml, index.yml, info_bar.yml
 
-  await fs.writeFile(yamlFullPath, yamlContent)
-  console.log(`Saved YAML: ${yamlFullPath}`)
+    const yamlOutputPath = path.join(
+      process.cwd(),
+      '../../..',
+      'config',
+      'locales',
+      'views',
+      firstKey // still use blog_posts directory
+    )
+
+    await fs.mkdir(yamlOutputPath, { recursive: true })
+
+    const yamlFullPath = path.join(yamlOutputPath, fileName)
+    const yamlDoc = new yaml.Document(perFileYaml)
+    const yamlContent = yamlDoc.toString()
+
+    await fs.writeFile(yamlFullPath, yamlContent)
+    console.log(`Saved YAML: ${yamlFullPath}`)
+  }
 
   // Step 3: Parse HAML sections
   const sections = hamlPart.split(/# file: (.+)/g)

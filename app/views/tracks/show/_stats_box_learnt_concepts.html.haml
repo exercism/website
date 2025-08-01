@@ -2,8 +2,7 @@
   .info
     .count= user_track.num_concepts_learnt
     %h3
-      = "Concept".pluralize(user_track.num_concepts_learnt)
-      learnt
+      = t('.learnt_concepts', count: user_track.num_concepts_learnt)
 
     .icons
       - user_track.sample_learnt_concepts.each do |concept|

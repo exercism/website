@@ -3,20 +3,20 @@
     = graphical_icon 'representer', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        The #{@track.title} representer
+        = t('.representer_title', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.representer.health)
 
       %p.text-p-base
         - case @status.representer.health.to_sym
         - when :exemplar
-          Works exemplary!
+          = t('.feedback.exemplar')
         - when :healthy
-          Works well.
+          = t('.feedback.healthy')
         - when :needs_attention
-          No feedback has been given via any representation.
+          = t('.feedback.needs_attention')
         - when :missing
-          The representer has not yet been implemented.
+          = t('.feedback.missing')
 
       - if @status.representer.num_comments.positive?
         %p.text-p-base
-          #{@status.representer.num_comments} #{'comment'.pluralize(@status.representer.num_comments)} have been made.
+          = t('.comments_made', count: @status.representer.num_comments)

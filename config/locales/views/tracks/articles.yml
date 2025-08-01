@@ -1,0 +1,20 @@
+en:
+  tracks:
+    articles:
+      show:
+        meta_title:
+          Explore the '%{article_title}' article for %{exercise_title} in
+          %{track_title} on Exercism
+        meta_description:
+          Explore the '%{article_title}' article for %{exercise_title}
+          in %{track_title} on Exercism. %{article_blurb}
+        in_track: in %{track_title}
+        share_bar:
+          short_question: Find this article useful?
+          short_action: Share it around!
+          long_question: Find the article interesting or useful?
+          long_action: Share it around and have others benefit too!
+        useful_question: Found it useful?
+        other_articles:
+          title: Other Articles for %{exercise_title}
+          description: Explore more ideas about this exercise

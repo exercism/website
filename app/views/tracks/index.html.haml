@@ -8,10 +8,9 @@
         - @track_icon_urls.each do |icon_url|
           = image_tag icon_url, alt: '', class: "c-icon c-track-icon"
 
-      %h1.text-h1 #{@num_tracks} languages for you to master
+      %h1.text-h1= t('.header.title', num_tracks: @num_tracks)
       %p.text-p-large
-        Become fluent in your chosen programming languages by completing these tracks created by our
-        = link_to "awesome team of contributors", contributing_contributors_path, class: 'text-prominentLinkColor'
+        = t('.header.description_html', contributors_link: link_to(t('.header.contributors_link_text'), contributing_contributors_path, class: 'text-prominentLinkColor')).html_safe
 
   = render ReactComponents::Student::TracksList.new(current_user, @tracks, params)
 

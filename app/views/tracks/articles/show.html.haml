@@ -1,5 +1,5 @@
-- content_for :meta_title, "Explore the '#{@article.title}' article for #{@exercise.title} in #{@track.title} on Exercism".html_safe
-- content_for :meta_description, "Explore the '#{@article.title}' article for #{@exercise.title} in #{@track.title} on Exercism. #{@article.blurb}".html_safe
+- content_for :meta_title, t('.meta_title', article_title: @article.title, exercise_title: @exercise.title, track_title: @track.title).html_safe
+- content_for :meta_description, t('.meta_description', article_title: @article.title, exercise_title: @exercise.title, track_title: @track.title, article_blurb: @article.blurb).html_safe
 - require_stylesheet "track"
 -# TODO: add :meta_image
 
@@ -18,19 +18,19 @@
           .text-h5.whitespace-nowrap
             = @exercise.title
             %span.md:hidden.inline
-              in #{@track.title}
-          .md:block.hidden.textColor-6.font-normal.leading-150.text-16 in #{@track.title}
+              = t('.in_track', track_title: @track.title)
+          .md:block.hidden.textColor-6.font-normal.leading-150.text-16= t('.in_track', track_title: @track.title)
 
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
         = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
         .info.md:hidden
-          %h3.text-h6.mb-2 Find this article useful?
-          %p.text-p-small Share it around!
+          %h3.text-h6.mb-2= t('.share_bar.short_question')
+          %p.text-p-small= t('.share_bar.short_action')
         .info.hidden.md:block.mr-auto
-          %h3.text-h5.mb-2 Find the article interesting or useful?
-          %p.text-p-base Share it around and have others benefit too!
+          %h3.text-h5.mb-2= t('.share_bar.long_question')
+          %p.text-p-base= t('.share_bar.long_action')
 
         = render ViewComponents::Exercise::ShareArticleButton.new(@article)
 
@@ -41,7 +41,7 @@
         .published-at
           = format_date(@article.updated_at)
           &middot;
-          Found it useful?
+          = t('.useful_question')
           = render ViewComponents::Exercise::ShareArticleLink.new(@article)
 
   - if @other_articles.present?
@@ -49,8 +49,8 @@
       .flex.justify-center.mb-32
         = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
         .flex.flex-col
-          %h2.text-h3.font-bold.mb-4 Other Articles for #{@exercise.title}
-          .text-p-base.text-textColor6 Explore more ideas about this exercise
+          %h2.text-h3.font-bold.mb-4= t('.other_articles.title', exercise_title: @exercise.title)
+          .text-p-base.text-textColor6= t('.other_articles.description')
 
       .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
         - @other_articles.each do |other_article|

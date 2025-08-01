@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@track.title} key concepts on Exercism"
-- content_for :meta_description, "Learn and master #{@user_track.num_concepts} key concepts in #{@track.title} on Exercism."
+- content_for :meta_title, t('.meta_title', track_title: @track.title)
+- content_for :meta_description, t('.meta_description', num_concepts: @user_track.num_concepts, track_title: @track.title)
 - content_for :canonical_url, track_concepts_url(@track)
 - require_stylesheet "track"
 
@@ -12,20 +12,20 @@
         %section.external-cta
           = track_icon(@track)
           .info
-            %h2 Master #{@user_track.num_concepts} key concepts in #{@track.title}
+            %h2= t('.external_cta.title', num_concepts: @user_track.num_concepts, track_title: @track.title)
             %p
-              All the concepts covered are explained in the context of language-specific paradigms and conventions.
+              = t('.external_cta.description')
 
           = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
             = graphical_icon(:plus)
-            Join The #{@track.title} Track
+            = t('.external_cta.button', track_title: @track.title)
 
     %header.page-header
       .lg-container.container.flex-col.sm:flex-row
         = graphical_icon "forest", css_class: 'graphic', category: 'graphics'
         .info.text-center.sm:text-left
-          %h1 Your journey through #{@track.title}
-          %p Learn and master concepts to achieve fluency in #{@track.title}.
+          %h1= t('.page_header.title', track_title: @track.title)
+          %p= t('.page_header.description', track_title: @track.title)
 
     %section.concepts
       .lg-container.container

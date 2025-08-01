@@ -1,6 +1,6 @@
 %section.completed-info
-  %h3.mb-8 Exercise Learning Goals
-  %p.text-p-base.mb-8 This learning exercise helped evolve your knowledge of #{raw exercise.taught_concepts.map { |c| link_to(c.name, track_concept_path(track, c)) }.to_sentence}.
+  %h3.mb-8= t('.learning_goals_title')
+  %p.text-p-base.mb-8= t('.learning_goals_description_html', concepts: raw(exercise.taught_concepts.map { |c| link_to(c.name, track_concept_path(track, c)) }.to_sentence)).html_safe
 
   - unlocked_concepts = user_track.unlocked_concepts_for_exercise(exercise)
   - unlocked_exercises = user_track.unlocked_exercises_for_exercise(exercise)
@@ -8,18 +8,18 @@
     .unlocks
       - if unlocked_concepts.present?
         %p.text-p-base.p.mb-8.font-semibold
-          You've unlocked
+          = t('.unlocked_concepts.title')
           = succeed(":") do
-            = pluralize unlocked_concepts.size, "concept"
+            = t('.unlocked_concepts.count', count: unlocked_concepts.size)
         .flex.gap-8.flex-wrap.mb-20
           - unlocked_concepts.each do |unlocked_concept|
             = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
 
       - if unlocked_exercises.present?
         %p.text-p-base.p.mb-8.font-semibold
-          You've unlocked
+          = t('.unlocked_exercises.title')
           = succeed(":") do
-            = pluralize unlocked_exercises.size, "exercise"
+            = t('.unlocked_exercises.count', count: unlocked_exercises.size)
         .flex.gap-8.flex-wrap
           - unlocked_exercises.each do |unlocked_exercise|
             = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, skinny: true, with_tooltip: true)

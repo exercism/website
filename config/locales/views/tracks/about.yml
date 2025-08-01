@@ -1,0 +1,37 @@
+en:
+  tracks:
+    about:
+      _concepts:
+        title: A taste of the concepts you&apos;ll cover
+        see_all_concepts: See all the concepts for %{track_title}
+      _key_features:
+        title: Key Features of %{track_title}
+      _upsell:
+        mentoring_section:
+          title: Get mentored the %{track_title} way
+          paragraph_html:
+            Every language has its own way of doing things. %{track_title}
+            is no different. Our mentors will help you learn to think like a
+            %{track_title} developer and how to write idiomatic code in
+            %{track_title}. Once you've solved an exercise, submit it to our
+            volunteer team, and they'll give you hints, ideas, and feedback on
+            how to make it feel more like what you'd normally see in
+            %{track_title} - they'll help you discover the things you don't know
+            that you don't know.
+          learn_more: Learn more about mentoring
+        exercises_section:
+          title: Community-sourced %{track_title} exercises
+          paragraph_html: >-
+            The %{track_title} track on Exercism has
+
+            %{num_concepts_text}
+
+            %{track_num_exercises} exercises to help you write better code.
+
+            Discover new exercises as you progress and get engrossed in learning
+            new concepts and improving the way you currently write.
+          see_all_exercises: See all %{track_title} exercises
+        cta:
+          title: Get started with the %{track_title} track
+          description: The best part, it’s 100% free for everyone.
+          join_button: Join the %{track_title} track

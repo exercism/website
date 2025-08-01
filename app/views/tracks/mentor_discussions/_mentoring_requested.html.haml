@@ -1,6 +1,6 @@
 .mentoring-requested
   .content
-    %h2 You&apos;ve requested mentoring
+    %h2= t('.heading')
     -# TODO
-    %p Waiting on a mentor…
-  = link_to "View your request", track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-s'
+    %p= t('.waiting_text')
+  = link_to t('.view_request_button'), track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-s'

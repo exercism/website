@@ -1,0 +1,13 @@
+en:
+  tracks:
+    iterations:
+      index:
+        zero_state:
+          heading: You haven’t submitted any iterations yet.
+          body:
+            You’ll get to see all your iterations with test results and automated
+            feedback once you submit a solution.
+          editor_heading: Via Exercism Editor
+          editor_button: Start in Editor
+          cli_heading: Work locally (via CLI)
+          prominent_link: Learn more about solving exercises locally

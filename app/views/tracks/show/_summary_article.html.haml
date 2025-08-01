@@ -7,14 +7,11 @@
       %section.progress-chart.mb-24
         %h2
           - if user_track.completed_percentage.zero?
-            = t('.progress_chart.title.just_started', track_title: track.title)
-            %strong= t('.progress_chart.title.good_luck')
+            = t('.progress_chart.title.just_started_html', track_title: track.title).html_safe
           - elsif user_track.completed_percentage == 100
-            = t('.progress_chart.title.completed_100_percent')
-            %strong= t('.progress_chart.title.achievement')
+            = t('.progress_chart.title.completed_100_percent_html').html_safe
           - else
-            = t('.progress_chart.title.in_progress', percentage: user_track.completed_percentage, track_title: track.title)
-            %strong= user_track_completed_percentage_text(user_track)
+            = t('.progress_chart.title.in_progress_html', percentage: user_track.completed_percentage, track_title: track.title).html_safe
 
         .c-progress
           .bar{ style: "width: #{user_track.completed_percentage}%" }

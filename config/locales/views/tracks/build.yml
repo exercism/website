@@ -1,0 +1,130 @@
+en:
+  tracks:
+    build:
+      _show_syllabus:
+        syllabus_header: "%{track_title} syllabus"
+        syllabus_description:
+          "Help create the track syllabus: is a set of concepts and
+          learning exercises put together to teach foundational elements of the
+          programming language."
+        next_goal:
+          create_syllabus: "Next goal: Create a complete syllabus with at least
+            %{num_active_target} concepts."
+        concepts_summary:
+          one: 1 concept being taught
+          other: "%{count} concepts being taught"
+        learnt_count: "%{count} learnt"
+        active_exercises_summary:
+          one: 1 active learning exercise
+          other: "%{count} active learning exercises"
+        deprecated_exercises_summary:
+          one: 1 deprecated learning exercise
+          other: "%{count} deprecated learning exercises"
+      analyzer_tooltip:
+        analyzer_title: The %{track_title} analyzer
+        feedback:
+          exemplar:
+            Gives feedback on %{display_rate_percentage}% of the submitted
+            iterations!
+          healthy:
+            Gives feedback on %{display_rate_percentage}% of the submitted
+            iterations.
+          needs_attention: No feedback has been given.
+          missing: The analyzer has not yet been implemented.
+        comments_made:
+          one: 1 comment has been made.
+          other: "%{count} comments have been made."
+      _index_analyzer:
+        analyzer_header: Analyzer
+        analyzer_description: "Build an Analyzer for %{track_title}: Exercism's
+          analyzers automatically assess student's submissions and provide
+          mentor-style commentary."
+        next_goal:
+          build_analyzer: "Next goal: Build an Analyzer."
+        current_version_label: "Current version:"
+        deployment_note: (It may take a few mins to deploy new versions across all servers).
+        total_analyzer_runs: Total Analyzer Runs
+        total_analysis_comments_made: Total Analysis Comments Made
+        feedback_given_frequency: Feedback Given Frequency
+        percentage_value: "%{percentage}%%"
+      syllabus_tooltip:
+        syllabus_title: The %{track_title} syllabus
+        feedback:
+          exemplar: An impressive %{count} concepts are being taught!
+          healthy: A respectable %{count} concepts are being taught.
+          needs_attention:
+            one: Should have 1 more concept being implemented.
+            other: Should have %{count} more concepts being implemented.
+          missing: No concepts have been implemented.
+      _index_representer:
+        representer_header: Representer
+        representer_description:
+          "Build a Representer: a bit of code that has the single
+          responsibility of taking a solution and returning a normalized
+          representation of it."
+        next_goal:
+          build_representer: "Next goal: Build a Representer."
+        current_version_label: "Current version:"
+        deployment_note: (It may take a few mins to deploy new versions across all servers).
+        total_representer_runs: Total Representer Runs
+        total_representation_comments_made: Total Representation Comments Made
+        feedback_given_frequency: Feedback Given Frequency
+        percentage_value: "%{percentage}%%"
+      _show_test_runner:
+        test_runner_header: Test Runner
+        test_runner_description:
+          Create Test Runners that have the single responsibility
+          of taking a solution, running all tests and returning a standardized
+          output.
+        next_goal:
+          build_test_runner: "Next goal: Build a Test Runner."
+          target_version:
+            "Next goal: Get Test Runners to Version %{target_version}.
+            %{track_title} is currently utilising a Version %{current_version}
+            Test Runner."
+        current_version_label: "Current version:"
+        deployment_takes_time_note: (Takes up to 10 mins to deploy)
+        total_test_runner_runs: Total Test Runner Runs
+        test_run_pass_rate: Test Run Pass Rate
+        test_run_fail_rate: Test Run Fail Rate
+        test_run_error_rate: Test Run Error Rate
+        percentage_value_and_count: "%{percentage}%% (%{count})"
+      representer_tooltip:
+        representer_title: The %{track_title} representer
+        feedback:
+          exemplar: Works exemplary!
+          healthy: Works well.
+          needs_attention: No feedback has been given via any representation.
+          missing: The representer has not yet been implemented.
+        comments_made:
+          one: 1 comment has been made.
+          other: "%{count} comments have been made."
+      _index_test_runner:
+        test_runner_header: Test Runner
+        test_runner_description:
+          Create Test Runners that have the single responsibility
+          of taking a solution, running all tests and returning a standardized
+          output.
+        next_goal:
+          build_test_runner: "Next goal: Build a Test Runner."
+          target_version:
+            "Next goal: Get Test Runners to Version %{target_version}.
+            %{track_title} is currently utilising a Version %{current_version}
+            Test Runner."
+        current_version_label: "Current version:"
+        deployment_note: (It may take a few mins to deploy new versions across all servers).
+        total_test_runner_runs: Total Test Runner Runs
+        test_run_pass_rate: Test Run Pass Rate
+        test_run_fail_rate: Test Run Fail Rate
+        test_run_error_rate: Test Run Error Rate
+        percentage_value_and_count: "%{percentage}%% (%{count})"
+    shared:
+      learn_more: Learn More
+      find_out_more: Find out more.
+      started: Started
+      attempts: Attempts
+      completions: Completions
+      mentoring_requests: Mentoring requests
+      attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
+      completions_value: "%{num_completed} (%{percentage}%)"
+      mentoring_requests_value: "%{num_requests} (%{percentage}%)"

@@ -1,0 +1,22 @@
+en:
+  tracks:
+    approaches:
+      show:
+        meta_title:
+          Explore the '%{approach_title}' approach for %{exercise_title} in
+          %{track_title} on Exercism
+        meta_description:
+          Explore the '%{approach_title}' approach for %{exercise_title}
+          in %{track_title} on Exercism. %{approach_blurb}
+        published_at: Published at
+        in_track_mobile: in %{track_title}
+        in_track_desktop: in %{track_title}
+        share_bar:
+          title_mobile: Find this approach useful?
+          subtitle_mobile: Share it around!
+          title_desktop: Find the approach interesting or useful?
+          subtitle_desktop: Share it around and have others benefit too!
+        useful_question: Found it useful?
+        other_approaches:
+          title: Other Approaches to %{exercise_title} in %{track_title}
+          subtitle: Other ways our community solved this exercise

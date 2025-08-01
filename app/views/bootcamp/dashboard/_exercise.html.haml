@@ -7,7 +7,6 @@
       %h3
         = project.title
       %h4
-        Part #{exercise.idx + 1}.
-        = exercise.title
+        = t('.exercise_title', idx: exercise.idx + 1, title: exercise.title)
     .tag= status.to_s.titleize
   %p= exercise.description

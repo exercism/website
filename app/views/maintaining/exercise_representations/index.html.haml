@@ -29,17 +29,16 @@
   }
 
 #maintaining-exercise-representations
-  %h2.text-h3 Represenations
+  %h2.text-h3= t('.representations_heading')
   %table
     %tr
-      %th Track
-      %th Exercise
-      %th Feedback
-      %th Options
+      %th= t('.table_headers.track')
+      %th= t('.table_headers.exercise')
+      %th= t('.table_headers.feedback')
+      %th= t('.table_headers.options')
     - @representations.each do |representation|
       %tr
         %td= representation.exercise.track.title
         %td= representation.exercise.title
         %td= raw representation.feedback_markdown
-        %td= link_to "Edit", edit_maintaining_exercise_representation_path(representation)
-
+        %td= link_to t('.edit_link'), edit_maintaining_exercise_representation_path(representation)

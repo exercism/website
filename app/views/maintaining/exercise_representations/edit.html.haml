@@ -20,25 +20,24 @@
   }
 
 #maintaining-exercise-representation-form
-  %h2.text-h3 Edit Represenation
+  %h2.text-h3= t('.edit_representation_heading')
   .flex
     .submission.w-1-2.mr-32
-      %h3.text-h4.mb-8 Submission
+      %h3.text-h4.mb-8= t('.submission_heading')
       %pre{ style: "overflow:scroll" }
         = @representation.source_submission.files.first.content
 
-      %h3.text-h4.mb-8.mt-48 AST
+      %h3.text-h4.mb-8.mt-48= t('.ast_heading')
       %pre{ style: "overflow:scroll" }
         = @representation.ast
 
     = form_for @representation, url: maintaining_exercise_representation_path(@representation) do |f|
-      %h3.text-h4.mb-8 Feedback
+      %h3.text-h4.mb-8= t('.feedback_heading')
       = f.text_area :feedback_markdown, style: "width:400px;height:400px;"
 
       %div
-        = f.label :feedback_type, "Type of feedback"
+        = f.label :feedback_type, t('.feedback_type_label')
         .c-select
           = f.select :feedback_type, %i[essential actionable non_actionable]
 
-      = f.button "Let's go!", class: "btn-primary btn-m"
-
+      = f.button t('.lets_go_button'), class: "btn-primary btn-m"

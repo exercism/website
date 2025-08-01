@@ -2,29 +2,28 @@
   - if update.errors.any?
     .mb-12.text-red
       %h2
-        = pluralize(update.errors.count, "error")
-        prohibited this site update from being saved:
+        = t('.validation_errors.heading', count: update.errors.count)
       %ul
         - update.errors.each do |error|
           %li= error.full_message
   .field
-    = form.label :title, "Title"
+    = form.label :title, t('.title_label')
     = form.text_field :title
 
   .field
-    = form.label :description_markdown, "Description (markdown, max 600 chars, don't use headings)"
+    = form.label :description_markdown, t('.description_label')
     = form.text_area :description_markdown, maxlength: 600, class: '!w-[600px]'
 
   - if update.new_record?
     .field
-    = form.label :track, "Track"
+    = form.label :track, t('.track_label')
     .c-select.mb-20= form.collection_select :track_id, tracks, :id, :title
 
   .field
-    = form.label :pull_request_number, "Pull Request number (https://github.com/exercism/<repo>/pull/<number>)"
+    = form.label :pull_request_number, t('.pull_request_number_label')
     = form.number_field :pull_request_number
 
   .flex.gap-8
     = form.button button_label, class: "btn-primary btn-m"
     = link_to maintaining_site_updates_path, class: "btn-primary btn-m" do
-      Back to site updates
+      = t('.back_to_site_updates_link')

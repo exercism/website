@@ -4,17 +4,15 @@
       = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
 
       .intro
-        %h2 Forgot your password?
-        %p
-          If you've forgotten your password, use the form below to request a link to change it.
-          Many people who think they've forgotten their password originally signed in using GitHub so you may like to try that too.
+        %h2= t('.forgot_your_password.title')
+        %p= t('.forgot_your_password.description')
 
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, 'data-turbo': false }) do |f|
         = render "devise/shared/error_messages", resource: resource
         .field
           = f.label :email
-          = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Enter your email address"
-        = f.button "Send instructions", class: "btn-primary btn-l"
+          = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: t('.email_placeholder')
+        = f.button t('.send_instructions_button'), class: "btn-primary btn-l"
 
       = render "devise/shared/links"
 

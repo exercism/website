@@ -4,41 +4,37 @@
   %section.form-section
     .inner
       = link_to root_path, class: 'logo' do
-        = icon "exercism-with-logo-black", "Exercism's Logo"
-      %p.tagline Code practice and mentorship for everyone
+        = icon "exercism-with-logo-black", t('.exercism_logo_alt')
+      %p.tagline= t('.tagline')
 
-      = button_to omniauth_authorize_path(:user, :github),
-        form_class: "github-btn",
-        class: "btn-enhanced btn-l github-btn",
-        method: :post,
-        data: { turbo: false } do
+      = button_to omniauth_authorize_path(:user, :github), form_class: "github-btn", class: "btn-enhanced btn-l github-btn", method: :post, data: { turbo: false } do
         = graphical_icon 'external-site-github'
-        Sign Up with GitHub
+        = t('.sign_up_with_github')
 
       .divider
-        %span or
+        %span= t('.or_divider')
 
       = flash_messages
 
       = form_for(resource, as: resource_name, url: registration_path(resource_name), 'data-turbo': false, html: { 'data-turbo': false }) do |f|
         .field
-          = f.label :handle, "Username"
-          = f.text_field :handle, placeholder: 'Choose a unique username', required: true
+          = f.label :handle, t('.username_label')
+          = f.text_field :handle, placeholder: t('.username_placeholder')
         .field
           = f.label :email
-          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", required: true
+          = f.email_field :email, autocomplete: "email", placeholder: t('.email_placeholder')
         .field
           = f.label :password
-          = f.password_field :password, autocomplete: "new-password", placeholder: "Choose a password (min #{@minimum_password_length} chars)", required: true
+          = f.password_field :password, autocomplete: "new-password", placeholder: t('.password_placeholder', minimum_password_length: @minimum_password_length)
         .field
           = f.label :password_confirmation
-          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password", required: true
+          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.password_confirmation_placeholder')
 
         .field
-          .label Confirm you're not a bot
+          = f.label :bot_check, t('.confirm_not_bot_label')
           = render ViewComponents::Captcha.new
 
-        = f.button "Sign Up", class: "btn-primary btn-l test-sign-up-btn", disabled: true
+        = f.button t('.sign_up_button'), class: "btn-primary btn-l"
 
       = render "devise/shared/links"
 

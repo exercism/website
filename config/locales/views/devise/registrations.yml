@@ -1,0 +1,29 @@
+en:
+  devise:
+    registrations:
+      edit:
+        edit_resource: Edit %{resource_name}
+        pending_confirmation_message: "Currently waiting confirmation for: %{unconfirmed_email}"
+        password_hint: (leave blank if you don't want to change it)
+        password_minimum_characters:
+          one: 1 character minimum
+          other: "%{count} characters minimum"
+        current_password_hint: (we need your current password to confirm your changes)
+        update_button: Update
+        cancel_account_title: Cancel my account
+        unhappy_prompt: Unhappy?
+        cancel_my_account_button: Cancel my account
+        cancel_account_confirm: Are you sure?
+        back_link: Back
+      new:
+        exercism_logo_alt: Exercism's Logo
+        tagline: Code practice and mentorship for everyone
+        sign_up_with_github: Sign Up with GitHub
+        or_divider: or
+        username_label: Username
+        username_placeholder: Choose a unique username
+        email_placeholder: Enter your email address
+        password_placeholder: Choose a password (min %{minimum_password_length} chars)
+        password_confirmation_placeholder: Confirm your password
+        confirm_not_bot_label: Confirm you're not a bot
+        sign_up_button: Sign Up

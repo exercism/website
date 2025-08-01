@@ -1,10 +1,6 @@
-%p Hey @#{@user.handle},
+%p= t('.greeting', user_handle: @user.handle)
 - if @resource.try(:unconfirmed_email?)
-  %p
-    We're contacting you to notify you that your email is being changed to #{@resource.unconfirmed_email}.
-    You'll get a confirmation email to your new address to complete the process.
-  %p
-    If you haven't started this process, please email us at #{link_to 'support@exercism.io', 'mailto:support@exercism.io'} immediately.
+  %p= t('.email_change_pending_notification', unconfirmed_email: @resource.unconfirmed_email)
+  %p= t('.email_change_pending_contact_support', support_link: (link_to 'support@exercism.io', 'mailto:support@exercism.io'))
 - else
-  %p
-    We're contacting you to notify you that your email has been changed to #{@resource.email}.
+  %p= t('.email_changed_notification', email: @resource.email)

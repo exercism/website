@@ -1,0 +1,69 @@
+en:
+  pages:
+    index:
+      header:
+        title_html: Get <strong>really</strong> good at programming.
+        subtitle_html:
+          Develop fluency in <em>%{num_tracks} programming languages</em>
+          with our unique blend of learning, practice and mentoring. Exercism is
+          fun, effective and <strong>100% free, forever.</strong>
+        signup_button: Sign up for free
+        explore_button: Explore languages
+        organisation_description: is an independent, community funded, not-for-profit organisation.
+        learn_more_link: Learn more
+      tracks_section:
+        title_html:
+          Explore and <strong>get fluent</strong> in <br> %{num_tracks}
+          programming languages
+        students_count:
+          one: 1 student
+          other: "%{count} students"
+        all_tracks_link: See all %{num_tracks} Language Tracks
+      exercises_section:
+        title_html: Over <strong>%{count} coding exercises.</strong> <br> From
+          "Allergies" to "Zebra Puzzle".
+        subtitle:
+          Learn by doing. Get better at programming through fun coding exercises
+          that build your understanding of concepts.
+        more_tracks: +%{count} more
+        features:
+          local_title: Write code locally, in your own space
+          local_description:
+            Exercism is primarily built as a CLI-first tool. Download and
+            submit exercises right from your terminal.
+          editor_title: Use the Exercism in-browser editor
+          editor_description:
+            Don't spend hours installing a language locally just to
+            try it out. We support all %{num_tracks} of our programming
+            languages in our in-browser editor.
+          analysis_title: Get automated analysis on your code
+          analysis_description:
+            Not quite sure how well you've done? We run automatic
+            analysis on your solutions to give you quick feedback and points of
+            improvement.
+      mentoring_section:
+        title_html: Deepen your knowledge with human mentoring, <strong>for free.</strong>
+        subtitle:
+          Discover new and exciting ways to approach an exercise by getting
+          mentored on it. Become more familiar with the conventions, idioms and
+          opinions of a particular programming language.
+        why_mentoring_title: Why mentoring?
+        features:
+          knowledge_gaps_title: You don't know what you don&apos;t know
+          knowledge_gaps_description:
+            When learning a new language, the hardest part is
+            not being aware of the gaps in your knowledge. Our mentors can look
+            at your code and immediately see the ideas you're not familiar
+            with and give you a level-up by unlocking new knowledge.
+          conventions_title: Learn language-specific conventions
+          conventions_description:
+            Becoming fluent in a language is more than being able
+            to write code in it - it's about being able to think in that
+            language. Our mentors will help guide you to how to reshape your
+            thinking to write idiomatic code.
+          learning_fun_title: Learning with others is fun
+          learning_fun_description:
+            Getting feedback from real people is an amazingly
+            exciting way to learn. And becoming a mentor and giving feedback
+            yourself is an even bigger step forward. So complete the circle - be
+            mentored and mentor 🎉

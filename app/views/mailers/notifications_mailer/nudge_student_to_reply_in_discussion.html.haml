@@ -1,10 +1,9 @@
-%p Hi #{@user.handle},
+%p= t('.greeting', user_handle: @user.handle)
 
-%p This is a friendly reminder that your mentor (#{@discussion.mentor.handle}) has been waiting #{@num_days_waiting} days for you to reply in #{link_to 'the discussion', track_exercise_mentor_discussion_url(@track, @exercise, @discussion)} on your solution to #{@exercise.title} on the #{@track.title} track.
+%p= t('.reminder_message_html', mentor_handle: @discussion.mentor.handle, num_days_waiting: @num_days_waiting, discussion_link: (link_to t('.discussion_link_text'), track_exercise_mentor_discussion_url(@track, @exercise, @discussion)), exercise_title: @exercise.title, track_title: @track.title)
 
-%p If you are actually waiting for the mentor, please add a comment to the discussion to let them know.
+%p= t('.waiting_for_mentor_message')
 
-%p The discussion will time out in #{@num_days_to_time_out} days if you do not reply.
+%p= t('.timeout_message', num_days_to_time_out: @num_days_to_time_out)
 
-= email_button_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
-
+= email_button_to t('.go_to_discussion_button'), track_exercise_mentor_discussion_url(@track, @exercise, @discussion)

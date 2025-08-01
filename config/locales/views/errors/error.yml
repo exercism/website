@@ -1,0 +1,7 @@
+en:
+  errors:
+    error:
+      title: An error occurred
+      description: An error has occurred - sorry!
+      instructions: Please try refreshing, and if that doesn’t work, wait a few
+        minutes and try again.

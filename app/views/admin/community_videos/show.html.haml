@@ -1,28 +1,28 @@
 .lg-container
   %h1.text-h1= @community_video.title
 
-  .text-h6.mb-8 Title: #{@community_video.title}
-  .text-h6.mb-8 Status: #{@community_video.status.to_s.titleize}
-  .text-h6.mb-8 Track: #{@community_video.track&.title}
-  .text-h6.mb-8 Exercise: #{@community_video.exercise&.title}
+  .text-h6.mb-8= t('.title', title: @community_video.title)
+  .text-h6.mb-8= t('.status', status: @community_video.status.to_s.titleize)
+  .text-h6.mb-8= t('.track', track_title: @community_video.track&.title)
+  .text-h6.mb-8= t('.exercise', exercise_title: @community_video.exercise&.title)
   - submitted_by = @community_video.submitted_by
-  .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
+  .text-h6.mb-8= t('.submitted_by', name: submitted_by.name, handle: submitted_by.handle, id: submitted_by.id)
 
   - author = @community_video.author
   - if author.present?
-    .text-h6.mb-8 Author: #{author.name} | @#{author.handle} | ##{author.id}
+    .text-h6.mb-8= t('.author', name: author.name, handle: author.handle, id: author.id)
 
   = video_embed(@community_video.platform, @community_video.watch_id)
-  .text-h4.mb-8.mt-16 COMMUNITY VIDEO Attributes:
+  .text-h4.mb-8.mt-16= t('.community_video_attributes')
   - if @community_video
     - @community_video.attributes.each do |key, value|
-      .text-h6.mb-8 #{key}: #{value}
+      .text-h6.mb-8= t('.attribute', key: key, value: value)
   - else
-    %li.text-sm.text-red-500 COMMUNITY VIDEO is nil
+    %li.text-sm.text-red-500= t('.community_video_is_nil')
 
   .flex.mt-16
-    = link_to "Edit this community video", edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
+    = link_to t('.edit_community_video'), edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
     |
-    = link_to "Back to community videos", admin_community_videos_path, class: 'btn btn-standard btn-base'
+    = link_to t('.back_to_community_videos'), admin_community_videos_path, class: 'btn btn-standard btn-base'
 
     -# \#{button_to "Destroy this community video", [:admin, @community_video, method: :delete}

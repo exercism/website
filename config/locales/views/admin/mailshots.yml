@@ -1,0 +1,53 @@
+en:
+  admin:
+    mailshots:
+      show:
+        details:
+          slug: "Slug: %{slug}"
+          subject: "Subject: %{subject}"
+          preference_key: "Preference Key: %{key}"
+          num_sends: "Num Sends: %{count}"
+          created_at: "Created at: %{date}"
+          test_sent: "Test Sent?: %{status}"
+        sent_to_audiences_header: Sent to audiences
+        sending_options_header: Sending Options
+        send_test_button: Send test
+        send_to_audience_confirm: Are you sure you want to send it to this audience?
+        send_to_audience_button: Send to audience
+        edit_mailshot_button: Edit this mailshot
+        preview_html_button: Preview HTML
+        preview_text_button: Preview Text
+        destroy_mailshot_button: Destroy this mailshot
+        destroy_mailshot_confirm: Are you sure? Destroy %{slug}?
+        back_to_all_mailshots_button: Back to all mailshots
+      index:
+        title: Mailshots
+        table:
+          headers:
+            slug: Slug
+            subject: Subject
+            send_count: Send count
+          details_link: Details
+          edit_link: Edit
+        new_mailshot_button: New mailshot
+      _form:
+        errors:
+          header:
+            one: "1 error prohibited this mailshot from being saved:"
+            other: "%{count} errors prohibited this mailshot from being saved:"
+        labels:
+          slug: Slug
+          subject: Subject
+          email_communication_preferences_key: Preference Key
+          button_text: Button text
+          button_url: Button url
+          content_markdown: Content markdown
+          text_content: Text content
+        submit_button: Submit
+      edit:
+        title: Editing mailshot
+        manage_link: Manage this mailshot
+        back_link: Back to mailshots
+      new:
+        title: New mailshot
+        back_link: Back to mailshots

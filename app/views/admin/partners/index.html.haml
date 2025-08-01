@@ -1,15 +1,14 @@
 .c-admin-page
   .lg-container
-    %h1.text-h1.mb-8 Partners
+    %h1.text-h1.mb-8= t('.title')
     %table.mb-20.c-admin-table
       %tr
-        %th Partner
+        %th= t('.table.headers.partner')
         %th{ colspan: 2 }
       - @partners.each do |partner|
         %tr
           %td= partner.name
-          %td.w-arbitary= link_to "Details", [:admin, partner]
-          %td.w-arbitary= link_to "Edit", edit_admin_partner_path(partner)
+          %td.w-arbitary= link_to t('.table.details_link'), [:admin, partner]
+          %td.w-arbitary= link_to t('.table.edit_link'), edit_admin_partner_path(partner)
     .flex
-      = link_to "Add new partner", new_admin_partner_path, class: 'btn btn-primary btn-base'
-
+      = link_to t('.add_new_partner_button'), new_admin_partner_path, class: 'btn btn-primary btn-base'

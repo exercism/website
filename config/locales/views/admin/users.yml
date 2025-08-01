@@ -1,0 +1,18 @@
+en:
+  admin:
+    users:
+      search:
+        search_user: Search User
+        search_button: Search
+        name: "Name: %{name}"
+        handle: "Handle: %{handle}"
+        email: "Email: %{email}"
+        reputation: "Reputation: %{reputation}"
+        joined_at: "Joined At: %{created_at}"
+        last_visited_on: "Last Visited On: %{last_visited_on}"
+        total_donated: "Total Donated (in cents): %{total_donated_in_cents}"
+        disabled_at: "Disabled At: %{disabled_at}"
+        could_not_find_user: Could not find user
+      index:
+        users_heading: Users
+        search_user_link: Search User

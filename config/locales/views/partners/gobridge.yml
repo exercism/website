@@ -1,0 +1,50 @@
+en:
+  partners:
+    gobridge:
+      header:
+        title: The official Go mentoring platform
+        subtitle:
+          Exercism is the official mentoring platform for GoBridge and the Go
+          Developer Network.
+        mentor_button: Mentor students in Go
+        learn_button: Learn and get mentored in Go
+      mentoring_section:
+        heading: Mentoring Go on Exercism
+        subheading_sm: Support others making the switch to Go
+        subheading_md: Support other programmers making the switch to Go
+        paragraph_1:
+          Exercism is the platform for learning, practicing and mentoring
+          over 55 programming languages. It's not-for-profit and 100% free.
+        paragraph_2:
+          As students complete coding exercises, our volunteer mentors
+          provide feedback on their code, helping them discover the gaps in
+          their knowledge and develop their understanding.
+        paragraph_3_html:
+          Mentoring is a great way to expand your own knowledge while
+          helping others discover the power and joy of Go.
+        button: Become a Go mentor
+      learning_section:
+        heading: Gain fluency in Go
+        subheading: Learn and get mentored on Go-specific concepts and idioms
+        paragraph_1_html:
+          The Go track on Exercism has <em>%{num_concepts} concepts</em>
+          to learn, along with <em>%{num_exercises} coding exercises</em> for
+          you to complete. It’s a great way to pick up Go specific concepts and
+          ways of working.
+        paragraph_2_html:
+          And better still, get mentoring from senior Go developers to
+          discover your knowledge gaps and build a deep understanding of the
+          language.
+        button: Explore the Go track
+      contributing_section:
+        heading: Giving back
+        subheading: Contribute to Go on Exercism
+        mentor_box:
+          tag: Mentor.
+          title: Start mentoring Go students
+        build_box:
+          tag: Build.
+          title: Golang has %{num_tasks} tasks available to work on
+        donate_box:
+          tag: Donate.
+          title: Donate to help us improve the Go track

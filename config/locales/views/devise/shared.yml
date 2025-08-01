@@ -1,0 +1,11 @@
+en:
+  devise:
+    shared:
+      _links:
+        already_have_account_prompt: Already got an account?
+        log_in_link: Log in
+        no_account_yet_prompt: Don’t have an account yet?
+        sign_up_link: Sign up for free.
+        didnt_receive_confirmation_email_prompt: Didn’t receive your confirmation email?
+        resend_it_link: Resend it.
+        didnt_receive_unlock_instructions_link: Didn't receive unlock instructions?

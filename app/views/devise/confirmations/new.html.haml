@@ -2,21 +2,19 @@
   %section.form-section
     .inner
       = link_to root_path, class: 'logo' do
-        = icon "exercism-with-logo-black", "Exercism's Logo"
+        = icon "exercism-with-logo-black", t('.exercism_logo_alt')
 
       .intro
-        %h2 Resend confirmation instructions
-        %p
-          Not received a confirmation email?
-          Use the form below and we'll send you another.
+        %h2= t('.resend_confirmation_instructions_title')
+        %p= t('.resend_confirmation_instructions_message')
 
       = flash_messages
 
       = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { 'data-turbo': false, method: :post }) do |f|
         .field
           = f.label :email
-          = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: "Enter your email address"
-        = f.button "Resend confirmation instructions", class: "btn-primary btn-l"
+          = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: t('.email_placeholder')
+        = f.button t('.resend_confirmation_instructions_button'), class: "btn-primary btn-l"
 
       = render "devise/shared/links"
 

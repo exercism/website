@@ -8,7 +8,7 @@ const MAX_CHARS = 16000
 const TMP_DIR = './tmp/i18n-extraction'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
 
-const HAML_EXT = '.html.haml'
+const HAML_EXT = '.haml'
 
 async function readHamlFiles(folder: string): Promise<Record<string, string>> {
   const result: Record<string, string> = {}

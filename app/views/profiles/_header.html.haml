@@ -13,38 +13,38 @@
         .details
           - if user.location.present?
             .location
-              = icon(:location, "Located in")
+              = icon(:location, t('.details.location_label'))
               = user.location
           - if user.pronouns.present?
             .pronouns
-              = icon(:pronouns, "Pronouns")
+              = icon(:pronouns, t('.details.pronouns_label'))
               = user.pronouns
           .joined
             = graphical_icon(:clock)
-            %time Joined #{user.created_at.strftime('%b %Y')}
+            %time= t('.details.joined_at', date: user.created_at.strftime('%b %Y'))
 
         - if user.bio.present?
-          = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: "Read more", button_text_expanded: "Read less", class_name: "bio")
+          = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: t('.bio.read_more'), button_text_expanded: t('.bio.read_less'), class_name: "bio")
 
       .badges-and-tags
         - if user.revealed_badges.exists?
           .header
             = graphical_icon :badges
-            %h3 #{pluralize user.revealed_badges.count, 'badge'} collected
-            = render ViewComponents::ProminentLink.new("See all", badges_profile_path(user))
+            %h3= t('.badges.count', count: user.revealed_badges.count)
+            = render ViewComponents::ProminentLink.new(t('.badges.see_all'), badges_profile_path(user))
           = link_to badges_profile_path(user) do
             .badges
               - user.featured_badges.each do |badge|
                 .c-badge
                   .c-badge-medallion{ class: "--#{badge.rarity}" }
-                    = icon(badge.icon, "Badge: #{badge.name}")
+                    = icon(badge.icon, t('.badges.badge_name', name: badge.name))
 
         - if header_tags.present? || user.founder?
           .tags
             - if user.founder?
               .tag.founder
                 = graphical_icon :logo
-                .title Exercism Founder
+                .title= t('.tags.exercism_founder')
             - else
               - header_tags.each do |tag|
                 %div{ class: tag[:class] }
@@ -55,27 +55,27 @@
     .tabs-section.scroll-x-hidden{ data: { scrollable_container: 'true' } }
       = link_to profile_path(user), data: { scroll_into_view: (selected_tab == :summary ? ScrollAxis::X : nil) }, class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
         = graphical_icon :overview
-        %span Summary
+        %span= t('.tabs.summary')
 
       - if profile.contributions_tab?
         = link_to contributions_profile_path(user), data: { scroll_into_view: (selected_tab == :contributions ? ScrollAxis::X : nil) }, class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
           = graphical_icon :contribute
-          %span Contributions
+          %span= t('.tabs.contributions')
 
       - if profile.solutions_tab?
         = link_to solutions_profile_path(user), data: { scroll_into_view: (selected_tab == :solutions ? ScrollAxis::X : nil) }, class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
           = graphical_icon 'community-solutions'
-          %span Published Solutions
+          %span= t('.tabs.published_solutions')
 
       - if profile.testimonials_tab?
         = link_to testimonials_profile_path(user), data: { scroll_into_view: (selected_tab == :testimonials ? ScrollAxis::X : nil) }, class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
           = graphical_icon 'testimonials'
-          %span Testimonials
+          %span= t('.tabs.testimonials')
 
       - if profile.badges_tab?
         = link_to badges_profile_path(user), data: { scroll_into_view: (selected_tab == :badges ? ScrollAxis::X : nil) }, class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
           = graphical_icon 'badges'
-          %span Badges
+          %span= t('.tabs.badges')
 
       .external-links
         - if profile.github.present?
@@ -91,7 +91,7 @@
             .link
               = graphical_icon "external-site-medium", css_class: "site-icon"
               .site-name Medium
-              = icon "external-link", "This is an external link", css_class: "action-icon"
+              = icon "external-link", t('.external_links.external_link_title'), css_class: "action-icon"
 
         - if profile.twitter.present?
           = link_to "https://twitter.com/#{profile.twitter}" do

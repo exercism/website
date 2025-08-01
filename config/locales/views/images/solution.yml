@@ -1,0 +1,7 @@
+en:
+  images:
+    solution:
+      solution_by_handle: "%{handle}'s"
+      solution_to: solution to
+      solution_on_exercism_track: on Exercism's
+      solution_track_title: "%{track_title} Track."

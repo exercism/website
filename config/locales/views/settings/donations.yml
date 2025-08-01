@@ -1,0 +1,37 @@
+en:
+  settings:
+    donations:
+      heading: Donations
+      monthly_supporter:
+        heading: Become a monthly supporter of Exercism
+        info_html:
+          Exercism is a not-for-profit organisation that relies on community
+          donations to grow. Support %{mission_link} to help everyone get better
+          at programming.
+        mission_link_text: our mission
+        find_out_more_button: Find out more
+      summary:
+        total_donated: total donated
+        from_recurring: from recurring
+        from_one_time: from one-time
+      payments_table:
+        date_header: Date
+        amount_header: Donation Amount
+        type_header: Type
+        via_header: Via
+        recurring_donation: Recurring donation
+        one_time_donation: One-time donation
+        provider_stripe: Stripe
+        provider_paypal: PayPal
+        provider_github: GitHub
+        view_receipt_button: View Receipt
+      no_donations:
+        heading: Your donations will appear here
+        info_1:
+          Once you've donated, you'll be able to see a history of all donations
+          here.
+        info_2_html:
+          If you've donated to Exercism, but do not see your donations here
+          or have not been awarded the Supporter badge, please email
+          %{email_link} and he'll sort it for you.
+        jeremy_email: Jeremy

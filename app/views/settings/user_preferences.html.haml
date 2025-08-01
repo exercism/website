@@ -3,7 +3,7 @@
     = render ViewComponents::SettingsNav.new(:preferences)
 
     %article
-      %h1 General Preferences
+      %h1= t('.general_preferences.heading')
 
       %section{ id: 'theme-preferences-form' }
         = render ReactComponents::Settings::ThemePreferenceForm.new

@@ -3,7 +3,7 @@
     = render ViewComponents::SettingsNav.new(:insiders)
 
     %article
-      %h1 Insiders
+      %h1= t('.insiders.heading')
 
       %section{ id: 'insider-benefits-form' }
         = render ReactComponents::Settings::InsiderBenefitsForm.new
@@ -14,4 +14,3 @@
       - if current_user.lifetime_insider?
         %section{ id: 'bootcamp-free-coupon-form' }
           = render ReactComponents::Settings::BootcampFreeCouponForm.new
-

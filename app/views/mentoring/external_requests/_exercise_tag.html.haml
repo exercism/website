@@ -2,5 +2,5 @@
   = track_icon solution.track, css_class: 'mr-24 h-[64px]'
   .flex.flex-col.gap-8.mr-32
     .text-h4= solution.exercise.title
-    .text-p-large.text-textColor6 in #{solution.track.title}
+    .text-p-large.text-textColor6= t('.track_title_html', track_title: solution.track.title)
   = graphical_icon "external-link", css_class: 'filter-textColor6 h-[22px]'

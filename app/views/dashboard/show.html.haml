@@ -20,12 +20,12 @@
           .count
             - num_extra_badges = @num_badges - @featured_badges.size
             - if num_extra_badges.positive?
-              + #{num_extra_badges} more
+              = t('.summary_bar.badges.more', count: num_extra_badges)
 
       .journey
         = link_to journey_path, class: 'c-prominent-link --with-bg' do
           = graphical_icon("journey", css_class: 'graphic')
-          See your journey on Exercism
+          = t('.summary_bar.journey_link')
           = graphical_icon("chevron-right")
 
   %article.lg-container.container.flex
@@ -33,36 +33,35 @@
       .header-intro.mb-16
         = graphical_icon "logo"
         .content
-          %h1.flex
-            Welcome back, #{current_user.handle}!
+          %h1.flex= t('.header_intro.welcome', user_handle: current_user.handle)
           %p.welcome
-            Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
-            %strong Exercism is open-source and not-for-profit.
+            = t('.header_intro.welcome_message')
+            %strong= t('.header_intro.exercism_status')
 
-      %h2.text-h3.mb-16 Where to start…
+      %h2.text-h3.mb-16= t('.where_to_start')
       %section.actions-section
         = link_to tracks_path, class: 'action e-hover-grow' do
           = graphical_icon "bookworm", category: 'graphics'
-          Continue learning on your tracks
+          = t('.actions.continue_learning')
         = link_to mentoring_inbox_path, class: 'action e-hover-grow' do
           = graphical_icon "mentoring", category: 'graphics'
-          Try your hand at mentoring
+          = t('.actions.try_mentoring')
         = link_to community_path, class: 'action e-hover-grow' do
           = graphical_icon "contributing-header", category: 'graphics'
-          Get involved in the community
+          = t('.actions.get_involved')
         = link_to donate_url, class: 'action e-hover-grow' do
           = graphical_icon "floating-cash", category: 'graphics'
-          Donate to help us grow sustainably
+          = t('.actions.donate')
 
       %section.posts-section
-        %h2 Community Posts
+        %h2= t('.community_posts.title')
         .posts
           - @blog_posts.each do |post|
             = render ViewComponents::BlogPost.new(post)
-        = render ViewComponents::ProminentLink.new("See all community posts", blog_posts_path)
+        = render ViewComponents::ProminentLink.new(t('.community_posts.see_all_link'), blog_posts_path)
 
       %section.activity-section
-        %h2 New on Exercism
+        %h2= t('.new_on_exercism.title')
         = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
         -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
@@ -71,14 +70,14 @@
         .mb-32
           .flex.items-center.mb-2
             .animate-pulse.bg-alert.rounded-circle.mr-6{ class: "w-[10px] h-[10px]" }
-            .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase Live now
+            .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase= t('.live_event.live_now')
           %h3.text-h4= @live_event.title
           %p.text-p-base.mb-12
             = @live_event.description
-            Watch on
+            = t('.live_event.watch_on')
             = link_to "Twitch", "https://www.twitch.tv/exercismlive"
             - if @live_event.youtube?
-              or
+              = t('.live_event.or')
               = link_to "YouTube", "https://www.youtube.com/watch?v=#{@live_event.youtube_id}"
             👇🏽
 
@@ -94,13 +93,13 @@
         .flex.flex-col.mb-32
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 ⏳
-            Coming soon
+            = t('.featured_event.coming_soon')
           %h2.text-h4.mb-2= @featured_event.title
           %p.text-p-base.mb-4= @featured_event.description
           .py-8.px-12.rounded-8.bg-veryLightBlue.font-medium.mb-16.self-start
-            Live at
-            %strong.font-semibold.text-textColor1 #{format_datetime(@featured_event.starts_at)}.
-            Save the date!
+            = t('.featured_event.live_at')
+            %strong.font-semibold.text-textColor1= format_datetime(@featured_event.starts_at)
+            = t('.featured_event.save_the_date')
 
           - if @featured_event.youtube?
             = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-backgroundColorA flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
@@ -108,12 +107,12 @@
 
       - if @scheduled_events.present?
         .mb-24
-          %h2.text-h4.mb-4 Upcoming Streaming Schedule
+          %h2.text-h4.mb-4= t('.scheduled_events.title')
           %p.text-p-base.mb-12
-            This schedule is regularly updated. All events will stream on our
-            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
-            \- subscribe so not to miss out!
-            %strong.font-semibold All times in UTC.
+            = t('.scheduled_events.description')
+            = link_to t('.scheduled_events.twitch_channel'), 'https://twitch.tv/exercismlive', class: 'underline'
+            = t('.scheduled_events.subscribe_message')
+            %strong.font-semibold= t('.scheduled_events.all_times_utc')
 
           %ul.text-p-base.list-disc.pl-16
             - @scheduled_events.each do |event|
@@ -136,4 +135,3 @@
           = render "mentoring_completed"
       - else
         = render "mentoring_zero"
-

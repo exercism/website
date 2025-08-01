@@ -10,21 +10,19 @@
   - else
     .lg-container.container
       %section.zero-state
-        %h2 You haven’t submitted any iterations yet.
+        %h2= t('.zero_state.heading')
         %p
-          You’ll get to see all your iterations with test results and automated
-          feedback once you submit a solution.
+          = t('.zero_state.body')
         .box
           - if @exercise.has_test_runner?
             .editor
-              %h4 Via Exercism Editor
+              %h4= t('.zero_state.editor_heading')
               = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m' do
                 = graphical_icon "editor"
-                %span Start in Editor
+                %span= t('.zero_state.editor_button')
 
           .cli
-            %h4 Work locally (via CLI)
+            %h4= t('.zero_state.cli_heading')
             = render ReactComponents::Common::CopyToClipboardButton.new(@exercise.download_cmd)
 
-        = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", Exercism::Routes.solving_exercises_locally_path)
-
+        = render ViewComponents::ProminentLink.new(t('.zero_state.prominent_link'), Exercism::Routes.solving_exercises_locally_path)

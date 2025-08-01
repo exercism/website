@@ -1,0 +1,17 @@
+en:
+  courses:
+    testimonials:
+      top_discount_bar:
+        text_html: Check out our %{coding_fundamentals_link} and
+          %{front_end_fundamentals_link} courses.
+        coding_fundamentals_link_text: Coding Fundamentals
+        front_end_fundamentals_link_text: Front End Fundamentals
+      nav:
+        exercism_text: Exercism
+        bootcamps_text: Bootcamps
+        enroll_now_button: Enroll now 👉
+      header:
+        title: Testimonials
+        subtitle:
+          We asked our students if they'd enjoyed the course. Here's what they
+          said...

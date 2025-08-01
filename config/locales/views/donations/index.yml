@@ -1,0 +1,57 @@
+en:
+  donations:
+    index:
+      header:
+        strong_text: "Support our goal:"
+        heading: Give everyone an equal chance to learn and master programming. ✨
+        paragraph_html:
+          If you share our desire to make the world a better &amp; fairer
+          place, please support us.<br><span class="font-medium">You can learn
+          more about our %{mission_link}, %{impact_link} and
+          %{team_link}.</span>
+        mission: Mission
+        impact: Impact
+        team: Team
+      progress_bar:
+        monthly_donations: "Monthly donations:"
+        sustainable_at: "Sustainable at:"
+        target_amount: $25,000
+      logged_out_form:
+        heading: Please log in to donate using a debit/credit card.
+        paragraph_html:
+          Due to constant attacks by bots we now require that everyone
+          %{login_link} or %{signup_link} before donating using a debit or
+          credit card. You can still use other forms of donations below. We
+          apologize for the inconvenience!
+        log_in: logs in
+        sign_up: signs up
+      info_section:
+        heading_one: Everything you need to know about donations
+        paragraph_one:
+          Why do we need donations? How much does Exercism cost to run? How
+          do we spend donations? Watch Jeremy's explanatory video 👇
+        heading_two: Here's what you can do to support us.
+        donate_card:
+          title: Donate
+          description: Support us financially using the donation box
+            %{to_the_right_or_above}. Every dollar helps us keep us independent,
+            advert-free and able to grow, so please support us if you can! 💜
+          to_the_right_or_above:
+            one: to the right.
+            other: above.
+        company_card:
+          title: Get your company involved
+          description_html:
+            Does your company support not-for-profits or charities? Do you
+            have a matched giving scheme at work? We'd love to chat to you to
+            understand how your company could support us. Please drop us an
+            email at %{email_link} and we'll explore further!
+          email_address: fundraising@exercism.org
+        social_card:
+          title: Love Exercism? Tell others about us!
+          description_html: Follow us on %{twitter_link}, %{github_link} and
+            %{linkedin_link} then share our posts, and create your own! We try
+            to share everything we see 🙂
+          twitter: Twitter
+          github: GitHub
+          linkedin: LinkedIn

@@ -1,4 +1,3 @@
-%p Hi #{@user.handle},
-%p Your student (#{@discussion.student.handle}) has commented on your discussion about #{@exercise.title} on the #{@track.title} track.
-= email_button_to "Go to the discussion", mentoring_discussion_url(@discussion)
-
+%p= t('.greeting', user_handle: @user.handle)
+%p= t('.discussion_reply_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
+= email_button_to t('.button_text'), mentoring_discussion_url(@discussion)

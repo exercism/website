@@ -3,14 +3,14 @@
 #page-settings-unsubscribe.page-settings
   .lg-container
     %article
-      %h1 Manage your communication preferences
+      %h1= t('.title')
 
       .flex-col.items-start.mb-16
         = flash_messages
 
       - if @email_key.present?
         %section
-          %h2 Unsubscribe from this email
+          %h2= t('.single_email_unsubscribe.heading')
           %p.text-p-large.mb-12
             = I18n.t("communication_preferences.#{@email_key}")
 
@@ -19,23 +19,23 @@
               = hidden_field_tag :token, @token
               = hidden_field_tag :key, @email_key
               = hidden_field_tag "communication_preferences[#{@email_key}]", false
-              = button_tag "Unsubscribe from email", class: 'btn-m btn-primary'
+              = button_tag t('.single_email_unsubscribe.button'), class: 'btn-m btn-primary'
 
       %section
-        %h2 Unsubscribe from all emails
+        %h2= t('.all_emails_unsubscribe.heading')
 
         .flex.items-center
           = form_with url: all_unsubscribe_path, method: :patch do
             = hidden_field_tag :token, @token
-            = button_tag "Unsubscribe from all emails", class: 'btn-m btn-default'
+            = button_tag t('.all_emails_unsubscribe.button'), class: 'btn-m btn-default'
 
       - if user_signed_in?
         %section
-          %h2 Manage all your notifications
+          %h2= t('.manage_notifications.heading_signed_in')
           = render ReactComponents::Settings::CommunicationPreferencesForm.new
 
       - else
         %section.flex.flex-col.items-start
-          %h2 Manage all your notifications
-          %p.text-16.mb-16 Please log in to manage individual communcation preferences
-          = link_to "Log in", communication_preferences_settings_path, class: 'btn-m btn-default'
+          %h2= t('.manage_notifications.heading_signed_out')
+          %p.text-16.mb-16= t('.manage_notifications.login_prompt')
+          = link_to t('.manage_notifications.login_link'), communication_preferences_settings_path, class: 'btn-m btn-default'

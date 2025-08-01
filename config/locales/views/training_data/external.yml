@@ -1,0 +1,20 @@
+en:
+  training_data:
+    external:
+      _locked:
+        max_reputation_html: Your current max reputation in a track is
+        no_reputation: You haven't yet earned any reputation in a track.
+        how_it_works: How does this work?
+        unlock_info_html: Ability to use Training Hub unlocks when you reach <a
+          href="%{reputation_link}" class="text-gradient
+          !font-semibold">%{track_min_reputation} rep</a> in a single track
+      index:
+        title: Help us build a more intelligent Exercism
+        description:
+          We're using machine learning to improve Exercism's ability to
+          understand the code people submit, using a mixture of our data and
+          crowd-sourced effort.
+        bonus_reputation: "Bonus: Helping us out earns reputation!"
+        become_trainer: Become a Trainer →
+        sign_up_to_help: Sign up to help us out
+        log_in: Log in

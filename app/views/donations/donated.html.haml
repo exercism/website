@@ -3,13 +3,11 @@
 .pt-40
   .flex.flex-col.items-center.pb-40{ class: 'min-h-[50vh] max-w-[650px] m-auto text-center' }
     = graphical_icon "insiders", css_class: 'h-[64px] w-[64px] mb-8'
-    %h1.text-h1.flex.items-center.mb-20 Donation sucessful
+    %h1.text-h1.flex.items-center.mb-20= t('.title')
 
     %p.text-p-large.mb-8
-      Thank you so much for supporting our work!
-      Your donation will help enable us to keep improving Exercism and keep it free for everyone.
+      = t('.thank_you_message_html')
     %p.text-p-large.mb-24
-      If your donation was over $9.99, it will have made you eligible for #{link_to 'Exercism Insiders', insiders_path}.
+      = t('.insiders_eligibility_html', link_to_insiders: (link_to t('.exercism_insiders'), insiders_path))
     %p.text-p-large.mb-24
-      = link_to "Go to your dashboard", root_path, class: "btn btn-large btn-primary"
-
+      = link_to t('.go_to_dashboard'), root_path, class: "btn btn-large btn-primary"

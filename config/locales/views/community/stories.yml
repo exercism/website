@@ -1,0 +1,14 @@
+en:
+  community:
+    stories:
+      show:
+        back_to_community: Back to Community
+        watch_on_youtube: Watch on Youtube
+        more_stories:
+          title: More Stories from our community
+          description: Listen, learn and be inspired by our community members.
+      index:
+        title: Hear our Community's Stories
+        description:
+          Listen to the stories of those who have built, contributed to, and
+          learnt from Exercism.

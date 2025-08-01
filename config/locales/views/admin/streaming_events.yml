@@ -1,0 +1,44 @@
+en:
+  admin:
+    streaming_events:
+      show:
+        details:
+          title: "Title: %{title}"
+          description: "Description: %{description}"
+          starts_at: "Starts at: %{date}"
+          ends_at: "Ends at: %{date}"
+          featured: Featured %{status}
+          thumbnail: "Thumbnail: %{url}"
+          youtube_id: "YouTube ID: %{id}"
+        actions:
+          edit: Edit this streaming event
+          destroy: Destroy this event
+          destroy_confirm: Are you sure? Destroy %{title}?
+          back_to_all: Back to all streaming events
+      index:
+        title: Streaming events
+        table:
+          details_link: Details
+          edit_link: Edit
+        new_event_button: New streaming event
+      _form:
+        errors:
+          header:
+            one: "1 error prohibited this streaming_event from being saved:"
+            other: "%{count} errors prohibited this streaming_event from being saved:"
+        labels:
+          title: Title
+          description: Description
+          starts_at: Starts at
+          ends_at: Ends at
+          featured: Featured
+          youtube_id: YouTube ID
+          thumbnail_url: Thumbnail url
+        submit_button: Submit
+      edit:
+        title: Editing streaming event
+        show_link: Show this streaming event
+        back_link: Back to streaming events
+      new:
+        title: New streaming event
+        back_link: Back to streaming events

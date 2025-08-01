@@ -1,0 +1,75 @@
+en:
+  about:
+    impact:
+      meta_title: Exercism's Impact Report
+      meta_description:
+        We've provided over 310 million minutes of free learning to
+        over a million people. Learn more in our impact report!
+      header:
+        title: Exercism Impact Report
+        provided_text_prefix: We've provided
+        provided_text_suffix: of free education.
+        daily_minutes_provided: And we provide another ~285,340 minutes every day!
+        funding_info: All on a free, open source project funded by people like you.
+      stats:
+        students: Students
+        exercise_submissions: Exercise Submissions
+        mentoring_discussions: Mentoring Discussions
+      languages_taught:
+        Exercism teaches %{num_languages} programming languages from
+        %{first_language} to %{last_language}, using a unique blend of learning,
+        practicing, and mentoring.
+      everything_is_free: Everything on Exercism is 100% free.
+      live_activity: Live activity on Exercism
+      social_media:
+        twitter: Twitter
+      testimonials:
+        dapritchard:
+          "%{twitter_handle} is really incredible. My submission was failing
+          it's tests…I asked for mentoring to help straighten things out, and
+          within 15 minutes someone had messaged me explaining my error."
+        zippkode:
+          …I worked on the Ruby strings exercises at %{twitter_handle} This
+          platform forces me to slow down and actually logically solve the
+          tasks…
+        alebaffa:
+          "I've always loved %{twitter_handle} because you learn not only the
+          syntax of a language, but also its dev environment: how to setup
+          tests, packaging and build. Fantastic resource!"
+      volunteers_section:
+        title: Exercism is powered by huge team of wonderful volunteers.
+        mentors_label: Mentors
+        code_contributors_label: Code Contributors
+        full_time_staff_label: Full-time Staff
+      support_section:
+        emoji_aria_label: Clapping Hands
+        call_to_action_title: Has Exercism helped you become a better developer?
+        call_to_action_paragraph_one:
+          If Exercism has helped your career prospects or
+          given you joy, please consider financially supporting us.
+        call_to_action_paragraph_two: Only 1% of people that use Exercism support us. Please be one of them.
+        support_button: See how you can support us
+      partners_section:
+        title: A special thanks to these organisations…
+        mozilla_alt: Mozilla
+        gobridge_alt: GoBridge
+        chicago_alt: University of Chicago
+        packt_alt: Packt Publishing
+        donors_prefix: And over
+        individual_donors_link: 700 individuals donors!
+      growth_section:
+        title: We've grown to over %{num_users} students entirely by word of mouth.
+        description:
+          We work closely with our community to understand how to evolve
+          Exercism to be the best it can be, and they reward us by sharing with
+          their friends.
+      mission_cta:
+        title: Become rocket fuel for our mission
+        description:
+          We've built everything for under $500,000. Imagine what we could do
+          with more significant funding! Could you be the one to make it happen?
+        organization_support_title: Interested in supporting Exercism as an organisation?
+        contact_prefix: Get in touch with
+        contact_suffix: Co-founder & CEO
+      testimonials_section:
+        title: Over 85,000 students have left testimonials to thank their mentors.

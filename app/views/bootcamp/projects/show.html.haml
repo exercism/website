@@ -1,10 +1,11 @@
+-# rubocop:disable Lint/LiteralAsCondition
 #page-bootcamp-project
   %header
     .c-breadcrumbs
       .lg-container.container
         = link_to bootcamp_projects_path do
           = graphical_icon 'bootcamp-projects'
-          .span Projects
+          .span= t('.breadcrumbs.projects')
         .seperator /
 
         .title= @project.title
@@ -15,7 +16,7 @@
         .flex.flex-col.gap-4
           %h1= @project.title
           .tags
-            .tag.completed Completed
+            .tag.completed= t('.project_bar.completed_tag')
 
       -#
         - if @project.concepts.any?
@@ -29,20 +30,21 @@
 
     - num_completed = @project.exercises.to_a.count { |exercise| @solutions[exercise.id]&.completed? }
     - num_unlocked = @project.exercises.to_a.count(&:unlocked?)
-    %h2.font-semibold.text-24.mb-4 Exercises
+    %h2.font-semibold.text-24.mb-4= t('.exercises.title')
     %p.text-18.leading-150.mb-16
-      You have completed #{num_completed} of #{num_unlocked} unlockable exercises in this project.
+      = t('.exercises.description', num_completed: num_completed, num_unlocked: num_unlocked)
     .exercises.grid.grid-cols-3.gap-16.mb-40
       - @project.exercises.unlocked.each do |exercise|
         = render ViewComponents::Bootcamp::ExerciseWidget.new(exercise, solution: @solutions[exercise.id], user_project: @user_project)
 
     - if false # @project.slug == "drawing"
-      %h2 Your Drawings
-      %p Create your own drawings using code!
+      %h2= t('.your_drawings.title')
+      %p= t('.your_drawings.description')
       .grid.grid-cols-3
         - current_user.bootcamp_drawings.each do |drawing|
           = link_to edit_bootcamp_drawing_path(drawing), class: 'drawing' do
             = drawing.uuid
             -# = image_tag drawing.image_url, width: 200, height: 200
         = button_to bootcamp_drawings_path, method: :post, class: "drawing new" do
-          New Drawing
+          = t('.your_drawings.new_drawing_button')
+-# rubocop:enable Lint/LiteralAsCondition

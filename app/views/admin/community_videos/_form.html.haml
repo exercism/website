@@ -2,16 +2,15 @@
   - if community_video.errors.any?
     %div{ style: "color: red" }
       %h2
-        = pluralize(community_video.errors.count, "error")
-        prohibited this community_video from being saved:
+        = t('.errors_prohibited_saving', count: community_video.errors.count)
       %ul
         - community_video.errors.each do |error|
           %li= error.full_message
   %div
-    .text-h6.mb-8 Track: #{community_video.track&.title}
-    .text-h6.mb-8 Exercise: #{community_video.exercise&.title}
+    .text-h6.mb-8= t('.track_info', track_title: community_video.track&.title)
+    .text-h6.mb-8= t('.exercise_info', exercise_title: community_video.exercise&.title)
     - submitted_by = community_video.submitted_by
-    .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
+    .text-h6.mb-8= t('.submitted_by', name: submitted_by.name, handle: submitted_by.handle, id: submitted_by.id)
 
     .flex.flex-col.mb-16
       = f.label :title, class: 'text-h6 mb-4'

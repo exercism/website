@@ -8,23 +8,9 @@
     %header.track-header.c-header-with-bg
       .lg-container.container
         .info.md:mr-64.flex.flex-col
-          %h1.text-h1 Want to learn and master #{@track.title}?
+          %h1= t('.header.title', track_title: @track.title)
           %p.text-p-xlarge
-            Join Exercism’s #{@track.title} Track for access to
-            %em.c-underline
-              %strong #{@user_track.num_exercises} exercises
-
-            - if @track.course?
-              grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
-            with automatic analysis
-            of your code and
-            = succeed(',') do
-              %em.c-underline
-                %strong> personal mentoring
-            all
-            %em.c-underline
-              %strong 100% free.
-            /= @track.blurb
+            = t('.header.subtitle_html', track_title: @track.title, num_exercises: @user_track.num_exercises, num_concepts: @user_track.num_concepts, track_is_course: @track.course?).html_safe
 
           .btns.flex.flex-col.sm:flex-row
             - url = user_signed_in? ? join_track_path(@track) : User::GenerateNewSessionPath.(request, controller)
@@ -32,22 +18,22 @@
             - elem = user_signed_in? ? :button_to : :link_to
             = send(elem, url, method: method, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto") do
               = graphical_icon(:plus)
-              %span Join the #{@track.title} Track
+              %span= t('.header.join_track_button', track_title: @track.title)
 
             - if @track.course?
               = link_to track_concepts_path(@track), class: "btn-secondary btn-l" do
-                Explore concepts
+                = t('.header.explore_concepts_button')
             - else
               = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
-                Explore exercises
+                = t('.header.explore_exercises_button')
 
           - if @track.slug == "go"
             .mt-40.border-2.border-gradient.rounded-8.overflow-hidden.self-start
               .bg-veryLightBlue.flex.px-24.py-12
                 .font-semibold.text-16.leading-150
                   ⭐
-                  %span.text-gradient Exercism is the official GoBridge &amp; GDN mentoring platform.
-                  = link_to "Learn more.", blog_post_path('exercism-is-the-official-go-mentoring-platform'), class: "text-gradient border-b-1"
+                  %span.text-gradient= t('.header.gobridge_platform_html').html_safe
+                  = link_to t('.header.learn_more_link_text'), blog_post_path('exercism-is-the-official-go-mentoring-platform'), class: "text-gradient border-b-1"
 
         .graphics.hidden.md:grid
           = track_icon(@track)
@@ -57,8 +43,8 @@
       .inner.flex-col.md:flex-row
         .info.mb-32.md:mb-0
           .c-textual-content.--large
-            %h2 About #{@track.title}
-            = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), content_is_safe: true, button_text_compressed: "Read more on #{@track.title}", button_text_expanded: "Read less")
+            %h2= t('.about_section.title', track_title: @track.title)
+            = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), content_is_safe: true, button_text_compressed: t('.about_section.read_more_button_text', track_title: @track.title), button_text_expanded: t('.about_section.read_less_button_text'))
 
         - if @track.intro_video_youtube_slug.present?
           %div{ class: 'w-[100%] max-w-[500px]' }
@@ -74,12 +60,9 @@
       .inner
         .info
           %h2
-            %em.c-underline #{@user_track.num_exercises} coding exercises
-            for #{@track.title} on Exercism.
-            - unless @showcase_exercises.empty?
-              From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
+            = t('.exercises_section.title_html', num_exercises: @user_track.num_exercises, track_title: @track.title, first_exercise_title: @showcase_exercises.first.title, last_exercise_title: @showcase_exercises.last.title, showcase_exercises_present: !@showcase_exercises.empty?).html_safe
           %hr.c-divider
-          %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.
+          %p= t('.exercises_section.subtitle')
 
           .exercises
             - @showcase_exercises.each do |exercise|
@@ -90,7 +73,7 @@
                   %p= exercise.blurb
                 = graphical_icon :'chevron-right', css_class: "action-icon"
 
-          = render ViewComponents::ProminentLink.new("See all #{@track.title} exercises on Exercism", track_exercises_path(@track))
+          = render ViewComponents::ProminentLink.new(t('.exercises_section.all_exercises_link', track_title: @track.title), track_exercises_path(@track))
 
         = srcset_tag "screenshots/exercise-about.webp", [400, 632, 800, 1264], [[:lg, "50vw"], "0vw"], alt: "", class: 'hidden lg:block', width: 1264, height: 1180
 

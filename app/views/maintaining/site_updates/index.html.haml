@@ -2,32 +2,32 @@
 
 #maintaining-site-updates.c-admin-page
   .lg-container
-    %h1.text-h1.mb-16.mt-32 Site updates
+    %h1.text-h1.mb-16.mt-32= t('.site_updates_heading')
     - if flash[:site_updates_notice]
       .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
     %table.mb-16.c-admin-table
       %thead
         %tr
-          %th Type
-          %th About
+          %th= t('.table_headers.type')
+          %th= t('.table_headers.about')
           %th.flex.items-center.gap-8
-            Published At
-            = icon('question-circle', 'Icon of a question mark', css_class: 'filter-textColor5', height: 16, width: 16, title: 'Site updates are published a few hours after the exercises are put live ')
-          %th Expanded Details
-          %th Pull Request
+            = t('.table_headers.published_at')
+            = icon('question-circle', t('.published_at_icon_alt'), css_class: 'filter-textColor5', height: 16, width: 16, title: t('.published_at_icon_title'))
+          %th= t('.table_headers.expanded_details')
+          %th= t('.table_headers.pull_request')
           %th
       %tbody
         - @updates.each do |update|
           %tr
             - case update
             - when SiteUpdates::NewExerciseUpdate
-              %td Exercise
-              %td #{update.track&.title} / #{update.exercise&.title}
+              %td= t('.update_type.exercise')
+              %td= t('.exercise_update_details', track_title: update.track&.title, exercise_title: update.exercise&.title)
             - when SiteUpdates::NewConceptUpdate
-              %td Concept
-              %td #{update.track&.title} / #{update.concept&.name}
+              %td= t('.update_type.concept')
+              %td= t('.concept_update_details', track_title: update.track&.title, concept_name: update.concept&.name)
             - when SiteUpdates::ArbitraryUpdate
-              %td Arbitrary
+              %td= t('.update_type.arbitrary')
               %td= update.track&.title
 
             %td= update.published_at
@@ -39,9 +39,9 @@
             %td= update.pull_request&.title
             %td
               - if update.editable_by?(current_user)
-                = link_to "Edit", edit_maintaining_site_update_path(update), class: 'text-prominentLinkColor font-bold'
+                = link_to t('.edit_link'), edit_maintaining_site_update_path(update), class: 'text-prominentLinkColor font-bold'
 
     .flex
-      = link_to "New site update", new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
+      = link_to t('.new_site_update_button'), new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
 
     = paginate @updates

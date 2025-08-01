@@ -5,12 +5,11 @@
     .flex.lg:flex-row.flex-col.items-start.pt-40.lg:gap-128.gap-64.mb-40
       .block
         = graphical_icon "brief-introductions-gradient", css_class: "h-[48px] w-[48px] mb-8"
-        %h1.text-h1.mb-8 The Brief Introduction Series
+        %h1.text-h1.mb-8= t('.title')
         %p.text-p-xlarge.leading-150.mb-8
-          Explore new languages with our "Brief Introduction" series.
-          Join Erik as he looks at the history, and fundamentals of a language, and solves an exercise in it.
+          = t('.description_one')
         %p.text-p-xlarge.leading-150.mb-8
-          Check out his latest video to the right, or explore the full series below.
+          = t('.description_two')
 
       .flex-shrink-0{ class: "lg:w-[400px] w-100" }
         = render ReactComponents::Common::YoutubePlayer.new(@latest_id, 'brief_introductions')

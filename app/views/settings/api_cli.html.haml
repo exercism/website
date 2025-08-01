@@ -3,7 +3,7 @@
     = render ViewComponents::SettingsNav.new(:api_cli)
 
     %article
-      %h1 API &amp; CLI Settings
+      %h1= t('.api_cli_settings.heading')
 
       %section
         = render ReactComponents::Settings::TokenForm.new

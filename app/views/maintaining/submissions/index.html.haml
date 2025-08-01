@@ -37,5 +37,5 @@
   td:nth-child(6) { width:50px; font-family: monospace; }
 
 #maintaining-submissions
-  %h2.text-h3 Submissions
+  %h2.text-h3= t('.submissions_heading')
   = ReactComponents::Maintaining::SubmissionsSummaryTable.new(@submissions)

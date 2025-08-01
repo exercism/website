@@ -1,0 +1,23 @@
+en:
+  mentoring:
+    external_requests:
+      _exercise_tag:
+        track_title_html: in %{track_title}
+      show_logged_out:
+        heading: Want to mentor %{user_handle}?
+        description: Exercism allows you to mentor others and help them improve their code.
+        signup_button: Sign up for free
+        login_button: Log in
+        registration_note: You may need to navigate back to this link once you've registered.
+      show:
+        heading: Want to mentor %{user_handle}?
+        description:
+          "%{user_handle} has sent you a private invitation to mentor their
+          solution."
+        accept_button: Accept invitation
+        decline_button: Decline
+      show_not_mentor:
+        heading: Want to mentor %{user_handle}?
+        description: You'll need to register as a mentor first to get started.
+        register_mentor_button: Register as mentor
+        learn_more_button: Learn more

@@ -1,23 +1,23 @@
 %hr
 
 %p.info.mb-8
-%h3 Here's a reminder of what's included:
+%h3= t('.heading')
 = render "courses/pay/#{enrollment.course.template_slug}"
 
 .quote
   .words
     = image_tag "bootcamp/quote.png", class: 'mark left-mark'
     %span
-      = raw Markdown::Parse.("I was brand new to coding and this course **exceeded my wildest expectations** and then some. In my humble opinion, it will be one of the **best choices you will ever make!**")
+      = raw Markdown::Parse.(t('.testimonial_quote'))
   .person
     .flex.flex-row.items-center.justify-end.gap-8
       .stars
       .text
-        .name Shaun Archer
-        .description Total Beginner
+        .name= t('.testimonial_name')
+        .description= t('.testimonial_description')
       = image_tag "bootcamp/testimonials/shaun.jpg"
 
--# 
+-#
   .guarantee
     .flex.sm:flex-row.items-center.sm:gap-20.relative
       .sm:py-8.pl-12.pt-32

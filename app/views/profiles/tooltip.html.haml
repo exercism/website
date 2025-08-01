@@ -11,7 +11,7 @@
 
 - if @user.location.present?
   .location
-    = icon(:location, "Located in")
+    = icon(:location, t('.location_label'))
     = @user.location
 -#
   {/*<div>{data.badges.count} badges collected</div>

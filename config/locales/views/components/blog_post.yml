@@ -1,0 +1,5 @@
+en:
+  components:
+    blog_post:
+      new_label: new
+      published_time: "%{time_ago} ago"

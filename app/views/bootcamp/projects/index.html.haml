@@ -4,14 +4,13 @@
       .lg-container.container
         .title
           = graphical_icon 'bootcamp-projects'
-          Projects
+          = t('.breadcrumbs.projects')
 
     .lg-container
       .title-bar
-        %h1.font-semibold.text-20.mb-8 Projects
+        %h1.font-semibold.text-20.mb-8= t('.title_bar.projects_title')
         %p.text-18{ class: "max-w-[850px]" }
-          Throughout the bootcamp you'll build a variety of projects. Each contains multiple exercises that will unlock as the bootcamp progresses.
-          More projects will unlock as you progress.
+          = t('.title_bar.projects_description')
 
   .lg-container
     .grid.grid-cols-3.gap-8

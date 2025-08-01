@@ -1,0 +1,19 @@
+en:
+  tracks:
+    dig_deeper:
+      tooltip_locked:
+        title: Struggling with this exercise?
+        unlock_dig_deeper:
+          Unlock the Dig Deeper tab to see how the community approached
+          and solved %{exercise_title}.
+        attempt_exercise_first:
+          You can only view the Dig Deeper tab for this exercise
+          if you've attempted this exercise at least once.
+        recommendation:
+          We highly recommend you try your best without exploring the Dig
+          Deeper tab first.
+      show:
+        meta_title: Dig Deeper into %{exercise_title} in %{track_title} on Exercism
+        meta_description:
+          Explore different approaches and videos on how to solve
+          %{exercise_title} in %{track_title}.

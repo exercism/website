@@ -1,0 +1,106 @@
+en:
+  tracks:
+    mentor_discussions:
+      tooltip_locked:
+        heading: Struggling with this exercise?
+        body:
+          You can only receive mentoring if you've submitted a solution to this
+          exercise. If you're struggling, try exploring Community Solutions or
+          Dig Deeper.
+        recommendation: We highly recommend you try your best without revealing
+          Community Solutions or Dig Deeper first.
+      mentoring_requested:
+        heading: You've requested mentoring
+        waiting_text: Waiting on a mentor…
+        view_request_button: View your request
+      introduction:
+        header:
+          title: Take your solution to the next level
+          subtitle_html: Get feedback on your solution to
+            <strong>%{exercise_title}</strong> by a %{track_title} mentor and
+            discover new ways to approach the problem, and expand and deepen
+            your %{track_title} knowledge.
+          submit_button: Submit for code review
+          free_text: It's absolutely free! 😲
+        why:
+          heading: Why get feedback?
+          points:
+            fluency:
+              heading: Attain real fluency in %{track_title}
+              body_html:
+                Learning a language is more than being able to use it, it's about
+                being able to <strong>think</strong> in it. Our mentors will
+                help develop your perceptions.
+            unknown:
+              heading: You don't know what you don't know
+              body:
+                It's hard to progress when you don't know what's missing. Our mentors will
+                help you discover the gaps in your %{track_title} knowledge.
+            questions:
+              heading: Get your questions answered
+              body:
+                Whatever your questions, our mentors will be able to help you. Make sure
+                you ask what's on your mind when requesting a mentor.
+            push:
+              heading: Push yourself
+              body:
+                However confident you feel in %{track_title}, there will always be more to
+                learn. Push yourself further with an Exercism mentor.
+        how:
+          heading: How does it work?
+          points:
+            submit:
+              heading: Submit for Code Review
+              body:
+                Send a request to the Exercism community. Tell us what you're aiming to
+                learn so the right mentor can pair with you.
+            feedback:
+              heading: Get feedback
+              body:
+                Once a mentor accepts your request, they'll review your solution and
+                request, and give you your first feedback.
+            iterate:
+              heading: Iterate and learn
+              body:
+                Converse with your mentor and continue to write and submit further
+                iterations considering their advice.
+            end_celebrate:
+              heading_html: End &amp; Celebrate 🎉
+              body:
+                Once you're happy with your final solution, end the discussion and leave a
+                testimonial for your mentor.
+      mentoring_in_progress:
+        mentor_info_html: You're being mentored by&nbsp;<strong>%{mentor_handle}</strong>
+        status:
+          review_mentor: Review your mentor
+          waiting_mentor: Waiting for mentor
+          your_turn: Your turn to respond
+        comments_count:
+          one: 1 comment
+          other: "%{count} comments"
+        in_progress_label: In-progress
+        open_discussion_button: Open discussion
+      previous_discussions:
+        discussion_ended: Ended %{time_ago} ago
+        status_ended: Ended
+        no_discussions_message: You have no past code review sessions
+      index:
+        personal_mentoring:
+          locked_message_html:
+            You're currently being mentored. Please end your existing
+            discussion before starting a new mentoring session with someone
+            else.
+          heading: Want a friend to mentor you instead?
+          body:
+            If you want mentoring by a friend, teacher, colleague, etc rather than
+            experiencing community mentoring, send them the link below and they
+            will be able to mentor you directly.
+          link_heading: Direct Mentoring Invite Link
+          prominent_link: Learn more about direct mentoring
+      mentoring_finished:
+        heading: Want to try another mentor?
+        body_html: Want a different mentor's thoughts on your solution? You can
+          re-request mentoring and ask new questions about your solution to
+          <strong>%{exercise_title}</strong>, or explore your previous mentoring
+          sessions below.
+        button: Request more mentoring

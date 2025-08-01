@@ -3,17 +3,17 @@
     = graphical_icon 'practice-exercises', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        The #{@track.title} practice exercises
+        = t('.title', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health, plural: true)
 
       %p.text-p-base
         - case @status.practice_exercises.health.to_sym
         - when :exemplar
-          Has implemented a stellar #{@status.practice_exercises.active.size} practice exercises!
+          = t('.exemplar_health', count: @status.practice_exercises.active.size)
         - when :healthy
-          Has implemented #{@status.practice_exercises.active.size} practice exercises.
+          = t('.healthy_health', count: @status.practice_exercises.active.size)
         - when :needs_attention
           - num_active_to_implement = @status.practice_exercises.num_active_target - @status.practice_exercises.active.size
-          Should have #{num_active_to_implement} more practice #{'exercise'.pluralize(num_active_to_implement)} be implemented.
+          = t('.needs_attention_health', count: num_active_to_implement)
         - when :missing
-          No practice exercises have been implemented.
+          = t('.missing_health')

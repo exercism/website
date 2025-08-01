@@ -1,0 +1,6 @@
+en:
+  components:
+    bootcamp:
+      exercise_widget:
+        brain_buster_alt_text: Brain Buster
+        major_project_alt_text: Major Project

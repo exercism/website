@@ -1,6 +1,6 @@
 %section.c-zero-section
   = graphical_icon "person-celebrating", category: :graphics
 
-  %h3 Your workspace is clear.
-  %p Do you have time to start mentoring some more students?
-  = link_to "See mentoring queue", mentoring_queue_path, class: 'btn-default btn-s'
+  %h3= t('.title')
+  %p= t('.description')
+  = link_to t('.link'), mentoring_queue_path, class: 'btn-default btn-s'

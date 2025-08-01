@@ -4,7 +4,7 @@
   .lg-container.container
     .section-header
       = graphical_icon "key-features", hex: true, css_class: "header-icon"
-      %h2 Key Features of #{track.title}
+      %h2= t('.title', track_title: track.title)
       %hr.c-divider
 
     .features

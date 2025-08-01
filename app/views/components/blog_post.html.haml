@@ -1,11 +1,9 @@
 = link_to post, class: "c-blog-post e-hover-grow" do
   .img{ style: "background-image:url(\"#{post.image_url}\")" }
   - if post.new?
-    .new new
+    .new= t('.new_label')
   .title.text-h6= post.title
   .byline
     .by= post.author.handle
     &middot;
-    %date #{time_ago_in_words(post.published_at)} ago
-
-
+    %date= t('.published_time', time_ago: time_ago_in_words(post.published_at))

@@ -1,0 +1,9 @@
+en:
+  docs:
+    tracks:
+      meta_title: Exercism's Track Docs
+      meta_description: Track specific docs on how to use that language alongside Exercism
+      heading: Track-specific docs
+      subtitle:
+        Explore the docs of tracks you're learning, mentoring or helping to
+        build.

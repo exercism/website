@@ -1,5 +1,5 @@
-- content_for :meta_title, "Solve #{@ps_data.title} on Exercism"
-- content_for :meta_description, "Can you solve #{@ps_data.title}? Improve your programming and problem-solving skills with support from our world-class team of mentors."
+- content_for :meta_title, t('.meta_title', ps_data_title: @ps_data.title)
+- content_for :meta_description, t('.meta_description', ps_data_title: @ps_data.title)
 - content_for :canonical_url, generic_exercise_url(@ps_data.slug)
 - require_stylesheet "track"
 
@@ -16,21 +16,20 @@
       .lhs.flex-grow
         - if @exercise.deep_dive_youtube_id.present?
           .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
-            .text-h3.mb-8 Deep Dive into #{@exercise.title}!
+            .text-h3.mb-8= t('.deep_dive_section.title', exercise_title: @exercise.title)
             %p.text-p-large.mb-16= @exercise.deep_dive_blurb
             %div{ class: 'w-[100%]' }
               = render ReactComponents::Common::YoutubePlayer.new(@exercise.deep_dive_youtube_id, 'generic_exercise')
 
-
         %section.instructions.px-20.lg:px-32.py-20.lg:py-24
-          .text-h3.mb-12 Instructions
+          .text-h3.mb-12= t('.instructions_section.title')
           .c-textual-content.--large
             .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
               = raw @ps_data.description_html
 
             - if @exercise.tutorial?
               %p.mb-20
-                Watch our "Introduction to Hello, World" video to get started 👇
+                = t('.instructions_section.intro_video_text')
                 = vimeo_embed("853440496?h=6abbdfc68f")
 
             - source = @ps_data.source
@@ -38,35 +37,30 @@
             - if source.present? || source_url.present?
               .source
                 %hr.c-divider.--small
-                %h3 Source
+                %h3= t('.source_section.title')
                 - if source.present? && source_url.present?
                   = external_link_to source, source_url
                 - elsif source.present?
                   = source
                 - else
-                  Explore the #{external_link_to 'source of this exercise', source_url}.
+                  = t('.source_section.explore_source', source_link: external_link_to(t('.source_section.source_link_text'), source_url))
 
       .flex-shrink-0{ class: "md:w-[33%]" }
         - if @featured_in_2024_languages
           .shadow-lg.bg-backgroundColorA.px-20.py-16.mb-24.rounded-8
             .flex.items-center.gap-16
               .lhs
-                .text-h4.mb-2 Part of #48in24
+                .text-h4.mb-2= t('.featured_in_2024_section.challenge_title')
                 %p.xl:text-p-base.text-p-large
-                  #{@exercise.title} is featured as part of
-                  = succeed('.') do
-                    = link_to "#48in24 challenge", challenge_path("48in24")
-                  Solve it in
-                  = @featured_in_2024_languages.map { |track| link_to track.title, track_exercise_path(track.slug, @exercise.slug) }.to_sentence.html_safe
-                  to earn the gold award.
+                  = t('.featured_in_2024_section.challenge_text_html', exercise_title: @exercise.title, challenge_link: link_to(t('.featured_in_2024_section.challenge_link_text'), challenge_path("48in24")), languages: @featured_in_2024_languages.map { |track| link_to track.title, track_exercise_path(track.slug, @exercise.slug) }.to_sentence.html_safe)
               = graphical_icon "challenge-48in24-gold-circle", width: 80, height: 80
 
-        .text-h4.mb-2 Try #{@exercise.title} in #{@track_variants.size} different languages…
+        .text-h4.mb-2= t('.track_variants_section.title', exercise_title: @exercise.title, size: @track_variants.size)
         %p.xl:text-p-base.text-p-large.mb-20
           - if @num_completed_solutions.positive?
-            So far you've completed it in #{pluralize @num_completed_solutions, 'language'}.
+            = t('.track_variants_section.completed_languages', count: @num_completed_solutions)
           - else
-            You've not yet completed it in any languages.
+            = t('.track_variants_section.not_yet_completed')
 
         %section.tracks.grid.grid-cols-1.lg:grid-cols-3.xl:grid-cols-4.gap-16
           - @track_variants.each do |exercise|

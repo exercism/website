@@ -4,15 +4,14 @@
       .lg-container.container
         .title
           = graphical_icon 'concepts'
-          .span All Concepts
+          .span= t('.breadcrumbs.all_concepts')
 
     .lg-container.details
-      %h1.font-semibold Concepts
+      %h1.font-semibold= t('.header.concepts_title')
       %p.mb-6
-        This is your library of information.
-        Everything you find in the Concept section will be covered throughout the live teaching sessions.
+        = t('.header.concepts_description_p1')
       %p
-        Use these docs as a refresher to go over anything that's unclear.
+        = t('.header.concepts_description_p2')
 
   .lg-container
     %ul.concepts.ml-10

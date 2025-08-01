@@ -13,8 +13,8 @@
           .flex.flex-row.items-center.text-16.font-semibold.justify-center.border-t-1.border-borderColor7.pt-16
             = image_tag @solution.user.avatar_url, class: 'w-[32px] h-[32px] mr-8 rounded-circle'
             %span
-              %span.text-white #{@solution.user.handle}'s
-              %span solution to
+              %span.text-white= t('.solution_by_handle', handle: @solution.user.handle)
+              %span= t('.solution_to')
               %span.text-white= @solution.exercise.title
-              %span on Exercism's
-              %span.text-white #{@solution.track.title} Track.
+              %span= t('.solution_on_exercism_track')
+              %span.text-white= t('.solution_track_title', track_title: @solution.track.title)

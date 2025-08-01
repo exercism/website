@@ -6,25 +6,19 @@
     .lg-container.flex.items-start.md:items-center.flex-col-reverse.md:flex-row
       .lhs.md:items-center.lg:items-start.md:text-center.lg:text-left
         %h1.text-h0.mb-12
-          Get
-          %strong.leading-none.font-bold really
-          good at programming.
+          = t('.header.title_html').html_safe
         %p.text-p-xlarge.mb-24
-          Develop fluency in
-          %em.not-italic.font-medium.text-textColor2 #{@num_tracks} programming languages
-          with our unique blend of learning, practice and mentoring.
-          Exercism is fun, effective and
-          %strong.text-textColor2 100% free, forever.
+          = t('.header.subtitle_html', num_tracks: @num_tracks).html_safe
         .buttons.flex.mb-40.flex-col.sm:flex-row
-          = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-24 '
-          = link_to "Explore languages", tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
+          = link_to t('.header.signup_button'), new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-24 '
+          = link_to t('.header.explore_button'), tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
 
         .organisation.pt-16.sm:items-center.lg:items-start.xl:items-center.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.px-24.sm:pl-32.sm:pr-48.pb-16.sm:pb-32.md:pb-16.lg:pb-16.xl:pb-16
           = icon "exercism-with-logo-black", "Exercism", css_class: 'mr-16 mb-8 sm:mb-8 lg:mb-8'
 
           .flex.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.sm:items-center.lg:items-start.xl:items-center
-            %p.text-p-base.mb-8.sm:mb-0.text-left is an independent, community funded, not-for-profit organisation.
-            = link_to "Learn more", about_path, class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
+            %p.text-p-base.mb-8.sm:mb-0.text-left= t('.header.organisation_description')
+            = link_to t('.header.learn_more_link'), about_path, class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
 
       .graphic.grid.md:hidden.lg:grid.lg:ml-24.mb-16.lg:mb-0
         = graphical_icon "landing-page-top", category: :graphics
@@ -34,20 +28,16 @@
       .section-header.items-center.self-center.mb-8.md:mb-12
         = graphical_icon :tracks, hex: true
         %h2.text-h1.text-center
-          Explore and
-          %strong get fluent
-          in
-          %br
-          #{@num_tracks} programming languages
+          = t('.tracks_section.title_html', num_tracks: @num_tracks).html_safe
         %hr.c-divider.--large
       .mb-64.grid.grid-cols-2.sm:grid-cols-4.lg:grid-cols-6
         - @tracks.each do |track|
           = link_to track_path(track), class: 'track' do
             = track_icon(track)
             .title= track.title
-            .students-count #{number_with_delimiter(track.num_students)} students
+            .students-count= t('.tracks_section.students_count', count: number_with_delimiter(track.num_students))
       .cta.border-t-3.border-veryLightBlue
-        = render ViewComponents::ProminentLink.new("See all #{@num_tracks} Language Tracks", tracks_path, with_bg: true)
+        = render ViewComponents::ProminentLink.new(t('.tracks_section.all_tracks_link', num_tracks: @num_tracks), tracks_path, with_bg: true)
 
   %section.exercises-section.pb-64
     .lg-container
@@ -56,13 +46,10 @@
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
-              Over
-              %strong #{number_with_delimiter(Exercise.available.count)} coding exercises.
-              %br
-              From "Allergies" to "Zebra Puzzle".
+              = t('.exercises_section.title_html', count: number_with_delimiter(Exercise.available.count)).html_safe
             %hr.c-divider
             %p.text-p-xlarge
-              Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.
+              = t('.exercises_section.subtitle')
 
           .exercises
             - @showcase_exercises.each do |sample|
@@ -76,25 +63,25 @@
                     .track-icons.sm:ml-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|
                         = track_icon(track)
-                    .font-semibold.text-textColor7.ml-16.whitespace-nowrap +#{sample[:num_tracks]} more
+                    .font-semibold.text-textColor7.ml-16.whitespace-nowrap= t('.exercises_section.more_tracks', count: sample[:num_tracks])
 
         = srcset_tag "screenshots/landing-page-exercise.webp", [400, 688, 800, 1376], [[:lg, "50vw"], "100vw"], alt: "", class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: 1376, height: 1076
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
           = graphical_icon "features-local"
-          %h3.text-h4 Write code locally, in your own space
-          %p.text-p-base Exercism is primarily built as a CLI-first tool. Download and submit exercises right from your terminal.
+          %h3.text-h4= t('.exercises_section.features.local_title')
+          %p.text-p-base= t('.exercises_section.features.local_description')
 
         .feature
           = graphical_icon "features-editor"
-          %h3.text-h4 Use the Exercism in-browser editor
-          %p.text-p-base Don&apos;t spend hours installing a language locally just to try it out. We support all #{@num_tracks} of our programming languages in our in-browser editor.
+          %h3.text-h4= t('.exercises_section.features.editor_title')
+          %p.text-p-base= t('.exercises_section.features.editor_description', num_tracks: @num_tracks)
 
         .feature
           = graphical_icon "features-feedback"
-          %h3.text-h4 Get automated analysis on your code
-          %p.text-p-base Not quite sure how well you&apos;ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
+          %h3.text-h4= t('.exercises_section.features.analysis_title')
+          %p.text-p-base= t('.exercises_section.features.analysis_description')
 
   %section.mentoring-section
     .lg-container
@@ -103,31 +90,30 @@
         .section-header
           = graphical_icon :exercises, hex: true
           %h2.text-h2
-            Deepen your knowledge with human mentoring,
-            %strong for free.
+            = t('.mentoring_section.title_html').html_safe
           %hr.c-divider
 
           %p.text-p-xlarge
-            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
+            = t('.mentoring_section.subtitle')
 
       = srcset_tag "screenshots/mentoring.webp", [400, 500, 800, 1000, 1376, 2752], "100vw", class: "main-graphic mb-60 shadow-lgZ1", width: 2752, height: 1796
 
       .flex.flex-col.items-center
-        %h3.text-h2 Why mentoring?
+        %h3.text-h2= t('.mentoring_section.why_mentoring_title')
         %hr.c-divider.mt-16.mb-24
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
           = graphical_icon "features-do-not-know"
-          %h3.text-h4 You don&apos;t know what you don&apos;t know
-          %p.text-p-base When learning a new language, the hardest part is not being aware of the gaps in your knowledge. Our mentors can look at your code and immediately see the ideas you&apos;re not familiar with and give you a level-up by unlocking new knowledge.
+          %h3.text-h4= t('.mentoring_section.features.knowledge_gaps_title')
+          %p.text-p-base= t('.mentoring_section.features.knowledge_gaps_description')
 
         .feature
           = graphical_icon "features-fluency"
-          %h3.text-h4 Learn language-specific conventions
-          %p.text-p-base Becoming fluent in a language is more than being able to write code in it - it&apos;s about being able to think in that language. Our mentors will help guide you to how to reshape your thinking to write idiomatic code.
+          %h3.text-h4= t('.mentoring_section.features.conventions_title')
+          %p.text-p-base= t('.mentoring_section.features.conventions_description')
 
         .feature
           = graphical_icon "features-feedback"
-          %h3.text-h4 Learning with others is fun
-          %p.text-p-base Getting feedback from real people is an amazingly exciting way to learn. And becoming a mentor and giving feedback yourself is an even bigger step forward. So complete the circle - be mentored and mentor 🎉
+          %h3.text-h4= t('.mentoring_section.features.learning_fun_title')
+          %p.text-p-base= t('.mentoring_section.features.learning_fun_description')

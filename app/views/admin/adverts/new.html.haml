@@ -1,12 +1,10 @@
 .c-admin-page
   .lg-container
-    %h1.text-h1.mb-16 Adding advert for #{@partner.name}
+    %h1.text-h1.mb-16= t('.title', partner_name: @partner.name)
 
     = form_with(model: @advert, url: admin_partner_adverts_path(@partner)) do |f|
       = render "form", f:, partner: @partner, advert: @advert
 
     %br/
     %div
-      = link_to "Back to partner", [:admin, @partner]
-
-
+      = link_to t('.back_to_partner_link'), [:admin, @partner]

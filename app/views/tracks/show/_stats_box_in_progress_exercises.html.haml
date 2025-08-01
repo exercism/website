@@ -2,10 +2,8 @@
   .info
     .count= user_track.num_in_progress_exercises
     %h3
-      = "Exercise".pluralize(user_track.num_in_progress_exercises)
-      in-progress
+      = t('.in_progress_exercises', count: user_track.num_in_progress_exercises)
     .icons
       - user_track.sample_in_progress_exercises.each do |exercise|
         = exercise_icon exercise
   = graphical_icon "chevron-right", css_class: "action-icon"
-

@@ -19,14 +19,14 @@
                   - @user.featured_badges.each do |badge|
                     .c-badge.ml-8
                       .c-badge-medallion{ class: "--#{badge.rarity} !w-[40px] !h-[40px]" }
-                        = icon(badge.icon, "Badge: #{badge.name}")
+                        = icon(badge.icon, t('.badge_icon_alt', badge_name: badge.name))
 
                 - if @header_tags.present? || @user.founder?
                   .tags
                     - if @user.founder?
                       .tag.founder
                         = graphical_icon :logo
-                        .title Exercism Founder
+                        .title= t('.founder_title')
                     - else
                       - @header_tags.each do |tag|
                         %div{ class: tag[:class] }

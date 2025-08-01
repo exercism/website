@@ -2,17 +2,12 @@
   - if completed
     .inner-box.completed
       .inner-box-content
-        .text-h6.mb-2 Viewed approach
+        .text-h6.mb-2= t('.viewed_approach.title')
         %p.mb-4
-          Explore the different common approaches to this exercise in our
-          = succeed(".") do
-            = link_to "Dig Deeper section", track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1"
+          = t('.viewed_approach.description_html', link: link_to(t('viewed_approach.link_text'), track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1")).html_safe
   - else
     .inner-box.pending
       .inner-box-content
-        .text-h6.mb-2 Discover different approaches
+        .text-h6.mb-2= t('.discover_approaches.title')
         %p.mb-4
-          Explore the different common approaches to this exercise in our
-          = succeed(".") do
-            = link_to "Dig Deeper section", track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1"
-
+          = t('.discover_approaches.description_html', link: link_to(t('discover_approaches.link_text'), track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1")).html_safe

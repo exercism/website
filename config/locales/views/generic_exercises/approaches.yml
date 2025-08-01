@@ -1,0 +1,7 @@
+en:
+  generic_exercises:
+    approaches:
+      meta_title: Explore different ways to solve %{ps_data_title} on Exercism
+      meta_description: Explore the different ways to solve %{ps_data_title}.
+      title: "%{exercise_title} approaches"
+      back_to_exercise: ← Back to the exercise

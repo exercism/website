@@ -1,5 +1,5 @@
-- content_for :meta_title, "Exercism's Team".html_safe
-- content_for :meta_description, "Learn who runs Exercism, out trustees, leadership and full-time time."
+- content_for :meta_title, t('.meta_title').html_safe
+- content_for :meta_description, t('.meta_description')
 - content_for :canonical_url, team_about_url
 - require_stylesheet "about"
 
@@ -10,180 +10,180 @@
     .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
       .flex.items-center.mb-16.md:mb-20
         = graphical_icon "contributing-header", css_class: "icon"
-        %h1.text-h3.text-center Our Team
-      %h2.text-h0.mb-20.text-center Exercism is built by people from all over the world  🙌
+        %h1.text-h3.text-center= t('.our_team')
+      %h2.text-h0.mb-20.text-center= t('.built_by_people_worldwide')
     .md-container.flex.flex-col.items-center
       .flex.flex-col-reverse.md:flex-col.items-center
         .info.md:mb-32
           .stats.flex.items-center.flex-col.md:flex-row
-            .stat.mb-8.md:mb-0 Over 6,000 contributors
+            .stat.mb-8.md:mb-0= t('.stats.contributors', count: '6,000')
             .divider &middot;
-            .stat.mb-8.md:mb-0 231 countries
+            .stat.mb-8.md:mb-0= t('.stats.countries', count: 231)
             .divider &middot;
-            .stat 287 GitHub repositories
+            .stat= t('.stats.github_repos', count: 287)
 
         .flex.flex-col.items-center.mb-28.md:mb-0
           %hr.c-divider.mb-32
-          = image_tag "world-map.png", alt: "A world map containing avatars of Exercism contributors", class: "map w-100"
+          = image_tag "world-map.png", alt: t('.map_alt_text'), class: "map w-100"
 
   %article
     .md-container
       .info-box.bg-evenLighterBlue.px-32.md:px-48.py-24.md:py-40.flex.flex-col.md:flex-row.md:items-center.mb-64
         .info
-          %h2.text-h2.mb-12 Thousands of people have supported our vision and helped build Exercism.
-          %p.text-p-xlarge.mr-40 Exercism relies on leadership team and staff, a wider team of approximately one hundred maintainers and key contributors, and small contributions from thousands of individuals. Beyond these contributions to our product, tens of thousands of members of our community have contributed by giving feedback and help to others.
+          %h2.text-h2.mb-12= t('.info_box.title')
+          %p.text-p-xlarge.mr-40= t('.info_box.description')
         = graphical_icon "community-solutions", category: :graphics, css_class: 'mt-32 md:mt-0 self-center md:ml-auto'
 
       %section.leadership-team.mb-40
         %header.mb-32
           = graphical_icon "leadership-team"
-          %h2.text-h3.mb-12 Leadership Team
-          %p.text-p-large Our leadership team manage the strategic and organisational sides of Exercism. They are responsible for fulfilling our mission statement and maintaining our values.
+          %h2.text-h3.mb-12= t('.leadership_team.title')
+          %p.text-p-large= t('.leadership_team.description')
 
         .grid.grid-cols-1.md:grid-cols-2.gap-16.md:gap-32
           .person
-            = image_tag "team/katrina.jpg", alt: "An image of Katrina", class: "avatar"
+            = image_tag "team/katrina.jpg", alt: t('.leadership_team.katrina_owen.image_alt'), class: "avatar"
             .details
               %h3
-                = link_to "Katrina Owen", "https://exercism.github.io/kytrinyx/", target: "_blank", rel: 'noreferrer'
-              .handle Co-founder &amp; Director
-              %p Katrina is the original creator of Exercism. She is co-author of #{link_to '99 Bottles of OOP', 'https://sandimetz.com/99bottles'}. Polyglot developer and Ruby Hero award winner, with a degree in Molecular Biology. Cares deeply about open-source and contributes to several projects outside of Exercism.
+                = link_to t('.leadership_team.katrina_owen.name'), "https://exercism.github.io/kytrinyx/", target: "_blank", rel: 'noreferrer'
+              .handle= t('.leadership_team.katrina_owen.handle')
+              %p= t('.leadership_team.katrina_owen.bio', book_link: link_to(t('.leadership_team.katrina_owen.book_link_text'), 'https://sandimetz.com/99bottles'))
               %ul.links
                 %li
                   = link_to "https://exercism.github.io/kytrinyx/", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "link"
-                    %span Katrina's Personal Site
+                    %span= t('.leadership_team.katrina_owen.personal_site_link')
 
                 %li
                   = link_to "https://github.com/kytrinyx", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-github"
-                    %span GitHub
+                    %span= t('.github_link')
 
                 %li
                   = link_to "https://twitter.com/kytrinyx", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-twitter"
-                    %span Twitter
+                    %span= t('.twitter_link')
 
           .person
-            = image_tag "team/jeremy-walker.jpg", alt: "An image of Jeremy Walker", class: "avatar"
+            = image_tag "team/jeremy-walker.jpg", alt: t('.leadership_team.jeremy_walker.image_alt'), class: "avatar"
             .details
               %h3
-                = link_to "Jeremy Walker", "https://ihid.info", target: "_blank", rel: 'noreferrer'
-              .handle Co-founder &amp; CEO
-              %p Jeremy is an entrepreneur and software developer, who's passionate about equality and opportunity. He has co-founded various organisations, including Meducation, Wondr Medical, and #{link_to 'Kaido', 'https://kaido.org'}, and holds a patent for AI used in heart surgery.
+                = link_to t('.leadership_team.jeremy_walker.name'), "https://ihid.info", target: "_blank", rel: 'noreferrer'
+              .handle= t('.leadership_team.jeremy_walker.handle')
+              %p= t('.leadership_team.jeremy_walker.bio', kaido_link: link_to(t('.leadership_team.jeremy_walker.kaido_link_text'), 'https://kaido.org'))
               %ul.links
                 %li
                   = link_to "https://ihid.info", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "link"
-                    %span Jeremy's Personal Site
+                    %span= t('.leadership_team.jeremy_walker.personal_site_link')
 
                 %li
                   = link_to "https://github.com/iHiD", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-github"
-                    %span GitHub
+                    %span= t('.github_link')
 
                 %li
                   = link_to "https://twitter.com/iHiD", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-twitter"
-                    %span Twitter
+                    %span= t('.twitter_link')
 
       %section.staff-team.mb-40
         %header.mb-32
           = graphical_icon "staff-team"
-          %h2.text-h3.mb-12 Staff
-          %p.text-p-large Our staff manage our website, the CLI and the operational side of Exercism, ensuring that we provide a safe and reliable experience for everyone using Exercism.
+          %h2.text-h3.mb-12= t('.staff_team.title')
+          %p.text-p-large= t('.staff_team.description')
 
         .grid.grid-cols-1.md:grid-cols-2.gap-16.md:gap-32
           .person
-            = image_tag "team/erik.jpg", alt: "An image of Erik Schierboom", class: "avatar"
+            = image_tag "team/erik.jpg", alt: t('.staff_team.erik_schierboom.image_alt'), class: "avatar"
             .details
               %h3
-                = link_to "Erik Schierboom", "https://twitter.com/ErikSchierboom", target: "_blank", rel: 'noreferrer'
-              .handle Head of Open Source
-              %p Erik is a polyglot developer who loves learning new languages. He builds the software and infrastructure that powers the open-source elements of the platform, ensuring each track is a joy to work with. He was a top Exercism volunteer before joining full-time.
+                = link_to t('.staff_team.erik_schierboom.name'), "https://twitter.com/ErikSchierboom", target: "_blank", rel: 'noreferrer'
+              .handle= t('.staff_team.erik_schierboom.handle')
+              %p= t('.staff_team.erik_schierboom.bio')
               %ul.links
                 %li
                   = link_to "https://www.erikschierboom.com", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "link"
-                    %span Erik's personal site
+                    %span= t('.staff_team.erik_schierboom.personal_site_link')
                 %li
                   = link_to "https://github.com/erikschierboom", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-github"
-                    %span GitHub
+                    %span= t('.github_link')
                 %li
                   = link_to "https://twitter.com/erikschierboom", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-twitter"
-                    %span Twitter
+                    %span= t('.twitter_link')
           .person
-            = image_tag "team/aron.jpg", alt: "An image of Aron Demeter", class: "avatar"
+            = image_tag "team/aron.jpg", alt: t('.staff_team.aron_demeter.image_alt'), class: "avatar"
             .details
               %h3
-                = link_to "Áron Demeter", "https://github.com/dem4ron", target: "_blank", rel: 'noreferrer'
-              .handle Front-end Developer
-              %p Áron is a self-taught developer who gets excited about discovering interrelations between things. He has a Master's degree in classical piano performance. In his freetime he enjoys spending time with his family, learning new languages on Exercism or listening to an opera.
+                = link_to t('.staff_team.aron_demeter.name'), "https://github.com/dem4ron", target: "_blank", rel: 'noreferrer'
+              .handle= t('.staff_team.aron_demeter.handle')
+              %p= t('.staff_team.aron_demeter.bio')
               %ul.links
                 %li
                   = link_to "https://twitter.com/d4ron1", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-twitter"
-                    %span Twitter
+                    %span= t('.twitter_link')
                 %li
                   = link_to "https://github.com/dem4ron", target: "_blank", rel: 'noreferrer' do
                     = graphical_icon "external-site-github"
-                    %span GitHub
+                    %span= t('.github_link')
 
       %section.alumni-team.mb-64
         %header.mb-32
           = graphical_icon "staff-team"
-          %h2.text-h3.mb-12 Alumni
-          %p.text-p-large People who have previously worked full-time at Exercism and since moved onto new adventures. Their legacies are gratefully remembered!
+          %h2.text-h3.mb-12= t('.alumni_team.title')
+          %p.text-p-large= t('.alumni_team.description')
 
         .grid.grid-cols-1.md:grid-cols-2.gap-16.md:gap-32
           .person
-            = image_tag "team/nicole.jpg", alt: "An image of Nicole Chalmers", class: "avatar"
+            = image_tag "team/nicole.jpg", alt: t('.alumni_team.nicole_chalmers.image_alt'), class: "avatar"
             .details
-              %h3 Nicole Chalmers
-              %p Nicole is the Head of Product at #{link_to 'Kaido', 'https://kaido.org'}. She spent two years as Head of Product for Exercism, guiding us from v1 to v2, and helping set the principles and ideas that still drive Exercism today.
+              %h3= t('.alumni_team.nicole_chalmers.name')
+              %p= t('.alumni_team.nicole_chalmers.bio', kaido_link: link_to(t('.alumni_team.nicole_chalmers.kaido_link_text'), 'https://kaido.org'))
           .person
-            = image_tag "team/charles.jpg", alt: "An image of Charles Care", class: "avatar"
+            = image_tag "team/charles.jpg", alt: t('.alumni_team.charles_care.image_alt'), class: "avatar"
             .details
-              %h3 Charles Care
-              %p Charles was part of the team that built Exercism v2, working specifically on the server-side code and infrastructure. He helped build out the first version of our automated mentoring platform, and Github integration.
+              %h3= t('.alumni_team.charles_care.name')
+              %p= t('.alumni_team.charles_care.bio')
           .person
-            = image_tag "team/karlo.jpg", alt: "An image of Karlo Soriano", class: "avatar"
+            = image_tag "team/karlo.jpg", alt: t('.alumni_team.karlo_soriano.image_alt'), class: "avatar"
             .details
-              %h3 Karlo Soriano
-              %p Karlo worked on the website part of Exercism. He created most of the website's interactive frontend for v3, and contributed to much of the Rails backend platform.
+              %h3= t('.alumni_team.karlo_soriano.name')
+              %p= t('.alumni_team.karlo_soriano.bio')
           .person
-            = image_tag "team/taiyab.jpg", alt: "An image of Taiyab Raja", class: "avatar"
+            = image_tag "team/taiyab.jpg", alt: t('.alumni_team.taiyab_raja.image_alt'), class: "avatar"
             .details
-              %h3 Taiyab Raja
-              %p Taiyab is designer behind the beautiful visuals and UX of Exercism v3. He enjoys all things startups, design and entrepreneurship.
+              %h3= t('.alumni_team.taiyab_raja.name')
+              %p= t('.alumni_team.taiyab_raja.bio')
           .person
-            = image_tag "team/loretta.jpg", alt: "An image of Loretta Murray", class: "avatar"
+            = image_tag "team/loretta.jpg", alt: t('.alumni_team.loretta_murray.image_alt'), class: "avatar"
             .details
-              %h3 Loretta Murray
-              %p Loretta was Exercism's Head of Fundraising during 2022-2023. She's motivated by the transformational power of fundraising and is a qualified business coach with a passion for developing fundraisers&apos; skills.
+              %h3= t('.alumni_team.loretta_murray.name')
+              %p= t('.alumni_team.loretta_murray.bio')
           .person
-            = image_tag "team/jonathan.jpg", alt: "An image of Jonathan Middleton", class: "avatar"
+            = image_tag "team/jonathan.jpg", alt: t('.alumni_team.jonathan_middleton.image_alt'), class: "avatar"
             .details
-              %h3 Jonathan Middleton
-              %p Jonathan was Exercism's Community Manager during 2022-2023. He loves connecting with people and hearing stories of how people are where they are in life. He is curious to learn and has been slowly getting to grips with programming.
+              %h3= t('.alumni_team.jonathan_middleton.name')
+              %p= t('.alumni_team.jonathan_middleton.bio')
 
       %section.grid.gird-cols-1.md:grid-cols-3.gap-56
         .community-team
           = graphical_icon "maintaining"
-          %h3 Track Maintainers
-          %p.text-p-large Our maintainers are the lynchpins of the language tracks and exercises on Exercism. They create and organize exercises for each of our 50 languages and help guide us to ensure Exercism teaches students in the most idiomatic way possible.
-          = render ViewComponents::ProminentLink.new("See all Exercism maintainers", contributing_contributors_path(category: :maintaining))
+          %h3= t('.community_teams.maintainers.title')
+          %p.text-p-large= t('.community_teams.maintainers.description')
+          = render ViewComponents::ProminentLink.new(t('.community_teams.maintainers.link_text'), contributing_contributors_path(category: :maintaining))
 
         .community-team
           = graphical_icon "mentoring"
-          %h3 Mentors
-          %p.text-p-large Our mentors are the human element behind Exercism, providing empathetic feedback on learners' solutions. They are the magic that makes Exercism come alive.
-          = render ViewComponents::ProminentLink.new("See all Exercism mentors", contributing_contributors_path(category: :mentoring))
+          %h3= t('.community_teams.mentors.title')
+          %p.text-p-large= t('.community_teams.mentors.description')
+          = render ViewComponents::ProminentLink.new(t('.community_teams.mentors.link_text'), contributing_contributors_path(category: :mentoring))
 
         .community-team
           = graphical_icon "authoring"
-          %h3 Open source contributors
-          %p.text-p-large Exercism could not be the success it is without the contributors of over 2,000 volunteers, who add value in numerous ways, from writing tooling to creating the exercises you solve.
-          = render ViewComponents::ProminentLink.new("See all contributors", contributing_contributors_path(category: :building))
+          %h3= t('.community_teams.contributors.title')
+          %p.text-p-large= t('.community_teams.contributors.description')
+          = render ViewComponents::ProminentLink.new(t('.community_teams.contributors.link_text'), contributing_contributors_path(category: :building))

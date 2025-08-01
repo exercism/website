@@ -1,6 +1,6 @@
-%p Hi #{@user.handle},
+%p= t('.greeting', user_handle: @user.handle)
 %p
-  Congratulations! You've unlocked a new badge at Exercism.
+  = t('.congratulations')
   %br
-  Visit your Exercism Journey page to see what you earned.
-= email_button_to "Show me what I unlocked!", badges_journey_url
+  = t('.visit_journey_page')
+= email_button_to t('.show_what_unlocked_button'), badges_journey_url

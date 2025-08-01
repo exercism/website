@@ -1,0 +1,18 @@
+en:
+  mentoring:
+    automation:
+      tooltip_locked:
+        requirements_html:
+          Requires <strong>%{min_finished_mentoring_sessions}</strong>
+          finished mentoring sessions on a track and an overall satisfaction
+          rating of %{min_satisfaction_percentage}%% (currently
+          %{satisfaction_percentage}%%)
+        finished_sessions_info:
+          one: 1/%{min} (on the %{track_title} track)
+          other: "%{count}/%{min} %{track_title}"
+        what_is_automation_heading: What is automation?
+        automation_description:
+          Automation allows you to submit standardized responses
+          to code submissions that get shared as part of automated feedback on
+          solutions.
+        find_out_more_button: Find out more on Automation

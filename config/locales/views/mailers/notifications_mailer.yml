@@ -1,0 +1,71 @@
+en:
+  mailers:
+    notifications_mailer:
+      joined_lifetime_insiders:
+        greeting: Hey!
+        welcome_message_html: Welcome to %{link_to_exercism_insiders}!
+        impact_message: Thank you for being part of our story and helping making
+          Exercism the huge success that it is. As a Lifetime Insider, you're
+          one of the few people who have had a huge impact on the platform and
+          shaped it into what it is today. You've helped thousands of people and
+          made a huge difference - thank you.
+        insiders_gratitude: Insiders is a tiny way of us saying thank you for all you've done.
+        learn_more_html: To learn about what's in Insiders, please check out the
+          %{dedicated_page_link}, or watch our %{introductory_video_link} below
+          👇
+        dedicated_page_link: dedicated page
+        introductory_video_link: introductory video
+        discord_invitation_html:
+          I'd love to hear all your thoughts and ideas on our
+          dedicated %{discord_channel_link}. So come along and say hello!
+        closing_message:
+          Thanks again for being part of Exercism. I'm excited for what's
+          next! 🙂
+        signature_name: Jeremy Walker
+        signature_title: Exercism's Co-founder & CEO
+        button_text: Visit Exercism
+      nudge_to_request_mentoring:
+        greeting: Hi %{user_handle},
+        completed_exercises_message:
+          You've completed a few exercises (nice work!) but
+          not yet requested mentoring on any of your solutions.
+        feedback_benefits_html:
+          Receiving feedback from our mentors is an amazing way of
+          discovering your knowledge gaps and levelling up your skills.
+        valuable_feature_message:
+          It's one of Exercism's most valuable features, and
+          like all of Exercism, it's absolutely free!
+        choose_solution_message:
+          Choose a solution that you feel has the most room for
+          improvement and request a mentor to take a look at it. They should get
+          back to you within a day or so with some ideas!
+        button_text: Choose a solution →
+      student_replied_to_discussion:
+        greeting: Hi %{user_handle},
+        discussion_reply_message:
+          Your student (%{student_handle}) has commented on your
+          discussion about %{exercise_title} on the %{track_title} track.
+        button_text: Go to the discussion
+      mentor_finished_discussion:
+        greeting: Hi %{user_handle},
+        discussion_finished_message:
+          Your mentor (%{mentor_handle}) has finished the
+          discussion for your solution on %{exercise_title} on the
+          %{track_title} track.
+        button_text: Go to the discussion
+      acquired_trophy:
+        greeting: Hi %{user_handle},
+        trophy_unlocked_message:
+          Congratulations! You've unlocked a new trophy on the
+          %{track_title} track.
+        visit_track_message:
+          Visit the %{track_title} track page and check the trophy
+          cabinet to see what you earned.
+        button_text: Show me what I unlocked!
+      student_added_iteration:
+        greeting: Hi %{user_handle},
+        new_iteration_message:
+          Your student (%{student_handle}) has submitted a new
+          iteration (#%{iteration_index}) on your discussion about
+          %{exercise_title} on the %{track_title} track.
+        button_text: Go to the discussion

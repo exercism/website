@@ -1,0 +1,139 @@
+en:
+  cohorts:
+    show:
+      closed_for_applications: This Cohort has now started and is closed for applications.
+      _gohort_aug_22:
+        intro_cohort: Introducing the %{cohort_name}
+        gohort_intro:
+          What happens when a few committed learners encourage and help each
+          other on their learning journeys? We've invented the Gohort to find
+          out! (The "Go cohort", see what we did there? 😉)
+        tell_me_more: Tell me more!
+        what_is_gohort: What is the Gohort?
+        gohort_description:
+          The Gohort is simple. We'll give you and a bunch of other
+          learners a space to learn together, add in some of our best mentors
+          and Exercism experts, and support you as you work together through the
+          Exercism Go syllabus over 30 days.
+        free_access: 100% free
+        start_date: Starts August 8th. Lasts for 30 days.
+        own_time: Work through the track in your own time
+        pair_or_individual: Pair with each other or work as individuals
+        commit_sharing: Commit to sharing your journey, and supporting others
+        notes_programming_experience:
+          'Notes: Some programming experience is required
+          (if you can write a "Hello World" in any language, you''re good
+          enough).'
+        sign_up_below: Sign up below!
+        gain_fluency: Gain fluency in Go
+        taste_of_what_youll_learn: Here's a taste of what you'll learn!
+        track_description:
+          The Go track on Exercism has %{num_concepts} concepts to
+          learn, along with %{num_exercises} coding exercises for you to
+          complete. It’s a great way to pick up Go specific concepts and ways of
+          working.
+        mentoring_benefit:
+          And better still, get mentoring from senior Go developers to
+          discover your knowledge gaps and build a deep understanding of the
+          language.
+        explore_track: Explore the Go track
+      _form:
+        get_registered: Get Registered!
+        sign_up_to_cohort: Sign up to the %{cohort_name}
+        login_or_signup_message:
+          To register for the %{cohort_name} please log in, or
+          sign up to Exercism, and then come back to this page.
+        signup_button: Sign up for free
+        login_button: Log in
+        you_are_all_set: You're all set!
+        enrolled_message:
+          Congratulations - you're all set! One of our team will email
+          you shortly to welcome you to the %{cohort_name} and tell you how to
+          get set up!
+        you_are_on_waiting_list: You're on the waiting list
+        waiting_list_message:
+          Sorry - the %{cohort_name} filled up before you got here!
+          You're currently in %{position} place on the waiting list. If a space
+          becomes available we'll let you know. Otherwise we'll message you
+          about the next %{cohort_name} later in the year.
+        registration_easy:
+          Registering for the %{cohort_name} is easy. Simply fill out
+          the form below.
+        introduce_yourself_label: Introduce yourself
+        introduction_placeholder:
+          Tell your community team a little about yourself and
+          what you're hoping to get from the participating in the
+          %{cohort_name}.
+        commit_to_participating: I commit to actively participating in the %{cohort_name}.
+        register_button: Register
+      _gohort:
+        intro_cohort: Introducing the %{cohort_name}
+        gohort_intro_large:
+          What happens when 100 committed learners encourage and help
+          each other on their learning journeys? We've invented the
+          %{cohort_name} to find out! (The "Go cohort", see what we did there?
+          😉)
+        tell_me_more: Tell more more!
+        what_is_gohort: What is the %{cohort_name}?
+        gohort_description_large:
+          The %{cohort_name} is simple. We'll give you and 99
+          other learners a space to learn together, add in some of our best
+          mentors and Exercism experts, and support you as you work together
+          through the Exercism Go syllabus over 30 days.
+        free_access: 100% free
+        start_date_july: Starts July 1st. Lasts for 30 days.
+        own_time: Work through the track in your own time
+        pair_or_individual: Pair with each other or work as individuals
+        commit_sharing: Commit to sharing your journey, and supporting others
+        notes_programming_experience:
+          'Notes: Some programming experience is required
+          (if you can write a "Hello World" in any language, you''re good
+          enough).'
+        sign_up_below: Sign up below!
+        gain_fluency: Gain fluency in Go
+        taste_of_what_youll_learn: Here's a taste of what you'll learn!
+        track_description:
+          The Go track on Exercism has %{num_concepts} concepts to
+          learn, along with %{num_exercises} coding exercises for you to
+          complete. It’s a great way to pick up Go specific concepts and ways of
+          working.
+        mentoring_benefit:
+          And better still, get mentoring from senior Go developers to
+          discover your knowledge gaps and build a deep understanding of the
+          language.
+        explore_track: Explore the Go track
+      _exhort_aug_22:
+        intro_cohort: Introducing the %{cohort_name}
+        exhort_intro:
+          What happens when a few committed learners encourage and help each
+          other on their learning journeys? We've invented the Exhort to find
+          out! (The "Elixir cohort", see what we did there? 😉)
+        tell_me_more: Tell me more!
+        what_is_exhort: What is the Exhort?
+        exhort_description:
+          The Exhort is simple. We'll give you and a bunch of other
+          learners a space to learn together, add in some of our best mentors
+          and Exercism experts, and support you as you work together through the
+          Exercism Elixir syllabus over 30 days.
+        free_access: 100% free
+        start_date: Starts August 8th. Lasts for 30 days.
+        own_time: Work through the track in your own time
+        pair_or_individual: Pair with each other or work as individuals
+        commit_sharing: Commit to sharing your journey, and supporting others
+        notes_programming_experience:
+          'Notes: Some programming experience is required
+          (if you can write a "Hello World" in any language, you''re good
+          enough).'
+        sign_up_below: Sign up below!
+        gain_fluency_elixir: Gain fluency in Elixir
+        taste_of_what_youll_learn: Here's a taste of what you'll learn!
+        elixir_track_description:
+          The Elixir track on Exercism has %{num_concepts}
+          concepts to learn, along with %{num_exercises} coding exercises for
+          you to complete. It’s a great way to pick up Elixir specific concepts
+          and ways of working.
+        mentoring_benefit_elixir:
+          And better still, get mentoring from senior Elixir
+          developers to discover your knowledge gaps and build a deep
+          understanding of the language.
+        explore_elixir_track: Explore the Elixir track

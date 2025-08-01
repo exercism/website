@@ -1,0 +1,149 @@
+en:
+  tracks:
+    show:
+      summary_article:
+        progress_chart:
+          title:
+            just_started: "You've just started the %{track_title} track."
+            good_luck: "Good luck, adventurer!"
+            completed_100_percent: "Amazing - you've completed the track!!"
+            achievement: "What an achievement! 👏"
+            in_progress: "You're %{percentage}% through the %{track_title} track."
+          progress_bar:
+            completed_icon_alt: "Completed"
+          key:
+            completed: "Completed"
+            in_progress: "In-progress"
+            available: "Available"
+            locked: "Locked"
+            total_exercises: "Total Exercises"
+        user_track_completed_percentage_text:
+          range_0_10: "Keep up the good work! 🚀"
+          range_10_20: "That's a great start! 🚀"
+          range_20_30: "Picking up speed now! 🚀"
+          range_30_40: "You're really getting somewhere! 🚀"
+          range_40_50: "Nearly halfway! 🚀"
+          range_50_60: "Over halfway there! 🚀"
+          range_60_70: "At this rate, you'll complete it! 🚀"
+          range_70_80: "Wow - keep going! 🚀"
+          range_80_90: "Getting really close! 🚀"
+          range_90_100: "Can see the finish line now! 🚀"
+          invalid_percentage: "Invalid percentage."
+        trophy_cabinet:
+          title: "%{track_title} Trophy Cabinet"
+          description: "Unlock for achievements as you progress through the track."
+          learn_more: "Learn more"
+        rhs:
+          intro_video:
+            title: "A Brief Introduction to %{track_title}"
+            description: "Dig into %{track_title} with Erik as he explores its main features and solves an interesting exercise."
+          forum:
+            title: "From the Forum…"
+            latest_by: "Latest by %{username}"
+            explore_forum: "Explore the %{track_title} Forum"
+          docs:
+            title: "Stuck? Explore our docs…"
+          momentum:
+            title: "Your momentum"
+            description: "Consistency is the key to progress. Set yourself a realistic target to try and aim for each week, then track your last 8 weeks here."
+            avg_exercises_completed: "Avg. exercises completed per week"
+
+hu:
+  tracks:
+    show:
+      summary_article:
+        progress_chart:
+          title:
+            just_started: "Most kezded a(z) %{track_title} kurzust."
+            good_luck: "Sok sikert, kalandor!"
+            completed_100_percent: "Király! Végig is értél a kurzuson!!"
+            achievement: "Ez aztán a teljesítmény! 👏"
+            in_progress: "Már %{percentage}%-nál tartasz a(z) %{track_title} kurzuson."
+          progress_bar:
+            completed_icon_alt: "Elkészült"
+          key:
+            completed: "Elkészült"
+            in_progress: "Folyamatban"
+            available: "Elérhető"
+            locked: "Zárolva"
+            total_exercises: "Összes feladat"
+        user_track_completed_percentage_text:
+          range_0_10: "Csak így tovább! 🚀"
+          range_10_20: "Remekül indult! 🚀"
+          range_20_30: "Most már belehúzol! 🚀"
+          range_30_40: "Igazán haladsz! 🚀"
+          range_40_50: "Már majdnem féltávnál vagy! 🚀"
+          range_50_60: "Már túl vagy a féltávon! 🚀"
+          range_60_70: "Ha így folytatod, végig is csinálod! 🚀"
+          range_70_80: "Wow – csak így tovább! 🚀"
+          range_80_90: "Már nagyon közel vagy! 🚀"
+          range_90_100: "Látszik a célvonal! 🚀"
+          invalid_percentage: "Érvénytelen százalék."
+        trophy_cabinet:
+          title: "%{track_title} Trófea Gyűjtemény"
+          description: "Szerezz trófeákat, ahogy haladsz a kurzuson."
+          learn_more: "Tudj meg többet"
+        rhs:
+          intro_video:
+            title: "Rövid bemutató a(z) %{track_title} kurzusról"
+            description: "Erikkel együtt belevetheted magad a(z) %{track_title} főbb funkcióiba, és megoldhatsz egy izgalmas feladatot."
+          forum:
+            title: "A Fórumról…"
+            latest_by: "Legújabb: %{username}"
+            explore_forum: "Nézz körül a(z) %{track_title} Fórumon"
+          docs:
+            title: "Elakadtál? Nézd meg a doksikat…"
+          momentum:
+            title: "A lendületed"
+            description: "A következetesség a fejlődés kulcsa. Tűzz ki magadnak egy heti célt, és kövesd nyomon az elmúlt 8 hetedet itt."
+            avg_exercises_completed: "Heti átlagban elkészült feladatok"
+
+nl:
+  tracks:
+    show:
+      summary_article:
+        progress_chart:
+          title:
+            just_started: "Je bent net begonnen aan de %{track_title} track."
+            good_luck: "Succes, avonturier!"
+            completed_100_percent: "Fantastisch - je hebt de track voltooid!!"
+            achievement: "Wat een prestatie! 👏"
+            in_progress: "Je bent voor %{percentage}% door de %{track_title} track heen."
+          progress_bar:
+            completed_icon_alt: "Voltooid"
+          key:
+            completed: "Voltooid"
+            in_progress: "Bezig"
+            available: "Beschikbaar"
+            locked: "Vergrendeld"
+            total_exercises: "Totaal aantal oefeningen"
+        user_track_completed_percentage_text:
+          range_0_10: "Ga zo door! 🚀"
+          range_10_20: "Dat is een prima begin! 🚀"
+          range_20_30: "Je pakt nu goed de snelheid op! 🚀"
+          range_30_40: "Je komt echt ergens! 🚀"
+          range_40_50: "Bijna halverwege! 🚀"
+          range_50_60: "Meer dan halverwege! 🚀"
+          range_60_70: "Met dit tempo heb je hem zo af! 🚀"
+          range_70_80: "Wauw - blijf zo doorgaan! 🚀"
+          range_80_90: "Je bent er bijna! 🚀"
+          range_90_100: "De finish is in zicht! 🚀"
+          invalid_percentage: "Ongeldig percentage."
+        trophy_cabinet:
+          title: "%{track_title} Trofeeënkast"
+          description: "Ontgrendel prestaties naarmate je vordert in de track."
+          learn_more: "Meer informatie"
+        rhs:
+          intro_video:
+            title: "Een korte introductie tot %{track_title}"
+            description: "Duik in %{track_title} met Erik terwijl hij de belangrijkste functies verkent en een interessante oefening oplost."
+          forum:
+            title: "Van het Forum…"
+            latest_by: "Laatste bericht van %{username}"
+            explore_forum: "Verken het %{track_title} Forum"
+          docs:
+            title: "Vastgelopen? Verken onze documentatie…"
+          momentum:
+            title: "Jouw momentum"
+            description: "Consistentie is de sleutel tot vooruitgang. Stel jezelf een realistisch weekdoel en volg hier je laatste 8 weken."
+            avg_exercises_completed: "Gem. oefeningen voltooid per week"

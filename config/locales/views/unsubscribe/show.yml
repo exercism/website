@@ -1,0 +1,15 @@
+en:
+  unsubscribe:
+    show:
+      title: Manage your communication preferences
+      single_email_unsubscribe:
+        heading: Unsubscribe from this email
+        button: Unsubscribe from email
+      all_emails_unsubscribe:
+        heading: Unsubscribe from all emails
+        button: Unsubscribe from all emails
+      manage_notifications:
+        heading_signed_in: Manage all your notifications
+        heading_signed_out: Manage all your notifications
+        login_prompt: Please log in to manage individual communcation preferences
+        login_link: Log in

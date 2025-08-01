@@ -176,6 +176,8 @@ en:
 
 ---
 
+Instead of HTML entities like \`&amp;\`, use the actual characters like \`&\` in your translations.
+
 ---
 
 ## Output format

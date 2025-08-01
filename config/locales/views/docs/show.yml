@@ -1,0 +1,4 @@
+en:
+  docs:
+    show:
+      meta_title: "%{doc_title} | Exercism's Docs"

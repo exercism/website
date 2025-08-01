@@ -1,0 +1,38 @@
+en:
+  profiles:
+    intro:
+      _locked:
+        reputation:
+          label: Your current reputation is
+          how_it_works: How does this work?
+          unlock_message_html:
+            Profile creation unlocks at <a href="%{reputation_doc_url}"
+            class="text-gradient !font-semibold">%{profile_min_reputation}
+            rep</a>
+      top_section:
+        title: Showcase your work on Exercism
+        description_html:
+          Creating a public profile is a great way to showcase your
+          published solutions, testimonials and open source
+          contributions.%{unless_may_create_profile}<a
+          href="%{reputation_doc_url}" class="text-gradient font-semibold">Get
+          %{profile_min_reputation} reputation to unlock profile
+          creation.</a>%{end_unless_may_create_profile}
+        create_profile_button: Create a public profile
+      reasons_section:
+        title: Why create a public profile?
+        improve_cv:
+          title: Improve your Resume
+          description:
+            Many employers look favourably on open source contributions and
+            activity when assessing candidates’ resumes
+        community_awareness:
+          title: Become known in the community
+          description:
+            Having a public profile allows for others to discover more about
+            you, who you are, and what you’ve been working on
+        help_awareness:
+          title: Help others discover and learn
+          description:
+            You’ll get to showcase your awesome solutions on your profile,
+            which others can read, analyse and learn from

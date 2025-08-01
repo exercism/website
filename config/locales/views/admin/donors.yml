@@ -1,0 +1,20 @@
+en:
+  admin:
+    donors:
+      index:
+        title: Donors
+        table:
+          headers:
+            name: Name
+            handle: Handle
+            email: Email
+            total_donated: Total donated in cents
+            became_donor_at: Became donor at
+        new_donor_button: New donor
+      new:
+        title: New donor
+        form:
+          email_label: Email
+          first_donated_at_label: First donated at
+          submit_button: Create Donor
+        back_to_donors_link: Back to donors

@@ -1,0 +1,10 @@
+en:
+  perks:
+    index:
+      header:
+        title: Exercism Perks
+        subtitle_html:
+          Get discounts and free trials from the organisations that support
+          Exercism's mission for equal access to education and opportunity.
+          %{insiders_link} get enhanced Perks.
+        insiders_link_text: Exercism Insiders

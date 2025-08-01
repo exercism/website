@@ -2,10 +2,10 @@
   .flex.flex-row.items-center.w-100.mb-8
     = image_tag (advert.light_logo.presence || advert.partner.light_logo || 'blank.png'), class: 'logo logo-light'
     = image_tag (advert.dark_logo.presence || advert.partner.dark_logo || 'blank.png'), class: 'logo logo-dark'
-    .tag Perk
+    .tag= t('.tag_text')
   .offer= raw advert.html
   .cta
-    Claim your discount
+    = t('.cta_text')
     .flex.flex-row
       = graphical_icon "fat-chevron-right"
       = graphical_icon "fat-chevron-right"

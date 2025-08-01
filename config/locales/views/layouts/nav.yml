@@ -1,0 +1,71 @@
+en:
+  layouts:
+    nav:
+      insiders:
+        title: Exercism Insiders
+        tagline: Exercism needs your help to survive & thrive!
+        description_html:
+          Donate to Exercism and get behind-the-scenes access and bonus
+          features like %{strong_text_1}, %{strong_text_2}, %{strong_text_3},
+          %{strong_text_4} and more.
+        strong_text_1: Dark Mode
+        strong_text_2: ChatGPT integration
+        strong_text_3: extra mentoring slots
+        strong_text_4: exclusive badges
+        learn_more_button: Learn More
+        non_profit_info:
+          Exercism is a registered not-for-profit. All donations are
+          spent on running and improving the platform.
+      challenge_48in24:
+        title: "The #48in24 Challenge"
+        subtitle:
+          A different programming challenge each week during 2024, curated and
+          guided by us!
+        description_p1: Advance your programming skills one week at a time.
+        description_p2:
+          Join our community as we explore a different exercise each week,
+          digging into how it can be solved with different languages and
+          paradigms.
+        explore_button: "Explore #48in24"
+        feature_info:
+          For each week we've chosen a different exercise to feature, with
+          approaches, walkthroughs, videos, and more.
+      front_end_fundamentals:
+        title: Front-end Fundamentals
+        subtitle: Live Teaching. Fun projects. Fair pricing.
+        description_p1_html:
+          Join us for the second part of Exercism's Bootcamp, where
+          we'll teach you %{strong_text_1} through interactive, live teaching,
+          and %{strong_text_2}.
+        strong_text_1: front-end development
+        strong_text_2: 100s of hours of fun projects.
+        description_p2_html:
+          Master the basics of HTML, CSS, JavaScript, Git and Visual
+          Studio Code. Build games like %{strong_text_1} and %{strong_text_2}.
+          Interact with APIs like %{strong_text_3} and %{strong_text_4}.
+        strong_text_3: Breakout
+        strong_text_4: Snake
+        strong_text_5: NASA
+        strong_text_6: ChatGPT
+        explore_button: Explore Front-end Fundamentals
+        start_date_info: Sign up now for April 26th start.
+      tracks:
+        your_recent_tracks: Your recent tracks
+        see_all_button: See all
+        last_touched: Last touched %{time_ago}
+      journey:
+        reputation_label: Reputation
+        badges_label: Badges
+        history_label: History
+        and_more_label: And more…
+      coding_fundamentals:
+        title: Coding Fundamentals
+        subtitle: Video tutorials. Fun projects. Fair pricing.
+        description_p1_html:
+          A course designed to give you rock-solid programming
+          fundamentals. %{strong_text_1} Stuck in %{strong_text_2} If you've
+          been coding for under a year, this course is perfect for you.
+        strong_text_1: Totally new?
+        strong_text_2: Tutorial Hell?
+        description_p2: In 12 weeks you'll go from zero to making...
+        explore_button: Explore Coding Fundamentals

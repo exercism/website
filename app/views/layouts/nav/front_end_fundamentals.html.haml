@@ -1,18 +1,10 @@
 .flex.flex-col.items-center.items-stretch.pt-20.px-24
-  %h2.text-h3.mb-4 Front-end Fundamentals
+  %h2.text-h3.mb-4= t('.title')
   %p.text-p-base.font-semibold.mb-12
-    Live Teaching. Fun projects. Fair pricing.
+    = t('.subtitle')
   %p.text-p-base.mb-8
-    Join us for the second part of Exercism's Bootcamp, where we'll
-    teach you
-    %strong front-end development
-    through interactive, live teaching, and
-    %strong 100s of hours of fun projects.
+    = t('.description_p1_html', strong_text_1: t('.strong_text_1'), strong_text_2: t('.strong_text_2'))
   %p.text-p-base.mb-16
-    Master the basics of HTML, CSS, JavaScript, Git and Visual Studio Code.
-    Build games like
-    %strong Breakout and Snake.
-    Interact with APIs like
-    %strong NASA and ChatGPT.
+    = t('.description_p2_html', strong_text_1: t('.strong_text_3'), strong_text_2: t('.strong_text_4'), strong_text_3: t('.strong_text_5'), strong_text_4: t('.strong_text_6'))
 
-  = link_to "Explore Front-end Fundamentals", Courses::FrontEndFundamentals.url, class: 'btn-primary btn-s mb-6'
+  = link_to t('.explore_button'), Courses::FrontEndFundamentals.url, class: 'btn-primary btn-s mb-6'

@@ -5,6 +5,6 @@
     - if current_user.insider?
       %article
         - if current_user.github_solution_syncer
-          %h1 GitHub Syncer
+          %h1= t('.github_syncer.heading')
 
         = render ReactComponents::Settings::GithubSyncerForm.new

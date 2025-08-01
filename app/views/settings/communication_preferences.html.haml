@@ -3,7 +3,7 @@
     = render ViewComponents::SettingsNav.new(:communication)
 
     %article
-      %h1 Communication Preferences
+      %h1= t('.communication_preferences.heading')
 
       %section
         = render ReactComponents::Settings::CommunicationPreferencesForm.new

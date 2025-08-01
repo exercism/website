@@ -81,30 +81,100 @@ en:
 
 When converting \`pluralize(count, "word")\` into i18n, use Rails' pluralization format. Define the key in the YAML with both \`one\` and \`other\` forms, like this:
 
+\`\`\`yaml
 key_name:
   one: "1 word"
   other: "%{count} words"
+\`\`\`
 
 Then, in the HAML file, call the translation like this:
 
+\`\`\`haml
 = t('.key_name', count: count)
+\`\`\`
 
 For example, the following original code:
 
-#{pluralize count, 'issue'} need help
+\`\`\`haml
+\${pluralize count, 'issue'} need help
+\`\`\`
 
 Should be transformed into:
 
+\`\`\`yaml
 tasks_section:
   issues_needed_help:
     one: "1 issue needs help"
     other: "%{count} issues need help"
+\`\`\`
 
 And in HAML:
 
+\`\`\`haml
 = t('.issues_needed_help', count: count)
+\`\`\`
+This allows Rails to automatically handle singular and plural forms based on the count variable.
 
-This allows Rails to automatically handle singular and plural forms based on the count.
+
+---
+
+## Important: Preserve full sentences and phrases
+
+Always keep complete sentences or coherent phrases in a **single translation key**, even if the HAML breaks the sentence across multiple tags for styling.
+
+You may use **inline HTML tags** (like \`<strong>\`, \`<em>\`, etc.) inside the translation string. This ensures the sentence structure, punctuation, and word order are preserved — which is critical for correct translation in other languages.
+
+### Example
+
+Original HAML (styling split across elements):
+
+\`\`\`haml
+%h1.text-h0.mb-12
+  Get
+  %strong.leading-none.font-bold really
+  good at programming.
+%p.text-p-xlarge.mb-24
+  Develop fluency in
+  %em.not-italic.font-medium.text-textColor2 \#{@num_tracks} programming languages
+  with our unique blend of learning, practice and mentoring.
+  Exercism is fun, effective and
+  %strong.text-textColor2 100% free, forever.
+\`\`\`
+
+Correct replacement using inline HTML and a single translation key:
+
+\`\`\`haml
+%h1.text-h0.mb-12
+  = t('.header.title_html').html_safe
+
+%p.text-p-xlarge.mb-24
+  = t('.header.subtitle_html', num_tracks: @num_tracks).html_safe
+\`\`\`
+
+Corresponding YAML:
+
+\`\`\`yaml
+en:
+  pages:
+    index:
+      header:
+        title_html: "Get <strong>really</strong> good at programming."
+        subtitle_html: >
+          Develop fluency in <em>%{num_tracks} programming languages</em> with our unique
+          blend of learning, practice and mentoring. Exercism is fun, effective and
+          <strong>100% free, forever.</strong>
+\`\`\`
+
+---
+
+### Summary rule
+
+- Do **not** split strings like individual words or fragments into separate keys.
+- Keep full sentences or meaningful phrases together.
+- Use inline HTML in your translation keys for styled parts, and call \`.html_safe\` when rendering them.
+- This approach ensures translations are accurate, grammatical, and flexible for all languages.
+
+---
 
 ---
 

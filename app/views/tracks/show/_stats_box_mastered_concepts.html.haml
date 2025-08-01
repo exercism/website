@@ -1,9 +1,7 @@
 = link_to track_concepts_path(track), class: "stats-box" do
   .info
     .count= user_track.num_concepts_mastered
-    %h3
-      = "Concept".pluralize(user_track.num_concepts_mastered)
-      mastered
+    %h3= t('.mastered_concepts', count: user_track.num_concepts_mastered)
     .icons
       - user_track.sample_mastered_concepts.each do |concept|
         = render ViewComponents::ConceptIcon.new concept, :base

@@ -1,7 +1,7 @@
 .learn
   %h3
     = graphical_icon(:concepts)
-    Learn #{concept.name}
+    = t('.learn_concept_title', concept_name: concept.name)
 
   .exercises
     - concept_exercises.each do |concept_exercise|
@@ -9,14 +9,13 @@
 
 - if practice_exercises.present?
   .practice-locked-bar
-    = icon "lock-circle", "Practicing is locked"
+    = icon "lock-circle", t('.practice_locked_aria_label')
 
   .practice
     %h3
       = graphical_icon(:exercises)
-      Unlock #{practice_exercises.count} more #{'exercise'.pluralize(practice_exercises.count)} to practice #{concept.name}
+      = t('.unlock_exercises_title', count: practice_exercises.count, concept_name: concept.name)
 
     .exercises
       - practice_exercises.each do |practice_exercise|
         = render ReactComponents::Common::ExerciseWidget.new(practice_exercise, user_track, solution: solutions[practice_exercise.id], render_track: false)
-

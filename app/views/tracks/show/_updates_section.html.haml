@@ -1,9 +1,8 @@
 %section.updates-section
-  %h2 What's going on with #{track.title}
+  %h2= t('.whats_going_on', track_title: track.title)
   %hr.c-divider
 
   = render ReactComponents::Common::SiteUpdatesList.new(updates, :update)
 
   -# TODO
     = render ViewComponents::ProminentLink.new("See all #{track.title} updates", "#")
-

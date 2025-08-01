@@ -1,12 +1,8 @@
 .action-box.pending
   .action-box-content
-    %h3 Unlock #{exercise.title}
+    %h3= t('.title', exercise_title: exercise.title)
     .leading-160.text-textColor2.text-16.mb-20
-      This exercise is currently unavailable for you to start. Complete the following exercises to unlock
-      %span.font-semibold= exercise.title
-      or
-      .inline-block
-        = render ReactComponents::Track::ActivatePracticeMode.new(user_track.track, "disable learning mode.", redirect_to_url: track_exercise_path(user_track.track, exercise))
+      = t('.description_html', exercise_title: exercise.title, activate_practice_mode: render(ReactComponents::Track::ActivatePracticeMode.new(user_track.track, t('.activate_practice_mode_text'), redirect_to_url: track_exercise_path(user_track.track, exercise)))).html_safe
 
     .prereqs
       - prereq_exercises = user_track.enabled_exercises(exercise.prerequisite_exercises)
@@ -18,5 +14,3 @@
 = render("tracks/exercises/show/action_box_dig_deeper_locked", exercise:)
 = render "tracks/exercises/show/action_box_complete_locked"
 = render "tracks/exercises/show/action_box_publish_locked"
-
-

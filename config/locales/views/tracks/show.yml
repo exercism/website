@@ -1,0 +1,55 @@
+en:
+  tracks:
+    show:
+      summary_article:
+        progress_chart:
+          title:
+            just_started_html:
+              You've just started the %{track_title} track. <strong>Good
+              luck!</strong>
+            completed_100_percent_html:
+              You've completed 100% of the exercises on this
+              track! <strong>What an achievement!</strong>
+            in_progress_html:
+              You've completed %{percentage}% of the %{track_title} track.
+              <strong>%{percentage_text}!</strong>
+          progress_bar:
+            completed_icon_alt: Completed
+          key:
+            completed: Completed
+            in_progress: In Progress
+            available: Available
+            locked: Locked
+            total_exercises: Total Exercises
+        trophy_cabinet:
+          title: The %{track_title} Track Trophy Cabinet
+          description: Earn trophies by completing certain achievements on the track!
+          learn_more: Learn more
+        rhs:
+          intro_video:
+            title: Introduction to %{track_title}
+            description:
+              Watch a short video introduction to %{track_title}, how it works
+              and what you'll be learning.
+          forum:
+            title: Latest Forum Discussions
+            latest_by: Latest by %{username}
+            explore_forum: Explore the %{track_title} forum
+          docs:
+            title: Track Documentation
+          momentum:
+            title: Track Momentum
+            description:
+              Keep your momentum going! The graph below shows the number of
+              exercises submitted over the past 8 weeks.
+            avg_exercises_completed: Avg Exercises Completed
+      _updates_section:
+        whats_going_on: What's going on with %{track_title}
+      _stats_box_mastered_concepts:
+        mastered_concepts:
+          one: 1 Concept mastered
+          other: "%{count} Concepts mastered"
+      _stats_box_available_exercises:
+        available_exercises:
+          one: 1 Exercise available
+          other: "%{count} Exercises available"

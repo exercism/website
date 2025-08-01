@@ -5,37 +5,29 @@
     .feature.flex-col.md:flex-row
       .info
         = graphical_icon :logo, css_class: "small-icon"
-        %h3 Get mentored the #{track.title} way
+        %h3= t('.mentoring_section.title', track_title: track.title)
         %p
-          Every language has its own way of doing things.
-          #{track.title} is no different.
-          Our mentors will help you learn to think like a #{track.title} developer and how to write idiomatic code in #{track.title}.
-          Once you've solved an exercise, submit it to our volunteer team, and they'll give you hints, ideas, and feedback on how to make it feel more like what you'd normally see in #{track.title} - they'll help you discover the things you don't know that you don't know.
-        = render ViewComponents::ProminentLink.new("Learn more about mentoring", doc_path(:using, 'feedback/mentor'))
+          = t('.mentoring_section.paragraph_html', track_title: track.title).html_safe
+        = render ViewComponents::ProminentLink.new(t('.mentoring_section.learn_more'), doc_path(:using, 'feedback/mentor'))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ml-64
         = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic'
 
     .feature.flex-col.md:flex-row-reverse
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
-        %h3 Community-sourced #{track.title} exercises
+        %h3= t('.exercises_section.title', track_title: track.title)
         %p
-          The #{track.title} track on Exercism has
-          - if track.course?
-            #{track.num_concepts} concepts and
+          = t('.exercises_section.paragraph_html', num_concepts: track.num_concepts, track_num_exercises: track.num_exercises, track_course: track.course?).html_safe
 
-          #{track.num_exercises} exercises to help you write better code.
-          Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
-
-        = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track))
+        = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
 
     .cta
       = track_icon(track)
-      %h3 Get started with the #{track.title} track
-      %p The best part, it’s 100% free for everyone.
+      %h3= t('.cta.title', track_title: track.title)
+      %p= t('.cta.description')
       - url = user_signed_in? ? join_track_path(track) : User::GenerateNewSessionPath.(request, controller)
       - method = user_signed_in? ? :post : :get
       - elem = user_signed_in? ? :button_to : :link_to
-      = send(elem, "Join the #{track.title} track", url, method: method, class: 'btn-primary btn-m w-100 sm:w-auto')
+      = send(elem, t('.cta.join_button', track_title: track.title), url, method: method, class: 'btn-primary btn-m w-100 sm:w-auto')

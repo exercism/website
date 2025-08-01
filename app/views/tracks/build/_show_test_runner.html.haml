@@ -1,40 +1,39 @@
 .track-team-group
   .track-header.mb-16
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-      %h3.--test-runner-gradient Test Runner
+      %h3.--test-runner-gradient= t('.test_runner_header')
       = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
-        Learn More
-    %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
+        = t('shared.learn_more')
+    %p= t('.test_runner_description')
 
   - if status.test_runner.health == "missing"
     .action-required
-      Next goal: Build a Test Runner.
+      = t('.next_goal.build_test_runner')
       = link_to doc_path(:building, "tooling/test-runners/interface") do
-        Find out more.
+        = t('shared.find_out_more')
   - else
     %p.text-16
-      Current version:
+      = t('.current_version_label')
       %strong= current_sha
-      %span.italic (Takes up to 10 mins to deploy)
+      %span.italic= t('.deployment_takes_time_note')
     - if status.test_runner.version_target
       .action-required.mt-16
-        Next goal: Get Test Runners to Version #{status.test_runner.version_target}. #{track.title} is currently utilising a Version #{status.test_runner.version} Test Runner.
+        = t('.next_goal.target_version', target_version: status.test_runner.version_target, current_version: status.test_runner.version, track_title: track.title)
         = link_to doc_path(:building, "tooling/test-runners/interface") do
-          Find out more.
+          = t('shared.find_out_more')
 
   - unless status.test_runner.health == "missing"
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
       .record-row
-        .record-name Total Test Runner Runs
+        .record-name= t('.total_test_runner_runs')
         .record-value= number_with_delimiter(status.test_runner.num_runs)
       .record-row
-        .record-name Test Run Pass Rate
-        .record-value #{status.test_runner.num_passed_percentage}% (#{status.test_runner.num_passed})
+        .record-name= t('.test_run_pass_rate')
+        .record-value= t('.percentage_value_and_count', percentage: status.test_runner.num_passed_percentage, count: status.test_runner.num_passed)
       .record-row
-        .record-name Test Run Fail Rate
-        .record-value #{status.test_runner.num_failed_percentage}% (#{status.test_runner.num_failed})
+        .record-name= t('.test_run_fail_rate')
+        .record-value= t('.percentage_value_and_count', percentage: status.test_runner.num_failed_percentage, count: status.test_runner.num_failed)
       .record-row
-        .record-name Test Run Error Rate
-        .record-value #{status.test_runner.num_errored_percentage}% (#{status.test_runner.num_errored})
-
+        .record-name= t('.test_run_error_rate')
+        .record-value= t('.percentage_value_and_count', percentage: status.test_runner.num_errored_percentage, count: status.test_runner.num_errored)

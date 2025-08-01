@@ -1,10 +1,8 @@
 .action-box.pending
   .action-box-content
-    %h3 Unlock #{exercise.title}
+    %h3= t('.unlock_title', exercise_title: exercise.title)
     %p.mb-20
-      This exercise is currently unavailable for you to start. Complete
-      %strong "Hello, World!"
-      to unlock this exercise.
+      = t('.unlock_description_html', track_title: track.title).html_safe
 
     - if track.tutorial_exercise
       = render ReactComponents::Common::ExerciseWidget.new(track.tutorial_exercise, user_track)

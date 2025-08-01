@@ -1,0 +1,118 @@
+en:
+  tracks:
+    exercises:
+      show:
+        action_box_locked:
+          title: Unlock %{exercise_title}
+          description_html:
+            This exercise is currently unavailable for you to start.
+            Complete the following exercises to unlock <span
+            class="font-semibold">%{exercise_title}</span> or
+            %{activate_practice_mode}.
+          activate_practice_mode_text: disable learning mode.
+        action_box_dig_deeper_community_solutions:
+          explored_community_solutions: Explored Community Solutions
+          explore_community_solutions: Explore Community Solutions
+          explore_text:
+            Explore how others have solved this exercise and learn new ideas
+            in our
+          community_solutions_link: Community Solutions
+        action_box_join_track:
+          title: Ready to start %{exercise_title}?
+          description_html: Join the %{track_title} track with
+            %{concept_link}%{concept_link_and_separator}%{exercise_link} ready
+            for you to dig into!
+          concept_plural:
+            one: 1 concept
+            other: "%{count} concepts"
+          exercise_plural:
+            one: 1 exercise
+            other: "%{count} exercises"
+          join_track_button: Join the %{track_title} track
+          see_all_exercises_button: See all %{track_title} exercises
+        action_box_complete_locked:
+          title: Complete your solution
+        action_box_complete:
+          tutorial:
+            title: Complete the exercise
+            paragraph_1:
+              Once you've finished with an exercise, mark it as completed. You
+              can also publish your solution to share with others when
+              completing an exercise.
+            paragraph_2:
+              Marking Hello World as completed unlocks the first exercises in the
+              track.
+          concept_exercise:
+            title: Finished with the exercise?
+            paragraph_1:
+              Feel like you understand the concepts this exercise teaches? Mark
+              it as complete to move on.
+          general:
+            title: Finished with the exercise?
+            paragraph:
+              Taken this exercise as far as you want to? Tick it off your list, and
+              optionally publish your solution for the community to learn from.
+        concepts_section:
+          learning_goals_title: Exercise Learning Goals
+          learning_goals_description_html: This learning exercise helped evolve your knowledge of %{concepts}.
+          unlocked_concepts:
+            title: You've unlocked
+            count:
+              one: 1 concept
+              other: "%{count} concepts"
+          unlocked_exercises:
+            title: You've unlocked
+            count:
+              one: 1 exercise
+              other: "%{count} exercises"
+        external:
+          deep_dive_title: Deep Dive into %{exercise_title}!
+        uncompleted_concepts_section:
+          learning_goals_title: Exercise Learning goals
+          learning_goals_description: While completing %{exercise_title}, you'll learn
+          concept_plural:
+            one: 1 concept
+            other: "%{count} concepts"
+        action_box_join_exercism:
+          title: Ready to start %{exercise_title}?
+          description_html:
+            Sign up to Exercism to learn and master %{track_link} with
+            %{concept_link}%{exercise_link}, and real human mentoring,
+            <strong>all for free.</strong>
+          concept_plural:
+            one: 1 concept
+            other: "%{count} concepts"
+          exercise_plural:
+            one: 1 exercise
+            other: "%{count} exercises"
+          signup_button: Sign up, it’s free!
+          login_button: Log in to Exercism
+      no_test_runner:
+        editor_unavailable_title: Editor unavailable.
+        test_runner_not_working_title: This track cannot be solved using the Exercism editor
+        test_runner_not_working_description_html:
+          This track does not yet have a working
+          test runner, so the editor is disabled. We are working on resolving
+          this. If you would like to help, please see the Issues on
+          %{github_link}.
+        github_repo_link_text: the GitHub repository
+        editor_unsupported_title: Sorry, this exercise cannot be solved in the editor.
+        editor_unsupported_description:
+          This is probably because it takes too long to
+          run the tests for this exercise. Please use your local editor to solve
+          it and upload it via our CLI.
+        back_to_exercise_button: Back to the exercise
+      index:
+        meta_title: "%{track_title} exercises on Exercism"
+        meta_description: Explore the %{num_exercises} %{track_title} exercises on Exercism
+        external_cta:
+          title: Practice %{num_exercises} exercises in %{track_title}
+          description:
+            Learn and practice %{track_title} by completing %{num_exercises}
+            exercises that explore different concepts and ideas.
+          join_track_button: Join The %{track_title} Track
+        page_header:
+          title: Explore the %{track_title} exercises on Exercism
+          description:
+            Unlock more exercises as you progress. They’re great practice and
+            fun to do!

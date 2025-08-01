@@ -1,9 +1,7 @@
 = link_to track_exercises_path(track, status: :available), class: "stats-box" do
   .info
     .count= user_track.num_available_exercises
-    %h3
-      = "Exercise".pluralize(user_track.num_available_exercises)
-      available
+    %h3= t('.available_exercises', count: user_track.num_available_exercises)
 
     .icons
       - user_track.sample_available_exercises.each do |exercise|

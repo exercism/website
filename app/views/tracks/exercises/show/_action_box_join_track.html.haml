@@ -2,15 +2,10 @@
 .join-box
   .icons= track_icon track
   %h3
-    Ready to start #{exercise.title}?
+    = t('.title', exercise_title: exercise.title)
   %p.mb-12
-    Join the #{track.title} track with
-    - if track.course?
-      = link_to "#{user_track.num_concepts} #{'concept'.pluralize(user_track.num_concepts)}", track_concepts_path(track)
-      and
-    = link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercises_path(track)
-    ready for you to dig into!
+    = t('.description_html', track_title: track.title, num_concepts: user_track.num_concepts, concept_link: (link_to t('.concept_plural', count: user_track.num_concepts), track_concepts_path(track) if track.course?), num_exercises: user_track.num_exercises, exercise_link: link_to(t('.exercise_plural', count: user_track.num_exercises), track_exercises_path(track))).html_safe
 
   .buttons
-    = button_to "Join the #{track.title} track", join_track_path(track), method: :post, class: "btn-primary btn-m"
-    = link_to "See all #{track.title} exercises", track_exercises_path(track), class: 'btn-secondary btn-m'
+    = button_to t('.join_track_button', track_title: track.title), join_track_path(track), method: :post, class: "btn-primary btn-m"
+    = link_to t('.see_all_exercises_button', track_title: track.title), track_exercises_path(track), class: 'btn-secondary btn-m'

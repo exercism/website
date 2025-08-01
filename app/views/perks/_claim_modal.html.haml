@@ -4,5 +4,5 @@
   .mb-20= render ReactComponents::Common::CopyToClipboardButton.new(perk.voucher_code_for_user(current_user))
 
   .flex.gap-12
-    = link_to "Continue to #{partner.website_domain}", claim_perk_path(perk), class: 'btn-m btn-primary', data: { turbo: false }
-    %button.btn-m.btn-enhanced{ data: { modal_close: true } } Close
+    = link_to t('.continue_button_label', partner_website_domain: partner.website_domain), claim_perk_path(perk), class: 'btn-m btn-primary', data: { turbo: false }
+    %button.btn-m.btn-enhanced{ data: { modal_close: true } }= t('.close_button_label')

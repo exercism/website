@@ -1,0 +1,13 @@
+en:
+  donations:
+    donated:
+      title: Donation successful
+      thank_you_message_html:
+        Thank you so much for supporting our work! Your donation
+        will help enable us to keep improving Exercism and keep it free for
+        everyone.
+      insiders_eligibility_html:
+        If your donation was over $9.99, it will have made
+        you eligible for %{link_to_insiders}.
+      exercism_insiders: Exercism Insiders
+      go_to_dashboard: Go to your dashboard

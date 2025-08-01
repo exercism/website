@@ -1,0 +1,36 @@
+en:
+  mentoring:
+    external:
+      _locked:
+        current_reputation: Your current reputation is
+        how_it_works: How does this work?
+        unlock_reputation_html:
+          Ability to mentor unlocks at <a href="%{reputation_url}"
+          class="text-gradient !font-semibold">%{reputation} rep</a>
+      show:
+        share_knowledge_heading: Share your knowledge with others
+        share_knowledge_description:
+          Mentoring is a fun and rewarding way to reinforce
+          your own learning, while helping others learn and discover things they
+          don’t know.
+        earns_reputation: Mentoring also earns reputation.
+        unsure_mentor:
+          Not sure if you can mentor effectively? Some of our best mentors
+          worried too.
+        signup_button: Sign up to try mentoring
+        login_button: Log in
+        why_mentor_heading: Why become a mentor?
+        challenge_knowledge_heading: Challenge your knowledge
+        challenge_knowledge_description:
+          Teaching is one of the best ways to solidify
+          your own knowledge, discover your weak spots, and see innovative ideas
+          you'd never have dreamed of.
+        provide_opportunity_heading: Provide opportunity for others
+        provide_opportunity_description: Mentors can have a tremendous impact on
+          students' learning, rapidly accelerating their skills. Be that
+          catalyst for change in another’s life.
+        develop_soft_skills_heading: Develop your "soft skills"
+        develop_soft_skills_description:
+          Soft skills like communication and being able
+          to take feedback are paramount in progressing in any field or
+          profession.

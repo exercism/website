@@ -1,0 +1,26 @@
+en:
+  bootcamp:
+    projects:
+      show:
+        breadcrumbs:
+          projects: Projects
+        project_bar:
+          completed_tag: Completed
+        exercises:
+          title: Exercises
+          description:
+            You have completed %{num_completed} of %{num_unlocked} unlockable
+            exercises in this project.
+        your_drawings:
+          title: Your Drawings
+          description: Create your own drawings using code!
+          new_drawing_button: New Drawing
+      index:
+        breadcrumbs:
+          projects: Projects
+        title_bar:
+          projects_title: Projects
+          projects_description:
+            Throughout the bootcamp you'll build a variety of
+            projects. Each contains multiple exercises that will unlock as the
+            bootcamp progresses. More projects will unlock as you progress.

@@ -1,0 +1,39 @@
+en:
+  docs:
+    index:
+      meta_title: Exercism's Docs
+      meta_description:
+        Our docs on how to use and contribute to Exercism. All your
+        Exercism-related questions should be answered here.
+      welcome_heading: Welcome to Exercism's docs 👋
+      welcome_subtitle: Find out everything you need to know about using and
+        contributing to Exercism.
+      using_exercism:
+        heading: Using Exercism
+        paragraph_html:
+          Learn how to make the make the most from your time on Exercism.
+          Find answers to all your questions, understand how to make the most
+          out of mentoring, and discover how to be a great Exercism citizen.
+        get_started_button: Get started
+      building_exercism:
+        heading: Building Exercism
+        paragraph:
+          Our comprehensive docs on building Exercism. Discover everything you
+          need to know about how to contribute to tracks, including guides,
+          specs and explanations.
+        learn_more_link: Learn More
+      mentoring:
+        heading: Mentoring
+        paragraph:
+          Understand and master the art of mentoring on Exercism. Our docs
+          explain how to start your first session, how to give great feedback,
+          and how to use the mentoring interface.
+        learn_more_link: Learn More
+      community:
+        heading: Community
+        paragraph:
+          Understand how our community works, the different roles people have
+          and how you can join. Learn how to be a positive contributor and great
+          community member.
+        learn_more_link: Learn More
+      track_specific_docs_heading: And, of course, track-specific docs

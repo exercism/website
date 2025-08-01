@@ -1,5 +1,5 @@
-- content_for :meta_title, "Exercism's Track Docs".html_safe
-- content_for :meta_description, "Track specific docs on how to use that language alongside Exercism"
+- content_for :meta_title, t('.meta_title').html_safe
+- content_for :meta_description, t('.meta_description')
 - content_for :canonical_url, docs_tracks_url
 - require_stylesheet "docs"
 
@@ -8,7 +8,7 @@
 #page-docs-tracks
   .sm-container
     .header
-      %h1 Track-specific docs
-      %p Explore the docs of tracks you're learning, mentoring or helping to build.
+      %h1= t('.heading')
+      %p= t('.subtitle')
 
     = render ViewComponents::DocsTrackList.new

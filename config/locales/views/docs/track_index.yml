@@ -1,0 +1,12 @@
+en:
+  docs:
+    track_index:
+      meta_title: Exercism's %{track_title} Track Docs
+      meta_description: Everything you need to know about using %{track_title} on Exercism.
+      track_title: "%{track_title} Docs"
+      track_subtitle: Everything you need to know about using %{track_title} on Exercism.
+      explore_docs_paragraph:
+        Explore our %{track_title} docs and discover everything
+        you need to know to make the most of your %{track_title} experience on
+        Exercism, from installing %{track_title} to running the tests, learning
+        the language, and useful resources.

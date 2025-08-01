@@ -1,0 +1,18 @@
+en:
+  maintaining:
+    exercise_representations:
+      index:
+        representations_heading: Represenations
+        table_headers:
+          track: Track
+          exercise: Exercise
+          feedback: Feedback
+          options: Options
+        edit_link: Edit
+      edit:
+        edit_representation_heading: Edit Represenation
+        submission_heading: Submission
+        ast_heading: AST
+        feedback_heading: Feedback
+        feedback_type_label: Type of feedback
+        lets_go_button: Let's go!

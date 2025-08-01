@@ -31,19 +31,21 @@
   }
 
 #maintaining-track-categories
-  %h2.text-h3 Track Categories
+  %h2.text-h3= t('.track_categories_heading')
 
   %table.mb-16.c-admin-table
     %thead
       %tr
-        %th Track
-        %th Category
+        %th= t('.table_headers.track')
+        %th= t('.table_headers.category')
 
     %tbody
       - @track_categories.each do |track, category|
         %tr
-          %td #{link_to track.title, Exercism::Routes.track_url(track)} (#{link_to 'GitHub repo', track.repo_url})
+          %td
+            = link_to track.title, Exercism::Routes.track_url(track)
+            = t('.github_repo_link_parenthetical', github_repo_link: link_to(t('.github_repo_text'), track.repo_url))
           %td= category
 
   %p.mb-16
-    = button_to "Clear cache", maintaining_track_categories_path, method: :post, form: { data: { turbo_confirm: "Are you sure? This is an expensive operation" } }, class: 'btn btn-warning'
+    = button_to t('.clear_cache_button'), maintaining_track_categories_path, method: :post, form: { data: { turbo_confirm: t('.clear_cache_confirm') } }, class: 'btn btn-warning'

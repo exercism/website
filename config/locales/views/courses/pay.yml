@@ -1,0 +1,76 @@
+en:
+  courses:
+    pay:
+      tag: Let's get you coding!
+      heading_strong: You're almost set up!
+      intro_html:
+        Thanks for choosing to learn with us. We're really excited to help
+        you learn <strong>%{course_name}</strong>!
+      _coding_fundamentals:
+        exercises_projects_html: Hundreds of hours of fun <strong>exercises and
+          projects</strong> that will help your brain really master the
+          fundamentals!
+        teaching_videos_html:
+          Over 35 hours of <strong>teaching videos</strong> (that
+          you can watch back forever).
+        diagrams_html:
+          <strong>Beatifully illustrated diagrams</strong> that make coding
+          make sense.
+        interface_html:
+          A <strong>specially designed interface</strong> that gives you a
+          ton of tools to make your life easier and get you focusing on the bits
+          that matter!
+        answer_questions_html: Weekly sessions to <strong>answer your questions.</strong>
+        community_html:
+          A <strong>community</strong> Discord server and forum, with
+          friendly mentors.
+        certificate_html:
+          An <strong>official certificate</strong> of completion to put
+          on your resume.
+      _front_end_fundamentals:
+        exercises_projects_html: Hundreds of hours of <strong>exercises and
+          projects</strong> that will help your brain really master the
+          fundamentals of front-end development.
+        live_teaching_html:
+          Over 35 hours of <strong>live teaching</strong> (that you
+          can watch back forever!)
+        answer_questions_html: Weekly sessions to <strong>answer your questions.</strong>
+        technologies_html:
+          Learn <strong>HTML, CSS, JavaScript, Git and VSCode.</strong>
+          And how to piece them all together to make <strong>awesome web
+          projects!</strong>
+        community_html: A <strong>dedicated community</strong> Discord server.
+        certificate_html:
+          An <strong>official certificate</strong> of completion to put
+          on your resume.
+      _bundle_coding_front_end:
+        exercises_projects_html:
+          Hundreds of hours of fun, interesting <strong>exercises
+          and projects</strong> that will help your brain really master the
+          fundamentals of both <strong>coding</strong> and <strong>front-end
+          development.</strong>
+        live_teaching_html:
+          Over 70 hours of <strong>live teaching</strong> (that you
+          can watch back forever).
+        diagrams_html:
+          <strong>Beatifully illustrated diagrams</strong> that make coding
+          make sense.
+        interface_html:
+          A <strong>specially designed interface</strong> that gives you a
+          ton of tools to make your life easier and get you focusing on the bits
+          that matter!
+        answer_questions_html: Weekly sessions to <strong>answer your questions.</strong>
+        community_html:
+          A <strong>community</strong> Discord server and forum, with
+          friendly mentors.
+        certificate_html:
+          An <strong>official certificate</strong> of completion to put
+          on your resume.
+      _upsell:
+        heading: "Here's a reminder of what's included:"
+        testimonial_quote:
+          I was brand new to coding and this course **exceeded my
+          wildest expectations** and then some. In my humble opinion, it will be
+          one of the **best choices you will ever make!**
+        testimonial_name: Shaun Archer
+        testimonial_description: Total Beginner

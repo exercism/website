@@ -1,23 +1,19 @@
 #top-discount-bar
-  Check out our
-  = link_to "Coding Fundamentals", "/courses/coding-fundamentals", class: "font-semibold text-white underline"
-  and
-  = link_to "Front End Fundamentals", "/front-end-fundamentals", class: "font-semibold text-white underline"
-  courses.
+  = t('.top_discount_bar.text_html', coding_fundamentals_link: (link_to t('.top_discount_bar.coding_fundamentals_link_text'), "/courses/coding-fundamentals", class: "font-semibold text-white underline"), front_end_fundamentals_link: (link_to t('.top_discount_bar.front_end_fundamentals_link_text'), "/front-end-fundamentals", class: "font-semibold text-white underline")).html_safe
 
 #nav-fixed.nav
   .lg-container.flex.flex-row.gap-8.items-center
     = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
     .content
-      %strong.font-semibold Exercism
-      Bootcamps
-    = link_to "Enroll now 👉", course_start_enrolling_path("coding-fundamentals"), class: "button !ml-auto"
+      %strong.font-semibold= t('.nav.exercism_text')
+      = t('.nav.bootcamps_text')
+    = link_to t('.nav.enroll_now_button'), course_start_enrolling_path("coding-fundamentals"), class: "button !ml-auto"
 
 #page-testimonials
   .lg-container
     %header.text-center
-      %h1 Testimonials
-      %p.subheading We asked our students if they'd enjoyed the course. Here's what they said...
+      %h1= t('.header.title')
+      %p.subheading= t('.header.subtitle')
 
     .quotes
       - @testimonials.each do |quote, name, role, image_url|

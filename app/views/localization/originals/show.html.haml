@@ -1,0 +1,12 @@
+.text-h1 English
+%ul
+  %li UUID: #{@original[:uuid]}
+  %li Key: #{@original[:key]}
+  %li Value: #{@original[:value]}
+
+.text-h2 Locales
+- @original[:translations].each do |translation|
+  .text-h3= translation[:locale]
+  UUID: #{translation[:uuid]}
+  Value: #{translation[:value]}
+  Status: #{translation[:status]}

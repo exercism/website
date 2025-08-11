@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_11_111648) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_11_140514) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -905,6 +905,41 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_11_111648) do
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
+  create_table "multilingual_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "key", null: false
+    t.text "value", null: false
+    t.text "sample_interpolations", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_multilingual_originals_on_key", unique: true
+  end
+
+  create_table "multilingual_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "translation_id", null: false
+    t.bigint "proposer_id", null: false
+    t.bigint "reviewer_id", null: false
+    t.integer "status", default: 0, null: false
+    t.text "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["proposer_id"], name: "index_multilingual_translation_proposals_on_proposer_id"
+    t.index ["reviewer_id"], name: "index_multilingual_translation_proposals_on_reviewer_id"
+    t.index ["translation_id"], name: "index_multilingual_translation_proposals_on_translation_id"
+  end
+
+  create_table "multilingual_translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.text "value", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "locale"], name: "index_multilingual_translations_on_key_and_locale", unique: true
+    t.index ["value"], name: "index_multilingual_translations_on_value", type: :fulltext
+  end
+
   create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "partner_id"
@@ -1431,16 +1466,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_11_111648) do
     t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"
   end
 
-  create_table "translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "locale", null: false
-    t.string "key", null: false
-    t.text "value"
-    t.text "sample_interpolations"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["locale", "key"], name: "index_translations_on_locale_and_key", unique: true
-  end
-
   create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -1942,6 +1967,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_11_111648) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
+  add_foreign_key "multilingual_translation_proposals", "multilingual_translations", column: "translation_id"
+  add_foreign_key "multilingual_translation_proposals", "users", column: "proposer_id"
+  add_foreign_key "multilingual_translation_proposals", "users", column: "reviewer_id"
+  add_foreign_key "multilingual_translations", "multilingual_originals", column: "key", primary_key: "key"
   add_foreign_key "partner_adverts", "partners"
   add_foreign_key "partner_perks", "partners"
   add_foreign_key "problem_reports", "exercises"

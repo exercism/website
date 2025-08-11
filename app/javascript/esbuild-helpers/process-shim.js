@@ -1,6 +1,7 @@
 window.process = window.process || {
   env: {
     NODE_ENV: process.env.NODE_ENV,
+    GIT_SHA: process.env.GIT_SHA,
   },
   browser: true,
   argv: [],

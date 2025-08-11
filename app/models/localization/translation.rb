@@ -1,15 +1,25 @@
-class Translation < ApplicationRecord
+class Localization::Translation < ApplicationRecord
   extend I18n::Backend::Flatten
   serialize :sample_interpolations, coder: JSON
+  enum :status, {
+    unchecked: 0,
+    proposed: 1,
+    checked: 2
+  }
 
-  # rubocop:disable Style/BlockDelimiters
-  cattr_accessor :translations do {} end
-  cattr_accessor :use_cache do true end
-  # rubocop:enable Style/BlockDelimiters
+  has_many :proposals, dependent: :destroy
+
+  before_create do
+    self.uuid = SecureRandom.uuid if uuid.blank?
+    self.sample_interpolations = []
+    self.status = 2 if locale == "en"
+  end
+
+  def to_param = uuid
 
   def self.lookup(locale, key, options)
     # Return from cache if enabled and present
-    cached_value = Translation::Cache::Retrieve.(locale, key)
+    cached_value = Localization::Cache::Retrieve.(locale, key)
     return cached_value if cached_value.present?
 
     # Look it up
@@ -19,7 +29,7 @@ class Translation < ApplicationRecord
     ).pick(:value).tap do |value|
       break unless value
 
-      Translation::Cache::Store.(locale, key, value)
+      Localization::Cache::Store.(locale, key, value)
 
       # TODO: Push an Sidekiq job to update the translation with
       # the interpolated value if the count is under x or something

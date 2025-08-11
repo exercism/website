@@ -117,6 +117,9 @@ namespace :api do
       end
     end
 
+    resources :translations, only: %i[index show], controller: "translations" do
+    end
+
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
     patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
 

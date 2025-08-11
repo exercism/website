@@ -1,0 +1,9 @@
+%table
+  %tbody
+    - @originals.each do |original|
+      %tr
+        %td= original[:uuid]
+        %td= original[:key]
+        %td= original[:value]
+
+        %td= link_to "View", localization_original_path(original[:uuid]), class: "btn-m btn-secondary"

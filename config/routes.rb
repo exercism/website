@@ -254,6 +254,11 @@ Rails.application.routes.draw do
 
   resources :favorites, only: [:index]
 
+  namespace :localization do
+    resources :originals, only: %i[index show] do
+    end
+  end
+
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
   resource :journey, only: [:show], controller: "journey" do
     member do
@@ -296,6 +301,7 @@ Rails.application.routes.draw do
 
   get "ihid", to: 'pages#ihid'
   get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
+  get "javascript-i18n/:git_sha/:locale.js", to: 'pages#javascript_i18n', as: :javascript_i18n
   root to: "pages#index"
 
   ##############

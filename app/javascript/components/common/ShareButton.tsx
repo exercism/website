@@ -3,6 +3,7 @@ import { GraphicalIcon } from './GraphicalIcon'
 import { usePanel } from '../../hooks/use-panel'
 import { SharePanel } from './SharePanel'
 import { SharePlatform } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function ShareButton({
   title,
@@ -15,6 +16,7 @@ export default function ShareButton({
   shareLink: string
   platforms: readonly SharePlatform[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/ShareButton.tsx')
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [
@@ -37,7 +39,7 @@ export default function ShareButton({
       >
         <div className="inner">
           <GraphicalIcon icon="share-with-gradient" />
-          Share
+          {t('shareButton.share')}
         </div>
       </button>
       {open ? (

@@ -1,28 +1,33 @@
 import React from 'react'
 import { IterationStatus } from '../types'
 import { GraphicalIcon } from '.'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 function Content({ status }: { status: string }) {
+  const { t } = useAppTranslation(
+    'components/common/ProcessingStatusSummary.tsx'
+  )
+
   switch (status) {
     case 'processing':
       return (
         <>
           <GraphicalIcon icon="spinner" className="animate-spin-slow" />
-          <div className="--status">Processing</div>
+          <div className="--status">{t('processing')}</div>
         </>
       )
     case 'failed':
       return (
         <>
           <div role="presentation" className="--dot"></div>
-          <div className="--status">Failed</div>
+          <div className="--status">{t('failed')}</div>
         </>
       )
     default:
       return (
         <>
           <div role="presentation" className="--dot"></div>
-          <div className="--status">Passed</div>
+          <div className="--status">{t('passed')}</div>
         </>
       )
   }
@@ -45,6 +50,10 @@ export function ProcessingStatusSummary({
 }: {
   iterationStatus: IterationStatus
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/common/ProcessingStatusSummary.tsx'
+  )
+
   if (
     iterationStatus == IterationStatus.DELETED ||
     iterationStatus == IterationStatus.UNTESTED
@@ -57,7 +66,7 @@ export function ProcessingStatusSummary({
     <div
       className={`c-iteration-processing-status --${status}`}
       role="status"
-      aria-label="Processing status"
+      aria-label={t('processingStatus')}
     >
       <Content status={status} />
     </div>

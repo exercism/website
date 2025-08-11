@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type PaginationProps = {
   disabled?: boolean
@@ -15,6 +16,8 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps): JSX.Element | null {
+  const { t } = useAppTranslation('components/common/Pagination.tsx')
+
   if (total <= 1) {
     return null
   }
@@ -54,18 +57,18 @@ export function Pagination({
             setPage(1)
           }}
           disabled={disabled || current == 1}
-          aria-label="Go to first page"
+          aria-label={t('pagination.first')}
         >
-          First
+          {t('pagination.first')}
         </button>
         <button
           onClick={() => {
             setPage(current - 1)
           }}
           disabled={disabled || current == 1}
-          aria-label="Go to previous page"
+          aria-label={t('pagination.previous')}
         >
-          Previous
+          {t('pagination.previous')}
         </button>
       </div>
       <div className="--pagination-pages">
@@ -76,7 +79,7 @@ export function Pagination({
               onClick={() => {
                 setPage(1)
               }}
-              aria-label={'Go to page 1'}
+              aria-label={t('pagination.goToPage', { page: 1 })}
             >
               1
             </button>
@@ -94,7 +97,7 @@ export function Pagination({
                 setPage(page)
               }}
               disabled={disabled || page === current}
-              aria-label={`Go to page ${page}`}
+              aria-label={t('pagination.goToPage', { page })}
               aria-current={page === current ? 'page' : undefined}
               className={page === current ? 'current' : undefined}
             >
@@ -114,7 +117,7 @@ export function Pagination({
               onClick={() => {
                 setPage(total)
               }}
-              aria-label={`Go to page ${total}`}
+              aria-label={t('pagination.goToPage', { page: total })}
             >
               {total}
             </button>
@@ -127,18 +130,18 @@ export function Pagination({
             setPage(current + 1)
           }}
           disabled={disabled || current == total}
-          aria-label="Go to next page"
+          aria-label={t('pagination.next')}
         >
-          Next
+          {t('pagination.next')}
         </button>
         <button
           onClick={() => {
             setPage(total)
           }}
           disabled={disabled || current == total}
-          aria-label="Go to last page"
+          aria-label={t('pagination.last')}
         >
-          Last
+          {t('pagination.last')}
         </button>
       </div>
     </div>

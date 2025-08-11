@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :rate_limit_for_user!
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
+  around_action :switch_locale!
   before_action :set_request_context
   after_action :set_user_id_cookie
   after_action :skip_empty_session_cookie
@@ -31,6 +32,11 @@ class ApplicationController < ActionController::Base
          ActionDispatch::Http::Parameters::ParseError => e
     request.headers['Content-Type'] = 'application/json'
     render status: :bad_request, json: { errors: [e.message] }
+  end
+
+  def switch_locale!(&action)
+    locale = params[:locale].presence || I18n.default_locale
+    I18n.with_locale(locale, &action)
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName

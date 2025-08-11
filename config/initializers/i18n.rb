@@ -6,14 +6,14 @@ class ExercismI18nBackend
   include I18n::Backend::Fallbacks
 
   def translate(locale, key, options = {})
-    value = Translation.lookup(locale, key, options.merge(use_cache: true))
+    value = Localization::Translation.lookup(locale, key, options.merge(use_cache: true))
     return value if value.present?
 
     throw(:exception, I18n::MissingTranslation.new(locale, key, options))
   end
 
   def available_locales
-    Translation.distinct.pluck(:locale).map(&:to_sym)
+    Localization::Translation.distinct.pluck(:locale).map(&:to_sym)
   end
 end
 

@@ -1,2 +1,4 @@
 // namespace: components/common/Loading.tsx
-export default {}
+export default {
+  loading: 'Loading',
+}

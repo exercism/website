@@ -57,7 +57,7 @@ export function Pagination({
             setPage(1)
           }}
           disabled={disabled || current == 1}
-          aria-label={t('pagination.first')}
+          aria-label={t('pagination.goToFirstPage')}
         >
           {t('pagination.first')}
         </button>
@@ -66,7 +66,7 @@ export function Pagination({
             setPage(current - 1)
           }}
           disabled={disabled || current == 1}
-          aria-label={t('pagination.previous')}
+          aria-label={t('pagination.goToPreviousPage')}
         >
           {t('pagination.previous')}
         </button>
@@ -130,7 +130,7 @@ export function Pagination({
             setPage(current + 1)
           }}
           disabled={disabled || current == total}
-          aria-label={t('pagination.next')}
+          aria-label={t('pagination.goToNextPage')}
         >
           {t('pagination.next')}
         </button>
@@ -139,7 +139,7 @@ export function Pagination({
             setPage(total)
           }}
           disabled={disabled || current == total}
-          aria-label={t('pagination.last')}
+          aria-label={t('pagination.goToLastPage')}
         >
           {t('pagination.last')}
         </button>

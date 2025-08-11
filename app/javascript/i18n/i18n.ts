@@ -1,7 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import huGithubSyncer from './hu/settings/github-syncer'
 
 import en from './en'
 
@@ -12,16 +11,13 @@ if (!i18n.isInitialized) {
     .use(initReactI18next)
     .init({
       fallbackLng: 'en',
-      lng: 'hu',
+      lng: 'en',
       debug: true,
       interpolation: {
         escapeValue: false,
       },
       resources: {
         en,
-        hu: {
-          'settings/github-syncer': huGithubSyncer,
-        },
       },
     })
 }

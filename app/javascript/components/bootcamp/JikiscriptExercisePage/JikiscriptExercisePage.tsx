@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 
 import { useEditorHandler } from './CodeMirror/useEditorHandler'
-import { Instructions } from './RHS/Instructions/Instructions'
 import { useSetupStores } from './hooks/useSetupStores'
 import { ControlButtons } from './ControlButtons/ControlButtons'
 import { CodeMirror } from './CodeMirror/CodeMirror'
@@ -18,8 +17,6 @@ import { Project } from './utils/exerciseMap'
 import JikiscriptExercisePageContextWrapper, {
   ExerciseLocalStorageData,
 } from './JikiscriptExercisePageContextWrapper'
-import { Logger } from './RHS/Logger/Logger'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import { RHS } from './RHS/RHS'
 
 export default function JikiscriptExercisePage({

@@ -4,8 +4,10 @@ import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'
 import { debounce } from 'lodash'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ActualOutput() {
+  const { t } = useAppTranslation('components/bootcamp/CSSExercisePage')
   const context = React.useContext(CSSExercisePageContext)
   if (!context) {
     return null
@@ -117,7 +119,9 @@ export function ActualOutput() {
 
   return (
     <div className="p-12">
-      <h3 className="mb-8 font-mono font-semibold">Your result</h3>
+      <h3 className="mb-8 font-mono font-semibold">
+        {t('actualOutput.yourResult')}
+      </h3>
       <div
         ref={containerRef}
         className="css-render-actual"

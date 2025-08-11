@@ -8,10 +8,14 @@ import { FrontendExercisePageContext } from '../FrontendExercisePageContext'
 import { useFrontendExercisePageStore } from '../store/frontendExercisePageStore'
 import { FinishLessonModalContext } from './FinishLessonModal/FinishLessonModalContext'
 import { FinishLessonModal } from './FinishLessonModal/FinishLessonModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/FrontendExercisePage/Header'
+  )
   const { links } = useContext(FrontendExercisePageContext)
 
   const { setIsFinishLessonModalOpen, isFinishLessonModalOpen } =
@@ -44,7 +48,7 @@ function _Header() {
           onClick={() => setIsFinishLessonModalOpen(true)}
           className={assembleClassNames('btn-primary btn-xxs')}
         >
-          Complete Exercise
+          {t('header.completeExercise')}
         </button>
         <>
           <FinishLessonModalContext.Provider
@@ -67,7 +71,7 @@ function _Header() {
           href={links.dashboardIndex}
           className={assembleClassNames('btn-secondary btn-xxs')}
         >
-          Back
+          {t('header.back')}
         </a>
       </div>
     </div>

@@ -1,9 +1,15 @@
+// i18n-key-prefix: unhandledErrorView
+// i18n-namespace: components/bootcamp/JikiscriptExercisePage/TestResultsView
 import React from 'react'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import useErrorStore from '../store/errorStore'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function UnhandledErrorView() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/TestResultsView'
+  )
   const { unhandledErrorBase64 } = useErrorStore()
   return (
     <div className="border-t-1 border-borderColor6">
@@ -13,14 +19,10 @@ export function UnhandledErrorView() {
           icon="bug"
         />
         <div className="text-h5 mb-6 text-textColor6">
-          Oops! Something went <strong className="font-bold">very</strong>{' '}
-          wrong.
+          {t('unhandledErrorView.oopsSomethingWentWrong')}
         </div>
         <div className="mb-20 text-textColor6 leading-160 text-16 text-balance">
-          It would be very helpful if you could tell us about this error so we
-          can improve things. Please click the button below to copy the
-          mysterious text to your clipboard, and share it with us on Discord or
-          the forum. Thank you! 💙
+          {t('unhandledErrorView.helpfulInfo')}
         </div>
         <CopyToClipboardButton textToCopy={unhandledErrorBase64} />
       </div>

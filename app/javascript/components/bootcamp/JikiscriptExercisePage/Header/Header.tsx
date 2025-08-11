@@ -12,8 +12,12 @@ import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ResetButton } from './ResetButton'
 import { CompletedBonusTasksModal } from '../../modals/CompletedBonusTasksModal/CompletedBonusTasksModal'
 import { CustomFunctionsButton } from '../../CustomFunctionEditor/Header/CustomFunctionsButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 function _Header() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/Header'
+  )
   const { areAllTasksCompleted } = useTaskStore()
   const { solution, links, exercise } = useContext(
     JikiscriptExercisePageContext
@@ -37,7 +41,8 @@ function _Header() {
       <div className="ident">
         <GraphicalIcon icon="logo" category="bootcamp" />
         <div>
-          <strong className="font-semibold">Exercism</strong> Bootcamp
+          <strong className="font-semibold">Exercism</strong>{' '}
+          {t('header.exercismBootcamp')}
         </div>
       </div>
       <div className="ml-auto flex items-center gap-8">
@@ -53,7 +58,7 @@ function _Header() {
               areAllTasksCompleted ? '' : 'disabled cursor-not-allowed'
             )}
           >
-            Complete Exercise
+            {t('header.completeExercise')}
           </button>
         )}
         {areAllTasksCompleted && (
@@ -81,7 +86,7 @@ function _Header() {
           href={links.dashboardIndex}
           className={assembleClassNames('btn-default btn-xxs')}
         >
-          Back to Dashboard
+          {t('header.backToDashboard')}
         </a>
       </div>
     </div>

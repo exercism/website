@@ -10,6 +10,20 @@ en:
             class="font-semibold">%{exercise_title}</span> or
             %{activate_practice_mode}.
           activate_practice_mode_text: disable learning mode.
+        action_box_publish_locked:
+          title: Publish your solution
+        action_solve_locked:
+          title: Solve the exercise
+        action_box_solve:
+          solve_button: "Solve"
+          start_button: "Start"
+          continue_work: "Continue work on this exercise."
+          available_to_start: "This exercise is available for you to start."
+          solve_description: "Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit."
+          via_editor_heading: "Via Exercism Editor"
+          start_in_editor_button: "Start in editor"
+          work_locally_heading: "Work locally (via CLI)"
+          learn_more_link: "Learn more about solving exercises locally"
         action_box_dig_deeper_community_solutions:
           explored_community_solutions: Explored Community Solutions
           explore_community_solutions: Explore Community Solutions
@@ -17,6 +31,18 @@ en:
             Explore how others have solved this exercise and learn new ideas
             in our
           community_solutions_link: Community Solutions
+        aciton_box_solved:
+          title: Exercise Solved
+          description_html: "You have submitted %{link} for this exercise. You can submit more iterations as you continue to evolve your knowledge or want to experiment with new ideas."
+          iteration_word:
+            one: "iteration"
+            other: "iterations"
+        action_box_dig_deeper_concept_exercise:
+          dig_deeper:
+            title: Dig Deeper
+            description: There aren't too many correct ways to solve our learning exercises, but it's still helpful to explore how other people approach the exercise.
+        action_box_dig_deeper_locked:
+          title: Dig Deeper
         action_box_join_track:
           title: Ready to start %{exercise_title}?
           description_html: "Join the %{track_title} track with %{links_html} ready for you to dig into!"
@@ -30,6 +56,67 @@ en:
           see_all_exercises_button: See all %{track_title} exercises
         action_box_complete_locked:
           title: Complete your solution
+        action_box_dig_deeper_mentoring:
+          code_review_finished:
+            title: "Code Review Finished"
+            description_html: "Your mentoring discussion with @%{mentor_handle} has finished. You can view the discussion or start a new one on the %{link}."
+            link_text: "Code Review tab"
+          code_review_in_progress:
+            title: "Code Review In Progress"
+            mentor_finished_description: "Your conversation with @%{mentor_handle} has finished. Please take time to leave them a review."
+            finish_discussion_button: "Finish discussion"
+            awaiting_mentor_description: "Your solution is being reviewed by @%{mentor_handle}. You will be notified when they next reply."
+            go_to_code_review_link: "Go to code review"
+            your_turn_description_html: "<strong class='font-semibold'>It's your turn to respond.</strong> Engage with your mentor, ask questions, and iterate your code. Remember to thank them for making the time to help you."
+            go_to_code_review_button: "Go to code review"
+          code_review_requested:
+            title: "Code Review Requested"
+            description: "Your solution has been sent to our mentors to review. It is in a queue and one of them will pick it up soon and start a conversation."
+            view_mentoring_request_link: "View mentoring request"
+          request_code_review:
+            title: "Request Code Review"
+            description: "Get help from a real mentor who can help identify your knowledge gaps. It's 100% free."
+            button: "Request code review"
+        action_box_dig_deeper_practice_exercise:
+          title: "Dig Deeper"
+          description: "Solving the exercise is just the first step to improving. It's now time to learn from others. These steps are optional but will vastly enhance your knowledge."
+        action_box_completed:
+          exercise_published:
+            title: "Exercise Published"
+            description: "You've published your exercise for others to learn from. Thank you! You can view and manage your published solution below. You can"
+            change_published_iteration_button: "change published iteration"
+            or_text: "or"
+            unpublish_solution_button: "unpublish your solution."
+          exercise_completed:
+            title: "Exercise Completed"
+            description: "You have marked this exercise as complete."
+          publish_exercise:
+            title: "Publish your Exercise"
+            description: "Publish your exercise to earn reputation and help others discover new tips and tricks."
+        action_box_dig_deeper_approaches:
+          viewed_approach:
+            title: "Viewed approach"
+            description_html: "Explore the different common approaches to this exercise in our %{link}."
+            link_text: "Dig Deeper section"
+          discover_approaches:
+            title: Discover different approaches
+            description_html: "Explore the different common approaches to this exercise in our %{link}."
+            link_text: Dig Deeper section
+        action_box_dig_deeper_youtube_video:
+          title: Watch our deep dive
+        action_box_locked_by_hello_world:
+          unlock_title: "Unlock %{exercise_title}"
+          unlock_description_html: "This exercise is currently unavailable for you to start. Complete <strong>Hello, World!</strong> to unlock this exercise."
+        instructions:
+          introduction_heading: "Introduction"
+          hello_world_intro_html: "“Hello, World!” will get you writing some %{track_title} and familiarize yourself with the Exercism workflow. <strong>Completing it unlocks the rest of the %{track_title} Track.</strong>"
+          watch_video_prompt: 'Watch our "Introduction to Hello, World" video to get started 👇'
+          instructions_heading: "Instructions"
+          source_heading: "Source"
+          explore_source_html: "Explore the %{link}."
+          explore_source_link_text: "source of this exercise"
+          edit_via_github: "Edit via GitHub"
+          new_window_icon_alt: "The link opens in a new window or tab"
         action_box_complete:
           tutorial:
             title: Complete the exercise

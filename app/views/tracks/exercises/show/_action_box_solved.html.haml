@@ -2,5 +2,5 @@
   .action-box-content
     %h3= t('.title')
     %p.mb-12
-      = t('.description_html', count: solution.iterations.size, link: link_to(pluralize(solution.iterations.size, t('iteration_word.one'), t('iteration_word.other')), track_exercise_iterations_path(track, exercise))).html_safe
+      = t('.description_html', count: solution.iterations.size, link: link_to(pluralize(solution.iterations.size, t('.iteration_word.one'), t('.iteration_word.other')), track_exercise_iterations_path(track, exercise))).html_safe
     = render ReactComponents::Student::LatestIterationLink.new(solution)

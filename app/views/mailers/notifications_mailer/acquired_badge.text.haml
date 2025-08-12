@@ -1,6 +1,6 @@
-Hi #{@user.handle},
+= t('.greeting', user_handle: @user.handle)
 \
-Congratulations! You've unlocked a new badge at Exercism.
-Visit your Exercism Journey page to see what you earned.
+= t('.congratulations')
+= t('.visit_journey_page')
 \
-Reveal it here: #{badges_journey_url}
+= t('.reveal_it_here', link: badges_journey_url)

@@ -4,8 +4,10 @@
       = graphical_icon "profiles-intro", category: 'graphics', css_class: 'intro-image'
       %h1= t('.top_section.title')
       %hr.c-divider
+      - key = @may_create_profile ? '.top_section.description_unlocked_html' : '.top_section.description_locked_html'
       %p
-        = t('.top_section.description_html', profile_min_reputation: @profile_min_reputation, reputation_doc_url: doc_url(:using, 'product/reputation'), may_create_profile: @may_create_profile).html_safe
+        = t(key, profile_min_reputation: @profile_min_reputation, reputation_doc_url: doc_url(:using, 'product/reputation')).html_safe
+
       - if @may_create_profile
         = link_to t('.top_section.create_profile_button'), new_profile_path, class: 'btn-primary btn-m'
       - else

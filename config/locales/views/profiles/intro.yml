@@ -11,13 +11,15 @@ en:
             rep</a>
       top_section:
         title: Showcase your work on Exercism
-        description_html:
+        description_unlocked_html: |-
           Creating a public profile is a great way to showcase your
           published solutions, testimonials and open source
-          contributions.%{unless_may_create_profile}<a
-          href="%{reputation_doc_url}" class="text-gradient font-semibold">Get
-          %{profile_min_reputation} reputation to unlock profile
-          creation.</a>%{end_unless_may_create_profile}
+          contributions.
+        description_locked_html: |-
+          Creating a public profile is a great way to showcase your
+          published solutions, testimonials and open source
+          contributions. <a href="%{reputation_doc_url}" class="text-gradient font-semibold">Get %{profile_min_reputation} reputation to unlock profile creation.</a>
+
         create_profile_button: Create a public profile
       reasons_section:
         title: Why create a public profile?

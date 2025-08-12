@@ -1,6 +1,6 @@
 class CreateLocalizationTranslations < ActiveRecord::Migration[7.1]
   def change
-    create_table :localization_translations do |t|
+    create_table :localization_translations, if_not_exists: true do |t|
       t.string :uuid, null: false
       t.string :locale, null: false
       t.string :key,    null: false

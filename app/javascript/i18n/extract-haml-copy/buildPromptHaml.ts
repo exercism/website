@@ -33,6 +33,7 @@ Use the Rails convention where:
 
 - The YAML must start with \`en: \`
 - The translation keys are nested based on the **path after \`views /\`**, using folder names and then dot-separated keys.
+- The translation keys must be unique!!!
 - File names **should be ignored** in the YAML key hierarchy.
 
 Example:

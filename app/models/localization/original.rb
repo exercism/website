@@ -1,5 +1,6 @@
 class Localization::Original < ApplicationRecord
-  has_many :translations, dependent: :destroy
+  has_many :translations, dependent: :destroy, foreign_key: :key, primary_key: :key, inverse_of: :original
+  serialize :sample_interpolations, coder: JSON
 
   before_create do
     self.uuid = SecureRandom.uuid if uuid.blank?

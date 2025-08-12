@@ -1,18 +1,17 @@
 class Localization::Translation < ApplicationRecord
   extend I18n::Backend::Flatten
-  serialize :sample_interpolations, coder: JSON
+
   enum :status, {
     unchecked: 0,
     proposed: 1,
     checked: 2
   }
 
-  has_many :proposals, dependent: :destroy
+  has_many :proposals, dependent: :destroy, class_name: "Localization::TranslationProposal"
 
   before_create do
     self.uuid = SecureRandom.uuid if uuid.blank?
-    self.sample_interpolations = []
-    self.status = 2 if locale == "en"
+    self.status = :checked if locale == "en"
   end
 
   def to_param = uuid

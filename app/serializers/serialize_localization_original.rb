@@ -10,9 +10,12 @@ class SerializeLocalizationOriginal
       value: original.value,
       sample_interpolations: original.sample_interpolations
     }.tap do |data|
-      data[:translations] = translations.map do |translation|
+      data[:translations] = translations.filter_map do |translation|
+        next if translation.locale == "en"
+
         {
           uuid: translation.uuid,
+          locale: translation.locale,
           value: translation.value,
           status: translation.status
         }

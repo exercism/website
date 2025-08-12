@@ -59,6 +59,9 @@
 @import "../pages/settings";
 @import "../modals/crop-avatar";
 
+/* Localization */
+@import "../pages/localization/show";
+
 /* Misc */
 @import "../modals/bug-report";
 @import "../components/markdown-editor";

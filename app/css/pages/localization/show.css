@@ -38,6 +38,7 @@ body.namespace-localization.controller-originals.action-show {
     }
     .body-container {
         @apply flex;
+        @apply bg-backgroundColorA;
     }
 
     .lhs {

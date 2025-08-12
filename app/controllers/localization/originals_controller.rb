@@ -5,9 +5,7 @@ class Localization::OriginalsController < ApplicationController
 
   def show
     original = Localization::Original.find_by!(uuid: params[:id])
-    locales = Localization::Translation.
-      where(locale: current_user.translator_locales).
-      where(key: original.key)
-    @original = SerializeLocalizationOriginal.(original, locales)
+
+    @original = SerializeLocalizationOriginal.(original, current_user, include_proposals: true)
   end
 end

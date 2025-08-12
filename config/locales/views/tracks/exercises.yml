@@ -19,9 +19,7 @@ en:
           community_solutions_link: Community Solutions
         action_box_join_track:
           title: Ready to start %{exercise_title}?
-          description_html: Join the %{track_title} track with
-            %{concept_link}%{concept_link_and_separator}%{exercise_link} ready
-            for you to dig into!
+          description_html: "Join the %{track_title} track with %{links_html} ready for you to dig into!"
           concept_plural:
             one: 1 concept
             other: "%{count} concepts"

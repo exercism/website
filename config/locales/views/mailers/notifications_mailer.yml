@@ -1,157 +1,558 @@
 en:
   notifications_mailer:
-    acquired_badge:
-      greeting: "Hi %{user_handle},"
-      congratulations: "Congratulations! You've unlocked a new badge at Exercism."
-      visit_journey_page: "Visit your Exercism Journey page to see what you earned."
-      show_what_unlocked_button: "Show me what I unlocked!"
-    joined_lifetime_insiders:
+    eligible_for_insiders:
       greeting: Hey!
-      welcome_message_html: Welcome to %{link_to_exercism_insiders}!
-      impact_message: Thank you for being part of our story and helping making
-        Exercism the huge success that it is. As a Lifetime Insider, you're
-        one of the few people who have had a huge impact on the platform and
-        shaped it into what it is today. You've helped thousands of people and
-        made a huge difference - thank you.
-      insiders_gratitude: Insiders is a tiny way of us saying thank you for all you've done.
-      learn_more_html: To learn about what's in Insiders, please check out the
-        %{dedicated_page_link}, or watch our %{introductory_video_link} below
-        👇
-      dedicated_page_link: dedicated page
-      introductory_video_link: introductory video
-      discord_invitation_html:
-        I'd love to hear all your thoughts and ideas on our
-        dedicated %{discord_channel_link}. So come along and say hello!
-      closing_message:
-        Thanks again for being part of Exercism. I'm excited for what's
-        next! 🙂
+      eligibility_message_html: I'm excited to let you know you're eligible for
+        Exercism Insiders - our rewards program for people who contribute,
+        mentor, or donate to Exercism. You can activate your Insiders
+        account on the %{exercism_insiders_link_text}.
+      exercism_insiders_link_text: Insiders Page
+      benefits_heading: "Insiders gives you a few extra benefits:"
+      benefit_dark_mode: Access to our sexy Dark Mode
+      benefit_chatgpt_integration: ChatGPT Integration for when you get stuck on exercises
+      benefit_behind_the_scenes:
+        Behind the scenes content. You can watch videos from
+        me and the team, keeping you in the loop, as we work on Exercism.
+      benefit_discord_channel:
+        "Closer access to the team and key community members,
+        with our dedicated #insiders Discord channel."
+      benefit_extra_mentoring_slots: Extra mentoring slots.
+      benefit_exclusive_badges: Exclusive Badges
+      benefit_and_more: And more!
+      status_details_html:
+        Your Insiders status will continue for as long as you're
+        actively contributing, mentoring or donating. You can also earn a
+        Lifetime Insiders status by hitting certain thresholds. The
+        %{insiders_page_link_text} contains lots more detail or watch the
+        video below to learn more 👇
+      thank_you_message:
+        Thanks so much for being part of Exercism's story. I really
+        hope you enjoy Insiders!
+      signature_name: Jeremy Walker
+      signature_title: Exercism's Co-founder &amp; CEO
+      activate_button_text: Activate Insiders
+    mentor_finished_discussion:
+      greeting: Hi %{user_handle},
+      discussion_finished:
+        Your mentor (%{mentor_handle}) has finished the discussion
+        for your solution on %{exercise_title} on the %{track_title} track.
+      button_text: Go to the discussion
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    acquired_trophy:
+      greeting: Hi %{user_handle},
+      congratulations: Congratulations! You've unlocked a new trophy on the
+        %{track_title} track.
+      visit_page:
+        Visit the %{track_title} track page and check the trophy cabinet to
+        see what you earned.
+      button_text: Show me what I unlocked!
+      congratulations_message:
+        Congratulations! You've unlocked a new trophy on the
+        %{track_title} Track. Visit the %{track_title} track page and check
+        the trophy cabinet to see what you earned.
+      reveal_link: "Reveal it here: %{track_url}"
+    student_added_iteration:
+      greeting: Hi %{user_handle},
+      new_iteration_submitted:
+        Your student (%{student_handle}) has submitted a new
+        iteration (#%{iteration_idx}) on your discussion about
+        %{exercise_title} on the %{track_title} track.
+      button_text: Go to the discussion
+      notification_message: Your student (%{student_handle}) has submitted a new
+        iteration (##%{iteration_idx}) on your discussion about
+        %{exercise_title} on the %{track_title} track.
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    eligible_for_lifetime_insiders:
+      greeting: Hey!
+      body_html:
+        I'm excited to let you know you're eligible for Exercism Insiders -
+        our rewards program for people who contribute, mentor, or donate to
+        Exercism. You can activate your Insiders account on the
+        %{insiders_page_link}.
+      insiders_page_link_text: Insiders Page
+      benefits_title: "Insiders gives you a few extra benefits:"
+      benefit_dark_mode: Access to our sexy Dark Mode
+      benefit_chatgpt: ChatGPT Integration for when you get stuck on exercises
+      benefit_behind_scenes:
+        Behind the scenes content. You can watch videos from me
+        and the team, keeping you in the loop, as we work on Exercism.
+      benefit_discord:
+        "Closer access to the team and key community members, with our
+        dedicated #insiders Discord channel."
+      benefit_mentoring_slots: Extra mentoring slots.
+      benefit_badges: Exclusive Badges
+      benefit_and_more: And more!
+      lifetime_status_html:
+        We've granted you Lifetime status, which means you'll
+        always have access to Insiders. The %{insiders_page_link} contains
+        lots more detail or watch the video below to learn more 👇
+      closing_thanks:
+        Thanks so much for being part of Exercism's story. I really hope
+        you enjoy Insiders!
       signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder & CEO
-      button_text: Visit Exercism
-    nudge_to_request_mentoring:
+      button_activate_insiders: Activate Insiders
+      benefits_intro: "Insiders gives you three main benefits:"
+      benefit_premium_feature:
+        Exercism Premium for free. You now have access to Dark
+        Mode, ChatGPT Integration, extra mentoring slots and more.
+      benefit_behind_the_scenes:
+        Behind the scenes content. You can watch videos from
+        me and the team, keeping you in the loop, as we work on Exercism.
+      benefit_discord_access:
+        "Closer access to the team and key community members,
+        with our dedicated #insiders Discord channel."
+      more_details: The Insiders Page contains lots more detail!
+      lifetime_status:
+        We've granted you Lifetime status, which means you'll always
+        have access to Insiders.
+      activate_insiders_link: "Activate Insiders: %{insiders_url}"
+    student_timed_out_discussion_student:
       greeting: Hi %{user_handle},
-      completed_exercises_message:
-        You've completed a few exercises (nice work!) but
-        not yet requested mentoring on any of your solutions.
-      feedback_benefits_html:
-        Receiving feedback from our mentors is an amazing way of
-        discovering your knowledge gaps and levelling up your skills.
-      valuable_feature_message:
-        It's one of Exercism's most valuable features, and
-        like all of Exercism, it's absolutely free!
-      choose_solution_message:
-        Choose a solution that you feel has the most room for
-        improvement and request a mentor to take a look at it. They should get
-        back to you within a day or so with some ideas!
-      button_text: Choose a solution →
+      timeout_message: The discussion with %{mentor_handle} on your solution to
+        %{exercise_title} on the %{track_title} track has timed out.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      button_text: Go to the discussion
+    nudge_mentor_to_reply_in_discussion:
+      greeting: Hi %{user_handle},
+      nudge_message:
+        This is a friendly reminder that your student (%{student_handle})
+        has been waiting %{num_days_waiting} days for you to reply in the
+        discussion on their solution to %{exercise_title} on the
+        %{track_title} track.
+      waiting_on_student_message:
+        If it's not your turn and you're waiting on the
+        student, please use the "It's the student's turn…" button in the
+        mentoring UI.
+      timeout_warning:
+        The discussion will time out in %{num_days_to_time_out} days if
+        you do not reply.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      nudge_message_html: This is a friendly reminder that your student
+        (%{student_handle}) has been waiting %{num_days_waiting} days for you
+        to reply in %{discussion_link} on their solution to %{exercise_title}
+        on the %{track_title} track.
+      discussion_link_text: the discussion
+      button_text: Go to the discussion
+    expired_insiders:
+      greeting: Hey there,
+      access_expired_message: Your access to Exercism Insiders has now expired.
+      thanks_for_support_message:
+        Thank you for supporting Exercism. We've helped over
+        1M people improve their programing skills for free, and we rely on
+        people like you to support us. So thank you so much for doing so.
+      continue_support_message:
+        "If you'd like to continue supportig us, that would
+        mean the world to us. You can set up a new regular donation on the
+        Insiders page: %{insiders_page_link}"
+      farewell: Have a great day!
+      signature_name: Jeremy Walker
+      signature_title: Exercism's Co-founder & CEO
+      visit_exercism_link: "Visit Exercism: %{root_url}"
+      access_expired_message_html: Your access to %{insiders_link} has now expired.
+      insiders_link_text: Exercism Insiders
+      continue_support_message_html:
+        If you'd like to continue supportig us, that
+        would mean the world to us. You can set up a new regular donation on
+        the %{insiders_page_link}.
+      insiders_page_link_text: Insiders page
+      button_text: Visit Exercism
+    mentor_timed_out_discussion_student:
+      greeting: Hi %{user_handle},
+      timeout_message: The discussion with %{mentor_handle} on your solution to
+        %{exercise_title} on the %{track_title} track has timed out.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      button_text: Go to the discussion
+    onboarding_insiders:
+      greeting: Hey there,
+      intro_message_html:
+        I hope you're enjoying %{exercism_link} so far! Did you know
+        that <strong>we're a not-for-profit organisation?</strong> We want
+        everyone to be able to benefit from Exercism, no matter how much money
+        they have, so we keep the site 100% free.
+      exercism_link_text: Exercism
+      donations_reliance_message:
+        To do that, we rely on donations to keep Exercism
+        running. We're an extremely lean operation and considering we serve
+        over 1.5 million people, we have very low costs (~$250k/year). I put a
+        video together that explains more 👇
+      support_request_message:
+        If you do find Exercism useful and if you can afford to
+        do so, please support us by making a donation. However, if you can't
+        afford it, please know that this is not a requirement and our platform
+        will always be available to you for free.
+      community_support_message:
+        Your support, whether through a donation or simply
+        spreading the word about Exercism, is critical in helping us achieve
+        our social mission. Every bit counts and helps us bring quality
+        programming education to more people around the world.
+      closing_thanks:
+        Thank you for being a part of our community and for supporting
+        our social mission. We look forward to seeing all the amazing things
+        you will achieve with Exercism.
+      best_regards: Best regards,
+      signature_name: Jeremy Walker
+      signature_title: Exercism Co-founder & CEO
+      button_text: Visit Exercism
+      intro_message:
+        I hope you're enjoying %{exercism_link} so far! Did you know that
+        we're a not-for-profit organisation? We want everyone to be able to
+        benefit from Exercism, no matter how much money they have, so we keep
+        the site 100% free.
+      video_link: "I put a video together that explains more: %{insiders_url}"
+    acquired_badge:
+      greeting: Hi %{user_handle},
+      congratulations_message: Congratulations! You've unlocked a new badge at Exercism.
+      journey_page_prompt: Visit your Exercism Journey page to see what you earned.
+      button_text: Show me what I unlocked!
+      reveal_link: "Reveal it here: %{badges_journey_url}"
+    onboarding_community:
+      greeting: Hello there!
+      intro_message_html: I hope you're enjoying your first few days on
+        %{exercism_link}. As you continue to explore our platform, I wanted to
+        take a moment to tell you about our amazing community.
+      exercism_link_text: Exercism
+      open_source_message_html:
+        Exercism is an open-source, community-powered project.
+        In fact we're one of the biggest open-source organisations on
+        %{github_link} with over 350 repositories. Our community is centered
+        around our values of empathy, kindness, and inclusivity. Check out
+        this video or read more below 👇
+      github_link_text: GitHub
+      community_areas_intro:
+        "We have several community areas that you might find
+        interesting and enjoyable:"
+      discord_link_html:
+        Our %{discord_link} channel is a the place to go to hang out
+        with the Exercism community, join community calls, and get quick
+        support.
+      discord_link_text: Discord
+      forum_link_html: Our %{forum_link} is a great place to ask longer-form
+        questions, share ideas, and connect with others who are passionate
+        about coding.
+      forum_link_text: forum
+      youtube_link_html:
+        Our %{youtube_channel_link} is the space to find our best
+        video content - educational walkthrough, Exercism updates, community
+        stories, and interviews with industry experts.
+      youtube_link_text: YouTube Channel
+      twitch_link_html:
+        On %{twitch_link}, we host live streams featuring both our
+        community and guests from the coding ecosystem.
+      twitch_link_text: Twitch
+      join_community_message:
+        We would love for you to join in and become an active
+        member of our community. Whether you're a seasoned developer or just
+        starting out, there is a place for you here. So don't be shy, come say
+        hello and get involved!
+      best_regards: Best regards,
+      signature_name: Jeremy Walker
+      signature_title: Exercism Co-founder & CEO
+      button_text: Visit Exercism
+      intro_message:
+        I hope you're enjoying your first few days on %{exercism_link}.
+        As you continue to explore our platform, I wanted to take a moment to
+        tell you about our amazing community.
+      open_source_message:
+        Exercism is an open-source, community-powered project. In
+        fact we're one of the biggest open-source organisations on
+        %{github_link} with over 350 repositories. Our community is centered
+        around our values of empathy, kindness, and inclusivity.
+      video_link: "Check out this video or read more below: %{youtube_link}"
+      discord_link:
+        "- Our Discord (%{discord_link}) channel is a the place to go to
+        hang out with the Exercism community, join community calls, and get
+        quick support."
+      forum_link:
+        "- Our forum (%{forum_link}) is a great place to ask longer-form
+        questions, share ideas, and connect with others who are passionate
+        about coding."
+      youtube_channel_link:
+        "- Our YouTube Channel (%{youtube_channel_link}) is the
+        space to find our best video content - educational walkthrough,
+        Exercism updates, community stories, and interviews with industry
+        experts."
+      twitch_link:
+        "- On Twitch (%{twitch_link}), we host live streams featuring both
+        our community and guests from the coding ecosystem."
+    onboarding_product:
+      greeting: Hey there,
+      intro_message_html: It's been a day or so since you signed up to
+        %{exercism_link}, and I wanted to check how you're getting on so far?
+      exercism_link_text: Exercism
+      stuck_message_html:
+        Sometimes Exercism can be a bit overwhelming at first. Some
+        people get a bit lost and things don't quite make sense to them. If
+        you get stuck, check out our %{discord_link} or %{forum_link}, where
+        you can ask for help. It's always helpful for us to know where people
+        are tripping up so we can fix it, so please don't be afraid to speak
+        up!
+      discord_link_text: Discord
+      forum_link_text: Forum
+      language_exploration_message:
+        If you've not started exploring a language yet, we
+        have over 65 to choose from, including the most widely used languages
+        (e.g. Python, JavaScript, C#), the popular new-kids on the block (e.g.
+        Go, Elixir, Rust) and some quite unusual and esotoric languages (e.g.
+        8th, COBOL, Prolog). There's tons to learn and a lot of fun to be had!
+      final_reminder_message: And as a final a reminder, Exercism is 100% free,
+        open-source and not for profit. Enjoy!
+      best_regards: Best regards,
+      signature_name: Jeremy Walker
+      signature_title: Exercism Co-founder & CEO
+      button_text: Visit Exercism
+      intro_message:
+        It's been a day or so since you signed up to %{exercism_link},
+        and I wanted to check how you're getting on so far?
+      stuck_message: Sometimes Exercism can be a bit overwhelming at first. Some
+        people get a bit lost and things don't quite make sense to them. If
+        you get stuck, check out our %{discord_link} or %{forum_link}, where
+        you can ask for help. It's always helpful for us to know where people
+        are tripping up so we can fix it, so please don't be afraid to speak
+        up!
+    mentor_timed_out_discussion_mentor:
+      greeting: Hi %{user_handle},
+      timeout_message:
+        The discussion with your student (%{student_handle}) on their
+        solution to %{exercise_title} on the %{track_title} track has timed
+        out.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      button_text: Go to the discussion
+    mentor_started_discussion:
+      greeting: Hi %{user_handle},
+      discussion_started_message:
+        A mentor (%{mentor_handle}) has started mentoring
+        your solution to %{exercise_title} on the %{track_title} track.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      notification_message:
+        A mentor (%{mentor_handle}) has started mentoring your
+        solution to %{exercise_title} on the %{track_title} track.
+      button_text: Go to the discussion
+    student_finished_discussion:
+      greeting: Hi %{user_handle},
+      discussion_finished_message:
+        Your student (%{student_handle}) has finished the
+        discussion you are mentoring for %{exercise_title} on the
+        %{track_title} track.
+      discussion_link: "Go to the discussion: %{discussion_url}"
+      notification_message: Your student (%{student_handle}) has finished the
+        discussion you are mentoring for %{exercise_title} on the
+        %{track_title} track.
+      button_text: Go to the discussion
+    automated_feedback_added:
+      greeting: Hi %{user_handle},
+      feedback_message:
+        New feedback has been added to iteration (#%{iteration_idx})
+        of your solution to %{exercise_title} on the %{track_title} track. We
+        %{emphasis}recommend taking a look and seeing how you can improve your
+        solution!
+      button_text: See the feedback
+      text:
+        greeting: Hi %{user_handle},
+        feedback_message:
+          New feedback has been added to iteration (##%{iteration_idx})
+          of your solution to %{exercise_title} on the %{track_title} track.
+          We %{emphasis}recommend taking a look and seeing how you can improve
+          your solution!
+        go_to_iteration_link: "Go to the iteration: %{iterations_url}"
+    upgraded_to_lifetime_insiders:
+      greeting: Hey!
+      message_one:
+        I'm excited to let you know that you've been upgraded to Lifetime
+        membership of %{exercism_insiders_link}!
+      exercism_insiders_link_text: Exercism Insiders
+      message_two:
+        As a Lifetime Insider, you're one of the few people who have had a
+        huge impact on the platform and shaped it into what it is today.
+        You've helped thousands of people and made a huge difference - thank
+        you. Insiders is a tiny way of us saying thank you for all you've
+        done.
+      message_three:
+        Congratulations on passing the Lifetime threshold and thanks
+        again for being part of Exercism 🙂
+      signature_name: Jeremy Walker
+      signature_title: Exercism Co-founder & CEO
+      visit_exercism: "Visit Exercism: %{root_url}"
+      message_one_html: I'm excited to let you know that you've been upgraded to
+        Lifetime membership of %{exercism_insiders_link}!
+      button_text: Visit Exercism
+    nudge_student_to_reply_in_discussion:
+      greeting: Hi %{user_handle},
+      reminder_html:
+        This is a friendly reminder that your mentor (%{mentor_handle})
+        has been waiting %{num_days_waiting} days for you to reply in
+        %{discussion_link} on your solution to %{exercise_title} on the
+        %{track_title} track.
+      discussion_link_text: the discussion
+      action_prompt:
+        If you are actually waiting for the mentor, please add a comment
+        to the discussion to let them know.
+      timeout_warning:
+        The discussion will time out in %{num_days_to_time_out} days if
+        you do not reply.
+      button_text: Go to the discussion
+      reminder_message: This is a friendly reminder that your mentor
+        (%{mentor_handle}) has been waiting %{num_days_waiting} days for you
+        to reply in the discussion on your solution to %{exercise_title} on
+        the %{track_title} track.
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    added_to_contributors_page:
+      greeting: Hi %{user_handle},
+      confirmation_message:
+        You have now been added to Exercism's official list of
+        contributors and show up on our contributors page.
+      thank_you_message:
+        Thank you so much for being a part of Exercism and helping us
+        provide free, world-class programming education to as many people as
+        possible.
+      button_text: Explore the contributors page
+      view_page: "View the contributors page here: %{contributors_url}"
+    mentor_replied_to_discussion:
+      greeting: Hi %{user_handle},
+      notification_message: Your mentor (%{mentor_handle}) has commented on your
+        discussion about %{exercise_title} on the %{track_title} track.
+      button_text: Go to the discussion
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    student_timed_out_discussion_mentor:
+      button_text: Go to the discussion
+      greeting: Hi %{user_handle},
+      timeout_message:
+        The discussion with your student (%{student_handle}) on their
+        solution to %{exercise_title} on the %{track_title} track has timed
+        out.
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    joined_insiders:
+      greeting: Hey!
+      welcome_message_html:
+        Welcome to %{exercism_insiders_link}! Thank you for being
+        part of our story and helping making Exercism the huge success that
+        it is. Insiders is a small way of us saying thank you for your
+        support.
+      exercism_insiders_link_text: Exercism Insiders
+      learn_more_html: To learn about what's in Insiders, please check out the
+        %{insiders_page_link}, or watch our introductory video below 👇
+      insiders_page_link_text: Insiders Page
+      discord_message_html: I'd love to hear all your thoughts and ideas on our
+        dedicated %{discord_channel_link}. So come along and say hello!
+      discord_channel_link_text: "#insiders channel on Discord"
+      farewell_message:
+        Thanks for being part of our journey. I'm excited for what
+        comes next 🙂
+      signature_name: Jeremy Walker
+      signature_title: Exercism's Co-founder &amp; CEO
+      button_text: Visit Exercism
+      welcome_message_text:
+        Welcome to Exercism Insiders (%{exercism_insiders_link})!
+        Thank you for being part of our story and helping making Exercism
+        the huge success that it is. Insiders is a small way of us saying
+        thank you for your support.
+      learn_more_text: "To learn about what's in Insiders, please check out the
+        dedicated page, or watch our introductory vlog:
+        https://www.youtube.com/watch?v=WDUqfCMbh_8"
+      discord_message_text: "I'd love to hear all your thoughts and ideas on our
+        dedicated #insiders channel on Discord (%{discord_link}). So come
+        along and say hello!"
+      visit_exercism_link: "Visit Exercism: %{root_url}"
+    joined_exercism:
+      greeting: Hey there,
+      welcome_message_html:
+        Welcome to %{exercism_link}! We're excited to have you as
+        a part of our community and looking forward to helping you as you go
+        even deeper on your programming journey.
+      exercism_link_text: Exercism
+      platform_description: Exercism is designed to be help you develop a deep
+        understanding of whichever language you choose to learn. We're a
+        registered not-for-profit organisation and 100% free.
+      video_introduction:
+        I put this video together (which you might have seen when
+        you signed up) which walks you through a few key things 👇
+      forum_prompt_html:
+        If you ever get stuck or have questions, don't hesitate to
+        post in %{forum_link}. Our community is friendly and supportive, and
+        we're always happy to help. We believe that learning is a
+        collaborative effort and that we can all learn from each other.
+      forum_link_text: our forum
+      youtube_channel_html:
+        Finally, don't miss out on our %{youtube_channel_link}
+        where we share interesting interviews, walkthroughs, and tutorials
+        about Exercism. You might find some tips and tricks that will make
+        your learning journey even more enjoyable.
+      youtube_channel_link_text: YouTube channel
+      closing_wish: Have a great day!
+      signature_name: Jeremy Walker
+      signature_title: Exercism's Co-founder &amp; CEO
+      button_text: Visit Exercism
+      video_introduction_text:
+        "I put this video together (which you might have seen when
+        you signed up) which walks you through a few key things:
+        https://www.youtube.com/watch?v=8rmbTWAncb8"
+      forum_prompt_text:
+        If you ever get stuck or have questions, don't hesitate to
+        post in our forum. Our community is friendly and supportive, and
+        we're always happy to help. We believe that learning is a
+        collaborative effort and that we can all learn from each other.
+      youtube_channel_text:
+        Finally, don't miss out on our YouTube channel where we
+        share interesting interviews, walkthroughs, and tutorials about
+        Exercism. You might find some tips and tricks that will make your
+        learning journey even more enjoyable.
+      visit_exercism_link: "Visit Exercism: %{root_url}"
+    joined_lifetime_insiders:
+      greeting: Hey!
+      welcome_message_one_html:
+        Welcome to %{exercism_insiders_link}! Thank you for
+        being part of our story and helping making Exercism the huge success
+        that it is.
+      exercism_insiders_link_text: Exercism Insiders
+      welcome_message_two:
+        As a Lifetime Insider, you're one of the few people who
+        have had a huge impact on the platform and shaped it into what it is
+        today. You've helped thousands of people and made a huge difference
+        - thank you. Insiders is a tiny way of us saying thank you for all
+        you've done.
+      learn_more_message:
+        To learn about what's in Insiders, please check out the
+        dedicated page, or watch our introductory video below 👇
+      discord_message_html: I'd love to hear all your thoughts and ideas on our
+        dedicated %{discord_channel_link}. So come along and say hello!
+      discord_channel_link_text: "#insiders channel on Discord"
+      farewell_message: Thanks again for being part of Exercism. I'm excited for
+        what's next! 🙂
+      signature_name: Jeremy Walker
+      signature_title: Exercism's Co-founder &amp; CEO
+      button_text: Visit Exercism
+      welcome_message_one_text: Welcome to Exercism Insiders (%{exercism_insiders_link})!
+      welcome_message_two_text:
+        Thank you for being part of our story and helping making
+        Exercism the huge success that it is. Insiders is a small way of us
+        saying thank you for your support.
+      learn_more_message_text:
+        "To learn about what's in Insiders, please check out the
+        dedicated page, or watch our introductory vlog:
+        https://www.youtube.com/watch?v=WDUqfCMbh_8"
+      discord_message_text: "I'd love to hear all your thoughts and ideas on our
+        dedicated #insiders channel on Discord (%{discord_channel_link}). So
+        come along and say hello!"
+      visit_exercism_link: "Visit Exercism: %{root_url}"
     student_replied_to_discussion:
       greeting: Hi %{user_handle},
-      discussion_reply_message:
+      notification_message:
         Your student (%{student_handle}) has commented on your
         discussion about %{exercise_title} on the %{track_title} track.
       button_text: Go to the discussion
-    mentor_finished_discussion:
+      go_to_discussion_link: "Go to the discussion: %{discussion_url}"
+    nudge_to_request_mentoring:
       greeting: Hi %{user_handle},
-      discussion_finished_message:
-        Your mentor (%{mentor_handle}) has finished the
-        discussion for your solution on %{exercise_title} on the
-        %{track_title} track.
-      button_text: Go to the discussion
-    acquired_trophy:
-      greeting: Hi %{user_handle},
-      trophy_unlocked_message:
-        Congratulations! You've unlocked a new trophy on the
-        %{track_title} track.
-      visit_track_message:
-        Visit the %{track_title} track page and check the trophy
-        cabinet to see what you earned.
-      button_text: Show me what I unlocked!
-    student_added_iteration:
-      greeting: Hi %{user_handle},
-      new_iteration_message:
-        Your student (%{student_handle}) has submitted a new
-        iteration (#%{iteration_index}) on your discussion about
-        %{exercise_title} on the %{track_title} track.
-      button_text: Go to the discussion
-    added_to_contributors_page:
-      greeting: "Hi %{user_handle},"
-      added_to_contributors_message: "You have now been added to Exercism's official list of contributors and show up on our contributors page."
-      thank_you_message: "Thank you so much for being a part of Exercism and helping us provide free, world-class programming education to as many people as possible."
-      explore_contributors_button: "Explore the contributors page"
-    automated_feedback_added:
-      greeting: "Hi %{user_handle},"
-      new_feedback_message: "New feedback has been added to iteration (##{iteration_idx}) of your solution to %{exercise_title} on the %{track_title} track. We %{emphasis}recommend taking a look and seeing how you can improve your solution!"
-      see_feedback_button: "See the feedback"
-    eligible_for_insiders:
-      greeting: "Hey!"
-      insiders_eligibility_html: "I'm excited to let you know you're eligible for Exercism Insiders - our rewards program for people who contribute, mentor, or donate to Exercism. You can activate your Insiders account on the %{insiders_page}."
-      insiders_page_link: "Insiders Page"
-      benefits_heading: "Insiders gives you a few extra benefits:"
-      benefit_dark_mode: "Access to our sexy Dark Mode"
-      benefit_chatgpt: "ChatGPT Integration for when you get stuck on exercises"
-      benefit_behind_scenes: "Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism."
-      benefit_discord_channel: "Closer access to the team and key community members, with our dedicated #insiders Discord channel."
-      benefit_mentoring_slots: "Extra mentoring slots."
-      benefit_badges: "Exclusive Badges"
-      benefit_more: "And more!"
-      insiders_status_duration_html: "Your Insiders status will continue for as long as you're actively contributing, mentoring or donating. You can also earn a Lifetime Insiders status by hitting certain thresholds. The %{insiders_page} contains lots more detail or watch the video below to learn more 👇"
-      thank_you: "Thanks so much for being part of Exercism's story. I really hope you enjoy Insiders!"
-      signature_name: "Jeremy Walker"
-      signature_title: "Exercism's Co-founder & CEO"
-      activate_insiders_button: "Activate Insiders"
-    eligible_for_lifetime_insiders:
-      greeting: "Hey!"
-      insiders_eligibility_html: "I'm excited to let you know you're eligible for Exercism Insiders - our rewards program for people who contribute, mentor, or donate to Exercism. You can activate your Insiders account on the %{insiders_page}."
-      insiders_page_link: "Insiders Page"
-      benefits_heading: "Insiders gives you a few extra benefits:"
-      benefit_dark_mode: "Access to our sexy Dark Mode"
-      benefit_chatgpt: "ChatGPT Integration for when you get stuck on exercises"
-      benefit_behind_scenes: "Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism."
-      benefit_discord_channel: "Closer access to the team and key community members, with our dedicated #insiders Discord channel."
-      benefit_mentoring_slots: "Extra mentoring slots."
-      benefit_badges: "Exclusive Badges"
-      benefit_more: "And more!"
-      lifetime_status_html: "We've granted you Lifetime status, which means you'll always have access to Insiders. The %{insiders_page} contains lots more detail or watch the video below to learn more 👇"
-      thank_you: "Thanks so much for being part of Exercism's story. I really hope you enjoy Insiders!"
-      signature_name: "Jeremy Walker"
-      signature_title: "Exercism's Co-founder & CEO"
-      activate_insiders_button: "Activate Insiders"
-    expired_insiders:
-      greeting: "Hey there,"
-      access_expired_html: "Your access to %{exercism_insiders_link} has now expired."
-      exercism_insiders_link_text: "Exercism Insiders"
-      thank_you_for_support: "Thank you for supporting Exercism. We've helped over 1M people improve their programming skills for free, and we rely on people like you to support us. So thank you so much for doing so."
-      continue_support_html: "If you'd like to continue supporting us, that would mean the world to us. You can set up a new regular donation on the %{insiders_page_link}."
-      insiders_page_link_text: "Insiders page"
-      have_a_great_day: "Have a great day!"
-      signature_name: "Jeremy Walker"
-      signature_title: "Exercism's Co-founder & CEO"
-      visit_exercism_button: "Visit Exercism"
-    joined_exercism:
-      greeting: "Hey there,"
-      welcome_message_html: "Welcome to %{exercism_link}! We're excited to have you as a part of our community and looking forward to helping you as you go even deeper on your programming journey."
-      exercism_link_text: "Exercism"
-      exercism_design_purpose: "Exercism is designed to help you develop a deep understanding of whichever language you choose to learn."
-      non_profit_status: "We're a registered not-for-profit organisation and 100% free."
-      intro_video_message: "I put this video together (which you might have seen when you signed up) which walks you through a few key things 👇"
-      stuck_help_html: "If you ever get stuck or have questions, don't hesitate to post in %{forum_link}. Our community is friendly and supportive, and we're always happy to help."
-      forum_link_text: "our forum"
-      learning_collaboration: "We believe that learning is a collaborative effort and that we can all learn from each other."
-      youtube_channel_promo_html: "Finally, don't miss out on our %{youtube_channel_link} where we share interesting interviews, walkthroughs, and tutorials about Exercism. You might find some tips and tricks that will make your learning journey even more enjoyable."
-      youtube_channel_link_text: "YouTube channel"
-      have_a_great_day: "Have a great day!"
-      signature_name: "Jeremy Walker"
-      signature_title: "Exercism's Co-founder & CEO"
-      visit_exercism_button: "Visit Exercism"
-    joined_insiders:
-      greeting: "Hey!"
-      welcome_insiders_html: "Welcome to %{exercism_insiders_link}! Thank you for being part of our story and helping make Exercism the huge success that it is. Insiders is a small way of us saying thank you for your support."
-      exercism_insiders_link_text: "Exercism Insiders"
-      learn_about_insiders_html: "To learn about what's in Insiders, please check out the %{insiders_page_link}, or watch our introductory video below 👇"
-      insiders_page_link_text: "Insiders Page"
-      discord_channel_invitation_html: "I'd love to hear all your thoughts and ideas on our dedicated %{insiders_discord_link}. So come along and say hello!"
-      insiders_discord_link_text: "#insiders channel on Discord"
-      thanks_for_journey: "Thanks for being part of our journey. I'm excited for what comes next 🙂"
-      signature_name: "Jeremy Walker"
-      signature_title: "Exercism's Co-founder & CEO"
-      visit_exercism_button: "Visit Exercism"
+      completion_message:
+        You've completed a few exercises (nice work!) but not yet
+        requested mentoring on any of your solutions.
+      feedback_value: Receiving feedback from our mentors is an amazing way of
+        discovering your knowledge gaps and levelling up your skills. It's
+        one of Exercism's most valuable features, and like all of Exercism,
+        it's absolutely free!
+      action_prompt:
+        Choose a solution that you feel has the most room for improvement
+        and request a mentor to take a look at it. They should get back to
+        you within a day or so with some ideas!
+      button_html: Choose a solution →
+      button_text: "Choose a solution at: %{notification_url}"

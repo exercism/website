@@ -1,19 +1,14 @@
-Hey there,
+= t('.greeting')
 \
-Your access to Exercism Insiders has now expired.
+= t('.access_expired_message')
 \
-Thank you for supporting Exercism. We've helped over 1M people improve their programing skills for free, and we rely on people like you to support us. So thank you so much for doing so.
+= t('.thanks_for_support_message')
 \
-If you'd like to continue supportig us, that would mean the world to us.
-You can set up a new regular donation on the #{link_to 'Insiders page', 'https://exercism.org/insiders'}
+= t('.continue_support_message', insiders_page_link: 'https://exercism.org/insiders')
 \
-Have a great day!
+= t('.farewell')
 \
-Jeremy Walker
-Exercism's Co-founder & CEO
+= t('.signature_name')
+= t('.signature_title')
 \
-Visit Exercism: #{root_url}
-
-
-
-
+= t('.visit_exercism_link', root_url: root_url)

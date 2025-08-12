@@ -1,4 +1,4 @@
-%p Hi #{@user.handle},
-%p Your mentor (#{@discussion.mentor.handle}) has finished the discussion for your solution on #{@exercise.title} on the #{@track.title} track.
+%p= t('.greeting', user_handle: @user.handle)
+%p= t('.discussion_finished', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
 
-= email_button_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
+= email_button_to t('.button_text'), track_exercise_mentor_discussion_url(@track, @exercise, @discussion)

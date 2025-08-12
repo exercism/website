@@ -2,8 +2,34 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
+type AnyRecord = Record<string, any>
+
+/**
+ * Deep merge: merges b into a (objects only; arrays are replaced)
+ */
+function deepMerge<T extends AnyRecord>(a: T, b: T): T {
+  const out: T = { ...a }
+  for (const [k, v] of Object.entries(b)) {
+    const existing = out[k]
+    if (
+      v &&
+      typeof v === 'object' &&
+      !Array.isArray(v) &&
+      existing &&
+      typeof existing === 'object' &&
+      !Array.isArray(existing)
+    ) {
+      // @ts-expect-error recursive merge
+      out[k] = deepMerge(existing, v)
+    } else {
+      // @ts-expect-error assignment
+      out[k] = v
+    }
+  }
+  return out
+}
+
 export async function parseLLMOutput(llmOutput: string) {
-  // Step 1: Split into HAML content and YAML content
   const enStart = llmOutput.indexOf('\nen:')
   if (enStart === -1) {
     throw new Error('Could not find `en:` root in the LLM output.')
@@ -12,13 +38,9 @@ export async function parseLLMOutput(llmOutput: string) {
   const hamlPart = llmOutput.slice(0, enStart).trim()
   const yamlPart = llmOutput.slice(enStart).trim()
 
-  // Step 2: Clean and parse YAML
-  const yamlWithoutRoot = yamlPart
-    .split('\n')
-    .slice(1) // Remove the 'en:' line
-    .join('\n')
+  const yamlWithoutRoot = yamlPart.split('\n').slice(1).join('\n')
 
-  let parsedYaml: Record<string, any>
+  let parsedYaml: AnyRecord
   try {
     parsedYaml = yaml.parse(yamlWithoutRoot)
   } catch (err) {
@@ -31,10 +53,10 @@ export async function parseLLMOutput(llmOutput: string) {
     throw new Error('Parsed YAML was not an object.')
   }
 
-  const firstKey = Object.keys(parsedYaml)[0] // e.g. blog_posts
-  const secondLevel = parsedYaml[firstKey] // e.g. { show: ..., index: ..., info_bar: ... }
+  const firstKey = Object.keys(parsedYaml)[0]
+  const secondLevel = parsedYaml[firstKey] as AnyRecord
 
-  const outputByFile: Record<string, Record<string, any>> = {}
+  const outputByFile: Record<string, AnyRecord> = {}
 
   for (const [secondKey, value] of Object.entries(secondLevel)) {
     const filePath = path.join(
@@ -51,29 +73,53 @@ export async function parseLLMOutput(llmOutput: string) {
       outputByFile[filePath] = {}
     }
 
-    // Merge this secondKey's value into the existing structure
     outputByFile[filePath] = {
       ...outputByFile[filePath],
-      ...(value as Record<string, any>),
+      ...(value as AnyRecord),
     }
   }
 
-  // Write out the merged results
   for (const [filePath, data] of Object.entries(outputByFile)) {
     const namespace = path.basename(filePath, '.yml') // e.g. "show"
-    const yamlDoc = new yaml.Document({
+
+    let existing: AnyRecord = {}
+    try {
+      const raw = await fs.readFile(filePath, 'utf8')
+      const parsedExisting = yaml.parse(raw) as AnyRecord | null
+      if (parsedExisting && typeof parsedExisting === 'object') {
+        existing = parsedExisting
+      }
+    } catch (e: any) {
+      if (!e || e.code !== 'ENOENT') {
+        throw e
+      }
+    }
+
+    const existingSub =
+      existing?.en?.[firstKey]?.[namespace] &&
+      typeof existing.en[firstKey][namespace] === 'object'
+        ? (existing.en[firstKey][namespace] as AnyRecord)
+        : {}
+
+    const mergedSub = deepMerge(existingSub, data as AnyRecord)
+
+    const finalObj: AnyRecord = {
       en: {
+        ...(existing.en ?? {}),
         [firstKey]: {
-          [namespace]: data,
+          ...(existing.en?.[firstKey] ?? {}),
+          [namespace]: mergedSub,
         },
       },
-    })
+    }
+
+    const yamlDoc = new yaml.Document(finalObj)
+
     await fs.mkdir(path.dirname(filePath), { recursive: true })
     await fs.writeFile(filePath, yamlDoc.toString())
     console.log(`Saved YAML: ${filePath}`)
   }
 
-  // Step 3: Parse HAML sections
   const sections = hamlPart.split(/# file: (.+)/g)
   const fileMap = new Map<string, string>()
 
@@ -84,8 +130,6 @@ export async function parseLLMOutput(llmOutput: string) {
     fileMap.set(filePath, content.replace(/^# end file\s*/gm, '').trim())
   }
 
-  // Step 4: Write HAML files
-  // Step 4: Write HAML files
   const viewsPath = path.join(process.cwd(), '../../..', 'app', 'views')
 
   for (const [relPath, content] of fileMap) {

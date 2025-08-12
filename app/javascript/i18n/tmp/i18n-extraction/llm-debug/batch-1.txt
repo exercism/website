@@ -1,0 +1,510 @@
+# file: ../../views/mailers/notifications_mailer/eligible_for_lifetime_insiders.html.haml
+%p= t('.greeting')
+
+%p
+  = t('.body_html', insiders_page_link: link_to(t('.insiders_page_link_text'), insiders_url)).html_safe
+
+%p= t('.benefits_title')
+%ol
+  %li= t('.benefit_dark_mode')
+  %li= t('.benefit_chatgpt')
+  %li= t('.benefit_behind_scenes')
+  %li= t('.benefit_discord')
+  %li= t('.benefit_mentoring_slots')
+  %li= t('.benefit_badges')
+  %li= t('.benefit_and_more')
+
+%p
+  = t('.lifetime_status_html', insiders_page_link: link_to(t('.insiders_page_link_text'), insiders_url)).html_safe
+
+%p{ style: "margin-bottom: 24px" }
+  %a{ href: "https://www.youtube.com/watch?v=iwhahd41h0A", style: "display:block; box-shadow: 0px 2px 4px #0F0923" }
+    %img{ src: "https://assets.exercism.org/images/thumbnails/introducing-insiders-with-play-icon.jpg", style: "width:100%; display:block" }
+
+%p= t('.closing_thanks')
+
+%p
+  = t('.signature_name')
+  %br
+  = t('.signature_title')
+
+= email_button_to t('.button_activate_insiders'), insiders_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/student_timed_out_discussion_student.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.timeout_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.discussion_link', discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/nudge_mentor_to_reply_in_discussion.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.nudge_message', student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.waiting_on_student_message')
+\
+= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
+\
+= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/expired_insiders.text.haml
+= t('.greeting')
+\
+= t('.access_expired_message')
+\
+= t('.thanks_for_support_message')
+\
+= t('.continue_support_message', insiders_page_link: 'https://exercism.org/insiders')
+\
+= t('.farewell')
+\
+= t('.signature_name')
+= t('.signature_title')
+\
+= t('.visit_exercism_link', root_url: root_url)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/student_timed_out_discussion_student.html.haml
+%p= t('.greeting', user_handle: @user.handle)
+
+%p= t('.timeout_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
+
+= email_button_to t('.button_text'), track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/nudge_mentor_to_reply_in_discussion.html.haml
+%p= t('.greeting', user_handle: @user.handle)
+
+%p= t('.nudge_message_html', student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, discussion_link: link_to(t('.discussion_link_text'), mentoring_discussion_url(@discussion)), exercise_title: @exercise.title, track_title: @track.title).html_safe
+
+%p= t('.waiting_on_student_message')
+
+%p= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
+
+= email_button_to t('.button_text'), mentoring_discussion_url(@discussion)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/expired_insiders.html.haml
+%p= t('.greeting')
+
+%p
+  = t('.access_expired_message_html', insiders_link: link_to(t('.insiders_link_text'), 'https://exercism.org/insiders')).html_safe
+
+%p
+  = t('.thanks_for_support_message')
+%p
+  = t('.continue_support_message_html', insiders_page_link: link_to(t('.insiders_page_link_text'), 'https://exercism.org/insiders')).html_safe
+
+%p= t('.farewell')
+
+%p
+  = t('.signature_name')
+  %br
+  = t('.signature_title')
+
+= email_button_to t('.button_text'), root_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/eligible_for_lifetime_insiders.text.haml
+= t('.greeting')
+\
+= t('.body', insiders_url: insiders_url)
+\
+= t('.benefits_intro')
+1. = t('.benefit_premium_feature')
+2. = t('.benefit_behind_the_scenes')
+3. = t('.benefit_discord_access')
+\
+= t('.more_details')
+= t('.lifetime_status')
+\
+= t('.closing_thanks')
+\
+= t('.signature_name')
+= t('.signature_title')
+\
+= t('.activate_insiders_link', insiders_url: insiders_url)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/mentor_timed_out_discussion_student.html.haml
+%p= t('.greeting', user_handle: @user.handle)
+
+%p= t('.timeout_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
+
+= email_button_to t('.button_text'), track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_insiders.html.haml
+%p= t('.greeting')
+
+%p
+  = t('.intro_message_html', exercism_link: link_to(t('.exercism_link_text'), 'https://exercism.org')).html_safe
+
+%p
+  = t('.donations_reliance_message')
+
+%p
+  %a{ href: "https://exercism.org/insiders", style: "display:block; box-shadow: 0px 2px 4px #0F0923; margin-bottom:16px" }
+    %img{ src: "https://assets.exercism.org/images/thumbnails/why-donate-to-exercise-with-play-icon.jpg", style: "width:100%; display:block" }
+
+%p
+  = t('.support_request_message')
+
+%p
+  = t('.community_support_message')
+
+%p
+  = t('.closing_thanks')
+
+%p= t('.best_regards')
+
+%p
+  = t('.signature_name')
+  %br
+  = t('.signature_title')
+
+= email_button_to t('.button_text'), root_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/acquired_badge.html.haml
+%p= t('.greeting', user_handle: @user.handle)
+%p
+  = t('.congratulations_message')
+  %br
+  = t('.journey_page_prompt')
+= email_button_to t('.button_text'), badges_journey_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_community.html.haml
+%p= t('.greeting')
+
+%p
+  = t('.intro_message_html', exercism_link: link_to(t('.exercism_link_text'), 'https://exercism.org')).html_safe
+
+%p
+  = t('.open_source_message_html', github_link: link_to(t('.github_link_text'), 'https://github.com/exercism/')).html_safe
+
+%p{ style: "margin-bottom: 24px" }
+  %a{ href: "https://www.youtube.com/watch?v=fSh-nGw3IP8", style: "display:block; box-shadow: 0px 2px 4px #0F0923" }
+    %img{ src: "https://assets.exercism.org/images/thumbnails/yt-onboarding-community-with-play-icon.jpg", style: "width:100%; display:block" }
+
+
+%p{ style: "margin-bottom:8px" }
+  = t('.community_areas_intro')
+%ul
+  %li
+    = t('.discord_link_html', discord_link: link_to(t('.discord_link_text'), 'https://exercism.org/r/discord')).html_safe
+  %li
+    = t('.forum_link_html', forum_link: link_to(t('.forum_link_text'), 'https://exercism.org/r/forum')).html_safe
+  %li
+    = t('.youtube_link_html', youtube_channel_link: link_to(t('.youtube_link_text'), 'https://exercism.org/r/youtube')).html_safe
+  %li
+    = t('.twitch_link_html', twitch_link: link_to(t('.twitch_link_text'), 'https://exercism.org/r/twitch')).html_safe
+
+
+%p
+  = t('.join_community_message')
+
+%p
+  = t('.best_regards')
+
+%p
+  = t('.signature_name')
+  %br
+  = t('.signature_title')
+
+= email_button_to t('.button_text'), root_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_product.html.haml
+%p= t('.greeting')
+
+%p
+  = t('.intro_message_html', exercism_link: link_to(t('.exercism_link_text'), 'https://exercism.org')).html_safe
+%p
+  = t('.stuck_message_html', discord_link: link_to(t('.discord_link_text'), 'https://exercism.org/r/discord'), forum_link: link_to(t('.forum_link_text'), 'https://exercism.org/r/forum')).html_safe
+%p
+  = t('.language_exploration_message')
+%p
+  = t('.final_reminder_message')
+
+%p= t('.best_regards')
+
+%p
+  = t('.signature_name')
+  %br
+  = t('.signature_title')
+
+= email_button_to t('.button_text'), root_url
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/mentor_timed_out_discussion_student.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.timeout_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.discussion_link', discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_insiders.text.haml
+= t('.greeting')
+\
+= t('.intro_message', exercism_link: 'Exercism')
+\
+= t('.donations_reliance_message')
+= t('.video_link', insiders_url: 'https://exercism.org/insiders')
+\
+= t('.support_request_message')
+\
+= t('.community_support_message')
+\
+= t('.closing_thanks')
+\
+= t('.best_regards')
+\
+= t('.signature_name')
+= t('.signature_title')
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/acquired_badge.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.congratulations_message')
+= t('.journey_page_prompt')
+\
+= t('.reveal_link', badges_journey_url: badges_journey_url)
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_community.text.haml
+= t('.greeting')
+\
+= t('.intro_message', exercism_link: 'Exercism')
+\
+= t('.open_source_message', github_link: 'GitHub')
+\
+= t('.video_link', youtube_link: 'https://www.youtube.com/watch?v=fSh-nGw3IP8')
+\
+= t('.community_areas_intro')
+- = t('.discord_link', discord_link: 'https://exercism.org/r/discord')
+- = t('.forum_link', forum_link: 'https://exercism.org/r/forum')
+- = t('.youtube_channel_link', youtube_channel_link: 'https://exercism.org/r/youtube')
+- = t('.twitch_link', twitch_link: 'https://exercism.org/r/twitch')
+\
+= t('.join_community_message')
+
+= t('.best_regards')
+\
+= t('.signature_name')
+= t('.signature_title')
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/onboarding_product.text.haml
+= t('.greeting')
+\
+= t('.intro_message', exercism_link: 'Exercism')
+\
+= t('.stuck_message', discord_link: 'Discord', forum_link: 'Forum')
+\
+= t('.language_exploration_message')
+\
+= t('.final_reminder_message')
+\
+= t('.best_regards')
+\
+= t('.signature_name')
+= t('.signature_title')
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/mentor_timed_out_discussion_mentor.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.timeout_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/mentor_started_discussion.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.discussion_started_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.discussion_link', discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/student_finished_discussion.text.haml
+= t('.greeting', user_handle: @user.handle)
+\
+= t('.discussion_finished_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
+\
+= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+
+# end file
+
+# file: ../../views/mailers/notifications_mailer/automated_feedback_added.html.haml
+%p= t('.greeting', user_handle: @user.handle)
+%p= t('.feedback_message', iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis)
+= email_button_to t('.button_text'), track_exercise_iterations_url(@track, @exercise)
+
+# end file
+en:
+  mailers:
+    notifications_mailer:
+      eligible_for_lifetime_insiders:
+        greeting: "Hey!"
+        body_html: "I'm excited to let you know you're eligible for Exercism Insiders - our rewards program for people who contribute, mentor, or donate to Exercism. You can activate your Insiders account on the %{insiders_page_link}."
+        insiders_page_link_text: "Insiders Page"
+        benefits_title: "Insiders gives you a few extra benefits:"
+        benefit_dark_mode: "Access to our sexy Dark Mode"
+        benefit_chatgpt: "ChatGPT Integration for when you get stuck on exercises"
+        benefit_behind_scenes: "Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism."
+        benefit_discord: "Closer access to the team and key community members, with our dedicated #insiders Discord channel."
+        benefit_mentoring_slots: "Extra mentoring slots."
+        benefit_badges: "Exclusive Badges"
+        benefit_and_more: "And more!"
+        lifetime_status_html: "We've granted you Lifetime status, which means you'll always have access to Insiders. The %{insiders_page_link} contains lots more detail or watch the video below to learn more 👇"
+        closing_thanks: "Thanks so much for being part of Exercism's story. I really hope you enjoy Insiders!"
+        signature_name: "Jeremy Walker"
+        signature_title: "Exercism's Co-founder & CEO"
+        button_activate_insiders: "Activate Insiders"
+        benefits_intro: "Insiders gives you three main benefits:"
+        benefit_premium_feature: "Exercism Premium for free. You now have access to Dark Mode, ChatGPT Integration, extra mentoring slots and more."
+        benefit_behind_the_scenes: "Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism."
+        benefit_discord_access: "Closer access to the team and key community members, with our dedicated #insiders Discord channel."
+        more_details: "The Insiders Page contains lots more detail!"
+        lifetime_status: "We've granted you Lifetime status, which means you'll always have access to Insiders."
+        activate_insiders_link: "Activate Insiders: %{insiders_url}"
+      student_timed_out_discussion_student:
+        greeting: "Hi %{user_handle},"
+        timeout_message: "The discussion with %{mentor_handle} on your solution to %{exercise_title} on the %{track_title} track has timed out."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+        button_text: "Go to the discussion"
+      nudge_mentor_to_reply_in_discussion:
+        greeting: "Hi %{user_handle},"
+        nudge_message: "This is a friendly reminder that your student (%{student_handle}) has been waiting %{num_days_waiting} days for you to reply in the discussion on their solution to %{exercise_title} on the %{track_title} track."
+        waiting_on_student_message: "If it's not your turn and you're waiting on the student, please use the \"It's the student's turn…\" button in the mentoring UI."
+        timeout_warning: "The discussion will time out in %{num_days_to_time_out} days if you do not reply."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+        nudge_message_html: "This is a friendly reminder that your student (%{student_handle}) has been waiting %{num_days_waiting} days for you to reply in %{discussion_link} on their solution to %{exercise_title} on the %{track_title} track."
+        discussion_link_text: "the discussion"
+        button_text: "Go to the discussion"
+      expired_insiders:
+        greeting: "Hey there,"
+        access_expired_message: "Your access to Exercism Insiders has now expired."
+        thanks_for_support_message: "Thank you for supporting Exercism. We've helped over 1M people improve their programing skills for free, and we rely on people like you to support us. So thank you so much for doing so."
+        continue_support_message: "If you'd like to continue supportig us, that would mean the world to us. You can set up a new regular donation on the Insiders page: %{insiders_page_link}"
+        farewell: "Have a great day!"
+        signature_name: "Jeremy Walker"
+        signature_title: "Exercism's Co-founder & CEO"
+        visit_exercism_link: "Visit Exercism: %{root_url}"
+        access_expired_message_html: "Your access to %{insiders_link} has now expired."
+        insiders_link_text: "Exercism Insiders"
+        continue_support_message_html: "If you'd like to continue supportig us, that would mean the world to us. You can set up a new regular donation on the %{insiders_page_link}."
+        insiders_page_link_text: "Insiders page"
+        button_text: "Visit Exercism"
+      mentor_timed_out_discussion_student:
+        greeting: "Hi %{user_handle},"
+        timeout_message: "The discussion with %{mentor_handle} on your solution to %{exercise_title} on the %{track_title} track has timed out."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+        button_text: "Go to the discussion"
+      onboarding_insiders:
+        greeting: "Hey there,"
+        intro_message_html: "I hope you're enjoying %{exercism_link} so far! Did you know that <strong>we're a not-for-profit organisation?</strong> We want everyone to be able to benefit from Exercism, no matter how much money they have, so we keep the site 100% free."
+        exercism_link_text: "Exercism"
+        donations_reliance_message: "To do that, we rely on donations to keep Exercism running. We're an extremely lean operation and considering we serve over 1.5 million people, we have very low costs (~$250k/year). I put a video together that explains more 👇"
+        support_request_message: "If you do find Exercism useful and if you can afford to do so, please support us by making a donation. However, if you can't afford it, please know that this is not a requirement and our platform will always be available to you for free."
+        community_support_message: "Your support, whether through a donation or simply spreading the word about Exercism, is critical in helping us achieve our social mission. Every bit counts and helps us bring quality programming education to more people around the world."
+        closing_thanks: "Thank you for being a part of our community and for supporting our social mission. We look forward to seeing all the amazing things you will achieve with Exercism."
+        best_regards: "Best regards,"
+        signature_name: "Jeremy Walker"
+        signature_title: "Exercism Co-founder & CEO"
+        button_text: "Visit Exercism"
+        intro_message: "I hope you're enjoying %{exercism_link} so far! Did you know that we're a not-for-profit organisation? We want everyone to be able to benefit from Exercism, no matter how much money they have, so we keep the site 100% free."
+        video_link: "I put a video together that explains more: %{insiders_url}"
+      acquired_badge:
+        greeting: "Hi %{user_handle},"
+        congratulations_message: "Congratulations! You've unlocked a new badge at Exercism."
+        journey_page_prompt: "Visit your Exercism Journey page to see what you earned."
+        button_text: "Show me what I unlocked!"
+        reveal_link: "Reveal it here: %{badges_journey_url}"
+      onboarding_community:
+        greeting: "Hello there!"
+        intro_message_html: "I hope you're enjoying your first few days on %{exercism_link}. As you continue to explore our platform, I wanted to take a moment to tell you about our amazing community."
+        exercism_link_text: "Exercism"
+        open_source_message_html: "Exercism is an open-source, community-powered project. In fact we're one of the biggest open-source organisations on %{github_link} with over 350 repositories. Our community is centered around our values of empathy, kindness, and inclusivity. Check out this video or read more below 👇"
+        github_link_text: "GitHub"
+        community_areas_intro: "We have several community areas that you might find interesting and enjoyable:"
+        discord_link_html: "Our %{discord_link} channel is a the place to go to hang out with the Exercism community, join community calls, and get quick support."
+        discord_link_text: "Discord"
+        forum_link_html: "Our %{forum_link} is a great place to ask longer-form questions, share ideas, and connect with others who are passionate about coding."
+        forum_link_text: "forum"
+        youtube_link_html: "Our %{youtube_channel_link} is the space to find our best video content - educational walkthrough, Exercism updates, community stories, and interviews with industry experts."
+        youtube_link_text: "YouTube Channel"
+        twitch_link_html: "On %{twitch_link}, we host live streams featuring both our community and guests from the coding ecosystem."
+        twitch_link_text: "Twitch"
+        join_community_message: "We would love for you to join in and become an active member of our community. Whether you're a seasoned developer or just starting out, there is a place for you here. So don't be shy, come say hello and get involved!"
+        best_regards: "Best regards,"
+        signature_name: "Jeremy Walker"
+        signature_title: "Exercism Co-founder & CEO"
+        button_text: "Visit Exercism"
+        intro_message: "I hope you're enjoying your first few days on %{exercism_link}. As you continue to explore our platform, I wanted to take a moment to tell you about our amazing community."
+        open_source_message: "Exercism is an open-source, community-powered project. In fact we're one of the biggest open-source organisations on %{github_link} with over 350 repositories. Our community is centered around our values of empathy, kindness, and inclusivity."
+        video_link: "Check out this video or read more below: %{youtube_link}"
+        discord_link: "- Our Discord (%{discord_link}) channel is a the place to go to hang out with the Exercism community, join community calls, and get quick support."
+        forum_link: "- Our forum (%{forum_link}) is a great place to ask longer-form questions, share ideas, and connect with others who are passionate about coding."
+        youtube_channel_link: "- Our YouTube Channel (%{youtube_channel_link}) is the space to find our best video content - educational walkthrough, Exercism updates, community stories, and interviews with industry experts."
+        twitch_link: "- On Twitch (%{twitch_link}), we host live streams featuring both our community and guests from the coding ecosystem."
+      onboarding_product:
+        greeting: "Hey there,"
+        intro_message_html: "It's been a day or so since you signed up to %{exercism_link}, and I wanted to check how you're getting on so far?"
+        exercism_link_text: "Exercism"
+        stuck_message_html: "Sometimes Exercism can be a bit overwhelming at first. Some people get a bit lost and things don't quite make sense to them. If you get stuck, check out our %{discord_link} or %{forum_link}, where you can ask for help. It's always helpful for us to know where people are tripping up so we can fix it, so please don't be afraid to speak up!"
+        discord_link_text: "Discord"
+        forum_link_text: "Forum"
+        language_exploration_message: "If you've not started exploring a language yet, we have over 65 to choose from, including the most widely used languages (e.g. Python, JavaScript, C#), the popular new-kids on the block (e.g. Go, Elixir, Rust) and some quite unusual and esotoric languages (e.g. 8th, COBOL, Prolog). There's tons to learn and a lot of fun to be had!"
+        final_reminder_message: "And as a final a reminder, Exercism is 100% free, open-source and not for profit. Enjoy!"
+        best_regards: "Best regards,"
+        signature_name: "Jeremy Walker"
+        signature_title: "Exercism Co-founder & CEO"
+        button_text: "Visit Exercism"
+        intro_message: "It's been a day or so since you signed up to %{exercism_link}, and I wanted to check how you're getting on so far?"
+        stuck_message: "Sometimes Exercism can be a bit overwhelming at first. Some people get a bit lost and things don't quite make sense to them. If you get stuck, check out our %{discord_link} or %{forum_link}, where you can ask for help. It's always helpful for us to know where people are tripping up so we can fix it, so please don't be afraid to speak up!"
+      mentor_timed_out_discussion_mentor:
+        greeting: "Hi %{user_handle},"
+        timeout_message: "The discussion with your student (%{student_handle}) on their solution to %{exercise_title} on the %{track_title} track has timed out."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+      mentor_started_discussion:
+        greeting: "Hi %{user_handle},"
+        discussion_started_message: "A mentor (%{mentor_handle}) has started mentoring your solution to %{exercise_title} on the %{track_title} track."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+      student_finished_discussion:
+        greeting: "Hi %{user_handle},"
+        discussion_finished_message: "Your student (%{student_handle}) has finished the discussion you are mentoring for %{exercise_title} on the %{track_title} track."
+        discussion_link: "Go to the discussion: %{discussion_url}"
+      automated_feedback_added:
+        greeting: "Hi %{user_handle},"
+        feedback_message: "New feedback has been added to iteration (#%{iteration_idx}) of your solution to %{exercise_title} on the %{track_title} track. We %{emphasis}recommend taking a look and seeing how you can improve your solution!"
+        button_text: "See the feedback"

@@ -1,9 +1,9 @@
-Hi #{@user.handle},
+= t('.greeting', user_handle: @user.handle)
 \
-This is a friendly reminder that your mentor (#{@discussion.mentor.handle}) has been waiting #{@num_days_waiting} days for you to reply in the discussion on your solution to #{@exercise.title} on the #{@track.title} track.
+= t('.reminder_message', mentor_handle: @discussion.mentor.handle, num_days_waiting: @num_days_waiting, exercise_title: @exercise.title, track_title: @track.title)
 \
-If you are actually waiting for the mentor, please add a comment to the discussion to let them know.
+= t('.action_prompt')
 \
-The discussion will time out in #{@num_days_to_time_out} days if you do not reply.
+= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
 \
-Go to the discussion: #{track_exercise_mentor_discussion_url(@track, @exercise, @discussion)}
+= t('.go_to_discussion_link', discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion))

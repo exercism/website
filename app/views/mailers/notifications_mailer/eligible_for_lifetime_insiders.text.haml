@@ -1,21 +1,18 @@
-Hey!
+= t('.greeting')
 \
-I'm excited to let you know you're eligible for Exercism Insiders - our rewards program for people who contribute, mentor, or donate to Exercism.
-You can activate your Insiders account on the Insiders Page: #{insiders_url}
+= t('.body', insiders_url: insiders_url)
 \
-Insiders gives you three main benefits:
-1. Exercism Premium for free. You now have access to Dark Mode, ChatGPT Integration, extra mentoring slots and more.
-2. Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism.
-3. Closer access to the team and key community members, with our dedicated #insiders Discord channel.
+= t('.benefits_intro')
+1. = t('.benefit_premium_feature')
+2. = t('.benefit_behind_the_scenes')
+3. = t('.benefit_discord_access')
 \
-The Insiders Page contains lots more detail!
-We've granted you Lifetime status, which means you'll always have access to Insiders.
+= t('.more_details')
+= t('.lifetime_status')
 \
-Thanks so much for being part of Exercism's story. I really hope you enjoy Insiders!
+= t('.closing_thanks')
 \
-Jeremy Walker
-Exercism's Co-founder &amp; CEO
+= t('.signature_name')
+= t('.signature_title')
 \
-Activate Insiders: #{insiders_url}
-
-
+= t('.activate_insiders_link', insiders_url: insiders_url)

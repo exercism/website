@@ -732,6 +732,45 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["uuid"], name: "iterations_uuid"
   end
 
+  create_table "localization_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "key", null: false
+    t.text "value", null: false
+    t.text "sample_interpolations", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_localization_originals_on_key", unique: true
+  end
+
+  create_table "localization_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "translation_id", null: false
+    t.bigint "proposer_id", null: false
+    t.bigint "reviewer_id"
+    t.integer "status", default: 0, null: false
+    t.boolean "modified_from_llm", null: false
+    t.text "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["proposer_id"], name: "index_localization_translation_proposals_on_proposer_id"
+    t.index ["reviewer_id"], name: "index_localization_translation_proposals_on_reviewer_id"
+    t.index ["translation_id"], name: "index_localization_translation_proposals_on_translation_id"
+    t.index ["uuid"], name: "index_localization_translation_proposals_on_uuid", unique: true
+  end
+
+  create_table "localization_translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.text "value", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "locale"], name: "index_localization_translations_on_key_and_locale", unique: true
+    t.index ["uuid"], name: "index_localization_translations_on_uuid", unique: true
+    t.index ["value"], name: "index_localization_translations_on_value", type: :fulltext
+  end
+
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "email_communication_preferences_key", null: false
@@ -903,41 +942,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_metrics_on_user_id"
-  end
-
-  create_table "multilingual_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.string "key", null: false
-    t.text "value", null: false
-    t.text "sample_interpolations", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["key"], name: "index_multilingual_originals_on_key", unique: true
-  end
-
-  create_table "multilingual_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "translation_id", null: false
-    t.bigint "proposer_id", null: false
-    t.bigint "reviewer_id", null: false
-    t.integer "status", default: 0, null: false
-    t.text "value", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["proposer_id"], name: "index_multilingual_translation_proposals_on_proposer_id"
-    t.index ["reviewer_id"], name: "index_multilingual_translation_proposals_on_reviewer_id"
-    t.index ["translation_id"], name: "index_multilingual_translation_proposals_on_translation_id"
-  end
-
-  create_table "multilingual_translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.string "locale", null: false
-    t.string "key", null: false
-    t.text "value", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["key", "locale"], name: "index_multilingual_translations_on_key_and_locale", unique: true
-    t.index ["value"], name: "index_multilingual_translations_on_value", type: :fulltext
   end
 
   create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1956,6 +1960,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "github_tasks", "tracks"
   add_foreign_key "github_team_members", "tracks"
   add_foreign_key "github_team_members", "users"
+  add_foreign_key "localization_translation_proposals", "localization_translations", column: "translation_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "proposer_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "reviewer_id"
+  add_foreign_key "localization_translations", "localization_originals", column: "key", primary_key: "key"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"
@@ -1969,10 +1977,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
-  add_foreign_key "multilingual_translation_proposals", "multilingual_translations", column: "translation_id"
-  add_foreign_key "multilingual_translation_proposals", "users", column: "proposer_id"
-  add_foreign_key "multilingual_translation_proposals", "users", column: "reviewer_id"
-  add_foreign_key "multilingual_translations", "multilingual_originals", column: "key", primary_key: "key"
   add_foreign_key "partner_adverts", "partners"
   add_foreign_key "partner_perks", "partners"
   add_foreign_key "problem_reports", "exercises"

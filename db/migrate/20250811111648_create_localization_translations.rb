@@ -6,9 +6,11 @@ class CreateLocalizationTranslations < ActiveRecord::Migration[7.1]
       t.string :key,    null: false
       t.text   :value,  null: false
       t.integer :status, null: false, default: 0
+
       t.timestamps
 
       t.foreign_key :localization_originals, column: :key, primary_key: :key
+      t.index :uuid, unique: true
       t.index [:key, :locale], unique: true
       t.index :value, type: :fulltext
 

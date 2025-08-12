@@ -117,7 +117,14 @@ namespace :api do
       end
     end
 
-    resources :translations, only: %i[index show], controller: "translations" do
+    namespace :localization do
+      resources :originals, only: %i[index show] do
+      end
+
+      resources :translations, only: [] do
+        patch :approve_llm_version, on: :member
+        resources :proposals, only: [:create]
+      end
     end
 
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page

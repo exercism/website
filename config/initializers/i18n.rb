@@ -9,7 +9,7 @@ class ExercismI18nBackend
     value = Localization::Translation.lookup(locale, key, options.merge(use_cache: true))
     return value if value.present?
 
-    throw(:exception, I18n::MissingTranslation.new(locale, key, options))
+    throw(:exception, I18n::MissingTranslationData.new(locale, key, options))
   end
 
   def available_locales

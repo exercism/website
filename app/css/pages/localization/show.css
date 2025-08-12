@@ -68,8 +68,18 @@ body.namespace-localization.controller-originals.action-show {
     .translations {
         @apply mb-16;
         .locale {
+            &.unchecked {
+                --locale-background-color: #ffeeee;
+                --locale-border-color: red;
+            }
+            &.proposed {
+                --locale-background-color: #ffefdc;
+                --locale-border-color: darkorange;
+            }
+
             @apply border-1 rounded-8 overflow-hidden;
             border-color: var(--locale-border-color);
+
             .header {
                 @apply border-b-1;
                 @apply py-12 px-16;
@@ -80,17 +90,11 @@ body.namespace-localization.controller-originals.action-show {
             .body {
                 @apply p-16;
             }
-            &.unchecked {
-                --locale-background-color: #ffeeee;
-                --locale-border-color: red;
-            }
             .status {
                 @apply text-12 font-semibold uppercase;
                 @apply text-white py-6 px-8 rounded-16;
                 @apply flex items-center;
-                &.unchecked {
-                    background: var(--locale-border-color);
-                }
+                background: var(--locale-border-color);
             }
         }
     }

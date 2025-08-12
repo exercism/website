@@ -14,7 +14,7 @@ class CreateLocalizationTranslations < ActiveRecord::Migration[7.1]
 
     end
 
-    Localization::Translation.create!(locale: "en", key: "hello.world", value: "Reading EN")
-    Localization::Translation.create!(locale: "hu", key: "hello.world", value: "Reading HU")
+    # Localization::Translation.create!(locale: "en", key: "hello.world", value: "Reading EN")
+    # Localization::Translation.create!(locale: "hu", key: "hello.world", value: "Reading HU")
   end
 end

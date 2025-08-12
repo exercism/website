@@ -15,5 +15,20 @@ class CreateLocalizationTranslationProposals < ActiveRecord::Migration[7.1]
 
       t.index :uuid, unique: true
     end
+
+    # translation = Localization::Translation.second
+    # Localization::TranslationProposal.create!(
+    #   translation: translation,
+    #   value: "Reading Better HU",
+    #   proposer: User.first,
+    #   modified_from_llm: true
+    # )
+    # Localization::TranslationProposal.create!(
+    #   translation: translation,
+    #   value: "Reading A different Better HU",
+    #   proposer: User.first,
+    #   modified_from_llm: true
+    # )
+    # translation.update(status: :proposed)
   end
 end

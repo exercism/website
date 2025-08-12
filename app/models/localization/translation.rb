@@ -7,6 +7,7 @@ class Localization::Translation < ApplicationRecord
     checked: 2
   }
 
+  belongs_to :original, class_name: "Localization::Original", foreign_key: :key, primary_key: :key, inverse_of: :translations
   has_many :proposals, dependent: :destroy, class_name: "Localization::TranslationProposal"
 
   before_create do

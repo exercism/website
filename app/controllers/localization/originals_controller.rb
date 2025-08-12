@@ -6,6 +6,6 @@ class Localization::OriginalsController < ApplicationController
   def show
     original = Localization::Original.find_by!(uuid: params[:id])
 
-    @original = SerializeLocalizationOriginal.(original, current_user, include_proposals: true)
+    @original = SerializeLocalizationOriginal.(original, current_user)
   end
 end

@@ -1,15 +1,16 @@
-%p= t('.greeting')
+%p Hey!
 
 %p
-  = t('.upgrade_message_html', exercism_insiders_link: (link_to t('.exercism_insiders_link_text'), 'https://exercism.org/insiders'))
+  I'm excited to let you know that you've been upgraded to Lifetime membership of #{link_to 'Exercism Insiders', 'https://exercism.org/insiders'}!
 %p
-  = t('.lifetime_impact_message')
+  As a Lifetime Insider, you're one of the few people who have had a huge impact on the platform and shaped it into what it is today. You've helped thousands of people and made a huge difference - thank you.
+  Insiders is a tiny way of us saying thank you for all you've done.
 
-%p= t('.congratulations_message')
+%p Congratulations on reaching the Lifetime threshold and thanks again for being part of Exercism 🙂
 
 %p
-  = t('.signature_name')
+  Jeremy Walker
   %br
-  = t('.signature_title')
+  Exercism's Co-founder &amp; CEO
 
-= email_button_to t('.visit_exercism_button'), root_url
+= email_button_to 'Visit Exercism', root_url

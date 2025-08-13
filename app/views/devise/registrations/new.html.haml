@@ -31,10 +31,10 @@
           = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.password_confirmation_placeholder')
 
         .field
-          = f.label :bot_check, t('.confirm_not_bot_label')
+          .label= t('.confirm_not_bot_label')
           = render ViewComponents::Captcha.new
 
-        = f.button t('.sign_up_button'), class: "btn-primary btn-l"
+        = f.button t('.sign_up_button'), class: "btn-primary btn-l test-sign-up-btn", disabled: true
 
       = render "devise/shared/links"
 

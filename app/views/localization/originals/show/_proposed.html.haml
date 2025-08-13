@@ -22,8 +22,8 @@
       .buttons
         - if proposal[:proposer_id] == current_user.id
           %button.btn-s.btn-default Edit
-        - else
           (This is your proposal so you cannot approve it)
+        - else
           %button.btn-s.btn-default Approve
           %button.btn-s.btn-default Reject
           %button.btn-s.btn-default Edit
@@ -39,8 +39,8 @@
               .buttons
                 - if proposal[:proposer_id] == current_user.id
                   %button.btn-s.btn-default Edit
-                - else
                   (This is your proposal so you cannot approve it)
+                - else
                   %button.btn-s.btn-default Approve
                   %button.btn-s.btn-default Reject
                   %button.btn-s.btn-default Edit

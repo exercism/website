@@ -18,10 +18,6 @@ export function Pagination({
 }: PaginationProps): JSX.Element | null {
   const { t } = useAppTranslation('components/common/Pagination.tsx')
 
-  if (total <= 1) {
-    return null
-  }
-
   useEffect(() => {
     if (current > total) {
       setPage(total)
@@ -29,6 +25,10 @@ export function Pagination({
       setPage(1)
     }
   }, [total, current, setPage])
+
+  if (total <= 1) {
+    return null
+  }
 
   if (current < 1 || current > total) {
     return null
@@ -42,12 +42,6 @@ export function Pagination({
     Math.max(current - around, 1),
     Math.min(current + around, total)
   )
-
-  function createRange(start: number, end: number) {
-    return Array(end - start + 1)
-      .fill(0)
-      .map((_, i) => start + i)
-  }
 
   return (
     <div className="c-pagination">
@@ -146,4 +140,10 @@ export function Pagination({
       </div>
     </div>
   )
+}
+
+function createRange(start: number, end: number) {
+  return Array(end - start + 1)
+    .fill(0)
+    .map((_, i) => start + i)
 }

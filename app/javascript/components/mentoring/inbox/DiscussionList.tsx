@@ -55,15 +55,17 @@ export const DiscussionList = ({
                   <Discussion key={key} discussion={discussion} />
                 ))}
                 <footer>
-                  <Pagination
-                    disabled={resolvedData === undefined}
-                    current={resolvedData.meta.currentPage}
-                    total={resolvedData.meta.totalPages}
-                    setPage={(p) => {
-                      setPage(p)
-                      scrollToTop()
-                    }}
-                  />
+                  {resolvedData?.meta?.totalPages > 1 && (
+                    <Pagination
+                      disabled={resolvedData === undefined}
+                      current={resolvedData.meta.currentPage}
+                      total={resolvedData.meta.totalPages}
+                      setPage={(p) => {
+                        setPage(p)
+                        scrollToTop()
+                      }}
+                    />
+                  )}
                 </footer>
               </React.Fragment>
             )}

@@ -1,6 +1,6 @@
 en:
   dashboard:
-    _mentoring_inbox:
+    mentoring_inbox:
       title: Mentoring
       discussion_aria_label: View profile of %{student_handle}
       exercise_on: on %{exercise_title}

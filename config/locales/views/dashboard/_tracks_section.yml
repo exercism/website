@@ -1,6 +1,6 @@
 en:
   dashboard:
-    _tracks_section:
+    tracks_section:
       title: Your Tracks
       track_count_aria_label:
         one: 1 Track

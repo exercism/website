@@ -1,6 +1,6 @@
 en:
   dashboard:
-    _mentoring_queue:
+    mentoring_queue:
       title: Your workspace is clear.
       description: Do you have time to start mentoring some more students?
       link: See mentoring queue

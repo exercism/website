@@ -1,6 +1,6 @@
 en:
   dashboard:
-    _tracks_zero_section:
+    tracks_zero_section:
       title: You've not joined a track yet.
       description_part_1: Choose from over
       description_part_2: "%{num_tracks} language tracks,"

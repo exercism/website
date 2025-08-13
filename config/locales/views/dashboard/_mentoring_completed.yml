@@ -1,5 +1,5 @@
 en:
   dashboard:
-    _mentoring_completed:
+    mentoring_completed:
       title: No mentoring discussions left
       description: Looks like your workspace and the queue have been cleared. Woohoo!

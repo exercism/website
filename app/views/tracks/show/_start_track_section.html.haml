@@ -2,6 +2,6 @@
   = graphical_icon "hello-world", category: "graphics"
   .content
     %h3
-      = t('.hello_world_heading', track_title: track.title)
-    %p= t('.hello_world_text')
-    = link_to t('.hello_world_button'), track_exercise_path(track, "hello-world"), class: 'btn-primary btn-m'
+      = t('.introduce_yourself_html', track_title: track.title).html_safe
+    %p= t('.familiarize_yourself')
+    = link_to t('.go_to_hello_world_exercise_link'), track_exercise_path(track, "hello-world"), class: 'btn-primary btn-m'

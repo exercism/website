@@ -2,7 +2,7 @@
   .info
     .count= user_track.num_concepts_learnt
     %h3
-      = t('.learnt_concepts', count: user_track.num_concepts_learnt)
+      = t('.concepts_learnt', count: user_track.num_concepts_learnt)
 
     .icons
       - user_track.sample_learnt_concepts.each do |concept|

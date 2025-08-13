@@ -2,7 +2,7 @@
   .info
     .count= user_track.num_locked_exercises
     %h3
-      = t('.locked_exercises', count: user_track.num_locked_exercises)
+      = t('.exercises_locked', count: user_track.num_locked_exercises)
     .icons
       - user_track.sample_locked_exercises.each do |exercise|
         = exercise_icon exercise

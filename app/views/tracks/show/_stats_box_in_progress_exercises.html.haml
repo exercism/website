@@ -2,7 +2,7 @@
   .info
     .count= user_track.num_in_progress_exercises
     %h3
-      = t('.in_progress_exercises', count: user_track.num_in_progress_exercises)
+      = t('.exercises_in_progress', count: user_track.num_in_progress_exercises)
     .icons
       - user_track.sample_in_progress_exercises.each do |exercise|
         = exercise_icon exercise

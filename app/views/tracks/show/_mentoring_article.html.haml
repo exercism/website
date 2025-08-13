@@ -5,41 +5,41 @@
   - unless user_track.mentoring_unlocked?
     .mentoring-locked-overlay
       .content
-        = icon "lock-circle", t('.mentoring_locked_alt')
-        %h3= t('.mentoring_locked_heading', track_title: track.title)
+        = icon "lock-circle", t('.mentoring_locked_icon_alt')
+        %h3= t('.unlock_mentoring', track_title: track.title)
 
   .lg-container
     %header.mentoring-header
       .lhs
         = graphical_icon(:mentoring, hex: true, css_class: "graphical-icon")
         .info
-          %h2= t('.your_mentoring_slots_heading')
-          %p= t('.slots_filled', count: user_track.num_used_mentoring_slots)
+          %h2= t('.your_mentoring_slots.title')
+          %p= t('.your_mentoring_slots.filled', count: user_track.num_used_mentoring_slots)
       .rhs
         %h3
-          = t('.current_reputation')
+          = t('.current_reputation.title')
           = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
 
         - if user_track.rep_for_next_mentoring_slot.nil?
-          .max= t('.max_slots_available')
+          .max= t('.max_mentoring_slots')
         - else
           .c-progress
             .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
             .unlock-icon
-              = icon "unlock", t('.unlocked_alt')
+              = icon "unlock", t('.unlocked_icon_alt')
 
         - unless user_track.rep_for_next_mentoring_slot.nil?
           .info
             .next-slot
-              = t('.next_slot_unlocks', rep_amount: number_with_delimiter(user_track.rep_for_next_mentoring_slot))
+              = t('.next_slot_unlocks_at', reputation_amount: number_with_delimiter(user_track.rep_for_next_mentoring_slot))
 
           .info
             .next-slot
               = t('.or_text')
-              = link_to t('.donate_link_text'), insiders_path, class: 'text-prominentLinkColor font-semibold'
+              = link_to t('.donate_to_exercism_link'), insiders_path, class: 'text-prominentLinkColor font-semibold'
               = t('.to_unlock_all_slots')
 
-              = link_to t('.learn_more_link_text'), doc_path(:using, "product/reputation"), class: 'font-semibold'
+              = link_to t('.learn_more_link'), doc_path(:using, "product/reputation"), class: 'font-semibold'
 
   .lg-container.container
     .slots
@@ -60,7 +60,7 @@
 
           .--comments
             = graphical_icon :comment
-            = t('.comments', count: discussion.posts.count)
+            = t('.comments_count', count: discussion.posts.count)
 
       - user_track.pending_mentoring_requests.each do |request|
         = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do

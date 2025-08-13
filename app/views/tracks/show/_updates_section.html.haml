@@ -1,5 +1,5 @@
 %section.updates-section
-  %h2= t('.whats_going_on', track_title: track.title)
+  %h2= t('.title', track_title: track.title)
   %hr.c-divider
 
   = render ReactComponents::Common::SiteUpdatesList.new(updates, :update)

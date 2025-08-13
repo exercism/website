@@ -14,4 +14,4 @@
           = graphical_icon "info-circle", css_class: "w-[15px] h-[15px] mr-12 filter-textColor6"
           = t('.how_it_works')
       .font-medium.text-textColor6.ml-auto
-        = t('.unlock_reputation_html', reputation: profile_min_reputation)
+        = t('.unlock_reputation_html', reputation: profile_min_reputation, reputation_url: doc_url(:using, 'product/reputation')).html_safe

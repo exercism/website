@@ -1,7 +1,7 @@
 en:
   mentoring:
     external:
-      _locked:
+      locked:
         current_reputation: Your current reputation is
         how_it_works: How does this work?
         unlock_reputation_html:

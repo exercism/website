@@ -1,15 +1,21 @@
-import React from 'react'
-import { Component, type ErrorInfo, type ReactNode } from 'react'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
+import React, { Component, type ErrorInfo, type ReactNode } from 'react'
 
-class ErrorBoundary extends Component<
-  { children: ReactNode },
-  { hasError: boolean; error: Error | null; errorInfo: ErrorInfo | null }
-> {
-  state = {
+type ErrorBoundaryProps = {
+  children: ReactNode
+  t: (key: string, options?: Record<string, any>) => string
+}
+
+type ErrorBoundaryState = {
+  hasError: boolean
+  error: Error | null
+  errorInfo: ErrorInfo | null
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state: ErrorBoundaryState = {
     hasError: false,
-    error: null as Error | null,
-    errorInfo: null as ErrorInfo | null,
+    error: null,
+    errorInfo: null,
   }
 
   static getDerivedStateFromError() {
@@ -27,10 +33,9 @@ class ErrorBoundary extends Component<
   }
 
   render() {
-    const { t } = useAppTranslation('components/bootcamp/common/ErrorBoundary')
+    const { t } = this.props
 
     if (this.state.hasError) {
-      // generic fallback UI
       return (
         <div className="p-8 flex flex-col gap-8">
           <h1 className="text-lg font-semibold">
@@ -41,7 +46,6 @@ class ErrorBoundary extends Component<
               {t('errorBoundary.error', { message: this.state.error.message })}
             </p>
           )}
-          {/* probably hide this in prod */}
           {this.state.errorInfo && (
             <details
               className="select-none cursor-pointer"
@@ -65,7 +69,6 @@ class ErrorBoundary extends Component<
       )
     }
 
-    // if no error -> render children
     return this.props.children
   }
 }

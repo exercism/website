@@ -107,6 +107,10 @@ body.namespace-localization.controller-originals.action-show {
             }
             .body {
                 @apply p-16;
+                .buttons {
+                    @apply flex gap-8 items-center;
+                    @apply text-textColor6;
+                }
             }
         }
     }

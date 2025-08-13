@@ -8,15 +8,10 @@ class API::Localization::TranslationsControllerTest < API::BaseTestCase
     original = create :localization_original
     translation = create :localization_translation, key: original.key, locale: "en"
 
+    Localization::Translation::ApproveLLMVersion.expects(:call).with(translation, @current_user)
+
     patch approve_llm_version_api_localization_translation_path(translation.uuid), headers: @headers, as: :json
 
     assert_response :ok
-
-    assert_equal "proposed", translation.reload.status
-    assert_equal 1, translation.proposals.count
-    proposal = translation.proposals.first
-    assert_equal @current_user, proposal.proposer
-    refute proposal.modified_from_llm?
-    assert_equal translation.value, proposal.value
   end
 end

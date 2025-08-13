@@ -37,7 +37,7 @@ body.namespace-localization.controller-originals.action-show {
         }
     }
     .body-container {
-        @apply flex;
+        @apply flex flex-1;
         @apply bg-backgroundColorA;
     }
 
@@ -76,6 +76,10 @@ body.namespace-localization.controller-originals.action-show {
                 --locale-background-color: #ffefdc;
                 --locale-border-color: darkorange;
             }
+            &.checked {
+                --locale-background-color: #e4ffe4;
+                --locale-border-color: green;
+            }
 
             @apply border-1 rounded-8 overflow-hidden;
             border-color: var(--locale-border-color);
@@ -86,15 +90,23 @@ body.namespace-localization.controller-originals.action-show {
                 @apply flex items-center gap-8;
                 border-color: var(--locale-border-color);
                 background-color: var(--locale-background-color);
+
+                .status {
+                    @apply text-12 font-semibold uppercase;
+                    @apply text-white py-6 px-8 rounded-16;
+                    @apply flex items-center gap-6;
+                    background: var(--locale-border-color);
+                    img {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+                .flag {
+                    @apply ml-auto text-24;
+                }
             }
             .body {
                 @apply p-16;
-            }
-            .status {
-                @apply text-12 font-semibold uppercase;
-                @apply text-white py-6 px-8 rounded-16;
-                @apply flex items-center;
-                background: var(--locale-border-color);
             }
         }
     }

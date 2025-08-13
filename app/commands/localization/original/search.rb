@@ -8,10 +8,11 @@ class Localization::Original::Search
     DEFAULT_PER
   end
 
-  def initialize(user, page: nil, per: nil, criteria: nil)
+  def initialize(user, page: nil, per: nil, criteria: nil, status: nil)
     @user = user
 
     @criteria = criteria
+    @status = status
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
   end
@@ -20,6 +21,7 @@ class Localization::Original::Search
     @translations = Localization::Translation.where(locale: locales)
 
     filter_criteria!
+    filter_status!
 
     # Get all of the english versions paginated.
     # We do an inner query so things like the criteria work on
@@ -34,16 +36,22 @@ class Localization::Original::Search
     ).page(page).per(per)
   end
 
-  # TODO: Drive this from the user's locales
-  def locales = %i[en hu]
+  memoize
+  def locales = user.translator_locales
 
   private
-  attr_reader :user, :per, :page, :criteria, :track_slug, :solutions
+  attr_reader :user, :per, :page, :criteria, :status, :track_slug, :solutions
 
   def filter_criteria!
-    return if @criteria.blank?
+    return if criteria.blank?
 
-    @translations = @translations.where("translations.value LIKE ?", "%#{criteria}%")
+    @translations = @translations.where("localization_translations.value LIKE ?", "%#{criteria}%")
+  end
+
+  def filter_status!
+    return if status.blank?
+
+    @translations = @translations.where("localization_translations.status = ?", status)
   end
 
   memoize

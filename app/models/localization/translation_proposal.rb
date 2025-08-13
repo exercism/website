@@ -3,7 +3,7 @@ class Localization::TranslationProposal < ApplicationRecord
   belongs_to :proposer, class_name: 'User'
   belongs_to :reviewer, class_name: 'User', optional: true
 
-  serialize :llm_feedback, coder: JSON
+  serialize :llm_feedback, coder: JSONWithIndifferentAccess
 
   enum :status, {
     pending: 0,

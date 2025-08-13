@@ -9,7 +9,6 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
-      sample_interpolations: [],
       translations: []
     }
 
@@ -29,7 +28,6 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
-      sample_interpolations: [],
       translations: [
         SerializeLocalizationTranslation.(translation_fr),
         SerializeLocalizationTranslation.(translation_pt)
@@ -57,7 +55,6 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
-      sample_interpolations: [],
       translations: [
         SerializeLocalizationTranslation.(translation_fr),
         SerializeLocalizationTranslation.(translation_pt)

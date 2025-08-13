@@ -107,6 +107,32 @@ body.namespace-localization.controller-originals.action-show {
             }
             .body {
                 @apply p-16;
+                .llm-feedback {
+                    &.rejected {
+                        --llm-feedback-bg-color: #ffeeee;
+                        --llm-feedback-border-color: red;
+                    }
+                    &.approved {
+                        --llm-feedback-bg-color: #e4ffe4;
+                        --llm-feedback-border-color: rgb(0, 128, 0, 0.5);
+                    }
+
+                    @apply flex gap-8;
+                    @apply border-1;
+                    @apply p-16 mb-16 rounded-8;
+                    @apply text-16 leading-140;
+
+                    background: var(--llm-feedback-bg-color);
+                    border-color: var(--llm-feedback-border-color);
+
+                    .img {
+                        font-size: 20px;
+                        margin-top: 5px;
+                    }
+                    .byline {
+                        @apply text-14 mt-4 text-textColor6 italic;
+                    }
+                }
                 .buttons {
                     @apply flex gap-8 items-center;
                     @apply text-textColor6;

@@ -21,7 +21,7 @@ en:
         concept_update_details: "%{track_title} / %{concept_name}"
         edit_link: Edit
         new_site_update_button: New site update
-      _form:
+      form:
         validation_errors:
           heading:
             one: "1 error prohibited this site update from being saved:"

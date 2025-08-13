@@ -1,6 +1,6 @@
 en:
   profiles:
-    _header:
+    header:
       details:
         location_label: Located in
         pronouns_label: Pronouns

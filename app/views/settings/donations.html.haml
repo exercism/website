@@ -3,7 +3,7 @@
     = render ViewComponents::SettingsNav.new(:donations)
 
     %article
-      %h1= t('.donations.heading')
+      %h1= t('.heading')
       %section
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
@@ -11,10 +11,10 @@
             - if current_user.current_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
-              %h2= t('.donations.monthly_supporter.heading')
+              %h2= t('.monthly_supporter.heading')
               %p.text-p-base
-                = t('.donations.monthly_supporter.info_html', mission_link: link_to(t('.donations.monthly_supporter.mission_link_text'), about_path, class: "text-a-subtle")).html_safe
-              = link_to t('.donations.monthly_supporter.find_out_more_button'), donate_path, class: "btn-primary btn-s"
+                = t('.monthly_supporter.info_html', mission_link: link_to(t('.monthly_supporter.mission_link_text'), about_path, class: "text-a-subtle")).html_safe
+              = link_to t('.monthly_supporter.find_out_more_button'), donate_path, class: "btn-primary btn-s"
 
         - if current_user.total_donated_in_dollars.positive?
           - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')
@@ -25,47 +25,47 @@
                   .currency.text-16 $
                   .dollars.text-32= dollars.to_s.rjust(1, '0')
                   .cents.text-16 .#{cents.to_s.ljust(2, '0')}
-                .explanation= t('.donations.summary.total_donated')
+                .explanation= t('.summary.total_donated')
               .breakdown
                 .subs
                   = number_to_currency(current_user.total_subscription_donations_in_dollars)
-                  = t('.donations.summary.from_recurring')
+                  = t('.summary.from_recurring')
                 .one-off
                   = number_to_currency(current_user.total_one_off_donations_in_dollars)
-                  = t('.donations.summary.from_one_time')
+                  = t('.summary.from_one_time')
             .show-on-supporters-page.mt-24.lg:mt-0.lg:ml-auto
               = render ReactComponents::Settings::ShowOnSupportersPageButton.new
 
           %table.payments
             %tr
-              %th= t('.donations.payments_table.date_header')
-              %th= t('.donations.payments_table.amount_header')
-              %th= t('.donations.payments_table.type_header')
-              %th= t('.donations.payments_table.via_header')
+              %th= t('.payments_table.date_header')
+              %th= t('.payments_table.amount_header')
+              %th= t('.payments_table.type_header')
+              %th= t('.payments_table.via_header')
               %th
             - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
                 %td= number_to_currency(payment.amount_in_dollars)
-                %td= payment.subscription ? t('.donations.payments_table.recurring_donation') : t('.donations.payments_table.one_time_donation')
+                %td= payment.subscription ? t('.payments_table.recurring_donation') : t('.payments_table.one_time_donation')
                 %td
                   - case payment.provider
                   - when :stripe
-                    = t('.donations.payments_table.provider_stripe')
+                    = t('.payments_table.provider_stripe')
                   - when :paypal
-                    = t('.donations.payments_table.provider_paypal')
+                    = t('.payments_table.provider_paypal')
                   - when :github
-                    = t('.donations.payments_table.provider_github')
+                    = t('.payments_table.provider_github')
                 %td
                   - if payment.external_receipt_url
                     = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
                       = graphical_icon "download"
-                      %span= t('.donations.payments_table.view_receipt_button')
+                      %span= t('.payments_table.view_receipt_button')
 
         - else
           .summary-box
-            %h3.text-h5.mb-4= t('.donations.no_donations.heading')
+            %h3.text-h5.mb-4= t('.no_donations.heading')
             %p.text-p-base.mb-4
-              = t('.donations.no_donations.info_1')
+              = t('.no_donations.info_1')
             %p.text-p-base
-              = t('.donations.no_donations.info_2_html', email_link: link_to(t('.donations.no_donations.jeremy_email'), "mailto:jeremy@exercism.org")).html_safe
+              = t('.no_donations.info_2_html', email_link: link_to(t('.no_donations.jeremy_email'), "mailto:jeremy@exercism.org")).html_safe

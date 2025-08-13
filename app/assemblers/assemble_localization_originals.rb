@@ -23,6 +23,7 @@ class AssembleLocalizationOriginals
     Localization::Original::Search.(
       user,
       criteria: params[:criteria],
+      status: params[:status],
       page: params[:page]
     )
   end

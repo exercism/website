@@ -4,7 +4,9 @@ class API::Localization::TranslationsController < API::BaseController
   def approve_llm_version
     Localization::Translation::ApproveLLMVersion.(@translation, current_user)
 
-    render json: {}
+    render json: {
+      translation: SerializeLocalizationTranslation.(@translation)
+    }
   end
 
   private

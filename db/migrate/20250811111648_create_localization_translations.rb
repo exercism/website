@@ -13,10 +13,6 @@ class CreateLocalizationTranslations < ActiveRecord::Migration[7.1]
       t.index :uuid, unique: true
       t.index [:key, :locale], unique: true
       t.index :value, type: :fulltext
-
     end
-
-    # Localization::Translation.create!(locale: "en", key: "hello.world", value: "Reading EN")
-    # Localization::Translation.create!(locale: "hu", key: "hello.world", value: "Reading HU")
   end
 end

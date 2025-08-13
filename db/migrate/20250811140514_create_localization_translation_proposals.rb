@@ -10,25 +10,32 @@ class CreateLocalizationTranslationProposals < ActiveRecord::Migration[7.1]
       t.integer :status, null: false, default: 0
       t.boolean :modified_from_llm, null: false
       t.text :value, null: false
+      t.text :llm_feedback, null: true
 
       t.timestamps
 
       t.index :uuid, unique: true
     end
 
-    # translation = Localization::Translation.second
-    # Localization::TranslationProposal.create!(
-    #   translation: translation,
-    #   value: "Reading Better HU",
-    #   proposer: User.first,
-    #   modified_from_llm: true
-    # )
-    # Localization::TranslationProposal.create!(
-    #   translation: translation,
-    #   value: "Reading A different Better HU",
-    #   proposer: User.first,
-    #   modified_from_llm: true
-    # )
-    # translation.update(status: :proposed)
+=begin
+
+    Localization::Original.create!(
+      key: "dashboard.welcome", 
+      value: "Welcome back, %username%!", 
+      context: "This string appears at the top of a user's dashboard, welcoming the back to the site."
+    )
+    en = Localization::Translation.create!(locale: "en", key: "dashboard.welcome", value: "Welcome back, %username%!")
+    hu = Localization::Translation.create!(locale: "hu", key: "dashboard.welcome", value: "Üdv újra, %username%!")
+
+    Localization::TranslationProposal.create!(
+      translation: hu,
+      value: "Üdv újra, %username%!",
+      proposer: User.first,
+      modified_from_llm: true
+    )
+
+    hu.update(status: :proposed)
+
+=end
   end
 end

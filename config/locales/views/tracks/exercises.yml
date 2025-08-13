@@ -31,16 +31,15 @@ en:
             Explore how others have solved this exercise and learn new ideas
             in our
           community_solutions_link: Community Solutions
-        aciton_box_solved:
+        action_box_solved:
           title: Exercise Solved
           description_html: "You have submitted %{link} for this exercise. You can submit more iterations as you continue to evolve your knowledge or want to experiment with new ideas."
           iteration_word:
             one: "iteration"
             other: "iterations"
         action_box_dig_deeper_concept_exercise:
-          dig_deeper:
-            title: Dig Deeper
-            description: There aren't too many correct ways to solve our learning exercises, but it's still helpful to explore how other people approach the exercise.
+          title: Dig Deeper
+          description: There aren't too many correct ways to solve our learning exercises, but it's still helpful to explore how other people approach the exercise.
         action_box_dig_deeper_locked:
           title: Dig Deeper
         action_box_join_track:

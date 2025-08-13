@@ -10,7 +10,8 @@
         .info.md:mr-64.flex.flex-col
           %h1= t('.header.title', track_title: @track.title)
           %p.text-p-xlarge
-            = t('.header.subtitle_html', track_title: @track.title, num_exercises: @user_track.num_exercises, num_concepts: @user_track.num_concepts, track_is_course: @track.course?).html_safe
+            - concepts_clause = @track.course? ? "grouped into #{@user_track.num_concepts} #{@track.title} Concepts," : ""
+            = t('.header.subtitle_html', track_title: @track.title, num_exercises: @user_track.num_exercises, concepts_clause: concepts_clause).html_safe
 
           .btns.flex.flex-col.sm:flex-row
             - url = user_signed_in? ? join_track_path(@track) : User::GenerateNewSessionPath.(request, controller)
@@ -59,8 +60,12 @@
       = graphical_icon "exercises", hex: true, css_class: "header-icon"
       .inner
         .info
-          %h2
-            = t('.exercises_section.title_html', num_exercises: @user_track.num_exercises, track_title: @track.title, first_exercise_title: @showcase_exercises.first.title, last_exercise_title: @showcase_exercises.last.title, showcase_exercises_present: !@showcase_exercises.empty?).html_safe
+          - if @showcase_exercises.present?
+            - range_part = t('.exercises_section.range_part_present', first_exercise_title: @showcase_exercises.first.title, last_exercise_title: @showcase_exercises.last.title)
+          - else
+            - range_part = ""
+
+          %h2= t('.exercises_section.title_html', num_exercises: @user_track.num_exercises, track_title: @track.title, range_part: range_part).html_safe
           %hr.c-divider
           %p= t('.exercises_section.subtitle')
 

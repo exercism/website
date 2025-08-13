@@ -1,15 +1,43 @@
 en:
   tracks:
     about:
+      header:
+        title: "Want to learn and master %{track_title}?"
+        subtitle_html: |
+          Join Exercism’s %{track_title} Track for access to
+          <em class="c-underline"><strong>%{num_exercises} exercises</strong></em>
+          %{concepts_clause}
+          with automatic analysis
+          of your code and
+          <em class="c-underline"><strong>personal mentoring</strong></em>,
+          all <em class="c-underline"><strong>100% free</strong></em>.
+        concepts_part_course: "grouped into %{num_concepts} %{track_title} Concepts,"
+        join_track_button: "Join the %{track_title} Track"
+        explore_concepts_button: "Explore concepts"
+        explore_exercises_button: "Explore exercises"
+        gobridge_platform_html: |
+          ⭐ <span class="text-gradient">Exercism is the official GoBridge &amp; GDN mentoring platform.</span>
+        learn_more_link_text: "Learn more."
+      about_section:
+        title: "About %{track_title}"
+        read_more_button_text: "Read more on %{track_title}"
+        read_less_button_text: "Read less"
+      exercises_section:
+        title_html: >
+          <em class="c-underline">%{num_exercises} coding exercises</em>
+          for %{track_title} on Exercism.%{range_part}
+        range_part_present: " From %{first_exercise_title} to %{last_exercise_title}."
+        subtitle: "Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism."
+        all_exercises_link: "See all %{track_title} exercises on Exercism"
       _concepts:
-        title: A taste of the concepts you&apos;ll cover
-        see_all_concepts: See all the concepts for %{track_title}
+        title: "A taste of the concepts you'll cover"
+        see_all_concepts: "See all the concepts for %{track_title}"
       _key_features:
-        title: Key Features of %{track_title}
+        title: "Key Features of %{track_title}"
       _upsell:
         mentoring_section:
-          title: Get mentored the %{track_title} way
-          paragraph_html:
+          title: "Get mentored the %{track_title} way"
+          paragraph_html: |
             Every language has its own way of doing things. %{track_title}
             is no different. Our mentors will help you learn to think like a
             %{track_title} developer and how to write idiomatic code in
@@ -18,9 +46,9 @@ en:
             how to make it feel more like what you'd normally see in
             %{track_title} - they'll help you discover the things you don't know
             that you don't know.
-          learn_more: Learn more about mentoring
+          learn_more: "Learn more about mentoring"
         exercises_section:
-          title: Community-sourced %{track_title} exercises
+          title: "Community-sourced %{track_title} exercises"
           paragraph_html: >-
             The %{track_title} track on Exercism has
 
@@ -30,8 +58,8 @@ en:
 
             Discover new exercises as you progress and get engrossed in learning
             new concepts and improving the way you currently write.
-          see_all_exercises: See all %{track_title} exercises
+          see_all_exercises: "See all %{track_title} exercises"
         cta:
-          title: Get started with the %{track_title} track
-          description: The best part, it’s 100% free for everyone.
-          join_button: Join the %{track_title} track
+          title: "Get started with the %{track_title} track"
+          description: "The best part, it’s 100% free for everyone."
+          join_button: "Join the %{track_title} track"

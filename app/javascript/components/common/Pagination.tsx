@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type PaginationProps = {
@@ -18,121 +18,85 @@ export function Pagination({
 }: PaginationProps): JSX.Element | null {
   const { t } = useAppTranslation('components/common/Pagination.tsx')
 
-  useEffect(() => {
-    if (current > total) {
-      setPage(total)
-    } else if (current < 1) {
-      setPage(1)
-    }
-  }, [total, current, setPage])
+  const cur = Number(current)
+  const tot = Number(total)
+  const ar = Number(around)
 
-  if (total <= 1) {
+  if (isNaN(cur) || isNaN(tot) || tot <= 1 || cur < 1 || cur > tot) {
     return null
   }
 
-  if (current < 1 || current > total) {
-    return null
-  }
-
-  current = Number(current)
-  around = Number(around)
-  total = Number(total)
-
-  const range = createRange(
-    Math.max(current - around, 1),
-    Math.min(current + around, total)
-  )
+  const range = createRange(Math.max(cur - ar, 1), Math.min(cur + ar, tot))
 
   return (
     <div className="c-pagination">
       <div className="--pagination-lhs">
         <button
-          onClick={() => {
-            setPage(1)
-          }}
-          disabled={disabled || current == 1}
+          onClick={() => setPage(1)}
+          disabled={disabled || cur === 1}
           aria-label={t('pagination.goToFirstPage')}
         >
           {t('pagination.first')}
         </button>
         <button
-          onClick={() => {
-            setPage(current - 1)
-          }}
-          disabled={disabled || current == 1}
+          onClick={() => setPage(cur - 1)}
+          disabled={disabled || cur === 1}
           aria-label={t('pagination.goToPreviousPage')}
         >
           {t('pagination.previous')}
         </button>
       </div>
+
       <div className="--pagination-pages">
-        {current - around > 1 ? (
-          <>
-            <button
-              key={1}
-              onClick={() => {
-                setPage(1)
-              }}
-              aria-label={t('pagination.goToPage', { page: 1 })}
-            >
-              1
-            </button>
-          </>
-        ) : null}
-        {current - around > 2 ? (
-          <div className="--pagination-more">…</div>
-        ) : null}
+        {cur - ar > 1 && (
+          <button
+            key={1}
+            onClick={() => setPage(1)}
+            aria-label={t('pagination.goToPage', { page: 1 })}
+          >
+            1
+          </button>
+        )}
 
-        {range.map((page) => {
-          return (
-            <button
-              key={page}
-              onClick={() => {
-                setPage(page)
-              }}
-              disabled={disabled || page === current}
-              aria-label={t('pagination.goToPage', { page })}
-              aria-current={page === current ? 'page' : undefined}
-              className={page === current ? 'current' : undefined}
-            >
-              {page}
-            </button>
-          )
-        })}
+        {cur - ar > 2 && <div className="--pagination-more">…</div>}
 
-        {total - current > around + 1 ? (
-          <div className="--pagination-more">…</div>
-        ) : null}
+        {range.map((page) => (
+          <button
+            key={page}
+            onClick={() => setPage(page)}
+            disabled={disabled || page === cur}
+            aria-label={t('pagination.goToPage', { page })}
+            aria-current={page === cur ? 'page' : undefined}
+            className={page === cur ? 'current' : undefined}
+          >
+            {page}
+          </button>
+        ))}
 
-        {total - current > around ? (
-          <>
-            <button
-              key={total}
-              onClick={() => {
-                setPage(total)
-              }}
-              aria-label={t('pagination.goToPage', { page: total })}
-            >
-              {total}
-            </button>
-          </>
-        ) : null}
+        {tot - cur > ar + 1 && <div className="--pagination-more">…</div>}
+
+        {tot - cur > ar && (
+          <button
+            key={tot}
+            onClick={() => setPage(tot)}
+            aria-label={t('pagination.goToPage', { page: tot })}
+          >
+            {tot}
+          </button>
+        )}
       </div>
+
       <div className="--pagination-rhs">
         <button
-          onClick={() => {
-            setPage(current + 1)
-          }}
-          disabled={disabled || current == total}
+          onClick={() => setPage(cur + 1)}
+          disabled={disabled || cur === tot}
           aria-label={t('pagination.goToNextPage')}
         >
           {t('pagination.next')}
         </button>
         <button
-          onClick={() => {
-            setPage(total)
-          }}
-          disabled={disabled || current == total}
+          onClick={() => setPage(tot)}
+          disabled={disabled || cur === tot}
           aria-label={t('pagination.goToLastPage')}
         >
           {t('pagination.last')}
@@ -143,7 +107,5 @@ export function Pagination({
 }
 
 function createRange(start: number, end: number) {
-  return Array(end - start + 1)
-    .fill(0)
-    .map((_, i) => start + i)
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
 }

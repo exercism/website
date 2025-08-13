@@ -1,7 +1,7 @@
 en:
   tracks:
     build:
-      _show_syllabus:
+      show_syllabus:
         syllabus_header: "%{track_title} syllabus"
         syllabus_description:
           "Help create the track syllabus: is a set of concepts and
@@ -34,7 +34,7 @@ en:
         comments_made:
           one: 1 comment has been made.
           other: "%{count} comments have been made."
-      _index_analyzer:
+      index_analyzer:
         analyzer_header: Analyzer
         analyzer_description: "Build an Analyzer for %{track_title}: Exercism's
           analyzers automatically assess student's submissions and provide
@@ -56,7 +56,7 @@ en:
             one: Should have 1 more concept being implemented.
             other: Should have %{count} more concepts being implemented.
           missing: No concepts have been implemented.
-      _index_representer:
+      index_representer:
         representer_header: Representer
         representer_description:
           "Build a Representer: a bit of code that has the single
@@ -70,7 +70,7 @@ en:
         total_representation_comments_made: Total Representation Comments Made
         feedback_given_frequency: Feedback Given Frequency
         percentage_value: "%{percentage}%%"
-      _show_test_runner:
+      show_test_runner:
         test_runner_header: Test Runner
         test_runner_description:
           Create Test Runners that have the single responsibility
@@ -99,7 +99,7 @@ en:
         comments_made:
           one: 1 comment has been made.
           other: "%{count} comments have been made."
-      _index_test_runner:
+      index_test_runner:
         test_runner_header: Test Runner
         test_runner_description:
           Create Test Runners that have the single responsibility

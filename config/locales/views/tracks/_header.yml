@@ -1,6 +1,6 @@
 en:
   tracks:
-    _header:
+    header:
       students:
         one: student
         other: students

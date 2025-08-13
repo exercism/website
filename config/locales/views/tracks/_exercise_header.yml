@@ -1,6 +1,6 @@
 en:
   tracks:
-    _exercise_header:
+    exercise_header:
       breadcrumbs:
         tracks: Tracks
         exercises: Exercises

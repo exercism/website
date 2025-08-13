@@ -29,12 +29,12 @@ en:
         range_part_present: " From %{first_exercise_title} to %{last_exercise_title}."
         subtitle: "Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism."
         all_exercises_link: "See all %{track_title} exercises on Exercism"
-      _concepts:
+      concepts:
         title: "A taste of the concepts you'll cover"
         see_all_concepts: "See all the concepts for %{track_title}"
-      _key_features:
+      key_features:
         title: "Key Features of %{track_title}"
-      _upsell:
+      upsell:
         mentoring_section:
           title: "Get mentored the %{track_title} way"
           paragraph_html: |

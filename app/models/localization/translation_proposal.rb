@@ -5,11 +5,14 @@ class Localization::TranslationProposal < ApplicationRecord
 
   enum :status, {
     pending: 0,
-    accepted: 1,
+    approved: 1,
     rejected: 2
   }
 
   before_create do
     self.uuid = SecureRandom.uuid if uuid.blank?
   end
+
+  def to_param = uuid
+  def status = super.to_sym
 end

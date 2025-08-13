@@ -1,0 +1,12 @@
+.locale.checked
+  .header
+    .text-h4 #{name_for_locale(translation[:locale])} (#{translation[:locale]})
+    .status
+      = graphical_icon "completed-check-circle"
+      Checked
+    .flag= flag_for_locale(translation[:locale])
+
+  .body
+    %p.text-16.leading-140.mb-10
+      This translation has been signed off by two translators. No action is needed.
+    .locale-value.mb-12= translation[:value]

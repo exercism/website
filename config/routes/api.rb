@@ -123,7 +123,10 @@ namespace :api do
 
       resources :translations, only: [] do
         patch :approve_llm_version, on: :member
-        resources :proposals, only: [:create]
+        resources :proposals, only: %i[create update], controller: "translation_proposals" do
+          patch :approve, on: :member
+          patch :reject, on: :member
+        end
       end
     end
 

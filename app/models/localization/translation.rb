@@ -16,6 +16,7 @@ class Localization::Translation < ApplicationRecord
   end
 
   def to_param = uuid
+  def status = super.to_sym
 
   def self.lookup(locale, key, options)
     # Return from cache if enabled and present

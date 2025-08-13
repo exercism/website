@@ -1,7 +1,8 @@
 .locale.proposed
   .header
-    .text-h4= translation[:locale]
+    .text-h4 #{name_for_locale(translation[:locale])} (#{translation[:locale]})
     .status Needs Reviewing
+    .flag= flag_for_locale(translation[:locale])
 
   .body
     - if translation[:proposals].size == 1
@@ -25,11 +26,11 @@
     - else
       %p.text-16.leading-140.mb-10
         There have been multiple proposals for this translation.
-        Please review the proposals. If one is correct, please approve it (which will reject the others). Or if none are correct, please edit one and reject the rest.
+        Please review the proposals. If one is correct, please approve it (which will reject the others). Or if none are correct, reject each of them, then edit the original LLM output yourself.
 
         .flex.flex-col.gap-12
           - translation[:proposals].each do |proposal|
-            .border-1.border-borderColor5.p-12.rounded-8.bg-backgroundColorF
+            .border-1.border-borderColor5.p-12.rounded-8.bg-backgroundColorF.shadow-keystroke
               .locale-value.mb-12{ class: "!bg-white" }= proposal[:value]
               .buttons.flex.gap-8
                 %button.btn-s.btn-default.bg-white Approve

@@ -736,7 +736,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "uuid", null: false
     t.string "key", null: false
     t.text "value", null: false
-    t.text "sample_interpolations", null: false
+    t.text "context", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_localization_originals_on_key", unique: true
@@ -750,6 +750,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.integer "status", default: 0, null: false
     t.boolean "modified_from_llm", null: false
     t.text "value", null: false
+    t.text "llm_feedback"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["proposer_id"], name: "index_localization_translation_proposals_on_proposer_id"

@@ -4,7 +4,7 @@ class Localization::TranslationProposal::Create
   initialize_with :translation, :user, :value
 
   def call
-    ActiveRecord::Base.transaction do
+    proposal = ActiveRecord::Base.transaction do
       translation.update!(status: :proposed)
       translation.proposals.create!(
         proposer: user,
@@ -12,5 +12,7 @@ class Localization::TranslationProposal::Create
         modified_from_llm: true
       )
     end
+
+    VerifyWithLLM.(proposal)
   end
 end

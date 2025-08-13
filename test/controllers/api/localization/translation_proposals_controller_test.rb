@@ -13,6 +13,9 @@ class API::Localization::TranslationsProposalsControllerTest < API::BaseTestCase
 
     post api_localization_translation_proposals_path(translation), params: { value: value }, headers: @headers, as: :json
     assert_response :created
+
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 
   test "approve creates proxies to approval" do
@@ -26,6 +29,8 @@ class API::Localization::TranslationsProposalsControllerTest < API::BaseTestCase
     patch approve_api_localization_translation_proposal_path(translation, proposal), headers: @headers, as: :json
 
     assert_response :ok
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 
   test "reject creates proxies to rejection" do
@@ -39,6 +44,8 @@ class API::Localization::TranslationsProposalsControllerTest < API::BaseTestCase
     patch reject_api_localization_translation_proposal_path(translation, proposal), headers: @headers, as: :json
 
     assert_response :ok
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 
   test "edit proxies to update value if its the same user" do
@@ -53,6 +60,8 @@ class API::Localization::TranslationsProposalsControllerTest < API::BaseTestCase
     patch api_localization_translation_proposal_path(translation, proposal), params: { value: new_value }, headers: @headers, as: :json
 
     assert_response :ok
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 
   test "rejects and creates a new proposal if the user is different" do
@@ -69,5 +78,7 @@ class API::Localization::TranslationsProposalsControllerTest < API::BaseTestCase
       as: :json
 
     assert_response :ok
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 end

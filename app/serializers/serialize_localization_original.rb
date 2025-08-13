@@ -12,21 +12,7 @@ class SerializeLocalizationOriginal
       translations: translations.filter_map do |translation|
         next if translation.locale == "en"
 
-        {
-          uuid: translation.uuid,
-          locale: translation.locale,
-          value: translation.value,
-          status: translation.status,
-          proposals: (proposals[translation.id] || []).map do |proposal|
-            {
-              uuid: proposal.uuid,
-              status: proposal.status,
-              value: proposal.value,
-              proposer: proposal.proposer&.user_id,
-              reviewer: proposal.reviewer&.user_id
-            }
-          end
-        }
+        SerializeLocalizationTranslation.(translation, proposals: proposals[translation.id])
       end
     }
   end

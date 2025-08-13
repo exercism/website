@@ -13,5 +13,8 @@ class API::Localization::TranslationsControllerTest < API::BaseTestCase
     patch approve_llm_version_api_localization_translation_path(translation.uuid), headers: @headers, as: :json
 
     assert_response :ok
+
+    expected = { translation: SerializeLocalizationTranslation.(translation) }
+    assert_json_response(expected)
   end
 end

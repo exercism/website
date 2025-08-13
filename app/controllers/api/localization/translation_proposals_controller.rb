@@ -5,19 +5,26 @@ class API::Localization::TranslationProposalsController < API::BaseController
   def create
     Localization::TranslationProposal::Create.(@translation, current_user, params[:value])
 
-    render json: {}, status: :created
+    render json: {
+      translation: SerializeLocalizationTranslation.(@translation)
+
+    }, status: :created
   end
 
   def approve
     Localization::TranslationProposal::Approve.(@translation, current_user)
 
-    render json: {}
+    render json: {
+      translation: SerializeLocalizationTranslation.(@translation)
+    }
   end
 
   def reject
     Localization::TranslationProposal::Reject.(@translation, current_user)
 
-    render json: {}
+    render json: {
+      translation: SerializeLocalizationTranslation.(@translation)
+    }
   end
 
   def update
@@ -28,7 +35,9 @@ class API::Localization::TranslationProposalsController < API::BaseController
       Localization::TranslationProposal::Create.(@translation, current_user, params[:value])
     end
 
-    render json: {}
+    render json: {
+      translation: SerializeLocalizationTranslation.(@translation)
+    }
   end
 
   private

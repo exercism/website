@@ -13,4 +13,15 @@ module BootcampHelper
     end
     flag_for_country_code(country)
   end
+
+  def name_for_locale(locale)
+    case locale.to_s
+    when "en"
+      "English"
+    when "hu"
+      "Hungarian"
+    else
+      I18n.t("locales.#{locale}", default: locale.to_s.upcase)
+    end
+  end
 end

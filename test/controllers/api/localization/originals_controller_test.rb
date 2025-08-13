@@ -17,8 +17,8 @@ class API::Localization::OriginalsControllerTest < API::BaseTestCase
     get api_localization_originals_path, headers: @headers, as: :json
 
     assert_response :ok
-    expected = AssembleLocalizationOriginals.(@current_user, {})
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    expected = AssembleLocalizationOriginals.(@current_user, {}).to_json
+    assert_equal expected, response.body
   end
 
   ###

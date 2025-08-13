@@ -1,7 +1,8 @@
 .locale.unchecked
   .header
-    .text-h4= translation[:locale]
+    .text-h4 #{name_for_locale(translation[:locale])} (#{translation[:locale]})
     .status Needs Checking
+    .flag= flag_for_locale(translation[:locale])
 
   .body
     %p.text-16.leading-140.mb-10

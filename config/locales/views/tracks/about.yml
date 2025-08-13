@@ -49,15 +49,16 @@ en:
           learn_more: "Learn more about mentoring"
         exercises_section:
           title: "Community-sourced %{track_title} exercises"
-          paragraph_html: >-
-            The %{track_title} track on Exercism has
-
-            %{num_concepts_text}
-
-            %{track_num_exercises} exercises to help you write better code.
-
-            Discover new exercises as you progress and get engrossed in learning
-            new concepts and improving the way you currently write.
+          paragraph_html:
+            one_concept: >
+              The %{track_title} track on Exercism has
+              %{num_concepts} concept and %{track_num_exercises} exercises to help you write better code.
+            many_concepts: >
+              The %{track_title} track on Exercism has
+              %{num_concepts} concepts and %{track_num_exercises} exercises to help you write better code.
+            no_concepts: >
+              The %{track_title} track on Exercism has
+              %{track_num_exercises} exercises to help you write better code.
           see_all_exercises: "See all %{track_title} exercises"
         cta:
           title: "Get started with the %{track_title} track"

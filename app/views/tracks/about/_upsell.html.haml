@@ -16,10 +16,15 @@
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
         %h3= t('.exercises_section.title', track_title: track.title)
-        %p
-          = t('.exercises_section.paragraph_html', num_concepts: track.num_concepts, track_num_exercises: track.num_exercises, track_course: track.course?).html_safe
 
-        = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
+        - key = if track.course?
+          track.num_concepts == 1 ? '.exercises_section.paragraph_html.one_concept' : '.exercises_section.paragraph_html.many_concepts'
+        - else
+          '.exercises_section.paragraph_html.no_concepts'
+
+        %p= t(key, track_title: track.title, num_concepts: track.num_concepts, track_num_exercises: track.num_exercises).html_safe
+
+      = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
 

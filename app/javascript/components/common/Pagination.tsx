@@ -22,11 +22,22 @@ export function Pagination({
   const tot = Number(total)
   const ar = Number(around)
 
-  if (isNaN(cur) || isNaN(tot) || tot <= 1 || cur < 1 || cur > tot) {
+  if (isNaN(cur) || isNaN(tot) || tot <= 1) {
     return null
   }
 
-  const range = createRange(Math.max(cur - ar, 1), Math.min(cur + ar, tot))
+  if (cur < 1) {
+    setPage(1)
+    return null
+  }
+  if (cur > tot) {
+    setPage(tot)
+    return null
+  }
+
+  const rangeStart = Math.max(cur - ar, 1)
+  const rangeEnd = Math.min(cur + ar, tot)
+  const range = createRange(rangeStart, rangeEnd)
 
   return (
     <div className="c-pagination">
@@ -48,7 +59,7 @@ export function Pagination({
       </div>
 
       <div className="--pagination-pages">
-        {cur - ar > 1 && (
+        {rangeStart > 1 && (
           <button
             key={1}
             onClick={() => setPage(1)}
@@ -58,7 +69,7 @@ export function Pagination({
           </button>
         )}
 
-        {cur - ar > 2 && <div className="--pagination-more">…</div>}
+        {rangeStart > 2 && <div className="--pagination-more">…</div>}
 
         {range.map((page) => (
           <button
@@ -73,9 +84,9 @@ export function Pagination({
           </button>
         ))}
 
-        {tot - cur > ar + 1 && <div className="--pagination-more">…</div>}
+        {rangeEnd < tot && <div className="--pagination-more">…</div>}
 
-        {tot - cur > ar && (
+        {rangeEnd < tot && (
           <button
             key={tot}
             onClick={() => setPage(tot)}
@@ -106,6 +117,6 @@ export function Pagination({
   )
 }
 
-function createRange(start: number, end: number) {
+function createRange(start: number, end: number): number[] {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i)
 }

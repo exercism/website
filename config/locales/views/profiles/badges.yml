@@ -1,0 +1,16 @@
+en:
+  profiles:
+    badges:
+      meta_title: "%{user_handle}'s badges to Exercism"
+      meta_description:
+        Explore %{user_handle}'s badges on Exercism, and see which
+        ones you're missing yourself
+      introducer:
+        title: Exercism members earn badges for doing cool stuff
+        description:
+          Using Exercism is fun and rewarding - spontaneously earn badges
+          during learning, mentoring and contributing on Exercism.
+      summary:
+        badges_owned:
+          one: 1 badge owned
+          other: "%{count} badges owned"

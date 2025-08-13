@@ -1,0 +1,132 @@
+en:
+  tracks:
+    show:
+      updates_section:
+        whats_going_on: What's going on with %{track_title}
+        title: What's going on with %{track_title}
+      stats_box_mastered_concepts:
+        mastered_concepts:
+          one: 1 Concept mastered
+          other: "%{count} Concepts mastered"
+        concepts_mastered:
+          one: 1 Concept mastered
+          other: "%{count} Concepts mastered"
+      stats_box_available_exercises:
+        available_exercises:
+          one: 1 Exercise available
+          other: "%{count} Exercises available"
+        exercises_available:
+          one: 1 Exercise available
+          other: "%{count} Exercises available"
+      stats_box_locked_exercises:
+        exercises_locked:
+          one: 1 Exercise locked
+          other: "%{count} Exercises locked"
+      stats_box_in_progress_exercises:
+        exercises_in_progress:
+          one: 1 Exercise in-progress
+          other: "%{count} Exercises in-progress"
+      mentoring_article:
+        mentoring_locked_icon_alt: Mentoring is locked
+        unlock_mentoring:
+          Unlock mentoring for %{track_title} by completing ”Hello,
+          World!” and starting a new exercise
+        your_mentoring_slots:
+          title: Your mentoring slots
+          filled:
+            one: 1 mentoring slot filled
+            other: "%{count} mentoring slots filled"
+        current_reputation:
+          title: Your current Reputation is
+        max_mentoring_slots: You have the maximum available mentoring slots
+        unlocked_icon_alt: Unlocked
+        next_slot_unlocks_at: Next slot unlocks at <strong>%{reputation_amount}</strong> rep.
+        or_text: Or
+        donate_to_exercism_link: Donate to Exercism
+        to_unlock_all_slots: to unlock all mentoring slots.
+        learn_more_link: Learn More.
+        mentor_discussion_with: with
+        your_turn_to_respond: Your turn to respond
+        review_your_mentor: Review your mentor
+        comments_count:
+          one: 1 comment
+          other: "%{count} comments"
+        waiting_on_mentor: Waiting on a mentor…
+        mentoring_slot_locked: Mentoring slot locked
+        learn_more_about_mentored_link: Learn more about getting mentored
+      contributors_section:
+        title: "%{track_title} Contributors"
+        top_contributors_aria_label: Top contributors
+        view_profile_aria_label: View profile of %{contributor_handle}
+        other_contributors_aria_label: Other significant contributors
+        see_all_link: See all
+        see_all_contributors_aria_label: See all contributors for this track
+        cta:
+          we_love_contributors: We
+          love_emoji_aria_label: love
+          our_contributors: our contributors
+          exercism_relies_on_open_source:
+            Exercism relies on open-source contributors to
+            build our language tracks and mentor students.
+          contribute_link: Contribute to the %{track_title} track ->
+      start_track_section:
+        introduce_yourself_html:
+          Introduce yourself to the %{track_title} world by
+          completing <strong>”Hello, World!”</strong>
+        familiarize_yourself:
+          Familiarize yourself with how Exercism works and submit
+          your first bit of code on the platform by completing the “Hello,
+          World!” tutorial exercise.
+        go_to_hello_world_exercise_link: Go to the “Hello, World!” exercise
+      stats_box_completed_exercises:
+        exercises_completed:
+          one: 1 Exercise completed
+          other: "%{count} Exercises completed"
+      activities_zero_state_section:
+        activity_zero_state_message: This is where your activity on the track is
+          displayed once you begin completing exercises
+      stats_box_learnt_concepts:
+        concepts_learnt:
+          one: 1 Concept learnt
+          other: "%{count} Concepts learnt"
+      ticker:
+        live_on_track: Live on the %{track_title} track…
+      summary_article:
+        progress_chart:
+          just_started_track: You&apos;ve just started the %{track_title} track.
+            <strong>Good luck, adventurer!</strong>
+          track_completed:
+            Amazing - you've completed the track!! <strong>What an
+            achievement! 👏</strong>
+          through_track_html:
+            You&apos;re <em>%{completed_percentage}%</em> through the
+            %{track_title} track.
+          completed_icon_alt: Completed
+          status:
+            completed: Completed
+            in_progress: In-progress
+            available: Available
+            locked: Locked
+            total_exercises: Total Exercises
+        trophy_cabinet:
+          title: "%{track_title} Trophy Cabinet"
+          subtitle_html:
+            Unlock for achievements as you progress through the track.
+            %{learn_more_link}.
+        intro_video:
+          title: A Brief Introduction to %{track_title}
+          description:
+            Dig into %{track_title} with Erik as he explores its main features
+            and solves an interesting exercise.
+        forum_section:
+          title: From the Forum…
+          latest_by: Latest by %{poster_username}
+          explore_forum_link: Explore the %{track_title} Forum
+        docs_section:
+          title: Stuck? Explore our docs…
+        momentum_section:
+          title: Your momentum
+          description:
+            Consistency is the key to progress. Set yourself a realistic target
+            to try and aim for each week, then track your last 8 weeks here.
+          avg_exercises_completed_per_week: Avg. exercises completed per week

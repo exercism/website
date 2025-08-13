@@ -1,10 +1,9 @@
-Hi #{@user.handle},
+= t('.greeting', user_handle: @user.handle)
 \
-You've completed a few exercises (nice work!) but not yet requested mentoring on any of your solutions.
+= t('.completion_message')
 \
-Receiving feedback from our mentors is an amazing way of discovering your knowledge gaps and levelling up your skills. It's one of Exercism's most valuable features, and like all of Exercism, it's absolutely free!
+= t('.feedback_value')
 \
-Choose a solution that you feel has the most room for improvement and request a mentor to take a look at it. They should get back to you within a day or so with some ideas!
+= t('.action_prompt')
 \
-Choose a solution at: #{@notification.url}
-
+= t('.button_text', notification_url: @notification.url)

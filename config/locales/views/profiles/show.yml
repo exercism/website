@@ -1,0 +1,11 @@
+en:
+  profiles:
+    show:
+      meta_title: "%{user_handle}'s profile on Exercism"
+      meta_description:
+        Explore what %{user_handle} has done on Exercism. Dig into
+        their most interesting solutions, top contributions and most inspiring
+        testimonials.
+      published_solutions:
+        title: Published Solutions
+        see_all_link: See all of %{user_name}'s solutions

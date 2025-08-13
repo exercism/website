@@ -5,11 +5,11 @@
         = avatar(discussion.mentor, css_class: 'c-avatar mentor-avatar')
         .info
           %h4= discussion.mentor.handle
-          .when Ended #{time_ago_in_words(discussion.finished_at)} ago
+          .when= t('.discussion_ended', time_ago: time_ago_in_words(discussion.finished_at))
         .ended
           = graphical_icon "completed-check-circle"
-          Ended
+          = t('.status_ended')
 
 - else
   .no-previous-discussions
-    You have no past code review sessions
+    = t('.no_discussions_message')

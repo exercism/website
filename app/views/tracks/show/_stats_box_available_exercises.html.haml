@@ -2,8 +2,7 @@
   .info
     .count= user_track.num_available_exercises
     %h3
-      = "Exercise".pluralize(user_track.num_available_exercises)
-      available
+      = t('.exercises_available', count: user_track.num_available_exercises)
 
     .icons
       - user_track.sample_available_exercises.each do |exercise|

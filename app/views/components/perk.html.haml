@@ -1,6 +1,6 @@
 .c-perk
-  = image_tag (perk.light_logo.presence || perk.partner.light_logo.presence || 'blank.png'), alt: "Logo of #{perk.partner.name}", class: 'logo logo-light'
-  = image_tag (perk.dark_logo.presence || perk.partner.dark_logo.presence || 'blank.png'), alt: "Logo of #{perk.partner.name}", class: 'logo logo-dark'
+  = image_tag (perk.light_logo.presence || perk.partner.light_logo.presence || 'blank.png'), alt: t('.logo_alt_text', partner_name: perk.partner.name), class: 'logo logo-light'
+  = image_tag (perk.dark_logo.presence || perk.partner.dark_logo.presence || 'blank.png'), alt: t('.logo_alt_text', partner_name: perk.partner.name), class: 'logo logo-dark'
   %p.about= perk.preview_text
   .details= raw offer_summary_html
   .buttons
@@ -10,4 +10,4 @@
       = render ReactComponents::Perks::PerksModalButton.new(perk)
     - else
       = link_to button_text, claim_perk_path(perk), class: 'btn-m btn-primary', data: { turbo: false }
-    = link_to "Learn more", partner_path(perk.partner), class: 'btn-m btn-enhanced'
+    = link_to t('.learn_more_button'), partner_path(perk.partner), class: 'btn-m btn-enhanced'

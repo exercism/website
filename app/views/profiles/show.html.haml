@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{sanitize(@user.handle)}'s profile on Exercism".html_safe
-- content_for :meta_description, "Explore what #{@user.handle} has done on Exercism. Dig into their most interesting solutions, top contributions and most inspiring testimonials."
+- content_for :meta_title, t('.meta_title', user_handle: sanitize(@user.handle)).html_safe
+- content_for :meta_description, t('.meta_description', user_handle: @user.handle).html_safe
 - content_for :meta_image, profile_url(@user, format: :jpg, host: 'https://assets.exercism.org').sub(/\.jpg$/, "-#{@profile.updated_at.to_i}.jpg")
 - content_for :canonical_url, profile_url(@user)
 - require_stylesheet "profile"
@@ -18,7 +18,7 @@
       .lg-container.container
         %header.section-header
           = graphical_icon :'community-solutions', hex: true
-          %h2.published-solutions{ data: { total_count: @user.num_published_solutions } } Published Solutions
+          %h2.published-solutions{ data: { total_count: @user.num_published_solutions } }= t('.published_solutions.title')
           %hr.c-divider
 
         .solutions
@@ -26,6 +26,6 @@
             = render ReactComponents::Common::CommunitySolution.new(solution, context: :profile)
 
         - if @profile.solutions_tab?
-          = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", solutions_profile_path(@profile))
+          = render ViewComponents::ProminentLink.new(t('.published_solutions.see_all_link', user_name: @user.name), solutions_profile_path(@profile))
 
     = render ReactComponents::Profile::TestimonialsSummary.new(@user, @profile)

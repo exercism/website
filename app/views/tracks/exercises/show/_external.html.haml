@@ -10,7 +10,7 @@
     - deep_dive_youtube_id = exercise.deep_dive_youtube_id
     - if deep_dive_youtube_id.present?
       .mt-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
-        .text-h4.mb-4 Deep Dive into #{exercise.title}!
+        .text-h4.mb-4= t('.deep_dive_title', exercise_title: exercise.title)
         %p.text-p-large.mb-16= exercise.deep_dive_blurb
         %div{ class: 'w-[100%]' }
           = render ReactComponents::Common::YoutubePlayer.new(deep_dive_youtube_id, 'exercise#external')

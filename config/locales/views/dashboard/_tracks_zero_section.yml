@@ -1,0 +1,8 @@
+en:
+  dashboard:
+    tracks_zero_section:
+      title: You've not joined a track yet.
+      description_part_1: Choose from over
+      description_part_2: "%{num_tracks} language tracks,"
+      description_part_3: from the every day to downright odd, start your code practice now.
+      browse_tracks_link: Browse %{num_tracks} language tracks

@@ -1,0 +1,39 @@
+en:
+  maintaining:
+    site_updates:
+      index:
+        site_updates_heading: Site updates
+        table_headers:
+          type: Type
+          about: About
+          published_at: Published At
+          expanded_details: Expanded Details
+          pull_request: Pull Request
+        published_at_icon_alt: Icon of a question mark
+        published_at_icon_title:
+          "Site updates are published a few hours after the
+          exercises are put live "
+        update_type:
+          exercise: Exercise
+          concept: Concept
+          arbitrary: Arbitrary
+        exercise_update_details: "%{track_title} / %{exercise_title}"
+        concept_update_details: "%{track_title} / %{concept_name}"
+        edit_link: Edit
+        new_site_update_button: New site update
+      form:
+        validation_errors:
+          heading:
+            one: "1 error prohibited this site update from being saved:"
+            other: "%{count} errors prohibited this site update from being saved:"
+        title_label: Title
+        description_label: Description (markdown, max 600 chars, don't use headings)
+        track_label: Track
+        pull_request_number_label: Pull Request number (https://github.com/exercism/<repo>/pull/<number>)
+        back_to_site_updates_link: Back to site updates
+      edit:
+        edit_site_update_heading: Edit Site Update
+        update_button_label: Update Site Update
+      new:
+        new_site_update_heading: New Site Update
+        create_button_label: Create Site Update

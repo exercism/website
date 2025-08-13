@@ -1,0 +1,79 @@
+en:
+  components:
+    footer:
+      shared:
+        nfp_section:
+          title: Help us keep Exercism free for everyone, everywhere.
+          subtitle: Exercism is open source and 100% free.
+          description:
+            Help us provide opportunity for people of all backgrounds by
+            helping them develop their programming skills through code practice
+            and mentorship.
+        site_links:
+          editions:
+            title: Editions
+            exercism_link: Exercism
+            learn_to_code_link: Learn to Code
+            coding_fundamentals_link: Coding Fundamentals
+            front_end_course_link: Front-end Course
+            bootcamp_link: Exercism Bootcamp
+            teams_link: Exercism for Teams
+            research_link: Exercism Research
+          about:
+            title: About
+            about_exercism_link: About Exercism
+            our_team_link: Our team
+            contributors_link: Contributors
+            partners_link: Partners
+            individual_supporters_link: Individual supporters
+          get_involved:
+            title: Get involved
+            exercism_insiders_link: Exercism Insiders
+            contribute_link: Contribute
+            mentor_link: Mentor
+            donate_link: Donate
+          legal_and_policies:
+            title: Legal &amp; policies
+            terms_of_usage_link: Terms of usage
+            privacy_policy_link: Privacy policy
+            cookie_policy_link: Cookie policy
+            code_of_conduct_link: Code of conduct
+            accessibility_statement_link: Accessibility statement
+          keep_in_touch:
+            title: Keep in touch
+            blog_link: Exercism's blog
+            github_link: Discuss on GitHub
+            contact_us_link: Contact us
+            report_abuse_link: Report abuse
+          get_help:
+            title: Get help
+            docs_link: Exercism's Docs
+            getting_started_link: Getting started
+            faqs_link: FAQs
+            installing_cli_link: Installing the CLI
+            cli_walkthrough_link: Interactive CLI Walkthrough
+        tracks_section:
+          title: Our programming language tracks
+          add_language_title: Want to add a language track to Exercism?
+          add_language_description: Start a new topic
+          add_language_forum_link: in the forum
+          add_language_discussion_text: and let's discuss it.
+        legals:
+          company_info_part1: Exercism is a not-for-profit organisation
+          company_info_link_text: registered in the UK
+          company_info_part2: . Its trustees are
+          katrina_owen_link: Katrina Owen
+          jeremy_walker_link_separator: ","
+          jeremy_walker_link: Jeremy Walker
+          erik_schierboom_link_separator: " and"
+          erik_schierboom_link: Erik Schierboom
+          company_info_part3: .
+          copyright: © %{year} Exercism
+      external:
+        title: Code practice and mentorship for everyone
+        description:
+          Develop fluency in %{num_active_tracks} programming languages with
+          our unique blend of learning, practice and mentoring. Exercism is fun,
+          effective and 100% free, forever.
+        signup_button: Sign up for free
+        explore_languages_button: Explore languages

@@ -1,7 +1,7 @@
 .learn
   %h3
     = graphical_icon(:concepts)
-    You've learnt #{concept.name}!
+    = t('.learnt_concept_title', concept_name: concept.name)
 
   .exercises
     - concept_exercises.each do |concept_exercise|
@@ -12,11 +12,10 @@
     %h3
       = graphical_icon(:exercises)
       - if user_track.concept_mastered?(concept)
-        You've mastered #{concept.name}!
+        = t('.mastered_concept_title', concept_name: concept.name)
       - else
-        Practice #{concept.name}
+        = t('.practice_concept_title', concept_name: concept.name)
 
     .exercises
       - practice_exercises.each do |practice_exercise|
         = render ReactComponents::Common::ExerciseWidget.new(practice_exercise, user_track, solution: solutions[practice_exercise.id], render_track: false)
-

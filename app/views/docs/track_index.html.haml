@@ -1,5 +1,5 @@
-- content_for :meta_title, "Exercism's Track Docs".html_safe
-- content_for :meta_description, "Everything you need to know about using #{@track.title} on Exercism."
+- content_for :meta_title, t('.meta_title', track_title: @track.title).html_safe
+- content_for :meta_description, t('.meta_description', track_title: @track.title)
 - content_for :canonical_url, track_docs_url(@track.slug)
 - require_stylesheet "docs"
 
@@ -10,9 +10,9 @@
     = render ViewComponents::DocsSideNav.new(@nav_docs, nil, track: @track)
 
     .docs-content
-      %h1 #{@track.title} Docs
-      %p.h1-subtitle Everything you need to know about using #{@track.title} on Exercism.
+      %h1= t('.track_title', track_title: @track.title)
+      %p.h1-subtitle= t('.track_subtitle', track_title: @track.title)
       %hr.c-divider
 
       .c-textual-content.--large
-        %p Explore our #{@track.title} docs and discover everything you need to know to make the most of your #{@track.title} experience on Exercism, from installing #{@track.title} to running the tests, learning the language, and useful resources.
+        %p= t('.explore_docs_paragraph', track_title: @track.title)

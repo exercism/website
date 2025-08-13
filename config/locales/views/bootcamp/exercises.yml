@@ -1,0 +1,6 @@
+en:
+  bootcamp:
+    exercises:
+      index:
+        exercises_title: Exercises
+        exercises_description: All the exercises you have available, grouped by project.

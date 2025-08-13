@@ -1,5 +1,5 @@
 .lg-container
-  %h1.text-h1.mb-8 New donor
+  %h1.text-h1.mb-8= t('.title')
 
   = form_with(url: admin_donors_path) do |form|
     - if @error.present?

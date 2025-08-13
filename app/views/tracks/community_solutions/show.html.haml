@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{sanitize(@solution.user.handle)}'s solution for #{@exercise.title} in #{@track.title} on Exercism".html_safe
-- content_for :meta_description, "See how @#{sanitize(@solution.user.handle)} solved #{@exercise.title} in #{@track.title} and get inspired for how you could solve it too! Exercism is 100% free and a great way to level-up your programming skills in over 65 languages."
+- content_for :meta_title, t('.meta_title', author_handle: sanitize(@solution.user.handle), exercise_title: @exercise.title, track_title: @track.title).html_safe
+- content_for :meta_description, t('.meta_description', author_handle: sanitize(@solution.user.handle), exercise_title: @exercise.title, track_title: @track.title)
 - content_for :meta_image, Exercism::Routes.published_solution_url(@solution, format: :jpg, host: 'https://assets.exercism.org').sub(/\.jpg$/, "-#{@solution.updated_at.to_i}.jpg")
 - content_for :canonical_url, Exercism::Routes.published_solution_url(@solution)
 - require_stylesheet "track"
@@ -10,23 +10,23 @@
       .lg-container.container
         = link_to tracks_path do
           = graphical_icon 'tracks', hex: true
-          .span Tracks
+          .span= t('.breadcrumbs.tracks')
         .seperator /
         = link_to @track do
           = track_icon @track
           .span= @track.title
         .seperator /
-        = link_to "Exercises", track_exercises_path(@track)
+        = link_to t('.breadcrumbs.exercises'), track_exercises_path(@track)
         .seperator /
         = link_to @exercise.title, track_exercise_path(@track, @exercise)
         .seperator /
-        = link_to "Community Solutions", track_exercise_solutions_path(@track, @exercise)
+        = link_to t('.breadcrumbs.community_solutions'), track_exercise_solutions_path(@track, @exercise)
         .seperator /
         .exercise-title.flex
           - if @own_solution
-            Your solution
+            = t('.breadcrumbs.your_solution')
           - else
-            #{@author.handle}'s solution
+            = t('.breadcrumbs.authors_solution', author_handle: @author.handle)
 
     .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
@@ -40,17 +40,17 @@
         %h1
           .name
             - if @own_solution
-              Your solution
+              = t('.solution_heading.your_solution')
             - elsif @author.profile
               = link_to profile_path(@author), class: 'flex' do
-                #{@author.handle}'s solution
+                = t('.solution_heading.authors_solution', author_handle: @author.handle)
             - else
-              #{@author.handle}'s solution
+              = t('.solution_heading.authors_solution', author_handle: @author.handle)
             = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
           .to
-            to
+            = t('.solution_heading.to')
             = link_to @exercise.title, track_exercise_path(@track, @exercise)
-            in
+            = t('.solution_heading.in')
             = link_to @track.title, @track
 
       .buttons.lg:ml-auto.mt-24.lg:mt-0.gap-8
@@ -70,13 +70,12 @@
                 .face= avatar discussion.mentor
             .info
               .mentors
-                Mentored by&nbsp;
+                = t('.mentoring.mentored_by')
                 %strong= @mentor_discussions.map { |d| render(ViewComponents::HandleWithFlair.new(d.mentor.handle, d.mentor.flair)) }.map(&:to_s).to_sentence.html_safe
-
 
               = link_to doc_path(:using, 'feedback'), class: 'more' do
                 = graphical_icon "info-circle", css_class: 'filter-textColor6'
-                What is this?
+                = t('.mentoring.what_is_this')
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)
 
@@ -84,55 +83,57 @@
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
     .rhs.lg:ml-48
+      -# rubocop:disable Lint/SafeNavigationConsistency
       - if @exercise_representation&.oldest_solution && @exercise_representation&.prestigious_solution
+        -# rubocop:enable Lint/SafeNavigationConsistency
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
             = graphical_icon "stats", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
-            About this solution
-          %p.text-p-base.mb-12 We automatically group similar solutions and generate statistics about how popular they are.
+            = t('.about_solution.title')
+          %p.text-p-base.mb-12= t('.about_solution.description')
           .py-16.shadow-base.rounded-8.bg-backgroundColorA.text-center.grid.grid-cols-3.leading-150
             .flex.flex-col
               .text-18.font-medium.mb-8.text-textColor2= number_with_delimiter(@exercise_representation.num_published_solutions)
-              .text-15= "Submission".pluralize(@exercise_representation.num_published_solutions)
+              .text-15= t('.about_solution.submissions', count: @exercise_representation.num_published_solutions)
 
             .flex.flex-col
-              .text-18.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
-              .text-15 First submitted
+              .text-18.font-medium.mb-8.text-textColor2= t('.about_solution.first_submitted_ago', time: time_ago_in_words(@exercise_representation.first_submitted_at, short: true))
+              .text-15= t('.about_solution.first_submitted')
 
             .flex.flex-col
               .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
-                = icon "reputation", "Reputation", css_class: "w-[16px] h-[16px] mr-6 filter-textColor2"
+                = icon "reputation", t('.about_solution.reputation_alt_text'), css_class: "w-[16px] h-[16px] mr-6 filter-textColor2"
                 = number_with_delimiter(@exercise_representation.max_reputation)
-              .text-15 Max track rep
+              .text-15= t('.about_solution.max_track_rep')
 
       - if @approach
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
             = graphical_icon "dig-deeper", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
-            This solution's approach
-          %p.text-p-base.mb-12 Explore the pros and cons of this approach in our community-written deep dive…
+            = t('.solution_approach.title')
+          %p.text-p-base.mb-12= t('.solution_approach.description')
 
           = link_to track_exercise_approach_path(@track, @exercise, @approach), class: "block bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16" do
             %h5.text-h5.mb-2= @approach.title
             %p.text-p-base.text-textColor6.mb-6= @approach.blurb
             .flex.items-center
               = graphical_icon 'mentoring-soft-skills', css_class: 'w-[24px] h-[24px] mr-6 filter-textColor7'
-              %p.text-p-small.text-textColor6 Used by #{@approach.num_solutions} people.
+              %p.text-p-small.text-textColor6= t('.solution_approach.used_by', num_solutions: @approach.num_solutions)
 
       .about
         %h2
-          About the
+          = t('.about_exercise.title')
           = track_icon @track
           = @track.title
-          Exercise
+          = t('.about_exercise.exercise_label')
         = render ReactComponents::Common::ExerciseWidget.new(@exercise, @user_track, render_track: false, render_blurb: false)
 
       .other-solutions
         %h2
-          Other solutions to
+          = t('.other_solutions.title')
           = @exercise.title
 
         - @other_solutions.each do |solution|
           = render ReactComponents::Common::CommunitySolution.new(solution, context: :exercise)
 
-        = render ViewComponents::ProminentLink.new("Explore other solutions to this exercise", track_exercise_solutions_path(@track, @exercise))
+        = render ViewComponents::ProminentLink.new(t('.other_solutions.explore_link'), track_exercise_solutions_path(@track, @exercise))

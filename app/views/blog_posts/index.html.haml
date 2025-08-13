@@ -6,21 +6,21 @@
     .lg-container.flex.flex-col.md:flex-row.items-center
       = graphical_icon "community-solutions", category: 'graphics', css_class: 'main-graphic mb-8 md:mb-0 md:mr-24'
       .flex.flex-col.md:mr-auto
-        %h1.text-h1.mb-8.text-center.md:text-left Community Blog
+        %h1.text-h1.mb-8.text-center.md:text-left= t('.header.title')
         %p.text-p-large.mb-20.md:mb-0
-          Videos and articles from the
-          = link_to "Exercism community", contributing_contributors_path
+          = t('.header.description_prefix')
+          = link_to t('.header.description_link'), contributing_contributors_path
 
       .socials.flex.items-center.md:ml-24
         = link_to "https://github.com/exercism", class: 'c-social-icon' do
           = graphical_icon 'external-site-github', css_class: 'filter-textColor1'
-          GitHub
+          = t('.header.socials.github')
         = link_to "https://twitter.com/exercism_io", class: 'c-social-icon twitter' do
           = graphical_icon 'external-site-twitter'
-          Twitter
+          = t('.header.socials.twitter')
         = link_to "https://www.youtube.com/c/Exercism-videos", class: 'c-social-icon' do
           = graphical_icon 'external-site-youtube'
-          YouTube
+          = t('.header.socials.youtube')
 
   .lg-container
     - main_post = @posts.first
@@ -30,7 +30,7 @@
         = render "info_bar", post: main_post
 
         %p.text-p-large.mb-16.md:mb-20= main_post.description
-        - link_text = main_post.video? ? "View More" : "Read more"
+        - link_text = main_post.video? ? t('.highlighted_post.view_more') : t('.highlighted_post.read_more')
         .c-prominent-link
           %span= link_text
           = graphical_icon 'arrow-right'
@@ -38,7 +38,7 @@
       .hidden.lg:block.lg:ml-48.self-start.main-image-link
         = image_tag main_post.image_url, alt: "", class: 'rounded-8 w-100'
 
-    %h2.text-h3.mb-24.md:mb-40 More posts from the community
+    %h2.text-h3.mb-24.md:mb-40= t('.other_posts.title')
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-4
       - @posts[1..].each do |post|
         = render ViewComponents::BlogPost.new(post)

@@ -4,9 +4,9 @@
   .lg-container.container
     .section-header
       = graphical_icon "concepts", hex: true, css_class: "header-icon"
-      %h2.text-center A taste of the concepts you&apos;ll cover
+      %h2.text-center= t('.title')
       %hr.c-divider
 
     = image_tag "screenshots/concept-map.svg", class: "screenshot", width: 2880, height: 1434
 
-    = render ViewComponents::ProminentLink.new("See all the concepts for #{track.title}", track_concepts_path(track))
+    = render ViewComponents::ProminentLink.new(t('.see_all_concepts', track_title: track.title), track_concepts_path(track))

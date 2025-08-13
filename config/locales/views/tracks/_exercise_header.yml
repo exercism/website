@@ -1,0 +1,17 @@
+en:
+  tracks:
+    exercise_header:
+      breadcrumbs:
+        tracks: Tracks
+        exercises: Exercises
+      completed_heading:
+        text: You've completed %{exercise_title}.
+        discover_more_link: Discover more exercises
+      completed_icon_alt: Exercise is completed
+      exercise_type_tag:
+        tutorial: Tutorial Exercise
+        learning: Learning Exercise
+      difficulty_tag:
+        easy: Easy
+        medium: Medium
+        hard: Hard

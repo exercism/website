@@ -1,0 +1,5 @@
+en:
+  settings:
+    api_cli:
+      api_cli_settings:
+        heading: API & CLI Settings

@@ -1,0 +1,5 @@
+en:
+  images:
+    profile:
+      badge_icon_alt: "Badge: %{badge_name}"
+      founder_title: Exercism Founder

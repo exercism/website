@@ -3,7 +3,7 @@
   - if introduction.present?
     .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
       %h2 Introduction
-      .mb-32= raw Markdown::Parse.(introduction)
+      .mb-32= translate_text(introduction, markdown: true)
 
   - if exercise.tutorial?
     %h2 Introduction
@@ -40,5 +40,3 @@
     = graphical_icon "external-site-github", css_class: "github-icon"
     %span Edit via GitHub
     = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
-
-

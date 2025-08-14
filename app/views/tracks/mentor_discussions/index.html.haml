@@ -23,14 +23,13 @@
       .personal-mentoring{ class: @solution.mentoring_in_progress? ? 'locked' : nil }
         - if @solution.mentoring_in_progress?
           .c-alert.locked
-            %strong You&apos;re currently being mentored.
-            Please end your existing discussion before starting a new mentoring session with someone else.
+            %strong= t('.personal_mentoring.locked_message_html').html_safe
 
         .content
-          %h2 Want a friend to mentor you instead?
-          %p If you want mentoring by a friend, teacher, colleague, etc rather than experiencing community mentoring, send them the link below and they will be able to mentor you directly.
+          %h2= t('.personal_mentoring.heading')
+          %p= t('.personal_mentoring.body')
 
-          %h3 Direct Mentoring Invite Link
+          %h3= t('.personal_mentoring.link_heading')
           = ReactComponents::Common::CopyToClipboardButton.new(@solution.external_mentoring_request_url)
 
-        = render ViewComponents::ProminentLink.new("Learn more about direct mentoring", doc_path(:using, "feedback/private"))
+        = render ViewComponents::ProminentLink.new(t('.personal_mentoring.prominent_link'), doc_path(:using, "feedback/private"))

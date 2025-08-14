@@ -1,6 +1,8 @@
 import React from 'react'
 import { TypeIcon } from '../../contributing/tasks-list/task/TypeIcon'
 import { TaskType } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const TypeInfo = ({ type }: { type: TaskType }): JSX.Element => {
   return (
@@ -16,26 +18,42 @@ export const TypeInfo = ({ type }: { type: TaskType }): JSX.Element => {
 }
 
 const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
   switch (type) {
     case 'ci':
       return (
         <>
           <h3>
-            In this task you&apos;ll be working on Exercism&apos;s{' '}
-            <strong>Continous Integration</strong>.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.continuousIntegration"
+              components={{ storng: <strong /> }}
+            />
           </h3>
-          <p>You&apos;ll likely be working with GitHub Actions, or similar.</p>
+          <p>
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.githubActions"
+            />
+          </p>
         </>
       )
     case 'coding':
       return (
         <>
           <h3>
-            This is a <strong>coding</strong> task.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.codingTask"
+              components={{ storng: <strong /> }}
+            />
           </h3>
           <p>
-            You&apos;ll be writing production-level code that&apos;s run by
-            Exercism, or by our maintainer team to help automate jobs.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.productionLevelCode"
+            />
           </p>
         </>
       )
@@ -43,12 +61,17 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
       return (
         <>
           <h3>
-            This task involves writing <strong>student-facing content</strong>.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.studentFacingContent"
+              components={{ strong: <strong /> }}
+            />
           </h3>
           <p>
-            You&apos;ll be primarily writing content in Markdown, along with
-            some examples of code, and possible test files, in the relevant
-            language.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.writingInMarkdown"
+            />
           </p>
         </>
       )
@@ -56,11 +79,17 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
       return (
         <>
           <h3>
-            This task involves <strong>writing Dockerfiles</strong>.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.writingDockerfiles"
+              components={{ storng: <strong /> }}
+            />
           </h3>
           <p>
-            Use your Docker expertise to help improve, optimize and shrink our
-            Dockerfiles.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.improveDockerfiles"
+            />
           </p>
         </>
       )
@@ -68,11 +97,17 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
       return (
         <>
           <h3>
-            This task involves <strong>writing docs</strong>.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.writingDocs"
+              components={{ storng: <strong /> }}
+            />
           </h3>
           <p>
-            Docs are one of the most important parts of Exercism - helping both
-            contributors and students. Our docs are written in Markdown.
+            <Trans
+              ns="components/tooltips/task-tooltip"
+              i18nKey="typeInfo.docsImportant"
+            />
           </p>
         </>
       )

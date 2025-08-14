@@ -5,6 +5,7 @@ import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { MostPopularTag } from './MostPopularTag'
 import type { Representation } from '@/components/types'
 import { SelectedTab } from './Representation'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const AutomationListElement = ({
   representation,
@@ -13,6 +14,9 @@ export const AutomationListElement = ({
   representation: Representation
   selectedTab: SelectedTab
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/AutomationListElement.tsx'
+  )
   const withFeedback = selectedTab === 'with_feedback'
   const isAdminTab = selectedTab === 'admin'
   const ELEMENT_LABELS = useMemo(() => {
@@ -25,14 +29,14 @@ export const AutomationListElement = ({
       admin: <>{fromNow(representation.feedbackAddedAt)}</>,
       with_feedback: (
         <>
-          Last shown
+          {t('adminTab.lastShown')}
           <br />
           {fromNow(representation.lastSubmittedAt)}
         </>
       ),
       without_feedback: (
         <>
-          Last occurence
+          {t('adminTab.lastOccurence')}
           <br />
           {fromNow(representation.lastSubmittedAt)}
         </>
@@ -41,8 +45,18 @@ export const AutomationListElement = ({
 
     return {
       counterElement: withFeedback
-        ? `Shown ${pluralizeNumSubmissions('time')}`
-        : `${pluralizeNumSubmissions('occurrence')}`,
+        ? t(
+            representation.numSubmissions === 1
+              ? 'automationListElement.shownTime'
+              : 'automationListElement.shownTimes',
+            { number: representation.numSubmissions }
+          )
+        : t(
+            representation.numSubmissions === 1
+              ? 'automationListElement.occurenceTime'
+              : 'automationListElement.occurenceTimes',
+            { number: representation.numSubmissions }
+          ),
       dateElement: dateElement[selectedTab],
     }
   }, [
@@ -51,6 +65,7 @@ export const AutomationListElement = ({
     representation.numSubmissions,
     selectedTab,
     withFeedback,
+    t,
   ])
 
   return (
@@ -71,7 +86,10 @@ export const AutomationListElement = ({
           )}
         </div>
         <div className="--track-title">
-          in {representation.track.title} (#{representation.id})
+          {t('automationListElement.inTrackId', {
+            trackTitle: representation.track.title,
+            id: representation.id,
+          })}
         </div>
       </div>
       {isAdminTab && (

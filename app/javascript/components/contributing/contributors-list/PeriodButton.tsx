@@ -1,5 +1,8 @@
+// i18n-key-prefix: contributorsList.periodButton
+// i18n-namespace: components/contributing
 import React, { useCallback } from 'react'
 import { Period } from '../ContributorsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const PeriodButton = ({
   period,
@@ -11,6 +14,7 @@ export const PeriodButton = ({
   current: Period
   setPeriod: (period: Period) => void
 }>): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
   const classNames = ['c-tab-2', period === current ? 'selected' : ''].filter(
     (className) => className.length > 0
   )

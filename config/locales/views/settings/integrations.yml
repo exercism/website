@@ -1,0 +1,28 @@
+en:
+  settings:
+    integrations:
+      heading: Integrations
+      github:
+        heading: GitHub
+        reputation_link_text: reputation
+        external_link_aria_label: (opens in a new tab)
+        linked_info_html: Your Exercism and GitHub accounts are linked. Any pull
+          requests that are merged on GitHub should award you %{reputation_link}
+          on your Exercism account.
+        unlinked_info_html:
+          To be awarded %{reputation_link} on Exercism when you submit
+          pull requests on GitHub, please connect your accounts using the button
+          below.
+        connect_button: Connect with GitHub
+      discord:
+        heading: Discord
+        forum_link_text: the forum
+        linked_info_html:
+          Your Exercism and Discord accounts are linked. You should
+          receive the correct roles on Discord. If you don't, please open an
+          issue on %{forum_link}.
+        disconnect_button: Disconnect from Discord
+        unlinked_info:
+          To be assigned the correct roles on Discord, please connect your
+          Exercism and Discord accounts.
+        connect_button: Connect with Discord

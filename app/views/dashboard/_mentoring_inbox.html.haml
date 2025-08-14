@@ -2,20 +2,19 @@
 
 %section.mentoring-section
   .flex.items-center.mb-12
-    %h3.text-h3 Mentoring
+    %h3.text-h3= t('.title')
     .track-icons.ml-auto
       - track_icon_urls.each do |icon_url|
         = image_tag icon_url, alt: '', class: "c-icon c-track-icon"
 
-
   .discussions
     - discussions.each do |discussion|
-      = link_to mentoring_discussion_path(discussion), "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
+      = link_to mentoring_discussion_path(discussion), "aria-label": t('.discussion_aria_label', student_handle: discussion.student.handle), class: 'c-mentor-discussion-summary' do
         = avatar(discussion.student)
         .info
           .handle= discussion.student.handle
-          .exercise on #{discussion.exercise.title}
-        %time #{time_ago_in_words(discussion.updated_at, short: true)} ago
+          .exercise= t('.exercise_on', exercise_title: discussion.exercise.title)
+        %time= t('.time_ago', time_ago: time_ago_in_words(discussion.updated_at, short: true))
         = graphical_icon :"chevron-right", css_class: "action-icon"
 
-  = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)
+  = render ViewComponents::ProminentLink.new(t('.see_all_mentoring_link'), mentoring_inbox_path)

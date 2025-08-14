@@ -1,14 +1,18 @@
+// i18n-key-prefix: unlockHelpButton
+// i18n-namespace: components/track/UnlockHelpButton.tsx
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function UnlockHelpButton({
   unlockUrl,
 }: {
   unlockUrl: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/track/UnlockHelpButton.tsx')
   function UnlockHelp() {
     const { fetch } = sendRequest({
       endpoint: unlockUrl,
@@ -18,9 +22,7 @@ export function UnlockHelpButton({
     return fetch
   }
 
-  const DEFAULT_ERROR = new Error(
-    'There was an error unlocking help, please try again!'
-  )
+  const DEFAULT_ERROR = new Error(t('unlockHelpButton.defaultError'))
 
   const ErrorMessage = ({ error }: { error: unknown }) => {
     useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -55,7 +57,7 @@ export function UnlockHelpButton({
         onClick={() => unlockHelp()}
       >
         <GraphicalIcon icon="unlock" width={14} height={14} className="mr-8" />
-        Unlock this tab
+        {t('unlockHelpButton.unlockThisTab')}
       </button>
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>

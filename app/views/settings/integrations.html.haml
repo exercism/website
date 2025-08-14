@@ -3,51 +3,28 @@
     = render ViewComponents::SettingsNav.new(:integrations)
 
     %article
-      %h1 Integrations
+      %h1= t('.integrations.heading')
       %section.github-section.flex.flex-col.items-start
-        %h2{ class: "!mb-4" } GitHub
+        %h2{ class: "!mb-4" }= t('.integrations.github.heading')
         - if current_user.provider.present?
           %p.text-16.leading-140
-            Your Exercism and GitHub accounts are linked. Any pull requests that are merged on GitHub should award you
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on your Exercism account.
+            = t('.integrations.github.linked_info_html', reputation_link: link_to(t('integrations.github.reputation_link_text'), doc_path(:using, "product/reputation"), class: 'external-link') + icon("external-link", t('integrations.github.external_link_aria_label'))).html_safe
         - else
           %p.text-16.leading-140.mb-16
-            To be awarded
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on Exercism when you submit pull requests on GitHub, please connect your accounts using the button below.
-          = button_to omniauth_authorize_path(:user, :github),
-            form_class: "github-btn",
-            class: "btn-enhanced btn-m",
-            method: :post,
-            data: { turbo: false } do
+            = t('.integrations.github.unlinked_info_html', reputation_link: link_to(t('integrations.github.reputation_link_text'), doc_path(:using, "product/reputation"), class: 'external-link') + icon("external-link", t('integrations.github.external_link_aria_label'))).html_safe
+          = button_to omniauth_authorize_path(:user, :github), form_class: "github-btn", class: "btn-enhanced btn-m", method: :post, data: { turbo: false } do
             = graphical_icon 'external-site-github'
-            %span Connect with GitHub
+            %span= t('.integrations.github.connect_button')
 
       %section.github-section.flex.flex-col.items-start
-        %h2{ class: "!mb-4" } Discord
+        %h2{ class: "!mb-4" }= t('.integrations.discord.heading')
         - if current_user.discord_uid.present?
           %p.text-16.leading-140.mb-16
-            Your Exercism and Discord accounts are linked.
-            You should receive the correct roles on Discord.
-            If you don't, please open an issue on #{link_to 'the forum', forum_redirect_url, class: 'text-linkColor font-semibold'}.
-          = button_to "Disconnect from Discord",
-            disconnect_discord_settings_path,
-            form_class: "discord-btn",
-            class: "btn-enhanced btn-m",
-            method: :delete,
-            data: { turbo: false }
+            = t('.integrations.discord.linked_info_html', forum_link: link_to(t('integrations.discord.forum_link_text'), forum_redirect_url, class: 'text-linkColor font-semibold')).html_safe
+          = button_to t('.integrations.discord.disconnect_button'), disconnect_discord_settings_path, form_class: "discord-btn", class: "btn-enhanced btn-m", method: :delete, data: { turbo: false }
         - else
           %p.text-16.leading-140.mb-16
-            To be assigned the correct roles on Discord, please connect your Exercism and Discord accounts.
-          = button_to omniauth_authorize_path(:user, :discord),
-            form_class: "discord-btn",
-            class: "btn-enhanced btn-m !bg-discordBlue !text-white",
-            method: :post,
-            data: { turbo: false } do
+            = t('.integrations.discord.unlinked_info')
+          = button_to omniauth_authorize_path(:user, :discord), form_class: "discord-btn", class: "btn-enhanced btn-m !bg-discordBlue !text-white", method: :post, data: { turbo: false } do
             = graphical_icon 'external-site-discord', css_class: '!filter-none'
-            %span Connect with Discord
+            %span= t('.integrations.discord.connect_button')

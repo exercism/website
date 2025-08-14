@@ -1,5 +1,8 @@
+// i18n-key-prefix: exerciseStatusTag
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import { Exercise, Size } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ExerciseStatusTag = ({
   exercise,
@@ -8,6 +11,7 @@ export const ExerciseStatusTag = ({
   exercise: Exercise
   size?: Size
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
   if (exercise.isExternal) {
     return <></>
   }
@@ -17,19 +21,19 @@ export const ExerciseStatusTag = ({
   if (exercise.isRecommended) {
     return (
       <div className={`c-exercise-status-tag --recommended ${sizeClassName}`}>
-        Recommended
+        {t('exerciseStatusTag.recommended')}
       </div>
     )
   } else if (exercise.isUnlocked) {
     return (
       <div className={`c-exercise-status-tag --available ${sizeClassName}`}>
-        Available
+        {t('exerciseStatusTag.available')}
       </div>
     )
   } else {
     return (
       <div className={`c-exercise-status-tag --locked ${sizeClassName}`}>
-        Locked
+        {t('exerciseStatusTag.locked')}
       </div>
     )
   }

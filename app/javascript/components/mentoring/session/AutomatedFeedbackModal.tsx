@@ -11,6 +11,7 @@ import type {
   MentorSessionTrack,
   RepresenterFeedback as RepresenterFeedbackProps,
 } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load automated feedback')
 
@@ -29,6 +30,7 @@ export const AutomatedFeedbackModal = ({
   iteration,
   ...props
 }: Omit<ModalProps, 'className'> & { iteration: Iteration }): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-1')
   const { data, status, error } = useRequestQuery<APIResponse>(
     ['automated-feedback', iteration.links.automatedFeedback],
     { endpoint: iteration.links.automatedFeedback, options: {} }
@@ -44,9 +46,16 @@ export const AutomatedFeedbackModal = ({
         <header>
           <GraphicalIcon icon="automation" />
           <div className="info">
-            <h2 className="text-h5">Automated Analysis</h2>
+            <h2 className="text-h5">
+              {t(
+                'components.mentoring.session.automatedFeedbackModal.automatedAnalysis'
+              )}
+            </h2>
             <div className="text-textColor6 text-15 leading-150">
-              for Iteration {iteration.idx}
+              {t(
+                'components.mentoring.session.automatedFeedbackModal.forIteration',
+                { iteration: iteration.idx }
+              )}
             </div>
           </div>
         </header>
@@ -71,6 +80,14 @@ export const AutomatedFeedbackModal = ({
   )
 }
 
-const LoadingComponent = (): JSX.Element => (
-  <Icon icon="spinner" alt="Loading automated feedback" />
-)
+const LoadingComponent = (): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-1')
+  return (
+    <Icon
+      icon="spinner"
+      alt={t(
+        'components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback'
+      )}
+    />
+  )
+}

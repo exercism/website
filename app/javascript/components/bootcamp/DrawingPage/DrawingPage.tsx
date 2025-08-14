@@ -1,3 +1,5 @@
+// i18n-key-prefix: drawingPage
+// i18n-namespace: components/bootcamp/DrawingPage
 import React, { useMemo, useState } from 'react'
 import { Header, StudentCodeGetter } from './Header/Header'
 import {
@@ -11,6 +13,7 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 import Scrubber from '../JikiscriptExercisePage/Scrubber/Scrubber'
 import { debounce } from 'lodash'
 import { useSetupDrawingPage } from './useSetupDrawingPage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function DrawingPage({
   drawing,
@@ -18,6 +21,7 @@ export default function DrawingPage({
   links,
   backgrounds,
 }: DrawingPageProps) {
+  const { t } = useAppTranslation('components/bootcamp/DrawingPage')
   const [savingStateLabel, setSavingStateLabel] = useState<string>('')
 
   const {
@@ -54,9 +58,9 @@ export default function DrawingPage({
 
   const patchCodeOnDebounce = useMemo(() => {
     return debounce(() => {
-      setSavingStateLabel('Saving...')
+      setSavingStateLabel(t('drawingPage.saving'))
       patchDrawingCode(links, getStudentCode).then(() =>
-        setSavingStateLabel('Saved')
+        setSavingStateLabel(t('drawingPage.saved'))
       )
     }, 5000)
   }, [setEditorLocalStorageValue])

@@ -1,3 +1,5 @@
+// i18n-key-prefix: showResultToast
+// i18n-namespace: components/bootcamp/CSSExercisePage/LHS
 import React from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
@@ -8,6 +10,8 @@ import {
 } from '../store/cssExercisePageStore'
 import { CheckResult } from '../checks/runChecks'
 import GraphicalIcon from '@/components/common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const STATUS_COLORS: Record<AssertionStatus, { border: string; text: string }> =
   {
@@ -67,6 +71,8 @@ function ToastText({
   percentage: number
   firstFailingCheck?: CheckResult | null
 }) {
+  const { t } = useAppTranslation('components/bootcamp/CSSExercisePage/LHS')
+
   if (firstFailingCheck) {
     return (
       <TextBlock
@@ -80,7 +86,7 @@ function ToastText({
     return (
       <TextBlock
         status={status}
-        textHtml={`Your output isn't exactly the same as the target yet (${percentage}%).`}
+        textHtml={t('showResultToast.outputNotSame', { percentage })}
       />
     )
   }
@@ -92,16 +98,23 @@ function ToastText({
         className={assembleClassNames('font-medium px-8 py-4')}
       >
         <p className="text-14 leading-160">
-          You're currently at {percentage}%. You can <strong> complete </strong>{' '}
-          the exercise if you have invested as much energy as you want to into
-          it. But you might like to try to get to <strong>100%</strong> still!
+          <Trans
+            i18nKey="showResultToast.completeExercise"
+            values={{ percentage }}
+            components={{
+              strong: <strong />,
+            }}
+          />
         </p>
       </div>
     )
   }
 
   return (
-    <TextBlock status={status} textHtml="Congrats! All checks are passing!" />
+    <TextBlock
+      status={status}
+      textHtml={t('showResultToast.congratsAllChecksPassing')}
+    />
   )
 }
 

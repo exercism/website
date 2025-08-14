@@ -1,0 +1,9 @@
+en:
+  journey:
+    hero:
+      privacy:
+        private: Private
+        explanation: No-one else can see this but you
+      title: Your Journey
+      subtitle: Exploring your time on Exercism
+      more_tracks: + %{count} more

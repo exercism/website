@@ -5,6 +5,7 @@ import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePage/Jiki
 import { GraphicalIcon } from '@/components/common'
 import { CustomFunctionContext } from '../CustomFunctionEditor'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 Modal.setAppElement('body')
 
@@ -22,6 +23,9 @@ export function ManageCustomFunctionsModal({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   onChange?: () => void
 }) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/CustomFunctionEditor/Header'
+  )
   const {
     availableCustomFunctions,
     getIsFunctionActivated,
@@ -62,10 +66,11 @@ export function ManageCustomFunctionsModal({
       className="solve-exercise-page-react-modal-content custom-function-selector flex flex-col w-fill max-w-[540px]"
       overlayClassName="solve-exercise-page-react-modal-overlay"
     >
-      <h2 className="text-h3">Import Library Functions</h2>
+      <h2 className="text-h3">
+        {t('manageCustomFunctionsModal.importLibraryFunctions')}
+      </h2>
       <p className="text-p-large mb-12">
-        Select the library functions you want to make available to use in your
-        code.
+        {t('manageCustomFunctionsModal.selectLibraryFunctions')}
       </p>
       <div className="flex flex-col gap-8 mb-12 overflow-y-auto mr-[-32px] pr-32">
         {hasMetadata ? (
@@ -91,11 +96,11 @@ export function ManageCustomFunctionsModal({
             )
           })
         ) : (
-          <div>There are no library functions yet.</div>
+          <div>{t('manageCustomFunctionsModal.noLibraryFunctionsYet')}</div>
         )}
       </div>
       <button onClick={() => setIsOpen(false)} className="btn-default btn-m">
-        Save & Close
+        {t('manageCustomFunctionsModal.saveAndClose')}
       </button>
     </Modal>
   )
@@ -135,6 +140,9 @@ function CustomFunctionMetadata({
 
 function DependsOnCurrentFunctionText() {
   const customFunction = useContext(CustomFunctionContext)
+  const { t } = useAppTranslation(
+    'components/bootcamp/CustomFunctionEditor/Header'
+  )
 
   if (!customFunction) {
     return null
@@ -142,8 +150,9 @@ function DependsOnCurrentFunctionText() {
 
   return (
     <div className="mt-8 font-semibold text-[#cc5500]">
-      This function depends on <code>{customFunction.name}</code>, so it cannot
-      be imported.
+      {t('dependsOnCurrentFunctionText.dependsOnFunction', {
+        customFunctionName: customFunction.name,
+      })}
     </div>
   )
 }

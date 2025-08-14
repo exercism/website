@@ -1,9 +1,13 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/InsiderBenefitsForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { FormMessage } from './FormMessage'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   update: string
@@ -25,6 +29,7 @@ export default function InsiderBenefitsForm({
   insidersStatus: string
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
   const [hideAdverts, setHideAdverts] = useState(
     defaultPreferences.hideWebsiteAdverts
   )
@@ -61,7 +66,7 @@ export default function InsiderBenefitsForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2 className="!mb-8">Insider Benefits</h2>
+      <h2 className="!mb-8">{t('insiderBenefits.insiderBenefits')}</h2>
       <InfoMessage
         isInsider={isInsider}
         insidersStatus={insidersStatus}
@@ -78,7 +83,7 @@ export default function InsiderBenefitsForm({
           <div className="c-checkbox">
             <GraphicalIcon icon="checkmark" />
           </div>
-          Hide website adverts
+          {t('insiderBenefits.hideWebsiteAdverts')}
         </div>
       </label>
       <div className="form-footer">
@@ -87,7 +92,7 @@ export default function InsiderBenefitsForm({
           status={status}
           className="btn-primary btn-m"
         >
-          Change preferences
+          {t('insiderBenefits.changePreferences')}
         </FormButton>
         <FormMessage
           status={status}
@@ -101,10 +106,11 @@ export default function InsiderBenefitsForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your preferences have been updated
+      {t('insiderBenefits.preferencesUpdated')}
     </div>
   )
 }
@@ -118,11 +124,12 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+
   if (isInsider) {
     return (
       <p className="text-p-base mb-16">
-        Thanks for being an Exercism Insider! Here are some extra settings
-        exclusively for you.
+        {t('insiderBenefits.thanksForBeingInsider')}
       </p>
     )
   }
@@ -132,24 +139,26 @@ export function InfoMessage({
     case 'eligible_lifetime':
       return (
         <p className="text-p-base mb-16">
-          You&apos;re eligible to join Insiders.{' '}
-          <a href={insidersPath}>Get started here.</a>
+          <Trans
+            ns="components/settings/InsiderBenefitsForm.tsx"
+            i18nKey="insiderBenefits.eligibleToJoin"
+            components={{ link: <a href={insidersPath} /> }}
+          />
         </p>
       )
     default:
       return (
         <>
           <p className="text-p-base mb-12">
-            These are exclusive options for Exercism Insiders.&nbsp;
+            {t('insiderBenefits.exclusiveOptions')}
           </p>
           <p className="text-p-base mb-12">
             <strong>
               <a className="text-prominentLinkColor" href={insidersPath}>
-                Donate to Exercism
+                {t('insiderBenefits.donateToExercism')}
               </a>
             </strong>{' '}
-            to become an Insider to access benefits such as Dark Mode, ChatGPT
-            integration, an advert-free experience, and more.
+            {t('insiderBenefits.becomeInsider')}
           </p>
         </>
       )

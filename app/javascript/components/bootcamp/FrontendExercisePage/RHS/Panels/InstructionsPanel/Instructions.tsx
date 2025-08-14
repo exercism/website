@@ -1,8 +1,12 @@
 import React from 'react'
 import { useContext } from 'react'
 import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Instructions() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/FrontendExercisePage/RHS'
+  )
   const { exercise } = useContext(FrontendExercisePageContext)
 
   return (
@@ -12,7 +16,8 @@ export function Instructions() {
       <div
         dangerouslySetInnerHTML={{
           __html:
-            exercise.introductionHtml || '<p>Instructions are missing</p>',
+            exercise.introductionHtml ||
+            t('panels.instructionsPanel.instructions.instructionsAreMissing'),
         }}
       />
     </div>

@@ -1,0 +1,12 @@
+en:
+  devise:
+    sessions:
+      new:
+        exercism_logo_alt: Exercism's Logo
+        tagline: Code practice and mentorship for everyone
+        log_in_with_github: Log In with GitHub
+        or_divider: or
+        email_placeholder: Enter your email address
+        password_placeholder: Enter your password
+        forgot_your_password_link: Forgot your password?
+        log_in_button: Log In

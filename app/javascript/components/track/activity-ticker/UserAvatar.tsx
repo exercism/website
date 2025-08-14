@@ -1,12 +1,16 @@
+// i18n-key-prefix: userAvatar
+// i18n-namespace: components/track/activity-ticker
 import React from 'react'
 import type { MetricUser } from '@/components/types'
 import GraphicalIcon from '@/components/common/GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function UserAvatar({
   user,
 }: {
   user?: MetricUser
 }): JSX.Element | null {
+  const { t } = useAppTranslation('components/track/activity-ticker')
   if (!user)
     return (
       <div className="w-[36px] h-[36px] mr-12 mt-6">
@@ -22,7 +26,7 @@ export function UserAvatar({
     <div className="w-[36px] h-[36px] mr-12 mt-6">
       <img
         src={user.avatarUrl}
-        alt={`${user.handle}'s avatar`}
+        alt={t('userAvatar.userAvatar', { handle: user.handle })}
         className="w-[36px] h-[36px] rounded-circle"
       />
     </div>

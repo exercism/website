@@ -2,6 +2,7 @@ import React from 'react'
 import { Checkbox } from '@/components/common'
 import { TagArray } from './ExerciseTagFilter.types'
 import { capitalize } from '@/utils/capitalize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ExerciseTagFilterGroup({
   tagGroup,
@@ -14,9 +15,14 @@ export function ExerciseTagFilterGroup({
   handleToggleTag: (tagName: string, isChecked: boolean) => void
   groupName: string
 }) {
+  const { t } = useAppTranslation(
+    'components/track/exercise-community-solutions-list'
+  )
   return (
     <div className="flex flex-col gap-8">
-      <h3 className="text-16 font-semibold mb-2">Filter by {groupName}</h3>
+      <h3 className="text-16 font-semibold mb-2">
+        {t('exerciseTagFilter.exerciseTagFilterGroup.filterBy', { groupName })}
+      </h3>
 
       {tagGroup.map((tagName, index) => (
         <Checkbox

@@ -1,0 +1,14 @@
+en:
+  donations_mailer:
+    payment_created:
+      greeting: Hi %{user_handle},
+      thank_you_message:
+        Thank you for your donation! Exercism exists to bring the joy
+        of programming to everyone, everywhere. Your donation helps make
+        everything we do possible.
+      view_donations_message:
+        You can see all the donations you've made to Exercism,
+        and download your receipts, in your Settings page. If you have any
+        questions about your donation, please reply to this email.
+      closing_thank_you: Thank you again!
+      button_text: View your donations

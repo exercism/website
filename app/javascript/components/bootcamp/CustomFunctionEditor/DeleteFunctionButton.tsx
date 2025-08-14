@@ -1,28 +1,42 @@
+// i18n-key-prefix: deleteFunctionButton
+// i18n-namespace: components/bootcamp/CustomFunctionEditor
 import React, { useCallback, useContext } from 'react'
 import toast from 'react-hot-toast'
 import { redirectTo } from '@/utils/redirect-to'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function DeleteFunctionButton({ predefined }: { predefined: boolean }) {
+  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   const { links } = useContext(JikiscriptExercisePageContext)
 
   const handleDeleteCustomFunction = useCallback(() => {
     const url = links.updateCustomFns as string
     const customFnDashboardUrl = links.customFnsDashboard as string
 
-    if (window.confirm('Are you sure you want to delete this function?')) {
+    if (
+      window.confirm(
+        t('deleteFunctionButton.areYouSureYouWantToDeleteThisFunction')
+      )
+    ) {
       deleteCustomFunction(url)
         .then(() => {
           toast.success(
-            'Deleted custom function successfully. Redirecting you to the dashboard..'
+            t(
+              'deleteFunctionButton.deletedCustomFunctionSuccessfullyRedirectingYouToTheDashboard'
+            )
           )
           setTimeout(() => redirectTo(customFnDashboardUrl), 1000)
         })
         .catch((e) => {
-          toast.error("Couldn't delete custom function. Please try it again.")
+          toast.error(
+            t(
+              'deleteFunctionButton.couldntDeleteCustomFunctionPleaseTryItAgain'
+            )
+          )
         })
     }
-  }, [links])
+  }, [links, t])
 
   if (predefined) {
     return null
@@ -30,7 +44,7 @@ export function DeleteFunctionButton({ predefined }: { predefined: boolean }) {
 
   return (
     <button onClick={handleDeleteCustomFunction} className="btn-alert btn-xxs">
-      Delete
+      {t('deleteFunctionButton.delete')}
     </button>
   )
 }

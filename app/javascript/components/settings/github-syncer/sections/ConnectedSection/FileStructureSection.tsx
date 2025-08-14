@@ -1,3 +1,5 @@
+// i18n-key-prefix: fileStructureSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useCallback, useState } from 'react'
 import { flushSync } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -6,8 +8,13 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function FileStructureSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links, isUserInsider, syncer, defaultPathTemplate } =
     React.useContext(GitHubSyncerContext)
 
@@ -63,33 +70,49 @@ export function FileStructureSection() {
 
   return (
     <section className={isUserInsider ? '' : 'disabled'}>
-      <SectionHeader title="File structure" />
+      <SectionHeader title={t('fileStructureSection.fileStructure')} />
       <p className="text-18 leading-150 mb-16">
-        Use this option to configure the folder structure for your repository.
+        {t('fileStructureSection.configureFolderStructure')}
       </p>
       <p className="text-16 leading-150 mb-12">
-        You can use the following placeholder values, which will be interpolated
-        for each commit:
+        {t('fileStructureSection.placeholderValues')}
       </p>
 
       <ul className="text-16 leading-150 mb-16">
         <li>
-          <code>$track_slug</code>: The slug of the track (e.g. "csharp").
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.trackSlug"
+            components={{ code: <code /> }}
+          />
         </li>
         <li>
-          <code>$track_title</code>: The name of the track (e.g. "C#")
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.trackTitle"
+            components={{ code: <code /> }}
+          />
         </li>
         <li>
-          <code>$exercise_slug</code>: The slug of the exercise (e.g.
-          "hello-world")
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.exerciseSlug"
+            components={{ code: <code /> }}
+          />
         </li>
         <li>
-          <code>$exercise_title</code>: The name of the exercise (e.g. "Hello
-          World")
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.exerciseTitle"
+            components={{ code: <code /> }}
+          />
         </li>
         <li>
-          <code>$iteration_idx</code>: The iteration index of the exercise (e.g.
-          "1")
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.iterationIdx"
+            components={{ code: <code /> }}
+          />
         </li>
       </ul>
       <input
@@ -106,24 +129,29 @@ export function FileStructureSection() {
         }}
       />
       <p className="text-16 leading-150 mb-12">
-        <strong className="font-medium">Note 1:</strong> Your path must contain
-        a track placeholder (<code>$track_slug</code> or{' '}
-        <code>$track_title</code>) and an exercise placeholder (
-        <code>$exercise_slug</code> or <code>$exercise_title</code>.
+        <Trans
+          i18nKey="fileStructureSection.note1YourPath"
+          ns="components/settings/github-syncer/sections/ConnectedSection"
+          components={{
+            code: <code />,
+            strong: <strong className="font-medium" />,
+          }}
+        />
       </p>
       <p className="text-16 leading-150 mb-16">
-        <strong className="font-medium">Note 2:</strong> The
-        <code>$iteration_idx</code> placeholder is optional, but if you omit it,
-        each iteration will override the previous one. This allows you to use
-        Git for version controlling your solutions. Including the iteration
-        index will result in a different folder for every iteration.
+        <Trans
+          i18nKey="fileStructureSection.note2Iteration"
+          ns="components/settings/github-syncer/sections/ConnectedSection"
+          components={{
+            code: <code />,
+            strong: <strong className="font-medium" />,
+          }}
+        />
       </p>
 
       {isTemplateInvalid && (
         <div className="text-orange font-semibold mb-16">
-          Your path template must include either <code>$track_slug</code> or{' '}
-          <code>$track_title</code>, and either <code>$exercise_slug</code> or{' '}
-          <code>$exercise_title</code>.
+          {t('fileStructureSection.pathTemplateMustInclude')}
         </div>
       )}
 
@@ -133,7 +161,7 @@ export function FileStructureSection() {
           className="btn btn-primary"
           onClick={() => handleSaveChanges(pathTemplate)}
         >
-          Save changes
+          {t('fileStructureSection.saveChanges')}
         </button>
 
         <button
@@ -141,13 +169,13 @@ export function FileStructureSection() {
           className="btn btn-secondary"
           onClick={() => setIsRevertPathTemplateModalOpen(true)}
         >
-          Revert to default
+          {t('fileStructureSection.revertToDefault')}
         </button>
       </div>
       <ConfirmationModal
-        title="Are you sure you want to revert your path template to default?"
-        confirmLabel="Revert"
-        declineLabel="Cancel"
+        title={t('fileStructureSection.areYouSureWantRevert')}
+        confirmLabel={t('fileStructureSection.revert')}
+        declineLabel={t('fileStructureSection.cancel')}
         onConfirm={handleRevertPathTemplate}
         open={isRevertPathTemplateModalOpen}
         onClose={() => setIsRevertPathTemplateModalOpen(false)}

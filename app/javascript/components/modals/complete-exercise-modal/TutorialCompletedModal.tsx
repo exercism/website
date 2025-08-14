@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal } from '../Modal'
 import { GraphicalIcon } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TutorialCompletedModal = ({
   open,
@@ -10,6 +11,8 @@ export const TutorialCompletedModal = ({
   open: boolean
   completion: ExerciseCompletion
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+
   return (
     <Modal
       cover={true}
@@ -18,27 +21,36 @@ export const TutorialCompletedModal = ({
       onClose={() => {}}
     >
       <GraphicalIcon icon="hello-world" category="graphics" />
-      <h2>You’ve completed “{completion.exercise.title}”</h2>
+      <h2>
+        {t('tutorialCompletedModal.youHaveCompleted', {
+          exerciseTitle: completion.exercise.title,
+        })}
+      </h2>
       <h3>
-        This is just the start of your journey on the {completion.track.title}{' '}
-        track 🚀
+        {t('tutorialCompletedModal.journeyStart', {
+          trackTitle: completion.track.title,
+        })}
       </h3>
       <p>
-        You’re now ready to get stuck into some{' '}
-        <a href={completion.track.links.exercises}>real exercises</a>.
+        {t('tutorialCompletedModal.readyToGetStuck')}
+        <a href={completion.track.links.exercises}>
+          {t('tutorialCompletedModal.realExercises')}
+        </a>
+        .
         {completion.track.course ? (
           <>
             <br />
-            We’ve also revealed {completion.track.title}’s{' '}
-            {completion.track.numConcepts} concepts for you to take a look at.
+            {t('tutorialCompletedModal.weHaveAlsoRevealed', {
+              trackTitle: completion.track.title,
+              conceptCount: completion.track.numConcepts,
+            })}
           </>
         ) : (
           ''
         )}
       </p>
       <div className="info">
-        Once you start your next exercise, you’ll have access to the mentoring
-        section on your track too.
+        {t('tutorialCompletedModal.accessToMentoring')}
       </div>
       <div className="btns">
         {completion.track.course ? (
@@ -46,7 +58,7 @@ export const TutorialCompletedModal = ({
             href={completion.track.links.concepts}
             className="btn-primary btn-m"
           >
-            <span>Show me the Concepts</span>
+            <span>{t('tutorialCompletedModal.showMeConcepts')}</span>
             <GraphicalIcon icon="arrow-right" />
           </a>
         ) : (
@@ -58,7 +70,9 @@ export const TutorialCompletedModal = ({
           </a>
         )}
         <a href={completion.exercise.links.self} className="btn">
-          Return to “{completion.exercise.title}”
+          {t('tutorialCompletedModal.returnToTutorial', {
+            exerciseTitle: completion.exercise.title,
+          })}
         </a>
       </div>
     </Modal>

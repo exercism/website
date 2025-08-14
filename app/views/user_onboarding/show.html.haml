@@ -11,53 +11,44 @@
 
       %header
         .content
-          %h1 Just before you get started… 📝
+          %h1= t('.header.title')
           %p
-            We&apos;re so excited you&apos;re here and hope that Exercism will be a valuable and fun experience for you.
-            %strong We need to get a couple of quick legal bits out of the way to ensure you get the experience you expect, and to protect our community.
+            = t('.header.subtitle_html').html_safe
 
         = graphical_icon "laptop-woman-1", category: 'graphics'
 
       %section.terms
-        %h2 Our Terms of Service
+        %h2= t('.terms_section.title')
         .box
-          %p In summary, our Terms of Service say that:
+          %p= t('.terms_section.summary')
           %ul
             %li
-              You must act in a way that is in line with Exercism's values of respect and empathy per our #{external_link_to 'Code of conduct', code_of_conduct_path}.
-              If you do not, we have the right to block your usage of the platform.
+              = t('.terms_section.code_of_conduct_html', code_of_conduct_link: external_link_to('Code of conduct', code_of_conduct_path)).html_safe
             %li
-              Anything you submit to the site (e.g. your solutions, feedback, etc) remains your property, but you grant Exercism a licence to use it as we wish in perpetuity.
+              = t('.terms_section.property_license')
             %li
-              You may use exercises (provided by Exercism) and solutions (created by users) in accordance with the
-              = external_link_to "MIT", mit_licence_path
-              and
-              = external_link_to "CC-BY-SA-4.0", cc_sa_4_licence_path
-              licences respectively.
+              = t('.terms_section.licences_html', mit_license_link: external_link_to('MIT', mit_licence_path), cc_sa_4_license_link: external_link_to('CC-BY-SA-4.0', cc_sa_4_licence_path)).html_safe
 
-          %p You can read our full #{external_link_to 'Terms of Service', terms_of_service_path}.
+          %p= t('.terms_section.full_terms_html', terms_of_service_link: external_link_to('Terms of Service', terms_of_service_path)).html_safe
 
           %label.c-checkbox-wrapper
             = f.check_box :terms_of_service, required: true
             .row
               .c-checkbox
                 = graphical_icon :checkmark
-              %span I accept Exercism's Terms of Service
+              %span= t('.terms_section.accept_terms')
 
       %section.terms
-        %h2 Privacy Policy
+        %h2= t('.privacy_policy_section.title')
         .box
           %p
-            Our Privacy Policy is nice and simple. It says that
-            %strong we will never share your details with anyone outside of Exercism,
-            and that we don't use third-party cookies, so no-one will track you here.
-            You can #{external_link_to 'read it in full here', privacy_policy_path}.
+            = t('.privacy_policy_section.summary_html', privacy_policy_link: external_link_to('read it in full here', privacy_policy_path)).html_safe
 
           %label.c-checkbox-wrapper
             = f.check_box :privacy_policy, required: true
             .row
               .c-checkbox
                 = graphical_icon :checkmark
-              %span I accept Exercism's Privacy Policy
+              %span= t('.privacy_policy_section.accept_privacy_policy')
 
-      = f.button "Save & Get Started", class: "btn-primary btn-m"
+      = f.button t('.save_button'), class: "btn-primary btn-m"

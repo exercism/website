@@ -1,3 +1,5 @@
+// i18n-key-prefix: begModal
+// i18n-namespace: components/modals/BegModal.tsx
 import React, { lazy, Suspense, useCallback, useState } from 'react'
 import currency from 'currency.js'
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
@@ -8,6 +10,7 @@ import SuccessModal from '../donations/SuccessModal'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 const Form = lazy(() => import('@/components/donations/Form'))
 
 export default function ({
@@ -22,6 +25,7 @@ export default function ({
   const [isModalOpen, setIsModalOpen] = useState(true)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
+  const { t } = useAppTranslation('components/modals/BegModal.tsx')
 
   const handleSuccess = useCallback(
     (_type: PaymentIntentType, amount: currency) => {
@@ -29,7 +33,7 @@ export default function ({
       setPaymentAmount(amount)
       setIsSuccessModalOpen(true)
     },
-    []
+    [setIsModalOpen, setPaymentAmount, setIsSuccessModalOpen]
   )
 
   const {
@@ -53,7 +57,7 @@ export default function ({
 
   const handleContinueWithoutDonating = useCallback(() => {
     hideIntroducer()
-  }, [])
+  }, [hideIntroducer])
 
   const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -77,26 +81,20 @@ export default function ({
         >
           <div className="lg:mr-64 mr-0 lg:max-w-[700px] max-w-full">
             <h3 className="text-h4 mb-4 text-prominentLinkColor">
-              Sorry to disturb, but...
+              {t('begModal.sorryToDisturb')}
             </h3>
-            <h1 className="text-h1 mb-12">We need your help!</h1>
+            <h1 className="text-h1 mb-12">{t('begModal.weNeedYourHelp')}</h1>
 
             <div className="mb-20 pb-20 border-b-1 border-borderColor7">
               {previousDonor ? <PreviousDonorContent /> : <NonDonorContent />}
             </div>
 
-            <h3 className="text-h4 mb-6">Can't afford it?</h3>
-            <p className="text-p-large mb-20">
-              If you can&apos;t afford to donate, but would like to help in some
-              other way, please share Exercism with your friends and colleagues,
-              and shout about us on social media. The more people that use us,
-              the more donations we get!
-            </p>
+            <h3 className="text-h4 mb-6">{t('begModal.cantAffordIt')}</h3>
+            <p className="text-p-large mb-20">{t('begModal.shareExercism')}</p>
 
-            <h3 className="text-h4 mb-6">Want to know more?</h3>
+            <h3 className="text-h4 mb-6">{t('begModal.wantToKnowMore')}</h3>
             <p className="text-p-large mb-20">
-              I put together a short video that explains why we need donations
-              and how we use them 👇
+              {t('begModal.explainsWhyWeNeedDonations')}
             </p>
 
             <div className="c-youtube-container mb-32">
@@ -130,8 +128,7 @@ export default function ({
 
             <div className="lg:w-[564px] w-100 border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
               <p className="text-gradient font-semibold leading-160 text-17">
-                Fewer than 1% of who use Exercism choose to donate. If you can
-                afford to do so, please be one of them.
+                {t('begModal.fewerThan1Percent')}
               </p>
             </div>
           </div>
@@ -141,7 +138,7 @@ export default function ({
             onClick={handleContinueWithoutDonating}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24"
           >
-            Continue without donating
+            {t('begModal.continueWithoutDonating')}
           </button>
           <ErrorBoundary resetKeys={[status]}>
             <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
@@ -158,47 +155,43 @@ export default function ({
 }
 
 export function PreviousDonorContent() {
+  const { t } = useAppTranslation('components/modals/BegModal.tsx')
   return (
     <>
       <p className="text-p-large mb-12">
-        You're one of the few people who have donated to Exercism. Thank you so
-        much for supporting us 💙
+        {t('begModal.previousDonorContent.thankYou')}
       </p>
       <p className="text-p-large mb-12">
-        I hate to ask you again (😔), but we really need your support. Exercism
-        isn't covering its costs and we really need your help. If you're
-        enjoying Exercism and can afford it,{' '}
+        {t('begModal.previousDonorContent.hateToAskAgain')}
         <strong className="font-medium">
-          please consider donating a few more dollars{' '}
+          {t('begModal.previousDonorContent.pleaseConsiderDonating')}
         </strong>
-        to support us.
+        {t('begModal.previousDonorContent.toSupportUs')}
       </p>
 
       <p className="text-p-large">
-        If possible, a monthly donation would be extra helpful! It takes 30
-        seconds to setup using the form on the right 👉
+        {t('begModal.previousDonorContent.monthlyDonationHelpful')}
       </p>
     </>
   )
 }
 
 export function NonDonorContent() {
+  const { t } = useAppTranslation('components/modals/BegModal.tsx')
   return (
     <>
       <p className="text-p-large mb-12">
-        Exercism relies on donations. But right now we don't have enough 😔
+        {t('begModal.nonDonorContent.exercismReliesOnDonations')}
       </p>
       <p className="text-p-large mb-12">
-        Most people who use Exercism can't afford to donate. But if you can, and
-        you're finding Exercism useful,{' '}
+        {t('begModal.nonDonorContent.mostPeopleCantAfford')}
         <strong className="font-medium">
-          please consider donating a few dollars{' '}
+          {t('begModal.nonDonorContent.pleaseConsiderDonating')}
         </strong>
-        so that we can keep it free for those who can't afford it.
+        {t('begModal.nonDonorContent.soThatWeCanKeepItFree')}
       </p>
       <p className="text-p-large">
-        If only 1% of our users support us regularly, we'll be able to cover our
-        costs. It takes 30 seconds to donate, using the form on the right 👉
+        {t('begModal.nonDonorContent.only1Percent')}
       </p>
     </>
   )

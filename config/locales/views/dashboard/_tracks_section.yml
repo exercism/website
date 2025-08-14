@@ -1,0 +1,10 @@
+en:
+  dashboard:
+    tracks_section:
+      title: Your Tracks
+      track_count_aria_label:
+        one: 1 Track
+        other: "%{count} Tracks"
+      exercises_completed: "%{completed} / %{total} exercises completed"
+      view_all_tracks_link: View all your tracks
+      discover_more_tracks_link: Discover more tracks

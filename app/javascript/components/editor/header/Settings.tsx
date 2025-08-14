@@ -3,6 +3,7 @@ import { Icon } from '../../common/Icon'
 import { Keybindings, Themes, EditorSettings } from '../types'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { FeaturesContext } from '../../Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const THEMES = [
   { label: 'Light', value: Themes.LIGHT },
@@ -101,6 +102,7 @@ export function Settings({
   settings: EditorSettings
   setSettings: (settings: EditorSettings) => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/header')
   const features = useContext(FeaturesContext)
   const [localKeybindings, setLocalKeybindings] = useState(settings.keybindings)
   const handleThemeChange = useCallback(
@@ -126,36 +128,48 @@ export function Settings({
 
   const dropdownOptions: SettingProp[] = [
     {
-      title: 'Theme',
+      title: t('settings.theme'),
       value: settings.theme,
-      options: THEMES,
+      options: THEMES.map((theme) => ({
+        ...theme,
+        label: t(`settings.${theme.label.toLowerCase()}`),
+      })),
       set: handleThemeChange,
     },
     {
-      title: 'Keybindings',
+      title: t('settings.keybindings'),
       value: localKeybindings,
-      options: KEYBINDINGS,
+      options: KEYBINDINGS.map((keybinding) => ({
+        ...keybinding,
+        label: t(`settings.${keybinding.label.toLowerCase()}`),
+      })),
       set: (keybinding) => setLocalKeybindings(keybinding as Keybindings),
     },
     {
-      title: 'Wrap',
+      title: t('settings.wrap'),
       value: settings.wrap,
-      options: WRAP,
+      options: WRAP.map((wrap) => ({
+        ...wrap,
+        label: t(`settings.${wrap.label.toLowerCase()}`),
+      })),
       set: handleWrapChange,
     },
     {
-      title: 'Tab mode',
+      title: t('settings.tabMode'),
       value: settings.tabBehavior,
-      options: TAB_MODE,
+      options: TAB_MODE.map((tabMode) => ({
+        ...tabMode,
+        label: t(`settings.${tabMode.label.toLowerCase()}`),
+      })),
       set: handleTabBehaviorChange,
     },
   ]
 
   const optionsToShow = dropdownOptions.filter((option) => {
     switch (option.title) {
-      case 'Theme':
+      case t('settings.theme'):
         return features.theme
-      case 'Keybindings':
+      case t('settings.keybindings'):
         return features.keybindings
       default:
         return true

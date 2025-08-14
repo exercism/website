@@ -7,21 +7,21 @@
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
       = link_to about_partners_path, class: "c-prominent-link mt-48 mb-24" do
         = graphical_icon "arrow-left"
-        See all our supporters
+        = t('.see_all_supporters')
 
       %h1.text-h0.flex.flex-col.items-center.text-center
-        Exercism is supported by
+        = t('.supported_by_prefix')
         %br
         = icon "packt", "Packt Publishing", category: :partners, css_class: "logo packt"
 
   .md-container
     %article
       .lhs
-        %h2.text-h2 #{@org.name} supports Exercism
+        %h2.text-h2= t('.org_supports_exercism', org_name: @org.name)
         %hr.c-divider.mt-20.mb-28
-        %p.text-p-xlarge.mb-40 Packt Publishing are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
+        %p.text-p-xlarge.mb-40= t('.packt_partnership_description')
 
-        %h2.text-h2 About Packt Publishing
+        %h2.text-h2= t('.about_packt_publishing')
         %hr.c-divider.mt-20.mb-28
-        %p.text-p-xlarge.mb-16 Packt is a tech publisher focused on the practical application of technology. Packt authors are mostly working developers who do the job of sorting out what actually works and how to get things done with the endless stream of new technology. Packt readers and users are busy working engineers building solutions and applications, who want to know whether how a technology works in practice, and whether it’s worth using.
-        %p.text-p-xlarge.mb-16 Packt supports Exercism in its mission to ease the path to fluency across languages. We share the Exercism values of independence from any one platform or language, and the belief in the desire of engineers to support and help each other as a peer community. Packt books and publishing aim to provide a structured body of practical knowledge to complement fantastic platforms like Exercism. We both provide a way for experienced professionals to share knowledge and experience with the tech broader community.
+        %p.text-p-xlarge.mb-16= t('.packt_about_p1')
+        %p.text-p-xlarge.mb-16= t('.packt_about_p2')

@@ -1,6 +1,6 @@
 .flex.flex-col.items-center
-  %h1.text-64.font-bold.leading-130.text-textColor2.mt-64.mb-12 Whoops!
-  %h2.text-h2.mb-20 You have no more mentoring slots available.
+  %h1.text-64.font-bold.leading-130.text-textColor2.mt-64.mb-12= t('.whoops')
+  %h2.text-h2.mb-20= t('.no_slots_available')
   %p.text-p-xlarge.mb-32
-    Replenish your mentoring slots by successfully completing ongoing sessions.
-  = render ViewComponents::ProminentLink.new("Go to track", track_path(@track))
+    = t('.replenish_slots')
+  = render ViewComponents::ProminentLink.new(t('.go_to_track_link'), track_path(@track))

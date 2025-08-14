@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { GraphicalIcon } from '../common'
 import { CompleteExerciseModal } from '../modals/CompleteExerciseModal'
 import { Iteration } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function CompleteExerciseButton({
   endpoint,
@@ -11,6 +12,9 @@ export default function CompleteExerciseButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { t } = useAppTranslation(
+    'components/student/CompleteExerciseButton.tsx'
+  )
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false)
@@ -23,7 +27,7 @@ export default function CompleteExerciseButton({
         className="btn-enhanced btn-m"
       >
         <GraphicalIcon icon="check-circle" />
-        <span>Mark as complete</span>
+        <span>{t('markAsComplete')}</span>
       </button>
       <CompleteExerciseModal
         endpoint={endpoint}

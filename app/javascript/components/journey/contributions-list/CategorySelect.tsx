@@ -1,60 +1,66 @@
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
 import { ContributionCategoryId } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({
   option: category,
 }: {
   option: ContributionCategoryId | undefined
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/contributions-list')
+
   switch (category) {
     case 'authoring':
       return (
         <div className="info">
-          <div className="title">Contributing to Exercises</div>
+          <div className="title">
+            {t('categorySelect.contributingToExercises')}
+          </div>
         </div>
       )
     case 'building':
       return (
         <div className="info">
-          <div className="title">Building Exercism</div>
+          <div className="title">{t('categorySelect.buildingExercism')}</div>
         </div>
       )
     case 'maintaining':
       return (
         <div className="info">
-          <div className="title">Maintaining</div>
+          <div className="title">{t('categorySelect.maintaining')}</div>
         </div>
       )
     case 'mentoring':
       return (
         <div className="info">
-          <div className="title">Mentoring</div>
+          <div className="title">{t('categorySelect.mentoring')}</div>
         </div>
       )
     case 'publishing':
       return (
         <div className="info">
-          <div className="title">Publishing</div>
+          <div className="title">{t('categorySelect.publishing')}</div>
         </div>
       )
     case 'other':
       return (
         <div className="info">
-          <div className="title">Other</div>
+          <div className="title">{t('categorySelect.other')}</div>
         </div>
       )
     case undefined:
       return (
         <div className="info">
-          <div className="title">Any category</div>
+          <div className="title">{t('categorySelect.anyCategory')}</div>
         </div>
       )
   }
 }
 
 const SelectedComponent = () => {
-  return <>Category</>
+  const { t } = useAppTranslation('components/journey/contributions-list')
+  return <>{t('categorySelect.category')}</>
 }
 
 export const CategorySelect = ({

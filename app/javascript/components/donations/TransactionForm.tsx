@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import currency from 'currency.js'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Props = {
   amount: currency
@@ -15,6 +16,7 @@ export const TransactionForm = ({
   onAmountChange,
   children,
 }: React.PropsWithChildren<Props>): JSX.Element => {
+  const { t } = useAppTranslation('components/donations')
   const [customAmount, setCustomAmount] = useState(
     presetAmounts.map((a) => a.value).includes(currentAmount.value)
       ? ''
@@ -63,7 +65,7 @@ export const TransactionForm = ({
             ))}
           </div>
 
-          <h3>Or specify a custom amount:</h3>
+          <h3>{t('transactionForm.orSpecifyCustomAmount')}</h3>
           <CustomAmountInput
             onChange={handleCustomAmountChange}
             selected={customAmount !== ''}

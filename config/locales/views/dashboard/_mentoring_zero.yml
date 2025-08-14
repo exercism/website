@@ -1,0 +1,9 @@
+en:
+  dashboard:
+    mentoring_zero:
+      title: Become a mentor
+      description:
+        Mentoring is a great way to reinforce your own learning, and help
+        students learn and discover the things they don&apos;t know.
+      try_mentoring_now_link: Try mentoring now
+      learn_more_link: Learn more

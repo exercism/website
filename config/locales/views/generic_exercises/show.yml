@@ -1,0 +1,28 @@
+en:
+  generic_exercises:
+    show:
+      meta_title: Solve %{ps_data_title} on Exercism
+      meta_description:
+        Can you solve %{ps_data_title}? Improve your programming and
+        problem-solving skills with support from our world-class team of
+        mentors.
+      deep_dive_section:
+        title: Deep Dive into %{exercise_title}!
+      instructions_section:
+        title: Instructions
+        intro_video_text: Watch our "Introduction to Hello, World" video to get started 👇
+      source_section:
+        title: Source
+        explore_source: Explore the %{source_link}.
+        source_link_text: source of this exercise
+      featured_in_2024_section:
+        challenge_title: "Part of #48in24"
+        challenge_text_html: "%{exercise_title} is featured as part of
+          %{challenge_link}. Solve it in %{languages} to earn the gold award."
+        challenge_link_text: "#48in24 challenge"
+      track_variants_section:
+        title: Try %{exercise_title} in %{size} different languages…
+        completed_languages:
+          one: So far you've completed it in 1 language.
+          other: So far you've completed it in %{count} languages.
+        not_yet_completed: You've not yet completed it in any languages.

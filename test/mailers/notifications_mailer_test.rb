@@ -80,8 +80,8 @@ class NotificationsMailerTest < ActionMailer::TestCase
       status: :email_only, user:, params: { user_acquired_badge: acquired_badge }
 
     email = NotificationsMailer.with(notification:).acquired_badge
-    subject = "You've unlocked a new badge"
-    assert_email(email, user.email, subject, "acquired_badge")
+    html = (email.html_part || email).body.to_s
+    assert_includes CGI.unescapeHTML(html), "Congratulations! You've unlocked a new badge at Exercism."
   end
 
   test "automated_feedback_added" do

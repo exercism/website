@@ -4,6 +4,7 @@ import { Track } from '../../types'
 import { LeaveTrackForm } from './leave-track-modal/LeaveTrackForm'
 import { LeaveResetTrackForm } from './leave-track-modal/LeaveResetTrackForm'
 import { Tab, TabContext } from '../../common/Tab'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const TabsContext = createContext<TabContext>({
   current: 'leave',
@@ -27,6 +28,7 @@ export const LeaveTrackModal = ({
   endpoint: string
   track: Track
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const [tab, setTab] = useState<TabIndex>('leave')
 
   return (
@@ -36,9 +38,11 @@ export const LeaveTrackModal = ({
       {...props}
     >
       <div className="info">
-        <h2>You’re about to leave the {track.title} track.</h2>
+        <h2>
+          {t('leaveTrackModal.youreAboutToLeave', { trackTitle: track.title })}
+        </h2>
         <p className="large">
-          No longer interested in learning {track.title}? No problem!
+          {t('leaveTrackModal.noLongerInterested', { trackTitle: track.title })}
         </p>
       </div>
 
@@ -50,10 +54,10 @@ export const LeaveTrackModal = ({
       >
         <div className="tabs">
           <Tab context={TabsContext} id="leave">
-            Leave
+            {t('leaveTrackModal.leave')}
           </Tab>
           <Tab context={TabsContext} id="reset">
-            Leave + Reset
+            {t('leaveTrackModal.leavePlusReset')}
           </Tab>
         </div>
         <Tab.Panel context={TabsContext} id="leave">

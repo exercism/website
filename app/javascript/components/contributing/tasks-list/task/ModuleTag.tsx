@@ -1,16 +1,26 @@
+// i18n-key-prefix: moduleTag
+// i18n-namespace: components/contributing/tasks-list/task
 import React from 'react'
 import { Icon } from '../../../common'
 import { TaskModule } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing/tasks-list/task')
   switch (module) {
     case 'analyzer':
-      return <Icon icon="automation" alt="Analyzer" className="module" />
+      return (
+        <Icon
+          icon="automation"
+          alt={t('moduleTag.analyzer')}
+          className="module"
+        />
+      )
     case 'representer':
       return (
         <Icon
           icon="task-module-representer"
-          alt="Representer"
+          alt={t('moduleTag.representer')}
           className="module"
         />
       )
@@ -18,21 +28,27 @@ export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
       return (
         <Icon
           icon="concept-exercise"
-          alt="Learning Exercise"
+          alt={t('moduleTag.learningExercise')}
           className="module"
         />
       )
     case 'practice-exercise':
       return (
-        <Icon icon="exercises" alt="Practice Exercise" className="module" />
+        <Icon
+          icon="exercises"
+          alt={t('moduleTag.practiceExercise')}
+          className="module"
+        />
       )
     case 'test-runner':
-      return <Icon icon="tests" alt="Test Runner" className="module" />
+      return (
+        <Icon icon="tests" alt={t('moduleTag.testRunner')} className="module" />
+      )
     case 'generator':
       return (
         <Icon
           icon="task-module-generator"
-          alt="Track Generators"
+          alt={t('moduleTag.trackGenerators')}
           className="module"
         />
       )
@@ -40,7 +56,7 @@ export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
       return (
         <Icon
           icon="task-module-concept"
-          alt="Track Concepts"
+          alt={t('moduleTag.trackConcepts')}
           className="module"
         />
       )

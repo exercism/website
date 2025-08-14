@@ -5,21 +5,20 @@
 
     .info
       %h2.flex
-        You're being mentored by&nbsp;
-        %strong= render ViewComponents::HandleWithFlair.new(discussion.mentor.handle, discussion.mentor.flair, size: :large)
+        = t('.mentor_info_html', mentor_handle: render(ViewComponents::HandleWithFlair.new(discussion.mentor.handle, discussion.mentor.flair, size: :large))).html_safe
 
       .details
         - if discussion.mentor_finished? || discussion.timed_out?
-          .--turn Review your mentor
+          .--turn= t('.status.review_mentor')
         - elsif discussion.awaiting_mentor?
-          .--turn Waiting for mentor
+          .--turn= t('.status.waiting_mentor')
         - else
-          .--turn Your turn to respond
+          .--turn= t('.status.your_turn')
         .--comments
           = graphical_icon "comment"
-          = pluralize discussion.num_posts, "comment"
+          = t('.comments_count', count: discussion.num_posts)
     .in-progress
       .icon= graphical_icon "more-horizontal"
-      In-progress
+      = t('.in_progress_label')
 
-  = link_to "Open discussion", track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'btn-primary btn-m'
+  = link_to t('.open_discussion_button'), track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'btn-primary btn-m'

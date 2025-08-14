@@ -3,13 +3,12 @@
   %section.top-section
     .lg-container.c-shapes
       = graphical_icon "mentoring", category: 'graphics'
-      %h1 Share your knowledge with others
+      %h1= t('.share_knowledge_heading')
       %p
-        Mentoring is a fun and rewarding way to reinforce your own learning, while helping others learn and discover things they don’t know.
-        = link_to "Mentoring also earns reputation.", doc_path(:using, "product/reputation")
+        = t('.share_knowledge_description')
+        = link_to t('.earns_reputation'), doc_path(:using, "product/reputation")
       %p.unsure
-        Not sure if you can mentor effectively?
-        Some of our best mentors worried too.
+        = t('.unsure_mentor')
 
       - if user_signed_in?
         - if current_user.reputation >= User::MIN_REP_TO_MENTOR
@@ -18,27 +17,27 @@
           = render "locked", profile_min_reputation: User::MIN_REP_TO_MENTOR
       - else
         .flex.items-center
-          = link_to "Sign up to try mentoring", new_user_registration_path, class: 'btn-m btn-primary'
-          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'
+          = link_to t('.signup_button'), new_user_registration_path, class: 'btn-m btn-primary'
+          = link_to t('.login_button'), new_user_session_path, class: 'btn-m btn-secondary ml-24'
 
   %article.lg-container
     %section.video-section
       <div class="video rounded-5 overflow-hidden" style="padding:57% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
     %section.reasons-section
-      %h2 Why become a mentor?
+      %h2= t('.why_mentor_heading')
       .reasons.grid-cols-1.md:grid-cols-3
         .reason
           = graphical_icon "mentoring-challenge"
-          %h3 Challenge your knowledge
-          %p Teaching is one of the best ways to solidify your own knowledge, discover your weak spots, and see innovative ideas you'd never have dreamed of.
+          %h3= t('.challenge_knowledge_heading')
+          %p= t('.challenge_knowledge_description')
 
         .reason
           = graphical_icon "mentoring-opportunity"
-          %h3 Provide opportunity for others
-          %p Mentors can have a tremendous impact on students' learning, rapidly accelerating their skills. Be that catalyst for change in another’s life.
+          %h3= t('.provide_opportunity_heading')
+          %p= t('.provide_opportunity_description')
 
         .reason
           = graphical_icon "mentoring-soft-skills"
-          %h3 Develop your "soft skills"
-          %p Soft skills like communication and being able to take feedback are paramount in progressing in any field or profession.
+          %h3= t('.develop_soft_skills_heading')
+          %p= t('.develop_soft_skills_description')

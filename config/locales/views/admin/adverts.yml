@@ -1,0 +1,31 @@
+en:
+  admin:
+    adverts:
+      show:
+        title: Advert %{partner_name}#%{advert_id}
+        status: "Status: %{status}"
+        track_slugs: "Track slugs: %{slugs}"
+        url: "URL: %{url}"
+        num_impressions: "Num Impressions: %{count}"
+        num_clicks: "Num Clicks: %{count}"
+        back_to_partner_button: Back to partner
+      form:
+        errors:
+          header:
+            one: "1 error prohibited this advert from being saved:"
+            other: "%{count} errors prohibited this advert from being saved:"
+        labels:
+          status: Status
+          url: URL
+          markdown: Markdown
+          mailer_text: Mailer text
+          light_logo: Light logo
+          dark_logo: Dark logo
+          track_slugs: Select Tracks
+        submit_button: Submit
+      edit:
+        title: "Editing %{partner_name}: Advert %{advert_id}"
+        back_to_partner_link: Back to partner
+      new:
+        title: Adding advert for %{partner_name}
+        back_to_partner_link: Back to partner

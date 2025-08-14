@@ -1,0 +1,22 @@
+en:
+  devise:
+    confirmations:
+      required:
+        exercism_logo_alt: Exercism's Logo
+        welcome_check_email_title: Welcome! Check your email.
+        welcome_message: Welcome to Exercism. We've sent you an email to confirm you're a human.
+        validation_explanation_message:
+          To protect us from abuse, we validate all email
+          addresses are valid. If you check your email now, it should already be
+          there. If you can't see it, check spam, and then give it 10 minutes in
+          case things are running slowly.
+        resend_link_message: If it's not turned up soon, %{resend_link}.
+        resend_it_link: we can resend it
+      new:
+        exercism_logo_alt: Exercism's Logo
+        resend_confirmation_instructions_title: Resend confirmation instructions
+        resend_confirmation_instructions_message:
+          Not received a confirmation email? Use
+          the form below and we'll send you another.
+        email_placeholder: Enter your email address
+        resend_confirmation_instructions_button: Resend confirmation instructions

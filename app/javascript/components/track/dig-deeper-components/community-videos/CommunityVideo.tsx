@@ -1,7 +1,10 @@
+// i18n-key-prefix: communityVideo
+// i18n-namespace: components/track/dig-deeper-components/community-videos
 import React, { useState } from 'react'
 import { Avatar, Icon } from '@/components/common'
 import { CommunityVideoType } from '@/components/types'
 import { CommunityVideoModal } from './CommunityVideoModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommunityVideo({
   video,
@@ -9,6 +12,9 @@ export function CommunityVideo({
   video: CommunityVideoType
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const { t } = useAppTranslation(
+    'components/track/dig-deeper-components/community-videos'
+  )
 
   return (
     <div className="flex">
@@ -40,7 +46,7 @@ export function CommunityVideo({
         <Icon
           className="filter-textColor6 h-[24px] w-[24px]"
           icon={'expand'}
-          alt={'see video'}
+          alt={t('communityVideo.seeVideo')}
         />
       </button>
       <CommunityVideoModal
@@ -57,11 +63,14 @@ export function CommunityVideosFooter({
 }: {
   onClick: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/track/dig-deeper-components/community-videos'
+  )
   return (
     <footer className="text-p-small text-textColor6">
-      Want your video featured here?{' '}
+      {t('communityVideoFooter.wantYourVideoFeatured')}
       <button onClick={onClick} className="underline">
-        Submit it here
+        {t('communityVideoFooter.submitItHere')}
       </button>
       .
     </footer>

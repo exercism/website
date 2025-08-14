@@ -5,26 +5,33 @@ import { WelcomeModalContext } from './WelcomeModal'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { redirectTo } from '@/utils'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
+  const { t } = useAppTranslation('components/modals/welcome-modal')
   const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs flex flex-col">
         <header>
-          <h1>A course for you... 🎉</h1>
+          <h1>{t('juniorView.aCourseForYou')}</h1>
 
           <p className="mb-8">
-            Our <strong className="!font-semibold">Coding Fundamentals</strong>{' '}
-            course is designed for people who have been coding for less than a
-            year!!
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.codingFundamentalsDesigned"
+              components={{ strong: <strong /> }}
+            />
           </p>
           <p className="mb-8">
-            It will teach you how to <strong>think like a coder</strong> by
-            solving puzzles and building games. In only 12 weeks, you'll go from
-            zero to making these...
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.itWillTeach"
+              components={{ strong: <strong /> }}
+            />
           </p>
           <div className="grid grid-cols-4 gap-10 mb-12">
             <Icon
@@ -53,12 +60,15 @@ export function JuniorView() {
             />
           </div>
           <p>
-            This is a course for anyone that wants to get really good at coding.
-            It's affordable. It's fun. And most importantly, it's{' '}
-            <strong className="text-black font-semibold">
-              incredibly effective
-            </strong>
-            !
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.thisIsCourseAnyone"
+              components={{
+                strong: (
+                  <strong className="text-backgroundColorH font-semibold" />
+                ),
+              }}
+            />
           </p>
         </header>
         <div className="flex gap-8 mt-auto">
@@ -71,7 +81,15 @@ export function JuniorView() {
               redirectTo(links.codingFundamentalsCourse)
             }}
           >
-            Learn More ✨
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.learnMore"
+              components={{
+                strong: (
+                  <strong className="text-backgroundColorH font-semibold" />
+                ),
+              }}
+            />
           </FormButton>
 
           <FormButton
@@ -80,7 +98,7 @@ export function JuniorView() {
             type="button"
             onClick={patchCloseModal.mutate}
           >
-            Skip
+            {t('juniorView.skip')}
           </FormButton>
         </div>
         <ErrorBoundary resetKeys={[patchCloseModal.status]}>
@@ -101,8 +119,16 @@ export function JuniorView() {
               width={16}
             />
             <div>
-              Exercism's
-              <strong className="font-semibold"> Coding Fundamentals</strong>
+              {' '}
+              <Trans
+                ns="components/modals/welcome-modal"
+                i18nKey="juniorView.exercismsCodingFundamentals"
+                components={{
+                  strong: (
+                    <strong className="text-backgroundColorH font-semibold" />
+                  ),
+                }}
+              />
             </div>
           </div>
           <VimeoEmbed
@@ -110,7 +136,9 @@ export function JuniorView() {
             id="1068683543?h=2de237a304"
           />
           <div className="text-16 leading-150 text-textColor2">
-            <p className="mb-8 text-17 font-semibold">The course offers:</p>
+            <p className="mb-8 text-17 font-semibold">
+              {t('juniorView.theCourseOffers')}
+            </p>
             <ul className="flex flex-col gap-6 text-16 font-regular">
               <li className="flex items-start">
                 <GraphicalIcon
@@ -119,8 +147,15 @@ export function JuniorView() {
                   className="mr-8 w-[20px]"
                 />
                 <span>
-                  <strong className="font-semibold">Expert teaching</strong> and
-                  mentoring support.
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.expertTeaching"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
                 </span>
               </li>
               <li className="flex items-start">
@@ -130,11 +165,16 @@ export function JuniorView() {
                   className="mr-8 w-[20px]"
                 />
                 <span>
-                  Over{' '}
-                  <strong className="font-semibold">
-                    100 hours of hands-on project based learning
-                  </strong>
-                  , making games and solving puzzles.
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.overHoursHandsOn"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
                 </span>
               </li>
               <li className="flex items-start">
@@ -144,9 +184,16 @@ export function JuniorView() {
                   className="mr-8 w-[20px]"
                 />
                 <span>
-                  A complete Coding Fundamentals{' '}
-                  <strong className="font-semibold">syllabus</strong> designed
-                  to build knowledge & confidence.
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.aCompleteCoding"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
                 </span>
               </li>
               <li className="flex items-start">
@@ -156,9 +203,16 @@ export function JuniorView() {
                   className="mr-8 w-[20px]"
                 />
                 <span>
-                  A formal{' '}
-                  <strong className="font-semibold">certificate</strong> on
-                  completion.
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.aFormalCertificate"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
                 </span>
               </li>
             </ul>

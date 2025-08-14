@@ -1,8 +1,11 @@
+// i18n-key-prefix: exerciseFilterList
+// i18n-namespace: components/mentoring/queue
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrackExercise } from '../../types'
 import { QueryStatus } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   exercises: MentoredTrackExercise[] | undefined
@@ -19,13 +22,14 @@ const AllExerciseFilter = ({
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
   return (
     <label className="c-radio-wrapper">
       <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
         <div className="c-radio" />
         <GraphicalIcon icon="exercise" category="graphics" />
-        <div className="title">All exercises</div>
+        <div className="title">{t('exerciseFilterList.allExercises')}</div>
         <div className="count">{count}</div>
       </div>
     </label>
@@ -75,6 +79,7 @@ export const ExerciseFilterList = ({
 }
 
 const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
   const [searchQuery, setSearchQuery] = useState('')
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] =
     useState(true)
@@ -150,7 +155,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
             value={searchQuery}
             onChange={handleSearchBarChange}
             className="--search"
-            placeholder="Search by Exercise name"
+            placeholder={t('exerciseFilterList.searchByExerciseName')}
           />
         </div>
         <label className="c-checkbox-wrapper filter">
@@ -165,7 +170,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
             <div className="c-checkbox">
               <GraphicalIcon icon="checkmark" />
             </div>
-            Only show exercises that need mentoring
+            {t('exerciseFilterList.onlyShowExercisesThatNeedMentoring')}
           </div>
         </label>
         <label className="c-checkbox-wrapper filter">
@@ -178,7 +183,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
             <div className="c-checkbox">
               <GraphicalIcon icon="checkmark" />
             </div>
-            Only show exercises I've completed
+            {t('exerciseFilterList.onlyShowExercisesIHaveCompleted')}
           </div>
         </label>
       </div>

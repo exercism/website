@@ -6,6 +6,8 @@ import { Testimonial } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { PaginatedResult } from '../../TestimonialsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to delete testimonial')
 
@@ -18,6 +20,9 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/testimonials-list/revealed-testimonial'
+  )
   const queryClient = useQueryClient()
   const {
     mutate: mutation,
@@ -74,14 +79,17 @@ export const DeleteTestimonialModal = ({
       onClose={handleClose}
       {...props}
     >
-      <h3>Are you sure you want to delete this testimonial?</h3>
+      <h3>{t('deleteTestimonialModal.areYouSure')}</h3>
       <p>
-        Deleting the testimonial will hide it from this list, your profile and
-        mentoring stats. <strong>This action is irreversible.</strong>
+        <Trans
+          ns="components/mentoring/testimonials-list/revealed-testimonial"
+          i18nKey="deleteTestimonialModal.deletingWillHide"
+          components={{ strong: <strong /> }}
+        />
       </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-warning btn-s">
-          Delete testimonial
+          {t('deleteTestimonialModal.deleteTestimonial')}
         </FormButton>
         <FormButton
           type="button"
@@ -89,7 +97,7 @@ export const DeleteTestimonialModal = ({
           onClick={handleClose}
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('deleteTestimonialModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

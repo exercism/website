@@ -5,42 +5,41 @@
   - unless user_track.mentoring_unlocked?
     .mentoring-locked-overlay
       .content
-        = icon "lock-circle", "Mentoring is locked"
-        %h3 Unlock mentoring for #{track.title} by completing ”Hello, World!” and starting a new exercise
+        = icon "lock-circle", t('.mentoring_locked_icon_alt')
+        %h3= t('.unlock_mentoring', track_title: track.title)
 
   .lg-container
     %header.mentoring-header
       .lhs
         = graphical_icon(:mentoring, hex: true, css_class: "graphical-icon")
         .info
-          %h2 Your mentoring slots
-          %p #{pluralize user_track.num_used_mentoring_slots, 'mentoring slot'} filled
+          %h2= t('.your_mentoring_slots.title')
+          %p= t('.your_mentoring_slots.filled', count: user_track.num_used_mentoring_slots)
       .rhs
         %h3
-          Your current Reputation is
+          = t('.current_reputation.title')
           = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
 
         - if user_track.rep_for_next_mentoring_slot.nil?
-          .max You have the maximum available mentoring slots
+          .max= t('.max_mentoring_slots')
         - else
           .c-progress
             .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
             .unlock-icon
-              = icon "unlock", "Unlocked"
+              = icon "unlock", t('.unlocked_icon_alt')
 
         - unless user_track.rep_for_next_mentoring_slot.nil?
           .info
             .next-slot
-              Next slot unlocks at
-              %strong #{number_with_delimiter user_track.rep_for_next_mentoring_slot} rep.
+              = t('.next_slot_unlocks_at', reputation_amount: number_with_delimiter(user_track.rep_for_next_mentoring_slot))
 
           .info
             .next-slot
-              Or
-              = link_to 'Donate to Exercism', insiders_path, class: 'text-prominentLinkColor font-semibold'
-              to unlock all mentoring slots.
+              = t('.or_text')
+              = link_to t('.donate_to_exercism_link'), insiders_path, class: 'text-prominentLinkColor font-semibold'
+              = t('.to_unlock_all_slots')
 
-              = link_to "Learn More.", doc_path(:using, "product/reputation"), class: 'font-semibold'
+              = link_to t('.learn_more_link'), doc_path(:using, "product/reputation"), class: 'font-semibold'
 
   .lg-container.container
     .slots
@@ -49,25 +48,25 @@
           = exercise_icon discussion.exercise
           .exercise-title= discussion.exercise.title
           .mentor
-            with
+            = t('.mentor_discussion_with')
             = avatar(discussion.mentor)
             .name= discussion.mentor.name
 
           - if discussion.awaiting_student?
-            .--turn Your turn to respond
+            .--turn= t('.your_turn_to_respond')
 
           - if discussion.mentor_finished? || discussion.timed_out?
-            .--turn Review your mentor
+            .--turn= t('.review_your_mentor')
 
           .--comments
             = graphical_icon :comment
-            = pluralize discussion.posts.count, "comment"
+            = t('.comments_count', count: discussion.posts.count)
 
       - user_track.pending_mentoring_requests.each do |request|
         = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do
           = exercise_icon request.exercise
           .exercise-title= request.exercise.title
-          %h4 Waiting on a mentor…
+          %h4= t('.waiting_on_mentor')
 
       - user_track.num_available_mentoring_slots.times do
         = render ReactComponents::Student::RequestMentoringButton.new(track)
@@ -75,6 +74,6 @@
       - user_track.num_locked_mentoring_slots.times do
         .locked-slot
           = graphical_icon "lock"
-          %h4 Mentoring slot locked
+          %h4= t('.mentoring_slot_locked')
 
-    = render ViewComponents::ProminentLink.new("Learn more about getting mentored", doc_path(:using, "feedback/guide-to-being-mentored"))
+    = render ViewComponents::ProminentLink.new(t('.learn_more_about_mentored_link'), doc_path(:using, "feedback/guide-to-being-mentored"))

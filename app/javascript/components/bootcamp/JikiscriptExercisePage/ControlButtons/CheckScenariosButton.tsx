@@ -7,6 +7,7 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import useErrorStore from '../store/errorStore'
 import { flushSync } from 'react-dom'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CheckScenariosButton({
   handleRunCode,
@@ -19,6 +20,9 @@ export function CheckScenariosButton({
   const { setIsTimelineComplete } = useAnimationTimelineStore()
   const { cleanUpErrorStore } = useErrorStore()
   const { isSpotlightActive } = useContext(JikiscriptExercisePageContext)
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/ControlButtons'
+  )
 
   const cleanUpState = useCallback(() => {
     setIsTimelineComplete(false)
@@ -38,7 +42,7 @@ export function CheckScenariosButton({
         setShouldAutoRunCode(false)
       }}
     >
-      Check Scenarios
+      {t('checkScenariosButton.checkScenarios')}
       <GraphicalIcon
         icon="bootcamp-autorun"
         width={20}

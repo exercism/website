@@ -3,12 +3,15 @@ import {
   durationFromSeconds,
   durationTimeElementFromSeconds,
 } from '../../utils/time'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type MedianWaitTimeProps = {
   seconds?: number
 }
 
 export function MedianWaitTime({ seconds }: MedianWaitTimeProps) {
+  const { t } = useAppTranslation('components/common/MedianWaitTime.tsx')
+
   if (seconds === undefined || seconds === null) {
     return null
   }
@@ -17,7 +20,7 @@ export function MedianWaitTime({ seconds }: MedianWaitTimeProps) {
 
   return (
     <div>
-      Avg. wait time: ~
+      {t('medianWaitTime.avgWaitTime')}
       <time
         dateTime={durationTimeElementFromSeconds(seconds)}
         title={`Median wait time: ${medianWaitTime}`}

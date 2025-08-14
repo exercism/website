@@ -1,3 +1,5 @@
+// i18n-key-prefix: inspectedTestResultView
+// i18n-namespace: components/bootcamp/JikiscriptExercisePage/TestResultsView
 import React, { useContext } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import Scrubber from '../Scrubber/Scrubber'
@@ -9,6 +11,7 @@ import {
 import { TestResultInfo } from './TestResultInfo'
 import { PassMessage } from './PassMessage'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 function _InspectedTestResultView() {
   const { result, viewContainerRef, firstExpect } = useInspectedTestResultView()
@@ -49,19 +52,22 @@ export function InspectedTestResultViewLHS({
   result: NewTestResult
   firstExpect: ProcessedExpect | null
 }) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/TestResultsView'
+  )
   const { exercise } = useContext(JikiscriptExercisePageContext)
 
   return (
     <div data-ci="inspected-test-result-view" className="scenario-lhs">
       <div className="scenario-lhs-content">
         <h3>
-          <strong>Scenario: </strong>
+          <strong>{t('inspectedTestResultView.scenario')}</strong>
           {result.name}
         </h3>
 
         {result.descriptionHtml && result.descriptionHtml.length > 0 && (
           <div className="description">
-            <strong>Task: </strong>
+            <strong>{t('inspectedTestResultView.task')}</strong>
             <span
               dangerouslySetInnerHTML={{
                 __html: result.descriptionHtml,

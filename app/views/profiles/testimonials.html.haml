@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{sanitize(@user.handle)}'s testimonials on Exercism".html_safe
-- content_for :meta_description, "Explore the testimonails that students have left for #{@user.handle} on Exercism, and learn how wonderful they are!"
+- content_for :meta_title, t('.meta_title', user_handle: sanitize(@user.handle)).html_safe
+- content_for :meta_description, t('.meta_description', user_handle: @user.handle).html_safe
 - content_for :canonical_url, testimonials_profile_url(@user, page: params[:page].to_i > 1 ? params[:page] : nil)
 - require_stylesheet "profile"
 
@@ -9,19 +9,19 @@
   %article
     .lg-container{ data: { 'scroll-top-anchor': 'profile-testimonials' } }
       = render ReactComponents::Common::Introducer.new(:profile_testimonials, "badges") do
-        %h2 Exercism mentors receive testimonials for outstanding mentoring
-        %p Students leave testimonials for mentors that have helped them on their learning journey. Small tokens of thanks that make a huge difference.
+        %h2= t('.introducer.title')
+        %p= t('.introducer.description')
 
       -# TODO: Real values - same as profile page
       .stats
         .stat
           .number= number_with_delimiter @user.num_solutions_mentored
-          .metric Solutions mentored
+          .metric= t('.stats.solutions_mentored')
         .stat
           .number= number_with_delimiter @user.num_students_mentored
-          .metric #{'Student'.pluralize(@user.num_students_mentored)} helped
+          .metric= t('.stats.students_helped', count: @user.num_students_mentored)
         .stat
           .number= number_with_delimiter @user.num_published_testimonials
-          .metric Testimonials received
+          .metric= t('.stats.testimonials_received')
 
       = render ReactComponents::Profile::TestimonialsList.new(@user, params)

@@ -1,8 +1,13 @@
+// i18n-key-prefix: videoRHS
+// i18n-namespace: components/modals/track-welcome-modal/RHS
 import React from 'react'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
 import { Track } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function VideoRHS({ track }: { track: Track }): JSX.Element {
+  const { t } = useAppTranslation('components/modals/track-welcome-modal/RHS')
+
   return (
     <div className="rhs">
       <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7">
@@ -13,8 +18,7 @@ export function VideoRHS({ track }: { track: Track }): JSX.Element {
           }
         />
         <span className="font-medium text-16 leading-150">
-          ☝️ Watch this short video to learn more about Learning and Practice
-          Modes, and how to choose the right setup for you.
+          {t('videoRHS.watchThisShortVideo')}
         </span>
       </div>
     </div>

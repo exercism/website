@@ -1,0 +1,26 @@
+en:
+  profiles:
+    header:
+      details:
+        location_label: Located in
+        pronouns_label: Pronouns
+        joined_at: Joined %{date}
+      bio:
+        read_more: Read more
+        read_less: Read less
+      badges:
+        count:
+          one: 1 badge collected
+          other: "%{count} badges collected"
+        see_all: See all
+        badge_name: "Badge: %{name}"
+      tags:
+        exercism_founder: Exercism Founder
+      tabs:
+        summary: Summary
+        contributions: Contributions
+        published_solutions: Published Solutions
+        testimonials: Testimonials
+        badges: Badges
+      external_links:
+        external_link_title: This is an external link

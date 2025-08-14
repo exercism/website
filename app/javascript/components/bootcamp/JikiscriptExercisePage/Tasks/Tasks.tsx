@@ -1,3 +1,5 @@
+// i18n-key-prefix: tasks
+// i18n-namespace: components/bootcamp/JikiscriptExercisePage/Tasks
 import React from 'react'
 import useTaskStore from '../store/taskStore/taskStore'
 import { wrapWithErrorBoundary } from '@/components/bootcamp/common/ErrorBoundary/wrapWithErrorBoundary'
@@ -6,6 +8,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useTasks } from './useTasks'
 import { useContext } from 'react'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type TaskType = {
   status: 'completed' | 'active'
@@ -15,6 +18,9 @@ export type TaskType = {
 
 // =============== UNUSED COMPONENT ===============
 function _Tasks() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/Tasks'
+  )
   const { tasks, numberOfTasks, numberOfCompletedTasks, areAllTasksCompleted } =
     useTaskStore()
 
@@ -27,7 +33,7 @@ function _Tasks() {
     <div data-ci="task-list" id="tasks">
       <div className="flex flex-row items-center justify-between">
         <h2>
-          <span>Your</span> Tasks
+          <span>{t('tasks.yourTasks')}</span> Tasks
         </h2>
         <div data-ci="task-completion-count">
           {numberOfCompletedTasks}/{numberOfTasks}
@@ -47,7 +53,7 @@ function _Tasks() {
               areAllTasksCompleted ? '' : 'grayscale cursor-not-allowed'
             )}
           >
-            Complete
+            {t('tasks.complete')}
           </button>
         </>
       )}

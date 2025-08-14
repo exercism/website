@@ -3,6 +3,7 @@ import { TrackIcon, Avatar } from '@/components/common'
 import { Modal } from '@/components/modals'
 import { SessionProps } from '../../Session'
 import { DiscussionActions } from '../../discussion/DiscussionActions'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type SessionInfoModalProps = {
   open: boolean
@@ -23,6 +24,9 @@ export function SessionInfoModal({
   session,
   setSession,
 }: SessionInfoModalProps) {
+  const { t } = useAppTranslation(
+    'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx'
+  )
   return (
     <Modal open={open} onClose={onClose} className="m-session-info">
       <div className="session-info-header">
@@ -32,7 +36,10 @@ export function SessionInfoModal({
           <div className="info">
             <div className="handle">{student.handle}</div>
             <div className="exercise">
-              on {exercise.title} in {track.title}{' '}
+              {t('sessionInfoModal.onExerciseInTrack', {
+                exerciseTitle: exercise.title,
+                trackTitle: track.title,
+              })}
             </div>
           </div>
         </div>

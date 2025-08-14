@@ -15,6 +15,7 @@ import { normalizeHtmlText } from '../../common/validateHtml5/normalizeHtmlText'
 import { submitCode } from '../../JikiscriptExercisePage/hooks/useConstructRunCode/submitCode'
 import { getCodeMirrorFieldValue } from '../../JikiscriptExercisePage/CodeMirror/getCodeMirrorFieldValue'
 import { readOnlyRangesStateField } from '../../JikiscriptExercisePage/CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type TabIndex = 'html' | 'css' | 'javascript'
 
@@ -24,6 +25,9 @@ export const TabsContext = createContext<TabContext>({
 })
 
 export function LHS() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/FrontendExercisePage/LHS'
+  )
   const [tab, setTab] = useState<TabIndex>('html')
 
   const {
@@ -71,7 +75,9 @@ export function LHS() {
       if (!isHTMLValid.isValid) {
         setTab('html')
         toast.error(
-          `Your HTML is invalid (${isHTMLValid.errorMessage}). Please check the linter and look for hints on how to fix it.`
+          t('lHS.htmlInvalid', {
+            errorMessage: isHTMLValid.errorMessage,
+          })
         )
         return
       }
@@ -187,15 +193,15 @@ export function LHS() {
       </TabsContext.Provider>
       <div style={{ width: LHSWidth }} className="control-buttons-container">
         <button onClick={handleRunCode} className="btn-primary btn-m">
-          Run Code
+          {t('lHS.runCode')}
         </button>
 
         <div className="flex gap-8">
           <button onClick={handleToggleOverlay} className="btn-secondary btn-m">
-            Overlay: {isOverlayActive ? 'on' : 'off'}
+            {isOverlayActive ? t('lHS.overlayOn') : t('lHS.overlayOff')}
           </button>
           <button onClick={handleToggleDiff} className="btn-secondary btn-m">
-            Diff: {isDiffActive ? 'on' : 'off'}
+            {isDiffActive ? t('lHS.diffOn') : t('lHS.diffOff')}
           </button>
         </div>
       </div>

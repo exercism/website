@@ -1,63 +1,57 @@
 .introduction
   .header
     .content
-      %h2 Take your solution to the next level
+      %h2= t('.header.title')
       %p
-        Get feedback on your solution to
-        %strong= exercise.title
-        by a #{track.title} mentor and discover new ways to approach the problem, and expand and deepen your #{track.title} knowledge.
+        = t('.header.subtitle_html', exercise_title: exercise.title, track_title: track.title).html_safe
       .btns
-        = link_to "Submit for code review", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
-        .wow It&apos;s absolutely free! 😲
+        = link_to t('.header.submit_button'), new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
+        .wow= t('.header.free_text')
 
     = graphical_icon "mentoring-prompt", category: 'graphics'
   .why
-    %h3 Why get feedback?
+    %h3= t('.why.heading')
     .points
       .point
-        %h4 Attain real fluency in #{track.title}
+        %h4= t('.why.points.fluency.heading', track_title: track.title)
         %p
-          Learning a language is more than being able to use it, it's about being able to
-          %strong think
-          in it. Our mentors will help develop your perceptions.
+          = t('.why.points.fluency.body_html').html_safe
 
       .point
-        %h4 You don't know what you don't know
-        %p It's hard to progress when you don't know what's missing. Our mentors will help you discover the gaps in your #{track.title} knowledge.
+        %h4= t('.why.points.unknown.heading')
+        %p= t('.why.points.unknown.body', track_title: track.title)
 
       .point
-        %h4 Get your questions answered
-        %p Whatever your questions, our mentors will be able to help you. Make sure you ask what's on your mind when requesting a mentor.
+        %h4= t('.why.points.questions.heading')
+        %p= t('.why.points.questions.body')
 
       .point
-        %h4 Push yourself
-        %p However confident you feel in #{track.title}, there will always be more to learn. Push yourself further with an Exercism mentor.
+        %h4= t('.why.points.push.heading')
+        %p= t('.why.points.push.body', track_title: track.title)
 
   .how
-    %h3 How does it work?
+    %h3= t('.how.heading')
     .points
       .point
         .num 1
         .content
-          %h4 Submit for Code Review
-          %p Send a request to the Exercism community. Tell us what you're aiming to learn so the right mentor can pair with you.
+          %h4= t('.how.points.submit.heading')
+          %p= t('.how.points.submit.body')
 
       .point
         .num 2
         .content
-          %h4 Get feedback
-          %p Once a mentor accepts your request, they&apos;ll review your solution and request, and give you your first feedback.
+          %h4= t('.how.points.feedback.heading')
+          %p= t('.how.points.feedback.body')
 
       .point
         .num 3
         .content
-          %h4 Iterate and learn
-          %p Converse with your mentor and continue to write and submit further iterations considering their advice.
+          %h4= t('.how.points.iterate.heading')
+          %p= t('.how.points.iterate.body')
 
       .point
         .num 4
         .content
-          %h4 End &amp; Celebrate 🎉
-          %p Once you&apos;re happy with your final solution, end the discussion and leave a testimonial for your mentor.
-
-
+          %h4= t('.how.points.end_celebrate.heading_html').html_safe
+          %p= t('.how.points.end_celebrate.body')

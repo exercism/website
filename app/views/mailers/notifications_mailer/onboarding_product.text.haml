@@ -1,17 +1,14 @@
-Hey there,
+= t('.greeting')
 \
-It's been a day or so since you signed up to Exercism, and I wanted to check how you're getting on so far?
+= t('.intro_message', exercism_link: 'Exercism')
 \
-Sometimes Exercism can be a bit overwhelming at first. Some people get a bit lost and things don't quite make sense to them.
-If you get stuck, check out our Discord (https://exercism.org/r/discord) or Forum (https://exercism.org/r/forum), where you can ask for help.
-It's always helpful for us to know where people are tripping up so we can fix it, so please don't be afraid to speak up!
+= t('.stuck_message', discord_link: 'Discord', forum_link: 'Forum')
 \
-If you've not started exploring a language yet, we have over 65 to choose from, including the most widely used languages (e.g. Python, JavaScript, C#), the popular new-kids on the block (e.g. Go, Elixir, Rust) and some quite unusual and esotoric languages (e.g. 8th, COBOL, Prolog).
-There's tons to learn and a lot of fun to be had!
+= t('.language_exploration_message')
 \
-And as a final a reminder, Exercism is 100% free, open-source and not for profit. Enjoy!
+= t('.final_reminder_message')
 \
-Best regards,
+= t('.best_regards')
 \
-Jeremy Walker
-Exercism Co-founder & CEO
+= t('.signature_name')
+= t('.signature_title')

@@ -1,0 +1,7 @@
+en:
+  dashboard:
+    48in24:
+      week_of_challenge: "Week %{week} of #48in24"
+      featuring_exercise: We're featuring %{exercise_title}
+      watch_deep_dive: 👇 Watch our Deep Dive with Erik & Jeremy!
+      explore_all_link: "Explore all of #48in24"

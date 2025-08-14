@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import 'actioncable'
 
 import consumer from '../../utils/action-cable-consumer'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Submission = {
   uuid: string
@@ -41,6 +42,7 @@ export function SubmissionsSummaryTable({
 }: {
   submissions: readonly Submission[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/maintaining')
   const [stateSubmissions, setSubmissions] = useState(submissions)
 
   useEffect(() => {
@@ -70,12 +72,12 @@ export function SubmissionsSummaryTable({
     <table>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Track</th>
-          <th>Exercise</th>
-          <th>Test status</th>
-          <th>Representation status</th>
-          <th>Analyses status</th>
+          <th>{t('submissionsSummaryTable.id')}</th>
+          <th>{t('submissionsSummaryTable.track')}</th>
+          <th>{t('submissionsSummaryTable.exercise')}</th>
+          <th>{t('submissionsSummaryTable.testStatus')}</th>
+          <th>{t('submissionsSummaryTable.representationStatus')}</th>
+          <th>{t('submissionsSummaryTable.analysesStatus')}</th>
         </tr>
       </thead>
       <tbody>

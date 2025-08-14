@@ -1,0 +1,68 @@
+en:
+  tracks:
+    community_solutions:
+      tooltip_locked:
+        struggling_question: Struggling with this exercise?
+        unlock_community_solutions:
+          Unlock Community Solutions to see how the community
+          approached and solved %{exercise_title}.
+        attempt_exercise_first:
+          You can only view the Community Solutions tab if you've
+          attempted this exercise at least once.
+        recommendation:
+          We highly recommend you try your best without exploring the
+          Community Solutions tab first.
+      show:
+        meta_title:
+          "%{author_handle}'s solution for %{exercise_title} in %{track_title}
+          on Exercism"
+        meta_description: See how @%{author_handle} solved %{exercise_title} in
+          %{track_title} and get inspired for how you could solve it too!
+          Exercism is 100% free and a great way to level-up your programming
+          skills in over 65 languages.
+        breadcrumbs:
+          tracks: Tracks
+          exercises: Exercises
+          community_solutions: Community Solutions
+          your_solution: Your solution
+          authors_solution: "%{author_handle}'s solution"
+        solution_heading:
+          your_solution: Your solution
+          authors_solution: "%{author_handle}'s solution"
+          to: to
+          in: in
+        comments_button:
+          alt_text: Number of comment
+        mentoring:
+          mentored_by: Mentored by
+          what_is_this: What is this?
+        about_solution:
+          title: About this solution
+          description:
+            We automatically group similar solutions and generate statistics
+            about how popular they are.
+          submissions:
+            one: 1 Submission
+            other: "%{count} Submissions"
+          first_submitted_ago: "%{time} ago"
+          first_submitted: First submitted
+          reputation_alt_text: Reputation
+          max_track_rep: Max track rep
+        solution_approach:
+          title: This solution's approach
+          description:
+            Explore the pros and cons of this approach in our community-written
+            deep dive…
+          used_by: Used by %{num_solutions} people.
+        about_exercise:
+          title: About the
+          exercise_label: Exercise
+        other_solutions:
+          title: Other solutions to
+          in_label: in
+          explore_link: Explore other solutions to this exercise
+      index:
+        meta_title: Community solutions for %{exercise_title} in %{track_title} on Exercism
+        meta_description:
+          Explore other people's solutions to %{exercise_title} in
+          %{track_title}, and learn how others have solved the exercise.

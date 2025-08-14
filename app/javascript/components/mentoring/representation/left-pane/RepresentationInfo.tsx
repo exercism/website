@@ -1,5 +1,8 @@
+// i18n-key-prefix: representationInfo
+// i18n-namespace: components/mentoring/representation/left-pane
 import React from 'react'
 import { TrackIcon, Avatar } from '../../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function RepresentationInfo({
   track,
@@ -10,6 +13,10 @@ export default function RepresentationInfo({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exercise: any
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/left-pane'
+  )
+
   return (
     <>
       <TrackIcon
@@ -21,10 +28,13 @@ export default function RepresentationInfo({
         <Avatar src={exercise.iconUrl} />
         <div className="info">
           <div className="exercise">
-            You’re giving feedback on a solution set for
+            {t('representationInfo.feedbackOnSolution')}
           </div>
           <div className="handle">
-            {exercise.title} in {track.title}
+            {t('leftPane.exerciseInTrack', {
+              exerciseTitle: exercise.title,
+              trackTitle: track.title,
+            })}
           </div>
         </div>
       </div>

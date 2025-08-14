@@ -2,14 +2,14 @@
 
 #page-maintaining-dashboard
   .lg-container.container
-    %h1 Maintaining Exercism
+    %h1= t('.maintaining_exercism_heading')
 
     .links
-      %h2 Track Management
+      %h2= t('.track_management_heading')
       %ul
         %li
-          = link_to "Site Updates", maintaining_site_updates_path
+          = link_to t('.site_updates_link'), maintaining_site_updates_path
         %li
-          = link_to "Track Maintainers", maintaining_track_maintainers_path
+          = link_to t('.track_maintainers_link'), maintaining_track_maintainers_path
         %li
-          = link_to "Track Categories", maintaining_track_categories_path
+          = link_to t('.track_categories_link'), maintaining_track_categories_path

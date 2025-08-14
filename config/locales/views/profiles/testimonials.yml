@@ -1,0 +1,18 @@
+en:
+  profiles:
+    testimonials:
+      meta_title: "%{user_handle}'s testimonials on Exercism"
+      meta_description: Explore the testimonails that students have left for
+        %{user_handle} on Exercism, and learn how wonderful they are!
+      introducer:
+        title: Exercism mentors receive testimonials for outstanding mentoring
+        description:
+          Students leave testimonials for mentors that have helped them on
+          their learning journey. Small tokens of thanks that make a huge
+          difference.
+      stats:
+        solutions_mentored: Solutions mentored
+        students_helped:
+          one: 1 Student helped
+          other: "%{count} Students helped"
+        testimonials_received: Testimonials received

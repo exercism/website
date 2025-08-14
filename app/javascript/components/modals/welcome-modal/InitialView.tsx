@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import { WelcomeModalContext } from './WelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function InitialView() {
+  const { t } = useAppTranslation('components/modals/welcome-modal')
   const { setCurrentView, patchUserSeniority } = useContext(WelcomeModalContext)
   return (
     <div className="lhs">
       <header>
-        <h1 className="text-center">Welcome to Exercism! 💙</h1>
+        <h1 className="text-center">{t('initialView.welcomeToExercism')}</h1>
 
-        <p className="text-center">
-          Let's make sure that you get the most out of Exercism.
-        </p>
-        <p className="text-center">How experienced a developer are you?</p>
+        <p className="text-center">{t('initialView.letsMakeSure')}</p>
+        <p className="text-center">{t('initialView.howExperienced')}</p>
       </header>
 
       <div className="flex flex-col items-stretch gap-8">
@@ -23,7 +23,7 @@ export function InitialView() {
             patchUserSeniority.mutate('absolute_beginner')
           }}
         >
-          Absolute Beginner
+          {t('initialView.absoluteBeginner')}
         </button>
         <button
           type="button"
@@ -33,7 +33,7 @@ export function InitialView() {
             patchUserSeniority.mutate('beginner')
           }}
         >
-          Beginner
+          {t('initialView.beginner')}
         </button>
         <button
           type="button"
@@ -43,7 +43,7 @@ export function InitialView() {
             patchUserSeniority.mutate('junior')
           }}
         >
-          Junior Developer
+          {t('initialView.juniorDeveloper')}
         </button>
         <button
           type="button"
@@ -53,7 +53,7 @@ export function InitialView() {
             patchUserSeniority.mutate('mid')
           }}
         >
-          Mid-level Developer
+          {t('initialView.midLevelDeveloper')}
         </button>{' '}
         <button
           type="button"
@@ -63,7 +63,7 @@ export function InitialView() {
             patchUserSeniority.mutate('senior')
           }}
         >
-          Senior Developer
+          {t('initialView.seniorDeveloper')}
         </button>
       </div>
     </div>

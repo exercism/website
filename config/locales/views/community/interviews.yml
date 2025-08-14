@@ -1,0 +1,28 @@
+en:
+  community:
+    interviews:
+      index:
+        header:
+          title: Community Interviews & Stories
+          description_p1:
+            At Exercism, we love learning how people think and how it
+            affects their approach to coding. Join Jeremy as he explores the
+            journeys of language creators, and Jonathan as journeys of our
+            community. If you'd like to feature in a future video,
+          get_in_touch_link: get in touch
+        subscribe_card:
+          title: Subscribe for more
+          description: Don't miss our on future episodes. Subscribe on YouTube and Spotify.
+          community_stories_youtube: Community Stories (YouTube)
+          language_creator_youtube: Language Creator Interviews (YouTube)
+          podcast_spotify: Podcast (Spotify)
+        language_creators:
+          title: Interviews with Language Creators
+          description:
+            Join Jeremy as he speaks to the creators and maintainers of the
+            languages you love.
+        community_stories:
+          title: Community Stories
+          description:
+            Join Jonathan as he chats to our community, exploring their stories
+            and journeys as programmers.

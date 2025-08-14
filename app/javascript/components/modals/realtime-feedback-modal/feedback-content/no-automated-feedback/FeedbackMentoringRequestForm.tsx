@@ -8,6 +8,7 @@ import { RealtimeFeedbackModalProps } from '../../RealTimeFeedbackModal'
 import { SolutionCommentTextArea } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents/SolutionCommentTextArea'
 import { TrackObjectivesTextArea } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents/TrackObjectivesTextArea'
 import { useMentoringRequest } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -23,6 +24,9 @@ export const FeedbackMentoringRequestForm = ({
   onContinue: () => void
   onSuccess: () => void
 } & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
+  )
   const {
     handleSubmit,
     error,
@@ -37,7 +41,7 @@ export const FeedbackMentoringRequestForm = ({
       className="c-mentoring-request-form realtime-feedback-modal-form"
       onSubmit={handleSubmit}
     >
-      <h3 className="text-h4 mb-8">Request code review</h3>
+      <h3 className="text-h4 mb-8">{t('index.requestCodeReview')}</h3>
       <TrackObjectivesTextArea
         defaultValue={trackObjectives}
         ref={trackObjectivesRef}
@@ -47,7 +51,7 @@ export const FeedbackMentoringRequestForm = ({
       <div className="flex gap-8">
         <ContinueButton
           type="button"
-          text="Cancel"
+          text={t('index.cancel')}
           className="!w-auto btn-secondary"
           onClick={onContinue}
         />
@@ -55,7 +59,7 @@ export const FeedbackMentoringRequestForm = ({
           status={status}
           className="!w-auto btn-primary btn-s flex-grow"
         >
-          Submit for code review
+          {t('index.submitForCodeReview')}
         </FormButton>
       </div>
       <FetchingBoundary
@@ -64,8 +68,7 @@ export const FeedbackMentoringRequestForm = ({
         defaultError={DEFAULT_ERROR}
       />
       <p className="flow-explanation">
-        Once you submit, your request will be open for a mentor to join and
-        start providing feedback.
+        {t('index.onceYouSubmit')}
         <MedianWaitTime seconds={track.medianWaitTime} />
       </p>
     </form>

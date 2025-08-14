@@ -2,9 +2,8 @@
   .lg-container
     .flex.mb-40
       .lhs.mr-48{ class: 'w-full max-w-[780px]' }
-        %h1.text-h1 Frequently Asked Questions
+        %h1.text-h1= t('.title')
         %p.intro
-          Welcome to our FAQs.
-          We've collated the most common questions we're asked about the Bootcamp below.
+          = t('.intro')
 
         .c-prose= raw @content

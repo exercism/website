@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Props = {
   haveFilesChanged: boolean
@@ -9,12 +10,13 @@ type Props = {
 
 export const RunTestsButton = forwardRef<HTMLButtonElement, Props>(
   ({ haveFilesChanged, isProcessing, ...props }, ref) => {
+    const { t } = useAppTranslation('components/editor/RunTestsButton.tsx')
     const isDisabled = !haveFilesChanged || isProcessing
 
     return (
       <GenericTooltip
         disabled={!isDisabled}
-        content={'You have not made any changes since you last ran the tests'}
+        content={t('runTestsButton.youHaveNotMadeChanges')}
       >
         <div className="run-tests-btn">
           <button
@@ -25,7 +27,7 @@ export const RunTestsButton = forwardRef<HTMLButtonElement, Props>(
             {...props}
           >
             <GraphicalIcon icon="run-tests" />
-            <span>Run Tests</span>
+            <span>{t('runTestsButton.runTests')}</span>
           </button>
         </div>
       </GenericTooltip>

@@ -1,0 +1,6 @@
+en:
+  mentoring:
+    requests:
+      unavailable:
+        unavailable: Unavailable.
+        back_to_list: Back to list

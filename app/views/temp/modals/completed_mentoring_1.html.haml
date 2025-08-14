@@ -2,11 +2,9 @@
   .--modal-content
     %section.celebrate-step.neon-cat
       = image_tag "https://media.giphy.com/media/sIIhZliB2McAo/source.gif", class: 'gif'
-      %h2 Thank you for leaving a testimonial 💙
+      %h2= t('.thank_you_title_html').html_safe
       %p
-        %strong You’ve helped make iHiD’s day. 
-        Be sure to share your experiences on Exercism with others.
+        = t('.testimonial_message_html').html_safe
       = link_to '#', class: "btn-primary btn-l" do
-        %span Back to the discussion
+        %span= t('.back_to_discussion_button')
         = graphical_icon "arrow-right"
-

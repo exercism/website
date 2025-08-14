@@ -2,6 +2,7 @@ import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { LoadingBar } from '@/components/common/LoadingBar'
 import { FooterButtonContainer } from './components'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CheckingForAutomatedFeedback({
   onClick,
@@ -10,17 +11,20 @@ export function CheckingForAutomatedFeedback({
   onClick: () => void
   showTakingTooLong: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation('components/modals/realtime-feedback-modal')
+
   return (
     <>
       <div className="flex gap-40 items-start">
         <div className="flex flex-col">
-          <div className="text-h4 mb-12">Checking for automated feedback… </div>
+          <div className="text-h4 mb-12">
+            {t('checkingForAutomatedFeedback.checking')}{' '}
+          </div>
           <p className="text-16 leading-150  mb-4">
-            Our systems are inspecting your code to find both automated feedback
-            and feedback given by mentors on similar solutions.
+            {t('checkingForAutomatedFeedback.inspectingCode')}
           </p>
           <p className="text-16 leading-150 font-semibold mt-4 mb-16">
-            This process normally takes ~10 seconds.
+            {t('checkingForAutomatedFeedback.processTime')}
           </p>
 
           <LoadingBar animationDuration={10} />
@@ -36,7 +40,7 @@ export function CheckingForAutomatedFeedback({
       {showTakingTooLong && <TakingTooLong />}
       <FooterButtonContainer>
         <button onClick={onClick} className="btn-secondary btn-s mr-auto">
-          Continue without waiting
+          {t('checkingForAutomatedFeedback.continueWaiting')}
         </button>
       </FooterButtonContainer>
     </>
@@ -44,12 +48,11 @@ export function CheckingForAutomatedFeedback({
 }
 
 function TakingTooLong(): JSX.Element {
+  const { t } = useAppTranslation('components/modals/realtime-feedback-modal')
   return (
     <div className="c-textblock-caution mt-12 mb-20">
       <div className="c-textblock-content text-p-base leading-150">
-        Sorry, this is taking a little longer than expected. You may wish to
-        continue without waiting. You can view any feedback on the iterations
-        tab of the solution later.
+        {t('checkingForAutomatedFeedback.takingLonger')}
       </div>
     </div>
   )

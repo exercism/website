@@ -1,7 +1,10 @@
+// i18n-key-prefix: iterationSelector
+// i18n-namespace: components/modals/student
 import React from 'react'
 import { Iteration } from '../../types'
 import { useIterationSelector } from './useIterationSelector'
 import { IterationSelect } from './IterationSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const IterationSelector = ({
   iterations,
@@ -12,6 +15,7 @@ export const IterationSelector = ({
   iterationIdx: number | null
   setIterationIdx: (idx: number | null) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/student')
   const { selected, onSelected } = useIterationSelector({
     iterationIdx,
     setIterationIdx,
@@ -29,7 +33,7 @@ export const IterationSelector = ({
         />
         <div className="row">
           <div className="c-radio" />
-          <div className="label">All iterations</div>
+          <div className="label">{t('iterationSelector.allIterations')}</div>
         </div>
       </label>
       <label className="c-radio-wrapper">
@@ -41,7 +45,7 @@ export const IterationSelector = ({
         />
         <div className="row">
           <div className="c-radio" />
-          <div className="label">Single iteration</div>
+          <div className="label">{t('iterationSelector.singleIteration')}</div>
         </div>
       </label>
       {selected === 'singleIteration' ? (

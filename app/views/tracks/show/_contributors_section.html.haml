@@ -1,29 +1,27 @@
 %section.contributors-section
   %h2.text-h4
     = graphical_icon(:contributors)
-    #{track.title} Contributors
+    = t('.title', track_title: track.title)
 
-  %ol.showcase{ "aria-label": "Top contributors" }
+  %ol.showcase{ "aria-label": t('.top_contributors_aria_label') }
     - contributors[0..1].to_a.each do |contributor|
       %li
-        = link_to profile_path(contributor), "aria-label": "View profile of #{contributor.handle}", "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" do
+        = link_to profile_path(contributor), "aria-label": t('.view_profile_aria_label', contributor_handle: contributor.handle), "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" do
           = avatar(contributor)
           .name= render ViewComponents::HandleWithFlair.new(contributor.name, contributor.flair, size: :base)
           = render ViewComponents::Reputation.new(contributor.formatted_reputation)
 
-  %ol.faces{ "aria-label": "Other significant contributors" }
+  %ol.faces{ "aria-label": t('.other_contributors_aria_label') }
     - contributors[2..13].to_a.each do |contributor|
       %li
         = avatar_link(contributor, "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left")
 
-    %li= link_to "See all", contributing_contributors_path(track_slug: track.slug), class: "all", "aria-label": "See all contributors for this track" # TODO
+    %li= link_to t('.see_all_link'), contributing_contributors_path(track_slug: track.slug), class: "all", "aria-label": t('.see_all_contributors_aria_label') # TODO
 
   .cta
     %h3
-      We
-      %span{ 'aria-label': "love" } 💙
-      our contributors
-    %p Exercism relies on open-source contributors to build our language tracks and mentor students.
-    = link_to "Contribute to the #{track.title} track ->", contributing_tasks_path(track_slug: track.slug)
-
-
+      = t('.cta.we_love_contributors')
+      %span{ 'aria-label': t('.cta.love_emoji_aria_label') } 💙
+      = t('.cta.our_contributors')
+    %p= t('.cta.exercism_relies_on_open_source')
+    = link_to t('.cta.contribute_link', track_title: track.title), contributing_tasks_path(track_slug: track.slug)

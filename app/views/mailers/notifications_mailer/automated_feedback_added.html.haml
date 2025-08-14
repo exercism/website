@@ -1,4 +1,3 @@
-%p Hi #{@user.handle},
-%p New feedback has been added to iteration (##{@iteration.idx}) of your solution to #{@exercise.title} on the #{@track.title} track. We #{@emphasis}recommend taking a look and seeing how you can improve your solution!
-= email_button_to "See the feedback", track_exercise_iterations_url(@track, @exercise)
-
+%p= t('.greeting', user_handle: @user.handle)
+%p= t('.feedback_message', iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis)
+= email_button_to t('.button_text'), track_exercise_iterations_url(@track, @exercise)

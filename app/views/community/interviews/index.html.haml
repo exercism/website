@@ -5,31 +5,29 @@
     .flex.md:flex-row.flex-col.md:items-center.items-left.pt-40.xl:gap-128.md:gap-64.gap-32
       .block
         = graphical_icon "brief-introductions-gradient", css_class: "h-[48px] w-[48px] mb-8"
-        %h1.text-h1.mb-8 Community Interviews &amp; Stories
+        %h1.text-h1.mb-8= t('.header.title')
         %p.text-p-xlarge.leading-150.mb-8
-          At Exercism, we love learning how people think and how it affects their approach to coding.
-          Join Jeremy as he explores the journeys of language creators, and Jonathan as journeys of our community.
-          If you'd like to feature in a future video,
+          = t('.header.description_p1')
           = succeed('!') do
-            = link_to "get in touch", "mailto:jeremy@exercism.org", class: 'text-linkColor font-semibold'
+            = link_to t('.header.get_in_touch_link'), "mailto:jeremy@exercism.org", class: 'text-linkColor font-semibold'
 
       .flex-shrink-0{ class: "sm:w-[400px] w-100" }
         .border-2.border-gradient-lightPurple.px-16.py-12.rounded-8
-          %h3.text-h4.mb-2 Subscribe for more
-          %p.text-p-base.mb-8 Don't miss our on future episodes. Subscribe on YouTube and Spotify.
+          %h3.text-h4.mb-2= t('.subscribe_card.title')
+          %p.text-p-base.mb-8= t('.subscribe_card.description')
           %ul.text-p-base.text-linkColor.font-semibold.list-disc.pl-20
             %li
-              = link_to "Community Stories (YouTube)", "https://www.youtube.com/playlist?list=PLpsileTZltjXMKF5O8rr1tThL6ieAsIEj"
+              = link_to t('.subscribe_card.community_stories_youtube'), "https://www.youtube.com/playlist?list=PLpsileTZltjXMKF5O8rr1tThL6ieAsIEj"
             %li
-              = link_to "Language Creator Interviews (YouTube)", "https://www.youtube.com/playlist?list=PLpsileTZltjVZtQYrTJAxN3ORThziA3Am"
+              = link_to t('.subscribe_card.language_creator_youtube'), "https://www.youtube.com/playlist?list=PLpsileTZltjVZtQYrTJAxN3ORThziA3Am"
             %li
-              = link_to "Podcast (Spotify)", "https://open.spotify.com/show/1xSwCunXSmcARfrCbaGHs1?si=3e3375df62db45aa"
+              = link_to t('.subscribe_card.podcast_spotify'), "https://open.spotify.com/show/1xSwCunXSmcARfrCbaGHs1?si=3e3375df62db45aa"
 
   %hr.border-borderColor6.my-40
 
   .lg-container.relative
-    %h2.text-h2.mb-2 Interviews with Language Creators
-    %h2.text-p-xlarge.mb-32 Join Jeremy as he speaks to the creators and maintainers of the languages you love.
+    %h2.text-h2.mb-2= t('.language_creators.title')
+    %h2.text-p-xlarge.mb-32= t('.language_creators.description')
     .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-24
       - @language_creator_ids.each do |id|
         = render ReactComponents::Common::YoutubePlayer.new(id, 'community_interviews')
@@ -37,8 +35,8 @@
   %hr.border-borderColor6.my-40
 
   .lg-container.relative
-    %h2.text-h2.mb-2 Community Stories
-    %h2.text-p-xlarge.mb-20 Join Jonathan as he chats to our community, exploring their stories and journeys as programmers.
+    %h2.text-h2.mb-2= t('.community_stories.title')
+    %h2.text-p-xlarge.mb-20= t('.community_stories.description')
     .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-24
       - @stories.each do |community_story|
         = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-backgroundColorA rounded-8' do

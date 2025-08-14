@@ -1,0 +1,15 @@
+en:
+  bootcamp:
+    levels:
+      breadcrumbs:
+        title: Levels
+      header:
+        title: Levels
+        description:
+          Levels are the building blocks of the bootcamp. Each level contains
+          a set of exercises and concepts that you need to complete before
+          moving on to the next.
+      part_1:
+        title: Part 1 - Coding Fundamentals
+      part_2:
+        title: Part 2 - Front-End Fundamentals

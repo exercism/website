@@ -4,6 +4,7 @@ import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { FavoritableStudent } from '../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type State = {
   student: FavoritableStudent
@@ -62,6 +63,9 @@ export const FinishedWizard = ({
   defaultStep,
   timelineContent,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/FinishedWizard.tsx'
+  )
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     student: student,
@@ -124,7 +128,7 @@ export const FinishedWizard = ({
               }}
             />
           ) : (
-            <>Incorrect state: {state.step} </>
+            <>{t('finishedWizard.incorrectState', { step: state.step })} </>
           )}
         </div>
       </div>

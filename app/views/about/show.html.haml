@@ -1,5 +1,5 @@
-- content_for :meta_title, "About Exercism"
-- content_for :meta_description, "Learn about Exercism: our vision, mission, and strategy."
+- content_for :meta_title, t('.meta_title')
+- content_for :meta_description, t('.meta_description')
 - content_for :canonical_url, about_url
 - require_stylesheet "about"
 
@@ -9,13 +9,12 @@
   %header.pb-56.c-header-with-bg
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1
       = graphical_icon "exercism-face", css_class: "logo mb-8"
-      %h1.text-h0.mb-16 Exercism
+      %h1.text-h0.mb-16= t('.header.title')
       %hr.c-divider.mb-16
-      %p.text-p-3xlarge.text-textColor2.mb-40.text-center
-        We’re building a place where anyone can learn and master programming for free, without ever feeling lost or stupid.
+      %p.text-p-3xlarge.text-textColor2.mb-40.text-center= t('.header.slogan')
       .grid.grid-1.md:grid-cols-2-auto.gap-24
         = link_to donate_path, class: 'btn-l btn-primary' do
-          Donate to Exercism
+          = t('.header.donate_button')
           = graphical_icon "arrow-right"
         -# TODO
           = link_to "Support Exercism (for organisations)", supporters_page_path, class: 'btn-l btn-enhanced'
@@ -25,68 +24,65 @@
       .info
         %h2.text-h1.mb-16.flex.items-center
           = graphical_icon "purpose"
-          Purpose
-        %p.text-p-2xlarge
-          We're here to help everyone get really good at programming, regardless of their background.
-          We want to share our love of programming, and help people upskill as part of their upward social mobility.
+          = t('.purpose_section.title')
+        %p.text-p-2xlarge= t('.purpose_section.description')
       = graphical_icon "purpose", category: 'graphics', css_class: 'graphic mt-16 lg:mt-0 lg:ml-40 xl:ml-80'
 
     .goals.mb-80.grid.grid-cols-1.md:grid-cols-3.gap-x-40.gap-y-24
       .goal
         .number 1
-        %h3 Attain mastery
-        %p We want people to experience the joy of programming — the deep satisfaction from being a fluent programmer.
+        %h3= t('.goals_section.goal_1.title')
+        %p= t('.goals_section.goal_1.description')
 
       .goal
         .number 2
-        %h3 Have Fun
-        %p Developing programming skills should be empowering and fun, not competitive, frustrating or stressful.
+        %h3= t('.goals_section.goal_2.title')
+        %p= t('.goals_section.goal_2.description')
 
       .goal
         .number 3
-        %h3 Social Mobility
-        %p We want everyone, especially the economically deprived, to achieve upward mobility through learning to code.
+        %h3= t('.goals_section.goal_3.title')
+        %p= t('.goals_section.goal_3.description')
 
     .principles.flex.flex-col.items-center
       = graphical_icon "principles", css_class: 'graphic'
-      %h2.text-h1.mb-24 Principles
+      %h2.text-h1.mb-24= t('.principles_section.title')
       %hr.c-divider.mb-36
 
       %ul
-        %li.text-p-2xlarge Exercism should be enjoyable, challenging and valuable.
-        %li.text-p-2xlarge Exercism should encourage a growth-mindset, clear and empathetic communication, and emphasize the value in learning together.
-        %li.text-p-2xlarge Exercism should feel safe and nurturing.
-        %li.text-p-2xlarge Exercism focusses on the learning journey, not the destination. The process and enjoyment of learning is more important than absolute factual correctness.
+        %li.text-p-2xlarge= t('.principles_section.principle_1')
+        %li.text-p-2xlarge= t('.principles_section.principle_2')
+        %li.text-p-2xlarge= t('.principles_section.principle_3')
+        %li.text-p-2xlarge= t('.principles_section.principle_4')
 
     .leadership.flex.items-start.pt-64.pb-80.flex-col-reverse.lg:flex-row
       = graphical_icon "team", category: 'graphics', css_class: 'graphic self-center md:self-start mt-20 lg:mt-0 m-auto'
 
       .info
         = graphical_icon "contributing-header", css_class: 'icon'
-        %h2.text-h1.mb-16 How Exercism is run
-        %p.text-p-2xlarge.mb-40 Exercism is developed through a mixture of top-down leadership and a collaborative community. We believe that most decisions are worth their taking time over, and so we think hard before we act.
+        %h2.text-h1.mb-16= t('.leadership_section.title')
+        %p.text-p-2xlarge.mb-40= t('.leadership_section.description')
 
-        %h3.text-h3.mb-16 Reflective
-        %p.text-p-xlarge.mb-40 We focus on being strategy-driven and product-driven, looking to the long term, not just the immediate impact, and considering the holistic impact of decisions. We work closely with key volunteer contributors to canvas opinions and knowledge, understanding our strengths and weaknesses and trying to improve Exercism daily, while also staying focussed on our long-term vision.
+        %h3.text-h3.mb-16= t('.leadership_section.reflective.title')
+        %p.text-p-xlarge.mb-40= t('.leadership_section.reflective.description')
 
-        %h3.text-h3.mb-16 A small team with a big vision
-        %p.text-p-xlarge.mb-40 We also place a high focus on quality. We want what we do to be good - to work well, be accessible to all, and to be innovative. We have a tiny core team who take responsibility for ensuring that Exercism grows and evolves in line with its vision. Through donations from our community, philanthropists and philanthropic foundations, we are expanding our team in a sustainable and responsible way. We have funding milestones that we publicize and fundraise towards, which allow us to hire more people to develop further.
+        %h3.text-h3.mb-16= t('.leadership_section.small_team.title')
+        %p.text-p-xlarge.mb-40= t('.leadership_section.small_team.description')
 
-        %h3.text-h3.mb-16 Grounded in ethics
-        %p.text-p-xlarge We try to pay fairly, respecting and considering both the time and value of our staff and the generosity of our donors. We act ethically as a company and as an employer, treating our team with respect and never asking something of them that we wouldn’t do ourselves, and not using techniques or technologies that we wouldn't want used on us.
+        %h3.text-h3.mb-16= t('.leadership_section.ethics.title')
+        %p.text-p-xlarge= t('.leadership_section.ethics.description')
 
     .donate-section.px-24.lg:px-64.py-24.lg:py-40.flex.items-start.flex-col.lg:flex-row
       = graphical_icon "building-with-gradient", css_class: 'icon mb-16 lg:mb-0'
       .info.flex.flex-col.md:items-start
-        %h2.text-h1.mb-12 Help us bring the joy of programming to everyone, everywhere ✨
-        %p.text-p-2xlarge.mb-28 We rely on open-source contributions and cash donations to achieve our mission. Can you spare some time or money to support our mission?
+        %h2.text-h1.mb-12= t('.donate_section.title')
+        %p.text-p-2xlarge.mb-28= t('.donate_section.description')
         .grid.grid-cols-1.md:grid-cols-2-auto.gap-24
           = link_to donate_path, class: 'btn-l btn-primary' do
-            %span Donate to Exercism
+            %span= t('.donate_section.donate_button')
 
           = link_to contributing_tasks_path, class: 'btn-l btn-enhanced' do
-            %span See tasks that need help
+            %span= t('.donate_section.tasks_button')
             = graphical_icon "arrow-right"
 
       = graphical_icon "floating-cash", category: 'graphics', css_class: 'graphic md:hidden lg:block lg:ml-48 lx:ml-96 mt-28 lg:mt-0 self-center lg:self-start'
-

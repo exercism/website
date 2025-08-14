@@ -5,8 +5,12 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { SectionHeader } from '../../common/SectionHeader'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function IterationFilesSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [shouldSyncExerciseFiles, setShouldSyncExerciseFiles] =
     useState<boolean>(syncer?.syncExerciseFiles ?? true)
@@ -38,11 +42,9 @@ export function IterationFilesSection() {
     <section className={isUserInsider ? '' : 'disabled'}>
       <div className="flex gap-48 items-start">
         <div>
-          <SectionHeader title="Iteration files" />
+          <SectionHeader title={t('iterationFilesSection.iterationFiles')} />
           <p className="text-16 leading-150 mb-16">
-            When syncing, do you want all the files in the exercise (e.g. your
-            solution, the tests, the README, the hints, etc) to be synced to
-            GitHub, or only your solution file(s)?
+            {t('iterationFilesSection.whenSyncing')}
           </p>
           <div className="flex gap-8 mb-16">
             <button
@@ -52,7 +54,7 @@ export function IterationFilesSection() {
                 shouldSyncExerciseFiles ? 'selected' : ''
               )}
             >
-              The full exercise
+              {t('iterationFilesSection.theFullExercise')}
             </button>
             <button
               onClick={() => setShouldSyncExerciseFiles(false)}
@@ -61,7 +63,7 @@ export function IterationFilesSection() {
                 !shouldSyncExerciseFiles ? 'selected' : ''
               )}
             >
-              Only my solution file(s)
+              {t('iterationFilesSection.onlyMySolutionFiles')}
             </button>
           </div>
 
@@ -70,7 +72,7 @@ export function IterationFilesSection() {
             className="btn btn-primary"
             onClick={handleSaveChanges}
           >
-            Save changes
+            {t('iterationFilesSection.saveChanges')}
           </button>
         </div>
         <GraphicalIcon

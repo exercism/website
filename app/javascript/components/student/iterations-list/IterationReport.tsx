@@ -1,3 +1,5 @@
+// i18n-key-prefix: iterationReport
+// i18n-namespace: components/student/iterations-list
 import React from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
 import { Iteration, IterationStatus } from '../../types'
@@ -7,6 +9,7 @@ import { Information } from './Information'
 import { Exercise, Track, Links } from '../IterationsList'
 import { GraphicalIcon } from '../../common'
 import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const IterationReport = ({
   iteration,
@@ -29,6 +32,8 @@ export const IterationReport = ({
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
+
   return (
     <details open={isOpen} className="iteration c-details">
       <summary
@@ -58,7 +63,9 @@ export const IterationReport = ({
         </div>
       </summary>
       {iteration.status == IterationStatus.DELETED ? (
-        <div className="deleted">This iteration has been deleted</div>
+        <div className="deleted">
+          {t('iterationReport.thisIterationHasBeenDeleted')}
+        </div>
       ) : (
         <div className="content">
           <div className="files">

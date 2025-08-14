@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { TrackContext } from '../../TrackWelcomeModal'
 import { StepButton } from './components/StepButton'
 import { BootcampRecommendationView } from '../BootcampRecommendationView'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function LearningEnvironmentSelectorStep({
   onSelectLocalMachine,
@@ -12,6 +13,9 @@ export function LearningEnvironmentSelectorStep({
 >): JSX.Element {
   const { track, shouldShowBootcampRecommendationView } =
     useContext(TrackContext)
+  const { t } = useAppTranslation(
+    'components/modals/track-welcome-modal/LHS/steps'
+  )
 
   if (shouldShowBootcampRecommendationView) {
     return <BootcampRecommendationView />
@@ -19,27 +23,33 @@ export function LearningEnvironmentSelectorStep({
 
   return (
     <>
-      <h3 className="text-h3 mb-8">Online or on your computer?</h3>
+      <h3 className="text-h3 mb-8">
+        {t('learningEnvironmentSelectorStep.onlineOrOnYourComputer')}
+      </h3>
       <p className="mb-12">
-        You can solve the exercises using either our online editor, or locally
-        within your own environment. If you use your own environment,
-        you&apos;ll need to install both {track.title} and the Exercism CLI.
+        {t(
+          'learningEnvironmentSelectorStep.solveExercisesUsingEditorOrLocally',
+          { trackTitle: track.title }
+        )}
       </p>
       <p className="mb-12">
-        We generally recommend starting by using our editor.
+        {t('learningEnvironmentSelectorStep.recommendStartingWithEditor')}
       </p>
       <p className="mb-16">
         <span className="font-semibold">
-          How would you like to start solving the {track.title} exercises?
+          {t(
+            'learningEnvironmentSelectorStep.howWouldYouLikeToStartSolvingExercises',
+            { trackTitle: track.title }
+          )}
         </span>
       </p>
 
       <div className="grid grid-cols-2 gap-12 items-center">
         <StepButton onClick={onSelectOnlineEditor} className="btn-primary">
-          In the online editor
+          {t('learningEnvironmentSelectorStep.inTheOnlineEditor')}
         </StepButton>
         <StepButton onClick={onSelectLocalMachine} className="btn-secondary">
-          On my local machine
+          {t('learningEnvironmentSelectorStep.onMyLocalMachine')}
         </StepButton>
       </div>
     </>

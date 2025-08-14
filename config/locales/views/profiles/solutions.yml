@@ -1,0 +1,12 @@
+en:
+  profiles:
+    solutions:
+      meta_title: "%{user_handle}'s solutions Exercism"
+      meta_description: Explore %{user_handle}'s solutions on Exercism, and see
+        everything they've learnt.
+      introducer:
+        title: Showcasing code and improvements
+        description:
+          See %{user_handle}'s published solutions from completing exercises
+          on Exercism. Discover how they improved their solution over
+          iterations.

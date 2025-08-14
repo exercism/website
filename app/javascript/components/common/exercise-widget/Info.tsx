@@ -1,3 +1,5 @@
+// i18n-key-prefix: info
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
@@ -8,6 +10,7 @@ import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
 import { Outdated } from './info/Outdated'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Info = ({
   exercise,
@@ -22,13 +25,17 @@ export const Info = ({
   renderBlurb: boolean
   isSkinny: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
   return (
     <div className="--info">
       <div className="--title">
         {exercise.title}
         {track && !isSkinny ? (
           <div className="--track">
-            in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+            {t('info.titleInTrack', {
+              trackTitle: track.title,
+            })}{' '}
+            <TrackIcon iconUrl={track.iconUrl} title={track.title} />
             <div className="--track-title">{track.title}</div>
           </div>
         ) : null}

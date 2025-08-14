@@ -1,9 +1,12 @@
+// i18n-key-prefix: automation
+// i18n-namespace: components/settings/UserPreferencesForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { UserPreference } from '@/components/types'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -22,6 +25,7 @@ export default function UserPreferencesForm({
   defaultPreferences: UserPreferences
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/UserPreferencesForm.tsx')
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,
@@ -63,7 +67,7 @@ export default function UserPreferencesForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Automation</h2>
+      <h2>{t('automation.title')}</h2>
       {preferences.automation.map((p) => (
         <label className="c-checkbox-wrapper" key={p.key}>
           <input
@@ -81,7 +85,7 @@ export default function UserPreferencesForm({
       ))}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Change preferences
+          {t('automation.changePreferences')}
         </FormButton>
         <FormMessage
           status={status}
@@ -95,10 +99,11 @@ export default function UserPreferencesForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/UserPreferencesForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your preferences have been updated
+      {t('automation.successMessage')}
     </div>
   )
 }

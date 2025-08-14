@@ -1,33 +1,30 @@
-%p Hey!
+%p= t('.greeting')
 
 %p
-  I'm excited to let you know you're eligible for Exercism Insiders - our rewards program for people who contribute, mentor, or donate to Exercism.
-  You can activate your Insiders account on the #{link_to 'Insiders Page', insiders_url}.
+  = t('.eligibility_message_html', exercism_insiders_link_text: t('.exercism_insiders_link_text'), insiders_page_link: insiders_url).html_safe
 
-%p Insiders gives you a few extra benefits:
+%p= t('.benefits_heading')
 %ol
-  %li Access to our sexy Dark Mode
-  %li ChatGPT Integration for when you get stuck on exercises
-  %li Behind the scenes content. You can watch videos from me and the team, keeping you in the loop, as we work on Exercism.
-  %li Closer access to the team and key community members, with our dedicated #insiders Discord channel.
-  %li Extra mentoring slots.
-  %li Exclusive Badges
-  %li And more!
+  %li= t('.benefit_dark_mode')
+  %li= t('.benefit_chatgpt_integration')
+  %li= t('.benefit_behind_the_scenes')
+  %li= t('.benefit_discord_channel')
+  %li= t('.benefit_extra_mentoring_slots')
+  %li= t('.benefit_exclusive_badges')
+  %li= t('.benefit_and_more')
 
 %p
-  Your Insiders status will continue for as long as you're actively contributing, mentoring or donating.
-  You can also earn a Lifetime Insiders status by hitting certain thresholds.
-  The #{link_to 'Insiders Page', insiders_url} contains lots more detail or watch the video below to learn more 👇
+  = t('.status_details_html', insiders_page_link_text: t('.insiders_page_link_text'), insiders_page_link: insiders_url).html_safe
 
 %p{ style: "margin-bottom: 24px" }
   %a{ href: "https://www.youtube.com/watch?v=iwhahd41h0A", style: "display:block; box-shadow: 0px 2px 4px #0F0923" }
     %img{ src: "https://assets.exercism.org/images/thumbnails/introducing-insiders-with-play-icon.jpg", style: "width:100%; display:block" }
 
-%p Thanks so much for being part of Exercism's story. I really hope you enjoy Insiders!
+%p= t('.thank_you_message')
 
 %p
-  Jeremy Walker
+  = t('.signature_name')
   %br
-  Exercism's Co-founder &amp; CEO
+  = t('.signature_title')
 
-= email_button_to 'Activate Insiders', insiders_url
+= email_button_to t('.activate_button_text'), insiders_url

@@ -5,6 +5,7 @@ import {
   IterationSummary,
 } from '@/components/track/IterationSummary'
 import { GenericTooltip } from '@/components/misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   iteration: Iteration
@@ -15,6 +16,9 @@ export const IterationHeader = ({
   iteration,
   isOutOfDate,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/iteration-view'
+  )
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
@@ -29,11 +33,14 @@ export const IterationHeader = ({
 }
 
 const OutOfDateNotice = () => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/iteration-view'
+  )
   return (
     <GenericTooltip
       content={`
-        This exercise has been updated since this iteration was submitted.
-        You can update to the latest version by clicking on the yellow bar at the top of the main exercise page.`}
+        ${t('iterationHeader.thisExerciseHasBeenUpdated')}
+        ${t('iterationHeader.youCanUpdateToLatestVersion')}`}
     >
       <div>
         <IterationSummary.OutOfDateNotice />

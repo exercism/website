@@ -1,7 +1,11 @@
 import React, { useContext, useCallback } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function InitialView() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/FrontendExercisePage/Header'
+  )
   const { handleCompleteSolution, setIsFinishLessonModalOpen: setIsOpen } =
     useContext(FinishLessonModalContext)
 
@@ -12,27 +16,29 @@ export function InitialView() {
   return (
     <>
       <h2 className="text-[26px] mb-20 font-semibold text-textColor1">
-        Ready to Complete? 🎉
+        {t('finishLessonModal.views.initialView.readyToComplete')}
       </h2>
 
       <p className="text-18 leading-150 mb-20">
-        In this exercise, you decide when you're happy to finish the exercise.
-        Your aim is to have it look and function the same as the example
-        solution.
+        {t(
+          'finishLessonModal.views.initialView.inThisExerciseYouDecideWhenYoureHappyToFinishTheExerciseYourAimIsToHaveItLookAndFunctionTheSameAsTheExampleSolution'
+        )}
       </p>
       <p className="text-18 leading-140 mb-20 font-medium">
-        Is your solution ready to mark as completed?
+        {t(
+          'finishLessonModal.views.initialView.isYourSolutionReadyToMarkAsCompleted'
+        )}
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
         <button onClick={handleTweakFurther} className="btn-l btn-secondary">
-          Tweak further
+          {t('finishLessonModal.views.initialView.tweakFurther')}
         </button>
         <button
           onClick={handleCompleteSolution}
           className="btn-l btn-primary flex-grow"
         >
-          Complete Exercise
+          {t('finishLessonModal.views.initialView.completeExercise')}
         </button>
       </div>
     </>

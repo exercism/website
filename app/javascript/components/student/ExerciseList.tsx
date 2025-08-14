@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -73,6 +74,7 @@ const Tab = ({
   onClick: () => void
   selected: boolean
 }) => {
+  const { t } = useAppTranslation('components/student/ExerciseList.tsx')
   const classNames = ['c-tab', selected ? 'selected' : null]
 
   return (
@@ -99,6 +101,7 @@ export default ({
   request: Request
   defaultStatus?: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/ExerciseList.tsx')
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria)
   const [statusFilter, setStatusFilter] = useState<StatusFilter>(
@@ -151,7 +154,7 @@ export default ({
           value={criteria || ''}
           type="text"
           className="--search"
-          placeholder="Search by title"
+          placeholder={t('searchByTitle')}
         />
       </div>
       <div className="tabs">
@@ -187,7 +190,7 @@ export default ({
               })}
             </div>
           ) : (
-            <p>No exercises found</p>
+            <p>{t('noExercisesFound')}</p>
           )}
         </FetchingBoundary>
       </ResultsZone>

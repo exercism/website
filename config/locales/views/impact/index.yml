@@ -1,0 +1,13 @@
+en:
+  impact:
+    index:
+      page_title: See how Exercism impacts the world
+      track_heading: "Track: %{track_title}"
+      table_headers:
+        metric: Metric
+        last_24_hours: Last 24 hours
+        last_month: Last month
+      table_data_labels:
+        solutions_submitted: "# Submitted solutions"
+        solutions_completed: "# Completed solutions"
+        prs_opened: "# Opened PRs"

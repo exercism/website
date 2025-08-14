@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 import Modal from 'react-modal'
 import { FinishLessonModalContext } from './FinishLessonModalContextWrapper'
@@ -56,29 +57,31 @@ function CompletedExerciseView({
 }: {
   nextExerciseData: NextExercise
 }) {
+  const { t } = useAppTranslation('components/bootcamp/modals')
   const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
+      <h2 className="text-[25px] mb-12 font-semibold">
+        {t('finishLessonModal.finishLessonModal.congratulations')}
+      </h2>
 
       <p className="text-18 leading-140 mb-8">
-        The next exercise is{' '}
+        {t('finishLessonModal.finishLessonModal.nextExerciseIs')}{' '}
         <strong className="font-semibold">{nextExerciseData.title}.</strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        Do you want to start it now, or would you rather go back to the
-        dashboard?
+        {t('finishLessonModal.finishLessonModal.startItNow')}
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          Go to dashboard
+          {t('finishLessonModal.finishLessonModal.goToDashboard')}
         </a>
         <a
           href={nextExerciseData.solve_url}
           className="btn-l btn-primary flex-grow"
         >
-          Start Next Exercise
+          {t('finishLessonModal.finishLessonModal.startNextExercise')}
         </a>
       </div>
     </div>
@@ -86,21 +89,25 @@ function CompletedExerciseView({
 }
 
 function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
+  const { t } = useAppTranslation('components/bootcamp/modals')
   const { completedLevelIdx } = useContext(FinishLessonModalContext)
   const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        You've completed level {completedLevelIdx}!
+        {t('finishLessonModal.finishLessonModal.completedLevel', {
+          completedLevelIdx,
+        })}
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          Congratulations! That's a big achievement 🎉
+          {t('finishLessonModal.finishLessonModal.bigAchievement')}
         </strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        You're now onto Level {nextLevelIdx} - a brand new challenge! Remember
-        to watch the teaching video in full before starting the exercises.
+        {t('finishLessonModal.finishLessonModal.nowOntoLevel', {
+          nextLevelIdx,
+        })}
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
@@ -108,7 +115,9 @@ function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
           href={links.bootcampLevelUrl.replace('idx', nextLevelIdx.toString())}
           className="btn-l btn-primary flex-grow"
         >
-          Start Level {nextLevelIdx}
+          {t('finishLessonModal.finishLessonModal.startLevel', {
+            nextLevelIdx,
+          })}
         </a>
       </div>
     </div>
@@ -120,37 +129,38 @@ function CompletedAllLevelsView({
 }: {
   nextExerciseData: NextExercise
 }) {
+  const { t } = useAppTranslation('components/bootcamp/modals')
   const { completedLevelIdx } = useContext(FinishLessonModalContext)
   const { links } = useContext(JikiscriptExercisePageContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        You've completed level {completedLevelIdx}!
+        {t('finishLessonModal.finishLessonModal.completedLevel', {
+          completedLevelIdx,
+        })}
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          Congratulations! That's a big achievement 🎉
+          {t('finishLessonModal.finishLessonModal.bigAchievement')}
         </strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        You've completed all the levels available to you right now, but you
-        still have some exercises outstanding. The next exercise is{' '}
+        {t('finishLessonModal.finishLessonModal.completedAllLevelsAvailable')}{' '}
         <strong className="font-semibold">{nextExerciseData.title}.</strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        Do you want to start it now, or would you rather go back to the projects
-        list?
+        {t('finishLessonModal.finishLessonModal.startItNowOrProjectsList')}
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          Go to dashboard
+          {t('finishLessonModal.finishLessonModal.goToDashboard')}
         </a>
         <a
           href={nextExerciseData.solve_url}
           className="btn-l btn-primary flex-grow"
         >
-          Start Next Exercise
+          {t('finishLessonModal.finishLessonModal.startNextExercise')}
         </a>
       </div>
     </div>
@@ -158,18 +168,21 @@ function CompletedAllLevelsView({
 }
 
 function CompletedEverythingView() {
+  const { t } = useAppTranslation('components/bootcamp/modals')
   const { links } = useContext(JikiscriptExercisePageContext)
 
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
+      <h2 className="text-[25px] mb-12 font-semibold">
+        {t('finishLessonModal.finishLessonModal.congratulations')}
+      </h2>
       <p className="text-18 leading-140 mb-20">
-        Well done! You've finished all the exercises available to you right now.
+        {t('finishLessonModal.finishLessonModal.wellDoneFinishedAllExercises')}
       </p>
 
       <div className="flex flex-col items-stretch self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-primary">
-          Go to dashboard
+          {t('finishLessonModal.finishLessonModal.goToDashboard')}
         </a>
       </div>
     </div>

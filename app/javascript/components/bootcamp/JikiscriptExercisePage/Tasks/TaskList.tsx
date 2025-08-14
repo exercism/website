@@ -1,8 +1,11 @@
+// i18n-key-prefix: taskList
+// i18n-namespace: components/bootcamp/JikiscriptExercisePage/Tasks
 import React from 'react'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import useTaskStore from '../store/taskStore/taskStore'
 import confettiAnimation from '@/../animations/confetti.json'
 import { Icon } from '@/components/common/Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function TaskList({ tasks }: { tasks: Task[] }) {
   const { setCurrentTaskIndex } = useTaskStore()
@@ -16,17 +19,20 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
 }
 
 function Task({ task, onClick }: { task: Task; onClick: () => void }) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/Tasks'
+  )
   return (
     <div data-ci="task" className={`task ${task.status}`}>
       <div className="imgs">
         <Icon
           icon="bootcamp-task-completed"
-          alt="Completed"
+          alt={t('taskList.completed')}
           className="completed-icon"
         />
         <Icon
           icon="bootcamp-task-pending"
-          alt="Pending"
+          alt={t('taskList.pending')}
           className="pending-icon"
         />
 

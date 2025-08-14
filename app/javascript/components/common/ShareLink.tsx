@@ -2,6 +2,7 @@ import React from 'react'
 import { usePanel } from '@/hooks/use-panel'
 import { SharePanel } from './SharePanel'
 import { SharePlatform } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function ShareLink({
   title,
@@ -14,6 +15,7 @@ export default function ShareLink({
   shareLink: string
   platforms: readonly SharePlatform[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/ShareLink.tsx')
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [
@@ -34,7 +36,7 @@ export default function ShareLink({
         {...buttonAttributes}
         onClick={() => setOpen(!open)}
       >
-        Share it.
+        {t('shareLink.shareIt')}
       </button>
       {open ? (
         <SharePanel

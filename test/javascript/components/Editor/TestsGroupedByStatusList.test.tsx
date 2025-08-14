@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
-import { TestsGroupedByStatusList } from '../../../../app/javascript/components/editor/TestsGroupedByStatusList'
+import { TestsGroupedByStatusList } from '../../../../app/javascript/components/editor/testComponents/TestsGroupedByStatusList'
 import { TestStatus } from '../../../../app/javascript/components/editor/types'
 
 test('shows passed tests', async () => {

@@ -9,6 +9,7 @@ import { PaginatedResult } from '../TestimonialsList'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { TestimonialModal } from '../../modals/TestimonialModal'
 import { useIsMounted } from 'use-is-mounted'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to reveal testimonial')
 
@@ -28,6 +29,7 @@ export const UnrevealedTestimonial = ({
   const [open, setOpen] = useState(false)
   const [revealedTestimonial, setRevealedTestimonial] =
     useState<Testimonial | null>(null)
+  const { t } = useAppTranslation('components/mentoring/testimonials-list')
   const {
     mutate: reveal,
     status,
@@ -80,8 +82,12 @@ export const UnrevealedTestimonial = ({
       <TrackIcon {...testimonial.track} />
       <GraphicalIcon icon="avatar-placeholder" className="c-avatar" />
       <div className="info">
-        <div className="student">Someone left you a testimonial… 😲</div>
-        <div className="exercise">Click / tap to reveal</div>
+        <div className="student">
+          {t('unrevealedTestimonial.someoneLeftYouATestimonial')}
+        </div>
+        <div className="exercise">
+          {t('unrevealedTestimonial.clickTapToReveal')}
+        </div>
       </div>
       <time dateTime={testimonial.createdAt}>
         {fromNow(testimonial.createdAt)}

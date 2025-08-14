@@ -1,6 +1,7 @@
 import React from 'react'
 import { StatusTab } from '@/components/mentoring/inbox/StatusTab'
 import { TrainingDataStatus, TrainingDataStatuses } from './Dashboard.types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const STATUS_MAP = {
   needs_tagging: 'Needs tagging',
@@ -17,6 +18,7 @@ export function DashboardTabs({
   currentStatus: TrainingDataStatus
   statuses: TrainingDataStatuses
 }) {
+  const { t } = useAppTranslation('components/training-data/dashboard')
   return (
     <div className="tabs">
       {statuses.map((status) => {
@@ -27,7 +29,7 @@ export function DashboardTabs({
             currentStatus={currentStatus}
             setStatus={setStatus}
           >
-            {STATUS_MAP[status]}
+            {t(`dashboardTabs.${status}`)}
           </StatusTab>
         )
       })}

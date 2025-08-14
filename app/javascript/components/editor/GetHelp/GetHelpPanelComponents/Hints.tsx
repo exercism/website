@@ -1,3 +1,5 @@
+// i18n-key-prefix: getHelpPanelComponents.hints
+// i18n-namespace: components/editor/GetHelp
 import { GraphicalIcon } from '@/components/common'
 import React from 'react'
 export const Hints = ({

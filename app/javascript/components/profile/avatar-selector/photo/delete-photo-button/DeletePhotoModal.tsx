@@ -6,6 +6,7 @@ import { typecheck } from '@/utils/typecheck'
 import { User } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to remove photo')
 
@@ -18,6 +19,7 @@ export const DeletePhotoModal = ({
   endpoint: string
   onSuccess: (user: User) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/avatar-selector/photo')
   const {
     mutate: mutation,
     status,
@@ -57,14 +59,13 @@ export const DeletePhotoModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Delete your profile picture?</h3>
-      <p>
-        Are you sure you want to delete your photo? Other users will see a
-        placeholder picture instead. You can upload a new picture at any time.
-      </p>
+      <h3>
+        {t('deletePhotoButton.deletePhotoModal.deleteYourProfilePicture')}
+      </h3>
+      <p>{t('deletePhotoButton.deletePhotoModal.areYouSure')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton status={status} type="submit" className="btn-primary btn-s">
-          Delete picture
+          {t('deletePhotoButton.deletePhotoModal.deletePicture')}
         </FormButton>
         <FormButton
           status={status}
@@ -72,7 +73,7 @@ export const DeletePhotoModal = ({
           type="button"
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('deletePhotoButton.deletePhotoModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

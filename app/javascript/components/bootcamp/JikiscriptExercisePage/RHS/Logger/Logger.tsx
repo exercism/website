@@ -2,8 +2,12 @@ import React, { useRef, useEffect } from 'react'
 import useTestStore from '../../store/testStore'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { renderLog } from './renderLog'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Logger({ height }: { height: number | string }) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/RHS'
+  )
   const { inspectedTestResult } = useTestStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -20,13 +24,12 @@ export function Logger({ height }: { height: number | string }) {
 
   return (
     <div style={{ height }} className="c-logger" ref={ref}>
-      <h2>Log Messages</h2>
+      <h2>{t('logger.logger.logMessages')}</h2>
       {!inspectedTestResult ||
       inspectedTestResult?.logMessages?.length === 0 ? (
         <div className="info-message">
           <p>
-            Use the <code>log</code> function to log messages to the console.
-            e.g.
+            {t('logger.logger.useTheLogFunctionToLogMessagesToTheConsoleEg')}
           </p>
           <pre className="hljs language-javascript">
             <code>log("Hello World")</code>
@@ -36,7 +39,7 @@ export function Logger({ height }: { height: number | string }) {
         <>
           <div className="info-message">
             <p>
-              These are the log messages for scenario{' '}
+              {t('logger.logger.theseAreTheLogMessagesForScenario')}{' '}
               {inspectedTestResult.testIndex + 1}:
             </p>
           </div>

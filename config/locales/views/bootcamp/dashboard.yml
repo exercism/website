@@ -1,0 +1,52 @@
+en:
+  bootcamp:
+    dashboard:
+      index:
+        level_welcome: Welcome to Level %{level_idx}!
+        go_to_level_button: Go to Level %{level_idx}
+        continue_exercise:
+          title: Continue where you left off
+          description: You have an exercise in progress.
+        start_exercise:
+          title: Start new exercise
+          description: You have a new exercise available to work on.
+        all_exercises_completed_title: All exercises completed 🎉
+        all_exercises_completed_description:
+          Congratulations - you have completed all
+          the exercises currently available to you.
+        upcoming_live_sessions:
+          title: Upcoming Live Sessions
+          responsive_design_title: "Responsive Web Design:"
+          responsive_design_date: "Monday 7th June: 9am UTC"
+          responsive_design_link_text: "Monday 7th June: 9am UTC"
+          final_session_title: The Final Live Session!
+          final_session_date: "Friday 11th June: 9am UTC"
+        make_most_of_bootcamp:
+          title: Make the most of the Bootcamp
+          description:
+            The more you take part in all areas of the Bootcamp, the more
+            you'll learn.
+        level_section_link:
+          title: Level %{level_idx}
+        discord_link:
+          title: Chat on Discord
+          description:
+            "Use the exclusive #bootcamp area on Exercism's Discord server to
+            chat to other Bootcamp students and mentors."
+        forum_link:
+          title: Ask questions on the Forum
+          description_p1:
+            Use the Bootcamp Category on the forum to ask questions and get
+            unstuck.
+          description_p2: Read the pinned post to learn more.
+        switch_part:
+          title: Switch to Part %{alternate_part}
+          description_p1: You have access to both parts of the bootcamp.
+          description_p2:
+            You are currently set to working through Part %{active_part},
+            which means the content on this dashboard will be tailored for Part
+            %{active_part}.
+          description_p3: You can switch between parts at any time.
+          button: Switch to Part %{alternate_part}
+      exercise:
+        exercise_title: Part %{idx}. %{title}

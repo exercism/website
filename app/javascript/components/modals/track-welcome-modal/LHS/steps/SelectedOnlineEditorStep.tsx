@@ -1,22 +1,26 @@
 import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
 import { TrackContext } from '../../TrackWelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,
 }: Record<'onContinueToOnlineEditor', () => void>): JSX.Element {
   const { send } = useContext(TrackContext)
+  const { t } = useAppTranslation(
+    'components/modals/track-welcome-modal/LHS/steps'
+  )
+
   return (
     <>
-      <h3 className="text-h3 mb-8">You're all set!</h3>
+      <h3 className="text-h3 mb-8">
+        {t('selectedOnlineEditorStep.youreAllSet')}
+      </h3>
       <p className="mb-16">
-        If you change your mind later and want to work in your own environment,
-        you'll find instructions for installing the Exercism CLI and language
-        tooling on the right-hand side of each exercise.
+        {t('selectedOnlineEditorStep.changeMindInstructions')}
       </p>
       <p className="mb-16">
-        Let&apos;s jump straight into the first exercise, "Hello, World!", which
-        will ensure you're comfortable with the editor.
+        {t('selectedOnlineEditorStep.letsJumpIntoFirstExercise')}
       </p>
 
       <div className="flex gap-8">
@@ -24,13 +28,13 @@ export function SelectedOnlineEdiorStep({
           onClick={onContinueToOnlineEditor}
           className="btn-primary flex-grow"
         >
-          Continue to online editor
+          {t('selectedOnlineEditorStep.continueToOnlineEditor')}
         </StepButton>
         <StepButton
           onClick={() => send('RESET')}
           className="btn-secondary w-1-3"
         >
-          Reset choices
+          {t('selectedOnlineEditorStep.resetChoices')}
         </StepButton>
       </div>
     </>

@@ -1,15 +1,27 @@
 import React from 'react'
 import { SingleSelect } from '../../../common/SingleSelect'
 import { ReportReason } from '../FinishMentorDiscussionModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: reason }: { option: ReportReason }) => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   switch (reason) {
     case 'coc':
-      return <React.Fragment>Code of Conduct violation</React.Fragment>
+      return (
+        <React.Fragment>
+          {t('reasonSelect.codeOfConductViolation')}
+        </React.Fragment>
+      )
     case 'incorrect':
-      return <React.Fragment>Wrong or misleading information</React.Fragment>
+      return (
+        <React.Fragment>
+          {t('reasonSelect.wrongOrMisleadingInformation')}
+        </React.Fragment>
+      )
     case 'other':
-      return <React.Fragment>Other</React.Fragment>
+      return <React.Fragment>{t('reasonSelect.other')}</React.Fragment>
   }
 }
 

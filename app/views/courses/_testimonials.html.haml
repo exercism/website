@@ -1,19 +1,18 @@
 %section#testimonial-section
   .lg-container
-    %h2 What do our students think?
-    %p.subheading 
-      These are some extracts from students' testimonials.
-      = link_to "Read the full versions here!", courses_testimonials_path, class: "underline font-semibold"
+    %h2= t('.heading')
+    %p.subheading
+      = t('.subheading_html', link_to_read_more: (link_to t('.subheading_link'), courses_testimonials_path, class: "underline font-semibold")).html_safe
     .primary-quote
       .words
         = image_tag "bootcamp/quote.png", class: 'mark left-mark'
         %span
-          Seeing how much effort, thought, and even love is put into this course, it’s such a pleasure to be a student here. Every explanation, each exercise turn this course into a masterpiece. I really enjoy it.
+          = t('.primary_quote_text')
           = image_tag "bootcamp/quote.png", class: 'mark right-mark'
       .person
         .text
-          .name Oleksandra
-          .description Coding Newbie
+          .name= t('.primary_quote_name')
+          .description= t('.primary_quote_description')
         = image_tag "bootcamp/testimonials/oleksandra.jpg"
 
     .quotes

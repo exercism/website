@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const DeleteFileModal = ({
   onDelete,
@@ -8,6 +9,8 @@ export const DeleteFileModal = ({
 }: Omit<ModalProps, 'className'> & {
   onDelete: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/editor/legacy-file-banner')
+
   const handleClose = useCallback(() => {
     onClose()
   }, [onClose])
@@ -22,23 +25,18 @@ export const DeleteFileModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Are you sure you want to delete this file?</h3>
-      <p>
-        Deleting this file will mean it is not submitted as part of your next
-        iteration. However, it will remain visible in your previous iteration.
-        If you change your mind before submitting, you can use the "Reset to
-        last iteration" button (top-right) to undo this change.
-      </p>
+      <h3>{t('deleteFileModal.areYouSure')}</h3>
+      <p>{t('deleteFileModal.deletingFile')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <button type="submit" className="btn-warning btn-s">
-          Delete file
+          {t('deleteFileModal.deleteFile')}
         </button>
         <button
           type="button"
           className="btn-enhanced btn-s"
           onClick={handleClose}
         >
-          Cancel
+          {t('deleteFileModal.cancel')}
         </button>
       </form>
     </Modal>

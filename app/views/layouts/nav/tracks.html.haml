@@ -1,9 +1,9 @@
 - user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(:track)
 - if user_tracks.present?
   .flex.flex-row.border-b-2.border-backgroundColorNavDropdown.py-12.px-20
-    .text-h5 Your recent tracks
+    .text-h5= t('.your_recent_tracks')
     = link_to tracks_path, class: 'ml-auto flex btn-link' do
-      %div See all
+      %div= t('.see_all_button')
       = graphical_icon "arrow-right"
 
   .nav-dropdown-track-list.flex.flex-col
@@ -19,7 +19,7 @@
             .flex.flex-row.bg-backgroundColorI.rounded-8.mb-12.w-fill{ class: 'h-[6px]' }
               .rounded-8.h-fill{ class: 'min-w-[6px]', style: "background:var(--fillColorProgress);width:#{user_track.completed_percentage}%" }
 
-            .text-13.leading-150.text-textColor6 Last touched #{time_ago_in_words(user_track.last_touched_at)}
+            .text-13.leading-150.text-textColor6= t('.last_touched', time_ago: time_ago_in_words(user_track.last_touched_at))
 
 - else
   = render "dashboard/tracks_zero_section"

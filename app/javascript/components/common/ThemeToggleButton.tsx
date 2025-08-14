@@ -1,7 +1,11 @@
+// i18n-key-prefix: themeToggleButton
+// i18n-namespace: components/common/ThemeToggleButton.tsx
 import React, { useCallback } from 'react'
 import { useThemeObserver } from '@/hooks/use-theme-observer'
 import { useTheme } from '../settings/theme-preference-form'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type ThemeToggleButtonProps = {
   disabled: boolean
@@ -14,6 +18,7 @@ export default function ThemeToggleButton({
   disabled,
   defaultTheme,
 }: ThemeToggleButtonProps): JSX.Element {
+  const { t } = useAppTranslation('components/common/ThemeToggleButton.tsx')
   const { explicitTheme } = useThemeObserver(links.update)
   const { handleThemeUpdate } = useTheme(defaultTheme, links)
 
@@ -70,12 +75,15 @@ export function DisabledThemeSelectorTooltip({
 }: {
   insidersLink: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/ThemeToggleButton.tsx')
   return (
     <div className="flex text-14 font-medium">
       <a className="text-14 text-[#F7B000] underline" href={insidersLink}>
-        Join Insiders
+        {t('themeToggleButton.joinInsiders')}
       </a>
-      &nbsp;to enable Dark Mode
+      <Trans i18nKey="themeToggleButton.enableDarkMode">
+        &nbsp;to enable Dark Mode
+      </Trans>
     </div>
   )
 }

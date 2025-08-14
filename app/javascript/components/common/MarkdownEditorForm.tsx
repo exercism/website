@@ -1,3 +1,5 @@
+// i18n-key-prefix:
+// i18n-namespace: components/common/MarkdownEditorForm.tsx
 import React, { useCallback, useState, useEffect, useContext } from 'react'
 import { MutationStatus } from '@tanstack/react-query'
 import {
@@ -8,6 +10,7 @@ import { FormFooter } from './markdown-editor-form/FormFooter'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { MobileIdleFormFooter } from './markdown-editor-form/MobileIdleFormFooter'
 import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ErrorMessage = ({
   error,
@@ -60,6 +63,7 @@ export const MarkdownEditorForm = ({
     expanded ? '--expanded' : '--compressed',
   ].filter((className) => className.length > 0)
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+  const { t } = useAppTranslation('components/common/MarkdownEditorForm.tsx')
 
   const handleSubmit = useCallback(
     (e) => {
@@ -106,9 +110,9 @@ export const MarkdownEditorForm = ({
 
       e.stopPropagation()
 
-      confirm('Are you sure you want to delete this?') ? onDelete() : null
+      confirm(t('areYouSureYouWantToDeleteThis')) ? onDelete() : null
     },
-    [onDelete]
+    [onDelete, t]
   )
 
   useEffect(() => {

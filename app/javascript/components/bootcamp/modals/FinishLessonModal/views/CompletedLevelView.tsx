@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { JikiscriptExercisePageContext } from '../../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 
 export function CompletedLevelView() {
+  const { t } = useAppTranslation('components/bootcamp/modals')
   const { nextLevelIdx, completedLevelIdx } = useContext(
     FinishLessonModalContext
   )
@@ -10,19 +12,21 @@ export function CompletedLevelView() {
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        You've completed level {completedLevelIdx}!
+        {t('finishLessonModal.views.completedLevelView.completedLevel', {
+          completedLevelIdx,
+        })}
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          Congratulations! That's a big achievement 🎉
+          {t('finishLessonModal.views.completedLevelView.bigAchievement')}
         </strong>
       </p>
       {nextLevelIdx ? (
         <>
           <p className="text-18 leading-140 mb-20">
-            You're now onto Level {nextLevelIdx} - a brand new challenge!
-            Remember to watch the teaching video in full before starting the
-            exercises.
+            {t('finishLessonModal.views.completedLevelView.nowOntoLevel', {
+              nextLevelIdx,
+            })}
           </p>
 
           <div className="flex items-center gap-8 self-stretch">
@@ -33,15 +37,18 @@ export function CompletedLevelView() {
               )}
               className="btn-l btn-primary flex-grow"
             >
-              Start Level {nextLevelIdx}
+              {t('finishLessonModal.views.completedLevelView.startLevel', {
+                nextLevelIdx,
+              })}
             </a>
           </div>
         </>
       ) : (
         <>
           <p className="text-18 leading-140 mb-20">
-            You've completed all the levels available to you right now. Great
-            job!
+            {t(
+              'finishLessonModal.views.completedLevelView.completedAllLevelsAvailable'
+            )}
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">

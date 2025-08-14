@@ -1,3 +1,5 @@
+// i18n-key-prefix: controlButtons
+// i18n-namespace: components/bootcamp/CSSExercisePage/LHS
 import React, { useCallback, useContext } from 'react'
 import toast from 'react-hot-toast'
 import { assembleClassNames } from '@/utils/assemble-classnames'
@@ -18,12 +20,14 @@ import { CheckResult } from '../checks/runChecks'
 import { runCssChecks } from '../checks/runCssChecks'
 import { validateHtml5 } from '../../common/validateHtml5/validateHtml5'
 import { normalizeHtmlText } from '../../common/validateHtml5/normalizeHtmlText'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ControlButtons({
   getEditorValues,
 }: {
   getEditorValues: () => { cssValue: string; htmlValue: string }
 }) {
+  const { t } = useAppTranslation('components/bootcamp/CSSExercisePage/LHS')
   const {
     isDiffModeOn,
     diffMode,
@@ -120,18 +124,26 @@ export function ControlButtons({
       className="flex py-8 gap-8 justify-between"
     >
       <button onClick={handleSubmitCode} className="btn-primary btn-s">
-        Check Result
+        {t('controlButtons.checkResult')}
       </button>
       <div className="flex gap-8">
         <button
           onClick={toggleCurtainMode}
           className={assembleClassNames('btn-secondary btn-s')}
         >
-          Curtain: {curtainMode ? 'on' : 'off'}
+          {t('controlButtons.curtain', {
+            curtainMode: curtainMode
+              ? t('controlButtons.on')
+              : t('controlButtons.off'),
+          })}
         </button>
         <div className="btn-secondary btn-s flex gap-4 p-0 overflow-hidden">
           <button onClick={toggleIsDiffModeOn} className="p-4 px-16">
-            Diff: {isDiffModeOn ? 'on' : 'off'}
+            {t('controlButtons.diff', {
+              isDiffModeOn: isDiffModeOn
+                ? t('controlButtons.on')
+                : t('controlButtons.off'),
+            })}
           </button>
 
           <button

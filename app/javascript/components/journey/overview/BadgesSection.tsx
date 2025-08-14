@@ -3,6 +3,7 @@ import { ProminentLink } from '../../common'
 import { BadgeMedallion } from '../../common/BadgeMedallion'
 import { BadgeList } from '../../types'
 import { BadgeSummary } from './badges-section/BadgeSummary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Props = {
   badges: BadgeList
@@ -16,16 +17,17 @@ type Links = {
 const MAX_BADGES = 4
 
 export const BadgesSection = ({ badges, links }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview')
   const badgesToShow = badges.sort().items.slice(0, MAX_BADGES)
 
   return (
     <section className="badges-section">
       <div className="info">
-        <div className="journey-h3">A glimpse of your badges collection</div>
+        <div className="journey-h3">{t('badgesSection.aGlimpseOfBadges')}</div>
         <BadgeSummary badges={badges} />
         <ProminentLink
           link={links.badges}
-          text="See your entire badge collection"
+          text={t('badgesSection.seeEntireBadgeCollection')}
           withBg
         />
       </div>

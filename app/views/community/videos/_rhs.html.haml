@@ -2,16 +2,16 @@
   .mb-32
     .flex.items-center.mb-2
       .animate-pulse.bg-alert.rounded-circle.mr-6{ class: "w-[10px] h-[10px]" }
-      .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase Live now
+      .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase= t('.live_event.status')
     %h3.text-h4= live_event.title
     %p.text-p-base.mb-12
       = live_event.description
-      Watch on
+      = t('.live_event.watch_on')
       = link_to "Twitch", "https://www.twitch.tv/exercismlive"
       - if live_event.youtube?
-        or
+        = t('.live_event.or')
         = link_to "YouTube", "https://www.youtube.com/watch?v=#{live_event.youtube_id}"
-      👇🏽
+      = t('.live_event.arrow')
 
     .rounded-8.shadow-baseZ1.w-fill.overflow-hidden
       - if live_event.youtube?
@@ -23,13 +23,13 @@
   .flex.flex-col.mb-32
     .text-purple.font-semibold.leading-150.flex.items-center.mb-4
       %span.emoji.mr-6 ⏳
-      Coming soon
+      = t('.featured_event.status')
     %h2.text-h4.mb-2= featured_event.title
     %p.text-p-base.mb-4= featured_event.description
     .py-8.px-12.rounded-8.bg-veryLightBlue.font-medium.mb-16.self-start
-      Live at
+      = t('.featured_event.live_at')
       %strong.font-semibold.text-textColor1 #{format_datetime(featured_event.starts_at)}.
-      Save the date!
+      = t('.featured_event.save_date')
 
     - if featured_event.youtube?
       = link_to "https://www.youtube.com/watch?v=#{featured_event.youtube_id}", class: "bg-backgroundColorA flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
@@ -37,13 +37,13 @@
 
 - if scheduled_events.present?
   .border-1.border-gradient-lightPurple.px-16.py-12.rounded-8.mb-24
-    %h2.text-h4.mb-4 Upcoming Streaming Schedule
+    %h2.text-h4.mb-4= t('.scheduled_events.title')
     %p.text-p-base.mb-4
-      This schedule is regularly updated. All events stream on our
+      = t('.scheduled_events.description_one')
       = succeed('.') do
-        = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
-      Subscribe and don't miss out!
-    %p.text-p-base.mb-12 All times are in UTC.
+        = link_to t('.scheduled_events.twitch_channel'), 'https://twitch.tv/exercismlive', class: 'underline'
+      = t('.scheduled_events.description_two')
+    %p.text-p-base.mb-12= t('.scheduled_events.description_three')
 
     %ul.text-p-base.list-disc.pl-16
       - scheduled_events.each do |event|
@@ -51,5 +51,3 @@
           .font-medium.text-textColor6.text-14.leading-100
             = format_datetime(event.starts_at)
           %strong.font-semibold.text-textColor2= event.title
-
-

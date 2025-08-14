@@ -1,8 +1,11 @@
+// i18n-key-prefix: customFunctionTest
+// i18n-namespace: components/bootcamp/CustomFunctionEditor
 import React, { useState, useCallback } from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import toast from 'react-hot-toast'
 import { GraphicalIcon } from '@/components/common'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CustomFunctionTest({
   args,
@@ -39,16 +42,19 @@ export function CustomFunctionTest({
   onCancelClick: () => void
   onDeleteClick: () => void
 }) {
+  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   const [argsValue, setArgsValue] = useState(args)
   const [expectedValue, setExpectedValue] = useState(expected)
 
   const handleSaveTest = useCallback(() => {
     if (expectedValue.length === 0) {
-      toast.error('You need to provide an expected value before saving')
+      toast.error(
+        t('customFunctionTest.youNeedToProvideAnExpectedValueBeforeSaving')
+      )
       return
     }
     onSaveClick(argsValue, expectedValue)
-  }, [onSaveClick, argsValue, expectedValue])
+  }, [onSaveClick, argsValue, expectedValue, t])
 
   const handleCancelEditing = useCallback(() => {
     if ([args, expected].every((v) => v.length === 0)) {
@@ -57,7 +63,7 @@ export function CustomFunctionTest({
     onCancelClick()
     setArgsValue(args)
     setExpectedValue(expected)
-  }, [args, expected])
+  }, [args, expected, onDeleteClick, onCancelClick])
 
   return (
     <div onClick={onTestClick}>
@@ -174,6 +180,7 @@ function ExpandedView({
   handleSaveTest: () => void
   handleCancelEditing: () => void
 }) {
+  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   const className = assembleClassNames(
     'c-scenario',
     getTestStatus(syntaxError, hasResult, passing)
@@ -201,7 +208,7 @@ function ExpandedView({
             >
               <tbody>
                 <tr>
-                  <th>Code run:</th>
+                  <th>{t('customFunctionTest.codeRun')}:</th>
                   <td className="editable">
                     <div className={editMode ? 'c-faux-input' : ''}>
                       {name}(
@@ -220,7 +227,7 @@ function ExpandedView({
                   </td>
                 </tr>
                 <tr>
-                  <th>Expected:</th>
+                  <th>{t('customFunctionTest.expected')}:</th>
                   <td className="editable whitespace-pre">
                     {editMode ? (
                       <input
@@ -235,7 +242,7 @@ function ExpandedView({
                 </tr>
                 {actual && (
                   <tr>
-                    <th>Actual:</th>
+                    <th>{t('customFunctionTest.actual')}:</th>
                     <td className="whitespace-pre">{formatActual(actual)}</td>
                   </tr>
                 )}
@@ -254,7 +261,7 @@ function ExpandedView({
             }}
             className="btn btn-primary flex-grow"
           >
-            save
+            {t('customFunctionTest.save')}
           </button>
           <button
             onClick={(e) => {
@@ -263,7 +270,7 @@ function ExpandedView({
             }}
             className="btn btn-secondary w-1-3"
           >
-            cancel
+            {t('customFunctionTest.cancel')}
           </button>
         </div>
       )}
@@ -272,8 +279,9 @@ function ExpandedView({
 }
 
 function formatActual(actual: string | null | undefined) {
+  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   if (actual === 'null') {
-    return "[Your function didn't return anything]"
+    return t('customFunctionTest.yourFunctionDidntReturnAnything')
   }
 
   return actual
@@ -290,6 +298,7 @@ function TestTopRHS({
   onEditClick: () => void
   onDeleteClick: () => void
 }) {
+  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   if (readonly) {
     return (
       <GraphicalIcon
@@ -312,7 +321,7 @@ function TestTopRHS({
           onEditClick()
         }}
       >
-        edit
+        {t('customFunctionTest.edit')}
       </button>
       <button
         onClick={(e) => {
@@ -320,7 +329,7 @@ function TestTopRHS({
           onDeleteClick()
         }}
       >
-        delete
+        {t('customFunctionTest.delete')}
       </button>
     </>
   )

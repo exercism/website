@@ -1,18 +1,26 @@
+// i18n-namespace: components/contributing
 import React from 'react'
 import { TaskSize } from '@/components/types'
 import { GraphicalIcon } from '@/components/common'
 import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { SizeTag } from './task/SizeTag'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   switch (size) {
     case 'tiny':
       return (
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Tiny</div>
-            <div className="description">A quick amount of work</div>
+            <div className="title">
+              {t('tasksList.sizeSwitcher.tiny.title')}
+            </div>
+            <div className="description">
+              {t('tasksList.sizeSwitcher.tiny.description')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -21,8 +29,12 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Small</div>
-            <div className="description">Small amount of work</div>
+            <div className="title">
+              {t('tasksList.sizeSwitcher.small.title')}
+            </div>
+            <div className="description">
+              {t('tasksList.sizeSwitcher.small.description')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -31,8 +43,12 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Medium</div>
-            <div className="description">Average amount of work</div>
+            <div className="title">
+              {t('tasksList.sizeSwitcher.medium.title')}
+            </div>
+            <div className="description">
+              {t('tasksList.sizeSwitcher.medium.description')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -41,8 +57,12 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Large</div>
-            <div className="description">Large amount of work</div>
+            <div className="title">
+              {t('tasksList.sizeSwitcher.large.title')}
+            </div>
+            <div className="description">
+              {t('tasksList.sizeSwitcher.large.description')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -51,8 +71,12 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Massive</div>
-            <div className="description">Massive amount of work</div>
+            <div className="title">
+              {t('tasksList.sizeSwitcher.massive.title')}
+            </div>
+            <div className="description">
+              {t('tasksList.sizeSwitcher.massive.description')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -60,32 +84,36 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
 }
 
 const SelectedComponent = ({ value: sizes }: { value: TaskSize[] }) => {
+  const { t } = useAppTranslation('components/contributing')
+
   if (sizes.length > 1) {
-    return <>Multiple</>
+    return <>{t('tasksList.sizeSwitcher.multiple')}</>
   }
 
   switch (sizes[0]) {
     case 'tiny':
-      return <>Extra Small</>
+      return <>{t('tasksList.sizeSwitcher.extraSmall')}</>
     case 'small':
-      return <>Small</>
+      return <>{t('tasksList.sizeSwitcher.small.title')}</>
     case 'medium':
-      return <>Medium</>
+      return <>{t('tasksList.sizeSwitcher.medium.title')}</>
     case 'large':
-      return <>Large</>
+      return <>{t('tasksList.sizeSwitcher.large.title')}</>
     case 'massive':
-      return <>Massive</>
+      return <>{t('tasksList.sizeSwitcher.massive.title')}</>
     case undefined:
-      return <>All</>
+      return <>{t('tasksList.sizeSwitcher.allSizes')}</>
   }
 }
 
 const ResetComponent = () => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <React.Fragment>
       <GraphicalIcon icon="task-size" className="task-icon" />
       <div className="info">
-        <div className="title">All sizes</div>
+        <div className="title">{t('tasksList.sizeSwitcher.allSizes')}</div>
       </div>
     </React.Fragment>
   )

@@ -1,3 +1,5 @@
+// i18n-key-prefix: information
+// i18n-namespace: components/student/iterations-list
 import React, { useState, createContext } from 'react'
 import { AnalysisInformation } from './AnalysisInformation'
 import { TestsInformation } from './TestsInformation'
@@ -8,7 +10,7 @@ import { OptionsDropdown } from './OptionsDropdown'
 import { GraphicalIcon } from '../../common'
 import { GithubSyncerWidget } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { GithubSyncerSettings } from '@/components/settings/github-syncer/GitHubSyncerForm'
-import { Toaster } from 'react-hot-toast'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type TabIndex = 'analysis' | 'tests' | 'backup'
 
@@ -33,6 +35,7 @@ export const Information = ({
   syncer: GithubSyncerSettings | null
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
+  const { t } = useAppTranslation('components/student/iterations-list')
 
   return (
     <TabsContext.Provider
@@ -44,15 +47,15 @@ export const Information = ({
       <div className="tabs overflow-auto">
         <Tab id="analysis" context={TabsContext} className="--small">
           <GraphicalIcon icon="automation" />
-          Analysis
+          {t('information.analysis')}
         </Tab>
         <Tab id="tests" context={TabsContext} className="--small">
           <GraphicalIcon icon="tests" />
-          Tests
+          {t('information.tests')}
         </Tab>
         <Tab id="github-backup" context={TabsContext} className="--small">
           <GraphicalIcon icon="external-site-github" />
-          Backup
+          {t('information.backup')}
         </Tab>
         <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>

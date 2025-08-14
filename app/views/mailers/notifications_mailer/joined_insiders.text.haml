@@ -1,16 +1,15 @@
-Hey!
+= t('.greeting')
 \
-Welcome to Exercism Insiders (https://exercism.org/insiders)!
-Thank you for being part of our story and helping making Exercism the huge success that it is. Insiders is a small way of us saying thank you for your support.
+= t('.welcome_message_text', exercism_insiders_link: 'https://exercism.org/insiders')
 \
-To learn about what's in Insiders, please check out the dedicated page, or watch our introductory vlog: https://www.youtube.com/watch?v=WDUqfCMbh_8
+= t('.learn_more_text')
 
-I'd love to hear all your thoughts and ideas on our dedicated #insiders channel on Discord (https://discord.com/channels/854117591135027261/1103737555490447460). So come along and say hello!
+= t('.discord_message_text', discord_link: 'https://discord.com/channels/854117591135027261/1103737555490447460')
 \
-Thanks for being part of our journey. I'm excited for what comes next 🙂
+= t('.farewell_message')
 \
-Jeremy Walker
+= t('.signature_name')
 
-Exercism Co-founder & CEO
+= t('.signature_title')
 \
-Visit Exercism: #{root_url}
+= t('.visit_exercism_link', root_url: root_url)

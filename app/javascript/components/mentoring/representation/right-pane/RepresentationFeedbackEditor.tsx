@@ -10,6 +10,7 @@ import {
   default as MarkdownEditor,
 } from '@/components/common/MarkdownEditor'
 import { PrimaryButton } from '../common/PrimaryButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function RepresentationFeedbackEditor({
   onChange,
@@ -26,6 +27,9 @@ export function RepresentationFeedbackEditor({
   expanded: boolean
   onPreviewClick: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane'
+  )
   const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
 
   const handleEditorDidMount = useCallback((editor) => {
@@ -61,7 +65,7 @@ export function RepresentationFeedbackEditor({
           className="px-[18px] py-[12px] "
           onClick={onPreviewClick}
         >
-          Preview & Submit
+          {t('representationFeedbackEditor.previewAndSubmit')}
         </PrimaryButton>
       </div>
     </div>

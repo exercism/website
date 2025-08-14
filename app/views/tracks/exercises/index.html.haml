@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@track.title} exercises on Exercism"
-- content_for :meta_description, "Explore the #{@user_track.num_exercises} #{@track.title} exercises on Exercism"
+- content_for :meta_title, t('.meta_title', track_title: @track.title)
+- content_for :meta_description, t('.meta_description', num_exercises: @user_track.num_exercises, track_title: @track.title)
 - content_for :canonical_url, track_exercises_url(@track)
 - require_stylesheet "track"
 
@@ -12,23 +12,21 @@
         %section.external-cta
           = track_icon(@track)
           .info
-            %h2 Practice #{@user_track.num_exercises} exercises in #{@track.title}
+            %h2= t('.external_cta.title', num_exercises: @user_track.num_exercises, track_title: @track.title)
             %p
-              Learn and practice #{@track.title} by completing #{@user_track.num_exercises} exercises
-              that explore different concepts and ideas.
+              = t('.external_cta.description', num_exercises: @user_track.num_exercises, track_title: @track.title)
 
           = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
             = graphical_icon(:plus)
-            Join The #{@track.title} Track
+            = t('.external_cta.join_track_button', track_title: @track.title)
 
     %header.page-header
       .lg-container.container.flex-col.sm:flex-row
         = graphical_icon "laptop-man-1", css_class: 'graphic mb-16 md:mb-0', category: 'graphics'
 
         .info.text-center.sm:text-left
-          %h1 Explore the #{@track.title} exercises on Exercism
-          %p Unlock more exercises as you progress. They’re great practice and fun to do!
+          %h1= t('.page_header.title', track_title: @track.title)
+          %p= t('.page_header.description')
 
     %section.exercises
       = render ReactComponents::Student::ExerciseList.new(@track, params)
-

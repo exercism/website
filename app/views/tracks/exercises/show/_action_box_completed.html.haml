@@ -1,24 +1,23 @@
 - if solution.published?
   .action-box.completed
     .action-box-content
-      %h3 Exercise Published
+      %h3= t('.exercise_published.title')
       .publish-section
-        You've published your exercise for others to learn from. Thank you! You can view and manage your published solution below.
-        You can
-        = render ReactComponents::Student::ChangePublishedIterationModalButton.new(solution, "change published iteration")
-        or
-        = render ReactComponents::Student::UnpublishSolutionModalButton.new(solution, "unpublish your solution.")
+        = t('.exercise_published.description')
+        = render ReactComponents::Student::ChangePublishedIterationModalButton.new(solution, t('.exercise_published.change_published_iteration_button'))
+        = t('.exercise_published.or_text')
+        = render ReactComponents::Student::UnpublishSolutionModalButton.new(solution, t('.exercise_published.unpublish_solution_button'))
         = render ReactComponents::Common::CommunitySolution.new(solution, context: :exercise)
 
 - else
   .action-box.completed
     .action-box-content
-      %h3 Exercise Completed
+      %h3= t('.exercise_completed.title')
       %p
-        You have marked this exercise as complete.
+        = t('.exercise_completed.description')
 
   .action-box.pending
     .action-box-content
-      %h3 Publish your Exercise
-      %p.mb-4 Publish your exercise to earn reputation and help others discover new tips and tricks.
+      %h3= t('.publish_exercise.title')
+      %p.mb-4= t('.publish_exercise.description')
       = render ReactComponents::Student::PublishSolutionButton.new(solution)

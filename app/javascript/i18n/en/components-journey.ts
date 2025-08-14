@@ -15,10 +15,14 @@ export default {
     'This solution fails the tests of the latest version of this exercise. Try updating the exercise and checking it locally or in the online editor.',
   'solution.failedTestsOfTheLatestVersionOfTheExercise':
     'Failed tests of the latest version of the exercise',
-  'solution.iterations': '{{numIterations}} {{iterationLabel}}',
+  solution: {
+    iterations_one: '{{count}} iteration',
+    iterations_other: '{{count}} iterations',
+  },
   'solution.lines': '{{numLoc}} lines',
   'solution.views': '{{numViews}} {{viewLabel}}',
   'solution.lastSubmitted': 'Last submitted {{lastIteratedAt}}',
+  'solution.inTrack': 'in <0/><1>{{track}}<1/>',
   'solutionsList.searchByExerciseOrTrackName':
     'Search by exercise or track name',
   'solutionsList.showingSolutions': 'Showing {{totalCount}} {{solutionLabel}}',

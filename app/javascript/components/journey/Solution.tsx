@@ -4,6 +4,7 @@ import { GraphicalIcon, TrackIcon, ExerciseIcon, Icon } from '../common'
 import { GenericTooltip } from '../misc/ExercismTippy'
 import pluralize from 'pluralize'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type SolutionProps = {
   uuid: string
@@ -96,9 +97,15 @@ export const Solution = ({
             </div>
             <div className="extra">
               <div className="track">
-                {t('solution.inTrack')}
-                <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-                <div className="track-title">{track.title}</div>
+                <Trans
+                  ns="components/journey"
+                  i18nKey="solution.inTrack"
+                  values={{ track: track.title }}
+                  components={[
+                    <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
+                    <div className="track-title" />,
+                  ]}
+                />
               </div>
               {status === 'completed' ? (
                 <div className="status">
@@ -119,11 +126,7 @@ export const Solution = ({
         <div className="stats">
           <div className="stat">
             <GraphicalIcon icon="iteration" />
-            {numIterations}{' '}
-            {t('solution.iterations', {
-              numIterations: numIterations,
-              iterationLabel: pluralize('iteration', numIterations),
-            })}
+            {t('solution.iterations', { count: numIterations })}
           </div>
           {numLoc ? (
             <div className="stat">

@@ -47,7 +47,7 @@
               %h3
                 = link_to t('.leadership_team.katrina_owen.name'), "https://exercism.github.io/kytrinyx/", target: "_blank", rel: 'noreferrer'
               .handle= t('.leadership_team.katrina_owen.handle')
-              %p= t('.leadership_team.katrina_owen.bio', book_link: link_to(t('.leadership_team.katrina_owen.book_link_text'), 'https://sandimetz.com/99bottles'))
+              %p= t('.leadership_team.katrina_owen.bio_html', book_link: link_to(t('.leadership_team.katrina_owen.book_link_text'), 'https://sandimetz.com/99bottles'))
               %ul.links
                 %li
                   = link_to "https://exercism.github.io/kytrinyx/", target: "_blank", rel: 'noreferrer' do
@@ -70,7 +70,7 @@
               %h3
                 = link_to t('.leadership_team.jeremy_walker.name'), "https://ihid.info", target: "_blank", rel: 'noreferrer'
               .handle= t('.leadership_team.jeremy_walker.handle')
-              %p= t('.leadership_team.jeremy_walker.bio', kaido_link: link_to(t('.leadership_team.jeremy_walker.kaido_link_text'), 'https://kaido.org'))
+              %p= t('.leadership_team.jeremy_walker.bio_html', kaido_link: link_to(t('.leadership_team.jeremy_walker.kaido_link_text'), 'https://kaido.org'))
               %ul.links
                 %li
                   = link_to "https://ihid.info", target: "_blank", rel: 'noreferrer' do
@@ -100,7 +100,7 @@
               %h3
                 = link_to t('.staff_team.erik_schierboom.name'), "https://twitter.com/ErikSchierboom", target: "_blank", rel: 'noreferrer'
               .handle= t('.staff_team.erik_schierboom.handle')
-              %p= t('.staff_team.erik_schierboom.bio')
+              %p= t('.staff_team.erik_schierboom.bio_html')
               %ul.links
                 %li
                   = link_to "https://www.erikschierboom.com", target: "_blank", rel: 'noreferrer' do
@@ -120,7 +120,7 @@
               %h3
                 = link_to t('.staff_team.aron_demeter.name'), "https://github.com/dem4ron", target: "_blank", rel: 'noreferrer'
               .handle= t('.staff_team.aron_demeter.handle')
-              %p= t('.staff_team.aron_demeter.bio')
+              %p= t('.staff_team.aron_demeter.bio_html')
               %ul.links
                 %li
                   = link_to "https://twitter.com/d4ron1", target: "_blank", rel: 'noreferrer' do
@@ -142,7 +142,7 @@
             = image_tag "team/nicole.jpg", alt: t('.alumni_team.nicole_chalmers.image_alt'), class: "avatar"
             .details
               %h3= t('.alumni_team.nicole_chalmers.name')
-              %p= t('.alumni_team.nicole_chalmers.bio', kaido_link: link_to(t('.alumni_team.nicole_chalmers.kaido_link_text'), 'https://kaido.org'))
+              %p= t('.alumni_team.nicole_chalmers.bio_html', kaido_link: link_to(t('.alumni_team.nicole_chalmers.kaido_link_text'), 'https://kaido.org'))
           .person
             = image_tag "team/charles.jpg", alt: t('.alumni_team.charles_care.image_alt'), class: "avatar"
             .details

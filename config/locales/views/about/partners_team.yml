@@ -59,7 +59,8 @@ en:
           image_alt: An image of Katrina
           name: Katrina Owen
           handle: Co-founder & Director
-          bio: Katrina is the original creator of Exercism. She is co-author of
+          bio_html: >-
+            Katrina is the original creator of Exercism. She is co-author of
             %{book_link}. Polyglot developer and Ruby Hero award winner, with a
             degree in Molecular Biology. Cares deeply about open-source and
             contributes to several projects outside of Exercism.
@@ -69,7 +70,7 @@ en:
           image_alt: An image of Jeremy Walker
           name: Jeremy Walker
           handle: Co-founder & CEO
-          bio:
+          bio_html: >-
             Jeremy is an entrepreneur and software developer, who's passionate about
             equality and opportunity. He has co-founded various organisations,
             including Meducation, Wondr Medical, and %{kaido_link}, and holds a
@@ -86,7 +87,7 @@ en:
           image_alt: An image of Erik Schierboom
           name: Erik Schierboom
           handle: Head of Open Source
-          bio:
+          bio_html: >-
             Erik is a polyglot developer who loves learning new languages. He builds
             the software and infrastructure that powers the open-source elements
             of the platform, ensuring each track is a joy to work with. He was a
@@ -96,7 +97,7 @@ en:
           image_alt: An image of Aron Demeter
           name: Áron Demeter
           handle: Front-end Developer
-          bio:
+          bio_html: >-
             Áron is a self-taught developer who gets excited about discovering
             interrelations between things. He has a Master's degree in classical
             piano performance. In his freetime he enjoys spending time with his
@@ -109,7 +110,7 @@ en:
         nicole_chalmers:
           image_alt: An image of Nicole Chalmers
           name: Nicole Chalmers
-          bio:
+          bio_html: >-
             Nicole is the Head of Product at %{kaido_link}. She spent two years as Head
             of Product for Exercism, guiding us from v1 to v2, and helping set
             the principles and ideas that still drive Exercism today.
@@ -142,7 +143,7 @@ en:
             Loretta was Exercism's Head of Fundraising during 2022-2023. She's
             motivated by the transformational power of fundraising and is a
             qualified business coach with a passion for developing
-            fundraisers&apos; skills.
+            fundraisers' skills.
         jonathan_middleton:
           image_alt: An image of Jonathan Middleton
           name: Jonathan Middleton

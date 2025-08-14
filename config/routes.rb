@@ -1,10 +1,10 @@
 require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
-def available_locales_constraint
-  (
-    I18n.available_locales.map(&:to_s) - ['en']
-  ).join("|")
+# Build a safe, anchored regex like: /\A(?:en|hu|pt-BR)\z/
+def available_locales_regex
+  union = Regexp.union(I18n.available_locales.map(&:to_s)) # handles hyphens safely
+  /(?:#{union.source})/
 end
 
 Rails.application.routes.draw do
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   }
 
   ## Website Routes, come in naked or locale versions
-  scope '(:locale)', locale: available_locales_constraint do
+  scope '(:locale)', constraints: { locale: available_locales_regex } do
     draw :website
   end
 

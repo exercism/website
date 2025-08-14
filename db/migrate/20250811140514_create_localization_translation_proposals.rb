@@ -19,10 +19,14 @@ class CreateLocalizationTranslationProposals < ActiveRecord::Migration[7.1]
 
 =begin
 
+    Localization::Original.destroy_all
     Localization::Original.create!(
       key: "dashboard.welcome", 
       value: "Welcome back, %username%!", 
-      context: "This string appears at the top of a user's dashboard, welcoming the back to the site."
+      data: { 
+        context: "This string appears at the top of a user's dashboard, welcoming the back to the site.",
+      },
+      type: :website_server_side
     )
     en = Localization::Translation.create!(locale: "en", key: "dashboard.welcome", value: "Welcome back, %username%!")
     hu = Localization::Translation.create!(locale: "hu", key: "dashboard.welcome", value: "Üdv újra, %username%!")

@@ -4,41 +4,30 @@ class Localization::Original::Translate
   initialize_with :original, :locale
 
   def call
-    original.translations.create!(locale: locale)
+    begin
+      original.translations.create!(locale: locale)
+    rescue ActiveRecord::RecordNotUnique
+      # We just continue even if it exists
+    end
+
     LLM::ExecGeminiFlash.(prompt, endpoint)
   end
 
   private
   def endpoint
-    "localization_translated?locale=#{locale}&original_uuid=#{original.uuid}"
+    "localization_translated?original_uuid=#{original.uuid}&locale=#{locale}"
   end
 
   def prompt
-    <<~PROMPT
-      You are a localization expert. Your task is to translate text from english to a given locale.
+    # Use the helper class to generate a prompt
+    case original.type
+    when :unknown, :website_server_side, :website_client_side
+      klass_name = "general"
+    else
+      klass_name = original.type
+    end
 
-      Respond with JSON containing one field:
-      - `value`: The translated text
-
-      Follow these rules carefully:
-      - Maintain the meaning of the original text. Do not improve or change the meaning.
-      - Maintain the tone of the original text, while adhering to the conventions of the target locale.
-      - Do not change the length of the text significantly. It should be roughly the same length as the original.
-      - If there are placeholders in the text, you should use exact same ones. Do NOT change them.
-
-      The target locale is `#{locale}`
-
-      The original English text was:
-      ~~~~~~
-      #{original.value}
-      ~~~~~~
-
-      This is information about how it's used:
-      ~~~~~~
-      #{original.context}
-      ~~~~~~
-
-      Respond with JSON.
-    PROMPT
+    klass = "localization/original/prompts/#{klass_name}".camelize.constantize
+    klass.(original, locale)
   end
 end

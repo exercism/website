@@ -734,12 +734,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
 
   create_table "localization_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
+    t.string "type", null: false
     t.string "key", null: false
     t.text "value", null: false
-    t.text "context", null: false
+    t.text "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_localization_originals_on_key", unique: true
+    t.index ["uuid"], name: "index_localization_originals_on_uuid", unique: true
   end
 
   create_table "localization_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

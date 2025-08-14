@@ -4,6 +4,9 @@ class Localization::Translation::UpdateValue
   initialize_with :key, :locale, :value
 
   def call
+    # Don't override things that might have already been done
+    return unless translation.value.blank? && %i[generating unchecked].include?(translation.status)
+
     translation.update!(
       value: value,
       status: :unchecked

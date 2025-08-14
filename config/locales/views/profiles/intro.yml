@@ -1,7 +1,7 @@
 en:
   profiles:
     intro:
-      _locked:
+      locked:
         reputation:
           label: Your current reputation is
           how_it_works: How does this work?

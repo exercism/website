@@ -1,7 +1,7 @@
 en:
   training_data:
     external:
-      _locked:
+      locked:
         max_reputation_html: Your current max reputation in a track is
         no_reputation: You haven't yet earned any reputation in a track.
         how_it_works: How does this work?

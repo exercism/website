@@ -1,7 +1,7 @@
 en:
   devise:
     shared:
-      _links:
+      links:
         already_have_account_prompt: Already got an account?
         log_in_link: Log in
         no_account_yet_prompt: Don’t have an account yet?

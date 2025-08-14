@@ -1,6 +1,6 @@
 en:
   courses:
-    _testimonials:
+    testimonials:
       heading: What do our students think?
       subheading_html: These are some extracts from students' testimonials. %{link_to_read_more}
       subheading_link: Read the full versions here!

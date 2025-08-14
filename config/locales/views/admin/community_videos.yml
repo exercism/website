@@ -18,7 +18,7 @@ en:
         details_link: Details
         edit_link: Edit
         new_community_video: New community video
-      _form:
+      form:
         errors_prohibited_saving:
           one: "1 error prohibited this community_video from being saved:"
           other: "%{count} errors prohibited this community_video from being saved:"

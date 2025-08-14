@@ -4,11 +4,11 @@ class Localization::TranslationProposal::VerifyWithLLM
   initialize_with :proposal
 
   def call
-    LLM::ExecGeminiFlash.(prompt, endpoint, nil)
+    LLM::ExecGeminiFlash.(prompt, endpoint)
   end
 
   def endpoint
-    "verify_llm_proposal?proposal_uuid=#{proposal.uuid}"
+    "localization_verify_llm_proposal?proposal_uuid=#{proposal.uuid}"
   end
 
   def prompt
@@ -23,7 +23,7 @@ class Localization::TranslationProposal::VerifyWithLLM
       You should use "rejected" if the translation has serious issues that need to be fixed, such as grammatical or spelling mistakes, or ANY placeholders have changed.
       You should use "spam" if the translation is a serious step away from the original. For example, if it is trying to inject spam onto the website, or contains profanity etc. Use this with care as it will automatically block the user that proposed the change.
 
-      The locale is `#{locale}`
+      The target locale is `#{locale}`
 
       The original English text was:
       ~~~~~~

@@ -763,13 +763,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "uuid", null: false
     t.string "locale", null: false
     t.string "key", null: false
-    t.text "value", null: false
+    t.text "value"
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key", "locale"], name: "index_localization_translations_on_key_and_locale", unique: true
     t.index ["uuid"], name: "index_localization_translations_on_uuid", unique: true
-    t.index ["value"], name: "index_localization_translations_on_value", type: :fulltext
   end
 
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

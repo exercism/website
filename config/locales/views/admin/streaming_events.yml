@@ -21,7 +21,7 @@ en:
           details_link: Details
           edit_link: Edit
         new_event_button: New streaming event
-      _form:
+      form:
         errors:
           header:
             one: "1 error prohibited this streaming_event from being saved:"

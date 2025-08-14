@@ -78,7 +78,7 @@
         %h2.text-h4.mb-2.text-center
           = t('.trophy_cabinet.title', track_title: track.title)
         %p.text-p-base.text-textColor6.mb-20.text-center
-          = t('.trophy_cabinet.subtitle_html', learn_more_link: "https://forum.exercism.org/t/track-trophies-are-live/6957").html_safe
+          = t('.trophy_cabinet.subtitle_html', learn_more_link: link_to(t('.trophy_cabinet.learn_more'), 'https://forum.exercism.org/t/track-trophies-are-live/6957')).html_safe
 
         = render ReactComponents::Track::Trophies.new(track, user_track.user)
 

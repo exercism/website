@@ -110,9 +110,8 @@ en:
             total_exercises: Total Exercises
         trophy_cabinet:
           title: "%{track_title} Trophy Cabinet"
-          subtitle_html:
-            Unlock for achievements as you progress through the track.
-            %{learn_more_link}.
+          subtitle_html: "Unlock for achievements as you progress through the track. %{learn_more_link}"
+          learn_more: Learn more
         intro_video:
           title: A Brief Introduction to %{track_title}
           description:

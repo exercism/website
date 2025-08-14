@@ -13,33 +13,12 @@ export default {
     'On average, students iterate a further 3.5 times when mentored on a solution.',
   'mentoring.learnMore': 'Learn more',
   'header.yourSolutionLooksGood': 'Your solution looks good!',
-  'header.goodJobYourSolutionHasPassedAllTests':
-    '<strong>Good job.</strong> Your solution to "{{exerciseTitle}}!" has passed all the tests 😊',
   'header.testsPassed': 'Tests Passed',
-  'header.yourSolutionIsBeingProcessed': 'Your solution is being processed…',
-  'header.yourSolutionIsCurrentlyBeingTested':
-    'Your solution is currently being tested, analysed, and compared to other solutions to find potential improvements. This should only take a few seconds.',
-  'header.yourSolutionFailedTheTests': 'Your solution failed the tests.',
-  'header.hmmmItLooksLikeYourSolutionIsntWorking':
-    "Hmmm, it looks like your solution isn't working. Please check that the tests pass locally on your machine. If they do pass for you, please read <articleLink>this article</articleLink>",
   'header.testsFailed': 'Tests Failed',
-  'header.yourSolutionWorkedButYouCanTakeItFurther':
-    'Your solution worked, but you can take it further…',
-  'header.weveAnalysedYourSolutionAndHave':
-    'We’ve analysed your solution and have {{comments}}. Address the essential improvements before proceeding.',
-  'header.yourSolutionLooksGreat': 'Your solution looks great!',
-  'header.yourSolutionPassedTheTestsAndWeDontHave':
-    "Your solution passed the tests and we don't have any recommendations. {{mentorOffer}} <strong>Great Job! 🎉</strong>",
-  'header.youMightWantToWorkWithAMentor':
-    'You might want to work with a mentor to make it even better.',
   'header.weveAnalysedYourSolutionAndNotFundAnythingThatNeedsChanging':
     'We’ve analysed your solution and not found anything that needs changing. We do have <comments>{{commentCount}} additional {commentPlural}</comments> that you might like to check. {{mentorOffer}} <strong>Great Job! 🎉</strong>',
-  'header.considerWorkingWithAMentor':
-    'Consider working with a mentor to make it even better. ',
   'header.comment_one': 'comment',
   'header.comment_other': 'comments',
-  'header.yourSolutionIsGoodEnoughToContinue':
-    'Your solution is good enough to continue!',
   'header.weveAnalysedYourSolutionAndHaveComments':
     'We’ve analysed your solution and have {{comments}}. You can either continue or address the {recommendationPlural} first - your choice!',
   'header.recommendation_one': 'recommendation',
@@ -50,4 +29,52 @@ export default {
   'header.improvement_other': 'improvements',
   'header.recommendationPlural_one': 'recommendation',
   'header.recommendationPlural_other': 'recommendations',
+
+  header: {
+    goodJobYourSolutionHasPassedAllTests:
+      '<strong>Good job.</strong> Your solution to “{{exerciseTitle}}!” has passed all the tests 😊',
+    yourSolutionIsBeingProcessed: 'Your solution is being processed…',
+    yourSolutionIsCurrentlyBeingTested:
+      'Your solution is currently being tested, analysed, and compared to other solutions to find potential improvements. This should only take a few seconds.',
+    yourSolutionFailedTheTests: 'Your solution failed the tests.',
+    hmmmItLooksLikeYourSolutionIsntWorking:
+      "Hmmm, it looks like your solution isn't working. Please check that the tests pass locally on your machine. If they do pass for you, please read <articleLink>this article <icon></icon></articleLink>",
+    yourSolutionWorkedButYouCanTakeItFurther:
+      'Your solution worked, but you can take it further…',
+    weveAnalysedYourSolutionAndHave:
+      'We’ve analysed your solution and have {{comments}}. Address the essential improvements before proceeding.',
+    yourSolutionLooksGreat: 'Your solution looks great!',
+    yourSolutionPassedTheTestsAndWeDontHave:
+      "Your solution passed the tests and we don't have any recommendations. {{mentorOffer}} <strong>Great Job! 🎉</strong>",
+    considerWorkingWithAMentor:
+      'Consider working with a mentor to make it even better.',
+    youMightWantToWorkWithAMentor:
+      'You might want to work with a mentor to make it even better.',
+    weveAnalysedYourSolutionAndNotFoundAnythingThatNeedsChanging_one:
+      'We’ve analysed your solution and not found anything that needs changing. We do have <comments>{{count}} additional comment</comments> that you might like to check. {{mentorOffer}} <strong>Great Job! 🎉</strong>',
+    weveAnalysedYourSolutionAndNotFoundAnythingThatNeedsChanging_other:
+      'We’ve analysed your solution and not found anything that needs changing. We do have <comments>{{count}} additional comments</comments> that you might like to check. {{mentorOffer}} <strong>Great Job! 🎉</strong>',
+    yourSolutionIsGoodEnoughToContinue:
+      'Your solution is good enough to continue!',
+    weveAnalysedYourSolutionAndHaveComments_one:
+      'We’ve analysed your solution and have {{comments}}. You can either continue or address the recommendation first — your choice!',
+    weveAnalysedYourSolutionAndHaveComments_other:
+      'We’ve analysed your solution and have {{comments}}. You can either continue or address the {{count}} recommendations first — your choice!',
+    weSuggestAddressingTheRecommendations_one:
+      'We suggest addressing the recommendation before proceeding.',
+    weSuggestAddressingTheRecommendations_other:
+      'We suggest addressing the {{count}} recommendations before proceeding.',
+  },
+  status: {
+    testsPassed: 'Tests Passed',
+    testsFailed: 'Tests Failed',
+  },
+  comments: {
+    essentialImprovements_one: '{{count}} essential improvement',
+    essentialImprovements_other: '{{count}} essential improvements',
+    recommendations_one: '{{count}} recommendation',
+    recommendations_other: '{{count}} recommendations',
+    additionalComments_one: '{{count}} additional comment',
+    additionalComments_other: '{{count}} additional comments',
+  },
 }

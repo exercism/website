@@ -7,7 +7,7 @@ export default {
   'trackMenu.enableLearningMode': 'Enable Learning Mode…',
   'trackMenu.resetTrack': 'Reset track…',
   'trackMenu.leaveTrack': 'Leave track…',
-  'notifications.seeAllYourNotifications': 'See all your notifications<icon/>',
+  'notifications.seeAllYourNotifications': 'See all your notifications',
   'notifications.unableToLoad': 'Unable to load notifications',
   'reputation.unableToRetrieve': 'Unable to retrieve reputation tokens',
 }

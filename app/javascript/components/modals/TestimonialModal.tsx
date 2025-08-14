@@ -38,16 +38,14 @@ export const TestimonialModal = ({
             ns="components/modals/TestimonialModal.tsx"
             i18nKey="byLine"
             values={{ handle: testimonial.student.handle }}
-            components={{
-              strong: <strong />,
-              flair: (
-                <HandleWithFlair
-                  handle={testimonial.student.handle}
-                  flair={testimonial.student.flair}
-                  size="large"
-                />
-              ),
-            }}
+            components={[
+              <strong />,
+              <HandleWithFlair
+                handle={testimonial.student.handle}
+                flair={testimonial.student.flair}
+                size="large"
+              />,
+            ]}
           />
         </div>
 

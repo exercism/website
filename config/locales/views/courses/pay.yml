@@ -6,7 +6,7 @@ en:
       intro_html:
         Thanks for choosing to learn with us. We're really excited to help
         you learn <strong>%{course_name}</strong>!
-      _coding_fundamentals:
+      coding_fundamentals:
         exercises_projects_html: Hundreds of hours of fun <strong>exercises and
           projects</strong> that will help your brain really master the
           fundamentals!
@@ -27,7 +27,7 @@ en:
         certificate_html:
           An <strong>official certificate</strong> of completion to put
           on your resume.
-      _front_end_fundamentals:
+      front_end_fundamentals:
         exercises_projects_html: Hundreds of hours of <strong>exercises and
           projects</strong> that will help your brain really master the
           fundamentals of front-end development.
@@ -43,7 +43,7 @@ en:
         certificate_html:
           An <strong>official certificate</strong> of completion to put
           on your resume.
-      _bundle_coding_front_end:
+      bundle_coding_front_end:
         exercises_projects_html:
           Hundreds of hours of fun, interesting <strong>exercises
           and projects</strong> that will help your brain really master the
@@ -66,7 +66,7 @@ en:
         certificate_html:
           An <strong>official certificate</strong> of completion to put
           on your resume.
-      _upsell:
+      upsell:
         heading: "Here's a reminder of what's included:"
         testimonial_quote:
           I was brand new to coding and this course **exceeded my

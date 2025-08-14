@@ -1,7 +1,7 @@
 en:
   mentoring:
     external_requests:
-      _exercise_tag:
+      exercise_tag:
         track_title_html: in %{track_title}
       show_logged_out:
         heading: Want to mentor %{user_handle}?

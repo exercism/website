@@ -12,18 +12,15 @@ export function PublishedSolutionLink({
   const { t } = useAppTranslation('components/track/activity-ticker')
   return (
     <span className="inline-flex">
-      {' '}
       <Trans
         ns="components/track/activity-ticker"
         i18nKey="publishedSolutionLink.newSolution"
-        components={{
-          link: (
-            <a
-              href={publishedSolutionUrl}
-              className="flex flex-row items-center font-semibold text-prominentLinkColor"
-            />
-          ),
-        }}
+        components={[
+          <a
+            href={publishedSolutionUrl}
+            className="flex flex-row items-center font-semibold text-prominentLinkColor"
+          />,
+        ]}
       />
     </span>
   )

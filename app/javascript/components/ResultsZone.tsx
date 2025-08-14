@@ -43,7 +43,11 @@ export const ResultsZone = (
     >
       {props.children}
       <div className="--fetching-overlay">
-        <Icon icon="spinner" className="animate-spin-slow" alt="Loading data" />
+        <Icon
+          icon="spinner"
+          className="animate-spin-slow filter-textColor6"
+          alt="Loading data"
+        />
       </div>
     </div>
   )

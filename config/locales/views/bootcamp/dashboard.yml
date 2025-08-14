@@ -48,5 +48,5 @@ en:
             %{active_part}.
           description_p3: You can switch between parts at any time.
           button: Switch to Part %{alternate_part}
-      _exercise:
+      exercise:
         exercise_title: Part %{idx}. %{title}

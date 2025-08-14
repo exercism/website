@@ -2,7 +2,7 @@ en:
   cohorts:
     show:
       closed_for_applications: This Cohort has now started and is closed for applications.
-      _gohort_aug_22:
+      gohort_aug_22:
         intro_cohort: Introducing the %{cohort_name}
         gohort_intro:
           What happens when a few committed learners encourage and help each
@@ -37,7 +37,7 @@ en:
           discover your knowledge gaps and build a deep understanding of the
           language.
         explore_track: Explore the Go track
-      _form:
+      form:
         get_registered: Get Registered!
         sign_up_to_cohort: Sign up to the %{cohort_name}
         login_or_signup_message:
@@ -66,7 +66,7 @@ en:
           %{cohort_name}.
         commit_to_participating: I commit to actively participating in the %{cohort_name}.
         register_button: Register
-      _gohort:
+      gohort:
         intro_cohort: Introducing the %{cohort_name}
         gohort_intro_large:
           What happens when 100 committed learners encourage and help
@@ -102,7 +102,7 @@ en:
           discover your knowledge gaps and build a deep understanding of the
           language.
         explore_track: Explore the Go track
-      _exhort_aug_22:
+      exhort_aug_22:
         intro_cohort: Introducing the %{cohort_name}
         exhort_intro:
           What happens when a few committed learners encourage and help each

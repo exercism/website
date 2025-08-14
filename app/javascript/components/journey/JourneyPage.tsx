@@ -79,9 +79,7 @@ export default function JourneyPage({
           return (
             <Tab key={category.id} context={TabsContext} id={category.id}>
               <GraphicalIcon icon={category.icon} />
-              {t('journeyPage.categoryTitle', {
-                categoryTitle: category.title,
-              })}
+              {category.title}
             </Tab>
           )
         })}

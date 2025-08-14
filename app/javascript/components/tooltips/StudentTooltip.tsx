@@ -60,9 +60,13 @@ const StudentTooltip = React.forwardRef<
             {data.student.numTotalDiscussions > 0 ? (
               <div className="previous-sessions">
                 <Trans
-                  i18nKey="previousSessions"
                   ns="components/tooltips/student-tooltip"
+                  i18nKey={previousSessionsKey(
+                    data.student.numTotalDiscussions,
+                    data.student.numDiscussionsWithMentor
+                  )}
                   values={{
+                    count: data.student.numTotalDiscussions,
                     total: data.student.numTotalDiscussions,
                     withMentor: data.student.numDiscussionsWithMentor,
                   }}
@@ -93,5 +97,14 @@ const StudentTooltip = React.forwardRef<
     </div>
   )
 })
+
+function previousSessionsKey(total: number, withMentor: number): string {
+  if (withMentor === 0) {
+    return 'previousSessions.never'
+  }
+  const totalPart = total === 1 ? 'one' : 'other'
+  const withMentorPart = withMentor === 1 ? 'one' : 'other'
+  return `previousSessions.some_${totalPart}_${withMentorPart}`
+}
 
 export default StudentTooltip

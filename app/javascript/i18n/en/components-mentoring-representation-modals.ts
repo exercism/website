@@ -18,6 +18,6 @@ export default {
   'previewFooter.submit': 'Submit',
   'previewFooter.example': 'Example',
   'previewFeedbackComment.gaveThisFeedback':
-    '<0>{mentorName}</0> gave this feedback on a solution exactly like yours:',
+    '<0>{{mentorName}}</0> gave this feedback on a solution exactly like yours:',
   'previewFeedbackComment.commentedOn': 'Commented on {{date}}',
 }

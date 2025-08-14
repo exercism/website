@@ -60,11 +60,8 @@ const DropdownContent = ({
         })}
         <li {...itemAttributes(data.results.length)}>
           <a href={data.meta.links.all} className="c-prominent-link">
-            <span>
-              {t('notifications.seeAllYourNotifications', {
-                icon: <GraphicalIcon icon="arrow-right" />,
-              })}
-            </span>
+            <span>{t('notifications.seeAllYourNotifications')}</span>
+            <GraphicalIcon icon="arrow-right" />
           </a>
         </li>
       </ul>

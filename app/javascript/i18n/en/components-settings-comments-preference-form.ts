@@ -3,7 +3,7 @@ export default {
   'commentsPreferenceForm.commentsOnYourSolutions':
     'Comments on your solutions',
   'commentsPreferenceForm.settingToControlComments':
-    'Use this setting to control whether or not people can post comments on <span className="font-medium">future solutions that you publish</span>. This can be overriden on a per-solution basis and you can update all existing solutions below.',
+    'Use this setting to control whether or not people can post comments on <0>future solutions that you publish</0>. This can be overriden on a per-solution basis and you can update all existing solutions below.',
   'commentsPreferenceForm.updatePreference': 'Update preference',
   'commentsPreferenceForm.yourPreferencesHaveBeenUpdated':
     'Your preferences have been updated',

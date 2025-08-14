@@ -79,11 +79,41 @@ export function FileStructureSection() {
       </p>
 
       <ul className="text-16 leading-150 mb-16">
-        <li>{t('fileStructureSection.trackSlug')}</li>
-        <li>{t('fileStructureSection.trackTitle')}</li>
-        <li>{t('fileStructureSection.exerciseSlug')}</li>
-        <li>{t('fileStructureSection.exerciseTitle')}</li>
-        <li>{t('fileStructureSection.iterationIdx')},</li>
+        <li>
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.trackSlug"
+            components={{ code: <code /> }}
+          />
+        </li>
+        <li>
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.trackTitle"
+            components={{ code: <code /> }}
+          />
+        </li>
+        <li>
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.exerciseSlug"
+            components={{ code: <code /> }}
+          />
+        </li>
+        <li>
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.exerciseTitle"
+            components={{ code: <code /> }}
+          />
+        </li>
+        <li>
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectedSection"
+            i18nKey="fileStructureSection.iterationIdx"
+            components={{ code: <code /> }}
+          />
+        </li>
       </ul>
       <input
         type="text"

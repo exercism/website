@@ -24,18 +24,18 @@ en:
       social_media:
         twitter: Twitter
       testimonials:
-        dapritchard:
-          "%{twitter_handle} is really incredible. My submission was failing
-          it's tests…I asked for mentoring to help straighten things out, and
-          within 15 minutes someone had messaged me explaining my error."
-        zippkode:
+        dapritchard_html: >-
+          %{twitter_handle} is really incredible. My submission was failing its tests…
+          I asked for mentoring to help straighten things out, and within 15 minutes
+          someone had messaged me explaining my error.
+        zippkode_html: >-
           …I worked on the Ruby strings exercises at %{twitter_handle} This
           platform forces me to slow down and actually logically solve the
           tasks…
-        alebaffa:
-          "I've always loved %{twitter_handle} because you learn not only the
+        alebaffa_html: >-
+          I've always loved %{twitter_handle} because you learn not only the
           syntax of a language, but also its dev environment: how to setup
-          tests, packaging and build. Fantastic resource!"
+          tests, packaging and build. Fantastic resource!
       volunteers_section:
         title: Exercism is powered by huge team of wonderful volunteers.
         mentors_label: Mentors

@@ -1,6 +1,6 @@
 en:
   journey:
-    _hero:
+    hero:
       privacy:
         private: Private
         explanation: No-one else can see this but you

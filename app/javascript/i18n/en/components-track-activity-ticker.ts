@@ -1,6 +1,6 @@
 // namespace: components/track/activity-ticker
 export default {
-  'publishedSolutionLink.newSolution': '<link>new solution</link> for',
+  'publishedSolutionLink.newSolution': '<0>new solution</0>\u00A0for',
   'exerciseWidget.exerciseTitle': '{{exerciseTitle}}',
   'handle.someoneInCountry': 'Someone in {{countryName}}',
   'handle.someone': 'Someone',

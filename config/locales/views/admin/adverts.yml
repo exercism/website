@@ -9,7 +9,7 @@ en:
         num_impressions: "Num Impressions: %{count}"
         num_clicks: "Num Clicks: %{count}"
         back_to_partner_button: Back to partner
-      _form:
+      form:
         errors:
           header:
             one: "1 error prohibited this advert from being saved:"

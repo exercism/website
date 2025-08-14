@@ -12,7 +12,10 @@ function Content({ status }: { status: string }) {
     case 'processing':
       return (
         <>
-          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+          <GraphicalIcon
+            icon="spinner"
+            className="animate-spin-slow filter-textColor6"
+          />
           <div className="--status">{t('processing')}</div>
         </>
       )

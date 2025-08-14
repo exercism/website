@@ -30,7 +30,7 @@ en:
           details_link: Details
           edit_link: Edit
         new_mailshot_button: New mailshot
-      _form:
+      form:
         errors:
           header:
             one: "1 error prohibited this mailshot from being saved:"

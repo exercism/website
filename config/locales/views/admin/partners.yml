@@ -1,7 +1,7 @@
 en:
   admin:
     partners:
-      _form:
+      form:
         errors_prohibited_saving_partner:
           one: "1 error prohibited this partner from being saved:"
           other: "%{count} errors prohibited this partner from being saved:"

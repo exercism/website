@@ -6,6 +6,7 @@ import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams } from '../../fetchWithParams'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function StatusSection() {
   const { t } = useAppTranslation(
@@ -62,9 +63,12 @@ export function StatusSection() {
         }}
       />
       <p className="text-18 leading-140">
-        {t('statusSection.githubSyncerLinked', {
-          syncerRepoFullName: syncer?.repoFullName,
-        })}
+        <Trans
+          ns="components/settings/github-syncer/sections/ConnectedSection"
+          i18nKey="statusSection.githubSyncerLinked"
+          components={{ strong: <strong />, code: <code /> }}
+          values={{ repoFullName: syncer?.repoFullName }}
+        />
       </p>
 
       {!isSyncingEnabled && (

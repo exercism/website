@@ -6,6 +6,7 @@ import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { redirectTo } from '@/utils'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -18,8 +19,20 @@ export function JuniorView() {
         <header>
           <h1>{t('juniorView.aCourseForYou')}</h1>
 
-          <p className="mb-8">{t('juniorView.codingFundamentalsDesigned')}</p>
-          <p className="mb-8">{t('juniorView.itWillTeach')}</p>
+          <p className="mb-8">
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.codingFundamentalsDesigned"
+              components={{ strong: <strong /> }}
+            />
+          </p>
+          <p className="mb-8">
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.itWillTeach"
+              components={{ strong: <strong /> }}
+            />
+          </p>
           <div className="grid grid-cols-4 gap-10 mb-12">
             <Icon
               category="bootcamp"
@@ -46,7 +59,17 @@ export function JuniorView() {
               className="w-full"
             />
           </div>
-          <p>{t('juniorView.thisIsCourseAnyone')}</p>
+          <p>
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.thisIsCourseAnyone"
+              components={{
+                strong: (
+                  <strong className="text-backgroundColorH font-semibold" />
+                ),
+              }}
+            />
+          </p>
         </header>
         <div className="flex gap-8 mt-auto">
           <FormButton
@@ -58,7 +81,15 @@ export function JuniorView() {
               redirectTo(links.codingFundamentalsCourse)
             }}
           >
-            {t('juniorView.learnMore')}
+            <Trans
+              ns="components/modals/welcome-modal"
+              i18nKey="juniorView.learnMore"
+              components={{
+                strong: (
+                  <strong className="text-backgroundColorH font-semibold" />
+                ),
+              }}
+            />
           </FormButton>
 
           <FormButton
@@ -87,7 +118,18 @@ export function JuniorView() {
               height={16}
               width={16}
             />
-            <div>{t('juniorView.exercismsCodingFundamentals')}</div>
+            <div>
+              {' '}
+              <Trans
+                ns="components/modals/welcome-modal"
+                i18nKey="juniorView.exercismsCodingFundamentals"
+                components={{
+                  strong: (
+                    <strong className="text-backgroundColorH font-semibold" />
+                  ),
+                }}
+              />
+            </div>
           </div>
           <VimeoEmbed
             className="rounded-8 mb-16"
@@ -104,7 +146,17 @@ export function JuniorView() {
                   category="bootcamp"
                   className="mr-8 w-[20px]"
                 />
-                <span>{t('juniorView.expertTeaching')}</span>
+                <span>
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.expertTeaching"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
+                </span>
               </li>
               <li className="flex items-start">
                 <GraphicalIcon
@@ -112,7 +164,18 @@ export function JuniorView() {
                   category="bootcamp"
                   className="mr-8 w-[20px]"
                 />
-                <span>{t('juniorView.overHoursHandsOn')}</span>
+                <span>
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.overHoursHandsOn"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
+                </span>
               </li>
               <li className="flex items-start">
                 <GraphicalIcon
@@ -120,7 +183,18 @@ export function JuniorView() {
                   category="bootcamp"
                   className="mr-8 w-[20px]"
                 />
-                <span>{t('juniorView.aCompleteCoding')}</span>
+                <span>
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.aCompleteCoding"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
+                </span>
               </li>
               <li className="flex items-start">
                 <GraphicalIcon
@@ -128,7 +202,18 @@ export function JuniorView() {
                   category="bootcamp"
                   className="mr-8 w-[20px]"
                 />
-                <span>{t('juniorView.aFormalCertificate')}</span>
+                <span>
+                  {' '}
+                  <Trans
+                    ns="components/modals/welcome-modal"
+                    i18nKey="juniorView.aFormalCertificate"
+                    components={{
+                      strong: (
+                        <strong className="text-backgroundColorH font-semibold" />
+                      ),
+                    }}
+                  />
+                </span>
               </li>
             </ul>
           </div>

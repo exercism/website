@@ -72,7 +72,10 @@ function AskingChatGpt() {
 
   return (
     <div role="status" className="running">
-      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+      <GraphicalIcon
+        icon="spinner"
+        className="animate-spin-slow filter-textColor6"
+      />
       <LoadingBar animationDuration={15} />
       <p>
         <strong>{t('askChatGpt.askingChatGPT')}</strong>

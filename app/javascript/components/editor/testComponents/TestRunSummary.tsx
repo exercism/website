@@ -62,7 +62,10 @@ export const TestRunSummary = ({
 
   return (
     <div className="automated-feedback-pending">
-      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+      <GraphicalIcon
+        icon="spinner"
+        className="animate-spin-slow filter-textColor6"
+      />
       <h3>{t('testRunSummary.testingCode')}</h3>
       <p>
         {t('testRunSummary.usuallyTakes', {
@@ -252,7 +255,10 @@ const TestRunSummaryContent = ({
     case TestRunStatus.QUEUED: {
       return (
         <div role="status" className="running">
-          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+          <GraphicalIcon
+            icon="spinner"
+            className="animate-spin-slow filter-textColor6"
+          />
           <LoadingBar animationDuration={testRunner.averageTestDuration} />
           <p>
             <strong>{t('testRunSummary.runningTests')}</strong>&nbsp;

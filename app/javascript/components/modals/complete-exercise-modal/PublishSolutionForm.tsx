@@ -32,7 +32,11 @@ const ConfirmButton = ({
       return (
         <>
           <div className="confirm-button btn-primary btn-l w-[125px]">
-            <Icon icon="spinner" className="animate-spin-slow" alt="loading" />
+            <Icon
+              icon="spinner"
+              className="animate-spin-slow filter-textColor6"
+              alt="loading"
+            />
           </div>
           <Loading />
         </>

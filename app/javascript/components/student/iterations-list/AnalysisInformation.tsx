@@ -28,7 +28,10 @@ export const AnalysisInformation = ({
     case IterationStatus.ANALYZING:
       return (
         <div className="automated-feedback-pending">
-          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+          <GraphicalIcon
+            icon="spinner"
+            className="animate-spin-slow filter-textColor6"
+          />
           <h3>{t('analysisInformation.analyzingCode')}</h3>
           <p>{t('analysisInformation.analysisTime')}</p>
         </div>

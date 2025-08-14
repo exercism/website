@@ -1,5 +1,4 @@
 import React from 'react'
-import pluralize from 'pluralize'
 import { GraphicalIcon, Icon } from '../../common'
 import { toSentence } from '../../../utils/toSentence'
 import { ExerciseType, Iteration, IterationStatus } from '../../types'
@@ -30,7 +29,7 @@ const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
           />
         </p>
       </div>
-      <div className="status passed">{t('header.testsPassed')}</div>
+      <div className="status passed">{t('status.testsPassed')}</div>
     </header>
   )
 }
@@ -45,10 +44,12 @@ export const Header = ({
   links: SolutionSummaryLinks
 }): JSX.Element => {
   const { t } = useAppTranslation('components/student/solution-summary')
+
   switch (iteration.status) {
     case IterationStatus.DELETED:
     case IterationStatus.UNTESTED:
       return <></>
+
     case IterationStatus.TESTING:
     case IterationStatus.ANALYZING:
       return (
@@ -60,6 +61,7 @@ export const Header = ({
           <GraphicalIcon icon="spinner" className="spinner" />
         </header>
       )
+
     case IterationStatus.TESTS_FAILED:
       return (
         <header>
@@ -82,51 +84,59 @@ export const Header = ({
               />
             </p>
           </div>
-          <div className="status failed">{t('header.testsFailed')}</div>
+          <div className="status failed">{t('status.testsFailed')}</div>
         </header>
       )
+
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK: {
       if (exercise.type === 'tutorial') {
         return <TutorialHeader exercise={exercise} />
       }
 
-      const comments = [
-        `${iteration.numEssentialAutomatedComments} essential ${pluralize(
-          'improvement',
-          iteration.numEssentialAutomatedComments
-        )}`,
+      const essential = t('comments.essentialImprovements', {
+        count: iteration.numEssentialAutomatedComments,
+      })
+      const actionable =
         iteration.numActionableAutomatedComments > 0
-          ? `${iteration.numActionableAutomatedComments} ${pluralize(
-              'recommendation',
-              iteration.numActionableAutomatedComments
-            )}`
-          : '',
-        iteration.numNonActionableAutomatedComments > 0
-          ? `${
-              iteration.numNonActionableAutomatedComments +
-              iteration.numCelebratoryAutomatedComments
-            } additional ${pluralize(
-              'comment',
-              iteration.numNonActionableAutomatedComments +
-                iteration.numCelebratoryAutomatedComments
-            )}`
-          : '',
-      ].filter((comment) => comment.length > 0)
+          ? t('comments.recommendations', {
+              count: iteration.numActionableAutomatedComments,
+            })
+          : ''
+      const additionalCount =
+        iteration.numNonActionableAutomatedComments +
+        iteration.numCelebratoryAutomatedComments
+      const additional =
+        additionalCount > 0
+          ? t('comments.additionalComments', { count: additionalCount })
+          : ''
+
+      const comments = [essential, actionable, additional].filter(
+        Boolean
+      ) as string[]
 
       return (
         <header>
           <div className="info">
             <h2>{t('header.yourSolutionWorkedButYouCanTakeItFurther')}</h2>
-            <p>{t('header.weveAnalysedYourSolutionAndHave', { comments })}</p>
+            <p>
+              {t('header.weveAnalysedYourSolutionAndHave', {
+                comments: toSentence(comments),
+              })}
+            </p>
           </div>
-          <div className="status passed">{t('header.testsPassed')}</div>
+          <div className="status passed">{t('status.testsPassed')}</div>
         </header>
       )
     }
-    case IterationStatus.NO_AUTOMATED_FEEDBACK:
-      if (exercise.type === 'tutorial') {
+
+    case IterationStatus.NO_AUTOMATED_FEEDBACK: {
+      if (exercise.type === 'tutorial')
         return <TutorialHeader exercise={exercise} />
-      }
+
+      const mentorOffer =
+        exercise.type === 'practice'
+          ? t('header.youMightWantToWorkWithAMentor')
+          : ''
 
       return (
         <header>
@@ -134,21 +144,27 @@ export const Header = ({
             <h2>{t('header.yourSolutionLooksGreat')}</h2>
             <p>
               {t('header.yourSolutionPassedTheTestsAndWeDontHave', {
-                mentorOffer:
-                  exercise.type === 'practice'
-                    ? t('header.youMightWantToWorkWithAMentor')
-                    : null,
+                mentorOffer,
               })}
             </p>
           </div>
-          <div className="status passed">{t('header.testsPassed')}</div>
+          <div className="status passed">{t('status.testsPassed')}</div>
         </header>
       )
+    }
+
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
-    case IterationStatus.CELEBRATORY_AUTOMATED_FEEDBACK:
-      if (exercise.type === 'tutorial') {
+    case IterationStatus.CELEBRATORY_AUTOMATED_FEEDBACK: {
+      if (exercise.type === 'tutorial')
         return <TutorialHeader exercise={exercise} />
-      }
+
+      const count =
+        iteration.numNonActionableAutomatedComments +
+        iteration.numCelebratoryAutomatedComments
+      const mentorOffer =
+        exercise.type === 'practice'
+          ? t('header.considerWorkingWithAMentor')
+          : ''
 
       return (
         <header>
@@ -157,50 +173,32 @@ export const Header = ({
             <p>
               <Trans
                 ns="components/student/solution-summary"
-                i18nKey="header.weveAnalysedYourSolutionAndNotFundAnythingThatNeedsChanging"
-                values={{
-                  commentCount:
-                    iteration.numNonActionableAutomatedComments +
-                    iteration.numCelebratoryAutomatedComments,
-                  mentorOffer:
-                    exercise.type === 'practice'
-                      ? t('header.considerWorkingWithAMentor')
-                      : ' ',
-                }}
-                components={{
-                  comments: <span className="non-actionable" />,
-                }}
-                count={
-                  iteration.numNonActionableAutomatedComments +
-                  iteration.numCelebratoryAutomatedComments
-                }
+                i18nKey="header.weveAnalysedYourSolutionAndNotFoundAnythingThatNeedsChanging"
+                values={{ count, mentorOffer }}
+                components={{ comments: <span className="non-actionable" /> }}
               />
             </p>
           </div>
-          <div className="status passed">{t('header.testsPassed')}</div>
+          <div className="status passed">{t('status.testsPassed')}</div>
         </header>
       )
-    case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK: {
-      if (exercise.type === 'tutorial') {
-        return <TutorialHeader exercise={exercise} />
-      }
+    }
 
-      const comments = [
-        `${iteration.numActionableAutomatedComments} ${pluralize(
-          'recommendation',
-          iteration.numActionableAutomatedComments
-        )}`,
-        iteration.numNonActionableAutomatedComments > 0
-          ? `${
-              iteration.numNonActionableAutomatedComments +
-              iteration.numCelebratoryAutomatedComments
-            } additional ${pluralize(
-              'comment',
-              iteration.numNonActionableAutomatedComments +
-                iteration.numCelebratoryAutomatedComments
-            )}`
-          : '',
-      ].filter((comment) => comment.length > 0)
+    case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK: {
+      if (exercise.type === 'tutorial')
+        return <TutorialHeader exercise={exercise} />
+
+      const actionable = t('comments.recommendations', {
+        count: iteration.numActionableAutomatedComments,
+      })
+      const additionalCount =
+        iteration.numNonActionableAutomatedComments +
+        iteration.numCelebratoryAutomatedComments
+      const additional =
+        additionalCount > 0
+          ? t('comments.additionalComments', { count: additionalCount })
+          : ''
+      const comments = [actionable, additional].filter(Boolean) as string[]
 
       switch (exercise.type) {
         case 'concept':
@@ -210,17 +208,15 @@ export const Header = ({
                 <h2>{t('header.yourSolutionIsGoodEnoughToContinue')}</h2>
                 <p>
                   {t('header.weveAnalysedYourSolutionAndHaveComments', {
-                    comments,
-                    recommendationPlural: pluralize(
-                      'recommendation',
-                      iteration.numActionableAutomatedComments
-                    ),
+                    comments: toSentence(comments),
+                    count: iteration.numActionableAutomatedComments,
                   })}
                 </p>
               </div>
-              <div className="status passed">{t('header.testsPassed')}</div>
+              <div className="status passed">{t('status.testsPassed')}</div>
             </header>
           )
+
         case 'practice':
           return (
             <header>
@@ -228,14 +224,11 @@ export const Header = ({
                 <h2>{t('header.yourSolutionWorkedButYouCanTakeItFurther')}</h2>
                 <p>
                   {t('header.weSuggestAddressingTheRecommendations', {
-                    recommendationPlural: pluralize(
-                      'recommendation',
-                      iteration.numActionableAutomatedComments
-                    ),
+                    count: iteration.numActionableAutomatedComments,
                   })}
                 </p>
               </div>
-              <div className="status passed">{t('header.testsPassed')}</div>
+              <div className="status passed">{t('status.testsPassed')}</div>
             </header>
           )
       }

@@ -2,9 +2,10 @@ class Localization::Translation < ApplicationRecord
   extend I18n::Backend::Flatten
 
   enum :status, {
-    unchecked: 0,
-    proposed: 1,
-    checked: 2
+    generating: 0,
+    unchecked: 1,
+    proposed: 2,
+    checked: 3
   }
 
   belongs_to :original, class_name: "Localization::Original", foreign_key: :key, primary_key: :key, inverse_of: :translations

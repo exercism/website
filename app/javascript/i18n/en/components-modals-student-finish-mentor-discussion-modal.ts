@@ -19,9 +19,9 @@ export default {
   'rateMentorStep.mentorFinishedMentoring':
     '{{mentorHandle}} has finished mentoring you on',
   'rateMentorStep.feedbackRequest':
-    "To help us and our mentors understand how well we're doing, we'd love some feedback on your discussion with {mentorHandle}. Good mentors will answer your questions, introduce you to new ideas, or encourage you to try new things.",
+    "To help us and our mentors understand how well we're doing, we'd love some feedback on your discussion with {{mentorHandle}}. Good mentors will answer your questions, introduce you to new ideas, or encourage you to try new things.",
   'rateMentorStep.howWasDiscussion':
-    'How was your discussion with {mentorHandle}?',
+    'How was your discussion with {{mentorHandle}}?',
   'rateMentorStep.problematic': 'Problematic',
   'rateMentorStep.acceptable': 'Acceptable',
   'rateMentorStep.itWasGood': 'It was good!',
@@ -61,7 +61,7 @@ export default {
   'addTestimonialStep.finish': 'Finish',
   'celebrationStep.thankYouForTestimonial':
     'Thank you for leaving a testimonial 💙',
-  'celebrationStep.helpedMakeDay': "You've helped make {mentorHandle}'s day.",
+  'celebrationStep.helpedMakeDay': "You've helped make {{mentorHandle}}'s day.",
   'celebrationStep.shareExperience':
     'Please share your experience of Exercism with others.',
   'celebrationStep.backToExercise': 'Back to the exercise',

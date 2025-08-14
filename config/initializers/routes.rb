@@ -1,6 +1,11 @@
 class Exercism::Routes
-  def self.method_missing(name, *args)
-    routes.send(name, *args)
+  def self.method_missing(name, *args, **opts, &blk)
+    # Ensure locale is always a keyword to avoid positional mis-mapping
+    unless opts.key?(:locale)
+      loc = I18n.locale.to_s
+      opts[:locale] = (loc == I18n.default_locale.to_s ? nil : loc)
+    end
+    routes.public_send(name, *args, **opts, &blk)
   end
 
   def self.respond_to_missing?(name, include_all = false)

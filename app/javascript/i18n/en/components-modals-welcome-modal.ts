@@ -24,11 +24,11 @@ export default {
   'initialView.seniorDeveloper': 'Senior Developer',
   'juniorView.aCourseForYou': 'A course for you... 🎉',
   'juniorView.codingFundamentalsDesigned':
-    'Our <strong className="!font-semibold">Coding Fundamentals</strong> course is designed for people who have been coding for less than a year!!',
+    'Our <strong>Coding Fundamentals</strong> course is designed for people who have been coding for less than a year!!',
   'juniorView.itWillTeach':
     "It will teach you how to <strong>think like a coder</strong> by solving puzzles and building games. In only 12 weeks, you'll go from zero to making these...",
   'juniorView.thisIsCourseAnyone':
-    "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong className=\"text-black font-semibold\">incredibly effective</strong>!",
+    "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong>incredibly effective</strong>!",
   'juniorView.learnMore': 'Learn More ✨',
   'juniorView.skip': 'Skip',
   'juniorView.exercismsCodingFundamentals':

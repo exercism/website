@@ -167,62 +167,63 @@ import ew from './components-settings-github-syncer-common'
 import ex from './components-settings-github-syncer-sections-ConnectedSection'
 import ey from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
 import ez from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
-import e0 from './components-settings-HandleForm.tsx'
-import e1 from './components-settings-InsiderBenefitsForm.tsx'
-import e2 from './components-settings-PasswordForm.tsx'
-import e3 from './components-settings-PhotoForm.tsx'
-import e4 from './components-settings-ProfileForm.tsx'
-import e5 from './components-settings-PronounsForm.tsx'
-import e6 from './components-settings-ResetAccountButton.tsx'
-import e7 from './components-settings-ShowOnSupportersPageButton.tsx'
-import e8 from './components-settings-theme-preference-form'
-import e9 from './components-settings-ThemePreferenceForm.tsx'
-import fa from './components-settings-TokenForm.tsx'
-import fb from './components-settings-useInvalidField.tsx'
-import fc from './components-settings-UserPreferencesForm.tsx'
-import fd from './components-settings-useSettingsMutation.tsx'
-import fe from './components-student-CompleteExerciseButton.tsx'
-import ff from './components-student-ExerciseList.tsx'
-import fg from './components-student-ExerciseStatusChart.tsx'
-import fh from './components-student-ExerciseStatusDot.tsx'
-import fi from './components-student-iterations-list'
-import fj from './components-student-mentoring-dropdown'
-import fk from './components-student-mentoring-session'
-import fl from './components-student-mentoring-session-iteration-view'
-import fm from './components-student-mentoring-session-mentoring-request'
-import fn from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import fo from './components-student-MentoringComboButton.tsx'
-import fp from './components-student-MentoringSession.tsx'
-import fq from './components-student-open-editor-button'
-import fr from './components-student-OpenEditorButton.tsx'
-import fs from './components-student-published-solution'
-import ft from './components-student-PublishSolutionButton.tsx'
-import fu from './components-student-RequestMentoringButton.tsx'
-import fv from './components-student-solution-summary'
-import fw from './components-student-tracks-list'
-import fx from './components-student-TracksList.tsx'
-import fy from './components-student-UpdateExerciseNotice.tsx'
-import fz from './components-test'
-import f0 from './components-tooltips-ExerciseTooltip.tsx'
-import f1 from './components-tooltips-studentTooltip'
-import f2 from './components-tooltips-task-tooltip'
-import f3 from './components-track-activity-ticker'
-import f4 from './components-track-build-analyzer-tags'
-import f5 from './components-track-dig-deeper-components'
-import f6 from './components-track-dig-deeper-components-community-videos'
-import f7 from './components-track-dig-deeper-components-no-content-yet'
-import f8 from './components-track-exercise-community-solutions-list'
-import f9 from './components-track-ExerciseCommunitySolutionsList.tsx'
-import ga from './components-track-iteration-summary'
-import gb from './components-track-IterationSummary.tsx'
-import gc from './components-track-Trophies.tsx'
-import gd from './components-track-UnlockHelpButton.tsx'
-import ge from './components-training-data-code-tagger'
-import gf from './components-training-data-dashboard'
-import gg from './discussion-batch'
-import gh from './session-batch-1'
-import gi from './session-batch-2'
-import gj from './session-batch-3'
+import e0 from './components-settings-github-syncer-sections-ConnectToGithubSection'
+import e1 from './components-settings-HandleForm.tsx'
+import e2 from './components-settings-InsiderBenefitsForm.tsx'
+import e3 from './components-settings-PasswordForm.tsx'
+import e4 from './components-settings-PhotoForm.tsx'
+import e5 from './components-settings-ProfileForm.tsx'
+import e6 from './components-settings-PronounsForm.tsx'
+import e7 from './components-settings-ResetAccountButton.tsx'
+import e8 from './components-settings-ShowOnSupportersPageButton.tsx'
+import e9 from './components-settings-theme-preference-form'
+import fa from './components-settings-ThemePreferenceForm.tsx'
+import fb from './components-settings-TokenForm.tsx'
+import fc from './components-settings-useInvalidField.tsx'
+import fd from './components-settings-UserPreferencesForm.tsx'
+import fe from './components-settings-useSettingsMutation.tsx'
+import ff from './components-student-CompleteExerciseButton.tsx'
+import fg from './components-student-ExerciseList.tsx'
+import fh from './components-student-ExerciseStatusChart.tsx'
+import fi from './components-student-ExerciseStatusDot.tsx'
+import fj from './components-student-iterations-list'
+import fk from './components-student-mentoring-dropdown'
+import fl from './components-student-mentoring-session'
+import fm from './components-student-mentoring-session-iteration-view'
+import fn from './components-student-mentoring-session-mentoring-request'
+import fo from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
+import fp from './components-student-MentoringComboButton.tsx'
+import fq from './components-student-MentoringSession.tsx'
+import fr from './components-student-open-editor-button'
+import fs from './components-student-OpenEditorButton.tsx'
+import ft from './components-student-published-solution'
+import fu from './components-student-PublishSolutionButton.tsx'
+import fv from './components-student-RequestMentoringButton.tsx'
+import fw from './components-student-solution-summary'
+import fx from './components-student-tracks-list'
+import fy from './components-student-TracksList.tsx'
+import fz from './components-student-UpdateExerciseNotice.tsx'
+import f0 from './components-test'
+import f1 from './components-tooltips-ExerciseTooltip.tsx'
+import f2 from './components-tooltips-studentTooltip'
+import f3 from './components-tooltips-task-tooltip'
+import f4 from './components-track-activity-ticker'
+import f5 from './components-track-build-analyzer-tags'
+import f6 from './components-track-dig-deeper-components'
+import f7 from './components-track-dig-deeper-components-community-videos'
+import f8 from './components-track-dig-deeper-components-no-content-yet'
+import f9 from './components-track-exercise-community-solutions-list'
+import ga from './components-track-ExerciseCommunitySolutionsList.tsx'
+import gb from './components-track-iteration-summary'
+import gc from './components-track-IterationSummary.tsx'
+import gd from './components-track-Trophies.tsx'
+import ge from './components-track-UnlockHelpButton.tsx'
+import gf from './components-training-data-code-tagger'
+import gg from './components-training-data-dashboard'
+import gh from './discussion-batch'
+import gi from './session-batch-1'
+import gj from './session-batch-2'
+import gk from './session-batch-3'
 
 export default {
   'automation-batch': aa,
@@ -399,61 +400,62 @@ export default {
     ey,
   'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx':
     ez,
-  'components/settings/HandleForm.tsx': e0,
-  'components/settings/InsiderBenefitsForm.tsx': e1,
-  'components/settings/PasswordForm.tsx': e2,
-  'components/settings/PhotoForm.tsx': e3,
-  'components/settings/ProfileForm.tsx': e4,
-  'components/settings/PronounsForm.tsx': e5,
-  'components/settings/ResetAccountButton.tsx': e6,
-  'components/settings/ShowOnSupportersPageButton.tsx': e7,
-  'components/settings/theme-preference-form': e8,
-  'components/settings/ThemePreferenceForm.tsx': e9,
-  'components/settings/TokenForm.tsx': fa,
-  'components/settings/useInvalidField.tsx': fb,
-  'components/settings/UserPreferencesForm.tsx': fc,
-  'components/settings/useSettingsMutation.tsx': fd,
-  'components/student/CompleteExerciseButton.tsx': fe,
-  'components/student/ExerciseList.tsx': ff,
-  'components/student/ExerciseStatusChart.tsx': fg,
-  'components/student/ExerciseStatusDot.tsx': fh,
-  'components/student/iterations-list': fi,
-  'components/student/mentoring-dropdown': fj,
-  'components/student/mentoring-session': fk,
-  'components/student/mentoring-session/iteration-view': fl,
-  'components/student/mentoring-session/mentoring-request': fm,
+  'components/settings/github-syncer/sections/ConnectToGithubSection': e0,
+  'components/settings/HandleForm.tsx': e1,
+  'components/settings/InsiderBenefitsForm.tsx': e2,
+  'components/settings/PasswordForm.tsx': e3,
+  'components/settings/PhotoForm.tsx': e4,
+  'components/settings/ProfileForm.tsx': e5,
+  'components/settings/PronounsForm.tsx': e6,
+  'components/settings/ResetAccountButton.tsx': e7,
+  'components/settings/ShowOnSupportersPageButton.tsx': e8,
+  'components/settings/theme-preference-form': e9,
+  'components/settings/ThemePreferenceForm.tsx': fa,
+  'components/settings/TokenForm.tsx': fb,
+  'components/settings/useInvalidField.tsx': fc,
+  'components/settings/UserPreferencesForm.tsx': fd,
+  'components/settings/useSettingsMutation.tsx': fe,
+  'components/student/CompleteExerciseButton.tsx': ff,
+  'components/student/ExerciseList.tsx': fg,
+  'components/student/ExerciseStatusChart.tsx': fh,
+  'components/student/ExerciseStatusDot.tsx': fi,
+  'components/student/iterations-list': fj,
+  'components/student/mentoring-dropdown': fk,
+  'components/student/mentoring-session': fl,
+  'components/student/mentoring-session/iteration-view': fm,
+  'components/student/mentoring-session/mentoring-request': fn,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
-    fn,
-  'components/student/MentoringComboButton.tsx': fo,
-  'components/student/MentoringSession.tsx': fp,
-  'components/student/open-editor-button': fq,
-  'components/student/OpenEditorButton.tsx': fr,
-  'components/student/published-solution': fs,
-  'components/student/PublishSolutionButton.tsx': ft,
-  'components/student/RequestMentoringButton.tsx': fu,
-  'components/student/solution-summary': fv,
-  'components/student/tracks-list': fw,
-  'components/student/TracksList.tsx': fx,
-  'components/student/UpdateExerciseNotice.tsx': fy,
-  'components/test': fz,
-  'components/tooltips/ExerciseTooltip.tsx': f0,
-  'components/tooltips/student-tooltip': f1,
-  'components/tooltips/task-tooltip': f2,
-  'components/track/activity-ticker': f3,
-  'components/track/build/analyzer-tags': f4,
-  'components/track/dig-deeper-components': f5,
-  'components/track/dig-deeper-components/community-videos': f6,
-  'components/track/dig-deeper-components/no-content-yet': f7,
-  'components/track/exercise-community-solutions-list': f8,
-  'components/track/ExerciseCommunitySolutionsList.tsx': f9,
-  'components/track/iteration-summary': ga,
-  'components/track/IterationSummary.tsx': gb,
-  'components/track/Trophies.tsx': gc,
-  'components/track/UnlockHelpButton.tsx': gd,
-  'components/training-data/code-tagger': ge,
-  'components/training-data/dashboard': gf,
-  'discussion-batch': gg,
-  'session-batch-1': gh,
-  'session-batch-2': gi,
-  'session-batch-3': gj,
+    fo,
+  'components/student/MentoringComboButton.tsx': fp,
+  'components/student/MentoringSession.tsx': fq,
+  'components/student/open-editor-button': fr,
+  'components/student/OpenEditorButton.tsx': fs,
+  'components/student/published-solution': ft,
+  'components/student/PublishSolutionButton.tsx': fu,
+  'components/student/RequestMentoringButton.tsx': fv,
+  'components/student/solution-summary': fw,
+  'components/student/tracks-list': fx,
+  'components/student/TracksList.tsx': fy,
+  'components/student/UpdateExerciseNotice.tsx': fz,
+  'components/test': f0,
+  'components/tooltips/ExerciseTooltip.tsx': f1,
+  'components/tooltips/student-tooltip': f2,
+  'components/tooltips/task-tooltip': f3,
+  'components/track/activity-ticker': f4,
+  'components/track/build/analyzer-tags': f5,
+  'components/track/dig-deeper-components': f6,
+  'components/track/dig-deeper-components/community-videos': f7,
+  'components/track/dig-deeper-components/no-content-yet': f8,
+  'components/track/exercise-community-solutions-list': f9,
+  'components/track/ExerciseCommunitySolutionsList.tsx': ga,
+  'components/track/iteration-summary': gb,
+  'components/track/IterationSummary.tsx': gc,
+  'components/track/Trophies.tsx': gd,
+  'components/track/UnlockHelpButton.tsx': ge,
+  'components/training-data/code-tagger': gf,
+  'components/training-data/dashboard': gg,
+  'discussion-batch': gh,
+  'session-batch-1': gi,
+  'session-batch-2': gj,
+  'session-batch-3': gk,
 }

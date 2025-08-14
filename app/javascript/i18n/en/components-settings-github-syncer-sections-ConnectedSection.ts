@@ -43,9 +43,9 @@ export default {
     'Are you sure you want to revert your path template to default?',
   'fileStructureSection.revert': 'Revert',
   'statusSection.status':
-    'Status: <span style={{ color: textColor }}>{status}</span>',
+    'Status: <span style={{ color: textColor }}>{{status}}</span>',
   'statusSection.githubSyncerLinked':
-    'Your GitHub syncer is linked to <code>{syncer?.repoFullName}</code>.',
+    'Your GitHub syncer is linked to <code>{{repoFullName}}</code>.',
   'statusSection.enableSyncer': 'Enable Syncer',
   'statusSection.areYouSureResumeSyncing':
     'Are you sure you want to resume syncing solutions with GitHub?',

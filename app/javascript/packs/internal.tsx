@@ -232,6 +232,7 @@ import {
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 import { FavoritesListProps } from '@/components/favorites-list'
+import { OriginalsListProps } from '@/components/localization/originals/OriginalsList'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -718,7 +719,7 @@ initReact({
     )
     return (
       <Suspense fallback={RenderLoader()}>
-        <OriginalsIndex originals={data.originals} />
+        <OriginalsIndex {...camelizeKeysAs<OriginalsListProps>(data)} />
       </Suspense>
     )
   },

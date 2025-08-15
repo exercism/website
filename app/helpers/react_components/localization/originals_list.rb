@@ -7,7 +7,10 @@ module ReactComponents
         super(
           "localization-originals-list",
           {
-            originals:
+            originals:,
+            links: {
+              localization_originals_path: Exercism::Routes.localization_originals_path
+            }
           }
         )
       end

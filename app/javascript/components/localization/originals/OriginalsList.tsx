@@ -6,9 +6,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import React, { createContext, useState } from 'react'
 
-type OriginalsListContextType = {
-  originals: Original[]
-}
+type OriginalsListContextType = Pick<OriginalsListProps, 'links' | 'originals'>
 
 type Original = {
   uuid: string
@@ -25,11 +23,19 @@ export const OriginalsListContext = createContext<OriginalsListContextType>(
   {} as OriginalsListContextType
 )
 
-export default function OriginalsList({ originals }) {
+export type OriginalsListProps = {
+  originals: Original[]
+  links?: { localizationOriginalsPath: string }
+}
+
+export default function OriginalsList({
+  originals,
+  links,
+}: OriginalsListProps) {
   useLogger('originals', originals)
 
   return (
-    <OriginalsListContext.Provider value={{ originals }}>
+    <OriginalsListContext.Provider value={{ originals, links }}>
       <Table />
     </OriginalsListContext.Provider>
   )
@@ -110,8 +116,13 @@ function OriginalsTableList({}) {
 }
 
 function OriginalsTableListElement({ original }: { original: Original }) {
+  const { links } = React.useContext(OriginalsListContext)
+  useLogger('links', links)
   return (
-    <a className="original">
+    <a
+      href={links?.localizationOriginalsPath + '/' + original.uuid}
+      className="original"
+    >
       <div className="info">
         <div className="original-key">{original.key}</div>
         <div className="original-uuid">{original.uuid}</div>

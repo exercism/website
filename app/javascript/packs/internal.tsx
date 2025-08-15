@@ -711,4 +711,25 @@ initReact({
       />
     </Suspense>
   ),
+
+  'localization-originals-list': (data: any): JSX.Element => {
+    const OriginalsList = lazy(
+      () => import('@/components/localization/originals/list')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsList {...camelizeKeysAs<OriginalsListProps>(data)} />
+      </Suspense>
+    )
+  },
+  'localization-originals-show': (data: any): JSX.Element => {
+    const OriginalsShow = lazy(
+      () => import('@/components/localization/originals/show')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsShow {...camelizeKeysAs<OriginalsShowProps>(data)} />
+      </Suspense>
+    )
+  },
 })

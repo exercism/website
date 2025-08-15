@@ -33,7 +33,9 @@ body.keyboard-navigation .nav-element:hover .arrow {
         @apply py-8;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         background: var(--backgroundColorAnnouncementBar);
-        & strong {
+        & strong,
+        a,
+        button {
             @apply text-lightGold mx-4 font-semibold;
             @apply underline;
         }

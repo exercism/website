@@ -1,8 +1,12 @@
 module LocaleSupport
   extend ActiveSupport::Concern
+  extend Mandate::Memoize
+
+  QUERY_PARAM = :_lr # Loop-breaker for one-time redirects
 
   included do
-    helper_method :current_locale, :default_locale, :supported_locales
+    helper_method :current_locale, :default_locale, :supported_locales,
+      :best_locale_from_accept_language, :path_for_locale
   end
 
   def supported_locales = I18n.available_locales
@@ -26,6 +30,7 @@ module LocaleSupport
   end
 
   # RFC 7231 q-weighted Accept-Language parser
+  memoize
   def best_locale_from_accept_language
     header = request.get_header('HTTP_ACCEPT_LANGUAGE').to_s
     return default_locale if header.blank?
@@ -56,5 +61,35 @@ module LocaleSupport
     return nil if locale == default_locale # English lives at root
 
     locale
+  end
+
+  # Build a locale-scoped URL preserving the rest of the path/query
+  def path_for_locale(loc, fullpath)
+    uri = begin
+      Addressable::URI.parse(fullpath)
+    rescue StandardError
+      nil
+    end
+    if uri
+      path = uri.path
+      query = uri.query
+    else
+      path  = fullpath
+      query = nil
+    end
+    # Strip any existing leading locale segment before adding new one
+    segments = path.to_s.sub(%r{^/}, '').split('/') # Remove leading slash and split into segments
+
+    # If we have a locale, remove it.
+    path_locale = normalize_locale(segments[0])
+    segments.shift if path_locale.present?
+    path = "/#{segments.join('/')}"
+
+    new_path = "/#{loc}#{path}".gsub(%r{/{2,}}, "/")
+    new_path += "?#{query}" if query.present?
+
+    # Add one-time loop-breaker for server-side redirects only
+    new_path += (query.present? ? "&" : "?") + "#{QUERY_PARAM}=1" unless new_path.include?("#{QUERY_PARAM}=")
+    new_path
   end
 end

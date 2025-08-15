@@ -2,8 +2,6 @@ module LocaleRouting
   extend ActiveSupport::Concern
   include LocaleSupport
 
-  QUERY_PARAM = :_lr # Loop-breaker for one-time redirects
-
   included do
     # Order matters:
     before_action :maybe_redirect_to_locale_path # one-time redirect for humans only
@@ -17,7 +15,7 @@ module LocaleRouting
     return unless request.get?          # only GETs
     return if locale_from_path.present? # already on /xx/ path
     return if request.bot?              # Don't redirect bots
-    return if params[QUERY_PARAM].present? # guard against loops (localStorage or link adds this once)
+    return if params[LocaleSupport.QUERY_PARAM].present? # guard against loops (localStorage or link adds this once)
 
     # If user is logged in, honor their saved locale; else Accept-Language
     target = desired_locale
@@ -49,35 +47,5 @@ module LocaleRouting
     return normalize_locale(current_user.locale) if current_user&.locale.present?
 
     best_locale_from_accept_language || default_locale
-  end
-
-  # Build a locale-scoped URL preserving the rest of the path/query
-  def path_for_locale(loc, fullpath)
-    uri = begin
-      Addressable::URI.parse(fullpath)
-    rescue StandardError
-      nil
-    end
-    if uri
-      path = uri.path
-      query = uri.query
-    else
-      path  = fullpath
-      query = nil
-    end
-    # Strip any existing leading locale segment before adding new one
-    segments = path.to_s.sub(%r{^/}, '').split('/') # Remove leading slash and split into segments
-
-    # If we have a locale, remove it.
-    path_locale = normalize_locale(segments[0])
-    segments.shift if path_locale.present?
-    path = "/#{segments.join('/')}"
-
-    new_path = "/#{loc}#{path}".gsub(%r{/{2,}}, "/")
-    new_path += "?#{query}" if query.present?
-
-    # Add one-time loop-breaker for server-side redirects only
-    new_path += (query.present? ? "&" : "?") + "#{QUERY_PARAM}=1" unless new_path.include?("#{QUERY_PARAM}=")
-    new_path
   end
 end

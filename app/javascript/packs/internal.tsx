@@ -711,4 +711,15 @@ initReact({
       />
     </Suspense>
   ),
+
+  'localization-originals-list': (data: any): JSX.Element => {
+    const OriginalsIndex = lazy(
+      () => import('@/components/localization/originals/OriginalsList')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsIndex />
+      </Suspense>
+    )
+  },
 })

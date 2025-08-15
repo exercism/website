@@ -3,7 +3,7 @@
 #originals-index-page
   = render ViewComponents::Localization::Header.new
 
-  .lg-container= render ReactComponents::Localization::OriginalsList.new(@originals)
+  .lg-container= render ReactComponents::Localization::OriginalsList.new(@originals, @originals_params)
 
 
   -# %table

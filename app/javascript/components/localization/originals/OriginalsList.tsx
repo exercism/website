@@ -5,13 +5,12 @@ import GraphicalIcon from '@/components/common/GraphicalIcon'
 import { SearchInput } from '@/components/common/SearchInput'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
-import { APIResponse } from '@/components/dropdowns/Notifications'
-import { usePaginatedRequestQuery } from '@/hooks/request-query'
-import { useDebounce } from '@uidotdev/usehooks'
+import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useDebounce, useList } from '@uidotdev/usehooks'
 
 type OriginalsListContextType = Pick<
   OriginalsListProps,
-  'links' | 'originals'
+  'links' | 'originals' | 'request'
 > & {
   selectedStatus: string
   setSelectedStatus: (tab: string) => void
@@ -19,6 +18,7 @@ type OriginalsListContextType = Pick<
   setCriteria: (criteria: string | undefined) => void
   page: number
   setPage: (page: number) => void
+  resolvedData?: OriginalsListData
 }
 
 type Original = {
@@ -36,14 +36,32 @@ export const OriginalsListContext = createContext<OriginalsListContextType>(
   {} as OriginalsListContextType
 )
 
+type OriginalsListData = {
+  meta: {
+    currentPage: number
+    totalPages: number
+    totalCount: number
+    unscopedTotal: number
+  }
+  results: Original[]
+}
+
 export type OriginalsListProps = {
   originals: Original[]
+  request: {
+    endpoint: string
+    query?: Record<string, any>
+    options: {
+      initialData: OriginalsListData
+    }
+  }
   links?: { localizationOriginalsPath: string; endpoint: string }
 }
 
 export default function OriginalsList({
   originals,
   links,
+  request,
 }: OriginalsListProps) {
   useLogger('originals', originals)
 
@@ -56,10 +74,10 @@ export default function OriginalsList({
     error,
     data: resolvedData,
     isFetching,
-  } = usePaginatedRequestQuery<APIResponse>([CACHE_KEY, criteria], {
-    endpoint: links?.endpoint,
+  } = usePaginatedRequestQuery<OriginalsListData>([CACHE_KEY, criteria], {
+    endpoint: request.endpoint,
     query: { criteria },
-    options: {},
+    options: request.options,
   })
 
   useLogger('originals-list-query', {
@@ -73,6 +91,8 @@ export default function OriginalsList({
     <OriginalsListContext.Provider
       value={{
         originals,
+        request,
+        resolvedData,
         links,
         selectedStatus,
         setSelectedStatus,
@@ -147,12 +167,15 @@ export function Table() {
 }
 
 function OriginalsTableList({}) {
-  const { originals, page, setPage } = React.useContext(OriginalsListContext)
+  const { page, setPage, resolvedData } = React.useContext(OriginalsListContext)
+
   return (
     <>
       <div>
-        {originals.length > 0 ? (
-          originals.map((original, key) => (
+        {resolvedData &&
+        resolvedData.results &&
+        resolvedData.results.length > 0 ? (
+          resolvedData.results.map((original, key) => (
             <OriginalsTableListElement original={original} key={key} />
           ))
         ) : (

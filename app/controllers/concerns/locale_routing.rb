@@ -15,7 +15,7 @@ module LocaleRouting
     return unless request.get?          # only GETs
     return if locale_from_path.present? # already on /xx/ path
     return if request.bot?              # Don't redirect bots
-    return if params[LocaleSupport.QUERY_PARAM].present? # guard against loops (localStorage or link adds this once)
+    return if params[LocaleSupport::QUERY_PARAM].present? # guard against loops (localStorage or link adds this once)
 
     # If user is logged in, honor their saved locale; else Accept-Language
     target = desired_locale

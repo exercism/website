@@ -8,6 +8,11 @@ devise_for :users, only: :omniauth_callbacks, controllers: {
 }
 
 get "discourse/sso" => "discourse/sso"
+# ###### #
+# Locale #
+# ###### #
+
+post "/set-locale", to: "locale#update", as: :set_locale
 
 # ######## #
 # Webhooks #

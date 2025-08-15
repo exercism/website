@@ -10,7 +10,7 @@ function showLocaleBanner() {
   if (!banner) return
 
   // LocalStorage keys
-  const dismissedKey = 'localeBannerDismissedxx'
+  const dismissedKey = 'localeBannerDismissed1'
 
   // Skip if user has dismissed before
   if (localStorage.getItem(dismissedKey) === 'true') return

@@ -51,9 +51,11 @@ module ViewComponents
         tag.div(class: "lg-container") do
           tag.span(class: "text-20 mr-6") { flag_for_locale(suggested) } +
             tag.span("Prefer #{I18n.t('language_name', locale: suggested)}?") +
-            link_to(
-              "Switch to #{I18n.t('language_name', locale: suggested)}",
-              path_for_locale(suggested, request.fullpath)
+            button_to(
+              " Switch to #{I18n.t('language_name', locale: suggested)}",
+              Exercism::Routes.set_locale_path(locale: suggested, return_to: request.fullpath),
+              method: :post,
+              data: { turbo: false } # avoid Turbo messing with redirect
             ) +
             tag.span(" #{I18n.t('or')} ") +
             tag.button(I18n.t(:hide_this_banner), class: 'js-hide-this !mr-0') +

@@ -9,7 +9,8 @@ module ReactComponents
           {
             originals:,
             links: {
-              localization_originals_path: Exercism::Routes.localization_originals_path
+              localization_originals_path: Exercism::Routes.localization_originals_path,
+              endpoint: Exercism::Routes.api_localization_originals_path
             }
           }
         )

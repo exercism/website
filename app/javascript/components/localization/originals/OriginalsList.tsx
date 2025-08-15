@@ -1,12 +1,25 @@
+import React, { createContext, useEffect, useState } from 'react'
 import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 import { FilterFallback, Pagination } from '@/components/common'
 import GraphicalIcon from '@/components/common/GraphicalIcon'
 import { SearchInput } from '@/components/common/SearchInput'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
-import React, { createContext, useState } from 'react'
+import { APIResponse } from '@/components/dropdowns/Notifications'
+import { usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useDebounce } from '@uidotdev/usehooks'
 
-type OriginalsListContextType = Pick<OriginalsListProps, 'links' | 'originals'>
+type OriginalsListContextType = Pick<
+  OriginalsListProps,
+  'links' | 'originals'
+> & {
+  selectedStatus: string
+  setSelectedStatus: (tab: string) => void
+  criteria?: string
+  setCriteria: (criteria: string | undefined) => void
+  page: number
+  setPage: (page: number) => void
+}
 
 type Original = {
   uuid: string
@@ -25,7 +38,7 @@ export const OriginalsListContext = createContext<OriginalsListContextType>(
 
 export type OriginalsListProps = {
   originals: Original[]
-  links?: { localizationOriginalsPath: string }
+  links?: { localizationOriginalsPath: string; endpoint: string }
 }
 
 export default function OriginalsList({
@@ -34,8 +47,41 @@ export default function OriginalsList({
 }: OriginalsListProps) {
   useLogger('originals', originals)
 
+  const [selectedStatus, setSelectedStatus] = React.useState('unchecked')
+  const [criteria, setCriteria] = useState<string | undefined>(undefined)
+  const [page, setPage] = useState<number>(1)
+
+  const {
+    status,
+    error,
+    data: resolvedData,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>([CACHE_KEY, criteria], {
+    endpoint: links?.endpoint,
+    query: { criteria },
+    options: {},
+  })
+
+  useLogger('originals-list-query', {
+    status,
+    error,
+    resolvedData,
+    isFetching,
+  })
+
   return (
-    <OriginalsListContext.Provider value={{ originals, links }}>
+    <OriginalsListContext.Provider
+      value={{
+        originals,
+        links,
+        selectedStatus,
+        setSelectedStatus,
+        criteria,
+        setCriteria,
+        setPage,
+        page,
+      }}
+    >
       <Table />
     </OriginalsListContext.Provider>
   )
@@ -50,7 +96,8 @@ const TABS = [
   { value: 'checked', label: 'Done' },
 ]
 export function Tabs() {
-  const [selectedTab, setSelectedTab] = React.useState('unchecked')
+  const { selectedStatus, setSelectedStatus } =
+    React.useContext(OriginalsListContext)
   return (
     <div className="flex items-center tabs mb-16">
       {TABS.map((tab) => (
@@ -58,9 +105,9 @@ export function Tabs() {
           key={tab.value}
           className={assembleClassNames(
             'c-tab',
-            selectedTab === tab.value && 'selected'
+            selectedStatus === tab.value && 'selected'
           )}
-          onClick={() => setSelectedTab(tab.value)}
+          onClick={() => setSelectedStatus(tab.value)}
         >
           {tab.label}
         </button>
@@ -69,8 +116,18 @@ export function Tabs() {
   )
 }
 
+const CACHE_KEY = 'localization-originals-list'
+
 export function Table() {
-  const [criteria, setCriteria] = useState<string | undefined>(undefined)
+  const { setCriteria, criteria } = React.useContext(OriginalsListContext)
+
+  const [inputValue, setInputValue] = React.useState(criteria || '')
+
+  const debouncedValue = useDebounce(inputValue, 300)
+
+  useEffect(() => {
+    setCriteria(debouncedValue)
+  }, [debouncedValue, setCriteria])
 
   return (
     <div className="originals-table">
@@ -78,10 +135,8 @@ export function Table() {
       <div className="container">
         <header className="c-search-bar">
           <SearchInput
-            setFilter={(input) => {
-              setCriteria(input)
-            }}
-            filter={criteria || ''}
+            setFilter={setInputValue}
+            filter={inputValue}
             placeholder="Search for translation"
           />
         </header>
@@ -92,7 +147,7 @@ export function Table() {
 }
 
 function OriginalsTableList({}) {
-  const { originals } = React.useContext(OriginalsListContext)
+  const { originals, page, setPage } = React.useContext(OriginalsListContext)
   return (
     <>
       <div>
@@ -109,7 +164,12 @@ function OriginalsTableList({}) {
         )}
       </div>
       <footer>
-        <Pagination disabled={true} current={1} total={1} setPage={(p) => {}} />
+        <Pagination
+          disabled={true}
+          current={page}
+          total={1}
+          setPage={setPage}
+        />
       </footer>
     </>
   )

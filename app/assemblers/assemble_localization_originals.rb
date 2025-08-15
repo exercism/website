@@ -4,7 +4,7 @@ class AssembleLocalizationOriginals
   initialize_with :user, :params
 
   def self.keys
-    %i[criteria order track_slug page]
+    %i[criteria status page]
   end
 
   def call

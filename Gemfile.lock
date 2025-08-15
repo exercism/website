@@ -610,6 +610,8 @@ GEM
     unicode-emoji (4.0.4)
     uniform_notifier (1.17.0)
     version_gem (1.1.8)
+    voight_kampff (2.0.0)
+      rack (>= 1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -712,6 +714,7 @@ DEPENDENCIES
   toml (~> 0.3.0)
   turbo-rails
   tzinfo-data
+  voight_kampff
   web-console (>= 3.3.0)
   webmock
 

@@ -718,7 +718,7 @@ initReact({
     )
     return (
       <Suspense fallback={RenderLoader()}>
-        <OriginalsIndex />
+        <OriginalsIndex originals={data.originals} />
       </Suspense>
     )
   },

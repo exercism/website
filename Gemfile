@@ -38,11 +38,14 @@ gem 'octokit' # GitHub
 gem 'mandate', '~> 2.0'
 gem 'kaminari'
 gem 'oj', '~> 3.14.0'
-gem 'i18n', '>= 0.5.0'
 
 # Setup dependencies
 gem 'exercism-config', '>= 0.130.0'
 # gem 'exercism-config', path: '../config'
+
+# Controller-level dependencies
+gem 'voight_kampff', require: 'voight_kampff/rails'
+gem 'i18n', '>= 0.5.0'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

@@ -73,6 +73,9 @@ RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
+# Download the latest user agents for bot-detection
+RUN rake voight_kampff:import_user_agents
+
 FROM ruby:3.4.4-bullseye AS runtime
 
 ENV RAILS_ENV=production

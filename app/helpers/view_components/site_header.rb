@@ -5,6 +5,8 @@ module ViewComponents
     # include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name, :javascript_track?,
+      :best_locale_from_accept_language, :default_locale, :params, :path_for_locale,
+      :flag_for_locale,
       to: :view_context
 
     def to_s
@@ -32,11 +34,44 @@ module ViewComponents
 
     def html
       tag.header(id: "site-header") do
-        announcement_bar +
+        locale_bar +
+          announcement_bar +
           tag.div(class: "lg-container container") do
             logo + docs_nav + contextual_section
           end
       end
+    end
+
+    def locale_bar
+      return tag.span("") unless show_locale_bar?
+
+      suggested = best_locale_from_accept_language
+
+      tag.div(class: "announcement-bar hidden", id: "locale-bar") do
+        tag.div(class: "lg-container") do
+          tag.span(class: "text-20 mr-6") { flag_for_locale(suggested) } +
+            tag.span("Prefer #{I18n.t('language_name', locale: suggested)}?") +
+            button_to(
+              " Switch to #{I18n.t('language_name', locale: suggested)}",
+              Exercism::Routes.set_locale_path(locale: suggested, return_to: request.fullpath),
+              method: :post,
+              data: { turbo: false } # avoid Turbo messing with redirect
+            ) +
+            tag.span(" #{I18n.t('or')} ") +
+            tag.button(I18n.t(:hide_this_banner), class: 'js-hide-this !mr-0') +
+            tag.span(".")
+        end
+      end
+    end
+
+    def show_locale_bar?
+      return if request.bot?
+      return if user_signed_in? && current_user.locale == I18n.locale
+
+      suggested = best_locale_from_accept_language
+      return if suggested == I18n.locale
+
+      true
     end
 
     def announcement_bar

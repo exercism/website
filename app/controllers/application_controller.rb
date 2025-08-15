@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
   include UserRateLimitConcern
+  include LocaleRouting
 
   # around_action :set_log_level
   before_action :store_session_variables
@@ -11,7 +12,6 @@ class ApplicationController < ActionController::Base
   before_action :rate_limit_for_user!
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
-  around_action :switch_locale!
   before_action :set_request_context
   after_action :set_user_id_cookie
   after_action :skip_empty_session_cookie
@@ -32,11 +32,6 @@ class ApplicationController < ActionController::Base
          ActionDispatch::Http::Parameters::ParseError => e
     request.headers['Content-Type'] = 'application/json'
     render status: :bad_request, json: { errors: [e.message] }
-  end
-
-  def switch_locale!(&action)
-    locale = params[:locale].presence || I18n.default_locale
-    I18n.with_locale(locale, &action)
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName
@@ -301,7 +296,7 @@ class ApplicationController < ActionController::Base
 
   def updated_last_visited_on!
     return unless user_signed_in?
-    return unless request.format == :html
+    return unless html_request?
     return if current_user.last_visited_on == Time.zone.today
 
     User::Data::SafeUpdate.(current_user) do |data|

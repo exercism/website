@@ -1,4 +1,4 @@
-class Localization::Original::Prompts::Website
+class Localization::Original::Prompts::General
   include Mandate
 
   initialize_with :original, :locale

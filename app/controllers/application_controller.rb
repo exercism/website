@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
   include BodyClassConcern
+  include LocaleRouting
   include UserRateLimitConcern
 
   # around_action :set_log_level

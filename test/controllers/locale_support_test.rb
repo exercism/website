@@ -8,16 +8,16 @@ class LocaleSupportTest < ActiveSupport::TestCase
 
     attr_reader :request, :default_locale
 
-    def initialize(request:, default_locale:)
-      super
+    def initialize(request)
+      super()
       @request = request
-      @default_locale = default_locale
+      @default_locale = "en"
     end
   end
 
   def setup
     @request = mock
-    @helper = DummyController.new(request: @request, default_locale: "en")
+    @helper = DummyController.new(@request)
   end
 
   # ---- Without loop-breaker ----

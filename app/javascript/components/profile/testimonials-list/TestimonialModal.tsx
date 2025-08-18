@@ -55,16 +55,23 @@ export const TestimonialModal = ({
 
         <div className="exercise">
           <Trans
-            i18nKey="exerciseTrack"
             ns="components/profile/testimonials-list"
-            values={{ title: testimonial.exercise.title }}
-            components={{ strong: <strong /> }}
+            i18nKey="exerciseTrack"
+            values={{
+              exerciseTitle: testimonial.exercise.title,
+              trackTitle: testimonial.track.title,
+            }}
+            components={{
+              0: <strong />,
+              1: (
+                <TrackIcon
+                  iconUrl={testimonial.track.iconUrl}
+                  title={testimonial.track.title}
+                />
+              ),
+              2: <div className="track-title" />,
+            }}
           />
-          <TrackIcon
-            iconUrl={testimonial.track.iconUrl}
-            title={testimonial.track.title}
-          />
-          <div className="track-title">{testimonial.track.title}</div>
         </div>
 
         <time dateTime={testimonial.createdAt}>

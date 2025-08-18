@@ -33,14 +33,19 @@ const ProfileTestimonial = ({
           <Trans
             i18nKey="exerciseTrack"
             ns="components/profile/testimonials-list"
-            values={{ title: testimonial.exercise.title }}
-            components={{ strong: <strong /> }}
+            values={{
+              exerciseTitle: testimonial.exercise.title,
+              trackTitle: testimonial.track.title,
+            }}
+            components={[
+              <strong />,
+              <TrackIcon
+                iconUrl={testimonial.track.iconUrl}
+                title={testimonial.track.title}
+              />,
+              <div className="track-title">{testimonial.track.title}</div>,
+            ]}
           />
-          <TrackIcon
-            iconUrl={testimonial.track.iconUrl}
-            title={testimonial.track.title}
-          />
-          <div className="track-title">{testimonial.track.title}</div>
         </div>
         <time dateTime={testimonial.createdAt}>
           {fromNow(testimonial.createdAt)}

@@ -232,7 +232,6 @@ import {
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 import { FavoritesListProps } from '@/components/favorites-list'
-import { OriginalsListProps } from '@/components/localization/originals'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -714,12 +713,22 @@ initReact({
   ),
 
   'localization-originals-list': (data: any): JSX.Element => {
-    const OriginalsIndex = lazy(
-      () => import('@/components/localization/originals')
+    const OriginalsList = lazy(
+      () => import('@/components/localization/originals/list')
     )
     return (
       <Suspense fallback={RenderLoader()}>
-        <OriginalsIndex {...camelizeKeysAs<OriginalsListProps>(data)} />
+        <OriginalsList {...camelizeKeysAs<OriginalsListProps>(data)} />
+      </Suspense>
+    )
+  },
+  'localization-originals-show': (data: any): JSX.Element => {
+    const OriginalsShow = lazy(
+      () => import('@/components/localization/originals/show')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsShow {...camelizeKeysAs<OriginalsShowProps>(data)} />
       </Suspense>
     )
   },

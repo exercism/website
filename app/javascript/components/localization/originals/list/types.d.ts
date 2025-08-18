@@ -16,11 +16,13 @@ type Original = {
   uuid: string
   key: string
   value: string
-  translations: {
-    uuid: string
-    locale: string
-    status: string
-  }[]
+  translations: Translation[]
+}
+
+type Translation = {
+  uuid: string
+  locale: string
+  status: string
 }
 
 type OriginalsListData = {
@@ -44,3 +46,17 @@ type OriginalsListProps = {
   }
   links?: { localizationOriginalsPath: string; endpoint: string }
 }
+
+type OriginalsShowProps = {
+  original: Original
+  request: {
+    endpoint: string
+    query?: Record<string, any>
+    options: {
+      initialData: OriginalsListData
+    }
+  }
+  links?: { localizationOriginalsPath: string; endpoint: string }
+}
+
+type OriginalsShowContextType = Pick<OriginalsShowProps, 'original'>

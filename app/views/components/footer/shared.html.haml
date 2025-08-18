@@ -71,17 +71,13 @@
           %li= link_to t('.site_links.get_help.installing_cli_link'), doc_path(:using, "solving-exercises/working-locally")
           %li= link_to t('.site_links.get_help.cli_walkthrough_link'), cli_walkthrough_path
 
-
     .col.locales
-      %h3.md:text-center Exercism in Other Languages
+      %h3.md:text-center= t('.locales.title')
       %hr.c-divider.--small.md:mx-auto
       .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-32.gap-y-4
-        - supported_locales.each do |locale|
-          = link_to url_for_locale(locale, "", add_loop_breaker_query_param: user_signed_in?), alt: "Exercism in #{locale}", class: 'locale' do
-            .flag= flag_for_locale(locale)
-            = t(:language_version, locale: locale)
+        {{LOCALES}}
 
-  %hr.mt-40.mb-40.md:mb-56
+  %hr.mt-40.md:mt-56.mb-40.md:mb-56
 
   .tracks.mt-32.md:mt-48.mb-32.md:mb-48.md:items-center
     .hidden.md:block

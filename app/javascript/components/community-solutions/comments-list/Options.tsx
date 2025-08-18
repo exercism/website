@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { EnableSolutionCommentsModal } from '../../modals/EnableSolutionCommentsModal'
 import { DisableSolutionCommentsModal } from '../../modals/DisableSolutionCommentsModal'
@@ -22,6 +23,7 @@ export const Options = ({
   onCommentsEnabled: () => void
   onCommentsDisabled: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
   const {
     buttonAttributes,
@@ -59,14 +61,14 @@ export const Options = ({
                   type="button"
                   onClick={() => setOpenedModal('disableComments')}
                 >
-                  Disable comments…
+                  {t('commentsList.options.disableComments')}
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => setOpenedModal('enableComments')}
                 >
-                  Enable comments…
+                  {t('commentsList.options.enableComments')}
                 </button>
               )}
             </li>

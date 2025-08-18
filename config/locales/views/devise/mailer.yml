@@ -1,0 +1,43 @@
+en:
+  devise:
+    mailer:
+      unlock_instructions:
+        greeting: Hello %{email}!
+        locked_account_message:
+          Your account has been locked due to an excessive number
+          of unsuccessful sign in attempts.
+        unlock_link_prompt: "Click the link below to unlock your account:"
+        unlock_my_account_link: Unlock my account
+      reset_password_instructions:
+        greeting: Hey there,
+        password_reset_request_message:
+          Someone has requested a link to change your
+          password. You can do this through the link below.
+        change_my_password_button: Change my password
+        ignore_email_message: If you didn't request this, please ignore this email.
+        password_unchanged_message:
+          Your password won't change until you access the link
+          above and create a new one.
+      password_change:
+        greeting: Hey @%{user_handle},
+        password_changed_notification: We're contacting you to notify you that your password has been changed.
+        contact_support_message: If you didn't do this, please email us at %{support_link} immediately.
+      confirmation_instructions:
+        welcome_message: Welcome to Exercism!
+        confirmation_message:
+          To check you're a real person and not a bot, we need to
+          confirm this is a real email address. Click the button below to
+          confirm your account and start using Exercism.
+        confirm_account_button: Confirm your account
+      email_changed:
+        greeting: Hey @%{user_handle},
+        email_change_pending_notification:
+          We're contacting you to notify you that your
+          email is being changed to %{unconfirmed_email}. You'll get a
+          confirmation email to your new address to complete the process.
+        email_change_pending_contact_support:
+          If you haven't started this process,
+          please email us at %{support_link} immediately.
+        email_changed_notification:
+          We're contacting you to notify you that your email
+          has been changed to %{email}.

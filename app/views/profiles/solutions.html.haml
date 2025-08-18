@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{sanitize(@user.handle)}'s solutions Exercism".html_safe
-- content_for :meta_description, "Explore #{sanitize(@user.handle)}'s solutions on Exercism, and see everything they've learnt.".html_safe
+- content_for :meta_title, t('.meta_title', user_handle: sanitize(@user.handle)).html_safe
+- content_for :meta_description, t('.meta_description', user_handle: sanitize(@user.handle)).html_safe
 - content_for :canonical_url, solutions_profile_url(@user, order: params[:order].presence, page: params[:page].to_i > 1 ? params[:page] : nil)
 - require_stylesheet "profile"
 - require_stylesheet "track"
@@ -10,7 +10,7 @@
   %article
     .lg-container
       = render ReactComponents::Common::Introducer.new(:profile_solutions, "solutions") do
-        %h2 Showcasing code and improvements
-        %p See #{@user.handle}'s published solutions from completing exercises on Exercism. Discover how they improved their solution over iterations.
+        %h2= t('.introducer.title')
+        %p= t('.introducer.description', user_handle: @user.handle)
 
     = render ReactComponents::Profile::CommunitySolutionsList.new(@user, params)

@@ -2,7 +2,7 @@
   .sm-container.container
     %header
       = graphical_icon "new-profile", category: 'graphics'
-      %h1 Create your public profile
+      %h1= t('.header.title')
       %hr.c-divider
 
     = render ReactComponents::Profile::NewProfileForm.new

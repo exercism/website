@@ -1,3 +1,5 @@
+// i18n-key-prefix: tasksList
+// i18n-namespace: components/contributing
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '@/components/common'
@@ -32,6 +34,7 @@ import type {
   PaginatedResult,
 } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'
@@ -65,6 +68,7 @@ export default function TasksList({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/contributing')
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
   const {
     status,
@@ -151,12 +155,19 @@ export default function TasksList({
               <header className="main-header c-search-bar">
                 <h2>
                   <strong className="block md:inline">
-                    Showing {resolvedData.meta.totalCount}{' '}
-                    {pluralize('task', resolvedData.meta.totalCount)}
+                    {t('tasksList.showingTasks', {
+                      totalCount: resolvedData.meta.totalCount,
+                      task: pluralize('task', resolvedData.meta.totalCount),
+                    })}
                   </strong>
                   <span className="hidden md:inline mr-8">/</span>
-                  out of {resolvedData.meta.unscopedTotal} possible{' '}
-                  {pluralize('task', resolvedData.meta.unscopedTotal)}
+                  {t('tasksList.outOfPossibleTasks', {
+                    unscopedTotal: resolvedData.meta.unscopedTotal,
+                    unscopedTask: pluralize(
+                      'task',
+                      resolvedData.meta.unscopedTotal
+                    ),
+                  })}
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}
                 <Sorter

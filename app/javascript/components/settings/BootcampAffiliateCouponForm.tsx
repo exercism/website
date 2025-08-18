@@ -1,6 +1,10 @@
+// i18n-key-prefix: bootcampAffiliateCouponForm
+// i18n-namespace: components/settings/BootcampAffiliateCouponForm.tsx
 import React, { useState, useCallback } from 'react'
 import { fetchJSON } from '@/utils/fetch-json'
 import CopyToClipboardButton from '../common/CopyToClipboardButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   bootcampAffiliateCouponCode: string
@@ -18,6 +22,9 @@ export default function BootcampAffiliateCouponForm({
   bootcampAffiliateCouponCode: string
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/BootcampAffiliateCouponForm.tsx'
+  )
   const [couponCode, setCouponCode] = useState(bootcampAffiliateCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -36,11 +43,15 @@ export default function BootcampAffiliateCouponForm({
       setError(null)
     } catch (err) {
       console.error('Error generating coupon code:', err)
-      setError('Failed to generate coupon code. Please try again.')
+      setError(
+        t(
+          'bootcampAffiliateCouponForm.failedToGenerateCouponCodePleaseTryAgain'
+        )
+      )
     } finally {
       setLoading(false)
     }
-  }, [links])
+  }, [links, t])
 
   const isInsider =
     insidersStatus == 'active' || insidersStatus == 'active_lifetime'
@@ -49,7 +60,9 @@ export default function BootcampAffiliateCouponForm({
     case 'settings':
       return (
         <div>
-          <h2 className="!mb-8">Bootcamp Affiliate Coupon</h2>
+          <h2 className="!mb-8">
+            {t('bootcampAffiliateCouponForm.bootcampAffiliateCoupon')}
+          </h2>
           <InfoMessage
             isInsider={isInsider}
             insidersStatus={insidersStatus}
@@ -67,8 +80,10 @@ export default function BootcampAffiliateCouponForm({
               className="btn btn-primary"
             >
               {loading
-                ? 'Generating code...'
-                : 'Generate your Affiliate Discount code'}
+                ? t('bootcampAffiliateCouponForm.generatingCode')
+                : t(
+                    'bootcampAffiliateCouponForm.generateYourAffiliateDiscountCode'
+                  )}
             </button>
           )}
           <ErrorMessage error={error} />
@@ -77,15 +92,14 @@ export default function BootcampAffiliateCouponForm({
     case 'bootcamp': {
       return (
         <div>
-          <h2 className="mb-2">Affiliate Coupon</h2>
+          <h2 className="mb-2">
+            {t('bootcampAffiliateCouponForm.affiliateCoupon')}
+          </h2>
           <p className="mb-8">
-            To help us get more people benefitting from the Bootcamp, we're
-            giving you an Affiliate Code to share. Anyone using the code gets
-            20% off the Bootcamp, and we give you 20% of what they pay.
+            {t('bootcampAffiliateCouponForm.helpUsGetMorePeopleBenefitting')}
           </p>
           <p className="mb-12">
-            Please share this Affiliate Code with your friends &amp; colleagues,
-            and on social media.{' '}
+            {t('bootcampAffiliateCouponForm.pleaseShareAffiliateCode')}{' '}
           </p>
 
           {couponCode ? (
@@ -99,8 +113,10 @@ export default function BootcampAffiliateCouponForm({
               className="btn btn-primary"
             >
               {loading
-                ? 'Generating code...'
-                : 'Generate your Affiliate Discount code'}
+                ? t('bootcampAffiliateCouponForm.generatingCode')
+                : t(
+                    'bootcampAffiliateCouponForm.generateYourAffiliateDiscountCode'
+                  )}
             </button>
           )}
           <ErrorMessage error={error} />
@@ -119,27 +135,35 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/settings/BootcampAffiliateCouponForm.tsx'
+  )
   if (isInsider) {
     return (
       <>
         <p className="text-p-base mb-12">
-          To thank you for being an Insider and to help increase the amount of
-          people signing up to Exercism's {/* LINK NEEDS UPDATING */}
-          <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
-            Learn to Code Bootcamp
-          </a>
-          , we are giving all Insiders an{' '}
-          <strong className="font-semibold">Discount Affiliate code</strong>.
+          <Trans
+            ns="components/settings/BootcampAffiliateCouponForm.tsx"
+            i18nKey="bootcampAffiliateCouponForm.thankYouForBeingInsider"
+            components={{
+              link: (
+                <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>
+              ),
+              strong: <strong className="font-semibold" />,
+            }}
+          />
         </p>
         <p className="text-p-base mb-12">
-          This code gives a 20% discount for the bootcamp (on top of any
-          geographical discount). And for everyone that signs up,{' '}
-          <strong>we'll give you 20%</strong> of whatever they pay.
+          <Trans
+            ns="components/settings/BootcampAffiliateCouponForm.tsx"
+            i18nKey="bootcampAffiliateCouponForm.codeGivesDiscountBootcamp"
+            components={{
+              strong: <strong className="font-semibold" />,
+            }}
+          />
         </p>
         <p className="text-p-base mb-16">
-          Please help us spread the word. Send this code to your friends, post
-          it on social media. Maybe even print it out on postcards and put it
-          through your neighbours doors?
+          {t('bootcampAffiliateCouponForm.pleaseHelpUsSpreadWord')}
         </p>
       </>
     )
@@ -150,19 +174,24 @@ export function InfoMessage({
     case 'eligible_lifetime':
       return (
         <p className="text-p-base mb-16">
-          You&apos;re eligible to join Insiders.{' '}
-          <a href={insidersPath}>Get started here.</a>
+          {t('bootcampAffiliateCouponForm.youreEligibleToJoinInsiders')}{' '}
+          <a href={insidersPath}>
+            {t('bootcampAffiliateCouponForm.getStartedHere')}.
+          </a>
         </p>
       )
     default:
       return (
         <p className="text-p-base mb-16">
-          Exercism Insiders can access 20% off Exercism's{' '}
-          {/* LINK NEEDS UPDATING */}
-          <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings">
-            Learn to Code Bootcamp
-          </a>
-          , and receive 20% of all sales when someone uses their voucher code.
+          <Trans
+            i18nKey="bootcampAffiliateCouponForm.insidersCanAccessDiscount"
+            ns="components/settings/BootcampAffiliateCouponForm.tsx"
+            components={{
+              link: (
+                <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>
+              ),
+            }}
+          />
         </p>
       )
   }

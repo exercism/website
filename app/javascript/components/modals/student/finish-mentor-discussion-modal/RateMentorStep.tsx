@@ -2,6 +2,7 @@ import React from 'react'
 import { MentorDiscussion } from '../../../types'
 import { Avatar, ExerciseIcon, GraphicalIcon } from '../../../common'
 import { fromNow } from '../../../../utils/time'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const RateMentorStep = ({
   discussion,
@@ -14,13 +15,16 @@ export const RateMentorStep = ({
   onSatisfied: () => void
   onUnhappy: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   const timedOut =
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
   return (
     <section id="a11y-finish-mentor-discussion" className="rate-step">
-      <h2>It&apos;s time to review this discussion</h2>
+      <h2>{t('rateMentorStep.reviewDiscussion')}</h2>
       <div className="container">
         <div className="lhs">
           {(discussion.finishedBy === 'mentor' ||
@@ -35,8 +39,10 @@ export const RateMentorStep = ({
               <div className="info">
                 <div className="mentor">
                   {timedOut
-                    ? 'Your discussion timed out'
-                    : `${discussion.mentor.handle} has finished mentoring you on`}
+                    ? t('rateMentorStep.yourDiscussionTimedOut')
+                    : t('rateMentorStep.mentorFinishedMentoring', {
+                        mentorHandle: discussion.mentor.handle,
+                      })}
                 </div>
                 <div className="exercise">
                   <ExerciseIcon iconUrl={discussion.exercise.iconUrl} />
@@ -48,25 +54,28 @@ export const RateMentorStep = ({
             </div>
           ) : null}
           <p className="explanation">
-            To help us and our mentors understand how well we&apos;re doing,
-            we&apos;d love some feedback on your discussion with{' '}
-            {discussion.mentor.handle}. Good mentors will answer your questions,
-            introduce you to new ideas, or encourage you to try new things.
+            {t('rateMentorStep.feedbackRequest', {
+              mentorHandle: discussion.mentor.handle,
+            })}
           </p>
           <div className="buttons-section">
-            <h3>How was your discussion with {discussion.mentor.handle}?</h3>
+            <h3>
+              {t('rateMentorStep.howWasDiscussion', {
+                mentorHandle: discussion.mentor.handle,
+              })}
+            </h3>
             <div className="buttons">
               <button type="button" onClick={onUnhappy} className="sad">
                 <GraphicalIcon icon="sad-face" />
-                Problematic
+                {t('rateMentorStep.problematic')}
               </button>
               <button type="button" onClick={onSatisfied} className="neutral">
                 <GraphicalIcon icon="neutral-face" />
-                Acceptable
+                {t('rateMentorStep.acceptable')}
               </button>
               <button type="button" onClick={onHappy} className="happy">
                 <GraphicalIcon icon="happy-face" />
-                It was good!
+                {t('rateMentorStep.itWasGood')}
               </button>
             </div>
           </div>

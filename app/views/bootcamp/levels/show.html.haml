@@ -4,23 +4,23 @@
       .lg-container.container
         = link_to bootcamp_levels_path do
           = graphical_icon 'bootcamp-levels'
-          .span Levels
+          .span= t('.breadcrumbs.levels')
         .seperator /
         .title
-          Level #{@level.idx}:
+          = t('.breadcrumbs.level_title', idx: @level.idx)
           = @level.title
 
     .lg-container
       - if @completed
         %section.c-completed-bar
           = graphical_icon 'bootcamp-completed-check-circle', css_class: "check-mark-icon"
-          .text You've completed Level #{@level.idx}
+          .text= t('.completed_bar.text', idx: @level.idx)
           .stat
-            All #{@level.exercises.count} exercises completed
+            = t('.completed_bar.stat', count: @level.exercises.count)
 
       .details
         %h1
-          Level #{@level.idx}:
+          = t('.level_title_heading', idx: @level.idx)
           = @level.title
 
   .lg-container
@@ -35,11 +35,10 @@
             .mt-24
               = render ReactComponents::Common::YoutubePlayer.new(@level.labs_youtube_id, 'community')
 
-
           %hr.border-borderColor5.my-32
 
-          %h2.text-24.leading-140.mb-4.font-semibold Key Concepts
-          %p.mb-10 These concepts are all covered in the video session. Make sure you understand these concepts before moving on from this level.
+          %h2.text-24.leading-140.mb-4.font-semibold= t('.key_concepts.title')
+          %p.mb-10= t('.key_concepts.description')
           %ul.flex.flex-col.gap-8
             - @level.concepts.non_apex.each do |concept|
               %li
@@ -51,22 +50,22 @@
         - brain_busters, core = @level.exercises.partition(&:brain_buster?)
         - projects, core = core.partition(&:major_project?)
         .c-rhs-list
-          %h2 Core Exercises
-          %p Complete these exercises to complete this level.
+          %h2= t('.core_exercises.title')
+          %p= t('.core_exercises.description')
           %ul
             - core.each do |exercise|
               %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
 
           - if brain_busters.present?
-            %h2.mt-24 Brain Busters
-            %p.mb-8 Push your limits with these optional exercises!
+            %h2.mt-24= t('.brain_busters.title')
+            %p.mb-8= t('.brain_busters.description')
             %ul
               - brain_busters.each do |exercise|
                 %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
 
           - if projects.present?
-            %h2.mt-28 Major Project 🎉
-            %p.mb-8 Get started on this larger project, designed to be completed over multiple weeks.
+            %h2.mt-28= t('.major_project.title')
+            %p.mb-8= t('.major_project.description')
             %ul
               - projects.each do |exercise|
                 %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

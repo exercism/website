@@ -17,6 +17,7 @@ import {
   MobileIterationHeader,
   MobileIterationHeaderProps,
 } from './MobileIterationHeader'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -53,6 +54,9 @@ export const MobileIterationView = ({
   student,
   track,
 }: MobileIterationViewProps): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx'
+  )
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,
@@ -81,7 +85,9 @@ export const MobileIterationView = ({
         track={track}
       />
       {currentIteration.status == IterationStatus.DELETED ? (
-        <div className="deleted">This iteration has been deleted</div>
+        <div className="deleted">
+          {t('mobileIterationView.thisIterationHasBeenDeleted')}
+        </div>
       ) : (
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary

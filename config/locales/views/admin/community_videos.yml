@@ -1,0 +1,34 @@
+en:
+  admin:
+    community_videos:
+      show:
+        title: "Title: %{title}"
+        status: "Status: %{status}"
+        track: "Track: %{track_title}"
+        exercise: "Exercise: %{exercise_title}"
+        submitted_by: "Submitted By: %{name} | @%{handle} | #%{id}"
+        author: "Author: %{name} | @%{handle} | #%{id}"
+        community_video_attributes: "COMMUNITY VIDEO Attributes:"
+        attribute: "%{key}: %{value}"
+        community_video_is_nil: COMMUNITY VIDEO is nil
+        edit_community_video: Edit this community video
+        back_to_community_videos: Back to community videos
+      index:
+        community_videos_heading: Community videos
+        details_link: Details
+        edit_link: Edit
+        new_community_video: New community video
+      form:
+        errors_prohibited_saving:
+          one: "1 error prohibited this community_video from being saved:"
+          other: "%{count} errors prohibited this community_video from being saved:"
+        track_info: "Track: %{track_title}"
+        exercise_info: "Exercise: %{exercise_title}"
+        submitted_by: "Submitted By: %{name} | @%{handle} | #%{id}"
+      edit:
+        editing_community_video: Editing community video
+        show_this_community_video: Show this community video
+        back_to_community_videos: Back to community videos
+      new:
+        new_community_video_heading: New community video
+        back_to_community_videos: Back to community videos

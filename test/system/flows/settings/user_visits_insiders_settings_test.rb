@@ -65,7 +65,7 @@ module Flows
           visit insiders_settings_path
           sleep(2)
 
-          assert_text "we are giving all Insiders an Discount Affiliate code"
+          assert_text "we are giving all Insiders a Discount Affiliate code"
 
           assert_text "Bootcamp Affiliate Coupon"
 
@@ -89,7 +89,7 @@ module Flows
           visit insiders_settings_path
           sleep(2)
 
-          assert_text "we are giving all Insiders an Discount Affiliate code"
+          assert_text "we are giving all Insiders a Discount Affiliate code"
 
           assert_text "Bootcamp Affiliate Coupon"
 

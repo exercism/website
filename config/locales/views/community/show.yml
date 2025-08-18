@@ -1,0 +1,29 @@
+en:
+  community:
+    show:
+      main_section:
+        title: Join our community!
+        description_one: Accelerate your learning with Exercism's community. Ask
+          questions, explore ideas, and get to know millions of other developers
+          upskilling on Exercism.
+        description_two:
+          Join our Discord for social chat and to get support. Use our
+          Forum for deeper discussions and bug reports.
+        discord_button: Join our Discord Server
+        forum_button: Explore our forum
+        recent_forum_topics: Recent forum topics
+        latest_post_by: Latest post by %{poster_username}
+      community_stories:
+        title: Hear our Community Stories
+        description:
+          Listen to the stories of those who have built, contributed to, and
+          learnt from Exercism.
+      help_us:
+        title: Help us change lives
+        description_one:
+          We're community powered and community funded. We rely on
+          donations from people like you to enable us to exist and thrive.
+        description_two: Only 1% of people choose to support us. Please be one of them.
+        button: See how you can help
+      contributors:
+        title: Contributors

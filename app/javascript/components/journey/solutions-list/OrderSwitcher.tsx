@@ -1,13 +1,15 @@
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Order } from '../SolutionsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
   switch (order) {
     case 'oldest_first':
-      return <>Oldest First</>
+      return <>{t('orderSwitcher.oldestFirst')}</>
     case 'newest_first':
-      return <>Newest First</>
+      return <>{t('orderSwitcher.newestFirst')}</>
   }
 }
 

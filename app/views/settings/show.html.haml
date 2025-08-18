@@ -3,13 +3,13 @@
     = render ViewComponents::SettingsNav.new(:general)
 
     %article
-      %h1 Account Settings
+      %h1= t('.account_settings.heading')
 
       - if current_user.unconfirmed_email.present?
         .unconfirmed-email
-          %span We've sent a confirmation email to #{current_user.unconfirmed_email}
+          %span= t('.account_settings.confirmation_email_sent', email: current_user.unconfirmed_email)
           = button_to user_confirmation_path(user: { email: current_user.unconfirmed_email }), method: :post, class: "c-prominent-link" do
-            %span Resend email
+            %span= t('.account_settings.resend_email_button')
             = graphical_icon("arrow-right")
 
       %section
@@ -35,18 +35,16 @@
 
       .danger-section
         .reset.box
-          %h2 Reset account
+          %h2= t('.account_settings.reset_account.heading')
           .info
             %p
-              Resetting your account will
-              %strong reset your progress on all tracks,
-              reset all exercises and remove access to all your previous mentoring.
+              = t('.account_settings.reset_account.info_html').html_safe
 
           = render ReactComponents::Settings::ResetAccountButton.new
 
         .box
-          %h2 Delete account
+          %h2= t('.account_settings.delete_account.heading')
           .info
-            %strong This option will eliminate your account entirely with all data.
-            You’ll get a chance to confirm your choice.
+            %strong= t('.account_settings.delete_account.info_strong')
+            = t('.account_settings.delete_account.info_text')
           = render ReactComponents::Settings::DeleteAccountButton.new

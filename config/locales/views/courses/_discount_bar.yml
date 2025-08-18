@@ -1,0 +1,6 @@
+en:
+  courses:
+    discount_bar:
+      hello: "%{hello}!"
+      discount_text_html: Everyone in %{country_name} gets a <strong
+        class="inline">%{discount_percentage}%% discount!</strong>

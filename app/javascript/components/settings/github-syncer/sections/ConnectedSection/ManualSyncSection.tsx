@@ -4,6 +4,8 @@ import { TrackSelect } from '@/components/common/TrackSelect'
 import toast from 'react-hot-toast'
 import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { StaticTooltip } from '@/components/bootcamp/JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Track = {
   title: string
@@ -12,6 +14,9 @@ type Track = {
 }
 
 export function ManualSyncSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
+  )
   const { tracks, links, isSyncingEnabled } = useContext(GitHubSyncerContext)
   const [track, setTrack] = useState<Track>({} as Track)
 
@@ -24,24 +29,27 @@ export function ManualSyncSection() {
         .then(async (response) => {
           if (response.ok) {
             toast.success(
-              `Your backup for the ${trackSlug} track has been queued and should be completed within a few minutes.`,
+              t(
+                'yourBackupForTheTrackHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes',
+                { trackSlug }
+              ),
               { duration: 5000 }
             )
           } else {
             await handleJsonErrorResponse(
               response,
-              'Error queuing backup for the track.'
+              t('errorQueuingBackupForTheTrack')
             )
           }
         })
         .catch((error) => {
           console.error('Error:', error)
           toast.error(
-            'Something went wrong while queuing the backup. Please try again.'
+            t('somethingWentWrongWhileQueuingTheBackupPleaseTryAgain')
           )
         })
     },
-    [links.syncTrack]
+    [links.syncTrack, t]
   )
 
   return (
@@ -51,21 +59,22 @@ export function ManualSyncSection() {
       }}
       id="manual-sync-section"
     >
-      <h2 className="!mb-6">Backup a track</h2>
+      <h2 className="!mb-6">{t('backupATrack')}</h2>
       <p className="text-16 leading-150 mb-12">
-        If you want to backup a track to GitHub, you can use this function.
+        {t('ifYouWantToBackupATrackToGithubYouCanUseThisFunction')}
       </p>
 
       <p className="text-16 leading-150 mb-16">
-        <strong className="font-medium">Note:</strong> Please use this
-        sparingly, for example when you want to backup a track for the first
-        time. This is not designed to be part of your normal workflow and will
-        likely hit rate-limits if over-used.
+        <Trans
+          i18nKey="notePleaseUseThisSparing"
+          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
+          components={{ strong: <strong className="font-medium" /> }}
+        />
       </p>
 
       <div className="mb-16">
         <div className="font-mono font-semibold text-14 mb-8">
-          Select track to backup
+          {t('selectTrackToBackup')}
         </div>
         <TrackSelect
           value={track}
@@ -81,28 +90,31 @@ export function ManualSyncSection() {
           disabled={!track.slug || !isSyncingEnabled}
           className="btn btn-primary"
         >
-          Backup Track
+          {t('backupTrack')}
         </button>
         {!isSyncingEnabled && (
           <StaticTooltip
             style={{ transform: 'translate(-25%, -100%)', left: 0 }}
             className="bg-textColor1 text-backgroundColorA opacity-90 rounded-8"
-            text="Syncing is paused. Enable it to back up this track."
+            text={t('syncingIsPausedEnableItToBackUpThisTrack')}
           />
         )}
       </div>
       <div className="border-t-1 border-borderColor6 my-32" />
-      <h2 className="!mb-6">Backup everything</h2>
+      <h2 className="!mb-6">{t('backupEverything')}</h2>
 
       <p className="text-16 leading-150 mb-12">
-        If you want to backup all your exercises across all tracks to GitHub,
-        you can use this function.
+        {t(
+          'ifYouWantToBackupAllYourExercisesAcrossAllTracksToGithubYouCanUseThisFunction'
+        )}
       </p>
 
       <p className="text-16 leading-150 mb-16">
-        <strong className="font-medium">Note:</strong> Please use this
-        sparingly, for example when you want to bootstrap a new repo. This is
-        not designed to be part of your normal workflow.
+        <Trans
+          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
+          components={{ strong: <strong className="font-medium" /> }}
+          i18nKey="notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow"
+        />
       </p>
       <div className="group relative">
         <button
@@ -114,13 +126,13 @@ export function ManualSyncSection() {
           }
           className="btn btn-primary relative group"
         >
-          Backup Everything
+          {t('backupEverythingLabel')}
         </button>
         {!isSyncingEnabled && (
           <StaticTooltip
             style={{ transform: 'translate(-25%, -100%)', left: 0 }}
             className="bg-textColor1 text-backgroundColorA opacity-90 rounded-8"
-            text="Syncing is paused. Enable it to back up everything."
+            text={t('syncingIsPausedEnableItToBackUpEverything')}
           />
         )}
       </div>
@@ -133,26 +145,31 @@ export function handleSyncEverything({
 }: {
   syncEverythingEndpoint: string
 }) {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
+  )
   fetchWithParams({
     url: syncEverythingEndpoint,
   })
     .then(async (response) => {
       if (response.ok) {
         toast.success(
-          `Your backup for all tracks has been queued and should be completed within a few minutes.`,
+          t(
+            'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
+          ),
           { duration: 5000 }
         )
       } else {
         await handleJsonErrorResponse(
           response,
-          'Error queuing backup for all tracks.'
+          t('errorQueuingBackupForAllTracks')
         )
       }
     })
     .catch((error) => {
       console.error('Error:', error)
       toast.error(
-        'Something went wrong while queuing the backup for all tracks. Please try again.'
+        t('somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain')
       )
     })
 }

@@ -5,38 +5,30 @@
     .lg-container.flex.flex-col.items-center.c-shapes
       = graphical_icon "community-with-exercism-logo", category: :graphics
       %h1.text-h1.mb-4
-        %strong.text-gradient Support our goal:
-        Give everyone an equal chance to learn and master programming. ✨
+        %strong.text-gradient= t('.header.strong_text')
+        = t('.header.heading')
 
       .text-textColor1.text-20.text-center.leading-150.mb-32
-        If you share our desire to make the world a better &amp; fairer place, please support us.
-        %br
-        %span.font-medium
-          You can learn more about our
-          = link_to 'Mission,', about_path, class: link_class
-          = link_to 'Impact', impact_about_path, class: link_class
-          and
-          = succeed('.') do
-            = link_to 'Team', team_about_path, class: link_class
+        = t('.header.paragraph_html', mission_link: (link_to t('.header.mission'), about_path, class: link_class), impact_link: (link_to t('.header.impact'), impact_about_path, class: link_class), team_link: (link_to t('.header.team'), team_about_path, class: link_class))
 
     .sm-container{ class: "!pb-28" }
       .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.lg:mb-128.mb-32
         .c-progress
           - target = 25_000.0
           - actual = Payments::Subscription.active_total_per_month_in_dollars
-          - progress = [1,  actual / target].min * 100
+          - progress = [1, actual / target].min * 100
           .bar{ style: "width:#{progress}%" }
 
           .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
           .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
-            Monthly donations:
+            = t('.progress_bar.monthly_donations')
             %span.font-semibold= number_to_currency(actual.round, precision: 0)
 
           .target-icon
             = graphical_icon "party-popper"
           .goal
-            Sustainable at:
-            %span.font-semibold $25,000
+            = t('.progress_bar.sustainable_at')
+            %span.font-semibold= t('.progress_bar.target_amount')
 
   .lg-container
     #anchor-donate
@@ -50,53 +42,36 @@
       - else
         %section.form-section.flex-shrink-0{ class: 'md:w-[500px] w-full' }
           .c-donations-form.p-32.text-center
-            %h2.text-h4.mb-8 Please log in to donate using a debit/credit card.
+            %h2.text-h4.mb-8= t('.logged_out_form.heading')
             %p.text-p-base
-              Due to constant attacks by bots we now require that everyone
-              = link_to "logs in", new_user_session_path
-              or
-              = link_to "signs up", new_user_registration_path
-              before donating using a debit or credit card. You can still use other forms of donations below. We apologize for the inconvenience!
+              = t('.logged_out_form.paragraph_html', login_link: (link_to t('.logged_out_form.log_in'), new_user_session_path), signup_link: (link_to t('.logged_out_form.sign_up'), new_user_registration_path))
 
           = render "alternatives"
 
       %section.info-section.pt-48.lg:pt-0
-        %h2.text-h2.mb-2 Everything you need to know about donations
-        %p.text-p-large.mb-16 Why do we need donations? How much does Exercism cost to run? How do we spend donations? Watch Jeremy's explanatory video 👇
+        %h2.text-h2.mb-2= t('.info_section.heading_one')
+        %p.text-p-large.mb-16= t('.info_section.paragraph_one')
         .text-h2.mb-40{ class: 'w-[100%]' }
           = vimeo_embed("855534271?h=97d3a4c8c2")
 
-        %h2.text-h2.mb-32 Here&apos;s what you can do to support us.
+        %h2.text-h2.mb-32= t('.info_section.heading_two')
         .flex.md:flex-row.flex-col.gap-20.shadow-baseZ1.p-24.rounded-16.bg-backgroundColorA.mb-16.border-2.border-gradient.relative
           = graphical_icon "money-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
-            .text-h4.mb-4 Donate
+            .text-h4.mb-4= t('.info_section.donate_card.title')
             .text-prose.text-textColor5
-              Support us financially using the donation box
-              %span.hidden.md:inline to the right.
-              %span.inline.md:hidden above.
-              Every dollar helps us keep us independent, advert-free and able to grow, so please support us if you can! 💜
+              = t('.info_section.donate_card.description', to_the_right_or_above: content_tag(:span, t('.info_section.to_the_right'), class: 'hidden lg:inline') + content_tag(:span, t('.info_section.above'), class: 'inline lg:hidden')).html_safe
 
         .flex.md:flex-row.flex-col.gap-20.shadow-base.p-24.rounded-16.bg-backgroundColorA.mb-16
           = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
-            .text-h4.mb-4 Get your company involved
+            .text-h4.mb-4= t('.info_section.company_card.title')
             .text-prose.text-textColor5
-              Does your company support not-for-profits or charities? Do you have a matched giving scheme at work? We&apos;d love to chat to you to understand how your company could support us. Please
-              drop us an email at
-              = link_to "fundraising@exercism.org", "mailto:fundraising@exercism.org", class: "text-prominentLinkColor font-medium underline"
-              and we'll explore further!
+              = t('.info_section.company_card.description_html', email_link: (link_to t('.info_section.company_card.email_address'), "mailto:fundraising@exercism.org", class: "text-prominentLinkColor font-medium underline"))
 
         .flex.md:flex-row.flex-col.gap-20.shadow-base.p-24.rounded-16.bg-backgroundColorA.mb-16
           = graphical_icon "social-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
-            .text-h4.mb-4 Love Exercism? Tell others about us!
+            .text-h4.mb-4= t('.info_section.social_card.title')
             .text-prose.text-textColor5
-              Follow us on
-              = link_to 'Twitter,', 'https://twitter.com/exercism_io', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
-              = link_to 'GitHub', 'https://github.com/exercism', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
-              and
-              = link_to 'LinkedIn', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
-              then share our posts, and create your own! We try to share everything we see 🙂
-
-
+              = t('.info_section.social_card.description_html', twitter_link: (link_to t('.info_section.social_card.twitter'), 'https://twitter.com/exercism_io', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"), github_link: (link_to t('.info_section.social_card.github'), 'https://github.com/exercism', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"), linkedin_link: (link_to t('.info_section.social_card.linkedin'), 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"))

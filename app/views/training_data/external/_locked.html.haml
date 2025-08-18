@@ -2,10 +2,10 @@
   .flex.flex-col.items-stretch
     %h2.reputation.text-20.leading-paragraph.mb-12.font-semibold.flex.items-center
       - if max_reputation_track
-        %span.mr-12 Your current max reputation in a track is
+        %span.mr-12= t('.max_reputation_html').html_safe
         = render ViewComponents::Reputation.new(max_reputation_track.reputation, size: :small, flashy: true)
       - else
-        %span.mr-12 You haven't yet earned any reputation in a track.
+        %span.mr-12= t('.no_reputation')
 
     - if max_reputation_track
       .c-progress.mb-10
@@ -16,8 +16,6 @@
       .font-semibold.text-textColor6
         = link_to doc_url(:using, 'product/reputation'), class: "flex items-center info-link" do
           = graphical_icon "info-circle", css_class: "w-[15px] h-[15px] mr-12 filter-textColor6"
-          How does this work?
+          = t('.how_it_works')
       .font-medium.text-textColor6.ml-auto
-        Ability to use Training Hub unlocks when you reach
-        = link_to "#{track_min_reputation} rep", doc_url(:using, 'product/reputation'), class: 'text-gradient !font-semibold'
-        in a single track
+        = t('.unlock_info_html', track_min_reputation: track_min_reputation, reputation_link: doc_url(:using, 'product/reputation')).html_safe

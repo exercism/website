@@ -1,9 +1,7 @@
 = form_with(model: [:admin, mailshot]) do |form|
   - if mailshot.errors.any?
     .mb-12.text-red
-      %h2
-        = pluralize(mailshot.errors.count, "error")
-        prohibited this mailshot from being saved:
+      %h2= t('.errors.header', count: mailshot.errors.count)
       %ul
         - mailshot.errors.each do |error|
           %li= error.full_message

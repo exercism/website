@@ -7,15 +7,11 @@
       %section.progress-chart.mb-24
         %h2
           - if user_track.completed_percentage.zero?
-            You&apos;ve just started the #{track.title} track.
-            %strong Good luck, adventurer!
+            = t('.progress_chart.just_started_track', track_title: track.title).html_safe
           - elsif user_track.completed_percentage == 100
-            Amazing - you've completed the track!!
-            %strong What an achievement! 👏
+            = t('.progress_chart.track_completed').html_safe
           - else
-            You&apos;re
-            %em #{user_track.completed_percentage}%
-            through the #{track.title} track.
+            = t('.progress_chart.through_track_html', completed_percentage: user_track.completed_percentage, track_title: track.title).html_safe
             %strong= user_track_completed_percentage_text(user_track)
 
         .c-progress
@@ -23,29 +19,29 @@
           -# TODO: Disable this on SRs?
           = track_icon track
           .completed-icon
-            = icon "completed-check-circle", "Completed", css_class: "completed"
+            = icon "completed-check-circle", t('.progress_chart.completed_icon_alt'), css_class: "completed"
 
         = render ReactComponents::Student::ExerciseStatusChart.new(track)
 
         .key
           .item
             .c-ed.--completed
-            .status Completed
+            .status= t('.progress_chart.status.completed')
             .count= user_track.num_completed_exercises
           .item
             .c-ed.--in_progress
-            .status In-progress
+            .status= t('.progress_chart.status.in_progress')
             .count= user_track.num_in_progress_exercises
           .item
             .c-ed.--available
-            .status Available
+            .status= t('.progress_chart.status.available')
             .count= user_track.num_available_exercises
           .item
             .c-ed.--locked
-            .status Locked
+            .status= t('.progress_chart.status.locked')
             .count= user_track.num_locked_exercises
           .item.total
-            .status Total Exercises
+            .status= t('.progress_chart.status.total_exercises')
             .count= user_track.num_exercises
 
 
@@ -80,18 +76,17 @@
 
       %section#trophy-cabinet.trophy-cabinet
         %h2.text-h4.mb-2.text-center
-          #{track.title} Trophy Cabinet
+          = t('.trophy_cabinet.title', track_title: track.title)
         %p.text-p-base.text-textColor6.mb-20.text-center
-          Unlock for achievements as you progress through the track.
-          = link_to "Learn more", "https://forum.exercism.org/t/track-trophies-are-live/6957"
+          = t('.trophy_cabinet.subtitle_html', learn_more_link: link_to(t('.trophy_cabinet.learn_more'), 'https://forum.exercism.org/t/track-trophies-are-live/6957')).html_safe
 
         = render ReactComponents::Track::Trophies.new(track, user_track.user)
 
     .rhs.flex.flex-col.gap-32
       - if track.intro_video_youtube_slug
         %section
-          %h3.text-h4.mb-4 A Brief Introduction to #{track.title}
-          %p.text-p-base.mb-12 Dig into #{track.title} with Erik as he explores its main features and solves an interesting exercise.
+          %h3.text-h4.mb-4= t('.intro_video.title', track_title: track.title)
+          %p.text-p-base.mb-12= t('.intro_video.description', track_title: track.title)
 
           %div{ class: 'w-[100%] max-w-[500px]' }
             = render ReactComponents::Common::YoutubePlayer.new(track.intro_video_youtube_slug, 'track')
@@ -102,7 +97,7 @@
 
       - if forum_threads.present?
         %section
-          %h3.text-h4.mb-12 From the Forum…
+          %h3.text-h4.mb-12= t('.forum_section.title')
           .flex.flex-col.gap-8.mb-20
             - forum_threads.each do |thread|
               = link_to thread.url, class: 'flex items-start bg-backgroundColorA px-16 py-12 shadow-base hover:shadow-smZ1 rounded-5 mb-8' do
@@ -110,28 +105,24 @@
                 .flex.flex-col.mr-auto
                   %h5.text-h6= thread.title
                   .text-textColor6.leading-150
-                    Latest by #{thread.poster_username}
-          = render ViewComponents::ProminentLink.new("Explore the #{track.title} Forum", "https://forum.exercism.org/c/programming/#{track.slug}", with_bg: true, external: true, css_class: 'mb-12')
+                    = t('.forum_section.latest_by', poster_username: thread.poster_username)
+          = render ViewComponents::ProminentLink.new(t('.forum_section.explore_forum_link', track_title: track.title), "https://forum.exercism.org/c/programming/#{track.slug}", with_bg: true, external: true, css_class: 'mb-12')
 
       - if docs.present?
         %section
-          %h3.text-h4.mb-6 Stuck? Explore our docs…
+          %h3.text-h4.mb-6= t('.docs_section.title')
           %ul.text-p-base.list-disc.ml-20
             - docs.each do |doc|
               %li.mb-2= link_to doc.nav_title, track_doc_path(doc.track, doc)
 
       - if last_8_weeks_counts.any?(&:positive?)
         %section
-          %h3.text-h4.mb-4 Your momentum
-          %p.text-p-base.mb-12 Consistency is the key to progress. Set yourself a realistic target to try and aim for each week, then track your last 8 weeks here.
+          %h3.text-h4.mb-4= t('.momentum_section.title')
+          %p.text-p-base.mb-12= t('.momentum_section.description')
           .stats-box
             .weekly-count
               .text
                 .count= (last_8_weeks_counts.sum / 8.0).round(1)
-                %h3 Avg. exercises completed per week
+                %h3= t('.momentum_section.avg_exercises_completed_per_week')
 
               = ReactComponents::Common::ProgressGraph.new(last_8_weeks_counts, 70, 145)
-
-
-
-

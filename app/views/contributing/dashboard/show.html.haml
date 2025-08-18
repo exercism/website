@@ -7,49 +7,48 @@
   .lg-container.container
     .methods-section
       %header.header
-        %h2 How you can help us build Exercism
+        %h2= t('.methods_section.header.title')
         %hr.c-divider
 
       .methods.grid-cols-1.sm:grid-cols-2.lg:grid-cols-3
         .method
           = graphical_icon "docs", category: 'graphics'
-          %h3 Proofread and update
-          .c-tag.beginner Beginner
-          %p Never contributed to an open source project? Give this a go. We'll help you submit your first pull request.
+          %h3= t('.methods_section.method.proofread_and_update.title')
+          .c-tag.beginner= t('.methods_section.method.proofread_and_update.tag')
+          %p= t('.methods_section.method.proofread_and_update.description')
           = render "tasks_section", track_counts: @proofreading, filters: { actions: [:proofread] }, tracks: @tracks
 
         .method
           = graphical_icon "improve", category: 'graphics'
-          %h3 Improve a concept or exercise
-          .c-tag.intermediary Intermediary
-          %p Fix bugs and make improvements to concepts and exercise across Exercism. Help students have a smooth and error-free experience.
+          %h3= t('.methods_section.method.improve_content.title')
+          .c-tag.intermediary= t('.methods_section.method.improve_content.tag')
+          %p= t('.methods_section.method.improve_content.description')
           = render "tasks_section", track_counts: @improve_content, filters: { actions: [:improve], areas: ["concept-exercise", "practice-exercise", :concept] }, tracks: @tracks
 
         .method
           = graphical_icon "exercises", category: 'graphics'
-          %h3 Create a new exercise or concept
-          .c-tag.advanced Advanced
-          %p Build out a new exercise or concept based on a track's roadmap. Have fun making interactive content that millions of people will use.
+          %h3= t('.methods_section.method.create_new_content.title')
+          .c-tag.advanced= t('.methods_section.method.create_new_content.tag')
+          %p= t('.methods_section.method.create_new_content.description')
           = render "tasks_section", track_counts: @create_exercises, filters: { actions: [:create], areas: ["concept-exercise", "practice-exercise", :concept] }, tracks: @tracks
 
         .method
           = graphical_icon "bugs", category: 'graphics'
-          %h3 Develop a test runner
-          .c-tag.project Project
-          %p Test runners power our online editor. All tracks have basic test runners, but many need more advanced features and functionality adding.
+          %h3= t('.methods_section.method.develop_test_runner.title')
+          .c-tag.project= t('.methods_section.method.develop_test_runner.tag')
+          %p= t('.methods_section.method.develop_test_runner.description')
           = render "tasks_section", track_counts: @test_runner, filters: { areas: ["test-runner"] }, tracks: @tracks
 
         .method
           = graphical_icon "automation", category: 'graphics'
-          %h3 Develop an analyzer
-          .c-tag.project Project
-          %p Analyzers give automated feedback to students through ASTs analysis. These are complex and deeply interesting pieces of software to develop.
+          %h3= t('.methods_section.method.develop_analyzer.title')
+          .c-tag.project= t('.methods_section.method.develop_analyzer.tag')
+          %p= t('.methods_section.method.develop_analyzer.description')
           = render "tasks_section", track_counts: @analyzer, filters: { areas: [:analyzer] }, tracks: @tracks
 
         .method
           = graphical_icon "representer", category: 'graphics'
-          %h3 Develop a representer
-          .c-tag.project Project
-          %p Representers help us spot identical solutions so that we can reuse feedback. Simpler than analyzers but fun and interesting to reason about.
+          %h3= t('.methods_section.method.develop_representer.title')
+          .c-tag.project= t('.methods_section.method.develop_representer.tag')
+          %p= t('.methods_section.method.develop_representer.description')
           = render "tasks_section", track_counts: @representer, filters: { areas: [:representer] }, tracks: @tracks
-

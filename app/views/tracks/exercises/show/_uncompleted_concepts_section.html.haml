@@ -1,9 +1,9 @@
 %section.taught-concepts
-  %h3.mb-4 Exercise Learning goals
+  %h3.mb-4= t('.learning_goals_title')
   %p.text-p-base.mb-12
-    While completing #{exercise.title}, you'll learn
+    = t('.learning_goals_description', exercise_title: exercise.title)
     = succeed(":") do
-      %strong= pluralize exercise.taught_concepts.size, 'concept'
+      %strong= t('.concept_plural', count: exercise.taught_concepts.size)
   .concepts
     - exercise.taught_concepts.each.each do |concept|
       = link_to track_concept_path(track, concept), class: 'concept' do

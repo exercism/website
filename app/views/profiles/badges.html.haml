@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{sanitize(@user.handle)}'s badges to Exercism".html_safe
-- content_for :meta_description, "Explore #{sanitize(@user.handle)}'s badges on Exercism, and see which ones you're missing yourself".html_safe
+- content_for :meta_title, t('.meta_title', user_handle: sanitize(@user.handle)).html_safe
+- content_for :meta_description, t('.meta_description', user_handle: sanitize(@user.handle)).html_safe
 - content_for :canonical_url, badges_profile_url(@user)
 - require_stylesheet "profile"
 
@@ -9,8 +9,8 @@
   %article
     .lg-container
       = render ReactComponents::Common::Introducer.new(:profile_badges, "badges") do
-        %h2 Exercism members earn badges for doing cool stuff
-        %p Using Exercism is fun and rewarding - spontaneously earn badges during learning, mentoring and contributing on Exercism.
+        %h2= t('.introducer.title')
+        %p= t('.introducer.description')
 
       .summary
         - %w[common rare ultimate legendary].each do |rarity|
@@ -20,7 +20,7 @@
             .count= count
             .info
               %h3= rarity.titleize
-              .subtitle #{'badges'.pluralize(count)} owned
+              .subtitle= t('.summary.badges_owned', count: count)
 
       .badges
         - @badges.each do |badge|

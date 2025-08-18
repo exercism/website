@@ -1,7 +1,10 @@
+// i18n-key-prefix: mentoringChart
+// i18n-namespace: components/journey/overview/mentoring-section
 import React, { useState, useEffect } from 'react'
 import Chart from 'chart.js/auto'
 import { ChartConfiguration, ChartDataset } from 'chart.js'
 import { MentoredTrackProgressList } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const CONFIG: ChartConfiguration<'doughnut'> = {
   type: 'doughnut',
@@ -22,6 +25,9 @@ export const MentoringChart = ({
 }: {
   tracks: MentoredTrackProgressList
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/mentoring-section'
+  )
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [chart, setChart] = useState<Chart<'doughnut'> | null>(null)
 
@@ -42,7 +48,7 @@ export const MentoringChart = ({
     }
 
     const dataset: ChartDataset<'doughnut'> = {
-      label: 'Sessions mentored per track',
+      label: t('mentoringChart.sessionsMentoredPerTrack'),
       data: tracks.items.map((track) => track.numDiscussions),
       backgroundColor: tracks.items.map(
         (track) =>
@@ -57,7 +63,7 @@ export const MentoringChart = ({
     chart.data.datasets = [dataset]
 
     chart.update()
-  }, [chart, tracks.items])
+  }, [chart, tracks.items, t])
 
   return (
     <div className="chart">

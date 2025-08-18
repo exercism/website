@@ -1,6 +1,6 @@
 - content_for :canonical_url, docs_url
-- content_for :meta_title, "Exercism's Docs".html_safe
-- content_for :meta_description, "Our docs on how to use and contribute to Exercism. All your Exercism-related questions should be answered here."
+- content_for :meta_title, t('.meta_title').html_safe
+- content_for :meta_description, t('.meta_description')
 - require_stylesheet "docs"
 
 = render ViewComponents::DocsMainNav.new
@@ -9,39 +9,38 @@
   .sm-container
     .header
       = graphical_icon "guides", css_class: "header-icon", hex: true
-      %h1 Welcome to Exercism's docs 👋
-      %p Find out everything you need to know about using and contributing to Exercism.
+      %h1= t('.welcome_heading')
+      %p= t('.welcome_subtitle')
       %hr.c-divider.md:block.hidden
 
     .using-section
       .info
-        %h2 Using Exercism
+        %h2= t('.using_exercism.heading')
         %p
-          Learn how to make the make the most from your time on Exercism.
-          Find answers to all your questions, understand how to make the most out of mentoring, and discover how to be a great Exercism citizen.
+          = t('.using_exercism.paragraph_html')
         = link_to docs_section_path(:using), class: 'btn-primary btn-l' do
-          %span Get started
+          %span= t('.using_exercism.get_started_button')
           = graphical_icon 'arrow-right'
       = graphical_icon 'hacker-boy', category: "graphics"
 
     .extra-sections
       .section
         = graphical_icon "building", category: "graphics", css_class: "header-icon"
-        %h2 Building Exercism
-        %p Our comprehensive docs on building Exercism. Discover everything you need to know about how to contribute to tracks, including guides, specs and explanations.
-        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:building))
+        %h2= t('.building_exercism.heading')
+        %p= t('.building_exercism.paragraph')
+        = render ViewComponents::ProminentLink.new(t('.building_exercism.learn_more_link'), docs_section_path(:building))
 
       .section
         = graphical_icon "mentoring", category: "graphics", css_class: "header-icon"
-        %h2 Mentoring
-        %p Understand and master the art of mentoring on Exercism. Our docs explain how to start your first session, how to give great feedback, and how to use the mentoring interface.
-        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:mentoring))
+        %h2= t('.mentoring.heading')
+        %p= t('.mentoring.paragraph')
+        = render ViewComponents::ProminentLink.new(t('.mentoring.learn_more_link'), docs_section_path(:mentoring))
 
       .section
         = graphical_icon "community", category: "graphics", css_class: "header-icon"
-        %h2 Community
-        %p Understand how our community works, the different roles people have and how you can join. Learn how to be a positive contributor and great community member.
-        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:community))
+        %h2= t('.community.heading')
+        %p= t('.community.paragraph')
+        = render ViewComponents::ProminentLink.new(t('.community.learn_more_link'), docs_section_path(:community))
 
       -# .section
         = graphical_icon "community", category: "graphics", css_class: "header-icon"
@@ -50,5 +49,5 @@
         = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:organisation))
 
     .tracks-section
-      %h2 And, of course, track-specific docs
+      %h2= t('.track_specific_docs_heading')
       = render ViewComponents::DocsTrackList.new

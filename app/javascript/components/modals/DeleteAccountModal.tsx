@@ -6,6 +6,8 @@ import { useConfirmation } from '@/hooks/use-confirmation'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { FormButton } from '@/components/common/FormButton'
 import { Modal, ModalProps } from './Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type APIResponse = {
   links: {
@@ -23,6 +25,7 @@ export const DeleteAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/DeleteAccountModal.tsx')
   const {
     mutate: mutation,
     status,
@@ -56,28 +59,32 @@ export const DeleteAccountModal = ({
     <Modal {...props} className="m-delete-account m-generic-destructive">
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="info">
-          <h2>You&apos;re about to delete your Exercism account</h2>
+          <h2>{t('deleteAccount.title')}</h2>
           <p>
-            <strong>Please read this carefully before continuing.</strong>
+            <strong>{t('deleteAccount.readCarefully')}</strong>
           </p>
           <p>
-            This is <em>irreversible</em> and will mean you’ll lose everything
-            you’ve done on your account.
+            <Trans
+              ns="components/modals/DeleteAccountModal.tsx"
+              i18nKey="deleteAccount.irreversible"
+              components={{ em: <em /> }}
+            />
           </p>
           <hr />
           <p>
-            <strong>By deleting your account, you will lose access to:</strong>
+            <strong>{t('deleteAccount.loseAccessTo')}</strong>
           </p>
           <ul>
-            <li>All solutions you have submitted</li>
-            <li>All mentoring you have received</li>
-            <li>All mentoring you have given and any testimonials received.</li>
-            <li>All your personal data, which will be deleted</li>
+            <li>{t('deleteAccount.allSolutions')}</li>
+            <li>{t('deleteAccount.allMentoringReceived')}</li>
+            <li>{t('deleteAccount.allMentoringGiven')}</li>
+            <li>{t('deleteAccount.personalDataDeleted')}</li>
           </ul>
         </div>
         <hr />
         <label htmlFor="confirmation">
-          To confirm, write your handle <pre>{handle}</pre> in the box below:
+          {t('deleteAccount.confirmHandle')} <pre>{handle}</pre> in the box
+          below:
         </label>
 
         <input
@@ -95,7 +102,7 @@ export const DeleteAccountModal = ({
             type="button"
             onClick={props.onClose}
           >
-            Cancel
+            {t('deleteAccount.cancel')}
           </FormButton>
 
           <FormButton
@@ -104,11 +111,14 @@ export const DeleteAccountModal = ({
             status={status}
             className="btn-primary btn-m"
           >
-            Delete account
+            {t('deleteAccount.deleteAccount')}
           </FormButton>
         </div>
         <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+          <ErrorMessage
+            error={error}
+            defaultError={new Error(t('deleteAccount.unableToDeleteAccount'))}
+          />
         </ErrorBoundary>
       </form>
     </Modal>

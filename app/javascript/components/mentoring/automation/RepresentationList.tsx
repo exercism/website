@@ -1,12 +1,12 @@
 import React from 'react'
 import type { QueryStatus } from '@tanstack/react-query'
-import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
 import type { APIResponse } from './useMentoringAutomation'
 import { SelectedTab } from './Representation'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -72,22 +72,28 @@ function Component({ resolvedData, page, setPage, selectedTab }: Props) {
 }
 
 function NoResultsOfQuery() {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/RepresentationList.tsx'
+  )
   return (
     <FilterFallback
       icon="no-result-magnifier"
-      title="No solutions found."
-      description="Try changing your filters to find solutions that need feedback."
+      title={t('representationList.noSolutionsFound')}
+      description={t('representationList.tryChangingFilters')}
     />
   )
 }
 
 function NoResultsYet() {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/RepresentationList.tsx'
+  )
   return (
     <FilterFallback
       icon="automation"
       svgFilter="filter-textColor6"
-      title="There are currently no solutions that need feedback."
-      description="Check back here later for more!"
+      title={t('representationList.noSolutionsNeedFeedback')}
+      description={t('representationList.checkBackLater')}
     />
   )
 }

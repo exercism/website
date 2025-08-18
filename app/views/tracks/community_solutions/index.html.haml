@@ -1,5 +1,5 @@
-- content_for :meta_title, "Community solutions for #{@exercise.title} in #{@track.title} on Exercism"
-- content_for :meta_description, "Explore other people's solutions to #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise.".html_safe
+- content_for :meta_title, t('.meta_title', exercise_title: @exercise.title, track_title: @track.title)
+- content_for :meta_description, t('.meta_description', exercise_title: @exercise.title, track_title: @track.title).html_safe
 - content_for :canonical_url, track_exercise_solutions_url(@track, @exercise, order: params[:order].presence, page: params[:page].to_i > 1 ? params[:page] : nil)
 - require_stylesheet "track"
 

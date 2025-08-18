@@ -4,9 +4,13 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
 import useTestStore from '../store/testStore'
 import useTaskStore from '../store/taskStore/taskStore'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 Modal.setAppElement('body')
 export function ResetButton() {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/Header'
+  )
   const [shouldOpenConfirmationModal, setShouldOpenConfirmationModal] =
     useState(false)
   const { resetEditorToStub, exercise } = useContext(
@@ -22,7 +26,15 @@ export function ResetButton() {
     setInspectedTestResult(null)
     setShouldShowBonusTasks(false)
     initializeTasks(exercise.tasks, null)
-  }, [resetEditorToStub, setShouldOpenConfirmationModal])
+  }, [
+    resetEditorToStub,
+    setShouldOpenConfirmationModal,
+    exercise.tasks,
+    initializeTasks,
+    setInspectedTestResult,
+    setShouldShowBonusTasks,
+    setTestSuiteResult,
+  ])
 
   return (
     <>
@@ -30,7 +42,7 @@ export function ResetButton() {
         onClick={() => setShouldOpenConfirmationModal(true)}
         className={assembleClassNames('btn-default btn-xxs')}
       >
-        Reset
+        {t('resetButton.reset')}
       </button>
 
       {/* @ts-ignore */}
@@ -41,11 +53,10 @@ export function ResetButton() {
         overlayClassName="solve-exercise-page-react-modal-overlay"
       >
         <h2 className="text-[25px] leading-140 mb-12 font-semibold">
-          Are you sure?
+          {t('resetButton.areYouSure')}
         </h2>
         <p className="text-18 leading-140 mb-16">
-          Are you sure you want to reset to the starting code? You'll lose your
-          progress on this exercise.
+          {t('resetButton.resetConfirmation')}
         </p>
 
         <div className="flex items-center gap-8 self-stretch">
@@ -53,13 +64,13 @@ export function ResetButton() {
             onClick={() => setShouldOpenConfirmationModal(false)}
             className="btn-l btn-secondary !px-40 flex-shrink-0"
           >
-            Cancel
+            {t('resetButton.cancel')}
           </button>
           <button
             onClick={handleResetExercise}
             className="btn-l btn-primary flex-grow"
           >
-            Yes, Reset Exercise
+            {t('resetButton.yesResetExercise')}
           </button>
         </div>
       </Modal>

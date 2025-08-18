@@ -1,11 +1,17 @@
+// i18n-key-prefix: iOTestResultView
+// i18n-namespace: components/bootcamp/JikiscriptExercisePage/TestResultsView
 import React from 'react'
 import type { Change } from 'diff'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function IOTestResultView({ diff }: { diff: Change[] }) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/TestResultsView'
+  )
   return (
     <>
       <tr>
-        <th>Expected:</th>
+        <th>{t('iOTestResultView.expected')}</th>
         <td style={{ whiteSpace: 'pre-wrap' }}>
           {diff.map((part, index) =>
             !part.added ? (
@@ -27,7 +33,7 @@ export function IOTestResultView({ diff }: { diff: Change[] }) {
         </td>
       </tr>
       <tr>
-        <th>Actual:</th>
+        <th>{t('iOTestResultView.actual')}</th>
         <td style={{ whiteSpace: 'pre-wrap' }}>
           {diff.map((part, index) =>
             !part.removed ? (

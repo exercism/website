@@ -1,3 +1,5 @@
+// i18n-key-prefix: solution
+// i18n-namespace: components/mentoring/queue
 import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { ExerciseIcon } from '../../common/ExerciseIcon'
@@ -7,6 +9,7 @@ import { Avatar } from '../../common/Avatar'
 import { StudentTooltip } from '../../tooltips'
 import { MentoringRequest } from './useMentoringQueue'
 import { ExercismTippy } from '../../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Solution = ({
   student,
@@ -18,6 +21,7 @@ export const Solution = ({
   url,
   tooltipUrl,
 }: MentoringRequest): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
   return (
     <ExercismTippy content={<StudentTooltip endpoint={tooltipUrl} />}>
       <a href={url} className="--solution">
@@ -29,13 +33,13 @@ export const Solution = ({
             {isFavorited ? (
               <Icon
                 icon="gold-star"
-                alt="Favorite student"
+                alt={t('solution.favoriteStudent')}
                 className="favorited"
               />
             ) : haveMentoredPreviously ? (
               <Icon
                 icon="mentoring"
-                alt="Mentored previously"
+                alt={t('solution.mentoredPreviously')}
                 className="previously-mentored"
               />
             ) : null}

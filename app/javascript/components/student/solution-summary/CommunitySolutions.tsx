@@ -1,5 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const CommunitySolutions = ({
   link,
@@ -8,6 +9,7 @@ export const CommunitySolutions = ({
   link: string
   isTutorial: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/solution-summary')
   return (
     <div className="community-solutions">
       <GraphicalIcon
@@ -15,20 +17,14 @@ export const CommunitySolutions = ({
         category="graphics"
         className="header-icon"
       />
-      <h3>Learn from others&apos; solutions</h3>
+      <h3>{t('communitySolutions.learnFromOthersSolutions')}</h3>
       {isTutorial ? (
-        <p>
-          This is where we’d usually link you to other peoples’ solutions to the
-          same exercise.
-        </p>
+        <p>{t('communitySolutions.thisIsWhereWeWouldUsuallyLink')}</p>
       ) : (
         <>
-          <p>
-            Explore their approaches to learn new tips and tricks. Discover
-            popular solutions to this exercise.
-          </p>
+          <p>{t('communitySolutions.exploreTheirApproaches')}</p>
           <a href={link} className="btn-small-discourage">
-            View community solutions
+            {t('communitySolutions.viewCommunitySolutions')}
           </a>
         </>
       )}

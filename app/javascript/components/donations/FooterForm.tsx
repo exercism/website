@@ -6,6 +6,7 @@ import { FormModal } from './footer-form/FormModal'
 import { GraphicalIcon } from '../common'
 import { Request } from '../../hooks/request-query'
 import { StripeFormLinks } from './Form'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)
@@ -25,6 +26,7 @@ const FooterForm = ({
   captchaRequired,
   recaptchaSiteKey,
 }: FooterFormProps): JSX.Element => {
+  const { t } = useAppTranslation('components/donations')
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
@@ -81,12 +83,12 @@ const FooterForm = ({
           <CustomAmountInput
             onChange={handleCustomAmountChange}
             selected={customAmount !== ''}
-            placeholder="Custom amount"
+            placeholder={t('footerForm.customAmount')}
             value={customAmount}
           />
         </div>
         <button className="btn-m continue-btn w-100 md:w-auto md:h-auto md:ml-32">
-          <span>Continue</span>
+          <span>{t('footerForm.continue')}</span>
           <GraphicalIcon icon="arrow-right" />
         </button>
       </form>

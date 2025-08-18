@@ -1,0 +1,36 @@
+// namespace: components/journey/overview/learning-section
+export default {
+  'exercisesCompletedSummary.exerciseCompleted': '{{count}} Exercise completed',
+  'exercisesCompletedSummary.exercisesCompleted':
+    '{{count}} Exercises completed',
+  'conceptsLearntSummary.conceptLearnt': '{{count}} Concept learnt',
+  'conceptsLearntSummary.conceptsLearnt': '{{count}} Concepts learnt',
+  'headerSummary.youVeProgressed': "You've progressed the furthest in ",
+  'learningStats.didYouKnow': 'Did you know?',
+  'learningStats.linesOfCodeStat':
+    "You've written <strong>{{numLines}} {{lineLabel}}</strong> of code across <link>{{numSolutions}} {{solutionLabel}}</link>.",
+  'learningStats.aesopFact':
+    "That's approximately equivalent to the length of an <fableLink>Aesop's Fable!</fableLink>",
+
+  'tracksEnrolledSummary.trackEnrolled': 'Track enrolled',
+  'tracksEnrolledSummary.tracksEnrolled': 'Tracks enrolled',
+  'trackSummary.exercisesCompleted':
+    '{{completed}} / {{total}} ({{percent}}%) exercises completed',
+  'trackSummary.joinedTrack': 'When you joined the {{title}} Track',
+  'trackSummary.startedTrackAgo':
+    'You started working through the {{title}} Track <strong>{{since}}</strong>.',
+  'trackSummary.mentoringSessionsCompleted': 'Mentoring {{label}} completed',
+  'trackSummary.mentoringStatus':
+    'You have <strong>{{inProgress}}</strong> in progress and <strong>{{queued}}</strong> in the queue.',
+  'trackSummary.none': 'none',
+  'trackSummary.progressionVelocity': 'Progression Velocity',
+  'trackSummary.avgVelocity': 'Avg. on Exercism = {{avg}}',
+  'trackSummary.velocityExplanation':
+    "This is a measure of how quickly you've progressed through the track in the last 6 months",
+  'learningOverview.youReThroughSingle':
+    "You're through <em>{{percentage}}%</em> of your enrolled track. <strong>Keep it up!</strong>",
+  'learningOverview.youReThroughMultiple':
+    "You're through <em>{{percentage}}%</em> of your enrolled tracks. <strong>Keep it up!</strong>",
+  'learningOverview.exercisesCompleted':
+    '{{completed}} / {{total}} exercises completed',
+}

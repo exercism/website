@@ -7,6 +7,7 @@ import { Modal, ModalProps } from '@/components/modals/Modal'
 import { GraphicalIcon } from '@/components/common'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { FormButton } from '@/components/common/FormButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type UserTrack = {
   links: {
@@ -25,6 +26,7 @@ export const ActivatePracticeModeModal = ({
   endpoint: string
   redirectToOnSuccessUrl?: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const {
     mutate: mutation,
     status,
@@ -56,21 +58,16 @@ export const ActivatePracticeModeModal = ({
   return (
     <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
       <GraphicalIcon icon="practice-mode" category="graphics" />
-      <h2>Disable Learning Mode</h2>
-      <p>
-        Disabling Learning Mode will unlock all the Practice Exercises on this
-        track, but will disable Concepts and Learning Exercises.
-      </p>
-      <div className="warning">
-        You can switch in and out of Practice Mode at any time.
-      </div>
+      <h2>{t('activatePracticeModeModal.disableLearningMode')}</h2>
+      <p>{t('activatePracticeModeModal.paragraph1')}</p>
+      <div className="warning">{t('activatePracticeModeModal.warning')}</div>
 
       <FormButton
         onClick={() => mutation()}
         status={status}
         className="btn-primary btn-m"
       >
-        Disable Learning Mode
+        {t('activatePracticeModeModal.disableLearningModeButton')}
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

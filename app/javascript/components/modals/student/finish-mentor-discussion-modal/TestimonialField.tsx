@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestimonialField = ({
   id,
@@ -13,13 +14,16 @@ export const TestimonialField = ({
   value: string
   onChange: (e: ChangeEvent) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   return (
     <>
       <textarea
         value={value}
         onChange={onChange}
         id={id}
-        placeholder="Write your testimonial here"
+        placeholder={t('testimonialField.writeTestimonial')}
         minLength={min}
         maxLength={max}
       />
@@ -27,7 +31,9 @@ export const TestimonialField = ({
         <div>
           {value.length} / {max}
         </div>
-        <div>{min} minimum</div>
+        <div>
+          {min} {t('testimonialField.minimum')}
+        </div>
       </div>
     </>
   )

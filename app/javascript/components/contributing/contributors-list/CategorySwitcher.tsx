@@ -1,18 +1,24 @@
+// i18n-key-prefix: contributorsList.categorySwitcher
+// i18n-namespace: components/contributing
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
 import { Category } from '../ContributorsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({
   option: category,
 }: {
   option: Category
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
   switch (category) {
     case 'authoring':
       return (
         <React.Fragment>
           <div className="info">
-            <div className="title">Authoring</div>
+            <div className="title">
+              {t('contributorsList.categorySwitcher.authoring')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -20,7 +26,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="info">
-            <div className="title">Building</div>
+            <div className="title">
+              {t('contributorsList.categorySwitcher.building')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -28,7 +36,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="info">
-            <div className="title">Maintaining</div>
+            <div className="title">
+              {t('contributorsList.categorySwitcher.maintaining')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -36,7 +46,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="info">
-            <div className="title">Mentoring</div>
+            <div className="title">
+              {t('contributorsList.categorySwitcher.mentoring')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -44,7 +56,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="info">
-            <div className="title">All categories</div>
+            <div className="title">
+              {t('contributorsList.categorySwitcher.allCategories')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -52,17 +66,18 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option: category }: { option: Category }) => {
+  const { t } = useAppTranslation('components/contributing')
   switch (category) {
     case 'authoring':
-      return <>Authoring</>
+      return <>{t('contributorsList.categorySwitcher.authoring')}</>
     case 'building':
-      return <>Building</>
+      return <>{t('contributorsList.categorySwitcher.building')}</>
     case 'mentoring':
-      return <>Mentoring</>
+      return <>{t('contributorsList.categorySwitcher.mentoring')}</>
     case 'maintaining':
-      return <>Maintaining</>
+      return <>{t('contributorsList.categorySwitcher.maintaining')}</>
     case undefined:
-      return <>All categories</>
+      return <>{t('contributorsList.categorySwitcher.allCategories')}</>
   }
 }
 export const CategorySwitcher = ({

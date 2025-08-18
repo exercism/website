@@ -1,0 +1,9 @@
+en:
+  temp:
+    user_tracks:
+      reset:
+        track_reset_message: Track has been reset
+      leave:
+        track_left_message: You have left the track
+      practice_mode:
+        practice_mode_message: In practice mode

@@ -1,0 +1,5 @@
+en:
+  components:
+    perk:
+      logo_alt_text: Logo of %{partner_name}
+      learn_more_button: Learn more

@@ -1,16 +1,16 @@
 import React, { forwardRef } from 'react'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
   ({ disabled, ...props }, ref) => {
+    const { t } = useAppTranslation('components/editor/SubmitButton.tsx')
     return (
       <GenericTooltip
         disabled={!disabled}
-        content={
-          'You need to get the tests passing before you can submit your solution'
-        }
+        content={t('submitButton.testsPassingRequired')}
       >
         <div className="submit-btn">
           <button
@@ -20,7 +20,7 @@ export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
             ref={ref}
             {...props}
           >
-            <span>Submit</span>
+            <span>{t('submitButton.submit')}</span>
           </button>
         </div>
       </GenericTooltip>

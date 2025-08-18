@@ -9,8 +9,7 @@ import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { ModalProps, Modal } from './Modal'
 import { IterationSelector } from './student/IterationSelector'
 import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
-
-const DEFAULT_ERROR = new Error('Unable to publish solution')
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const PublishSolutionModal = ({
   endpoint,
@@ -21,6 +20,8 @@ export const PublishSolutionModal = ({
   iterations: readonly Iteration[]
 }): JSX.Element => {
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
+  const { t } = useAppTranslation('components/modals/PublishSolutionModal.tsx')
+
   const {
     mutate: mutation,
     status,
@@ -59,11 +60,11 @@ export const PublishSolutionModal = ({
       className="m-change-published-iteration"
     >
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h3 id={ariaObject.labelledby}>Publish your solution</h3>
+        <h3 id={ariaObject.labelledby}>
+          {t('publishSolutionModal.publishYourSolution')}
+        </h3>
         <p id={ariaObject.describedby}>
-          We recommend publishing all iterations to help others learn from your
-          journey, but you can also choose just your favourite iteration to
-          showcase instead.
+          {t('publishSolutionModal.recommendPublishing')}
         </p>
         <IterationSelector
           iterationIdx={iterationIdx}
@@ -76,7 +77,7 @@ export const PublishSolutionModal = ({
             status={status}
             className="btn-primary btn-m"
           >
-            Publish
+            {t('publishSolutionModal.publish')}
           </FormButton>
           <FormButton
             type="button"
@@ -84,11 +85,16 @@ export const PublishSolutionModal = ({
             status={status}
             className="btn-default btn-m"
           >
-            Cancel
+            {t('publishSolutionModal.cancel')}
           </FormButton>
         </div>
         <ErrorBoundary>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+          <ErrorMessage
+            error={error}
+            defaultError={
+              new Error(t('publishSolutionModal.unableToPublishSolution'))
+            }
+          />
         </ErrorBoundary>
       </form>
     </Modal>

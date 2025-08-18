@@ -1,6 +1,10 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function renderLog(logArgs: unknown[]) {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/RHS'
+  )
   let line = logArgs
     .map((arg) => {
       const type = typeof arg
@@ -40,7 +44,7 @@ export function renderLog(logArgs: unknown[]) {
       try {
         return verboseStringify(arg)
       } catch {
-        return '[Unrenderable object]'
+        return t('logger.renderLog.unrenderableObject')
       }
     })
     .join(' ')

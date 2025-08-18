@@ -8,16 +8,16 @@
 .flex.flex-col.items-start.mb-12
   = link_to challenge_path('48in24'), class: 'text-adaptivePurple font-semibold leading-150 flex items-center mb-4' do
     %span.emoji.mr-6 📆
-    Week #{week} of #48in24
-  %h2.text-h3 We're featuring #{featured_exercise[:title]}
+    = t('.week_of_challenge', week: week)
+  %h2.text-h3= t('.featuring_exercise', exercise_title: featured_exercise[:title])
   %p.text-p-base.mb-6
     = featured_exercise[:learning_opportunity]
 
   - if generic_exercise.deep_dive_youtube_id
-    .text-p-base.mb-8.font-medium.text-textColor2 👇 Watch our Deep Dive with Erik &amp; Jeremy!
+    .text-p-base.mb-8.font-medium.text-textColor2= t('.watch_deep_dive')
     %div{ class: 'w-[100%] md:max-w-[500px]' }
       = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, 'dashboard')
 
 = link_to challenge_path('48in24'), class: "btn btn-secondary btn-base mb-28 bg-backgroundColor1" do
-  %span Explore all of #48in24
+  %span= t('.explore_all_link')
   = graphical_icon "arrow-right"

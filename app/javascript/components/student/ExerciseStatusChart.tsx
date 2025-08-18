@@ -1,5 +1,8 @@
+// i18n-key-prefix:
+// i18n-namespace: components/student/ExerciseStatusChart.tsx
 import React from 'react'
 import { default as ExerciseStatusDot } from './ExerciseStatusDot'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ExerciseStatusChart({
   exercisesData,
@@ -8,6 +11,7 @@ export function ExerciseStatusChart({
   exercisesData: { [slug: string]: [string, string] }
   links: { exercise: string; tooltip: string }
 }): JSX.Element {
+  const { t } = useAppTranslation('components/student/ExerciseStatusChart.tsx')
   return (
     <div className="exercises">
       {Object.keys(exercisesData).map((key) => {
@@ -31,7 +35,7 @@ export function ExerciseStatusChart({
           status !== 'completed' &&
           status !== 'published'
         ) {
-          throw new Error('Invalid status')
+          throw new Error(t('exerciseStatusChart.invalidStatus'))
         }
 
         return (

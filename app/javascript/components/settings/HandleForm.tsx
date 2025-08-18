@@ -5,6 +5,7 @@ import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -26,6 +27,7 @@ export default function HandleForm({
   defaultHandle: string
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/HandleForm.tsx')
   const [state, setState] = useState({ handle: defaultHandle, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -49,11 +51,11 @@ export default function HandleForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Change your handle</h2>
+      <h2>{t('handleForm.changeYourHandle')}</h2>
       <hr className="c-divider --small" />
       <div className="field">
         <label htmlFor="user_handle" className="label">
-          Your handle
+          {t('handleForm.yourHandle')}
         </label>
         <FauxInputWithValidation
           icon="at-symbol"
@@ -61,12 +63,12 @@ export default function HandleForm({
           value={state.handle}
           onChange={(e) => setState({ ...state, handle: e.target.value })}
           required
-          {...createMaxLengthAttributes('Handle', 190)}
+          {...createMaxLengthAttributes('Handle', 190, t)}
         />
       </div>
       <div className="field">
         <label htmlFor="user_sudo_password_handle" className="label">
-          Confirm your password
+          {t('handleForm.confirmYourPassword')}
         </label>
         <input
           type="password"
@@ -75,14 +77,11 @@ export default function HandleForm({
           onChange={(e) => setState({ ...state, password: e.target.value })}
           required
         />
-        <p className="info">
-          We recommend only changing your handle in rare circumstances as public
-          solution links will break, and it is confusing for mentors.
-        </p>
+        <p className="info">{t('handleForm.handleChangeRecommendation')}</p>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Change handle
+          {t('handleForm.changeHandle')}
         </FormButton>
         <FormMessage
           status={status}
@@ -96,10 +95,11 @@ export default function HandleForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/HandleForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your handle has been changed
+      {t('handleForm.success')}
     </div>
   )
 }

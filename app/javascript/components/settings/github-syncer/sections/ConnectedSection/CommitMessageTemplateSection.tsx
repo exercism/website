@@ -1,3 +1,5 @@
+// i18n-key-prefix: commitMessageTemplateSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
@@ -5,6 +7,7 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { SectionHeader } from '../../common/SectionHeader'
 import { flushSync } from 'react-dom'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommitMessageTemplateSection() {
   const { links, isUserInsider, syncer, defaultCommitMessageTemplate } =
@@ -12,6 +15,10 @@ export function CommitMessageTemplateSection() {
 
   const [commitMessageTemplate, setCommitMessageTemplate] = useState<string>(
     syncer?.commitMessageTemplate || defaultCommitMessageTemplate
+  )
+
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
   )
 
   const [
@@ -55,41 +62,41 @@ export function CommitMessageTemplateSection() {
 
   return (
     <section className={isUserInsider ? '' : 'disabled'}>
-      <SectionHeader title="Commit message template" />
+      <SectionHeader title={t('commitMessageTemplateSection.heading')} />
       <p className="text-18 leading-150 mb-16">
-        Use this option to determine what your commit and PR messages should
-        look like.
+        {t('commitMessageTemplateSection.intro')}
       </p>
       <p className="text-16 leading-150 mb-12">
-        You can use the following placeholder values, which will be interpolated
-        for each commit:
+        {t('commitMessageTemplateSection.placeholder_intro')}
       </p>
 
       <ul className="text-16 leading-150 mb-16">
         <li>
-          <code>$track_slug</code>: The slug of the track (e.g. "csharp").
+          <code>$track_slug</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.track_slug')}
         </li>
         <li>
-          <code>$track_title</code>: The name of the track (e.g. "C#")
+          <code>$track_title</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.track_title')}
         </li>
         <li>
-          <code>$exercise_slug</code>: The slug of the exercise (e.g.
-          "hello-world")
+          <code>$exercise_slug</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.exercise_slug')}
         </li>
         <li>
-          <code>$exercise_title</code>: The name of the exercise (e.g. "Hello
-          World")
+          <code>$exercise_title</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.exercise_title')}
         </li>
         <li>
-          <code>$iteration_idx</code>: The iteration index of the exercise (e.g.
-          "1")
+          <code>$iteration_idx</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.iteration_idx')}
         </li>
         <li>
-          <code>$sync_object</code> (optional): One of "Iteration", "Solution",
-          "Track", or "Everything" depending on what is syncing. For automatic
-          syncs, this will be "Iteration".
+          <code>$sync_object</code>:{' '}
+          {t('commitMessageTemplateSection.placeholders.sync_object')}
         </li>
       </ul>
+
       <input
         type="text"
         value={commitMessageTemplate}
@@ -98,10 +105,10 @@ export function CommitMessageTemplateSection() {
         onChange={(e) => setCommitMessageTemplate(e.target.value)}
       />
       <p className="text-16 leading-150 mb-16">
-        <strong className="font-medium">Note:</strong> If your commit message
-        contains leading or trailing slashes or dashes, these will be stripped.
-        If it contains multiple consecutive slashes or dashes, these will be
-        reduced to single slashes or dashes.
+        <strong className="font-medium">
+          {t('commitMessageTemplateSection.note.note')}:
+        </strong>{' '}
+        {t('commitMessageTemplateSection.note.text')}
       </p>
 
       <div className="flex gap-8">
@@ -110,7 +117,7 @@ export function CommitMessageTemplateSection() {
           className="btn btn-primary"
           onClick={() => handleSaveChanges(commitMessageTemplate)}
         >
-          Save changes
+          {t('commitMessageTemplateSection.save_button')}
         </button>
 
         <button
@@ -121,13 +128,14 @@ export function CommitMessageTemplateSection() {
           className="btn btn-secondary"
           onClick={() => setIsRevertCommitMessageTemplateModalOpen(true)}
         >
-          Revert to default
+          {t('commitMessageTemplateSection.revert_button')}
         </button>
       </div>
+
       <ConfirmationModal
-        title="Are you sure you want to revert your commit message template to default?"
-        confirmLabel="Revert"
-        declineLabel="Cancel"
+        title={t('commitMessageTemplateSection.confirm_modal.title')}
+        confirmLabel={t('commitMessageTemplateSection.confirm_modal.confirm')}
+        declineLabel={t('commitMessageTemplateSection.confirm_modal.cancel')}
         onConfirm={handleRevertCommitMessageTemplate}
         open={isRevertCommitMessageTemplateModalOpen}
         onClose={() => setIsRevertCommitMessageTemplateModalOpen(false)}

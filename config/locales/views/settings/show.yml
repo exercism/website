@@ -1,0 +1,17 @@
+en:
+  settings:
+    show:
+      account_settings:
+        heading: Account Settings
+        confirmation_email_sent: We've sent a confirmation email to %{email}
+        resend_email_button: Resend email
+        reset_account:
+          heading: Reset account
+          info_html:
+            Resetting your account will <strong>reset your progress on all
+            tracks,</strong> reset all exercises and remove access to all your
+            previous mentoring.
+        delete_account:
+          heading: Delete account
+          info_strong: This option will eliminate your account entirely with all data.
+          info_text: You’ll get a chance to confirm your choice.

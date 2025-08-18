@@ -4,7 +4,7 @@ import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '@/utils/time'
-import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const BadgeModal = ({
   badge,
@@ -14,6 +14,7 @@ export const BadgeModal = ({
   badge: BadgeProps
   wasUnrevealed?: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/BadgeModal.tsx')
   const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
   return (
@@ -24,13 +25,13 @@ export const BadgeModal = ({
       cover={true}
     >
       <BadgeMedallion badge={badge} />
-      {wasUnrevealed ? <h2>New Badge Earned</h2> : null}
+      {wasUnrevealed ? <h2>{t('badgeModal.newBadgeEarned')}</h2> : null}
       <div className="name">{badge.name}</div>
       <div className="rarity">{badge.rarity}</div>
       <hr className="c-divider --small" />
       <div className="reason">{badge.description}</div>
       <div className="earned-at">
-        Earned on{' '}
+        {t('badgeModal.earnedOn')}
         <time dateTime={badge.unlockedAt}>
           {timeFormat(badge.unlockedAt, 'Do MMM YYYY')}
         </time>
@@ -38,12 +39,17 @@ export const BadgeModal = ({
       <div className="num-awardees text-p-base">
         <GraphicalIcon icon="students" />
         <strong>{badge.numAwardees}</strong>{' '}
-        {pluralize('member', badge.numAwardees)}{' '}
-        {pluralize('has', badge.numAwardees)} earned this badge.
+        {t(
+          badge.numAwardees === 1
+            ? 'badgeModal.membersHaveEarned'
+            : 'badgeModal.membersHaveEarned_plural',
+          { count: badge.numAwardees }
+        )}
       </div>
       <div className="percentage-awardees">
-        That&apos;s <strong>{badge.percentageAwardees}%</strong> of all Exercism
-        users
+        {t('badgeModal.percentageOfUsers', {
+          percentage: badge.percentageAwardees,
+        })}
       </div>
     </Modal>
   )

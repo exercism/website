@@ -1,9 +1,12 @@
+// i18n-key-prefix: exerciseTooltip
+// i18n-namespace: components/tooltips/ExerciseTooltip.tsx
 import React from 'react'
 import { Exercise, Track, SolutionForStudent } from '@/components/types'
 import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { useRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ExerciseTooltipSkeleton } from '../common/skeleton/skeletons/ExerciseTooltipSkeleton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
@@ -11,6 +14,7 @@ const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
+  const { t } = useAppTranslation('components/tooltips/ExerciseTooltip.tsx')
   const { data, error, status } = useRequestQuery<{
     track: Track
     exercise: Exercise
@@ -34,7 +38,7 @@ const ExerciseTooltip = React.forwardRef<
             isStatic
           />
         ) : (
-          <span>Unable to load information</span>
+          <span>{t('exerciseTooltip.unableToLoadInformation')}</span>
         )}
       </FetchingBoundary>
     </div>

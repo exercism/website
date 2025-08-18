@@ -3,6 +3,7 @@ import { Avatar, GraphicalIcon, Icon } from './index'
 import pluralize from 'pluralize'
 import { shortFromNow } from '../../utils/time'
 import { MentorDiscussion } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MentorDiscussionSummary = ({
   links,
@@ -12,6 +13,9 @@ export const MentorDiscussionSummary = ({
   postsCount,
   createdAt,
 }: MentorDiscussion): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/common/MentorDiscussionSummary.tsx'
+  )
   const commentsClass = ['comments', isUnread ? 'unread' : '']
 
   return (
@@ -21,12 +25,14 @@ export const MentorDiscussionSummary = ({
         <div className="handle">{mentor.handle}</div>
       </div>
       {isFinished ? null : (
-        <div className="c-tag --in-progress --small">In Progress</div>
+        <div className="c-tag --in-progress --small">
+          {t('mentorDiscussionSummary.inProgress')}
+        </div>
       )}
       <div className={commentsClass.join(' ')}>
         <Icon
           icon="comment"
-          alt={`${postsCount} ${pluralize('comment', postsCount)}`}
+          alt={t('mentorDiscussionSummary.commentCount', { postsCount })}
         />
         {postsCount}
       </div>

@@ -12,6 +12,7 @@ import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type SortOption = {
   value: string
@@ -52,6 +53,7 @@ export default function Inbox({
   sortOptions: readonly SortOption[]
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/Inboxtsx')
   const [criteria, setCriteria] = useState(discussionsRequest.query?.criteria)
   const {
     request,
@@ -99,7 +101,7 @@ export default function Inbox({
           currentStatus={request.query.status}
           setStatus={setStatus}
         >
-          Inbox
+          {t('inbox.inbox')}
           {resolvedData ? (
             <div className="count">{resolvedData.meta.awaitingMentorTotal}</div>
           ) : null}
@@ -109,7 +111,7 @@ export default function Inbox({
           currentStatus={request.query.status}
           setStatus={setStatus}
         >
-          Awaiting student
+          {t('inbox.awaitingStudent')}
           {resolvedData ? (
             <div className="count">
               {resolvedData.meta.awaitingStudentTotal}
@@ -121,7 +123,7 @@ export default function Inbox({
           currentStatus={request.query.status}
           setStatus={setStatus}
         >
-          Finished
+          {t('inbox.finished')}
           {resolvedData ? (
             <div className="count">{resolvedData.meta.finishedTotal}</div>
           ) : null}
@@ -141,7 +143,7 @@ export default function Inbox({
             filter={criteria}
             setFilter={setCriteria}
             id="discussion-filter"
-            placeholder="Filter by student or exercise name"
+            placeholder={t('inbox.filterByStudentOrExerciseName')}
           />
           <Sorter
             sortOptions={sortOptions}

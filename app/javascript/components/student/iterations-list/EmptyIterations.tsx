@@ -1,3 +1,5 @@
+// i18n-key-prefix: emptyIterations
+// i18n-namespace: components/student/iterations-list
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -8,6 +10,7 @@ import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Exercise } from '../IterationsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   startExercise: string
@@ -29,6 +32,7 @@ export const EmptyIterations = ({
   exercise: Exercise
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
   const isMountedRef = useIsMounted()
   const {
     mutate: mutation,
@@ -56,15 +60,12 @@ export const EmptyIterations = ({
   return (
     <div className="lg-container container">
       <section className="zero-state">
-        <h2>You haven&apos;t submitted any iterations yet.</h2>
-        <p>
-          You&apos;ll get to see all your iterations with test results and
-          automated feedback once you submit a solution.
-        </p>
+        <h2>{t('emptyIterations.noIterations')}</h2>
+        <p>{t('emptyIterations.iterationsWillAppear')}</p>
         <div className="box">
           {exercise.hasTestRunner ? (
             <div className="editor">
-              <h4>Via Exercism Editor</h4>
+              <h4>{t('emptyIterations.viaExercismEditor')}</h4>
               <FormButton
                 status={status}
                 onClick={() => mutation()}
@@ -72,7 +73,7 @@ export const EmptyIterations = ({
                 className="editor-btn btn-primary btn-m"
               >
                 <GraphicalIcon icon="editor" />
-                <span>Start in Editor</span>
+                <span>{t('emptyIterations.startInEditor')}</span>
               </FormButton>
               <FetchingBoundary
                 status={status}
@@ -82,13 +83,13 @@ export const EmptyIterations = ({
             </div>
           ) : null}
           <div className="cli">
-            <h4>Work locally (via CLI)</h4>
+            <h4>{t('emptyIterations.workLocally')}</h4>
             <CopyToClipboardButton textToCopy={exercise.downloadCmd} />
           </div>
         </div>
         <ProminentLink
           link={links.solvingExercisesLocally}
-          text="Learn more about solving exercises locally"
+          text={t('emptyIterations.learnMoreSolvingExercisesLocally')}
         />
       </section>
     </div>

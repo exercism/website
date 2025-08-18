@@ -1,21 +1,27 @@
+// i18n-namespace: components/contributing
 import React from 'react'
 import { TaskModule } from '@/components/types'
 import { GraphicalIcon } from '@/components/common'
 import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { ModuleTag } from './task/ModuleTag'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ModuleOption = ({
   option: module,
 }: {
   option: TaskModule
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   switch (module) {
     case 'generator':
       return (
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Generator</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.generator')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -24,7 +30,9 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Learning Exercise</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.learningExercise')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -33,7 +41,9 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Practice Exercise</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.practiceExercise')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -42,7 +52,7 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Concept</div>
+            <div className="title">{t('tasksList.moduleSwitcher.concept')}</div>
           </div>
         </React.Fragment>
       )
@@ -51,7 +61,9 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Test Runner</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.testRunner')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -60,7 +72,9 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Representer</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.representer')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -69,7 +83,9 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Analyzer</div>
+            <div className="title">
+              {t('tasksList.moduleSwitcher.analyzer')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -77,36 +93,39 @@ const ModuleOption = ({
 }
 
 const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
+  const { t } = useAppTranslation('components/contributing')
+
   if (action.length > 1) {
-    return <>Multiple</>
+    return <>{t('tasksList.moduleSwitcher.multiple')}</> // You can localize this if needed
   }
 
   switch (action[0]) {
     case 'generator':
-      return <>Generator</>
+      return <>{t('tasksList.moduleSwitcher.generator')}</>
     case 'concept-exercise':
-      return <>Learning Exercise</>
+      return <>{t('tasksList.moduleSwitcher.learningExercise')}</>
     case 'practice-exercise':
-      return <>Practice Exercise</>
+      return <>{t('tasksList.moduleSwitcher.practiceExercise')}</>
     case 'concept':
-      return <>Concept</>
+      return <>{t('tasksList.moduleSwitcher.concept')}</>
     case 'test-runner':
-      return <>Test Runner</>
+      return <>{t('tasksList.moduleSwitcher.testRunner')}</>
     case 'representer':
-      return <>Representer</>
+      return <>{t('tasksList.moduleSwitcher.representer')}</>
     case 'analyzer':
-      return <>Analyzer</>
+      return <>{t('tasksList.moduleSwitcher.analyzer')}</>
     case undefined:
-      return <>All</>
+      return <>{t('tasksList.moduleSwitcher.allModules')}</>
   }
 }
 
 const ResetComponent = () => {
+  const { t } = useAppTranslation('components/contributing')
   return (
     <React.Fragment>
       <GraphicalIcon icon="task-module" className="task-icon" />
       <div className="info">
-        <div className="title">All modules</div>
+        <div className="title">{t('tasksList.moduleSwitcher.allModules')}</div>
       </div>
     </React.Fragment>
   )

@@ -7,6 +7,7 @@ import { useList } from '../../hooks/use-list'
 import { StudentTrack } from '../types'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { OrderSelect } from './tracks-list/OrderSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type APIResponse = {
   tracks: StudentTrack[]
@@ -29,6 +30,7 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/TracksList.tsx')
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -81,7 +83,7 @@ export default ({
         <div className="lg-container container">
           <input
             type="text"
-            placeholder="Search language tracks"
+            placeholder={t('tracksList.searchLanguageTracks')}
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
             value={criteria || ''}
@@ -96,7 +98,7 @@ export default ({
         </div>
       </section>
       <section className="lg-container container">
-        {isError && <p>Something went wrong</p>}
+        {isError && <p>{t('tracksList.somethingWentWrong')}</p>}
         {resolvedData && (
           <ResultsZone isFetching={isFetching}>
             {sortedTracks ? (

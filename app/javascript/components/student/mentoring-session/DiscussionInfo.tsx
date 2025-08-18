@@ -13,6 +13,7 @@ import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
 import { QueryStatus } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   exercise: string
@@ -95,6 +96,7 @@ function DiscussionMentorFinished({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   return (
     <div className="student-review timeline-entry">
       <GraphicalIcon
@@ -102,13 +104,18 @@ function DiscussionMentorFinished({
         className="timeline-marker"
       />
       <div className="--details timeline-content">
-        <h3>{mentor.handle} ended this discussion.</h3>
+        <h3>
+          {t('discussionInfo.endedThisDiscussion', {
+            mentorHandle: mentor.handle,
+          })}
+        </h3>
         <p>
           <strong>
-            It&apos;s time to review {mentor.handle}&apos;s mentoring
+            {t('discussionInfo.itsTimeToReviewMentoring', {
+              mentorHandle: mentor.handle,
+            })}
           </strong>
-          You&apos;ll be able to leave feedback and share what you thought of
-          your experience.
+          {t('discussionInfo.youllBeAbleToLeaveFeedback')}
         </p>
         <FinishButton
           discussion={discussion}
@@ -116,7 +123,7 @@ function DiscussionMentorFinished({
           donation={donation}
           className="btn-primary btn-s"
         >
-          Review &amp; finish discussion
+          {t('discussionInfo.reviewFinishDiscussion')}
         </FinishButton>
       </div>
     </div>
@@ -134,6 +141,7 @@ function DiscussionMentorTimedOut({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   return (
     <div className="student-review timeline-entry">
       <GraphicalIcon
@@ -141,13 +149,14 @@ function DiscussionMentorTimedOut({
         className="timeline-marker"
       />
       <div className="--details timeline-content">
-        <h3>This discussion timed out.</h3>
+        <h3>{t('discussionInfo.thisDiscussionTimedOut')}</h3>
         <p>
           <strong>
-            It&apos;s time to review {mentor.handle}&apos;s mentoring
+            {t('discussionInfo.itsTimeToReviewMentoring', {
+              mentorHandle: mentor.handle,
+            })}
           </strong>
-          You&apos;ll be able to leave feedback and share what you thought of
-          your experience.
+          {t('discussionInfo.youllBeAbleToLeaveFeedback')}
         </p>
         <FinishButton
           discussion={discussion}
@@ -155,7 +164,7 @@ function DiscussionMentorTimedOut({
           donation={donation}
           className="btn-primary btn-s"
         >
-          Review discussion
+          {t('discussionInfo.reviewDiscussion')}
         </FinishButton>
       </div>
     </div>

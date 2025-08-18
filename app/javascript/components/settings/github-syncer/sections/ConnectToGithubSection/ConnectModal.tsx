@@ -1,7 +1,11 @@
+// i18n-key-prefix: connectModal
+// i18n-namespace: components/settings/github-syncer/sections/ConnectToGithubSection
 import React, { useContext } from 'react'
 import Modal, { ModalProps } from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { GraphicalIcon, Icon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type ConfirmationModalProps = Omit<ModalProps, 'className'> & {
   confirmButtonClass?: string
@@ -12,6 +16,9 @@ export function ConnectModal({
   ...props
 }: ConfirmationModalProps): JSX.Element {
   const { links } = useContext(GitHubSyncerContext)
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectToGithubSection'
+  )
 
   return (
     <Modal className="m-generic-confirmation" onClose={onClose} {...props}>
@@ -36,16 +43,18 @@ export function ConnectModal({
             className="mb-16 h-[64px]"
           />
         </div>
-        <h3 className="!text-[24px] !mb-4">Connect a Repository</h3>
+        <h3 className="!text-[24px] !mb-4">
+          {t('connectModal.connectARepository')}
+        </h3>
         <p className="!text-18 leading-140 mb-16 text-balance text-center">
-          Before continuing, please ensure you have either created a new GitHub
-          repository, or that you have an existing one ready to sync.
+          {t('connectModal.ensureRepositoryReady')}
         </p>
         <p className="!text-18 leading-140 mb-16 text-balance text-center">
-          On the next screen you will be asked to give permission to that
-          repository. Please ensure you{' '}
-          <strong>select only one repository</strong> (sadly, GitHub doesn't
-          give us a way to enforce that!)
+          <Trans
+            ns="components/settings/github-syncer/sections/ConnectToGithubSection"
+            i18nKey="connectModal.permissionWarning"
+            components={{ strong: <strong /> }}
+          />
         </p>
       </div>
 
@@ -54,10 +63,10 @@ export function ConnectModal({
           className="btn btn-l btn-primary w-fit"
           href={links?.connectToGithub}
         >
-          Connect a GitHub repository
+          {t('connectModal.connectGithubRepository')}
         </a>
         <button className="btn btn-default btn-l" onClick={onClose}>
-          Cancel
+          {t('connectModal.cancel')}
         </button>
       </div>
     </Modal>

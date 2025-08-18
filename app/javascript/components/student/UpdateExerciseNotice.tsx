@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Icon } from '../common'
 import { ExerciseUpdateModal } from '../modals/ExerciseUpdateModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   diff: string
@@ -11,6 +12,7 @@ export default function UpdateExerciseNotice({
 }: {
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/student/UpdateExerciseNotice.tsx')
   const [open, setOpen] = useState(false)
   return (
     <React.Fragment>
@@ -20,9 +22,10 @@ export default function UpdateExerciseNotice({
         onClick={() => setOpen(!open)}
       >
         <Icon icon="warning" alt="Warning" />
-        This exercise has been updated. Update to the latest version and see if
-        your tests still pass.&nbsp;
-        <div className="faux-link">See what&apos;s changed…</div>
+        {t('updateExerciseNotice.exerciseUpdated')}
+        <div className="faux-link">
+          {t('updateExerciseNotice.seeWhatsChanged')}
+        </div>
       </button>
       <ExerciseUpdateModal
         endpoint={links.diff}

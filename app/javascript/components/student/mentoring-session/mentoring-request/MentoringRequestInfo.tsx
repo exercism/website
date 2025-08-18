@@ -16,6 +16,8 @@ import type {
   MentorSessionTrack as Track,
 } from '@/components/types'
 import type { Video as VideoProps } from '../../MentoringSession'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   privateMentoring: string
@@ -41,6 +43,9 @@ export const MentoringRequestInfo = ({
   request: Request
   iteration: Iteration
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/mentoring-request'
+  )
   if (!request.comment) {
     throw 'Request comment expected'
   }
@@ -62,7 +67,7 @@ export const MentoringRequestInfo = ({
       <div className="content">
         <div className="status">
           <div className="info">
-            <h3>Waiting on a mentor…</h3>
+            <h3>{t('mentoringRequestInfo.waitingOnMentor')}</h3>
             <MedianWaitTime seconds={track.medianWaitTime} />
           </div>
           <CancelRequestButton request={request} />
@@ -86,19 +91,29 @@ export const MentoringRequestInfo = ({
         </div>
 
         <div className="waiting-box">
-          <h3>Waiting on a mentor?</h3>
-          <h4>Learn how to get the most out of mentoring</h4>
+          <h3>{t('mentoringRequestInfo.waitingOnMentorQuestion')}</h3>
+          <h4>{t('mentoringRequestInfo.howToGetMostOutOfMentoring')}</h4>
           <p>
-            Mentoring relies on mentors and students having a shared
-            understanding of how it works.{' '}
-            <a href={links.mentoringGuide} target="_blank" rel="noreferrer">
-              Read our guide
-              <Icon
-                icon="external-link"
-                alt="The link opens in a new window or tab"
-              />
-            </a>{' '}
-            or watch the videos below to get that understanding.
+            {t('mentoringRequestInfo.mentoringRelies')}{' '}
+            <Trans
+              ns="components/student/mentoring-session/mentoring-request"
+              i18nKey="mentoringRequestInfo.readOurGuide"
+              components={{
+                link: (
+                  <a
+                    href={links.mentoringGuide}
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                ),
+                icon: (
+                  <Icon
+                    icon="external-link"
+                    alt="The link opens in a new window or tab"
+                  />
+                ),
+              }}
+            />
           </p>
           <div className="videos">
             {videos.map((video, i) => (
@@ -106,18 +121,20 @@ export const MentoringRequestInfo = ({
             ))}
           </div>
         </div>
-      </div>
-
-      <div className="direct">
-        <h3>Want a friend to mentor your solution?</h3>
-        <p>Send this link to a friend for private mentoring.</p>
-        <CopyToClipboardButton textToCopy={links.privateMentoring} />
+        <div className="direct">
+          <h3>{t('mentoringRequestInfo.wantAFriend')}</h3>
+          <p>{t('mentoringRequestInfo.sendThisLink')}</p>
+          <CopyToClipboardButton textToCopy={links.privateMentoring} />
+        </div>
       </div>
     </div>
   )
 }
 
 const Video = ({ title, date, thumb, url }: VideoProps) => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/mentoring-request'
+  )
   return (
     <a href={url} target="_blank" rel="noreferrer" className="video">
       <div
@@ -132,7 +149,10 @@ const Video = ({ title, date, thumb, url }: VideoProps) => {
           {timeFormat(date, 'DD MMM YYYY')}
         </time>
       </div>
-      <Icon icon="external-link" alt="The link opens in a new window or tab" />
+      <Icon
+        icon="external-link"
+        alt={t('mentoringRequestInfo.newWindowOrTab')}
+      />
     </a>
   )
 }

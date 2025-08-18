@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const InitializedOption = ({
   onCancelling,
@@ -7,14 +8,15 @@ export const InitializedOption = ({
   onCancelling: () => void
   onUpdating: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/donations/subscription-form')
   return (
     <div className="options">
       <button type="button" onClick={onUpdating} className="text-a-subtle">
-        Change amount
+        {t('formOptions.initializedOption.changeAmount')}
       </button>{' '}
-      or{' '}
+      {t('formOptions.initializedOption.or')}{' '}
       <button type="button" onClick={onCancelling} className="text-a-subtle">
-        Cancel your recurring donation
+        {t('formOptions.initializedOption.cancelRecurringDonation')}
       </button>
     </div>
   )

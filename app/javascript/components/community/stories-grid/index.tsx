@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Avatar, GraphicalIcon, Pagination } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type StoriesGridProps = {
   data: any
 }
 
 export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
+  const { t } = useAppTranslation('components/community')
   const [page, setPage] = useState<number>(1)
 
   if (data.request.options.initialData.meta.totalCount === 0) {
@@ -14,7 +16,7 @@ export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
 
   return (
     <div className="p-40 bg-backgroundColorA shadow-lgZ1 rounded-16 mb-64">
-      <StoriesGridHeader />
+      <StoriesGridHeader t={t} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {data.request.options.initialData.results.map((story: StoryProps) => (
           <Story key={story.title} {...story} />
@@ -29,7 +31,7 @@ export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
   )
 }
 
-function StoriesGridHeader(): JSX.Element {
+function StoriesGridHeader({ t }: { t: any }): JSX.Element {
   return (
     <div className="flex mb-24">
       <GraphicalIcon
@@ -39,10 +41,8 @@ function StoriesGridHeader(): JSX.Element {
         className="mr-24 self-start"
       />
       <div className="grid gap-8 mr-auto">
-        <h2 className="text-h2">More Stories from our community</h2>
-        <p className="text-p-large">
-          Listen, learn and be inspired by our community members.
-        </p>
+        <h2 className="text-h2">{t('storiesGrid.index.moreStories')}</h2>
+        <p className="text-p-large">{t('storiesGrid.index.listenLearn')}</p>
       </div>
     </div>
   )

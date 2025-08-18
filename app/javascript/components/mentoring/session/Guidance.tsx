@@ -11,6 +11,7 @@ import CommunitySolution from '@/components/common/CommunitySolution'
 import { useHighlighting } from '../../../utils/highlight'
 import { ExemplarFilesList } from './guidance/ExemplarFilesList'
 import { SessionGuidance } from '../Session'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const AccordionHeader = ({
   isOpen,
@@ -48,6 +49,7 @@ export const Guidance = ({
   language,
   feedback = false,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation('session-batch-2')
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
@@ -110,13 +112,14 @@ export const Guidance = ({
         >
           <AccordionHeader
             isOpen={isOpen('exemplar-files')}
-            title="The exemplar solution"
+            title={t(
+              'components.mentoring.session.guidance.theExemplarSolution'
+            )}
           />
           <Accordion.Panel>
             <div className="c-textual-content --small">
               <p>
-                Try and guide the student towards this solution. It is the best
-                place for them to reach at this point during the Track.
+                {t('components.mentoring.session.guidance.tryAndGuideStudent')}
               </p>
               <ExemplarFilesList files={exemplarFiles} language={language} />
             </div>
@@ -130,7 +133,7 @@ export const Guidance = ({
       >
         <AccordionHeader
           isOpen={isOpen('exercise-guidance')}
-          title="Exercise notes"
+          title={t('components.mentoring.session.guidance.exerciseNotes')}
         />
         <Accordion.Panel>
           <MentorNotes
@@ -147,7 +150,7 @@ export const Guidance = ({
       >
         <AccordionHeader
           isOpen={isOpen('track-guidance')}
-          title="Track notes"
+          title={t('components.mentoring.session.guidance.trackNotes')}
         />
         <Accordion.Panel>
           <MentorNotes
@@ -165,7 +168,9 @@ export const Guidance = ({
         >
           <AccordionHeader
             isOpen={isOpen('mentor-solution')}
-            title="How you solved the exercise"
+            title={t(
+              'components.mentoring.session.guidance.howYouSolvedExercise'
+            )}
           />
           <Accordion.Panel>
             <CommunitySolution context="mentoring" solution={mentorSolution} />
@@ -180,10 +185,10 @@ export const Guidance = ({
         >
           <AccordionHeader
             isOpen={isOpen('feedback')}
-            title="Automated feedback"
+            title={t('components.mentoring.session.guidance.automatedFeedback')}
           />
           <Accordion.Panel>
-            <p>Feedback here</p>
+            <p>{t('components.mentoring.session.guidance.feedbackHere')}</p>
           </Accordion.Panel>
         </Accordion>
       ) : null}

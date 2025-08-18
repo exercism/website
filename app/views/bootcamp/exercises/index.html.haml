@@ -1,6 +1,6 @@
 .lg-container.mb-40
-  %h1.text-h2.mt-20 Exercises
-  %p.text-p-xlarge.mb-16 All the exercises you have available, grouped by project.
+  %h1.text-h2.mt-20= t('.exercises_title')
+  %p.text-p-xlarge.mb-16= t('.exercises_description')
   - @projects.each do |project, exercises|
     - next unless exercises.present?
     %hr.border-borderColor6.mb-20

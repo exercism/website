@@ -1,13 +1,17 @@
+// i18n-key-prefix: track
+// i18n-namespace: components/student/tracks-list
 import React from 'react'
-import pluralize from 'pluralize'
 import { TrackIcon } from '@/components/common/TrackIcon'
 import { Icon } from '@/components/common/Icon'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ProgressBar } from './ProgressBar'
 import { fromNow } from '@/utils/time'
 import { StudentTrack } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/tracks-list')
+
   return (
     <a className="--track e-hover-grow" href={track.webUrl}>
       <TrackIcon
@@ -26,11 +30,11 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           {!track.isJoined && (
             <div className="items-center hidden md:flex">
               {track.course ? (
-                <div className="--v3"> Learning Mode </div>
+                <div className="--v3">{t('track.learningMode')}</div>
               ) : track.isNew ? (
                 <div className="--new">
-                  <Icon icon="stars" alt="This track is new" />
-                  New
+                  <Icon icon="stars" alt={t('track.thisTrackIsNew')} />
+                  {t('track.new')}
                 </div>
               ) : null}
             </div>
@@ -39,7 +43,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           {track.isJoined && (
             <div className="--joined">
               <GraphicalIcon icon="checkmark" className="lg:mr-8" />
-              <span className="hidden lg:block">Joined</span>
+              <span className="hidden lg:block">{t('track.joined')}</span>
             </div>
           )}
         </div>
@@ -49,7 +53,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
             {track.numCompletedExercises == undefined
               ? null
               : `${track.numCompletedExercises}/`}
-            {track.numExercises} {pluralize('exercise', track.numExercises)}
+            {t('track.numberOfExercises', { count: track.numExercises })}
           </li>
 
           {track.course && (
@@ -58,7 +62,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
               {track.numCompletedConcepts == undefined
                 ? null
                 : `${track.numCompletedConcepts}/`}
-              {track.numConcepts} {pluralize('concept', track.numConcepts)}
+              {t('track.numberOfConcepts', { count: track.numConcepts })}
             </li>
           )}
         </ul>
@@ -80,7 +84,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
 
         {track.isJoined && (
           <div className="--last-touched">
-            Last touched {fromNow(track.lastTouchedAt)}
+            {t('track.lastTouched', { time: fromNow(track.lastTouchedAt) })}
           </div>
         )}
       </div>

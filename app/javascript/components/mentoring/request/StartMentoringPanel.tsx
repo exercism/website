@@ -5,6 +5,7 @@ import { typecheck } from '../../../utils/typecheck'
 import { MentorSessionRequest as Request } from '../../types'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to lock solution')
 
@@ -25,6 +26,9 @@ export const StartMentoringPanel = ({
   request: Request
   onLock: (request: Request) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/request/StartMentoringPanel.tsx'
+  )
   const {
     mutate: lock,
     status,
@@ -45,11 +49,15 @@ export const StartMentoringPanel = ({
   return (
     <section className="comment-section --lock">
       <h2>
-        Help {request.student.handle} write better {request.track.title}?
+        {t('startMentoringPanel.helpStudentWriteBetter', {
+          studentHandle: request.student.handle,
+          trackTitle: request.track.title,
+        })}
       </h2>
       <p>
-        Feel you can help {request.student.handle} approach this in a better
-        way? Start mentoring and show them the way to code bliss.
+        {t('startMentoringPanel.showThemWayToCodeBliss', {
+          studentHandle: request.student.handle,
+        })}
       </p>
       <button
         type="button"
@@ -57,15 +65,20 @@ export const StartMentoringPanel = ({
         disabled={status === 'pending'}
         className="btn-primary btn-m"
       >
-        Start mentoring
+        {t('startMentoringPanel.startMentoring')}
       </button>
       <div className="note">
-        You have 30 minutes until the session returns to the queue for others to
-        mentor.
+        {t('startMentoringPanel.sessionReturnsToQueue')}
       </div>
       {status === 'pending' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
-        <ErrorMessage error={error} />
+        <ErrorMessage
+          error={
+            error
+              ? new Error(t('startMentoringPanel.unableToLockSolution'))
+              : null
+          }
+        />
       </ErrorBoundary>
     </section>
   )

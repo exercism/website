@@ -1,0 +1,12 @@
+en:
+  tracks:
+    header:
+      students:
+        one: student
+        other: students
+      contributor:
+        one: contributor
+        other: contributors
+      mentor:
+        one: mentor
+        other: mentors

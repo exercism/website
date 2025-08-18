@@ -1,39 +1,29 @@
-%p Hey there,
+%p= t('.greeting')
 
 %p
-  I hope you're enjoying #{link_to 'Exercism', 'https://exercism.org'} so far!
-  Did you know that
-  %strong{ style: "font-weight:500" } we're a not-for-profit organisation?
-  We want everyone to be able to benefit from Exercism, no matter how much money they have, so we keep the site 100% free.
+  = t('.intro_message_html', exercism_link: link_to(t('.exercism_link_text'), 'https://exercism.org')).html_safe
 
 %p
-  To do that, we rely on donations to keep Exercism running.
-  We're an extremely lean operation and considering we serve over 1.5 million people, we have very low costs (~$250k/year).
-  I put a video together that explains more 👇
+  = t('.donations_reliance_message')
 
 %p
   %a{ href: "https://exercism.org/insiders", style: "display:block; box-shadow: 0px 2px 4px #0F0923; margin-bottom:16px" }
     %img{ src: "https://assets.exercism.org/images/thumbnails/why-donate-to-exercise-with-play-icon.jpg", style: "width:100%; display:block" }
 
 %p
-  If you do find Exercism useful and if you can afford to do so, please support us by making a donation.
-  However, if you can't afford it, please know that this is not a requirement and our platform will always be available to you for free.
+  = t('.support_request_message')
 
 %p
-  Your support, whether through a donation or simply spreading the word about Exercism, is critical in helping us achieve our social mission.
-  Every bit counts and helps us bring quality programming education to more people around the world.
+  = t('.community_support_message')
 
 %p
-  Thank you for being a part of our community and for supporting our social mission.
-  We look forward to seeing all the amazing things you will achieve with Exercism.
+  = t('.closing_thanks')
 
-%p Best regards,
+%p= t('.best_regards')
 
 %p
-  Jeremy Walker
+  = t('.signature_name')
   %br
-  Exercism Co-founder &amp; CEO
+  = t('.signature_title')
 
-= email_button_to 'Visit Exercism', root_url
-
-
+= email_button_to t('.button_text'), root_url

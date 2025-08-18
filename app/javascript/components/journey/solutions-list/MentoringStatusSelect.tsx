@@ -1,5 +1,6 @@
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type MentoringStatus =
   | undefined
@@ -13,24 +14,27 @@ const OptionComponent = ({
 }: {
   option: MentoringStatus
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
   switch (status) {
     case 'none':
-      return <>No mentoring</>
+      return <>{t('mentoringStatusSelect.noMentoring')}</>
     case 'requested':
-      return <>Mentoring Requested</>
+      return <>{t('mentoringStatusSelect.mentoringRequested')}</>
     case 'in_progress':
-      return <>Mentoring in progress</>
+      return <>{t('mentoringStatusSelect.mentoringInProgress')}</>
     case 'finished':
-      return <>Mentoring Completed</>
+      return <>{t('mentoringStatusSelect.mentoringCompleted')}</>
     case undefined:
-      return <>Any</>
+      return <>{t('mentoringStatusSelect.any')}</>
   }
 }
 
 const SelectedComponent = ({ option }: { option: MentoringStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
   switch (option) {
     case undefined:
-      return <>Mentoring status</>
+      return <>{t('mentoringStatusSelect.mentoringStatus')}</>
     default:
       return <OptionComponent option={option} />
   }

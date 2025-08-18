@@ -1,3 +1,5 @@
+// i18n-key-prefix: insidersStatus
+// i18n-namespace: components/insiders
 import React, { useCallback, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import currency from 'currency.js'
@@ -8,25 +10,26 @@ import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { StripeForm } from '../donations/StripeForm'
 import { Modal } from '../modals'
 import { CustomAmountInput } from '../donations/donation-form/CustomAmountInput'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const STATUS_DATA = {
   eligible: {
-    text: "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
+    textKey: 'insidersStatus.eligibleText',
     css: '--already-insider',
   },
 
   ineligible: {
-    text: 'Set up a recurring monthly donation of $10 or more to access Insiders',
+    textKey: 'insidersStatus.ineligibleText',
     css: '--ineligible',
   },
 
   eligible_lifetime: {
-    text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
+    textKey: 'insidersStatus.eligibleLifetimeText',
     css: '--already-insider',
   },
 
   unset: {
-    text: "We're currently calculating your Insiders status. This box will update once we've finished.",
+    textKey: 'insidersStatus.unsetText',
     css: '--unset',
   },
 }
@@ -59,6 +62,7 @@ export default function Status({
   status,
   userSignedIn,
 }: InsidersStatusData): JSX.Element {
+  const { t } = useAppTranslation('components/insiders')
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
@@ -121,7 +125,7 @@ export default function Status({
   return (
     <div className="flex flex-col items-start">
       <div className={`c-insiders-prompt ${STATUS_DATA[insidersStatus].css}`}>
-        {STATUS_DATA[insidersStatus].text}
+        {t(STATUS_DATA[insidersStatus].textKey)}
       </div>
 
       {eligible ? (
@@ -129,7 +133,7 @@ export default function Status({
           className="flex get-insiders-link grow"
           onClick={() => activateInsider()}
         >
-          <span>Get access to Insiders</span>
+          <span>{t('insidersStatus.getAccessToInsiders')}</span>
           <GraphicalIcon icon="arrow-right" />
         </button>
       ) : (
@@ -138,7 +142,7 @@ export default function Status({
             onClick={handleModalOpen}
             className="flex get-insiders-link grow w-fill lg:w-auto"
           >
-            <span>Donate to Exercism to access Insiders</span>
+            <span>{t('insidersStatus.donateToAccessInsiders')}</span>
             <GraphicalIcon icon="arrow-right" />
           </button>
         </>
@@ -158,12 +162,12 @@ export default function Status({
 
           <div className="mb-24">
             <h3 className="mb-8 text-h6 font-semibold">
-              1. Choose your monthly donation:
+              {t('insidersStatus.chooseMonthlyDonation')}
             </h3>
             <CustomAmountInput
               onChange={handleAmountInputChange}
               onBlur={handleShowError}
-              placeholder="Specify amount"
+              placeholder={t('insidersStatus.specifyAmount')}
               value={amount}
               selected={true}
               min="10"
@@ -175,13 +179,12 @@ export default function Status({
                   icon="question-circle"
                   className="h-[24px] w-[24px] filter-warning"
                 />
-                Please note: The minimum donation amount for Insiders Access is
-                $10.00. Thank you for your kind support!
+                {t('insidersStatus.minimumDonationAmount')}
               </div>
             )}
           </div>
           <h3 className="mb-16 text-h6 font-semibold">
-            2. Choose your payment method:
+            {t('insidersStatus.choosePaymentMethod')}
           </h3>
           <ExercismStripeElements
             mode="subscription"
@@ -208,14 +211,16 @@ export default function Status({
 }
 
 function ModalHeader(): JSX.Element {
+  const { t } = useAppTranslation('components/insiders')
   return (
     <>
       <div className="flex flex-row items-center gap-32 mb-12">
         <div>
-          <h2 className="text-h2 mb-2 !text-white">Thank you!</h2>
+          <h2 className="text-h2 mb-2 !text-white">
+            {t('insidersStatus.thankYou')}
+          </h2>
           <p className="text-p-large !text-white">
-            Thank you so much for supporting Exercism. It means the world to us!
-            💜
+            {t('insidersStatus.thankYouForSupport')}
           </p>
         </div>
         <GraphicalIcon
@@ -225,19 +230,17 @@ function ModalHeader(): JSX.Element {
         />
       </div>
       <p className="text-p-base !text-white mb-20">
-        Please use the form below to set up your monthly donation. You can amend
-        or cancel your donation at any time in your settings page.
+        {t('insidersStatus.setUpMonthlyDonation')}
       </p>
     </>
   )
 }
 
 function ModalFooter(): JSX.Element {
+  const { t } = useAppTranslation('components/insiders')
   return (
     <p className="text-p-small mt-20">
-      Exercism is an independent not-for-profit organisation. All donations are
-      used to run and improve the platform. All payments are securely handled by
-      Stripe.
+      {t('insidersStatus.donationsImprovePlatform')}
     </p>
   )
 }

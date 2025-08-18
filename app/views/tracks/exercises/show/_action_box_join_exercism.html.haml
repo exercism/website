@@ -5,17 +5,10 @@
     = graphical_icon :plus, css_class: "plus"
     = icon :logo, "Exercism"
   %h3
-    Ready to start #{exercise.title}?
+    = t('.title', exercise_title: exercise.title)
   %p.mb-12
-    Sign up to Exercism to learn and master
-    = link_to track.title, track_path(track)
-    with
-    - if track.course?
-      #{link_to "#{user_track.num_concepts} #{'concept'.pluralize(user_track.num_concepts)}", track_concepts_path(track)},
-    #{link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercises_path(track)},
-    and real human mentoring,
-    %strong all for free.
+    = t('.description_html', track_title: track.title, track_link: link_to(track.title, track_path(track)), num_concepts: user_track.num_concepts, concept_link: (link_to t('.concept_plural', count: user_track.num_concepts), track_concepts_path(track) if track.course?), num_exercises: user_track.num_exercises, exercise_link: link_to(t('.exercise_plural', count: user_track.num_exercises), track_exercises_path(track))).html_safe
 
   .buttons
-    = link_to "Sign up, it’s free!", new_user_registration_path, class: 'btn-primary btn-m'
-    = link_to "Log in to Exercism", new_user_session_path, class: 'btn-secondary btn-m'
+    = link_to t('.signup_button'), new_user_registration_path, class: 'btn-primary btn-m'
+    = link_to t('.login_button'), new_user_session_path, class: 'btn-secondary btn-m'

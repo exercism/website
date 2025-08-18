@@ -1,0 +1,15 @@
+en:
+  partners:
+    show:
+      header:
+        all_perks_link: See all Exercism Perks
+        logo_alt: Logo of %{partner_name}
+      lhs:
+        support_heading: How %{partner_name} supports Exercism
+      rhs:
+        perk_label: Exercism Perk
+        learn_more_heading: Want to learn more about %{partner_name}?
+        learn_more_paragraph:
+          Visit %{website_domain} to learn more and explore how
+          %{partner_name} can help you.
+        visit_button: Visit %{website_domain}

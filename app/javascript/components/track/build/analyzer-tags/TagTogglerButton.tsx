@@ -1,6 +1,9 @@
+// i18n-key-prefix: tagTogglerButton
+// i18n-namespace: components/track/build/analyzer-tags
 import React from 'react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Tag } from './AnalyzerTags.types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const toggledOnStyle =
   'border-darkGreen text-everyoneLovesAGreen bg-[var(--backgroundColorConceptMastered)]'
@@ -17,6 +20,7 @@ export function TagTogglerButton({
   onClick: () => void
   readOnly: boolean
 }) {
+  const { t } = useAppTranslation('components/track/build/analyzer-tags')
   return (
     <button
       onClick={onClick}
@@ -26,7 +30,7 @@ export function TagTogglerButton({
         readOnly ? readOnlyStyle : isActive ? toggledOnStyle : toggledOffStyle
       )}
     >
-      {isActive ? 'Yes' : 'No'}
+      {isActive ? t('tagTogglerButton.yes') : t('tagTogglerButton.no')}
     </button>
   )
 }

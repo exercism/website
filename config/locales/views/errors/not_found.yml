@@ -1,0 +1,5 @@
+en:
+  errors:
+    not_found:
+      title: Page not found
+      description: Looks like we can’t find that page. Sorry!

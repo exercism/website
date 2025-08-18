@@ -49,16 +49,20 @@ const Maker = ({ maker }: { maker: User }): JSX.Element => {
   )
 }
 
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
 const Content = ({
   authors,
   contributors,
   links,
 }: APIResponse): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/ConceptMakersModal.tsx')
+
   return (
     <>
       <ProminentLink
         link={links.github}
-        text="See the full history of this concept on GitHub"
+        text={t('seeOnGithub')}
         withBg={true}
         external
       />
@@ -66,9 +70,10 @@ const Content = ({
         <div className="authors">
           <div className="heading">
             <h3>
-              Authors <span className="count">{authors.length}</span>
+              {t('authors.heading')}{' '}
+              <span className="count">{authors.length}</span>
             </h3>
-            <div className="subtitle">People who wrote the concept</div>
+            <div className="subtitle">{t('authors.subtitle')}</div>
           </div>
 
           {authors.map((author) => (
@@ -81,9 +86,10 @@ const Content = ({
         <div className="contributors">
           <div className="heading">
             <h3>
-              Contributors <span className="count">{contributors.length}</span>
+              {t('contributors.heading')}{' '}
+              <span className="count">{contributors.length}</span>
             </h3>
-            <div className="subtitle">People who updated the concept</div>
+            <div className="subtitle">{t('contributors.subtitle')}</div>
           </div>
           {contributors.map((contributor) => (
             <Maker maker={contributor} key={contributor.handle} />

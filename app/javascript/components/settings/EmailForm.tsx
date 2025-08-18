@@ -1,3 +1,5 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/EmailForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
@@ -5,6 +7,7 @@ import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -26,6 +29,7 @@ export default function EmailForm({
   defaultEmail: string
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/EmailForm.tsx')
   const [state, setState] = useState({ email: defaultEmail, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -49,11 +53,11 @@ export default function EmailForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Change your email</h2>
+      <h2>{t('changeYourEmail')}</h2>
       <hr className="c-divider --small" />
       <div className="field">
         <label htmlFor="user_email" className="label">
-          Your email address
+          {t('yourEmailAddress')}
         </label>
         <InputWithValidation
           type="email"
@@ -61,12 +65,12 @@ export default function EmailForm({
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
           required
-          {...createMaxLengthAttributes('Email', 255)}
+          {...createMaxLengthAttributes('Email', 255, t)}
         />
       </div>
       <div className="field">
         <label htmlFor="user_sudo_password_email" className="label">
-          Confirm your password
+          {t('confirmYourPassword')}
         </label>
         <input
           type="password"
@@ -75,14 +79,11 @@ export default function EmailForm({
           onChange={(e) => setState({ ...state, password: e.target.value })}
           required
         />
-        <p className="info">
-          You can change your email using the form above. We will send you a new
-          confirmation email for you to accept.
-        </p>
+        <p className="info">{t('info.changeEmailConfirmation')}</p>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Change email
+          {t('changeEmail')}
         </FormButton>
         <FormMessage
           status={status}
@@ -96,10 +97,11 @@ export default function EmailForm({
 }
 
 const SuccessMessage = ({ email }: { email: string }) => {
+  const { t } = useAppTranslation('components/settings/EmailForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      We&apos;ve sent a confirmation email to {email}
+      {t('success.confirmationEmailSent', { email })}
     </div>
   )
 }

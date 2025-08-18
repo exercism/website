@@ -5,6 +5,7 @@ import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to delete profile')
 
@@ -15,6 +16,7 @@ export const DeleteProfileModal = ({
 }: Omit<ModalProps, 'className'> & {
   endpoint: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/settings/delete-profile-form')
   const {
     mutate: mutation,
     status,
@@ -51,11 +53,11 @@ export const DeleteProfileModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Delete profile?</h3>
-      <p>Are you sure you want to delete your profile?</p>
+      <h3>{t('deleteProfileModal.deleteProfile')}</h3>
+      <p>{t('deleteProfileModal.areYouSure')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-primary btn-s">
-          Continue
+          {t('deleteProfileModal.continue')}
         </FormButton>
         <FormButton
           type="button"
@@ -63,7 +65,7 @@ export const DeleteProfileModal = ({
           onClick={handleClose}
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('deleteProfileModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

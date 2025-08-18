@@ -18,6 +18,7 @@ import {
   ExerciseStatus,
 } from './solutions-list'
 import type { PaginatedResult } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -31,6 +32,7 @@ export const SolutionsList = ({
   request: Request
   isEnabled: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey')
   const {
     request,
     setPage,
@@ -114,7 +116,7 @@ export const SolutionsList = ({
               setCriteria(e.target.value)
             }}
             value={criteria || ''}
-            placeholder="Search by exercise or track name"
+            placeholder={t('solutionsList.searchByExerciseOrTrackName')}
           />
           <SolutionFilter request={request} onApply={handleApply} />
           <OrderSwitcher
@@ -135,8 +137,13 @@ export const SolutionsList = ({
                 <div>
                   <div className="results-title-bar">
                     <h3>
-                      Showing {resolvedData.meta.totalCount}{' '}
-                      {pluralize('solution', resolvedData.meta.totalCount)}
+                      {t('solutionsList.showingSolutions', {
+                        totalCount: resolvedData.meta.totalCount,
+                        solutionLabel: pluralize(
+                          'solution',
+                          resolvedData.meta.totalCount
+                        ),
+                      })}
                     </h3>
                     <button
                       type="button"
@@ -144,7 +151,7 @@ export const SolutionsList = ({
                       className="btn-link"
                     >
                       <GraphicalIcon icon="reset" />
-                      <span>Reset filters</span>
+                      <span>{t('solutionsList.resetFilters')}</span>
                     </button>
                   </div>
                   <div className="solutions">

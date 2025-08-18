@@ -1,3 +1,5 @@
+// i18n-key-prefix: exerciseMakersModal
+// i18n-namespace: components/modals/ExerciseMakersModal.tsx
 import React from 'react'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -11,6 +13,7 @@ import {
   HandleWithFlair,
 } from '../common'
 import type { User } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load exercise contributors')
 
@@ -62,11 +65,13 @@ const Content = ({
   contributors,
   links,
 }: APIResponse): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/ExerciseMakersModal.tsx')
+
   return (
     <>
       <ProminentLink
         link={links.github}
-        text="See the full history of this exercise on GitHub"
+        text={t('exerciseMakersModal.seeFullHistoryOnGithub')}
         withBg={true}
         external
       />
@@ -74,9 +79,12 @@ const Content = ({
         <div className="authors">
           <div className="heading">
             <h3>
-              Authors <span className="count">{authors.length}</span>
+              {t('exerciseMakersModal.authors')}{' '}
+              <span className="count">{authors.length}</span>
             </h3>
-            <div className="subtitle">People who wrote the exercise</div>
+            <div className="subtitle">
+              {t('exerciseMakersModal.peopleWhoWroteExercise')}
+            </div>
           </div>
 
           {authors.map((author) => (
@@ -89,9 +97,12 @@ const Content = ({
         <div className="contributors">
           <div className="heading">
             <h3>
-              Contributors <span className="count">{contributors.length}</span>
+              {t('exerciseMakersModal.contributors')}{' '}
+              <span className="count">{contributors.length}</span>
             </h3>
-            <div className="subtitle">People who updated the exercise</div>
+            <div className="subtitle">
+              {t('exerciseMakersModal.peopleWhoUpdatedExercise')}
+            </div>
           </div>
           {contributors.map((contributor) => (
             <Maker maker={contributor} key={contributor.handle} />

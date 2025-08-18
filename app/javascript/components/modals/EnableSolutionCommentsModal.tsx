@@ -5,6 +5,7 @@ import { SolutionForStudent } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to enable comments')
 
@@ -16,6 +17,9 @@ export const EnableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/EnableSolutionCommentsModal.tsx'
+  )
   const {
     mutate: mutation,
     status,
@@ -38,11 +42,8 @@ export const EnableSolutionCommentsModal = ({
 
   return (
     <Modal {...props} className="m-generic-confirmation">
-      <h3>Enable comments?</h3>
-      <p>
-        Enabling comments allows people to publically post questions and
-        thoughts on your solution. You can disable this at any time.
-      </p>
+      <h3>{t('enableSolutionCommentsModal.enableComments')}</h3>
+      <p>{t('enableSolutionCommentsModal.enablingCommentsAllows')}</p>
 
       <div className="buttons">
         <FormButton
@@ -51,7 +52,7 @@ export const EnableSolutionCommentsModal = ({
           status={status}
           className="btn-primary btn-m"
         >
-          Enable comments
+          {t('enableSolutionCommentsModal.enableCommentsButton')}
         </FormButton>
         <FormButton
           type="button"
@@ -59,11 +60,17 @@ export const EnableSolutionCommentsModal = ({
           status={status}
           className="btn-default btn-m"
         >
-          Cancel
+          {t('enableSolutionCommentsModal.cancel')}
         </FormButton>
       </div>
       <ErrorBoundary>
-        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        <ErrorMessage
+          error={error}
+          defaultError={
+            DEFAULT_ERROR ||
+            new Error(t('enableSolutionCommentsModal.unableToEnableComments'))
+          }
+        />
       </ErrorBoundary>
     </Modal>
   )

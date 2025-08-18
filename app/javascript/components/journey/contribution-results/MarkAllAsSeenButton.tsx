@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MarkAllAsSeenButton = ({
   unseenTotal,
@@ -7,6 +8,7 @@ export const MarkAllAsSeenButton = ({
   unseenTotal: number
   onClick: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/contribution-results')
   return (
     <button
       type="button"
@@ -14,7 +16,7 @@ export const MarkAllAsSeenButton = ({
       className="btn-m btn-default"
       disabled={unseenTotal === 0}
     >
-      Mark all as seen
+      {t('markAllAsSeenButton.markAllAsSeen')}
     </button>
   )
 }

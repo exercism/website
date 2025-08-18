@@ -1,3 +1,5 @@
+// i18n-key-prefix: publishSettings
+// i18n-namespace: components/student/published-solution
 import React, { useState } from 'react'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import {
@@ -7,6 +9,7 @@ import {
 import { UnpublishSolutionModal } from '../../modals/UnpublishSolutionModal'
 import { Iteration } from '../../types'
 import { Icon } from '../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ModalId = 'changePublishedIteration' | 'unpublish'
 
@@ -27,6 +30,7 @@ export const PublishSettings = ({
   links: Links
 }): JSX.Element => {
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
+  const { t } = useAppTranslation('components/student/published-solution')
   const {
     buttonAttributes,
     panelAttributes,
@@ -51,7 +55,7 @@ export const PublishSettings = ({
         {...buttonAttributes}
         className="publish-settings-button btn-xs btn-enhanced"
       >
-        <Icon icon="settings" alt="Publish settings" />
+        <Icon icon="settings" alt={t('publishSettings.publishSettings')} />
       </button>
       {open ? (
         <div {...panelAttributes} className="c-dropdown-generic-menu">
@@ -61,12 +65,12 @@ export const PublishSettings = ({
                 type="button"
                 onClick={() => setOpenedModal('changePublishedIteration')}
               >
-                Change published iterations…
+                {t('publishSettings.changePublishedIterations')}
               </button>
             </li>
             <li {...itemAttributes(1)}>
               <button type="button" onClick={() => setOpenedModal('unpublish')}>
-                Unpublish solution…
+                {t('publishSettings.unpublishSolution')}
               </button>
             </li>
           </ul>

@@ -1,8 +1,11 @@
+// i18n-key-prefix: askChatGptButton
+// i18n-namespace: components/editor/ChatGptFeedback
 import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { FetchingStatus } from './useChatGptFeedback'
 import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { ConditionTextManager } from '@/utils/condition-text-manager'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Props = {
   isProcessing: boolean
@@ -26,6 +29,8 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
     },
     ref
   ) => {
+    const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+
     const isDisabled =
       isProcessing ||
       noSubmission ||
@@ -34,14 +39,26 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
       passingTests
 
     const tooltipText = new ConditionTextManager()
-    tooltipText.append(noSubmission, 'Please run the tests first.')
-    tooltipText.append(sameSubmission, 'Please rerun the tests to continue.')
-    tooltipText.append(isProcessing, 'Tests are currently running.')
+    tooltipText.append(
+      noSubmission,
+      t('askChatGptButton.pleaseRunTheTestsFirst')
+    )
+    tooltipText.append(
+      sameSubmission,
+      t('askChatGptButton.pleaseRerunTheTestsToContinue')
+    )
+    tooltipText.append(
+      isProcessing,
+      t('askChatGptButton.testsAreCurrentlyRunning')
+    )
     tooltipText.append(
       chatGptFetchingStatus === 'fetching',
-      'Awaiting response from ChatGPT. Please stand by.'
+      t('askChatGptButton.awaitingResponseFromChatGPTPleaseStandBy')
     )
-    tooltipText.append(passingTests, 'Congrats! The tests are passing! 🎉')
+    tooltipText.append(
+      passingTests,
+      t('askChatGptButton.congratsTheTestsArePassing')
+    )
 
     return (
       <GenericTooltip
@@ -57,7 +74,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
             {...props}
           >
             <GraphicalIcon icon="automation" height={16} width={16} />
-            <span>Stuck? Ask ChatGPT</span>
+            <span>{t('askChatGptButton.stuckAskChatGPT')}</span>
           </button>
         </div>
       </GenericTooltip>

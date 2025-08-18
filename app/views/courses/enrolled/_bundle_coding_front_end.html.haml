@@ -1,33 +1,22 @@
 %p.info
-  We're so excited to have you on board! 💙
+  = t('.welcome_message')
 - if enrollment.user
   %p.info
-    %strong Your Exercism account has been granted access to the Bootcamp.
-    Please use the button below to get started.
+    = t('.logged_in_access_html').html_safe
   %p.info
-    You should shortly receive an email welcoming you and asking you to say hello.
-    %strong Please do reply
-    and tell us your story - it's both incredibly motivating for us to hear about who's taking our courses, and also means we can better tailor what we're making!
+    = t('.email_welcome_html').html_safe
   %p.info.mb-10
-    If you have any questions, please email us at
-    %strong.font-medium bootcamp@exercism.org
-    and we'll be happy to help.
-  = link_to "Go to the Bootcamp", bootcamp_dashboard_path, class: 'button'
+    = t('.support_email_html', email: 'bootcamp@exercism.org').html_safe
+  = link_to t('.go_to_bootcamp'), bootcamp_dashboard_path, class: 'button'
 - else
   %p.info
-    %strong As you're not logged into your Exercism account, we need to connect things up for you.
-    Firstly, please make sure you have an Exercism account:
+    = t('.not_logged_in_access_html').html_safe
   %ul.mt-8.mb-12.list-disc.ml-20.font-light
-    %li.text-18 If you do, logging in should give you access.
+    %li.text-18= t('.login_if_account_exists')
     %li.text-18
-      If you don't, the easiest way to get access is to #{link_to 'create one here', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address "#{enrollment.email}".
-      If you use a different email and don't get access, please email us at
-      %strong.font-medium bootcamp@exercism.org
-      with your Exercism username/handle and the email address you've enrolled with (#{enrollment.email}) and we'll give you access manually.
+      = t('.create_account_instructions_html', sign_up_link: link_to(t('.create_one_here'), 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'), email: enrollment.email).html_safe
 
   %p.info
-    You should also shortly receive an email welcoming you, and asking you to say hello.
-    %strong Please do reply
-    and tell us your story - it's both incredibly motivating for us to hear about who's joining the Bootcamp, and also means we can better tailor what we're making!
+    = t('.email_welcome_not_logged_in_html').html_safe
   %p.info
-    Thanks for trusting us with your learning 🙂
+    = t('.thanks_for_trusting')

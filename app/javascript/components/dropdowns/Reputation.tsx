@@ -3,10 +3,11 @@ import { ReputationIcon } from './reputation/ReputationIcon'
 import { ReputationMenu } from './reputation/ReputationMenu'
 import { ReputationChannel } from '../../channels/reputationChannel'
 import { useDropdown, DropdownAttributes } from './useDropdown'
-import { QueryKey, QueryStatus, useQueryClient } from '@tanstack/react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Links = {
   tokens: string
@@ -62,6 +63,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
+  const { t } = useAppTranslation('components/dropdowns')
   if (data) {
     return (
       <ReputationMenu
@@ -98,6 +100,7 @@ export default function Reputation({
   defaultIsSeen: boolean
   endpoint: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/dropdowns')
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)

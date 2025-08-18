@@ -4,6 +4,7 @@ import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils/redirect-to'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to start exercise')
 
@@ -14,6 +15,7 @@ export const StartExerciseButton = ({
   endpoint: string
   className?: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/open-editor-button')
   const {
     mutate: mutation,
     status,
@@ -42,7 +44,7 @@ export const StartExerciseButton = ({
   return (
     <React.Fragment>
       <FormButton status={status} onClick={handleClick} className={className}>
-        Start in editor
+        {t('startExerciseButton.startInEditor')}
       </FormButton>
       <FetchingBoundary
         status={status}

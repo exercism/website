@@ -5,6 +5,7 @@ import { ExerciseTagFilterGroup } from './ExerciseTagFilterGroup'
 import { useExerciseTagFilter } from './useExerciseTagFilter'
 import type { Tags } from './ExerciseTagFilter.types'
 import type { Request } from '@/hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ExerciseTagFilter({
   tags,
@@ -15,6 +16,9 @@ export function ExerciseTagFilter({
   setQuery: (query: any) => void
   request: Request
 }): JSX.Element | null {
+  const { t } = useAppTranslation(
+    'components/track/exercise-community-solutions-list'
+  )
   if (Object.keys(tags).length === 0) return null
 
   const { buttonAttributes, panelAttributes, setOpen, open } = usePanel({
@@ -34,7 +38,10 @@ export function ExerciseTagFilter({
         {...buttonAttributes}
         onClick={() => setOpen((o) => !o)}
       >
-        <div className="value">Filter{showSelectedTagCount(tagState)}</div>
+        <div className="value">
+          {t('exerciseTagFilter.exerciseTagFilter.filter')}
+          {showSelectedTagCount(tagState)}
+        </div>
         <Icon
           icon="chevron-down"
           alt="Click to change"

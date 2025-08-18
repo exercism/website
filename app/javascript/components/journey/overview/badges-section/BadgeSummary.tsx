@@ -1,7 +1,10 @@
+// i18n-key-prefix: badgeSummary
+// i18n-namespace: components/journey/overview/badges-section
 import pluralize from 'pluralize'
 import React from 'react'
 import { BadgeList, BadgeRarity } from '../../../types'
 import { toSentence } from '../../../../utils/toSentence'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const BADGE_RARITIES: BadgeRarity[] = [
   'legendary',
@@ -15,12 +18,14 @@ export const BadgeSummary = ({
 }: {
   badges: BadgeList
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/overview/badges-section')
+
   const parts = BADGE_RARITIES.map<string>((rarity: BadgeRarity) => {
     const badgesWithRarity = badges.filter(rarity)
 
     return badgesWithRarity.length > 0
       ? `${badgesWithRarity.length} ${rarity} ${pluralize(
-          'badge',
+          t('badgeSummary.badge'),
           badgesWithRarity.length
         )}`
       : ''
@@ -28,7 +33,12 @@ export const BadgeSummary = ({
 
   return (
     <p className="text-p-large">
-      You have {parts.length == 0 ? 'no badges' : toSentence(parts)}.
+      {t(
+        parts.length == 0
+          ? 'badgeSummary.youHaveNoBadges'
+          : 'badgeSummary.badgesSummary',
+        { badges: toSentence(parts) }
+      )}
     </p>
   )
 }

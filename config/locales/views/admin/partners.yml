@@ -1,0 +1,17 @@
+en:
+  admin:
+    partners:
+      form:
+        errors_prohibited_saving_partner:
+          one: "1 error prohibited this partner from being saved:"
+          other: "%{count} errors prohibited this partner from being saved:"
+        headline_label: Headline (appears on Perks page)
+        description_label: Description (Markdown. Appears on Perks page)
+        support_info_label: Support info (Optional. Markdown. Appears on Perks page)
+      edit:
+        editing_partner: Editing %{partner_name}
+        show_this_partner: Show this partner
+        back_to_partners: Back to partners
+      new:
+        add_new_partner: Add a new partner
+        back_to_partners: Back to partners

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Modal } from './Modal'
 import { useMutation } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 enum BugReportModalStatus {
   INITIALIZED = 'initialized',
@@ -28,6 +29,8 @@ export const BugReportModal = ({
 }): JSX.Element => {
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const [content, setContent] = useState('')
+
+  const { t } = useAppTranslation('components/modals/BugReportModal.tsx')
 
   const { mutate: mutation } = useMutation({
     mutationFn: async () => {
@@ -86,31 +89,31 @@ export const BugReportModal = ({
 
   return (
     <Modal open={open} onClose={onClose} className="m-bug-report" {...props}>
-      <h3>Report a bug</h3>
+      <h3>{t('reportABug')}</h3>
 
       {status == BugReportModalStatus.SUCCEEDED ? (
         <>
-          <p>Bug report submitted. Thank you!</p>
+          <p>{t('bugReportSubmittedThankYou')}</p>
           <div className="buttons">
             <button
               type="button"
               className="btn-enhanced btn-s"
               onClick={handleClose}
             >
-              Close
+              {t('close')}
             </button>
           </div>
         </>
       ) : (
         <form data-turbo="false" onSubmit={handleSubmit}>
           <label htmlFor="content_markdown">
-            Thanks for reporting. Please tell us what is wrong.
+            {t('thanksForReportingPleaseTellUsWhatIsWrong')}
           </label>
           <textarea
             id="content_markdown"
             value={content}
             onChange={handleChange}
-            placeholder="Please provide as much detail as possible"
+            placeholder={t('pleaseProvideAsMuchDetailAsPossible')}
             minLength={minLength}
           />
           <div className="buttons">
@@ -119,14 +122,14 @@ export const BugReportModal = ({
               disabled={isFormDisabled}
               className="btn-primary btn-s"
             >
-              Submit bug report
+              {t('submitBugReport')}
             </button>
             <button
               type="button"
               className="btn-enhanced btn-s"
               onClick={handleClose}
             >
-              Cancel
+              {t('cancel')}
             </button>
           </div>
         </form>

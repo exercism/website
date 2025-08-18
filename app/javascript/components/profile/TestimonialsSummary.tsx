@@ -7,6 +7,10 @@ import {
 } from '../common'
 import { Testimonial } from '../types'
 import { Flair } from '../common/HandleWithFlair'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: testimonialsSummary
+// i18n-namespace: components/profile
 
 type Props = {
   handle: string
@@ -29,6 +33,7 @@ export default function TestimonialsSummary({
   testimonials,
   links,
 }: Props): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
   const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
 
   return (
@@ -45,17 +50,23 @@ export default function TestimonialsSummary({
               <div className="number">
                 {numSolutionsMentored.toLocaleString()}
               </div>
-              <div className="metric">Solutions mentored</div>
+              <div className="metric">
+                {t('testimonialsSummary.solutionsMentored')}
+              </div>
             </div>
             <div className="stat">
               <div className="number">{numStudentsHelped.toLocaleString()}</div>
-              <div className="metric">Students helped</div>
+              <div className="metric">
+                {t('testimonialsSummary.studentsHelped')}
+              </div>
             </div>
             <div className="stat">
               <div className="number">
                 {numTestimonialsReceived.toLocaleString()}
               </div>
-              <div className="metric">Testimonials received</div>
+              <div className="metric">
+                {t('testimonialsSummary.testimonialsReceived')}
+              </div>
             </div>
           </div>
           <div className="testimonial">{currentTestimonial.content}</div>
@@ -109,7 +120,9 @@ export default function TestimonialsSummary({
         {links.all ? (
           <ProminentLink
             link={links.all}
-            text={`See all of ${handle}'s testimonials`}
+            text={t('testimonialsSummary.seeAllOfHandleTestimonials', {
+              handle,
+            })}
           />
         ) : null}
       </div>

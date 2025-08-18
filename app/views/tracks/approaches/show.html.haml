@@ -1,5 +1,5 @@
-- content_for :meta_title, "Explore the '#{@approach.title}' approach for #{@exercise.title} in #{@track.title} on Exercism".html_safe
-- content_for :meta_description, "Explore the '#{@approach.title}' approach for #{@exercise.title} in #{@track.title} on Exercism. #{@approach.blurb}".html_safe
+- content_for :meta_title, t('.meta_title', approach_title: @approach.title, exercise_title: @exercise.title, track_title: @track.title).html_safe
+- content_for :meta_description, t('.meta_description', approach_title: @approach.title, exercise_title: @exercise.title, track_title: @track.title, approach_blurb: @approach.blurb).html_safe
 - require_stylesheet "track"
 -# TODO: add :meta_image
 
@@ -13,7 +13,7 @@
           %span.hidden.md:block.text-textColor6.mr-12
             &middot
           %span.hidden.md:block.text-textColor6
-            Published at
+            = t('.published_at')
             = format_date(@approach.created_at)
 
       = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "flex flex-row py-4 md:py-8 md:px-24 px-12 bg-gray border-2 border-gradient-bgGray rounded-100 items-center md:h-[68px] w-fit md:mb-auto mb-32" do
@@ -23,19 +23,19 @@
           .text-h5.whitespace-nowrap
             = @exercise.title
             %span.md:hidden.inline
-              in #{@track.title}
-          .md:block.hidden.textColor-6.font-normal.leading-150.text-16 in #{@track.title}
+              = t('.in_track_mobile', track_title: @track.title)
+          .md:block.hidden.textColor-6.font-normal.leading-150.text-16= t('.in_track_desktop', track_title: @track.title)
 
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
         = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
         .info.md:hidden
-          %h3.text-h6.mb-2 Find this approach useful?
-          %p.text-p-small Share it around!
+          %h3.text-h6.mb-2= t('.share_bar.title_mobile')
+          %p.text-p-small= t('.share_bar.subtitle_mobile')
         .info.hidden.md:block.mr-auto
-          %h3.text-h5.mb-2 Find the approach interesting or useful?
-          %p.text-p-base Share it around and have others benefit too!
+          %h3.text-h5.mb-2= t('.share_bar.title_desktop')
+          %p.text-p-base= t('.share_bar.subtitle_desktop')
 
         = render ViewComponents::Exercise::ShareApproachButton.new(@approach)
 
@@ -46,7 +46,7 @@
         .published-at
           = format_date(@approach.updated_at)
           &middot;
-          Found it useful?
+          = t('.useful_question')
           = render ViewComponents::Exercise::ShareApproachLink.new(@approach)
 
   - if @other_approaches.present?
@@ -54,8 +54,8 @@
       .flex.justify-center.mb-32
         = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
         .flex.flex-col
-          %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title} in #{@exercise.track.title}
-          .text-p-base.text-textColor6 Other ways our community solved this exercise
+          %h2.text-h3.font-bold.mb-4= t('.other_approaches.title', exercise_title: @exercise.title, track_title: @exercise.track.title)
+          .text-p-base.text-textColor6= t('.other_approaches.subtitle')
 
       .grid.gap-24.grid-cols-1.mb-32.place-items-center
         - @other_approaches.each do |other_approach|

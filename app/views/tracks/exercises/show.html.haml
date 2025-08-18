@@ -1,3 +1,4 @@
+-# rubocop:disable Style/IfInsideElse
 - exercise_meta_tags(@exercise, @user_track)
 - require_stylesheet "track"
 
@@ -36,7 +37,7 @@
             = render ReactComponents::Student::GithubSolutionSyncerWidget.new(@solution)
 
         .mt-28.ml-8
-          = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
+          = render ViewComponents::ProminentLink.new(t('.view_track_documentation'), Exercism::Routes.track_docs_path(@track))
 
       .lg:ml-32.lg:w-arbitary.flex-grow
         - if @exercise.concept_exercise?
@@ -45,3 +46,4 @@
           - else
             = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
         = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise, solution: @solution
+-# rubocop:enable Style/IfInsideElse

@@ -1,30 +1,29 @@
 .track-team-group
   .track-header.mb-16
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-      %h3.--analyzer-gradient Analyzer
+      %h3.--analyzer-gradient= t('.analyzer_heading')
       = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
-        Learn More
-    %p Build an Analyzer for #{track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
+        = t('.learn_more')
+    %p= t('.analyzer_description', track_title: track.title)
 
   - if status.analyzer.health == "missing"
     .action-required
-      Next goal: Build an Analyzer.
+      = t('.action_required.next_goal')
       = link_to doc_path(:building, "tooling/analyzers/interface") do
-        Find out more.
+        = t('.action_required.find_out_more')
   - else
     %p.text-16
-      Current version:
-      %strong= current_sha
-      %span.italic (Takes up to 10 mins to deploy)
+      = t('.current_version', current_sha: current_sha)
+      %span.italic= t('.deploy_time')
 
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
       .record-row
-        .record-name Total Analyzer Runs
+        .record-name= t('.total_analyzer_runs')
         .record-value= number_with_delimiter(status.analyzer.num_runs)
       .record-row
-        .record-name Total Analysis Comments Made
+        .record-name= t('.total_analysis_comments_made')
         .record-value= number_with_delimiter(status.analyzer.num_comments)
       .record-row
-        .record-name Feedback Given Frequency
-        .record-value #{status.analyzer.display_rate_percentage}%
+        .record-name= t('.feedback_given_frequency')
+        .record-value= t('.feedback_given_frequency_value', percentage: status.analyzer.display_rate_percentage)

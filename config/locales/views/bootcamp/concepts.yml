@@ -1,0 +1,21 @@
+en:
+  bootcamp:
+    concepts:
+      show:
+        breadcrumbs:
+          all_concepts: All Concepts
+        subconcepts:
+          title: Subconcepts
+        exercises:
+          title: Exercises
+          description: These exercises have been designed to help you practice this concept.
+      index:
+        breadcrumbs:
+          all_concepts: All Concepts
+        header:
+          concepts_title: Concepts
+          concepts_description_p1:
+            This is your library of information. Everything you
+            find in the Concept section will be covered throughout the live
+            teaching sessions.
+          concepts_description_p2: Use these docs as a refresher to go over anything that's unclear.

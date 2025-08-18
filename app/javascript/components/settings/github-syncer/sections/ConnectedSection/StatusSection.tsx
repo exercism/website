@@ -1,10 +1,17 @@
+// i18n-key-prefix: statusSection
+// i18n-namespace: components/settings/github-syncer/sections/ConnectedSection
 import React, { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { fetchWithParams } from '../../fetchWithParams'
 import { ConfirmationModal } from '../../common/ConfirmationModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function StatusSection() {
+  const { t } = useAppTranslation(
+    'components/settings/github-syncer/sections/ConnectedSection'
+  )
   const { links, isSyncingEnabled, setIsSyncingEnabled, syncer } =
     React.useContext(GitHubSyncerContext)
 
@@ -49,11 +56,19 @@ export function StatusSection() {
       style={{ borderColor: borderColor, backgroundColor: bgColor }}
       className="border-2"
     >
-      <h2 className="!mb-6">
-        Status: <span style={{ color: textColor }}>{status}</span>
-      </h2>
+      <h2
+        className="!mb-6"
+        dangerouslySetInnerHTML={{
+          __html: t('statusSection.status', { status }),
+        }}
+      />
       <p className="text-18 leading-140">
-        Your GitHub syncer is linked to <code>{syncer?.repoFullName}</code>.
+        <Trans
+          ns="components/settings/github-syncer/sections/ConnectedSection"
+          i18nKey="statusSection.githubSyncerLinked"
+          components={{ strong: <strong />, code: <code /> }}
+          values={{ repoFullName: syncer?.repoFullName }}
+        />
       </p>
 
       {!isSyncingEnabled && (
@@ -62,7 +77,7 @@ export function StatusSection() {
             onClick={() => setActivityChangeConfirmationModalOpen(true)}
             className="btn-m mt-16 btn-primary"
           >
-            Enable Syncer
+            {t('statusSection.enableSyncer')}
           </button>
           <ConfirmationModal
             title="Are you sure you want to resume syncing solutions with GitHub?"

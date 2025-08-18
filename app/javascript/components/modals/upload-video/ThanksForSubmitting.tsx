@@ -1,21 +1,24 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ThanksForSubmitting({
   onClick,
 }: {
   onClick: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/modals/upload-video')
   return (
     <>
-      <h2 className="text-h2 mb-12">✨ Thanks for submitting!</h2>
+      <h2 className="text-h2 mb-12">
+        {t('thanksForSubmitting.thanksForSubmitting')}
+      </h2>
       <p className="text-prose mb-24">
-        If your video gets approved, it&apos;ll show up in the Approaches
-        section for the exercise.
+        {t('thanksForSubmitting.approvedVideoMessage')}
       </p>
 
       <div className="flex">
         <button onClick={onClick} className="w-full btn-primary btn-l grow">
-          No problem. I&apos;m done here.
+          {t('thanksForSubmitting.noProblemImDone')}
         </button>
       </div>
     </>

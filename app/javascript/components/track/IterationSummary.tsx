@@ -8,6 +8,7 @@ import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
 import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -62,6 +63,7 @@ export function IterationSummary({
   OutOfDateNotice,
   showTimeStamp = true,
 }: IterationSummaryProps): JSX.Element {
+  const { t } = useAppTranslation('components/track/IterationSummary.tsx')
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   return (
     <div className={`c-iteration-summary ${className ?? ''}`}>
@@ -70,10 +72,10 @@ export function IterationSummary({
       ) : null}
       <div className="--info">
         <div className="--idx">
-          <h3>Iteration {iteration.idx}</h3>
+          <h3>{t('iterationSummary.iteration', { idx: iteration.idx })}</h3>
           {iteration.isLatest ? (
             <div className="--latest" aria-label="Latest iteration">
-              Latest
+              {t('iterationSummary.latest')}
             </div>
           ) : null}
 
@@ -82,16 +84,18 @@ export function IterationSummary({
               className="--published"
               aria-label="This iteration is published"
             >
-              Published
+              {t('iterationSummary.published')}
             </div>
           ) : null}
         </div>
         <div className="--details" data-testid="details">
-          {!isBelowLgWidth && 'Submitted '}
+          {!isBelowLgWidth && t('iterationSummary.submitted')}
           {showSubmissionMethod
-            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}${
-                showTimeStamp ? ',' : ''
-              } `
+            ? `${t(
+                iteration.submissionMethod === 'cli'
+                  ? 'iterationSummary.viaCli'
+                  : 'iterationSummary.viaEditor'
+              )}${showTimeStamp ? ',' : ''} `
             : null}
           {showTimeStamp && (
             <time

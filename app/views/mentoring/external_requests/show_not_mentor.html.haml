@@ -1,12 +1,12 @@
 #page-mentoring-external-request
   .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
     = avatar(@solution.user)
-    %h1.text-h1.mb-16 Want to mentor #{@solution.user.handle}?
-    %p.text-p-2xlarge.mb-32 You&apos;ll need to register as a mentor first to get started.
+    %h1.text-h1.mb-16= t('.heading', user_handle: @solution.user.handle)
+    %p.text-p-2xlarge.mb-32= t('.description')
     = render 'exercise_tag', solution: @solution
     - if current_user.reputation >= User::MIN_REP_TO_MENTOR
       .buttons.grid.grid-cols-2-auto.gap-20
-        = ReactComponents::Mentoring::TryMentoringButton.new(text: "Register as mentor", size: "l", redirect_link: @solution.external_mentoring_request_url)
-        = link_to "Learn more", mentoring_path, class: 'btn-enhanced btn-l'
+        = ReactComponents::Mentoring::TryMentoringButton.new(text: t('.register_mentor_button'), size: "l", redirect_link: @solution.external_mentoring_request_url)
+        = link_to t('.learn_more_button'), mentoring_path, class: 'btn-enhanced btn-l'
     - else
       = render "mentoring/external/locked", profile_min_reputation: User::MIN_REP_TO_MENTOR

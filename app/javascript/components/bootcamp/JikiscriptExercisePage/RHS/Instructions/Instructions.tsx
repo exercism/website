@@ -6,6 +6,7 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePageContextWrapper'
 import useTaskStore from '../../store/taskStore/taskStore'
 import useTestStore from '../../store/testStore'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function _Instructions({
   exerciseTitle,
@@ -16,6 +17,9 @@ export function _Instructions({
   exerciseInstructions: string
   height?: number | string
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/RHS'
+  )
   const {
     activeTaskIndex,
     tasks,
@@ -90,19 +94,24 @@ export function _Instructions({
       remainingBonusTasksCount > 0 &&
       !solution.passedBonusTests ? (
         <>
-          <h4>Bonus Challenges</h4>
+          <h4>{t('instructions.instructions.bonusChallenges')}</h4>
           <div dangerouslySetInnerHTML={{ __html: bonusTasksInstructions }} />
         </>
       ) : areAllTasksCompleted || solution.passedBasicTests ? (
         <>
           <h4 className="mt-12">Congratulations!</h4>
-          <p>You have successfully completed all the tasks!</p>
+          <p>
+            {t(
+              'instructions.instructions.youHaveSuccessfullyCompletedAllTheTasks'
+            )}
+          </p>
         </>
       ) : (
         <>
           <h4 className="mt-12">
-            Task{activeTaskIndex !== undefined ? ` ${activeTaskIndex + 1}` : ''}
-            : {currentTask?.name}
+            {t('instructions.instructions.task')}
+            {activeTaskIndex !== undefined ? ` ${activeTaskIndex + 1}` : ''}:{' '}
+            {currentTask?.name}
           </h4>
           {/* "inline" is required to keep the cursor on the same line */}
           <div ref={typewriterRef} />

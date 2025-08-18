@@ -2,12 +2,11 @@
   .lg-container
     .container
       .lhs
-        .tag Let's get you coding!
+        .tag= t('.tag')
         %h2
-          %strong You're almost set up!
+          %strong= t('.heading_strong')
         %p.intro
-          Thanks for choosing to learn with us. 
-          We're really excited to help you learn #{@enrollment.course.name.downcase}!
+          = t('.intro_html', course_name: @enrollment.course.name.downcase).html_safe
 
         %div{ class: "hidden lg:block" }
           = render partial: "courses/pay/upsell", locals: { enrollment: @enrollment }

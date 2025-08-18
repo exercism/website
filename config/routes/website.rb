@@ -285,3 +285,5 @@ get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :co
 namespace :localization do
   resource :translator, only: %i[new create]
 end
+
+root to: "pages#index"

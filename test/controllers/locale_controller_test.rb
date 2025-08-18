@@ -81,4 +81,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal "no-store", response.headers["Cache-Control"]
   end
+
+  test "redirect /en/... to /..." do
+    get "/en/tracks/ruby"
+    assert_redirected_to "/tracks/ruby", status: :moved_permanently
+  end
+
+  test "redirect /en to /" do
+    get "/en"
+    assert_redirected_to "/", status: :moved_permanently
+  end
 end

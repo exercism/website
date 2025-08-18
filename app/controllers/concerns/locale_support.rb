@@ -32,10 +32,20 @@ module LocaleSupport
   end
 
   # Locale extracted from leading path segment if present and supported, excluding :en
-  def locale_from_path
+  def specified_locale
     locale = params[:locale]
     return nil unless locale.present?
     return nil if locale == default_locale # English lives at root
+
+    locale
+  end
+
+  def locale_from_path
+    return unless params[:locale]
+
+    locale = request.path.to_s.sub(%r{^/}, '').split('/').first
+
+    return unless supported_locales.map(&:to_s).include?(locale)
 
     locale
   end

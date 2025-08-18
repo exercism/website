@@ -5,7 +5,7 @@ module LocaleSupport
 
   included do
     helper_method :current_locale, :default_locale, :supported_locales,
-      :url_for_locale, :url_for_locale
+      :url_for_locale
   end
 
   def supported_locales = I18n.available_locales
@@ -58,32 +58,36 @@ module LocaleSupport
     rescue StandardError
       nil
     end
-    if uri
-      path = uri.path
-      query = uri.query
+    path = uri&.path || fullpath
+
+    # Break into segments, ignore blanks (so /foo/ -> ["foo"])
+    segments = path.split("/").reject(&:empty?)
+
+    # Drop existing locale if present
+    segments.shift if segments.first && normalize_locale(segments.first).present?
+
+    # Skip prefix if using default locale
+    loc = "" if loc == default_locale
+
+    # Build path string (no leading slash yet)
+    new_path = ([loc] + segments).reject(&:empty?).join("/")
+
+    # Parse query params
+    query_string = uri&.query.to_s
+
+    if add_loop_breaker_query_param
+      query_hash = Rack::Utils.parse_nested_query(query_string)
+      qp = LocaleSupport::QUERY_PARAM.to_s
+      query_hash[qp] ||= "1" # only add if not already present
+      query_string = Rack::Utils.build_query(query_hash)
+    end
+
+    if path_only
+      ["/#{new_path.presence}", query_string.presence].compact.join("?")
+    elsif new_path.empty?
+      [request.base_url, query_string.presence].compact.join("?")
     else
-      path  = fullpath
-      query = nil
+      ["#{request.base_url}/#{new_path}", query_string.presence].compact.join("?")
     end
-    # Strip any existing leading locale segment before adding new one
-    segments = path.to_s.sub(%r{^/}, '').split('/') # Remove leading slash and split into segments
-
-    # If we have a locale, remove it.
-    path_locale = normalize_locale(segments[0])
-    segments.shift if path_locale.present?
-    path = "/#{segments.join('/')}"
-
-    loc = "" if loc == default_locale # Don't prefix with "en" for English
-
-    new_path = "/#{loc}#{path}".gsub(%r{/{2,}}, "/")
-    new_path += "?#{query}" if query.present?
-
-    # Add one-time loop-breaker for server-side redirects only
-    if add_loop_breaker_query_param && !new_path.include?("#{LocaleSupport::QUERY_PARAM}=")
-      new_path += (query.present? ? "&" : "?") + "#{LocaleSupport::QUERY_PARAM}=1"
-    end
-    new_path = new_path.chomp('/') # Strip trailing slash
-
-    path_only ? new_path : "#{request.protocol}#{request.hostname}#{new_path}"
   end
 end

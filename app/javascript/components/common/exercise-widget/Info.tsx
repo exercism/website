@@ -46,7 +46,7 @@ export const Info = ({
         ) : null}
         {solution && solution.hasNotifications ? (
           <div className="c-notification-dot">
-            <span className="sr-only">{t('.info.hasNotifications')}</span>
+            <span className="sr-only">{t('info.hasNotifications')}</span>
           </div>
         ) : null}
 

@@ -65,7 +65,9 @@ get "sitemap-tracks-:track_id" => "sitemaps#track", as: :sitemap_track
 
 get "ihid", to: 'pages#ihid'
 get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
-get "javascript-i18n/:git_sha/:locale.js", to: 'pages#javascript_i18n', as: :javascript_i18n
+
+# Do not rename this param to locale as that's reserved
+get "javascript-i18n/:git_sha/:i18n_locale.js", to: 'pages#javascript_i18n', as: :javascript_i18n
 
 ##############
 # ELB routes #

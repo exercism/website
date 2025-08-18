@@ -127,11 +127,7 @@
     "react-fast-compare": "^3.2.0",
     "react-google-recaptcha": "^2.1.0",
     "react-hot-toast": "^2.5.2",
-<<<<<<< HEAD
-    "react-i18next": "^15.6.0",
-=======
     "react-i18next": "^15.6.1",
->>>>>>> 47a20759d (Add i18n js backend file loader (#8099))
     "react-image-crop": "^8.6.9",
     "react-modal": "^3.16.1",
     "react-popper": "^2.3.0",

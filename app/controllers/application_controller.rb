@@ -36,11 +36,6 @@ class ApplicationController < ActionController::Base
     render status: :bad_request, json: { errors: [e.message] }
   end
 
-  def switch_locale!(&action)
-    locale = params[:locale].presence || I18n.default_locale
-    I18n.with_locale(locale, &action)
-  end
-
   # rubocop:disable Naming/MemoizedInstanceVariableName
   def current_user
     return super if Rails.env.production?

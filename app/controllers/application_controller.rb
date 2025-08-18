@@ -52,11 +52,6 @@ class ApplicationController < ActionController::Base
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
 
-  def switch_locale!(&action)
-    locale = params[:locale] || I18n.default_locale
-    I18n.with_locale(locale, &action)
-  end
-
   def ensure_onboarded!
     return unless user_signed_in?
     return if current_user.onboarded?

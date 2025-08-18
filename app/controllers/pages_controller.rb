@@ -69,6 +69,9 @@ class PagesController < ApplicationController
   def javascript_i18n
     expires_in 5.minutes, public: true
 
+    # Do not rename this param to locale as that's reserved
+    params[:i18n_locale]
+
     # TOOD: Check locale is a valid string
     # TODO: Whenever a JS translation is updated, we need to regenerate this.
     # filepath = Rails.root.join('public', 'i18n', 'javascript', "#{locale.to_sym}.js")

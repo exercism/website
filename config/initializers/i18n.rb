@@ -23,5 +23,5 @@ I18n.backend = I18n::Backend::Chain.new(
 )
 
 # TODO
-Rails.application.config.i18n.available_locales = %i[en hu]
+Rails.application.config.i18n.available_locales = %i[en hu nl de pt pt-BR]
 Rails.application.config.i18n.default_locale    = :en

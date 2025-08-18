@@ -6,6 +6,7 @@ module LocaleRouting
   included do
     # Order matters:
     before_action :maybe_redirect_user_to_correct_locale!
+    before_action :maybe_redirect_en_to_naked!
     around_action :switch_locale!
   end
 
@@ -26,8 +27,18 @@ module LocaleRouting
     redirect_to path_for_locale(user_locale, request.fullpath), allow_other_host: false, status: :found
   end
 
+  def maybe_redirect_en_to_naked!
+    return unless html_request?             # Only HTML requests.
+    return unless request.get?              # Only GETs
+
+    locale = locale_from_path
+    return unless locale == "en"
+
+    redirect_to request.fullpath.sub(%r{^/en}, ''), allow_other_host: false, status: :found
+  end
+
   def switch_locale!(&action)
-    locale = locale_from_path || default_locale
+    locale = specified_locale || default_locale
     I18n.with_locale(locale, &action)
   end
 

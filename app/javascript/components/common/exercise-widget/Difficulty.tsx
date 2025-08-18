@@ -25,7 +25,9 @@ export const Difficulty = ({
     case 'medium':
       return (
         <div className={`c-difficulty-tag --medium ${sizeClassName}`}>
-          <div className="icon"></div>Medium
+          <div className="icon"></div>
+
+          {t('difficulty.medium')}
         </div>
       )
     case 'hard':

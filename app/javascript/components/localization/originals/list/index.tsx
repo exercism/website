@@ -1,4 +1,4 @@
-/// <reference path="./types.d.ts" />
+/// <reference path="../types.d.ts" />
 import React, { createContext } from 'react'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'

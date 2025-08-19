@@ -10,12 +10,10 @@ export const OriginalsShowContext =
 export default function ({
   original,
   currentUserId,
-}: {
-  original: Original
-  currentUserId: number
-}) {
+  links,
+}: OriginalsShowProps) {
   return (
-    <OriginalsShowContext.Provider value={{ original }}>
+    <OriginalsShowContext.Provider value={{ original, currentUserId, links }}>
       <Header />
       <Body />
     </OriginalsShowContext.Provider>

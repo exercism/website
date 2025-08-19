@@ -121,6 +121,13 @@ module ViewComponents
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
           icon_filter: "textColor6"
+        },
+        {
+          title: "Translators",
+          description: "Support our Localization project",
+          path: Exercism::Routes.new_localization_translator_path,
+          icon: :contributors,
+          icon_filter: "textColor6"
         }
       ].freeze
 

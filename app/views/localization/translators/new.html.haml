@@ -16,7 +16,14 @@
 
 .lg-container.flex.mt-24
   .content.flex.flex-col.items-center.text-center.text-balance.mx-auto{ class: "max-w-[820px]" }
-    - if current_user.translator_locales.present?
+    - if !user_signed_in?
+      %h2.text-h2.mb-8 Join the Team!
+      %p.text-p-xlarge.mb-12 To help in our translation project, please log into Exercism (or create an account if you're new around here!)
+      .flex.gap-8.mb-32
+        = link_to "Log In", new_user_session_path, class: 'btn-l btn-primary !px-40'
+        = link_to "Sign Up", new_user_registration_path, class: 'btn-l btn-secondary !px-40'
+
+    - elsif current_user.translator_locales.present?
       = form_with url: localization_translator_path, class: "flex flex-col max-w-[600px] mb-40" do
         %h2.text-h2.mb-8 You're signed up to be a translator!
         %p.text-p-large.mb-12

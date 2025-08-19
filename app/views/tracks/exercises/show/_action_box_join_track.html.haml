@@ -2,14 +2,21 @@
 - concept_link = if track.course?
   - link_to t('.concept_plural', count: user_track.num_concepts), track_concepts_path(track)
 - exercise_link = link_to t('.exercise_plural', count: user_track.num_exercises), track_exercises_path(track)
-- links_html = [concept_link, exercise_link].compact.join(" and ")
 
 .join-box
   .icons= track_icon track
   %h3
     = t('.title', exercise_title: exercise.title)
   %p.mb-12
-    = t('.description_html', track_title: track.title, links_html:).html_safe
+    - if concept_link
+      = t('.description_with_two_links_html',
+          track_title: track.title,
+          concepts_link: concept_link,
+          exercises_link: exercise_link)
+    - else
+      = t('.description_with_one_link_html',
+          track_title: track.title,
+          exercises_link: exercise_link)
 
   .buttons
     = button_to t('.join_track_button', track_title: track.title), join_track_path(track), method: :post, class: "btn-primary btn-m"

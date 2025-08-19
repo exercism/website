@@ -1,6 +1,7 @@
 class Localization::OriginalsController < ApplicationController
   def index
     @originals = AssembleLocalizationOriginals.(current_user, params)[:results]
+    @originals_params = params.permit(:criteria, :status, :page)
   end
 
   def show

@@ -1,15 +1,19 @@
 import React from 'react'
 import Icon from '@/components/common/Icon'
-import { flagForLocale } from '@/utils/flag-for-locale'
 import { Proposed } from './Proposed'
 import { Unchecked } from './Unchecked'
 import { Checked } from './Checked'
 
-const OriginalsShowContext = React.createContext<OriginalsShowContextType>(
-  {} as OriginalsShowContextType
-)
+export const OriginalsShowContext =
+  React.createContext<OriginalsShowContextType>({} as OriginalsShowContextType)
 
-export default function ({ original }: { original: Original }) {
+export default function ({
+  original,
+  currentUserId,
+}: {
+  original: Original
+  currentUserId: number
+}) {
   return (
     <OriginalsShowContext.Provider value={{ original }}>
       <Header />
@@ -66,7 +70,6 @@ function LHS() {
                 <Proposed
                   // @ts-ignore
                   translation={translation}
-                  currentUserId={1530}
                   key={index}
                 />
               )

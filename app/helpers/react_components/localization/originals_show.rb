@@ -5,7 +5,8 @@ module ReactComponents
 
       def to_s
         super("localization-originals-show", {
-          original:
+          original:,
+          current_user_id: current_user&.id
         })
       end
     end

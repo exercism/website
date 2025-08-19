@@ -23,6 +23,8 @@ type Translation = {
   uuid: string
   locale: string
   status: string
+  value?: string
+  proposal?: string[]
 }
 
 type OriginalsListData = {
@@ -59,4 +61,6 @@ type OriginalsShowProps = {
   links?: { localizationOriginalsPath: string; endpoint: string }
 }
 
-type OriginalsShowContextType = Pick<OriginalsShowProps, 'original'>
+type OriginalsShowContextType = Pick<OriginalsShowProps, 'original'> & {
+  currentUserId: number
+}

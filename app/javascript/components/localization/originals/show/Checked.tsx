@@ -1,11 +1,14 @@
-import { Icon } from '@/components/common'
 import React from 'react'
+import { Icon } from '@/components/common'
+import { nameForLocale } from '@/utils/name-for-locale'
 
 export function Checked({ translation }: { translation: Translation }) {
   return (
     <div className="locale checked">
       <div className="header">
-        <div className="text-h4">Locale Name (locale-code)</div>
+        <div className="text-h4">
+          {nameForLocale(translation.locale)} ({translation.locale})
+        </div>
         <div className="status">
           <Icon
             icon="completed-check-circle"
@@ -20,7 +23,7 @@ export function Checked({ translation }: { translation: Translation }) {
           This translation has been signed off by two translators. No action is
           needed.
         </p>
-        <div className="locale-value mb-12">Translation Value</div>
+        <div className="locale-value mb-12">{translation.value}</div>
       </div>
     </div>
   )

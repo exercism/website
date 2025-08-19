@@ -1,12 +1,16 @@
 import React from 'react'
+import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
+import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 export function Unchecked({ translation }: { translation: Translation }) {
+  useLogger('translation', translation)
   return (
     <div className="locale unchecked">
       <div className="header">
-        {/* TODO GET LOCALE NAME */}
-        <div className="text-h4">Locale Name ({translation.locale})</div>
+        <div className="text-h4">
+          {nameForLocale(translation.locale)} ({translation.locale})
+        </div>
         <div className="status">Needs Checking</div>
 
         <div className="flag">{flagForLocale(translation.locale)}</div>

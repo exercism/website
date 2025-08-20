@@ -1,3 +1,5 @@
-Unavailable.
-
-= link_to "Back to list", mentoring_queue_path
+#page-mentoring-unavailable
+  .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
+    = graphical_icon "error-404", category: :graphics, css_class: 'w-[120px] h-[120px] mb-24'
+    %h1.text-h1.mb-16= t('.unavailable')
+    = link_to t('.back_to_list'), mentoring_queue_path, class: 'btn-primary btn-l'

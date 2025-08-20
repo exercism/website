@@ -72,4 +72,17 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)
   end
+
+  test "unavailable action renders properly" do
+    mentor = create :user
+    sign_in!(mentor)
+
+    request = create :mentor_request
+
+    get unavailable_mentoring_request_path(request)
+    assert_response :success
+    assert_select "#page-mentoring-unavailable"
+    assert_select "h1", text: "Sorry, this mentoring session is no longer available"
+    assert_select "a.btn-primary", text: "Back to list"
+  end
 end

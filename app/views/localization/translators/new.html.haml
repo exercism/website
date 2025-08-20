@@ -1,0 +1,73 @@
+- require_stylesheet "about"
+- require_stylesheet "track"
+
+%nav.c-header-with-bg.mb-32.pb-24
+  .lg-container.flex.mt-24
+    .content.flex.flex-col.items-center.text-center.text-balance.mx-auto{ class: "max-w-[820px]" }
+      = graphical_icon "world", category: :graphics, css_class: 'w-[190px] h-[190px] mb-12'
+      %h1.text-h1.mb-12 Exercism in Your Language
+      %p.text-p-xlarge.mb-16
+        We're translating Exercism into
+        %strong.font-semibold all the languages
+        and we
+        %strong.font-semibold need your help!
+      %p.text-p-xlarge.mb-16
+        If you'd like to help translate Exercism into the language(s) you know, please fill out the form below and we'll be in touch in the next couple of weeks with details!
+
+.lg-container.flex.mt-24
+  .content.flex.flex-col.items-center.text-center.text-balance.mx-auto{ class: "max-w-[820px]" }
+    - if !user_signed_in?
+      %h2.text-h2.mb-8 Join the Team!
+      %p.text-p-xlarge.mb-12 To help in our translation project, please log into Exercism (or create an account if you're new around here!)
+      .flex.gap-8.mb-32
+        = link_to "Log In", new_user_session_path, class: 'btn-l btn-primary !px-40'
+        = link_to "Sign Up", new_user_registration_path, class: 'btn-l btn-secondary !px-40'
+
+    - elsif current_user.translator_locales.present?
+      = form_with url: localization_translator_path, class: "flex flex-col max-w-[600px] mb-40" do
+        %h2.text-h2.mb-8 You're signed up to be a translator!
+        %p.text-p-large.mb-12
+          %strong.font-semibold Thank you! We'll be in touch soon!
+          These are the languages which you've signed up to translate Exercism into.
+
+        - 5.times do |idx|
+          .styled-selected.mb-8.text-18
+            = select_tag "locales[]", options_for_select(@locale_options, selected: current_user.translator_locales[idx].to_s), prompt: idx.zero? ? "Please select at least one language..." : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
+
+        = button_tag "Update your languages", class: 'btn-l btn-primary mt-12'
+
+    - else
+      = form_with url: localization_translator_path, class: "flex flex-col max-w-[550px] mb-40" do
+        %h2.text-h2.mb-8 Join the Team!
+        %p.text-p-large.mb-12 Choose up to 5 languages that you want to help translate.
+
+        - 5.times do |idx|
+          .styled-selected.mb-8.text-18
+            = select_tag "locales[]", options_for_select(@locale_options), prompt: idx.zero? ? "Please select at least one language..." : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
+
+        = button_tag "Become a translator!", class: 'btn-l btn-primary mt-12'
+
+    %hr.c-divider.mt-28.mb-36
+
+    %h2.text-h1.mb-24 FAQs
+    %h4.text-22.font-semibold.mb-12.text-textColor2 What does being a translator involve?
+    %p.text-p-xlarge.mb-40
+      Translators will help us translate the Exercism website, documentation, and other content into their chosen languages. This will involve translating text, reviewing translations, and ensuring that the content is culturally appropriate and accurate.
+      We are generating machine translations first then asking translators to review and improve them.
+
+    %h4.text-22.font-semibold.mb-12.text-textColor2 How much time will it take?
+    %p.text-p-xlarge.mb-40
+      You can spend as much time as you're willing to give to the project.
+      We are hoping to build large teams of translators for each language, who can work together to quickly give us a great first version.
+
+    %h4.text-22.font-semibold.mb-12.text-textColor2 Is there any payment or reward?
+    %p.text-p-xlarge.mb-40
+      All of Exercism's content is created by volunteers who give their time to help others.
+      Like other parts of the site, there is no financial reward for helping, but you will
+      %strong.font-sembold receive Exercism Reptuation
+      which boosts your public profile!
+
+    %h4.text-22.font-semibold.mb-12.text-textColor2 When do we start?
+    %p.text-p-xlarge.mb-40
+      Soon! We're currently finishing building the UI you'll use, and creating our initial machine-translations.
+      We hope to be ready near the start of September for you!

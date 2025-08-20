@@ -165,6 +165,10 @@ Rails.application.routes.draw do
     resources :track_categories, only: %i[index create]
   end
 
+  namespace :localization do
+    resource :translator, only: %i[new create]
+  end
+
   namespace :contributing do
     root to: "dashboard#show"
     resources :contributors, only: [:index]

@@ -1,32 +1,53 @@
 module LocalizationHelper
-  def translate_exercise_introduction(exercise, introduction, markdown: false)
-    translated = Localization::Content::TranslateExerciseIntroduction.(exercise, introduction, locale: I18n.locale)
-    return unless translated
+  def translate_exercise_introduction(exercise, markdown: false, solution: nil)
+    # We're not syncing old exercise versions, so if someone
+    # has an old version, encourage them to upgrade instead
+    if solution && !solution.synced_with_exercise?
+      return translation_or_out_of_date_guard(:exercise_introduction, solution.introduction, markdown:)
+    end
 
-    (markdown ? Markdown::Parse.(translated) : translated).html_safe
+    translation = Localization::Content::TranslateExerciseIntroduction.(exercise, locale: I18n.locale)
+
+    maybe_parse_as_markdown(translation, markdown) if translation
 
     # TODO: Render waiting widget here...
   end
 
-  def translate_exercise_instructions(exercise, instructions, markdown: false)
-    translated = Localization::Content::TranslateExerciseInstructions.(exercise, instructions, locale: I18n.locale)
-    return unless translated
+  def translate_exercise_instructions(exercise, markdown: false, solution: nil)
+    # We're not syncing old exercise versions, so if someone
+    # has an old version, encourage them to upgrade instead
+    if solution && !solution.synced_with_exercise?
+      return translation_or_out_of_date_guard(:exercise_instructions, solution.instructions, markdown:)
+    end
 
-    (markdown ? Markdown::Parse.(translated) : translated).html_safe
+    translation = Localization::Content::TranslateExerciseInstructions.(exercise, locale: I18n.locale)
+    maybe_parse_as_markdown(translation, markdown) if translation
 
     # TODO: Render waiting widget here...
   end
 
   def translate_text(text, markdown: false)
-    if I18n.locale == :en
-      return (markdown ? Markdown::Parse.(text) : text).html_safe
-    end
+    return maybe_parse_as_markdown(text, markdown) if I18n.locale == :en
 
-    translated = Localization::Text::Translate.(text, I18n.locale)
-    return unless translated.present?
+    translation = Localization::Text::Translate.(text, I18n.locale)
+    return unless translation.present?
 
-    (markdown ? Markdown::Parse.(translated) : translated).html_safe
+    maybe_parse_as_markdown(translation, markdown)
 
     # TODO: Render waiting widget here...
+  end
+
+  private
+  def maybe_parse_as_markdown(text, markdown)
+    (markdown ? Markdown::Parse.(text) : text).html_safe
+  end
+
+  def translation_or_out_of_date_guard(type, text, markdown: false)
+    translation = Localization::Content::Retrieve.(type, text, I18n.locale)
+
+    return maybe_parse_as_markdown(translation, markdown) if translation
+
+    # TODO: Render instructions to update + the english version
+    maybe_parse_as_markdown(text, markdown)
   end
 end

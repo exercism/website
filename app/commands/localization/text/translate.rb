@@ -12,5 +12,5 @@ class Localization::Text::Translate
   end
 
   memoize
-  def key = Localization::Text::GenerateKey.(type, text)
+  def key = Localization::Text::GenerateKey.(text)
 end

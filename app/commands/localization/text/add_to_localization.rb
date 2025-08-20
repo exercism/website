@@ -46,5 +46,5 @@ class Localization::Text::AddToLocalization
   def existing_locales = original.translations.pluck(:locale)
 
   memoize
-  def key = Localization::Text::GenerateKey.(type, text)
+  def key = Localization::Text::GenerateKey.(text)
 end

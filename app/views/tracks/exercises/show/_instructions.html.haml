@@ -3,7 +3,7 @@
   - if introduction.present?
     .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
       %h2= t('.introduction_heading')
-      .mb-32= translate_exercise_introduction(exercise, introduction, markdown: true)
+      .mb-32= translate_exercise_introduction(exercise, solution:, markdown: true)
 
   - if exercise.tutorial?
     %h2= t('.introduction_heading')
@@ -16,8 +16,7 @@
       = vimeo_embed("853440496?h=6abbdfc68f")
 
   %h2= t('.instructions_heading')
-  - instructions = solution ? solution.instructions : exercise.instructions
-  = translate_exercise_instructions(exercise, instructions, markdown: true)
+  = translate_exercise_instructions(exercise, solution:, markdown: true)
 
   - if exercise.source.present? || exercise.source_url.present?
     .source
@@ -37,10 +36,5 @@
 
   = link_to "https://github.com/exercism/#{track.slug}/tree/main/exercises/#{exercise.git_type}/#{exercise.slug}", target: "_blank", rel: 'noreferrer' do
     = graphical_icon "external-site-github", css_class: "github-icon"
-<<<<<<< HEAD
     %span= t('.edit_via_github')
     = icon "external-link", t('.new_window_icon_alt'), css_class: "action-icon"
-=======
-    %span Edit via GitHub
-    = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
->>>>>>> bc1dce25f (Add localization generating flow)

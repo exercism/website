@@ -1,7 +1,7 @@
 class Localization::Content::TranslateExerciseIntroduction
   include Mandate
 
-  initialize_with :exercise, :introduction, locale: nil
+  initialize_with :exercise, locale: nil
 
   def call
     # Exit early if someone is actively requesting the English
@@ -17,6 +17,7 @@ class Localization::Content::TranslateExerciseIntroduction
   end
 
   private
+  delegate :introduction, to: :exercise
   def type = :exercise_introduction
-  def key = Localization::Text::GenerateKey.(type, introduction)
+  def key = Localization::Text::GenerateKey.(introduction)
 end

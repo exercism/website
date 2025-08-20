@@ -1,10 +1,10 @@
 class Localization::Text::GenerateKey
   include Mandate
 
-  initialize_with :type, :text
+  initialize_with :text
 
   def call
-    "#{type}.#{digest}"
+    "arbitary.#{digest}"
   end
 
   memoize

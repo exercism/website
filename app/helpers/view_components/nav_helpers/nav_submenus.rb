@@ -35,7 +35,8 @@ module ViewComponents
           description: "Revisit your favorite solutions",
           path: Exercism::Routes.favorites_path,
           icon: 'nav-favorites',
-          view: :favorites
+          view: :favorites,
+          is_new: true
         }
       ].freeze
 
@@ -126,7 +127,8 @@ module ViewComponents
           title: "Translators",
           description: "Support our Localization project",
           path: Exercism::Routes.new_localization_translator_path,
-          icon: :contributors,
+          icon: :world,
+          is_new: true,
           icon_filter: "textColor6"
         }
       ].freeze
@@ -166,7 +168,8 @@ module ViewComponents
           description: "Backup your solutions to GitHub",
           path: Exercism::Routes.settings_github_syncer_path,
           icon: 'feature-github-sync',
-          icon_filter: "textColor6"
+          icon_filter: "textColor6",
+          is_new: true
         },
 
         {

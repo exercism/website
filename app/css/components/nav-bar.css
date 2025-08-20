@@ -193,6 +193,14 @@
 
                         h6 {
                             @apply text-h6 text-textColor1 mb-2;
+
+                            .new {
+                                @apply bg-orange text-white uppercase text-[11px];
+                                @apply px-8 py-2 ml-8;
+                                @apply rounded-8;
+                                @apply inline;
+                                @apply align-top;
+                            }
                         }
 
                         p {

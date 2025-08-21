@@ -6,13 +6,14 @@ class CreateLocalizationOriginals < ActiveRecord::Migration[7.1]
 
       t.string :key, null: false
       t.text :value, null: false
-      t.string :object_id, null: true
+      t.string :about_id, null: true
+      t.text :usage_details, null: true
       t.timestamps
 
       t.index :uuid, unique: true
       t.index :key, unique: true
       t.index :type
-      t.index [:type, :object_id]
+      t.index [:type, :about_id]
     end
   end
 end

@@ -25,7 +25,7 @@ class Localization::Original::Prompts::General
 
       This is information about how it's used:
       ~~~~~~
-      #{original.data[:context]}
+      #{original.usage_details}
       ~~~~~~
 
       Respond with JSON.

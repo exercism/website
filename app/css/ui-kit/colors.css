@@ -728,27 +728,27 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorA-RGB: 6 13 2;
     /* ON TRACKS */
     --backgroundColorB: #1a2515;
-    --backgroundColorC: var(--c-302B42);
+    --backgroundColorC: #1a3015;
     /* ON TRACKS (under --row-selected-background-color) */
-    --backgroundColorD: var(--c-3A3557); /* Confirmed */
-    --backgroundColorE: theme(colors.englishViolet);
-    --backgroundColorF: theme(colors.eerieBlack);
-    --backgroundColorG: var(--c-2F2943);
-    --backgroundColorH: var(--c-F0F3F9);
+    --backgroundColorD: #2a4020; /* Confirmed */
+    --backgroundColorE: #0f2308;
+    --backgroundColorF: #000b00;
+    --backgroundColorG: #1e2f18;
+    --backgroundColorH: #0a1303;
     /* ON TRACKS progress bar backgorund */
     --backgroundColorI: #174500;
-    --backgroundColorITransparent: rgba(25, 21, 37, 0);
+    --backgroundColorITransparent: rgba(6, 13, 2, 0);
     --backgroundColorJ: var(--backgroundColorB);
-    --backgroundColorBorderGradientLightPurple: theme(colors.darkBlueGray);
-    --backgroundColorNotifications: theme(colors.eerieBlack);
+    --backgroundColorBorderGradientLightPurple: #1a3015;
+    --backgroundColorNotifications: #000b00;
     
     /* ON TRACKS */
     --backgroundColorNotificationsCount: #00e9ff;
-    --backgroundColorAnnouncementBar: theme(colors.vividPurple);
-    --backgroundColorSiteFooter: theme(colors.eerieBlack);
+    --backgroundColorAnnouncementBar: #003d0a;
+    --backgroundColorSiteFooter: #000b00;
     /* ON TRACKS */
     --backgroundColorTracksListState: #54e90a;
-    --backgroundColorMentoringRequestedStatusInfo: theme(colors.purple);
+    --backgroundColorMentoringRequestedStatusInfo: #003d0a;
     --backgroundColorCAlert: none;
     --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
@@ -761,22 +761,22 @@ body.namespace-.controller-insiders.theme-light,
     --textColorIterationCommentsUnread: theme(colors.midnightBlue);
     --borderColorIterationActive: theme(colors.launchingYellow);
     --textColorIterationActive: theme(colors.launchingYellow);
-    --backgroundColorEDAvailable: theme(colors.eerieBlack);
-    --backgroundColorEDIterated: theme(colors.purple);
+    --backgroundColorEDAvailable: #000b00;
+    --backgroundColorEDIterated: #003d0a;
     --backgroundColorMentorTrackSelectorSelected: none;
-    --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
+    --backgroundColorExerciseStatusTagInProgress: #0f2308;
     --backgroundColorExerciseStatusTagLocked: none;
     --backgroundColorConceptMastered: none;
     --backgroundColorConceptLocked: var(--backgroundColorA);
     --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
-    --backgroundColorEditorActiveLine: #302b4288;
+    --backgroundColorEditorActiveLine: #1e2f1888;
     --backgroundColorTeamHeader: theme(colors.darkBlueGray);
     --backgroundColorTeamInfoBox: theme(colors.eerieBlack);
     --backgroundColorImpactPage: theme(colors.eerieBlack);
     --backgroundColorNotificationsUnreadDot: theme(colors.seafoamGreen);
     --backgroundColorBuildToolingStatus: none;
-    --backgroundColorBtnSecondary: theme(colors.russianViolet);
+    --backgroundColorBtnSecondary: #1e2f18;
     --backgroundColorBtnSecondaryHover: theme(colors.eerieBlack);
     --backgroundColorMentorTestimonialsNew: theme(colors.launchingYellow);
     --backgroundColorExternalCTA: none;
@@ -788,8 +788,8 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorContributingAdvanced: none;
     --backgroundColorSummaryStatusFailed: #f1707026;
     --backgroundColorSummaryStatusFailedBar: #f17070;
-    --backgroundColorReputationInfo: theme(colors.russianViolet);
-    --backgroundColorNavDropdown: theme(colors.eerieBlack);
+    --backgroundColorReputationInfo: #1e2f18;
+    --backgroundColorNavDropdown: #000b00;
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
     --backgroundColorHoverMenuTrack: #3a3557;
     --backgroundColorPerkContainer: #103;
@@ -821,7 +821,7 @@ body.namespace-.controller-insiders.theme-light,
     --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);
     --borderColor7: #433f56;
-    --borderColor8: theme(colors.englishViolet);
+    --borderColor8: #2a4020;
     --borderColorContributionTasksTag: theme(colors.gray);
     --borderColorContributorCreditBlock: theme(colors.gray);
     --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
@@ -883,8 +883,8 @@ body.namespace-.controller-insiders.theme-light,
     /* ON TRACKS */
     --inputBackgroundColor: #0a1303;
     --inputBorderColorFocus: var(--c-8480A0);
-    --tabBackgroundColorSelected: theme(colors.purple);
-    --tabBackgroundColorSelectedLocked: theme(colors.purpleDimmed);
+    --tabBackgroundColorSelected: #003d0a;
+    --tabBackgroundColorSelectedLocked: #002207;
     --successColor: var(--c-4FCDA7);
     --chartBorderColor: var(--c-6A6781);
 

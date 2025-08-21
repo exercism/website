@@ -1,32 +1,32 @@
 .track-team-group
   .track-header.mb-16
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-      %h3.--analyzer-gradient= t('.analyzer_header')
+      %h3.--analyzer-gradient= t('.analyzer_heading')
       = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
-        = t('shared.learn_more')
+        = t('.learn_more_button')
     %p= t('.analyzer_description', track_title: track.title)
 
   - if status.analyzer.health == "missing"
     .action-required
-      = t('.next_goal.build_analyzer')
+      = t('.next_goal_build_analyzer')
       = link_to doc_path(:building, "tooling/analyzers/interface") do
-        = t('shared.find_out_more')
+        = t('.find_out_more_button')
   - else
     %p.text-16
       = t('.current_version_label')
       %strong= current_sha
-      %span.italic= t('.deployment_note')
+      %span.italic= t('.deploy_time_notice')
 
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
       .record-row
-        .record-name= t('.total_analyzer_runs')
+        .record-name= t('.total_analyzer_runs_label')
         .record-value= number_with_delimiter(status.analyzer.num_runs)
       .record-row
-        .record-name= t('.total_analysis_comments_made')
+        .record-name= t('.total_analysis_comments_made_label')
         .record-value= number_with_delimiter(status.analyzer.num_comments)
       .record-row
-        .record-name= t('.feedback_given_frequency')
+        .record-name= t('.feedback_given_frequency_label')
         .record-value= t('.percentage_value', percentage: status.analyzer.display_rate_percentage)
 
   = render ReactComponents::Common::Credits.new(status.analyzer.volunteers.users, status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')

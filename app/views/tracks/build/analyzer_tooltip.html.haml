@@ -3,19 +3,19 @@
     = graphical_icon 'analyzer', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        = t('.analyzer_title', track_title: @track.title)
+        = t('.analyzer_heading', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.analyzer.health)
 
       %p.text-p-base
         - case @status.analyzer.health.to_sym
         - when :exemplar
-          = t('.feedback.exemplar', display_rate_percentage: @status.analyzer.display_rate_percentage)
+          = t('.feedback_exemplar', display_rate_percentage: @status.analyzer.display_rate_percentage)
         - when :healthy
-          = t('.feedback.healthy', display_rate_percentage: @status.analyzer.display_rate_percentage)
+          = t('.feedback_healthy', display_rate_percentage: @status.analyzer.display_rate_percentage)
         - when :needs_attention
-          = t('.feedback.needs_attention')
+          = t('.feedback_needs_attention')
         - when :missing
-          = t('.feedback.missing')
+          = t('.feedback_missing')
 
       - if @status.analyzer.num_comments.positive?
         %p.text-p-base

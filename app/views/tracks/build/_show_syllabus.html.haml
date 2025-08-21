@@ -2,79 +2,79 @@
   .track-team-group
     .track-header.mb-16
       .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-        %h3.--syllabus-gradient= t('.syllabus_header', track_title: track.title)
+        %h3.--syllabus-gradient= t('.syllabus_heading', track_title: track.title)
         = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
-          = t('shared.learn_more')
+          = t('.learn_more_button')
       %p= t('.syllabus_description')
 
     - if status.syllabus.concepts.active.size < status.syllabus.concepts.num_active_target
       .action-required.mb-24
-        = t('.next_goal.create_syllabus', num_active_target: status.syllabus.concepts.num_active_target)
+        = t('.next_goal_create_syllabus', num_active_target: status.syllabus.concepts.num_active_target)
         = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
-          = t('shared.find_out_more')
+          = t('.find_out_more_button')
 
     - unless status.syllabus.health == "missing"
 
       %details.mb-10
         %summary.--syllabus
-          = t('.concepts_summary', count: status.syllabus.concepts.active.size)
+          = t('.concepts_taught_summary', count: status.syllabus.concepts.active.size)
           = graphical_icon 'chevron-right', css_class: 'summary-chevron'
         - status.syllabus.concepts.active.each do |concept|
           .record-row
             .record-name
               = render ViewComponents::ConceptIcon.new(concept, :small)
               = concept.name
-            .record-value= t('.learnt_count', count: number_with_delimiter(concept.num_students_learnt))
+            .record-value= t('.num_students_learnt', count: number_with_delimiter(concept.num_students_learnt))
 
       %details
         %summary.--lightbulb
-          = t('.active_exercises_summary', count: status.syllabus.concept_exercises.active.size)
+          = t('.active_learning_exercises_summary', count: status.syllabus.concept_exercises.active.size)
           = graphical_icon 'chevron-right', css_class: 'summary-chevron'
         .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
           .record-name.mb-0
           .record-value
-            .record-element= t('shared.started')
-            .record-element= t('shared.attempts')
-            .record-element= t('shared.completions')
-            .record-element= t('shared.mentoring_requests')
+            .record-element= t('.started_label')
+            .record-element= t('.attempts_label')
+            .record-element= t('.completions_label')
+            .record-element= t('.mentoring_requests_label')
         - status.syllabus.concept_exercises.active.each do |exercise|
           .record-row
             .record-name
               = exercise_icon exercise
               = exercise.title
             .record-value
-              .record-element{ data: { record_label: t('shared.started') } }
+              .record-element{ data: { record_label: t('.started_label') } }
                 %strong= number_with_delimiter(exercise.num_started)
-              .record-element{ data: { record_label: t('shared.attempts') } }
-                %strong= t('shared.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
-              .record-element{ data: { record_label: t('shared.completions') } }
-                %strong= t('shared.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
-              .record-element{ data: { record_label: t('shared.mentoring_requests') } }
-                %strong= t('shared.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
+              .record-element{ data: { record_label: t('.attempts_label') } }
+                %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), num_submitted_average: exercise.num_submitted_average)
+              .record-element{ data: { record_label: t('.completions_label') } }
+                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), num_completed_percentage: exercise.num_completed_percentage)
+              .record-element{ data: { record_label: t('.mentoring_requests_label') } }
+                %strong= t('.mentoring_requests_value', num_mentoring_requests: number_with_delimiter(exercise.num_mentoring_requests), num_mentoring_requests_percentage: exercise.num_mentoring_requests_percentage)
 
       - if status.syllabus.concept_exercises.deprecated.size.positive?
         %details.mt-10
           %summary.--lightbulb
-            = t('.deprecated_exercises_summary', count: status.syllabus.concept_exercises.deprecated.size)
+            = t('.deprecated_learning_exercises_summary', count: status.syllabus.concept_exercises.deprecated.size)
             = graphical_icon 'chevron-right', css_class: 'summary-chevron'
           .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
             .record-name.mb-0
             .record-value
-              .record-element= t('shared.started')
-              .record-element= t('shared.attempts')
-              .record-element= t('shared.completions')
-              .record-element= t('shared.mentoring_requests')
+              .record-element= t('.started_label')
+              .record-element= t('.attempts_label')
+              .record-element= t('.completions_label')
+              .record-element= t('.mentoring_requests_label')
           - status.syllabus.concept_exercises.deprecated.each do |exercise|
             .record-row
               .record-name
                 = exercise_icon exercise
                 = exercise.title
               .record-value
-                .record-element{ data: { record_label: t('shared.started') } }
+                .record-element{ data: { record_label: t('.started_label') } }
                   %strong= number_with_delimiter(exercise.num_started)
-                .record-element{ data: { record_label: t('shared.attempts') } }
-                  %strong= t('shared.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
-                .record-element{ data: { record_label: t('shared.completions') } }
-                  %strong= t('shared.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
-                .record-element{ data: { record_label: t('shared.mentoring_requests') } }
-                  %strong= t('shared.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
+                .record-element{ data: { record_label: t('.attempts_label') } }
+                  %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), num_submitted_average: exercise.num_submitted_average)
+                .record-element{ data: { record_label: t('.completions_label') } }
+                  %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), num_completed_percentage: exercise.num_completed_percentage)
+                .record-element{ data: { record_label: t('.mentoring_requests_label') } }
+                  %strong= t('.mentoring_requests_value', num_mentoring_requests: number_with_delimiter(exercise.num_mentoring_requests), num_mentoring_requests_percentage: exercise.num_mentoring_requests_percentage)

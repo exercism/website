@@ -3,18 +3,19 @@
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
       %h3.--practice-exercises-gradient= t('.practice_exercises_heading')
       = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
-        = t('.learn_more')
+        = t('.learn_more_button')
     %p= t('.practice_exercises_description')
 
     %p.text-16.mt-16
-      = t('.synced_repo', synced_sha: track.synced_to_git_sha)
-      %span.italic= t('.updates_instant')
+      = t('.synced_repo_label')
+      %strong= track.synced_to_git_sha
+      %span.italic= t('.updates_instant_notice')
 
   - if status.practice_exercises.active.size < status.practice_exercises.num_active_target
     .action-required.mb-24
-      = t('.action_required.next_goal', count: status.practice_exercises.num_active_target, include_at_least: %w[exemplar health].include?(status.practice_exercises.health) ? '' : t('.action_required.at_least'))
+      = t('.next_goal_implement_exercises', count: status.practice_exercises.num_active_target, additional_text: (%w[exemplar health].include?(status.practice_exercises.health) ? '' : 'at least '))
       = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
-        = t('.action_required.find_out_more')
+        = t('.find_out_more_button')
 
   - unless status.practice_exercises.health == "missing"
 
@@ -26,24 +27,24 @@
         .record-row.sticky.z-1{ class: 'lg:top-0 top-[65px]' }
           .record-name
           .record-value
-            .record-element= t('.record_labels.started')
-            .record-element= t('.record_labels.attempts')
-            .record-element= t('.record_labels.completions')
-            .record-element= t('.record_labels.mentoring_requests')
+            .record-element= t('.started_column')
+            .record-element= t('.attempts_column')
+            .record-element= t('.completions_column')
+            .record-element= t('.mentoring_requests_column')
         - status.practice_exercises.active.each do |exercise|
           .record-row
             .record-name
               = exercise_icon exercise
               = exercise.title
             .record-value
-              .record-element{ data: { record_label: t('.record_labels.started') } }
+              .record-element{ data: { record_label: t('.started_column') } }
                 %strong= number_with_delimiter(exercise.num_started)
-              .record-element{ data: { record_label: t('.record_labels.attempts') } }
-                %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), num_submitted_average: exercise.num_submitted_average)
-              .record-element{ data: { record_label: t('.record_labels.completions') } }
-                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), num_completed_percentage: exercise.num_completed_percentage)
-              .record-element{ data: { record_label: t('.record_labels.mentoring_requests') } }
-                %strong= t('.mentoring_requests_value', num_mentoring_requests: number_with_delimiter(exercise.num_mentoring_requests), num_mentoring_requests_percentage: exercise.num_mentoring_requests_percentage)
+              .record-element{ data: { record_label: t('.attempts_column') } }
+                %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
+              .record-element{ data: { record_label: t('.completions_column') } }
+                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
+              .record-element{ data: { record_label: t('.mentoring_requests_column') } }
+                %strong= t('.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
 
 
     - if status.practice_exercises.deprecated.size.positive?
@@ -54,24 +55,24 @@
         .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
           .record-name
           .record-value
-            .record-element= t('.record_labels.started')
-            .record-element= t('.record_labels.attempts')
-            .record-element= t('.record_labels.completions')
-            .record-element= t('.record_labels.mentoring_requests')
+            .record-element= t('.started_column')
+            .record-element= t('.attempts_column')
+            .record-element= t('.completions_column')
+            .record-element= t('.mentoring_requests_column')
         - status.practice_exercises.deprecated.each do |exercise|
           .record-row
             .record-name
               = exercise_icon exercise
               = exercise.title
             .record-value
-              .record-element{ data: { record_label: t('.record_labels.started') } }
+              .record-element{ data: { record_label: t('.started_column') } }
                 %strong= number_with_delimiter(exercise.num_started)
-              .record-element{ data: { record_label: t('.record_labels.attempts') } }
-                %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), num_submitted_average: exercise.num_submitted_average)
-              .record-element{ data: { record_label: t('.record_labels.completions') } }
-                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), num_completed_percentage: exercise.num_completed_percentage)
-              .record-element{ data: { record_label: t('.record_labels.mentoring_requests') } }
-                %strong= t('.mentoring_requests_value', num_mentoring_requests: number_with_delimiter(exercise.num_mentoring_requests), num_mentoring_requests_percentage: exercise.num_mentoring_requests_percentage)
+              .record-element{ data: { record_label: t('.attempts_column') } }
+                %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
+              .record-element{ data: { record_label: t('.completions_column') } }
+                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
+              .record-element{ data: { record_label: t('.mentoring_requests_column') } }
+                %strong= t('.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
 
     - if status.practice_exercises.unimplemented.size.positive?
       %details.mt-10
@@ -85,7 +86,7 @@
               = exercise.title
             .record-value
               .record-element
-                = external_link_to t('.view_data'), exercise.links.self, class: 'external-link'
+                = external_link_to t('.view_data_link'), exercise.links.self, class: 'external-link'
 
     - if status.practice_exercises.foregone.size.positive?
       %details.mt-10
@@ -99,4 +100,4 @@
               = exercise.title
             .record-value
               .record-element
-                = external_link_to t('.view_data'), exercise.links.self, class: 'external-link'
+                = external_link_to t('.view_data_link'), exercise.links.self, class: 'external-link'

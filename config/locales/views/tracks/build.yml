@@ -1,25 +1,6 @@
 en:
   tracks:
     build:
-      show_syllabus:
-        syllabus_header: "%{track_title} syllabus"
-        syllabus_description:
-          "Help create the track syllabus: is a set of concepts and
-          learning exercises put together to teach foundational elements of the
-          programming language."
-        next_goal:
-          create_syllabus: "Next goal: Create a complete syllabus with at least
-            %{num_active_target} concepts."
-        concepts_summary:
-          one: 1 concept being taught
-          other: "%{count} concepts being taught"
-        learnt_count: "%{count} learnt"
-        active_exercises_summary:
-          one: 1 active learning exercise
-          other: "%{count} active learning exercises"
-        deprecated_exercises_summary:
-          one: 1 deprecated learning exercise
-          other: "%{count} deprecated learning exercises"
       analyzer_tooltip:
         analyzer_title: The %{track_title} analyzer
         feedback:
@@ -34,19 +15,14 @@ en:
         comments_made:
           one: 1 comment has been made.
           other: "%{count} comments have been made."
-      index_analyzer:
-        analyzer_header: Analyzer
-        analyzer_description: "Build an Analyzer for %{track_title}: Exercism's
-          analyzers automatically assess student's submissions and provide
-          mentor-style commentary."
-        next_goal:
-          build_analyzer: "Next goal: Build an Analyzer."
-        current_version_label: "Current version:"
-        deployment_note: (It may take a few mins to deploy new versions across all servers).
-        total_analyzer_runs: Total Analyzer Runs
-        total_analysis_comments_made: Total Analysis Comments Made
-        feedback_given_frequency: Feedback Given Frequency
-        percentage_value: "%{percentage}%%"
+        analyzer_heading: The %{track_title} analyzer
+        feedback_exemplar: Gives feedback on %{display_rate_percentage}% of the
+          submitted iterations!
+        feedback_healthy:
+          Gives feedback on %{display_rate_percentage}% of the submitted
+          iterations.
+        feedback_needs_attention: No feedback has been given.
+        feedback_missing: The analyzer has not yet been implemented.
       syllabus_tooltip:
         syllabus_title: The %{track_title} syllabus
         feedback:
@@ -56,39 +32,13 @@ en:
             one: Should have 1 more concept being implemented.
             other: Should have %{count} more concepts being implemented.
           missing: No concepts have been implemented.
-      index_representer:
-        representer_header: Representer
-        representer_description:
-          "Build a Representer: a bit of code that has the single
-          responsibility of taking a solution and returning a normalized
-          representation of it."
-        next_goal:
-          build_representer: "Next goal: Build a Representer."
-        current_version_label: "Current version:"
-        deployment_note: (It may take a few mins to deploy new versions across all servers).
-        total_representer_runs: Total Representer Runs
-        total_representation_comments_made: Total Representation Comments Made
-        feedback_given_frequency: Feedback Given Frequency
-        percentage_value: "%{percentage}%%"
-      show_test_runner:
-        test_runner_header: Test Runner
-        test_runner_description:
-          Create Test Runners that have the single responsibility
-          of taking a solution, running all tests and returning a standardized
-          output.
-        next_goal:
-          build_test_runner: "Next goal: Build a Test Runner."
-          target_version:
-            "Next goal: Get Test Runners to Version %{target_version}.
-            %{track_title} is currently utilising a Version %{current_version}
-            Test Runner."
-        current_version_label: "Current version:"
-        deployment_takes_time_note: (Takes up to 10 mins to deploy)
-        total_test_runner_runs: Total Test Runner Runs
-        test_run_pass_rate: Test Run Pass Rate
-        test_run_fail_rate: Test Run Fail Rate
-        test_run_error_rate: Test Run Error Rate
-        percentage_value_and_count: "%{percentage}%% (%{count})"
+        syllabus_heading: The %{track_title} syllabus
+        syllabus_exemplar: An impressive %{count} concepts are being taught!
+        syllabus_healthy: A respectable %{count} concepts are being taught.
+        syllabus_needs_attention:
+          one: Should have 1 more concept being implemented.
+          other: Should have %{count} more concepts being implemented.
+        syllabus_missing: No concepts have been implemented.
       representer_tooltip:
         representer_title: The %{track_title} representer
         feedback:
@@ -99,25 +49,246 @@ en:
         comments_made:
           one: 1 comment has been made.
           other: "%{count} comments have been made."
-      index_test_runner:
-        test_runner_header: Test Runner
+        representer_heading: The %{track_title} representer
+        representer_exemplar: Works exemplary!
+        representer_healthy: Works well.
+        representer_needs_attention: No feedback has been given via any representation.
+        representer_missing: The representer has not yet been implemented.
+      show_analyzer:
+        analyzer_heading: Analyzer
+        learn_more_button: Learn More
+        analyzer_description: "Build an Analyzer for %{track_title}: Exercism's
+          analyzers automatically assess student's submissions and provide
+          mentor-style commentary."
+        missing_analyzer_next_goal: "Next goal: Build an Analyzer."
+        find_out_more_button: Find out more.
+        current_version_label: "Current version:"
+        deploy_time_notice: (Takes up to 10 mins to deploy)
+        total_analyzer_runs_label: Total Analyzer Runs
+        total_analysis_comments_made_label: Total Analysis Comments Made
+        feedback_given_frequency_label: Feedback Given Frequency
+        percentage_value: "%{percentage}%"
+      show_practice_exercises:
+        practice_exercises_heading: Practice Exercises
+        learn_more_button: Learn More
+        practice_exercises_description:
+          Practice Exercises are exercises designed to
+          allow students to solve an arbitrary problem, with the aim of them
+          making use of the concepts they have learned so far.
+        synced_repo_label: "Synced primary repo:"
+        updates_instant_notice: (Updates should be instant)
+        next_goal_implement_exercises: "Next goal: Implement %{additional_text}%{count} practice exercises."
+        find_out_more_button: Find out more.
+        active_exercises_summary: "%{count} active practice exercises"
+        started_column: Started
+        attempts_column: Attempts
+        completions_column: Completions
+        mentoring_requests_column: Mentoring requests
+        attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
+        completions_value: "%{num_completed} (%{percentage}%)"
+        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
+        deprecated_exercises_summary: "%{count} deprecated practice exercises"
+        unimplemented_exercises_summary:
+          one: 1 unimplemented practice exercise
+          other: "%{count} unimplemented practice exercises"
+        view_data_link: View data
+        foregone_exercises_summary:
+          one: 1 foregone practice exercise
+          other: "%{count} foregone practice exercises"
+      index_syllabus:
+        syllabus_heading: "%{track_title} syllabus"
+        learn_more_button: Learn More
+        syllabus_description:
+          "Help create the track syllabus: is a set of concepts and
+          learning exercises put together to teach foundational elements of the
+          programming language."
+        next_goal_syllabus_concepts:
+          "Next goal: Create a complete syllabus with at
+          least %{count} concepts."
+        find_out_more_button: Find out more.
+        concepts_being_taught_summary: "%{count} concepts being taught"
+        students_learnt_count: "%{count} learnt"
+        active_learning_exercises_summary: "%{count} active learning exercises"
+        started_column: Started
+        attempts_column: Attempts
+        completions_column: Completions
+        mentoring_requests_column: Mentoring requests
+        attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
+        completions_value: "%{num_completed} (%{percentage}%)"
+        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
+        deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
+      show_tags:
+        programming_tags_heading: Programming Tags
+        learn_more_button: Learn More
+        tags_description:
+          Help manage the tags used to group, filter and recommend
+          solutions, approaches and articles.
+        tags_summary: "%{count} tags"
+      test_runner_tooltip:
+        test_runner_heading: The %{track_title} test runner
+        health_exemplar: Implements the latest version of the spec.
+        health_healthy: Could be upgraded from version %{current_version} to %{target_version}.
+        health_needs_attention:
+          Should be upgraded from version %{current_version} to
+          %{target_version}.
+        health_missing: The test runner has not yet been implemented.
+        iterations_tested:
+          one: 1 iteration has been tested.
+          other: "%{count} iterations have been tested."
+      index_practice_exercises:
+        practice_exercises_title: Practice Exercises
+        learn_more_button: Learn More
+        practice_exercises_description:
+          Practice Exercises are exercises designed to
+          allow students to solve an arbitrary problem, with the aim of them
+          making use of the concepts they have learned so far.
+        synced_primary_repo_label: "Synced primary repo:"
+        updates_instant_message: (Updates should be instant)
+        next_goal_message: "Next goal: Implement %{include_at_least}%{count} practice exercises."
+        find_out_more_link: Find out more.
+        active_exercises_summary:
+          one: 1 active practice exercise
+          other: "%{count} active practice exercises"
+        started_label: Started
+        attempts_label: Attempts
+        completions_label: Completions
+        mentoring_requests_label: Mentoring requests
+        attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
+        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
+        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
+        deprecated_exercises_summary:
+          one: 1 deprecated practice exercise
+          other: "%{count} deprecated practice exercises"
+        unimplemented_exercises_summary:
+          one: 1 unimplemented practice exercise
+          other: "%{count} unimplemented practice exercises"
+        view_data_link: View data
+        foregone_exercises_summary:
+          one: 1 foregone practice exercise
+          other: "%{count} foregone practice exercises"
+      show:
+        meta_title: "%{track_title} impact and status on Exercism"
+        meta_description: Explore the impact and status of %{track_title} on Exercism.
+        track_management_title: "%{track_title} Track Management"
+        track_management_description:
+          This page provides the Exercism community with the
+          information and tools needed to manage the %{track_title} track.
+        students_stat: Students
+        submissions_stat: Submissions
+        mentoring_discussions_stat: Mentoring Discussions
+        track_status_title: The %{track_title} track
+        tooling_status_building: Building
+        aria_label_syllabus: Syllabus status for %{track_title}
+        aria_label_test_runner: Status of the test runner for %{track_title}
+        aria_label_analyzer: Status of the analyzer for %{track_title}
+        aria_label_representer: Status of the representer for %{track_title}
+        aria_label_practice_exercises: Practice Exercises status for %{track_title}
+        volunteers_label:
+          one: 1 Volunteer
+          other: "%{count} Volunteers"
+        more_volunteers_link: + %{count} more
+        love_volunteers_title: We 💙 our volunteers
+        love_volunteers_description:
+          Exercism relies on open-source volunteers to build
+          our language tracks and mentor students.
+        become_volunteer_link: Become an Exercism Volunteer
+      practice_exercises_tooltip:
+        practice_exercises_tooltip_title: The %{track_title} practice exercises
+        practice_exercises_tooltip_exemplar: Has implemented a stellar %{count} practice exercises!
+        practice_exercises_tooltip_healthy: Has implemented %{count} practice exercises.
+        practice_exercises_tooltip_needs_attention:
+          one: Should have %{count} more practice exercise be implemented.
+          other: Should have %{count} more practice exercises be implemented.
+        practice_exercises_tooltip_missing: No practice exercises have been implemented.
+      show_syllabus:
+        syllabus_heading: "%{track_title} syllabus"
+        learn_more_button: Learn More
+        syllabus_description:
+          "Help create the track syllabus: is a set of concepts and
+          learning exercises put together to teach foundational elements of the
+          programming language."
+        next_goal_create_syllabus:
+          "Next goal: Create a complete syllabus with at least
+          %{num_active_target} concepts."
+        find_out_more_button: Find out more.
+        concepts_taught_summary: "%{count} concepts being taught"
+        num_students_learnt: "%{count} learnt"
+        active_learning_exercises_summary: "%{count} active learning exercises"
+        started_label: Started
+        attempts_label: Attempts
+        completions_label: Completions
+        mentoring_requests_label: Mentoring requests
+        attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
+        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
+        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
+        deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
+      index_analyzer:
+        analyzer_heading: Analyzer
+        learn_more_button: Learn More
+        analyzer_description: "Build an Analyzer for %{track_title}: Exercism's
+          analyzers automatically assess student's submissions and provide
+          mentor-style commentary."
+        next_goal_build_analyzer: "Next goal: Build an Analyzer."
+        find_out_more_button: Find out more.
+        current_version_label: "Current version:"
+        deploy_time_notice: (It may take a few mins to deploy new versions across all servers).
+        total_analyzer_runs_label: Total Analyzer Runs
+        total_analysis_comments_made_label: Total Analysis Comments Made
+        feedback_given_frequency_label: Feedback Given Frequency
+        percentage_value: "%{percentage}%"
+      index_representer:
+        representer_heading: Representer
+        learn_more_button: Learn More
+        representer_description:
+          "Build a Representer: a bit of code that has the single
+          responsibility of taking a solution and returning a normalized
+          representation of it."
+        next_goal_build_representer: "Next goal: Build a Representer."
+        find_out_more_button: Find out more.
+        current_version_label: "Current version:"
+        deploy_time_notice: (It may take a few mins to deploy new versions across all servers).
+        total_representer_runs_label: Total Representer Runs
+        total_representation_comments_made_label: Total Representation Comments Made
+        feedback_given_frequency_label: Feedback Given Frequency
+        percentage_value: "%{percentage}%"
+      show_test_runner:
+        test_runner_heading: Test Runner
+        learn_more_button: Learn More
         test_runner_description:
           Create Test Runners that have the single responsibility
           of taking a solution, running all tests and returning a standardized
           output.
-        next_goal:
-          build_test_runner: "Next goal: Build a Test Runner."
-          target_version:
-            "Next goal: Get Test Runners to Version %{target_version}.
-            %{track_title} is currently utilising a Version %{current_version}
-            Test Runner."
+        next_goal_build_test_runner: "Next goal: Build a Test Runner."
+        find_out_more_button: Find out more.
         current_version_label: "Current version:"
-        deployment_note: (It may take a few mins to deploy new versions across all servers).
-        total_test_runner_runs: Total Test Runner Runs
-        test_run_pass_rate: Test Run Pass Rate
-        test_run_fail_rate: Test Run Fail Rate
-        test_run_error_rate: Test Run Error Rate
-        percentage_value_and_count: "%{percentage}%% (%{count})"
+        deploy_time_notice_short: (Takes up to 10 mins to deploy)
+        next_goal_get_test_runners: "Next goal: Get Test Runners to Version
+          %{version_target}. %{track_title} is currently utilising a Version
+          %{version} Test Runner."
+        total_test_runner_runs_label: Total Test Runner Runs
+        test_run_pass_rate_label: Test Run Pass Rate
+        percentage_with_count_value: "%{percentage}% (%{count})"
+        test_run_fail_rate_label: Test Run Fail Rate
+        test_run_error_rate_label: Test Run Error Rate
+      index_test_runner:
+        test_runner_heading: Test Runner
+        learn_more_button: Learn More
+        test_runner_description:
+          Create Test Runners that have the single responsibility
+          of taking a solution, running all tests and returning a standardized
+          output.
+        next_goal_build_test_runner: "Next goal: Build a Test Runner."
+        find_out_more_button: Find out more.
+        current_version_label: "Current version:"
+        deploy_time_notice: (It may take a few mins to deploy new versions across all servers).
+        next_goal_get_test_runners: "Next goal: Get Test Runners to Version
+          %{version_target}. %{track_title} is currently utilising a Version
+          %{version} Test Runner."
+        total_test_runner_runs_label: Total Test Runner Runs
+        test_run_pass_rate_label: Test Run Pass Rate
+        percentage_with_count_value: "%{percentage}% (%{count})"
+        test_run_fail_rate_label: Test Run Fail Rate
+        test_run_error_rate_label: Test Run Error Rate
     shared:
       learn_more: Learn More
       find_out_more: Find out more.

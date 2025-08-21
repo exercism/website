@@ -3,27 +3,28 @@
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
       %h3.--analyzer-gradient= t('.analyzer_heading')
       = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
-        = t('.learn_more')
+        = t('.learn_more_button')
     %p= t('.analyzer_description', track_title: track.title)
 
   - if status.analyzer.health == "missing"
     .action-required
-      = t('.action_required.next_goal')
+      = t('.missing_analyzer_next_goal')
       = link_to doc_path(:building, "tooling/analyzers/interface") do
-        = t('.action_required.find_out_more')
+        = t('.find_out_more_button')
   - else
     %p.text-16
-      = t('.current_version', current_sha: current_sha)
-      %span.italic= t('.deploy_time')
+      = t('.current_version_label')
+      %strong= current_sha
+      %span.italic= t('.deploy_time_notice')
 
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
       .record-row
-        .record-name= t('.total_analyzer_runs')
+        .record-name= t('.total_analyzer_runs_label')
         .record-value= number_with_delimiter(status.analyzer.num_runs)
       .record-row
-        .record-name= t('.total_analysis_comments_made')
+        .record-name= t('.total_analysis_comments_made_label')
         .record-value= number_with_delimiter(status.analyzer.num_comments)
       .record-row
-        .record-name= t('.feedback_given_frequency')
-        .record-value= t('.feedback_given_frequency_value', percentage: status.analyzer.display_rate_percentage)
+        .record-name= t('.feedback_given_frequency_label')
+        .record-value= t('.percentage_value', percentage: status.analyzer.display_rate_percentage)

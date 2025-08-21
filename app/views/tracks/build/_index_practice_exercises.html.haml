@@ -3,15 +3,17 @@
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
       %h3.--practice-exercises-gradient= t('.practice_exercises_title')
       = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
-        = t('.learn_more_link')
+        = t('.learn_more_button')
     %p= t('.practice_exercises_description')
 
     %p.text-16.mt-16
-      = t('.synced_primary_repo', synced_to_git_sha: track.synced_to_git_sha).html_safe
+      = t('.synced_primary_repo_label')
+      %strong= track.synced_to_git_sha
+      %span.italic= t('.updates_instant_message')
 
   - if status.practice_exercises.active.size < status.practice_exercises.num_active_target
     .action-required.mb-24
-      = t('.next_goal_message', count: status.practice_exercises.num_active_target, additional_text: (%w[exemplar health].include?(status.practice_exercises.health) ? '' : t('.at_least'))).html_safe
+      = t('.next_goal_message', count: status.practice_exercises.num_active_target, include_at_least: (%w[exemplar health].include?(status.practice_exercises.health) ? '' : 'at least '))
       = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
         = t('.find_out_more_link')
 

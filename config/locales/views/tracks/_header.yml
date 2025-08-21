@@ -4,9 +4,9 @@ en:
       students:
         one: student
         other: students
-      contributor:
-        one: contributor
-        other: contributors
-      mentor:
-        one: mentor
-        other: mentors
+      contributors:
+        one: "%{count} contributor"
+        other: "%{count} contributors"
+      mentors:
+        one: "%{count} mentor"
+        other: "%{count} mentors"

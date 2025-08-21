@@ -2,6 +2,7 @@ import React from 'react'
 import currency from 'currency.js'
 import { FormOptions } from './subscription-form/FormOptions'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   cancel: string
@@ -68,17 +69,14 @@ export function ExternalDonationManagement({
   const { t } = useAppTranslation('components/donations')
   return (
     <p className="text-p-base">
-      {t(
-        'externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard',
-        {
-          displayName: displayName,
-          donationDashboardLink: (
-            <a className="text-prominentLinkColor" href={updateLink}>
-              {displayName} Dashboard.
-            </a>
-          ),
-        }
-      )}
+      <Trans
+        i18nKey="externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard"
+        ns="components/donations"
+        values={{ displayName }}
+        components={[
+          <a className="text-prominentLinkColor" href={updateLink} />,
+        ]}
+      />
     </p>
   )
 }

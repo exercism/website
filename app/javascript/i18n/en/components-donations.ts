@@ -7,7 +7,7 @@ export default {
   'subscriptionForm.regularDonationsLikeYoursAllowUsToAnticipateOurCashflowAndMakeResponsibleDecisionsAboutHiringAndGrowingExercism':
     'Regular donations like yours allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.',
   'externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard':
-    'Your regular donation is managed by {{displayName}}. To modify or cancel your recurring donation, please use <donationDashboardLink/> Dashboard.',
+    'Your regular donation is managed by {{displayName}}. To modify or cancel your recurring donation, please use <0>{{displayName}} Dashboard<0/>.',
   'existingSubscriptionNotice.youAlreadyDonatePerMonthToExercismThankYou':
     'You already donate {{amount}} per month to Exercism. Thank you!',
   'existingSubscriptionNotice.toChangeOrManageThisGoToDonationSettings':

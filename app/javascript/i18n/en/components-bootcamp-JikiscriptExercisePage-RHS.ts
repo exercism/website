@@ -6,7 +6,7 @@ export default {
   'instructions.instructions.task': 'Task',
   'logger.logger.logMessages': 'Log Messages',
   'logger.logger.useTheLogFunctionToLogMessagesToTheConsoleEg':
-    'Use the <code>log</code> function to log messages to the console. e.g.',
+    'Use the <0>log</0> function to log messages to the console. e.g.',
   'logger.logger.theseAreTheLogMessagesForScenario':
     'These are the log messages for scenario',
   'logger.renderLog.unrenderableObject': '[Unrenderable object]',

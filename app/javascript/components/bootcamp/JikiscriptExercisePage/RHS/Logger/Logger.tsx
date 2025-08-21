@@ -3,6 +3,7 @@ import useTestStore from '../../store/testStore'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { renderLog } from './renderLog'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function Logger({ height }: { height: number | string }) {
   const { t } = useAppTranslation(
@@ -29,7 +30,11 @@ export function Logger({ height }: { height: number | string }) {
       inspectedTestResult?.logMessages?.length === 0 ? (
         <div className="info-message">
           <p>
-            {t('logger.logger.useTheLogFunctionToLogMessagesToTheConsoleEg')}
+            <Trans
+              i18nKey="logger.logger.useTheLogFunctionToLogMessagesToTheConsoleEg"
+              ns="components/bootcamp/JikiscriptExercisePage/RHS"
+              components={[<code className="hljs language-javascript" />]}
+            />
           </p>
           <pre className="hljs language-javascript">
             <code>log("Hello World")</code>

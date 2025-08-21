@@ -5,6 +5,7 @@ import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '@/utils/time'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const BadgeModal = ({
   badge,
@@ -38,13 +39,12 @@ export const BadgeModal = ({
       </div>
       <div className="num-awardees text-p-base">
         <GraphicalIcon icon="students" />
-        <strong>{badge.numAwardees}</strong>{' '}
-        {t(
-          badge.numAwardees === 1
-            ? 'badgeModal.membersHaveEarned'
-            : 'badgeModal.membersHaveEarned_plural',
-          { count: badge.numAwardees }
-        )}
+        <Trans
+          ns="components/modals/BadgeModal.tsx"
+          values={{ count: badge.numAwardees }}
+          i18nKey="badgeModal.membersHaveEarned"
+          components={[<strong />]}
+        />
       </div>
       <div className="percentage-awardees">
         {t('badgeModal.percentageOfUsers', {

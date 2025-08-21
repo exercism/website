@@ -18,7 +18,7 @@
 
           = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
             = graphical_icon(:plus)
-            = t('.external_cta.button', track_title: @track.title)
+            = t('.external_cta.join_button', track_title: @track.title)
 
     %header.page-header
       .lg-container.container.flex-col.sm:flex-row

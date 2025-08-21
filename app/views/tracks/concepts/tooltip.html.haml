@@ -3,18 +3,18 @@
   .summary
     .title
       .name= @concept.name
-      .in= t('.summary.in')
+      .in= t('.header.summary.title.in_text')
       = track_icon(@track)
     .num-exercises
       - if @locked
-        = t('.summary.exercises_locked', count: @exercises.length)
+        = t('.header.summary.num_exercises.locked', count: @exercises.length)
       - else
-        = t('.summary.exercises_completed', num_completed: @num_completed_exercises, num_total: @exercises.size, count: @exercises.size)
+        = t('.header.summary.num_exercises.completed', num_completed: @num_completed_exercises, count: @exercises.size)
   - unless @user_track.external?
     - if @locked
-      .c-exercise-status-tag.--locked= t('.status_tag.locked')
+      .c-exercise-status-tag.--locked= t('.header.status_tag.locked')
     - elsif @mastered
-      .c-exercise-status-tag.--completed= t('.status_tag.mastered')
+      .c-exercise-status-tag.--completed= t('.header.status_tag.mastered')
 
 .blurb= @concept.blurb
 
@@ -23,21 +23,21 @@
     .info.locked
       .icon= graphical_icon :lock
       - if @user_track.tutorial_exercise_completed?
-        = t('.info.locked_prerequisite', prerequisite_names: @prerequisite_names.to_sentence)
+        = t('.info.locked.prerequisite', prerequisite_names: @prerequisite_names.to_sentence)
       - else
-        = t('.info.locked_tutorial')
+        = t('.info.locked.hello_world')
   - elsif @mastered
     .info.mastered
       = graphical_icon 'completed-check-circle'
-      = t('.info.mastered', concept_name: @concept.name)
+      = t('.info.mastered_message', concept_name: @concept.name)
   - elsif @learnt
     .info.learnt
       .icon= graphical_icon 'learn-concept'
-      = t('.info.learnt', concept_name: @concept.name)
+      = t('.info.learnt_message', concept_name: @concept.name)
   - else
     .info.available
       .icon.c-ed.--available.--concept.disabled.shrink-0
-      = t('.info.available', concept_name: @concept.name)
+      = t('.info.available_message', concept_name: @concept.name)
 
 = link_to Exercism::Routes.track_concept_path(@track, @concept), class: 'explore-concept-button btn-xs btn-secondary mt-16' do
-  = t('.explore_button')
+  = t('.explore_concept_button')

@@ -1,6 +1,7 @@
 import React from 'react'
 import currency from 'currency.js'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   settings: string
@@ -27,14 +28,11 @@ export const ExistingSubscriptionNotice = ({
             }
           )}
         </strong>{' '}
-        {t(
-          'existingSubscriptionNotice.toChangeOrManageThisGoToDonationSettings',
-          {
-            donationSettingsLink: (
-              <a href={links.settings}>Donation Settings</a>
-            ),
-          }
-        )}
+        <Trans
+          i18nKey="existingSubscriptionNotice.toChangeOrManageThisGoToDonationSettings"
+          ns="components/donations"
+          components={[<a href={links.settings} />]}
+        />
       </div>
       <div className="extra-cta">
         {t('existingSubscriptionNotice.extra')}{' '}

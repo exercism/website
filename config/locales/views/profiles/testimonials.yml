@@ -13,6 +13,6 @@ en:
       stats:
         solutions_mentored: Solutions mentored
         students_helped:
-          one: 1 Student helped
-          other: "%{count} Students helped"
+          one: Student helped
+          other: Students helped
         testimonials_received: Testimonials received

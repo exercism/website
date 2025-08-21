@@ -11,7 +11,7 @@ export default {
   'existingSubscriptionNotice.youAlreadyDonatePerMonthToExercismThankYou':
     'You already donate {{amount}} per month to Exercism. Thank you!',
   'existingSubscriptionNotice.toChangeOrManageThisGoToDonationSettings':
-    'To change or manage this go to <donationSettingsLink/>.',
+    'To change or manage this go to <0>Donation settings<0/>.',
   'existingSubscriptionNotice.extra': 'Extra',
   'existingSubscriptionNotice.oneTimeDonations': 'one-time donations',
   'existingSubscriptionNotice.areStillGratefullyReceived':

@@ -43,10 +43,10 @@ class Localization::Original::Prompts::ExerciseInstructions
         ## Context
 
         You are translating the generic (language-agnostic) instructions to an Exercism exercise.
-        The slug of the exercise is #{original.object_id}.
+        The slug of the exercise is #{original.about_id}.
       PROMPT
     elsif original.type == :exercise_instructions
-      exercise = Exercise.find(original.object_id)
+      exercise = Exercise.find(original.about_id)
 
       <<~PROMPT
         ## Context
@@ -101,7 +101,7 @@ class Localization::Original::Prompts::ExerciseInstructions
       locale: locale,
       original: Localization::Original.where(
         type: original.type,
-        object_id: object_id
+        about_id: about_id
       ),
       status: :checked
     ).last

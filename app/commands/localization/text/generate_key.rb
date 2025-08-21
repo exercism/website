@@ -4,6 +4,8 @@ class Localization::Text::GenerateKey
   initialize_with :text
 
   def call
+    raise ArgumentError unless text.present?
+
     "arbitary.#{digest}"
   end
 
